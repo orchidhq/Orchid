@@ -29,7 +29,7 @@
 {% for file in res.js %}
     <script src="{{ file }}"></script>
 {% endfor %}
-<script>window.docs = {{ all | json }};</script>
+<script>window.docs = {{ root | json }};</script>
 <!-- end:inject scripts -->
 </head>
 
@@ -124,7 +124,7 @@
             <section class="bs-docs-section">
                 <h1 id="json" class="page-header">JSON</h1>
 
-                <pre>{{ all | json }}</pre>
+                <pre>{{ root | json }}</pre>
             </section>
         </div>
 
