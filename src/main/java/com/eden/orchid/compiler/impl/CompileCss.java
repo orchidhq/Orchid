@@ -1,5 +1,6 @@
-package com.eden.orchid.compiler;
+package com.eden.orchid.compiler.impl;
 
+import com.eden.orchid.compiler.AssetCompiler;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
 import io.bit3.jsass.Options;

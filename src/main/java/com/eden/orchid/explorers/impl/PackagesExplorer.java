@@ -1,5 +1,6 @@
-package com.eden.orchid.discover;
+package com.eden.orchid.explorers.impl;
 
+import com.eden.orchid.explorers.DocumentationExplorer;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;
 import com.sun.javadoc.RootDoc;
@@ -9,8 +10,14 @@ import org.json.JSONObject;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class DiscoverPackages {
-    public static JSONArray startDiscovery(RootDoc root) {
+public class PackagesExplorer implements DocumentationExplorer {
+
+    @Override
+    public String getKey() {
+        return "packages";
+    }
+
+    public JSONArray startDiscovery(RootDoc root) {
         JSONArray jsonArray = new JSONArray();
 
         Set<String> packageNamesSet = new TreeSet<>();

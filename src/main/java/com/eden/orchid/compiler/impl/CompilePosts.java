@@ -1,30 +1,32 @@
-package com.eden.orchid.compiler;
+package com.eden.orchid.compiler.impl;
 
-public class CompileJs implements AssetCompiler {
+import com.eden.orchid.compiler.AssetCompiler;
+
+public class CompilePosts implements AssetCompiler {
 
     @Override
     public String getKey() {
-        return "js";
+        return "posts";
     }
 
     @Override
     public String[] getSourceExtensions() {
-        return new String[]{"js"};
+        return new String[]{"md", "txt"};
     }
 
     @Override
     public String getDestExtension() {
-        return "js";
+        return "html";
     }
 
     @Override
     public String getSourceDir() {
-        return "assets/js";
+        return "assets/posts";
     }
 
     @Override
     public String getDestDir() {
-        return "js";
+        return "posts";
     }
 
     @Override

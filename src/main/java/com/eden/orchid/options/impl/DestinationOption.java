@@ -1,6 +1,8 @@
-package com.eden.orchid.options;
+package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.options.SiteOption;
+import com.eden.orchid.options.SiteOptions;
 
 public class DestinationOption extends SiteOption {
     @Override

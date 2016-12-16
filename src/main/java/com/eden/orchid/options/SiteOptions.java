@@ -1,5 +1,8 @@
 package com.eden.orchid.options;
 
+import com.eden.orchid.options.impl.ColorOption;
+import com.eden.orchid.options.impl.DestinationOption;
+import com.eden.orchid.options.impl.ResourcesOption;
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
@@ -10,12 +13,6 @@ import java.util.Set;
 public class SiteOptions {
 
     public static Set<SiteOption> optionsParsers = new HashSet<>();
-
-    static {
-        optionsParsers.add(new DestinationOption());
-        optionsParsers.add(new ColorOption());
-        optionsParsers.add(new ResourcesOption());
-    }
 
     public static JSONObject siteOptions;
     public static String outputDir;
@@ -30,6 +27,10 @@ public class SiteOptions {
     }
 
     private static void initializeOptions(RootDoc root) {
+        optionsParsers.add(new DestinationOption());
+        optionsParsers.add(new ColorOption());
+        optionsParsers.add(new ResourcesOption());
+
         String[][] options = root.options();
 
         // parses all the options flags according to the parsers set up in SiteOptions.optionsParsers

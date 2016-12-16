@@ -1,7 +1,7 @@
 package com.eden.orchid;
 
 import com.eden.orchid.compiler.SiteResources;
-import com.eden.orchid.discover.DiscoverAll;
+import com.eden.orchid.explorers.DocumentationExploration;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 import liqp.Template;
@@ -22,7 +22,7 @@ public class Orchid {
         JSONObject obj = new JSONObject();
         obj.put("site", SiteOptions.startDiscovery(root));
         obj.put("res",  SiteResources.startDiscovery(root));
-        obj.put("orchid", DiscoverAll.startDiscovery(root));
+        obj.put("docs", DocumentationExploration.startDiscovery(root));
 
         // converts all data to JSON that can be loaded as a JS object on the rendered page. Send this to renderer with other data
         obj.put("docsJson", obj.toString(2));

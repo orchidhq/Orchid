@@ -1,6 +1,8 @@
-package com.eden.orchid.options;
+package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.options.SiteOption;
+import com.eden.orchid.options.SiteOptions;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;

@@ -1,5 +1,7 @@
-package com.eden.orchid.options;
+package com.eden.orchid.options.impl;
 
+import com.eden.orchid.options.SiteOption;
+import com.eden.orchid.options.SiteOptions;
 import org.json.JSONArray;
 
 public class ColorOption extends SiteOption {
