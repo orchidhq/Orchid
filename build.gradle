@@ -1,0 +1,60 @@
+apply plugin: 'java'
+
+group 'com.eden'
+archivesBaseName = 'orchard'
+version = '0.1.0'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+sourceSets {
+    orchidDocs {
+        resources {
+            srcDir 'src/orchidDocs/resources'
+        }
+    }
+}
+
+dependencies {
+    compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+    compile 'nl.big-o:liqp:0.6.7'
+    compile 'org.apache.commons:commons-io:1.3.2'
+    compile 'io.bit3:jsass:5.3.1'
+    compile 'org.json:json:20160810'
+    compile 'com.github.cjbrooks12:Clog:v1.0.0'
+    compile 'com.vladsch.flexmark:flexmark:0.7.0'
+    compile 'org.yaml:snakeyaml:1.17'
+
+}
+
+javadoc {
+    title = ""
+    source = sourceSets.main.allJava
+
+    options.docletpath = [file('build/libs/orchard-0.1.0.jar')]
+    options.docletpath.addAll(configurations.compile)
+    options.doclet = 'com.eden.orchid.Orchid'
+
+    options.addStringOption("colors", "#f80 #000000")
+    options.addStringOption("resourcesDir", file('src/orchidDocs/resources').absolutePath)
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
