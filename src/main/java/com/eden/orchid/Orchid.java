@@ -1,10 +1,15 @@
 package com.eden.orchid;
 
+import com.eden.orchid.compiler.AssetCompiler;
 import com.eden.orchid.compiler.SiteResources;
 import com.eden.orchid.explorers.DocumentationExploration;
+import com.eden.orchid.explorers.DocumentationExplorer;
+import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import liqp.Template;
+import liqp.filters.Filter;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -17,34 +22,91 @@ public class Orchid {
         return SiteOptions.optionLength(option);
     }
 
+    public static JSONObject all;
+
     public static boolean start(RootDoc root) {
-        // Discover all resources, options, and documentation data so it can then be sent to the liquid renderer
-        JSONObject obj = new JSONObject();
-        obj.put("site", SiteOptions.startDiscovery(root));
-        obj.put("res",  SiteResources.startDiscovery(root));
-        obj.put("docs", DocumentationExploration.startDiscovery(root));
+        // Scan the classpath and register all available plugins
+        pluginScan();
 
-        // converts all data to JSON that can be loaded as a JS object on the rendered page. Send this to renderer with other data
-        obj.put("docsJson", obj.toString(2));
+        // Discover all resources, options, and documentation data, and anything else so it can be rendered
+        discoveryScan(root);
 
-        // Render index page
+        // Render site pages
+        generationScan();
+
+        return true;
+    }
+
+    private static void pluginScan() {
+        FastClasspathScanner scanner = new FastClasspathScanner();
+        scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
+            try {
+                Object instance = matchingClass.newInstance();
+
+                if(instance instanceof SiteOption) {
+                    SiteOptions.optionsParsers.add((SiteOption) instance);
+                }
+                else if(instance instanceof DocumentationExplorer) {
+                    DocumentationExploration.explorers.add((DocumentationExplorer) instance);
+                }
+                else if(instance instanceof AssetCompiler) {
+                    SiteResources.compilers.add((AssetCompiler) instance);
+                }
+                else if(instance instanceof Filter) {
+                    Filter.registerFilter((Filter) instance);
+                }
+            }
+            catch (IllegalAccessException|InstantiationException e) {
+                e.printStackTrace();
+            }
+        });
+        scanner.scan();
+    }
+
+    private static void discoveryScan(RootDoc root) {
+        // These exploration methods should be made into pluggable explorers
+        all = new JSONObject();
+        all.put("site", SiteOptions.startDiscovery(root));
+        all.put("res",  SiteResources.startDiscovery(root));
+        all.put("docs", DocumentationExploration.startDiscovery(root));
+
+        // Make all site data available via a single Liquid object
+        all.put("root", new JSONObject(all.toString()));
+    }
+
+    private static void generationScan() {
+        // These generate methods should be made into pluggable generators
+        generateIndex();
+        generateClasses();
+        generatePackages();
+        generatePages();
+        generatePosts();
+    }
+
+    private static void generateIndex() {
         Path file = Paths.get(SiteOptions.outputDir + "/index.html");
         try {
             Template template = Template.parse(JarUtils.getResource("assets/html/index.html"));
-            Files.write(file, template.render(obj.toString(2)).getBytes());
+            Files.write(file, template.render(all.toString(2)).getBytes());
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        // Render intermediate package pages
+    private static void generateClasses() {
 
-        // Render classDoc pages
+    }
 
-        // Render static pages
+    private static void generatePackages() {
 
-        // Render blog pages
+    }
 
-        return true;
+    private static void generatePages() {
+
+    }
+
+    private static void generatePosts() {
+
     }
 }

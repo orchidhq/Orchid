@@ -1,9 +1,11 @@
 package com.eden.orchid.explorers.impl;
 
+import com.eden.orchid.AutoRegister;
 import com.eden.orchid.explorers.DocumentationExplorer;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONArray;
 
+@AutoRegister
 public class PackageTreeExplorer implements DocumentationExplorer {
 
     @Override

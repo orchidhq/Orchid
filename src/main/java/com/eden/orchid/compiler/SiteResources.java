@@ -3,9 +3,6 @@ package com.eden.orchid.compiler;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.JarUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.compiler.impl.CompileCss;
-import com.eden.orchid.compiler.impl.CompileJs;
-import com.eden.orchid.compiler.impl.CompilePages;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,10 +28,6 @@ public class SiteResources {
     }
 
     private static void initializeResources(RootDoc root) {
-        compilers.add(new CompileCss());
-        compilers.add(new CompileJs());
-        compilers.add(new CompilePages());
-
         // Compile resources internal to the JAR, such as the standard templates and styles
         JarFile orchidJar = JarUtils.jarForClass(Orchid.class, null);
         if (orchidJar != null) {

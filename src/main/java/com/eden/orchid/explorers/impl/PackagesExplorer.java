@@ -1,5 +1,6 @@
 package com.eden.orchid.explorers.impl;
 
+import com.eden.orchid.AutoRegister;
 import com.eden.orchid.explorers.DocumentationExplorer;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 import java.util.Set;
 import java.util.TreeSet;
 
+@AutoRegister
 public class PackagesExplorer implements DocumentationExplorer {
 
     @Override

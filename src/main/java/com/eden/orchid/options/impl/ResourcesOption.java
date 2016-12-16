@@ -1,6 +1,7 @@
 package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.AutoRegister;
 import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
 import org.apache.commons.io.FileUtils;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@AutoRegister
 public class ResourcesOption extends SiteOption {
+
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 
     @Override

@@ -1,10 +1,13 @@
 package com.eden.orchid.options.impl;
 
+import com.eden.orchid.AutoRegister;
 import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
 import org.json.JSONArray;
 
+@AutoRegister
 public class ColorOption extends SiteOption {
+
     @Override
     public String getFlag() {
         return "colors";

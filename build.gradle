@@ -29,7 +29,7 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.0.0'
     compile 'com.vladsch.flexmark:flexmark:0.7.0'
     compile 'org.yaml:snakeyaml:1.17'
-
+    compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
 }
 
 javadoc {

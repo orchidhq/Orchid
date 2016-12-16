@@ -1,7 +1,9 @@
 package com.eden.orchid.compiler.impl;
 
+import com.eden.orchid.AutoRegister;
 import com.eden.orchid.compiler.AssetCompiler;
 
+@AutoRegister
 public class CompilePosts implements AssetCompiler {
 
     @Override

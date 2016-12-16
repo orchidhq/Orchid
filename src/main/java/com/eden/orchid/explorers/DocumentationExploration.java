@@ -1,8 +1,5 @@
 package com.eden.orchid.explorers;
 
-import com.eden.orchid.explorers.impl.ClassesExplorer;
-import com.eden.orchid.explorers.impl.PackageTreeExplorer;
-import com.eden.orchid.explorers.impl.PackagesExplorer;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
 
@@ -25,10 +22,6 @@ public class DocumentationExploration {
     }
 
     private static void initializeDocumentationExplorer(RootDoc root) {
-        explorers.add(new ClassesExplorer());
-        explorers.add(new PackagesExplorer());
-        explorers.add(new PackageTreeExplorer());
-
         for(DocumentationExplorer explorer : explorers) {
             docs.put(explorer.getKey(), explorer.startDiscovery(root));
         }
