@@ -1,6 +1,7 @@
 package com.eden.orchid;
 
 import com.eden.orchid.compilers.AssetCompiler;
+import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PageCompiler;
 import com.eden.orchid.compilers.SiteResources;
@@ -46,29 +47,40 @@ public class Orchid {
             try {
                 Object instance = matchingClass.newInstance();
 
+                // Register all compilers
+                if(instance instanceof Compiler) {
+                    Compiler compiler = (Compiler) instance;
+
+                    // Register as a generic compiler
+                    SiteResources.compilers.put(compiler.priority(), compiler);
+
+                    // Register also as a specialized compiler
+                    if(instance instanceof AssetCompiler) {
+                        SiteResources.assetCompilers.add((AssetCompiler) instance);
+                    }
+                    else if(instance instanceof ContentCompiler) {
+                        if(SiteResources.contentCompiler == null || compiler.priority() > SiteResources.contentCompiler.priority()) {
+                            SiteResources.contentCompiler = (ContentCompiler) compiler;
+                        }
+                    }
+                    else if(instance instanceof PageCompiler) {
+                        if(SiteResources.pageCompiler == null || compiler.priority() > SiteResources.pageCompiler.priority()) {
+                            SiteResources.pageCompiler = (PageCompiler) compiler;
+                        }
+                    }
+                }
+
+                // Register command-line options
                 if(instance instanceof SiteOption) {
                     SiteOptions.optionsParsers.add((SiteOption) instance);
                 }
+
+                // Register documentation explorers
                 else if(instance instanceof DocumentationExplorer) {
                     DocumentationExploration.explorers.add((DocumentationExplorer) instance);
                 }
-                else if(instance instanceof AssetCompiler) {
-                    SiteResources.assetCompilers.add((AssetCompiler) instance);
-                }
-                else if(instance instanceof ContentCompiler) {
-                    ContentCompiler compiler = (ContentCompiler) instance;
-                    
-                    if(SiteResources.contentCompiler == null || compiler.priority() > SiteResources.contentCompiler.priority()) {
-                        SiteResources.contentCompiler = compiler;
-                    }
-                }
-                else if(instance instanceof PageCompiler) {
-                    PageCompiler compiler = (PageCompiler) instance;
 
-                    if(SiteResources.pageCompiler == null || compiler.priority() > SiteResources.pageCompiler.priority()) {
-                        SiteResources.pageCompiler = compiler;
-                    }
-                }
+                // Register compiler plugins
                 else if(instance instanceof Filter) {
                     Filter.registerFilter((Filter) instance);
                 }
@@ -106,7 +118,7 @@ public class Orchid {
     private static void generateIndex() {
         Path file = Paths.get(SiteOptions.outputDir + "/index.html");
         try {
-            String compiledContent = SiteResources.pageCompiler.compile(OrchidUtils.getResourceFileContents("assets/layouts/index.html"), all);
+            String compiledContent = SiteResources.pageCompiler.compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), all);
             Files.write(file, compiledContent.getBytes());
         }
         catch (IOException e) {
@@ -130,7 +142,7 @@ public class Orchid {
                     outputFile.mkdirs();
                 }
 
-                String compiledContent = SiteResources.pageCompiler.compile(template, classData);
+                String compiledContent = SiteResources.pageCompiler.compile("html", template, classData);
 
                 Files.write(classesFile, compiledContent.getBytes());
             }
@@ -156,7 +168,7 @@ public class Orchid {
                 }
 
                 Path classesFile = Paths.get(outputPath + ".html");
-                String compiledContent = SiteResources.pageCompiler.compile(template, packageData);
+                String compiledContent = SiteResources.pageCompiler.compile("html", template, packageData);
                 Files.write(classesFile, compiledContent.getBytes());
             }
         }

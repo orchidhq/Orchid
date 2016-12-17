@@ -3,19 +3,24 @@ package com.eden.orchid.compilers;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidUtils;
-import com.eden.orchid.compilers.impl.LiquidCompiler;
-import com.eden.orchid.compilers.impl.MarkdownCompiler;
 import com.sun.javadoc.RootDoc;
+import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.jar.JarFile;
 
 public class SiteResources {
 
+    // Generic compilers to be dynamically used based on file extension
+    public static Map<Integer, Compiler> compilers = new TreeMap<>();
+
+    // Compilers to do a specific job
     public static Set<AssetCompiler> assetCompilers = new HashSet<>();
     public static ContentCompiler contentCompiler;
     public static PageCompiler pageCompiler;
@@ -66,17 +71,13 @@ public class SiteResources {
         }
     }
 
-    public static String compile(String extension, String source, JSONObject json) {
-        switch(extension.toLowerCase()) {
-            case "markdown":
-            case "md":
-                return new MarkdownCompiler().compile(source, json);
-            case "htm":
-            case "html":
-            case "liquid":
-                return new LiquidCompiler().compile(source, json);
-            default:
-                return source;
+    public static Pair<String, String> compile(String extension, String source, Object... data) {
+        for(Map.Entry<Integer, Compiler> compiler : compilers.entrySet()) {
+            if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+                return new Pair<>(compiler.getValue().getOutputExtension(), compiler.getValue().compile(extension, source, data));
+            }
         }
+
+        return new Pair<>(extension, source);
     }
 }

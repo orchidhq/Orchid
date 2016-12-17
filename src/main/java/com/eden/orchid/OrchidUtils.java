@@ -65,7 +65,7 @@ public class OrchidUtils {
                                     + File.separator
                                     + FilenameUtils.removeExtension(entry.getName()).substring(compiler.getSourceDir().length() + 1) // strip the jar resource path from the entry name
                                     + "."
-                                    + compiler.getDestExtension(); // replace the file extension
+                                    + compiler.getOutputExtension(); // replace the file extension
 
                     // Load the contents of the file
                     String fileContents = IOUtils.toString(fromJar.getInputStream(entry), "UTF-8");
@@ -105,7 +105,7 @@ public class OrchidUtils {
                                 + File.separator
                                 + FilenameUtils.removeExtension(file.getName())
                                 + "."
-                                + compiler.getDestExtension();
+                                + compiler.getOutputExtension();
 
                 // Load the contents of the file
                 String fileContents = IOUtils.toString(new FileInputStream(file), "UTF-8");
@@ -182,5 +182,15 @@ public class OrchidUtils {
         else {
             return false;
         }
+    }
+
+    public static boolean acceptsExtension(String sourceExt, String[] acceptedExts) {
+        for(String ext : acceptedExts) {
+            if(ext.equalsIgnoreCase(sourceExt)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

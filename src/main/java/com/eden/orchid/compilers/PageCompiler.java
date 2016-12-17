@@ -1,11 +1,8 @@
 package com.eden.orchid.compilers;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-public interface PageCompiler {
-    String compile(String input, JSONObject json);
-    String compile(String input, JSONArray json);
-
+public interface PageCompiler extends Compiler {
+    String compile(String extension, String input, Object... data);
+    String getOutputExtension();
+    String[] getSourceExtensions();
     int priority();
 }
