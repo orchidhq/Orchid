@@ -1,0 +1,38 @@
+<a class="github-fork-ribbon left-top" href="https://github.com/cjbrooks12/Clog" title="Fork me on GitHub">Fork me on GitHub</a>
+
+<header class="navbar navbar-static-top bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header" role="banner">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Orchid</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+
+            {% if site.data.nav %}
+
+            <ul class="nav navbar-nav">
+                {% if site.data.nav.left %}
+                    {% for link in site.data.nav.left %}
+                        {% include 'nav/nav_item.html' %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if site.data.nav.right %}
+                    {% for link in site.data.nav.right %}
+                        {% include 'nav/nav_item.html' %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+
+            {% endif %}
+        </nav>
+    </div>
+</header>
+

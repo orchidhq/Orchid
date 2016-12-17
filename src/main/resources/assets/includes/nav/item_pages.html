@@ -1,0 +1,8 @@
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+        {% for page in res.pages %}
+        <li><a href="/pages/{{page}}">{{page}}</a></li>
+        {% endfor %}
+    </ul>
+</li>

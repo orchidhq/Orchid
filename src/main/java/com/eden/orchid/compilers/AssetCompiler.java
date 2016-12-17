@@ -1,4 +1,4 @@
-package com.eden.orchid.compiler;
+package com.eden.orchid.compilers;
 
 public interface AssetCompiler {
 

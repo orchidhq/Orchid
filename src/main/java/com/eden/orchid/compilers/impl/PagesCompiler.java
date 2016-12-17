@@ -1,13 +1,13 @@
-package com.eden.orchid.compiler.impl;
+package com.eden.orchid.compilers.impl;
 
 import com.eden.orchid.AutoRegister;
-import com.eden.orchid.compiler.AssetCompiler;
+import com.eden.orchid.compilers.AssetCompiler;
 import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 
 @AutoRegister
-public class CompilePages implements AssetCompiler {
+public class PagesCompiler implements AssetCompiler {
 
     @Override
     public String getKey() {

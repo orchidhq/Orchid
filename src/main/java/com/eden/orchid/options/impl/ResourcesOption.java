@@ -31,6 +31,8 @@ public class ResourcesOption extends SiteOption {
     public boolean parseOption(String[] options) {
         if (options.length == 2) {
             SiteOptions.siteOptions.put("resourcesDir", options[1]);
+
+
             parseConfigFile(options[1]);
             parseDataFiles(options[1]);
             return true;

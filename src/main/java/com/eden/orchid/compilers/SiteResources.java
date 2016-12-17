@@ -1,8 +1,10 @@
-package com.eden.orchid.compiler;
+package com.eden.orchid.compilers;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.JarUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.OrchidUtils;
+import com.eden.orchid.compilers.impl.LiquidCompiler;
+import com.eden.orchid.compilers.impl.MarkdownCompiler;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,7 +16,9 @@ import java.util.jar.JarFile;
 
 public class SiteResources {
 
-    public static Set<AssetCompiler> compilers = new HashSet<>();
+    public static Set<AssetCompiler> assetCompilers = new HashSet<>();
+    public static ContentCompiler contentCompiler;
+    public static PageCompiler pageCompiler;
 
     private static JSONObject siteResources;
 
@@ -29,11 +33,11 @@ public class SiteResources {
 
     private static void initializeResources(RootDoc root) {
         // Compile resources internal to the JAR, such as the standard templates and styles
-        JarFile orchidJar = JarUtils.jarForClass(Orchid.class, null);
+        JarFile orchidJar = OrchidUtils.jarForClass(Orchid.class, null);
         if (orchidJar != null) {
-            for(AssetCompiler compiler : compilers) {
+            for(AssetCompiler compiler : assetCompilers) {
                 try {
-                    addFilesToArray(siteResources, compiler.getKey(), JarUtils.copyAndCompileResourcesToDirectory(orchidJar, compiler));
+                    addFilesToArray(siteResources, compiler.getKey(), OrchidUtils.copyAndCompileResourcesToDirectory(orchidJar, compiler));
                 }
                 catch (IOException e) {
                     Clog.e("Something went wrong compiling '#{$1}' resources", new Object[] {compiler.getKey()});
@@ -42,9 +46,9 @@ public class SiteResources {
         }
 
         // Compile resources that are passed to the doclet, such as style customizations and static pages
-        for(AssetCompiler compiler : compilers) {
+        for(AssetCompiler compiler : assetCompilers) {
             try {
-                addFilesToArray(siteResources, compiler.getKey(), JarUtils.copyAndCompileExternalResourcesToDirectory(root, compiler));
+                addFilesToArray(siteResources, compiler.getKey(), OrchidUtils.copyAndCompileExternalResourcesToDirectory(root, compiler));
             }
             catch (IOException e) {
                 Clog.e("Something went wrong compiling '#{$1}' resources", new Object[] {compiler.getKey()});
@@ -59,6 +63,20 @@ public class SiteResources {
 
         for(int i = 0; i < arrayToAdd.length(); i++) {
             srcObject.getJSONArray(key).put(arrayToAdd.get(i));
+        }
+    }
+
+    public static String compile(String extension, String source, JSONObject json) {
+        switch(extension.toLowerCase()) {
+            case "markdown":
+            case "md":
+                return new MarkdownCompiler().compile(source, json);
+            case "htm":
+            case "html":
+            case "liquid":
+                return new LiquidCompiler().compile(source, json);
+            default:
+                return source;
         }
     }
 }

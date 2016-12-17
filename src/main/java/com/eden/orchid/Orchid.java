@@ -1,17 +1,20 @@
 package com.eden.orchid;
 
-import com.eden.orchid.compiler.AssetCompiler;
-import com.eden.orchid.compiler.SiteResources;
+import com.eden.orchid.compilers.AssetCompiler;
+import com.eden.orchid.compilers.ContentCompiler;
+import com.eden.orchid.compilers.PageCompiler;
+import com.eden.orchid.compilers.SiteResources;
 import com.eden.orchid.explorers.DocumentationExploration;
 import com.eden.orchid.explorers.DocumentationExplorer;
 import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import liqp.Template;
 import liqp.filters.Filter;
+import liqp.tags.Tag;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,10 +53,27 @@ public class Orchid {
                     DocumentationExploration.explorers.add((DocumentationExplorer) instance);
                 }
                 else if(instance instanceof AssetCompiler) {
-                    SiteResources.compilers.add((AssetCompiler) instance);
+                    SiteResources.assetCompilers.add((AssetCompiler) instance);
+                }
+                else if(instance instanceof ContentCompiler) {
+                    ContentCompiler compiler = (ContentCompiler) instance;
+                    
+                    if(SiteResources.contentCompiler == null || compiler.priority() > SiteResources.contentCompiler.priority()) {
+                        SiteResources.contentCompiler = compiler;
+                    }
+                }
+                else if(instance instanceof PageCompiler) {
+                    PageCompiler compiler = (PageCompiler) instance;
+
+                    if(SiteResources.pageCompiler == null || compiler.priority() > SiteResources.pageCompiler.priority()) {
+                        SiteResources.pageCompiler = compiler;
+                    }
                 }
                 else if(instance instanceof Filter) {
                     Filter.registerFilter((Filter) instance);
+                }
+                else if(instance instanceof Tag) {
+                    Tag.registerTag((Tag) instance);
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {
@@ -86,8 +106,8 @@ public class Orchid {
     private static void generateIndex() {
         Path file = Paths.get(SiteOptions.outputDir + "/index.html");
         try {
-            Template template = Template.parse(JarUtils.getResource("assets/html/index.html"));
-            Files.write(file, template.render(all.toString(2)).getBytes());
+            String compiledContent = SiteResources.pageCompiler.compile(OrchidUtils.getResourceFileContents("assets/layouts/index.html"), all);
+            Files.write(file, compiledContent.getBytes());
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -95,11 +115,54 @@ public class Orchid {
     }
 
     private static void generateClasses() {
+        try {
+            String template = OrchidUtils.getResourceFileContents("assets/layouts/classDoc.html");
 
+            for(int i = 0; i < all.getJSONObject("docs").getJSONArray("classes").length(); i++) {
+                JSONObject classInfo = new JSONObject(all.getJSONObject("docs").getJSONArray("classes").getJSONObject(i).toString());
+                JSONObject classData = new JSONObject(all.toString());
+                classData.put("classDoc", classInfo);
+
+                String outputPath = SiteOptions.outputDir + File.separator + "classes";
+                File outputFile = new File(outputPath);
+                Path classesFile = Paths.get(outputPath + File.separator + classInfo.getString("simpleName") + ".html");
+                if (!outputFile.exists()) {
+                    outputFile.mkdirs();
+                }
+
+                String compiledContent = SiteResources.pageCompiler.compile(template, classData);
+
+                Files.write(classesFile, compiledContent.getBytes());
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void generatePackages() {
+        try {
+            JSONObject packageData = new JSONObject(all.toString());
+            String template = OrchidUtils.getResourceFileContents("assets/layouts/packageDoc.html");
 
+            for(int i = 0; i < all.getJSONObject("docs").getJSONArray("packages").length(); i++) {
+                JSONObject packageInfo = all.getJSONObject("docs").getJSONArray("packages").getJSONObject(i);
+                packageData.put("packageDoc", packageInfo);
+
+                String outputPath = SiteOptions.outputDir + File.separator + "packages" + File.separator + packageInfo.getString("name").replace(".", File.separator);
+                File outputFile = new File(outputPath);
+                if (!outputFile.exists()) {
+                    outputFile.mkdirs();
+                }
+
+                Path classesFile = Paths.get(outputPath + ".html");
+                String compiledContent = SiteResources.pageCompiler.compile(template, packageData);
+                Files.write(classesFile, compiledContent.getBytes());
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void generatePages() {

@@ -1,6 +1,6 @@
 package com.eden.orchid;
 
-import com.eden.orchid.compiler.AssetCompiler;
+import com.eden.orchid.compilers.AssetCompiler;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 import liqp.Template;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class JarUtils {
+public class OrchidUtils {
     /**
      * Returns the jar file used to load class clazz, or defaultJar if clazz was not loaded from a
      * jar.
@@ -75,7 +75,7 @@ public class JarUtils {
                             .parse(fileContents)
                             .render(new JSONObject().put("site", SiteOptions.siteOptions).toString(2));
 
-                    // Send the Liquified file contents through the custom compiler
+                    // Send the Liquified file contents through the custom assetCompilers
                     String output = compiler.compile(FilenameUtils.getExtension(entry.getName()), liquifiedFileContents);
 
                     // Write the file to the output destination
@@ -115,7 +115,7 @@ public class JarUtils {
                         .parse(fileContents)
                         .render(new JSONObject().put("site", SiteOptions.siteOptions).toString(2));
 
-                // Send the Liquified file contents through the custom compiler
+                // Send the Liquified file contents through the custom assetCompilers
                 String output = compiler.compile(FilenameUtils.getExtension(file.getName()), liquifiedFileContents);
 
                 // Write the file to the output destination
@@ -128,7 +128,23 @@ public class JarUtils {
         return writtenFileNames;
     }
 
-    public static String getResource(String fileName) {
+    public static String getResourceFileContents(String fileName) {
+        fileName = fileName.replaceAll("/", File.separator);
+        // First attempt to load a file in the external resources directory
+        if(!isEmpty(SiteOptions.siteOptions.getString("resourcesDir"))) {
+            File res = new File(SiteOptions.siteOptions.getString("resourcesDir") + File.separator + fileName);
+
+            if(res.exists() && !res.isDirectory()) {
+                try {
+                    return IOUtils.toString(new FileInputStream(res), "UTF-8");
+                }
+                catch(IOException e) {
+
+                }
+            }
+        }
+
+        // If we don't have the requested file in external resources, try to load the file from internal resources
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream(fileName);
         try {
@@ -136,8 +152,10 @@ public class JarUtils {
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
-            return "";
         }
+
+        // We couldn't find the requested file
+        return null;
     }
 
     public static void writeFile(String dest, String contents) {
@@ -148,6 +166,21 @@ public class JarUtils {
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Returns true if the string is null or empty. An empty string is defined to be either 0-length or all whitespace
+     *
+     * @param str the string to be examined
+     * @return true if str is null or empty
+     */
+    public static boolean isEmpty(CharSequence str) {
+        if (str == null || str.length() == 0 || str.toString().trim().length() == 0) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

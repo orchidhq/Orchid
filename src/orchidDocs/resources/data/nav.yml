@@ -1,8 +1,5 @@
 left :
   - type: pages
-    name: Clog Implementations
-
-right :
   - type: link
     name: Javadoc
     url: https://jitpack.io/com/github/cjbrooks12/Clog/v0.1.0/javadoc/
@@ -12,6 +9,10 @@ right :
   - type: link
     name: Trello
     url: https://trello.com/b/bHWXqP0I/clog
+
+right :
+  - type: classes
+  - type: packages
 
 footer:
   - name: GitHub

@@ -1,10 +1,10 @@
-package com.eden.orchid.compiler.impl;
+package com.eden.orchid.compilers.impl;
 
 import com.eden.orchid.AutoRegister;
-import com.eden.orchid.compiler.AssetCompiler;
+import com.eden.orchid.compilers.AssetCompiler;
 
 @AutoRegister
-public class CompileJs implements AssetCompiler {
+public class JavascriptCompiler implements AssetCompiler {
 
     @Override
     public String getKey() {

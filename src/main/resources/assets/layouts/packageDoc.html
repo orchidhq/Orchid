@@ -6,11 +6,11 @@
 
     <title>Orchid</title>
 
-<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.ie.min.css" />
-<![endif]-->
+    <![endif]-->
 
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css" rel="stylesheet" />
@@ -19,18 +19,18 @@
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js"></script>
 
-<!-- inject styles -->
-{% for file in res.css %}
-        <link rel="stylesheet" type="text/css" href="{{ file }}" />
-{% endfor %}
-<!-- end:inject styles -->
+    <!-- inject styles -->
+    {% for file in res.css %}
+    <link rel="stylesheet" type="text/css" href="/{{ file }}" />
+    {% endfor %}
+    <!-- end:inject styles -->
 
-<!-- inject scripts -->
-{% for file in res.js %}
-    <script src="{{ file }}"></script>
-{% endfor %}
-<script>window.docs = {{ root | json }};</script>
-<!-- end:inject scripts -->
+    <!-- inject scripts -->
+    {% for file in res.js %}
+    <script src="/{{ file }}"></script>
+    {% endfor %}
+    <script>window.docs = {{ root | json }};</script>
+    <!-- end:inject scripts -->
 </head>
 
 <body>
@@ -58,7 +58,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         {% for page in res.pages %}
-                            <li><a href="#">{{page}}</a></li>
+                        <li><a href="#">{{page}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -67,16 +67,16 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All Packages <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        {% for packageDoc in docs.packages %}
-                            <li><a href="#">{{packageDoc.name}}</a></li>
+                        {% for p in docs.packages %}
+                        <li><a href="/packages/{{p.name | replace: '.', '/'}}.html">{{p.name}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All Classes <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        {% for classDoc in docs.classes %}
-                        <li><a href="#">{{classDoc.simpleName}}</a></li>
+                        {% for c in docs.classes %}
+                        <li><a href="/classes/{{c.simpleName}}.html">{{c.simpleName}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
@@ -90,13 +90,7 @@
 =========================================== -->
 <div class="bs-docs-masthead" id="content">
     <div class="container">
-        <h1 class="home-title">Orchid</h1>
-        <p class="lead">A modern Javadoc-generation doclet based on Liquid, Sass, Markdown, and YAML</p>
-        <p class="lead">It's like Jekyll for Javadoc</p>
-        <p class="lead">
-            <a href="https://github.com/JavaEden/Doclava" class="btn btn-outline-inverse btn-lg">Download</a>
-        </p>
-        <p class="version">Currently v0.1.0</p>
+        <h1 class="home-title">{{ packageDoc.name }}</h1>
     </div>
 </div>
 
@@ -108,16 +102,16 @@
             <section class="bs-docs-section">
                 <h1 id="packages" class="page-header">Packages</h1>
 
-                {% for packageDoc in docs.packages %}
-                    <h3 id="package-{{packageDoc.name}}">{{packageDoc.name}}</h3>
+                {% for p in docs.packages %}
+                <a href="/packages/{{p.name | replace: '.', '/'}}.html"><h3 id="package-{{p.name}}">{{p.name}}</h3></a>
                 {% endfor %}
             </section>
 
             <section class="bs-docs-section">
                 <h1 id="classes" class="page-header">Classes</h1>
 
-                {% for classDoc in docs.classes %}
-                    <h3 id="class-{{classDoc.name | replace: '.', '-' }}">{{classDoc.simpleName}}</h3>
+                {% for c in docs.classes %}
+                <a href="/classes/{{c.simpleName}}.html"><h3 id="class-{{c.name | replace: '.', '-' }}">{{c.simpleName}}</h3></a>
                 {% endfor %}
             </section>
 

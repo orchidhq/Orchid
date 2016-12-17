@@ -1,14 +1,14 @@
-package com.eden.orchid.compiler.impl;
+package com.eden.orchid.compilers.impl;
 
 import com.eden.orchid.AutoRegister;
-import com.eden.orchid.compiler.AssetCompiler;
+import com.eden.orchid.compilers.AssetCompiler;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Compiler;
 import io.bit3.jsass.Options;
 import io.bit3.jsass.Output;
 
 @AutoRegister
-public class CompileCss implements AssetCompiler {
+public class CssCompiler implements AssetCompiler {
 
     @Override
     public String getKey() {
