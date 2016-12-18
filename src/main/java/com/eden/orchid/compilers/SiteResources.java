@@ -73,7 +73,12 @@ public class SiteResources {
 
     public static Pair<String, String> compile(String extension, String source, Object... data) {
         for(Map.Entry<Integer, Compiler> compiler : compilers.entrySet()) {
+            Clog.i("Compiler: #{$1}, #{$2}-#{$3}", new Object[] {extension, compiler.getValue().priority(), compiler.getValue().getClass().getName()});
+
             if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+
+                Clog.i("Found acceptable compiler: #{$1}, #{$2}", new Object[] {extension, compiler.getValue().getClass().getName()});
+
                 return new Pair<>(compiler.getValue().getOutputExtension(), compiler.getValue().compile(extension, source, data));
             }
         }

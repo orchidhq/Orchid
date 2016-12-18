@@ -1,5 +1,6 @@
 package com.eden.orchid;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.compilers.AssetCompiler;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.ContentCompiler;
@@ -11,8 +12,6 @@ import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import liqp.filters.Filter;
-import liqp.tags.Tag;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -45,6 +44,8 @@ public class Orchid {
         FastClasspathScanner scanner = new FastClasspathScanner();
         scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
             try {
+                Clog.i("Found annotated class: #{$1}", new Object[] {matchingClass.getName()});
+
                 Object instance = matchingClass.newInstance();
 
                 // Register all compilers
@@ -78,14 +79,6 @@ public class Orchid {
                 // Register documentation explorers
                 else if(instance instanceof DocumentationExplorer) {
                     DocumentationExploration.explorers.add((DocumentationExplorer) instance);
-                }
-
-                // Register compiler plugins
-                else if(instance instanceof Filter) {
-                    Filter.registerFilter((Filter) instance);
-                }
-                else if(instance instanceof Tag) {
-                    Tag.registerTag((Tag) instance);
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {

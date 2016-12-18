@@ -1,0 +1,11 @@
+<li>
+    <code>
+        {% if m.abstract %}<span>abstract</span>{% endif %}
+        {% if m.synchronized %}<span>synchronized</span>{% endif %}
+        <span>{{ m.visibility }}</span>
+        {% if m.static %}<span>static</span>{% endif %}
+        {% if m.final  %}<span>static</span>{% endif %}
+        <span>{{ m.returns.simpleName }}</span>
+        <span>{{ m.name }}()</span>
+    </code>
+</li>

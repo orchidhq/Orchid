@@ -1,0 +1,20 @@
+{% if link.type == 'link' %}
+{% include 'nav/item_link.html' %}
+{% endif %}
+
+{% if link.type == 'dropdown' %}
+{% include 'nav/item_dropdown.html' %}
+{% endif %}
+
+{% if link.type == 'packages' %}
+{% include 'nav/item_packages.html' %}
+{% endif %}
+
+{% if link.type == 'classes' %}
+{% include 'nav/item_classes.html' %}
+{% endif %}
+
+{% if link.type == 'pages' %}
+{% include 'nav/item_pages.html' %}
+{% endif %}
+
