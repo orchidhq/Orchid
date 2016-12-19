@@ -4,7 +4,6 @@ import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
-import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public abstract class Theme {
     public abstract Class<? extends Compiler>[] getRequiredCompilers();
 
     void generate(RootDoc rootDoc, Object... data) {
-        Path file = Paths.get(SiteOptions.siteOptions.getString("outputDir") + "/index.html");
+        Path file = Paths.get(Orchid.root.getJSONObject("options").getString("outputDir") + "/index.html");
         try {
             String compiledContent = SiteCompilers.getContentCompiler(getContentCompilerClass()).compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), Orchid.root);
             Files.write(file, compiledContent.getBytes());
@@ -43,5 +42,14 @@ public abstract class Theme {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    String compile(String extension, String input, Object... data) {
+        return SiteCompilers.getContentCompiler(getContentCompilerClass()).compile(extension, input, data);
+
+    }
+
+    String preCompile(String input, Object... data) {
+        return SiteCompilers.getPrecompiler(getPrecompilerClass()).compile(input, data);
     }
 }

@@ -1,5 +1,6 @@
 package com.eden.orchid.compilers;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.OrchidUtils;
 import javafx.util.Pair;
 import org.apache.commons.io.FilenameUtils;
@@ -27,6 +28,9 @@ public class SiteCompilers {
      */
     public static Compiler getCompiler(Class<? extends Compiler> compilerClass) {
         for(Map.Entry<Integer, Compiler> compiler : compilers.entrySet()) {
+
+            Clog.d("Getting compiler: #{$1}:[#{$2 | className}]", compiler.getKey(), compiler.getValue());
+
             if(compiler.getValue().getClass().equals(compilerClass)) {
                 return compiler.getValue();
             }
@@ -44,6 +48,9 @@ public class SiteCompilers {
      */
     public static ContentCompiler getContentCompiler(Class<? extends ContentCompiler> compilerClass) {
         for(Map.Entry<Integer, ContentCompiler> compiler : contentCompilers.entrySet()) {
+
+            Clog.d("Getting content compiler: #{$1}:[#{$2 | className}]", compiler.getKey(), compiler.getValue());
+
             if(compiler.getValue().getClass().equals(compilerClass)) {
                 return compiler.getValue();
             }
@@ -61,6 +68,9 @@ public class SiteCompilers {
      */
     public static PreCompiler getPrecompiler(Class<? extends PreCompiler> compilerClass) {
         for(Map.Entry<Integer, PreCompiler> compiler : precompilers.entrySet()) {
+
+            Clog.d("Getting precompiler: #{$1}:[#{$2 | className}]", compiler.getKey(), compiler.getValue());
+
             if(compiler.getValue().getClass().equals(compilerClass)) {
                 return compiler.getValue();
             }

@@ -2,8 +2,7 @@ package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.AutoRegister;
-import com.eden.orchid.options.SiteOption;
-import com.eden.orchid.options.SiteOptions;
+import com.eden.orchid.options.Option;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @AutoRegister
-public class ResourcesOption extends SiteOption {
+public class ResourcesOption implements Option {
 
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 
@@ -28,11 +27,11 @@ public class ResourcesOption extends SiteOption {
     }
 
     @Override
-    public boolean parseOption(String[] options) {
+    public boolean parseOption(JSONObject siteOptions, String[] options) {
         if (options.length == 2) {
-            SiteOptions.siteOptions.put("resourcesDir", options[1]);
-            parseConfigFile(options[1]);
-            parseDataFiles(options[1]);
+            siteOptions.put("resourcesDir", options[1]);
+            parseConfigFile(siteOptions, options[1]);
+            parseDataFiles(siteOptions, options[1]);
             return true;
         }
         else {
@@ -42,24 +41,29 @@ public class ResourcesOption extends SiteOption {
     }
 
     @Override
-    public void setDefault() {
+    public void setDefault(JSONObject siteOptions) {
 
     }
 
-    private void parseConfigFile(String resPath) {
+    @Override
+    public int priority() {
+        return 90;
+    }
+
+    private void parseConfigFile(JSONObject siteOptions, String resPath) {
         for(String configExtension : dataExtensions) {
 
             JSONObject parsedFile = parseFile(resPath, "config." + configExtension);
 
             if(parsedFile != null) {
-                SiteOptions.siteOptions.put("config", parsedFile);
+                siteOptions.put("config", parsedFile);
                 break;
             }
         }
     }
 
-    private void parseDataFiles(String resPath) {
-        SiteOptions.siteOptions.put("data", new JSONObject());
+    private void parseDataFiles(JSONObject siteOptions, String resPath) {
+        siteOptions.put("data", new JSONObject());
 
         File dataDir = new File(resPath + File.separator + "data");
 
@@ -69,7 +73,7 @@ public class ResourcesOption extends SiteOption {
             for (File file : files) {
                 JSONObject parsedFile = parseFile(file);
                 if(parsedFile != null) {
-                    SiteOptions.siteOptions.getJSONObject("data").put(FilenameUtils.removeExtension(file.getName()), parsedFile);
+                    siteOptions.getJSONObject("data").put(FilenameUtils.removeExtension(file.getName()), parsedFile);
                     break;
                 }
             }

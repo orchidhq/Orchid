@@ -3,7 +3,6 @@ package com.eden.orchid;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
-import com.eden.orchid.options.SiteOptions;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -32,7 +31,7 @@ public class OrchidUtils {
      * @param clazz  the class to load a jar from
      * @return  the JarFile for a given class, or null if the class was not loaded from a jar
      */
-    public static JarFile jarForClass(Class<?> clazz) {
+    private static JarFile jarForClass(Class<?> clazz) {
         String path = "/" + clazz.getName().replace('.', '/') + ".class";
         URL jarUrl = clazz.getResource(path);
         if (jarUrl == null) {
@@ -55,10 +54,26 @@ public class OrchidUtils {
         }
     }
 
-    public static JSONArray compileThemeResources(String resourceDir, Compiler compiler) throws IOException {
+    public static JSONArray compileResources(String resourceDir, Compiler compiler) {
         JSONArray writtenFileNames = new JSONArray();
 
-        JarFile fromJar = jarForClass(((Theme) SiteOptions.siteOptions.get("theme")).getClass());
+        JSONArray themeFiles = compileThemeResources(resourceDir, compiler);
+        JSONArray externalFiles = compileExternalResources(resourceDir, compiler);
+
+        for(int i = 0; i < themeFiles.length(); i++) {
+            writtenFileNames.put(themeFiles.get(i));
+        }
+        for(int i = 0; i < externalFiles.length(); i++) {
+            writtenFileNames.put(externalFiles.get(i));
+        }
+
+        return writtenFileNames;
+    }
+
+    private static JSONArray compileThemeResources(String resourceDir, Compiler compiler) {
+        JSONArray writtenFileNames = new JSONArray();
+
+        JarFile fromJar = jarForClass(Orchid.theme.getClass());
 
         for (Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements(); ) {
             JarEntry entry = entries.nextElement();
@@ -73,20 +88,25 @@ public class OrchidUtils {
                                     + compiler.getOutputExtension(); // replace the file extension
 
                     // Load the contents of the file
-                    String fileContents = IOUtils.toString(fromJar.getInputStream(entry), "UTF-8");
+                    try {
+                        String fileContents = IOUtils.toString(fromJar.getInputStream(entry), "UTF-8");
 
-                    // Pass the file contents through the precompiler
-                    PreCompiler preCompiler = SiteCompilers.getPrecompiler(((Theme) SiteOptions.siteOptions.get("theme")).getPrecompilerClass());
+                        // Pass the file contents through the precompiler
+                        PreCompiler preCompiler = SiteCompilers.getPrecompiler(Orchid.theme.getPrecompilerClass());
 
-                    if(preCompiler != null) {
-                        fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", SiteOptions.siteOptions));
+                        if (preCompiler != null) {
+                            fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", Orchid.root.getJSONObject("options")));
+                        }
+
+                        fileContents = compiler.compile(FilenameUtils.getExtension(entry.getName()), fileContents);
+
+                        // Write the file to the output destination
+                        writeFile(destFileName, fileContents);
+                        writtenFileNames.put(destFileName);
                     }
-
-                    fileContents = compiler.compile(FilenameUtils.getExtension(entry.getName()), fileContents);
-
-                    // Write the file to the output destination
-                    writeFile(destFileName, fileContents);
-                    writtenFileNames.put(destFileName);
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -94,10 +114,10 @@ public class OrchidUtils {
         return writtenFileNames;
     }
 
-    public static JSONArray compileExternalResources(String resourceDir, Compiler compiler) throws IOException {
+    private static JSONArray compileExternalResources(String resourceDir, Compiler compiler) {
         JSONArray writtenFileNames = new JSONArray();
 
-        String resDir = SiteOptions.siteOptions.getString("resourcesDir") + File.separator + resourceDir;
+        String resDir = Orchid.root.getJSONObject("options").getString("resourcesDir") + File.separator + resourceDir;
 
         File res = new File(resDir);
 
@@ -113,24 +133,28 @@ public class OrchidUtils {
                                 + "."
                                 + compiler.getOutputExtension();
 
-                // Load the contents of the file
-                String fileContents = IOUtils.toString(new FileInputStream(file), "UTF-8");
+                try {
+                    // Load the contents of the file
+                    String fileContents = IOUtils.toString(new FileInputStream(file), "UTF-8");
 
-                // Pass the file contents through the precompiler
-                PreCompiler preCompiler = SiteCompilers.getPrecompiler(((Theme) SiteOptions.siteOptions.get("theme")).getPrecompilerClass());
+                    // Pass the file contents through the precompiler
+                    PreCompiler preCompiler = SiteCompilers.getPrecompiler(Orchid.theme.getPrecompilerClass());
 
-                if(preCompiler != null) {
-                    fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", SiteOptions.siteOptions));
+                    if(preCompiler != null) {
+                        fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", Orchid.root.getJSONObject("options")));
+                    }
+
+                    fileContents = compiler.compile(FilenameUtils.getExtension(file.getName()), fileContents);
+
+                    // Write the file to the output destination
+                    writeFile(destFileName, fileContents);
+                    writtenFileNames.put(destFileName);
                 }
-
-                fileContents = compiler.compile(FilenameUtils.getExtension(file.getName()), fileContents);
-
-                // Write the file to the output destination
-                writeFile(destFileName, fileContents);
-                writtenFileNames.put(destFileName);
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
 
         return writtenFileNames;
     }
@@ -138,8 +162,8 @@ public class OrchidUtils {
     public static String getResourceFileContents(String fileName) {
         fileName = fileName.replaceAll("/", File.separator);
         // First attempt to load a file in the external resources directory
-        if(!isEmpty(SiteOptions.siteOptions.getString("resourcesDir"))) {
-            File res = new File(SiteOptions.siteOptions.getString("resourcesDir") + File.separator + fileName);
+        if(!isEmpty(Orchid.root.getJSONObject("options").getString("resourcesDir"))) {
+            File res = new File(Orchid.root.getJSONObject("options").getString("resourcesDir") + File.separator + fileName);
 
             if(res.exists() && !res.isDirectory()) {
                 try {
@@ -166,7 +190,7 @@ public class OrchidUtils {
     }
 
     public static void writeFile(String dest, String contents) {
-        Path file = Paths.get(SiteOptions.siteOptions.getString("outputDir") + "/" + dest);
+        Path file = Paths.get(Orchid.root.getJSONObject("options").getString("outputDir") + "/" + dest);
         try {
             Files.createDirectories(file.getParent());
             Files.write(file, contents.getBytes());

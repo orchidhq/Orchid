@@ -2,12 +2,12 @@ package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.AutoRegister;
-import com.eden.orchid.options.SiteOption;
-import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.Theme;
+import com.eden.orchid.options.Option;
+import org.json.JSONObject;
 
 @AutoRegister
-public class ThemeOption extends SiteOption {
+public class ThemeOption implements Option {
 
     @Override
     public String getFlag() {
@@ -15,11 +15,11 @@ public class ThemeOption extends SiteOption {
     }
 
     @Override
-    public boolean parseOption(String[] options) {
+    public boolean parseOption(JSONObject siteOptions, String[] options) {
         if(options.length == 2) {
             try {
                 Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
-                SiteOptions.siteOptions.put("theme", themeClass.newInstance());
+                siteOptions.put("theme", themeClass.newInstance());
             }
             catch (ClassNotFoundException e) {
                 Clog.e("The Theme class #{$1} could not be found on the classpath.", new Object[] {options[1]});
@@ -39,7 +39,12 @@ public class ThemeOption extends SiteOption {
     }
 
     @Override
-    public void setDefault() {
+    public void setDefault(JSONObject siteOptions) {
 
+    }
+
+    @Override
+    public int priority() {
+        return 80;
     }
 }

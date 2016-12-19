@@ -2,11 +2,11 @@ package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.AutoRegister;
-import com.eden.orchid.options.SiteOption;
-import com.eden.orchid.options.SiteOptions;
+import com.eden.orchid.options.Option;
+import org.json.JSONObject;
 
 @AutoRegister
-public class DestinationOption extends SiteOption {
+public class DestinationOption implements Option {
 
     @Override
     public String getFlag() {
@@ -14,9 +14,9 @@ public class DestinationOption extends SiteOption {
     }
 
     @Override
-    public boolean parseOption(String[] options) {
+    public boolean parseOption(JSONObject siteOptions, String[] options) {
         if(options.length == 2) {
-            SiteOptions.siteOptions.put("outputDir", options[1]);
+            siteOptions.put("outputDir", options[1]);
             return true;
         }
         else {
@@ -26,7 +26,12 @@ public class DestinationOption extends SiteOption {
     }
 
     @Override
-    public void setDefault() {
+    public void setDefault(JSONObject siteOptions) {
 
+    }
+
+    @Override
+    public int priority() {
+        return 100;
     }
 }

@@ -7,18 +7,22 @@ import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
-import com.eden.orchid.options.SiteOption;
+import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
+// TODO: Handle priority clashes
+// TODO: create a json data-getter which parses input like 'options.outputDir'
 public class Orchid {
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
     }
 
     public static JSONObject root = new JSONObject();
+
+    public static Theme theme;
 
     /**
      * Start the Javadoc generation process
@@ -51,13 +55,8 @@ public class Orchid {
         FastClasspathScanner scanner = new FastClasspathScanner();
         scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
             try {
-                Object instance = matchingClass.newInstance();
                 Clog.d("AutoRegistering class: #{$1}", new Object[]{matchingClass.getName()});
-
-                // Register command-line options
-                if(instance instanceof SiteOption) {
-                    SiteOptions.optionsParsers.add((SiteOption) instance);
-                }
+                Object instance = matchingClass.newInstance();
 
                 // Register compilers
                 if(instance instanceof Compiler) {
@@ -77,6 +76,12 @@ public class Orchid {
                 else if(instance instanceof Generator) {
                     Generator generator = (Generator) instance;
                     SiteGenerators.generators.put(generator.priority(), generator);
+                }
+
+                // Register command-line options
+                if(instance instanceof Option) {
+                    Option option = (Option) instance;
+                    SiteOptions.optionsParsers.put(option.priority(), option);
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {
@@ -103,17 +108,17 @@ public class Orchid {
     private static boolean shouldContinue() {
         boolean shouldContinue = true;
 
-        if(OrchidUtils.isEmpty(SiteOptions.siteOptions.getString("outputDir"))) {
+        if(OrchidUtils.isEmpty(root.getJSONObject("options").getString("outputDir"))) {
             Clog.e("You MUST define an output directory with the '-d' flag. It should be an absolute directory which will contain all generated files.");
             shouldContinue = false;
         }
 
-        if(SiteOptions.siteOptions.get("theme") == null) {
+        if(root.getJSONObject("options").get("theme") == null) {
             Clog.e("You MUST define a theme with the '-theme` flag. It should be the fully-qualified class name of the desired theme.");
             shouldContinue = false;
         }
         else {
-            Theme theme = (Theme) SiteOptions.siteOptions.get("theme");
+            theme = (Theme) root.getJSONObject("options").get("theme");
 
             if(SiteCompilers.getContentCompiler(theme.getContentCompilerClass()) == null) {
                 Clog.e("Your selected theme's content compiler could not be found.");
@@ -128,8 +133,8 @@ public class Orchid {
             }
         }
 
-        if(OrchidUtils.isEmpty(SiteOptions.siteOptions.getString("resourcesDir"))) {
-            Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. it should be the absolute path to your project's local resources directory.");
+        if(OrchidUtils.isEmpty(root.getJSONObject("options").getString("resourcesDir"))) {
+            Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. It should be the absolute path to your project's local resources directory.");
         }
 
         return shouldContinue;
@@ -153,8 +158,6 @@ public class Orchid {
      */
     private static void generateIndex(RootDoc rootDoc) {
         root.put("root", new JSONObject(root.toString()));
-        Theme theme = (Theme) SiteOptions.siteOptions.get("theme");
-
         theme.generate(rootDoc, root);
     }
 }

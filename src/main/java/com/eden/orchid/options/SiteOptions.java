@@ -1,27 +1,35 @@
 package com.eden.orchid.options;
 
+import com.caseyjbrooks.clog.Clog;
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class SiteOptions {
 
-    public static Set<SiteOption> optionsParsers = new HashSet<>();
-
-    public static JSONObject siteOptions = new JSONObject();
+    public static Map<Integer, Option> optionsParsers = new TreeMap<>();
 
     public static void startDiscovery(RootDoc root, JSONObject siteOptions) {
         String[][] options = root.options();
 
+        Map<Option, Boolean> optionSuccesses = new HashMap<>();
+
         // parses all the options flags according to the parsers set up in SiteOptions.optionsParsers
         for (String[] a : options) {
-            for(SiteOption option : optionsParsers) {
-                if (a[0].equals("-" + option.getFlag())) {
-                    if(option.parseOption(a)) {
-                        option.wasFound = true;
+            for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
+
+                Clog.d("Parsing option: #{$1}:[#{$2 | className}]", option.getKey(), option.getValue());
+
+                if (a[0].equals("-" + option.getValue().getFlag())) {
+                    if(option.getValue().parseOption(siteOptions, a)) {
+                        optionSuccesses.put(option.getValue(), true);
+                    }
+                    else {
+                        optionSuccesses.put(option.getValue(), false);
                     }
                     break;
                 }
@@ -29,9 +37,9 @@ public class SiteOptions {
         }
 
         // If any option wasn't found, allow it to set its own default value
-        for(SiteOption option : optionsParsers) {
-            if (!option.wasFound) {
-                option.setDefault();
+        for(Map.Entry<Option, Boolean> option : optionSuccesses.entrySet()) {
+            if (!option.getValue()) {
+                option.getKey().setDefault(siteOptions);
             }
         }
     }
