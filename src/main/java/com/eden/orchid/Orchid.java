@@ -14,8 +14,8 @@ import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
 // TODO: Handle priority clashes
-// TODO: create a json data-getter which parses input like 'options.outputDir'
-public class Orchid {
+// TODO: create a json data-getter which parses input like 'options.outputDir' and make root private
+public final class Orchid {
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
     }

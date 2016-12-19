@@ -9,15 +9,16 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class SiteCompilers {
 
     // Generic compilers to be dynamically used based on file extension
-    public static Map<Integer, Compiler> compilers = new TreeMap<>();
-    public static Map<Integer, ContentCompiler> contentCompilers = new TreeMap<>();
-    public static Map<Integer, PreCompiler> precompilers = new TreeMap<>();
+    public static Map<Integer, Compiler> compilers = new TreeMap<>(Collections.reverseOrder());
+    public static Map<Integer, ContentCompiler> contentCompilers = new TreeMap<>(Collections.reverseOrder());
+    public static Map<Integer, PreCompiler> precompilers = new TreeMap<>(Collections.reverseOrder());
 
     /**
      * Gets a compiler instance by its class. Compilers are ordered by priority and will return the compiler with the

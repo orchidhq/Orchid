@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidUtils {
+public final class OrchidUtils {
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.

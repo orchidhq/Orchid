@@ -5,11 +5,12 @@ import com.eden.orchid.OrchidUtils;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class SiteGenerators {
-    public static Map<Integer, Generator> generators = new TreeMap<>();
+    public static Map<Integer, Generator> generators = new TreeMap<>(Collections.reverseOrder());
 
     public static void startDiscovery(RootDoc root, JSONObject generatorsObject) {
         for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {

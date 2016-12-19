@@ -5,13 +5,14 @@ import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class SiteOptions {
 
-    public static Map<Integer, Option> optionsParsers = new TreeMap<>();
+    public static Map<Integer, Option> optionsParsers = new TreeMap<>(Collections.reverseOrder());
 
     public static void startDiscovery(RootDoc root, JSONObject siteOptions) {
         String[][] options = root.options();
