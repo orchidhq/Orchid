@@ -52,6 +52,7 @@ public class Orchid {
         scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
             try {
                 Object instance = matchingClass.newInstance();
+                Clog.d("AutoRegistering class: #{$1}", new Object[]{matchingClass.getName()});
 
                 // Register command-line options
                 if(instance instanceof SiteOption) {
@@ -116,10 +117,6 @@ public class Orchid {
 
             if(SiteCompilers.getContentCompiler(theme.getContentCompilerClass()) == null) {
                 Clog.e("Your selected theme's content compiler could not be found.");
-                shouldContinue = false;
-            }
-            if(SiteCompilers.getPrecompiler(theme.getPrecompilerClass()) == null) {
-                Clog.e("Your selected theme's precompiler could not be found.");
                 shouldContinue = false;
             }
 
