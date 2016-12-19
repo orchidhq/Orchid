@@ -6,7 +6,6 @@ import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.generators.IndexGenerator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
@@ -64,26 +63,19 @@ public class Orchid {
                     Compiler compiler = (Compiler) instance;
                     SiteCompilers.compilers.put(compiler.priority(), compiler);
                 }
-                else if(instance instanceof ContentCompiler) {
+                if(instance instanceof ContentCompiler) {
                     ContentCompiler compiler = (ContentCompiler) instance;
                     SiteCompilers.contentCompilers.put(compiler.priority(), compiler);
                 }
-                else if(instance instanceof PreCompiler) {
+                if(instance instanceof PreCompiler) {
                     PreCompiler compiler = (PreCompiler) instance;
                     SiteCompilers.precompilers.put(compiler.priority(), compiler);
                 }
 
                 // Register generators
                 else if(instance instanceof Generator) {
-                    if(instance instanceof IndexGenerator) {
-                        if(SiteGenerators.indexGenerator == null || ((IndexGenerator) instance).priority() > SiteGenerators.indexGenerator.priority()) {
-                            SiteGenerators.indexGenerator = (IndexGenerator) instance;
-                        }
-                    }
-                    else {
-                        Generator generator = (Generator) instance;
-                        SiteGenerators.generators.put(generator.priority(), generator);
-                    }
+                    Generator generator = (Generator) instance;
+                    SiteGenerators.generators.put(generator.priority(), generator);
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {
@@ -158,13 +150,14 @@ public class Orchid {
     }
 
     /**
-     * Step five in the Orchid compilation process: run all registered generators, gathering all global data and
-     * generating partial files to be loaded as part of the page in the index
+     * Step five in the Orchid compilation process: generate the final site from the theme
      *
      * @param rootDoc
      */
     private static void generateIndex(RootDoc rootDoc) {
         root.put("root", new JSONObject(root.toString()));
-        SiteGenerators.indexGenerator.startDiscovery(rootDoc, root);
+        Theme theme = (Theme) SiteOptions.siteOptions.get("theme");
+
+        theme.generate(rootDoc, root);
     }
 }

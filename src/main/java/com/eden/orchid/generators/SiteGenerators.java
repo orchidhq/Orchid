@@ -8,7 +8,6 @@ import java.util.TreeMap;
 
 public class SiteGenerators {
     public static Map<Integer, Generator> generators = new TreeMap<>();
-    public static IndexGenerator indexGenerator = null;
 
     public static void startDiscovery(RootDoc root, JSONObject generatorsObject) {
         for(Map.Entry<Integer, Generator> compiler : generators.entrySet()) {
