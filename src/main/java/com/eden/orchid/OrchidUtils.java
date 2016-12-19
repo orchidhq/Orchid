@@ -1,9 +1,9 @@
 package com.eden.orchid;
 
-import com.eden.orchid.compilers.AssetCompiler;
+import com.eden.orchid.compilers.Compiler;
+import com.eden.orchid.compilers.PreCompiler;
+import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.options.SiteOptions;
-import com.sun.javadoc.RootDoc;
-import liqp.Template;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -25,15 +25,18 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class OrchidUtils {
+
     /**
-     * Returns the jar file used to load class clazz, or defaultJar if clazz was not loaded from a
-     * jar.
+     * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
+     *
+     * @param clazz  the class to load a jar from
+     * @return  the JarFile for a given class, or null if the class was not loaded from a jar
      */
-    public static JarFile jarForClass(Class<?> clazz, JarFile defaultJar) {
+    public static JarFile jarForClass(Class<?> clazz) {
         String path = "/" + clazz.getName().replace('.', '/') + ".class";
         URL jarUrl = clazz.getResource(path);
         if (jarUrl == null) {
-            return defaultJar;
+            return null;
         }
 
         String url = jarUrl.toString();
@@ -48,38 +51,41 @@ public class OrchidUtils {
             }
         }
         else {
-            return defaultJar;
+            return null;
         }
     }
 
-    public static JSONArray copyAndCompileResourcesToDirectory(JarFile fromJar, AssetCompiler compiler) throws IOException {
+    public static JSONArray compileThemeResources(String resourceDir, Compiler compiler) throws IOException {
         JSONArray writtenFileNames = new JSONArray();
+
+        JarFile fromJar = jarForClass(((Theme) SiteOptions.siteOptions.get("theme")).getClass());
 
         for (Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements(); ) {
             JarEntry entry = entries.nextElement();
-            if (entry.getName().startsWith(compiler.getSourceDir() + File.separator) && !entry.isDirectory()) {
+            if (entry.getName().startsWith(resourceDir + File.separator) && !entry.isDirectory()) {
 
                 if (FilenameUtils.isExtension(entry.getName(), compiler.getSourceExtensions())) {
                     String destFileName =
-                            compiler.getDestDir()
+                            resourceDir
                                     + File.separator
-                                    + FilenameUtils.removeExtension(entry.getName()).substring(compiler.getSourceDir().length() + 1) // strip the jar resource path from the entry name
+                                    + FilenameUtils.removeExtension(entry.getName()).substring(resourceDir.length() + 1) // strip the jar resource path from the entry name
                                     + "."
                                     + compiler.getOutputExtension(); // replace the file extension
 
                     // Load the contents of the file
                     String fileContents = IOUtils.toString(fromJar.getInputStream(entry), "UTF-8");
 
-                    // Pass the file contents through Liquid with the parsed site options
-                    String liquifiedFileContents = Template
-                            .parse(fileContents)
-                            .render(new JSONObject().put("site", SiteOptions.siteOptions).toString(2));
+                    // Pass the file contents through the precompiler
+                    PreCompiler preCompiler = SiteCompilers.getPrecompiler(((Theme) SiteOptions.siteOptions.get("theme")).getPrecompilerClass());
 
-                    // Send the Liquified file contents through the custom assetCompilers
-                    String output = compiler.compile(FilenameUtils.getExtension(entry.getName()), liquifiedFileContents);
+                    if(preCompiler != null) {
+                        fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", SiteOptions.siteOptions));
+                    }
+
+                    fileContents = compiler.compile(FilenameUtils.getExtension(entry.getName()), fileContents);
 
                     // Write the file to the output destination
-                    writeFile(destFileName, output);
+                    writeFile(destFileName, fileContents);
                     writtenFileNames.put(destFileName);
                 }
             }
@@ -88,10 +94,10 @@ public class OrchidUtils {
         return writtenFileNames;
     }
 
-    public static JSONArray copyAndCompileExternalResourcesToDirectory(RootDoc root, AssetCompiler compiler) throws IOException {
+    public static JSONArray compileExternalResources(String resourceDir, Compiler compiler) throws IOException {
         JSONArray writtenFileNames = new JSONArray();
 
-        String resDir = SiteOptions.siteOptions.getString("resourcesDir") + File.separator + compiler.getSourceDir();
+        String resDir = SiteOptions.siteOptions.getString("resourcesDir") + File.separator + resourceDir;
 
         File res = new File(resDir);
 
@@ -101,7 +107,7 @@ public class OrchidUtils {
             for (File file : files) {
 
                 String destFileName =
-                        compiler.getDestDir()
+                        resourceDir
                                 + File.separator
                                 + FilenameUtils.removeExtension(file.getName())
                                 + "."
@@ -110,16 +116,17 @@ public class OrchidUtils {
                 // Load the contents of the file
                 String fileContents = IOUtils.toString(new FileInputStream(file), "UTF-8");
 
-                // Pass the file contents through Liquid with the parsed site options
-                String liquifiedFileContents = Template
-                        .parse(fileContents)
-                        .render(new JSONObject().put("site", SiteOptions.siteOptions).toString(2));
+                // Pass the file contents through the precompiler
+                PreCompiler preCompiler = SiteCompilers.getPrecompiler(((Theme) SiteOptions.siteOptions.get("theme")).getPrecompilerClass());
 
-                // Send the Liquified file contents through the custom assetCompilers
-                String output = compiler.compile(FilenameUtils.getExtension(file.getName()), liquifiedFileContents);
+                if(preCompiler != null) {
+                    fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", SiteOptions.siteOptions));
+                }
+
+                fileContents = compiler.compile(FilenameUtils.getExtension(file.getName()), fileContents);
 
                 // Write the file to the output destination
-                writeFile(destFileName, output);
+                writeFile(destFileName, fileContents);
                 writtenFileNames.put(destFileName);
             }
         }
@@ -159,7 +166,7 @@ public class OrchidUtils {
     }
 
     public static void writeFile(String dest, String contents) {
-        Path file = Paths.get(SiteOptions.outputDir + "/" + dest);
+        Path file = Paths.get(SiteOptions.siteOptions.getString("outputDir") + "/" + dest);
         try {
             Files.createDirectories(file.getParent());
             Files.write(file, contents.getBytes());

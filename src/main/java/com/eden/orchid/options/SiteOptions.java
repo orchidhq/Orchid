@@ -11,19 +11,9 @@ public class SiteOptions {
 
     public static Set<SiteOption> optionsParsers = new HashSet<>();
 
-    public static JSONObject siteOptions;
-    public static String outputDir;
+    public static JSONObject siteOptions = new JSONObject();
 
-    public static JSONObject startDiscovery(RootDoc root) {
-        if(siteOptions == null) {
-            siteOptions = new JSONObject();
-            initializeOptions(root);
-        }
-
-        return siteOptions;
-    }
-
-    private static void initializeOptions(RootDoc root) {
+    public static void startDiscovery(RootDoc root, JSONObject siteOptions) {
         String[][] options = root.options();
 
         // parses all the options flags according to the parsers set up in SiteOptions.optionsParsers
@@ -38,7 +28,7 @@ public class SiteOptions {
             }
         }
 
-        // Each
+        // If any option wasn't found, allow it to set its own default value
         for(SiteOption option : optionsParsers) {
             if (!option.wasFound) {
                 option.setDefault();

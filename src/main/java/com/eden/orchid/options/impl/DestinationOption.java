@@ -17,7 +17,6 @@ public class DestinationOption extends SiteOption {
     public boolean parseOption(String[] options) {
         if(options.length == 2) {
             SiteOptions.siteOptions.put("outputDir", options[1]);
-            SiteOptions.outputDir = options[1];
             return true;
         }
         else {
@@ -28,6 +27,6 @@ public class DestinationOption extends SiteOption {
 
     @Override
     public void setDefault() {
-        throw new AssertionError("The outputDir MUST be set with the '-d' flag.");
+
     }
 }

@@ -1,84 +1,89 @@
 package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.compilers.AssetCompiler;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.ContentCompiler;
-import com.eden.orchid.compilers.PageCompiler;
-import com.eden.orchid.compilers.SiteResources;
-import com.eden.orchid.explorers.DocumentationExploration;
-import com.eden.orchid.explorers.DocumentationExplorer;
+import com.eden.orchid.compilers.PreCompiler;
+import com.eden.orchid.compilers.SiteCompilers;
+import com.eden.orchid.generators.Generator;
+import com.eden.orchid.generators.IndexGenerator;
+import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.SiteOption;
 import com.eden.orchid.options.SiteOptions;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class Orchid {
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
     }
 
-    public static JSONObject all;
+    public static JSONObject root = new JSONObject();
 
-    public static boolean start(RootDoc root) {
-        // Scan the classpath and register all available plugins
+    /**
+     * Start the Javadoc generation process
+     *
+     * @param rootDoc  the root of the project to generate sources for
+     * @return Whether the generation was successful
+     */
+    public static boolean start(RootDoc rootDoc) {
         pluginScan();
-
-        // Discover all resources, options, and documentation data, and anything else so it can be rendered
-        discoveryScan(root);
-
-        // Render site pages
-        generationScan();
-
-        return true;
+        parseOptions(rootDoc);
+        if(shouldContinue()) {
+            generationScan(rootDoc);
+            generateIndex(rootDoc);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
+    /**
+     * Step one in the Orchid compilation process: scan the classpath for all classes tagged with @AutoRegister and
+     * register them according to their type.
+     *
+     * If you need to register plugins that are not one of the classes or
+     * interfaces defined in Orchid Core, you can register it within a static initializer. Every matching AutoRegister
+     * class has an instance created, so you are guaranteed to run the static initializer of any AutoRegister class.
+     */
     private static void pluginScan() {
         FastClasspathScanner scanner = new FastClasspathScanner();
         scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
             try {
-                Clog.i("Found annotated class: #{$1}", new Object[] {matchingClass.getName()});
-
                 Object instance = matchingClass.newInstance();
-
-                // Register all compilers
-                if(instance instanceof Compiler) {
-                    Compiler compiler = (Compiler) instance;
-
-                    // Register as a generic compiler
-                    SiteResources.compilers.put(compiler.priority(), compiler);
-
-                    // Register also as a specialized compiler
-                    if(instance instanceof AssetCompiler) {
-                        SiteResources.assetCompilers.add((AssetCompiler) instance);
-                    }
-                    else if(instance instanceof ContentCompiler) {
-                        if(SiteResources.contentCompiler == null || compiler.priority() > SiteResources.contentCompiler.priority()) {
-                            SiteResources.contentCompiler = (ContentCompiler) compiler;
-                        }
-                    }
-                    else if(instance instanceof PageCompiler) {
-                        if(SiteResources.pageCompiler == null || compiler.priority() > SiteResources.pageCompiler.priority()) {
-                            SiteResources.pageCompiler = (PageCompiler) compiler;
-                        }
-                    }
-                }
 
                 // Register command-line options
                 if(instance instanceof SiteOption) {
                     SiteOptions.optionsParsers.add((SiteOption) instance);
                 }
 
-                // Register documentation explorers
-                else if(instance instanceof DocumentationExplorer) {
-                    DocumentationExploration.explorers.add((DocumentationExplorer) instance);
+                // Register compilers
+                if(instance instanceof Compiler) {
+                    Compiler compiler = (Compiler) instance;
+                    SiteCompilers.compilers.put(compiler.priority(), compiler);
+                }
+                else if(instance instanceof ContentCompiler) {
+                    ContentCompiler compiler = (ContentCompiler) instance;
+                    SiteCompilers.contentCompilers.put(compiler.priority(), compiler);
+                }
+                else if(instance instanceof PreCompiler) {
+                    PreCompiler compiler = (PreCompiler) instance;
+                    SiteCompilers.precompilers.put(compiler.priority(), compiler);
+                }
+
+                // Register generators
+                else if(instance instanceof Generator) {
+                    if(instance instanceof IndexGenerator) {
+                        if(SiteGenerators.indexGenerator == null || ((IndexGenerator) instance).priority() > SiteGenerators.indexGenerator.priority()) {
+                            SiteGenerators.indexGenerator = (IndexGenerator) instance;
+                        }
+                    }
+                    else {
+                        Generator generator = (Generator) instance;
+                        SiteGenerators.generators.put(generator.priority(), generator);
+                    }
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {
@@ -88,93 +93,78 @@ public class Orchid {
         scanner.scan();
     }
 
-    private static void discoveryScan(RootDoc root) {
-        // These exploration methods should be made into pluggable explorers
-        all = new JSONObject();
-        all.put("site", SiteOptions.startDiscovery(root));
-        all.put("res",  SiteResources.startDiscovery(root));
-        all.put("docs", DocumentationExploration.startDiscovery(root));
-
-        // Make all site data available via a single Liquid object
-        all.put("root", new JSONObject(all.toString()));
+    /**
+     * Step two in the Orchid compilation process: parse all command-line args using the registered SiteOptions.
+     *
+     * @param rootDoc
+     */
+    private static void parseOptions(RootDoc rootDoc) {
+        root.put("options", new JSONObject());
+        SiteOptions.startDiscovery(rootDoc, root.getJSONObject("options"));
     }
 
-    private static void generationScan() {
-        // These generate methods should be made into pluggable generators
-        generateIndex();
-        generateClasses();
-        generatePackages();
-        generatePages();
-        generatePosts();
-    }
+    /**
+     * Perform a sanity-check to make sure all required site components have been set. In some cases, warnings are
+     * issued instead of failing
+     */
+    private static boolean shouldContinue() {
+        boolean shouldContinue = true;
 
-    private static void generateIndex() {
-        Path file = Paths.get(SiteOptions.outputDir + "/index.html");
-        try {
-            String compiledContent = SiteResources.pageCompiler.compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), all);
-            Files.write(file, compiledContent.getBytes());
+        if(OrchidUtils.isEmpty(SiteOptions.siteOptions.getString("outputDir"))) {
+            Clog.e("You MUST define an output directory with the '-d' flag. It should be an absolute directory which will contain all generated files.");
+            shouldContinue = false;
         }
-        catch (IOException e) {
-            e.printStackTrace();
+
+        if(SiteOptions.siteOptions.get("theme") == null) {
+            Clog.e("You MUST define a theme with the '-theme` flag. It should be the fully-qualified class name of the desired theme.");
+            shouldContinue = false;
         }
-    }
+        else {
+            Theme theme = (Theme) SiteOptions.siteOptions.get("theme");
 
-    private static void generateClasses() {
-        try {
-            String template = OrchidUtils.getResourceFileContents("assets/layouts/classDoc.html");
+            if(SiteCompilers.getContentCompiler(theme.getContentCompilerClass()) == null) {
+                Clog.e("Your selected theme's content compiler could not be found.");
+                shouldContinue = false;
+            }
+            if(SiteCompilers.getPrecompiler(theme.getPrecompilerClass()) == null) {
+                Clog.e("Your selected theme's precompiler could not be found.");
+                shouldContinue = false;
+            }
 
-            for(int i = 0; i < all.getJSONObject("docs").getJSONArray("classes").length(); i++) {
-                JSONObject classInfo = new JSONObject(all.getJSONObject("docs").getJSONArray("classes").getJSONObject(i).toString());
-                JSONObject classData = new JSONObject(all.toString());
-                classData.put("classDoc", classInfo);
-
-                String outputPath = SiteOptions.outputDir + File.separator + "classes";
-                File outputFile = new File(outputPath);
-                Path classesFile = Paths.get(outputPath + File.separator + classInfo.getString("simpleName") + ".html");
-                if (!outputFile.exists()) {
-                    outputFile.mkdirs();
+            for(Class<? extends Compiler> compiler : theme.getRequiredCompilers()) {
+                if(SiteCompilers.getCompiler(compiler) == null) {
+                    Clog.e("Your selected theme's depends on a compiler that could not be found: #{$1}.", new Object[]{compiler.getName()});
+                    shouldContinue = false;
                 }
-
-                String compiledContent = SiteResources.pageCompiler.compile("html", template, classData);
-
-                Files.write(classesFile, compiledContent.getBytes());
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
+
+        if(OrchidUtils.isEmpty(SiteOptions.siteOptions.getString("resourcesDir"))) {
+            Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. it should be the absolute path to your project's local resources directory.");
         }
+
+        return shouldContinue;
     }
 
-    private static void generatePackages() {
-        try {
-            JSONObject packageData = new JSONObject(all.toString());
-            String template = OrchidUtils.getResourceFileContents("assets/layouts/packageDoc.html");
-
-            for(int i = 0; i < all.getJSONObject("docs").getJSONArray("packages").length(); i++) {
-                JSONObject packageInfo = all.getJSONObject("docs").getJSONArray("packages").getJSONObject(i);
-                packageData.put("packageDoc", packageInfo);
-
-                String outputPath = SiteOptions.outputDir + File.separator + "packages" + File.separator + packageInfo.getString("name").replace(".", File.separator);
-                File outputFile = new File(outputPath);
-                if (!outputFile.exists()) {
-                    outputFile.mkdirs();
-                }
-
-                Path classesFile = Paths.get(outputPath + ".html");
-                String compiledContent = SiteResources.pageCompiler.compile("html", template, packageData);
-                Files.write(classesFile, compiledContent.getBytes());
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Step four in the Orchid compilation process: run all registered generators, gathering all global data and
+     * generating partial files to be loaded as part of the page in the index
+     *
+     * @param rootDoc
+     */
+    private static void generationScan(RootDoc rootDoc) {
+        root.put("generators", new JSONObject());
+        SiteGenerators.startDiscovery(rootDoc, root.getJSONObject("generators"));
     }
 
-    private static void generatePages() {
-
-    }
-
-    private static void generatePosts() {
-
+    /**
+     * Step five in the Orchid compilation process: run all registered generators, gathering all global data and
+     * generating partial files to be loaded as part of the page in the index
+     *
+     * @param rootDoc
+     */
+    private static void generateIndex(RootDoc rootDoc) {
+        root.put("root", new JSONObject(root.toString()));
+        SiteGenerators.indexGenerator.startDiscovery(rootDoc, root);
     }
 }

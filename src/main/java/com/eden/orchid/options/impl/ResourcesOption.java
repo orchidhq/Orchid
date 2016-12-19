@@ -31,14 +31,12 @@ public class ResourcesOption extends SiteOption {
     public boolean parseOption(String[] options) {
         if (options.length == 2) {
             SiteOptions.siteOptions.put("resourcesDir", options[1]);
-
-
             parseConfigFile(options[1]);
             parseDataFiles(options[1]);
             return true;
         }
         else {
-            Clog.e("'-d' option should be of length 2: given #{$1}", new Object[]{options});
+            Clog.e("'-resourcesDir' option should be of length 2: given #{$1}", new Object[]{options});
             return false;
         }
     }
