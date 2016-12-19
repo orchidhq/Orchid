@@ -30,8 +30,12 @@ public class ResourcesOption implements Option {
     public boolean parseOption(JSONObject siteOptions, String[] options) {
         if (options.length == 2) {
             siteOptions.put("resourcesDir", options[1]);
-            parseConfigFile(siteOptions, options[1]);
-            parseDataFiles(siteOptions, options[1]);
+
+            siteOptions.put("config", new JSONObject());
+            parseConfigFile(siteOptions.getJSONObject("config"), options[1]);
+
+            siteOptions.put("data", new JSONObject());
+            parseDataFiles(siteOptions.getJSONObject("data"),    options[1]);
             return true;
         }
         else {
@@ -50,20 +54,25 @@ public class ResourcesOption implements Option {
         return 90;
     }
 
-    private void parseConfigFile(JSONObject siteOptions, String resPath) {
+    private void parseConfigFile(JSONObject configOptions, String resPath) {
+
         for(String configExtension : dataExtensions) {
+            Clog.d("Trying to parse config file: config.#{$1}", new Object[]{configExtension});
 
             JSONObject parsedFile = parseFile(resPath, "config." + configExtension);
 
             if(parsedFile != null) {
-                siteOptions.put("config", parsedFile);
+                Clog.d("Found valid config file");
+                for(String key : parsedFile.keySet()) {
+                    configOptions.put(key, parsedFile.get(key));
+                }
+
                 break;
             }
         }
     }
 
-    private void parseDataFiles(JSONObject siteOptions, String resPath) {
-        siteOptions.put("data", new JSONObject());
+    private void parseDataFiles(JSONObject dataOptions, String resPath) {
 
         File dataDir = new File(resPath + File.separator + "data");
 
@@ -73,7 +82,7 @@ public class ResourcesOption implements Option {
             for (File file : files) {
                 JSONObject parsedFile = parseFile(file);
                 if(parsedFile != null) {
-                    siteOptions.getJSONObject("data").put(FilenameUtils.removeExtension(file.getName()), parsedFile);
+                    dataOptions.put(FilenameUtils.removeExtension(file.getName()), parsedFile);
                     break;
                 }
             }
