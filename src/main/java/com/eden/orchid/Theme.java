@@ -33,7 +33,7 @@ public abstract class Theme {
      */
     public abstract Class<? extends Compiler>[] getRequiredCompilers();
 
-    void generate(RootDoc rootDoc, Object... data) {
+    public void generate(RootDoc rootDoc, Object... data) {
         Path file = Paths.get(Orchid.root.getJSONObject("options").getString("outputDir") + "/index.html");
         try {
             String compiledContent = SiteCompilers.getContentCompiler(getContentCompilerClass()).compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), Orchid.root);
@@ -44,12 +44,12 @@ public abstract class Theme {
         }
     }
 
-    String compile(String extension, String input, Object... data) {
+    public String compile(String extension, String input, Object... data) {
         return SiteCompilers.getContentCompiler(getContentCompilerClass()).compile(extension, input, data);
 
     }
 
-    String preCompile(String input, Object... data) {
+    public String preCompile(String input, Object... data) {
         return SiteCompilers.getPrecompiler(getPrecompilerClass()).compile(input, data);
     }
 }

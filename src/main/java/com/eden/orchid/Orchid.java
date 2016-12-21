@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 // TODO: Handle priority clashes
 // TODO: create a json data-getter which parses input like 'options.outputDir' and make root private
+// TODO: Create a self-start method so that it can be run from within a server. Think: always up-to-date documentation at the same url (www.myjavadocs.com/latest) running from JavaEE, Spring, even Ruby on Rails with JRuby!
 public final class Orchid {
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
@@ -160,4 +161,12 @@ public final class Orchid {
         root.put("root", new JSONObject(root.toString()));
         theme.generate(rootDoc, root);
     }
+
+//    private static int selfStart() {
+//        //https://github.com/arafalov/Solr-Javadoc/blob/master/JavadocIndex/Indexer/src/com/solrstart/javadoc/indexer/Index.java#L224
+//        return Main.execute("JavadocIndexer", "com.solrstart.javadoc.indexer.Index", new String[]{
+//                "-sourcepath", sourcepath,
+//                "-subpackages", subpackages
+//        });
+//    }
 }
