@@ -73,7 +73,7 @@ public final class OrchidUtils {
     private static JSONArray compileThemeResources(String resourceDir, Compiler compiler) {
         JSONArray writtenFileNames = new JSONArray();
 
-        JarFile fromJar = jarForClass(Orchid.theme.getClass());
+        JarFile fromJar = jarForClass(Orchid.getTheme().getClass());
 
         for (Enumeration<JarEntry> entries = fromJar.entries(); entries.hasMoreElements(); ) {
             JarEntry entry = entries.nextElement();
@@ -92,10 +92,10 @@ public final class OrchidUtils {
                         String fileContents = IOUtils.toString(fromJar.getInputStream(entry), "UTF-8");
 
                         // Pass the file contents through the precompiler
-                        PreCompiler preCompiler = SiteCompilers.getPrecompiler(Orchid.theme.getPrecompilerClass());
+                        PreCompiler preCompiler = SiteCompilers.getPrecompiler(Orchid.getTheme().getPrecompilerClass());
 
                         if (preCompiler != null) {
-                            fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", Orchid.root.getJSONObject("options")));
+                            fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", Orchid.query("options")));
                         }
 
                         fileContents = compiler.compile(FilenameUtils.getExtension(entry.getName()), fileContents);
@@ -117,7 +117,7 @@ public final class OrchidUtils {
     private static JSONArray compileExternalResources(String resourceDir, Compiler compiler) {
         JSONArray writtenFileNames = new JSONArray();
 
-        String resDir = Orchid.root.getJSONObject("options").getString("resourcesDir") + File.separator + resourceDir;
+        String resDir = Orchid.query("options.resourcesDir") + File.separator + resourceDir;
 
         File res = new File(resDir);
 
@@ -138,10 +138,10 @@ public final class OrchidUtils {
                     String fileContents = IOUtils.toString(new FileInputStream(file), "UTF-8");
 
                     // Pass the file contents through the precompiler
-                    PreCompiler preCompiler = SiteCompilers.getPrecompiler(Orchid.theme.getPrecompilerClass());
+                    PreCompiler preCompiler = SiteCompilers.getPrecompiler(Orchid.getTheme().getPrecompilerClass());
 
                     if(preCompiler != null) {
-                        fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", Orchid.root.getJSONObject("options")));
+                        fileContents = preCompiler.compile(fileContents, new JSONObject().put("site", Orchid.query("options")));
                     }
 
                     fileContents = compiler.compile(FilenameUtils.getExtension(file.getName()), fileContents);
@@ -162,8 +162,8 @@ public final class OrchidUtils {
     public static String getResourceFileContents(String fileName) {
         fileName = fileName.replaceAll("/", File.separator);
         // First attempt to load a file in the external resources directory
-        if(!isEmpty(Orchid.root.getJSONObject("options").getString("resourcesDir"))) {
-            File res = new File(Orchid.root.getJSONObject("options").getString("resourcesDir") + File.separator + fileName);
+        if(!isEmpty(Orchid.query("options.resourcesDir"))) {
+            File res = new File(Orchid.query("options.resourcesDir") + File.separator + fileName);
 
             if(res.exists() && !res.isDirectory()) {
                 try {
@@ -190,7 +190,7 @@ public final class OrchidUtils {
     }
 
     public static void writeFile(String dest, String contents) {
-        Path file = Paths.get(Orchid.root.getJSONObject("options").getString("outputDir") + "/" + dest);
+        Path file = Paths.get(Orchid.query("options.d") + "/" + dest);
         try {
             Files.createDirectories(file.getParent());
             Files.write(file, contents.getBytes());
@@ -215,12 +215,36 @@ public final class OrchidUtils {
         }
     }
 
+    public static boolean isEmpty(JSONElement str) {
+        if (str != null && str.getElement().getClass().equals(String.class)) {
+            return isEmpty((String) str.getElement());
+        }
+        else {
+            return true;
+        }
+    }
+
     public static boolean acceptsExtension(String sourceExt, String[] acceptedExts) {
         for(String ext : acceptedExts) {
             if(ext.equalsIgnoreCase(sourceExt)) {
                 return true;
             }
         }
+
+        return false;
+    }
+
+    public static boolean isJsonAware(Object object) {
+        if(object instanceof JSONObject) return true;
+        if(object instanceof JSONArray)  return true;
+        if(object instanceof String)     return true;
+        if(object instanceof Byte)       return true;
+        if(object instanceof Short)      return true;
+        if(object instanceof Integer)    return true;
+        if(object instanceof Long)       return true;
+        if(object instanceof Double)     return true;
+        if(object instanceof Float)      return true;
+        if(object instanceof Boolean)    return true;
 
         return false;
     }

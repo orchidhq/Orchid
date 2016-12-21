@@ -1,6 +1,7 @@
 package com.eden.orchid.options;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.JSONElement;
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
@@ -17,30 +18,30 @@ public class SiteOptions {
     public static void startDiscovery(RootDoc root, JSONObject siteOptions) {
         String[][] options = root.options();
 
-        Map<Option, Boolean> optionSuccesses = new HashMap<>();
+        Map<String, String[]> optionsMap = new HashMap<>();
 
-        // parses all the options flags according to the parsers set up in SiteOptions.optionsParsers
+        // Adds options to a map so they can be more effectively parsed
         for (String[] a : options) {
-            for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
-
-                Clog.d("Parsing option: #{$1}:[#{$2 | className}]", option.getKey(), option.getValue());
-
-                if (a[0].equals("-" + option.getValue().getFlag())) {
-                    if(option.getValue().parseOption(siteOptions, a)) {
-                        optionSuccesses.put(option.getValue(), true);
-                    }
-                    else {
-                        optionSuccesses.put(option.getValue(), false);
-                    }
-                    break;
-                }
-            }
+            optionsMap.put(a[0], a);
         }
 
-        // If any option wasn't found, allow it to set its own default value
-        for(Map.Entry<Option, Boolean> option : optionSuccesses.entrySet()) {
-            if (!option.getValue()) {
-                option.getKey().setDefault(siteOptions);
+        // If an option is found and it was successfully parsed, continue to the next parser. Otherwise set its default value.
+        for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
+            Clog.d("Parsing option: #{$1}:[#{$2 | className}]", option.getKey(), option.getValue());
+            Option optionParser = option.getValue();
+
+            String[] optionStrings = (optionsMap.containsKey("-" + option.getValue().getFlag()))
+                    ? optionsMap.get("-" + optionParser.getFlag())
+                    : new String[] {};
+
+            JSONElement optionValue = optionParser.parseOption(optionStrings);
+
+            if(optionValue == null) {
+                optionValue = optionParser.getDefaultValue();
+            }
+
+            if(optionValue != null) {
+                siteOptions.put(optionParser.getFlag(), optionValue.getElement());
             }
         }
     }

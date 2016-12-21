@@ -34,9 +34,9 @@ public abstract class Theme {
     public abstract Class<? extends Compiler>[] getRequiredCompilers();
 
     public void generate(RootDoc rootDoc, Object... data) {
-        Path file = Paths.get(Orchid.root.getJSONObject("options").getString("outputDir") + "/index.html");
+        Path file = Paths.get(Orchid.query("options.d") + "/index.html");
         try {
-            String compiledContent = SiteCompilers.getContentCompiler(getContentCompilerClass()).compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), Orchid.root);
+            String compiledContent = compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), Orchid.getRoot());
             Files.write(file, compiledContent.getBytes());
         }
         catch (IOException e) {

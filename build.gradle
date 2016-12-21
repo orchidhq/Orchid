@@ -16,7 +16,7 @@ dependencies {
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
     compile 'org.apache.commons:commons-io:1.3.2'
     compile 'org.json:json:20160810'
-    compile 'com.github.cjbrooks12:Clog:v1.0.0'
+    compile 'com.github.cjbrooks12:Clog:v1.1.0'
     compile 'org.yaml:snakeyaml:1.17'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
 }

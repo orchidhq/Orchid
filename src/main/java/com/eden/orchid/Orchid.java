@@ -14,16 +14,16 @@ import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
 // TODO: Handle priority clashes
-// TODO: create a json data-getter which parses input like 'options.outputDir' and make root private
+// TODO: create a json data-getter which parses input like 'options.d' and make root private
 // TODO: Create a self-start method so that it can be run from within a server. Think: always up-to-date documentation at the same url (www.myjavadocs.com/latest) running from JavaEE, Spring, even Ruby on Rails with JRuby!
 public final class Orchid {
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
     }
 
-    public static JSONObject root = new JSONObject();
+    private static JSONObject root = new JSONObject();
 
-    public static Theme theme;
+    private static Theme theme;
 
     /**
      * Start the Javadoc generation process
@@ -109,18 +109,18 @@ public final class Orchid {
     private static boolean shouldContinue() {
         boolean shouldContinue = true;
 
-        if(OrchidUtils.isEmpty(root.getJSONObject("options").getString("outputDir"))) {
+        Clog.d(query("options").getElement().toString());
+
+        if(OrchidUtils.isEmpty(query("options.d"))) {
             Clog.e("You MUST define an output directory with the '-d' flag. It should be an absolute directory which will contain all generated files.");
             shouldContinue = false;
         }
 
-        if(root.getJSONObject("options").get("theme") == null) {
+        if(theme == null) {
             Clog.e("You MUST define a theme with the '-theme` flag. It should be the fully-qualified class name of the desired theme.");
             shouldContinue = false;
         }
         else {
-            theme = (Theme) root.getJSONObject("options").get("theme");
-
             if(SiteCompilers.getContentCompiler(theme.getContentCompilerClass()) == null) {
                 Clog.e("Your selected theme's content compiler could not be found.");
                 shouldContinue = false;
@@ -134,7 +134,7 @@ public final class Orchid {
             }
         }
 
-        if(OrchidUtils.isEmpty(root.getJSONObject("options").getString("resourcesDir"))) {
+        if(OrchidUtils.isEmpty(query("options.resourcesDir"))) {
             Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. It should be the absolute path to your project's local resources directory.");
         }
 
@@ -162,7 +162,41 @@ public final class Orchid {
         theme.generate(rootDoc, root);
     }
 
-//    private static int selfStart() {
+    public static JSONElement query(String pointer) {
+        if(OrchidUtils.isEmpty(pointer)) {
+            return new JSONElement(root);
+        }
+
+        pointer = pointer.replaceAll("\\.", "/");
+
+        if(!pointer.startsWith("/")) {
+            pointer = "/" + pointer;
+        }
+
+        Object object = root.query(pointer);
+
+        try {
+            return new JSONElement(object);
+        }
+        catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static JSONObject getRoot() {
+        return root;
+    }
+
+    public static Theme getTheme() {
+        return theme;
+    }
+
+    public static void setTheme(Theme theme) {
+        Orchid.theme = theme;
+    }
+
+    //    private static int selfStart() {
 //        //https://github.com/arafalov/Solr-Javadoc/blob/master/JavadocIndex/Indexer/src/com/solrstart/javadoc/indexer/Index.java#L224
 //        return Main.execute("JavadocIndexer", "com.solrstart.javadoc.indexer.Index", new String[]{
 //                "-sourcepath", sourcepath,

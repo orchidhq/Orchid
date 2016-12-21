@@ -1,10 +1,10 @@
 package com.eden.orchid.options;
 
-import org.json.JSONObject;
+import com.eden.orchid.JSONElement;
 
 public interface Option {
     String getFlag();
-    boolean parseOption(JSONObject siteOptions, String[] options);
-    void setDefault(JSONObject siteOptions);
+    JSONElement parseOption(String[] options);
+    JSONElement getDefaultValue();
     int priority();
 }

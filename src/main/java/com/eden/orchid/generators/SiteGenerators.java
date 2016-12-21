@@ -1,6 +1,8 @@
 package com.eden.orchid.generators;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.JSONElement;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidUtils;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
@@ -13,15 +15,33 @@ public class SiteGenerators {
     public static Map<Integer, Generator> generators = new TreeMap<>(Collections.reverseOrder());
 
     public static void startDiscovery(RootDoc root, JSONObject generatorsObject) {
-        for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
-            Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
-            JSONObject generatorData = new JSONObject();
+        int maxIterations = (int) Orchid.query("options.maxIterations").getElement();
 
-            generator.getValue().startDiscovery(root, generatorData);
+        int iteration = 1;
 
-            if(!OrchidUtils.isEmpty(generator.getValue().getName())) {
-                generatorsObject.put(generator.getValue().getName(), generatorData);
+        while(true) {
+            int generatorsFinished = 0;
+
+            for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
+                Clog.d("Iteration: #{$1} - Using generator: #{$2}:[#{$3 | className}]", iteration, generator.getKey(), generator.getValue());
+
+                JSONElement element = generator.getValue().startDiscovery(root, iteration);
+
+                if(element != null) {
+                    if(!OrchidUtils.isEmpty(generator.getValue().getName())) {
+                        generatorsObject.put(generator.getValue().getName(), element.getElement());
+                    }
+
+                    generatorsFinished++;
+                }
+            }
+
+            if(generatorsFinished == generators.size() || iteration >= maxIterations) {
+                break;
+            }
+            else {
+                iteration++;
             }
         }
     }

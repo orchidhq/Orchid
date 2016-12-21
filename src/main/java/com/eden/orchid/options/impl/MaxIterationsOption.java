@@ -6,20 +6,25 @@ import com.eden.orchid.JSONElement;
 import com.eden.orchid.options.Option;
 
 @AutoRegister
-public class DestinationOption implements Option {
+public class MaxIterationsOption implements Option {
 
     @Override
     public String getFlag() {
-        return "d";
+        return "maxIterations";
     }
 
     @Override
     public JSONElement parseOption(String[] options) {
         if(options.length == 2) {
-            return new JSONElement(options[1]);
+            try {
+                return new JSONElement(Integer.parseInt(options[1]));
+            }
+            catch (NumberFormatException e) {
+                Clog.e("'-maxIterations' option must be an integer, got #{$1}", new Object[] {options[1]});
+            }
         }
         else {
-            Clog.e("'-d' option should be of length 2: given #{$1}", new Object[] {options});
+            Clog.e("'-maxIterations' option should be of length 2: given #{$1}", new Object[] {options});
         }
 
         return null;
@@ -27,11 +32,11 @@ public class DestinationOption implements Option {
 
     @Override
     public JSONElement getDefaultValue() {
-        return null;
+        return new JSONElement(5);
     }
 
     @Override
     public int priority() {
-        return 100;
+        return 70;
     }
 }
