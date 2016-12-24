@@ -23,11 +23,14 @@ public class JSONElement {
     }
 
     public JSONElement(Object object) throws IllegalArgumentException {
-        if(OrchidUtils.isJsonAware(object)) {
-            this.element = object;
+        if(object == null) {
+            throw new IllegalArgumentException("A JSONElement cannot be null");
+        }
+        else if(!OrchidUtils.isJsonAware(object)) {
+            throw new IllegalArgumentException("A JSONElement must be an object that is json-aware (JSONObject, JSONArray, JSONElement, String, or primitive)");
         }
         else {
-            throw new IllegalArgumentException("A JSONElement must be an object that is json-aware (JSONObject, JSONArray, JSONElement, String, or primitive)");
+            this.element = object;
         }
     }
 

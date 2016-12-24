@@ -15,7 +15,7 @@ public class SiteOptions {
 
     public static Map<Integer, Option> optionsParsers = new TreeMap<>(Collections.reverseOrder());
 
-    public static void startDiscovery(RootDoc root, JSONObject siteOptions) {
+    public static void parseOptions(RootDoc root, JSONObject siteOptions) {
         String[][] options = root.options();
 
         Map<String, String[]> optionsMap = new HashMap<>();

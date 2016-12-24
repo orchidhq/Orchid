@@ -33,10 +33,11 @@ public final class Orchid {
      */
     public static boolean start(RootDoc rootDoc) {
         pluginScan();
-        parseOptions(rootDoc);
+        optionsScan(rootDoc);
         if(shouldContinue()) {
+            indexingScan(rootDoc);
             generationScan(rootDoc);
-            generateIndex(rootDoc);
+            generateHomepage(rootDoc);
             return true;
         }
         else {
@@ -45,12 +46,11 @@ public final class Orchid {
     }
 
     /**
-     * Step one in the Orchid compilation process: scan the classpath for all classes tagged with @AutoRegister and
-     * register them according to their type.
+     * Step one: scan the classpath for all classes tagged with @AutoRegister and register them according to their type.
      *
-     * If you need to register plugins that are not one of the classes or
-     * interfaces defined in Orchid Core, you can register it within a static initializer. Every matching AutoRegister
-     * class has an instance created, so you are guaranteed to run the static initializer of any AutoRegister class.
+     * If you need to register plugins that are not one of the classes or interfaces defined in Orchid Core, you can
+     * register it within a static initializer. Every AutoRegister annotated class has an instance created by its no-arg
+     * constructor, so you are guaranteed to run the static initializer of any AutoRegister annotated class.
      */
     private static void pluginScan() {
         FastClasspathScanner scanner = new FastClasspathScanner();
@@ -93,23 +93,20 @@ public final class Orchid {
     }
 
     /**
-     * Step two in the Orchid compilation process: parse all command-line args using the registered SiteOptions.
+     * Step two: parse all command-line args using the registered Options.
      *
-     * @param rootDoc
+     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void parseOptions(RootDoc rootDoc) {
+    private static void optionsScan(RootDoc rootDoc) {
         root.put("options", new JSONObject());
-        SiteOptions.startDiscovery(rootDoc, root.getJSONObject("options"));
+        SiteOptions.parseOptions(rootDoc, root.getJSONObject("options"));
     }
 
     /**
-     * Perform a sanity-check to make sure all required site components have been set. In some cases, warnings are
-     * issued instead of failing
+     * Step three: perform a sanity-check to make sure all required site components have been set.
      */
     private static boolean shouldContinue() {
         boolean shouldContinue = true;
-
-        Clog.d(query("options").getElement().toString());
 
         if(OrchidUtils.isEmpty(query("options.d"))) {
             Clog.e("You MUST define an output directory with the '-d' flag. It should be an absolute directory which will contain all generated files.");
@@ -128,40 +125,80 @@ public final class Orchid {
 
             for(Class<? extends Compiler> compiler : theme.getRequiredCompilers()) {
                 if(SiteCompilers.getCompiler(compiler) == null) {
-                    Clog.e("Your selected theme's depends on a compiler that could not be found: #{$1}.", new Object[]{compiler.getName()});
+                    Clog.e("Your selected theme depends on a compiler that could not be found: #{$1}.", new Object[]{compiler.getName()});
                     shouldContinue = false;
                 }
+            }
+
+            if(OrchidUtils.isEmpty(theme.getMissingOptions())) {
+                Clog.e("Your selected theme depends on the following command line options that could not be found: -#{$1 | join(', -') }.", new Object[] {theme.getMissingOptions()});
             }
         }
 
         if(OrchidUtils.isEmpty(query("options.resourcesDir"))) {
-            Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. It should be the absolute path to your project's local resources directory.");
+            Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. It should be the absolute path to a folder containing your custom resources.");
         }
 
         return shouldContinue;
     }
 
     /**
-     * Step four in the Orchid compilation process: run all registered generators, gathering all global data and
-     * generating partial files to be loaded as part of the page in the index
+     * Step four: scan all registered generators and index all discovered components. No content should be written at
+     * this point, we are just gathering the references to files that will be written, so that when we start writing
+     * files we can be sure we are able to generate links to any other piece of generated content.
      *
-     * @param rootDoc
+     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void generationScan(RootDoc rootDoc) {
-        root.put("generators", new JSONObject());
-        SiteGenerators.startDiscovery(rootDoc, root.getJSONObject("generators"));
+    private static void indexingScan(RootDoc rootDoc) {
+        root.put("index", new JSONObject());
+        SiteGenerators.startIndexing(rootDoc, root.getJSONObject("index"));
     }
 
     /**
-     * Step five in the Orchid compilation process: generate the final site from the theme
+     * Step five: scan all registered generators and generate the final output files. At this point, any file that will
+     * be generated should be able to be linked to finding its location within the index.
      *
-     * @param rootDoc
+     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void generateIndex(RootDoc rootDoc) {
-        root.put("root", new JSONObject(root.toString()));
-        theme.generate(rootDoc, root);
+    private static void generationScan(RootDoc rootDoc) {
+        root.put("generators", new JSONObject());
+        SiteGenerators.startGeneration(rootDoc, root.getJSONObject("generators"));
     }
 
+    /**
+     * Step six: generate the final site homepage
+     *
+     * @param rootDoc  the root of the project to generate sources for
+     */
+    private static void generateHomepage(RootDoc rootDoc) {
+        root.put("root", new JSONObject(root.toString()));
+        theme.generateHomepage(rootDoc, root);
+    }
+
+    /**
+     * Query the gathered site data using a javascript-like syntax, or the native JSONObject query syntax. For example,
+     * given a JSONObject initialized with this document:
+     * <pre>
+     * {
+     *   "a": {
+     *     "b": "c"
+     *   }
+     * }
+     * </pre>
+     * and this JSONPointer string:
+     * <pre>
+     * "/a/b"
+     * </pre>
+     * or this Javascript pointer string:
+     * <pre>
+     * "a.b"
+     * </pre>
+     * Then this method will return the String "c".
+     * In the end, the Javascript syntax is converted to the corresponding JSONPointer syntax and queried.
+     *
+     * @param pointer  string that can be used to create a JSONPointer
+     * @return  the item matched by the JSONPointer, otherwise null
+     */
     public static JSONElement query(String pointer) {
         if(OrchidUtils.isEmpty(pointer)) {
             return new JSONElement(root);
@@ -184,14 +221,30 @@ public final class Orchid {
         }
     }
 
+    /**
+     * Gets the root JSONObject of all data gathered. In most cases, it is preferable to just query for the data you
+     * need with the Orchid#query() metho.
+     *
+     * @return  the root JSONObject
+     */
     public static JSONObject getRoot() {
         return root;
     }
 
+    /**
+     * Gets the currenty set theme
+     *
+     * @return  the currenty set theme
+     */
     public static Theme getTheme() {
         return theme;
     }
 
+    /**
+     * Sets the theme to use for the site generation process.
+     *
+     * @param theme  the theme to set
+     */
     public static void setTheme(Theme theme) {
         Orchid.theme = theme;
     }

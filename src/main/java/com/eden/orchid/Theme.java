@@ -33,7 +33,11 @@ public abstract class Theme {
      */
     public abstract Class<? extends Compiler>[] getRequiredCompilers();
 
-    public void generate(RootDoc rootDoc, Object... data) {
+    public String[] getMissingOptions() {
+        return new String[] {};
+    }
+
+    public void generateHomepage(RootDoc rootDoc, Object... data) {
         Path file = Paths.get(Orchid.query("options.d") + "/index.html");
         try {
             String compiledContent = compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), Orchid.getRoot());
