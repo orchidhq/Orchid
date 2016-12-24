@@ -15,7 +15,7 @@ public class SiteGenerators {
 
     public static void startIndexing(RootDoc root, JSONObject indexObject) {
         for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
-            Clog.d("Indexing generator: #{$2}:[#{$3 | className}]", generator.getKey(), generator.getValue());
+            Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
             JSONElement element = generator.getValue().startIndexing(root);
 
@@ -29,7 +29,7 @@ public class SiteGenerators {
 
     public static void startGeneration(RootDoc root, JSONObject generatorsObject) {
         for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
-            Clog.d("Using generator: #{$2}:[#{$3 | className}]", generator.getKey(), generator.getValue());
+            Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
             JSONElement element = generator.getValue().startGeneration(root);
 
