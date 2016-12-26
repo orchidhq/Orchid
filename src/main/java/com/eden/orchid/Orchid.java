@@ -130,8 +130,9 @@ public final class Orchid {
                 }
             }
 
-            if(OrchidUtils.isEmpty(theme.getMissingOptions())) {
+            if(!OrchidUtils.isEmpty(theme.getMissingOptions())) {
                 Clog.e("Your selected theme depends on the following command line options that could not be found: -#{$1 | join(', -') }.", new Object[] {theme.getMissingOptions()});
+                shouldContinue = false;
             }
         }
 

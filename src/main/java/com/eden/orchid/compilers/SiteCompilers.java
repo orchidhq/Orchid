@@ -2,7 +2,7 @@ package com.eden.orchid.compilers;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.OrchidUtils;
-import javafx.util.Pair;
+import com.eden.orchid.utilities.OrchidPair;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -107,12 +107,12 @@ public class SiteCompilers {
      * @param data  optional data to pass to the compiler
      * @return  the compiled source with its output file extension if a compiler could be found, the uncompiled source text and extension otherwise
      */
-    public static Pair<String, String> compile(String extension, String source, Object... data) {
+    public static OrchidPair<String, String> compile(String extension, String source, Object... data) {
         Compiler compiler = getCompiler(extension);
 
         return (compiler != null)
-                ? new Pair<>(compiler.getOutputExtension(), compiler.compile(extension, source, data))
-                : new Pair<>(extension, source);
+                ? new OrchidPair<>(compiler.getOutputExtension(), compiler.compile(extension, source, data))
+                : new OrchidPair<>(extension, source);
     }
 
     /**
@@ -124,7 +124,7 @@ public class SiteCompilers {
      * @param data  optional data to pass to the compiler
      * @return  the compiled source with its output file extension if the file exists and the compiler can be found, null otherwise
      */
-    public static Pair<String, String> compile(File source, Object... data) {
+    public static OrchidPair<String, String> compile(File source, Object... data) {
         if(source != null && source.exists() && source.isFile()) {
             try {
 

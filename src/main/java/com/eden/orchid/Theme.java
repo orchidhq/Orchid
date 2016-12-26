@@ -4,6 +4,7 @@ import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
+import com.eden.orchid.utilities.OrchidPair;
 import com.sun.javadoc.RootDoc;
 
 import java.io.IOException;
@@ -50,10 +51,13 @@ public abstract class Theme {
 
     public String compile(String extension, String input, Object... data) {
         return SiteCompilers.getContentCompiler(getContentCompilerClass()).compile(extension, input, data);
-
     }
 
     public String preCompile(String input, Object... data) {
         return SiteCompilers.getPrecompiler(getPrecompilerClass()).compile(input, data);
+    }
+
+    public OrchidPair<String, JSONElement> getEmbeddedData(String input) {
+        return SiteCompilers.getPrecompiler(getPrecompilerClass()).getEmbeddedData(input);
     }
 }
