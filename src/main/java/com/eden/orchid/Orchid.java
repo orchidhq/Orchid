@@ -9,6 +9,7 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
+import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
@@ -17,9 +18,24 @@ import org.json.JSONObject;
 // TODO: create a json data-getter which parses input like 'options.d' and make root private
 // TODO: Create a self-start method so that it can be run from within a server. Think: always up-to-date documentation at the same url (www.myjavadocs.com/latest) running from JavaEE, Spring, even Ruby on Rails with JRuby!
 public final class Orchid {
+
+// Doclet hackery to allow this to aprse documentation as expected and not crash...
+//----------------------------------------------------------------------------------------------------------------------
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
     }
+
+    /**
+     * NOTE: Without this method present and returning LanguageVersion.JAVA_1_5,
+     *       Javadoc will not process generics because it assumes LanguageVersion.JAVA_1_1
+     * @return language version (hard coded to LanguageVersion.JAVA_1_5)
+     */
+    public static LanguageVersion languageVersion() {
+        return LanguageVersion.JAVA_1_5;
+    }
+
+// Main Doclet
+//----------------------------------------------------------------------------------------------------------------------
 
     private static JSONObject root = new JSONObject();
 
