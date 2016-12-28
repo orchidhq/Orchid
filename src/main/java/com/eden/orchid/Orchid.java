@@ -234,13 +234,16 @@ public final class Orchid {
 
         Object object = root.query(pointer);
 
-        try {
-            return new JSONElement(object);
+        if(object != null) {
+            try {
+                return new JSONElement(object);
+            }
+            catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         }
-        catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
+
+        return null;
     }
 
     /**
