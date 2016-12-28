@@ -1,11 +1,14 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
-
-apply plugin: 'java'
-apply plugin: 'jacoco'
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'org.ajoberstar.grgit' version '1.6.0'
+    id 'org.ajoberstar.github-pages' version '1.6.0'
+}
 
 group 'com.eden'
-version '0.1.0'
+version = '0.1.1'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -75,3 +78,32 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+// Tagging, Releases, and Github Pages Publishing
+
+task tagRelease {
+    if((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
+        println "Version '${version}' is already tagged"
+    }
+    else {
+        println "Tagging repo with version: ${version}."
+        grgit.tag.add {
+            name = version
+            message = "Updates to version ${version}"
+        }
+    }
+}
+
+githubPages {
+    pages {
+        from javadoc
+        into "${version}"
+    }
+}
+
+task showVersion {
+    print "Current version: ${version}"
+    print "Current tagged version: ${version}"
+}
+
+tasks.release.dependsOn 'build', 'tagRelease', 'publishGhPages'
