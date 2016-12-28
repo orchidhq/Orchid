@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'com.eden'
-version = '0.1.1'
+version = '0.1.2'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -97,13 +97,13 @@ task tagRelease {
 githubPages {
     pages {
         from javadoc
-        into "${version}"
+        into ""
+//        into "${version}" // use this if you want to keep each javadoc version accessible
     }
 }
 
-task showVersion {
-    print "Current version: ${version}"
-    print "Current tagged version: ${version}"
+task release {
+
 }
 
 tasks.release.dependsOn 'build', 'tagRelease', 'publishGhPages'
