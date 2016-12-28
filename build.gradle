@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'com.eden'
-version = '0.1.2'
+version = '0.1.3'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -36,7 +36,7 @@ dependencies {
     compile 'org.yaml:snakeyaml:1.17'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
 
-    orchidDocs('com.github.JavaEden:Orchid-Liquid:2574d06f5c') {
+    orchidDocs('com.github.JavaEden:Orchid-Liquid:fb7a3469c0') {
         transitive = true
     }
 }
@@ -64,7 +64,7 @@ javadoc {
     options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
 
     options.addStringOption("v", version)
-    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core")
+    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core/${version}")
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -99,8 +99,8 @@ task tagRelease {
 githubPages {
     pages {
         from javadoc
-        into ""
-//        into "${version}" // use this if you want to keep each javadoc version accessible
+//        into ""
+        into "${version}" // use this if you want to keep each javadoc version accessible
     }
 }
 
