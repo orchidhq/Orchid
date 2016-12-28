@@ -36,7 +36,7 @@ dependencies {
     compile 'org.yaml:snakeyaml:1.17'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
 
-    orchidDocs('com.github.JavaEden:Orchid-Liquid:fb7a3469c0') {
+    orchidDocs('com.github.JavaEden:Orchid-Liquid:bbbee3b71d') {
         transitive = true
     }
 }
@@ -99,8 +99,7 @@ task tagRelease {
 githubPages {
     pages {
         from javadoc
-        into "${version}/" // copy javadoc into its own versioned folder to keep documentation for many versions around
-        into "latest/"     // also copy the javadoc into /latest so that the most up-to-date documentation is always at the same URL
+        into "${version}/"
     }
 }
 
