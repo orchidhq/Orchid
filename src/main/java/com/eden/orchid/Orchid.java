@@ -9,6 +9,7 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
+import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
@@ -41,6 +42,8 @@ public final class Orchid {
 
     private static Theme theme;
 
+    private static RootDoc rootDoc;
+
     /**
      * Start the Javadoc generation process
      *
@@ -48,6 +51,8 @@ public final class Orchid {
      * @return Whether the generation was successful
      */
     public static boolean start(RootDoc rootDoc) {
+        Orchid.rootDoc = rootDoc;
+
         pluginScan();
         optionsScan(rootDoc);
         if(shouldContinue()) {
@@ -264,6 +269,14 @@ public final class Orchid {
      */
     public static void setTheme(Theme theme) {
         Orchid.theme = theme;
+    }
+
+    public static ClassDoc findClass(String className) {
+        return rootDoc.classNamed(className);
+    }
+
+    public static RootDoc getRootDoc() {
+        return rootDoc;
     }
 
     //    private static int selfStart() {
