@@ -62,6 +62,9 @@ javadoc {
 
     options.addStringOption("theme", "com.eden.orchidliquid.BSDocTheme")
     options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
+
+    options.addStringOption("v", version)
+    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core")
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -80,7 +83,6 @@ artifacts {
 }
 
 // Tagging, Releases, and Github Pages Publishing
-
 task tagRelease {
     if((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
         println "Version '${version}' is already tagged"

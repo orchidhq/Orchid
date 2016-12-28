@@ -1,6 +1,5 @@
 package com.eden.orchid.options.impl;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.AutoRegister;
 import com.eden.orchid.JSONElement;
 import com.eden.orchid.options.Option;
@@ -17,14 +16,7 @@ public class ResourcesOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        if (options.length == 2) {
-            return new JSONElement(options[1]);
-        }
-        else {
-            Clog.e("'-resourcesDir' option should be of length 2: given #{$1}", new Object[]{options});
-        }
-
-        return null;
+        return new JSONElement(options[1]);
     }
 
     @Override
@@ -35,5 +27,10 @@ public class ResourcesOption implements Option {
     @Override
     public int priority() {
         return 90;
+    }
+
+    @Override
+    public int optionLength() {
+        return 2;
     }
 }

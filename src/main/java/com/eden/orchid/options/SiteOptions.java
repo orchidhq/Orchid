@@ -34,6 +34,11 @@ public class SiteOptions {
                     ? optionsMap.get("-" + optionParser.getFlag())
                     : new String[] {};
 
+            if(optionStrings.length != optionParser.optionLength()) {
+                Clog.e("'-#{$1}' option should be of length #{$2}: was given #{$3}", new Object[] {optionParser.getFlag(), optionParser.optionLength(), optionStrings.length});
+                continue;
+            }
+
             JSONElement optionValue = optionParser.parseOption(optionStrings);
 
             if(optionValue == null) {
@@ -46,9 +51,23 @@ public class SiteOptions {
         }
     }
 
-    public static int optionLength(String option) {
-        int result = Standard.optionLength(option);
-        if (result != 0) { return result; }
-        else { return 2; }
+    public static int optionLength(String optionFlag) {
+        // if the option is a standard option, return its length
+        int result = Standard.optionLength(optionFlag);
+        if (result != 0) {
+            return result;
+        }
+
+        // Otherwise, find the matching registered Option and return its specified option length
+        else {
+            for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
+                if(optionFlag.equals("-" + option.getValue().getFlag())) {
+                    return option.getValue().optionLength();
+                }
+            }
+        }
+
+        // Failing that, return 2 because we can't find an appropriate option to match, but we don't necessarily need to crash
+        return 2;
     }
 }

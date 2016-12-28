@@ -7,4 +7,6 @@ public interface Option {
     JSONElement parseOption(String[] options);
     JSONElement getDefaultValue();
     int priority();
+
+    int optionLength();
 }

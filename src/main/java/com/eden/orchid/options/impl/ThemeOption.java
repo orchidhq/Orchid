@@ -17,25 +17,20 @@ public class ThemeOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        if(options.length == 2) {
-            try {
-                Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
-                Orchid.setTheme(themeClass.newInstance());
+        try {
+            Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
+            Orchid.setTheme(themeClass.newInstance());
 
-                return new JSONElement(options[1]);
-            }
-            catch (ClassNotFoundException e) {
-                Clog.e("The Theme class #{$1} could not be found on the classpath.", new Object[] {options[1]});
-            }
-            catch (ClassCastException e) {
-                Clog.e("The Theme class #{$1} does not implement #{2}.", new Object[] {options[1], Theme.class.getName()});
-            }
-            catch (InstantiationException|IllegalAccessException e) {
-                Clog.e("The Theme class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {options[1]});
-            }
+            return new JSONElement(options[1]);
         }
-        else {
-            Clog.e("'-theme' option should be of length 2: given #{$1}", new Object[] {options});
+        catch (ClassNotFoundException e) {
+            Clog.e("The Theme class #{$1} could not be found on the classpath.", new Object[] {options[1]});
+        }
+        catch (ClassCastException e) {
+            Clog.e("The Theme class #{$1} does not implement #{2}.", new Object[] {options[1], Theme.class.getName()});
+        }
+        catch (InstantiationException|IllegalAccessException e) {
+            Clog.e("The Theme class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {options[1]});
         }
 
         return null;
@@ -49,5 +44,10 @@ public class ThemeOption implements Option {
     @Override
     public int priority() {
         return 80;
+    }
+
+    @Override
+    public int optionLength() {
+        return 2;
     }
 }

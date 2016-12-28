@@ -64,11 +64,17 @@ public final class OrchidUtils {
         JSONArray themeFiles = compileThemeResources(resourceDir, compiler);
         JSONArray externalFiles = compileExternalResources(resourceDir, compiler);
 
+        String baseUrl = "";
+
+        if(Orchid.query("options.baseUrl") != null) {
+            baseUrl = Orchid.query("options.baseUrl").toString();
+        }
+
         for(int i = 0; i < themeFiles.length(); i++) {
-            writtenFileNames.put(themeFiles.get(i));
+            writtenFileNames.put(baseUrl + File.separator +  themeFiles.get(i));
         }
         for(int i = 0; i < externalFiles.length(); i++) {
-            writtenFileNames.put(externalFiles.get(i));
+            writtenFileNames.put(baseUrl + File.separator + externalFiles.get(i));
         }
 
         return writtenFileNames;

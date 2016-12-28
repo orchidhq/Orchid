@@ -5,11 +5,11 @@ import com.eden.orchid.JSONElement;
 import com.eden.orchid.options.Option;
 
 @AutoRegister
-public class DestinationOption implements Option {
+public class BaseUrlOption implements Option {
 
     @Override
     public String getFlag() {
-        return "d";
+        return "baseUrl";
     }
 
     @Override
@@ -24,7 +24,7 @@ public class DestinationOption implements Option {
 
     @Override
     public int priority() {
-        return 100;
+        return 60;
     }
 
     @Override
