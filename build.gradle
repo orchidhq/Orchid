@@ -10,6 +10,14 @@ version '0.1.0'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+configurations {
+    orchidDocs
+}
+
+sourceSets {
+    orchidDocs
+}
+
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
@@ -24,6 +32,10 @@ dependencies {
     }
     compile 'org.yaml:snakeyaml:1.17'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
+
+    orchidDocs('com.github.JavaEden:Orchid-Liquid:2574d06f5c') {
+        transitive = true
+    }
 }
 
 // Jacoco Code Coverage
@@ -38,6 +50,17 @@ check.dependsOn jacocoTestReport
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
+javadoc {
+    title = ""
+    source = sourceSets.main.allJava
+
+    options.docletpath.addAll(configurations.orchidDocs)
+    options.doclet = 'com.eden.orchid.Orchid'
+
+    options.addStringOption("theme", "com.eden.orchidliquid.BSDocTheme")
+    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
