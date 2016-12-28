@@ -36,7 +36,7 @@ dependencies {
     compile 'org.yaml:snakeyaml:1.17'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
 
-    orchidDocs('com.github.JavaEden:Orchid-Liquid:bbbee3b71d') {
+    orchidDocs('com.github.JavaEden:Orchid-Liquid:f77d8cde88') {
         transitive = true
     }
 }
@@ -95,6 +95,9 @@ task tagRelease {
         }
     }
 }
+
+prepareGhPages.outputs.upToDateWhen { false }
+publishGhPages.outputs.upToDateWhen { false }
 
 githubPages {
     pages {
