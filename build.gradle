@@ -83,15 +83,17 @@ artifacts {
 }
 
 // Tagging, Releases, and Github Pages Publishing
-task tagRelease {
-    if((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
-        println "Version '${version}' is already tagged"
-    }
-    else {
-        println "Tagging repo with version: ${version}."
-        grgit.tag.add {
-            name = version
-            message = "Updates to version ${version}"
+task setGitReleaseTag {
+    doLast {
+        if((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
+            println "Version '${version}' is already tagged"
+        }
+        else {
+            println "Tagging repo with version: ${version}."
+            grgit.tag.add {
+                name = version
+                message = "Updates to version ${version}"
+            }
         }
     }
 }
@@ -110,4 +112,4 @@ task release {
 
 }
 
-tasks.release.dependsOn 'build', 'tagRelease', 'publishGhPages'
+tasks.release.dependsOn 'build', 'setGitReleaseTag', 'publishGhPages'
