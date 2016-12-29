@@ -114,7 +114,7 @@ public class ClassesGenerator implements Generator {
              JSONObject classHeadJson = ClassDocParser.getClassHeadInfo(classDoc);
 
             JSONObject object = new JSONObject(Orchid.getRoot().toMap());
-            object.put("root", Orchid.getRoot());
+            object.put("root", Orchid.getRoot().toMap());
             object.put("classDoc", classInfoJson);
             object.put("head", classHeadJson);
             object.getJSONObject("root").put("classDoc", classInfoJson);

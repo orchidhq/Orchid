@@ -94,7 +94,7 @@ public class PackagesGenerator implements Generator {
             JSONObject packageInfoJson = PackageDocParser.createPackageDocJson(packageDoc);
 
             JSONObject object = new JSONObject(Orchid.getRoot().toMap());
-            object.put("root", Orchid.getRoot());
+            object.put("root", Orchid.getRoot().toMap());
             object.put("packageDoc", packageInfoJson);
             object.getJSONObject("root").put("packageDoc", packageInfoJson);
 
