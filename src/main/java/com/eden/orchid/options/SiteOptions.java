@@ -61,6 +61,7 @@ public class SiteOptions {
         // Otherwise, find the matching registered Option and return its specified option length
         else {
             for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
+                Clog.v("Checking option length: #{$1} - [#{$2}, #{$3}", new Object[]{optionFlag, "-" + option.getValue().getFlag(), option.getValue().optionLength()});
                 if(optionFlag.equals("-" + option.getValue().getFlag())) {
                     return option.getValue().optionLength();
                 }
