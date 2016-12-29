@@ -64,7 +64,7 @@ javadoc {
     options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
 
     options.addStringOption("v", version)
-    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core/${version}")
+    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core")
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -102,7 +102,7 @@ publishGhPages.outputs.upToDateWhen { false }
 githubPages {
     pages {
         from javadoc
-        into "${version}/"
+        into ""
     }
 }
 
