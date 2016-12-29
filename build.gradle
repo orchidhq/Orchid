@@ -35,6 +35,7 @@ dependencies {
     }
     compile 'org.yaml:snakeyaml:1.17'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
     orchidDocs('com.github.JavaEden:Orchid-Liquid:v0.1.0') {
         transitive = true
