@@ -103,15 +103,17 @@ public class ClassesGenerator implements Generator {
         if((classDocEmbeddedData != null) && (classDocEmbeddedData.second.getElement() instanceof JSONObject) && (((JSONObject) classDocEmbeddedData.second.getElement()).has("layout"))) {
             layout = OrchidUtils.getResourceFileContents("templates/layouts/" + ((JSONObject) classDocEmbeddedData.second.getElement()).getString("layout"));
             classDocTemplate = classDocEmbeddedData.first;
+
+            Clog.i("Class files will be compiled with '#{$1}' layout", new Object[]{ ((JSONObject) classDocEmbeddedData.second.getElement()).getString("layout") });
         }
         else {
             layout = OrchidUtils.getResourceFileContents("templates/layouts/index.html");
-            Clog.d("Class files should be compiled with basic index layout");
+            Clog.i("Class files will be compiled with basic index layout");
         }
 
         for(ClassDoc classDoc : root.classes()) {
-             JSONObject classInfoJson = ClassDocParser.createClassDocJson(classDoc);
-             JSONObject classHeadJson = ClassDocParser.getClassHeadInfo(classDoc);
+            JSONObject classInfoJson = ClassDocParser.createClassDocJson(classDoc);
+            JSONObject classHeadJson = ClassDocParser.getClassHeadInfo(classDoc);
 
             JSONObject object = new JSONObject(Orchid.getRoot().toMap());
             object.put("root", Orchid.getRoot().toMap());

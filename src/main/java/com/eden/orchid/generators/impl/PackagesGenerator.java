@@ -76,6 +76,8 @@ public class PackagesGenerator implements Generator {
         if((packageDocEmbeddedData != null) && (packageDocEmbeddedData.second.getElement() instanceof JSONObject) && (((JSONObject) packageDocEmbeddedData.second.getElement()).has("layout"))) {
             layout = OrchidUtils.getResourceFileContents("templates/layouts/" + ((JSONObject) packageDocEmbeddedData.second.getElement()).getString("layout"));
             packageDocTemplate = packageDocEmbeddedData.first;
+
+            Clog.i("Class files will be compiled with '#{$1}' layout", new Object[]{ ((JSONObject) packageDocEmbeddedData.second.getElement()).getString("layout") });
         }
         else {
             layout = OrchidUtils.getResourceFileContents("templates/layouts/index.html");
