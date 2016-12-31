@@ -91,7 +91,7 @@ public final class OrchidUtils {
         OrchidPair<String, JSONElement> container = OrchidResources.readResource(containerName);
 
         if(container != null) {
-            return Orchid.getTheme().compile(FilenameUtils.getExtension(containerName), container.first, data);
+            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(containerName), container.first, data);
         }
 
         return "";
@@ -101,9 +101,27 @@ public final class OrchidUtils {
         OrchidPair<String, JSONElement> layout = OrchidResources.readResource(layoutName);
 
         if(layout != null) {
-            return Orchid.getTheme().compile(FilenameUtils.getExtension(layoutName), layout.first, data);
+            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(layoutName), layout.first, data);
         }
 
         return "";
+    }
+
+    public static void createPage(String outputPath, String fileName, String container, String layout, String inputExt, String inputContent, JSONObject data) {
+        JSONObject jsonData = new JSONObject(Orchid.getRoot().toMap());
+
+        for(String key : data.keySet()) {
+            jsonData.put(key, data.get(key));
+        }
+
+        inputContent = Orchid.getTheme().compile(inputExt, inputContent);
+        jsonData.put("content", inputContent);
+
+        inputContent = compileContainer(container, jsonData);
+        jsonData.put("content", inputContent);
+
+        inputContent = compileLayout(layout, jsonData);
+
+        OrchidResources.writeFile(outputPath, fileName, inputContent);
     }
 }

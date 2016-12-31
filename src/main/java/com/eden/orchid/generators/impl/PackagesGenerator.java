@@ -94,7 +94,7 @@ public class PackagesGenerator implements Generator {
 
             String finalCompiledContent = OrchidUtils.compileLayout(layoutName, object);
 
-            OrchidResources.writeFile("classes/" + packageInfoJson.getJSONObject("info").getString("name"), "index.html", finalCompiledContent);
+            OrchidResources.writeFile("classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator), "index.html", finalCompiledContent);
         }
     }
 }

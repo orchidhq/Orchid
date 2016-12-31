@@ -112,7 +112,7 @@ public class OrchidResources {
      * @param recursive  whether to recursively search all subdirectories in the given path
      * @return  the list of matching Files
      */
-    public List<File> getResourceFiles(String path, String[] fileExtensions, boolean recursive) {
+    public static List<File> getResourceFiles(String path, String[] fileExtensions, boolean recursive) {
         ArrayList<File> files = new ArrayList<>();
 
         // if we've specified a resources dir, use that
@@ -156,7 +156,7 @@ public class OrchidResources {
      * @param fileExtensions  (optional) the list of extensions to match the entries
      * @return  the list of matching JarEntries
      */
-    public List<JarEntry> getJarResourceFiles(JarFile jarfile, String path, String[] fileExtensions) {
+    public static List<JarEntry> getJarResourceFiles(JarFile jarfile, String path, String[] fileExtensions) {
         ArrayList<JarEntry> files = new ArrayList<>();
 
         Enumeration<JarEntry> entries = jarfile.entries();
@@ -237,7 +237,7 @@ public class OrchidResources {
             content = OrchidResources.getFileContents(jar, OrchidResources.getJarFile(jar, fileName));
         }
 
-        if(content != null) {
+        if(!OrchidUtils.isEmpty(content)) {
             return Orchid.getTheme().getEmbeddedData(content);
         }
 

@@ -42,6 +42,16 @@ public abstract class Theme {
     }
 
     public String compile(String extension, String input, Object... data) {
+        for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
+            if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+                return compiler.getValue().compile(extension, input, data);
+            }
+        }
+
+        return input;
+    }
+
+    public String compileContent(String extension, String input, Object... data) {
         for(Map.Entry<Integer, ContentCompiler> compiler : SiteCompilers.contentCompilers.entrySet()) {
             if(compiler.getValue().getClass().equals(getContentCompilerClass())) {
                 return compiler.getValue().compile(extension, input, data);

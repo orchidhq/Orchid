@@ -115,7 +115,7 @@ public class ClassesGenerator implements Generator {
 
             String finalCompiledContent = OrchidUtils.compileLayout(layoutName, object);
 
-            OrchidResources.writeFile("classes/" + classInfoJson.getJSONObject("info").getString("name"), "index.html", finalCompiledContent);
+            OrchidResources.writeFile("classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator), "index.html", finalCompiledContent);
         }
     }
 
