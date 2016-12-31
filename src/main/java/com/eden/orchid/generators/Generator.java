@@ -5,7 +5,7 @@ import com.sun.javadoc.RootDoc;
 
 public interface Generator {
     JSONElement startIndexing(RootDoc root);
-    JSONElement startGeneration(RootDoc root);
+    void startGeneration(RootDoc root);
     int priority();
     String getName();
 }

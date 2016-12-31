@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.AutoRegister;
 import com.eden.orchid.JSONElement;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.OrchidResources;
 import com.eden.orchid.OrchidUtils;
 import com.eden.orchid.docParser.ClassDocParser;
 import com.eden.orchid.generators.Generator;
@@ -18,9 +19,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @AutoRegister
 public class ClassesGenerator implements Generator {
@@ -92,69 +90,33 @@ public class ClassesGenerator implements Generator {
     }
 
     @Override
-    public JSONElement startGeneration(RootDoc root) {
-        JSONArray jsonArray = new JSONArray();
-        String classDocTemplate = OrchidUtils.getResourceFileContents("templates/containers/classDoc.html");
+    public void startGeneration(RootDoc root) {
+        OrchidPair<String, JSONElement> classDocTemplate = OrchidResources.readResource("templates/containers/classDoc.html");
 
-        OrchidPair<String, JSONElement> classDocEmbeddedData = Orchid.getTheme().getEmbeddedData(classDocTemplate);
+        String containerName = "classDoc.html";
+        String layoutName = "index.html";
 
-        String layout;
-
-        if((classDocEmbeddedData != null) && (classDocEmbeddedData.second.getElement() instanceof JSONObject) && (((JSONObject) classDocEmbeddedData.second.getElement()).has("layout"))) {
-            layout = OrchidUtils.getResourceFileContents("templates/layouts/" + ((JSONObject) classDocEmbeddedData.second.getElement()).getString("layout"));
-            classDocTemplate = classDocEmbeddedData.first;
-
-            Clog.i("Class files will be compiled with '#{$1}' layout", new Object[]{ ((JSONObject) classDocEmbeddedData.second.getElement()).getString("layout") });
+        if((classDocTemplate.second.getElement() instanceof JSONObject) && (((JSONObject) classDocTemplate.second.getElement()).has("layout"))) {
+            layoutName = ((JSONObject) classDocTemplate.second.getElement()).getString("layout");
         }
-        else {
-            layout = OrchidUtils.getResourceFileContents("templates/layouts/index.html");
-            Clog.i("Class files will be compiled with basic index layout");
-        }
+
+        Clog.i("Class files will be compiled with '#{$1}' layout", new Object[]{layoutName});
 
         for(ClassDoc classDoc : root.classes()) {
             JSONObject classInfoJson = ClassDocParser.createClassDocJson(classDoc);
             JSONObject classHeadJson = ClassDocParser.getClassHeadInfo(classDoc);
 
             JSONObject object = new JSONObject(Orchid.getRoot().toMap());
-            object.put("root", Orchid.getRoot().toMap());
             object.put("classDoc", classInfoJson);
             object.put("head", classHeadJson);
-            object.getJSONObject("root").put("classDoc", classInfoJson);
-            object.getJSONObject("root").put("head", classHeadJson);
+            object.put("root", object.toMap());
 
-            jsonArray.put(classInfoJson);
+            object.put("content", OrchidUtils.compileContainer(containerName, object));
 
-            try {
-                String outputPath = Orchid.query("options.d").getElement().toString()
-                        + File.separator + "classes"
-                        + File.separator + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator);
+            String finalCompiledContent = OrchidUtils.compileLayout(layoutName, object);
 
-                File outputFile = new File(outputPath);
-                Path classesFile = Paths.get(outputPath + File.separator + "index.html");
-                if (!outputFile.exists()) {
-                    outputFile.mkdirs();
-                }
-
-                String compiledContent = Orchid.getTheme().compile("html", classDocTemplate, object);
-
-                compiledContent = applyLayout(layout, object, compiledContent);
-
-                Files.write(classesFile, compiledContent.getBytes());
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            OrchidResources.writeFile("classes/" + classInfoJson.getJSONObject("info").getString("name"), "index.html", finalCompiledContent);
         }
-
-        return new JSONElement(jsonArray);
-    }
-
-    public static String applyLayout(String layout, JSONObject data, String content) {
-        JSONObject object = new JSONObject(data.toMap());
-
-        object.put("content", content);
-
-        return Orchid.getTheme().compile("html", layout, object);
     }
 
     private static void applyAdditionalClasses(JSONArray classIndex) {

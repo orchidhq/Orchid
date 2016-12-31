@@ -7,10 +7,7 @@ import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.utilities.OrchidPair;
 import com.sun.javadoc.RootDoc;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Map;
 
 public abstract class Theme {
     /**
@@ -39,25 +36,28 @@ public abstract class Theme {
     }
 
     public void generateHomepage(RootDoc rootDoc, Object... data) {
-        Path file = Paths.get(Orchid.query("options.d") + "/index.html");
-        try {
-            String compiledContent = compile("html", OrchidUtils.getResourceFileContents("assets/layouts/index.html"), Orchid.getRoot());
-            Files.write(file, compiledContent.getBytes());
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        String finalCompiledContent = OrchidUtils.compileLayout("index.html", Orchid.getRoot().toMap());
+
+        OrchidResources.writeFile("", "index.html", finalCompiledContent);
     }
 
     public String compile(String extension, String input, Object... data) {
-        return SiteCompilers.getContentCompiler(getContentCompilerClass()).compile(extension, input, data);
-    }
+        for(Map.Entry<Integer, ContentCompiler> compiler : SiteCompilers.contentCompilers.entrySet()) {
+            if(compiler.getValue().getClass().equals(getContentCompilerClass())) {
+                return compiler.getValue().compile(extension, input, data);
+            }
+        }
 
-    public String preCompile(String input, Object... data) {
-        return SiteCompilers.getPrecompiler(getPrecompilerClass()).compile(input, data);
+        return input;
     }
 
     public OrchidPair<String, JSONElement> getEmbeddedData(String input) {
-        return SiteCompilers.getPrecompiler(getPrecompilerClass()).getEmbeddedData(input);
+        for(Map.Entry<Integer, PreCompiler> compiler : SiteCompilers.precompilers.entrySet()) {
+            if(compiler.getValue().getClass().equals(getPrecompilerClass())) {
+                return compiler.getValue().getEmbeddedData(input);
+            }
+        }
+
+        return new OrchidPair<>(input, null);
     }
 }

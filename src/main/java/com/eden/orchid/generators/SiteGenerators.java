@@ -31,13 +31,7 @@ public class SiteGenerators {
         for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
             Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
-            JSONElement element = generator.getValue().startGeneration(root);
-
-            if(element != null) {
-                if(!OrchidUtils.isEmpty(generator.getValue().getName())) {
-                    generatorsObject.put(generator.getValue().getName(), element.getElement());
-                }
-            }
+            generator.getValue().startGeneration(root);
         }
     }
 }

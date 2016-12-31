@@ -1,0 +1,14 @@
+
+about:
+  name: Orchid
+  description: A modern, plugin-driven architecture for custom Javadoc generation
+  version: v0.1.0
+
+colors:
+  - '#965252'
+  - '#000000'
+
+github:
+  username: 'JavaEden'
+  repo: 'Orchid-Core'
+  branch: 'master'
