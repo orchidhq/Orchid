@@ -70,4 +70,14 @@ public abstract class Theme {
 
         return new OrchidPair<>(input, null);
     }
+
+    public String getOutputExtension(String extension) {
+        for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
+            if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+                return compiler.getValue().getOutputExtension();
+            }
+        }
+
+        return null;
+    }
 }
