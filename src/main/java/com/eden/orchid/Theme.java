@@ -85,6 +85,6 @@ public abstract class Theme implements ResourceSource {
             }
         }
 
-        return null;
+        return extension;
     }
 }

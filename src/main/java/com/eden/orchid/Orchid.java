@@ -50,6 +50,7 @@ import org.json.JSONObject;
  * </ol>
  *
  */
+@AutoRegister
 public final class Orchid implements ResourceSource {
 
 // Doclet hackery to allow this to parse documentation as expected and not crash...
@@ -149,7 +150,7 @@ public final class Orchid implements ResourceSource {
                 // Register Jars which contain resources
                 if(instance instanceof ResourceSource) {
                     ResourceSource resourceSource = (ResourceSource) instance;
-                    OrchidResources.resourceSources.put(resourceSource.resourcePriority(), resourceSource.getClass());
+                    OrchidResources.resourceSources.put(resourceSource.resourcePriority(), resourceSource);
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {

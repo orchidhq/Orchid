@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -18,26 +19,31 @@ public class OrchidEntry {
     private final JarEntry jarEntry;
     private final JarFile jarFile;
 
-    private String sourcePath;
-    private String destPath;
-    private String outputName;
+    private String path;
+    private String fileName;
 
     private String rawContent;
     private String precompiledContent;
     private JSONElement embeddedData;
 
-    public OrchidEntry(File file, String fileName) {
+    private int priority;
+
+    public OrchidEntry(File file, String name) {
         this.file = file;
 
         jarEntry = null;
         jarFile = null;
+
+        setName(name);
     }
 
-    public OrchidEntry(JarFile jarFile, JarEntry jarEntry, String fileName) {
+    public OrchidEntry(JarFile jarFile, JarEntry jarEntry, String name) {
         this.file = null;
 
         this.jarEntry = jarEntry;
         this.jarFile = jarFile;
+
+        setName(name);
     }
 
     public String getRawContent() {
@@ -58,6 +64,10 @@ public class OrchidEntry {
         return embeddedData;
     }
 
+    public void setEmbeddedData(JSONElement embeddedData) {
+        this.embeddedData = embeddedData;
+    }
+
     public JSONElement queryEmbeddedData(String pointer) {
         loadContent();
 
@@ -68,31 +78,41 @@ public class OrchidEntry {
         return null;
     }
 
-    public String getSourcePath() {
-        return sourcePath;
+    public int getPriority() {
+        return priority;
     }
 
-    public String getDestPath() {
-        return destPath;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
-    public String getOutputName() {
-        return outputName;
+    public void setName(String name) {
+        String[] namePieces = name.split(File.separator);
+        path = String.join(File.separator, Arrays.copyOfRange(namePieces, 0, namePieces.length - 1));
+        fileName = namePieces[namePieces.length - 1];
     }
 
-    public void setSourcePath(String sourcePath) {
-        this.sourcePath = sourcePath;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public void setDestPath(String destPath) {
-        this.destPath = destPath;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public void setOutputName(String outputName) {
-        this.outputName = outputName;
+    public String getPath() {
+        return path;
     }
 
-// internal methods to get the data represented by this Entry
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getName() {
+        return path + File.separator + fileName;
+    }
+
+    // internal methods to get the data represented by this Entry
 //----------------------------------------------------------------------------------------------------------------------
     private void loadContent() {
         if(rawContent == null) {

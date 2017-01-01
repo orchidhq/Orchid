@@ -1,17 +1,13 @@
 package com.eden.orchid.resources;
 
-import com.eden.orchid.JSONElement;
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidUtils;
-import com.eden.orchid.utilities.OrchidPair;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
@@ -28,7 +24,7 @@ import java.util.jar.JarFile;
 
 public class OrchidResources {
 
-    public static Map<Integer, Class<? extends ResourceSource>> resourceSources = new TreeMap<>(Collections.reverseOrder());
+    public static Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -61,8 +57,10 @@ public class OrchidResources {
 
 
     /**
-     * Gets an OrchidEntry representing the file found in the '-resourcesDir' option directory.
+     * Gets an OrchidEntry representing the file found in the '-resourcesDir' option directory. Typically used when you
+     * need a file that you know will be provided by the end-user.
      *
+     * @param fileName the name of the requested file, relative to the 'resources' directory
      * @return  the OrchidEntry representing the file if it exists in the resourcesDir location, null otherwise
      */
     public static OrchidEntry getResourceDirEntry(String fileName) {
@@ -80,8 +78,10 @@ public class OrchidResources {
      * found in the following order: if the '-resourcesDir' option was set, the File from that directory, otherwise the
      * File from the default resources directory. If the requested file could not be found in the resource directories,
      * it will loop through all registered ResourceSources in order of priority from highest to lowest and attempt to
-     * find a JarEntry matching the same fileName.
+     * find a JarEntry matching the same fileName. Typically used to get any file that is not expected to be provided by
+     * the end-user.
      *
+     * @param fileName the name of the requested file, relative to the 'resources' directory
      * @return  the OrchidEntry representing the file if it exists in any location, null otherwise
      */
     public static OrchidEntry getResourceEntry(String fileName) {
@@ -91,8 +91,8 @@ public class OrchidResources {
             return new OrchidEntry(file, fileName);
         }
 
-        for(Map.Entry<Integer, Class<? extends ResourceSource>> source : OrchidResources.resourceSources.entrySet()) {
-            JarFile jarFile = jarForClass(source.getValue());
+        for(Map.Entry<Integer, ResourceSource> source : OrchidResources.resourceSources.entrySet()) {
+            JarFile jarFile = jarForClass(source.getValue().getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
             if(jarEntry != null) {
                 return new OrchidEntry(jarFile, jarEntry, fileName);
@@ -102,6 +102,89 @@ public class OrchidResources {
         return null;
     }
 
+    /**
+     * Gets a list of OrchidEntries representing the files found in the '-resourcesDir' option directory. Typically used
+     * when you need files that you know will be provided by the end-user.
+     *
+     * @param dirName the name of requested directory, relative to the 'resources' directory
+     * @return the entries, in no particular order
+     */
+    public static List<OrchidEntry> getResourceDirEntries(String dirName, String[] fileExtensions, boolean recursive) {
+        TreeMap<String, OrchidEntry> entries = new TreeMap<>();
+
+        List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
+
+        for(File file : files) {
+            String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
+
+            OrchidEntry entry = new OrchidEntry(file, relative);
+            entry.setPriority(Integer.MAX_VALUE);
+            entries.put(relative, entry);
+        }
+
+        return new ArrayList<>(entries.values());
+    }
+
+    /**
+     * Gets a list of OrchidEntries representing the file found in one of many possible locations. This will return all
+     * files from the following locations: if the '-resourcesDir' option was set, the File from that directory, otherwise
+     * the File from the default resources directory. Also, it will loop through all registered ResourceSources in order
+     * of priority from highest to lowest and find all matching JarEntries. Entries in the resulting list are ordered such
+     * that files toward the end of the list have the highest priortiy, so iterating across all entries and writing the
+     * appripriate files will naturally allow the resources from higher-priority ResourceSources or overwrite
+     * lower-priority ones, with local resources from the '-resourcesDir' option taking ultimate precedence.
+     *
+     * @param dirName the name of requested directory, relative to the 'resources' directory
+     * @return the entries, ordered by ResourceSource priority
+     */
+    public static List<OrchidEntry> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive) {
+        TreeMap<String, OrchidEntry> entries = new TreeMap<>();
+
+        List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
+        Clog.d("Getting resources from resourcesDir");
+        for(File file : files) {
+            String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
+
+            OrchidEntry entry = new OrchidEntry(file, relative);
+            entry.setPriority(Integer.MAX_VALUE);
+            entries.put(relative, entry);
+        }
+
+        for(Map.Entry<Integer, ResourceSource> source : OrchidResources.resourceSources.entrySet()) {
+            Clog.d("Getting resources from jar: #{$1 | className}", source.getValue());
+
+            JarFile jarFile = jarForClass(source.getValue().getClass());
+
+            List<JarEntry> jarEntries = getJarResourceFiles(jarFile, dirName, fileExtensions, recursive);
+
+            for(JarEntry jarEntry : jarEntries) {
+                String relative = getRelativeFilename(jarEntry.getName(), dirName);
+
+                boolean shouldAddJarEntry = false;
+                if(entries.containsKey(relative)) {
+                    if(source.getValue().resourcePriority() > entries.get(relative).getPriority()) {
+                        shouldAddJarEntry = true;
+                    }
+                }
+                else {
+                    shouldAddJarEntry = true;
+                }
+
+                if(shouldAddJarEntry) {
+                    OrchidEntry entry = new OrchidEntry(jarFile, jarEntry, relative);
+                    entries.put(relative, entry);
+                }
+            }
+        }
+
+        return new ArrayList<>(entries.values());
+    }
+
+    private static String getJarEntryFileName(JarEntry jarEntry) {
+        String[] namePieces = jarEntry.getName().split(File.separator);
+
+        return namePieces[namePieces.length - 1];
+    }
 
     private static File getResourceFile(String fileName) {
         File resourceFile = null;
@@ -164,7 +247,7 @@ public class OrchidResources {
      * @param recursive  whether to recursively search all subdirectories in the given path
      * @return  the list of matching Files
      */
-    public static List<File> getResourceFiles(String path, String[] fileExtensions, boolean recursive) {
+    private static List<File> getResourceFiles(String path, String[] fileExtensions, boolean recursive) {
         ArrayList<File> files = new ArrayList<>();
 
         // if we've specified a resources dir, use that
@@ -208,7 +291,7 @@ public class OrchidResources {
      * @param fileExtensions  (optional) the list of extensions to match the entries
      * @return  the list of matching JarEntries
      */
-    public static List<JarEntry> getJarResourceFiles(JarFile jarfile, String path, String[] fileExtensions) {
+    private static List<JarEntry> getJarResourceFiles(JarFile jarfile, String path, String[] fileExtensions, boolean recursive) {
         ArrayList<JarEntry> files = new ArrayList<>();
 
         Enumeration<JarEntry> entries = jarfile.entries();
@@ -243,55 +326,21 @@ public class OrchidResources {
         }
     }
 
-    public static String getFileContents(JarFile jarFile, JarEntry jarEntry) {
-        try {
-            InputStream is = jarFile.getInputStream(jarFile.getEntry(jarEntry.getName()));
+    private static String getRelativeFilename(String sourcePath, String baseDir) {
+        if(sourcePath.contains(baseDir)) {
+            int indexOf = sourcePath.indexOf(baseDir);
 
-            return IOUtils.toString(is);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+            if(indexOf + baseDir.length() < sourcePath.length()) {
+                String relative = sourcePath.substring((indexOf + baseDir.length()));
 
-        return null;
-    }
+                if(relative.startsWith(File.separator)) {
+                    relative = relative.substring(1);
+                }
 
-    public static String getFileContents(File file) {
-        if(file != null) {
-            try {
-                return IOUtils.toString(new FileInputStream(file));
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+                return relative;
             }
         }
 
-        return null;
-    }
-
-    private static OrchidPair<String, JSONElement> readResource(String fileName) {
-        String content;
-
-        if(fileName.startsWith("/")) {
-            fileName = fileName.substring(1);
-        }
-
-        content = OrchidResources.getFileContents(OrchidResources.getResourceFile(fileName));
-
-        if(OrchidUtils.isEmpty(content)) {
-            JarFile jar = jarForClass(Orchid.getTheme().getClass());
-            content = OrchidResources.getFileContents(jar, OrchidResources.getJarFile(jar, fileName));
-        }
-
-        if(OrchidUtils.isEmpty(content)) {
-            JarFile jar = jarForClass(Orchid.class);
-            content = OrchidResources.getFileContents(jar, OrchidResources.getJarFile(jar, fileName));
-        }
-
-        if(!OrchidUtils.isEmpty(content)) {
-            return Orchid.getTheme().getEmbeddedData(content);
-        }
-
-        return new OrchidPair<String, JSONElement>("", null);
+        return sourcePath;
     }
 }
