@@ -4,11 +4,11 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.AutoRegister;
 import com.eden.orchid.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.OrchidResources;
 import com.eden.orchid.OrchidUtils;
 import com.eden.orchid.docParser.ClassDocParser;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.OrchidPair;
+import com.eden.orchid.resources.OrchidEntry;
+import com.eden.orchid.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;
@@ -91,13 +91,16 @@ public class ClassesGenerator implements Generator {
 
     @Override
     public void startGeneration(RootDoc root) {
-        OrchidPair<String, JSONElement> classDocTemplate = OrchidResources.readResource("templates/containers/classDoc.html");
+        OrchidEntry classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.html");
 
         String containerName = "classDoc.html";
         String layoutName = "index.html";
 
-        if((classDocTemplate.second.getElement() instanceof JSONObject) && (((JSONObject) classDocTemplate.second.getElement()).has("layout"))) {
-            layoutName = ((JSONObject) classDocTemplate.second.getElement()).getString("layout");
+        if(classDocTemplate != null) {
+            JSONElement layoutElement = classDocTemplate.queryEmbeddedData("layout");
+            if(layoutElement != null) {
+                layoutName = layoutElement.toString();
+            }
         }
 
         Clog.i("Class files will be compiled with '#{$1}' layout", new Object[]{layoutName});

@@ -3,7 +3,7 @@ package com.eden.orchid.generators.impl;
 import com.eden.orchid.AutoRegister;
 import com.eden.orchid.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.OrchidResources;
+import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.OrchidUtils;
 import com.eden.orchid.generators.Generator;
 import com.sun.javadoc.RootDoc;

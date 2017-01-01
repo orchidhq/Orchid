@@ -9,11 +9,12 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
+import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.resources.ResourceSource;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 // TODO: Handle priority clashes
@@ -49,7 +50,7 @@ import org.json.JSONObject;
  * </ol>
  *
  */
-public final class Orchid {
+public final class Orchid implements ResourceSource {
 
 // Doclet hackery to allow this to parse documentation as expected and not crash...
 //----------------------------------------------------------------------------------------------------------------------
@@ -143,6 +144,12 @@ public final class Orchid {
                 if(instance instanceof Option) {
                     Option option = (Option) instance;
                     SiteOptions.optionsParsers.put(option.priority(), option);
+                }
+
+                // Register Jars which contain resources
+                if(instance instanceof ResourceSource) {
+                    ResourceSource resourceSource = (ResourceSource) instance;
+                    OrchidResources.resourceSources.put(resourceSource.resourcePriority(), resourceSource.getClass());
                 }
             }
             catch (IllegalAccessException|InstantiationException e) {
@@ -249,57 +256,7 @@ public final class Orchid {
      * @return  the item matched by the JSONPointer, otherwise null
      */
     public static JSONElement query(String pointer) {
-        return query(root, pointer);
-    }
-
-    /**
-     * Query any JSONObject in the same way as querying the site data
-     */
-    public static JSONElement query(JSONObject queriedObject, String pointer) {
-        if(queriedObject != null) {
-            if (OrchidUtils.isEmpty(pointer)) {
-                return new JSONElement(queriedObject);
-            }
-
-            pointer = pointer.replaceAll("\\.", "/");
-
-            if (!pointer.startsWith("/")) {
-                pointer = "/" + pointer;
-            }
-
-            Object object = queriedObject.query(pointer);
-
-            if (object != null) {
-                return new JSONElement(object);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Query any JSONArray in the same way as querying the site data
-     */
-    public static JSONElement query(JSONArray queriedArray, String pointer) {
-        if(queriedArray != null) {
-            if (OrchidUtils.isEmpty(pointer)) {
-                return new JSONElement(queriedArray);
-            }
-
-            pointer = pointer.replaceAll("\\.", "/");
-
-            if (!pointer.startsWith("/")) {
-                pointer = "/" + pointer;
-            }
-
-            Object object = queriedArray.query(pointer);
-
-            if (object != null) {
-                return new JSONElement(object);
-            }
-        }
-
-        return null;
+        return new JSONElement(root).query(pointer);
     }
 
     /**
@@ -347,5 +304,10 @@ public final class Orchid {
      */
     public static RootDoc getRootDoc() {
         return rootDoc;
+    }
+
+    @Override
+    public int resourcePriority() {
+        return 10;
     }
 }

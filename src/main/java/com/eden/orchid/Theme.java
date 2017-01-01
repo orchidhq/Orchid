@@ -4,12 +4,14 @@ import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
+import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.utilities.OrchidPair;
 import com.sun.javadoc.RootDoc;
 
 import java.util.Map;
 
-public abstract class Theme {
+public abstract class Theme implements ResourceSource {
     /**
      * Get the class of the precompiler required for this theme.
      *
@@ -30,6 +32,11 @@ public abstract class Theme {
      * @return  Get a list of compilers that are required to use this theme
      */
     public abstract Class<? extends Compiler>[] getRequiredCompilers();
+
+    @Override
+    public int resourcePriority() {
+        return 20;
+    }
 
     public String[] getMissingOptions() {
         return new String[] {};

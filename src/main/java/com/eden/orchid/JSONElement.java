@@ -42,4 +42,53 @@ public class JSONElement {
     public String toString() {
         return element.toString();
     }
+
+    /**
+     * Query the gathered site data using a javascript-like syntax, or the native JSONObject query syntax. For example,
+     * given a JSONObject initialized with this document:
+     * <pre>
+     * {
+     *   "a": {
+     *     "b": "c"
+     *   }
+     * }
+     * </pre>
+     * and this JSONPointer string:
+     * <pre>
+     * "/a/b"
+     * </pre>
+     * or this Javascript pointer string:
+     * <pre>
+     * "a.b"
+     * </pre>
+     * Then this method will return the String "c".
+     * In the end, the Javascript syntax is converted to the corresponding JSONPointer syntax and queried.
+     *
+     * @param pointer  string that can be used to create a JSONPointer
+     * @return  the item matched by the JSONPointer, otherwise null
+     */
+    public JSONElement query(String pointer) {
+        if(!OrchidUtils.isEmpty(pointer)) {
+            pointer = pointer.replaceAll("\\.", "/");
+
+            if (!pointer.startsWith("/")) {
+                pointer = "/" + pointer;
+            }
+
+            Object result = null;
+
+            if(element instanceof JSONObject) {
+                result = ((JSONObject) element).query(pointer);
+            }
+            else if(element instanceof JSONArray) {
+                result = ((JSONArray) element).query(pointer);
+            }
+
+            if (result != null) {
+                return new JSONElement(result);
+            }
+        }
+
+        return null;
+    }
 }

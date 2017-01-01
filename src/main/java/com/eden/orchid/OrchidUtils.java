@@ -1,6 +1,7 @@
 package com.eden.orchid;
 
-import com.eden.orchid.utilities.OrchidPair;
+import com.eden.orchid.resources.OrchidEntry;
+import com.eden.orchid.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -88,20 +89,20 @@ public final class OrchidUtils {
     }
 
     public static String compileContainer(String containerName, Object... data) {
-        OrchidPair<String, JSONElement> container = OrchidResources.readResource(containerName);
+        OrchidEntry container = OrchidResources.getResourceEntry("templates/containers/" + containerName);
 
         if(container != null) {
-            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(containerName), container.first, data);
+            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(containerName), container.getContent(), data);
         }
 
         return "";
     }
 
     public static String compileLayout(String layoutName, Object... data) {
-        OrchidPair<String, JSONElement> layout = OrchidResources.readResource(layoutName);
+        OrchidEntry layout = OrchidResources.getResourceEntry("templates/layouts/" + layoutName);
 
         if(layout != null) {
-            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(layoutName), layout.first, data);
+            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(layoutName), layout.getContent(), data);
         }
 
         return "";

@@ -1,5 +1,8 @@
-package com.eden.orchid;
+package com.eden.orchid.resources;
 
+import com.eden.orchid.JSONElement;
+import com.eden.orchid.Orchid;
+import com.eden.orchid.OrchidUtils;
 import com.eden.orchid.utilities.OrchidPair;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -15,12 +18,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class OrchidResources {
+
+    public static Map<Integer, Class<? extends ResourceSource>> resourceSources = new TreeMap<>(Collections.reverseOrder());
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -51,7 +59,51 @@ public class OrchidResources {
         }
     }
 
-    public static File getResourceFile(String fileName) {
+
+    /**
+     * Gets an OrchidEntry representing the file found in the '-resourcesDir' option directory.
+     *
+     * @return  the OrchidEntry representing the file if it exists in the resourcesDir location, null otherwise
+     */
+    public static OrchidEntry getResourceDirEntry(String fileName) {
+        File file = getResourceFile(fileName);
+
+        if(file != null) {
+            return new OrchidEntry(file, fileName);
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets an OrchidEntry representing the file found in one of many possible locations. This will return the first file
+     * found in the following order: if the '-resourcesDir' option was set, the File from that directory, otherwise the
+     * File from the default resources directory. If the requested file could not be found in the resource directories,
+     * it will loop through all registered ResourceSources in order of priority from highest to lowest and attempt to
+     * find a JarEntry matching the same fileName.
+     *
+     * @return  the OrchidEntry representing the file if it exists in any location, null otherwise
+     */
+    public static OrchidEntry getResourceEntry(String fileName) {
+        File file = getResourceFile(fileName);
+
+        if(file != null) {
+            return new OrchidEntry(file, fileName);
+        }
+
+        for(Map.Entry<Integer, Class<? extends ResourceSource>> source : OrchidResources.resourceSources.entrySet()) {
+            JarFile jarFile = jarForClass(source.getValue());
+            JarEntry jarEntry = getJarFile(jarFile, fileName);
+            if(jarEntry != null) {
+                return new OrchidEntry(jarFile, jarEntry, fileName);
+            }
+        }
+
+        return null;
+    }
+
+
+    private static File getResourceFile(String fileName) {
         File resourceFile = null;
 
         fileName = fileName.replaceAll("/", File.separator);
@@ -90,7 +142,7 @@ public class OrchidResources {
         return resourceFile;
     }
 
-    public static JarEntry getJarFile(JarFile jarfile, String fileName) {
+    private static JarEntry getJarFile(JarFile jarfile, String fileName) {
         Enumeration<JarEntry> entries = jarfile.entries();
         while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();
@@ -162,12 +214,12 @@ public class OrchidResources {
         Enumeration<JarEntry> entries = jarfile.entries();
         while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();
-
             // we are checking a file in the jar
-            if (entry.getName().startsWith(path + File.separator)
-                    && !entry.isDirectory()
-                    && FilenameUtils.isExtension(entry.getName(), fileExtensions)) {
-                files.add(entry);
+            if (entry.getName().startsWith(path + File.separator) && !entry.isDirectory()) {
+
+                if(OrchidUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(entry.getName(), fileExtensions)) {
+                    files.add(entry);
+                }
             }
         }
 
@@ -175,16 +227,15 @@ public class OrchidResources {
     }
 
     public static void writeFile(String outputDir, String fileName, String contents) {
-        String outputPath = Orchid.query("options.d").getElement().toString()
-                + File.separator + outputDir.replaceAll("/", File.separator);
+        String outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputDir.replaceAll("/", File.separator);
 
         File outputFile = new File(outputPath);
-        Path classesFile = Paths.get(outputPath + File.separator + fileName);
         if (!outputFile.exists()) {
             outputFile.mkdirs();
         }
 
         try {
+            Path classesFile = Paths.get(outputPath + File.separator + fileName);
             Files.write(classesFile, contents.getBytes());
         }
         catch (Exception e) {
@@ -218,7 +269,7 @@ public class OrchidResources {
         return null;
     }
 
-    public static OrchidPair<String, JSONElement> readResource(String fileName) {
+    private static OrchidPair<String, JSONElement> readResource(String fileName) {
         String content;
 
         if(fileName.startsWith("/")) {
