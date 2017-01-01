@@ -1,15 +1,14 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
-apply plugin: 'java'
-
 plugins {
+    id 'java'
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
 }
 
 group 'com.eden'
-version = 'v0.1.3'
+version = 'v0.1.2'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
