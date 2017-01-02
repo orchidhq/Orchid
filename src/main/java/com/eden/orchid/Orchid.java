@@ -123,28 +123,33 @@ public final class Orchid implements ResourceSource {
                 // Register compilers
                 if(instance instanceof Compiler) {
                     Compiler compiler = (Compiler) instance;
+                    Clog.d("AutoRegistering Compiler: #{ $1 | className }", instance);
                     SiteCompilers.compilers.put(compiler.priority(), compiler);
                 }
                 if(instance instanceof PreCompiler) {
                     PreCompiler compiler = (PreCompiler) instance;
+                    Clog.d("AutoRegistering PreCompiler: #{ $1 | className }", instance);
                     SiteCompilers.precompilers.put(compiler.priority(), compiler);
                 }
 
                 // Register generators
-                else if(instance instanceof Generator) {
+                if(instance instanceof Generator) {
                     Generator generator = (Generator) instance;
+                    Clog.d("AutoRegistering Generator: #{ $1 | className }", instance);
                     SiteGenerators.generators.put(generator.priority(), generator);
                 }
 
                 // Register command-line options
                 if(instance instanceof Option) {
                     Option option = (Option) instance;
+                    Clog.d("AutoRegistering Option: #{ $1 | className }", instance);
                     SiteOptions.optionsParsers.put(option.priority(), option);
                 }
 
                 // Register Jars which contain resources
                 if(instance instanceof ResourceSource) {
                     ResourceSource resourceSource = (ResourceSource) instance;
+                    Clog.d("AutoRegistering ResourceSource: #{ $1 | className }", instance);
                     OrchidResources.resourceSources.put(resourceSource.resourcePriority(), resourceSource);
                 }
             }
