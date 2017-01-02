@@ -92,7 +92,7 @@ public final class OrchidUtils {
         OrchidEntry container = OrchidResources.getResourceEntry("templates/containers/" + containerName);
 
         if(container != null) {
-            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(containerName), container.getContent(), data);
+            return Orchid.getTheme().compile(FilenameUtils.getExtension(containerName), container.getContent(), data);
         }
 
         return "";
@@ -102,7 +102,7 @@ public final class OrchidUtils {
         OrchidEntry layout = OrchidResources.getResourceEntry("templates/layouts/" + layoutName);
 
         if(layout != null) {
-            return Orchid.getTheme().compileContent(FilenameUtils.getExtension(layoutName), layout.getContent(), data);
+            return Orchid.getTheme().compile(FilenameUtils.getExtension(layoutName), layout.getContent(), data);
         }
 
         return "";

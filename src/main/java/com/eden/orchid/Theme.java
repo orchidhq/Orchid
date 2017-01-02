@@ -1,7 +1,6 @@
 package com.eden.orchid;
 
 import com.eden.orchid.compilers.Compiler;
-import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.resources.OrchidResources;
@@ -18,13 +17,6 @@ public abstract class Theme implements ResourceSource {
      * @return  the class of the required precompiler
      */
     public abstract Class<? extends PreCompiler> getPrecompilerClass();
-
-    /**
-     * Get the class of the content compiler required for this theme.
-     *
-     * @return  the class of the required content compiler
-     */
-    public abstract Class<? extends ContentCompiler> getContentCompilerClass();
 
     /**
      * Get an array of classes defining additional compilers required to use this theme.
@@ -51,16 +43,6 @@ public abstract class Theme implements ResourceSource {
     public String compile(String extension, String input, Object... data) {
         for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
             if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
-                return compiler.getValue().compile(extension, input, data);
-            }
-        }
-
-        return input;
-    }
-
-    public String compileContent(String extension, String input, Object... data) {
-        for(Map.Entry<Integer, ContentCompiler> compiler : SiteCompilers.contentCompilers.entrySet()) {
-            if(compiler.getValue().getClass().equals(getContentCompilerClass())) {
                 return compiler.getValue().compile(extension, input, data);
             }
         }

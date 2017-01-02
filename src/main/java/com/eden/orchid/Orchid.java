@@ -2,7 +2,6 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.compilers.Compiler;
-import com.eden.orchid.compilers.ContentCompiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.generators.Generator;
@@ -125,10 +124,6 @@ public final class Orchid implements ResourceSource {
                 if(instance instanceof Compiler) {
                     Compiler compiler = (Compiler) instance;
                     SiteCompilers.compilers.put(compiler.priority(), compiler);
-                }
-                if(instance instanceof ContentCompiler) {
-                    ContentCompiler compiler = (ContentCompiler) instance;
-                    SiteCompilers.contentCompilers.put(compiler.priority(), compiler);
                 }
                 if(instance instanceof PreCompiler) {
                     PreCompiler compiler = (PreCompiler) instance;
