@@ -36,7 +36,13 @@ public class ClassesGenerator implements Generator {
     }
 
     @Override
-    public JSONElement startIndexing(RootDoc root) {
+    public JSONElement startIndexing() {
+        RootDoc root = Orchid.getRootDoc();
+
+        if(root == null) {
+            return null;
+        }
+
         JSONObject classIndex = new JSONObject();
         classIndex.put("internal", new JSONArray());
         classIndex.put("external", new JSONArray());
@@ -90,7 +96,13 @@ public class ClassesGenerator implements Generator {
     }
 
     @Override
-    public void startGeneration(RootDoc root) {
+    public void startGeneration() {
+        RootDoc root = Orchid.getRootDoc();
+
+        if(root == null) {
+            return;
+        }
+
         OrchidEntry classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.html");
 
         String containerName = "classDoc.html";

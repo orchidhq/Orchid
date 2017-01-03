@@ -37,7 +37,7 @@ dependencies {
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
-    orchidDocs('com.github.JavaEden:Orchid-Liquid:v0.1.2') {
+    orchidDocsCompile('com.github.JavaEden:Orchid-Liquid:v0.1.2') {
         transitive = true
     }
 }
@@ -58,7 +58,7 @@ javadoc {
     title = ""
     source = sourceSets.main.allJava
 
-    options.docletpath.addAll(configurations.orchidDocs)
+    options.docletpath.addAll(configurations.orchidDocsCompile)
     options.doclet = 'com.eden.orchid.Orchid'
 
     options.addStringOption("theme", "com.eden.orchidliquid.BSDocTheme")

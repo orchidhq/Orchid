@@ -26,7 +26,13 @@ public class ConfigOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        return parseConfigFile(Orchid.query("options.resourcesDir").toString());
+        JSONElement res = Orchid.query("options.resourcesDir");
+        if(res != null) {
+            return parseConfigFile(res.toString());
+        }
+        else {
+            return null;
+        }
     }
 
     @Override

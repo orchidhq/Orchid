@@ -2,7 +2,6 @@ package com.eden.orchid.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.JSONElement;
-import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
@@ -15,8 +14,18 @@ public class SiteOptions {
 
     public static Map<Integer, Option> optionsParsers = new TreeMap<>(Collections.reverseOrder());
 
-    public static void parseOptions(RootDoc root, JSONObject siteOptions) {
-        String[][] options = root.options();
+
+    public static void registerOption(Option option) {
+        int priority = option.priority();
+        while(optionsParsers.containsKey(priority)) {
+            priority--;
+        }
+
+        SiteOptions.optionsParsers.put(priority, option);
+    }
+
+
+    public static void parseOptions(String[][] options, JSONObject siteOptions) {
 
         Map<String, String[]> optionsMap = new HashMap<>();
 
@@ -30,23 +39,26 @@ public class SiteOptions {
             Clog.d("Parsing option: #{$1}:[#{$2 | className}]", option.getKey(), option.getValue());
             Option optionParser = option.getValue();
 
-            String[] optionStrings = (optionsMap.containsKey("-" + option.getValue().getFlag()))
-                    ? optionsMap.get("-" + optionParser.getFlag())
-                    : new String[] {};
+            if(optionsMap.containsKey("-" + option.getValue().getFlag()) || option.getValue().optionLength() == 0) {
+                String[] optionStrings = (optionsMap.containsKey("-" + option.getValue().getFlag()))
+                        ? optionsMap.get("-" + optionParser.getFlag())
+                        : new String[0];
 
-            if(optionStrings.length != optionParser.optionLength()) {
-                Clog.e("'-#{$1}' option should be of length #{$2}: was given #{$3}", new Object[] {optionParser.getFlag(), optionParser.optionLength(), optionStrings.length});
-                continue;
-            }
+                if(optionStrings.length > 0 && optionStrings.length != optionParser.optionLength()) {
+                    Clog.e("'-#{$1}' option should be of length #{$2}: was given #{$3}", new Object[] {optionParser.getFlag(), optionParser.optionLength(), optionStrings.length});
+                    continue;
+                }
+                else {
+                    JSONElement optionValue = optionParser.parseOption(optionStrings);
 
-            JSONElement optionValue = optionParser.parseOption(optionStrings);
+                    if(optionValue == null) {
+                        optionValue = optionParser.getDefaultValue();
+                    }
 
-            if(optionValue == null) {
-                optionValue = optionParser.getDefaultValue();
-            }
-
-            if(optionValue != null) {
-                siteOptions.put(optionParser.getFlag(), optionValue.getElement());
+                    if(optionValue != null) {
+                        siteOptions.put(optionParser.getFlag(), optionValue.getElement());
+                    }
+                }
             }
         }
     }

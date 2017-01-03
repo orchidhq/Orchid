@@ -3,10 +3,9 @@ package com.eden.orchid.generators.impl;
 import com.eden.orchid.AutoRegister;
 import com.eden.orchid.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.OrchidUtils;
 import com.eden.orchid.generators.Generator;
-import com.sun.javadoc.RootDoc;
+import com.eden.orchid.resources.OrchidResources;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,7 +23,7 @@ public class MetadataGenerator implements Generator {
     }
 
     @Override
-    public JSONElement startIndexing(RootDoc root) {
+    public JSONElement startIndexing() {
         JSONObject metadataFiles = new JSONObject();
 
         JSONObject classIndex = new JSONObject();
@@ -37,7 +36,7 @@ public class MetadataGenerator implements Generator {
     }
 
     @Override
-    public void startGeneration(RootDoc root) {
+    public void startGeneration() {
         String compiledContent = ((JSONArray) Orchid.query("index.classes.internal").getElement()).toString(2);
         OrchidResources.writeFile("meta", "classIndex.json", compiledContent);
     }

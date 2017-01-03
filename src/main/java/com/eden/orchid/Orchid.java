@@ -16,6 +16,9 @@ import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // TODO: Handle priority clashes
 // TODO: create a json data-getter which parses input like 'options.d' and make root private
 // TODO: Create a self-start method so that it can be run from within a server. Think: always up-to-date documentation at the same url (www.myjavadocs.com/latest) running from JavaEE, Spring, even Ruby on Rails with JRuby!
@@ -84,8 +87,49 @@ public final class Orchid implements ResourceSource {
 
     private static RootDoc rootDoc;
 
+    // theoretically should work, if I can figure out exactly how to get the command-line args set up correctly
+    public static void main(String[] args) {
+        // Load all plugins
+        pluginScan();
+
+        // when running in Javadoc, we have the options parsed for us. Running standalone, we have to map the options
+        // to the same format
+        List<String[]> options = new ArrayList<>();
+        int i = 0;
+        while(i < args.length) {
+            if(args[i].startsWith("-")) {
+                List<String> params = new ArrayList<>();
+                params.add(args[i]);
+                i++;
+                while(i < args.length) {
+                    if(!args[i].startsWith("-")) {
+                        params.add(args[i]);
+                        i++;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                String[] optionList = new String[params.size()];
+                options.add(params.toArray(optionList));
+            }
+        }
+        String[][] allOptions = new String[options.size()][0];
+        for(i = 0; i < allOptions.length; i++) {
+            allOptions[i] = options.get(i);
+        }
+
+        // Continue with the build as normal, using the options we just parsed
+        optionsScan(allOptions);
+        if(shouldContinue()) {
+            indexingScan();
+            generationScan();
+            generateHomepage();
+        }
+    }
+
     /**
-     * Start the Javadoc generation process
+     * Start the site generation process from the Javadoc tool
      *
      * @param rootDoc  the root of the project to generate sources for
      * @return Whether the generation was successful
@@ -94,11 +138,11 @@ public final class Orchid implements ResourceSource {
         Orchid.rootDoc = rootDoc;
 
         pluginScan();
-        optionsScan(rootDoc);
+        optionsScan(rootDoc.options());
         if(shouldContinue()) {
-            indexingScan(rootDoc);
-            generationScan(rootDoc);
-            generateHomepage(rootDoc);
+            indexingScan();
+            generationScan();
+            generateHomepage();
             return true;
         }
         else {
@@ -117,41 +161,9 @@ public final class Orchid implements ResourceSource {
         FastClasspathScanner scanner = new FastClasspathScanner();
         scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
             try {
-                Clog.d("AutoRegistering class: #{$1}", new Object[]{matchingClass.getName()});
+                Clog.d("AutoRegistering class: #{$1}", new Object[]{matchingClass.getSimpleName()});
                 Object instance = matchingClass.newInstance();
-
-                // Register compilers
-                if(instance instanceof Compiler) {
-                    Compiler compiler = (Compiler) instance;
-                    Clog.d("AutoRegistering Compiler: #{ $1 | className }", instance);
-                    SiteCompilers.compilers.put(compiler.priority(), compiler);
-                }
-                if(instance instanceof PreCompiler) {
-                    PreCompiler compiler = (PreCompiler) instance;
-                    Clog.d("AutoRegistering PreCompiler: #{ $1 | className }", instance);
-                    SiteCompilers.precompilers.put(compiler.priority(), compiler);
-                }
-
-                // Register generators
-                if(instance instanceof Generator) {
-                    Generator generator = (Generator) instance;
-                    Clog.d("AutoRegistering Generator: #{ $1 | className }", instance);
-                    SiteGenerators.generators.put(generator.priority(), generator);
-                }
-
-                // Register command-line options
-                if(instance instanceof Option) {
-                    Option option = (Option) instance;
-                    Clog.d("AutoRegistering Option: #{ $1 | className }", instance);
-                    SiteOptions.optionsParsers.put(option.priority(), option);
-                }
-
-                // Register Jars which contain resources
-                if(instance instanceof ResourceSource) {
-                    ResourceSource resourceSource = (ResourceSource) instance;
-                    Clog.d("AutoRegistering ResourceSource: #{ $1 | className }", instance);
-                    OrchidResources.resourceSources.put(resourceSource.resourcePriority(), resourceSource);
-                }
+                register(instance);
             }
             catch (IllegalAccessException|InstantiationException e) {
                 e.printStackTrace();
@@ -160,14 +172,38 @@ public final class Orchid implements ResourceSource {
         scanner.scan();
     }
 
+    public static void register(Object instance) {
+
+        // Register compilers
+        if(instance instanceof Compiler) {
+            SiteCompilers.registerCompiler((Compiler) instance);
+        }
+        if(instance instanceof PreCompiler) {
+            SiteCompilers.registerPreCompiler((PreCompiler) instance);
+        }
+
+        // Register generators
+        if(instance instanceof Generator) {
+            SiteGenerators.registerGenerator((Generator) instance);
+        }
+
+        // Register command-line options
+        if(instance instanceof Option) {
+            SiteOptions.registerOption((Option) instance);
+        }
+
+        // Register Jars which contain resources
+        if(instance instanceof ResourceSource) {
+            OrchidResources.registerResouceSource((ResourceSource) instance);
+        }
+    }
+
     /**
      * Step two: parse all command-line args using the registered Options.
-     *
-     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void optionsScan(RootDoc rootDoc) {
+    private static void optionsScan(String [][] options) {
         root.put("options", new JSONObject());
-        SiteOptions.parseOptions(rootDoc, root.getJSONObject("options"));
+        SiteOptions.parseOptions(options, root.getJSONObject("options"));
     }
 
     /**
@@ -203,33 +239,26 @@ public final class Orchid implements ResourceSource {
      * Step four: scan all registered generators and index all discovered components. No content should be written at
      * this point, we are just gathering the references to files that will be written, so that when we start writing
      * files we can be sure we are able to generate links to any other piece of generated content.
-     *
-     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void indexingScan(RootDoc rootDoc) {
+    private static void indexingScan() {
         root.put("index", new JSONObject());
-        SiteGenerators.startIndexing(rootDoc, root.getJSONObject("index"));
+        SiteGenerators.startIndexing(root.getJSONObject("index"));
     }
 
     /**
      * Step five: scan all registered generators and generate the final output files. At this point, any file that will
      * be generated should be able to be linked to finding its location within the index.
-     *
-     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void generationScan(RootDoc rootDoc) {
-        root.put("generators", new JSONObject());
-        SiteGenerators.startGeneration(rootDoc, root.getJSONObject("generators"));
+    private static void generationScan() {
+        SiteGenerators.startGeneration();
     }
 
     /**
      * Step six: generate the final site homepage
-     *
-     * @param rootDoc  the root of the project to generate sources for
      */
-    private static void generateHomepage(RootDoc rootDoc) {
-        root.put("root", new JSONObject(root.toString()));
-        theme.generateHomepage(rootDoc, root);
+    private static void generateHomepage() {
+        root.put("root", new JSONObject(root.toMap()));
+        theme.generateHomepage(root);
     }
 
     /**

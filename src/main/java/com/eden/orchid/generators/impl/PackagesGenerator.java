@@ -33,7 +33,12 @@ public class PackagesGenerator implements Generator {
     }
 
     @Override
-    public JSONElement startIndexing(RootDoc root) {
+    public JSONElement startIndexing() {
+        RootDoc root = Orchid.getRootDoc();
+
+        if(root == null) {
+            return null;
+        }
 
         JSONArray packageIndex = new JSONArray();
 
@@ -62,7 +67,13 @@ public class PackagesGenerator implements Generator {
     }
 
     @Override
-    public void startGeneration(RootDoc root) {
+    public void startGeneration() {
+        RootDoc root = Orchid.getRootDoc();
+
+        if(root == null) {
+            return;
+        }
+
         OrchidEntry packageDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.html");
 
         String containerName = "packageDoc.html";

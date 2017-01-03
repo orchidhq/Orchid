@@ -6,7 +6,6 @@ import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.utilities.OrchidPair;
-import com.sun.javadoc.RootDoc;
 
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public abstract class Theme implements ResourceSource {
         return new String[] {};
     }
 
-    public void generateHomepage(RootDoc rootDoc, Object... data) {
+    public void generateHomepage(Object... data) {
         String finalCompiledContent = OrchidUtils.compileLayout("index.html", Orchid.getRoot().toMap());
 
         OrchidResources.writeFile("", "index.html", finalCompiledContent);

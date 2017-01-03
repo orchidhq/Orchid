@@ -3,6 +3,7 @@ package com.eden.orchid.resources;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidUtils;
+import com.sun.tools.javac.resources.compiler;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -25,6 +26,15 @@ import java.util.jar.JarFile;
 public class OrchidResources {
 
     public static Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
+
+    public static void registerResouceSource(ResourceSource resourceSource) {
+        int priority = resourceSource.resourcePriority();
+        while(resourceSources.containsKey(priority)) {
+            priority--;
+        }
+
+        OrchidResources.resourceSources.put(priority, resourceSource);
+    }
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.

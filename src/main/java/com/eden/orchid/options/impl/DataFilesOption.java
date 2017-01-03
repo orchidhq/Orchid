@@ -29,7 +29,13 @@ public class DataFilesOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        return parseDataFiles(Orchid.query("options.resourcesDir").toString());
+        JSONElement res = Orchid.query("options.resourcesDir");
+        if(res != null) {
+            return parseDataFiles(res.toString());
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
