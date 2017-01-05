@@ -103,10 +103,10 @@ public class ClassesGenerator implements Generator {
             return;
         }
 
-        OrchidEntry classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.html");
+        OrchidEntry classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
 
-        String containerName = "classDoc.html";
-        String layoutName = "index.html";
+        String containerName = "classDoc.twig";
+        String layoutName = "index.twig";
 
         if(classDocTemplate != null) {
             JSONElement layoutElement = classDocTemplate.queryEmbeddedData("layout");

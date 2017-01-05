@@ -74,10 +74,10 @@ public class PackagesGenerator implements Generator {
             return;
         }
 
-        OrchidEntry packageDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.html");
+        OrchidEntry packageDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
 
-        String containerName = "packageDoc.html";
-        String layoutName = "index.html";
+        String containerName = "packageDoc.twig";
+        String layoutName = "index.twig";
 
         if(packageDocTemplate != null) {
             JSONElement layoutElement = packageDocTemplate.queryEmbeddedData("layout");

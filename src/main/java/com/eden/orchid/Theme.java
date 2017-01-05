@@ -34,7 +34,7 @@ public abstract class Theme implements ResourceSource {
     }
 
     public void generateHomepage(Object... data) {
-        String finalCompiledContent = OrchidUtils.compileLayout("index.html", Orchid.getRoot().toMap());
+        String finalCompiledContent = OrchidUtils.compileLayout("index.twig", Orchid.getRoot().toMap());
 
         OrchidResources.writeFile("", "index.html", finalCompiledContent);
     }
