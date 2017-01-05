@@ -1,4 +1,4 @@
-package com.eden.orchid.docParser;
+package com.eden.orchid.generators.docParser;
 
 import com.sun.javadoc.AnnotationTypeDoc;
 import com.sun.javadoc.ClassDoc;

@@ -1,6 +1,6 @@
-package com.eden.orchid.resources;
+package com.eden.orchid.utilities.resources;
 
-import com.eden.orchid.JSONElement;
+import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidPair;
 import org.apache.commons.io.IOUtils;

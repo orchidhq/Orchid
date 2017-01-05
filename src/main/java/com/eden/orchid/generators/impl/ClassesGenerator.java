@@ -1,14 +1,14 @@
 package com.eden.orchid.generators.impl;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.AutoRegister;
-import com.eden.orchid.JSONElement;
+import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.OrchidUtils;
-import com.eden.orchid.docParser.ClassDocParser;
+import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.generators.docParser.ClassDocParser;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.resources.OrchidEntry;
-import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.utilities.resources.OrchidEntry;
+import com.eden.orchid.utilities.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;

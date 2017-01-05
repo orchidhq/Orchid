@@ -1,9 +1,8 @@
-package com.eden.orchid.resources;
+package com.eden.orchid.utilities.resources;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.OrchidUtils;
-import com.sun.tools.javac.resources.compiler;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 

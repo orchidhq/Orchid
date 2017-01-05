@@ -1,6 +1,6 @@
 package com.eden.orchid.generators;
 
-import com.eden.orchid.JSONElement;
+import com.eden.orchid.utilities.JSONElement;
 
 public interface Generator {
     JSONElement startIndexing();

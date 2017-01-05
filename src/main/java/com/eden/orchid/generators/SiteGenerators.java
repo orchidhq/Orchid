@@ -1,8 +1,8 @@
 package com.eden.orchid.generators;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.JSONElement;
-import com.eden.orchid.OrchidUtils;
+import com.eden.orchid.utilities.JSONElement;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import java.util.Collections;

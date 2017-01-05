@@ -1,4 +1,4 @@
-package com.eden.orchid;
+package com.eden.orchid.utilities;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

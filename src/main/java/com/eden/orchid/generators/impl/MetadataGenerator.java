@@ -1,11 +1,11 @@
 package com.eden.orchid.generators.impl;
 
-import com.eden.orchid.AutoRegister;
-import com.eden.orchid.JSONElement;
+import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.OrchidUtils;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.utilities.resources.OrchidResources;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

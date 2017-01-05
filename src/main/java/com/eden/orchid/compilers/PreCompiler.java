@@ -1,6 +1,6 @@
 package com.eden.orchid.compilers;
 
-import com.eden.orchid.JSONElement;
+import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.utilities.OrchidPair;
 
 /**
