@@ -27,20 +27,29 @@ repositories {
 }
 
 dependencies {
+    // enable processing JavaDoc
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
-    compile 'org.apache.commons:commons-io:1.3.2'
-    compile 'org.json:json:20160810'
-    compile "org.jtwig:jtwig-core:5.65"
-    compile('com.github.cjbrooks12:Clog:v1.2.3') {
-        transitive = true
-    }
-    compile 'org.yaml:snakeyaml:1.17'
+
+    // Enable auto-registration of plugins and themes
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
+
+    // For matching files
+    compile 'org.apache.commons:commons-io:1.3.2'
+    compile 'fr.opensagres.js:minimatch.java:1.1.0'
+
+    // Included basic parsers: JSON, YAML, Twig
+    compile 'org.json:json:20160810'
+    compile 'org.yaml:snakeyaml:1.17'
+    compile 'org.jtwig:jtwig-core:5.65'
+
+    // automatically retrieve additional classes from other Orchid documentation sites
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
-    orchidDocsCompile('com.github.JavaEden:Orchid-Liquid:e5a51f7f34') {
-        transitive = true
-    }
+    // Logging
+    compile 'com.github.cjbrooks12:Clog:v1.2.3'
+
+    // generate own documentation with specific theme
+    orchidDocsCompile 'com.github.JavaEden:Orchid-Liquid:e5a51f7f34'
 }
 
 // Jacoco Code Coverage

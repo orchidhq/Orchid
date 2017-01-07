@@ -53,7 +53,7 @@ public class ClassDocParser {
         classInfoJson.put("url", classDoc.name() + ".html");
 
         if(classDoc.superclassType() != null) {
-            classInfoJson.put("extends", ParserUtils.getTypeObject(classDoc.superclassType()));
+            classInfoJson.put("superclass", ParserUtils.getTypeObject(classDoc.superclassType()));
         }
 
         if(classDoc.interfaces().length > 0) {

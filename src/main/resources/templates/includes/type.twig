@@ -1,0 +1,45 @@
+{%- if type.url -%}
+    <a href="{{- type.url -}}" data-toggle="tooltip" title="{{- type.name -}}">
+{%- else -%}
+    <code data-toggle="tooltip" title="{{- type.name -}}">
+{%- endif -%}
+{{- type.simpleName -}}{{- type.dimension -}}
+{%- if not type.url -%}
+    </code>
+{%- else -%}
+    </a>
+{%- endif -%}
+
+<!-- if the type is a wildcard, display its extends/super types -->
+{%- if type.wildcardType -%}
+    {%- set superclass = type.wildcardType["extends"] -%}
+    {%- if superclass -%}
+        extends
+        {%- for t in superclass -%}
+            {%- include 'templates/includes/type.twig' with { type: t } -%}
+            {%- if loop.last == false -%}
+                ,
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+
+    {%- if type.wildcardType.super -%}
+        super
+        {%- for t in type.wildcardType.super -%}
+            {%- include 'templates/includes/type.twig' with { type: t } -%}
+            {%- if loop.last == false -%}
+                ,
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+{%- endif -%}
+
+<!-- if the type is a parameterized type, display its type parameters inside brackets -->
+{%- if type.typeParameters -%}
+    <{%- for t in type.typeParameters -%}
+        {%- include 'templates/includes/type.twig' with { type: t } -%}
+        {%- if loop.last == false -%}
+            ,
+        {%- endif -%}
+    {%- endfor -%}>
+{%- endif -%}
