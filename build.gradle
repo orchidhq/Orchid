@@ -37,10 +37,11 @@ dependencies {
     compile 'org.apache.commons:commons-io:1.3.2'
     compile 'fr.opensagres.js:minimatch.java:1.1.0'
 
-    // Included basic parsers: JSON, YAML, Twig
+    // Included basic parsers: JSON, YAML, Twig, Markdown
     compile 'org.json:json:20160810'
     compile 'org.yaml:snakeyaml:1.17'
     compile 'org.jtwig:jtwig-core:5.65'
+    compile 'com.vladsch.flexmark:flexmark:0.7.0'
 
     // automatically retrieve additional classes from other Orchid documentation sites
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
