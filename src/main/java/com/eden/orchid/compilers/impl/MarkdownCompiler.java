@@ -1,4 +1,4 @@
-package com.eden.orchid.compilers.impl.markdown;
+package com.eden.orchid.compilers.impl;
 
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.utilities.AutoRegister;
