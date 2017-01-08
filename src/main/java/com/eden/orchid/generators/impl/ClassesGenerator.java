@@ -126,11 +126,8 @@ public class ClassesGenerator implements Generator {
             object.put("head", classHeadJson);
             object.put("root", object.toMap());
 
-            object.put("content", OrchidUtils.compileContainer(containerName, object));
-
-            String finalCompiledContent = OrchidUtils.compileLayout(layoutName, object);
-
-            OrchidResources.writeFile("classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator), "index.html", finalCompiledContent);
+            OrchidResources.writeFile("classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator), "index.html",
+                    OrchidUtils.compileContainer(containerName, object));
         }
     }
 
