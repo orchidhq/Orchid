@@ -42,6 +42,7 @@ dependencies {
     compile 'org.yaml:snakeyaml:1.17'
     compile 'org.jtwig:jtwig-core:5.65'
     compile 'com.vladsch.flexmark:flexmark:0.7.0'
+    compile 'ch.qos.logback:logback-classic:0.9.26'
 
     // automatically retrieve additional classes from other Orchid documentation sites
     compile 'com.squareup.okhttp3:okhttp:3.5.0'

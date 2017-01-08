@@ -7,7 +7,6 @@ import com.vladsch.flexmark.parser.Parser;
 
 @AutoRegister
 public class MarkdownCompiler implements Compiler {
-
     @Override
     public String compile(String extension, String source, Object... data) {
         return HtmlRenderer.builder().build().render(Parser.builder().build().parse(source));

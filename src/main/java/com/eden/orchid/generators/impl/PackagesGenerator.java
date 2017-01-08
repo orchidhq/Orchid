@@ -104,11 +104,7 @@ public class PackagesGenerator implements Generator {
             object.put("head", packageHeadJson);
             object.put("root", object.toMap());
 
-            object.put("content", OrchidUtils.compileContainer(containerName, object));
-
-            String finalCompiledContent = OrchidUtils.compileLayout(layoutName, object);
-
-            OrchidResources.writeFile("classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator), "index.html", finalCompiledContent);
+            OrchidResources.writeFile("classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator), "index.html", OrchidUtils.compileContainer(containerName, object));
         }
     }
 }
