@@ -7,7 +7,7 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.generators.docParser.PackageDocParser;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.resources.OrchidEntry;
+import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;
@@ -74,13 +74,13 @@ public class PackagesGenerator implements Generator {
             return;
         }
 
-        OrchidEntry packageDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
+        OrchidResource packageDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
 
         String containerName = "packageDoc.twig";
         String layoutName = "index.twig";
 
         if(packageDocTemplate != null) {
-            JSONElement layoutElement = packageDocTemplate.queryEmbeddedData("layout");
+            JSONElement layoutElement = packageDocTemplate.queryData("layout");
             if(layoutElement != null) {
                 layoutName = layoutElement.toString();
             }

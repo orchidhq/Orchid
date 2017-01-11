@@ -7,7 +7,7 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.generators.docParser.ClassDocParser;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.resources.OrchidEntry;
+import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
@@ -103,13 +103,13 @@ public class ClassesGenerator implements Generator {
             return;
         }
 
-        OrchidEntry classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
+        OrchidResource classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
 
         String containerName = "classDoc.twig";
         String layoutName = "index.twig";
 
         if(classDocTemplate != null) {
-            JSONElement layoutElement = classDocTemplate.queryEmbeddedData("layout");
+            JSONElement layoutElement = classDocTemplate.queryData("layout");
             if(layoutElement != null) {
                 layoutName = layoutElement.toString();
             }

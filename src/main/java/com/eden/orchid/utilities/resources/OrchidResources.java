@@ -66,24 +66,24 @@ public class OrchidResources {
 
 
     /**
-     * Gets an OrchidEntry representing the file found in the '-resourcesDir' option directory. Typically used when you
+     * Gets an OrchidResource representing the file found in the '-resourcesDir' option directory. Typically used when you
      * need a file that you know will be provided by the end-user.
      *
      * @param fileName the name of the requested file, relative to the 'resources' directory
-     * @return  the OrchidEntry representing the file if it exists in the resourcesDir location, null otherwise
+     * @return  the OrchidResource representing the file if it exists in the resourcesDir location, null otherwise
      */
-    public static OrchidEntry getResourceDirEntry(String fileName) {
+    public static OrchidResource getResourceDirEntry(String fileName) {
         File file = getResourceFile(fileName);
 
         if(file != null) {
-            return new OrchidEntry(file, fileName);
+            return new OrchidResource(file, fileName);
         }
 
         return null;
     }
 
     /**
-     * Gets an OrchidEntry representing the file found in one of many possible locations. This will return the first file
+     * Gets an OrchidResource representing the file found in one of many possible locations. This will return the first file
      * found in the following order: if the '-resourcesDir' option was set, the File from that directory, otherwise the
      * File from the default resources directory. If the requested file could not be found in the resource directories,
      * it will loop through all registered ResourceSources in order of priority from highest to lowest and attempt to
@@ -91,20 +91,20 @@ public class OrchidResources {
      * the end-user.
      *
      * @param fileName the name of the requested file, relative to the 'resources' directory
-     * @return  the OrchidEntry representing the file if it exists in any location, null otherwise
+     * @return  the OrchidResource representing the file if it exists in any location, null otherwise
      */
-    public static OrchidEntry getResourceEntry(String fileName) {
+    public static OrchidResource getResourceEntry(String fileName) {
         File file = getResourceFile(fileName);
 
         if(file != null) {
-            return new OrchidEntry(file, fileName);
+            return new OrchidResource(file, fileName);
         }
 
         for(Map.Entry<Integer, ResourceSource> source : OrchidResources.resourceSources.entrySet()) {
             JarFile jarFile = jarForClass(source.getValue().getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
             if(jarEntry != null) {
-                return new OrchidEntry(jarFile, jarEntry, fileName);
+                return new OrchidResource(jarFile, jarEntry, fileName);
             }
         }
 
@@ -118,15 +118,15 @@ public class OrchidResources {
      * @param dirName the name of requested directory, relative to the 'resources' directory
      * @return the entries, in no particular order
      */
-    public static List<OrchidEntry> getResourceDirEntries(String dirName, String[] fileExtensions, boolean recursive) {
-        TreeMap<String, OrchidEntry> entries = new TreeMap<>();
+    public static List<OrchidResource> getResourceDirEntries(String dirName, String[] fileExtensions, boolean recursive) {
+        TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
 
         for(File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
-            OrchidEntry entry = new OrchidEntry(file, relative);
+            OrchidResource entry = new OrchidResource(file, relative);
             entry.setPriority(Integer.MAX_VALUE);
             entries.put(relative, entry);
         }
@@ -146,15 +146,15 @@ public class OrchidResources {
      * @param dirName the name of requested directory, relative to the 'resources' directory
      * @return the entries, ordered by ResourceSource priority
      */
-    public static List<OrchidEntry> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive) {
-        TreeMap<String, OrchidEntry> entries = new TreeMap<>();
+    public static List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive) {
+        TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
         Clog.d("Getting resources from resourcesDir");
         for(File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
-            OrchidEntry entry = new OrchidEntry(file, relative);
+            OrchidResource entry = new OrchidResource(file, relative);
             entry.setPriority(Integer.MAX_VALUE);
             entries.put(relative, entry);
         }
@@ -180,7 +180,7 @@ public class OrchidResources {
                 }
 
                 if(shouldAddJarEntry) {
-                    OrchidEntry entry = new OrchidEntry(jarFile, jarEntry, relative);
+                    OrchidResource entry = new OrchidResource(jarFile, jarEntry, relative);
                     entries.put(relative, entry);
                 }
             }

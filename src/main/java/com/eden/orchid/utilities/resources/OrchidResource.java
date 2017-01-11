@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidEntry {
+public class OrchidResource {
 
     private final File file;
 
@@ -28,7 +28,7 @@ public class OrchidEntry {
 
     private int priority;
 
-    public OrchidEntry(File file, String name) {
+    public OrchidResource(File file, String name) {
         this.file = file;
 
         jarEntry = null;
@@ -37,7 +37,7 @@ public class OrchidEntry {
         setName(name);
     }
 
-    public OrchidEntry(JarFile jarFile, JarEntry jarEntry, String name) {
+    public OrchidResource(JarFile jarFile, JarEntry jarEntry, String name) {
         this.file = null;
 
         this.jarEntry = jarEntry;
@@ -46,6 +46,8 @@ public class OrchidEntry {
         setName(name);
     }
 
+// Get File-specific data
+//----------------------------------------------------------------------------------------------------------------------
     public String getRawContent() {
         loadContent();
 
@@ -58,17 +60,17 @@ public class OrchidEntry {
         return precompiledContent;
     }
 
-    public JSONElement getEmbeddedData() {
+    public JSONElement getData() {
         loadContent();
 
         return embeddedData;
     }
 
-    public void setEmbeddedData(JSONElement embeddedData) {
+    public void setData(JSONElement embeddedData) {
         this.embeddedData = embeddedData;
     }
 
-    public JSONElement queryEmbeddedData(String pointer) {
+    public JSONElement queryData(String pointer) {
         loadContent();
 
         if(embeddedData != null) {
@@ -112,7 +114,7 @@ public class OrchidEntry {
         return path + File.separator + fileName;
     }
 
-    // internal methods to get the data represented by this Entry
+// internal methods to get the data represented by this Entry
 //----------------------------------------------------------------------------------------------------------------------
     private void loadContent() {
         if(rawContent == null) {

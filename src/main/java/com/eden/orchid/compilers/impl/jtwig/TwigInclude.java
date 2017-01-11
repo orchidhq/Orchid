@@ -2,7 +2,7 @@ package com.eden.orchid.compilers.impl.jtwig;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.resources.OrchidEntry;
+import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import com.google.common.base.Optional;
 import org.apache.commons.io.FilenameUtils;
@@ -33,7 +33,7 @@ public class TwigInclude implements ResourceLoader {
     public InputStream load(String path) {
         Clog.v("Loading path from Twig: " + path);
 
-        OrchidEntry entry;
+        OrchidResource entry;
         if(path.startsWith("/")) {
             entry = OrchidResources.getResourceEntry(path);
         }
@@ -54,7 +54,7 @@ public class TwigInclude implements ResourceLoader {
     public boolean exists(String path) {
         Clog.v("Checking path from Twig: " + path);
 
-        OrchidEntry entry;
+        OrchidResource entry;
         if(path.startsWith("/")) {
             entry = OrchidResources.getResourceEntry(path);
         }

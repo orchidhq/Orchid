@@ -1,7 +1,7 @@
 package com.eden.orchid.utilities;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.resources.OrchidEntry;
+import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
@@ -90,7 +90,7 @@ public final class OrchidUtils {
     }
 
     public static String compileContainer(String containerName, Object... data) {
-        OrchidEntry container = OrchidResources.getResourceEntry("templates/containers/" + containerName);
+        OrchidResource container = OrchidResources.getResourceEntry("templates/containers/" + containerName);
 
         if(container != null) {
             return Orchid.getTheme().compile(FilenameUtils.getExtension(containerName), container.getContent(), data);
@@ -100,7 +100,7 @@ public final class OrchidUtils {
     }
 
     public static String compileLayout(String layoutName, Object... data) {
-        OrchidEntry layout = OrchidResources.getResourceEntry("templates/layouts/" + layoutName);
+        OrchidResource layout = OrchidResources.getResourceEntry("templates/layouts/" + layoutName);
 
         if(layout != null) {
             return Orchid.getTheme().compile(FilenameUtils.getExtension(layoutName), layout.getContent(), data);

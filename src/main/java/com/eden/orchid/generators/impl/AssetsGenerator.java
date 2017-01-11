@@ -5,7 +5,7 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.utilities.resources.OrchidEntry;
+import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
@@ -31,8 +31,8 @@ public class AssetsGenerator implements Generator {
     public JSONElement startIndexing() {
         JSONObject siteAssets = new JSONObject();
 
-        List<OrchidEntry> assets = OrchidResources.getResourceEntries("assets", null, true);
-        for(OrchidEntry asset : assets) {
+        List<OrchidResource> assets = OrchidResources.getResourceEntries("assets", null, true);
+        for(OrchidResource asset : assets) {
             JSONObject file = new JSONObject();
 
             String filePath = "assets/" + asset.getPath();
@@ -48,11 +48,11 @@ public class AssetsGenerator implements Generator {
 
     @Override
     public void startGeneration() {
-        List<OrchidEntry> assets = OrchidResources.getResourceEntries("assets", null, true);
+        List<OrchidResource> assets = OrchidResources.getResourceEntries("assets", null, true);
 
-        for(OrchidEntry asset : assets) {
+        for(OrchidResource asset : assets) {
             JSONObject data = new JSONObject(Orchid.getRoot().toMap());
-            data.put("file", asset.getEmbeddedData().getElement());
+            data.put("file", asset.getData().getElement());
 
             String output = (!OrchidUtils.isEmpty(asset.getContent()))
                     ? Orchid.getTheme().compile(FilenameUtils.getExtension(asset.getFileName()), asset.getContent(), data)
@@ -65,7 +65,7 @@ public class AssetsGenerator implements Generator {
         }
     }
 
-    public static void buildTaxonomy(OrchidEntry asset, JSONObject siteAssets, JSONObject file) {
+    public static void buildTaxonomy(OrchidResource asset, JSONObject siteAssets, JSONObject file) {
         String taxonomy;
 
         if(!OrchidUtils.isEmpty(asset.getPath())) {
