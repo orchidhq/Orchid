@@ -4,6 +4,7 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -22,7 +23,56 @@ public class OrchidPage {
     private String filePath;
 
     private JSONObject data;
-    private JSONObject menu;
+    private JSONArray menu;
+
+    private OrchidResource resource;
+
+    public OrchidPage(OrchidResource resource) {
+        this.resource = resource;
+
+        if(!OrchidUtils.isEmpty(resource.queryData("title"))) {
+            this.title = resource.queryData("title").toString();
+        }
+        else {
+            this.title = FilenameUtils.removeExtension(resource.getFileName());
+        }
+
+        if(!OrchidUtils.isEmpty(resource.queryData("description"))) {
+            this.description = resource.queryData("description").toString();
+        }
+
+        if(!OrchidUtils.isEmpty(resource.queryData("url"))) {
+            this.url = resource.queryData("url").toString();
+        }
+        else {
+            this.url = resource.getPath()
+                    + File.separator
+                    + FilenameUtils.removeExtension(resource.getFileName())
+                    + "."
+                    + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(resource.getFileName()));
+        }
+
+        this.fileName = resource.getFileName();
+        this.filePath = resource.getPath();
+
+        if(resource.getData().getElement() instanceof JSONObject) {
+            this.data = (JSONObject) resource.getData().getElement();
+        }
+        else {
+            this.data = new JSONObject();
+            this.data.put("data", resource.getData().getElement());
+        }
+
+        if(resource.queryData("menu") != null) {
+            if(resource.queryData("menu").getElement() instanceof JSONArray) {
+                this.menu = (JSONArray) resource.queryData("menu").getElement();
+            }
+            else {
+                this.menu = new JSONArray();
+                this.menu.put(resource.queryData("menu").getElement());
+            }
+        }
+    }
 
     public void renderTemplate(String templateName) {
         render(templateName, FilenameUtils.getExtension(templateName), true);
@@ -56,9 +106,9 @@ public class OrchidPage {
         JSONObject pageData = buildPageData();
 
         JSONObject templateVariables = new JSONObject(Orchid.getRoot().toMap());
-        pageData.put("page", pageData);
+        templateVariables.put("page", pageData);
         if(!OrchidUtils.isEmpty(alias)) {
-            pageData.put(alias, pageData);
+            templateVariables.put(alias, pageData);
         }
 
         String content = Orchid.getTheme().compile(extension, templateContent, templateVariables);
@@ -87,8 +137,21 @@ public class OrchidPage {
             pageData.put("next", nextData);
         }
 
-        pageData.put("title", (OrchidUtils.isEmpty(title) ? "" : title));
-        pageData.put("description", (OrchidUtils.isEmpty(description) ? "" : description));
+        if(!OrchidUtils.isEmpty(title)) {
+            pageData.put("title", title);
+        }
+
+        if(!OrchidUtils.isEmpty(description)) {
+            pageData.put("description", description);
+        }
+
+        if(!OrchidUtils.isEmpty(resource.getContent())) {
+            pageData.put("content",
+                    Orchid.getTheme().compile(
+                            FilenameUtils.getExtension(resource.getFileName()),
+                            resource.getContent()
+                    ));
+        }
 
         return pageData;
     }
@@ -190,11 +253,11 @@ public class OrchidPage {
         this.data = data;
     }
 
-    public JSONObject getMenu() {
+    public JSONArray getMenu() {
         return menu;
     }
 
-    public void setMenu(JSONObject menu) {
+    public void setMenu(JSONArray menu) {
         this.menu = menu;
     }
 }
