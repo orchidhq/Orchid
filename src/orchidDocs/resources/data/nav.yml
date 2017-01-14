@@ -1,4 +1,3 @@
 
-right :
-  - type: pages
-  - type: classes
+- type: packages
+- type: classes
