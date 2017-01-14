@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include 'templates/includes/header.twig' %}
+
+<!-- start:inject styles -->
+{% set cssFiles = index.assets.css | walk('url') %}
+{% if cssFiles.size > 0 %}
+    {% for file in cssFiles %}
+    <link rel="stylesheet" type="text/css" href="{{ file.url }}" />
+    {% endfor %}
+{% endif %}
+<!-- end:inject styles -->
+</head>
+<body>
+
+{{ content }}
+
+<!-- inject scripts -->
+{% set jsFiles = index.assets.js | walk('url') %}
+{% if jsFiles.size > 0 %}
+    {% for file in jsFiles %}
+    <script src="{{ file.url }}"></script>
+    {% endfor %}
+{% endif %}
+<!-- end:inject scripts -->
+</body>
+</html>

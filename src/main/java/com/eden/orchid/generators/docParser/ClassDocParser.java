@@ -103,21 +103,23 @@ public class ClassDocParser {
         for(int i = 0; i < classIndex.length(); i++) {
             if(classDoc.qualifiedName().equals(classIndex.getJSONObject(i).getString("name"))) {
 
-                if(i == 0) {
-                    head.put("previous", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(classIndex.length() - 1).getString("name"))));
-                    head.put("next", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i + 1).getString("name"))));
-                }
-                else if(i == classIndex.length() - 1) {
-                    head.put("previous", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i - 1).getString("name"))));
-                    head.put("next", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(0).getString("name"))));
-                }
-                else {
-                    head.put("previous", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i - 1).getString("name"))));
-                    head.put("next", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i + 1).getString("name"))));
-                }
+                if(classIndex.length() > 1) {
+                    if (i == 0) {
+                        head.put("previous", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(classIndex.length() - 1).getString("name"))));
+                        head.put("next", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i + 1).getString("name"))));
+                    }
+                    else if (i == classIndex.length() - 1) {
+                        head.put("previous", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i - 1).getString("name"))));
+                        head.put("next", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(0).getString("name"))));
+                    }
+                    else {
+                        head.put("previous", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i - 1).getString("name"))));
+                        head.put("next", ParserUtils.getTypeObject(Orchid.findClass(classIndex.getJSONObject(i + 1).getString("name"))));
+                    }
 
-                head.getJSONObject("previous").put("title", head.getJSONObject("previous").getString("simpleName"));
-                head.getJSONObject("next").put("title", head.getJSONObject("next").getString("simpleName"));
+                    head.getJSONObject("previous").put("title", head.getJSONObject("previous").getString("simpleName"));
+                    head.getJSONObject("next").put("title", head.getJSONObject("next").getString("simpleName"));
+                }
 
                 break;
             }

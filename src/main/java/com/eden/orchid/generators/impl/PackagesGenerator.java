@@ -1,13 +1,11 @@
 package com.eden.orchid.generators.impl;
 
-import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.Orchid;
+import com.eden.orchid.generators.Generator;
+import com.eden.orchid.generators.docParser.PackageDocParser;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.generators.docParser.PackageDocParser;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;
@@ -74,20 +72,6 @@ public class PackagesGenerator implements Generator {
             return;
         }
 
-        OrchidResource packageDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
-
-        String containerName = "packageDoc.twig";
-        String layoutName = "index.twig";
-
-        if(packageDocTemplate != null) {
-            JSONElement layoutElement = packageDocTemplate.queryData("layout");
-            if(layoutElement != null) {
-                layoutName = layoutElement.toString();
-            }
-        }
-
-        Clog.i("Package files will be compiled with '#{$1}' layout", new Object[]{layoutName});
-
         Set<String> packageNamesSet = new TreeSet<>();
         for (ClassDoc classDoc : root.classes()) {
             packageNamesSet.add(classDoc.containingPackage().name());
@@ -104,7 +88,11 @@ public class PackagesGenerator implements Generator {
             object.put("head", packageHeadJson);
             object.put("root", object.toMap());
 
-            OrchidResources.writeFile("classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator), "index.html", OrchidUtils.compileContainer(containerName, object));
+            String filePath = "classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator);
+            String fileName = "index.html";
+            String contents = OrchidUtils.compileTemplate("templates/pages/packageDoc.twig", object);
+
+            OrchidResources.writeFile(filePath, fileName, contents);
         }
     }
 }

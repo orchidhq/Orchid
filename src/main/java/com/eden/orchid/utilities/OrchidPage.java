@@ -260,4 +260,10 @@ public class OrchidPage {
     public void setMenu(JSONArray menu) {
         this.menu = menu;
     }
+
+    public void usePrettyUrl() {
+        filePath = filePath + File.separator + FilenameUtils.removeExtension(fileName);
+        fileName = "index." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
+        setUrl(filePath + File.separator + fileName);
+    }
 }

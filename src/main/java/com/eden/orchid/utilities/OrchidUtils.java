@@ -89,41 +89,41 @@ public final class OrchidUtils {
         return baseUrl + File.separator + url;
     }
 
-    public static String compileContainer(String containerName, Object... data) {
-        OrchidResource container = OrchidResources.getResourceEntry("templates/containers/" + containerName);
+    public static String compileTemplate(String templateName, Object... data) {
+        OrchidResource container = OrchidResources.getResourceEntry(templateName);
 
         if(container != null) {
-            return Orchid.getTheme().compile(FilenameUtils.getExtension(containerName), container.getContent(), data);
+            return Orchid.getTheme().compile(FilenameUtils.getExtension(templateName), container.getContent(), data);
         }
 
         return "";
     }
-
-    public static String compileLayout(String layoutName, Object... data) {
-        OrchidResource layout = OrchidResources.getResourceEntry("templates/layouts/" + layoutName);
-
-        if(layout != null) {
-            return Orchid.getTheme().compile(FilenameUtils.getExtension(layoutName), layout.getContent(), data);
-        }
-
-        return "";
-    }
-
-    public static void createPage(String outputPath, String fileName, String container, String layout, String inputExt, String inputContent, JSONObject data) {
-        JSONObject jsonData = new JSONObject(Orchid.getRoot().toMap());
-
-        for(String key : data.keySet()) {
-            jsonData.put(key, data.get(key));
-        }
-
-        inputContent = Orchid.getTheme().compile(inputExt, inputContent);
-        jsonData.put("content", inputContent);
-
-        inputContent = compileContainer(container, jsonData);
-        jsonData.put("content", inputContent);
-
-        inputContent = compileLayout(layout, jsonData);
-
-        OrchidResources.writeFile(outputPath, fileName, inputContent);
-    }
+//
+//    public static String compileLayout(String layoutName, Object... data) {
+//        OrchidResource layout = OrchidResources.getResourceEntry("templates/layouts/" + layoutName);
+//
+//        if(layout != null) {
+//            return Orchid.getTheme().compile(FilenameUtils.getExtension(layoutName), layout.getContent(), data);
+//        }
+//
+//        return "";
+//    }
+//
+//    public static void createPage(String outputPath, String fileName, String container, String layout, String inputExt, String inputContent, JSONObject data) {
+//        JSONObject jsonData = new JSONObject(Orchid.getRoot().toMap());
+//
+//        for(String key : data.keySet()) {
+//            jsonData.put(key, data.get(key));
+//        }
+//
+//        inputContent = Orchid.getTheme().compile(inputExt, inputContent);
+//        jsonData.put("content", inputContent);
+//
+//        inputContent = compileContainer(container, jsonData);
+//        jsonData.put("content", inputContent);
+//
+//        inputContent = compileLayout(layout, jsonData);
+//
+//        OrchidResources.writeFile(outputPath, fileName, inputContent);
+//    }
 }

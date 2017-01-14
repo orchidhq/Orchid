@@ -1,13 +1,11 @@
 package com.eden.orchid.generators.impl;
 
-import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.Orchid;
+import com.eden.orchid.generators.Generator;
+import com.eden.orchid.generators.docParser.ClassDocParser;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.generators.docParser.ClassDocParser;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
@@ -103,20 +101,6 @@ public class ClassesGenerator implements Generator {
             return;
         }
 
-        OrchidResource classDocTemplate = OrchidResources.getResourceEntry("templates/containers/classDoc.twig");
-
-        String containerName = "classDoc.twig";
-        String layoutName = "index.twig";
-
-        if(classDocTemplate != null) {
-            JSONElement layoutElement = classDocTemplate.queryData("layout");
-            if(layoutElement != null) {
-                layoutName = layoutElement.toString();
-            }
-        }
-
-        Clog.i("Class files will be compiled with '#{$1}' layout", new Object[]{layoutName});
-
         for(ClassDoc classDoc : root.classes()) {
             JSONObject classInfoJson = ClassDocParser.createClassDocJson(classDoc);
             JSONObject classHeadJson = ClassDocParser.getClassHeadInfo(classDoc);
@@ -126,8 +110,11 @@ public class ClassesGenerator implements Generator {
             object.put("head", classHeadJson);
             object.put("root", object.toMap());
 
-            OrchidResources.writeFile("classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator), "index.html",
-                    OrchidUtils.compileContainer(containerName, object));
+            String filePath = "classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator);
+            String fileName = "index.html";
+            String contents = OrchidUtils.compileTemplate("templates/pages/classDoc.twig", object);
+
+            OrchidResources.writeFile(filePath, fileName, contents);
         }
     }
 
