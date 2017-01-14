@@ -51,8 +51,8 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-//    orchidDocsCompile 'com.github.JavaEden:OrchidEditorialTheme:3268938c33'
-    orchidDocsCompile 'com.github.JavaEden:Orchid-Liquid:1c4639c417'
+    orchidDocsCompile 'com.github.JavaEden:OrchidEditorialTheme:f513aafb4b'
+//    orchidDocsCompile 'com.github.JavaEden:Orchid-Liquid:d5211b6bea'
 }
 
 // Jacoco Code Coverage
@@ -74,8 +74,8 @@ javadoc {
     options.docletpath.addAll(configurations.orchidDocsCompile)
     options.doclet = 'com.eden.orchid.Orchid'
 
-//    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
-    options.addStringOption("theme", "com.eden.orchidliquid.BSDocTheme")
+    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
+//    options.addStringOption("theme", "com.eden.orchidliquid.BSDocTheme")
     options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
 
     options.addStringOption("v", version)
