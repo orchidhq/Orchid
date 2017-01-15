@@ -1,10 +1,9 @@
 package com.eden.orchid.options.impl;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.options.Option;
+import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.JSONElement;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -55,12 +54,9 @@ public class ConfigOption implements Option {
         JSONObject configOptions = new JSONObject();
 
         for(String configExtension : dataExtensions) {
-            Clog.d("Trying to parse config file: config.#{$1}", new Object[]{configExtension});
-
             JSONObject parsedFile = parseFile(resPath, "config." + configExtension);
 
             if(parsedFile != null) {
-                Clog.d("Found valid config file");
                 for(String key : parsedFile.keySet()) {
                     configOptions.put(key, parsedFile.get(key));
                 }

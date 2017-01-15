@@ -1,3 +1,9 @@
 
 - type: packages
 - type: classes
+- type: taxonomy
+  name: Pages
+  path: pages
+- type: taxonomy
+  name: Wiki
+  path: wiki

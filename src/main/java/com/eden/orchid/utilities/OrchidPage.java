@@ -1,5 +1,6 @@
 package com.eden.orchid.utilities;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.resources.OrchidResource;
 import com.eden.orchid.utilities.resources.OrchidResources;
@@ -21,11 +22,26 @@ public class OrchidPage {
 
     private String fileName;
     private String filePath;
+    private String content;
 
     private JSONObject data;
     private JSONArray menu;
 
     private OrchidResource resource;
+
+    public OrchidPage(String filePath, String fileName, String content) {
+        this.title = FilenameUtils.removeExtension(fileName);
+        this.url = filePath
+                + File.separator
+                + FilenameUtils.removeExtension(fileName)
+                + "."
+                + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
+
+        this.filePath = filePath;
+        this.fileName = fileName;
+
+        this.content = content;
+    }
 
     public OrchidPage(OrchidResource resource) {
         this.resource = resource;
@@ -72,12 +88,25 @@ public class OrchidPage {
                 this.menu.put(resource.queryData("menu").getElement());
             }
         }
+
+        this.content = resource.getContent();
     }
 
+    /**
+     * Render a template from a resource file
+     *
+     * @param templateName the full relative name of the template to render
+     */
     public void renderTemplate(String templateName) {
         render(templateName, FilenameUtils.getExtension(templateName), true);
     }
 
+    /**
+     * Render a template from a string using the given file extension to find the appropriate compilers
+     *
+     * @param template the content of a 'template' to render
+     * @param extension the extension representing the type of 'template'
+     */
     public void renderString(String template, String extension) {
         render(template, extension, false);
     }
@@ -145,12 +174,34 @@ public class OrchidPage {
             pageData.put("description", description);
         }
 
-        if(!OrchidUtils.isEmpty(resource.getContent())) {
-            pageData.put("content",
-                    Orchid.getTheme().compile(
-                            FilenameUtils.getExtension(resource.getFileName()),
-                            resource.getContent()
-                    ));
+        if(resource != null && !OrchidUtils.isEmpty(resource.getContent())) {
+            Clog.v("resource content: " + resource.getContent());
+
+            String compiledContent = Orchid.getTheme().compile(
+                    FilenameUtils.getExtension(resource.getFileName()),
+                    resource.getContent()
+            );
+
+            Clog.v("compiled resource content: " + compiledContent);
+
+            pageData.put("content", compiledContent);
+        }
+        else if(!OrchidUtils.isEmpty(content)) {
+            Clog.v("content: " + content);
+            String compiledContent = Orchid.getTheme().compile(
+                    FilenameUtils.getExtension(fileName),
+                    content
+            );
+
+            Clog.v("compiled content: " + compiledContent);
+
+            pageData.put("content", compiledContent);
+
+            this.fileName = FilenameUtils.removeExtension(this.fileName) + "." +
+                    Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
+        }
+        else {
+            pageData.put("content", "");
         }
 
         return pageData;
@@ -214,7 +265,7 @@ public class OrchidPage {
             baseUrl = Orchid.query("options.baseUrl").toString();
         }
         if(!url.startsWith(baseUrl)) {
-            this.url = baseUrl + File.separator + baseUrl;
+            this.url = baseUrl + File.separator + filePath;
         }
         else {
             this.url = url;
@@ -261,9 +312,17 @@ public class OrchidPage {
         this.menu = menu;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public void usePrettyUrl() {
         filePath = filePath + File.separator + FilenameUtils.removeExtension(fileName);
         fileName = "index." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
-        setUrl(filePath + File.separator + fileName);
+        setUrl(filePath + File.separator);
     }
 }

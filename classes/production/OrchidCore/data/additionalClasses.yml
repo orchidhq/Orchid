@@ -1,8 +1,0 @@
-
-classes:
-  - name: 'java.lang.String'
-    simpleName: 'String'
-    url: 'https://docs.oracle.com/javase/8/docs/api/java/lang/String.html'
-
-links:
-  - 'https://javaeden.github.io/Orchid-Liquid/meta/classIndex.json'

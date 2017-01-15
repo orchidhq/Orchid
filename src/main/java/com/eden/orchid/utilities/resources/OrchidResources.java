@@ -1,6 +1,5 @@
 package com.eden.orchid.utilities.resources;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
@@ -150,7 +149,6 @@ public class OrchidResources {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
-        Clog.d("Getting resources from resourcesDir");
         for(File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
@@ -160,8 +158,6 @@ public class OrchidResources {
         }
 
         for(Map.Entry<Integer, ResourceSource> source : OrchidResources.resourceSources.entrySet()) {
-            Clog.d("Getting resources from jar: #{$1 | className}", source.getValue());
-
             JarFile jarFile = jarForClass(source.getValue().getClass());
 
             List<JarEntry> jarEntries = getJarResourceFiles(jarFile, dirName, fileExtensions, recursive);

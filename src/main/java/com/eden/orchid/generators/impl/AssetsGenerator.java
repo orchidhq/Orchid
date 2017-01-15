@@ -66,10 +66,12 @@ public class AssetsGenerator implements Generator {
     }
 
     public static void buildTaxonomy(OrchidResource asset, JSONObject siteAssets, JSONObject file) {
-        String taxonomy;
+        buildTaxonomy(asset.getPath(), siteAssets, file);
+    }
 
-        if(!OrchidUtils.isEmpty(asset.getPath())) {
-            taxonomy = asset.getPath() + File.separator + "files";
+    public static void buildTaxonomy(String taxonomy, JSONObject siteAssets, JSONObject file) {
+        if(!OrchidUtils.isEmpty(taxonomy)) {
+            taxonomy = taxonomy + File.separator + "files";
         }
         else {
             taxonomy = "files";

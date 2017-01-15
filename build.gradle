@@ -51,8 +51,10 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-    orchidDocsCompile 'com.github.JavaEden:OrchidEditorialTheme:e6ab6855b0'
-//    orchidDocsCompile 'com.github.JavaEden:Orchid-Liquid:d5211b6bea'
+    orchidDocsCompile 'com.github.JavaEden:OrchidEditorialTheme:7a7f95ccab'
+//    orchidDocsCompile 'com.github.JavaEden:Orchid-Liquid:3b6bbd1874'
+    orchidDocsCompile 'com.github.JavaEden:OrchidPages:947408a10b'
+    orchidDocsCompile 'com.github.JavaEden:OrchidWiki:c108fa8b2a'
 }
 
 // Jacoco Code Coverage
