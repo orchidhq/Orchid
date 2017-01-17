@@ -1,6 +1,5 @@
 package com.eden.orchid.utilities;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
@@ -115,7 +114,18 @@ public class OrchidPage {
         }
 
         String content = Orchid.getTheme().compile(extension, templateContent, templateVariables);
-        OrchidResources.writeFile(filePath, fileName, content);
+        String outputExt = Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
+
+        if(usePrettyUrl) {
+            String outputPath = filePath + File.separator + FilenameUtils.removeExtension(fileName);
+            String outputName = "index." + outputExt;
+            OrchidResources.writeFile(outputPath.toLowerCase(), outputName.toLowerCase(), content);
+        }
+        else {
+            String outputPath = filePath;
+            String outputName = FilenameUtils.removeExtension(fileName) + "." + outputExt;
+            OrchidResources.writeFile(outputPath.toLowerCase(), outputName.toLowerCase(), content);
+        }
 
         return true;
     }
@@ -149,14 +159,10 @@ public class OrchidPage {
         }
 
         if(resource != null && !OrchidUtils.isEmpty(resource.getContent())) {
-            Clog.v("resource content: " + resource.getContent());
-
             String compiledContent = Orchid.getTheme().compile(
                     FilenameUtils.getExtension(resource.getFileName()),
                     resource.getContent()
             );
-
-            Clog.v("compiled resource content: " + compiledContent);
 
             pageData.put("content", compiledContent);
         }
@@ -233,15 +239,15 @@ public class OrchidPage {
         }
 
         if(usePrettyUrl) {
-            return basePath
+            return (basePath
                     + File.separator
                     + StringUtils.strip(FilenameUtils.removeExtension(fileName), File.separator + "/")
-                    + File.separator;
+                    + File.separator).toLowerCase();
         }
         else {
-            return basePath
+            return (basePath
                     + File.separator
-                    + StringUtils.strip(fileName, File.separator + "/");
+                    + StringUtils.strip(fileName, File.separator + "/")).toLowerCase();
         }
     }
 

@@ -13,7 +13,7 @@ public final class FileResource extends FreeableResource  {
     public FileResource(File file) {
         this.file = file;
 
-        setName(file.getPath() + File.separator + file.getName());
+        setName(file.getPath());
     }
 
     @Override
