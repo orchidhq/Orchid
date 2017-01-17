@@ -1,8 +1,8 @@
 package com.eden.orchid.utilities;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.resources.OrchidResource;
-import com.eden.orchid.utilities.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;

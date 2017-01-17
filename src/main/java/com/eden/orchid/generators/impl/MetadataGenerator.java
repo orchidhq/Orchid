@@ -5,7 +5,7 @@ import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidResources;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

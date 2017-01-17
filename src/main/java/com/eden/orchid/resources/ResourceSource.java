@@ -1,4 +1,4 @@
-package com.eden.orchid.utilities.resources;
+package com.eden.orchid.resources;
 
 public interface ResourceSource {
     int resourcePriority();

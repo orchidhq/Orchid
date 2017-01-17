@@ -5,8 +5,8 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.utilities.resources.OrchidResource;
-import com.eden.orchid.utilities.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,7 +35,7 @@ public class AssetsGenerator implements Generator {
         for(OrchidResource asset : assets) {
             JSONObject file = new JSONObject();
 
-            String filePath = "assets/" + asset.getPath();
+            String filePath = asset.getFilePath();
             String fileName = FilenameUtils.removeExtension(asset.getFileName()) + "." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(asset.getFileName()));
 
             file.put("url", OrchidUtils.applyBaseUrl(filePath + File.separator + fileName));
@@ -43,7 +43,7 @@ public class AssetsGenerator implements Generator {
             buildTaxonomy(asset, siteAssets, file);
         }
 
-        return new JSONElement(siteAssets);
+        return new JSONElement(siteAssets.getJSONObject("assets"));
     }
 
     @Override
@@ -52,13 +52,13 @@ public class AssetsGenerator implements Generator {
 
         for(OrchidResource asset : assets) {
             JSONObject data = new JSONObject(Orchid.getRoot().toMap());
-            data.put("file", asset.getData().getElement());
+            data.put("file", asset.getEmbeddedData().getElement());
 
             String output = (!OrchidUtils.isEmpty(asset.getContent()))
                     ? Orchid.getTheme().compile(FilenameUtils.getExtension(asset.getFileName()), asset.getContent(), data)
                     : "";
 
-            String filePath = "assets/" + asset.getPath();
+            String filePath = asset.getFilePath();
             String fileName = FilenameUtils.removeExtension(asset.getFileName()) + "." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(asset.getFileName()));
 
             OrchidResources.writeFile(filePath, fileName, output);
@@ -66,7 +66,7 @@ public class AssetsGenerator implements Generator {
     }
 
     public static void buildTaxonomy(OrchidResource asset, JSONObject siteAssets, JSONObject file) {
-        buildTaxonomy(asset.getPath(), siteAssets, file);
+        buildTaxonomy(asset.getFilePath(), siteAssets, file);
     }
 
     public static void buildTaxonomy(String taxonomy, JSONObject siteAssets, JSONObject file) {

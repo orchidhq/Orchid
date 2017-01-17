@@ -5,8 +5,8 @@ import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.utilities.resources.OrchidResources;
-import com.eden.orchid.utilities.resources.ResourceSource;
+import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.utilities.OrchidPair;
 
 import java.util.Map;

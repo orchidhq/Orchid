@@ -2,9 +2,10 @@ package com.eden.orchid.utilities;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.resources.OrchidResource;
-import com.eden.orchid.utilities.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.resources.OrchidResources;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,79 +18,52 @@ public class OrchidPage {
 
     private String title;
     private String description;
-    private String url;
     private String alias;
 
     private String fileName;
     private String filePath;
-    private String content;
 
     private JSONObject data;
     private JSONArray menu;
 
+    private boolean usePrettyUrl;
+
     private OrchidResource resource;
-
-    public OrchidPage(String filePath, String fileName, String content) {
-        this.title = FilenameUtils.removeExtension(fileName);
-        this.url = filePath
-                + File.separator
-                + FilenameUtils.removeExtension(fileName)
-                + "."
-                + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
-
-        this.filePath = filePath;
-        this.fileName = fileName;
-
-        this.content = content;
-    }
 
     public OrchidPage(OrchidResource resource) {
         this.resource = resource;
 
-        if(!OrchidUtils.isEmpty(resource.queryData("title"))) {
-            this.title = resource.queryData("title").toString();
+        if(!OrchidUtils.isEmpty(resource.queryEmbeddedData("title"))) {
+            this.title = resource.queryEmbeddedData("title").toString();
         }
         else {
             this.title = FilenameUtils.removeExtension(resource.getFileName());
         }
 
-        if(!OrchidUtils.isEmpty(resource.queryData("description"))) {
-            this.description = resource.queryData("description").toString();
-        }
-
-        if(!OrchidUtils.isEmpty(resource.queryData("url"))) {
-            this.url = resource.queryData("url").toString();
-        }
-        else {
-            this.url = resource.getPath()
-                    + File.separator
-                    + FilenameUtils.removeExtension(resource.getFileName())
-                    + "."
-                    + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(resource.getFileName()));
+        if(!OrchidUtils.isEmpty(resource.queryEmbeddedData("description"))) {
+            this.description = resource.queryEmbeddedData("description").toString();
         }
 
         this.fileName = resource.getFileName();
-        this.filePath = resource.getPath();
+        this.filePath = resource.getFilePath();
 
-        if(resource.getData().getElement() instanceof JSONObject) {
-            this.data = (JSONObject) resource.getData().getElement();
+        if(resource.getEmbeddedData().getElement() instanceof JSONObject) {
+            this.data = (JSONObject) resource.getEmbeddedData().getElement();
         }
         else {
             this.data = new JSONObject();
-            this.data.put("data", resource.getData().getElement());
+            this.data.put("data", resource.getEmbeddedData().getElement());
         }
 
-        if(resource.queryData("menu") != null) {
-            if(resource.queryData("menu").getElement() instanceof JSONArray) {
-                this.menu = (JSONArray) resource.queryData("menu").getElement();
+        if(resource.queryEmbeddedData("menu") != null) {
+            if(resource.queryEmbeddedData("menu").getElement() instanceof JSONArray) {
+                this.menu = (JSONArray) resource.queryEmbeddedData("menu").getElement();
             }
             else {
                 this.menu = new JSONArray();
-                this.menu.put(resource.queryData("menu").getElement());
+                this.menu.put(resource.queryEmbeddedData("menu").getElement());
             }
         }
-
-        this.content = resource.getContent();
     }
 
     /**
@@ -186,20 +160,6 @@ public class OrchidPage {
 
             pageData.put("content", compiledContent);
         }
-        else if(!OrchidUtils.isEmpty(content)) {
-            Clog.v("content: " + content);
-            String compiledContent = Orchid.getTheme().compile(
-                    FilenameUtils.getExtension(fileName),
-                    content
-            );
-
-            Clog.v("compiled content: " + compiledContent);
-
-            pageData.put("content", compiledContent);
-
-            this.fileName = FilenameUtils.removeExtension(this.fileName) + "." +
-                    Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
-        }
         else {
             pageData.put("content", "");
         }
@@ -256,19 +216,32 @@ public class OrchidPage {
     }
 
     public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
         String baseUrl = "";
         if(Orchid.query("options.baseUrl") != null) {
             baseUrl = Orchid.query("options.baseUrl").toString();
         }
-        if(!url.startsWith(baseUrl)) {
-            this.url = baseUrl + File.separator + filePath;
+
+        String basePath;
+
+        if(!filePath.startsWith(baseUrl)) {
+            basePath = StringUtils.strip(baseUrl, File.separator + "/")
+                    + File.separator
+                    + StringUtils.strip(filePath, File.separator + "/");
         }
         else {
-            this.url = url;
+            basePath = StringUtils.strip(filePath, File.separator + "/");
+        }
+
+        if(usePrettyUrl) {
+            return basePath
+                    + File.separator
+                    + StringUtils.strip(FilenameUtils.removeExtension(fileName), File.separator + "/")
+                    + File.separator;
+        }
+        else {
+            return basePath
+                    + File.separator
+                    + StringUtils.strip(fileName, File.separator + "/");
         }
     }
 
@@ -312,17 +285,11 @@ public class OrchidPage {
         this.menu = menu;
     }
 
-    public String getContent() {
-        return content;
+    public boolean isUsePrettyUrl() {
+        return usePrettyUrl;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void usePrettyUrl() {
-        filePath = filePath + File.separator + FilenameUtils.removeExtension(fileName);
-        fileName = "index." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(fileName));
-        setUrl(filePath + File.separator);
+    public void setUsePrettyUrl(boolean usePrettyUrl) {
+        this.usePrettyUrl = usePrettyUrl;
     }
 }

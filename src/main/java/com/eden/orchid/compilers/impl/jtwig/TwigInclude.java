@@ -2,8 +2,8 @@ package com.eden.orchid.compilers.impl.jtwig;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.resources.OrchidResource;
-import com.eden.orchid.utilities.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.resources.OrchidResources;
 import com.google.common.base.Optional;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;

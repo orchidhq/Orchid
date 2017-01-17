@@ -1,6 +1,8 @@
-package com.eden.orchid.utilities.resources;
+package com.eden.orchid.resources;
 
 import com.eden.orchid.Orchid;
+import com.eden.orchid.resources.impl.FileResource;
+import com.eden.orchid.resources.impl.JarResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -75,7 +77,7 @@ public class OrchidResources {
         File file = getResourceFile(fileName);
 
         if(file != null) {
-            return new OrchidResource(file, fileName);
+            return new FileResource(file);
         }
 
         return null;
@@ -96,14 +98,14 @@ public class OrchidResources {
         File file = getResourceFile(fileName);
 
         if(file != null) {
-            return new OrchidResource(file, fileName);
+            return new FileResource(file);
         }
 
         for(Map.Entry<Integer, ResourceSource> source : OrchidResources.resourceSources.entrySet()) {
             JarFile jarFile = jarForClass(source.getValue().getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
             if(jarEntry != null) {
-                return new OrchidResource(jarFile, jarEntry, fileName);
+                return new JarResource(jarFile, jarEntry);
             }
         }
 
@@ -125,7 +127,7 @@ public class OrchidResources {
         for(File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
-            OrchidResource entry = new OrchidResource(file, relative);
+            FileResource entry = new FileResource(file);
             entry.setPriority(Integer.MAX_VALUE);
             entries.put(relative, entry);
         }
@@ -152,7 +154,7 @@ public class OrchidResources {
         for(File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
-            OrchidResource entry = new OrchidResource(file, relative);
+            FileResource entry = new FileResource(file);
             entry.setPriority(Integer.MAX_VALUE);
             entries.put(relative, entry);
         }
@@ -176,7 +178,7 @@ public class OrchidResources {
                 }
 
                 if(shouldAddJarEntry) {
-                    OrchidResource entry = new OrchidResource(jarFile, jarEntry, relative);
+                    JarResource entry = new JarResource(jarFile, jarEntry);
                     entries.put(relative, entry);
                 }
             }

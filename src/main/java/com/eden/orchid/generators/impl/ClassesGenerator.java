@@ -6,7 +6,7 @@ import com.eden.orchid.generators.docParser.ClassDocParser;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.utilities.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidResources;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;
