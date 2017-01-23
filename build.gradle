@@ -52,7 +52,6 @@ dependencies {
 
     // generate own documentation with specific theme
     orchidDocsCompile 'com.github.JavaEden:OrchidEditorialTheme:7a7f95ccab'
-//    orchidDocsCompile 'com.github.JavaEden:Orchid-Liquid:3b6bbd1874'
     orchidDocsCompile 'com.github.JavaEden:OrchidPages:947408a10b'
     orchidDocsCompile 'com.github.JavaEden:OrchidWiki:c108fa8b2a'
 }
@@ -77,7 +76,6 @@ javadoc {
     options.doclet = 'com.eden.orchid.Orchid'
 
     options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
-//    options.addStringOption("theme", "com.eden.orchidliquid.BSDocTheme")
     options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
 
     options.addStringOption("v", version)

@@ -21,4 +21,9 @@ public final class StringResource extends OrchidResource {
             this.embeddedData = null;
         }
     }
+
+//    @Override
+//    public String getContent() {
+//        return Orchid.getTheme().compile(FilenameUtils.getExtension(getFileName()), super.getContent());
+//    }
 }

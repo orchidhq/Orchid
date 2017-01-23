@@ -298,4 +298,12 @@ public class OrchidPage {
     public void setUsePrettyUrl(boolean usePrettyUrl) {
         this.usePrettyUrl = usePrettyUrl;
     }
+
+    public OrchidResource getResource() {
+        return resource;
+    }
+
+    public void setResource(OrchidResource resource) {
+        this.resource = resource;
+    }
 }

@@ -3,11 +3,15 @@ package com.eden.orchid;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
+import com.eden.orchid.resources.impl.StringResource;
+import com.eden.orchid.utilities.JSONElement;
+import com.eden.orchid.utilities.OrchidPage;
 import com.eden.orchid.utilities.OrchidPair;
+import com.eden.orchid.utilities.OrchidUtils;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -36,9 +40,21 @@ public abstract class Theme implements ResourceSource {
     }
 
     public void generateHomepage(Object... data) {
-        String finalCompiledContent = OrchidUtils.compileTemplate("templates/layouts/index.twig", Orchid.getRoot().toMap());
+        JSONObject frontPageData = new JSONObject(Orchid.getRoot().toMap());
+        String readmeBody = OrchidResources.getProjectReadme();
+        if(readmeBody != null) {
+            frontPageData.put("readme", readmeBody);
+        }
 
-        OrchidResources.writeFile("", "index.html", finalCompiledContent);
+        String licenseBody = OrchidResources.getProjectLicense();
+        if(licenseBody != null) {
+            frontPageData.put("license", licenseBody);
+        }
+
+        OrchidResource resource = new StringResource("index.twig", "");
+        OrchidPage page = new OrchidPage(resource);
+        page.setData(frontPageData);
+        page.renderTemplate("templates/pages/frontPage.twig");
     }
 
     public String compile(String extension, String input, Object... data) {

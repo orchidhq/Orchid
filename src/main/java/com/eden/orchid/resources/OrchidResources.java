@@ -1,13 +1,16 @@
 package com.eden.orchid.resources;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.impl.FileResource;
 import com.eden.orchid.resources.impl.JarResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -349,5 +352,101 @@ public class OrchidResources {
         }
 
         return sourcePath;
+    }
+
+    public static String getProjectReadme() {
+        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
+            String resourceDir = Orchid.query("options.resourcesDir").toString();
+
+            File folder = new File(resourceDir);
+
+            // set hard limit of searching no more than 10 parent directories for the README
+            int maxIterations = 10;
+
+            while(true) {
+                if(folder.isDirectory()) {
+
+                    List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
+
+                    for (File file : files) {
+                        if(FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("readme")) {
+                            Clog.i("Found README file: #{$1}", new Object[]{file.getAbsolutePath()});
+
+                            try {
+                                String readmeBody = IOUtils.toString(new FileInputStream(file), "UTF-8");
+                                if(!OrchidUtils.isEmpty(readmeBody)) {
+                                    return Orchid.getTheme().compile(FilenameUtils.getExtension(file.getName()), readmeBody);
+                                }
+                                else {
+                                    return null;
+                                }
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                                return null;
+                            }
+                        }
+                    }
+                }
+
+                // set the folder to its own parent and search again
+                if(folder.getParentFile() != null && maxIterations > 0) {
+                    folder = folder.getParentFile();
+                    maxIterations--;
+                }
+
+                // there is no more parent to search, exit the loop
+                else {
+                    break;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static String getProjectLicense() {
+        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
+            String resourceDir = Orchid.query("options.resourcesDir").toString();
+
+            File folder = new File(resourceDir);
+
+            // set hard limit of searching no more than 10 parent directories for the README
+            int maxIterations = 10;
+
+            while(true) {
+                if(folder.isDirectory()) {
+
+                    List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
+
+                    for (File file : files) {
+                        if(FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("license")) {
+                            Clog.i("Found License file: #{$1}", new Object[]{file.getAbsolutePath()});
+
+                            try {
+                                return IOUtils.toString(new FileInputStream(file), "UTF-8");
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                                return null;
+                            }
+                        }
+                    }
+                }
+
+                // set the folder to its own parent and search again
+                if(folder.getParentFile() != null && maxIterations > 0) {
+                    folder = folder.getParentFile();
+                    maxIterations--;
+                }
+
+                // there is no more parent to search, exit the loop
+                else {
+                    break;
+                }
+            }
+        }
+
+        return null;
     }
 }
