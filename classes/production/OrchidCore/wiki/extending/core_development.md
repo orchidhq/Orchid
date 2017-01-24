@@ -1,2 +1,0 @@
-If you would like to help the development of Orchid Core, including any official Extensions and Themes, feel free to 
-submit a pull request with your changes, or reach out to me so we can discuss further opportunities.

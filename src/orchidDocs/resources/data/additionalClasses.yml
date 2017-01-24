@@ -1,6 +1,6 @@
 
 classes:
-  - fileName: 'java.lang.String'
+  - name: 'java.lang.String'
     simpleName: 'String'
     url: 'https://docs.oracle.com/javase/8/docs/api/java/lang/String.html'
 

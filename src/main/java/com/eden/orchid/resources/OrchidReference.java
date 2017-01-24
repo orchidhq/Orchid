@@ -116,6 +116,18 @@ public class OrchidReference {
 
     public void setBasePath(String basePath) {
         this.basePath = basePath;
+
+        if(this.path.startsWith(basePath)) {
+            this.path = path.replace(basePath, "");
+        }
+    }
+
+    public void stripBasePath(String basePath) {
+        this.basePath = null;
+
+        if(this.path.startsWith(basePath)) {
+            this.path = path.replace(basePath, "");
+        }
     }
 
     public String getPath() {

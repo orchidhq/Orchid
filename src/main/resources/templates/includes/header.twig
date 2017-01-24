@@ -1,6 +1,6 @@
 
 <meta charset="utf-8">
-<meta fileName="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- start:inject SEO data -->
@@ -8,20 +8,20 @@
 <title>{{ head.title }}</title>
 <script>window.title = '{{head.title}}';</script>
 {% else %}
-<title>{{ options.config.about.fileName }}</title>
-<script>window.title = '{{ options.config.about.fileName }}';</script>
+<title>{{ options.config.about.name }}</title>
+<script>window.title = '{{ options.config.about.name }}';</script>
 {% endif %}
 
 {% if head.description %}
-<meta fileName="description" content="{{ head.description }}">
+<meta name="description" content="{{ head.description }}">
 {% else %}
 <title>{{ options.config.about.description }}</title>
 {% endif %}
 
 {% if head.publishStatus == 'publish' %}
-<meta fileName="robots" content="index, follow">
+<meta name="robots" content="index, follow">
 {% elseif head.publishStatus == 'draft' %}
-<meta fileName="robots" content="noindex, nofollow">
+<meta name="robots" content="noindex, nofollow">
 {% endif %}
 
 {% if head.previous %}

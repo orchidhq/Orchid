@@ -54,7 +54,7 @@ javadoc {
     
     // Arbitrary options to be passed to Orchid as command-line args
 
-    // Set the theme as the fully-qualified class fileName of the Theme (required)
+    // Set the theme as the fully-qualified class name of the Theme (required)
     options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
     
     // Specify an absolute path to be used as the resource directory. Your custom configurations, pages, etc. will live here.

@@ -1,1 +1,0 @@
-Orchid is a modern, extensible, themeable Javadoc website generator.

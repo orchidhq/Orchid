@@ -58,12 +58,13 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-    orchidDocsCompile 'com.github.JavaEden:Orchid-Core:254a8bc987'
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:31ed553dc2') {
+    orchidDocsCompile 'com.github.JavaEden:Orchid-Core:592417ed9f'
+    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:43bce2f3da') {
         exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
     }
-    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:485733611e') {
+    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:88e8b4d950') {
         exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
+//        exclude group: 'com.github.JavaEden', module: 'OrchidEditorialTheme'
     }
 //    orchidDocsCompile 'com.github.JavaEden:OrchidPages:947408a10b'
 }
@@ -81,6 +82,7 @@ check.dependsOn jacocoTestReport
 // Javadoc Generation
 //------------------------------------------------------------------------------
 javadoc {
+    title = ""
     source = sourceSets.main.allJava
 
     options.docletpath.addAll(configurations.orchidDocsCompile)
