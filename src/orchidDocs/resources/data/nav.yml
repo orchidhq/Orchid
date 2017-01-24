@@ -4,6 +4,4 @@
 - type: taxonomy
   name: Pages
   path: pages
-- type: taxonomy
-  name: Wiki
-  path: wiki
+- type: wiki

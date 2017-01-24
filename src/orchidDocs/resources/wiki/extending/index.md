@@ -1,0 +1,1 @@
+The following pages will help you understand how to create your own themes and extensions for Orchid.

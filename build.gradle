@@ -51,9 +51,14 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-    orchidDocsCompile 'com.github.JavaEden:OrchidEditorialTheme:7a7f95ccab'
-    orchidDocsCompile 'com.github.JavaEden:OrchidPages:947408a10b'
-    orchidDocsCompile 'com.github.JavaEden:OrchidWiki:c108fa8b2a'
+    orchidDocsCompile 'com.github.JavaEden:Orchid-Core:254a8bc987'
+    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:31ed553dc2') {
+        exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
+    }
+    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:485733611e') {
+        exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
+    }
+//    orchidDocsCompile 'com.github.JavaEden:OrchidPages:947408a10b'
 }
 
 // Jacoco Code Coverage
@@ -69,7 +74,6 @@ check.dependsOn jacocoTestReport
 // Javadoc Generation
 //------------------------------------------------------------------------------
 javadoc {
-    title = ""
     source = sourceSets.main.allJava
 
     options.docletpath.addAll(configurations.orchidDocsCompile)
@@ -80,6 +84,7 @@ javadoc {
 
     options.addStringOption("v", version)
 //    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core")
+    options.addStringOption("baseUrl", "http://localhost:8080")
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
