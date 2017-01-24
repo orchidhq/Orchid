@@ -1,11 +1,11 @@
 package com.eden.orchid.options.impl;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
 import com.eden.orchid.options.Option;
+import com.eden.orchid.utilities.AutoRegister;
 
 @AutoRegister
 public class ThemeOption implements Option {

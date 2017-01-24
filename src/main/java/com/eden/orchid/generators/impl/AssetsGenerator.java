@@ -1,13 +1,12 @@
 package com.eden.orchid.generators.impl;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
-import org.apache.commons.io.FilenameUtils;
+import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,8 +34,8 @@ public class AssetsGenerator implements Generator {
         for(OrchidResource asset : assets) {
             JSONObject file = new JSONObject();
 
-            String filePath = asset.getFilePath();
-            String fileName = FilenameUtils.removeExtension(asset.getFileName()) + "." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(asset.getFileName()));
+            String filePath = asset.getReference().getFullPath();
+            String fileName = asset.getReference().getFileName() + "." + asset.getReference().getOutputExtension();
 
             file.put("url", OrchidUtils.applyBaseUrl(filePath + File.separator + fileName));
 
@@ -55,18 +54,18 @@ public class AssetsGenerator implements Generator {
             data.put("file", asset.getEmbeddedData().getElement());
 
             String output = (!OrchidUtils.isEmpty(asset.getContent()))
-                    ? Orchid.getTheme().compile(FilenameUtils.getExtension(asset.getFileName()), asset.getContent(), data)
+                    ? Orchid.getTheme().compile(asset.getReference().getExtension(), asset.getContent(), data)
                     : "";
 
-            String filePath = asset.getFilePath();
-            String fileName = FilenameUtils.removeExtension(asset.getFileName()) + "." + Orchid.getTheme().getOutputExtension(FilenameUtils.getExtension(asset.getFileName()));
+            String filePath = asset.getReference().getFullPath();
+            String fileName = asset.getReference().getFileName() + "." + asset.getReference().getOutputExtension();
 
             OrchidResources.writeFile(filePath, fileName, output);
         }
     }
 
     public static void buildTaxonomy(OrchidResource asset, JSONObject siteAssets, JSONObject file) {
-        buildTaxonomy(asset.getFilePath(), siteAssets, file);
+        buildTaxonomy(asset.getReference().getFullPath(), siteAssets, file);
     }
 
     public static void buildTaxonomy(String taxonomy, JSONObject siteAssets, JSONObject file) {

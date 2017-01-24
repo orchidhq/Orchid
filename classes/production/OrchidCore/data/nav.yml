@@ -2,8 +2,6 @@
 - type: packages
 - type: classes
 - type: taxonomy
-  name: Pages
+  fileName: Pages
   path: pages
-- type: taxonomy
-  name: Wiki
-  path: wiki
+- type: wiki

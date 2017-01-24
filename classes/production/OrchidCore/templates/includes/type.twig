@@ -1,7 +1,7 @@
 {%- if type.url -%}
-    <a href="{{- type.url -}}" data-toggle="tooltip" title="{{- type.name -}}">
+    <a href="{{- type.url -}}" data-toggle="tooltip" title="{{- type.fileName -}}">
 {%- else -%}
-    <code data-toggle="tooltip" title="{{- type.name -}}">
+    <code data-toggle="tooltip" title="{{- type.fileName -}}">
 {%- endif -%}
 {{- type.simpleName -}}{{- type.dimension -}}
 {%- if not type.url -%}

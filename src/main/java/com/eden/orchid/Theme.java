@@ -1,15 +1,15 @@
 package com.eden.orchid;
 
+import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
+import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.resources.impl.StringResource;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidPage;
-import com.eden.orchid.utilities.OrchidPair;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
@@ -67,14 +67,14 @@ public abstract class Theme implements ResourceSource {
         return input;
     }
 
-    public OrchidPair<String, JSONElement> getEmbeddedData(String input) {
+    public EdenPair<String, JSONElement> getEmbeddedData(String input) {
         for(Map.Entry<Integer, PreCompiler> compiler : SiteCompilers.precompilers.entrySet()) {
             if(compiler.getValue().getClass().equals(getPrecompilerClass())) {
                 return compiler.getValue().getEmbeddedData(input);
             }
         }
 
-        return new OrchidPair<>(input, null);
+        return new EdenPair<>(input, null);
     }
 
     public String getOutputExtension(String extension) {

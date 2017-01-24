@@ -1,16 +1,14 @@
 package com.eden.orchid.resources;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.JSONElement;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import java.io.File;
-import java.util.Arrays;
 
 public abstract class OrchidResource {
 
-    protected String fileName;
-    protected String filePath;
+    protected OrchidReference reference;
 
     protected String rawContent;
     protected String content;
@@ -43,9 +41,7 @@ public abstract class OrchidResource {
             }
         }
 
-        String[] namePieces = name.split(File.separator);
-        filePath = String.join(File.separator, Arrays.copyOfRange(namePieces, 0, namePieces.length - 1));
-        fileName = namePieces[namePieces.length - 1];
+        this.reference = new OrchidReference(name);
     }
 
     public String getContent() {
@@ -67,12 +63,12 @@ public abstract class OrchidResource {
         return null;
     }
 
-    public String getFileName() {
-        return fileName;
+    public OrchidReference getReference() {
+        return reference;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public void setReference(OrchidReference reference) {
+        this.reference = reference;
     }
 
     public int getPriority() {

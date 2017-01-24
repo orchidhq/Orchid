@@ -1,6 +1,7 @@
 package com.eden.orchid.options;
 
-import com.eden.orchid.utilities.JSONElement;
+
+import com.eden.common.json.JSONElement;
 
 public interface Option {
     String getFlag();

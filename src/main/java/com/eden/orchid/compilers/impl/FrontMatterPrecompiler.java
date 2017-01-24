@@ -1,10 +1,10 @@
 package com.eden.orchid.compilers.impl;
 
+import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidPair;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
@@ -20,8 +20,8 @@ public class FrontMatterPrecompiler implements PreCompiler {
     }
 
     @Override
-    public OrchidPair<String, JSONElement> getEmbeddedData(String input) {
-        OrchidPair<JSONObject, Integer> frontMatter = parseFrontMatter(input);
+    public EdenPair<String, JSONElement> getEmbeddedData(String input) {
+        EdenPair<JSONObject, Integer> frontMatter = parseFrontMatter(input);
 
         String result;
         if(frontMatter.second != 0) {
@@ -37,10 +37,10 @@ public class FrontMatterPrecompiler implements PreCompiler {
             result = input;
         }
 
-        return new OrchidPair<>(result, new JSONElement(frontMatter.first));
+        return new EdenPair<>(result, new JSONElement(frontMatter.first));
     }
 
-    private OrchidPair<JSONObject, Integer> parseFrontMatter(String input) {
+    private EdenPair<JSONObject, Integer> parseFrontMatter(String input) {
         if(input.startsWith("---")) {
             Matcher m = Pattern.compile("^---$", Pattern.MULTILINE).matcher(input);
 
@@ -69,11 +69,11 @@ public class FrontMatterPrecompiler implements PreCompiler {
 
                 JSONObject frontMatter = new JSONObject((Map<String, Object>) new Yaml().load(frontMatterYaml));
 
-                return new OrchidPair<>(frontMatter, contentStart);
+                return new EdenPair<>(frontMatter, contentStart);
             }
         }
 
-        return new OrchidPair<>(null, 0);
+        return new EdenPair<>(null, 0);
     }
 
 }

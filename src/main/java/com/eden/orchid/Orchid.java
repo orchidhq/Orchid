@@ -1,6 +1,7 @@
 package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
@@ -8,11 +9,10 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
+import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;

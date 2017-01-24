@@ -1,6 +1,6 @@
 
 about:
-  name: Orchid Liquid
+  fileName: Orchid Liquid
   description: A modern Javadoc-generation doclet based on Liquid, Sass, Markdown, and YAML
   version: v0.1.0
 

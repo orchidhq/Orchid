@@ -1,7 +1,7 @@
 package com.eden.orchid.compilers;
 
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidPair;
+import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 
 /**
  * The precompiler is a compiler to be run against files before they are sent to their appropriate Compiler. Generally,
@@ -17,7 +17,7 @@ public interface PreCompiler {
      * @param input  the input content to parse
      * @return  a pair representing the content after removal of embedded content, and the content that was embedded
      */
-    OrchidPair<String, JSONElement> getEmbeddedData(String input);
+    EdenPair<String, JSONElement> getEmbeddedData(String input);
 
     /**
      * The priority of the PreCompiler. Generally, a theme chooses a single PreCompiler to be used in all cases, but

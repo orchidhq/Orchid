@@ -1,7 +1,7 @@
 package com.eden.orchid.compilers.impl.jtwig;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jtwig.functions.FunctionRequest;

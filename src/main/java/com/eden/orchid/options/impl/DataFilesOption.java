@@ -1,9 +1,9 @@
 package com.eden.orchid.options.impl;
 
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.options.Option;
+import com.eden.orchid.utilities.AutoRegister;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;

@@ -1,5 +1,6 @@
 package com.eden.orchid.compilers.impl.jtwig;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.utilities.AutoRegister;
 import org.json.JSONObject;
@@ -26,11 +27,19 @@ public class JTwigCompiler implements Compiler {
             s = data[0].toString();
         }
 
+        JtwigModel model = null;
+
+        if(!EdenUtils.isEmpty(s)) {
+            model = JtwigModel.newModel(new JSONObject(s).toMap());
+        }
+        else {
+            model = JtwigModel.newModel();
+        }
+
         return new JtwigTemplate(
                 new EnvironmentFactory().create(config.build()),
                 new ResourceReference(ResourceReference.STRING, source)
-        )
-                .render(JtwigModel.newModel(new JSONObject(s).toMap()));
+        ).render(model);
     }
 
     @Override

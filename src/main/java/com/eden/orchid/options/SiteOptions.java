@@ -1,7 +1,7 @@
 package com.eden.orchid.options;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.utilities.JSONElement;
+import com.eden.common.json.JSONElement;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 

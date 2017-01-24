@@ -1,6 +1,6 @@
 
 about:
-  name: Orchid
+  fileName: Orchid
   description: A modern, plugin-driven architecture for custom Javadoc generation
   version: v0.1.0
 

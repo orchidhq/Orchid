@@ -1,15 +1,15 @@
 package com.eden.orchid.resources.impl;
 
+import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidPair;
 
 public abstract class FreeableResource extends OrchidResource {
 
     protected void loadContent() {
         if(rawContent != null) {
-            OrchidPair<String, JSONElement> parsedContent = Orchid.getTheme().getEmbeddedData(rawContent);
+            EdenPair<String, JSONElement> parsedContent = Orchid.getTheme().getEmbeddedData(rawContent);
             content = parsedContent.first;
             embeddedData = parsedContent.second;
         }

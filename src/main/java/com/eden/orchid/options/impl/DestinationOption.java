@@ -1,8 +1,8 @@
 package com.eden.orchid.options.impl;
 
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.options.Option;
+import com.eden.orchid.utilities.AutoRegister;
 
 @AutoRegister
 public class DestinationOption implements Option {

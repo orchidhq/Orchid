@@ -27,8 +27,15 @@ repositories {
 }
 
 dependencies {
+    // Unit testing
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+
     // enable processing JavaDoc
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+
+    // core JavaEden utilities
+    compile 'com.github.JavaEden:Common:64f41c1f66'
 
     // Enable auto-registration of plugins and themes
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'

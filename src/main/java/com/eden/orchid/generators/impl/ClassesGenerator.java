@@ -1,12 +1,12 @@
 package com.eden.orchid.generators.impl;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.docParser.ClassDocParser;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.JSONElement;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;
