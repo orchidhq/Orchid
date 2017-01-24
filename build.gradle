@@ -58,15 +58,18 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-    orchidDocsCompile 'com.github.JavaEden:Orchid-Core:592417ed9f'
+    orchidDocsCompile 'com.github.JavaEden:Orchid-Core:0874c08d93'
     orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:43bce2f3da') {
         exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
     }
     orchidDocsCompile ('com.github.JavaEden:OrchidWiki:88e8b4d950') {
         exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
-//        exclude group: 'com.github.JavaEden', module: 'OrchidEditorialTheme'
+        exclude group: 'com.github.JavaEden', module: 'OrchidEditorialTheme'
     }
-//    orchidDocsCompile 'com.github.JavaEden:OrchidPages:947408a10b'
+    orchidDocsCompile('com.github.JavaEden:OrchidPages:2a22a8857b') {
+        exclude group: 'com.github.JavaEden', module: 'Orchid-Core'
+        exclude group: 'com.github.JavaEden', module: 'OrchidEditorialTheme'
+    }
 }
 
 // Jacoco Code Coverage

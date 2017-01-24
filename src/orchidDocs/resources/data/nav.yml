@@ -1,7 +1,5 @@
 
 - type: packages
 - type: classes
-- type: taxonomy
-  name: Pages
-  path: pages
+- type: pages
 - type: wiki
