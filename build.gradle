@@ -59,18 +59,18 @@ dependencies {
 
     // generate own documentation with specific theme
 //    orchidDocsCompile 'com.github.JavaEden:OrchidCore:0874c08d93'
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:b09d2e8409') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:4130d3ad38') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPages:3f6fc4e5da') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPosts:43b4377b2b') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:b09d2e8409') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:4130d3ad38') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidPages:3f6fc4e5da') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidPosts:43b4377b2b') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
 }
 
 // Jacoco Code Coverage
@@ -85,37 +85,37 @@ check.dependsOn jacocoTestReport
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
-javadoc {
-    title = ""
-    source = sourceSets.main.allJava
-
-    options.docletpath = [file("build/libs/OrchidCore-${version}.jar")]
-    options.docletpath.addAll(configurations.compile)
-    options.docletpath.addAll(configurations.orchidDocsCompile)
-    options.doclet = 'com.eden.orchid.Orchid'
-
-    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
-    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
-
-    options.addStringOption("v", version)
-    options.addStringOption("baseUrl", "http://localhost:8080")
-//    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core")
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+//javadoc {
+//    title = ""
+//    source = sourceSets.main.allJava
+//
+//    options.docletpath = [file("build/libs/OrchidCore-${version}.jar")]
+//    options.docletpath.addAll(configurations.compile)
+//    options.docletpath.addAll(configurations.orchidDocsCompile)
+//    options.doclet = 'com.eden.orchid.Orchid'
+//
+//    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
+//    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
+//
+//    options.addStringOption("v", version)
+//    options.addStringOption("baseUrl", "http://localhost:8080")
+////    options.addStringOption("baseUrl", "https://javaeden.github.io/Orchid-Core")
+//}
+//
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//    classifier = 'sources'
+//    from sourceSets.main.allSource
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives sourcesJar
+//    archives javadocJar
+//}
 
 // Tagging, Releases, and Github Pages Publishing
 task setGitReleaseTag {

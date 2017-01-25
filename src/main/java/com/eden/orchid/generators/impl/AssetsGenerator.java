@@ -7,7 +7,6 @@ import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -39,11 +38,10 @@ public class AssetsGenerator implements Generator {
 
             file.put("url", OrchidUtils.applyBaseUrl(filePath + File.separator + fileName));
 
-            buildTaxonomy(asset, siteAssets, file);
+            OrchidUtils.buildTaxonomy(asset, siteAssets, file);
         }
 
-//        return new JSONElement(siteAssets.getJSONObject("assets"));
-        return new JSONElement(siteAssets);
+        return new JSONElement(siteAssets.getJSONObject("assets"));
     }
 
     @Override
@@ -62,43 +60,6 @@ public class AssetsGenerator implements Generator {
             String fileName = asset.getReference().getFileName() + "." + asset.getReference().getOutputExtension();
 
             OrchidResources.writeFile(filePath, fileName, output);
-        }
-    }
-
-    public static void buildTaxonomy(OrchidResource asset, JSONObject siteAssets, JSONObject file) {
-        buildTaxonomy(asset.getReference().getFullPath(), siteAssets, file);
-    }
-
-    public static void buildTaxonomy(String taxonomy, JSONObject siteAssets, JSONObject file) {
-        if(!OrchidUtils.isEmpty(taxonomy)) {
-            taxonomy = taxonomy + File.separator + "files";
-        }
-        else {
-            taxonomy = "files";
-        }
-
-        String[] pathPieces = taxonomy.split(File.separator);
-
-        JSONObject root = siteAssets;
-        for(int i = 0; i < pathPieces.length; i++) {
-            if(root.has(pathPieces[i]) && root.get(pathPieces[i]) instanceof JSONArray) {
-                root.getJSONArray(pathPieces[i]).put(file);
-            }
-            else {
-                if(root.has(pathPieces[i]) && root.get(pathPieces[i]) instanceof JSONObject) {
-                    root = root.getJSONObject(pathPieces[i]);
-                }
-                else {
-                    if(i == pathPieces.length - 1) {
-                        root.put(pathPieces[i], new JSONArray());
-                        root.getJSONArray(pathPieces[i]).put(file);
-                    }
-                    else {
-                        root.put(pathPieces[i], new JSONObject());
-                        root = root.getJSONObject(pathPieces[i]);
-                    }
-                }
-            }
         }
     }
 }

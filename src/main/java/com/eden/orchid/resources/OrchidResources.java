@@ -269,27 +269,6 @@ public class OrchidResources {
             }
         }
 
-        // otherwise, use the project default resources directory
-        else {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            URL fileUrl = classloader.getResource(path);
-
-            if(fileUrl != null) {
-                try {
-                    URI fileUri = fileUrl.toURI();
-
-                    File file = new File(fileUri);
-
-                    if(file.exists() && file.isDirectory()) {
-                        files.addAll(new ArrayList<File>(FileUtils.listFiles(file, fileExtensions, recursive)));
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         return files;
     }
 
