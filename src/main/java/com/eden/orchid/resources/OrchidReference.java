@@ -110,6 +110,17 @@ public class OrchidReference {
         }
     }
 
+    public OrchidReference(OrchidReference source) {
+        this.baseUrl      = source.baseUrl;
+        this.basePath     = source.basePath;
+        this.path         = source.path;
+        this.fileName     = source.fileName;
+        this.extension    = source.extension;
+        this.id           = source.id;
+        this.title        = source.title;
+        this.usePrettyUrl = source.usePrettyUrl;
+    }
+
     private String stripSeparators(String str) {
         return StringUtils.strip(str.trim(), "/" + File.separator);
     }

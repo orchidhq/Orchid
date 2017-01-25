@@ -7,9 +7,9 @@ import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 
 public final class StringResource extends OrchidResource {
-    public StringResource(String name, String content) {
-        super(new OrchidReference(name));
 
+    public StringResource(String content, OrchidReference reference) {
+        super(reference);
         if(content != null) {
             EdenPair<String, JSONElement> parsedContent = Orchid.getTheme().getEmbeddedData(content);
             this.rawContent = content;
@@ -21,5 +21,9 @@ public final class StringResource extends OrchidResource {
             this.content = "";
             this.embeddedData = null;
         }
+    }
+
+    public StringResource(String name, String content) {
+        this(content, new OrchidReference(name));
     }
 }

@@ -24,7 +24,8 @@ public class OrchidPage {
     public OrchidPage(OrchidResource resource) {
         this.resource = resource;
 
-        this.reference = resource.getReference();
+        this.reference = new OrchidReference(resource.getReference());
+        this.reference.setExtension(resource.getReference().getOutputExtension());
 
         if(!OrchidUtils.isEmpty(resource.queryEmbeddedData("description"))) {
             this.description = resource.queryEmbeddedData("description").toString();
@@ -62,10 +63,16 @@ public class OrchidPage {
      * Render a template from a string using the given file extension to find the appropriate compilers
      *
      * @param template the content of a 'template' to render
-     * @param extension the extension representing the type of 'template'
      */
-    public void renderString(String template, String extension) {
-        render(template, extension, false);
+    public void renderString(String template) {
+        render(template, resource.getReference().getExtension(), false);
+    }
+
+    /**
+     * Render the contents of your resource directly
+     */
+    public void renderRawContent() {
+        renderString(Orchid.getTheme().compile(resource.getReference().getExtension(), resource.getContent()));
     }
 
     private boolean render(String template, String extension, boolean templateReference) {
@@ -136,7 +143,7 @@ public class OrchidPage {
 
         if(resource != null && !OrchidUtils.isEmpty(resource.getContent())) {
             String compiledContent = Orchid.getTheme().compile(
-                    reference.getExtension(),
+                    resource.getReference().getExtension(),
                     resource.getContent()
             );
 
