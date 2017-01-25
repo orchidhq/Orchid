@@ -3,9 +3,14 @@ package com.eden.orchid.resources.impl;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 
 public abstract class FreeableResource extends OrchidResource {
+
+    public FreeableResource(OrchidReference reference) {
+        super(reference);
+    }
 
     protected void loadContent() {
         if(rawContent != null) {

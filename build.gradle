@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'com.eden'
-version = 'v0.1.3'
+version = 'v0.1.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -58,14 +58,14 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-    orchidDocsCompile 'com.github.JavaEden:OrchidCore:0874c08d93'
+//    orchidDocsCompile 'com.github.JavaEden:OrchidCore:0874c08d93'
     orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:b09d2e8409') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
     orchidDocsCompile ('com.github.JavaEden:OrchidWiki:4130d3ad38') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
-    orchidDocsCompile('com.github.JavaEden:OrchidPages:a7bba8f4c2') {
+    orchidDocsCompile('com.github.JavaEden:OrchidPages:3f6fc4e5da') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
     orchidDocsCompile('com.github.JavaEden:OrchidPosts:43b4377b2b') {
@@ -89,6 +89,8 @@ javadoc {
     title = ""
     source = sourceSets.main.allJava
 
+    options.docletpath = [file("build/libs/OrchidCore-${version}.jar")]
+    options.docletpath.addAll(configurations.compile)
     options.docletpath.addAll(configurations.orchidDocsCompile)
     options.doclet = 'com.eden.orchid.Orchid'
 
@@ -144,5 +146,7 @@ githubPages {
 task release {
 
 }
+
+tasks.javadoc.dependsOn 'classes'
 
 tasks.release.dependsOn 'build', 'setGitReleaseTag', 'publishGhPages'

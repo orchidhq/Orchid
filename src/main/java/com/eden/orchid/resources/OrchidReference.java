@@ -86,6 +86,18 @@ public class OrchidReference {
             path = "";
             fileName = fullFileName.replace("." + extension, "");
         }
+
+        path = stripSeparators(path);
+
+        if(Orchid.query("options.resourcesDir") != null) {
+            String basePath = Orchid.query("options.resourcesDir").toString();
+            basePath = stripSeparators(basePath);
+
+            if(path.startsWith(basePath)) {
+                path = path.replace(basePath, "");
+                path = stripSeparators(path);
+            }
+        }
     }
 
     public OrchidReference(String basePath, String fullFileName) {

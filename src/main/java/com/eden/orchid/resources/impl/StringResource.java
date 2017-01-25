@@ -3,11 +3,12 @@ package com.eden.orchid.resources.impl;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 
 public final class StringResource extends OrchidResource {
     public StringResource(String name, String content) {
-        setName(name);
+        super(new OrchidReference(name));
 
         if(content != null) {
             EdenPair<String, JSONElement> parsedContent = Orchid.getTheme().getEmbeddedData(content);
@@ -21,9 +22,4 @@ public final class StringResource extends OrchidResource {
             this.embeddedData = null;
         }
     }
-
-//    @Override
-//    public String getContent() {
-//        return Orchid.getTheme().compile(FilenameUtils.getExtension(getFileName()), super.getContent());
-//    }
 }

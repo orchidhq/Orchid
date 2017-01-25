@@ -140,6 +140,8 @@ public final class Orchid implements ResourceSource {
     public static boolean start(RootDoc rootDoc) {
         Orchid.rootDoc = rootDoc;
 
+        Clog.i("Using actual output jar and not Jitpack dependency");
+
         pluginScan();
         optionsScan(rootDoc.options());
         if(shouldContinue()) {

@@ -1,10 +1,6 @@
 package com.eden.orchid.resources;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.OrchidUtils;
-
-import java.io.File;
 
 public abstract class OrchidResource {
 
@@ -16,32 +12,13 @@ public abstract class OrchidResource {
 
     protected int priority;
 
-    public void setName(String name) {
-
-        String baseDir;
-
-        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
-            baseDir = Orchid.query("options.resourcesDir").toString();
+    public OrchidResource(OrchidReference reference) {
+        if(reference == null) {
+            throw new IllegalArgumentException("A resource must have a valid OrchidReference");
         }
         else {
-            baseDir = "";
+            this.reference = reference;
         }
-
-        if(name.contains(baseDir)) {
-            int indexOf = name.indexOf(baseDir);
-
-            if(indexOf + baseDir.length() < name.length()) {
-                String relative = name.substring((indexOf + baseDir.length()));
-
-                if(relative.startsWith(File.separator)) {
-                    relative = relative.substring(1);
-                }
-
-                name = relative;
-            }
-        }
-
-        this.reference = new OrchidReference(name);
     }
 
     public String getContent() {

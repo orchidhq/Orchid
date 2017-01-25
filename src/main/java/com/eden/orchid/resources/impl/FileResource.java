@@ -1,5 +1,6 @@
 package com.eden.orchid.resources.impl;
 
+import com.eden.orchid.resources.OrchidReference;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -11,9 +12,13 @@ public final class FileResource extends FreeableResource  {
     private final File file;
 
     public FileResource(File file) {
-        this.file = file;
+        this(file, new OrchidReference(file.getPath()));
+    }
 
-        setName(file.getPath());
+    public FileResource(File file, OrchidReference reference) {
+        super(reference);
+
+        this.file = file;
     }
 
     @Override

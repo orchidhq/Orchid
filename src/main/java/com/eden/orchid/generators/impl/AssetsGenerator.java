@@ -42,7 +42,8 @@ public class AssetsGenerator implements Generator {
             buildTaxonomy(asset, siteAssets, file);
         }
 
-        return new JSONElement(siteAssets.getJSONObject("assets"));
+//        return new JSONElement(siteAssets.getJSONObject("assets"));
+        return new JSONElement(siteAssets);
     }
 
     @Override
