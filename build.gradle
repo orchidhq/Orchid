@@ -58,10 +58,10 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:64cee326b2') {
+    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:2386c602ff') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
-//    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:c7101fbe93') {
+//    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:a077753c12') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
     orchidDocsCompile ('com.github.JavaEden:OrchidWiki:796ee8ce71') {

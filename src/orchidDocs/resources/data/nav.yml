@@ -1,5 +1,8 @@
 
 - type: packages
+#- type: taxonomy
+#  name: Packages
+#  path: packages
 - type: classes
 - type: pages
 - type: posts

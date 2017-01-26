@@ -136,12 +136,15 @@ public class OrchidPage {
     }
 
     private JSONObject buildPageData() {
-        JSONObject pageData = new JSONObject();
+        JSONObject pageData;
         if(data != null) {
-            for(String key : data.keySet()) {
-                pageData.put(key, data.get(key));
-            }
+            pageData = new JSONObject(data.toMap());
         }
+        else {
+            pageData = new JSONObject();
+        }
+
+
         if(menu != null) {
             pageData.put("menu", menu);
         }

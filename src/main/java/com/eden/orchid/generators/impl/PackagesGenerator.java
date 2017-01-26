@@ -4,22 +4,26 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.docParser.PackageDocParser;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidPage;
+import com.eden.orchid.resources.OrchidReference;
+import com.eden.orchid.resources.impl.StringResource;
 import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;
 import com.sun.javadoc.RootDoc;
-import org.apache.commons.io.FilenameUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 @AutoRegister
 public class PackagesGenerator implements Generator {
+
+    private List<OrchidPage> packages;
 
     @Override
     public String getName() {
@@ -28,25 +32,19 @@ public class PackagesGenerator implements Generator {
 
     @Override
     public int priority() {
-        return 90;
+        return 80;
     }
 
     @Override
     public JSONElement startIndexing() {
+        JSONObject packageIndex = new JSONObject();
+        packages = new ArrayList<>();
+        Set<String> packageNamesSet = new TreeSet<>();
+
         RootDoc root = Orchid.getRootDoc();
 
         if(root == null) {
             return null;
-        }
-
-        JSONArray packageIndex = new JSONArray();
-
-        Set<String> packageNamesSet = new TreeSet<>();
-
-        String baseUrl = "";
-
-        if(Orchid.query("options.baseUrl") != null) {
-            baseUrl = Orchid.query("options.baseUrl").toString();
         }
 
         for(ClassDoc classDoc : root.classes()) {
@@ -56,10 +54,22 @@ public class PackagesGenerator implements Generator {
         for(String packageName : packageNamesSet) {
             PackageDoc packageDoc = root.packageNamed(packageName);
 
+            OrchidReference packageReference = new OrchidReference("classes", packageDoc.name().replaceAll("\\.", File.separator) + File.separator + "index.html");
+            packageReference.setTitle(packageDoc.name());
+
             JSONObject item = new JSONObject();
-            item.put("name", packageDoc.name());
-            item.put("url", baseUrl + File.separator + "classes/" + packageDoc.name().replaceAll("\\.", File.separator));
-            packageIndex.put(item);
+            item.put("name", packageReference.getTitle());
+            item.put("url", packageReference.toString());
+
+            OrchidPage packagePage = new OrchidPage(new StringResource("", packageReference));
+            packagePage.setAlias("packageDoc");
+
+            JSONObject packageInfoJson = PackageDocParser.createPackageDocJson(packageDoc);
+            packagePage.setData(packageInfoJson);
+
+            OrchidUtils.buildTaxonomy(packageReference.getPath(), packageIndex, item);
+
+            packages.add(packagePage);
         }
 
         return new JSONElement(packageIndex);
@@ -67,42 +77,8 @@ public class PackagesGenerator implements Generator {
 
     @Override
     public void startGeneration() {
-        RootDoc root = Orchid.getRootDoc();
-
-        if(root == null) {
-            return;
-        }
-
-        Set<String> packageNamesSet = new TreeSet<>();
-        for (ClassDoc classDoc : root.classes()) {
-            packageNamesSet.add(classDoc.containingPackage().name());
-        }
-
-        for (String packageName : packageNamesSet) {
-            PackageDoc packageDoc = root.packageNamed(packageName);
-
-            JSONObject packageInfoJson = PackageDocParser.createPackageDocJson(packageDoc);
-            JSONObject packageHeadJson = PackageDocParser.getPackageHeadInfo(packageDoc);
-
-            JSONObject object = new JSONObject(Orchid.getRoot().toMap());
-            object.put("packageDoc", packageInfoJson);
-            object.put("head", packageHeadJson);
-            object.put("root", object.toMap());
-
-            String filePath = "classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator);
-            String fileName = "index.html";
-            String contents;
-
-            OrchidResource container = OrchidResources.getResourceEntry("templates/pages/packageDoc.twig");
-
-            if(container != null) {
-                contents = Orchid.getTheme().compile(FilenameUtils.getExtension("templates/pages/packageDoc.twig"), container.getContent(), object);
-            }
-            else {
-                contents = "";
-            }
-
-            OrchidResources.writeFile(filePath, fileName, contents);
+        for (OrchidPage packagePage : packages) {
+            packagePage.renderTemplate("templates/pages/packageDoc.twig");
         }
     }
 }

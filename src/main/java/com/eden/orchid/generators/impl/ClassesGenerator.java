@@ -31,7 +31,7 @@ public class ClassesGenerator implements Generator {
 
     @Override
     public int priority() {
-        return 80;
+        return 90;
     }
 
     @Override

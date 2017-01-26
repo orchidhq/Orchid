@@ -94,12 +94,4 @@ public class PackageDocParser {
 
         return childClasses;
     }
-
-    public static JSONObject getPackageHeadInfo(PackageDoc packageDoc) {
-        JSONObject head = new JSONObject();
-
-        head.put("title", packageDoc.name());
-
-        return head;
-    }
 }
