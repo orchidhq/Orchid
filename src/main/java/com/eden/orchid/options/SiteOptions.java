@@ -6,7 +6,6 @@ import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -25,15 +24,7 @@ public class SiteOptions {
     }
 
 
-    public static void parseOptions(String[][] options, JSONObject siteOptions) {
-
-        Map<String, String[]> optionsMap = new HashMap<>();
-
-        // Adds options to a map so they can be more effectively parsed
-        for (String[] a : options) {
-            optionsMap.put(a[0], a);
-        }
-
+    public static void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {
         // If an option is found and it was successfully parsed, continue to the next parser. Otherwise set its default value.
         for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
             Clog.d("Parsing option: #{$1}:[#{$2 | className}]", option.getKey(), option.getValue());

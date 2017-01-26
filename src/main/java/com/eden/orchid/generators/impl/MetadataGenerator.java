@@ -34,20 +34,24 @@ public class MetadataGenerator implements Generator {
         JSONObject siteAssets = new JSONObject();
         meta = new ArrayList<>();
 
-        JSONElement el = Orchid.query("index.classes.internal");
+        siteAssets.put("meta", new JSONObject());
 
-        if(el != null) {
-            OrchidResource resource = new JsonResource(el, new OrchidReference("meta/classIndex.json"));
-            OrchidPage entry = new OrchidPage(resource);
+        if(Orchid.getRootDoc() != null) {
+            JSONElement el = Orchid.query("index.classes.internal");
 
-            JSONObject index = new JSONObject();
-            index.put("name", entry.getReference().getTitle());
-            index.put("title", entry.getReference().getTitle());
-            index.put("url", entry.getReference().toString());
+            if (el != null) {
+                OrchidResource resource = new JsonResource(el, new OrchidReference("meta/classIndex.json"));
+                OrchidPage entry = new OrchidPage(resource);
 
-            meta.add(entry);
+                JSONObject index = new JSONObject();
+                index.put("name", entry.getReference().getTitle());
+                index.put("title", entry.getReference().getTitle());
+                index.put("url", entry.getReference().toString());
 
-            OrchidUtils.buildTaxonomy(resource, siteAssets, index);
+                meta.add(entry);
+
+                OrchidUtils.buildTaxonomy(resource, siteAssets, index);
+            }
         }
 
         return new JSONElement(siteAssets.getJSONObject("meta"));

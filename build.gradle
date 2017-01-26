@@ -61,18 +61,18 @@ dependencies {
 //    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:a2f38b1d8d') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
-    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:6283841f1f') {
+    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:5c3eca804e') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
-//    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:40d95fb653') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidPages:eaebe56b5c') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidPosts:83e1206a8d') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
+    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:b25d3082c1') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+    orchidDocsCompile('com.github.JavaEden:OrchidPages:740cde8c9e') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+    orchidDocsCompile('com.github.JavaEden:OrchidPosts:9191d0eb01') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
 }
 
 // Jacoco Code Coverage
@@ -152,3 +152,15 @@ task release {
 tasks.javadoc.dependsOn 'classes'
 
 tasks.release.dependsOn 'build', 'setGitReleaseTag', 'publishGhPages'
+
+task runOrchid(type:JavaExec) {
+    main = 'com.eden.orchid.Orchid'
+    classpath += sourceSets.main.runtimeClasspath
+    classpath += sourceSets.orchidDocs.runtimeClasspath
+
+    args += '-baseUrl http://localhost:8080'
+    args += '-theme com.eden.orchid.bsdoc.BSDocTheme'
+    args += '-d /Users/cbrooks/Documents/personal/java/eden/OrchidCore/build/docs/javadoc'
+    args += '-resourcesDir /Users/cbrooks/Documents/personal/java/eden/OrchidCore/src/orchidDocs/resources'
+    args += '-v v0.1.0'
+}

@@ -282,6 +282,10 @@ public class OrchidFileResources implements OrchidResources {
     public List<JarEntry> getJarResourceFiles(JarFile jarfile, String path, String[] fileExtensions, boolean recursive) {
         ArrayList<JarEntry> files = new ArrayList<>();
 
+        if(jarfile == null) {
+            return files;
+        }
+
         Enumeration<JarEntry> entries = jarfile.entries();
         while (entries.hasMoreElements()) {
             JarEntry entry = entries.nextElement();

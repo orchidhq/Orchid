@@ -20,11 +20,10 @@ import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-// TODO: Handle priority clashes
-// TODO: create a json data-getter which parses input like 'options.d' and make root private
+
 // TODO: Create a self-start method so that it can be run from within a server. Think: always up-to-date documentation at the same url (www.myjavadocs.com/latest) running from JavaEE, Spring, even Ruby on Rails with JRuby!
 
 /**
@@ -85,7 +84,7 @@ public final class Orchid implements ResourceSource {
 // Main Doclet
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static JSONObject root = new JSONObject();
+    private static JSONObject root;
 
     private static Theme theme;
 
@@ -95,45 +94,22 @@ public final class Orchid implements ResourceSource {
 
     // theoretically should work, if I can figure out exactly how to get the command-line args set up correctly
     public static void main(String[] args) {
+        Clog.i("Using Orchid from Main method");
+
         Orchid.resources = new OrchidFileResources();
+        Orchid.rootDoc = null;
+        Orchid.root = new JSONObject();
 
-        // Load all plugins
-        pluginScan();
+        Map<String, String[]> optionsMap = new HashMap<>();
 
-        // when running in Javadoc, we have the options parsed for us. Running standalone, we have to map the options
-        // to the same format
-        List<String[]> options = new ArrayList<>();
-        int i = 0;
-        while(i < args.length) {
-            if(args[i].startsWith("-")) {
-                List<String> params = new ArrayList<>();
-                params.add(args[i]);
-                i++;
-                while(i < args.length) {
-                    if(!args[i].startsWith("-")) {
-                        params.add(args[i]);
-                        i++;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                String[] optionList = new String[params.size()];
-                options.add(params.toArray(optionList));
+        for(String arg : args) {
+            if(arg.startsWith("-")) {
+                String[] argPieces = arg.split("\\s+");
+                optionsMap.put(argPieces[0], argPieces);
             }
         }
-        String[][] allOptions = new String[options.size()][0];
-        for(i = 0; i < allOptions.length; i++) {
-            allOptions[i] = options.get(i);
-        }
 
-        // Continue with the build as normal, using the options we just parsed
-        optionsScan(allOptions);
-        if(shouldContinue()) {
-            indexingScan();
-            generationScan();
-            generateHomepage();
-        }
+        bootstrap(optionsMap);
     }
 
     /**
@@ -143,13 +119,23 @@ public final class Orchid implements ResourceSource {
      * @return Whether the generation was successful
      */
     public static boolean start(RootDoc rootDoc) {
+        Clog.i("Using Orchid from Javadoc Start method");
+
         Orchid.resources = new OrchidFileResources();
         Orchid.rootDoc = rootDoc;
+        Orchid.root = new JSONObject();
 
-        Clog.i("Using actual output jar and not Jitpack dependency");
+        Map<String, String[]> optionsMap = new HashMap<>();
+        for (String[] a : rootDoc.options()) {
+            optionsMap.put(a[0], a);
+        }
 
+        return bootstrap(optionsMap);
+    }
+
+    public static boolean bootstrap(Map<String, String[]> optionsMap) {
         pluginScan();
-        optionsScan(rootDoc.options());
+        optionsScan(optionsMap);
         if(shouldContinue()) {
             indexingScan();
             generationScan();
@@ -212,9 +198,9 @@ public final class Orchid implements ResourceSource {
     /**
      * Step two: parse all command-line args using the registered Options.
      */
-    private static void optionsScan(String [][] options) {
+    private static void optionsScan(Map<String, String[]> optionsMap) {
         root.put("options", new JSONObject());
-        SiteOptions.parseOptions(options, root.getJSONObject("options"));
+        SiteOptions.parseOptions(optionsMap, root.getJSONObject("options"));
     }
 
     /**
@@ -233,6 +219,8 @@ public final class Orchid implements ResourceSource {
             shouldContinue = false;
         }
         else {
+            Clog.i("Using Theme class #{$1}", new Object[] {theme.getClass().getName()});
+
             if(!EdenUtils.isEmpty(theme.getMissingOptions())) {
                 Clog.e("Your selected theme depends on the following command line options that could not be found: -#{$1 | join(', -') }.", new Object[] {theme.getMissingOptions()});
                 shouldContinue = false;
@@ -335,6 +323,28 @@ public final class Orchid implements ResourceSource {
      */
     public static OrchidResources getResources() {
         return resources;
+    }
+
+    public static void setResources(OrchidResources resources) {
+        Orchid.resources = resources;
+    }
+
+    /**
+     * Set the root JSONObject used in the project.
+     *
+     * @param root  the JSONObject to set
+     */
+    public static void setRoot(JSONObject root) {
+        Orchid.root = root;
+    }
+
+    /**
+     * Set the RootDoc used to parse Javadoc comments, methods, fields, etc.
+     *
+     * @param rootDoc  the RootDoc to set
+     */
+    public static void setRootDoc(RootDoc rootDoc) {
+        Orchid.rootDoc = rootDoc;
     }
 
     /**

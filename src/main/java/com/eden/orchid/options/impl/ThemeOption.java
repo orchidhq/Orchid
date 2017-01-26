@@ -20,9 +20,6 @@ public class ThemeOption implements Option {
         try {
             Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
             Orchid.setTheme(themeClass.newInstance());
-
-            Clog.i("Using Theme class #{$1}.", new Object[] {options[1]});
-
             return new JSONElement(options[1]);
         }
         catch (ClassNotFoundException e) {
