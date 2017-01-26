@@ -14,9 +14,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -296,23 +293,6 @@ public class OrchidResources {
         }
 
         return files;
-    }
-
-    public static void writeFile(String outputDir, String fileName, String contents) {
-        String outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputDir.replaceAll("/", File.separator);
-
-        File outputFile = new File(outputPath);
-        if (!outputFile.exists()) {
-            outputFile.mkdirs();
-        }
-
-        try {
-            Path classesFile = Paths.get(outputPath + File.separator + fileName);
-            Files.write(classesFile, contents.getBytes());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static String getRelativeFilename(String sourcePath, String baseDir) {

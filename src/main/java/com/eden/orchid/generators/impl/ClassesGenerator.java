@@ -4,15 +4,15 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.docParser.ClassDocParser;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.resources.OrchidPage;
+import com.eden.orchid.resources.OrchidReference;
+import com.eden.orchid.resources.impl.StringResource;
 import com.eden.orchid.utilities.AutoRegister;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -46,43 +46,16 @@ public class ClassesGenerator implements Generator {
         classIndex.put("internal", new JSONArray());
         classIndex.put("external", new JSONArray());
 
-        String baseUrl = "";
-
-        if(Orchid.query("options.baseUrl") != null) {
-            baseUrl = Orchid.query("options.baseUrl").toString();
-        }
-
         for(ClassDoc classDoc : root.classes()) {
             JSONObject item = new JSONObject();
 
+            OrchidReference classReference = new OrchidReference("classes", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + File.separator + "index.html");
+            classReference.setTitle(classDoc.name());
+
             // add basic Class indexing info
-            item.put("simpleName", classDoc.name());
-            item.put("name", classDoc.qualifiedName());
-            item.put("url", baseUrl + File.separator + "classes/" + classDoc.qualifiedName().replaceAll("\\.", File.separator));
-
-            // add Class superclass indexing info
-            if(classDoc.superclass() != null) {
-                JSONObject superClassType = new JSONObject();
-                superClassType.put("simpleName", classDoc.superclass().name());
-                superClassType.put("name", classDoc.superclass().qualifiedName());
-
-                item.put("superclass", superClassType);
-            }
-
-            // add Class superclass interfaces info
-            if(classDoc.interfaces().length > 0) {
-                JSONArray interfaces = new JSONArray();
-
-                for(ClassDoc type : classDoc.interfaces()) {
-                    JSONObject interfaceType = new JSONObject();
-                    interfaceType.put("simpleName", type.name());
-                    interfaceType.put("name", type.qualifiedName());
-
-                    interfaces.put(interfaceType);
-                }
-
-                item.put("interfaces", interfaces);
-            }
+            item.put("simpleName", classReference.getTitle());
+            item.put("name", classReference.getTitle());
+            item.put("url", classReference.toString());
 
             classIndex.getJSONArray("internal").put(item);
         }
@@ -104,27 +77,15 @@ public class ClassesGenerator implements Generator {
 
         for(ClassDoc classDoc : root.classes()) {
             JSONObject classInfoJson = ClassDocParser.createClassDocJson(classDoc);
-            JSONObject classHeadJson = ClassDocParser.getClassHeadInfo(classDoc);
 
-            JSONObject object = new JSONObject(Orchid.getRoot().toMap());
-            object.put("classDoc", classInfoJson);
-            object.put("head", classHeadJson);
-            object.put("root", object.toMap());
+            OrchidReference packageReference = new OrchidReference("classes", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + File.separator + "index.html");
+            packageReference.setTitle(classDoc.name());
 
-            String filePath = "classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator);
-            String fileName = "index.html";
-            String contents;
+            OrchidPage classPage = new OrchidPage(new StringResource("", packageReference));
+            classPage.setData(classInfoJson);
+            classPage.setAlias("classDoc");
 
-            OrchidResource container = OrchidResources.getResourceEntry("templates/pages/classDoc.twig");
-
-            if(container != null) {
-                contents = Orchid.getTheme().compile(FilenameUtils.getExtension("templates/pages/classDoc.twig"), container.getContent(), object);
-            }
-            else {
-                contents = "";
-            }
-
-            OrchidResources.writeFile(filePath, fileName, contents);
+            classPage.renderTemplate("templates/pages/classDoc.twig");
         }
     }
 

@@ -1,9 +1,9 @@
 
 - type: packages
-#- type: taxonomy
-#  name: Packages
-#  path: packages
-- type: classes
+#- type: classes
+- type: taxonomy
+  name: Classes
+  path: classes.internal
 - type: pages
 - type: posts
 - type: wiki
