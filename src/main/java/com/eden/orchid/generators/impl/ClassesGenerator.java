@@ -4,14 +4,15 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.docParser.ClassDocParser;
+import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -112,7 +113,16 @@ public class ClassesGenerator implements Generator {
 
             String filePath = "classes/" + classInfoJson.getJSONObject("info").getString("name").replaceAll("\\.", File.separator);
             String fileName = "index.html";
-            String contents = OrchidUtils.compileTemplate("templates/pages/classDoc.twig", object);
+            String contents;
+
+            OrchidResource container = OrchidResources.getResourceEntry("templates/pages/classDoc.twig");
+
+            if(container != null) {
+                contents = Orchid.getTheme().compile(FilenameUtils.getExtension("templates/pages/classDoc.twig"), container.getContent(), object);
+            }
+            else {
+                contents = "";
+            }
 
             OrchidResources.writeFile(filePath, fileName, contents);
         }

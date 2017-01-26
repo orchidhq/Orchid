@@ -1,10 +1,10 @@
 package com.eden.orchid.resources;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.impl.FileResource;
 import com.eden.orchid.resources.impl.JarResource;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -26,11 +26,12 @@ import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+// prime candidate for DI'd object
 public class OrchidResources {
 
     public static Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
 
-    public static void registerResouceSource(ResourceSource resourceSource) {
+    public static void registerResourceSource(ResourceSource resourceSource) {
         int priority = resourceSource.resourcePriority();
         while(resourceSources.containsKey(priority)) {
             priority--;
@@ -67,7 +68,6 @@ public class OrchidResources {
             return null;
         }
     }
-
 
     /**
      * Gets an OrchidResource representing the file found in the '-resourcesDir' option directory. Typically used when you
@@ -202,7 +202,7 @@ public class OrchidResources {
         fileName = fileName.replaceAll("/", File.separator);
 
         // if we've specified a resources dir, use that
-        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
+        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
             File file = new File(Orchid.query("options.resourcesDir") + File.separator + fileName);
 
             if(file.exists() && !file.isDirectory()) {
@@ -261,7 +261,7 @@ public class OrchidResources {
         ArrayList<File> files = new ArrayList<>();
 
         // if we've specified a resources dir, use that
-        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
+        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
             File file = new File(Orchid.query("options.resourcesDir") + File.separator + path);
 
             if(file.exists() && file.isDirectory()) {
@@ -289,7 +289,7 @@ public class OrchidResources {
             // we are checking a file in the jar
             if (entry.getName().startsWith(path + File.separator) && !entry.isDirectory()) {
 
-                if(OrchidUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(entry.getName(), fileExtensions)) {
+                if(EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(entry.getName(), fileExtensions)) {
                     files.add(entry);
                 }
             }
@@ -334,7 +334,7 @@ public class OrchidResources {
     }
 
     public static String getProjectReadme() {
-        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
+        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
             String resourceDir = Orchid.query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
@@ -353,7 +353,7 @@ public class OrchidResources {
 
                             try {
                                 String readmeBody = IOUtils.toString(new FileInputStream(file), "UTF-8");
-                                if(!OrchidUtils.isEmpty(readmeBody)) {
+                                if(!EdenUtils.isEmpty(readmeBody)) {
                                     return Orchid.getTheme().compile(FilenameUtils.getExtension(file.getName()), readmeBody);
                                 }
                                 else {
@@ -385,7 +385,7 @@ public class OrchidResources {
     }
 
     public static String getProjectLicense() {
-        if(!OrchidUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
+        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
             String resourceDir = Orchid.query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);

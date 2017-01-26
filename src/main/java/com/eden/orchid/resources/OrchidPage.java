@@ -1,7 +1,7 @@
 package com.eden.orchid.resources;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +27,7 @@ public class OrchidPage {
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
 
-        if(!OrchidUtils.isEmpty(resource.queryEmbeddedData("description"))) {
+        if(!EdenUtils.isEmpty(resource.queryEmbeddedData("description"))) {
             this.description = resource.queryEmbeddedData("description").toString();
         }
 
@@ -93,14 +93,14 @@ public class OrchidPage {
             templateContent = templateResource.getContent();
         }
         else {
-            templateContent = (OrchidUtils.isEmpty(template)) ? "" : template;
+            templateContent = (EdenUtils.isEmpty(template)) ? "" : template;
         }
 
         JSONObject pageData = buildPageData();
 
         JSONObject templateVariables = new JSONObject(Orchid.getRoot().toMap());
         templateVariables.put("page", pageData);
-        if(!OrchidUtils.isEmpty(alias)) {
+        if(!EdenUtils.isEmpty(alias)) {
             templateVariables.put(alias, pageData);
         }
 
@@ -133,15 +133,15 @@ public class OrchidPage {
             pageData.put("next", nextData);
         }
 
-        if(!OrchidUtils.isEmpty(reference.getTitle())) {
+        if(!EdenUtils.isEmpty(reference.getTitle())) {
             pageData.put("title", reference.getTitle());
         }
 
-        if(!OrchidUtils.isEmpty(description)) {
+        if(!EdenUtils.isEmpty(description)) {
             pageData.put("description", description);
         }
 
-        if(resource != null && !OrchidUtils.isEmpty(resource.getContent())) {
+        if(resource != null && !EdenUtils.isEmpty(resource.getContent())) {
             String compiledContent = Orchid.getTheme().compile(
                     resource.getReference().getExtension(),
                     resource.getContent()

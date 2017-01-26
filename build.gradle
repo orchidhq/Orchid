@@ -56,23 +56,23 @@ dependencies {
 
     // Logging
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
-
-    // generate own documentation with specific theme
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:64cee326b2') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:c7101fbe93') {
+//
+//    // generate own documentation with specific theme
+//    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:64cee326b2') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
-    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:3f8460daa7') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPages:087f8a6262') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPosts:62a936287d') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+////    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:c7101fbe93') {
+////        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+////    }
+//    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:693d6f102b') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidPages:087f8a6262') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidPosts:62a936287d') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
 }
 
 // Jacoco Code Coverage
@@ -87,22 +87,22 @@ check.dependsOn jacocoTestReport
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
-javadoc {
-    title = ""
-    source = sourceSets.main.allJava
-
-    options.docletpath = [file("build/libs/OrchidCore-${version}.jar")]
-    options.docletpath.addAll(configurations.compile)
-    options.docletpath.addAll(configurations.orchidDocsCompile)
-    options.doclet = 'com.eden.orchid.Orchid'
-
-    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
-//    options.addStringOption("theme", "com.eden.orchid.bsdoc.BSDocTheme")
-    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
-
-    options.addStringOption("v", version)
-    options.addStringOption("baseUrl", "http://localhost:8080")
-}
+//javadoc {
+//    title = ""
+//    source = sourceSets.main.allJava
+//
+//    options.docletpath = [file("build/libs/OrchidCore-${version}.jar")]
+//    options.docletpath.addAll(configurations.compile)
+//    options.docletpath.addAll(configurations.orchidDocsCompile)
+//    options.doclet = 'com.eden.orchid.Orchid'
+//
+//    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
+////    options.addStringOption("theme", "com.eden.orchid.bsdoc.BSDocTheme")
+//    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
+//
+//    options.addStringOption("v", version)
+//    options.addStringOption("baseUrl", "http://localhost:8080")
+//}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'

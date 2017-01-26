@@ -10,7 +10,6 @@ import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.resources.impl.StringResource;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -59,7 +58,7 @@ public abstract class Theme implements ResourceSource {
 
     public String compile(String extension, String input, Object... data) {
         for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
-            if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+            if(acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
                 return compiler.getValue().compile(extension, input, data);
             }
         }
@@ -79,11 +78,21 @@ public abstract class Theme implements ResourceSource {
 
     public String getOutputExtension(String extension) {
         for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
-            if(OrchidUtils.acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+            if(acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
                 return compiler.getValue().getOutputExtension();
             }
         }
 
         return extension;
+    }
+
+    private boolean acceptsExtension(String sourceExt, String[] acceptedExts) {
+        for(String ext : acceptedExts) {
+            if(ext.equalsIgnoreCase(sourceExt)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
@@ -12,7 +13,6 @@ import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
@@ -199,7 +199,7 @@ public final class Orchid implements ResourceSource {
 
         // Register Jars which contain resources
         if(instance instanceof ResourceSource) {
-            OrchidResources.registerResouceSource((ResourceSource) instance);
+            OrchidResources.registerResourceSource((ResourceSource) instance);
         }
     }
 
@@ -217,7 +217,7 @@ public final class Orchid implements ResourceSource {
     private static boolean shouldContinue() {
         boolean shouldContinue = true;
 
-        if(OrchidUtils.isEmpty(query("options.d"))) {
+        if(EdenUtils.isEmpty(query("options.d"))) {
             Clog.e("You MUST define an output directory with the '-d' flag. It should be an absolute directory which will contain all generated files.");
             shouldContinue = false;
         }
@@ -227,13 +227,13 @@ public final class Orchid implements ResourceSource {
             shouldContinue = false;
         }
         else {
-            if(!OrchidUtils.isEmpty(theme.getMissingOptions())) {
+            if(!EdenUtils.isEmpty(theme.getMissingOptions())) {
                 Clog.e("Your selected theme depends on the following command line options that could not be found: -#{$1 | join(', -') }.", new Object[] {theme.getMissingOptions()});
                 shouldContinue = false;
             }
         }
 
-        if(OrchidUtils.isEmpty(query("options.resourcesDir"))) {
+        if(EdenUtils.isEmpty(query("options.resourcesDir"))) {
             Clog.w("You should consider defining source resources with the '-resourcesDir' flag to customize the final styling or add additional content to your Javadoc site. It should be the absolute path to a folder containing your custom resources.");
         }
 

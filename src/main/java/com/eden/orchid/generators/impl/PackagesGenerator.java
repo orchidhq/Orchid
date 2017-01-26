@@ -4,12 +4,13 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.docParser.PackageDocParser;
+import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;
 import com.sun.javadoc.RootDoc;
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -90,7 +91,16 @@ public class PackagesGenerator implements Generator {
 
             String filePath = "classes/" + packageInfoJson.getString("name").replaceAll("\\.", File.separator);
             String fileName = "index.html";
-            String contents = OrchidUtils.compileTemplate("templates/pages/packageDoc.twig", object);
+            String contents;
+
+            OrchidResource container = OrchidResources.getResourceEntry("templates/pages/packageDoc.twig");
+
+            if(container != null) {
+                contents = Orchid.getTheme().compile(FilenameUtils.getExtension("templates/pages/packageDoc.twig"), container.getContent(), object);
+            }
+            else {
+                contents = "";
+            }
 
             OrchidResources.writeFile(filePath, fileName, contents);
         }

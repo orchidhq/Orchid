@@ -1,7 +1,7 @@
 package com.eden.orchid.compilers.impl.jtwig;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
@@ -54,7 +54,7 @@ public class WalkMap implements JtwigFunction {
         if(value instanceof Map) {
             Map<String, ?> map = (Map<String, ?>) value;
 
-            if(!OrchidUtils.isEmpty(stop) && map.containsKey(stop)) {
+            if(!EdenUtils.isEmpty(stop) && map.containsKey(stop)) {
                 foundElements.add(map);
             }
             else {

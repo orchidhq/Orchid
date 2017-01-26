@@ -1,7 +1,7 @@
 package com.eden.orchid.resources;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -157,19 +157,19 @@ public class OrchidReference {
         String output = "";
 
         if(usePrettyUrl) {
-            if(!OrchidUtils.isEmpty(path)) {
+            if(!EdenUtils.isEmpty(path)) {
                 output += path;
                 if(!path.endsWith(File.separator)) {
                     output += File.separator;
                 }
             }
 
-            if(!OrchidUtils.isEmpty(fileName)) {
+            if(!EdenUtils.isEmpty(fileName)) {
                 output += fileName;
             }
         }
         else {
-            if(!OrchidUtils.isEmpty(path)) {
+            if(!EdenUtils.isEmpty(path)) {
                 output += path;
             }
         }
@@ -178,7 +178,7 @@ public class OrchidReference {
     }
 
     public String getFullPath() {
-        if(!OrchidUtils.isEmpty(basePath)) {
+        if(!EdenUtils.isEmpty(basePath)) {
             return basePath + File.separator + getPath();
         }
         else {
@@ -244,7 +244,7 @@ public class OrchidReference {
 
         String output = "";
 
-        if(!OrchidUtils.isEmpty(baseUrl)) {
+        if(!EdenUtils.isEmpty(baseUrl)) {
             output += baseUrl;
             if(!baseUrl.endsWith(File.separator)) {
                 output += File.separator;
@@ -254,7 +254,7 @@ public class OrchidReference {
             output += File.separator;
         }
 
-        if(!OrchidUtils.isEmpty(basePath)) {
+        if(!EdenUtils.isEmpty(basePath)) {
             output += basePath;
 
             if(!basePath.endsWith(File.separator)) {
@@ -262,25 +262,25 @@ public class OrchidReference {
             }
         }
 
-        if(!OrchidUtils.isEmpty(path)) {
+        if(!EdenUtils.isEmpty(path)) {
             output += path;
             if(!path.endsWith(File.separator)) {
                 output += File.separator;
             }
         }
 
-        if(!OrchidUtils.isEmpty(fileName)) {
+        if(!EdenUtils.isEmpty(fileName)) {
             output += fileName;
 
             if(!usePrettyUrl) {
                 output += ".";
-                if (!OrchidUtils.isEmpty(extension)) {
+                if (!EdenUtils.isEmpty(extension)) {
                     output += extension;
                 }
             }
         }
 
-        if(!OrchidUtils.isEmpty(id)) {
+        if(!EdenUtils.isEmpty(id)) {
             output += "#";
             output += id;
         }

@@ -2,7 +2,7 @@ package com.eden.orchid.generators;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.common.util.EdenUtils;
 import org.json.JSONObject;
 
 import java.util.Collections;
@@ -28,7 +28,7 @@ public class SiteGenerators {
             JSONElement element = generator.getValue().startIndexing();
 
             if(element != null) {
-                if(!OrchidUtils.isEmpty(generator.getValue().getName())) {
+                if(!EdenUtils.isEmpty(generator.getValue().getName())) {
                     indexObject.put(generator.getValue().getName(), element.getElement());
                 }
             }
