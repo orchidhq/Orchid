@@ -1,10 +1,10 @@
 package com.eden.orchid.generators.impl;
 
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ public class AssetsGenerator implements Generator {
     public JSONElement startIndexing() {
         JSONObject siteAssets = new JSONObject();
 
-        List<OrchidResource> resources = OrchidResources.getResourceEntries("assets", null, true);
+        List<OrchidResource> resources = Orchid.getResources().getResourceEntries("assets", null, true);
         assets = new ArrayList<>();
 
         for (OrchidResource entry : resources) {

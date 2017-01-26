@@ -7,7 +7,6 @@ import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.resources.impl.StringResource;
 import org.json.JSONObject;
@@ -40,14 +39,14 @@ public abstract class Theme implements ResourceSource {
 
     public void generateHomepage(Object... data) {
         JSONObject frontPageData = new JSONObject(Orchid.getRoot().toMap());
-        String readmeBody = OrchidResources.getProjectReadme();
-        if(readmeBody != null) {
-            frontPageData.put("readme", readmeBody);
+        OrchidResource readmeResource = Orchid.getResources().getProjectReadme();
+        if(readmeResource != null) {
+            frontPageData.put("readme", compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
         }
 
-        String licenseBody = OrchidResources.getProjectLicense();
-        if(licenseBody != null) {
-            frontPageData.put("license", licenseBody);
+        OrchidResource licenseResource = Orchid.getResources().getProjectLicense();
+        if(licenseResource != null) {
+            frontPageData.put("license", compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
         }
 
         OrchidResource resource = new StringResource("index.twig", "");

@@ -6,11 +6,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class OrchidPage {
 
     private OrchidReference reference;
@@ -64,7 +59,7 @@ public class OrchidPage {
      * @param templateName the full relative name of the template to render
      */
     public void renderTemplate(String templateName) {
-        render(templateName, FilenameUtils.getExtension(templateName), true);
+        Orchid.getResources().render(templateName, FilenameUtils.getExtension(templateName), true, buildPageData(), alias, reference);
     }
 
     /**
@@ -73,7 +68,7 @@ public class OrchidPage {
      * @param template the content of a 'template' to render
      */
     public void renderString(String template) {
-        render(template, resource.getReference().getExtension(), false);
+        Orchid.getResources().render(template, resource.getReference().getExtension(), false, buildPageData(), alias, reference);
     }
 
     /**
@@ -81,58 +76,6 @@ public class OrchidPage {
      */
     public void renderRawContent() {
         renderString(Orchid.getTheme().compile(resource.getReference().getExtension(), resource.getContent()));
-    }
-
-    private boolean render(String template, String extension, boolean templateReference) {
-        String templateContent = "";
-        if(templateReference) {
-            OrchidResource templateResource = OrchidResources.getResourceEntry(template);
-
-            if(templateResource == null) {
-                templateResource = OrchidResources.getResourceEntry("templates/pages/index.twig");
-            }
-            if(templateResource == null) {
-                templateResource = OrchidResources.getResourceEntry("templates/pages/index.html");
-            }
-            if(templateResource == null) {
-                return false;
-            }
-            
-            templateContent = templateResource.getContent();
-        }
-        else {
-            templateContent = (EdenUtils.isEmpty(template)) ? "" : template;
-        }
-
-        JSONObject pageData = buildPageData();
-
-        JSONObject templateVariables = new JSONObject(Orchid.getRoot().toMap());
-        templateVariables.put("page", pageData);
-        if(!EdenUtils.isEmpty(alias)) {
-            templateVariables.put(alias, pageData);
-        }
-
-        String content = Orchid.getTheme().compile(extension, templateContent, templateVariables);
-
-        String outputPath = reference.getFullPath();
-        String outputName = reference.getFileName() + "." + reference.getOutputExtension();
-
-        outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputPath.toLowerCase().replaceAll("/", File.separator);
-
-        File outputFile = new File(outputPath);
-        if (!outputFile.exists()) {
-            outputFile.mkdirs();
-        }
-
-        try {
-            Path classesFile = Paths.get(outputPath + File.separator + outputName);
-            Files.write(classesFile, content.getBytes());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return true;
     }
 
     private JSONObject buildPageData() {

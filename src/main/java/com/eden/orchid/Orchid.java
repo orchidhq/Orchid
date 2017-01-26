@@ -10,8 +10,8 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
-import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
+import com.eden.orchid.resources.impl.OrchidFileResources;
 import com.eden.orchid.utilities.AutoRegister;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.LanguageVersion;
@@ -90,8 +90,12 @@ public final class Orchid implements ResourceSource {
 
     private static RootDoc rootDoc;
 
+    private static OrchidFileResources resources;
+
     // theoretically should work, if I can figure out exactly how to get the command-line args set up correctly
     public static void main(String[] args) {
+        Orchid.resources = new OrchidFileResources();
+
         // Load all plugins
         pluginScan();
 
@@ -138,6 +142,7 @@ public final class Orchid implements ResourceSource {
      * @return Whether the generation was successful
      */
     public static boolean start(RootDoc rootDoc) {
+        Orchid.resources = new OrchidFileResources();
         Orchid.rootDoc = rootDoc;
 
         Clog.i("Using actual output jar and not Jitpack dependency");
@@ -199,7 +204,7 @@ public final class Orchid implements ResourceSource {
 
         // Register Jars which contain resources
         if(instance instanceof ResourceSource) {
-            OrchidResources.registerResourceSource((ResourceSource) instance);
+            Orchid.getResources().registerResourceSource((ResourceSource) instance);
         }
     }
 
@@ -320,6 +325,15 @@ public final class Orchid implements ResourceSource {
      */
     public static void setTheme(Theme theme) {
         Orchid.theme = theme;
+    }
+
+    /**
+     * Gets the project-specified Resources implementation.
+     *
+     * @return  the project's resources implementation
+     */
+    public static OrchidFileResources getResources() {
+        return resources;
     }
 
     /**
