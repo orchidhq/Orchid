@@ -346,3 +346,15 @@ public final class Orchid implements ResourceSource {
         return 10;
     }
 }
+
+
+/*
+
+Classes that would be good to inject as dependencies:
+
+* Theme
+* Orchid
+* RootDoc
+* OrchidResources
+
+ */

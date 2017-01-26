@@ -5,7 +5,8 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidReference;
-import com.eden.orchid.resources.impl.StringResource;
+import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.resources.impl.JsonResource;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
@@ -31,24 +32,25 @@ public class MetadataGenerator implements Generator {
     @Override
     public JSONElement startIndexing() {
         JSONObject siteAssets = new JSONObject();
-
         meta = new ArrayList<>();
 
-        StringResource resource = new StringResource("", new OrchidReference("meta/classIndex.json"));
-        resource.setEmbeddedData(Orchid.query("index.classes.internal"));
+        JSONElement el = Orchid.query("index.classes.internal");
 
-        OrchidPage entry = new OrchidPage(resource);
+        if(el != null) {
+            OrchidResource resource = new JsonResource(el, new OrchidReference("meta/classIndex.json"));
+            OrchidPage entry = new OrchidPage(resource);
 
-        JSONObject index = new JSONObject();
-        index.put("name", entry.getReference().getTitle());
-        index.put("title", entry.getReference().getTitle());
-        index.put("url", entry.getReference().toString());
+            JSONObject index = new JSONObject();
+            index.put("name", entry.getReference().getTitle());
+            index.put("title", entry.getReference().getTitle());
+            index.put("url", entry.getReference().toString());
 
-        meta.add(entry);
+            meta.add(entry);
 
-        OrchidUtils.buildTaxonomy(resource, siteAssets, index);
+            OrchidUtils.buildTaxonomy(resource, siteAssets, index);
+        }
 
-        return new JSONElement(siteAssets.getJSONObject("assets"));
+        return new JSONElement(siteAssets.getJSONObject("meta"));
     }
 
     @Override

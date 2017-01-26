@@ -6,6 +6,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class OrchidPage {
 
     private OrchidReference reference;
@@ -27,25 +32,28 @@ public class OrchidPage {
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
 
-        if(!EdenUtils.isEmpty(resource.queryEmbeddedData("description"))) {
-            this.description = resource.queryEmbeddedData("description").toString();
-        }
+        if(resource.getEmbeddedData() != null) {
 
-        if(resource.getEmbeddedData().getElement() instanceof JSONObject) {
-            this.data = (JSONObject) resource.getEmbeddedData().getElement();
-        }
-        else {
-            this.data = new JSONObject();
-            this.data.put("data", resource.getEmbeddedData().getElement());
-        }
+            if (!EdenUtils.isEmpty(resource.queryEmbeddedData("description"))) {
+                this.description = resource.queryEmbeddedData("description").toString();
+            }
 
-        if(resource.queryEmbeddedData("menu") != null) {
-            if(resource.queryEmbeddedData("menu").getElement() instanceof JSONArray) {
-                this.menu = (JSONArray) resource.queryEmbeddedData("menu").getElement();
+            if (resource.getEmbeddedData().getElement() instanceof JSONObject) {
+                this.data = (JSONObject) resource.getEmbeddedData().getElement();
             }
             else {
-                this.menu = new JSONArray();
-                this.menu.put(resource.queryEmbeddedData("menu").getElement());
+                this.data = new JSONObject();
+                this.data.put("data", resource.getEmbeddedData().getElement());
+            }
+
+            if (resource.queryEmbeddedData("menu") != null) {
+                if (resource.queryEmbeddedData("menu").getElement() instanceof JSONArray) {
+                    this.menu = (JSONArray) resource.queryEmbeddedData("menu").getElement();
+                }
+                else {
+                    this.menu = new JSONArray();
+                    this.menu.put(resource.queryEmbeddedData("menu").getElement());
+                }
             }
         }
     }
@@ -108,7 +116,21 @@ public class OrchidPage {
 
         String outputPath = reference.getFullPath();
         String outputName = reference.getFileName() + "." + reference.getOutputExtension();
-        OrchidResources.writeFile(outputPath.toLowerCase(), outputName.toLowerCase(), content);
+
+        outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputPath.toLowerCase().replaceAll("/", File.separator);
+
+        File outputFile = new File(outputPath);
+        if (!outputFile.exists()) {
+            outputFile.mkdirs();
+        }
+
+        try {
+            Path classesFile = Paths.get(outputPath + File.separator + outputName);
+            Files.write(classesFile, content.getBytes());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
