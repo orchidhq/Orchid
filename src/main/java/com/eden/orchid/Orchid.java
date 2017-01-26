@@ -10,6 +10,7 @@ import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
+import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.resources.impl.OrchidFileResources;
 import com.eden.orchid.utilities.AutoRegister;
@@ -90,7 +91,7 @@ public final class Orchid implements ResourceSource {
 
     private static RootDoc rootDoc;
 
-    private static OrchidFileResources resources;
+    private static OrchidResources resources;
 
     // theoretically should work, if I can figure out exactly how to get the command-line args set up correctly
     public static void main(String[] args) {
@@ -332,7 +333,7 @@ public final class Orchid implements ResourceSource {
      *
      * @return  the project's resources implementation
      */
-    public static OrchidFileResources getResources() {
+    public static OrchidResources getResources() {
         return resources;
     }
 

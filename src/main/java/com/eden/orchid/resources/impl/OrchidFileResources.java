@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -26,7 +27,7 @@ import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidFileResources {
+public class OrchidFileResources implements OrchidResources {
     public Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
 
     public void registerResourceSource(ResourceSource resourceSource) {
