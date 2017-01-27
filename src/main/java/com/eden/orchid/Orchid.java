@@ -52,7 +52,6 @@ import java.util.Map;
  * </ol>
  *
  */
-@AutoRegister
 public final class Orchid {
 
 // Doclet hackery to allow this to parse documentation as expected and not crash...

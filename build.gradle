@@ -58,12 +58,12 @@ dependencies {
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with specific theme
-//    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:a2f38b1d8d') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
-    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:5c3eca804e') {
+    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:a2f38b1d8d') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
+//    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:5c3eca804e') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
     orchidDocsCompile ('com.github.JavaEden:OrchidWiki:b25d3082c1') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
@@ -96,12 +96,13 @@ javadoc {
     options.docletpath.addAll(configurations.orchidDocsCompile)
     options.doclet = 'com.eden.orchid.Orchid'
 
-//    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
-    options.addStringOption("theme", "com.eden.orchid.bsdoc.BSDocTheme")
+    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
+//    options.addStringOption("theme", "com.eden.orchid.bsdoc.BSDocTheme")
     options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
 
     options.addStringOption("v", version)
-    options.addStringOption("baseUrl", "http://localhost:8080")
+//    options.addStringOption("baseUrl", "http://localhost:8080")
+    options.addStringOption("baseUrl", "https://javaeden.github.io/OrchidCore/editorial")
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
