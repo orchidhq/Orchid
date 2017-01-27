@@ -3,23 +3,15 @@ package com.eden.orchid.generators;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.utilities.RegistrationProvider;
 import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class SiteGenerators {
+public class SiteGenerators implements RegistrationProvider {
     public static Map<Integer, Generator> generators = new TreeMap<>(Collections.reverseOrder());
-
-    public static void registerGenerator(Generator generator) {
-        int priority = generator.priority();
-        while(generators.containsKey(priority)) {
-            priority--;
-        }
-
-        SiteGenerators.generators.put(priority, generator);
-    }
 
     public static void startIndexing(JSONObject indexObject) {
         for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
@@ -40,6 +32,19 @@ public class SiteGenerators {
             Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
             generator.getValue().startGeneration();
+        }
+    }
+
+    @Override
+    public void register(Object object) {
+        if(object instanceof Generator) {
+            Generator generator = (Generator) object;
+            int priority = generator.priority();
+            while(generators.containsKey(priority)) {
+                priority--;
+            }
+
+            SiteGenerators.generators.put(priority, generator);
         }
     }
 }

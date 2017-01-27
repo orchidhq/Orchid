@@ -13,10 +13,6 @@ import java.util.List;
 @AutoRegister
 public class CompileAsFilter implements JtwigFunction {
 
-    static {
-        JTwigCompiler.config.functions().add(new CompileAsFilter());
-    }
-
     @Override
     public String name() {
         return "compileAs";

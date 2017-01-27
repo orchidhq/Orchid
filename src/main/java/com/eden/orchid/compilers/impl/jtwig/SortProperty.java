@@ -14,10 +14,6 @@ import java.util.Map;
 @AutoRegister
 public class SortProperty implements JtwigFunction {
 
-    static {
-        JTwigCompiler.config.functions().add(new SortProperty());
-    }
-
     @Override
     public String name() {
         return "sortBy";

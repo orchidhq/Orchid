@@ -14,9 +14,6 @@ import java.util.Map;
 
 @AutoRegister
 public class QueryFilter implements JtwigFunction {
-    static {
-        JTwigCompiler.config.functions().add(new QueryFilter());
-    }
 
     @Override
     public String name() {

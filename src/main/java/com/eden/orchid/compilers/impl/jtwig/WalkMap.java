@@ -14,10 +14,6 @@ import java.util.Map;
 @AutoRegister
 public class WalkMap implements JtwigFunction {
 
-    static {
-        JTwigCompiler.config.functions().add(new WalkMap());
-    }
-
     @Override
     public String name() {
         return "walk";

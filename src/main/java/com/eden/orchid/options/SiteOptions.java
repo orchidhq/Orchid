@@ -2,6 +2,7 @@ package com.eden.orchid.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
@@ -9,20 +10,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class SiteOptions {
+public class SiteOptions implements RegistrationProvider {
 
     public static Map<Integer, Option> optionsParsers = new TreeMap<>(Collections.reverseOrder());
-
-
-    public static void registerOption(Option option) {
-        int priority = option.priority();
-        while(optionsParsers.containsKey(priority)) {
-            priority--;
-        }
-
-        SiteOptions.optionsParsers.put(priority, option);
-    }
-
 
     public static void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {
         // If an option is found and it was successfully parsed, continue to the next parser. Otherwise set its default value.
@@ -73,5 +63,18 @@ public class SiteOptions {
 
         // Failing that, return 2 because we can't find an appropriate option to match, but we don't necessarily need to crash
         return 2;
+    }
+
+    @Override
+    public void register(Object object) {
+        if(object instanceof Option) {
+            Option option = (Option) object;
+            int priority = option.priority();
+            while(optionsParsers.containsKey(priority)) {
+                priority--;
+            }
+
+            SiteOptions.optionsParsers.put(priority, option);
+        }
     }
 }

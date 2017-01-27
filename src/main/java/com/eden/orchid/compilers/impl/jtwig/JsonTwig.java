@@ -14,10 +14,6 @@ import java.util.Map;
 @AutoRegister
 public class JsonTwig implements JtwigFunction {
 
-    static {
-        JTwigCompiler.config.functions().add(new JsonTwig());
-    }
-
     @Override
     public String name() {
         return "json";

@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface OrchidResources {
 
-    void registerResourceSource(ResourceSource resourceSource);
-
     OrchidResource getResourceDirEntry(String fileName);
 
     OrchidResource getResourceEntry(String fileName);

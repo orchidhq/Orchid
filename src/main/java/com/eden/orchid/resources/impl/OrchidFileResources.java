@@ -7,6 +7,7 @@ import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
+import com.eden.orchid.utilities.RegistrationProvider;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -27,17 +28,8 @@ import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidFileResources implements OrchidResources {
-    public Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
-
-    public void registerResourceSource(ResourceSource resourceSource) {
-        int priority = resourceSource.resourcePriority();
-        while(resourceSources.containsKey(priority)) {
-            priority--;
-        }
-
-        resourceSources.put(priority, resourceSource);
-    }
+public class OrchidFileResources implements OrchidResources, RegistrationProvider {
+    public static Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -261,7 +253,8 @@ public class OrchidFileResources implements OrchidResources {
 
         // if we've specified a resources dir, use that
         if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
-            File file = new File(Orchid.query("options.resourcesDir") + File.separator + path);
+            String fullPath = Orchid.query("options.resourcesDir") + File.separator + path;
+            File file = new File(fullPath);
 
             if(file.exists() && file.isDirectory()) {
                 files.addAll(new ArrayList<File>(FileUtils.listFiles(file, fileExtensions, recursive)));
@@ -421,8 +414,6 @@ public class OrchidFileResources implements OrchidResources {
             templateContent = (EdenUtils.isEmpty(template)) ? "" : template;
         }
 
-
-
         JSONObject templateVariables = new JSONObject(Orchid.getRoot().toMap());
         templateVariables.put("page", pageData);
         if(!EdenUtils.isEmpty(alias)) {
@@ -450,5 +441,19 @@ public class OrchidFileResources implements OrchidResources {
         }
 
         return true;
+    }
+
+    @Override
+    public void register(Object object) {
+        if(object instanceof ResourceSource) {
+            ResourceSource resourceSource = (ResourceSource) object;
+
+            int priority = resourceSource.resourcePriority();
+            while(resourceSources.containsKey(priority)) {
+                priority--;
+            }
+
+            resourceSources.put(priority, resourceSource);
+        }
     }
 }

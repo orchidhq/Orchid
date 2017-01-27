@@ -3,24 +3,21 @@ package com.eden.orchid;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.compilers.Compiler;
-import com.eden.orchid.compilers.PreCompiler;
-import com.eden.orchid.compilers.SiteCompilers;
-import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
-import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.resources.OrchidResources;
-import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.resources.impl.OrchidFileResources;
 import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -56,7 +53,7 @@ import java.util.Map;
  *
  */
 @AutoRegister
-public final class Orchid implements ResourceSource {
+public final class Orchid {
 
 // Doclet hackery to allow this to parse documentation as expected and not crash...
 //----------------------------------------------------------------------------------------------------------------------
@@ -92,10 +89,15 @@ public final class Orchid implements ResourceSource {
 
     private static OrchidResources resources;
 
-    // theoretically should work, if I can figure out exactly how to get the command-line args set up correctly
+    /**
+     * Start the site generation process from the command line
+     *
+     * @param args  the command-line args to use
+     */
     public static void main(String[] args) {
         Clog.i("Using Orchid from Main method");
 
+        Orchid.providers = new ArrayList<>();
         Orchid.resources = new OrchidFileResources();
         Orchid.rootDoc = null;
         Orchid.root = new JSONObject();
@@ -109,7 +111,14 @@ public final class Orchid implements ResourceSource {
             }
         }
 
-        bootstrap(optionsMap);
+        boolean success = bootstrap(optionsMap);
+
+        if(success) {
+            System.exit(0);
+        }
+        else {
+            System.exit(1);
+        }
     }
 
     /**
@@ -121,6 +130,7 @@ public final class Orchid implements ResourceSource {
     public static boolean start(RootDoc rootDoc) {
         Clog.i("Using Orchid from Javadoc Start method");
 
+        Orchid.providers = new ArrayList<>();
         Orchid.resources = new OrchidFileResources();
         Orchid.rootDoc = rootDoc;
         Orchid.root = new JSONObject();
@@ -133,9 +143,17 @@ public final class Orchid implements ResourceSource {
         return bootstrap(optionsMap);
     }
 
+    /**
+     * Bootstraps the site generation process given a map of options
+     *
+     * @param optionsMap
+     * @return whether the generation process was successful
+     */
     public static boolean bootstrap(Map<String, String[]> optionsMap) {
+        providerScan();
         pluginScan();
         optionsScan(optionsMap);
+
         if(shouldContinue()) {
             indexingScan();
             generationScan();
@@ -145,6 +163,22 @@ public final class Orchid implements ResourceSource {
         else {
             return false;
         }
+    }
+
+    private static List<RegistrationProvider> providers;
+    private static void providerScan() {
+        FastClasspathScanner scanner = new FastClasspathScanner();
+        scanner.matchClassesImplementing(RegistrationProvider.class, (matchingClass) -> {
+            try {
+                Clog.d("Initializing provider class: #{$1}", new Object[]{matchingClass.getSimpleName()});
+                RegistrationProvider instance = matchingClass.newInstance();
+                providers.add(instance);
+            }
+            catch (IllegalAccessException|InstantiationException e) {
+                e.printStackTrace();
+            }
+        });
+        scanner.scan();
     }
 
     /**
@@ -160,39 +194,15 @@ public final class Orchid implements ResourceSource {
             try {
                 Clog.d("AutoRegistering class: #{$1}", new Object[]{matchingClass.getSimpleName()});
                 Object instance = matchingClass.newInstance();
-                register(instance);
+                for(RegistrationProvider provider : providers) {
+                    provider.register(instance);
+                }
             }
             catch (IllegalAccessException|InstantiationException e) {
                 e.printStackTrace();
             }
         });
         scanner.scan();
-    }
-
-    public static void register(Object instance) {
-
-        // Register compilers
-        if(instance instanceof Compiler) {
-            SiteCompilers.registerCompiler((Compiler) instance);
-        }
-        if(instance instanceof PreCompiler) {
-            SiteCompilers.registerPreCompiler((PreCompiler) instance);
-        }
-
-        // Register generators
-        if(instance instanceof Generator) {
-            SiteGenerators.registerGenerator((Generator) instance);
-        }
-
-        // Register command-line options
-        if(instance instanceof Option) {
-            SiteOptions.registerOption((Option) instance);
-        }
-
-        // Register Jars which contain resources
-        if(instance instanceof ResourceSource) {
-            Orchid.getResources().registerResourceSource((ResourceSource) instance);
-        }
     }
 
     /**
@@ -364,11 +374,6 @@ public final class Orchid implements ResourceSource {
      */
     public static RootDoc getRootDoc() {
         return rootDoc;
-    }
-
-    @Override
-    public int resourcePriority() {
-        return 10;
     }
 }
 

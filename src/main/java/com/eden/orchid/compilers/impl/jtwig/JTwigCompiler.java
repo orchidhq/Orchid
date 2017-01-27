@@ -3,22 +3,19 @@ package com.eden.orchid.compilers.impl.jtwig;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.RegistrationProvider;
 import org.json.JSONObject;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.environment.EnvironmentFactory;
+import org.jtwig.functions.JtwigFunction;
 import org.jtwig.resource.reference.ResourceReference;
 
 @AutoRegister
-public class JTwigCompiler implements Compiler {
+public class JTwigCompiler implements Compiler, RegistrationProvider {
 
     public static EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
-
-    static {
-//        config.parser().withoutTemplateCache();
-//        config.render().withStrictMode(false);
-    }
 
     @Override
     public String compile(String extension, String source, Object... data) {
@@ -55,5 +52,12 @@ public class JTwigCompiler implements Compiler {
     @Override
     public int priority() {
         return 90;
+    }
+
+    @Override
+    public void register(Object object) {
+        if(object instanceof JtwigFunction) {
+            JTwigCompiler.config.functions().add((JtwigFunction) object);
+        }
     }
 }
