@@ -16,6 +16,11 @@ public class ThemeOption implements Option {
     }
 
     @Override
+    public String getDescription() {
+        return "the fully-qualified classname of your selected Theme object";
+    }
+
+    @Override
     public JSONElement parseOption(String[] options) {
         try {
             Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);

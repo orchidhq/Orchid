@@ -15,6 +15,11 @@ public class ResourcesOption implements Option {
     }
 
     @Override
+    public String getDescription() {
+        return "the directory containing your content files";
+    }
+
+    @Override
     public JSONElement parseOption(String[] options) {
         return new JSONElement(options[1]);
     }

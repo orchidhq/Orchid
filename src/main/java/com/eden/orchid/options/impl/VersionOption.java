@@ -13,6 +13,11 @@ public class VersionOption implements Option {
     }
 
     @Override
+    public String getDescription() {
+        return "the version of your library";
+    }
+
+    @Override
     public JSONElement parseOption(String[] options) {
         return new JSONElement(options[1]);
     }

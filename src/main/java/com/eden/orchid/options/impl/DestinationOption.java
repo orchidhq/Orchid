@@ -13,6 +13,11 @@ public class DestinationOption implements Option {
     }
 
     @Override
+    public String getDescription() {
+        return "the output directory for all generated files";
+    }
+
+    @Override
     public JSONElement parseOption(String[] options) {
         return new JSONElement(options[1]);
     }

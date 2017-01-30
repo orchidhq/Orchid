@@ -425,7 +425,7 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
         String outputPath = reference.getFullPath();
         String outputName = reference.getFileName() + "." + reference.getOutputExtension();
 
-        outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputPath.toLowerCase().replaceAll("/", File.separator);
+        outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputPath.replaceAll("/", File.separator);
 
         File outputFile = new File(outputPath);
         if (!outputFile.exists()) {

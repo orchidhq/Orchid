@@ -5,6 +5,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.SiteOptions;
+import com.eden.orchid.programs.SitePrograms;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.impl.OrchidFileResources;
 import com.eden.orchid.utilities.AutoRegister;
@@ -96,6 +97,14 @@ public final class Orchid {
     public static void main(String[] args) {
         Clog.i("Using Orchid from Main method");
 
+        String program;
+        if(!args[0].startsWith("-")) {
+            program = args[0];
+        }
+        else {
+            program = SitePrograms.defaultProgram;
+        }
+
         Orchid.providers = new ArrayList<>();
         Orchid.resources = new OrchidFileResources();
         Orchid.rootDoc = null;
@@ -104,15 +113,17 @@ public final class Orchid {
         Map<String, String[]> optionsMap = new HashMap<>();
 
         for(String arg : args) {
+            Clog.v("Arg: #{$1}", new Object[]{ arg });
             if(arg.startsWith("-")) {
                 String[] argPieces = arg.split("\\s+");
                 optionsMap.put(argPieces[0], argPieces);
             }
         }
 
-        boolean success = bootstrap(optionsMap);
+        bootstrap(optionsMap);
 
-        if(success) {
+        if(shouldContinue()) {
+            kernel(program);
             System.exit(0);
         }
         else {
@@ -139,7 +150,15 @@ public final class Orchid {
             optionsMap.put(a[0], a);
         }
 
-        return bootstrap(optionsMap);
+        bootstrap(optionsMap);
+
+        if(shouldContinue()) {
+            kernel(SitePrograms.defaultProgram);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -148,20 +167,14 @@ public final class Orchid {
      * @param optionsMap
      * @return whether the generation process was successful
      */
-    public static boolean bootstrap(Map<String, String[]> optionsMap) {
+    public static void bootstrap(Map<String, String[]> optionsMap) {
         providerScan();
         pluginScan();
         optionsScan(optionsMap);
+    }
 
-        if(shouldContinue()) {
-            indexingScan();
-            generationScan();
-            generateHomepage();
-            return true;
-        }
-        else {
-            return false;
-        }
+    public static void kernel(String programName) {
+        SitePrograms.runProgram(programName);
     }
 
     private static List<RegistrationProvider> providers;
@@ -248,7 +261,7 @@ public final class Orchid {
      * this point, we are just gathering the references to files that will be written, so that when we start writing
      * files we can be sure we are able to generate links to any other piece of generated content.
      */
-    private static void indexingScan() {
+    public static void indexingScan() {
         root.put("index", new JSONObject());
         SiteGenerators.startIndexing(root.getJSONObject("index"));
     }
@@ -257,14 +270,14 @@ public final class Orchid {
      * Step five: scan all registered generators and generate the final output files. At this point, any file that will
      * be generated should be able to be linked to finding its location within the index.
      */
-    private static void generationScan() {
+    public static void generationScan() {
         SiteGenerators.startGeneration();
     }
 
     /**
      * Step six: generate the final site homepage
      */
-    private static void generateHomepage() {
+    public static void generateHomepage() {
         root.put("root", new JSONObject(root.toMap()));
         theme.generateHomepage(root);
     }

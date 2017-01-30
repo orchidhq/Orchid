@@ -1,21 +1,29 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
+
+buildscript {
+    repositories {
+        flatDir dirs: '../OrchidGradlePlugin/build/libs'
+    }
+    dependencies {
+        classpath 'com.eden:OrchidGradlePlugin:v0.1.0'
+    }
+}
 plugins {
     id 'java'
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
+//    id "com.eden.orchidplugin" version "v0.1.0"
 }
+
+apply plugin: 'com.eden.orchidplugin'
 
 group 'com.eden'
 version = 'v0.1.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
-
-configurations {
-    orchidDocs
-}
 
 sourceSets {
     orchidDocs
@@ -64,13 +72,13 @@ dependencies {
 //    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:5c3eca804e') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
-    orchidDocsCompile ('com.github.JavaEden:OrchidWiki:b25d3082c1') {
+    orchidDocsCompile('com.github.JavaEden:OrchidWiki:b25d3082c1') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
     orchidDocsCompile('com.github.JavaEden:OrchidPages:740cde8c9e') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
-    orchidDocsCompile('com.github.JavaEden:OrchidPosts:9191d0eb01') {
+    orchidDocsCompile('com.github.JavaEden:OrchidPosts:a175c3cb80') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
 }
@@ -87,6 +95,20 @@ check.dependsOn jacocoTestReport
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
+orchid {
+//    cmdArgs.add("listOptions")
+    cmdArgs.add("listPrograms")
+
+    version = this.version
+    theme = 'com.eden.orchid.editorial.EditorialTheme'
+    baseUrl = 'http://localhost:8080'
+    srcDir = sourceSets.orchidDocs.resources.srcDirs[0].toString()
+    destDir = '/Users/cbrooks/Documents/personal/java/eden/OrchidCore/build/docs/javadoc'
+
+    classpath = sourceSets.main.runtimeClasspath
+    classpath += sourceSets.orchidDocs.runtimeClasspath
+}
+
 javadoc {
     title = ""
     source = sourceSets.main.allJava
@@ -123,10 +145,9 @@ artifacts {
 // Tagging, Releases, and Github Pages Publishing
 task setGitReleaseTag {
     doLast {
-        if((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
+        if ((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
             println "Version '${version}' is already tagged"
-        }
-        else {
+        } else {
             println "Tagging repo with version: ${version}."
             grgit.tag.add {
                 name = version
@@ -154,14 +175,15 @@ tasks.javadoc.dependsOn 'classes'
 
 tasks.release.dependsOn 'build', 'setGitReleaseTag', 'publishGhPages'
 
-task runOrchid(type:JavaExec) {
-    main = 'com.eden.orchid.Orchid'
-    classpath += sourceSets.main.runtimeClasspath
-    classpath += sourceSets.orchidDocs.runtimeClasspath
+//task runOrchid(type: JavaExec) {
+//    main = 'com.eden.orchid.Orchid'
+//    classpath += sourceSets.main.runtimeClasspath
+//    classpath += sourceSets.orchidDocs.runtimeClasspath
+//
+//    args += '-baseUrl http://localhost:8080'
+//    args += '-theme com.eden.orchid.bsdoc.BSDocTheme'
+//    args += '-d /Users/cbrooks/Documents/personal/java/eden/OrchidCore/build/docs/javadoc'
+//    args += '-resourcesDir /Users/cbrooks/Documents/personal/java/eden/OrchidCore/src/orchidDocs/resources'
+//    args += '-v v0.1.0'
+//}
 
-    args += '-baseUrl http://localhost:8080'
-    args += '-theme com.eden.orchid.bsdoc.BSDocTheme'
-    args += '-d /Users/cbrooks/Documents/personal/java/eden/OrchidCore/build/docs/javadoc'
-    args += '-resourcesDir /Users/cbrooks/Documents/personal/java/eden/OrchidCore/src/orchidDocs/resources'
-    args += '-v v0.1.0'
-}

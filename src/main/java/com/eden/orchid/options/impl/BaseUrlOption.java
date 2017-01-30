@@ -13,6 +13,11 @@ public class BaseUrlOption implements Option {
     }
 
     @Override
+    public String getDescription() {
+        return "the base URL to append to generated URLs.";
+    }
+
+    @Override
     public JSONElement parseOption(String[] options) {
         return new JSONElement(options[1]);
     }
