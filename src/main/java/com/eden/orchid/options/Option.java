@@ -11,5 +11,7 @@ public interface Option {
     JSONElement getDefaultValue();
     int priority();
 
+    boolean required();
+
     int optionLength();
 }

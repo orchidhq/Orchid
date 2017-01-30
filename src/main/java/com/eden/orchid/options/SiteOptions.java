@@ -17,7 +17,6 @@ public class SiteOptions implements RegistrationProvider {
     public static void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {
         // If an option is found and it was successfully parsed, continue to the next parser. Otherwise set its default value.
         for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
-            Clog.d("Parsing option: #{$1}:[#{$2 | className}]", option.getKey(), option.getValue());
             Option optionParser = option.getValue();
 
             if(optionsMap.containsKey("-" + option.getValue().getFlag()) || option.getValue().optionLength() == 0) {
@@ -54,7 +53,7 @@ public class SiteOptions implements RegistrationProvider {
         // Otherwise, find the matching registered Option and return its specified option length
         else {
             for(Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
-                Clog.v("Checking option length: #{$1} - [#{$2}, #{$3}", new Object[]{optionFlag, "-" + option.getValue().getFlag(), option.getValue().optionLength()});
+                Clog.d("Checking option length: #{$1} - [#{$2}, #{$3}", new Object[]{optionFlag, "-" + option.getValue().getFlag(), option.getValue().optionLength()});
                 if(optionFlag.equals("-" + option.getValue().getFlag())) {
                     return option.getValue().optionLength();
                 }
@@ -76,5 +75,9 @@ public class SiteOptions implements RegistrationProvider {
 
             SiteOptions.optionsParsers.put(priority, option);
         }
+    }
+
+    public static boolean shouldContinue() {
+        return true;
     }
 }

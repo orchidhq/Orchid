@@ -58,6 +58,11 @@ public class DataFilesOption implements Option {
         return 0;
     }
 
+    @Override
+    public boolean required() {
+        return false;
+    }
+
     private JSONElement parseDataFiles(String resPath) {
         JSONObject dataOptions = new JSONObject();
 

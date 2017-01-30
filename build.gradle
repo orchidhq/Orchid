@@ -1,23 +1,23 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
 
-buildscript {
-    repositories {
-        flatDir dirs: '../OrchidGradlePlugin/build/libs'
-    }
-    dependencies {
-        classpath 'com.eden:OrchidGradlePlugin:v0.1.0'
-    }
-}
+//buildscript {
+//    repositories {
+//        flatDir dirs: '../OrchidGradlePlugin/build/libs'
+//    }
+//    dependencies {
+//        classpath 'com.eden:OrchidGradlePlugin:v0.1.0'
+//    }
+//}
 plugins {
     id 'java'
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-//    id "com.eden.orchidplugin" version "v0.1.0"
+    id "com.eden.orchidplugin" version "v0.1.1"
 }
 
-apply plugin: 'com.eden.orchidplugin'
+//apply plugin: 'com.eden.orchidplugin'
 
 group 'com.eden'
 version = 'v0.1.0'
@@ -96,8 +96,10 @@ check.dependsOn jacocoTestReport
 // Javadoc Generation
 //------------------------------------------------------------------------------
 orchid {
-//    cmdArgs.add("listOptions")
-    cmdArgs.add("listPrograms")
+
+//    program = "listOptions"
+//    program = "listPrograms"
+//    program = "build"
 
     version = this.version
     theme = 'com.eden.orchid.editorial.EditorialTheme'

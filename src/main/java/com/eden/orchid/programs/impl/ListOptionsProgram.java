@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.programs.Program;
+import com.eden.orchid.programs.SitePrograms;
 import com.eden.orchid.utilities.AutoRegister;
 
 import java.util.Map;
@@ -26,7 +27,7 @@ public class ListOptionsProgram implements Program {
             Option optionParser = option.getValue();
 
             if(optionParser.optionLength() > 0) {
-                Clog.i("[-#{$1}] (expects #{$2} parameters): #{$3}", new Object[]{optionParser.getFlag(), optionParser.optionLength(), optionParser.getDescription()});
+                Clog.logger(SitePrograms.loggerKey, "[-#{$1}] (expects #{$2} parameters): #{$3}", new Object[]{optionParser.getFlag(), optionParser.optionLength(), optionParser.getDescription()});
             }
         }
     }

@@ -54,4 +54,9 @@ public class ThemeOption implements Option {
     public int optionLength() {
         return 2;
     }
+
+    @Override
+    public boolean required() {
+        return true;
+    }
 }

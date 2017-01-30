@@ -1,5 +1,6 @@
 package com.eden.orchid.programs;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.utilities.RegistrationProvider;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ public class SitePrograms implements RegistrationProvider {
 
     public static Map<String, Program> sitePrograms = new HashMap<>();
     public static String defaultProgram = "build";
+    public static String loggerKey = "clear";
 
     @Override
     public void register(Object object) {
@@ -20,6 +22,8 @@ public class SitePrograms implements RegistrationProvider {
     }
 
     public static void runProgram(String programName) {
+        Clog.addLogger(loggerKey, new ProgramLogger());
+
         if(sitePrograms.containsKey(programName)) {
             sitePrograms.get(programName).run();
         }

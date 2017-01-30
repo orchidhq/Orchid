@@ -24,7 +24,7 @@ public class ListProgramsProgram implements Program {
         for(Map.Entry<String, Program> option : SitePrograms.sitePrograms.entrySet()) {
             Program program = option.getValue();
 
-            Clog.i("[#{$1}]: #{$2}", new Object[]{program.getName(), program.getDescription()});
+            Clog.logger(SitePrograms.loggerKey, "[#{$1}]: #{$2}", new Object[]{program.getName(), program.getDescription()});
         }
     }
 }

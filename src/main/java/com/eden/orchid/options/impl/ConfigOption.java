@@ -54,6 +54,11 @@ public class ConfigOption implements Option {
         return 0;
     }
 
+    @Override
+    public boolean required() {
+        return false;
+    }
+
     private JSONElement parseConfigFile(String resPath) {
 
         JSONObject configOptions = new JSONObject();

@@ -33,6 +33,11 @@ public class BaseUrlOption implements Option {
     }
 
     @Override
+    public boolean required() {
+        return false;
+    }
+
+    @Override
     public int optionLength() {
         return 2;
     }

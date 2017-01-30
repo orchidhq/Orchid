@@ -36,4 +36,9 @@ public class VersionOption implements Option {
     public int optionLength() {
         return 2;
     }
+
+    @Override
+    public boolean required() {
+        return false;
+    }
 }

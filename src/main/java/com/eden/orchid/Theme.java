@@ -5,6 +5,7 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
+import com.eden.orchid.compilers.impl.FrontMatterPrecompiler;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.ResourceSource;
@@ -14,27 +15,18 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public abstract class Theme implements ResourceSource {
-    /**
-     * Get the class of the precompiler required for this theme.
-     *
-     * @return  the class of the required precompiler
-     */
-    public abstract Class<? extends PreCompiler> getPrecompilerClass();
 
-    /**
-     * Get an array of classes defining additional compilers required to use this theme.
-     *
-     * @return  Get a list of compilers that are required to use this theme
-     */
-    public abstract Class<? extends Compiler>[] getRequiredCompilers();
+    public Class<? extends PreCompiler> getPrecompilerClass() {
+        return FrontMatterPrecompiler.class;
+    }
+
+    public boolean shouldContinue() {
+        return true;
+    }
 
     @Override
     public int resourcePriority() {
         return 20;
-    }
-
-    public String[] getMissingOptions() {
-        return new String[] {};
     }
 
     public void generateHomepage(Object... data) {
