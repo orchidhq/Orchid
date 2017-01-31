@@ -6,7 +6,7 @@
 //        flatDir dirs: '../OrchidGradlePlugin/build/libs'
 //    }
 //    dependencies {
-//        classpath 'com.eden:OrchidGradlePlugin:v0.1.0'
+//        classpath 'com.eden:OrchidGradlePlugin:v0.1.4'
 //    }
 //}
 plugins {
@@ -14,7 +14,7 @@ plugins {
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-    id "com.eden.orchidplugin" version "v0.1.1"
+    id "com.eden.orchidplugin" version "v0.1.4"
 }
 
 //apply plugin: 'com.eden.orchidplugin'
@@ -24,10 +24,6 @@ version = 'v0.1.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
-
-sourceSets {
-    orchidDocs
-}
 
 repositories {
     maven { url 'http://jcenter.bintray.com/' }
@@ -65,13 +61,14 @@ dependencies {
     // Logging
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
-    // generate own documentation with specific theme
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:a2f38b1d8d') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+    // generate own documentation with Orchid
+    orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
 //    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:5c3eca804e') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
+    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:a2f38b1d8d') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
     orchidDocsCompile('com.github.JavaEden:OrchidWiki:b25d3082c1') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
@@ -96,38 +93,13 @@ check.dependsOn jacocoTestReport
 // Javadoc Generation
 //------------------------------------------------------------------------------
 orchid {
+    includeMainConfiguration = true
+    program = "listOptions"
 
-//    program = "listOptions"
-//    program = "listPrograms"
-//    program = "build"
-    program = "watch"
-
-    version = this.version
+//    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
     theme = 'com.eden.orchid.editorial.EditorialTheme'
+    version = this.version
     baseUrl = 'http://localhost:8080'
-    srcDir = sourceSets.orchidDocs.resources.srcDirs[0].toString()
-    destDir = '/Users/cbrooks/Documents/personal/java/eden/OrchidCore/build/docs/javadoc'
-
-    classpath = sourceSets.main.runtimeClasspath
-    classpath += sourceSets.orchidDocs.runtimeClasspath
-}
-
-javadoc {
-    title = ""
-    source = sourceSets.main.allJava
-
-    options.docletpath = [file("build/libs/OrchidCore-${version}.jar")]
-    options.docletpath.addAll(configurations.compile)
-    options.docletpath.addAll(configurations.orchidDocsCompile)
-    options.doclet = 'com.eden.orchid.Orchid'
-
-    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
-//    options.addStringOption("theme", "com.eden.orchid.bsdoc.BSDocTheme")
-    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
-
-    options.addStringOption("v", version)
-//    options.addStringOption("baseUrl", "http://localhost:8080")
-    options.addStringOption("baseUrl", "https://javaeden.github.io/OrchidCore/editorial")
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -144,49 +116,3 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
-
-// Tagging, Releases, and Github Pages Publishing
-task setGitReleaseTag {
-    doLast {
-        if ((grgit.tag.list().findAll { item -> item.name.equals(version) }).size() > 0) {
-            println "Version '${version}' is already tagged"
-        } else {
-            println "Tagging repo with version: ${version}."
-            grgit.tag.add {
-                name = version
-                message = "Updates to version ${version}"
-            }
-        }
-    }
-}
-
-prepareGhPages.outputs.upToDateWhen { false }
-publishGhPages.outputs.upToDateWhen { false }
-
-githubPages {
-    pages {
-        from javadoc
-        into ""
-    }
-}
-
-task release {
-
-}
-
-tasks.javadoc.dependsOn 'classes'
-
-tasks.release.dependsOn 'build', 'setGitReleaseTag', 'publishGhPages'
-
-//task runOrchid(type: JavaExec) {
-//    main = 'com.eden.orchid.Orchid'
-//    classpath += sourceSets.main.runtimeClasspath
-//    classpath += sourceSets.orchidDocs.runtimeClasspath
-//
-//    args += '-baseUrl http://localhost:8080'
-//    args += '-theme com.eden.orchid.bsdoc.BSDocTheme'
-//    args += '-d /Users/cbrooks/Documents/personal/java/eden/OrchidCore/build/docs/javadoc'
-//    args += '-resourcesDir /Users/cbrooks/Documents/personal/java/eden/OrchidCore/src/orchidDocs/resources'
-//    args += '-v v0.1.0'
-//}
-
