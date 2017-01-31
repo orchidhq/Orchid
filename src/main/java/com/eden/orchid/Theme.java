@@ -5,11 +5,11 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
-import com.eden.orchid.compilers.impl.FrontMatterPrecompiler;
+import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.ResourceSource;
-import com.eden.orchid.resources.impl.StringResource;
+import com.eden.orchid.impl.resources.StringResource;
 import org.json.JSONObject;
 
 import java.util.Map;

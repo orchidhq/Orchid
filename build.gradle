@@ -14,7 +14,7 @@ plugins {
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-    id "com.eden.orchidplugin" version "v0.1.4"
+    id 'com.eden.orchidplugin' version 'v0.1.4'
 }
 
 //apply plugin: 'com.eden.orchidplugin'
@@ -58,26 +58,29 @@ dependencies {
     // automatically retrieve additional classes from other Orchid documentation sites
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
+    compile 'org.jsoup:jsoup:1.10.2'
+
+
     // Logging
     compile 'com.github.cjbrooks12:Clog:v1.2.3'
 
     // generate own documentation with Orchid
     orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
-//    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:5c3eca804e') {
+    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:6e87affcb7') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:3bde6f3df7') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:a2f38b1d8d') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidWiki:b25d3082c1') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPages:740cde8c9e') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPosts:a175c3cb80') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidPages:aca731a3f1') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidPosts:134e7b7122') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidWiki:78e9b79c44') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
 }
 
 // Jacoco Code Coverage
@@ -94,10 +97,11 @@ check.dependsOn jacocoTestReport
 //------------------------------------------------------------------------------
 orchid {
     includeMainConfiguration = true
-    program = "listOptions"
+    program = "watch"
+//    program = "build"
 
-//    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
-    theme = 'com.eden.orchid.editorial.EditorialTheme'
+    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+//    theme = 'com.eden.orchid.editorial.EditorialTheme'
     version = this.version
     baseUrl = 'http://localhost:8080'
 }

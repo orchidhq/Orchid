@@ -5,7 +5,7 @@ import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.programs.SitePrograms;
 import com.eden.orchid.resources.OrchidResources;
-import com.eden.orchid.resources.impl.OrchidFileResources;
+import com.eden.orchid.impl.resources.OrchidFileResources;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.javadoc.LanguageVersion;
