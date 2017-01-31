@@ -15,30 +15,30 @@ public class MethodDocParser {
         methodDocJson.put("name", methodDoc.name());
         methodDocJson.put("returns", ParserUtils.getTypeObject(methodDoc.returnType()));
 
-        if(methodDoc.parameters().length > 0) {
+        if (methodDoc.parameters().length > 0) {
             methodDocJson.put("parameters", new JSONArray());
 
-            for(Parameter parameter : methodDoc.parameters()) {
+            for (Parameter parameter : methodDoc.parameters()) {
                 JSONObject parameterObject = ParserUtils.getTypeObject(parameter.type());
                 parameterObject.put("variableName", parameter.name());
 
                 methodDocJson.getJSONArray("parameters").put(parameterObject);
             }
 
-            if(methodDoc.isVarArgs()) {
+            if (methodDoc.isVarArgs()) {
                 methodDocJson.getJSONArray("parameters").getJSONObject(methodDocJson.getJSONArray("parameters").length() - 1).put("dimension", "...");
             }
         }
 
-        if(methodDoc.commentText().length() > 0) {
+        if (methodDoc.commentText().length() > 0) {
             methodDocJson.put("comment", ParserUtils.getCommentDescription(methodDoc));
 
-            for(ParamTag paramTag : methodDoc.paramTags()) {
+            for (ParamTag paramTag : methodDoc.paramTags()) {
 
-                for(int i = 0; i < methodDocJson.getJSONArray("parameters").length(); i++) {
+                for (int i = 0; i < methodDocJson.getJSONArray("parameters").length(); i++) {
                     JSONObject parameterObject = methodDocJson.getJSONArray("parameters").getJSONObject(i);
 
-                    if(parameterObject.getString("variableName").equals(paramTag.parameterName())) {
+                    if (parameterObject.getString("variableName").equals(paramTag.parameterName())) {
                         parameterObject.put("description", paramTag.parameterComment());
                     }
                 }
@@ -46,7 +46,7 @@ public class MethodDocParser {
 
             String returnComment = "";
 
-            for(Tag tag : methodDoc.tags("return")) {
+            for (Tag tag : methodDoc.tags("return")) {
                 returnComment += tag.text();
             }
             methodDocJson.getJSONObject("returns").put("description", returnComment);

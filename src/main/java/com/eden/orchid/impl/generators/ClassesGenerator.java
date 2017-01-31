@@ -49,6 +49,10 @@ public class ClassesGenerator implements Generator {
         for(ClassDoc classDoc : root.classes()) {
             JSONObject item = new JSONObject();
 
+            JSONObject classInfoJson = ClassDocParser.createClassDocJson(classDoc);
+
+            item.put("info", classInfoJson.getJSONObject("info"));
+
             OrchidReference classReference = new OrchidReference("classes", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + File.separator + "index.html");
             classReference.setTitle(classDoc.name());
 

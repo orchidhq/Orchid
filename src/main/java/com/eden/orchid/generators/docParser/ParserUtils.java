@@ -15,7 +15,7 @@ public class ParserUtils {
 
         String firstSentence = "";
 
-        for(Tag tag : firstSentenceTags) {
+        for (Tag tag : firstSentenceTags) {
             firstSentence += tag.text();
         }
 
@@ -26,7 +26,7 @@ public class ParserUtils {
     }
 
     public static JSONObject getTypeObject(Type type) {
-        if(type == null) {
+        if (type == null) {
             return null;
         }
 
@@ -37,23 +37,25 @@ public class ParserUtils {
         typeObject.put("dimension", type.dimension());
 
         try {
-            JSONArray classIndex = (JSONArray) Orchid.query("index.classes.internal").getElement();
+            if(Orchid.query("index.classes") != null) {
+                JSONArray classIndex = (JSONArray) Orchid.query("index.classes.internal").getElement();
 
-            for(int i = 0; i < classIndex.length(); i++) {
-                if(classIndex.getJSONObject(i).getString("name").equals(type.qualifiedTypeName())) {
-                    typeObject.put("url", classIndex.getJSONObject(i).getString("url"));
-                    typeObject.put("scope", "internal");
-                    break;
+                for (int i = 0; i < classIndex.length(); i++) {
+                    if (classIndex.getJSONObject(i).getString("name").equals(type.qualifiedTypeName())) {
+                        typeObject.put("url", classIndex.getJSONObject(i).getString("url"));
+                        typeObject.put("scope", "internal");
+                        break;
+                    }
                 }
-            }
 
-            classIndex = (JSONArray) Orchid.query("index.classes.external").getElement();
+                classIndex = (JSONArray) Orchid.query("index.classes.external").getElement();
 
-            for(int i = 0; i < classIndex.length(); i++) {
-                if(classIndex.getJSONObject(i).getString("name").equals(type.qualifiedTypeName())) {
-                    typeObject.put("url", classIndex.getJSONObject(i).getString("url"));
-                    typeObject.put("scope", "external");
-                    break;
+                for (int i = 0; i < classIndex.length(); i++) {
+                    if (classIndex.getJSONObject(i).getString("name").equals(type.qualifiedTypeName())) {
+                        typeObject.put("url", classIndex.getJSONObject(i).getString("url"));
+                        typeObject.put("scope", "external");
+                        break;
+                    }
                 }
             }
         }
@@ -61,26 +63,26 @@ public class ParserUtils {
             e.printStackTrace();
         }
 
-        if(type.asParameterizedType() != null) {
+        if (type.asParameterizedType() != null) {
             typeObject.put("typeParameters", new JSONArray());
 
-            for(Type typeParameter : type.asParameterizedType().typeArguments()) {
+            for (Type typeParameter : type.asParameterizedType().typeArguments()) {
                 JSONObject nestedType = getTypeObject(typeParameter);
                 typeObject.getJSONArray("typeParameters").put(nestedType);
             }
         }
 
-        if(type.asWildcardType() != null) {
+        if (type.asWildcardType() != null) {
             typeObject.put("wildcardType", new JSONObject());
 
-            if(type.asWildcardType().extendsBounds().length > 0) {
+            if (type.asWildcardType().extendsBounds().length > 0) {
                 typeObject.getJSONObject("wildcardType").put("extends", new JSONArray());
                 for (Type typeParameter : type.asWildcardType().extendsBounds()) {
                     JSONObject nestedType = getTypeObject(typeParameter);
                     typeObject.getJSONObject("wildcardType").getJSONArray("extends").put(nestedType);
                 }
             }
-            if(type.asWildcardType().superBounds().length > 0) {
+            if (type.asWildcardType().superBounds().length > 0) {
                 typeObject.getJSONObject("wildcardType").put("super", new JSONArray());
                 for (Type typeParameter : type.asWildcardType().superBounds()) {
                     JSONObject nestedType = getTypeObject(typeParameter);

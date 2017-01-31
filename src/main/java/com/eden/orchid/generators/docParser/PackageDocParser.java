@@ -15,16 +15,16 @@ public class PackageDocParser {
         packageInfoJson.put("name", packageDoc.name());
         packageInfoJson.put("url", "/classes/" + packageDoc.name().replaceAll("\\.", File.separator));
 
-        if(packageDoc.interfaces().length > 0) {
+        if (packageDoc.interfaces().length > 0) {
             packageInfoJson.put("interfaces", getInterfaces(packageDoc));
         }
-        if(packageDoc.ordinaryClasses().length > 0) {
+        if (packageDoc.ordinaryClasses().length > 0) {
             packageInfoJson.put("classes", getClasses(packageDoc));
         }
-        if(packageDoc.annotationTypes().length > 0) {
+        if (packageDoc.annotationTypes().length > 0) {
             packageInfoJson.put("annotations", getAnnotations(packageDoc));
         }
-        if(packageDoc.enums().length > 0) {
+        if (packageDoc.enums().length > 0) {
             packageInfoJson.put("enums", getEnums(packageDoc));
         }
 
@@ -34,10 +34,10 @@ public class PackageDocParser {
     public static JSONArray getClasses(PackageDoc packageDoc) {
         JSONArray childClasses = new JSONArray();
 
-        for(ClassDoc childClass : packageDoc.ordinaryClasses()) {
+        for (ClassDoc childClass : packageDoc.ordinaryClasses()) {
             JSONObject childClassJson = ParserUtils.getTypeObject(childClass);
 
-            if(childClass.commentText().length() > 0) {
+            if (childClass.commentText().length() > 0) {
                 childClassJson.put("comment", ParserUtils.getCommentDescription(childClass));
             }
 
@@ -50,10 +50,10 @@ public class PackageDocParser {
     public static JSONArray getAnnotations(PackageDoc packageDoc) {
         JSONArray childClasses = new JSONArray();
 
-        for(AnnotationTypeDoc childClass : packageDoc.annotationTypes()) {
+        for (AnnotationTypeDoc childClass : packageDoc.annotationTypes()) {
             JSONObject childClassJson = ParserUtils.getTypeObject(childClass);
 
-            if(childClass.commentText().length() > 0) {
+            if (childClass.commentText().length() > 0) {
                 childClassJson.put("comment", ParserUtils.getCommentDescription(childClass));
             }
 
@@ -66,10 +66,10 @@ public class PackageDocParser {
     public static JSONArray getEnums(PackageDoc packageDoc) {
         JSONArray childClasses = new JSONArray();
 
-        for(ClassDoc childClass : packageDoc.enums()) {
+        for (ClassDoc childClass : packageDoc.enums()) {
             JSONObject childClassJson = ParserUtils.getTypeObject(childClass);
 
-            if(childClass.commentText().length() > 0) {
+            if (childClass.commentText().length() > 0) {
                 childClassJson.put("comment", ParserUtils.getCommentDescription(childClass));
             }
 
@@ -82,10 +82,10 @@ public class PackageDocParser {
     public static JSONArray getInterfaces(PackageDoc packageDoc) {
         JSONArray childClasses = new JSONArray();
 
-        for(ClassDoc childClass : packageDoc.interfaces()) {
+        for (ClassDoc childClass : packageDoc.interfaces()) {
             JSONObject childClassJson = ParserUtils.getTypeObject(childClass);
 
-            if(childClass.commentText().length() > 0) {
+            if (childClass.commentText().length() > 0) {
                 childClassJson.put("comment", ParserUtils.getCommentDescription(childClass));
             }
 

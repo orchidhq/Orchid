@@ -10,24 +10,24 @@ public interface Compiler {
     /**
      * Compile content with a particular file extension using the optional provided data.
      *
-     * @param extension  the file extension that represents the type of data to compile
-     * @param input  the content to be compiled
-     * @param data  optional data to be passed to the compiler
-     * @return  the compiled content
+     * @param extension the file extension that represents the type of data to compile
+     * @param input     the content to be compiled
+     * @param data      optional data to be passed to the compiler
+     * @return the compiled content
      */
     String compile(String extension, String input, Object... data);
 
     /**
      * Gets the file extension representing the type of the output content.
      *
-     * @return  the output file extension
+     * @return the output file extension
      */
     String getOutputExtension();
 
     /**
      * Gets the list of file extensions this Compiler is able to process.
      *
-     * @return  the file extensions tis Compiler can process
+     * @return the file extensions tis Compiler can process
      */
     String[] getSourceExtensions();
 
@@ -36,7 +36,7 @@ public interface Compiler {
      * priority puts it earlier in the sorted list of compilers, so it would get chosen over other compilers that
      * can also compile the same file type.
      *
-     * @return  the priority of the compiler
+     * @return the priority of the compiler
      */
     int priority();
 }

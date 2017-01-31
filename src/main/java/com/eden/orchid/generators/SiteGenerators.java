@@ -14,13 +14,13 @@ public class SiteGenerators implements RegistrationProvider {
     public static Map<Integer, Generator> generators = new TreeMap<>(Collections.reverseOrder());
 
     public static void startIndexing(JSONObject indexObject) {
-        for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
+        for (Map.Entry<Integer, Generator> generator : generators.entrySet()) {
             Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
             JSONElement element = generator.getValue().startIndexing();
 
-            if(element != null) {
-                if(!EdenUtils.isEmpty(generator.getValue().getName())) {
+            if (element != null) {
+                if (!EdenUtils.isEmpty(generator.getValue().getName())) {
                     indexObject.put(generator.getValue().getName(), element.getElement());
                 }
             }
@@ -28,7 +28,7 @@ public class SiteGenerators implements RegistrationProvider {
     }
 
     public static void startGeneration() {
-        for(Map.Entry<Integer, Generator> generator : generators.entrySet()) {
+        for (Map.Entry<Integer, Generator> generator : generators.entrySet()) {
             Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
 
             generator.getValue().startGeneration();
@@ -37,10 +37,10 @@ public class SiteGenerators implements RegistrationProvider {
 
     @Override
     public void register(Object object) {
-        if(object instanceof Generator) {
+        if (object instanceof Generator) {
             Generator generator = (Generator) object;
             int priority = generator.priority();
-            while(generators.containsKey(priority)) {
+            while (generators.containsKey(priority)) {
                 priority--;
             }
 

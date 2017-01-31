@@ -10,7 +10,7 @@ public class FieldDocParser {
 
         fieldDocJson.put("variableName", fieldDoc.name());
 
-        if(fieldDoc.commentText().length() > 0) {
+        if (fieldDoc.commentText().length() > 0) {
             fieldDocJson.put("comment", ParserUtils.getCommentDescription(fieldDoc));
         }
 

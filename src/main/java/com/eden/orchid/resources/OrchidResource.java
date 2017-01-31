@@ -13,7 +13,7 @@ public abstract class OrchidResource {
     protected int priority;
 
     public OrchidResource(OrchidReference reference) {
-        if(reference == null) {
+        if (reference == null) {
             throw new IllegalArgumentException("A resource must have a valid OrchidReference");
         }
         else {
@@ -24,6 +24,7 @@ public abstract class OrchidResource {
     public String getContent() {
         return content;
     }
+
     public String getRawContent() {
         return rawContent;
     }
@@ -33,7 +34,7 @@ public abstract class OrchidResource {
     }
 
     public JSONElement queryEmbeddedData(String pointer) {
-        if(embeddedData != null) {
+        if (embeddedData != null) {
             return embeddedData.query(pointer);
         }
 

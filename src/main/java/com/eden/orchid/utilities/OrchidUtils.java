@@ -13,7 +13,7 @@ public final class OrchidUtils {
     public static String applyBaseUrl(String url) {
         String baseUrl = "";
 
-        if(Orchid.query("options.baseUrl") != null) {
+        if (Orchid.query("options.baseUrl") != null) {
             baseUrl = Orchid.query("options.baseUrl").toString();
         }
 
@@ -25,7 +25,7 @@ public final class OrchidUtils {
     }
 
     public static void buildTaxonomy(String taxonomy, JSONObject siteAssets, JSONObject file) {
-        if(!EdenUtils.isEmpty(taxonomy)) {
+        if (!EdenUtils.isEmpty(taxonomy)) {
             taxonomy = taxonomy + File.separator + "files";
         }
         else {
@@ -35,16 +35,16 @@ public final class OrchidUtils {
         String[] pathPieces = taxonomy.split(File.separator);
 
         JSONObject root = siteAssets;
-        for(int i = 0; i < pathPieces.length; i++) {
-            if(root.has(pathPieces[i]) && root.get(pathPieces[i]) instanceof JSONArray) {
+        for (int i = 0; i < pathPieces.length; i++) {
+            if (root.has(pathPieces[i]) && root.get(pathPieces[i]) instanceof JSONArray) {
                 root.getJSONArray(pathPieces[i]).put(file);
             }
             else {
-                if(root.has(pathPieces[i]) && root.get(pathPieces[i]) instanceof JSONObject) {
+                if (root.has(pathPieces[i]) && root.get(pathPieces[i]) instanceof JSONObject) {
                     root = root.getJSONObject(pathPieces[i]);
                 }
                 else {
-                    if(i == pathPieces.length - 1) {
+                    if (i == pathPieces.length - 1) {
                         root.put(pathPieces[i], new JSONArray());
                         root.getJSONArray(pathPieces[i]).put(file);
                     }

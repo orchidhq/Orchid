@@ -13,29 +13,29 @@ public class ConstructorDocParser {
 
         constructorDocJson.put("name", constructorDoc.name());
 
-        if(constructorDoc.parameters().length > 0) {
+        if (constructorDoc.parameters().length > 0) {
             constructorDocJson.put("parameters", new JSONArray());
 
-            for(Parameter parameter : constructorDoc.parameters()) {
+            for (Parameter parameter : constructorDoc.parameters()) {
                 JSONObject parameterObject = ParserUtils.getTypeObject(parameter.type());
                 parameterObject.put("variableName", parameter.name());
 
                 constructorDocJson.getJSONArray("parameters").put(parameterObject);
             }
 
-            if(constructorDoc.isVarArgs()) {
+            if (constructorDoc.isVarArgs()) {
                 constructorDocJson.getJSONArray("parameters").getJSONObject(constructorDocJson.getJSONArray("parameters").length() - 1).put("dimension", "...");
             }
         }
 
-        if(constructorDoc.commentText().length() > 0) {
+        if (constructorDoc.commentText().length() > 0) {
             constructorDocJson.put("comment", ParserUtils.getCommentDescription(constructorDoc));
 
-            for(ParamTag paramTag : constructorDoc.paramTags()) {
-                for(int i = 0; i < constructorDocJson.getJSONArray("parameters").length(); i++) {
+            for (ParamTag paramTag : constructorDoc.paramTags()) {
+                for (int i = 0; i < constructorDocJson.getJSONArray("parameters").length(); i++) {
                     JSONObject parameterObject = constructorDocJson.getJSONArray("parameters").getJSONObject(i);
 
-                    if(parameterObject.getString("variableName").equals(paramTag.parameterName())) {
+                    if (parameterObject.getString("variableName").equals(paramTag.parameterName())) {
                         parameterObject.put("description", paramTag.parameterComment());
                     }
                 }

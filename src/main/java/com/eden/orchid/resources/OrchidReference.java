@@ -51,7 +51,7 @@ public class OrchidReference {
     private boolean usePrettyUrl;
 
     public OrchidReference() {
-        if(Orchid.query("options.baseUrl") != null) {
+        if (Orchid.query("options.baseUrl") != null) {
             baseUrl = Orchid.query("options.baseUrl").toString();
             baseUrl = stripSeparators(baseUrl);
         }
@@ -60,7 +60,7 @@ public class OrchidReference {
     public OrchidReference(String fullFileName) {
         this();
 
-        if(fullFileName.contains(".")) {
+        if (fullFileName.contains(".")) {
             String[] parts = fullFileName.split("\\.");
             this.extension = parts[parts.length - 1];
         }
@@ -68,7 +68,7 @@ public class OrchidReference {
             this.extension = "";
         }
 
-        if(fullFileName.contains("/")) {
+        if (fullFileName.contains("/")) {
             String pattern = Pattern.quote(File.separator);
             String[] parts = fullFileName.split(pattern);
 
@@ -89,11 +89,11 @@ public class OrchidReference {
 
         path = stripSeparators(path);
 
-        if(Orchid.query("options.resourcesDir") != null) {
+        if (Orchid.query("options.resourcesDir") != null) {
             String basePath = Orchid.query("options.resourcesDir").toString();
             basePath = stripSeparators(basePath);
 
-            if(path.startsWith(basePath)) {
+            if (path.startsWith(basePath)) {
                 path = path.replace(basePath, "");
                 path = stripSeparators(path);
             }
@@ -105,19 +105,19 @@ public class OrchidReference {
 
         this.basePath = basePath;
 
-        if(this.path.startsWith(basePath)) {
+        if (this.path.startsWith(basePath)) {
             this.path = path.replace(basePath, "");
         }
     }
 
     public OrchidReference(OrchidReference source) {
-        this.baseUrl      = source.baseUrl;
-        this.basePath     = source.basePath;
-        this.path         = source.path;
-        this.fileName     = source.fileName;
-        this.extension    = source.extension;
-        this.id           = source.id;
-        this.title        = source.title;
+        this.baseUrl = source.baseUrl;
+        this.basePath = source.basePath;
+        this.path = source.path;
+        this.fileName = source.fileName;
+        this.extension = source.extension;
+        this.id = source.id;
+        this.title = source.title;
         this.usePrettyUrl = source.usePrettyUrl;
     }
 
@@ -140,7 +140,7 @@ public class OrchidReference {
     public void setBasePath(String basePath) {
         this.basePath = basePath;
 
-        if(this.path.startsWith(basePath)) {
+        if (this.path.startsWith(basePath)) {
             this.path = path.replace(basePath, "");
         }
     }
@@ -148,7 +148,7 @@ public class OrchidReference {
     public void stripBasePath(String basePath) {
         this.basePath = null;
 
-        if(this.path.startsWith(basePath)) {
+        if (this.path.startsWith(basePath)) {
             this.path = path.replace(basePath, "");
         }
     }
@@ -156,20 +156,20 @@ public class OrchidReference {
     public String getPath() {
         String output = "";
 
-        if(usePrettyUrl) {
-            if(!EdenUtils.isEmpty(path)) {
+        if (usePrettyUrl) {
+            if (!EdenUtils.isEmpty(path)) {
                 output += path;
-                if(!path.endsWith(File.separator)) {
+                if (!path.endsWith(File.separator)) {
                     output += File.separator;
                 }
             }
 
-            if(!EdenUtils.isEmpty(fileName)) {
+            if (!EdenUtils.isEmpty(fileName)) {
                 output += fileName;
             }
         }
         else {
-            if(!EdenUtils.isEmpty(path)) {
+            if (!EdenUtils.isEmpty(path)) {
                 output += path;
             }
         }
@@ -178,7 +178,7 @@ public class OrchidReference {
     }
 
     public String getFullPath() {
-        if(!EdenUtils.isEmpty(basePath)) {
+        if (!EdenUtils.isEmpty(basePath)) {
             return basePath + File.separator + getPath();
         }
         else {
@@ -191,7 +191,7 @@ public class OrchidReference {
     }
 
     public String getFileName() {
-        if(usePrettyUrl) {
+        if (usePrettyUrl) {
             return "index";
         }
         else {
@@ -244,9 +244,9 @@ public class OrchidReference {
 
         String output = "";
 
-        if(!EdenUtils.isEmpty(baseUrl)) {
+        if (!EdenUtils.isEmpty(baseUrl)) {
             output += baseUrl;
-            if(!baseUrl.endsWith(File.separator)) {
+            if (!baseUrl.endsWith(File.separator)) {
                 output += File.separator;
             }
         }
@@ -254,25 +254,25 @@ public class OrchidReference {
             output += File.separator;
         }
 
-        if(!EdenUtils.isEmpty(basePath)) {
+        if (!EdenUtils.isEmpty(basePath)) {
             output += basePath;
 
-            if(!basePath.endsWith(File.separator)) {
+            if (!basePath.endsWith(File.separator)) {
                 output += File.separator;
             }
         }
 
-        if(!EdenUtils.isEmpty(path)) {
+        if (!EdenUtils.isEmpty(path)) {
             output += path;
-            if(!path.endsWith(File.separator)) {
+            if (!path.endsWith(File.separator)) {
                 output += File.separator;
             }
         }
 
-        if(!EdenUtils.isEmpty(fileName)) {
+        if (!EdenUtils.isEmpty(fileName)) {
             output += fileName;
 
-            if(!usePrettyUrl) {
+            if (!usePrettyUrl) {
                 output += ".";
                 if (!EdenUtils.isEmpty(extension)) {
                     output += extension;
@@ -280,7 +280,7 @@ public class OrchidReference {
             }
         }
 
-        if(!EdenUtils.isEmpty(id)) {
+        if (!EdenUtils.isEmpty(id)) {
             output += "#";
             output += id;
         }

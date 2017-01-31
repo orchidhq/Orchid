@@ -1,6 +1,7 @@
 package com.eden.orchid.programs;
 
 import com.caseyjbrooks.clog.Clog;
+import com.caseyjbrooks.clog.ClogLogger;
 import com.eden.orchid.utilities.RegistrationProvider;
 
 import java.util.HashMap;
@@ -12,9 +13,13 @@ public class SitePrograms implements RegistrationProvider {
     public static String defaultProgram = "build";
     public static String loggerKey = "clear";
 
+    static {
+        Clog.addLogger(loggerKey, new ProgramLogger());
+    }
+
     @Override
     public void register(Object object) {
-        if(object instanceof Program) {
+        if (object instanceof Program) {
             Program program = (Program) object;
 
             sitePrograms.put(program.getName(), program);
@@ -22,13 +27,37 @@ public class SitePrograms implements RegistrationProvider {
     }
 
     public static void runProgram(String programName) {
-        Clog.addLogger(loggerKey, new ProgramLogger());
-
-        if(sitePrograms.containsKey(programName)) {
+        if (sitePrograms.containsKey(programName)) {
             sitePrograms.get(programName).run();
         }
         else {
             sitePrograms.get(defaultProgram).run();
+        }
+    }
+
+    public static class ProgramLogger implements ClogLogger {
+        @Override
+        public boolean isActive() {
+            return true;
+        }
+
+        @Override
+        public int log(String tag, String message) {
+            System.out.println(message);
+
+            return 0;
+        }
+
+        @Override
+        public int log(String tag, String message, Throwable throwable) {
+            System.out.println(message + " (" + throwable.getMessage() + ")");
+
+            return 0;
+        }
+
+        @Override
+        public int priority() {
+            return 1;
         }
     }
 }

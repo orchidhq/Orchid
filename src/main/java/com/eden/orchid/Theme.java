@@ -29,15 +29,15 @@ public abstract class Theme implements ResourceSource {
         return 20;
     }
 
-    public void generateHomepage(Object... data) {
+    public void generateHomepage() {
         JSONObject frontPageData = new JSONObject(Orchid.getRoot().toMap());
         OrchidResource readmeResource = Orchid.getResources().getProjectReadme();
-        if(readmeResource != null) {
+        if (readmeResource != null) {
             frontPageData.put("readme", compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
         }
 
         OrchidResource licenseResource = Orchid.getResources().getProjectLicense();
-        if(licenseResource != null) {
+        if (licenseResource != null) {
             frontPageData.put("license", compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
         }
 
@@ -48,8 +48,8 @@ public abstract class Theme implements ResourceSource {
     }
 
     public String compile(String extension, String input, Object... data) {
-        for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
-            if(acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+        for (Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
+            if (acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
                 return compiler.getValue().compile(extension, input, data);
             }
         }
@@ -58,8 +58,8 @@ public abstract class Theme implements ResourceSource {
     }
 
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
-        for(Map.Entry<Integer, PreCompiler> compiler : SiteCompilers.precompilers.entrySet()) {
-            if(compiler.getValue().getClass().equals(getPrecompilerClass())) {
+        for (Map.Entry<Integer, PreCompiler> compiler : SiteCompilers.precompilers.entrySet()) {
+            if (compiler.getValue().getClass().equals(getPrecompilerClass())) {
                 return compiler.getValue().getEmbeddedData(input);
             }
         }
@@ -68,8 +68,8 @@ public abstract class Theme implements ResourceSource {
     }
 
     public String getOutputExtension(String extension) {
-        for(Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
-            if(acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
+        for (Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
+            if (acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
                 return compiler.getValue().getOutputExtension();
             }
         }
@@ -78,8 +78,8 @@ public abstract class Theme implements ResourceSource {
     }
 
     private boolean acceptsExtension(String sourceExt, String[] acceptedExts) {
-        for(String ext : acceptedExts) {
-            if(ext.equalsIgnoreCase(sourceExt)) {
+        for (String ext : acceptedExts) {
+            if (ext.equalsIgnoreCase(sourceExt)) {
                 return true;
             }
         }

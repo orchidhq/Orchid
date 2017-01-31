@@ -27,7 +27,7 @@ public class OrchidPage {
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
 
-        if(resource.getEmbeddedData() != null) {
+        if (resource.getEmbeddedData() != null) {
 
             if (!EdenUtils.isEmpty(resource.queryEmbeddedData("description"))) {
                 this.description = resource.queryEmbeddedData("description").toString();
@@ -80,7 +80,7 @@ public class OrchidPage {
 
     private JSONObject buildPageData() {
         JSONObject pageData;
-        if(data != null) {
+        if (data != null) {
             pageData = new JSONObject(data.toMap());
         }
         else {
@@ -88,28 +88,28 @@ public class OrchidPage {
         }
 
 
-        if(menu != null) {
+        if (menu != null) {
             pageData.put("menu", menu);
         }
 
         JSONObject previousData = buildLink(previous);
-        if(previousData != null) {
+        if (previousData != null) {
             pageData.put("previous", previousData);
         }
         JSONObject nextData = buildLink(next);
-        if(nextData != null) {
+        if (nextData != null) {
             pageData.put("next", nextData);
         }
 
-        if(!EdenUtils.isEmpty(reference.getTitle())) {
+        if (!EdenUtils.isEmpty(reference.getTitle())) {
             pageData.put("title", reference.getTitle());
         }
 
-        if(!EdenUtils.isEmpty(description)) {
+        if (!EdenUtils.isEmpty(description)) {
             pageData.put("description", description);
         }
 
-        if(resource != null && !EdenUtils.isEmpty(resource.getContent())) {
+        if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
             String compiledContent = Orchid.getTheme().compile(
                     resource.getReference().getExtension(),
                     resource.getContent()
@@ -125,7 +125,7 @@ public class OrchidPage {
     }
 
     private JSONObject buildLink(OrchidPage page) {
-        if(page != null) {
+        if (page != null) {
             JSONObject pageData = new JSONObject();
 
             pageData.put("title", page.getReference().getTitle());
@@ -138,7 +138,7 @@ public class OrchidPage {
         return null;
     }
 
-// Getters and Setters
+    // Getters and Setters
 //----------------------------------------------------------------------------------------------------------------------
     public OrchidPage getNext() {
         return next;

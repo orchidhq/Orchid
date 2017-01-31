@@ -27,8 +27,8 @@ public final class Orchid {
      * Get the number of arguments that a given option expects from the command line. This number includes the option
      * itself: for example '-d /output/javadoc' should return 2.
      *
-     * @param option  the option to parse
-     * @return  the number of arguments it expects from the command line
+     * @param option the option to parse
+     * @return the number of arguments it expects from the command line
      */
     public static int optionLength(String option) {
         return SiteOptions.optionLength(option);
@@ -36,7 +36,8 @@ public final class Orchid {
 
     /**
      * NOTE: Without this method present and returning LanguageVersion.JAVA_1_5,
-     *       Javadoc will not process generics because it assumes LanguageVersion.JAVA_1_1
+     * Javadoc will not process generics because it assumes LanguageVersion.JAVA_1_1
+     *
      * @return language version (hard coded to LanguageVersion.JAVA_1_5)
      */
     public static LanguageVersion languageVersion() {
@@ -56,18 +57,28 @@ public final class Orchid {
     public static JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
 
     public static List<RegistrationProvider> getProviders() { return providers; }
-    public static JSONObject getRoot()                      { return root;      }
-    public static RootDoc getRootDoc()                      { return rootDoc;   }
-    public static Theme getTheme()                          { return theme;     }
-    public static OrchidResources getResources()            { return resources; }
-    public static Map<String, String[]> getOptions()        { return options;   }
+
+    public static JSONObject getRoot() { return root; }
+
+    public static RootDoc getRootDoc() { return rootDoc; }
+
+    public static Theme getTheme() { return theme; }
+
+    public static OrchidResources getResources() { return resources; }
+
+    public static Map<String, String[]> getOptions() { return options; }
 
     public static void setProviders(List<RegistrationProvider> providers) { Orchid.providers = providers; }
-    public static void setRoot(JSONObject root)                           { Orchid.root = root;           }
-    public static void setRootDoc(RootDoc rootDoc)                        { Orchid.rootDoc = rootDoc;     }
-    public static void setTheme(Theme theme)                              { Orchid.theme = theme;         }
-    public static void setResources(OrchidResources resources)            { Orchid.resources = resources; }
-    public static void setOptions(Map<String, String[]> options)          { Orchid.options = options;     }
+
+    public static void setRoot(JSONObject root) { Orchid.root = root; }
+
+    public static void setRootDoc(RootDoc rootDoc) { Orchid.rootDoc = rootDoc; }
+
+    public static void setTheme(Theme theme) { Orchid.theme = theme; }
+
+    public static void setResources(OrchidResources resources) { Orchid.resources = resources; }
+
+    public static void setOptions(Map<String, String[]> options) { Orchid.options = options; }
 
 // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
@@ -76,8 +87,8 @@ public final class Orchid {
         String program = SitePrograms.defaultProgram;
 
         Map<String, String[]> options = new HashMap<>();
-        for(String arg : args) {
-            if(arg.startsWith("-")) {
+        for (String arg : args) {
+            if (arg.startsWith("-")) {
                 String[] argPieces = arg.split("\\s+");
                 options.put(argPieces[0], argPieces);
             }
@@ -136,7 +147,7 @@ public final class Orchid {
 
         bootstrap();
 
-        if(shouldContinue()) {
+        if (shouldContinue()) {
             SitePrograms.runProgram(programName);
             return true;
         }
@@ -164,7 +175,7 @@ public final class Orchid {
                 RegistrationProvider instance = matchingClass.newInstance();
                 providers.add(instance);
             }
-            catch (IllegalAccessException|InstantiationException e) {
+            catch (IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
             }
         });
@@ -176,11 +187,11 @@ public final class Orchid {
         scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
             try {
                 Object instance = matchingClass.newInstance();
-                for(RegistrationProvider provider : providers) {
+                for (RegistrationProvider provider : providers) {
                     provider.register(instance);
                 }
             }
-            catch (IllegalAccessException|InstantiationException e) {
+            catch (IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
             }
         });
@@ -206,7 +217,7 @@ public final class Orchid {
     }
 
     private static void generateHomepage() {
-        theme.generateHomepage(root);
+        theme.generateHomepage();
     }
 
 }

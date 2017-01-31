@@ -72,15 +72,15 @@ dependencies {
 //    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:3bde6f3df7') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidPages:aca731a3f1') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidPosts:134e7b7122') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidWiki:78e9b79c44') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
+    orchidDocsCompile('com.github.JavaEden:OrchidPages:aca731a3f1') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+    orchidDocsCompile('com.github.JavaEden:OrchidPosts:134e7b7122') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+    orchidDocsCompile('com.github.JavaEden:OrchidWiki:32f2412259') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
 }
 
 // Jacoco Code Coverage
