@@ -103,7 +103,7 @@ orchid {
     theme = 'com.eden.orchid.bsdoc.BSDocTheme'
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
     version = this.version
-    baseUrl = 'http://localhost:8080'
+    baseUrl = 'https://javaeden.github.io/OrchidCore/'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
