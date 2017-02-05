@@ -29,7 +29,7 @@ public class VersionOption implements Option {
 
     @Override
     public int priority() {
-        return 70;
+        return 40;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class VersionOption implements Option {
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return false;
     }
 }

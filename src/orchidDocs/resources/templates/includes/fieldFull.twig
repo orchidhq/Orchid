@@ -1,0 +1,12 @@
+{% import 'includes/macros/type.twig' as macros %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>{{- macros.formatType(field.type) }} {{ field.name }}</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <p>{{ field.comment.description }}</p>
+    </div>
+</div>

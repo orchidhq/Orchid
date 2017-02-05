@@ -47,7 +47,7 @@ public class ThemeOption implements Option {
 
     @Override
     public int priority() {
-        return 80;
+        return 50;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ThemeOption implements Option {
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return true;
     }
 }

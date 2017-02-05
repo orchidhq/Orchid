@@ -40,7 +40,7 @@ public class ResourcesOption implements Option {
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return false;
     }
 }

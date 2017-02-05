@@ -29,11 +29,11 @@ public class BaseUrlOption implements Option {
 
     @Override
     public int priority() {
-        return 60;
+        return 30;
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return false;
     }
 

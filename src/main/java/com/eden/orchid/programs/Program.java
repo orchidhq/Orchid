@@ -1,11 +1,9 @@
 package com.eden.orchid.programs;
 
-public interface Program {
+public interface Program extends Runnable {
 
     String getName();
 
     String getDescription();
-
-    void run();
 
 }

@@ -1,0 +1,42 @@
+<footer class="bs-docs-footer" role="contentinfo">
+    <div class="row">
+        <div class="col-xs-12">
+            <nav aria-label="navigateClasses">
+                <ul class="pager">
+                    {% if head.previous %}
+                        <li class="previous"><a href="{{ head.previous.url }}"><span
+                                        aria-hidden="true">&larr;</span> {{ head.previous.title }}</a></li>
+                    {% endif %}
+
+                    {% if page.previous %}
+                        <li class="previous"><a href="{{ page.previous.url }}"><span
+                                        aria-hidden="true">&larr;</span> {{ page.previous.title }}</a></li>
+                    {% endif %}
+
+                    {% if head.next %}
+                        <li class="next"><a href="{{ head.next.url }}">{{ head.next.title }} <span
+                                        aria-hidden="true">&rarr;</span></a></li>
+                    {% endif %}
+                    {% if page.next %}
+                        <li class="next"><a href="{{ page.next.url }}">{{ page.next.title }} <span
+                                        aria-hidden="true">&rarr;</span></a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <br>
+
+    <p>
+        Licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>,
+        documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+    </p>
+    <p>
+        Documentation template based on the <a href="https://github.com/mistic100/jekyll-bootstrap-doc">Jekyll Bootstrap
+            Doc</a> Jekyll theme by the <a href="http://getbootstrap.com">Bootstrap team</a>
+    </p>
+
+    <ul class="bs-docs-footer-links muted">
+        <li>Currently {{ options.v }}</li>
+    </ul>
+</footer>

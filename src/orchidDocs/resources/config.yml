@@ -2,7 +2,6 @@
 about:
   name: Orchid
   description: A modern, plugin-driven architecture for custom Javadoc generation
-  version: v0.1.0
 
 colors:
   - '#FF8800'

@@ -1,0 +1,19 @@
+<tr id="method-{{ loop.index }}-{{ m.name }}-summary">
+    <td>
+        <span class="modifiers">{{ m.modifiers }}</span>
+        <span class="type">{% include 'templates/includes/type.twig' with { type: m } %}</span>
+    </td>
+    <td>
+        <a href="#method-{{ loop.index }}-{{ m.name }}-full">{{ m.name }}</a>(
+        {% for p in m.parameters %}
+            {% include 'templates/includes/type.twig' with { type: p } %}
+            {{ p.variableName }}
+            {% if loop.last == false %}
+                ,
+            {% endif %}
+        {% endfor %}
+        )
+        <br>
+        <span>{{ m.comment.shortDescription }}</span>
+    </td>
+</tr>

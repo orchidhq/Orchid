@@ -27,7 +27,7 @@ public class ListOptionsProgram implements Program {
             Option optionParser = option.getValue();
 
             if(optionParser.optionLength() > 0) {
-                Clog.logger(SitePrograms.loggerKey, "[-#{$1}] (expects #{$2} parameters): #{$3}", new Object[]{optionParser.getFlag(), optionParser.optionLength(), optionParser.getDescription()});
+                Clog.logger(SitePrograms.loggerKey, "[#{$1}][-#{$2}] (expects #{$3} parameters): #{$4}", new Object[]{ option.getKey(), optionParser.getFlag(), optionParser.optionLength(), optionParser.getDescription()});
             }
         }
     }

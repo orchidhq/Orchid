@@ -2,17 +2,22 @@ package com.eden.orchid.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.tools.doclets.standard.Standard;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class SiteOptions implements RegistrationProvider {
 
     public static Map<Integer, Option> optionsParsers = new TreeMap<>(Collections.reverseOrder());
+    private static List<Option> missingRequiredOptions = new ArrayList<>();
 
     public static void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {
         // If an option is found and it was successfully parsed, continue to the next parser. Otherwise set its default value.
@@ -32,7 +37,12 @@ public class SiteOptions implements RegistrationProvider {
                     JSONElement optionValue = optionParser.parseOption(optionStrings);
 
                     if (optionValue == null) {
-                        optionValue = optionParser.getDefaultValue();
+                        if (optionParser.isRequired()) {
+                            missingRequiredOptions.add(optionParser);
+                        }
+                        else {
+                            optionValue = optionParser.getDefaultValue();
+                        }
                     }
 
                     if (optionValue != null) {
@@ -40,28 +50,19 @@ public class SiteOptions implements RegistrationProvider {
                     }
                 }
             }
-        }
-    }
+            else {
 
-    public static int optionLength(String optionFlag) {
-        // if the option is a standard option, return its length
-        int result = Standard.optionLength(optionFlag);
-        if (result != 0) {
-            return result;
-        }
-
-        // Otherwise, find the matching registered Option and return its specified option length
-        else {
-            for (Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
-                Clog.d("Checking option length: #{$1} - [#{$2}, #{$3}", new Object[]{optionFlag, "-" + option.getValue().getFlag(), option.getValue().optionLength()});
-                if (optionFlag.equals("-" + option.getValue().getFlag())) {
-                    return option.getValue().optionLength();
+                if (optionParser.isRequired()) {
+                    missingRequiredOptions.add(optionParser);
+                }
+                else {
+                    JSONElement optionValue = optionParser.getDefaultValue();
+                    if (optionValue != null) {
+                        siteOptions.put(optionParser.getFlag(), optionValue.getElement());
+                    }
                 }
             }
         }
-
-        // Failing that, return 2 because we can't find an appropriate option to match, but we don't necessarily need to crash
-        return 2;
     }
 
     @Override
@@ -78,6 +79,49 @@ public class SiteOptions implements RegistrationProvider {
     }
 
     public static boolean shouldContinue() {
-        return true;
+        if (missingRequiredOptions.size() > 0) {
+            for (Option option : missingRequiredOptions) {
+                Clog.e("Missing required option: -#{$1} - #{$2}", new Object[]{option.getFlag(), option.getDescription()});
+            }
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+// Handle Javadoc-specific stuff
+//----------------------------------------------------------------------------------------------------------------------
+    public static int optionLength(String optionFlag) {
+        // checking option length occurs before the bootstrap() method is run, so we must manually register Options here
+        // so they can vetted by the Javadoc tool
+        if (optionsParsers.size() == 0) {
+            FastClasspathScanner scanner = new FastClasspathScanner();
+            scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
+                try {
+                    if (Option.class.isAssignableFrom(matchingClass)) {
+                        Option option = (Option) matchingClass.newInstance();
+                        int priority = option.priority();
+                        while (optionsParsers.containsKey(priority)) {
+                            priority--;
+                        }
+
+                        SiteOptions.optionsParsers.put(priority, option);
+                    }
+                }
+                catch (IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
+                }
+            });
+            scanner.scan();
+        }
+
+        for (Map.Entry<Integer, Option> option : optionsParsers.entrySet()) {
+            if (optionFlag.equals("-" + option.getValue().getFlag())) {
+                return option.getValue().optionLength();
+            }
+        }
+
+        return Standard.optionLength(optionFlag);
     }
 }

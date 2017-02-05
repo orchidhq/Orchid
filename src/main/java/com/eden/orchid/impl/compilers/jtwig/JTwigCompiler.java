@@ -10,7 +10,11 @@ import org.jtwig.JtwigTemplate;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.environment.EnvironmentFactory;
 import org.jtwig.functions.JtwigFunction;
+import org.jtwig.resource.loader.TypedResourceLoader;
 import org.jtwig.resource.reference.ResourceReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AutoRegister
 public class JTwigCompiler implements Compiler, RegistrationProvider {
@@ -58,6 +62,12 @@ public class JTwigCompiler implements Compiler, RegistrationProvider {
     public void register(Object object) {
         if(object instanceof JtwigFunction) {
             JTwigCompiler.config.functions().add((JtwigFunction) object);
+        }
+
+        if(object instanceof TypedResourceLoader) {
+            List<TypedResourceLoader> loaders = new ArrayList<>(JTwigCompiler.config.resources().resourceLoaders().build());
+            loaders.add(0, (TypedResourceLoader) object);
+            JTwigCompiler.config.resources().resourceLoaders().set(loaders);
         }
     }
 }

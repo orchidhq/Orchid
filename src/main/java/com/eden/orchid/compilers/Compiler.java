@@ -27,7 +27,7 @@ public interface Compiler {
     /**
      * Gets the list of file extensions this Compiler is able to process.
      *
-     * @return the file extensions tis Compiler can process
+     * @return the file extensions this Compiler can process
      */
     String[] getSourceExtensions();
 

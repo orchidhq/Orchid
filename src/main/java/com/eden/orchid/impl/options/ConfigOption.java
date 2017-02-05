@@ -18,6 +18,8 @@ import java.util.Map;
 public class ConfigOption implements Option {
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 
+    private static JSONObject configFile;
+
     @Override
     public String getFlag() {
         return "config";
@@ -32,7 +34,10 @@ public class ConfigOption implements Option {
     public JSONElement parseOption(String[] options) {
         JSONElement res = Orchid.query("options.resourcesDir");
         if(res != null) {
-            return parseConfigFile(res.toString());
+            parseConfigFile(res.toString());
+            applyConfigFile();
+
+            return new JSONElement(configFile);
         }
         else {
             return null;
@@ -46,7 +51,7 @@ public class ConfigOption implements Option {
 
     @Override
     public int priority() {
-        return 89;
+        return 0;
     }
 
     @Override
@@ -55,27 +60,38 @@ public class ConfigOption implements Option {
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return false;
     }
 
-    private JSONElement parseConfigFile(String resPath) {
+    private void parseConfigFile(String resPath) {
 
         JSONObject configOptions = new JSONObject();
+        String env = "";
+
+        if(Orchid.query("options.environment") != null) {
+            env = Orchid.query("options.environment").toString();
+        }
 
         for(String configExtension : dataExtensions) {
-            JSONObject parsedFile = parseFile(resPath, "config." + configExtension);
-
+            JSONObject parsedFile = parseFile(resPath, "config-" + env + "." + configExtension);
             if(parsedFile != null) {
                 for(String key : parsedFile.keySet()) {
                     configOptions.put(key, parsedFile.get(key));
                 }
+                break;
+            }
 
+            parsedFile = parseFile(resPath, "config." + configExtension);
+            if(parsedFile != null) {
+                for(String key : parsedFile.keySet()) {
+                    configOptions.put(key, parsedFile.get(key));
+                }
                 break;
             }
         }
 
-        return new JSONElement(configOptions);
+        configFile = configOptions;
     }
 
     private JSONObject parseFile(String resPath, String fileName) {
@@ -118,5 +134,14 @@ public class ConfigOption implements Option {
         }
 
         return null;
+    }
+
+    private void applyConfigFile() {
+        if(configFile != null && configFile.length() > 0) {
+            JSONObject options = (JSONObject) Orchid.query("options").getElement();
+            for(String key : configFile.keySet()) {
+                options.put(key, configFile.get(key));
+            }
+        }
     }
 }

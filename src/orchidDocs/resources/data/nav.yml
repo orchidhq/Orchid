@@ -1,4 +1,7 @@
 
+- type: taxonomy
+  name: Classes
+  path: internalClasses
 - type: packages
 - type: classes
 - type: pages

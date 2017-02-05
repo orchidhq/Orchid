@@ -7,6 +7,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * A Resource type that provides a content to a template from a resource file on disk. When used with
+ * renderTemplate() or renderString(), this resource will supply the `page.content` variable to the template renderer as
+ * the file contents after having the embedded data removed, and any embedded data will be available in the renderer
+ * through the `page` variable. When used with renderRaw(), the raw contents (after having the embedded data removed)
+ * will be written directly instead.
+ */
 public final class FileResource extends FreeableResource  {
 
     private final File file;

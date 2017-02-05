@@ -1,0 +1,28 @@
+<a class="github-fork-ribbon left-top"
+   href="https://github.com/{{ options.config.github.username }}/{{ options.config.github.repo }}"
+   title="Fork me on GitHub">Fork me on GitHub</a>
+
+<header class="navbar navbar-fixed-top bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header" role="banner">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ options.baseUrl }}/">{{ options.config.about.name }}</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+
+            {% if options.data.nav %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% for link in options.data.nav %}
+                        {% include concat('templates/includes/nav/item_', link.type, '.twig') %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+

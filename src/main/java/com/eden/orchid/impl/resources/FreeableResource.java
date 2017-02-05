@@ -6,6 +6,12 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 
+/**
+ * An abstract concept of a 'freeable' resource, that is one that is able to look its contents back up, and so can be
+ * safely 'freed' when requested to save memory. Such an example would be a file, because having a reference to the
+ * file makes it possible to get rid of the actual contents when needed because the file can be read back into memory
+ * when the data is needed.
+ */
 public abstract class FreeableResource extends OrchidResource {
 
     public FreeableResource(OrchidReference reference) {

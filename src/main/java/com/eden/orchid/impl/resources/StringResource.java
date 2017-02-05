@@ -6,6 +6,11 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 
+/**
+ * A Resource type that provides a plain String as content to a template. When used with renderTemplate() or renderString(),
+ * this resource will supply the `page.content` variable to the template renderer. When used with renderRaw(), the raw
+ * plain String content will be written directly instead.
+ */
 public final class StringResource extends OrchidResource {
 
     public StringResource(String content, OrchidReference reference) {

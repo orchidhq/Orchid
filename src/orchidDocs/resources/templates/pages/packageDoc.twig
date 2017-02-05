@@ -1,0 +1,98 @@
+{% extends "templates/layouts/index.twig" %}
+
+{% block jumbotron %}
+    <h1 class="home-title">{{ packageDoc.name }}</h1>
+{% endblock %}
+
+{% block mainContent %}
+
+    <section class="bs-docs-section">
+        <h1 id="classes" class="page-header">Classes</h1>
+
+        {% if packageDoc.classes %}
+            <div class="all-classes">
+                <ul class="pager vertical">
+                    {% set classList = packageDoc.classes | sortBy('simpleName') %}
+                    {% for c in classList %}
+                        <li>
+                            <a href="{{ c.url }}">{{ c.simpleName }}</a>
+                            {% if c.comment %}
+                                - {{ c.comment.shortDescription }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>No Ordinary Classes</p>
+        {% endif %}
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="interfaces" class="page-header">Interfaces</h1>
+
+        {% if packageDoc.interfaces %}
+
+            <div class="all-classes">
+                <ul class="pager vertical">
+                    {% set classList = packageDoc.interfaces | sortBy('simpleName') %}
+                    {% for c in classList %}
+                        <li>
+                            <a href="{{ c.url }}">{{ c.simpleName }}</a>
+                            {% if c.comment %}
+                                - {{ c.comment.shortDescription }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>No Interfaces</p>
+        {% endif %}
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="enums" class="page-header">Enums</h1>
+
+        {% if packageDoc.enums %}
+            <div class="all-classes">
+                <ul class="pager vertical">
+                    {% set classList = packageDoc.enums | sortBy('simpleName') %}
+                    {% for c in classList %}
+                        <li>
+                            <a href="{{ c.url }}">{{ c.simpleName }}</a>
+                            {% if c.comment %}
+                                - {{ c.comment.shortDescription }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>No Enums</p>
+        {% endif %}
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="annotations" class="page-header">Annotations</h1>
+
+        {% if packageDoc.annotations %}
+            <div class="all-classes">
+                <ul class="pager vertical">
+                    {% set classList = packageDoc.annotations | sortBy('simpleName') %}
+                    {% for c in classList %}
+                        <li>
+                            <a href="{{ c.url }}">{{ c.simpleName }}</a>
+                            {% if c.comment %}
+                                - {{ c.comment.shortDescription }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>No Annotations</p>
+        {% endif %}
+    </section>
+
+{% endblock %}

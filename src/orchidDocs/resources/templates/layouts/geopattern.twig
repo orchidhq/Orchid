@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'templates/includes/header.twig' %}
+
+    <!-- start:inject styles -->
+    {% set cssFiles = index.assets.css | walk('url') %}
+    {% if cssFiles.size > 0 %}
+        {% for file in cssFiles %}
+            <link rel="stylesheet" type="text/css" href="{{ file.url }}"/>
+        {% endfor %}
+    {% endif %}
+    <!-- end:inject styles -->
+</head>
+<body>
+
+{% block siteNav %}
+    {% include 'templates/includes/nav.twig' %}
+{% endblock %}
+
+<div class="bs-docs-masthead" id="jumbotron">
+    <div class="container">
+        {% block jumbotron %}
+            <h1 class="home-title">{{- page.title -}}</h1>
+        {% endblock %}
+    </div>
+</div>
+
+<div class="container bs-docs-container">
+    <div class="row">
+        <div class="col-md-9" role="main">
+            {% block mainContent %}
+                {{ content }}
+            {% endblock %}
+        </div>
+
+        <!-- Page navigation
+        =========================================== -->
+        <div class="col-md-3" role="complementary">
+            <div class="bs-docs-sidebar hidden-print">
+                <ul class="nav bs-docs-sidenav">
+                    {% block pageNav %}
+
+                    {% endblock %}
+                </ul>
+                <a class="back-to-top" href="#top">
+                    <i class="glyphicon glyphicon-chevron-up"></i> Back to top
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<hr>
+
+<div class="container bs-docs-container">
+    {% include 'templates/includes/footer.twig' %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+
+<!-- inject scripts -->
+{% set jsFiles = index.assets.js | walk('url') %}
+{% if jsFiles.size > 0 %}
+    {% for file in jsFiles %}
+        <script src="{{ file.url }}"></script>
+    {% endfor %}
+{% endif %}
+{% if index %}
+    <script>window.index = {{ index | json }};</script>
+{% endif %}
+
+{% if page %}
+    <script>window.page = {{ page | json }};</script>
+{% endif %}
+<!-- end:inject scripts -->
+
+<script>
+    $(function () {
+        {% if options.config and options.config.colors %}
+            window.colors = {{ options.config.colors | json }};
+        {% else %}
+            window.colors = ['#4C376C', '#000000'];
+        {% endif %}
+        geopattern();
+        buildNav();
+    });
+</script>
+</body>
+</html>

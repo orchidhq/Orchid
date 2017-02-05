@@ -50,7 +50,7 @@ public class DataFilesOption implements Option {
 
     @Override
     public int priority() {
-        return 88;
+        return 60;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DataFilesOption implements Option {
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return false;
     }
 

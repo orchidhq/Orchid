@@ -1,0 +1,14 @@
+{% if index.wiki %}
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Wiki <span class="caret"></span></a>
+        <ul class="dropdown-menu scrollable-menu">
+            {% if index.wiki.files %}
+                {% for p in index.wiki.files %}
+                    <li><a href="{{ p.url }}">{{ p.name }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </li>
+{% endif %}
+

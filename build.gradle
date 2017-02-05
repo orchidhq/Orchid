@@ -39,7 +39,7 @@ dependencies {
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
 
     // core JavaEden utilities
-    compile 'com.github.JavaEden:Common:64f41c1f66'
+    compile 'com.github.JavaEden:Common:74714dca1f'
 
     // Enable auto-registration of plugins and themes
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
@@ -97,13 +97,18 @@ check.dependsOn jacocoTestReport
 //------------------------------------------------------------------------------
 orchid {
     includeMainConfiguration = true
-    program = "watch"
+//    program = "watch"
 //    program = "build"
+//    program = "listOptions"
+//    program = "listPrograms"
+//    program = "listCompilers"
+    program = "listGenerators"
 
     theme = 'com.eden.orchid.bsdoc.BSDocTheme'
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
     version = this.version
-    baseUrl = 'https://javaeden.github.io/OrchidCore/'
+//    baseUrl = 'https://javaeden.github.io/OrchidCore/'
+    baseUrl = 'http://localhost:8080'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

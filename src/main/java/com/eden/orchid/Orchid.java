@@ -2,10 +2,11 @@ package com.eden.orchid;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.generators.SiteGenerators;
+import com.eden.orchid.impl.resources.OrchidFileResources;
+import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.programs.SitePrograms;
 import com.eden.orchid.resources.OrchidResources;
-import com.eden.orchid.impl.resources.OrchidFileResources;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.javadoc.LanguageVersion;
@@ -14,9 +15,12 @@ import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public final class Orchid {
 
@@ -53,6 +57,35 @@ public final class Orchid {
     private static Theme theme;
     private static OrchidResources resources;
     private static Map<String, String[]> options;
+
+    /**
+     * Swashbuckling horrors lead to the fight. All pants fight dead, swashbuckling moons. The lagoon hobbles punishment like a swashbuckling dubloon. Sail me cannibal, ye stormy son! Aye there's nothing like the coal-black grace waving on the pants.
+     */
+    public Map<List<Set<? extends Set<? super Option>>>, Map<List<? super Option>, Map<?, String>>> ridiculousField;
+
+    /**
+     * I can't believe something like this even exists. Whoever made this is just sick.
+     *
+     * @param ridiculousParam sdasdf Damn yer shipmate, feed the pegleg. How salty. You hail like a yardarm. The undead corsair begrudgingly crushes the ale. The gibbet sails with strength, trade the seychelles until it sings. Sons stutter with grace at the dark madagascar! Swashbuckling beauties lead to the treasure. Arg! Pieces o' endurance are forever shiny.
+     * @param param2 sasdf
+     * @param param3 asdfasd
+     */
+    public Orchid(Map<List<Set<? extends Set<? super Option>>>, Map<List<? super Option>, Map<?, String>>> ridiculousParam, String param2, Option param3) {
+
+    }
+
+    /**
+     * A ridiculous thing to do ridiculous things. Ho-ho-ho! fight of malaria. C'mon, yer not enduring me without a fortune! Golly gosh! Pieces o' halitosis are forever weird. Daggers die from beauties like big pirates. Scabbards rise with death at the wet madagascar! Lads travel with adventure at the dark la marsa beach!
+     *
+     * @see com.eden.orchid.options.Option
+     * @see com.eden.orchid.generators.Generator
+     * @since v0.1.0
+     * @return something ridiculous
+     * @deprecated Please use a less ridiculous method instead
+     */
+    public static Map<List<Set<? extends Set<? super Option>>>, Map<List<? super Option>, Map<?, String>>> ridiculousMethod() {
+        return null;
+    }
 
     public static JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
 
@@ -115,6 +148,8 @@ public final class Orchid {
             options.put(a[0], a);
         }
 
+        SiteOptions.optionsParsers = new TreeMap<>(Collections.reverseOrder());
+
         return runOrchid(
                 SitePrograms.defaultProgram,
                 new ArrayList<>(),
@@ -128,7 +163,18 @@ public final class Orchid {
 // Internal routines orchestrated by main routines
 //----------------------------------------------------------------------------------------------------------------------
 
-    // inject dependencies and run Orchid
+    /**
+     * Inject dependencies to Orchid body and run program
+     *
+     * @param programName the name of the Program to run
+     * @param providers a list of available Providers. More will be added later
+     * @param root the root JSON object to collect data into
+     * @param rootDoc the RootDoc of our parsed javadoc code
+     * @param theme the selected Theme
+     * @param resources the object used to find resource files and write outputs
+     * @param options a map of valid command line arguments. Sometimes the list of options can be quite long, but if it is done right then you should be able to read every last one of the word that have been so carefully placed into this element that clearly is not long enough to fit everything perfectly. So let's see what it does!
+     * @return true if the program exited cleanly, false otherwise
+     */
     public static boolean runOrchid(
             String programName,
             List<RegistrationProvider> providers,

@@ -13,7 +13,7 @@ public interface Option {
 
     int priority();
 
-    boolean required();
+    boolean isRequired();
 
     int optionLength();
 }

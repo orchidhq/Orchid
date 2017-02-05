@@ -38,7 +38,7 @@ public class DestinationOption implements Option {
     }
 
     @Override
-    public boolean required() {
+    public boolean isRequired() {
         return true;
     }
 }

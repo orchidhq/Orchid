@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -257,7 +258,8 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
             File file = new File(fullPath);
 
             if(file.exists() && file.isDirectory()) {
-                files.addAll(new ArrayList<File>(FileUtils.listFiles(file, fileExtensions, recursive)));
+                Collection newFiles = FileUtils.listFiles(file, fileExtensions, recursive);
+                files.addAll(newFiles);
             }
         }
 
