@@ -1,23 +1,23 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
 
-//buildscript {
-//    repositories {
-//        flatDir dirs: '../OrchidGradlePlugin/build/libs'
-//    }
-//    dependencies {
-//        classpath 'com.eden:OrchidGradlePlugin:v0.1.4'
-//    }
-//}
+buildscript {
+    repositories {
+        flatDir dirs: '../OrchidGradlePlugin/build/libs'
+    }
+    dependencies {
+        classpath 'com.eden:OrchidGradlePlugin:v0.1.4'
+    }
+}
 plugins {
     id 'java'
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-    id 'com.eden.orchidplugin' version 'v0.1.4'
+//    id 'com.eden.orchidplugin' version 'v0.1.4'
 }
 
-//apply plugin: 'com.eden.orchidplugin'
+apply plugin: 'com.eden.orchidplugin'
 
 group 'com.eden'
 version = 'v0.1.0'
@@ -109,6 +109,8 @@ orchid {
     version = this.version
 //    baseUrl = 'https://javaeden.github.io/OrchidCore/'
     baseUrl = 'http://localhost:8080'
+
+    customArgs.add('disabledGenerators com.eden.orchid.posts.PostsGenerator')
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

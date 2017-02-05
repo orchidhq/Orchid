@@ -1,5 +1,6 @@
 package com.eden.orchid;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.impl.resources.OrchidFileResources;
@@ -7,6 +8,7 @@ import com.eden.orchid.options.Option;
 import com.eden.orchid.options.SiteOptions;
 import com.eden.orchid.programs.SitePrograms;
 import com.eden.orchid.resources.OrchidResources;
+import com.eden.orchid.resources.ResourceSource;
 import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.javadoc.LanguageVersion;
@@ -22,7 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public final class Orchid {
+@AutoRegister
+public final class Orchid implements ResourceSource {
 
 // Doclet hackery to allow this to parse documentation as expected and not crash...
 //----------------------------------------------------------------------------------------------------------------------
@@ -74,10 +77,14 @@ public final class Orchid {
 
     }
 
+    public Orchid() {
+
+    }
+
     /**
      * A ridiculous thing to do ridiculous things. Ho-ho-ho! fight of malaria. C'mon, yer not enduring me without a fortune! Golly gosh! Pieces o' halitosis are forever weird. Daggers die from beauties like big pirates. Scabbards rise with death at the wet madagascar! Lads travel with adventure at the dark la marsa beach!
      *
-     * @see com.eden.orchid.options.Option
+     * @see Option
      * @see com.eden.orchid.generators.Generator
      * @since v0.1.0
      * @return something ridiculous
@@ -112,6 +119,11 @@ public final class Orchid {
     public static void setResources(OrchidResources resources) { Orchid.resources = resources; }
 
     public static void setOptions(Map<String, String[]> options) { Orchid.options = options; }
+
+    @Override
+    public int resourcePriority() {
+        return 10;
+    }
 
 // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
@@ -194,6 +206,8 @@ public final class Orchid {
         bootstrap();
 
         if (shouldContinue()) {
+            Orchid.theme.setResourcePriority(Integer.MAX_VALUE);
+            Orchid.theme.onThemeSet();
             SitePrograms.runProgram(programName);
             return true;
         }
@@ -222,6 +236,9 @@ public final class Orchid {
                 providers.add(instance);
             }
             catch (IllegalAccessException | InstantiationException e) {
+                Clog.e("RegistrationProvider class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {matchingClass.getName()});
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -238,6 +255,9 @@ public final class Orchid {
                 }
             }
             catch (IllegalAccessException | InstantiationException e) {
+                Clog.e("AutoRegistered class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {matchingClass.getName()});
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -265,5 +285,4 @@ public final class Orchid {
     private static void generateHomepage() {
         theme.generateHomepage();
     }
-
 }

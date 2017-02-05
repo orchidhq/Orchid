@@ -22,14 +22,25 @@ public class DisabledGeneratorsOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        String[] classNames = options[1].split(":");
-        JSONArray classNamesArray = new JSONArray();
+        String[] classNames;
+        if (options[1].contains(":")) {
+            classNames = options[1].split(":");
+        }
+        else {
+            classNames = new String[]{options[1]};
+        }
 
-        for(String className : classNames) {
+        JSONArray classNamesArray = new JSONArray();
+        for (String className : classNames) {
             classNamesArray.put(className);
         }
 
-        return new JSONElement(classNames);
+        if(classNamesArray.length() > 0) {
+            return new JSONElement(classNamesArray);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override

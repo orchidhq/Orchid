@@ -88,12 +88,16 @@ public class InternalIndexGenerator implements Generator {
 
     @Override
     public void startGeneration() {
-        for (OrchidPage page : pages) {
-            page.setAlias("classDoc");
-            page.renderTemplate("templates/pages/newClassDoc.twig");
+        if(pages != null) {
+            for (OrchidPage page : pages) {
+                page.setAlias("classDoc");
+                page.renderTemplate("templates/pages/newClassDoc.twig");
+            }
         }
-        for (OrchidPage metaPage : metaPages) {
-            metaPage.renderRawContent();
+        if(metaPages != null) {
+            for (OrchidPage metaPage : metaPages) {
+                metaPage.renderRawContent();
+            }
         }
     }
 

@@ -16,6 +16,8 @@ import java.util.Map;
 
 public abstract class Theme implements ResourceSource {
 
+    private int resourcePriority = 100;
+
     public Class<? extends PreCompiler> getPrecompilerClass() {
         return FrontMatterPrecompiler.class;
     }
@@ -24,9 +26,21 @@ public abstract class Theme implements ResourceSource {
         return true;
     }
 
+    public void setResourcePriority(int resourcePriority) {
+        this.resourcePriority = resourcePriority;
+    }
+
     @Override
-    public int resourcePriority() {
-        return 20;
+    public final int resourcePriority() {
+        return resourcePriority;
+    }
+
+    /**
+     * A callback fired on the selected theme when it is first set. By this time, Orchid has registered all compoenents
+     * and parsed all Options, but has not yet started a Program.
+     */
+    public void onThemeSet() {
+
     }
 
     public void generateHomepage() {

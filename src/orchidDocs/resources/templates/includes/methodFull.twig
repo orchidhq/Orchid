@@ -12,6 +12,17 @@
         {% endif %}
 
         <p>{{ method.comment.description }}</p>
+
+        {% if method.comment.see %}
+            <div>See also:</div>
+            <div>
+                {% for seeAlso in method.comment.see %}
+                    {{- seeAlso | link -}}
+                    {%- if (loop.last) %}{% else %}, {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% if method.parameters %}
             <h4>Parameters:</h4>
         {% else %}

@@ -1,12 +1,16 @@
 package com.eden.orchid.utilities;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.impl.compilers.jtwig.TwigWalkMapFilter;
 import com.eden.orchid.resources.OrchidResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public final class OrchidUtils {
 
@@ -55,5 +59,46 @@ public final class OrchidUtils {
                 }
             }
         }
+    }
+
+    public static String linkTo(String link) {
+        if(Orchid.query("index.internalClasses") != null) {
+            String s = findInMap(link, (JSONObject) Orchid.query("index.internalClasses").getElement());
+            if(!EdenUtils.isEmpty(s)) {
+                return s;
+            }
+        }
+
+        if(Orchid.query("index.externalClasses") != null) {
+            String s = findInMap(link, (JSONObject) Orchid.query("index.externalClasses").getElement());
+            if(!EdenUtils.isEmpty(s)) {
+                return s;
+            }
+        }
+
+        return link;
+    }
+
+    private static String findInMap(String link, JSONObject mapObject) {
+
+        List urls = TwigWalkMapFilter.walkObject(mapObject, "url");
+        String template = "<a href=\"#{$1}\">#{$2}</a>";
+
+        for(Object object : urls) {
+            if (object instanceof Map) {
+                Map map = (Map) object;
+
+                if(map.containsKey("url")) {
+                    if(map.containsKey("name") && map.get("name").toString().equals(link)) {
+                        return Clog.format(template, map.get("url"), map.get("name"));
+                    }
+                    else if(map.containsKey("qualifiedName") && map.get("qualifiedName").toString().equals(link)) {
+                        return Clog.format(template, map.get("url"), map.get("name"));
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }
