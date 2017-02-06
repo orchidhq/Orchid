@@ -1,23 +1,22 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
 
-buildscript {
-    repositories {
-        flatDir dirs: '../OrchidGradlePlugin/build/libs'
-    }
-    dependencies {
-        classpath 'com.eden:OrchidGradlePlugin:v0.1.4'
-    }
-}
+//buildscript {
+//    repositories {
+//        flatDir dirs: '../OrchidGradlePlugin/build/libs'
+//    }
+//    dependencies {
+//        classpath 'com.eden:OrchidGradlePlugin:v0.1.5'
+//    }
+//}
 plugins {
     id 'java'
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-//    id 'com.eden.orchidplugin' version 'v0.1.4'
+    id 'com.eden.orchidplugin' version 'v0.1.5'
 }
-
-apply plugin: 'com.eden.orchidplugin'
+//apply plugin: 'com.eden.orchidplugin'
 
 group 'com.eden'
 version = 'v0.1.0'
@@ -66,6 +65,10 @@ dependencies {
 
     // generate own documentation with Orchid
     orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
+
+    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:-SNAPSHOT') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
 }
 
 // Jacoco Code Coverage
@@ -82,20 +85,11 @@ check.dependsOn jacocoTestReport
 //------------------------------------------------------------------------------
 orchid {
     includeMainConfiguration = true
-//    program = "watch"
-//    program = "build"
-//    program = "listCompilers"
-    program = "listGenerators"
-//    program = "listOptions"
-//    program = "listPrograms"
+    program = "listCompilers"
 
     theme = 'com.eden.orchid.impl.themes.BasicTheme'
     version = this.version
     baseUrl = 'http://localhost:8080'
-
-//    disabledGenerators.add('PagesGenerator')
-//    disabledGenerators.add('PostsGenerator')
-//    disabledGenerators.add('WikiGenerator')
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

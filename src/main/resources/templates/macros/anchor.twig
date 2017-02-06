@@ -7,7 +7,7 @@
         {%- for param in constructor.parameters -%}
             _{{- param.name -}}
         {%- endfor -%}
-    {% else %}
+    {%- else -%}
         noarg
     {%- endif -%}
 {%- endmacro -%}
