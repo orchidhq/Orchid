@@ -31,7 +31,7 @@ public class ResourcesOption implements Option {
 
     @Override
     public int priority() {
-        return 90;
+        return 1000;
     }
 
     @Override

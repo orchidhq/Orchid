@@ -24,6 +24,6 @@ public class MarkdownCompiler implements Compiler {
 
     @Override
     public int priority() {
-        return 60;
+        return 900;
     }
 }

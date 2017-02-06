@@ -49,7 +49,9 @@ public class WatchProgram implements Program {
 
     @Override
     public String getDescription() {
-        return "Starts a simple HTTP server and watches your resource directory for changes.";
+        return "Makes it easier to create content for your Orchid site by watching your resources for changes and " +
+                "rebuilding the site on any changes. A static HTTP server is also created in the root of your site and " +
+                "the baseUrl set to this server's address so you can preview the output.";
     }
 
     @Override

@@ -25,16 +25,15 @@ public interface Compiler {
     String getOutputExtension();
 
     /**
-     * Gets the list of file extensions this Compiler is able to process.
+     * Get the list of file extensions this Compiler is able to process.
      *
      * @return the file extensions this Compiler can process
      */
     String[] getSourceExtensions();
 
     /**
-     * The priority of the compiler determines whether it gets chosen to compile a particular file type. A higher
-     * priority puts it earlier in the sorted list of compilers, so it would get chosen over other compilers that
-     * can also compile the same file type.
+     * The priority of the compiler. The highest-priority Compiler for a given source extension will be chosen to
+     * compile content.
      *
      * @return the priority of the compiler
      */

@@ -54,33 +54,18 @@ dependencies {
     compile 'org.jtwig:jtwig-core:5.65'
     compile 'com.vladsch.flexmark:flexmark:0.7.0'
     compile 'ch.qos.logback:logback-classic:0.9.26'
+    compile 'io.bit3:jsass:5.3.1'
 
     // automatically retrieve additional classes from other Orchid documentation sites
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
     compile 'org.jsoup:jsoup:1.10.2'
 
-
     // Logging
-    compile 'com.github.cjbrooks12:Clog:v1.2.3'
+    compile 'com.github.cjbrooks12:Clog:v1.3.0'
 
     // generate own documentation with Orchid
     orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
-    orchidDocsCompile('com.github.JavaEden:OrchidBsDocTheme:6e87affcb7') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-//    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:3bde6f3df7') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPages:aca731a3f1') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidPosts:134e7b7122') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidWiki:32f2412259') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
 }
 
 // Jacoco Code Coverage
@@ -99,18 +84,18 @@ orchid {
     includeMainConfiguration = true
 //    program = "watch"
 //    program = "build"
-//    program = "listOptions"
-//    program = "listPrograms"
 //    program = "listCompilers"
     program = "listGenerators"
+//    program = "listOptions"
+//    program = "listPrograms"
 
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
-//    theme = 'com.eden.orchid.editorial.EditorialTheme'
+    theme = 'com.eden.orchid.impl.themes.BasicTheme'
     version = this.version
-//    baseUrl = 'https://javaeden.github.io/OrchidCore/'
     baseUrl = 'http://localhost:8080'
 
-    customArgs.add('disabledGenerators com.eden.orchid.posts.PostsGenerator')
+//    disabledGenerators.add('PagesGenerator')
+//    disabledGenerators.add('PostsGenerator')
+//    disabledGenerators.add('WikiGenerator')
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

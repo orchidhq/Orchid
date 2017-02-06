@@ -19,12 +19,17 @@ public class AssetsGenerator implements Generator {
 
     @Override
     public int priority() {
-        return 100;
+        return 1000;
     }
 
     @Override
     public String getName() {
         return "assets";
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 
     @Override

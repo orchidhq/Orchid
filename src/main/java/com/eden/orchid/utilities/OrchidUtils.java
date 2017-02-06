@@ -9,8 +9,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class OrchidUtils {
 
@@ -100,5 +103,22 @@ public final class OrchidUtils {
         }
 
         return null;
+    }
+
+    public static List<String> wrapString(String content, int width) {
+        List<String> matchList = new ArrayList<>();
+
+        if(!EdenUtils.isEmpty(content)) {
+            Pattern regex = Pattern.compile("(.{1," + width + "}(?:\\s|$))|(.{0," + width + "})", Pattern.DOTALL);
+            Matcher regexMatcher = regex.matcher(content);
+            while (regexMatcher.find()) {
+                String line = regexMatcher.group().trim();
+                if (!EdenUtils.isEmpty(line)) {
+                    matchList.add(line);
+                }
+            }
+        }
+
+        return matchList;
     }
 }

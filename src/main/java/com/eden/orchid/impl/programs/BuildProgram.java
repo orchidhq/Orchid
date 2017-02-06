@@ -13,7 +13,7 @@ public class BuildProgram implements Program {
 
     @Override
     public String getDescription() {
-        return "Build the Orchid site.";
+        return "Run the main Orchid build process. This is the default Program for Javadoc and if no other program is specified.";
     }
 
     @Override

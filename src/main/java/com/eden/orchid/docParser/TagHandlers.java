@@ -11,18 +11,29 @@ import java.util.TreeMap;
 @AutoRegister
 public class TagHandlers implements RegistrationProvider {
 
-    public static Map<Integer, TagHandler> tagHandlers = new TreeMap<>(Collections.reverseOrder());
+    public static Map<Integer, BlockTagHandler> blockTagHandlers = new TreeMap<>(Collections.reverseOrder());
+    public static Map<Integer, InlineTagHandler> inlineTagHandlers = new TreeMap<>(Collections.reverseOrder());
 
     @Override
     public void register(Object object) {
-        if (object instanceof TagHandler) {
-            TagHandler tagHandler = (TagHandler) object;
-            int priority = tagHandler.priority();
-            while (tagHandlers.containsKey(priority)) {
+        if (object instanceof BlockTagHandler) {
+            BlockTagHandler blockTagHandler = (BlockTagHandler) object;
+            int priority = blockTagHandler.priority();
+            while (blockTagHandlers.containsKey(priority)) {
                 priority--;
             }
 
-            tagHandlers.put(priority, tagHandler);
+            blockTagHandlers.put(priority, blockTagHandler);
+        }
+
+        if (object instanceof InlineTagHandler) {
+            InlineTagHandler inlineTagHandler = (InlineTagHandler) object;
+            int priority = inlineTagHandler.priority();
+            while (inlineTagHandlers.containsKey(priority)) {
+                priority--;
+            }
+
+            inlineTagHandlers.put(priority, inlineTagHandler);
         }
     }
 

@@ -18,15 +18,28 @@ public class ListCompilersProgram implements Program {
 
     @Override
     public String getDescription() {
-        return "Display all available compilers that can be used to process content";
+        return "Display all available Compilers that can be used to process content.";
     }
 
     @Override
     public void run() {
-        for(Map.Entry<Integer, Compiler> compilerEntry : SiteCompilers.compilers.entrySet()) {
+        Clog.logger(SitePrograms.loggerKey, "" +
+                "#{ $0 | fg('cyan') }[Priority]#{$0 |reset}" +
+                "#{ $0 | fg('magenta') }[Accepted Input Extensions]#{$0 |reset}" +
+                "#{ $0 | fg('yellow') }[Output Extension]#{$0 |reset}" +
+                "");
+        Clog.logger(SitePrograms.loggerKey, "------------------------------------------------------------------------------------");
+        Clog.logger(SitePrograms.loggerKey, "------------------------------------------------------------------------------------");
+
+        for (Map.Entry<Integer, Compiler> compilerEntry : SiteCompilers.compilers.entrySet()) {
             Compiler compiler = compilerEntry.getValue();
 
-            Clog.logger(SitePrograms.loggerKey, "[#{$1}][#{ $2 | join(', ') }]", new Object[]{ compiler.getClass().getSimpleName(), compiler.getSourceExtensions() });
+            Clog.logger(SitePrograms.loggerKey,
+                    "#{ $0 | fg('cyan') }   [#{$1}]#{$0 |reset}" +
+                            "#{ $0 | fg('magenta') }[#{$2 | join(', ')}]#{$0 |reset}" +
+                            "#{ $0 | fg('yellow') } [#{$3}]#{$0 |reset}",
+                    new Object[]{compilerEntry.getKey(), compiler.getSourceExtensions(), compiler.getOutputExtension()});
+
         }
     }
 }

@@ -1,0 +1,112 @@
+{% extends "layouts/index.twig" %}
+
+{% block pageNav %}
+
+{% endblock %}
+
+{% block jumbotron %}
+    <h1 class="home-title">{{ classDoc.info.name }}</h1>
+    <p class="lead">{{ classDoc.info.package }}</p>
+{% endblock %}
+
+{% block mainContent %}
+    {% import 'macros/comment.twig' as _comment_ %}
+
+    <div>{{- _comment_.formatComment(page.info.comment, options) -}}</div>
+    <br>
+
+    <section class="bs-docs-section">
+        <h1 id="summary" class="page-header">Summary</h1>
+
+        {% if classDoc.fields %}
+            <h3>All Fields</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for field in classDoc.fields | sortBy('name') %}
+                    {% include 'includes/fieldPreview.twig' %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No declared fields</p>
+        {% endif %}
+
+
+        {% if classDoc.constructors %}
+            <h3>All Constructors</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Constructor</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for constructor in classDoc.constructors %}
+                    {% include 'includes/ctorPreview.twig' with { constructor: constructor, classDoc: classDoc } %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        {% if classDoc.methods %}
+            <h3>All Methods</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for method in classDoc.methods | sortBy('name') %}
+                    {% include 'includes/methodPreview.twig' with { method: method, classDoc: classDoc } %}
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="fields" class="page-header">Fields</h1>
+        {% if classDoc.fields %}
+            {% for field in classDoc.fields | sortBy('name') %}
+                {% include 'includes/fieldFull.twig' with { field: field, classDoc: classDoc } %}
+            {% endfor %}
+        {% else %}
+            <p>No declared fields</p>
+        {% endif %}
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="constructors" class="page-header">Constructors</h1>
+        {% if classDoc.constructors %}
+            {% for constructor in classDoc.constructors %}
+                {% include 'includes/ctorFull.twig' with { constructor: constructor, classDoc: classDoc } %}
+            {% endfor %}
+        {% else %}
+            <p>No declared constructors</p>
+        {% endif %}
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="methods" class="page-header">Methods</h1>
+        {% if classDoc.methods %}
+            {% for method in classDoc.methods | sortBy('name') %}
+                {% include 'includes/methodFull.twig' with { method: method, classDoc: classDoc } %}
+            {% endfor %}
+        {% else %}
+            <p>No declared methods</p>
+        {% endif %}
+    </section>
+
+{% endblock %}
+

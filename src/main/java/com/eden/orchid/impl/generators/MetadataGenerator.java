@@ -16,12 +16,17 @@ public class MetadataGenerator implements Generator {
 
     @Override
     public int priority() {
-        return 10;
+        return 100;
     }
 
     @Override
     public String getName() {
         return "meta";
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 
     @Override

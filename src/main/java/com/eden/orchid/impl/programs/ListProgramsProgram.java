@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.programs.Program;
 import com.eden.orchid.programs.SitePrograms;
 import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import java.util.Map;
 
@@ -16,15 +17,26 @@ public class ListProgramsProgram implements Program {
 
     @Override
     public String getDescription() {
-        return "Display all available actions for Orchid.";
+        return "Display all available Programs that can be run.";
     }
 
     @Override
     public void run() {
-        for(Map.Entry<String, Program> option : SitePrograms.sitePrograms.entrySet()) {
-            Program program = option.getValue();
+        Clog.logger(SitePrograms.loggerKey, "" +
+                "#{ $0 | fg('magenta') }[Program Name]#{$0 |reset}" +
+                "\n------------------------------------------------------------------------------------" +
+                "\n------------------------------------------------------------------------------------");
 
-            Clog.logger(SitePrograms.loggerKey, "[#{$1}]: #{$2}", new Object[]{program.getName(), program.getDescription()});
+        for(Map.Entry<String, Program> programEntry : SitePrograms.sitePrograms.entrySet()) {
+            Program program = programEntry.getValue();
+
+            Clog.logger(SitePrograms.loggerKey, "#{ $0 | fg('magenta') }[#{$1}]#{$0 |reset}", new Object[]{ program.getName() });
+
+            for(String line : OrchidUtils.wrapString(program.getDescription(), 80)) {
+                Clog.logger(SitePrograms.loggerKey, "    " + line);
+            }
+            Clog.logger(SitePrograms.loggerKey, "    --------------------------------------------------------------------------------");
+            Clog.logger(SitePrograms.loggerKey, "");
         }
     }
 }

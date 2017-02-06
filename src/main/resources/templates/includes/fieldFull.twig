@@ -1,0 +1,14 @@
+{% import 'macros/type.twig' as _type_ %}
+{% import 'macros/comment.twig' as _comment_ %}
+{% import 'macros/anchor.twig' as _anchor_ %}
+
+<div class="panel panel-default" id="{{- _anchor_.fieldAnchor(field) -}}">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>{{- _type_.formatType(field.type) }} {{ field.name }}</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>{{- _comment_.formatComment(field.comment, options) -}}</div>
+    </div>
+</div>

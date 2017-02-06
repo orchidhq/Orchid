@@ -50,7 +50,7 @@ public class DisabledGeneratorsOption implements Option {
 
     @Override
     public int priority() {
-        return 40;
+        return 500;
     }
 
     @Override

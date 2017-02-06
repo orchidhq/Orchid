@@ -1,0 +1,31 @@
+{%- macro formatCommentPreview(comment, options) -%}
+    {% if comment.shortDescription %}
+        {{ comment.shortDescription | compileAs(options.commentExt) }}
+    {% endif %}
+{%- endmacro -%}
+
+{%- macro formatComment(comment, options) -%}
+    {% if comment.inlineTags %}
+        <div class="inlineComments">
+            <p>
+                {% filter compileAs(options.commentExt) %}
+                    {%- for tag in comment.inlineTags -%}
+                        {% include [concat('includes/tag/inline/', tag.kind, '.twig'), 'includes/tag/inline/_default.twig']
+                        ignore missing
+                        with { kind: tag.kind, tag: tag.value } %}
+                    {%- endfor -%}
+                {% endfilter %}
+            </p>
+        </div>
+    {% endif %}
+
+    {% if comment.blockTags %}
+        <div class="blockComments">
+            {% for kind, value in comment.blockTags %}
+                {% include [concat('includes/tag/block/', kind, '.twig'), 'includes/tag/block/_default.twig']
+                ignore missing
+                with { tags: value } %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{%- endmacro -%}

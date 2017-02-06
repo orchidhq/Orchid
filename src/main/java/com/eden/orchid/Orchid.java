@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.generators.Generator;
 import com.eden.orchid.generators.SiteGenerators;
 import com.eden.orchid.impl.resources.OrchidFileResources;
 import com.eden.orchid.options.Option;
@@ -69,6 +70,8 @@ public final class Orchid implements ResourceSource {
     /**
      * I can't believe something like this even exists. Whoever made this is just sick.
      *
+     * @throws Exception
+     * @see Option
      * @param ridiculousParam sdasdf Damn yer shipmate, feed the pegleg. How salty. You hail like a yardarm. The undead corsair begrudgingly crushes the ale. The gibbet sails with strength, trade the seychelles until it sings. Sons stutter with grace at the dark madagascar! Swashbuckling beauties lead to the treasure. Arg! Pieces o' endurance are forever shiny.
      * @param param2 sasdf
      * @param param3 asdfasd
@@ -82,10 +85,10 @@ public final class Orchid implements ResourceSource {
     }
 
     /**
-     * A ridiculous thing to do ridiculous things. Ho-ho-ho! fight of malaria. C'mon, yer not enduring me without a fortune! Golly gosh! Pieces o' halitosis are forever weird. Daggers die from beauties like big pirates. Scabbards rise with death at the wet madagascar! Lads travel with adventure at the dark la marsa beach!
+     * An _absolutely ridiculous_ thing to do ridiculous things. **Ho-ho-ho!** {@link Option} of malaria. C'mon, yer not enduring me without a fortune! Golly gosh! Pieces o' halitosis are forever weird. Daggers die from beauties like big pirates. Scabbards rise with death at the wet madagascar! Lads travel with adventure at the dark la marsa beach!
      *
      * @see Option
-     * @see com.eden.orchid.generators.Generator
+     * @see Generator
      * @since v0.1.0
      * @return something ridiculous
      * @deprecated Please use a less ridiculous method instead

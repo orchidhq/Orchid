@@ -47,7 +47,7 @@ public class ThemeOption implements Option {
 
     @Override
     public int priority() {
-        return 50;
+        return 800;
     }
 
     @Override

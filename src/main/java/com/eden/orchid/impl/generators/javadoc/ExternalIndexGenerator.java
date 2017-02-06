@@ -35,7 +35,12 @@ public class ExternalIndexGenerator implements Generator {
 
     @Override
     public int priority() {
-        return 100;
+        return 900;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 
     @Override

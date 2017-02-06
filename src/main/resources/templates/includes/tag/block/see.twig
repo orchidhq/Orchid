@@ -1,0 +1,7 @@
+<div><b>See also:</b></div>
+<p>
+    {% for seeAlso in tags %}
+        {{- seeAlso | link -}}
+        {%- if (loop.last) %}{% else %}, {% endif %}
+    {% endfor %}
+</p>

@@ -29,7 +29,7 @@ public class VersionOption implements Option {
 
     @Override
     public int priority() {
-        return 40;
+        return 400;
     }
 
     @Override

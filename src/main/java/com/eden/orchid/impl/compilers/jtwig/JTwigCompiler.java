@@ -55,7 +55,7 @@ public class JTwigCompiler implements Compiler, RegistrationProvider {
 
     @Override
     public int priority() {
-        return 90;
+        return 1000;
     }
 
     @Override

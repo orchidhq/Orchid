@@ -29,7 +29,7 @@ public class DestinationOption implements Option {
 
     @Override
     public int priority() {
-        return 100;
+        return 1000;
     }
 
     @Override

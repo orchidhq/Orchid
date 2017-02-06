@@ -3,7 +3,7 @@ package com.eden.orchid.impl.generators.javadoc;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.generators.Generator;
-import com.eden.orchid.docParser.parsers.ClassDocParser;
+import com.eden.orchid.impl.docParser.docs.ClassDocParser;
 import com.eden.orchid.impl.resources.JsonResource;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidReference;
@@ -38,8 +38,13 @@ public class InternalIndexGenerator implements Generator {
     }
 
     @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
     public int priority() {
-        return 90;
+        return 800;
     }
 
     @Override
@@ -91,7 +96,7 @@ public class InternalIndexGenerator implements Generator {
         if(pages != null) {
             for (OrchidPage page : pages) {
                 page.setAlias("classDoc");
-                page.renderTemplate("templates/pages/newClassDoc.twig");
+                page.renderTemplate("templates/pages/classDoc.twig");
             }
         }
         if(metaPages != null) {

@@ -3,6 +3,7 @@ package com.eden.orchid.programs;
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogLogger;
 import com.eden.orchid.utilities.RegistrationProvider;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class SitePrograms implements RegistrationProvider {
 
         @Override
         public int log(String tag, String message, Throwable throwable) {
-            System.out.println(message + " (" + throwable.getMessage() + ")");
+            AnsiConsole.out.println(message + " (" + throwable.getMessage() + ")");
 
             return 0;
         }

@@ -1,0 +1,38 @@
+
+{%- macro formatParameterList(params) -%}
+    {%- import 'macros/type.twig' as this -%}
+    {%- for param in params -%}
+        {{- this.formatType(param.type) }} {{ param.name -}}
+        {%- if (loop.last) %}{% else %}, {% endif %}
+    {%- endfor -%}
+{%- endmacro -%}
+
+{% macro formatType(type) %}
+    {%- if type.wildcardType -%}
+        {%- import 'macros/type.twig' as this -%}
+        {%- if type.wildcardType['extends'] -%}
+            ? extends {{ this.typeParams(type.wildcardType['extends']) -}}
+        {%- elseif type.wildcardType['super'] -%}
+            ? super {{ this.typeParams(type.wildcardType['super']) -}}
+        {%- endif -%}
+    {%- else -%}
+        {{- type.name | link -}}
+    {%- endif -%}
+
+    {%- if type.typeParameters -%}
+        {%- import 'macros/type.twig' as this -%}
+        &lt;{{- this.typeParams(type.typeParameters) -}}&gt;
+    {%- endif -%}
+{% endmacro %}
+
+{%- macro typeParams(typeParams) -%}
+    {%- for param in typeParams -%}
+        {%- if param.typeParameters or param.wildcardType -%}
+            {% import 'macros/type.twig' as this %}
+            {{- this.formatType(param) -}}
+        {%- else -%}
+            {{- param.name | link -}}
+        {%- endif -%}
+        {%- if (loop.last) %}{% else %}, {% endif %}
+    {%- endfor -%}
+{%- endmacro -%}

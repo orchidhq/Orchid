@@ -29,7 +29,7 @@ public class BaseUrlOption implements Option {
 
     @Override
     public int priority() {
-        return 30;
+        return 700;
     }
 
     @Override

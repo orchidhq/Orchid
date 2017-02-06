@@ -29,7 +29,7 @@ public class CommentLanguageOption implements Option {
 
     @Override
     public int priority() {
-        return 20;
+        return 600;
     }
 
     @Override
