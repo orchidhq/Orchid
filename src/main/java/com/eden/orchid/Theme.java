@@ -6,10 +6,10 @@ import com.eden.orchid.compilers.Compiler;
 import com.eden.orchid.compilers.PreCompiler;
 import com.eden.orchid.compilers.SiteCompilers;
 import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
+import com.eden.orchid.impl.resources.StringResource;
 import com.eden.orchid.resources.OrchidPage;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.ResourceSource;
-import com.eden.orchid.impl.resources.StringResource;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -31,7 +31,7 @@ public abstract class Theme implements ResourceSource {
     }
 
     @Override
-    public final int resourcePriority() {
+    public final int getResourcePriority() {
         return resourcePriority;
     }
 
@@ -40,8 +40,7 @@ public abstract class Theme implements ResourceSource {
      * and parsed all Options, but has not yet started a Program.
      */
     public void onThemeSet() {
-        setResourcePriority(Integer.MAX_VALUE);
-        Orchid.getResources().deregisterInactiveThemeSources();
+
     }
 
     public void generateHomepage() {

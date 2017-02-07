@@ -1,11 +1,13 @@
 package com.eden.orchid.compilers;
 
+import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
+@AutoRegister
 public class SiteCompilers implements RegistrationProvider {
     public static Map<Integer, Compiler> compilers = new TreeMap<>(Collections.reverseOrder());
     public static Map<Integer, PreCompiler> precompilers = new TreeMap<>(Collections.reverseOrder());

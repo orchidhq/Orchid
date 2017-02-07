@@ -19,5 +19,13 @@ public interface ResourceSource {
      *
      * @return this ResourceSource's priority
      */
-    int resourcePriority();
+    int getResourcePriority();
+
+    /**
+     * Set the priority of this resource source. A value less than 0 removes this source from consideration when
+     * attempting to resolve resources.
+     *
+     * @param priority the new priority value
+     */
+    void setResourcePriority(int priority);
 }

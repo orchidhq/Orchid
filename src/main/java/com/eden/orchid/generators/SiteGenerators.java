@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
+@AutoRegister
 public class SiteGenerators implements RegistrationProvider {
     public static Map<Integer, Generator> generators = new TreeMap<>(Collections.reverseOrder());
     private static JSONArray disabledGenerators;

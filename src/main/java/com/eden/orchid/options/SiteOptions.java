@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+@AutoRegister
 public class SiteOptions implements RegistrationProvider {
 
     public static Map<Integer, Option> optionsParsers = new TreeMap<>(Collections.reverseOrder());

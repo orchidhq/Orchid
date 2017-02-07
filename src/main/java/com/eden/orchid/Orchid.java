@@ -17,6 +17,7 @@ import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -124,8 +125,13 @@ public final class Orchid implements ResourceSource {
     public static void setOptions(Map<String, String[]> options) { Orchid.options = options; }
 
     @Override
-    public int resourcePriority() {
+    public int getResourcePriority() {
         return 10;
+    }
+
+    @Override
+    public void setResourcePriority(int priority) {
+
     }
 
 // Entry points, main routines
@@ -206,9 +212,12 @@ public final class Orchid implements ResourceSource {
         Orchid.resources = resources;
         Orchid.options = options;
 
+        providers.add(resources);
+
         bootstrap();
 
         if (shouldContinue()) {
+            Orchid.getResources().reorderResourceSources();
             Orchid.theme.onThemeSet();
             SitePrograms.runProgram(programName);
             return true;
@@ -234,8 +243,12 @@ public final class Orchid implements ResourceSource {
         FastClasspathScanner scanner = new FastClasspathScanner();
         scanner.matchClassesImplementing(RegistrationProvider.class, (matchingClass) -> {
             try {
-                RegistrationProvider instance = matchingClass.newInstance();
-                providers.add(instance);
+                for(Annotation annotation : matchingClass.getAnnotations()) {
+                    if(annotation.annotationType().equals(AutoRegister.class)) {
+                        RegistrationProvider instance = matchingClass.newInstance();
+                        providers.add(instance);
+                    }
+                }
             }
             catch (IllegalAccessException | InstantiationException e) {
                 Clog.e("RegistrationProvider class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {matchingClass.getName()});

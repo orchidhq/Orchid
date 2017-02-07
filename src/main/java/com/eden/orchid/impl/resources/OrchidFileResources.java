@@ -3,12 +3,10 @@ package com.eden.orchid.impl.resources;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.Theme;
 import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
 import com.eden.orchid.resources.ResourceSource;
-import com.eden.orchid.utilities.RegistrationProvider;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -22,7 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +27,7 @@ import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidFileResources implements OrchidResources, RegistrationProvider {
-    public static Map<Integer, ResourceSource> resourceSources = new TreeMap<>(Collections.reverseOrder());
+public class OrchidFileResources extends OrchidResources {
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -62,13 +58,7 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
         }
     }
 
-    /**
-     * Gets an OrchidResource representing the file found in the '-resourcesDir' option directory. Typically used when you
-     * need a file that you know will be provided by the end-user.
-     *
-     * @param fileName the name of the requested file, relative to the 'resources' directory
-     * @return  the OrchidResource representing the file if it exists in the resourcesDir location, null otherwise
-     */
+    @Override
     public OrchidResource getResourceDirEntry(String fileName) {
         File file = getResourceFile(fileName);
 
@@ -79,17 +69,7 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
         return null;
     }
 
-    /**
-     * Gets an OrchidResource representing the file found in one of many possible locations. This will return the first file
-     * found in the following order: if the '-resourcesDir' option was set, the File from that directory, otherwise the
-     * File from the default resources directory. If the requested file could not be found in the resource directories,
-     * it will loop through all registered ResourceSources in order of priority from highest to lowest and attempt to
-     * find a JarEntry matching the same fileName. Typically used to get any file that is not expected to be provided by
-     * the end-user.
-     *
-     * @param fileName the name of the requested file, relative to the 'resources' directory
-     * @return  the OrchidResource representing the file if it exists in any location, null otherwise
-     */
+    @Override
     public OrchidResource getResourceEntry(String fileName) {
         File file = getResourceFile(fileName);
 
@@ -97,10 +77,12 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
             return new FileResource(file);
         }
 
-        for(Map.Entry<Integer, ResourceSource> source : resourceSources.entrySet()) {
+        for(Map.Entry<Integer, ResourceSource> source : getResourceSources().entrySet()) {
+            if(source.getKey() < 0) { continue; }
+
             JarFile jarFile = jarForClass(source.getValue().getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
-            if(jarEntry != null) {
+            if (jarEntry != null) {
                 return new JarResource(jarFile, jarEntry);
             }
         }
@@ -108,13 +90,7 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
         return null;
     }
 
-    /**
-     * Gets a list of OrchidEntries representing the files found in the '-resourcesDir' option directory. Typically used
-     * when you need files that you know will be provided by the end-user.
-     *
-     * @param dirName the name of requested directory, relative to the 'resources' directory
-     * @return the entries, in no particular order
-     */
+    @Override
     public List<OrchidResource> getResourceDirEntries(String dirName, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
@@ -131,18 +107,7 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
         return new ArrayList<>(entries.values());
     }
 
-    /**
-     * Gets a list of OrchidEntries representing the file found in one of many possible locations. This will return all
-     * files from the following locations: if the '-resourcesDir' option was set, the File from that directory, otherwise
-     * the File from the default resources directory. Also, it will loop through all registered ResourceSources in order
-     * of priority from highest to lowest and find all matching JarEntries. Entries in the resulting list are ordered such
-     * that files toward the end of the list have the highest priortiy, so iterating across all entries and writing the
-     * appripriate files will naturally allow the resources from higher-priority ResourceSources or overwrite
-     * lower-priority ones, with local resources from the '-resourcesDir' option taking ultimate precedence.
-     *
-     * @param dirName the name of requested directory, relative to the 'resources' directory
-     * @return the entries, ordered by ResourceSource priority
-     */
+    @Override
     public List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
@@ -155,7 +120,9 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
             entries.put(relative, entry);
         }
 
-        for(Map.Entry<Integer, ResourceSource> source : resourceSources.entrySet()) {
+        for(Map.Entry<Integer, ResourceSource> source : getResourceSources().entrySet()) {
+            if(source.getKey() < 0) { continue; }
+
             JarFile jarFile = jarForClass(source.getValue().getClass());
 
             List<JarEntry> jarEntries = getJarResourceFiles(jarFile, dirName, fileExtensions, recursive);
@@ -165,7 +132,7 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
 
                 boolean shouldAddJarEntry = false;
                 if(entries.containsKey(relative)) {
-                    if(source.getValue().resourcePriority() > entries.get(relative).getPriority()) {
+                    if(source.getValue().getResourcePriority() > entries.get(relative).getPriority()) {
                         shouldAddJarEntry = true;
                     }
                 }
@@ -446,37 +413,5 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
         return true;
     }
 
-    @Override
-    public void register(Object object) {
-        if(object instanceof ResourceSource) {
-            ResourceSource resourceSource = (ResourceSource) object;
 
-            int priority = resourceSource.resourcePriority();
-            while(resourceSources.containsKey(priority)) {
-                priority--;
-            }
-
-            resourceSources.put(priority, resourceSource);
-        }
-    }
-
-    @Override
-    public void deregisterInactiveThemeSources() {
-
-        Theme theme = Orchid.getTheme();
-
-        List<Integer> sourcesToRemove = new ArrayList<>();
-
-        for(Map.Entry<Integer, ResourceSource> source : resourceSources.entrySet()) {
-            if(source.getValue() instanceof Theme) {
-                if(!theme.getClass().isAssignableFrom(source.getValue().getClass())) {
-                    sourcesToRemove.add(source.getKey());
-                }
-            }
-        }
-
-        for(Integer key : sourcesToRemove) {
-            resourceSources.remove(key);
-        }
-    }
 }

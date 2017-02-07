@@ -2,12 +2,14 @@ package com.eden.orchid.programs;
 
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogLogger;
+import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.RegistrationProvider;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@AutoRegister
 public class SitePrograms implements RegistrationProvider {
 
     public static Map<String, Program> sitePrograms = new HashMap<>();
