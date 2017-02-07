@@ -18,6 +18,8 @@ public interface OrchidResources {
 
     OrchidResource getProjectLicense();
 
+    void deregisterInactiveThemeSources();
+
     boolean render(
             String template,
             String extension,

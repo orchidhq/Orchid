@@ -40,7 +40,8 @@ public abstract class Theme implements ResourceSource {
      * and parsed all Options, but has not yet started a Program.
      */
     public void onThemeSet() {
-
+        setResourcePriority(Integer.MAX_VALUE);
+        Orchid.getResources().deregisterInactiveThemeSources();
     }
 
     public void generateHomepage() {

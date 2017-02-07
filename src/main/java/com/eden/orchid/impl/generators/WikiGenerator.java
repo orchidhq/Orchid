@@ -72,7 +72,7 @@ public class WikiGenerator implements Generator {
     @Override
     public void startGeneration() {
         for (OrchidPage page : wiki) {
-            if(!(page.getReference().getFullPath().equalsIgnoreCase("wiki") && page.getReference().getFileName().equalsIgnoreCase("glossary.md"))) {
+            if(!page.getReference().getFullPath().equalsIgnoreCase(wikiBaseDir + "glossary")) {
                 findGlossaryTerms(page).renderTemplate("templates/pages/page.twig");
             }
             else {

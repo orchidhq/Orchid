@@ -3,6 +3,7 @@ package com.eden.orchid.impl.resources;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.Theme;
 import com.eden.orchid.resources.OrchidReference;
 import com.eden.orchid.resources.OrchidResource;
 import com.eden.orchid.resources.OrchidResources;
@@ -456,6 +457,26 @@ public class OrchidFileResources implements OrchidResources, RegistrationProvide
             }
 
             resourceSources.put(priority, resourceSource);
+        }
+    }
+
+    @Override
+    public void deregisterInactiveThemeSources() {
+
+        Theme theme = Orchid.getTheme();
+
+        List<Integer> sourcesToRemove = new ArrayList<>();
+
+        for(Map.Entry<Integer, ResourceSource> source : resourceSources.entrySet()) {
+            if(source.getValue() instanceof Theme) {
+                if(!theme.getClass().isAssignableFrom(source.getValue().getClass())) {
+                    sourcesToRemove.add(source.getKey());
+                }
+            }
+        }
+
+        for(Integer key : sourcesToRemove) {
+            resourceSources.remove(key);
         }
     }
 }

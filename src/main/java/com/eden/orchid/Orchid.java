@@ -209,7 +209,6 @@ public final class Orchid implements ResourceSource {
         bootstrap();
 
         if (shouldContinue()) {
-            Orchid.theme.setResourcePriority(Integer.MAX_VALUE);
             Orchid.theme.onThemeSet();
             SitePrograms.runProgram(programName);
             return true;
