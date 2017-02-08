@@ -85,13 +85,13 @@ check.dependsOn jacocoTestReport
 //------------------------------------------------------------------------------
 orchid {
     includeMainConfiguration = true
-//    task = "listOptions"
+    task = "listOptions"
 //    task = "listCompilers"
 //    task = "build"
 //    task = "listTasks"
 //    task = "listGenerators"
 //    task = "serve"
-    task = "listThemes"
+//    task = "listThemes"
 
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
     theme = 'com.eden.orchid.bsdoc.BSDocTheme'

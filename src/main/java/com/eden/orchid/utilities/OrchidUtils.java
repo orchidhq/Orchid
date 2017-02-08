@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -129,5 +130,12 @@ public final class OrchidUtils {
             text += tag.text();
         }
         return text;
+    }
+
+    public static class DefaultComparator<T> implements Comparator<T> {
+        @Override
+        public int compare(T o1, T o2) {
+            return o1.getClass().getName().compareTo(o2.getClass().getName());
+        }
     }
 }

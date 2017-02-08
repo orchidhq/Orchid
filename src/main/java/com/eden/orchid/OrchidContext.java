@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
+//TODO: Consider making interfaces out of Javadoc parsers. Potentially make it easier to also support Groovy, Scala, etc.
 public final class OrchidContext implements OrchidResourceSource {
 
     private JSONObject root;
@@ -79,7 +80,7 @@ public final class OrchidContext implements OrchidResourceSource {
         Clog.v("#{$1} blockTagHandlers",  getRegistrar().resolveSet(OrchidBlockTagHandler.class).size());
         Clog.v("#{$1} inlineTagHandlers", getRegistrar().resolveSet(OrchidInlineTagHandler.class).size());
         Clog.v("#{$1} generators",        getRegistrar().resolveSet(OrchidGenerator.class).size());
-        Clog.v("#{$1} optionsMap",        getRegistrar().resolveSet(OrchidOption.class).size());
+        Clog.v("#{$1} options",           getRegistrar().resolveSet(OrchidOption.class).size());
         Clog.v("#{$1} tasks",             getRegistrar().resolveSet(OrchidTask.class).size());
 
         if (shouldContinue()) {

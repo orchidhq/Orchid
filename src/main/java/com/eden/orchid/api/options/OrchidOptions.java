@@ -84,21 +84,10 @@ public class OrchidOptions implements Contextual {
         if (getRegistrar().resolveSet(OrchidOption.class).size() == 0) {
             FastClasspathScanner scanner = new FastClasspathScanner();
             scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
-                //TODO: Fix this
-//                try {
-//                    if (OrchidOption.class.isAssignableFrom(matchingClass)) {
-//                        OrchidOption option = (OrchidOption) matchingClass.newInstance();
-//                        int priority = option.priority();
-//                        while (getRegistrar().resolveSet(OrchidOption.class).containsKey(priority)) {
-//                            priority--;
-//                        }
-//
-//                        getRegistrar().resolveSet(OrchidOption.class).put(priority, option);
-//                    }
-//                }
-//                catch (IllegalAccessException | InstantiationException e) {
-//                    e.printStackTrace();
-//                }
+                if (OrchidOption.class.isAssignableFrom(matchingClass)) {
+                    OrchidOption option = getRegistrar().resolve((Class<OrchidOption>) matchingClass);
+                    getRegistrar().registerObject(option);
+                }
             });
             scanner.scan();
         }

@@ -3,17 +3,11 @@ package com.eden.orchid.impl.registration;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
-import com.eden.orchid.api.compilers.OrchidCompiler;
-import com.eden.orchid.api.compilers.OrchidPreCompiler;
-import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
-import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
-import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.registration.OrchidRegistrar;
 import com.eden.orchid.api.registration.OrchidRegistrationProvider;
 import com.eden.orchid.api.resources.OrchidResourceSource;
-import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,51 +17,42 @@ import java.util.TreeSet;
 @AutoRegister
 public class Registrar implements OrchidRegistrar {
 
+    private Set<OrchidRegistrationProvider> providers = new TreeSet<>();
+    private Map<Class<?>, Set> sets = new HashMap<>();
     private Map<Class<?>, Object> allObjects = new HashMap<>();
-
-    private Set<OrchidRegistrationProvider> providers         = new TreeSet<>();
-    private Set<OrchidResourceSource>       resourceSources   = new TreeSet<>();
-    private Set<OrchidCompiler>             compilers         = new TreeSet<>();
-    private Set<OrchidPreCompiler>          precompilers      = new TreeSet<>();
-    private Set<OrchidBlockTagHandler>      blockTagHandlers  = new TreeSet<>();
-    private Set<OrchidInlineTagHandler>     inlineTagHandlers = new TreeSet<>();
-    private Set<OrchidGenerator>            generators        = new TreeSet<>();
-    private Set<OrchidOption>               options           = new TreeSet<>();
-    private Set<OrchidTask>                 tasks             = new TreeSet<>();
 
     @Override
     public void registerProvider(OrchidRegistrationProvider object) {
         providers.add(object);
     }
 
+    private <T> void registerType(Class<?> clazz, T object) {
+        if(Comparable.class.isAssignableFrom(clazz)) {
+            sets.putIfAbsent(clazz, new TreeSet<T>());
+            sets.get(clazz).add(object);
+        }
+        else {
+            sets.putIfAbsent(clazz, new TreeSet<T>(new OrchidUtils.DefaultComparator()));
+            sets.get(clazz).add(object);
+        }
+    }
+
     @Override
-    public void registerObject(Object object) {
-        if (object instanceof OrchidCompiler) {
-            compilers.add((OrchidCompiler) object);
-        }
-        if (object instanceof OrchidPreCompiler) {
-            precompilers.add((OrchidPreCompiler) object);
-        }
-        if (object instanceof OrchidInlineTagHandler) {
-            inlineTagHandlers.add((OrchidInlineTagHandler) object);
-        }
-        if (object instanceof OrchidBlockTagHandler) {
-            blockTagHandlers.add((OrchidBlockTagHandler) object);
-        }
-        if (object instanceof OrchidGenerator) {
-            generators.add((OrchidGenerator) object);
-        }
-        if (object instanceof OrchidOption) {
-            options.add((OrchidOption) object);
-        }
-        if (object instanceof OrchidTask) {
-            tasks.add((OrchidTask) object);
+    public <T> void registerObject(T object) {
+
+        // go through all interfaces of this class and its superclasses, adding the object to those sets
+        Class<?> type = object.getClass();
+        while(!type.equals(Object.class)) {
+            registerType(type, object);
+
+            for(Class<?> clazz : type.getInterfaces()) {
+                registerType(clazz, object);
+            }
+
+            type = type.getSuperclass();
         }
 
-        if(object instanceof OrchidResourceSource) {
-            resourceSources.add((OrchidResourceSource) object);
-        }
-
+        // hand the object off to RegistrationProviders to deal with as they will
         for (OrchidRegistrationProvider provider : providers) {
             provider.register(object);
         }
@@ -75,9 +60,7 @@ public class Registrar implements OrchidRegistrar {
 
     @Override
     public <T> void addToResolver(T object) {
-        if(!allObjects.containsKey(object.getClass())) {
-            allObjects.put(object.getClass(), object);
-        }
+        addToResolver((Class<T>) object.getClass(), object);
     }
 
     @Override
@@ -122,32 +105,8 @@ public class Registrar implements OrchidRegistrar {
 
     @Override
     public <T> Set<T> resolveSet(Class<T> clazz) {
-        if(clazz.equals(OrchidRegistrationProvider.class)) {
-            return (Set<T>) providers;
-        }
-        if(clazz.equals(OrchidResourceSource.class)) {
-            return (Set<T>) resourceSources;
-        }
-        else if(clazz.equals(OrchidCompiler.class)) {
-            return (Set<T>) compilers;
-        }
-        else if(clazz.equals(OrchidPreCompiler.class)) {
-            return (Set<T>) precompilers;
-        }
-        else if(clazz.equals(OrchidInlineTagHandler.class)) {
-            return (Set<T>) inlineTagHandlers;
-        }
-        else if(clazz.equals(OrchidBlockTagHandler.class)) {
-            return (Set<T>) blockTagHandlers;
-        }
-        else if(clazz.equals(OrchidGenerator.class)) {
-            return (Set<T>) generators;
-        }
-        else if(clazz.equals(OrchidOption.class)) {
-            return (Set<T>) options;
-        }
-        else if(clazz.equals(OrchidTask.class)) {
-            return (Set<T>) tasks;
+        if(sets.containsKey(clazz)) {
+            return sets.get(clazz);
         }
 
         return new TreeSet<>();
@@ -158,7 +117,7 @@ public class Registrar implements OrchidRegistrar {
 
         reorderThemes();
 
-        for(OrchidResourceSource source : resourceSources) {
+        for(OrchidResourceSource source : resolveSet(OrchidResourceSource.class)) {
             if(source instanceof Theme) {
                 if(!source.getClass().isAssignableFrom(theme.getClass())) {
                     source.setResourcePriority(-1);
@@ -173,7 +132,7 @@ public class Registrar implements OrchidRegistrar {
 
         // find the highest priority of any Theme
         int highestThemePriority = 0;
-        for(OrchidResourceSource resourceSourceEntry : resourceSources) {
+        for(OrchidResourceSource resourceSourceEntry : resolveSet(OrchidResourceSource.class)) {
             if (resourceSourceEntry instanceof Theme) {
                 highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getResourcePriority());
             }
@@ -181,7 +140,7 @@ public class Registrar implements OrchidRegistrar {
 
         // Go through all Themes and set each parent theme as the next-highest Theme priority
         while(!superclass.equals(Theme.class)) {
-            for(OrchidResourceSource resourceSourceEntry : resourceSources) {
+            for(OrchidResourceSource resourceSourceEntry : resolveSet(OrchidResourceSource.class)) {
                 if(resourceSourceEntry instanceof Theme) {
                     Theme theme = (Theme) resourceSourceEntry;
                     if (theme.getClass().equals(superclass)) {

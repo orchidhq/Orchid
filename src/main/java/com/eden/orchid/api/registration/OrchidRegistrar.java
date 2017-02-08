@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface OrchidRegistrar extends Contextual {
     void registerProvider(OrchidRegistrationProvider object);
-    void registerObject(Object object);
+    <T> void registerObject(T object);
     void reorderResourceSources();
 
     <T> void addToResolver(T object);

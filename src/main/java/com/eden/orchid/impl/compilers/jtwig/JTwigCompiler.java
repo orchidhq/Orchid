@@ -3,7 +3,6 @@ package com.eden.orchid.impl.compilers.jtwig;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.registration.AutoRegister;
-import com.eden.orchid.api.registration.OrchidRegistrationProvider;
 import org.json.JSONObject;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -17,12 +16,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class JTwigCompiler implements OrchidCompiler, OrchidRegistrationProvider {
+public class JTwigCompiler implements OrchidCompiler {
 
-    public EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
+    private EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
+    private boolean hasRegisteredComponents = false;
 
     @Override
     public String compile(String extension, String source, Object... data) {
+        if(!hasRegisteredComponents) {
+            for(JtwigFunction function : getRegistrar().resolveSet(JtwigFunction.class)) {
+                config.functions().add(function);
+            }
+
+            List<TypedResourceLoader> loaders = new ArrayList<>(config.resources().resourceLoaders().build());
+            for(TypedResourceLoader loader : getRegistrar().resolveSet(TypedResourceLoader.class)) {
+                loaders.add(0, loader);
+            }
+            config.resources().resourceLoaders().set(loaders);
+
+            hasRegisteredComponents = true;
+        }
+
         String s = "";
         if(data != null && data.length > 0 && data[0] != null) {
             s = data[0].toString();
@@ -58,16 +72,4 @@ public class JTwigCompiler implements OrchidCompiler, OrchidRegistrationProvider
         return 1000;
     }
 
-    @Override
-    public void register(Object object) {
-        if(object instanceof JtwigFunction) {
-            config.functions().add((JtwigFunction) object);
-        }
-
-        if(object instanceof TypedResourceLoader) {
-            List<TypedResourceLoader> loaders = new ArrayList<>(config.resources().resourceLoaders().build());
-            loaders.add(0, (TypedResourceLoader) object);
-            config.resources().resourceLoaders().set(loaders);
-        }
-    }
 }
