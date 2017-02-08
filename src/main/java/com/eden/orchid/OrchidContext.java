@@ -14,13 +14,13 @@ import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.registration.OrchidRegistrationProvider;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.impl.docParser.docs.AnnotationParser;
 import com.eden.orchid.impl.docParser.docs.ClassDocParser;
 import com.eden.orchid.impl.docParser.docs.CommentParser;
 import com.eden.orchid.impl.docParser.docs.ParameterParser;
 import com.eden.orchid.impl.docParser.docs.TypeParser;
-import com.eden.orchid.impl.registration.Registrar;
 import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.json.JSONObject;
@@ -72,7 +72,7 @@ public final class OrchidContext implements OrchidResourceSource {
         Clog.v("Bootstrapping Orchid");
         bootstrap();
 
-        Clog.v("#{$1} providers",         Registrar.providers.size());
+        Clog.v("#{$1} providers",         getRegistrar().resolveSet(OrchidRegistrationProvider.class).size());
         Clog.v("#{$1} resourceSources",   getRegistrar().resolveSet(OrchidResourceSource.class).size());
         Clog.v("#{$1} compilers",         getRegistrar().resolveSet(OrchidCompiler.class).size());
         Clog.v("#{$1} precompilers",      getRegistrar().resolveSet(OrchidPreCompiler.class).size());
@@ -80,7 +80,7 @@ public final class OrchidContext implements OrchidResourceSource {
         Clog.v("#{$1} inlineTagHandlers", getRegistrar().resolveSet(OrchidInlineTagHandler.class).size());
         Clog.v("#{$1} generators",        getRegistrar().resolveSet(OrchidGenerator.class).size());
         Clog.v("#{$1} optionsMap",        getRegistrar().resolveSet(OrchidOption.class).size());
-        Clog.v("#{$1} tasks",             getRegistrar().getSiteTasks().size());
+        Clog.v("#{$1} tasks",             getRegistrar().resolveSet(OrchidTask.class).size());
 
         if (shouldContinue()) {
             getRegistrar().reorderResourceSources();

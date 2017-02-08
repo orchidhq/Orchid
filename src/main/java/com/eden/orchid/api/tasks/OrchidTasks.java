@@ -5,6 +5,8 @@ import com.caseyjbrooks.clog.ClogLogger;
 import com.eden.orchid.api.registration.Contextual;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.Set;
+
 public class OrchidTasks implements Contextual {
 
     public static final String defaultTask = "build";
@@ -15,11 +17,20 @@ public class OrchidTasks implements Contextual {
     }
 
     public void run(String taskName) {
-        if (getRegistrar().getSiteTasks().containsKey(taskName)) {
-            getRegistrar().getSiteTasks().get(taskName).run();
+        Set<OrchidTask> tasks = getRegistrar().resolveSet(OrchidTask.class);
+
+        for(OrchidTask task : tasks) {
+            if(task.getName().equals(taskName)) {
+                task.run();
+                return;
+            }
         }
-        else {
-            getRegistrar().getSiteTasks().get(defaultTask).run();
+
+        for(OrchidTask task : tasks) {
+            if(task.getName().equals(defaultTask)) {
+                task.run();
+                return;
+            }
         }
     }
 

@@ -1,12 +1,13 @@
 package com.eden.orchid.api.tasks;
 
 import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.registration.Prioritized;
 
 /**
  * A Runnable tailored for executing some task in Orchid. The 'name' of this OrchidTask is used on the command-line for
  * non-Javadoc builds to execute an alternative OrchidTask. The default OrchidTask builds the site once.
  */
-public interface OrchidTask extends Runnable, Contextual {
+public interface OrchidTask extends Prioritized, Runnable, Contextual {
 
     /**
      * Return the name of this OrchidTask
@@ -21,5 +22,4 @@ public interface OrchidTask extends Runnable, Contextual {
      * @return the description of this OrchidTask
      */
     String getDescription();
-
 }

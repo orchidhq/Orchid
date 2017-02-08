@@ -15,9 +15,7 @@ import com.eden.orchid.api.registration.OrchidRegistrationProvider;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -27,17 +25,15 @@ public class Registrar implements OrchidRegistrar {
 
     private Map<Class<?>, Object> allObjects = new HashMap<>();
 
-    public static List<OrchidRegistrationProvider> providers = new ArrayList<>();
-
-    private Set<OrchidResourceSource>   resourceSources   = new TreeSet<>();
-    private Set<OrchidCompiler>         compilers         = new TreeSet<>();
-    private Set<OrchidPreCompiler>      precompilers      = new TreeSet<>();
-    private Set<OrchidBlockTagHandler>  blockTagHandlers  = new TreeSet<>();
-    private Set<OrchidInlineTagHandler> inlineTagHandlers = new TreeSet<>();
-    private Set<OrchidGenerator>        generators        = new TreeSet<>();
-    private Set<OrchidOption>           options           = new TreeSet<>();
-
-    private Map<String, OrchidTask> siteTasks = new HashMap<>();
+    private Set<OrchidRegistrationProvider> providers         = new TreeSet<>();
+    private Set<OrchidResourceSource>       resourceSources   = new TreeSet<>();
+    private Set<OrchidCompiler>             compilers         = new TreeSet<>();
+    private Set<OrchidPreCompiler>          precompilers      = new TreeSet<>();
+    private Set<OrchidBlockTagHandler>      blockTagHandlers  = new TreeSet<>();
+    private Set<OrchidInlineTagHandler>     inlineTagHandlers = new TreeSet<>();
+    private Set<OrchidGenerator>            generators        = new TreeSet<>();
+    private Set<OrchidOption>               options           = new TreeSet<>();
+    private Set<OrchidTask>                 tasks             = new TreeSet<>();
 
     @Override
     public void registerProvider(OrchidRegistrationProvider object) {
@@ -64,13 +60,12 @@ public class Registrar implements OrchidRegistrar {
         if (object instanceof OrchidOption) {
             options.add((OrchidOption) object);
         }
+        if (object instanceof OrchidTask) {
+            tasks.add((OrchidTask) object);
+        }
 
         if(object instanceof OrchidResourceSource) {
             resourceSources.add((OrchidResourceSource) object);
-        }
-        if (object instanceof OrchidTask) {
-            OrchidTask task = (OrchidTask) object;
-            siteTasks.put(task.getName(), task);
         }
 
         for (OrchidRegistrationProvider provider : providers) {
@@ -127,6 +122,9 @@ public class Registrar implements OrchidRegistrar {
 
     @Override
     public <T> Set<T> resolveSet(Class<T> clazz) {
+        if(clazz.equals(OrchidRegistrationProvider.class)) {
+            return (Set<T>) providers;
+        }
         if(clazz.equals(OrchidResourceSource.class)) {
             return (Set<T>) resourceSources;
         }
@@ -147,6 +145,9 @@ public class Registrar implements OrchidRegistrar {
         }
         else if(clazz.equals(OrchidOption.class)) {
             return (Set<T>) options;
+        }
+        else if(clazz.equals(OrchidTask.class)) {
+            return (Set<T>) tasks;
         }
 
         return new TreeSet<>();
@@ -182,7 +183,6 @@ public class Registrar implements OrchidRegistrar {
         while(!superclass.equals(Theme.class)) {
             for(OrchidResourceSource resourceSourceEntry : resourceSources) {
                 if(resourceSourceEntry instanceof Theme) {
-                    Clog.v("Reordering theme #{$1}", new Object[]{resourceSourceEntry.getClass().getName()});
                     Theme theme = (Theme) resourceSourceEntry;
                     if (theme.getClass().equals(superclass)) {
                         theme.setResourcePriority((highestThemePriority) - i);
@@ -194,10 +194,5 @@ public class Registrar implements OrchidRegistrar {
             i++;
             superclass = superclass.getSuperclass();
         }
-    }
-
-    @Override
-    public Map<String, OrchidTask> getSiteTasks() {
-        return siteTasks;
     }
 }

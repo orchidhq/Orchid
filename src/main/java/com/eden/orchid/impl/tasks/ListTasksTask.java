@@ -1,12 +1,10 @@
 package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
-
-import java.util.Map;
 
 @AutoRegister
 public class ListTasksTask implements OrchidTask {
@@ -27,9 +25,7 @@ public class ListTasksTask implements OrchidTask {
                 "\n------------------------------------------------------------------------------------" +
                 "\n------------------------------------------------------------------------------------");
 
-        for(Map.Entry<String, OrchidTask> taskEntry : getRegistrar().getSiteTasks().entrySet()) {
-            OrchidTask task = taskEntry.getValue();
-
+        for(OrchidTask task : getRegistrar().resolveSet(OrchidTask.class)) {
             Clog.logger(OrchidTasks.loggerKey, "#{ $0 | fg('magenta') }[#{$1}]#{$0 |reset}", new Object[]{ task.getName() });
 
             for(String line : OrchidUtils.wrapString(task.getDescription(), 80)) {

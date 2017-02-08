@@ -1,7 +1,9 @@
 package com.eden.orchid.api.registration;
 
 public interface Prioritized extends Comparable<Prioritized> {
-    int priority();
+    default int priority() {
+        return 100;
+    }
 
     @Override
     default int compareTo(Prioritized o) {

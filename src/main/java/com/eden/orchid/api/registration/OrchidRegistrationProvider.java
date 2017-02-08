@@ -11,7 +11,7 @@ package com.eden.orchid.api.registration;
  * It is the job of a OrchidRegistrationProvider to manage all Objects being registered with it and what to do with them
  * afterward.
  */
-public interface OrchidRegistrationProvider extends Contextual {
+public interface OrchidRegistrationProvider extends Prioritized, Contextual {
 
     /**
      * Register an Object with this Provider. Registraion should be based on what the object is an instance of.
