@@ -6,7 +6,7 @@
 //        flatDir dirs: '../OrchidGradlePlugin/build/libs'
 //    }
 //    dependencies {
-//        classpath 'com.eden:OrchidGradlePlugin:v0.1.5'
+//        classpath 'com.eden:OrchidGradlePlugin:v0.1.6'
 //    }
 //}
 plugins {
@@ -14,7 +14,7 @@ plugins {
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-    id 'com.eden.orchidplugin' version 'v0.1.5'
+    id 'com.eden.orchidplugin' version 'v0.1.6'
 }
 //apply plugin: 'com.eden.orchidplugin'
 
@@ -63,12 +63,12 @@ dependencies {
     // generate own documentation with Orchid
     orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
 
-    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:91295398eb') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
-    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:696d96861f') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+//    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:91295398eb') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
+//    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:696d96861f') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
 }
 
 // Jacoco Code Coverage
@@ -85,10 +85,17 @@ check.dependsOn jacocoTestReport
 //------------------------------------------------------------------------------
 orchid {
     includeMainConfiguration = true
-    program = "listThemes"
+    task = "listOptions"
+//    task = "listCompilers"
+//    task = "build"
+//    task = "listTasks"
+//    task = "listGenerators"
+//    task = "serve"
+//    task = "listThemes"
 
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+//    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+    theme = 'com.eden.orchid.impl.theme.BasicTheme'
     version = this.version
     baseUrl = 'http://localhost:8080'
 }

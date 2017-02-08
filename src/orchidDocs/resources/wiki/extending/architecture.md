@@ -5,7 +5,7 @@ public static boolean start(RootDoc rootDoc) {
     Orchid.rootDoc = rootDoc;
 
     pluginScan();
-    optionsScan(rootDoc.options());
+    optionsScan(rootDoc.optionsMap());
     if(shouldContinue()) {
         indexingScan();
         generationScan();
@@ -23,11 +23,11 @@ You can see it is pretty simple, overall, taking only 6 steps to produce a beaut
 1) `pluginScan()`: Scan the classpath for all classes annotated with @AutoRegister. Create an instance of each class, 
 ensuring it is able to run its static initializer and register itself, and build an index of all components which will
 be used in the rest of the process.
-2) `optionsScan(rootDoc.options())`: Parse the command-line options using `Option`s registered in step `. These set up 
+2) `optionsScan(rootDoc.optionsMap())`: Parse the command-line optionsMap using `Option`s registered in step `. These set up 
 properties like source and destination directories, build environments, library version, and baseUrl for resolving links.
 3) `shouldContinue()`: Perform a sanity-check to ensure all required compoenents were properly registered before attempting
 to continue. This requires, at the very least, a theme that exists and a destination directory, but may also take into
-account options or components required by the chosen theme.
+account optionsMap or components required by the chosen theme.
 4) `indexingScan()`: Scan all registered `Generator`s and determine all files they _intend_ to generate. Ideally, no 
 files should be written until after this has completed, to ensure that all possible site data is able to be linked to 
 on every page generated.

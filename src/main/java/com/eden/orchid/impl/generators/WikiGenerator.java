@@ -6,10 +6,10 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.impl.options.WikiPathOption;
 import com.eden.orchid.impl.resources.StringResource;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.resources.OrchidPage;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class WikiGenerator implements Generator {
+public class WikiGenerator implements OrchidGenerator {
 
     private List<OrchidPage> wiki;
     private JSONObject siteWiki;
@@ -95,13 +95,13 @@ public class WikiGenerator implements Generator {
     }
 
     private void setupGlossary() {
-        OrchidResource glossary = Orchid.getResources().getResourceDirEntry(wikiBaseDir + "GLOSSARY.md");
+        OrchidResource glossary = Orchid.getContext().getResources().getResourceDirEntry(wikiBaseDir + "GLOSSARY.md");
 
         if(glossary == null) {
             return;
         }
 
-        String content = Orchid.getTheme().compile(glossary.getReference().getExtension(), glossary.getContent());
+        String content = Orchid.getContext().getTheme().compile(glossary.getReference().getExtension(), glossary.getContent());
         Document doc = Jsoup.parse(content);
 
         for (Element h2 : doc.select("h2")) {
@@ -134,13 +134,13 @@ public class WikiGenerator implements Generator {
     }
 
     private void setupSummary() {
-        OrchidResource summary = Orchid.getResources().getResourceDirEntry(wikiBaseDir + "SUMMARY.md");
+        OrchidResource summary = Orchid.getContext().getResources().getResourceDirEntry(wikiBaseDir + "SUMMARY.md");
 
         if(summary == null) {
             return;
         }
 
-        String content = Orchid.getTheme().compile(summary.getReference().getExtension(), summary.getContent());
+        String content = Orchid.getContext().getTheme().compile(summary.getReference().getExtension(), summary.getContent());
         Document doc = Jsoup.parse(content);
 
         Elements links = doc.select("a[href]");
@@ -151,7 +151,7 @@ public class WikiGenerator implements Generator {
             String file = wikiBaseDir + a.attr("href");
             String path = wikiBaseDir + FilenameUtils.removeExtension(a.attr("href"));
 
-            OrchidResource resource = Orchid.getResources().getResourceDirEntry(file);
+            OrchidResource resource = Orchid.getContext().getResources().getResourceDirEntry(file);
 
             if(resource == null) {
                 Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{ file });

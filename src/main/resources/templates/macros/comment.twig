@@ -1,14 +1,14 @@
-{%- macro formatCommentPreview(comment, options) -%}
+{%- macro formatCommentPreview(comment, optionsMap) -%}
     {% if comment.shortDescription %}
-        {{ comment.shortDescription | compileAs(options.commentExt) }}
+        {{ comment.shortDescription | compileAs(optionsMap.commentExt) }}
     {% endif %}
 {%- endmacro -%}
 
-{%- macro formatComment(comment, options) -%}
+{%- macro formatComment(comment, optionsMap) -%}
     {% if comment.inlineTags %}
         <div class="inlineComments">
             <p>
-                {% filter compileAs(options.commentExt) %}
+                {% filter compileAs(optionsMap.commentExt) %}
                     {%- for tag in comment.inlineTags -%}
                         {% include [concat('includes/tag/inline/', tag.kind, '.twig'), 'includes/tag/inline/_default.twig']
                         ignore missing

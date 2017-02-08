@@ -1,33 +1,23 @@
 package com.eden.orchid;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.generators.SiteGenerators;
+import com.eden.orchid.api.options.OrchidOptions;
+import com.eden.orchid.api.registration.OrchidRegistrar;
+import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.impl.registration.Registrar;
 import com.eden.orchid.impl.resources.OrchidFileResources;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.options.SiteOptions;
-import com.eden.orchid.programs.SitePrograms;
-import com.eden.orchid.resources.OrchidResources;
-import com.eden.orchid.resources.ResourceSource;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.RegistrationProvider;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import org.json.JSONObject;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
-@AutoRegister
-public final class Orchid implements ResourceSource {
+/**
+ * This is the main entry point to the Orchid build process. It does little more than create a Context for Orchid to run
+ * within, and then set that context into motion. It is the single point-of-entry for starting the Orchid process; both
+ * Javadoc's `start` method and the Java `main` method are in here, which create the appropriate OrchidContext and then
+ * run a single Orchid task.
+ */
+public final class Orchid {
 
 // Doclet hackery to allow this to parse documentation as expected and not crash...
 //----------------------------------------------------------------------------------------------------------------------
@@ -40,7 +30,13 @@ public final class Orchid implements ResourceSource {
      * @return the number of arguments it expects from the command line
      */
     public static int optionLength(String option) {
-        return SiteOptions.optionLength(option);
+        if(earlyUseOptions == null) {
+            registrar = new Registrar();
+            registrar.addToResolver(new OrchidFileResources());
+            earlyUseOptions = registrar.resolve(OrchidOptions.class);
+        }
+
+        return earlyUseOptions.optionLength(option);
     }
 
     /**
@@ -56,89 +52,21 @@ public final class Orchid implements ResourceSource {
 // Data Members, Getters, Setters
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static List<RegistrationProvider> providers;
-    private static JSONObject root;
-    private static RootDoc rootDoc;
-    private static Theme theme;
-    private static OrchidResources resources;
-    private static Map<String, String[]> options;
+    private static OrchidContext context;
+    private static OrchidRegistrar registrar;
+    private static OrchidOptions earlyUseOptions;
 
-    /**
-     * Swashbuckling horrors lead to the fight. All pants fight dead, swashbuckling moons. The lagoon hobbles punishment like a swashbuckling dubloon. Sail me cannibal, ye stormy son! Aye there's nothing like the coal-black grace waving on the pants.
-     */
-    public Map<List<Set<? extends Set<? super Option>>>, Map<List<? super Option>, Map<?, String>>> ridiculousField;
+    public static OrchidContext getContext() { return context; }
 
-    /**
-     * I can't believe something like this even exists. Whoever made this is just sick.
-     *
-     * @throws Exception
-     * @see Option
-     * @param ridiculousParam sdasdf Damn yer shipmate, feed the pegleg. How salty. You hail like a yardarm. The undead corsair begrudgingly crushes the ale. The gibbet sails with strength, trade the seychelles until it sings. Sons stutter with grace at the dark madagascar! Swashbuckling beauties lead to the treasure. Arg! Pieces o' endurance are forever shiny.
-     * @param param2 sasdf
-     * @param param3 asdfasd
-     */
-    public Orchid(Map<List<Set<? extends Set<? super Option>>>, Map<List<? super Option>, Map<?, String>>> ridiculousParam, String param2, Option param3) {
-
+    public static OrchidRegistrar getRegistrar() {
+        return registrar;
     }
 
-    public Orchid() {
-
-    }
-
-    /**
-     * An _absolutely ridiculous_ thing to do ridiculous things. **Ho-ho-ho!** {@link Option} of malaria. C'mon, yer not enduring me without a fortune! Golly gosh! Pieces o' halitosis are forever weird. Daggers die from beauties like big pirates. Scabbards rise with death at the wet madagascar! Lads travel with adventure at the dark la marsa beach!
-     *
-     * @see Option
-     * @see Generator
-     * @since v0.1.0
-     * @return something ridiculous
-     * @deprecated Please use a less ridiculous method instead
-     */
-    public static Map<List<Set<? extends Set<? super Option>>>, Map<List<? super Option>, Map<?, String>>> ridiculousMethod() {
-        return null;
-    }
-
-    public static JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
-
-    public static List<RegistrationProvider> getProviders() { return providers; }
-
-    public static JSONObject getRoot() { return root; }
-
-    public static RootDoc getRootDoc() { return rootDoc; }
-
-    public static Theme getTheme() { return theme; }
-
-    public static OrchidResources getResources() { return resources; }
-
-    public static Map<String, String[]> getOptions() { return options; }
-
-    public static void setProviders(List<RegistrationProvider> providers) { Orchid.providers = providers; }
-
-    public static void setRoot(JSONObject root) { Orchid.root = root; }
-
-    public static void setRootDoc(RootDoc rootDoc) { Orchid.rootDoc = rootDoc; }
-
-    public static void setTheme(Theme theme) { Orchid.theme = theme; }
-
-    public static void setResources(OrchidResources resources) { Orchid.resources = resources; }
-
-    public static void setOptions(Map<String, String[]> options) { Orchid.options = options; }
-
-    @Override
-    public int getResourcePriority() {
-        return 10;
-    }
-
-    @Override
-    public void setResourcePriority(int priority) {
-
-    }
-
-// Entry points, main routines
+    // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void main(String[] args) {
-        String program = SitePrograms.defaultProgram;
+        String task = OrchidTasks.defaultTask;
 
         Map<String, String[]> options = new HashMap<>();
         for (String arg : args) {
@@ -147,18 +75,16 @@ public final class Orchid implements ResourceSource {
                 options.put(argPieces[0], argPieces);
             }
             else {
-                program = arg;
+                task = arg;
             }
         }
 
-        boolean success = runOrchid(
-                program,
-                new ArrayList<>(),
-                new JSONObject(),
-                null,
-                null,
-                new OrchidFileResources(),
-                options);
+        registrar = new Registrar();
+        registrar.addToResolver(new OrchidFileResources());
+
+        context = new OrchidContext(options);
+
+        boolean success = context.run(task);
 
         System.exit((success) ? 0 : 1);
     }
@@ -169,135 +95,11 @@ public final class Orchid implements ResourceSource {
             options.put(a[0], a);
         }
 
-        SiteOptions.optionsParsers = new TreeMap<>(Collections.reverseOrder());
+        // registrar was already created during 'optionLength' phase
+        registrar.addToResolver(rootDoc);
 
-        return runOrchid(
-                SitePrograms.defaultProgram,
-                new ArrayList<>(),
-                new JSONObject(),
-                rootDoc,
-                null,
-                new OrchidFileResources(),
-                options);
-    }
+        context = new OrchidContext(options);
 
-// Internal routines orchestrated by main routines
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Inject dependencies to Orchid body and run program
-     *
-     * @param programName the name of the Program to run
-     * @param providers a list of available Providers. More will be added later
-     * @param root the root JSON object to collect data into
-     * @param rootDoc the RootDoc of our parsed javadoc code
-     * @param theme the selected Theme
-     * @param resources the object used to find resource files and write outputs
-     * @param options a map of valid command line arguments. Sometimes the list of options can be quite long, but if it is done right then you should be able to read every last one of the word that have been so carefully placed into this element that clearly is not long enough to fit everything perfectly. So let's see what it does!
-     * @return true if the program exited cleanly, false otherwise
-     */
-    public static boolean runOrchid(
-            String programName,
-            List<RegistrationProvider> providers,
-            JSONObject root,
-            RootDoc rootDoc,
-            Theme theme,
-            OrchidResources resources,
-            Map<String, String[]> options) {
-
-        Orchid.providers = providers;
-        Orchid.root = root;
-        Orchid.rootDoc = rootDoc;
-        Orchid.theme = theme;
-        Orchid.resources = resources;
-        Orchid.options = options;
-
-        providers.add(resources);
-
-        bootstrap();
-
-        if (shouldContinue()) {
-            Orchid.getResources().reorderResourceSources();
-            Orchid.theme.onThemeSet();
-            SitePrograms.runProgram(programName);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public static void bootstrap() {
-        providerScan();
-        pluginScan();
-        optionsScan();
-    }
-
-    public static void build() {
-        indexingScan();
-        generationScan();
-        generateHomepage();
-    }
-
-    private static void providerScan() {
-        FastClasspathScanner scanner = new FastClasspathScanner();
-        scanner.matchClassesImplementing(RegistrationProvider.class, (matchingClass) -> {
-            try {
-                for(Annotation annotation : matchingClass.getAnnotations()) {
-                    if(annotation.annotationType().equals(AutoRegister.class)) {
-                        RegistrationProvider instance = matchingClass.newInstance();
-                        providers.add(instance);
-                    }
-                }
-            }
-            catch (IllegalAccessException | InstantiationException e) {
-                Clog.e("RegistrationProvider class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {matchingClass.getName()});
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        scanner.scan();
-    }
-
-    private static void pluginScan() {
-        FastClasspathScanner scanner = new FastClasspathScanner();
-        scanner.matchClassesWithAnnotation(AutoRegister.class, (matchingClass) -> {
-            try {
-                Object instance = matchingClass.newInstance();
-                for (RegistrationProvider provider : providers) {
-                    provider.register(instance);
-                }
-            }
-            catch (IllegalAccessException | InstantiationException e) {
-                Clog.e("AutoRegistered class #{$1} could not be created. Make sure it has a public no-arg constructor.", new Object[] {matchingClass.getName()});
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        scanner.scan();
-    }
-
-    private static void optionsScan() {
-        root.put("options", new JSONObject());
-        SiteOptions.parseOptions(options, root.getJSONObject("options"));
-    }
-
-    private static boolean shouldContinue() {
-        return SiteOptions.shouldContinue() && (theme != null) && theme.shouldContinue();
-    }
-
-    private static void indexingScan() {
-        root.put("index", new JSONObject());
-        SiteGenerators.startIndexing(root.getJSONObject("index"));
-    }
-
-    private static void generationScan() {
-        SiteGenerators.startGeneration();
-    }
-
-    private static void generateHomepage() {
-        theme.generateHomepage();
+        return context.run(OrchidTasks.defaultTask);
     }
 }

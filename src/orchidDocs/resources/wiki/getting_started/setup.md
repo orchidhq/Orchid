@@ -47,27 +47,27 @@ javadoc {
     source = sourceSets.main.allJava
 
     // add all 'orchidDocsCompile' dependencies to the doclet classpath
-    options.docletpath.addAll(configurations.orchidDocsCompile)
+    optionsMap.docletpath.addAll(configurations.orchidDocsCompile)
     
     // Set Orchid as the doclet class (don't change)
-    options.doclet = 'com.eden.orchid.Orchid'
+    optionsMap.doclet = 'com.eden.orchid.Orchid'
     
-    // Arbitrary options to be passed to Orchid as command-line args
+    // Arbitrary optionsMap to be passed to Orchid as command-line args
 
     // Set the theme as the fully-qualified class name of the Theme (required)
-    options.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
+    optionsMap.addStringOption("theme", "com.eden.orchid.editorial.EditorialTheme")
     
     // Specify an absolute path to be used as the resource directory. Your custom configurations, pages, etc. will live here.
     // If set up exactly as below, it will be in '{project root}/src/orchidDocs/resources' (required)
-    options.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
+    optionsMap.addStringOption("resourcesDir", sourceSets.orchidDocs.resources.srcDirs[0].toString())
 
     // Sets the build scripts version as the site version, which can be used to ensure up-to-date version information 
     // in your site (optional)
-    options.addStringOption("v", version)
+    optionsMap.addStringOption("v", version)
     
     // Sets the baseUrl so links become absolute. If publishing on Github Pages, this is necessary to allow resources
     // to be loaded properly and links to be navigable
-    options.addStringOption("baseUrl", "http://localhost:8080")
+    optionsMap.addStringOption("baseUrl", "http://localhost:8080")
 }
 
 // The following closures are standard Gradle javadoc publishing 

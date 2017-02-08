@@ -3,10 +3,11 @@ package com.eden.orchid.impl.resources;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.resources.OrchidReference;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.resources.OrchidResources;
-import com.eden.orchid.resources.ResourceSource;
+import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.OrchidResourceSource;
+import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.impl.registration.Registrar;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -27,7 +28,7 @@ import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidFileResources extends OrchidResources {
+public class OrchidFileResources implements OrchidResources {
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -77,7 +78,7 @@ public class OrchidFileResources extends OrchidResources {
             return new FileResource(file);
         }
 
-        for(Map.Entry<Integer, ResourceSource> source : getResourceSources().entrySet()) {
+        for(Map.Entry<Integer, OrchidResourceSource> source : Registrar.resourceSources.entrySet()) {
             if(source.getKey() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getValue().getClass());
@@ -120,7 +121,7 @@ public class OrchidFileResources extends OrchidResources {
             entries.put(relative, entry);
         }
 
-        for(Map.Entry<Integer, ResourceSource> source : getResourceSources().entrySet()) {
+        for(Map.Entry<Integer, OrchidResourceSource> source : Registrar.resourceSources.entrySet()) {
             if(source.getKey() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getValue().getClass());
@@ -162,8 +163,8 @@ public class OrchidFileResources extends OrchidResources {
         fileName = fileName.replaceAll("/", File.separator);
 
         // if we've specified a resources dir, use that
-        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
-            File file = new File(Orchid.query("options.resourcesDir") + File.separator + fileName);
+        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+            File file = new File(Orchid.getContext().query("options.resourcesDir") + File.separator + fileName);
 
             if(file.exists() && !file.isDirectory()) {
                 resourceFile = file;
@@ -196,12 +197,14 @@ public class OrchidFileResources extends OrchidResources {
     }
 
     public JarEntry getJarFile(JarFile jarfile, String fileName) {
-        Enumeration<JarEntry> entries = jarfile.entries();
-        while (entries.hasMoreElements()) {
-            JarEntry entry = entries.nextElement();
+        if(jarfile != null) {
+            Enumeration<JarEntry> entries = jarfile.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
 
-            if (entry.getName().endsWith(fileName) && !entry.isDirectory()) {
-                return entry;
+                if (entry.getName().endsWith(fileName) && !entry.isDirectory()) {
+                    return entry;
+                }
             }
         }
 
@@ -221,8 +224,8 @@ public class OrchidFileResources extends OrchidResources {
         ArrayList<File> files = new ArrayList<>();
 
         // if we've specified a resources dir, use that
-        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
-            String fullPath = Orchid.query("options.resourcesDir") + File.separator + path;
+        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+            String fullPath = Orchid.getContext().query("options.resourcesDir") + File.separator + path;
             File file = new File(fullPath);
 
             if(file.exists() && file.isDirectory()) {
@@ -283,8 +286,8 @@ public class OrchidFileResources extends OrchidResources {
     }
 
     public OrchidResource getProjectReadme() {
-        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
-            String resourceDir = Orchid.query("options.resourcesDir").toString();
+        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+            String resourceDir = Orchid.getContext().query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
 
@@ -320,8 +323,8 @@ public class OrchidFileResources extends OrchidResources {
     }
 
     public OrchidResource getProjectLicense() {
-        if(!EdenUtils.isEmpty(Orchid.query("options.resourcesDir"))) {
-            String resourceDir = Orchid.query("options.resourcesDir").toString();
+        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+            String resourceDir = Orchid.getContext().query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
 
@@ -384,18 +387,18 @@ public class OrchidFileResources extends OrchidResources {
             templateContent = (EdenUtils.isEmpty(template)) ? "" : template;
         }
 
-        JSONObject templateVariables = new JSONObject(Orchid.getRoot().toMap());
+        JSONObject templateVariables = new JSONObject(Orchid.getContext().getRoot().toMap());
         templateVariables.put("page", pageData);
         if(!EdenUtils.isEmpty(alias)) {
             templateVariables.put(alias, pageData);
         }
 
-        String content = Orchid.getTheme().compile(extension, templateContent, templateVariables);
+        String content = Orchid.getContext().getTheme().compile(extension, templateContent, templateVariables);
 
         String outputPath = reference.getFullPath();
         String outputName = reference.getFileName() + "." + reference.getOutputExtension();
 
-        outputPath = Orchid.query("options.d").getElement().toString() + File.separator + outputPath.replaceAll("/", File.separator);
+        outputPath = Orchid.getContext().query("options.d").getElement().toString() + File.separator + outputPath.replaceAll("/", File.separator);
 
         File outputFile = new File(outputPath);
         if (!outputFile.exists()) {

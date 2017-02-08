@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.docParser.docs;
 
-import com.eden.orchid.resources.OrchidReference;
+import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.resources.OrchidReference;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ConstructorDoc;
 import com.sun.javadoc.FieldDoc;
@@ -10,26 +11,26 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-public class ClassDocParser {
+public class ClassDocParser implements Contextual {
 
-    public static JSONObject loadClassData(ClassDoc classDoc) {
-        JSONObject object = ClassDocParser.getBasicClassObject(classDoc);
+    public JSONObject loadClassData(ClassDoc classDoc) {
+        JSONObject object = getBasicClassObject(classDoc);
 
-        object.put("info", ClassDocParser.getClassInfo(classDoc));
-        object.put("constructors", ClassDocParser.getClassConstructors(classDoc));
-        object.put("methods", ClassDocParser.getClassMethods(classDoc));
-        object.put("fields", ClassDocParser.getClassFields(classDoc));
+        object.put("info", getClassInfo(classDoc));
+        object.put("constructors", getClassConstructors(classDoc));
+        object.put("methods", getClassMethods(classDoc));
+        object.put("fields", getClassFields(classDoc));
 
         return object;
     }
 
-    public static JSONObject getBasicClassObject(ClassDoc classDoc) {
+    public JSONObject getBasicClassObject(ClassDoc classDoc) {
         JSONObject object = new JSONObject();
 
         return object;
     }
 
-    public static OrchidReference getReference(ClassDoc classDoc) {
+    public OrchidReference getReference(ClassDoc classDoc) {
         OrchidReference ref = new OrchidReference("classes", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + ".html");
         ref.setUsePrettyUrl(true);
 
@@ -43,25 +44,25 @@ public class ClassDocParser {
      * @param classDoc the classdoc to extract information for
      * @return the collected info
      */
-    public static JSONObject getClassInfo(ClassDoc classDoc) {
+    public JSONObject getClassInfo(ClassDoc classDoc) {
         JSONObject object = new JSONObject();
         object.put("name", classDoc.simpleTypeName());
         object.put("package", classDoc.containingPackage().name());
         object.put("qualifiedName", classDoc.qualifiedTypeName());
         object.put("url", getReference(classDoc).toString());
-        object.put("comment", CommentParser.getCommentObject(classDoc));
+        object.put("comment", getContext().getCommentParser().getCommentObject(classDoc));
 
         return object;
     }
 
-    public static JSONArray getClassConstructors(ClassDoc classDoc) {
+    public JSONArray getClassConstructors(ClassDoc classDoc) {
         JSONArray ctors = new JSONArray();
 
         for(ConstructorDoc cDoc : classDoc.constructors()) {
             JSONObject ctor = new JSONObject();
-            ctor.put("comment", CommentParser.getCommentObject(cDoc));
-            ctor.put("annotations", AnnotationParser.getAnnotations(cDoc));
-            ctor.put("parameters", ParameterParser.getParameters(cDoc));
+            ctor.put("comment", getContext().getCommentParser().getCommentObject(cDoc));
+            ctor.put("annotations", getContext().getAnnotationParser().getAnnotations(cDoc));
+            ctor.put("parameters", getContext().getParameterParser().getParameters(cDoc));
 
             ctors.put(ctor);
         }
@@ -69,15 +70,15 @@ public class ClassDocParser {
         return ctors;
     }
 
-    public static JSONArray getClassMethods(ClassDoc classDoc) {
+    public JSONArray getClassMethods(ClassDoc classDoc) {
         JSONArray methods = new JSONArray();
 
         for(MethodDoc mDoc : classDoc.methods()) {
             JSONObject method = new JSONObject();
-            method.put("comment", CommentParser.getCommentObject(mDoc));
-            method.put("annotations", AnnotationParser.getAnnotations(mDoc));
-            method.put("returns", TypeParser.getTypeObject(mDoc.returnType()));
-            method.put("parameters", ParameterParser.getParameters(mDoc));
+            method.put("comment", getContext().getCommentParser().getCommentObject(mDoc));
+            method.put("annotations", getContext().getAnnotationParser().getAnnotations(mDoc));
+            method.put("returns", getContext().getTypeParser().getTypeObject(mDoc.returnType()));
+            method.put("parameters", getContext().getParameterParser().getParameters(mDoc));
             method.put("name", mDoc.name());
 
             methods.put(method);
@@ -85,16 +86,15 @@ public class ClassDocParser {
         return methods;
     }
 
-    public static JSONArray getClassFields(ClassDoc classDoc) {
+    public JSONArray getClassFields(ClassDoc classDoc) {
         JSONArray fields = new JSONArray();
 
         for(FieldDoc fDoc : classDoc.fields()) {
             JSONObject field = new JSONObject();
-            field.put("comment", CommentParser.getCommentObject(fDoc));
-            field.put("annotations", AnnotationParser.getAnnotations(fDoc));
+            field.put("comment", getContext().getCommentParser().getCommentObject(fDoc));
+            field.put("annotations", getContext().getAnnotationParser().getAnnotations(fDoc));
             field.put("name", fDoc.name());
-            field.put("type", TypeParser.getTypeObject(fDoc.type()));
-
+            field.put("type", getContext().getTypeParser().getTypeObject(fDoc.type()));
 
             fields.put(field);
         }

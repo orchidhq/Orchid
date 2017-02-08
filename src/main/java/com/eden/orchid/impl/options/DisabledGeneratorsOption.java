@@ -1,12 +1,12 @@
 package com.eden.orchid.impl.options;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONArray;
 
 @AutoRegister
-public class DisabledGeneratorsOption implements Option {
+public class DisabledGeneratorsOption implements OrchidOption {
 
     @Override
     public String getFlag() {

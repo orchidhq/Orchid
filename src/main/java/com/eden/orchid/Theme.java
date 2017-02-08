@@ -2,23 +2,22 @@ package com.eden.orchid;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.compilers.Compiler;
-import com.eden.orchid.compilers.PreCompiler;
-import com.eden.orchid.compilers.SiteCompilers;
+import com.eden.orchid.api.compilers.OrchidCompiler;
+import com.eden.orchid.api.compilers.OrchidPreCompiler;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
 import com.eden.orchid.impl.resources.StringResource;
-import com.eden.orchid.resources.OrchidPage;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.resources.ResourceSource;
 import org.json.JSONObject;
 
 import java.util.Map;
 
-public abstract class Theme implements ResourceSource {
+public abstract class Theme implements OrchidResourceSource {
 
     private int resourcePriority = 100;
 
-    public Class<? extends PreCompiler> getPrecompilerClass() {
+    public Class<? extends OrchidPreCompiler> getPrecompilerClass() {
         return FrontMatterPrecompiler.class;
     }
 
@@ -37,20 +36,20 @@ public abstract class Theme implements ResourceSource {
 
     /**
      * A callback fired on the selected theme when it is first set. By this time, Orchid has registered all compoenents
-     * and parsed all Options, but has not yet started a Program.
+     * and parsed all Options, but has not yet started a OrchidTask.
      */
     public void onThemeSet() {
 
     }
 
     public void generateHomepage() {
-        JSONObject frontPageData = new JSONObject(Orchid.getRoot().toMap());
-        OrchidResource readmeResource = Orchid.getResources().getProjectReadme();
+        JSONObject frontPageData = new JSONObject(Orchid.getContext().getRoot().toMap());
+        OrchidResource readmeResource = Orchid.getContext().getResources().getProjectReadme();
         if (readmeResource != null) {
             frontPageData.put("readme", compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
         }
 
-        OrchidResource licenseResource = Orchid.getResources().getProjectLicense();
+        OrchidResource licenseResource = Orchid.getContext().getResources().getProjectLicense();
         if (licenseResource != null) {
             frontPageData.put("license", compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
         }
@@ -62,7 +61,7 @@ public abstract class Theme implements ResourceSource {
     }
 
     public String compile(String extension, String input, Object... data) {
-        for (Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
+        for (Map.Entry<Integer, OrchidCompiler> compiler : getRegistrar().resolveMap(OrchidCompiler.class).entrySet()) {
             if (acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
                 return compiler.getValue().compile(extension, input, data);
             }
@@ -72,7 +71,7 @@ public abstract class Theme implements ResourceSource {
     }
 
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
-        for (Map.Entry<Integer, PreCompiler> compiler : SiteCompilers.precompilers.entrySet()) {
+        for (Map.Entry<Integer, OrchidPreCompiler> compiler : getRegistrar().resolveMap(OrchidPreCompiler.class).entrySet()) {
             if (compiler.getValue().getClass().equals(getPrecompilerClass())) {
                 return compiler.getValue().getEmbeddedData(input);
             }
@@ -82,7 +81,7 @@ public abstract class Theme implements ResourceSource {
     }
 
     public String getOutputExtension(String extension) {
-        for (Map.Entry<Integer, Compiler> compiler : SiteCompilers.compilers.entrySet()) {
+        for (Map.Entry<Integer, OrchidCompiler> compiler : getRegistrar().resolveMap(OrchidCompiler.class).entrySet()) {
             if (acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
                 return compiler.getValue().getOutputExtension();
             }

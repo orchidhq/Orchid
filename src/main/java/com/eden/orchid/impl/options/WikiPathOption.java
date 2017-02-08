@@ -1,11 +1,11 @@
 package com.eden.orchid.impl.options;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.AutoRegister;
 
 @AutoRegister
-public class WikiPathOption implements Option {
+public class WikiPathOption implements OrchidOption {
 
     public static String path;
 

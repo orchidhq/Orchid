@@ -1,14 +1,14 @@
 package com.eden.orchid.impl.docParser.tags;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.docParser.BlockTagHandler;
-import com.eden.orchid.docParser.InlineTagHandler;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
+import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
+import com.eden.orchid.api.registration.AutoRegister;
 import com.sun.javadoc.Tag;
 import org.json.JSONArray;
 
 @AutoRegister
-public class SeeTag implements InlineTagHandler, BlockTagHandler {
+public class SeeTag implements OrchidInlineTagHandler, OrchidBlockTagHandler {
     @Override
     public int priority() {
         return 40;

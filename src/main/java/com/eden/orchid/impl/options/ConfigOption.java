@@ -2,8 +2,8 @@ package com.eden.orchid.impl.options;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.AutoRegister;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.Map;
 
 @AutoRegister
-public class ConfigOption implements Option {
+public class ConfigOption implements OrchidOption {
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 
-    private static JSONObject configFile;
+    private JSONObject configFile;
 
     @Override
     public String getFlag() {
@@ -32,7 +32,7 @@ public class ConfigOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        JSONElement res = Orchid.query("options.resourcesDir");
+        JSONElement res = Orchid.getContext().query("options.resourcesDir");
         if(res != null) {
             parseConfigFile(res.toString());
             applyConfigFile();
@@ -69,8 +69,8 @@ public class ConfigOption implements Option {
         JSONObject configOptions = new JSONObject();
         String env = "";
 
-        if(Orchid.query("options.environment") != null) {
-            env = Orchid.query("options.environment").toString();
+        if(Orchid.getContext().query("options.environment") != null) {
+            env = Orchid.getContext().query("options.environment").toString();
         }
 
         for(String configExtension : dataExtensions) {
@@ -138,7 +138,7 @@ public class ConfigOption implements Option {
 
     private void applyConfigFile() {
         if(configFile != null && configFile.length() > 0) {
-            JSONObject options = (JSONObject) Orchid.query("options").getElement();
+            JSONObject options = (JSONObject) Orchid.getContext().query("options").getElement();
             for(String key : configFile.keySet()) {
                 options.put(key, configFile.get(key));
             }

@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class AnnotationParser {
 
-    public static JSONArray getAnnotations(ProgramElementDoc doc) {
+    public JSONArray getAnnotations(ProgramElementDoc doc) {
         JSONArray annotations = new JSONArray();
 
         for(AnnotationDesc a : doc.annotations()) {

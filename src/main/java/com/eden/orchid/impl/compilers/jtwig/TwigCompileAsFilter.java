@@ -1,7 +1,7 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
@@ -33,6 +33,6 @@ public class TwigCompileAsFilter implements JtwigFunction {
         String text = fnParams.get(0).toString();
         String extension = fnParams.get(1).toString();
 
-        return Orchid.getTheme().compile(extension, text, new JSONObject(Orchid.getRoot().toMap()));
+        return Orchid.getContext().getTheme().compile(extension, text, new JSONObject(Orchid.getContext().getRoot().toMap()));
     }
 }

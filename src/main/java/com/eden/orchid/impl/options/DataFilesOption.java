@@ -2,8 +2,8 @@ package com.eden.orchid.impl.options;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.AutoRegister;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @AutoRegister
-public class DataFilesOption implements Option {
+public class DataFilesOption implements OrchidOption {
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 
     @Override
@@ -34,7 +34,7 @@ public class DataFilesOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        JSONElement res = Orchid.query("options.resourcesDir");
+        JSONElement res = Orchid.getContext().query("options.resourcesDir");
         if(res != null) {
             return parseDataFiles(res.toString());
         }

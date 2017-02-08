@@ -1,8 +1,8 @@
 package com.eden.orchid.impl.resources;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.resources.OrchidReference;
-import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.resources.OrchidResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

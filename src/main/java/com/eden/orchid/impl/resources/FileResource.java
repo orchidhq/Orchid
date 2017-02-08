@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.resources;
 
-import com.eden.orchid.resources.OrchidReference;
+import com.eden.orchid.api.resources.OrchidReference;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;

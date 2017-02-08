@@ -1,13 +1,13 @@
 package com.eden.orchid.impl.generators.javadoc;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.Orchid;
-import com.eden.orchid.generators.Generator;
+import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.impl.resources.JsonResource;
-import com.eden.orchid.resources.OrchidPage;
-import com.eden.orchid.resources.OrchidReference;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.RootDoc;
 import okhttp3.OkHttpClient;
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class ExternalIndexGenerator implements Generator {
+public class ExternalIndexGenerator implements OrchidGenerator {
 
-    private static OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient();
     public JSONArray externalClasses;
     private List<OrchidPage> meta;
     private JSONObject siteAssets;
@@ -45,7 +45,7 @@ public class ExternalIndexGenerator implements Generator {
 
     @Override
     public JSONElement startIndexing() {
-        RootDoc root = Orchid.getRootDoc();
+        RootDoc root = getContext().getRootDoc();
 
         if(root == null) {
             return null;
@@ -72,7 +72,7 @@ public class ExternalIndexGenerator implements Generator {
 
     @Override
     public void startGeneration() {
-        RootDoc root = Orchid.getRootDoc();
+        RootDoc root = getContext().getRootDoc();
 
         if(root == null) {
             return;
@@ -84,11 +84,13 @@ public class ExternalIndexGenerator implements Generator {
     }
 
     private void loadExternalClasses() {
-        Object additionalClasses = Orchid.query("options.data.additionalClasses").getElement();
+        if(!EdenUtils.isEmpty(getContext().query("options.data.additionalClasses"))) {
+            Object additionalClasses = getContext().query("options.data.additionalClasses").getElement();
 
-        if(additionalClasses instanceof JSONArray) {
-            for(int i = 0; i < ((JSONArray) additionalClasses).length(); i++) {
-                loadAdditionalFile(((JSONArray) additionalClasses).getString(i));
+            if (additionalClasses instanceof JSONArray) {
+                for (int i = 0; i < ((JSONArray) additionalClasses).length(); i++) {
+                    loadAdditionalFile(((JSONArray) additionalClasses).getString(i));
+                }
             }
         }
     }

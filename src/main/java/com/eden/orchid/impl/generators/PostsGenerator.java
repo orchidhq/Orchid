@@ -3,10 +3,10 @@ package com.eden.orchid.impl.generators;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.resources.OrchidPage;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class PostsGenerator implements Generator {
+public class PostsGenerator implements OrchidGenerator {
 
     private List<OrchidPage> posts;
 
@@ -37,7 +37,7 @@ public class PostsGenerator implements Generator {
     public JSONElement startIndexing() {
         JSONObject sitePosts = new JSONObject();
 
-        List<OrchidResource> resources = Orchid.getResources().getResourceDirEntries("posts", null, true);
+        List<OrchidResource> resources = Orchid.getContext().getResources().getResourceDirEntries("posts", null, true);
         posts = new ArrayList<>();
 
         for (OrchidResource entry : resources) {

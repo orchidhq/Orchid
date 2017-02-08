@@ -2,10 +2,10 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.resources.OrchidPage;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class AssetsGenerator implements Generator {
+public class AssetsGenerator implements OrchidGenerator {
 
     private List<OrchidPage> assets;
 
@@ -36,7 +36,7 @@ public class AssetsGenerator implements Generator {
     public JSONElement startIndexing() {
         JSONObject siteAssets = new JSONObject();
 
-        List<OrchidResource> resources = Orchid.getResources().getResourceEntries("assets", null, true);
+        List<OrchidResource> resources = Orchid.getContext().getResources().getResourceEntries("assets", null, true);
         assets = new ArrayList<>();
 
         for (OrchidResource entry : resources) {
@@ -52,7 +52,7 @@ public class AssetsGenerator implements Generator {
             OrchidUtils.buildTaxonomy(entry, siteAssets, index);
         }
 
-        return new JSONElement(siteAssets.getJSONObject("assets"));
+        return new JSONElement(siteAssets.optJSONObject("assets"));
     }
 
     @Override

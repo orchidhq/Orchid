@@ -4,7 +4,8 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.impl.compilers.jtwig.TwigWalkMapFilter;
-import com.eden.orchid.resources.OrchidResource;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.sun.javadoc.Tag;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,8 +21,8 @@ public final class OrchidUtils {
     public static String applyBaseUrl(String url) {
         String baseUrl = "";
 
-        if (Orchid.query("options.baseUrl") != null) {
-            baseUrl = Orchid.query("options.baseUrl").toString();
+        if (Orchid.getContext().query("options.baseUrl") != null) {
+            baseUrl = Orchid.getContext().query("options.baseUrl").toString();
         }
 
         return baseUrl + File.separator + url;
@@ -65,15 +66,15 @@ public final class OrchidUtils {
     }
 
     public static String linkTo(String link) {
-        if(Orchid.query("index.internalClasses") != null) {
-            String s = findInMap(link, (JSONObject) Orchid.query("index.internalClasses").getElement());
+        if(Orchid.getContext().query("index.internalClasses") != null) {
+            String s = findInMap(link, (JSONObject) Orchid.getContext().query("index.internalClasses").getElement());
             if(!EdenUtils.isEmpty(s)) {
                 return s;
             }
         }
 
-        if(Orchid.query("index.externalClasses") != null) {
-            String s = findInMap(link, (JSONObject) Orchid.query("index.externalClasses").getElement());
+        if(Orchid.getContext().query("index.externalClasses") != null) {
+            String s = findInMap(link, (JSONObject) Orchid.getContext().query("index.externalClasses").getElement());
             if(!EdenUtils.isEmpty(s)) {
                 return s;
             }
@@ -120,5 +121,13 @@ public final class OrchidUtils {
         }
 
         return matchList;
+    }
+
+    public static String getText(Tag[] tags) {
+        String text = "";
+        for(Tag tag : tags) {
+            text += tag.text();
+        }
+        return text;
     }
 }

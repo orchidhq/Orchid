@@ -2,13 +2,12 @@ package com.eden.orchid.impl.generators.javadoc;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.generators.Generator;
-import com.eden.orchid.impl.docParser.docs.ClassDocParser;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.impl.resources.JsonResource;
-import com.eden.orchid.resources.OrchidPage;
-import com.eden.orchid.resources.OrchidReference;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class InternalIndexGenerator implements Generator {
+public class InternalIndexGenerator implements OrchidGenerator {
 
     public JSONArray internalClasses;
     private List<OrchidPage> metaPages;
@@ -49,7 +48,7 @@ public class InternalIndexGenerator implements Generator {
 
     @Override
     public JSONElement startIndexing() {
-        root = Orchid.getRootDoc();
+        root = Orchid.getContext().getRootDoc();
 
         if(root == null) {
             return null;
@@ -61,9 +60,9 @@ public class InternalIndexGenerator implements Generator {
         pagesIndex = new JSONObject();
 
         for(ClassDoc classDoc : root.classes()) {
-            JSONObject classInfo = ClassDocParser.loadClassData(classDoc);
+            JSONObject classInfo = getContext().getClassDocParser().loadClassData(classDoc);
 
-            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), ClassDocParser.getReference(classDoc)));
+            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), getContext().getClassDocParser().getReference(classDoc)));
             pages.add(classPage);
 
 //            if(classInfo.has("info")) {

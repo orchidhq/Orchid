@@ -3,8 +3,8 @@ package com.eden.orchid.impl.compilers;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.compilers.PreCompiler;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.compilers.OrchidPreCompiler;
+import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @AutoRegister
-public class FrontMatterPrecompiler implements PreCompiler {
+public class FrontMatterPrecompiler implements OrchidPreCompiler {
     @Override
     public int priority() {
         return 100;
@@ -25,13 +25,13 @@ public class FrontMatterPrecompiler implements PreCompiler {
 
         String result;
         if(frontMatter.second != 0) {
-            JSONObject root = new JSONObject(Orchid.getRoot().toMap());
+            JSONObject root = new JSONObject(Orchid.getContext().getRoot().toMap());
 
             for (String key : frontMatter.first.keySet()) {
                 root.put(key, frontMatter.first.get(key));
             }
 
-            result = Orchid.getTheme().compile("twig", input.substring(frontMatter.second), root);
+            result = Orchid.getContext().getTheme().compile("twig", input.substring(frontMatter.second), root);
         }
         else {
             result = input;

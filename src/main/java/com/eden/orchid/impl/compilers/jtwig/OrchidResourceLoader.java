@@ -1,8 +1,8 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.resources.OrchidResource;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.registration.AutoRegister;
 import com.google.common.base.Optional;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -73,10 +73,10 @@ public class OrchidResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(path.startsWith("/")) {
-                resource = Orchid.getResources().getResourceEntry(path);
+                resource = Orchid.getContext().getResources().getResourceEntry(path);
             }
             else {
-                resource = Orchid.getResources().getResourceEntry("templates/" + path);
+                resource = Orchid.getContext().getResources().getResourceEntry("templates/" + path);
             }
 
             return (resource != null);
@@ -88,10 +88,10 @@ public class OrchidResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(path.startsWith("/")) {
-                resource = Orchid.getResources().getResourceEntry(path);
+                resource = Orchid.getContext().getResources().getResourceEntry(path);
             }
             else {
-                resource = Orchid.getResources().getResourceEntry("templates/" + path);
+                resource = Orchid.getContext().getResources().getResourceEntry("templates/" + path);
             }
 
             if(resource != null) {

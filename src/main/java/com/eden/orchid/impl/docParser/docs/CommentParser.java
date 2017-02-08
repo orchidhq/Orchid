@@ -3,36 +3,19 @@ package com.eden.orchid.impl.docParser.docs;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.docParser.BlockTagHandler;
-import com.eden.orchid.docParser.InlineTagHandler;
-import com.eden.orchid.docParser.TagHandlers;
+import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
+import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
+import com.eden.orchid.api.registration.Contextual;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
-public class CommentParser {
-    public static Set<String> tags;
+public class CommentParser implements Contextual {
 
-    static {
-        tags = new TreeSet<>();
-
-        tags.add("author");
-        tags.add("version");
-        tags.add("since");
-//        tags.add("see");
-//        tags.add("param");
-        tags.add("return");
-        tags.add("exception");
-        tags.add("throws");
-        tags.add("deprecated");
-    }
-
-    public static JSONObject getCommentObject(Doc doc) {
+    public JSONObject getCommentObject(Doc doc) {
         JSONObject comment = new JSONObject();
 
         String firstSentence = "";
@@ -47,8 +30,8 @@ public class CommentParser {
         if (!EdenUtils.isEmpty(doc.commentText())) {
             String content = doc.commentText();
 
-            if (Orchid.query("options.commentExt") != null) {
-                content = Orchid.getTheme().compile(Orchid.query("options.commentExt").toString(), content);
+            if (Orchid.getContext().query("options.commentExt") != null) {
+                content = Orchid.getContext().getTheme().compile(Orchid.getContext().query("options.commentExt").toString(), content);
             }
 
             comment.put("description", content);
@@ -60,7 +43,7 @@ public class CommentParser {
         return (comment.length() > 0) ? comment : null;
     }
 
-    private static JSONArray getInlineTags(Doc doc) {
+    private JSONArray getInlineTags(Doc doc) {
         JSONArray array = new JSONArray();
 
         Tag[] tags = doc.inlineTags();
@@ -68,10 +51,10 @@ public class CommentParser {
         if (!EdenUtils.isEmpty(tags)) {
 
             for (Tag tag : tags) {
-                InlineTagHandler handler = null;
+                OrchidInlineTagHandler handler = null;
 
-                for (Map.Entry<Integer, InlineTagHandler> tagHandlerEntry : TagHandlers.inlineTagHandlers.entrySet()) {
-                    InlineTagHandler tagHandler = tagHandlerEntry.getValue();
+                for (Map.Entry<Integer, OrchidInlineTagHandler> tagHandlerEntry : getRegistrar().resolveMap(OrchidInlineTagHandler.class).entrySet()) {
+                    OrchidInlineTagHandler tagHandler = tagHandlerEntry.getValue();
                     if (("@" + tagHandler.getName()).equalsIgnoreCase(tag.kind())) {
                         handler = tagHandler;
                         break;
@@ -96,10 +79,10 @@ public class CommentParser {
         return (array.length() > 0) ? array : null;
     }
 
-    private static JSONObject getBlockTags(Doc doc) {
+    private JSONObject getBlockTags(Doc doc) {
         JSONObject object = new JSONObject();
 
-        for (Map.Entry<Integer, BlockTagHandler> tagHandlerEntry : TagHandlers.blockTagHandlers.entrySet()) {
+        for (Map.Entry<Integer, OrchidBlockTagHandler> tagHandlerEntry : getRegistrar().resolveMap(OrchidBlockTagHandler.class).entrySet()) {
             Tag[] tags = doc.tags(tagHandlerEntry.getValue().getName());
 
             if (!EdenUtils.isEmpty(tags)) {

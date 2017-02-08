@@ -4,14 +4,11 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.resources.ResourceSource;
-import com.eden.orchid.utilities.AutoRegister;
-
-import java.util.Map;
+import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.AutoRegister;
 
 @AutoRegister
-public class ThemeOption implements Option {
+public class ThemeOption implements OrchidOption {
 
     @Override
     public String getFlag() {
@@ -25,15 +22,17 @@ public class ThemeOption implements Option {
 
     @Override
     public JSONElement parseOption(String[] options) {
-        for(Map.Entry<Integer, ResourceSource> resourceSourceEntry : Orchid.getResources().getResourceSources().entrySet()) {
-            if (resourceSourceEntry.getValue() instanceof Theme) {
-                Theme theme = (Theme) resourceSourceEntry.getValue();
+        try {
+            Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
 
-                if (theme.getClass().getName().equals(options[1])) {
-                    Orchid.setTheme(theme);
-                    return new JSONElement(options[1]);
-                }
+            Theme theme = getRegistrar().resolve(themeClass);
+            if(theme != null) {
+                Orchid.getContext().setTheme(theme);
+                return new JSONElement(options[1]);
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
         Clog.e("The Theme class #{$1} could not be found. Please make sure it has been registered properly.", new Object[] {options[1]});

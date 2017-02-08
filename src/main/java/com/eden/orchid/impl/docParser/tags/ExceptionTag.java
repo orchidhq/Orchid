@@ -1,13 +1,13 @@
 package com.eden.orchid.impl.docParser.tags;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.docParser.BlockTagHandler;
-import com.eden.orchid.docParser.TagHandlers;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
+import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.Tag;
 
 @AutoRegister
-public class ExceptionTag implements BlockTagHandler {
+public class ExceptionTag implements OrchidBlockTagHandler {
     @Override
     public int priority() {
         return 70;
@@ -25,6 +25,6 @@ public class ExceptionTag implements BlockTagHandler {
 
     @Override
     public JSONElement processTags(Tag[] tags) {
-        return new JSONElement(TagHandlers.getText(tags));
+        return new JSONElement(OrchidUtils.getText(tags));
     }
 }

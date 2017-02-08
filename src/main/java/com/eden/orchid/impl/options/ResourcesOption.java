@@ -1,11 +1,11 @@
 package com.eden.orchid.impl.options;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.options.Option;
-import com.eden.orchid.utilities.AutoRegister;
+import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.AutoRegister;
 
 @AutoRegister
-public class ResourcesOption implements Option {
+public class ResourcesOption implements OrchidOption {
 
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 

@@ -1,9 +1,9 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.compilers.Compiler;
-import com.eden.orchid.utilities.AutoRegister;
-import com.eden.orchid.utilities.RegistrationProvider;
+import com.eden.orchid.api.compilers.OrchidCompiler;
+import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.api.registration.OrchidRegistrationProvider;
 import org.json.JSONObject;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AutoRegister
-public class JTwigCompiler implements Compiler, RegistrationProvider {
+public class JTwigCompiler implements OrchidCompiler, OrchidRegistrationProvider {
 
-    public static EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
+    public EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
     @Override
     public String compile(String extension, String source, Object... data) {
@@ -61,13 +61,13 @@ public class JTwigCompiler implements Compiler, RegistrationProvider {
     @Override
     public void register(Object object) {
         if(object instanceof JtwigFunction) {
-            JTwigCompiler.config.functions().add((JtwigFunction) object);
+            config.functions().add((JtwigFunction) object);
         }
 
         if(object instanceof TypedResourceLoader) {
-            List<TypedResourceLoader> loaders = new ArrayList<>(JTwigCompiler.config.resources().resourceLoaders().build());
+            List<TypedResourceLoader> loaders = new ArrayList<>(config.resources().resourceLoaders().build());
             loaders.add(0, (TypedResourceLoader) object);
-            JTwigCompiler.config.resources().resourceLoaders().set(loaders);
+            config.resources().resourceLoaders().set(loaders);
         }
     }
 }

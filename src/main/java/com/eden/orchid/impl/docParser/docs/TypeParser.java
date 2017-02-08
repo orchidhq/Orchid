@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class TypeParser {
 
-    public static JSONObject getTypeObject(Type type) {
+    public JSONObject getTypeObject(Type type) {
         if (type == null) {
             return null;
         }
