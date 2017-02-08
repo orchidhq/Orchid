@@ -142,7 +142,7 @@ public class TwigSortByFilter implements JtwigFunction {
             StringBuilder builder = new StringBuilder();
 
             for(Entry entry : super.entrySet()) {
-                builder.append(entry.getKey()).append(entry.getValue());
+                builder.append(entry.getKey()).append(entry);
             }
 
             return builder.toString();

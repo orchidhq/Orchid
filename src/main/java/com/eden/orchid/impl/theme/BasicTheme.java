@@ -5,4 +5,5 @@ import com.eden.orchid.api.registration.AutoRegister;
 
 @AutoRegister
 public class BasicTheme extends Theme {
+
 }

@@ -7,7 +7,6 @@ import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
-import com.eden.orchid.impl.registration.Registrar;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -78,10 +76,10 @@ public class OrchidFileResources implements OrchidResources {
             return new FileResource(file);
         }
 
-        for(Map.Entry<Integer, OrchidResourceSource> source : Registrar.resourceSources.entrySet()) {
-            if(source.getKey() < 0) { continue; }
+        for(OrchidResourceSource source : getRegistrar().resolveSet(OrchidResourceSource.class)) {
+            if(source.getResourcePriority() < 0) { continue; }
 
-            JarFile jarFile = jarForClass(source.getValue().getClass());
+            JarFile jarFile = jarForClass(source.getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
             if (jarEntry != null) {
                 return new JarResource(jarFile, jarEntry);
@@ -121,10 +119,10 @@ public class OrchidFileResources implements OrchidResources {
             entries.put(relative, entry);
         }
 
-        for(Map.Entry<Integer, OrchidResourceSource> source : Registrar.resourceSources.entrySet()) {
-            if(source.getKey() < 0) { continue; }
+        for(OrchidResourceSource source : getRegistrar().resolveSet(OrchidResourceSource.class)) {
+            if(source.getResourcePriority() < 0) { continue; }
 
-            JarFile jarFile = jarForClass(source.getValue().getClass());
+            JarFile jarFile = jarForClass(source.getClass());
 
             List<JarEntry> jarEntries = getJarResourceFiles(jarFile, dirName, fileExtensions, recursive);
 
@@ -133,7 +131,7 @@ public class OrchidFileResources implements OrchidResources {
 
                 boolean shouldAddJarEntry = false;
                 if(entries.containsKey(relative)) {
-                    if(source.getValue().getResourcePriority() > entries.get(relative).getPriority()) {
+                    if(source.getResourcePriority() > entries.get(relative).getPriority()) {
                         shouldAddJarEntry = true;
                     }
                 }

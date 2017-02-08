@@ -13,7 +13,7 @@ import com.eden.orchid.api.registration.Contextual;
  * looking for an entry in that jar matching a given path. Having a higher priority means the jar associated with this
  * OrchidResourceSource is searched before other Jars.
  */
-public interface OrchidResourceSource extends Contextual {
+public interface OrchidResourceSource extends Comparable<OrchidResourceSource>, Contextual {
 
     /**
      * Return the priority of this OrchidResourceSource. Options, Generators, etc. can also be ResourceSources, and the
@@ -30,4 +30,14 @@ public interface OrchidResourceSource extends Contextual {
      * @param priority the new priority value
      */
     void setResourcePriority(int priority);
+
+    @Override
+    default int compareTo(OrchidResourceSource o) {
+        if(getResourcePriority() == o.getResourcePriority()) {
+            return getClass().getName().compareTo(o.getClass().getName());
+        }
+        else {
+            return o.getResourcePriority() - getResourcePriority();
+        }
+    }
 }

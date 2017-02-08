@@ -6,8 +6,6 @@ import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 
-import java.util.Map;
-
 @AutoRegister
 public class ListCompilersTask implements OrchidTask {
     @Override
@@ -30,14 +28,13 @@ public class ListCompilersTask implements OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for (Map.Entry<Integer, OrchidCompiler> compilerEntry : getRegistrar().resolveMap(OrchidCompiler.class).entrySet()) {
-            OrchidCompiler compiler = compilerEntry.getValue();
+        for (OrchidCompiler compiler : getRegistrar().resolveSet(OrchidCompiler.class)) {
 
             Clog.logger(OrchidTasks.loggerKey,
                     "#{ $0 | fg('cyan') }   [#{$1}]#{$0 |reset}" +
                             "#{ $0 | fg('magenta') }[#{$2 | join(', ')}]#{$0 |reset}" +
                             "#{ $0 | fg('yellow') }[#{$3}]#{$0 |reset}",
-                    new Object[]{compilerEntry.getKey(), compiler.getSourceExtensions(), compiler.getOutputExtension()});
+                    new Object[]{compiler.priority(), compiler.getSourceExtensions(), compiler.getOutputExtension()});
 
         }
     }

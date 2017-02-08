@@ -11,8 +11,6 @@ import com.sun.javadoc.Tag;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 public class CommentParser implements Contextual {
 
     public JSONObject getCommentObject(Doc doc) {
@@ -53,8 +51,7 @@ public class CommentParser implements Contextual {
             for (Tag tag : tags) {
                 OrchidInlineTagHandler handler = null;
 
-                for (Map.Entry<Integer, OrchidInlineTagHandler> tagHandlerEntry : getRegistrar().resolveMap(OrchidInlineTagHandler.class).entrySet()) {
-                    OrchidInlineTagHandler tagHandler = tagHandlerEntry.getValue();
+                for (OrchidInlineTagHandler tagHandler : getRegistrar().resolveSet(OrchidInlineTagHandler.class)) {
                     if (("@" + tagHandler.getName()).equalsIgnoreCase(tag.kind())) {
                         handler = tagHandler;
                         break;
@@ -82,14 +79,14 @@ public class CommentParser implements Contextual {
     private JSONObject getBlockTags(Doc doc) {
         JSONObject object = new JSONObject();
 
-        for (Map.Entry<Integer, OrchidBlockTagHandler> tagHandlerEntry : getRegistrar().resolveMap(OrchidBlockTagHandler.class).entrySet()) {
-            Tag[] tags = doc.tags(tagHandlerEntry.getValue().getName());
+        for (OrchidBlockTagHandler tagHandler : getRegistrar().resolveSet(OrchidBlockTagHandler.class)) {
+            Tag[] tags = doc.tags(tagHandler.getName());
 
             if (!EdenUtils.isEmpty(tags)) {
-                JSONElement el = tagHandlerEntry.getValue().processTags(tags);
+                JSONElement el = tagHandler.processTags(tags);
 
                 if (el != null) {
-                    object.put(tagHandlerEntry.getValue().getName(), el.getElement());
+                    object.put(tagHandler.getName(), el.getElement());
                 }
             }
         }

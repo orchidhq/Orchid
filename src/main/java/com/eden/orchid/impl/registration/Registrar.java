@@ -12,41 +12,32 @@ import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.registration.OrchidRegistrar;
 import com.eden.orchid.api.registration.OrchidRegistrationProvider;
-import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 @AutoRegister
 public class Registrar implements OrchidRegistrar {
 
     private Map<Class<?>, Object> allObjects = new HashMap<>();
 
-    public static Map<Integer, OrchidResourceSource> resourceSources   = new TreeMap<>(Collections.reverseOrder());
     public static List<OrchidRegistrationProvider> providers = new ArrayList<>();
 
-    private Map<Integer, OrchidCompiler>         compilers         = new TreeMap<>(Collections.reverseOrder());
-    private Map<Integer, OrchidPreCompiler>      precompilers      = new TreeMap<>(Collections.reverseOrder());
-    private Map<Integer, OrchidBlockTagHandler>  blockTagHandlers  = new TreeMap<>(Collections.reverseOrder());
-    private Map<Integer, OrchidInlineTagHandler> inlineTagHandlers = new TreeMap<>(Collections.reverseOrder());
-    private Map<Integer, OrchidGenerator>        generators        = new TreeMap<>(Collections.reverseOrder());
-    private Map<Integer, OrchidOption>           options           = new TreeMap<>(Collections.reverseOrder());
+    private Set<OrchidResourceSource>   resourceSources   = new TreeSet<>();
+    private Set<OrchidCompiler>         compilers         = new TreeSet<>();
+    private Set<OrchidPreCompiler>      precompilers      = new TreeSet<>();
+    private Set<OrchidBlockTagHandler>  blockTagHandlers  = new TreeSet<>();
+    private Set<OrchidInlineTagHandler> inlineTagHandlers = new TreeSet<>();
+    private Set<OrchidGenerator>        generators        = new TreeSet<>();
+    private Set<OrchidOption>           options           = new TreeSet<>();
 
     private Map<String, OrchidTask> siteTasks = new HashMap<>();
-
-    private <T extends Prioritized> void addToPriorityMap(Map<Integer, T> map, T object) {
-        int priority = object.priority();
-        while (map.containsKey(priority)) {
-            priority--;
-        }
-        map.put(priority, object);
-    }
 
     @Override
     public void registerProvider(OrchidRegistrationProvider object) {
@@ -56,26 +47,26 @@ public class Registrar implements OrchidRegistrar {
     @Override
     public void registerObject(Object object) {
         if (object instanceof OrchidCompiler) {
-            addToPriorityMap(compilers, (OrchidCompiler) object);
+            compilers.add((OrchidCompiler) object);
         }
         if (object instanceof OrchidPreCompiler) {
-            addToPriorityMap(precompilers, (OrchidPreCompiler) object);
+            precompilers.add((OrchidPreCompiler) object);
         }
         if (object instanceof OrchidInlineTagHandler) {
-            addToPriorityMap(inlineTagHandlers, (OrchidInlineTagHandler) object);
+            inlineTagHandlers.add((OrchidInlineTagHandler) object);
         }
         if (object instanceof OrchidBlockTagHandler) {
-            addToPriorityMap(blockTagHandlers, (OrchidBlockTagHandler) object);
+            blockTagHandlers.add((OrchidBlockTagHandler) object);
         }
         if (object instanceof OrchidGenerator) {
-            addToPriorityMap(generators, (OrchidGenerator) object);
+            generators.add((OrchidGenerator) object);
         }
         if (object instanceof OrchidOption) {
-            addToPriorityMap(options, (OrchidOption) object);
+            options.add((OrchidOption) object);
         }
 
         if(object instanceof OrchidResourceSource) {
-            registerResourceSource((OrchidResourceSource) object);
+            resourceSources.add((OrchidResourceSource) object);
         }
         if (object instanceof OrchidTask) {
             OrchidTask task = (OrchidTask) object;
@@ -91,6 +82,13 @@ public class Registrar implements OrchidRegistrar {
     public <T> void addToResolver(T object) {
         if(!allObjects.containsKey(object.getClass())) {
             allObjects.put(object.getClass(), object);
+        }
+    }
+
+    @Override
+    public <T> void addToResolver(Class<? super T> clazz, T object) {
+        if(!allObjects.containsKey(clazz)) {
+            allObjects.put(clazz, object);
         }
     }
 
@@ -128,58 +126,30 @@ public class Registrar implements OrchidRegistrar {
     }
 
     @Override
-    public <T extends Prioritized> Map<Integer, T> resolveMap(Class<T> clazz) {
-        if(clazz.equals(OrchidCompiler.class)) {
-            return (Map<Integer, T>) compilers;
+    public <T> Set<T> resolveSet(Class<T> clazz) {
+        if(clazz.equals(OrchidResourceSource.class)) {
+            return (Set<T>) resourceSources;
+        }
+        else if(clazz.equals(OrchidCompiler.class)) {
+            return (Set<T>) compilers;
         }
         else if(clazz.equals(OrchidPreCompiler.class)) {
-            return (Map<Integer, T>) precompilers;
+            return (Set<T>) precompilers;
         }
         else if(clazz.equals(OrchidInlineTagHandler.class)) {
-            return (Map<Integer, T>) inlineTagHandlers;
+            return (Set<T>) inlineTagHandlers;
         }
         else if(clazz.equals(OrchidBlockTagHandler.class)) {
-            return (Map<Integer, T>) blockTagHandlers;
+            return (Set<T>) blockTagHandlers;
         }
         else if(clazz.equals(OrchidGenerator.class)) {
-            return (Map<Integer, T>) generators;
+            return (Set<T>) generators;
         }
         else if(clazz.equals(OrchidOption.class)) {
-            return (Map<Integer, T>) options;
+            return (Set<T>) options;
         }
 
-        return new TreeMap<>();
-    }
-
-    @Override
-    public <T extends Prioritized> void setMap(Class<T> clazz, Map<Integer, T> map) {
-        if(clazz.equals(OrchidCompiler.class)) {
-            compilers = (Map<Integer, OrchidCompiler>) map;
-        }
-        else if(clazz.equals(OrchidPreCompiler.class)) {
-            precompilers = (Map<Integer, OrchidPreCompiler>) map;
-        }
-        else if(clazz.equals(OrchidInlineTagHandler.class)) {
-            inlineTagHandlers = (Map<Integer, OrchidInlineTagHandler>) map;
-        }
-        else if(clazz.equals(OrchidBlockTagHandler.class)) {
-            blockTagHandlers = (Map<Integer, OrchidBlockTagHandler>) map;
-        }
-        else if(clazz.equals(OrchidGenerator.class)) {
-            generators = (Map<Integer, OrchidGenerator>) map;
-        }
-        else if(clazz.equals(OrchidOption.class)) {
-            options = (Map<Integer, OrchidOption>) map;
-        }
-    }
-
-    private void registerResourceSource(OrchidResourceSource resourceSource) {
-        int priority = resourceSource.getResourcePriority();
-        while(resourceSources.containsKey(priority)) {
-            priority--;
-        }
-
-        resourceSources.put(priority, resourceSource);
+        return new TreeSet<>();
     }
 
     public void reorderResourceSources() {
@@ -187,22 +157,12 @@ public class Registrar implements OrchidRegistrar {
 
         reorderThemes();
 
-        List<OrchidResourceSource> sources = new ArrayList<>();
-
-        for(Map.Entry<Integer, OrchidResourceSource> source : resourceSources.entrySet()) {
-            if(source.getValue() instanceof Theme) {
-                if(!source.getValue().getClass().isAssignableFrom(theme.getClass())) {
-                    source.getValue().setResourcePriority(-1);
+        for(OrchidResourceSource source : resourceSources) {
+            if(source instanceof Theme) {
+                if(!source.getClass().isAssignableFrom(theme.getClass())) {
+                    source.setResourcePriority(-1);
                 }
             }
-
-            sources.add(source.getValue());
-        }
-
-        resourceSources = new TreeMap<>(Collections.reverseOrder());
-
-        for(OrchidResourceSource resourceSource : sources) {
-            registerResourceSource(resourceSource);
         }
     }
 
@@ -212,17 +172,18 @@ public class Registrar implements OrchidRegistrar {
 
         // find the highest priority of any Theme
         int highestThemePriority = 0;
-        for(Map.Entry<Integer, OrchidResourceSource> resourceSourceEntry : resourceSources.entrySet()) {
-            if (resourceSourceEntry.getValue() instanceof Theme) {
-                highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getValue().getResourcePriority());
+        for(OrchidResourceSource resourceSourceEntry : resourceSources) {
+            if (resourceSourceEntry instanceof Theme) {
+                highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getResourcePriority());
             }
         }
 
         // Go through all Themes and set each parent theme as the next-highest Theme priority
         while(!superclass.equals(Theme.class)) {
-            for(Map.Entry<Integer, OrchidResourceSource> resourceSourceEntry : resourceSources.entrySet()) {
-                if(resourceSourceEntry.getValue() instanceof Theme) {
-                    Theme theme = (Theme) resourceSourceEntry.getValue();
+            for(OrchidResourceSource resourceSourceEntry : resourceSources) {
+                if(resourceSourceEntry instanceof Theme) {
+                    Clog.v("Reordering theme #{$1}", new Object[]{resourceSourceEntry.getClass().getName()});
+                    Theme theme = (Theme) resourceSourceEntry;
                     if (theme.getClass().equals(superclass)) {
                         theme.setResourcePriority((highestThemePriority) - i);
                         break;

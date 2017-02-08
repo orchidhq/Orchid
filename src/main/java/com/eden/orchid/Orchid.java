@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.registration.OrchidRegistrar;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.impl.registration.Registrar;
 import com.eden.orchid.impl.resources.OrchidFileResources;
@@ -32,7 +33,7 @@ public final class Orchid {
     public static int optionLength(String option) {
         if(earlyUseOptions == null) {
             registrar = new Registrar();
-            registrar.addToResolver(new OrchidFileResources());
+            registrar.addToResolver(OrchidResources.class, new OrchidFileResources());
             earlyUseOptions = registrar.resolve(OrchidOptions.class);
         }
 
@@ -80,7 +81,7 @@ public final class Orchid {
         }
 
         registrar = new Registrar();
-        registrar.addToResolver(new OrchidFileResources());
+        registrar.addToResolver(OrchidResources.class, new OrchidFileResources());
 
         context = new OrchidContext(options);
 

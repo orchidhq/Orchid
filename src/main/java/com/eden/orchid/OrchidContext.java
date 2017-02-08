@@ -73,13 +73,13 @@ public final class OrchidContext implements OrchidResourceSource {
         bootstrap();
 
         Clog.v("#{$1} providers",         Registrar.providers.size());
-        Clog.v("#{$1} resourceSources",   Registrar.resourceSources.size());
-        Clog.v("#{$1} compilers",         getRegistrar().resolveMap(OrchidCompiler.class).size());
-        Clog.v("#{$1} precompilers",      getRegistrar().resolveMap(OrchidPreCompiler.class).size());
-        Clog.v("#{$1} blockTagHandlers",  getRegistrar().resolveMap(OrchidBlockTagHandler.class).size());
-        Clog.v("#{$1} inlineTagHandlers", getRegistrar().resolveMap(OrchidInlineTagHandler.class).size());
-        Clog.v("#{$1} generators",        getRegistrar().resolveMap(OrchidGenerator.class).size());
-        Clog.v("#{$1} optionsMap",        getRegistrar().resolveMap(OrchidOption.class).size());
+        Clog.v("#{$1} resourceSources",   getRegistrar().resolveSet(OrchidResourceSource.class).size());
+        Clog.v("#{$1} compilers",         getRegistrar().resolveSet(OrchidCompiler.class).size());
+        Clog.v("#{$1} precompilers",      getRegistrar().resolveSet(OrchidPreCompiler.class).size());
+        Clog.v("#{$1} blockTagHandlers",  getRegistrar().resolveSet(OrchidBlockTagHandler.class).size());
+        Clog.v("#{$1} inlineTagHandlers", getRegistrar().resolveSet(OrchidInlineTagHandler.class).size());
+        Clog.v("#{$1} generators",        getRegistrar().resolveSet(OrchidGenerator.class).size());
+        Clog.v("#{$1} optionsMap",        getRegistrar().resolveSet(OrchidOption.class).size());
         Clog.v("#{$1} tasks",             getRegistrar().getSiteTasks().size());
 
         if (shouldContinue()) {

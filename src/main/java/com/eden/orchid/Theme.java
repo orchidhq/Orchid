@@ -11,8 +11,6 @@ import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
 import com.eden.orchid.impl.resources.StringResource;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 public abstract class Theme implements OrchidResourceSource {
 
     private int resourcePriority = 100;
@@ -61,9 +59,9 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public String compile(String extension, String input, Object... data) {
-        for (Map.Entry<Integer, OrchidCompiler> compiler : getRegistrar().resolveMap(OrchidCompiler.class).entrySet()) {
-            if (acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
-                return compiler.getValue().compile(extension, input, data);
+        for (OrchidCompiler compiler : getRegistrar().resolveSet(OrchidCompiler.class)) {
+            if (acceptsExtension(extension, compiler.getSourceExtensions())) {
+                return compiler.compile(extension, input, data);
             }
         }
 
@@ -71,9 +69,9 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
-        for (Map.Entry<Integer, OrchidPreCompiler> compiler : getRegistrar().resolveMap(OrchidPreCompiler.class).entrySet()) {
-            if (compiler.getValue().getClass().equals(getPrecompilerClass())) {
-                return compiler.getValue().getEmbeddedData(input);
+        for (OrchidPreCompiler compiler : getRegistrar().resolveSet(OrchidPreCompiler.class)) {
+            if (compiler.getClass().equals(getPrecompilerClass())) {
+                return compiler.getEmbeddedData(input);
             }
         }
 
@@ -81,9 +79,9 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public String getOutputExtension(String extension) {
-        for (Map.Entry<Integer, OrchidCompiler> compiler : getRegistrar().resolveMap(OrchidCompiler.class).entrySet()) {
-            if (acceptsExtension(extension, compiler.getValue().getSourceExtensions())) {
-                return compiler.getValue().getOutputExtension();
+        for (OrchidCompiler compiler : getRegistrar().resolveSet(OrchidCompiler.class)) {
+            if (acceptsExtension(extension, compiler.getSourceExtensions())) {
+                return compiler.getOutputExtension();
             }
         }
 

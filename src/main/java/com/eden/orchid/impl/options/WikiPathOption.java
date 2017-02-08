@@ -16,7 +16,7 @@ public class WikiPathOption implements OrchidOption {
 
     @Override
     public String getDescription() {
-        return "the path used for your wiki. Includes both the path for your source wiki files, and also the output path.";
+        return "The path used for your wiki. Includes both the path for your source wiki files, and also the output path.";
     }
 
     @Override

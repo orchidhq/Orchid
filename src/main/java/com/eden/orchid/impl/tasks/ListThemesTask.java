@@ -6,9 +6,6 @@ import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.impl.registration.Registrar;
-
-import java.util.Map;
 
 @AutoRegister
 public class ListThemesTask implements OrchidTask {
@@ -35,9 +32,9 @@ public class ListThemesTask implements OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for(Map.Entry<Integer, OrchidResourceSource> resourceSourceEntry : Registrar.resourceSources.entrySet()) {
-            if (resourceSourceEntry.getValue() instanceof Theme) {
-                Theme theme = (Theme) resourceSourceEntry.getValue();
+        for(OrchidResourceSource resourceSourceEntry : getRegistrar().resolveSet(OrchidResourceSource.class)) {
+            if (resourceSourceEntry instanceof Theme) {
+                Theme theme = (Theme) resourceSourceEntry;
 
                 String message;
 

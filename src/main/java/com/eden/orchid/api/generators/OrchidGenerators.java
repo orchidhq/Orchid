@@ -8,20 +8,18 @@ import com.eden.orchid.api.registration.Contextual;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 @AutoRegister
 public class OrchidGenerators implements Contextual {
     private JSONArray disabledGenerators;
 
     public void startIndexing(JSONObject indexObject) {
-        for (Map.Entry<Integer, OrchidGenerator> generator : getRegistrar().resolveMap(OrchidGenerator.class).entrySet()) {
-            if(shouldUseGenerator(generator.getValue())) {
-                Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
-                JSONElement element = generator.getValue().startIndexing();
+        for (OrchidGenerator generator : getRegistrar().resolveSet(OrchidGenerator.class)) {
+            if(shouldUseGenerator(generator)) {
+                Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.priority(), generator);
+                JSONElement element = generator.startIndexing();
                 if (element != null) {
-                    if (!EdenUtils.isEmpty(generator.getValue().getName())) {
-                        indexObject.put(generator.getValue().getName(), element.getElement());
+                    if (!EdenUtils.isEmpty(generator.getName())) {
+                        indexObject.put(generator.getName(), element.getElement());
                     }
                 }
             }
@@ -29,10 +27,10 @@ public class OrchidGenerators implements Contextual {
     }
 
     public void startGeneration() {
-        for (Map.Entry<Integer, OrchidGenerator> generator : getRegistrar().resolveMap(OrchidGenerator.class).entrySet()) {
-            if(shouldUseGenerator(generator.getValue())) {
-                Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getKey(), generator.getValue());
-                generator.getValue().startGeneration();
+        for (OrchidGenerator generator : getRegistrar().resolveSet(OrchidGenerator.class)) {
+            if(shouldUseGenerator(generator)) {
+                Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.priority(), generator);
+                generator.startGeneration();
             }
         }
     }
