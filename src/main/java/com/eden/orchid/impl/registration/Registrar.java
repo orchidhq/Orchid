@@ -1,112 +1,38 @@
 package com.eden.orchid.impl.registration;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.registration.OrchidRegistrar;
-import com.eden.orchid.api.registration.OrchidRegistrationProvider;
 import com.eden.orchid.api.resources.OrchidResourceSource;
-import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import com.google.inject.util.Types;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.inject.Singleton;
 import java.util.Set;
 import java.util.TreeSet;
 
-@AutoRegister
+@Singleton
 public class Registrar implements OrchidRegistrar {
-
-    private Set<OrchidRegistrationProvider> providers = new TreeSet<>();
-    private Map<Class<?>, Set> sets = new HashMap<>();
-    private Map<Class<?>, Object> allObjects = new HashMap<>();
-
-    @Override
-    public void registerProvider(OrchidRegistrationProvider object) {
-        providers.add(object);
-    }
-
-    private <T> void registerType(Class<?> clazz, T object) {
-        if(Comparable.class.isAssignableFrom(clazz)) {
-            sets.putIfAbsent(clazz, new TreeSet<T>());
-            sets.get(clazz).add(object);
-        }
-        else {
-            sets.putIfAbsent(clazz, new TreeSet<T>(new OrchidUtils.DefaultComparator()));
-            sets.get(clazz).add(object);
-        }
-    }
-
-    @Override
-    public <T> void registerObject(T object) {
-
-        // go through all interfaces of this class and its superclasses, adding the object to those sets
-        Class<?> type = object.getClass();
-        while(!type.equals(Object.class)) {
-            registerType(type, object);
-
-            for(Class<?> clazz : type.getInterfaces()) {
-                registerType(clazz, object);
-            }
-
-            type = type.getSuperclass();
-        }
-
-        // hand the object off to RegistrationProviders to deal with as they will
-        for (OrchidRegistrationProvider provider : providers) {
-            provider.register(object);
-        }
-    }
-
-    @Override
-    public <T> void addToResolver(T object) {
-        addToResolver((Class<T>) object.getClass(), object);
-    }
-
-    @Override
-    public <T> void addToResolver(Class<? super T> clazz, T object) {
-        if(!allObjects.containsKey(clazz)) {
-            allObjects.put(clazz, object);
-        }
-    }
 
     @Override
     public <T> T resolve(Class<T> clazz) {
-        T foundObject = null;
-
-        if(allObjects.containsKey(clazz)) {
-            foundObject = (T) allObjects.get(clazz);
-        }
-        else {
-            if(clazz.isInterface()) {
-                for(Map.Entry<Class<?>, Object> objectEntry : allObjects.entrySet()) {
-                    if(clazz.isAssignableFrom(objectEntry.getKey())) {
-                        foundObject = (T) objectEntry.getValue();
-                        break;
-                    }
-                }
-            }
-            else {
-                try {
-                    foundObject = clazz.newInstance();
-                    allObjects.put(clazz, foundObject);
-                }
-                catch (IllegalAccessException | InstantiationException e) {
-                    Clog.e("Class #{$1} could not be created. Make sure it has a public no-arg constructor.", e, new Object[] {clazz.getName()});
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return foundObject;
+        return getInjector().getInstance(clazz);
     }
 
     @Override
     public <T> Set<T> resolveSet(Class<T> clazz) {
-        if(sets.containsKey(clazz)) {
-            return sets.get(clazz);
+        try {
+            TypeLiteral<Set<T>> lit = (TypeLiteral<Set<T>>) TypeLiteral.get(Types.setOf(clazz));
+            Key<Set<T>> key = Key.get(lit);
+            Set<T> bindings = getInjector().getInstance(key);
+
+            if(bindings != null) {
+                return bindings;
+            }
+        }
+        catch (Exception e) {
+
         }
 
         return new TreeSet<>();

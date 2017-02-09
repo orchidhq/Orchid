@@ -1,12 +1,13 @@
 package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.utilities.OrchidUtils;
 
-@AutoRegister
+import javax.inject.Singleton;
+
+@Singleton
 public class ListTasksTask implements OrchidTask {
     @Override
     public String getName() {

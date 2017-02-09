@@ -2,12 +2,24 @@ package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.compilers.OrchidCompiler;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 
-@AutoRegister
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Set;
+import java.util.TreeSet;
+
+@Singleton
 public class ListCompilersTask implements OrchidTask {
+
+    private Set<OrchidCompiler> compilers;
+
+    @Inject
+    public ListCompilersTask(Set<OrchidCompiler> compilers) {
+        this.compilers = new TreeSet<>(compilers);
+    }
+
     @Override
     public String getName() {
         return "listCompilers";
@@ -28,7 +40,7 @@ public class ListCompilersTask implements OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for (OrchidCompiler compiler : getRegistrar().resolveSet(OrchidCompiler.class)) {
+        for (OrchidCompiler compiler : compilers) {
 
             Clog.logger(OrchidTasks.loggerKey,
                     "#{ $0 | fg('cyan') }   [#{$1}]#{$0 |reset}" +

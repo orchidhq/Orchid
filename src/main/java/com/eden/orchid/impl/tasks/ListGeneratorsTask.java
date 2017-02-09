@@ -2,13 +2,25 @@ package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.utilities.OrchidUtils;
 
-@AutoRegister
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Set;
+import java.util.TreeSet;
+
+@Singleton
 public class ListGeneratorsTask implements OrchidTask {
+
+    private Set<OrchidGenerator> generators;
+
+    @Inject
+    public ListGeneratorsTask(Set<OrchidGenerator> generators) {
+        this.generators = new TreeSet<>(generators);
+    }
+
     @Override
     public String getName() {
         return "listGenerators";
@@ -27,7 +39,7 @@ public class ListGeneratorsTask implements OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for (OrchidGenerator generator : getRegistrar().resolveSet(OrchidGenerator.class)) {
+        for (OrchidGenerator generator : generators) {
 
             if (getContext().getGenerators().shouldUseGenerator(generator)) {
                 Clog.logger(OrchidTasks.loggerKey, "" +

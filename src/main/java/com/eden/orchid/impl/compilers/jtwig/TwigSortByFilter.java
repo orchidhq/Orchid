@@ -1,9 +1,9 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.api.registration.AutoRegister;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@AutoRegister
+@Singleton
 public class TwigSortByFilter implements JtwigFunction {
 
     @Override

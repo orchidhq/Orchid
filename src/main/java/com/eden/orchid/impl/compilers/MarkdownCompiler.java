@@ -1,12 +1,14 @@
 package com.eden.orchid.impl.compilers;
 
 import com.eden.orchid.api.compilers.OrchidCompiler;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 
-@AutoRegister
+import javax.inject.Singleton;
+
+@Singleton
 public class MarkdownCompiler implements OrchidCompiler {
+
     @Override
     public String compile(String extension, String source, Object... data) {
         return HtmlRenderer.builder().build().render(Parser.builder().build().parse(source));

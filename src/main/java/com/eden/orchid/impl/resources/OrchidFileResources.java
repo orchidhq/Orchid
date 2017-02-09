@@ -22,11 +22,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class OrchidFileResources implements OrchidResources {
+
+    private Set<OrchidResourceSource> resourceSources;
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -76,7 +79,11 @@ public class OrchidFileResources implements OrchidResources {
             return new FileResource(file);
         }
 
-        for(OrchidResourceSource source : getRegistrar().resolveSet(OrchidResourceSource.class)) {
+        if(resourceSources == null) {
+            resourceSources = getRegistrar().resolveSet(OrchidResourceSource.class);
+        }
+
+        for(OrchidResourceSource source : resourceSources) {
             if(source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
@@ -119,7 +126,11 @@ public class OrchidFileResources implements OrchidResources {
             entries.put(relative, entry);
         }
 
-        for(OrchidResourceSource source : getRegistrar().resolveSet(OrchidResourceSource.class)) {
+        if(resourceSources == null) {
+            resourceSources = getRegistrar().resolveSet(OrchidResourceSource.class);
+        }
+
+        for(OrchidResourceSource source : resourceSources) {
             if(source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());

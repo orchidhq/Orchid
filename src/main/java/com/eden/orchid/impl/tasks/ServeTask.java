@@ -3,7 +3,6 @@ package com.eden.orchid.impl.tasks;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -11,6 +10,7 @@ import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,7 +36,7 @@ import java.util.Map;
 import static java.nio.file.LinkOption.*;
 import static java.nio.file.StandardWatchEventKinds.*;
 
-@AutoRegister
+@Singleton
 public class ServeTask implements OrchidTask {
 
     private static WatchService watcher;

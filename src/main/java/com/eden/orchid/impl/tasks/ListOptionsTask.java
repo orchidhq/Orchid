@@ -2,13 +2,25 @@ package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.utilities.OrchidUtils;
 
-@AutoRegister
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Set;
+import java.util.TreeSet;
+
+@Singleton
 public class ListOptionsTask implements OrchidTask {
+
+    private Set<OrchidOption> options;
+
+    @Inject
+    public ListOptionsTask(Set<OrchidOption> options) {
+        this.options = new TreeSet<>(options);
+    }
+
     @Override
     public String getName() {
         return "listOptions";
@@ -28,7 +40,7 @@ public class ListOptionsTask implements OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for (OrchidOption option : getRegistrar().resolveSet(OrchidOption.class)) {
+        for (OrchidOption option : options) {
 
             if (option.optionLength() > 0) {
                 Clog.logger(OrchidTasks.loggerKey, "" +

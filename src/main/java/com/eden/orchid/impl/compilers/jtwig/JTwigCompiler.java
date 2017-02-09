@@ -2,7 +2,6 @@ package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.compilers.OrchidCompiler;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -12,30 +11,34 @@ import org.jtwig.functions.JtwigFunction;
 import org.jtwig.resource.loader.TypedResourceLoader;
 import org.jtwig.resource.reference.ResourceReference;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-@AutoRegister
+@Singleton
 public class JTwigCompiler implements OrchidCompiler {
 
     private EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
-    private boolean hasRegisteredComponents = false;
+
+    @Inject
+    public JTwigCompiler(Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
+
+        for(JtwigFunction function : functionSet) {
+            config.functions().add(function);
+        }
+
+        List<TypedResourceLoader> loaders = new ArrayList<>(config.resources().resourceLoaders().build());
+        for(TypedResourceLoader loader : loaderSet) {
+            loaders.add(0, loader);
+        }
+        config.resources().resourceLoaders().set(loaders);
+    }
+
 
     @Override
     public String compile(String extension, String source, Object... data) {
-        if(!hasRegisteredComponents) {
-            for(JtwigFunction function : getRegistrar().resolveSet(JtwigFunction.class)) {
-                config.functions().add(function);
-            }
-
-            List<TypedResourceLoader> loaders = new ArrayList<>(config.resources().resourceLoaders().build());
-            for(TypedResourceLoader loader : getRegistrar().resolveSet(TypedResourceLoader.class)) {
-                loaders.add(0, loader);
-            }
-            config.resources().resourceLoaders().set(loaders);
-
-            hasRegisteredComponents = true;
-        }
 
         String s = "";
         if(data != null && data.length > 0 && data[0] != null) {

@@ -1,15 +1,19 @@
 package com.eden.orchid;
 
+import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.registration.OrchidRegistrar;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.impl.registration.Registrar;
-import com.eden.orchid.impl.resources.OrchidFileResources;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,13 +35,13 @@ public final class Orchid {
      * @return the number of arguments it expects from the command line
      */
     public static int optionLength(String option) {
-        if(earlyUseOptions == null) {
-            registrar = new Registrar();
-            registrar.addToResolver(OrchidResources.class, new OrchidFileResources());
-            earlyUseOptions = registrar.resolve(OrchidOptions.class);
+        if(injector == null) {
+            injector = Guice.createInjector(findModules());
         }
 
-        return earlyUseOptions.optionLength(option);
+        OrchidRegistrar registrar = injector.getInstance(OrchidRegistrar.class);
+
+        return OrchidOptions.optionLength(registrar.resolveSet(OrchidOption.class), option);
     }
 
     /**
@@ -54,14 +58,10 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
     private static OrchidContext context;
-    private static OrchidRegistrar registrar;
-    private static OrchidOptions earlyUseOptions;
+    private static Injector injector;
 
     public static OrchidContext getContext() { return context; }
-
-    public static OrchidRegistrar getRegistrar() {
-        return registrar;
-    }
+    public static Injector getInjector() { return injector; }
 
     // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
@@ -80,10 +80,10 @@ public final class Orchid {
             }
         }
 
-        registrar = new Registrar();
-        registrar.addToResolver(OrchidResources.class, new OrchidFileResources());
+        injector = Guice.createInjector(findModules());
 
         context = new OrchidContext(options);
+        injector.injectMembers(context);
 
         boolean success = context.run(task);
 
@@ -96,11 +96,29 @@ public final class Orchid {
             options.put(a[0], a);
         }
 
-        // registrar was already created during 'optionLength' phase
-        registrar.addToResolver(rootDoc);
-
         context = new OrchidContext(options);
+        injector.injectMembers(context);
 
         return context.run(OrchidTasks.defaultTask);
+    }
+
+    private static List<AbstractModule> findModules() {
+        List<AbstractModule> modules = new ArrayList<>();
+
+        FastClasspathScanner scanner = new FastClasspathScanner();
+        scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
+            try {
+                AbstractModule provider = matchingClass.newInstance();
+                if (provider != null) {
+                    modules.add(provider);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        scanner.scan();
+
+        return modules;
     }
 }

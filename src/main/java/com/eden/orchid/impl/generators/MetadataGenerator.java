@@ -3,13 +3,13 @@ package com.eden.orchid.impl.generators;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
+@Singleton
 public class MetadataGenerator implements OrchidGenerator {
 
     private List<OrchidPage> meta;

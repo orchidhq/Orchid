@@ -3,10 +3,14 @@ package com.eden.orchid.api.resources;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.registration.Contextual;
+import lombok.Data;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+
+@Data
 public class OrchidPage implements Contextual {
 
     private OrchidReference reference;
@@ -22,7 +26,12 @@ public class OrchidPage implements Contextual {
 
     private OrchidResource resource;
 
+    // injected members
+    private OrchidResources resources;
+
     public OrchidPage(OrchidResource resource) {
+        getInjector().injectMembers(this);
+
         this.resource = resource;
 
         this.reference = new OrchidReference(resource.getReference());
@@ -60,7 +69,7 @@ public class OrchidPage implements Contextual {
      * @param templateName the full relative name of the template to render
      */
     public void renderTemplate(String templateName) {
-        Orchid.getContext().getResources().render(templateName, FilenameUtils.getExtension(templateName), true, buildPageData(), alias, reference);
+        resources.render(templateName, FilenameUtils.getExtension(templateName), true, buildPageData(), alias, reference);
     }
 
     /**
@@ -69,7 +78,7 @@ public class OrchidPage implements Contextual {
      * @param template the content of a 'template' to render
      */
     public void renderString(String template) {
-        Orchid.getContext().getResources().render(template, resource.getReference().getExtension(), false, buildPageData(), alias, reference);
+        resources.render(template, resource.getReference().getExtension(), false, buildPageData(), alias, reference);
     }
 
     /**
@@ -139,69 +148,8 @@ public class OrchidPage implements Contextual {
         return null;
     }
 
-    // Getters and Setters
-//----------------------------------------------------------------------------------------------------------------------
-    public OrchidPage getNext() {
-        return next;
-    }
-
-    public void setNext(OrchidPage next) {
-        this.next = next;
-    }
-
-    public OrchidPage getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(OrchidPage previous) {
-        this.previous = previous;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public JSONObject getData() {
-        return data;
-    }
-
-    public void setData(JSONObject data) {
-        this.data = data;
-    }
-
-    public JSONArray getMenu() {
-        return menu;
-    }
-
-    public void setMenu(JSONArray menu) {
-        this.menu = menu;
-    }
-
-    public OrchidResource getResource() {
-        return resource;
-    }
-
-    public OrchidReference getReference() {
-        return reference;
-    }
-
-    public void setReference(OrchidReference reference) {
-        this.reference = reference;
-    }
-
-    public void setResource(OrchidResource resource) {
-        this.resource = resource;
+    @Inject
+    public void setResources(OrchidResources resources) {
+        this.resources = resources;
     }
 }

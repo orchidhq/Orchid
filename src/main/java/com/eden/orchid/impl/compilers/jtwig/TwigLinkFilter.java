@@ -1,15 +1,15 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@AutoRegister
+@Singleton
 public class TwigLinkFilter implements JtwigFunction {
 
     @Override

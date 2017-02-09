@@ -2,10 +2,12 @@ package com.eden.orchid.impl.tasks;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.registration.AutoRegister;
 
-@AutoRegister
+import javax.inject.Singleton;
+
+@Singleton
 public class BuildTask implements OrchidTask {
+
     @Override
     public String getName() {
         return "build";

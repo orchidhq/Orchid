@@ -3,18 +3,18 @@ package com.eden.orchid.impl.options;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 
-@AutoRegister
+@Singleton
 public class ConfigOption implements OrchidOption {
     private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
 

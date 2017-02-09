@@ -3,17 +3,26 @@ package com.eden.orchid.api.generators;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.registration.Contextual;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-@AutoRegister
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Set;
+
+@Singleton
 public class OrchidGenerators implements Contextual {
     private JSONArray disabledGenerators;
+    private Set<OrchidGenerator> generators;
+
+    @Inject
+    public OrchidGenerators(Set<OrchidGenerator> generators) {
+        this.generators = generators;
+    }
 
     public void startIndexing(JSONObject indexObject) {
-        for (OrchidGenerator generator : getRegistrar().resolveSet(OrchidGenerator.class)) {
+        for (OrchidGenerator generator : generators) {
             if(shouldUseGenerator(generator)) {
                 Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.priority(), generator);
                 JSONElement element = generator.startIndexing();
@@ -27,7 +36,7 @@ public class OrchidGenerators implements Contextual {
     }
 
     public void startGeneration() {
-        for (OrchidGenerator generator : getRegistrar().resolveSet(OrchidGenerator.class)) {
+        for (OrchidGenerator generator : generators) {
             if(shouldUseGenerator(generator)) {
                 Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.priority(), generator);
                 generator.startGeneration();

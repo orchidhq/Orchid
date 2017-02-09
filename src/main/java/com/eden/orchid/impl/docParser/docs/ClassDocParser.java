@@ -9,9 +9,25 @@ import com.sun.javadoc.MethodDoc;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.io.File;
 
 public class ClassDocParser implements Contextual {
+
+    private CommentParser commentParser;
+    private AnnotationParser annotationParser;
+    private TypeParser typeParser;
+    private ParameterParser parameterParser;
+
+    public ClassDocParser(CommentParser commentParser, AnnotationParser annotationParser, TypeParser typeParser, ParameterParser parameterParser) {
+        this.commentParser = commentParser;
+        this.annotationParser = annotationParser;
+        this.typeParser = typeParser;
+        this.parameterParser = parameterParser;
+    }
+
+    @Inject
+
 
     public JSONObject loadClassData(ClassDoc classDoc) {
         JSONObject object = getBasicClassObject(classDoc);
@@ -50,7 +66,7 @@ public class ClassDocParser implements Contextual {
         object.put("package", classDoc.containingPackage().name());
         object.put("qualifiedName", classDoc.qualifiedTypeName());
         object.put("url", getReference(classDoc).toString());
-        object.put("comment", getContext().getCommentParser().getCommentObject(classDoc));
+        object.put("comment", commentParser.getCommentObject(classDoc));
 
         return object;
     }
@@ -60,9 +76,9 @@ public class ClassDocParser implements Contextual {
 
         for(ConstructorDoc cDoc : classDoc.constructors()) {
             JSONObject ctor = new JSONObject();
-            ctor.put("comment", getContext().getCommentParser().getCommentObject(cDoc));
-            ctor.put("annotations", getContext().getAnnotationParser().getAnnotations(cDoc));
-            ctor.put("parameters", getContext().getParameterParser().getParameters(cDoc));
+            ctor.put("comment", commentParser.getCommentObject(cDoc));
+            ctor.put("annotations", annotationParser.getAnnotations(cDoc));
+            ctor.put("parameters", parameterParser.getParameters(cDoc));
 
             ctors.put(ctor);
         }
@@ -75,10 +91,10 @@ public class ClassDocParser implements Contextual {
 
         for(MethodDoc mDoc : classDoc.methods()) {
             JSONObject method = new JSONObject();
-            method.put("comment", getContext().getCommentParser().getCommentObject(mDoc));
-            method.put("annotations", getContext().getAnnotationParser().getAnnotations(mDoc));
-            method.put("returns", getContext().getTypeParser().getTypeObject(mDoc.returnType()));
-            method.put("parameters", getContext().getParameterParser().getParameters(mDoc));
+            method.put("comment", commentParser.getCommentObject(mDoc));
+            method.put("annotations", annotationParser.getAnnotations(mDoc));
+            method.put("returns", typeParser.getTypeObject(mDoc.returnType()));
+            method.put("parameters", parameterParser.getParameters(mDoc));
             method.put("name", mDoc.name());
 
             methods.put(method);
@@ -91,10 +107,10 @@ public class ClassDocParser implements Contextual {
 
         for(FieldDoc fDoc : classDoc.fields()) {
             JSONObject field = new JSONObject();
-            field.put("comment", getContext().getCommentParser().getCommentObject(fDoc));
-            field.put("annotations", getContext().getAnnotationParser().getAnnotations(fDoc));
+            field.put("comment", commentParser.getCommentObject(fDoc));
+            field.put("annotations", annotationParser.getAnnotations(fDoc));
             field.put("name", fDoc.name());
-            field.put("type", getContext().getTypeParser().getTypeObject(fDoc.type()));
+            field.put("type", typeParser.getTypeObject(fDoc.type()));
 
             fields.put(field);
         }

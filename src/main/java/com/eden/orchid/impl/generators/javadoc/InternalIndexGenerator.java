@@ -1,12 +1,11 @@
 package com.eden.orchid.impl.generators.javadoc;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.impl.docParser.docs.ClassDocParser;
 import com.eden.orchid.impl.resources.JsonResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.ClassDoc;
@@ -17,7 +16,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
 public class InternalIndexGenerator implements OrchidGenerator {
 
     public JSONArray internalClasses;
@@ -48,7 +46,7 @@ public class InternalIndexGenerator implements OrchidGenerator {
 
     @Override
     public JSONElement startIndexing() {
-        root = Orchid.getContext().getRootDoc();
+        root = getRegistrar().resolve(RootDoc.class);
 
         if(root == null) {
             return null;
@@ -60,9 +58,9 @@ public class InternalIndexGenerator implements OrchidGenerator {
         pagesIndex = new JSONObject();
 
         for(ClassDoc classDoc : root.classes()) {
-            JSONObject classInfo = getContext().getClassDocParser().loadClassData(classDoc);
+            JSONObject classInfo = getRegistrar().resolve(ClassDocParser.class).loadClassData(classDoc);
 
-            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), getContext().getClassDocParser().getReference(classDoc)));
+            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), getRegistrar().resolve(ClassDocParser.class).getReference(classDoc)));
             pages.add(classPage);
 
 //            if(classInfo.has("info")) {

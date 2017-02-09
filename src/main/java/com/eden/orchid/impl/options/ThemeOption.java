@@ -5,9 +5,10 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.registration.AutoRegister;
 
-@AutoRegister
+import javax.inject.Singleton;
+
+@Singleton
 public class ThemeOption implements OrchidOption {
 
     @Override

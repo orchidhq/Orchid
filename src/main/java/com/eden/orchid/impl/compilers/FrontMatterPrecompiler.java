@@ -4,15 +4,15 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
+import javax.inject.Singleton;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@AutoRegister
+@Singleton
 public class FrontMatterPrecompiler implements OrchidPreCompiler {
     @Override
     public int priority() {

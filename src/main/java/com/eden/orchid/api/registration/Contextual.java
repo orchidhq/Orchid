@@ -2,6 +2,7 @@ package com.eden.orchid.api.registration;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidContext;
+import com.google.inject.Injector;
 
 public interface Contextual {
     default OrchidContext getContext() {
@@ -9,6 +10,10 @@ public interface Contextual {
     }
 
     default OrchidRegistrar getRegistrar() {
-        return Orchid.getRegistrar();
+        return getInjector().getInstance(OrchidRegistrar.class);
+    }
+
+    default Injector getInjector() {
+        return Orchid.getInjector();
     }
 }

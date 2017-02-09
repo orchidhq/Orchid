@@ -2,10 +2,11 @@ package com.eden.orchid.impl.options;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONArray;
 
-@AutoRegister
+import javax.inject.Singleton;
+
+@Singleton
 public class DisabledGeneratorsOption implements OrchidOption {
 
     @Override

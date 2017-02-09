@@ -1,26 +1,36 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.Orchid;
+import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.api.resources.OrchidResource;
-import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.google.common.base.Optional;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jtwig.resource.loader.ResourceLoader;
 import org.jtwig.resource.loader.TypedResourceLoader;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-@AutoRegister
+@Singleton
 public class OrchidResourceLoader extends TypedResourceLoader {
 
-    public OrchidResourceLoader() {
-        super("orchid", new Loader());
+    @Inject
+    public OrchidResourceLoader(OrchidResources resources) {
+        super("orchid", new Loader(resources));
     }
 
-    private static class Loader implements ResourceLoader {
+    private static class Loader implements ResourceLoader, Contextual {
+
+        private OrchidResources resources;
+
+        public Loader(OrchidResources resources) {
+            this.resources = resources;
+        }
+
         @Override
         public Optional<Charset> getCharset(String path) {
             return Optional.absent();
@@ -73,10 +83,10 @@ public class OrchidResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(path.startsWith("/")) {
-                resource = Orchid.getContext().getResources().getResourceEntry(path);
+                resource = resources.getResourceEntry(path);
             }
             else {
-                resource = Orchid.getContext().getResources().getResourceEntry("templates/" + path);
+                resource = resources.getResourceEntry("templates/" + path);
             }
 
             return (resource != null);
@@ -88,10 +98,10 @@ public class OrchidResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(path.startsWith("/")) {
-                resource = Orchid.getContext().getResources().getResourceEntry(path);
+                resource = resources.getResourceEntry(path);
             }
             else {
-                resource = Orchid.getContext().getResources().getResourceEntry("templates/" + path);
+                resource = resources.getResourceEntry("templates/" + path);
             }
 
             if(resource != null) {

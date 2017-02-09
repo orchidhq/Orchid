@@ -37,6 +37,13 @@ dependencies {
     // enable processing JavaDoc
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
 
+    // Lombak for boilerplate reduction
+    compile 'org.projectlombok:lombok:1.16.12'
+
+    // Guice for DI
+    compile 'com.google.inject:guice:4.1.0'
+    compile 'com.google.inject.extensions:guice-multibindings:4.1.0'
+
     // core JavaEden utilities
     compile 'com.github.JavaEden:Common:74714dca1f'
 
@@ -63,9 +70,9 @@ dependencies {
     // generate own documentation with Orchid
     orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
 
-    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:d2cb723709') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+//    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:3d336742de') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
 //    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:696d96861f') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
@@ -85,17 +92,17 @@ check.dependsOn jacocoTestReport
 //------------------------------------------------------------------------------
 orchid {
     includeMainConfiguration = true
-    task = "listOptions"
+//    task = "listOptions"
 //    task = "listCompilers"
 //    task = "build"
 //    task = "listTasks"
 //    task = "listGenerators"
 //    task = "serve"
-//    task = "listThemes"
+    task = "listThemes"
 
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
-//    theme = 'com.eden.orchid.impl.theme.BasicTheme'
+//    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+    theme = 'com.eden.orchid.impl.theme.BasicTheme'
     version = this.version
     baseUrl = 'http://localhost:8080'
 }

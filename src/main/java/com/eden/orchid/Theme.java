@@ -7,13 +7,28 @@ import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
 import com.eden.orchid.impl.resources.StringResource;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+import java.util.Set;
+
 public abstract class Theme implements OrchidResourceSource {
 
     private int resourcePriority = 100;
+
+    private OrchidResources resources;
+    private Set<OrchidCompiler> compilers;
+    private Set<OrchidPreCompiler> preCompilers;
+
+    @Inject
+    public Theme(OrchidResources resources, Set<OrchidCompiler> compilers, Set<OrchidPreCompiler> preCompilers) {
+        this.resources = resources;
+        this.compilers = compilers;
+        this.preCompilers = preCompilers;
+    }
 
     public Class<? extends OrchidPreCompiler> getPrecompilerClass() {
         return FrontMatterPrecompiler.class;
@@ -42,24 +57,25 @@ public abstract class Theme implements OrchidResourceSource {
 
     public void generateHomepage() {
         JSONObject frontPageData = new JSONObject(Orchid.getContext().getRoot().toMap());
-        OrchidResource readmeResource = Orchid.getContext().getResources().getProjectReadme();
+        OrchidResource readmeResource = resources.getProjectReadme();
         if (readmeResource != null) {
             frontPageData.put("readme", compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
         }
 
-        OrchidResource licenseResource = Orchid.getContext().getResources().getProjectLicense();
+        OrchidResource licenseResource = resources.getProjectLicense();
         if (licenseResource != null) {
             frontPageData.put("license", compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
         }
 
         OrchidResource resource = new StringResource("index.twig", "");
         OrchidPage page = new OrchidPage(resource);
+
         page.setData(frontPageData);
         page.renderTemplate("templates/pages/frontPage.twig");
     }
 
     public String compile(String extension, String input, Object... data) {
-        for (OrchidCompiler compiler : getRegistrar().resolveSet(OrchidCompiler.class)) {
+        for (OrchidCompiler compiler : compilers) {
             if (acceptsExtension(extension, compiler.getSourceExtensions())) {
                 return compiler.compile(extension, input, data);
             }
@@ -69,7 +85,7 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
-        for (OrchidPreCompiler compiler : getRegistrar().resolveSet(OrchidPreCompiler.class)) {
+        for (OrchidPreCompiler compiler : preCompilers) {
             if (compiler.getClass().equals(getPrecompilerClass())) {
                 return compiler.getEmbeddedData(input);
             }
@@ -79,7 +95,7 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public String getOutputExtension(String extension) {
-        for (OrchidCompiler compiler : getRegistrar().resolveSet(OrchidCompiler.class)) {
+        for (OrchidCompiler compiler : compilers) {
             if (acceptsExtension(extension, compiler.getSourceExtensions())) {
                 return compiler.getOutputExtension();
             }

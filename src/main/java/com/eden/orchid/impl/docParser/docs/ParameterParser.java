@@ -7,7 +7,16 @@ import com.sun.javadoc.Parameter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+
 public class ParameterParser implements Contextual {
+
+    private TypeParser typeParser;
+
+    @Inject
+    public ParameterParser(TypeParser typeParser) {
+        this.typeParser = typeParser;
+    }
 
     public JSONArray getParameters(ExecutableMemberDoc doc) {
         JSONArray array = new JSONArray();
@@ -15,7 +24,7 @@ public class ParameterParser implements Contextual {
         for(Parameter parameter : doc.parameters()) {
             JSONObject object = new JSONObject();
 
-            object.put("type", getContext().getTypeParser().getTypeObject(parameter.type()));
+            object.put("type", typeParser.getTypeObject(parameter.type()));
             object.put("name", parameter.name());
 
             for (ParamTag paramTag : doc.paramTags()) {

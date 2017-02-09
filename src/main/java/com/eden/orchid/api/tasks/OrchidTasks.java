@@ -5,20 +5,25 @@ import com.caseyjbrooks.clog.ClogLogger;
 import com.eden.orchid.api.registration.Contextual;
 import org.fusesource.jansi.AnsiConsole;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Set;
 
+@Singleton
 public class OrchidTasks implements Contextual {
 
     public static final String defaultTask = "build";
     public static final String loggerKey = "clear";
 
-    public OrchidTasks() {
+    private Set<OrchidTask> tasks;
+
+    @Inject
+    public OrchidTasks(Set<OrchidTask> tasks) {
         Clog.addLogger(loggerKey, new TaskLogger());
+        this.tasks = tasks;
     }
 
     public void run(String taskName) {
-        Set<OrchidTask> tasks = getRegistrar().resolveSet(OrchidTask.class);
-
         for(OrchidTask task : tasks) {
             if(task.getName().equals(taskName)) {
                 task.run();

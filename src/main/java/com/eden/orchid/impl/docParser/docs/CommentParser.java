@@ -11,7 +11,19 @@ import com.sun.javadoc.Tag;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+import java.util.Set;
+
 public class CommentParser implements Contextual {
+
+    private Set<OrchidInlineTagHandler> inlineTagHandlers;
+    private Set<OrchidBlockTagHandler> blockTagHandlers;
+
+    @Inject
+    public CommentParser(Set<OrchidBlockTagHandler> blockTagHandlers, Set<OrchidInlineTagHandler> inlineTagHandlers) {
+        this.blockTagHandlers = blockTagHandlers;
+        this.inlineTagHandlers = inlineTagHandlers;
+    }
 
     public JSONObject getCommentObject(Doc doc) {
         JSONObject comment = new JSONObject();
@@ -51,7 +63,7 @@ public class CommentParser implements Contextual {
             for (Tag tag : tags) {
                 OrchidInlineTagHandler handler = null;
 
-                for (OrchidInlineTagHandler tagHandler : getRegistrar().resolveSet(OrchidInlineTagHandler.class)) {
+                for (OrchidInlineTagHandler tagHandler : inlineTagHandlers) {
                     if (("@" + tagHandler.getName()).equalsIgnoreCase(tag.kind())) {
                         handler = tagHandler;
                         break;
@@ -79,7 +91,7 @@ public class CommentParser implements Contextual {
     private JSONObject getBlockTags(Doc doc) {
         JSONObject object = new JSONObject();
 
-        for (OrchidBlockTagHandler tagHandler : getRegistrar().resolveSet(OrchidBlockTagHandler.class)) {
+        for (OrchidBlockTagHandler tagHandler : blockTagHandlers) {
             Tag[] tags = doc.tags(tagHandler.getName());
 
             if (!EdenUtils.isEmpty(tags)) {

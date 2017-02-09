@@ -2,21 +2,28 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
-import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
+@Singleton
 public class PostsGenerator implements OrchidGenerator {
 
     private List<OrchidPage> posts;
+    private OrchidResources resources;
+
+    @Inject
+    public PostsGenerator(OrchidResources resources) {
+        this.resources = resources;
+    }
 
     @Override
     public int priority() {
@@ -37,10 +44,10 @@ public class PostsGenerator implements OrchidGenerator {
     public JSONElement startIndexing() {
         JSONObject sitePosts = new JSONObject();
 
-        List<OrchidResource> resources = Orchid.getContext().getResources().getResourceDirEntries("posts", null, true);
+        List<OrchidResource> resourcesList = resources.getResourceDirEntries("posts", null, true);
         posts = new ArrayList<>();
 
-        for (OrchidResource entry : resources) {
+        for (OrchidResource entry : resourcesList) {
             if(!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
                 entry.getReference().setTitle(entry.queryEmbeddedData("title").toString());
             }

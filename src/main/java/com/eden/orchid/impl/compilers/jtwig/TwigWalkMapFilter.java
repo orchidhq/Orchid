@@ -1,18 +1,18 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@AutoRegister
+@Singleton
 public class TwigWalkMapFilter implements JtwigFunction {
 
     @Override

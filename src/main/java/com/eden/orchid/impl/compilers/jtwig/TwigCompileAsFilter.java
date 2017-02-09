@@ -1,16 +1,16 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.api.registration.AutoRegister;
 import org.json.JSONObject;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@AutoRegister
+@Singleton
 public class TwigCompileAsFilter implements JtwigFunction {
 
     @Override

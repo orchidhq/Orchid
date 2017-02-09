@@ -4,12 +4,12 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.impl.options.WikiPathOption;
-import com.eden.orchid.impl.resources.StringResource;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
-import com.eden.orchid.api.registration.AutoRegister;
+import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.impl.options.WikiPathOption;
+import com.eden.orchid.impl.resources.StringResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -18,11 +18,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
+@Singleton
 public class WikiGenerator implements OrchidGenerator {
 
     private List<OrchidPage> wiki;
@@ -31,6 +33,13 @@ public class WikiGenerator implements OrchidGenerator {
     private String wikiBaseDir = "wiki/";
 
     private List<JSONObject> terms;
+
+    private OrchidResources resources;
+
+    @Inject
+    public WikiGenerator(OrchidResources resources) {
+        this.resources = resources;
+    }
 
     @Override
     public int priority() {
@@ -95,7 +104,7 @@ public class WikiGenerator implements OrchidGenerator {
     }
 
     private void setupGlossary() {
-        OrchidResource glossary = Orchid.getContext().getResources().getResourceDirEntry(wikiBaseDir + "GLOSSARY.md");
+        OrchidResource glossary = resources.getResourceDirEntry(wikiBaseDir + "GLOSSARY.md");
 
         if(glossary == null) {
             return;
@@ -134,7 +143,7 @@ public class WikiGenerator implements OrchidGenerator {
     }
 
     private void setupSummary() {
-        OrchidResource summary = Orchid.getContext().getResources().getResourceDirEntry(wikiBaseDir + "SUMMARY.md");
+        OrchidResource summary = resources.getResourceDirEntry(wikiBaseDir + "SUMMARY.md");
 
         if(summary == null) {
             return;
@@ -151,7 +160,7 @@ public class WikiGenerator implements OrchidGenerator {
             String file = wikiBaseDir + a.attr("href");
             String path = wikiBaseDir + FilenameUtils.removeExtension(a.attr("href"));
 
-            OrchidResource resource = Orchid.getContext().getResources().getResourceDirEntry(file);
+            OrchidResource resource = resources.getResourceDirEntry(file);
 
             if(resource == null) {
                 Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{ file });

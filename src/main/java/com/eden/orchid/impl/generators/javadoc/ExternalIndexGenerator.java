@@ -3,7 +3,6 @@ package com.eden.orchid.impl.generators.javadoc;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.registration.AutoRegister;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoRegister
 public class ExternalIndexGenerator implements OrchidGenerator {
 
     private OkHttpClient client = new OkHttpClient();
@@ -45,7 +43,7 @@ public class ExternalIndexGenerator implements OrchidGenerator {
 
     @Override
     public JSONElement startIndexing() {
-        RootDoc root = getContext().getRootDoc();
+        RootDoc root = getRegistrar().resolve(RootDoc.class);
 
         if(root == null) {
             return null;
@@ -72,7 +70,7 @@ public class ExternalIndexGenerator implements OrchidGenerator {
 
     @Override
     public void startGeneration() {
-        RootDoc root = getContext().getRootDoc();
+        RootDoc root = getRegistrar().resolve(RootDoc.class);
 
         if(root == null) {
             return;
