@@ -4,12 +4,12 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class ListGeneratorsTask implements OrchidTask {
@@ -18,7 +18,7 @@ public class ListGeneratorsTask implements OrchidTask {
 
     @Inject
     public ListGeneratorsTask(Set<OrchidGenerator> generators) {
-        this.generators = new TreeSet<>(generators);
+        this.generators = new AlwaysSortedTreeSet<>(generators);
     }
 
     @Override

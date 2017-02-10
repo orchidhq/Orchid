@@ -4,11 +4,11 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class ListThemesTask implements OrchidTask {
@@ -17,7 +17,7 @@ public class ListThemesTask implements OrchidTask {
 
     @Inject
     public ListThemesTask(Set<Theme> themes) {
-        this.themes = new TreeSet<>(themes);
+        this.themes = new AlwaysSortedTreeSet<>(themes);
     }
 
     @Override

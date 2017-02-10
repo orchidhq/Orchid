@@ -4,11 +4,11 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class ListResourceSourcesTask implements OrchidTask {
@@ -39,7 +39,7 @@ public class ListResourceSourcesTask implements OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for (OrchidResourceSource source : new TreeSet<>(sources)) {
+        for (OrchidResourceSource source : new AlwaysSortedTreeSet<>(sources)) {
 
             String message;
 

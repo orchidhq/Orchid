@@ -94,8 +94,8 @@ orchid {
 //    task = "listTasks"
 //    task = "listGenerators"
 //    task = "serve"
-//    task = "listThemes"
-    task = "listSources"
+    task = "listThemes"
+//    task = "listSources"
 
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
     theme = 'com.eden.orchid.bsdoc.BSDocTheme'

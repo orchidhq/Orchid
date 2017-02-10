@@ -7,6 +7,7 @@ import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -25,7 +26,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -84,10 +84,10 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         }
 
         if(resourceSources == null) {
-            resourceSources = OrchidUtils.resolveSet(OrchidResourceSource.class);
+            resourceSources = new AlwaysSortedTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
         }
 
-        for(OrchidResourceSource source : new TreeSet<>(resourceSources)) {
+        for(OrchidResourceSource source : resourceSources) {
             if(source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
@@ -131,10 +131,10 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         }
 
         if(resourceSources == null) {
-            resourceSources = OrchidUtils.resolveSet(OrchidResourceSource.class);
+            resourceSources = new AlwaysSortedTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
         }
 
-        for(OrchidResourceSource source : new TreeSet<>(resourceSources)) {
+        for(OrchidResourceSource source : resourceSources) {
             if(source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());

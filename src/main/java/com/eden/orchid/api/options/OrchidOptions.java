@@ -4,6 +4,7 @@ package com.eden.orchid.api.options;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class OrchidOptions implements Contextual {
@@ -24,7 +24,7 @@ public class OrchidOptions implements Contextual {
 
     @Inject
     public OrchidOptions(Set<OrchidOption> options) {
-        this.options = new TreeSet<>(options);
+        this.options = new AlwaysSortedTreeSet<>(options);
     }
 
     public void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {

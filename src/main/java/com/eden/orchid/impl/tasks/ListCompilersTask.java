@@ -4,11 +4,11 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class ListCompilersTask implements OrchidTask {
@@ -17,7 +17,7 @@ public class ListCompilersTask implements OrchidTask {
 
     @Inject
     public ListCompilersTask(Set<OrchidCompiler> compilers) {
-        this.compilers = new TreeSet<>(compilers);
+        this.compilers = new AlwaysSortedTreeSet<>(compilers);
     }
 
     @Override

@@ -4,12 +4,12 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class ListOptionsTask implements OrchidTask {
@@ -18,7 +18,7 @@ public class ListOptionsTask implements OrchidTask {
 
     @Inject
     public ListOptionsTask(Set<OrchidOption> options) {
-        this.options = new TreeSet<>(options);
+        this.options = new AlwaysSortedTreeSet<>(options);
     }
 
     @Override

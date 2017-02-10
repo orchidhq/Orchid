@@ -10,11 +10,11 @@ import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
 import com.eden.orchid.impl.resources.StringResource;
+import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Set;
-import java.util.TreeSet;
 
 public abstract class Theme implements OrchidResourceSource {
 
@@ -27,8 +27,8 @@ public abstract class Theme implements OrchidResourceSource {
     @Inject
     public Theme(OrchidResources resources, Set<OrchidCompiler> compilers, Set<OrchidPreCompiler> preCompilers) {
         this.resources = resources;
-        this.compilers = new TreeSet<>(compilers);
-        this.preCompilers = new TreeSet<>(preCompilers);
+        this.compilers = new AlwaysSortedTreeSet<>(compilers);
+        this.preCompilers = new AlwaysSortedTreeSet<>(preCompilers);
     }
 
     public Class<? extends OrchidPreCompiler> getPrecompilerClass() {
