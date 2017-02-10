@@ -14,7 +14,7 @@ plugins {
     id 'jacoco'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
-    id 'com.eden.orchidplugin' version 'v0.1.6'
+//    id 'com.eden.orchidplugin' version 'v0.1.6'
 }
 //apply plugin: 'com.eden.orchidplugin'
 
@@ -68,11 +68,11 @@ dependencies {
     compile 'com.github.JavaEden:Clog4j:v1.3.0'
 
     // generate own documentation with Orchid
-    orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
-
-    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:e1fba1f67a') {
-        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-    }
+//    orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
+//
+//    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:e1fba1f67a') {
+//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+//    }
 //    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:696d96861f') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
@@ -90,35 +90,35 @@ check.dependsOn jacocoTestReport
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
-orchid {
-    includeMainConfiguration = true
-//    task = "listOptions"
-//    task = "listCompilers"
-//    task = "build"
-//    task = "listTasks"
-//    task = "listGenerators"
-//    task = "serve"
-//    task = "listThemes"
-    task = "listSources"
+//orchid {
+//    includeMainConfiguration = true
+////    task = "listOptions"
+////    task = "listCompilers"
+////    task = "build"
+////    task = "listTasks"
+////    task = "listGenerators"
+////    task = "serve"
+////    task = "listThemes"
+//    task = "listSources"
+//
+////    theme = 'com.eden.orchid.editorial.EditorialTheme'
+//    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+////    theme = 'com.eden.orchid.impl.theme.BasicTheme'
+//    version = this.version
+//    baseUrl = 'http://localhost:8080'
+//}
 
-//    theme = 'com.eden.orchid.editorial.EditorialTheme'
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
-//    theme = 'com.eden.orchid.impl.theme.BasicTheme'
-    version = this.version
-    baseUrl = 'http://localhost:8080'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//    classifier = 'sources'
+//    from sourceSets.main.allSource
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives sourcesJar
+//    archives javadocJar
+//}
