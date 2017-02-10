@@ -26,7 +26,7 @@ public class ThemeOption implements OrchidOption {
         try {
             Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
 
-            Theme theme = getRegistrar().resolve(themeClass);
+            Theme theme = getInjector().getInstance(themeClass);
             if(theme != null) {
                 Orchid.getContext().setTheme(theme);
                 return new JSONElement(options[1]);

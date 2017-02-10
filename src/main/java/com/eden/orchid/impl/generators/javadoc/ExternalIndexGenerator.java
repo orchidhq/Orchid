@@ -43,7 +43,7 @@ public class ExternalIndexGenerator implements OrchidGenerator {
 
     @Override
     public JSONElement startIndexing() {
-        RootDoc root = getRegistrar().resolve(RootDoc.class);
+        RootDoc root = getContext().getRootDoc();
 
         if(root == null) {
             return null;
@@ -70,7 +70,7 @@ public class ExternalIndexGenerator implements OrchidGenerator {
 
     @Override
     public void startGeneration() {
-        RootDoc root = getRegistrar().resolve(RootDoc.class);
+        RootDoc root = getContext().getRootDoc();
 
         if(root == null) {
             return;

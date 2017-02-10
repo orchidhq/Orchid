@@ -70,9 +70,9 @@ dependencies {
     // generate own documentation with Orchid
     orchidDocsCompile files("build/libs/OrchidCore-${version}.jar")
 
-//    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:3d336742de') {
-//        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
-//    }
+    orchidDocsCompile ('com.github.JavaEden:OrchidBsDocTheme:e1fba1f67a') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
 //    orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:696d96861f') {
 //        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
 //    }
@@ -98,11 +98,12 @@ orchid {
 //    task = "listTasks"
 //    task = "listGenerators"
 //    task = "serve"
-    task = "listThemes"
+//    task = "listThemes"
+    task = "listSources"
 
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
-//    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
-    theme = 'com.eden.orchid.impl.theme.BasicTheme'
+    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+//    theme = 'com.eden.orchid.impl.theme.BasicTheme'
     version = this.version
     baseUrl = 'http://localhost:8080'
 }

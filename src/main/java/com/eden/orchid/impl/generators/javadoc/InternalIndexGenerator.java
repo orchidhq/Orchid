@@ -13,6 +13,7 @@ import com.sun.javadoc.RootDoc;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,13 @@ public class InternalIndexGenerator implements OrchidGenerator {
     private List<OrchidPage> pages;
     private JSONObject pagesIndex;
     private RootDoc root;
+
+    ClassDocParser classDocParser;
+
+    @Inject
+    public InternalIndexGenerator(ClassDocParser classDocParser) {
+        this.classDocParser = classDocParser;
+    }
 
     /**
      * # InternalIndexGenerator
@@ -46,7 +54,7 @@ public class InternalIndexGenerator implements OrchidGenerator {
 
     @Override
     public JSONElement startIndexing() {
-        root = getRegistrar().resolve(RootDoc.class);
+        root = getContext().getRootDoc();
 
         if(root == null) {
             return null;
@@ -58,9 +66,9 @@ public class InternalIndexGenerator implements OrchidGenerator {
         pagesIndex = new JSONObject();
 
         for(ClassDoc classDoc : root.classes()) {
-            JSONObject classInfo = getRegistrar().resolve(ClassDocParser.class).loadClassData(classDoc);
+            JSONObject classInfo = classDocParser.loadClassData(classDoc);
 
-            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), getRegistrar().resolve(ClassDocParser.class).getReference(classDoc)));
+            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), classDocParser.getReference(classDoc)));
             pages.add(classPage);
 
 //            if(classInfo.has("info")) {

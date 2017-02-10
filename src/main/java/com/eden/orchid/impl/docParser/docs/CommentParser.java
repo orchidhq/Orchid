@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class CommentParser implements Contextual {
 
@@ -21,8 +22,8 @@ public class CommentParser implements Contextual {
 
     @Inject
     public CommentParser(Set<OrchidBlockTagHandler> blockTagHandlers, Set<OrchidInlineTagHandler> inlineTagHandlers) {
-        this.blockTagHandlers = blockTagHandlers;
-        this.inlineTagHandlers = inlineTagHandlers;
+        this.blockTagHandlers = new TreeSet<>(blockTagHandlers);
+        this.inlineTagHandlers = new TreeSet<>(inlineTagHandlers);
     }
 
     public JSONObject getCommentObject(Doc doc) {

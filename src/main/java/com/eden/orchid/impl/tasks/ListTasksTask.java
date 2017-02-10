@@ -26,7 +26,7 @@ public class ListTasksTask implements OrchidTask {
                 "\n------------------------------------------------------------------------------------" +
                 "\n------------------------------------------------------------------------------------");
 
-        for(OrchidTask task : getRegistrar().resolveSet(OrchidTask.class)) {
+        for(OrchidTask task : OrchidUtils.resolveSet(OrchidTask.class)) {
             Clog.logger(OrchidTasks.loggerKey, "#{ $0 | fg('magenta') }[#{$1}]#{$0 |reset}", new Object[]{ task.getName() });
 
             for(String line : OrchidUtils.wrapString(task.getDescription(), 80)) {

@@ -11,6 +11,7 @@ public class TasksModule extends OrchidModule {
         addToSet(OrchidTask.class, ListCompilersTask.class);
         addToSet(OrchidTask.class, ListGeneratorsTask.class);
         addToSet(OrchidTask.class, ListOptionsTask.class);
+        addToSet(OrchidTask.class, ListResourceSourcesTask.class);
         addToSet(OrchidTask.class, ListTasksTask.class);
         addToSet(OrchidTask.class, ListThemesTask.class);
         addToSet(OrchidTask.class, ServeTask.class);

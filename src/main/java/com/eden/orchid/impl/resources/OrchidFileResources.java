@@ -7,6 +7,7 @@ import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -24,12 +25,15 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidFileResources implements OrchidResources {
+public class OrchidFileResources implements OrchidResources, OrchidResourceSource {
 
     private Set<OrchidResourceSource> resourceSources;
+
+    private int resourcePriority = 1;
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -80,10 +84,10 @@ public class OrchidFileResources implements OrchidResources {
         }
 
         if(resourceSources == null) {
-            resourceSources = getRegistrar().resolveSet(OrchidResourceSource.class);
+            resourceSources = OrchidUtils.resolveSet(OrchidResourceSource.class);
         }
 
-        for(OrchidResourceSource source : resourceSources) {
+        for(OrchidResourceSource source : new TreeSet<>(resourceSources)) {
             if(source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
@@ -127,10 +131,10 @@ public class OrchidFileResources implements OrchidResources {
         }
 
         if(resourceSources == null) {
-            resourceSources = getRegistrar().resolveSet(OrchidResourceSource.class);
+            resourceSources = OrchidUtils.resolveSet(OrchidResourceSource.class);
         }
 
-        for(OrchidResourceSource source : resourceSources) {
+        for(OrchidResourceSource source : new TreeSet<>(resourceSources)) {
             if(source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
@@ -426,4 +430,13 @@ public class OrchidFileResources implements OrchidResources {
     }
 
 
+    @Override
+    public int getResourcePriority() {
+        return resourcePriority;
+    }
+
+    @Override
+    public void setResourcePriority(int priority) {
+        this.resourcePriority = priority;
+    }
 }

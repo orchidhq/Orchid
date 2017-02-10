@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Set;
+import java.util.TreeSet;
 
 public abstract class Theme implements OrchidResourceSource {
 
@@ -26,8 +27,8 @@ public abstract class Theme implements OrchidResourceSource {
     @Inject
     public Theme(OrchidResources resources, Set<OrchidCompiler> compilers, Set<OrchidPreCompiler> preCompilers) {
         this.resources = resources;
-        this.compilers = compilers;
-        this.preCompilers = preCompilers;
+        this.compilers = new TreeSet<>(compilers);
+        this.preCompilers = new TreeSet<>(preCompilers);
     }
 
     public Class<? extends OrchidPreCompiler> getPrecompilerClass() {

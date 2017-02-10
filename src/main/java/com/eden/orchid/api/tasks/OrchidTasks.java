@@ -8,6 +8,7 @@ import org.fusesource.jansi.AnsiConsole;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
 public class OrchidTasks implements Contextual {
@@ -20,7 +21,7 @@ public class OrchidTasks implements Contextual {
     @Inject
     public OrchidTasks(Set<OrchidTask> tasks) {
         Clog.addLogger(loggerKey, new TaskLogger());
-        this.tasks = tasks;
+        this.tasks = new TreeSet<>(tasks);
     }
 
     public void run(String taskName) {

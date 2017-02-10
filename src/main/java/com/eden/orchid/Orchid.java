@@ -2,8 +2,8 @@ package com.eden.orchid;
 
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.options.OrchidOptions;
-import com.eden.orchid.api.registration.OrchidRegistrar;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -39,9 +39,7 @@ public final class Orchid {
             injector = Guice.createInjector(findModules());
         }
 
-        OrchidRegistrar registrar = injector.getInstance(OrchidRegistrar.class);
-
-        return OrchidOptions.optionLength(registrar.resolveSet(OrchidOption.class), option);
+        return OrchidOptions.optionLength(OrchidUtils.resolveSet(injector, OrchidOption.class), option);
     }
 
     /**
@@ -82,7 +80,7 @@ public final class Orchid {
 
         injector = Guice.createInjector(findModules());
 
-        context = new OrchidContext(options);
+        context = new OrchidContext(options, null);
         injector.injectMembers(context);
 
         boolean success = context.run(task);
@@ -96,7 +94,7 @@ public final class Orchid {
             options.put(a[0], a);
         }
 
-        context = new OrchidContext(options);
+        context = new OrchidContext(options, rootDoc);
         injector.injectMembers(context);
 
         return context.run(OrchidTasks.defaultTask);

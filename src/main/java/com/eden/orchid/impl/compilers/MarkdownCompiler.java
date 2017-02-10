@@ -9,9 +9,17 @@ import javax.inject.Singleton;
 @Singleton
 public class MarkdownCompiler implements OrchidCompiler {
 
+    HtmlRenderer renderer;
+
+    public MarkdownCompiler() {
+        HtmlRenderer.Builder builder = HtmlRenderer.builder();
+
+        renderer = HtmlRenderer.builder().build();
+    }
+
     @Override
     public String compile(String extension, String source, Object... data) {
-        return HtmlRenderer.builder().build().render(Parser.builder().build().parse(source));
+        return renderer.render(Parser.builder().build().parse(source));
     }
 
     @Override

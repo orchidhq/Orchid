@@ -34,7 +34,7 @@ public interface OrchidResourceSource extends Comparable<OrchidResourceSource>, 
     @Override
     default int compareTo(OrchidResourceSource o) {
         if(getResourcePriority() == o.getResourcePriority()) {
-            return getClass().getName().compareTo(o.getClass().getName());
+            return o.getClass().getName().compareTo(getClass().getName());
         }
         else {
             return o.getResourcePriority() - getResourcePriority();

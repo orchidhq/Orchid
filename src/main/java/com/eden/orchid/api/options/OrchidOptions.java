@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
 public class OrchidOptions implements Contextual {
@@ -23,7 +24,7 @@ public class OrchidOptions implements Contextual {
 
     @Inject
     public OrchidOptions(Set<OrchidOption> options) {
-        this.options = options;
+        this.options = new TreeSet<>(options);
     }
 
     public void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {

@@ -9,10 +9,6 @@ public interface Contextual {
         return Orchid.getContext();
     }
 
-    default OrchidRegistrar getRegistrar() {
-        return getInjector().getInstance(OrchidRegistrar.class);
-    }
-
     default Injector getInjector() {
         return Orchid.getInjector();
     }

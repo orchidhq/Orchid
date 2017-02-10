@@ -5,6 +5,7 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import org.json.JSONObject;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
+import org.jtwig.environment.EnvironmentConfiguration;
 import org.jtwig.environment.EnvironmentConfigurationBuilder;
 import org.jtwig.environment.EnvironmentFactory;
 import org.jtwig.functions.JtwigFunction;
@@ -19,11 +20,11 @@ import java.util.Set;
 
 @Singleton
 public class JTwigCompiler implements OrchidCompiler {
-
-    private EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
+    private EnvironmentConfiguration jtwigEnvironment;
 
     @Inject
     public JTwigCompiler(Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
+        EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
         for(JtwigFunction function : functionSet) {
             config.functions().add(function);
@@ -34,6 +35,8 @@ public class JTwigCompiler implements OrchidCompiler {
             loaders.add(0, loader);
         }
         config.resources().resourceLoaders().set(loaders);
+
+        jtwigEnvironment = config.build();
     }
 
 
@@ -55,7 +58,7 @@ public class JTwigCompiler implements OrchidCompiler {
         }
 
         return new JtwigTemplate(
-                new EnvironmentFactory().create(config.build()),
+                new EnvironmentFactory().create(jtwigEnvironment),
                 new ResourceReference(ResourceReference.STRING, source)
         ).render(model);
     }

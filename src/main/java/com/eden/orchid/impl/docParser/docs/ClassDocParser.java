@@ -19,15 +19,13 @@ public class ClassDocParser implements Contextual {
     private TypeParser typeParser;
     private ParameterParser parameterParser;
 
+    @Inject
     public ClassDocParser(CommentParser commentParser, AnnotationParser annotationParser, TypeParser typeParser, ParameterParser parameterParser) {
         this.commentParser = commentParser;
         this.annotationParser = annotationParser;
         this.typeParser = typeParser;
         this.parameterParser = parameterParser;
     }
-
-    @Inject
-
 
     public JSONObject loadClassData(ClassDoc classDoc) {
         JSONObject object = getBasicClassObject(classDoc);

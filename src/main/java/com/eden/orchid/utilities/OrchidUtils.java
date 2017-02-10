@@ -3,8 +3,12 @@ package com.eden.orchid.utilities;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.impl.compilers.jtwig.TwigWalkMapFilter;
 import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.impl.compilers.jtwig.TwigWalkMapFilter;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import com.google.inject.util.Types;
 import com.sun.javadoc.Tag;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -137,5 +143,26 @@ public final class OrchidUtils {
         public int compare(T o1, T o2) {
             return o1.getClass().getName().compareTo(o2.getClass().getName());
         }
+    }
+
+    public static <T> Set<T> resolveSet(Class<T> clazz) {
+        return resolveSet(Orchid.getInjector(), clazz);
+    }
+
+    public static <T> Set<T> resolveSet(Injector injector, Class<T> clazz) {
+        try {
+            TypeLiteral<Set<T>> lit = (TypeLiteral<Set<T>>) TypeLiteral.get(Types.setOf(clazz));
+            Key<Set<T>> key = Key.get(lit);
+            Set<T> bindings = injector.getInstance(key);
+
+            if(bindings != null) {
+                return bindings;
+            }
+        }
+        catch (Exception e) {
+
+        }
+
+        return new TreeSet<>();
     }
 }
