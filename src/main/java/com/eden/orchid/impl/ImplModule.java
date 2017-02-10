@@ -22,12 +22,9 @@ import com.eden.orchid.impl.docParser.tags.SinceTag;
 import com.eden.orchid.impl.docParser.tags.ThrowsTag;
 import com.eden.orchid.impl.docParser.tags.VersionTag;
 import com.eden.orchid.impl.generators.AssetsGenerator;
+import com.eden.orchid.impl.generators.ExternalIndexGenerator;
+import com.eden.orchid.impl.generators.InternalIndexGenerator;
 import com.eden.orchid.impl.generators.MetadataGenerator;
-import com.eden.orchid.impl.generators.PagesGenerator;
-import com.eden.orchid.impl.generators.PostsGenerator;
-import com.eden.orchid.impl.generators.WikiGenerator;
-import com.eden.orchid.impl.generators.javadoc.ExternalIndexGenerator;
-import com.eden.orchid.impl.generators.javadoc.InternalIndexGenerator;
 import com.eden.orchid.impl.options.BaseUrlOption;
 import com.eden.orchid.impl.options.CommentLanguageOption;
 import com.eden.orchid.impl.options.ConfigOption;
@@ -38,7 +35,6 @@ import com.eden.orchid.impl.options.EnvironmentOption;
 import com.eden.orchid.impl.options.ResourcesOption;
 import com.eden.orchid.impl.options.ThemeOption;
 import com.eden.orchid.impl.options.VersionOption;
-import com.eden.orchid.impl.options.WikiPathOption;
 import com.eden.orchid.impl.resources.OrchidFileResources;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.ListCompilersTask;
@@ -87,9 +83,6 @@ public class ImplModule extends OrchidModule {
         addToSet(OrchidGenerator.class,
                 AssetsGenerator.class,
                 MetadataGenerator.class,
-                PagesGenerator.class,
-                PostsGenerator.class,
-                WikiGenerator.class,
                 ExternalIndexGenerator.class,
                 InternalIndexGenerator.class);
 
@@ -104,8 +97,7 @@ public class ImplModule extends OrchidModule {
                 EnvironmentOption.class,
                 ResourcesOption.class,
                 ThemeOption.class,
-                VersionOption.class,
-                WikiPathOption.class);
+                VersionOption.class);
 
         // Tasks
         addToSet(OrchidTask.class,

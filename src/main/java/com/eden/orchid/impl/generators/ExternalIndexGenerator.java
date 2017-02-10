@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.generators.javadoc;
+package com.eden.orchid.impl.generators;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;

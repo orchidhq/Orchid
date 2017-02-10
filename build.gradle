@@ -62,6 +62,16 @@ dependencies {
     orchidDocsCompile('com.github.JavaEden:OrchidEditorialTheme:c2dbdcca7e') {
         exclude group: 'com.github.JavaEden', module: 'OrchidCore'
     }
+
+    orchidDocsCompile('com.github.JavaEden:OrchidPages:c757fa8e1b') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+    orchidDocsCompile('com.github.JavaEden:OrchidPosts:47775db18b') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
+    orchidDocsCompile('com.github.JavaEden:OrchidWiki:72f727ae25') {
+        exclude group: 'com.github.JavaEden', module: 'OrchidCore'
+    }
 }
 
 // Jacoco Code Coverage
