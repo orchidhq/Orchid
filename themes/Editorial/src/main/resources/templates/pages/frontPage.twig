@@ -1,0 +1,38 @@
+{% extends "layouts/index.twig" %}
+
+{% block mainContent %}
+
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>{{ options.config.about.name }}</h1>
+                <p>{{ options.config.about.description }}</p>
+            </header>
+            <br><br><br>
+            <ul class="actions">
+                <li><a href="https://github.com/{{ options.config.github.username }}/{{ options.config.github.repo }}" class="button big">View Source</a></li>
+            </ul>
+        </div>
+    </section>
+
+    {% if page.readme %}
+        <section id="readme">
+            <header class="major">
+                <h2>Readme</h2>
+            </header>
+            <article>{{ page.readme }}</article>
+        </section>
+    {% endif %}
+
+    <!-- Section -->
+    {% if page.license %}
+        <section id="license">
+            <header class="major">
+                <h2>License</h2>
+            </header>
+            <article><pre>{{ page.license }}</pre></article>
+        </section>
+    {% endif %}
+
+{% endblock %}
+

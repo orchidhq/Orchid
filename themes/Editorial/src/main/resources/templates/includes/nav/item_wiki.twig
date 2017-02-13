@@ -1,0 +1,12 @@
+{% if index.wiki %}
+    <li>
+        <span class="opener">Wiki </span>
+        <ul>
+            {% if index.wiki.files %}
+                {% for p in index.wiki.files %}
+                    <li><a href="{{ p.url }}">{{ p.name }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </li>
+{% endif %}

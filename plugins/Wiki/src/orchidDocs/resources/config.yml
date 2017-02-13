@@ -1,0 +1,13 @@
+
+about:
+  name: Orchid Wiki
+  description: A Gitbook-like wiki for your Orchid site
+
+colors:
+  - '#3F8FFF'
+  - '#000000'
+
+github:
+  username: 'JavaEden'
+  repo: 'OrchidWiki'
+  branch: 'master'

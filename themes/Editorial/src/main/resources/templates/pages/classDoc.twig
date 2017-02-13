@@ -1,0 +1,165 @@
+{% extends "layouts/index.twig" %}
+
+{% block pageNav %}
+    {% import 'macros/anchor.twig' as _anchor_ %}
+
+    <nav id="pageNav" class="menu">
+        <header class="major">
+            <h2>{{ classDoc.info.name }}</h2>
+        </header>
+        <ul>
+            <li><a href="#summary">Summary</a></li>
+
+            {% if classDoc.fields %}
+                <li>
+                    <span class="opener">Fields</span>
+                    <ul>
+                        {% for field in classDoc.fields | sortBy('name') %}
+                            <li><a href="#{{- _anchor_.fieldAnchor(field) -}}">{{ field.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if classDoc.constructors %}
+                <li>
+                    <span class="opener">Constructors</span>
+                    <ul>
+                        {% for constructor in classDoc.constructors %}
+                            <li><a href="#{{- _anchor_.constructorAnchor(constructor) -}}">{{ constructor.parameters | length }} Parameters</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if classDoc.methods %}
+                <li>
+                    <span class="opener">Methods</span>
+                    <ul>
+                        {% for method in classDoc.methods | sortBy('name') %}
+                            <li><a href="#{{- _anchor_.methodAnchor(method) -}}">{{ method.name }} ({{ method.parameters | length }} Parameters)</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block mainContent %}
+    {% import 'macros/comment.twig' as _comment_ %}
+
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>{{ classDoc.info.name }}</h1>
+                <p>in package <code>{{ classDoc.info.package }}</code></p>
+            </header>
+            <hr>
+            <article>
+                <div>{{- _comment_.formatComment(classDoc.info.comment, options) -}}</div>
+            </article>
+        </div>
+    </section>
+
+    <section id="summary">
+        <header class="major"><h2>Summary</h2></header>
+        <article>
+
+            <header class="minor"><h3>Field Summary</h3></header>
+            {% if classDoc.fields %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Field and Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for field in classDoc.fields | sortBy('name') %}
+                        {% include 'includes/fieldPreview.twig' %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No declared fields</p>
+            {% endif %}
+
+            <header class="minor"><h3>Constructor Summary</h3></header>
+            {% if classDoc.constructors %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Constructor and Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for constructor in classDoc.constructors %}
+                        {% include 'includes/ctorPreview.twig' %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No declared constructors</p>
+            {% endif %}
+
+            <header class="minor"><h3>Method Summary</h3></header>
+            {% if classDoc.methods %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Method and Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for method in classDoc.methods | sortBy('name') %}
+                        {% include 'includes/methodPreview.twig' %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No declared methods</p>
+            {% endif %}
+
+        </article>
+    </section>
+
+    <section id="fields">
+        <header class="major"><h2>Fields</h2></header>
+        <article>
+            {% if classDoc.fields %}
+                {% for field in classDoc.fields | sortBy('name') %}
+                    {% include 'includes/fieldFull.twig' %}
+                {% endfor %}
+            {% else %}
+                <p>No declared fields</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section id="constructors">
+        <header class="major"><h2>Constructors</h2></header>
+        <article>
+            {% if classDoc.constructors %}
+                {% for constructor in classDoc.constructors %}
+                    {% include 'includes/ctorFull.twig' %}
+                {% endfor %}
+            {% else %}
+                <p>No declared constructors</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section id="methods">
+        <header class="major"><h2>Methods</h2></header>
+        <article>
+            {% if classDoc.methods %}
+                {% for method in classDoc.methods | sortBy('name') %}
+                    {% include 'includes/methodFull.twig' with { method: method, classDoc: classDoc } %}
+                {% endfor %}
+            {% else %}
+                <p>No declared methods</p>
+            {% endif %}
+        </article>
+    </section>
+
+{% endblock %}

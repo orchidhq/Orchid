@@ -1,0 +1,8 @@
+{% import 'macros/type.twig' as _type_ %}
+{% import 'macros/comment.twig' as _comment_ %}
+{% import 'macros/anchor.twig' as _anchor_ %}
+
+<div class="box" id="{{- _anchor_.fieldAnchor(field) -}}">
+    <header><code>{{- _type_.formatType(field.type) }}</code> <code>{{ field.name }}</code></header>
+    <p>{{- _comment_.formatComment(field.comment, options) -}}</p>
+</div>

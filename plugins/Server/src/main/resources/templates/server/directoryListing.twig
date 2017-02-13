@@ -1,0 +1,120 @@
+<html>
+<head>
+    <title>List of files/dirs under {{ page.title }}</title>
+    <!-- start:inject styles -->
+    {% set cssFiles = index.assets.css | walk('url') %}
+    {% if cssFiles.size > 0 %}
+        {% for file in cssFiles %}
+            <link rel="stylesheet" type="text/css" href="{{ file.url }}"/>
+        {% endfor %}
+    {% endif %}
+    <!-- end:inject styles -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+</head>
+<body class="directoryListing">
+
+<div class="container">
+    <div class="row">
+        <div class="column">
+            <div class="top-spacer"></div>
+            <h1>Server Index</h1>
+            <p>List of files/dirs under <code>{{ page.title }}</code></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <blockquote>
+                <h3>Directories</h3>
+
+                {% if page.dirs %}
+                    <table class="dirs">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>File</th>
+                            <th>Size</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>File</th>
+                            <th>Size</th>
+                            <th>Date</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        {% for file in page.dirs %}
+                            <tr>
+                                <td class="fileTypeIcon"><img src="{{ file.icon }}" alt="file icon"></td>
+                                <td>
+                                    <a href="{{ file.url }}">{{ file.name }}</a>
+                                    <br>
+                                    {{ page.title }}/{{ file.name }}
+                                </td>
+                                <td>{{ file.size }}</td>
+                                <td>{{ file.date }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No inner directories</p>
+                {% endif %}
+            </blockquote>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <blockquote>
+                <h3>Files</h3>
+                {% if page.files %}
+                    <table class="files">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>File</th>
+                            <th>Size</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>File</th>
+                            <th>Size</th>
+                            <th>Date</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        {% for file in page.files %}
+                            <tr>
+                                <td class="fileTypeIcon"><img src="{{ file.icon }}" alt="file icon"></td>
+                                <td><a href="{{ file.url }}">{{ file.name }}</a></td>
+                                <td>{{ file.size }}</td>
+                                <td>{{ file.date }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No inner files</p>
+                {% endif %}
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<!-- <div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+
+</body>
+</html>

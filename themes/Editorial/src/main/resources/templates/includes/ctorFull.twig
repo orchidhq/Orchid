@@ -1,0 +1,40 @@
+{% import 'macros/type.twig' as _type_ %}
+{% import 'macros/comment.twig' as _comment_ %}
+{% import 'macros/anchor.twig' as _anchor_ %}
+
+<div class="box" id="{{- _anchor_.constructorAnchor(constructor) -}}">
+    <h3>
+        <code>{{- classDoc.info.name | link -}}({{- _type_.formatParameterList(constructor.parameters) -}})</code>
+    </h3>
+    <hr>
+
+    <div class="panel-body">
+        <div>{{- _comment_.formatComment(constructor.comment, options) -}}</div>
+        {% if constructor.parameters %}
+            <h4>Parameters:</h4>
+        {% else %}
+            <h4>No Parameters</h4>
+        {% endif %}
+    </div>
+    {% if constructor.parameters %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for param in constructor.parameters %}
+                <tr>
+                    <td>{{- _type_.formatType(param.type) -}}</td>
+                    <td>{{- param.name -}}</td>
+                    <td>{{- param.description -}}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
+</div>

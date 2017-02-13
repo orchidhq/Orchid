@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>Editorial by HTML5 UP</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <!-- start:inject styles -->
+    {% set cssFiles = index.assets.css | walk('url') %}
+    {% if cssFiles.size > 0 %}
+        {% for file in cssFiles %}
+            <link rel="stylesheet" type="text/css" href="{{ file.url }}" />
+        {% endfor %}
+    {% endif %}
+    <!-- end:inject styles -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+</head>
+<body class="is-loading">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="/" class="logo">{{ options.config.about.name }}</a>
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+                </ul>
+            </header>
+
+            {% block mainContent %}
+                {{ content }}
+            {% endblock %}
+        </div>
+        <hr>
+        {% include 'includes/footer.twig' %}
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="inner">
+
+            <!-- Search -->
+            <section id="search" class="alt">
+                <form method="post" action="#">
+                    <input type="text" name="query" id="query" placeholder="Search"/>
+                </form>
+            </section>
+
+            <!-- Menu -->
+            {% block siteNav %}
+            <nav id="siteNav" class="menu">
+                <header class="major">
+                    <h2>Site</h2>
+                </header>
+                <ul>
+                    <li><a href="{{ options.baseurl }}/">Home</a></li>
+                    {% include 'includes/nav.twig' with { nav: options.data.nav } %}
+                </ul>
+            </nav>
+            {% endblock %}
+
+            {% block pageNav %}
+                {% if page.nav %}
+                    <nav id="pageNav" class="menu">
+                        <header class="major">
+                            <h2>Page</h2>
+                        </header>
+                        {% include 'includes/nav.twig' with { nav: options.data.nav } %}
+                    </nav>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+
+</div>
+
+<!-- inject scripts -->
+{% set jsFiles = index.assets.js | walk('url') %}
+{% if jsFiles.size > 0 %}
+    {% for file in jsFiles %}
+        <script src="{{ file.url }}"></script>
+    {% endfor %}
+{% endif %}
+
+{% if index %}
+    <script>window.index = {{ index | json }};</script>
+{% endif %}
+
+{% if page %}
+    <script>window.page = {{ page | json }};</script>
+{% endif %}
+
+{% if options %}
+    <script>window.options = {{ options | json }};</script>
+{% endif %}
+<!-- end:inject scripts -->
+
+</body>
+</html>

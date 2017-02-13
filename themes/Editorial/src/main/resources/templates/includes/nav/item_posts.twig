@@ -1,0 +1,10 @@
+{% if index.posts %}
+    <li>
+        <span class="opener">All Posts </span>
+        <ul>
+            {% for p in index.posts | walk('url') | sortBy('name') %}
+                <li><a href="{{ p.url }}">{{ p.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endif %}

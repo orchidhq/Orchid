@@ -1,0 +1,17 @@
+{% set path = link.path %}
+{% set pages = index | query(path) %}
+{% if pages %}
+    {% set pages = pages | walk('url') %}
+    {% if pages.size > 0 %}
+        <li>
+            <span class="opener">{{ link.name }} </span>
+            <ul>
+                {% for p in pages | sortBy('name') %}
+                    <li><a href="{{ p.url }}">{{ p.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+{% endif %}
+
+

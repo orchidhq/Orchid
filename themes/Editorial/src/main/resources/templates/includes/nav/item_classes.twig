@@ -1,0 +1,10 @@
+{% if index.classes.internal %}
+    <li>
+        <span class="opener">All Classes </span>
+        <ul>
+            {% for c in index.classes.internal | sortBy('simpleName') %}
+                <li><a href="{{ c.url }}" class="noncaps">{{ c.simpleName }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endif %}

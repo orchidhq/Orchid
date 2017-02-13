@@ -1,0 +1,91 @@
+{% extends "layouts/index.twig" %}
+
+{% block mainContent %}
+
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>Package {{ packageDoc.name }}</h1>
+            </header>
+            <hr>
+            <article>
+
+            </article>
+        </div>
+    </section>
+
+    <section id="classes">
+        <header class="major"><h2>Classes</h2></header>
+        <article>
+            {% if packageDoc.classes %}
+                <div class="all-classes">
+                    {% set classList = packageDoc.classes | sortBy('simpleName') %}
+                    {% for c in classList  %}
+                        <p>
+                            <a href="{{c.url}}" class="button noncaps">{{c.simpleName}}</a>
+                            {% if c.comment %}
+                                - {{ c.comment.shortDescription }}
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No Ordinary Classes</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section id="interfaces">
+        <header class="major"><h2>Interfaces</h2></header>
+        <article>
+            {% if packageDoc.interfaces %}
+                {% for c in packageDoc.interfaces %}
+                    <p>
+                        <a href="{{c.url}}" class="button noncaps">{{c.simpleName}}</a>
+                        {% if c.comment %}
+                            - {{ c.comment.shortDescription }}
+                        {% endif %}
+                    </p>
+                {% endfor %}
+            {% else %}
+                <p>No Interfaces</p>
+            {% endif %}
+        </article>
+    </section>
+    <section id="enums">
+        <header class="major"><h2>Enums</h2></header>
+        <article>
+            {% if packageDoc.enums %}
+                {% for c in packageDoc.enums %}
+                    <p>
+                        <a href="{{c.url}}" class="button noncaps">{{c.simpleName}}</a>
+                        {% if c.comment %}
+                            - {{ c.comment.shortDescription }}
+                        {% endif %}
+                    </p>
+                {% endfor %}
+            {% else %}
+                <p>No Enums</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section id="annotations">
+        <header class="major"><h2>Annotations</h2></header>
+        <article>
+            {% if packageDoc.annotations %}
+                {% for c in packageDoc.annotations %}
+                    <p>
+                        <a href="{{c.url}}" class="button noncaps">{{c.simpleName}}</a>
+                        {% if c.comment %}
+                            - {{ c.comment.shortDescription }}
+                        {% endif %}
+                    </p>
+                {% endfor %}
+            {% else %}
+                <p>No Annotations</p>
+            {% endif %}
+        </article>
+    </section>
+
+{% endblock %}

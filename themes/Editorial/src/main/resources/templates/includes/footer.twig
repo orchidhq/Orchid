@@ -1,0 +1,38 @@
+<div class="inner">
+    <footer id="footer text-center">
+
+        <div class="clearfix">
+            {% if head.previous %}
+                <div class="float-left">
+                    <a href="{{ head.previous.url }}" class="button special small pill"><span>&larr;</span> {{ head.previous.title }}</a>
+                </div>
+            {% elseif page.previous %}
+                <div class="float-left">
+                    <a href="{{ page.previous.url }}" class="button special small pill"><span>&larr;</span> {{ page.previous.title }}</a>
+                </div>
+            {% endif %}
+            {% if head.next %}
+                <div class="float-right">
+                    <a href="{{ head.next.url }}" class="button special small pill">{{ head.next.title }} <span>&rarr;</span></a>
+                </div>
+            {% elseif page.next %}
+                <div class="float-right">
+                    <a href="{{ page.next.url }}" class="button special small pill">{{ page.next.title }} <span>&rarr;</span></a>
+                </div>
+            {% endif %}
+        </div>
+
+        <p class="text-center">
+            &copy; JavaEden. All rights reserved.
+        </p>
+        <p class="text-center">
+            Design: <a href="https://html5up.net">HTML5 UP</a>.
+            Created with <a href="https://github.com/JavaEden/Orchid-Core">Orchid </a> and <a
+                    href="https://github.com/JavaEden/OrchidEditorialTheme">Orchid Editorial Theme</a>.
+        </p>
+        <p class="text-center">
+            Currently: {{ options.v }}.
+        </p>
+    </footer>
+
+</div>

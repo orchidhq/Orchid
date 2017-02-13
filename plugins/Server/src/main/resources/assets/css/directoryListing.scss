@@ -1,0 +1,88 @@
+.directoryListing {
+  background-repeat: repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAcCAAAAADtxQgoAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAKESURBVDjLTZRbkmMxCEPv/jdrGLDBf3OEM1XTlaQTm4eQxP26T0T4Ml7m1RmRfHFeHu7npvtyy+DXrr798T5JNLeWu9OcEA7Sp45Vk8qBxa57uu9H1erNfXpmb0IJM2VM2XC66ivtT+at/nYf361Qj3PDlnpM9UVX3rv/qMFtzutYf+Raet0Oc/J+CFR80UdQuwwYJ9x2+yLDehOc59aDHMFQa0GHQQc3IBjYEUTG/UB8p1Z0l6Cv5Ss0FtjFSJ6+aWpaBIIKFhtE9KSHYOmSCDqQC8ZbGtU1kGjvT3MSGJZXfFzRAnhKWoruPqhUoSmLYgtULpkoK1lc0ATAJkcDT9O7OZgp1/RwokdtUEinrYorRYZ4I3lD+yMy+uMy1u49I6i6D/U5IsVA5EcfaRUaiwyZCALpiH9MhFbXlnkeX66GLf/QQgqqhMlwIUaBsAQThmQ/jKCKlO4U5gyxu4aHktIx/gsMd2r8NNBlzXtnjKUeaOyns/PnPn7oux3NsSYKyeq0VPfRPDQYcbLdDFxC59NqP3HqArSUKnZNwin5KIMdSIXPxORUwkeKcGwoHq700FoYKDIgiQojwWMNjk5yJTruEZ2jec0SgrU1LfKIVako4PIJkoNzdz4FtarvShJL5BxnjBDgy33vkxI+afphmiOS6oqO2VNJv3yMq3TEvGd2DIT0WKc5ZcRjOa5GtpQRTQzY2N32Y+30H7vfYb9QVLEsc0jHNYuY0huNavyxgYAsB3axqjydU/vH+eN2PZK1ID7qFCUPzysGhs13O48fdZglnCPG1eMFVaTt1ROOVKjXQpqeGWMljzFAyvqMo51OqfN7JpKnN3//f/BvTu+/o99Z/wXhIRjBoWsOkQAAAABJRU5ErkJggg==);
+
+  .top-spacer {
+    height: 4.4rem;
+  }
+
+  blockquote {
+    background: white;
+    border-radius: 0.4rem;
+    box-shadow: 0px 2px 12px -5px rgba(0, 0, 0, 0.75);
+    border-left: 0.3rem solid #9b4dca;
+  }
+
+  table {
+    td {
+      &.fileTypeIcon {
+        width: 48px;
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+
+  .button.button-block {
+    width: 100%;
+  }
+
+  .fof {
+
+    blockquote {
+      border: none;
+    }
+
+    .inner {
+      display: block;
+      width: 100%;
+      padding: 80px;
+      line-height: 1.6em;
+      text-align: center;
+
+      .hgroup {
+        text-transform: uppercase;
+
+        h1 {
+          margin-bottom: 25px;
+          font-size: 80px;
+
+          span {
+            display: inline-block;
+            margin-left: 5px;
+            padding: 2px;
+            border: 1px solid #CCCCCC;
+            overflow: hidden;
+
+            strong {
+              display: inline-block;
+              padding: 0 20px 0 20px;
+              border: 1px solid #CCCCCC;
+              font-weight: normal;
+            }
+          }
+        }
+
+        h2 {
+          font-size: 60px;
+
+          span {
+            display: block;
+            font-size: 30px;
+          }
+        }
+      }
+
+      p {
+        margin: 24px 0 24px 0;
+        padding: 0;
+        font-size: 16px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}

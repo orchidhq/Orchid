@@ -1,0 +1,10 @@
+{% if index.pages %}
+    <li>
+        <span class="opener">All Pages </span>
+        <ul>
+            {% for p in index.pages | walk('url') | sortBy('name') %}
+                <li><a href="{{ p.url }}" class="noncaps">{{ p.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endif %}

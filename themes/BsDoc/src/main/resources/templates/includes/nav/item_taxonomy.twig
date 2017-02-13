@@ -1,0 +1,15 @@
+{% set path = link.path %}
+{% set pages = index | query(path) %}
+{% if pages %}
+    {% set pages = pages | walk('url') %}
+    {% if pages.size > 0 %}
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ link.name }} <span class="caret"></span></a>
+            <ul class="dropdown-menu scrollable-menu">
+                {% for p in pages | sortBy('name') %}
+                    <li><a href="{{ p.url }}">{{ p.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+{% endif %}
