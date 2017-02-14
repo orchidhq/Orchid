@@ -3,7 +3,7 @@ package com.eden.orchid.api.resources;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.registration.Contextual;
-import org.apache.commons.lang3.StringUtils;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import java.io.File;
 import java.util.regex.Pattern;
@@ -54,7 +54,7 @@ public class OrchidReference implements Contextual {
     public OrchidReference() {
         if (Orchid.getContext().query("options.baseUrl") != null) {
             baseUrl = Orchid.getContext().query("options.baseUrl").toString();
-            baseUrl = stripSeparators(baseUrl);
+            baseUrl = OrchidUtils.stripSeparators(baseUrl);
         }
     }
 
@@ -88,15 +88,15 @@ public class OrchidReference implements Contextual {
             fileName = fullFileName.replace("." + extension, "");
         }
 
-        path = stripSeparators(path);
+        path = OrchidUtils.stripSeparators(path);
 
         if (Orchid.getContext().query("options.resourcesDir") != null) {
             String basePath = Orchid.getContext().query("options.resourcesDir").toString();
-            basePath = stripSeparators(basePath);
+            basePath = OrchidUtils.stripSeparators(basePath);
 
             if (path.startsWith(basePath)) {
                 path = path.replace(basePath, "");
-                path = stripSeparators(path);
+                path = OrchidUtils.stripSeparators(path);
             }
         }
     }
@@ -120,10 +120,6 @@ public class OrchidReference implements Contextual {
         this.id = source.id;
         this.title = source.title;
         this.usePrettyUrl = source.usePrettyUrl;
-    }
-
-    private String stripSeparators(String str) {
-        return StringUtils.strip(str.trim(), "/" + File.separator);
     }
 
     public String getBaseUrl() {

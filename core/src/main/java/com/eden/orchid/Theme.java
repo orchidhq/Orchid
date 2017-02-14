@@ -8,7 +8,7 @@ import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
-import com.eden.orchid.impl.compilers.FrontMatterPrecompiler;
+import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.resources.StringResource;
 import com.eden.orchid.utilities.AlwaysSortedTreeSet;
 import org.json.JSONObject;
@@ -76,13 +76,23 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public String compile(String extension, String input, Object... data) {
-        for (OrchidCompiler compiler : compilers) {
-            if (acceptsExtension(extension, compiler.getSourceExtensions())) {
-                return compiler.compile(extension, input, data);
-            }
+        OrchidCompiler compiler = compilerFor(extension);
+
+        if(compiler != null) {
+            return compiler.compile(extension, input, data);
         }
 
         return input;
+    }
+
+    public OrchidCompiler compilerFor(String extension) {
+        for (OrchidCompiler compiler : compilers) {
+            if (acceptsExtension(extension, compiler.getSourceExtensions())) {
+                return compiler;
+            }
+        }
+
+        return null;
     }
 
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
@@ -96,10 +106,10 @@ public abstract class Theme implements OrchidResourceSource {
     }
 
     public String getOutputExtension(String extension) {
-        for (OrchidCompiler compiler : compilers) {
-            if (acceptsExtension(extension, compiler.getSourceExtensions())) {
-                return compiler.getOutputExtension();
-            }
+        OrchidCompiler compiler = compilerFor(extension);
+
+        if(compiler != null) {
+            return compiler.getOutputExtension();
         }
 
         return extension;

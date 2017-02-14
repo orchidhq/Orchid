@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Singleton
-public class TwigLinkFilter implements JtwigFunction {
+public class LinkFilter implements JtwigFunction {
 
     @Override
     public String name() {

@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Singleton
-public class TwigCompileAsFilter implements JtwigFunction, Contextual {
+public class CompileAsFilter implements JtwigFunction, Contextual {
 
     @Override
     public String name() {

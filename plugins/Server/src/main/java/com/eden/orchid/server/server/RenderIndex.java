@@ -86,7 +86,8 @@ public class RenderIndex {
                 }
 
                 JSONObject page = new JSONObject();
-                page.put("title", targetPath);
+                page.put("title", "List of files/dirs under " + targetPath);
+                page.put("path", targetPath);
                 page.put("dirs", jsonDirs);
                 page.put("files", jsonFiles);
 

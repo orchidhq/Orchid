@@ -1,67 +1,58 @@
-<html>
-<head>
-    <title>404 - {{ page.title }}</title>
-    <!-- start:inject styles -->
-    {% set cssFiles = index.assets.css | walk('url') %}
-    {% if cssFiles.size > 0 %}
-        {% for file in cssFiles %}
-            <link rel="stylesheet" type="text/css" href="{{ file.url }}"/>
-        {% endfor %}
-    {% endif %}
-    <!-- end:inject styles -->
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
-</head>
-<body class="directoryListing">
+{% extends "layouts/index.twig" %}
 
-<div class="container">
-    <div class="row">
-        <div class="column">
-            <div class="top-spacer"></div>
-        </div>
-    </div>
+{% block mainContent %}
 
-    <div class="row">
-        <div class="column column-60 column-offset-20">
-            <div class="fof">
-                <blockquote>
-                    <div class="inner">
-                        <div class="hgroup">
-                            <h1>
+    <div class="directoryListing">
+
+        <div class="container">
+            <div class="row">
+                <div class="column">
+                    <div class="top-spacer"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column column-60 column-offset-20">
+                    <div class="fof">
+                        <blockquote>
+                            <div class="inner">
+                                <div class="hgroup">
+                                    <h1>
                         <span>
                             <strong>4</strong>
                         </span>
-                                <span>
+                                        <span>
                             <strong>0</strong>
                         </span>
-                                <span>
+                                        <span>
                             <strong>4</strong>
                         </span>
-                            </h1>
-                            <h2>Error! <span>Page Not Found</span></h2>
-                        </div>
-                        <p>Cannot find <code>{{ page.title }}</code></p>
+                                    </h1>
+                                    <br>
+                                    <h2>Error! <span>Page Not Found</span></h2>
+                                </div>
+                                <p>Cannot find <code>{{ page.path }}</code></p>
 
-                        <div class="row">
-                            <div class="column column-50">
-                                <a href="javascript:history.go(-1)">
-                                    <button class="button button-block button-outline">Go Back</button>
-                                </a>
+                                <div class="row">
+                                    <div class="column column-50">
+                                        <a href="javascript:history.go(-1)">
+                                            <button class="button button-block button-outline">Go Back</button>
+                                        </a>
+                                    </div>
+                                    <div class="column column-50">
+                                        <a href="/">
+                                            <button class="button button-block button-outline">Go Home</button>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="column column-50">
-                                <a href="/">
-                                    <button class="button button-block button-outline">Go Home</button>
-                                </a>
-                            </div>
-                        </div>
+                        </blockquote>
                     </div>
-                </blockquote>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- <div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-</body>
-</html>
+        <!-- <div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+    </div>
+
+{% endblock %}

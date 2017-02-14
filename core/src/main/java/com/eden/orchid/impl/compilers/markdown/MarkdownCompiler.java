@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.compilers;
+package com.eden.orchid.impl.compilers.markdown;
 
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.vladsch.flexmark.html.HtmlRenderer;

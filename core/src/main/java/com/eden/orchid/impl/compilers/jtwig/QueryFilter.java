@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class TwigQueryFilter implements JtwigFunction {
+public class QueryFilter implements JtwigFunction {
 
     @Override
     public String name() {

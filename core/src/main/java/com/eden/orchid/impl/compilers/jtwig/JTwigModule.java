@@ -9,14 +9,14 @@ public class JTwigModule extends OrchidModule {
     @Override
     protected void configure() {
         addToSet(JtwigFunction.class,
-                TwigCompileAsFilter.class,
-                TwigJsonFilter.class,
-                TwigLinkFilter.class,
-                TwigQueryFilter.class,
-                TwigSortByFilter.class,
-                TwigWalkMapFilter.class);
+                CompileAsFilter.class,
+                JsonFilter.class,
+                LinkFilter.class,
+                QueryFilter.class,
+                SortByFilter.class,
+                WalkMapFilter.class);
 
         addToSet(TypedResourceLoader.class,
-                OrchidResourceLoader.class);
+                JTwigResourceLoader.class);
     }
 }

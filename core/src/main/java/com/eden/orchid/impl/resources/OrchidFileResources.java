@@ -3,6 +3,7 @@ package com.eden.orchid.impl.resources;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
@@ -38,8 +39,8 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
      *
-     * @param clazz  the class to load a jar from
-     * @return  the JarFile for a given class, or null if the class was not loaded from a jar
+     * @param clazz the class to load a jar from
+     * @return the JarFile for a given class, or null if the class was not loaded from a jar
      */
     public JarFile jarForClass(Class<?> clazz) {
         String path = "/" + clazz.getName().replace('.', '/') + ".class";
@@ -68,7 +69,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     public OrchidResource getResourceDirEntry(String fileName) {
         File file = getResourceFile(fileName);
 
-        if(file != null) {
+        if (file != null) {
             return new FileResource(file);
         }
 
@@ -79,16 +80,16 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     public OrchidResource getResourceEntry(String fileName) {
         File file = getResourceFile(fileName);
 
-        if(file != null) {
+        if (file != null) {
             return new FileResource(file);
         }
 
-        if(resourceSources == null) {
+        if (resourceSources == null) {
             resourceSources = new AlwaysSortedTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
         }
 
-        for(OrchidResourceSource source : resourceSources) {
-            if(source.getResourcePriority() < 0) { continue; }
+        for (OrchidResourceSource source : resourceSources) {
+            if (source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
@@ -106,7 +107,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
 
         List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
 
-        for(File file : files) {
+        for (File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
             FileResource entry = new FileResource(file);
@@ -122,7 +123,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         List<File> files = getResourceFiles(dirName, fileExtensions, recursive);
-        for(File file : files) {
+        for (File file : files) {
             String relative = getRelativeFilename(file.getAbsolutePath(), dirName);
 
             FileResource entry = new FileResource(file);
@@ -130,23 +131,23 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
             entries.put(relative, entry);
         }
 
-        if(resourceSources == null) {
+        if (resourceSources == null) {
             resourceSources = new AlwaysSortedTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
         }
 
-        for(OrchidResourceSource source : resourceSources) {
-            if(source.getResourcePriority() < 0) { continue; }
+        for (OrchidResourceSource source : resourceSources) {
+            if (source.getResourcePriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
 
             List<JarEntry> jarEntries = getJarResourceFiles(jarFile, dirName, fileExtensions, recursive);
 
-            for(JarEntry jarEntry : jarEntries) {
+            for (JarEntry jarEntry : jarEntries) {
                 String relative = getRelativeFilename(jarEntry.getName(), dirName);
 
                 boolean shouldAddJarEntry = false;
-                if(entries.containsKey(relative)) {
-                    if(source.getResourcePriority() > entries.get(relative).getPriority()) {
+                if (entries.containsKey(relative)) {
+                    if (source.getResourcePriority() > entries.get(relative).getPriority()) {
                         shouldAddJarEntry = true;
                     }
                 }
@@ -154,7 +155,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
                     shouldAddJarEntry = true;
                 }
 
-                if(shouldAddJarEntry) {
+                if (shouldAddJarEntry) {
                     JarResource entry = new JarResource(jarFile, jarEntry);
                     entries.put(relative, entry);
                 }
@@ -176,10 +177,10 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         fileName = fileName.replaceAll("/", File.separator);
 
         // if we've specified a resources dir, use that
-        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+        if (!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
             File file = new File(Orchid.getContext().query("options.resourcesDir") + File.separator + fileName);
 
-            if(file.exists() && !file.isDirectory()) {
+            if (file.exists() && !file.isDirectory()) {
                 resourceFile = file;
             }
         }
@@ -189,13 +190,13 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             URL fileUrl = classloader.getResource(fileName);
 
-            if(fileUrl != null) {
+            if (fileUrl != null) {
                 try {
                     URI fileUri = fileUrl.toURI();
 
                     File file = new File(fileUri);
 
-                    if(file.exists() && !file.isDirectory()) {
+                    if (file.exists() && !file.isDirectory()) {
                         resourceFile = file;
                     }
                 }
@@ -210,7 +211,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     }
 
     public JarEntry getJarFile(JarFile jarfile, String fileName) {
-        if(jarfile != null) {
+        if (jarfile != null) {
             Enumeration<JarEntry> entries = jarfile.entries();
             while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
@@ -228,22 +229,30 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
      * Get the resource Files that are in the given path and match the given file extensions. If the -resourcesDir
      * option is set, search in that directory, otherwise search in the default project resources directory.
      *
-     * @param path  the relative path to find files in
-     * @param fileExtensions  the file extensions to filter files by
-     * @param recursive  whether to recursively search all subdirectories in the given path
-     * @return  the list of matching Files
+     * @param path           the relative path to find files in
+     * @param fileExtensions the file extensions to filter files by
+     * @param recursive      whether to recursively search all subdirectories in the given path
+     * @return the list of matching Files
      */
     public List<File> getResourceFiles(String path, String[] fileExtensions, boolean recursive) {
         ArrayList<File> files = new ArrayList<>();
 
         // if we've specified a resources dir, use that
-        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+        if (!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
             String fullPath = Orchid.getContext().query("options.resourcesDir") + File.separator + path;
             File file = new File(fullPath);
 
-            if(file.exists() && file.isDirectory()) {
+            if (file.exists() && file.isDirectory()) {
                 Collection newFiles = FileUtils.listFiles(file, fileExtensions, recursive);
-                files.addAll(newFiles);
+
+                if (!EdenUtils.isEmpty(newFiles)) {
+                    for (Object object : newFiles) {
+                        File newFile = (File) object;
+                        if (shouldAddEntry(newFile.getName())) {
+                            files.add(newFile);
+                        }
+                    }
+                }
             }
         }
 
@@ -253,15 +262,15 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     /**
      * Get the entries from a Jar that are in the given path and match the given file extensions.
      *
-     * @param jarfile  the JarFile to search for resources
-     * @param path  the path to search in the Jar
-     * @param fileExtensions  (optional) the list of extensions to match the entries
-     * @return  the list of matching JarEntries
+     * @param jarfile        the JarFile to search for resources
+     * @param path           the path to search in the Jar
+     * @param fileExtensions (optional) the list of extensions to match the entries
+     * @return the list of matching JarEntries
      */
     public List<JarEntry> getJarResourceFiles(JarFile jarfile, String path, String[] fileExtensions, boolean recursive) {
         ArrayList<JarEntry> files = new ArrayList<>();
 
-        if(jarfile == null) {
+        if (jarfile == null) {
             return files;
         }
 
@@ -271,8 +280,11 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
             // we are checking a file in the jar
             if (entry.getName().startsWith(path + File.separator) && !entry.isDirectory()) {
 
-                if(EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(entry.getName(), fileExtensions)) {
-                    files.add(entry);
+                if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(entry.getName(), fileExtensions)) {
+
+                    if (shouldAddEntry(entry.getName())) {
+                        files.add(entry);
+                    }
                 }
             }
         }
@@ -280,14 +292,30 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         return files;
     }
 
+    private boolean shouldAddEntry(String entryName) {
+        OrchidCompiler compiler = getTheme().compilerFor(FilenameUtils.getExtension(entryName));
+
+        if (compiler != null && !EdenUtils.isEmpty(compiler.getIgnoredPatterns())) {
+            String[] pieces = entryName.split("/");
+            String entryFileName = pieces[pieces.length - 1];
+            for (String pattern : compiler.getIgnoredPatterns()) {
+                if (entryFileName.matches(pattern)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public String getRelativeFilename(String sourcePath, String baseDir) {
-        if(sourcePath.contains(baseDir)) {
+        if (sourcePath.contains(baseDir)) {
             int indexOf = sourcePath.indexOf(baseDir);
 
-            if(indexOf + baseDir.length() < sourcePath.length()) {
+            if (indexOf + baseDir.length() < sourcePath.length()) {
                 String relative = sourcePath.substring((indexOf + baseDir.length()));
 
-                if(relative.startsWith(File.separator)) {
+                if (relative.startsWith(File.separator)) {
                     relative = relative.substring(1);
                 }
 
@@ -299,7 +327,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     }
 
     public OrchidResource getProjectReadme() {
-        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+        if (!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
             String resourceDir = Orchid.getContext().query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
@@ -307,12 +335,12 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
             // set hard limit of searching no more than 10 parent directories for the README
             int maxIterations = 10;
 
-            while(true) {
-                if(folder.isDirectory()) {
+            while (true) {
+                if (folder.isDirectory()) {
                     List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
 
                     for (File file : files) {
-                        if(FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("readme")) {
+                        if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("readme")) {
                             Clog.i("Found README file: #{$1}", new Object[]{file.getAbsolutePath()});
                             return new FileResource(file);
                         }
@@ -320,7 +348,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
                 }
 
                 // set the folder to its own parent and search again
-                if(folder.getParentFile() != null && maxIterations > 0) {
+                if (folder.getParentFile() != null && maxIterations > 0) {
                     folder = folder.getParentFile();
                     maxIterations--;
                 }
@@ -336,7 +364,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
     }
 
     public OrchidResource getProjectLicense() {
-        if(!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
+        if (!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
             String resourceDir = Orchid.getContext().query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
@@ -344,12 +372,12 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
             // set hard limit of searching no more than 10 parent directories for the README
             int maxIterations = 10;
 
-            while(true) {
-                if(folder.isDirectory()) {
+            while (true) {
+                if (folder.isDirectory()) {
                     List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
 
                     for (File file : files) {
-                        if(FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("license")) {
+                        if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("license")) {
                             Clog.i("Found License file: #{$1}", new Object[]{file.getAbsolutePath()});
 
                             return new FileResource(file);
@@ -358,7 +386,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
                 }
 
                 // set the folder to its own parent and search again
-                if(folder.getParentFile() != null && maxIterations > 0) {
+                if (folder.getParentFile() != null && maxIterations > 0) {
                     folder = folder.getParentFile();
                     maxIterations--;
                 }
@@ -381,16 +409,16 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
             String alias,
             OrchidReference reference) {
         String templateContent = "";
-        if(templateReference) {
+        if (templateReference) {
             OrchidResource templateResource = getResourceEntry(template);
 
-            if(templateResource == null) {
+            if (templateResource == null) {
                 templateResource = getResourceEntry("templates/pages/index.twig");
             }
-            if(templateResource == null) {
+            if (templateResource == null) {
                 templateResource = getResourceEntry("templates/pages/index.html");
             }
-            if(templateResource == null) {
+            if (templateResource == null) {
                 return false;
             }
 
@@ -402,11 +430,16 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
 
         JSONObject templateVariables = new JSONObject(getContext().getRoot().toMap());
         templateVariables.put("page", pageData);
-        if(!EdenUtils.isEmpty(alias)) {
+        if (!EdenUtils.isEmpty(alias)) {
             templateVariables.put(alias, pageData);
         }
 
         String content = getContext().getTheme().compile(extension, templateContent, templateVariables);
+
+        if (content == null) {
+            Clog.v("#{$1} compiled to null", new Object[]{reference.toString()});
+            content = "";
+        }
 
         String outputPath = reference.getFullPath();
         String outputName = reference.getFileName() + "." + reference.getOutputExtension();
@@ -428,7 +461,6 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
 
         return true;
     }
-
 
     @Override
     public int getResourcePriority() {

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class TwigSortByFilter implements JtwigFunction {
+public class SortByFilter implements JtwigFunction {
 
     @Override
     public String name() {

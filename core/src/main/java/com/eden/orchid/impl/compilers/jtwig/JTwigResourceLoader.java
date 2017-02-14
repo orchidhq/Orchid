@@ -16,10 +16,10 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 @Singleton
-public class OrchidResourceLoader extends TypedResourceLoader {
+public class JTwigResourceLoader extends TypedResourceLoader {
 
     @Inject
-    public OrchidResourceLoader(OrchidResources resources) {
+    public JTwigResourceLoader(OrchidResources resources) {
         super("orchid", new Loader(resources));
     }
 

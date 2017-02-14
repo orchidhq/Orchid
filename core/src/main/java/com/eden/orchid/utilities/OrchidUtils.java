@@ -4,12 +4,13 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.resources.OrchidResource;
-import com.eden.orchid.impl.compilers.jtwig.TwigWalkMapFilter;
+import com.eden.orchid.impl.compilers.jtwig.WalkMapFilter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
 import com.sun.javadoc.Tag;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -91,7 +92,7 @@ public final class OrchidUtils {
 
     private static String findInMap(String link, JSONObject mapObject) {
 
-        List urls = TwigWalkMapFilter.walkObject(mapObject, "url");
+        List urls = WalkMapFilter.walkObject(mapObject, "url");
         String template = "<a href=\"#{$1}\">#{$2}</a>";
 
         for(Object object : urls) {
@@ -163,5 +164,9 @@ public final class OrchidUtils {
         }
 
         return new AlwaysSortedTreeSet<>();
+    }
+
+    public static String stripSeparators(String str) {
+        return StringUtils.strip(str.trim(), "/" + File.separator);
     }
 }

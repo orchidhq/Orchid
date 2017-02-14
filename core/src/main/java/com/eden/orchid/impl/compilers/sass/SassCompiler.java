@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.compilers;
+package com.eden.orchid.impl.compilers.sass;
 
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import io.bit3.jsass.CompilationException;
@@ -6,12 +6,19 @@ import io.bit3.jsass.Compiler;
 import io.bit3.jsass.Options;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class SassCompiler extends OrchidCompiler {
 
+    private Options options;
+
     @Inject
-    public SassCompiler() {
+    public SassCompiler(SassImporter importer) {
         this.priority = 800;
+
+        options = new Options();
+        options.getImporters().add(importer);
     }
 
     @Override
@@ -26,18 +33,18 @@ public class SassCompiler extends OrchidCompiler {
 
     @Override
     public String compile(String extension, String input, Object... data) {
-        if(extension.equals("scss")) {
+        if (extension.equals("scss")) {
             try {
-                return new Compiler().compileString(input, new Options()).getCss();
+                options.setIsIndentedSyntaxSrc(false);
+                return new Compiler().compileString(input, options).getCss();
             }
             catch (CompilationException e) {
                 e.printStackTrace();
                 return "";
             }
         }
-        else if(extension.equals("sass")) {
+        else if (extension.equals("sass")) {
             try {
-                Options options = new Options();
                 options.setIsIndentedSyntaxSrc(true);
                 return new Compiler().compileString(input, options).getCss();
             }
@@ -48,5 +55,10 @@ public class SassCompiler extends OrchidCompiler {
         }
 
         return input;
+    }
+
+    @Override
+    public String[] getIgnoredPatterns() {
+        return new String[]{"_.*"};
     }
 }

@@ -32,4 +32,16 @@ public abstract class OrchidCompiler extends Prioritized {
      * @return the file extensions this OrchidCompiler can process
      */
     public abstract String[] getSourceExtensions();
+
+    /**
+     *
+     * Get a list of patterns used to ignore files. Typically, this is to denote certain files as 'include-only', and
+     * thus will help keep those files out of batch-compilations. Note that this matches the filename and extension
+     * only, ignoring all path information.
+     *
+     * @return a list of regexes that match file names to ignore, or null if no files should be ignored
+     */
+    public String[] getIgnoredPatterns() {
+        return null;
+    }
 }

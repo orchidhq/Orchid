@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class TwigWalkMapFilter implements JtwigFunction {
+public class WalkMapFilter implements JtwigFunction {
 
     @Override
     public String name() {

@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.compilers;
+package com.eden.orchid.impl.compilers.frontmatter;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;

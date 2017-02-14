@@ -30,7 +30,8 @@ public class Render404 {
         Headers responseHeaders = t.getResponseHeaders();
 
         JSONObject page = new JSONObject();
-        page.put("title", targetPath);
+        page.put("title", "404 - " + targetPath);
+        page.put("path", targetPath);
 
         JSONObject object = new JSONObject(context.getRoot().toMap());
         object.put("page", page);
