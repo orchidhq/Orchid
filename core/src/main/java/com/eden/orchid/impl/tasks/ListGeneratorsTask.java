@@ -5,7 +5,7 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ public class ListGeneratorsTask extends OrchidTask {
 
     @Inject
     public ListGeneratorsTask(Set<OrchidGenerator> generators, OrchidGenerators orchidGenerators) {
-        this.generators = new AlwaysSortedTreeSet<>(generators);
+        this.generators = new ObservableTreeSet<>(generators);
         this.orchidGenerators = orchidGenerators;
     }
 

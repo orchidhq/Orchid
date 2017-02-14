@@ -8,12 +8,13 @@ import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -30,11 +31,14 @@ import java.util.TreeMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class OrchidFileResources implements OrchidResources, OrchidResourceSource {
+public class OrchidFileResources extends OrchidResourceSource implements OrchidResources {
 
     private Set<OrchidResourceSource> resourceSources;
 
-    private int resourcePriority = 1;
+    @Inject
+    public OrchidFileResources() {
+        setPriority(10);
+    }
 
     /**
      * Returns the jar file used to load class clazz, or null if clazz was not loaded from a jar.
@@ -85,11 +89,11 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         }
 
         if (resourceSources == null) {
-            resourceSources = new AlwaysSortedTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
+            resourceSources = new ObservableTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
         }
 
         for (OrchidResourceSource source : resourceSources) {
-            if (source.getResourcePriority() < 0) { continue; }
+            if (source.getPriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
             JarEntry jarEntry = getJarFile(jarFile, fileName);
@@ -132,11 +136,11 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         }
 
         if (resourceSources == null) {
-            resourceSources = new AlwaysSortedTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
+            resourceSources = new ObservableTreeSet<>(OrchidUtils.resolveSet(OrchidResourceSource.class));
         }
 
         for (OrchidResourceSource source : resourceSources) {
-            if (source.getResourcePriority() < 0) { continue; }
+            if (source.getPriority() < 0) { continue; }
 
             JarFile jarFile = jarForClass(source.getClass());
 
@@ -147,7 +151,7 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
 
                 boolean shouldAddJarEntry = false;
                 if (entries.containsKey(relative)) {
-                    if (source.getResourcePriority() > entries.get(relative).getPriority()) {
+                    if (source.getPriority() > entries.get(relative).getPriority()) {
                         shouldAddJarEntry = true;
                     }
                 }
@@ -460,15 +464,5 @@ public class OrchidFileResources implements OrchidResources, OrchidResourceSourc
         }
 
         return true;
-    }
-
-    @Override
-    public int getResourcePriority() {
-        return resourcePriority;
-    }
-
-    @Override
-    public void setResourcePriority(int priority) {
-        this.resourcePriority = priority;
     }
 }

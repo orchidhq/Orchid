@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ public class ListOptionsTask extends OrchidTask {
 
     @Inject
     public ListOptionsTask(Set<OrchidOption> options) {
-        this.options = new AlwaysSortedTreeSet<>(options);
+        this.options = new ObservableTreeSet<>(options);
     }
 
     @Override

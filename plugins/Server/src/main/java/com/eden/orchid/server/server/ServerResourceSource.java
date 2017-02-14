@@ -2,20 +2,14 @@ package com.eden.orchid.server.server;
 
 import com.eden.orchid.api.resources.OrchidResourceSource;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ServerResourceSource implements OrchidResourceSource {
+public class ServerResourceSource extends OrchidResourceSource {
 
-    private int resourcePriority = 1;
-
-    @Override
-    public int getResourcePriority() {
-        return resourcePriority;
-    }
-
-    @Override
-    public void setResourcePriority(int priority) {
-        resourcePriority = priority;
+    @Inject
+    public ServerResourceSource() {
+        setPriority(20);
     }
 }

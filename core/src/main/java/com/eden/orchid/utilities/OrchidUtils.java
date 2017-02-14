@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -163,7 +164,7 @@ public final class OrchidUtils {
 
         }
 
-        return new AlwaysSortedTreeSet<>();
+        return new TreeSet<>();
     }
 
     public static String stripSeparators(String str) {

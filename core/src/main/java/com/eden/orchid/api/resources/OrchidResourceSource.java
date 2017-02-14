@@ -1,6 +1,6 @@
 package com.eden.orchid.api.resources;
 
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.registration.Prioritized;
 
 /**
  * Resources in Orchid are hierarchical, and trying to find a Resource from the OrchidResouces will return the first
@@ -13,31 +13,7 @@ import com.eden.orchid.api.registration.Contextual;
  * looking for an entry in that jar matching a given path. Having a higher priority means the jar associated with this
  * OrchidResourceSource is searched before other Jars.
  */
-public interface OrchidResourceSource extends Comparable<OrchidResourceSource>, Contextual {
+public abstract class OrchidResourceSource extends Prioritized {
 
-    /**
-     * Return the priority of this OrchidResourceSource. Options, Generators, etc. can also be ResourceSources, and the
-     * priority of each is kept independent.
-     *
-     * @return this OrchidResourceSource's priority
-     */
-    int getResourcePriority();
 
-    /**
-     * Set the priority of this resource source. A value less than 0 removes this source from consideration when
-     * attempting to resolve resources.
-     *
-     * @param priority the new priority value
-     */
-    void setResourcePriority(int priority);
-
-    @Override
-    default int compareTo(OrchidResourceSource o) {
-        if(getResourcePriority() == o.getResourcePriority()) {
-            return o.getClass().getName().compareTo(getClass().getName());
-        }
-        else {
-            return o.getResourcePriority() - getResourcePriority();
-        }
-    }
 }

@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,7 +17,7 @@ public class ListCompilersTask extends OrchidTask {
 
     @Inject
     public ListCompilersTask(Set<OrchidCompiler> compilers) {
-        this.compilers = new AlwaysSortedTreeSet<>(compilers);
+        this.compilers = new ObservableTreeSet<>(compilers);
     }
 
     @Override

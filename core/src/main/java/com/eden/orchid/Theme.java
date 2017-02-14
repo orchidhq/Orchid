@@ -10,15 +10,13 @@ import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.resources.StringResource;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Set;
 
-public abstract class Theme implements OrchidResourceSource {
-
-    private int resourcePriority = 100;
+public abstract class Theme extends OrchidResourceSource {
 
     private OrchidResources resources;
     private Set<OrchidCompiler> compilers;
@@ -27,8 +25,8 @@ public abstract class Theme implements OrchidResourceSource {
     @Inject
     public Theme(OrchidResources resources, Set<OrchidCompiler> compilers, Set<OrchidPreCompiler> preCompilers) {
         this.resources = resources;
-        this.compilers = new AlwaysSortedTreeSet<>(compilers);
-        this.preCompilers = new AlwaysSortedTreeSet<>(preCompilers);
+        this.compilers = new ObservableTreeSet<>(compilers);
+        this.preCompilers = new ObservableTreeSet<>(preCompilers);
     }
 
     public Class<? extends OrchidPreCompiler> getPrecompilerClass() {
@@ -37,15 +35,6 @@ public abstract class Theme implements OrchidResourceSource {
 
     public boolean shouldContinue() {
         return true;
-    }
-
-    public void setResourcePriority(int resourcePriority) {
-        this.resourcePriority = resourcePriority;
-    }
-
-    @Override
-    public final int getResourcePriority() {
-        return resourcePriority;
     }
 
     /**

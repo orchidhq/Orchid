@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,11 +39,11 @@ public class ListResourceSourcesTask extends OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
-        for (OrchidResourceSource source : new AlwaysSortedTreeSet<>(sources)) {
+        for (OrchidResourceSource source : new ObservableTreeSet<>(sources)) {
 
             String message;
 
-            if (source.getResourcePriority() < 0) {
+            if (source.getPriority() < 0) {
                 message = "#{ $0 | fg('red') }[#{$1}][#{$2}]";
                 message += "(inactive)#{$0 |reset}";
             }
@@ -52,7 +52,7 @@ public class ListResourceSourcesTask extends OrchidTask {
                 message += "#{ $0 | fg('magenta') }[#{$2}]#{$0 |reset}";
             }
 
-            Clog.logger(OrchidTasks.loggerKey, message, new Object[]{source.getResourcePriority(), source.getClass().getName()});
+            Clog.logger(OrchidTasks.loggerKey, message, new Object[]{source.getPriority(), source.getClass().getName()});
         }
     }
 }

@@ -1,18 +1,12 @@
 rootProject.name = 'OrchidCore'
+
 include 'core'
-include 'plugins'
-include 'themes'
-include 'plugins:Wiki'
-findProject(':plugins:Wiki')?.name = 'Wiki'
-include 'plugins:Posts'
-findProject(':plugins:Posts')?.name = 'Posts'
-include 'plugins:Pages'
-findProject(':plugins:Pages')?.name = 'Pages'
+
 include 'themes:BsDoc'
-findProject(':themes:BsDoc')?.name = 'BsDoc'
 include 'themes:Editorial'
-findProject(':themes:Editorial')?.name = 'Editorial'
-include 'buildSrc'
+
+include 'plugins:Pages'
+include 'plugins:Posts'
+include 'plugins:Wiki'
 include 'plugins:Server'
-findProject(':plugins:Server')?.name = 'Server'
 

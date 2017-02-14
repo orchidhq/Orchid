@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.Contextual;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,7 +19,7 @@ public class OrchidGenerators implements Contextual {
 
     @Inject
     public OrchidGenerators(Set<OrchidGenerator> generators) {
-        this.generators = new AlwaysSortedTreeSet<>(generators);
+        this.generators = new ObservableTreeSet<>(generators);
     }
 
     public void startIndexing(JSONObject indexObject) {

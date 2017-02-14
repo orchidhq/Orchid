@@ -42,3 +42,7 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+tasks.jar {
+    dependsOn ':core:jar', ':themes:BsDoc:jar'
+}

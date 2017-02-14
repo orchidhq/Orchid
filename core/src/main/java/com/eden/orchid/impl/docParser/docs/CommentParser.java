@@ -6,7 +6,7 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
 import com.eden.orchid.api.registration.Contextual;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 import org.json.JSONArray;
@@ -22,8 +22,8 @@ public class CommentParser implements Contextual {
 
     @Inject
     public CommentParser(Set<OrchidBlockTagHandler> blockTagHandlers, Set<OrchidInlineTagHandler> inlineTagHandlers) {
-        this.blockTagHandlers = new AlwaysSortedTreeSet<>(blockTagHandlers);
-        this.inlineTagHandlers = new AlwaysSortedTreeSet<>(inlineTagHandlers);
+        this.blockTagHandlers = new ObservableTreeSet<>(blockTagHandlers);
+        this.inlineTagHandlers = new ObservableTreeSet<>(inlineTagHandlers);
     }
 
     public JSONObject getCommentObject(Doc doc) {

@@ -77,7 +77,7 @@ public final class Context implements Contextual, OrchidContext {
         for(OrchidResourceSource source : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
             if(source instanceof Theme) {
                 if(!source.getClass().isAssignableFrom(theme.getClass())) {
-                    source.setResourcePriority(-1);
+                    source.setPriority(-1);
                 }
             }
         }
@@ -91,7 +91,7 @@ public final class Context implements Contextual, OrchidContext {
         int highestThemePriority = 0;
         for(OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
             if (resourceSourceEntry instanceof Theme) {
-                highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getResourcePriority());
+                highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getPriority());
             }
         }
 
@@ -101,7 +101,7 @@ public final class Context implements Contextual, OrchidContext {
                 if(resourceSourceEntry instanceof Theme) {
                     Theme theme = (Theme) resourceSourceEntry;
                     if (theme.getClass().equals(superclass)) {
-                        theme.setResourcePriority((highestThemePriority) - i);
+                        theme.setPriority((highestThemePriority) - i);
                         break;
                     }
                 }

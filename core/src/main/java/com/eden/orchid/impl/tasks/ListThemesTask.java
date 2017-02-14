@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,7 +17,7 @@ public class ListThemesTask extends OrchidTask {
 
     @Inject
     public ListThemesTask(Set<Theme> themes) {
-        this.themes = new AlwaysSortedTreeSet<>(themes);
+        this.themes = new ObservableTreeSet<>(themes);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ListThemesTask extends OrchidTask {
 
             String message;
 
-            if (theme.getResourcePriority() < 0) {
+            if (theme.getPriority() < 0) {
                 message = "#{ $0 | fg('red') }[#{$1}][#{$2}]";
                 if (!theme.getClass().getSuperclass().equals(Theme.class)) {
                     message += "[#{$3}]";
@@ -61,7 +61,7 @@ public class ListThemesTask extends OrchidTask {
                 }
             }
 
-            Clog.logger(OrchidTasks.loggerKey, message, new Object[]{theme.getResourcePriority(), theme.getClass().getName(), theme.getClass().getSuperclass().getSimpleName()});
+            Clog.logger(OrchidTasks.loggerKey, message, new Object[]{theme.getPriority(), theme.getClass().getName(), theme.getClass().getSuperclass().getSimpleName()});
         }
     }
 }

@@ -3,7 +3,7 @@ package com.eden.orchid.api.tasks;
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogLogger;
 import com.eden.orchid.api.registration.Contextual;
-import com.eden.orchid.utilities.AlwaysSortedTreeSet;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import org.fusesource.jansi.AnsiConsole;
 
 import javax.inject.Inject;
@@ -21,7 +21,7 @@ public class OrchidTasks implements Contextual {
     @Inject
     public OrchidTasks(Set<OrchidTask> tasks) {
         Clog.addLogger(loggerKey, new TaskLogger());
-        this.tasks = new AlwaysSortedTreeSet<>(tasks);
+        this.tasks = new ObservableTreeSet<>(tasks);
     }
 
     public void run(String taskName) {

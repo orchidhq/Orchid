@@ -51,11 +51,11 @@ orchid {
 //    task = "listCompilers"
 //    task = "listGenerators"
 //    task = "listOptions"
-//    task = "listSources"
+    task = "listSources"
 //    task = "listTasks"
 //    task = "listThemes"
 //    task = "build"
-    task = "serve"
+//    task = "serve"
 
 //    theme = 'com.eden.orchid.editorial.EditorialTheme'
     theme = 'com.eden.orchid.bsdoc.BSDocTheme'
@@ -76,4 +76,24 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+tasks.javadoc {
+    dependsOn 'jar',
+            ':themes:BsDoc:jar',
+            ':themes:Editorial:jar',
+            ':plugins:Pages:jar',
+            ':plugins:Posts:jar',
+            ':plugins:Wiki:jar',
+            ':plugins:Server:jar'
+}
+
+tasks.orchidRun {
+    dependsOn 'jar',
+            ':themes:BsDoc:jar',
+            ':themes:Editorial:jar',
+            ':plugins:Pages:jar',
+            ':plugins:Posts:jar',
+            ':plugins:Wiki:jar',
+            ':plugins:Server:jar'
 }
