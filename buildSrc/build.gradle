@@ -1,0 +1,29 @@
+plugins {
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.7'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+version = 'v0.1.4'
+
+pluginBundle {
+    website = 'http://www.gradle.org/'
+    vcsUrl = 'https://github.com/JavaEden/OrchidGradlePlugin'
+    description = 'A convenient DSL for setting up Orchid with your Gradle projects'
+    tags = ['orchid', 'javadoc']
+
+    plugins {
+        orchidPlugin {
+            id = 'com.eden.orchidPlugin'
+            displayName = 'Orchid plugin'
+        }
+    }
+}

@@ -3,8 +3,8 @@
 
 plugins {
     id 'java'
-    id 'com.eden.orchidplugin' version 'v0.1.6'
 }
+apply plugin: 'com.eden.orchidPlugin'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
