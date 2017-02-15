@@ -13,34 +13,20 @@ dependencies {
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
     compile project(":core")
 
-    orchidDocsCompile project(":themes:Editorial")
+    orchidDocsCompile project
 }
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
 
+apply from: "$rootDir/javadoc.gradle"
 orchid {
     includeMainConfiguration = true
-    task = 'listThemes'
+    runTask = 'listThemes'
 
-    theme = 'com.eden.orchid.editorial.EditorialTheme'
     version = this.version
-//    baseUrl = 'https://javaeden.github.io/OrchidEditorialTheme'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
+    theme   = 'com.eden.orchid.editorial.EditorialTheme'
+    baseUrl = "${project.ext.commonBaseUrl}/OrchidEditorialTheme"
 }
 
 tasks.jar {

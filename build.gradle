@@ -8,4 +8,11 @@ subprojects {
     }
     group 'com.eden'
     version = 'v0.1.0'
+
+    ext {
+        commonTheme = ':themes:BsDoc'
+        commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
+//        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
+        commonBaseUrl = 'http://localhost:8080'
+    }
 }

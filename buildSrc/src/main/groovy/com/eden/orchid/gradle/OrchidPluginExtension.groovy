@@ -4,7 +4,7 @@ class OrchidPluginExtension {
     boolean includeMainConfiguration
     String srcDir
     String destDir
-    String task
+    String runTask
     String version
     String theme
     String baseUrl

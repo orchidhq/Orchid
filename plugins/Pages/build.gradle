@@ -13,34 +13,20 @@ dependencies {
     compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
     compile project(":core")
 
-    orchidDocsCompile project(":themes:BsDoc")
-    orchidDocsCompile project(":plugins:Pages")
+    orchidDocsCompile project("${project.ext.commonTheme}")
+    orchidDocsCompile project
 }
 
+apply from: "$rootDir/javadoc.gradle"
 orchid {
     includeMainConfiguration = true
-    task = 'watch'
+    runTask = 'watch'
 
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
     version = this.version
-    baseUrl = 'https://javaeden.github.io/OrchidPages'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
+    theme   = "${project.ext.commonThemeClass}"
+    baseUrl = "${project.ext.commonBaseUrl}/OrchidPages"
 }
 
 tasks.jar {
-    dependsOn ':core:jar', ':themes:BsDoc:jar'
+    dependsOn ':core:jar', "${project.ext.commonTheme}:jar"
 }

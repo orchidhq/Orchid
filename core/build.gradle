@@ -2,6 +2,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'com.github.ben-manes.versions' version '0.14.0'
 }
 apply plugin: 'com.eden.orchidPlugin'
 
@@ -22,8 +23,8 @@ dependencies {
     // core utilities
     compile 'com.github.JavaEden:Common:74714dca1f'
     compile 'com.github.JavaEden:Clog4j:v1.3.0'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'org.projectlombok:lombok:1.16.12'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'org.projectlombok:lombok:1.16.14'
     compile 'org.apache.commons:commons-io:1.3.2'
     compile 'fr.opensagres.js:minimatch.java:1.1.0'
 
@@ -31,7 +32,7 @@ dependencies {
     compile 'org.json:json:20160810'
     compile 'org.yaml:snakeyaml:1.17'
     compile 'org.jtwig:jtwig-core:5.65'
-    compile 'com.vladsch.flexmark:flexmark:0.7.0'
+    compile 'com.vladsch.flexmark:flexmark:0.14.0'
     compile 'io.bit3:jsass:5.4.3'
 
     // generate own documentation with Orchid
@@ -48,52 +49,39 @@ dependencies {
 
 orchid {
     includeMainConfiguration = true
-//    task = "listCompilers"
-//    task = "listGenerators"
-//    task = "listOptions"
-    task = "listSources"
-//    task = "listTasks"
-//    task = "listThemes"
-//    task = "build"
-//    task = "serve"
+//    runTask = "listCompilers"
+//    runTask = "listGenerators"
+//    runTask = "listOptions"
+//    runTask = "listSources"
+//    runTask = "listTasks"
+    runTask = "listThemes"
+//    runTask = "build"
+//    runTask = "serve"
 
-//    theme = 'com.eden.orchid.editorial.EditorialTheme'
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
     version = this.version
-    baseUrl = 'http://localhost:8080'
+    theme   = "${project.ext.commonThemeClass}"
+    baseUrl = "${project.ext.commonBaseUrl}"
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+apply from: "$rootDir/javadoc.gradle"
+
+static boolean shouldDependOnTask(Task task) {
+    return !task.path.startsWith(':core') && task.path.endsWith(':jar')
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+project.parent.subprojects.each { subproject ->
+    project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> shouldDependOnTask(task) }
+    project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> shouldDependOnTask(task) }
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
 
-tasks.javadoc {
-    dependsOn 'jar',
-            ':themes:BsDoc:jar',
-            ':themes:Editorial:jar',
-            ':plugins:Pages:jar',
-            ':plugins:Posts:jar',
-            ':plugins:Wiki:jar',
-            ':plugins:Server:jar'
-}
 
-tasks.orchidRun {
-    dependsOn 'jar',
-            ':themes:BsDoc:jar',
-            ':themes:Editorial:jar',
-            ':plugins:Pages:jar',
-            ':plugins:Posts:jar',
-            ':plugins:Wiki:jar',
-            ':plugins:Server:jar'
-}
+
+/*
+
+
+
+
+
+
+ */

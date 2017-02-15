@@ -14,36 +14,23 @@ dependencies {
     compile project(":core")
     compile 'org.jsoup:jsoup:1.10.2'
 
-    orchidDocsCompile project(":themes:BsDoc")
-    orchidDocsCompile project(":plugins:Wiki")
+    orchidDocsCompile project("${project.ext.commonTheme}")
+    orchidDocsCompile project
 }
 
 // Javadoc Generation
 //------------------------------------------------------------------------------
+
+apply from: "$rootDir/javadoc.gradle"
 orchid {
     includeMainConfiguration = true
-    task = 'listOptions'
+    runTask = 'listOptions'
 
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
     version = this.version
-    baseUrl = 'https://javaeden.github.io/OrchidWiki'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
+    theme   = "${project.ext.commonThemeClass}"
+    baseUrl = "${project.ext.commonBaseUrl}/OrchidWiki"
 }
 
 tasks.jar {
-    dependsOn ':core:jar', ':themes:BsDoc:jar'
+    dependsOn ':core:jar', "${project.ext.commonTheme}:jar"
 }
