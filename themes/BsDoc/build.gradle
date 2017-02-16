@@ -1,34 +1,8 @@
-// Configure build, dependencies, output jar, and Java compatibility
-//------------------------------------------------------------------------------
-
-plugins {
-    id 'java'
-}
-apply plugin: 'com.eden.orchidPlugin'
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
 
 dependencies {
-    compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
-    compile project(":core")
 
-    orchidDocsCompile project
 }
 
-// Javadoc Generation
-//------------------------------------------------------------------------------
-
-apply from: "$rootDir/javadoc.gradle"
 orchid {
-    includeMainConfiguration = true
-    runTask = 'listThemes'
-
-    version = this.version
-    theme   = 'com.eden.orchid.bsdoc.BSDocTheme'
-    baseUrl = "${project.ext.commonBaseUrl}/OrchidBsDocTheme"
-}
-
-tasks.jar {
-    dependsOn ':core:jar'
+    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
 }

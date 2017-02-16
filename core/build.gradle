@@ -1,14 +1,4 @@
 
-plugins {
-    id 'java'
-    id 'jacoco'
-    id 'com.github.ben-manes.versions' version '0.14.0'
-}
-apply plugin: 'com.eden.orchidPlugin'
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
 dependencies {
     // Unit testing
     testCompile 'junit:junit:4.12'
@@ -18,7 +8,7 @@ dependencies {
     // Dynamic Component Registration
     compile 'com.google.inject:guice:4.1.0'
     compile 'com.google.inject.extensions:guice-multibindings:4.1.0'
-    compile 'io.github.lukehutch:fast-classpath-scanner:2.0.9'
+    compile 'io.github.lukehutch:fast-classpath-scanner:2.0.17'
 
     // core utilities
     compile 'com.github.JavaEden:Common:74714dca1f'
@@ -47,24 +37,6 @@ dependencies {
     orchidDocsCompile project(":plugins:Server")
 }
 
-orchid {
-    includeMainConfiguration = true
-//    runTask = "listCompilers"
-//    runTask = "listGenerators"
-//    runTask = "listOptions"
-//    runTask = "listSources"
-//    runTask = "listTasks"
-    runTask = "listThemes"
-//    runTask = "build"
-//    runTask = "serve"
-
-    version = this.version
-    theme   = "${project.ext.commonThemeClass}"
-    baseUrl = "${project.ext.commonBaseUrl}"
-}
-
-apply from: "$rootDir/javadoc.gradle"
-
 static boolean shouldDependOnTask(Task task) {
     return !task.path.startsWith(':core') && task.path.endsWith(':jar')
 }
@@ -73,15 +45,3 @@ project.parent.subprojects.each { subproject ->
     project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> shouldDependOnTask(task) }
     project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> shouldDependOnTask(task) }
 }
-
-
-
-
-/*
-
-
-
-
-
-
- */

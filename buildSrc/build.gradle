@@ -27,3 +27,5 @@ pluginBundle {
         }
     }
 }
+
+build.dependsOn.remove('groovydoc')

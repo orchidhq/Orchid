@@ -1,11 +1,47 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
 
-subprojects {
+buildscript {
     repositories {
-        maven { url 'http://jcenter.bintray.com/' }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+task publishAll(group: 'Publishing')
+
+def coreProject = subprojects.findAll {
+    return (it.path.startsWith(":core"))
+}
+def themeProjects = subprojects.findAll {
+    return (it.path.startsWith(":themes")) && (it.name != "themes")
+}
+def pluginProjects = subprojects.findAll {
+    return (it.path.startsWith(":plugins")) && (it.name != "plugins")
+}
+def coreProjects = coreProject + themeProjects + pluginProjects
+
+println coreProject
+println themeProjects
+println pluginProjects
+println coreProjects
+
+configure(coreProjects) {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.eden.orchidPlugin'
+    apply plugin: 'com.jfrog.bintray'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    repositories {
+        jcenter()
         maven { url 'https://jitpack.io' }
     }
+
     group 'com.eden'
     version = 'v0.1.0'
 
@@ -14,5 +50,37 @@ subprojects {
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
 //        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
         commonBaseUrl = 'http://localhost:8080'
+
+        commonRunTask = "listThemes"
+    }
+
+    apply from: "$rootDir/javadoc.gradle"
+    apply from: "$rootDir/publish.gradle"
+}
+
+configure(themeProjects) {
+    dependencies {
+        compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+        compile project(":core")
+
+        orchidDocsCompile project
+    }
+
+    tasks.jar {
+        dependsOn ':core:jar'
+    }
+}
+
+configure(pluginProjects) {
+    dependencies {
+        compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+        compile project(":core")
+
+        orchidDocsCompile project("${project.ext.commonTheme}")
+        orchidDocsCompile project
+    }
+
+    tasks.jar {
+        dependsOn ':core:jar', "${project.ext.commonTheme}:jar"
     }
 }

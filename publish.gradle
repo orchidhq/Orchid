@@ -1,0 +1,37 @@
+
+publishing {
+    publications {
+        OrchidPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId "${project.group}"
+            artifactId "Orchid-${project.name}"
+            version "${project.version}"
+        }
+    }
+}
+
+bintray {
+    user = 'cjbrooks12'
+    key = "${project.properties['bintray.apiKey']}"
+    publications = ['OrchidPublication']
+
+    dryRun = false
+    publish = true
+    override = true
+
+    pkg {
+        repo = 'Orchid'
+        name = "Orchid-${project.name}"
+        userOrg = 'javaeden'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/JavaEden/OrchidCore.git'
+
+        version {
+            name = "${project.version}"
+            desc = "Orchid ${project.name} ${project.version}"
+            released  = new Date()
+        }
+    }
+}

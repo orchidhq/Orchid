@@ -1,5 +1,12 @@
 
+orchid {
+    includeMainConfiguration = true
+    runTask = "${project.ext.commonRunTask}"
 
+    version = "${project.version}"
+    theme   = "${project.ext.commonThemeClass}"
+    baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'

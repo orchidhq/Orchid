@@ -2,8 +2,6 @@ rootProject.name = 'OrchidCore'
 
 include 'core'
 
-include 'orchidPlugin'
-
 include 'themes:BsDoc'
 include 'themes:Editorial'
 
