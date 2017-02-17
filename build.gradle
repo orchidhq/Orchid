@@ -49,24 +49,47 @@ configure(ext.mainProjects) {
     ext {
         commonTheme = ':themes:BsDoc'
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
-//        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
-        commonBaseUrl = 'http://localhost:8080'
-
+//        commonBaseUrl = 'http://localhost:8080'
+        commonBaseUrl = 'https://javaeden.github.io/OrchidCore'
         commonRunTask = "listThemes"
     }
 
-    apply from: "$rootDir/javadoc.gradle"
-    apply from: "$rootDir/publish.gradle"
+    apply from: "$rootDir/gradle/javadoc.gradle"
+    apply from: "$rootDir/gradle/publish.gradle"
 
     dependencies {
         testCompile 'junit:junit:4.12'
         testCompile 'org.hamcrest:hamcrest-library:1.3'
         compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
     }
+
+    task copyToVersion(type: Copy) {
+        dependsOn 'javadoc'
+
+        from "$buildDir/docs/javadoc"
+        into "$rootDir/docs/${project.version}/${project.name}"
+    }
+
+    task copyToLatest(type: Copy) {
+        dependsOn 'javadoc'
+
+        from "$buildDir/docs/javadoc"
+        into "$rootDir/docs/latest/${project.name}"
+
+        filter{ it.replaceAll("/${project.version}/", "/latest/")}
+    }
+
+    task copyToRoot() {
+        dependsOn 'copyToVersion', 'copyToLatest'
+    }
+
+    clean.dependsOn 'cleanCopyToVersion', 'cleanCopyToLatest'
+
 }
 
 // apply theme-specific configurations to those projects
 configure(ext.themeProjects) {
+
     dependencies {
         compile project(":core")
 

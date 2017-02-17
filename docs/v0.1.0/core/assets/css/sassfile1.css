@@ -1,0 +1,17 @@
+.sassfile1 {
+  color: blue; }
+
+.sassfile1 .sassfile2 {
+  color: red; }
+
+.sassfile1 .sassfile2 .sassfile3 {
+  color: purple; }
+
+.sassfile1 .sassfile2 .sassfile3 .sassfile4 {
+  color: aquamarine; }
+
+.sassfile1 .sassfile2 .sassfile3 .sassfile4 .sassfile5 {
+  color: pink; }
+
+.sassfile1 .sassfile6 {
+  color: orangered; }

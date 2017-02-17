@@ -1,0 +1,71 @@
+[
+  {
+    "constructors": [{"parameters": [{
+      "name": "resources",
+      "type": {
+        "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+        "name": "OrchidResources",
+        "dimension": ""
+      }
+    }]}],
+    "methods": [
+      {
+        "name": "getName",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getDescription",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "startIndexing",
+        "returns": {
+          "qualifiedName": "com.eden.common.json.JSONElement",
+          "name": "JSONElement",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "startGeneration",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        }
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.pages",
+      "qualifiedName": "com.eden.orchid.pages.PagesGenerator",
+      "name": "PagesGenerator",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Pages/classes/com/eden/orchid/pages/PagesGenerator"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [{
+      "name": "configure",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      }
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.pages",
+      "qualifiedName": "com.eden.orchid.pages.PagesModule",
+      "name": "PagesModule",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Pages/classes/com/eden/orchid/pages/PagesModule"
+    }
+  }
+]

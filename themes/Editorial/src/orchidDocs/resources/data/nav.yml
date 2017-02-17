@@ -1,5 +1,4 @@
 
-- type: pages
 - type: taxonomy
   name: Classes
   path: internalClasses

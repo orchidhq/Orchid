@@ -1,0 +1,173 @@
+[
+  {
+    "constructors": [{"parameters": [
+      {
+        "name": "resources",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "option",
+        "type": {
+          "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
+          "name": "WikiPathOption",
+          "dimension": ""
+        }
+      }
+    ]}],
+    "methods": [
+      {
+        "name": "getName",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getDescription",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "startIndexing",
+        "returns": {
+          "qualifiedName": "com.eden.common.json.JSONElement",
+          "name": "JSONElement",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "startGeneration",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        }
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.wiki",
+      "qualifiedName": "com.eden.orchid.wiki.WikiGenerator",
+      "name": "WikiGenerator",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [{
+      "name": "configure",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      }
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.wiki",
+      "qualifiedName": "com.eden.orchid.wiki.WikiModule",
+      "name": "WikiModule",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [
+      {
+        "name": "getFlag",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getDescription",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "parseOption",
+        "returns": {
+          "qualifiedName": "com.eden.common.json.JSONElement",
+          "name": "JSONElement",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "options",
+          "type": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": "[]"
+          }
+        }]
+      },
+      {
+        "name": "isRequired",
+        "returns": {
+          "qualifiedName": "boolean",
+          "name": "boolean",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getDefaultValue",
+        "returns": {
+          "qualifiedName": "com.eden.common.json.JSONElement",
+          "name": "JSONElement",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "optionLength",
+        "returns": {
+          "qualifiedName": "int",
+          "name": "int",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getPath",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "setPath",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "path",
+          "type": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": ""
+          }
+        }]
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.wiki",
+      "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
+      "name": "WikiPathOption",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
+    }
+  }
+]

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="index, follow">
+
+<!-- start:inject SEO data -->
+
+    <title>Orchid Posts</title>
+    <script>window.title = 'Orchid Posts';</script>
+
+
+
+    <title>Add Jekyll-like blogging functionality to your Orchid site.</title>
+
+
+
+
+
+
+
+
+
+<!-- end:inject SEO data -->
+
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.ie.min.css" />
+<![endif]-->
+
+
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js"></script>
+
+    <!-- start:inject styles -->
+    
+    
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/OrchidCore/latest/Server/assets/css/bootstrap_theme.css"/>
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/OrchidCore/latest/Server/assets/css/directoryListing.css"/>
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/OrchidCore/latest/Server/assets/css/docs.css"/>
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/OrchidCore/latest/Server/assets/css/sassfile1.css"/>
+        
+    
+    <!-- end:inject styles -->
+</head>
+<body>
+
+
+    <a class="github-fork-ribbon left-top"
+   href="https://github.com/JavaEden/OrchidPosts"
+   title="Fork me on GitHub">Fork me on GitHub</a>
+
+<header class="navbar navbar-fixed-top bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header" role="banner">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://javaeden.github.io/OrchidCore/latest/Server/">Orchid Posts</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            
+                <ul class="nav navbar-nav navbar-right">
+                    
+                        
+
+
+    
+    
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Classes <span class="caret"></span></a>
+            <ul class="dropdown-menu scrollable-menu">
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/FileWatcher">FileWatcher</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/Render404">Render404</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderFile">RenderFile</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderIndex">RenderIndex</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/ServeModule">ServeModule</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/ServeTask">ServeTask</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/ServerResourceSource">ServerResourceSource</a></li>
+                
+                    <li><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/StaticServer">StaticServer</a></li>
+                
+            </ul>
+        </li>
+    
+
+
+                    
+                </ul>
+            
+        </nav>
+    </div>
+</header>
+
+
+
+
+<div class="bs-docs-masthead" id="jumbotron">
+    <div class="container">
+        
+    <h1 class="home-title">StaticServer</h1>
+    <p class="lead">com.eden.orchid.server.server</p>
+
+    </div>
+</div>
+
+<div class="container bs-docs-container">
+    <div class="row">
+        <div class="col-md-9" role="main">
+            
+    
+
+    <div>
+
+    </div>
+    <br>
+
+    <section class="bs-docs-section">
+        <h1 id="summary" class="page-header">Summary</h1>
+
+        
+            <p>No declared fields</p>
+        
+
+
+        
+            <h3>All Constructors</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Constructor</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                    
+
+
+
+<tr>
+    <td>
+        <code><a href="#_renderIndex_renderFile_render404">StaticServer</a></code>(<a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderIndex">RenderIndex</a> renderIndex, <a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderFile">RenderFile</a> renderFile, <a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/Render404">Render404</a> render404)
+    </td>
+    <td>
+        <span></span>
+    </td>
+</tr>
+                
+                </tbody>
+            </table>
+        
+        
+            <h3>All Methods</h3>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                    
+
+
+
+<tr>
+    <td>int <code><a href="#getPort">getPort</a></code>()
+    </td>
+    <td></td>
+</tr>
+                
+                    
+
+
+
+<tr>
+    <td>void <code><a href="#handle_t">handle</a></code>(HttpExchange t)
+    </td>
+    <td></td>
+</tr>
+                
+                    
+
+
+
+<tr>
+    <td>void <code><a href="#start_port">start</a></code>(int port)
+    </td>
+    <td></td>
+</tr>
+                
+                    
+
+
+
+<tr>
+    <td>void <code><a href="#stop">stop</a></code>()
+    </td>
+    <td></td>
+</tr>
+                
+                </tbody>
+            </table>
+        
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="fields" class="page-header">Fields</h1>
+        
+            <p>No declared fields</p>
+        
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="constructors" class="page-header">Constructors</h1>
+        
+            
+                
+
+
+
+<div class="panel panel-default" id="_renderIndex_renderFile_render404">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>StaticServer(<a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderIndex">RenderIndex</a> renderIndex, <a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderFile">RenderFile</a> renderFile, <a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/Render404">Render404</a> render404)</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>
+
+    </div>
+        
+            <h4>Parameters:</h4>
+        
+    </div>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderIndex">RenderIndex</a></td>
+                    <td>renderIndex</td>
+                    <td></td>
+                </tr>
+            
+                <tr>
+                    <td><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderFile">RenderFile</a></td>
+                    <td>renderFile</td>
+                    <td></td>
+                </tr>
+            
+                <tr>
+                    <td><a href="https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/Render404">Render404</a></td>
+                    <td>render404</td>
+                    <td></td>
+                </tr>
+            
+
+            </tbody>
+        </table>
+    
+</div>
+            
+        
+    </section>
+
+    <section class="bs-docs-section">
+        <h1 id="methods" class="page-header">Methods</h1>
+        
+            
+                
+
+
+
+<div class="panel panel-default" id="getPort">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>int getPort()</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>
+
+    </div>
+
+        
+            <h4>No Parameters</h4>
+        
+    </div>
+    
+
+    <div class="panel-body">
+        <h4>Returns: </h4>
+        <code>int </code>
+        <p></p>
+    </div>
+</div>
+            
+                
+
+
+
+<div class="panel panel-default" id="handle_t">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>void handle(HttpExchange t)</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>
+
+    </div>
+
+        
+            <h4>Parameters:</h4>
+        
+    </div>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>HttpExchange</td>
+                    <td>t</td>
+                    <td></td>
+                </tr>
+            
+
+            </tbody>
+        </table>
+    
+
+    <div class="panel-body">
+        <h4>Returns: </h4>
+        <code>void </code>
+        <p></p>
+    </div>
+</div>
+            
+                
+
+
+
+<div class="panel panel-default" id="start_port">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>void start(int port)</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>
+
+    </div>
+
+        
+            <h4>Parameters:</h4>
+        
+    </div>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>int</td>
+                    <td>port</td>
+                    <td></td>
+                </tr>
+            
+
+            </tbody>
+        </table>
+    
+
+    <div class="panel-body">
+        <h4>Returns: </h4>
+        <code>void </code>
+        <p></p>
+    </div>
+</div>
+            
+                
+
+
+
+<div class="panel panel-default" id="stop">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>void stop()</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>
+
+    </div>
+
+        
+            <h4>No Parameters</h4>
+        
+    </div>
+    
+
+    <div class="panel-body">
+        <h4>Returns: </h4>
+        <code>void </code>
+        <p></p>
+    </div>
+</div>
+            
+        
+    </section>
+
+
+        </div>
+
+        <!-- Page navigation
+        =========================================== -->
+        <div class="col-md-3" role="complementary">
+            <div class="bs-docs-sidebar hidden-print">
+                <ul class="nav bs-docs-sidenav">
+                    
+
+
+                </ul>
+                <a class="back-to-top" href="#top">
+                    <i class="glyphicon glyphicon-chevron-up"></i> Back to top
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<hr>
+
+<div class="container bs-docs-container">
+    <footer class="bs-docs-footer" role="contentinfo">
+    <div class="row">
+        <div class="col-xs-12">
+            <nav aria-label="navigateClasses">
+                <ul class="pager">
+                    
+
+                    
+
+                    
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <br>
+
+    <p>
+        Licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>,
+        documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+    </p>
+    <p>
+        Documentation template based on the <a href="https://github.com/mistic100/jekyll-bootstrap-doc">Jekyll Bootstrap
+            Doc</a> Jekyll theme by the <a href="http://getbootstrap.com">Bootstrap team</a>
+    </p>
+
+    <ul class="bs-docs-footer-links muted">
+        <li>Currently v0.1.0</li>
+    </ul>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.1.2/trianglify.min.js"></script>
+
+<!-- inject scripts -->
+
+
+    
+        <script src="https://javaeden.github.io/OrchidCore/latest/Server/assets/js/docs.js"></script>
+    
+
+
+    <script>window.index = {
+  "externalClasses": {"url": "https://javaeden.github.io/OrchidCore/latest/Server/meta/externalClasses.json"},
+  "assets": {
+    "css": {"files": [
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/css/bootstrap_theme.css"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/css/directoryListing.css"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/css/docs.css"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/css/sassfile1.css"}
+    ]},
+    "svg": {"files": [
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/css.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/csv.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/folder.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/html.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/jpg.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/js.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/json.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/png.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/txt.svg"},
+      {"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/svg/xml.svg"}
+    ]},
+    "js": {"files": [{"url": "https://javaeden.github.io/OrchidCore/latest/Server/assets/js/docs.js"}]}
+  },
+  "internalClasses": {"com": {"eden": {"orchid": {"server": {
+    "server": {
+      "RenderIndex": {"files": [{
+        "package": "com.eden.orchid.server.server",
+        "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
+        "name": "RenderIndex",
+        "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderIndex"
+      }]},
+      "RenderFile": {"files": [{
+        "package": "com.eden.orchid.server.server",
+        "qualifiedName": "com.eden.orchid.server.server.RenderFile",
+        "name": "RenderFile",
+        "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderFile"
+      }]},
+      "Render404": {"files": [{
+        "package": "com.eden.orchid.server.server",
+        "qualifiedName": "com.eden.orchid.server.server.Render404",
+        "name": "Render404",
+        "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/Render404"
+      }]},
+      "StaticServer": {"files": [{
+        "package": "com.eden.orchid.server.server",
+        "qualifiedName": "com.eden.orchid.server.server.StaticServer",
+        "name": "StaticServer",
+        "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/StaticServer"
+      }]},
+      "ServerResourceSource": {"files": [{
+        "package": "com.eden.orchid.server.server",
+        "qualifiedName": "com.eden.orchid.server.server.ServerResourceSource",
+        "name": "ServerResourceSource",
+        "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/ServerResourceSource"
+      }]}
+    },
+    "ServeModule": {"files": [{
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.ServeModule",
+      "name": "ServeModule",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/ServeModule"
+    }]},
+    "FileWatcher": {"files": [{
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.FileWatcher",
+      "name": "FileWatcher",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/FileWatcher"
+    }]},
+    "ServeTask": {"files": [{
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.ServeTask",
+      "name": "ServeTask",
+      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/ServeTask"
+    }]}
+  }}}}},
+  "meta": {}
+};</script>
+
+
+
+    <script>window.page = {
+  "constructors": [{"parameters": [
+    {
+      "name": "renderIndex",
+      "type": {
+        "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
+        "name": "RenderIndex",
+        "dimension": ""
+      }
+    },
+    {
+      "name": "renderFile",
+      "type": {
+        "qualifiedName": "com.eden.orchid.server.server.RenderFile",
+        "name": "RenderFile",
+        "dimension": ""
+      }
+    },
+    {
+      "name": "render404",
+      "type": {
+        "qualifiedName": "com.eden.orchid.server.server.Render404",
+        "name": "Render404",
+        "dimension": ""
+      }
+    }
+  ]}],
+  "methods": [
+    {
+      "name": "start",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      },
+      "parameters": [{
+        "name": "port",
+        "type": {
+          "qualifiedName": "int",
+          "name": "int",
+          "dimension": ""
+        }
+      }]
+    },
+    {
+      "name": "stop",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      }
+    },
+    {
+      "name": "getPort",
+      "returns": {
+        "qualifiedName": "int",
+        "name": "int",
+        "dimension": ""
+      }
+    },
+    {
+      "name": "handle",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      },
+      "parameters": [{
+        "name": "t",
+        "type": {
+          "qualifiedName": "com.sun.net.httpserver.HttpExchange",
+          "name": "HttpExchange",
+          "dimension": ""
+        }
+      }]
+    }
+  ],
+  "fields": [],
+  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"renderIndex\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.server.server.RenderIndex\",\n        \"name\": \"RenderIndex\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"renderFile\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.server.server.RenderFile\",\n        \"name\": \"RenderFile\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"render404\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.server.server.Render404\",\n        \"name\": \"Render404\",\n        \"dimension\": \"\"\n      }\n    }\n  ]}],\n  \"methods\": [\n    {\n      \"name\": \"start\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"port\",\n        \"type\": {\n          \"qualifiedName\": \"int\",\n          \"name\": \"int\",\n          \"dimension\": \"\"\n        }\n      }]\n    },\n    {\n      \"name\": \"stop\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getPort\",\n      \"returns\": {\n        \"qualifiedName\": \"int\",\n        \"name\": \"int\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"handle\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"t\",\n        \"type\": {\n          \"qualifiedName\": \"com.sun.net.httpserver.HttpExchange\",\n          \"name\": \"HttpExchange\",\n          \"dimension\": \"\"\n        }\n      }]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.server.server\",\n    \"qualifiedName\": \"com.eden.orchid.server.server.StaticServer\",\n    \"name\": \"StaticServer\",\n    \"url\": \"https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/StaticServer\"\n  }\n}",
+  "info": {
+    "package": "com.eden.orchid.server.server",
+    "qualifiedName": "com.eden.orchid.server.server.StaticServer",
+    "name": "StaticServer",
+    "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/StaticServer"
+  }
+};</script>
+
+
+
+    <script>window.config = {
+  "github": {
+    "repo": "OrchidPosts",
+    "branch": "master",
+    "username": "JavaEden"
+  },
+  "about": {
+    "name": "Orchid Posts",
+    "description": "Add Jekyll-like blogging functionality to your Orchid site."
+  },
+  "colors": [
+    "#965252",
+    "#000000"
+  ]
+};</script>
+
+
+
+    <script>window.options = {
+  "environment": "dev",
+  "baseUrl": "https://javaeden.github.io/OrchidCore/latest/Server",
+  "github": {
+    "repo": "OrchidPosts",
+    "branch": "master",
+    "username": "JavaEden"
+  },
+  "d": "/Users/cbrooks/Documents/personal/java/eden/OrchidCore/plugins/Server/build/docs/javadoc",
+  "data": {
+    "additionalClasses": {"links": [
+      "https://javaeden.github.io/OrchidCore/meta/classIndex.json",
+      "https://javaeden.github.io/OrchidEditorialTheme/meta/classIndex.json",
+      "https://javaeden.github.io/OrchidBsDocTheme/meta/classIndex.json",
+      "https://javaeden.github.io/OrchidPages/meta/classIndex.json",
+      "https://javaeden.github.io/OrchidWiki/meta/classIndex.json"
+    ]},
+    "nav": [{
+      "path": "internalClasses",
+      "name": "Classes",
+      "type": "taxonomy"
+    }]
+  },
+  "commentExt": "md",
+  "v": "v0.1.0",
+  "about": {
+    "name": "Orchid Posts",
+    "description": "Add Jekyll-like blogging functionality to your Orchid site."
+  },
+  "theme": "com.eden.orchid.bsdoc.BSDocTheme",
+  "resourcesDir": "/Users/cbrooks/Documents/personal/java/eden/OrchidCore/plugins/Server/src/orchidDocs/resources",
+  "config": {
+    "github": {
+      "repo": "OrchidPosts",
+      "branch": "master",
+      "username": "JavaEden"
+    },
+    "about": {
+      "name": "Orchid Posts",
+      "description": "Add Jekyll-like blogging functionality to your Orchid site."
+    },
+    "colors": [
+      "#965252",
+      "#000000"
+    ]
+  },
+  "colors": [
+    "#965252",
+    "#000000"
+  ]
+};</script>
+
+<!-- end:inject scripts -->
+
+<script>
+    $(function () {
+
+        
+            window.colors = [
+  "#965252",
+  "#000000"
+];
+        
+
+        trianglify();
+        buildNav();
+    });
+</script>
+</body>
+</html>

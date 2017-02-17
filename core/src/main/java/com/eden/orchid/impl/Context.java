@@ -1,5 +1,6 @@
 package com.eden.orchid.impl;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
@@ -47,6 +48,7 @@ public final class Context implements Contextual, OrchidContext {
     @Override public boolean runTask(String taskName) {
         if (shouldContinue()) {
             reorderResourceSources();
+            Clog.i("Using Theme: #{$1}", new Object[]{ theme.getClass().getName() });
             theme.onThemeSet();
             orchidTasks.run(taskName);
             return true;
