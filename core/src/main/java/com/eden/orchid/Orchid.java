@@ -1,5 +1,6 @@
 package com.eden.orchid;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.options.OrchidOptions;
@@ -109,6 +110,7 @@ public final class Orchid {
             try {
                 AbstractModule provider = matchingClass.newInstance();
                 if (provider != null) {
+                    Clog.i("Registering module of type: #{$1}", new Object[]{matchingClass.getName()});
                     modules.add(provider);
                 }
             }

@@ -6,6 +6,7 @@ import org.json.JSONArray;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.File;
 
 @Singleton
 public class DisabledGeneratorsOption extends OrchidOption {
@@ -30,8 +31,8 @@ public class DisabledGeneratorsOption extends OrchidOption {
     @Override
     public JSONElement parseOption(String[] options) {
         String[] classNames;
-        if (options[1].contains(":")) {
-            classNames = options[1].split(":");
+        if (options[1].contains(File.pathSeparator)) {
+            classNames = options[1].split(File.pathSeparator);
         }
         else {
             classNames = new String[]{options[1]};

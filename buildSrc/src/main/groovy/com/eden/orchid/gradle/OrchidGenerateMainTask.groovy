@@ -7,58 +7,54 @@ class OrchidGenerateMainTask extends JavaExec {
     @Override
     void exec() {
 
-        def orchid = project.orchid
         def projectArgs = new ArrayList<String>()
 
         // set classpath from custom Orchid configuration
-        if(orchid.includeMainConfiguration) {
-            classpath = project.sourceSets.main.runtimeClasspath
-            classpath += project.sourceSets.orchidDocs.runtimeClasspath
+        if(project.orchid.includeMainConfiguration) {
+            classpath += project.sourceSets.main.runtimeClasspath
         }
-        else {
-            classpath = project.sourceSets.orchidDocs.runtimeClasspath
-        }
-
-        // set the Main class
-        setMain('com.eden.orchid.Orchid')
+        classpath += project.sourceSets.orchidDocs.runtimeClasspath
 
         // Set the resources directory
-        if(orchid.srcDir) {
-            projectArgs.add "-resourcesDir ${orchid.srcDir}"
+        if(project.orchid.srcDir) {
+            projectArgs.add "-resourcesDir ${project.orchid.srcDir}"
         }
         else {
             projectArgs.add "-resourcesDir ${project.sourceSets.orchidDocs.resources.srcDirs[0].toString()}"
         }
 
         // set the output directory
-        if(orchid.destDir) {
-            projectArgs.add "-d ${orchid.destDir}"
+        if(project.orchid.destDir) {
+            projectArgs.add "-d ${project.orchid.destDir}"
         }
         else {
             projectArgs.add "-d ${project.buildDir.absolutePath + '/docs/javadoc'}"
         }
 
         // set common configuration options
-        if(orchid.task) {
-            projectArgs.add "${orchid.task}"
+        if(project.hasProperty('runTask')) {
+            projectArgs.add "${project.property('runTask')}"
         }
-        if(orchid.version) {
-            projectArgs.add "-v ${orchid.version}"
+        else if(project.orchid.runTask) {
+            projectArgs.add "${project.orchid.runTask}"
         }
-        if(orchid.theme) {
-            projectArgs.add "-theme ${orchid.theme}"
+        if(project.orchid.version) {
+            projectArgs.add "-v ${project.orchid.version}"
         }
-        if(orchid.baseUrl) {
-            projectArgs.add "-baseUrl ${orchid.baseUrl}"
+        if(project.orchid.theme) {
+            projectArgs.add "-theme ${project.orchid.theme}"
+        }
+        if(project.orchid.baseUrl) {
+            projectArgs.add "-baseUrl ${project.orchid.baseUrl}"
         }
 
-        if(orchid.disabledGenerators != null && orchid.disabledGenerators.size() > 0) {
-            projectArgs.add "-disabledGenerators ${String.join(":", orchid.disabledGenerators)}"
+        if(project.orchid.disabledGenerators != null && project.orchid.disabledGenerators.size() > 0) {
+            projectArgs.add "-disabledGenerators ${String.join(":", project.orchid.disabledGenerators)}"
         }
 
         // set any additional arguments
-        if(orchid.args != null && orchid.args.size() > 0) {
-            for(String arg : orchid.args) {
+        if(project.orchid.args != null && project.orchid.args.size() > 0) {
+            for(String arg : project.orchid.args) {
                 String[] option = arg.split("\\s+")
 
                 if(option.length == 2) {

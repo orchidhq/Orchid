@@ -10,25 +10,26 @@ buildscript {
     }
 }
 
-task publishAll(group: 'Publishing')
-
-def coreProject = subprojects.findAll {
-    return (it.path.startsWith(":core"))
+// Define the 'types' of projects Orchid is working with
+//      coreProject - the main core module required by every other Orchid extension
+//      themeProjects - Orchid themes, required to actually use Orchid by all other projects
+//      pluginProjects - Additional functionality to add to Orchid, none of which are required by any project, but
+//          are all included in Core's Orchid build
+//      mainProjects - The aggregate of the above groups. Excludes 'empty projects' like ':themes' and ':plugins', as
+//          well as the root project and 'buildSrc'
+ext.coreProject = subprojects.findAll {
+    return (it.name == "core")
 }
-def themeProjects = subprojects.findAll {
+ext.themeProjects = subprojects.findAll {
     return (it.path.startsWith(":themes")) && (it.name != "themes")
 }
-def pluginProjects = subprojects.findAll {
+ext.pluginProjects = subprojects.findAll {
     return (it.path.startsWith(":plugins")) && (it.name != "plugins")
 }
-def coreProjects = coreProject + themeProjects + pluginProjects
+ext.mainProjects = coreProject + themeProjects + pluginProjects
 
-println coreProject
-println themeProjects
-println pluginProjects
-println coreProjects
-
-configure(coreProjects) {
+// apply common plugins, configurations, dependencies, etc. to all core projects
+configure(ext.mainProjects) {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'com.eden.orchidPlugin'
@@ -56,11 +57,17 @@ configure(coreProjects) {
 
     apply from: "$rootDir/javadoc.gradle"
     apply from: "$rootDir/publish.gradle"
+
+    dependencies {
+        testCompile 'junit:junit:4.12'
+        testCompile 'org.hamcrest:hamcrest-library:1.3'
+        compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+    }
 }
 
-configure(themeProjects) {
+// apply theme-specific configurations to those projects
+configure(ext.themeProjects) {
     dependencies {
-        compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
         compile project(":core")
 
         orchidDocsCompile project
@@ -71,9 +78,9 @@ configure(themeProjects) {
     }
 }
 
-configure(pluginProjects) {
+// apply plugin-specific configurations to those projects
+configure(ext.pluginProjects) {
     dependencies {
-        compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
         compile project(":core")
 
         orchidDocsCompile project("${project.ext.commonTheme}")

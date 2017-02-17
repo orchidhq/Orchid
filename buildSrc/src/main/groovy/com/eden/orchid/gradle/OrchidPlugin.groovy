@@ -11,13 +11,21 @@ class OrchidPlugin implements Plugin<Project> {
         project.extensions.create('orchid', OrchidPluginExtension)
         project.configurations.create(configurationName)
         project.apply plugin: "java"
-        project.sourceSets { orchidDocs }
 
-        // Setup individual tasks
-        project.tasks.create('orchidRun', OrchidGenerateMainTask)
-        project.tasks.orchidRun.dependsOn 'classes'
+        project.sourceSets {
+            orchidDocs
+        }
+
+        project.tasks.create('orchidRun', OrchidGenerateMainTask) {
+            dependsOn 'classes', "${configurationName}Classes"
+            main 'com.eden.orchid.Orchid'
+        }
 
         // remove normal 'javadoc' task and replace it with our own
         project.tasks.replace('javadoc', OrchidGenerateJavadocTask)
+        project.tasks.javadoc {
+            dependsOn 'classes', "${configurationName}Classes"
+            options.doclet = 'com.eden.orchid.Orchid'
+        }
     }
 }
