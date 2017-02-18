@@ -1,7 +1,7 @@
 
 about:
   name: Orchid Pages
-  description: Add static pages with rich taxonomy to your Orchid site
+  description: Add static pages with rich taxonomy to your Orchid site.
 
 colors:
   - '#a0735d'
@@ -9,5 +9,5 @@ colors:
 
 github:
   username: 'JavaEden'
-  repo: 'OrchidPages'
+  repo: 'Orchid'
   branch: 'master'

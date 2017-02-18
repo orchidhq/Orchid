@@ -14,7 +14,7 @@
       "package": "com.eden.orchid.editorial",
       "qualifiedName": "com.eden.orchid.editorial.EditorialModule",
       "name": "EditorialModule",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Editorial/classes/com/eden/orchid/editorial/EditorialModule"
+      "url": "https://javaeden.github.io/Orchid/latest/Editorial/classes/com/eden/orchid/editorial/EditorialModule"
     }
   },
   {
@@ -60,7 +60,7 @@
       "package": "com.eden.orchid.editorial",
       "qualifiedName": "com.eden.orchid.editorial.EditorialTheme",
       "name": "EditorialTheme",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Editorial/classes/com/eden/orchid/editorial/EditorialTheme"
+      "url": "https://javaeden.github.io/Orchid/latest/Editorial/classes/com/eden/orchid/editorial/EditorialTheme"
     }
   }
 ]

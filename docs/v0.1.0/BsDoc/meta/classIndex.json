@@ -14,7 +14,7 @@
       "package": "com.eden.orchid.bsdoc",
       "qualifiedName": "com.eden.orchid.bsdoc.BsDocModule",
       "name": "BsDocModule",
-      "url": "https://javaeden.github.io/OrchidCore/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
     }
   },
   {
@@ -60,7 +60,7 @@
       "package": "com.eden.orchid.bsdoc",
       "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",
       "name": "BSDocTheme",
-      "url": "https://javaeden.github.io/OrchidCore/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
     }
   }
 ]

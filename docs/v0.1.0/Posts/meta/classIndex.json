@@ -79,7 +79,7 @@
       "package": "com.eden.orchid.posts",
       "qualifiedName": "com.eden.orchid.posts.PostsGenerator",
       "name": "PostsGenerator",
-      "url": "https://javaeden.github.io/OrchidCore/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator"
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator"
     }
   },
   {
@@ -97,7 +97,7 @@
       "package": "com.eden.orchid.posts",
       "qualifiedName": "com.eden.orchid.posts.PostsModule",
       "name": "PostsModule",
-      "url": "https://javaeden.github.io/OrchidCore/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule"
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule"
     }
   }
 ]

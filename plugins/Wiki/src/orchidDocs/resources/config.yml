@@ -1,7 +1,7 @@
 
 about:
   name: Orchid Wiki
-  description: A Gitbook-like wiki for your Orchid site
+  description: A Gitbook-like wiki for your Orchid site.
 
 colors:
   - '#3F8FFF'
@@ -9,5 +9,5 @@ colors:
 
 github:
   username: 'JavaEden'
-  repo: 'OrchidWiki'
+  repo: 'Orchid'
   branch: 'master'

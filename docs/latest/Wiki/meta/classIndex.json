@@ -57,7 +57,7 @@
       "package": "com.eden.orchid.wiki",
       "qualifiedName": "com.eden.orchid.wiki.WikiGenerator",
       "name": "WikiGenerator",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
+      "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
     }
   },
   {
@@ -75,7 +75,7 @@
       "package": "com.eden.orchid.wiki",
       "qualifiedName": "com.eden.orchid.wiki.WikiModule",
       "name": "WikiModule",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
+      "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
     }
   },
   {
@@ -167,7 +167,7 @@
       "package": "com.eden.orchid.wiki",
       "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
       "name": "WikiPathOption",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
+      "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
     }
   }
 ]

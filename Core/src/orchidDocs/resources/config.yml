@@ -1,7 +1,7 @@
 
 about:
   name: Orchid
-  description: A modern, plugin-driven architecture for custom Javadoc generation
+  description: A modern, extensible, theme-ready Javadoc site generator.
 
 colors:
   - '#FF8800'
@@ -9,5 +9,5 @@ colors:
 
 github:
   username: 'JavaEden'
-  repo: 'OrchidCore'
+  repo: 'Orchid'
   branch: 'master'

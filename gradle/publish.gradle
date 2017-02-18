@@ -1,4 +1,21 @@
 
+def pomConfig = {
+    licenses {
+        license {
+            name "MIT"
+            url "https://opensource.org/licenses/MIT"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "JavaEden"
+            name "Casey Brooks"
+            email "cjbrooks12@gmail.com"
+        }
+    }
+}
+
 publishing {
     publications {
         OrchidPublication(MavenPublication) {
@@ -6,14 +23,21 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             groupId "${project.group}"
-            artifactId "Orchid-${project.name}"
+            artifactId "Orchid${project.name}"
             version "${project.version}"
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'A modern, extensible, theme-ready Javadoc site generator')
+                root.appendNode('name', 'Orchid')
+                root.appendNode('url', 'https://javaeden.github.io/Orchid/latest/core/')
+                root.children().last() + pomConfig
+            }
         }
     }
 }
 
 bintray {
-    user = 'cjbrooks12'
+    user = "${project.properties['bintray.username']}"
     key = "${project.properties['bintray.apiKey']}"
     publications = ['OrchidPublication']
 
@@ -23,15 +47,24 @@ bintray {
 
     pkg {
         repo = 'Orchid'
-        name = "Orchid-${project.name}"
+        name = "Orchid${project.name}"
         userOrg = 'javaeden'
         licenses = ['MIT']
-        vcsUrl = 'https://github.com/JavaEden/OrchidCore.git'
+        vcsUrl = 'https://github.com/JavaEden/Orchid.git'
 
         version {
             name = "${project.version}"
             desc = "Orchid ${project.name} ${project.version}"
             released  = new Date()
+
+            gpg {
+                sign = true
+            }
+            mavenCentralSync {
+                sync = true
+                user = "${project.properties['mavenCentral.username']}"
+                password = "${project.properties['mavenCentral.password']}"
+            }
         }
     }
 }

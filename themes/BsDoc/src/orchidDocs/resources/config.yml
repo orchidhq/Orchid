@@ -1,9 +1,9 @@
 
 about:
   name: Orchid BSDoc Theme
-  description: A theme for Orchid based off the Bootstrap documentation site
+  description: A theme for Orchid based off the Bootstrap documentation site.
 
 github:
   username: 'JavaEden'
-  repo: 'OrchidBsDocTheme'
+  repo: 'Orchid'
   branch: 'master'

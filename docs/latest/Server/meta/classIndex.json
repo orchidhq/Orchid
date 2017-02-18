@@ -32,7 +32,7 @@
       "package": "com.eden.orchid.server",
       "qualifiedName": "com.eden.orchid.server.FileWatcher",
       "name": "FileWatcher",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/FileWatcher"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/FileWatcher"
     }
   },
   {
@@ -50,7 +50,7 @@
       "package": "com.eden.orchid.server",
       "qualifiedName": "com.eden.orchid.server.ServeModule",
       "name": "ServeModule",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/ServeModule"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/ServeModule"
     }
   },
   {
@@ -111,7 +111,7 @@
       "package": "com.eden.orchid.server.server",
       "qualifiedName": "com.eden.orchid.server.server.Render404",
       "name": "Render404",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/Render404"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/server/Render404"
     }
   },
   {
@@ -180,7 +180,7 @@
       "package": "com.eden.orchid.server.server",
       "qualifiedName": "com.eden.orchid.server.server.RenderFile",
       "name": "RenderFile",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderFile"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/server/RenderFile"
     }
   },
   {
@@ -241,7 +241,7 @@
       "package": "com.eden.orchid.server.server",
       "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
       "name": "RenderIndex",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/RenderIndex"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/server/RenderIndex"
     }
   },
   {
@@ -252,7 +252,7 @@
       "package": "com.eden.orchid.server.server",
       "qualifiedName": "com.eden.orchid.server.server.ServerResourceSource",
       "name": "ServerResourceSource",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/ServerResourceSource"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/server/ServerResourceSource"
     }
   },
   {
@@ -337,7 +337,7 @@
       "package": "com.eden.orchid.server.server",
       "qualifiedName": "com.eden.orchid.server.server.StaticServer",
       "name": "StaticServer",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/server/StaticServer"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/server/StaticServer"
     }
   },
   {
@@ -373,7 +373,7 @@
       "package": "com.eden.orchid.server",
       "qualifiedName": "com.eden.orchid.server.ServeTask",
       "name": "ServeTask",
-      "url": "https://javaeden.github.io/OrchidCore/latest/Server/classes/com/eden/orchid/server/ServeTask"
+      "url": "https://javaeden.github.io/Orchid/latest/Server/classes/com/eden/orchid/server/ServeTask"
     }
   }
 ]

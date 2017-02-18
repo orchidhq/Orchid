@@ -1,7 +1,7 @@
 
 about:
-  name: Orchid Posts
-  description: Add Jekyll-like blogging functionality to your Orchid site.
+  name: Orchid Server
+  description: Continuous builds and an embedded file server to make writing your content experience delightful.
 
 colors:
   - '#965252'
@@ -9,5 +9,5 @@ colors:
 
 github:
   username: 'JavaEden'
-  repo: 'OrchidPosts'
+  repo: 'Orchid'
   branch: 'master'

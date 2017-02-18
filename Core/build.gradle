@@ -25,7 +25,7 @@ dependencies {
 }
 
 static boolean shouldDependOnTask(Task task) {
-    return !task.path.startsWith(':core') && task.path.endsWith(':jar')
+    return !task.path.startsWith(':Core') && task.path.endsWith(':jar')
 }
 
 project.parent.subprojects.each { subproject ->

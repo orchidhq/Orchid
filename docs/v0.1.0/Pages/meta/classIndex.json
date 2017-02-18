@@ -47,7 +47,7 @@
       "package": "com.eden.orchid.pages",
       "qualifiedName": "com.eden.orchid.pages.PagesGenerator",
       "name": "PagesGenerator",
-      "url": "https://javaeden.github.io/OrchidCore/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesGenerator"
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesGenerator"
     }
   },
   {
@@ -65,7 +65,7 @@
       "package": "com.eden.orchid.pages",
       "qualifiedName": "com.eden.orchid.pages.PagesModule",
       "name": "PagesModule",
-      "url": "https://javaeden.github.io/OrchidCore/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesModule"
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesModule"
     }
   }
 ]
