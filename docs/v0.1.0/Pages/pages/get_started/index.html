@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="index, follow">
+
+<!-- start:inject SEO data -->
+
+    <title>Orchid Pages</title>
+    <script>window.title = 'Orchid Pages';</script>
+
+
+
+    <title>Add static pages with rich taxonomy to your Orchid site.</title>
+
+
+
+
+
+
+
+
+
+<!-- end:inject SEO data -->
+
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.ie.min.css" />
+<![endif]-->
+
+
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js"></script>
+
+    <!-- start:inject styles -->
+    
+    
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/css/bootstrap_theme.css"/>
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/css/docs.css"/>
+        
+            <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/css/sassfile1.css"/>
+        
+    
+    <!-- end:inject styles -->
+</head>
+<body>
+
+
+    <a class="github-fork-ribbon left-top"
+   href="https://github.com/JavaEden/Orchid"
+   title="Fork me on GitHub">Fork me on GitHub</a>
+
+<header class="navbar navbar-fixed-top bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header" role="banner">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://javaeden.github.io/Orchid/v0.1.0/Pages/">Orchid Pages</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            
+                <ul class="nav navbar-nav navbar-right">
+                    
+                        
+
+
+    
+    
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Classes <span class="caret"></span></a>
+            <ul class="dropdown-menu scrollable-menu">
+                
+                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesGenerator">PagesGenerator</a></li>
+                
+                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesModule">PagesModule</a></li>
+                
+            </ul>
+        </li>
+    
+
+
+                    
+                        
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">All Pages <span class="caret"></span></a>
+        <ul class="dropdown-menu scrollable-menu">
+            
+            
+                
+                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Pages/pages/get_started">Get Started</a></li>
+                
+                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Pages/pages/pages">Creating Pages</a></li>
+                
+                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Pages/pages/about">About Orchid Pages</a></li>
+                
+            
+        </ul>
+    </li>
+
+                    
+                </ul>
+            
+        </nav>
+    </div>
+</header>
+
+
+
+
+<div class="bs-docs-masthead" id="jumbotron">
+    <div class="container">
+        
+    <h1 class="home-title">Get Started</h1>
+
+    </div>
+</div>
+
+<div class="container bs-docs-container">
+    <div class="row">
+        <div class="col-md-9" role="main">
+            
+
+    <section class="bs-docs-section">
+        <p>Getting set up with Orchid Pages is simple. Refer to the <a href="#">Orchid documentation</a> for help getting set up with Orchid
+before continuing.</p>
+<p>Adding Orchid Pages is as simple as adding the plugin to your dependencies in <code>build.gradle</code>. The plugin will
+automatically be registered and start creating your static pages.</p>
+<pre><code>dependencies {
+    ...
+    orchidDocsCompile 'com.github.JavaEden:OrchidPages:v0.1.0'
+}
+</code></pre>
+<p>The next step is to start adding content to your wiki. Create a <code>/pages</code> folder in your resources directory. All pages
+must exist within this directory, but can be placed in any subdirectories.</p>
+<p>By default, the path of a page will be the path it has within the 'pages' directory, namespaced under '/pages/'. Pages
+can also be placed into the root of the site by adding a Front Matter variable of <code>root: true</code> to any given page.</p>
+
+    </section>
+
+
+        </div>
+
+        <!-- Page navigation
+        =========================================== -->
+        <div class="col-md-3" role="complementary">
+            <div class="bs-docs-sidebar hidden-print">
+                <ul class="nav bs-docs-sidenav">
+                    
+
+
+                </ul>
+                <a class="back-to-top" href="#top">
+                    <i class="glyphicon glyphicon-chevron-up"></i> Back to top
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<hr>
+
+<div class="container bs-docs-container">
+    <footer class="bs-docs-footer" role="contentinfo">
+    <div class="row">
+        <div class="col-xs-12">
+            <nav aria-label="navigateClasses">
+                <ul class="pager">
+                    
+
+                    
+
+                    
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <br>
+
+    <p>
+        Licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>,
+        documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+    </p>
+    <p>
+        Documentation template based on the <a href="https://github.com/mistic100/jekyll-bootstrap-doc">Jekyll Bootstrap
+            Doc</a> Jekyll theme by the <a href="http://getbootstrap.com">Bootstrap team</a>
+    </p>
+
+    <ul class="bs-docs-footer-links muted">
+        <li>Currently v0.1.0</li>
+    </ul>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+
+<!-- inject scripts -->
+
+
+    
+        <script src="https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/js/docs.js"></script>
+    
+
+
+    <script>window.index = {
+  "externalClasses": {"url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/meta/externalClasses.json"},
+  "assets": {
+    "css": {"files": [
+      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/css/bootstrap_theme.css"},
+      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/css/docs.css"},
+      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/css/sassfile1.css"}
+    ]},
+    "js": {"files": [{"url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/js/docs.js"}]}
+  },
+  "pages": {"pages": {
+    "get_started": {"files": [{
+      "name": "Get Started",
+      "title": "Get Started",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/pages/get_started"
+    }]},
+    "pages": {"files": [{
+      "name": "Creating Pages",
+      "title": "Creating Pages",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/pages/pages"
+    }]},
+    "about": {"files": [{
+      "name": "About Orchid Pages",
+      "title": "About Orchid Pages",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/pages/about"
+    }]}
+  }},
+  "internalClasses": {"com": {"eden": {"orchid": {"pages": {
+    "PagesModule": {"files": [{
+      "package": "com.eden.orchid.pages",
+      "qualifiedName": "com.eden.orchid.pages.PagesModule",
+      "name": "PagesModule",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesModule"
+    }]},
+    "PagesGenerator": {"files": [{
+      "package": "com.eden.orchid.pages",
+      "qualifiedName": "com.eden.orchid.pages.PagesGenerator",
+      "name": "PagesGenerator",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/classes/com/eden/orchid/pages/PagesGenerator"
+    }]}
+  }}}}},
+  "meta": {}
+};</script>
+
+
+
+    <script>window.page = {
+  "root": true,
+  "title": "Get Started",
+  "content": "<p>Getting set up with Orchid Pages is simple. Refer to the <a href=\"#\">Orchid documentation<\/a> for help getting set up with Orchid\nbefore continuing.<\/p>\n<p>Adding Orchid Pages is as simple as adding the plugin to your dependencies in <code>build.gradle<\/code>. The plugin will\nautomatically be registered and start creating your static pages.<\/p>\n<pre><code>dependencies {\n    ...\n    orchidDocsCompile 'com.github.JavaEden:OrchidPages:v0.1.0'\n}\n<\/code><\/pre>\n<p>The next step is to start adding content to your wiki. Create a <code>/pages<\/code> folder in your resources directory. All pages\nmust exist within this directory, but can be placed in any subdirectories.<\/p>\n<p>By default, the path of a page will be the path it has within the 'pages' directory, namespaced under '/pages/'. Pages\ncan also be placed into the root of the site by adding a Front Matter variable of <code>root: true<\/code> to any given page.<\/p>\n"
+};</script>
+
+<!-- end:inject scripts -->
+
+<script>
+    $(function () {
+        
+            window.colors = [
+  "#a0735d",
+  "#000000"
+];
+        
+        geopattern();
+        buildNav();
+    });
+</script>
+</body>
+</html>

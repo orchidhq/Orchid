@@ -1,0 +1,66 @@
+[
+  {
+    "constructors": [{}],
+    "methods": [{
+      "name": "configure",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      }
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.editorial",
+      "qualifiedName": "com.eden.orchid.editorial.EditorialModule",
+      "name": "EditorialModule",
+      "url": "https://javaeden.github.io/Orchid/latest/Editorial/classes/com/eden/orchid/editorial/EditorialModule"
+    }
+  },
+  {
+    "constructors": [{"parameters": [
+      {
+        "name": "resources",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "compilers",
+        "type": {
+          "qualifiedName": "java.util.Set",
+          "name": "Set",
+          "dimension": "",
+          "typeParameters": [{
+            "qualifiedName": "com.eden.orchid.api.compilers.OrchidCompiler",
+            "name": "OrchidCompiler",
+            "dimension": ""
+          }]
+        }
+      },
+      {
+        "name": "preCompilers",
+        "type": {
+          "qualifiedName": "java.util.Set",
+          "name": "Set",
+          "dimension": "",
+          "typeParameters": [{
+            "qualifiedName": "com.eden.orchid.api.compilers.OrchidPreCompiler",
+            "name": "OrchidPreCompiler",
+            "dimension": ""
+          }]
+        }
+      }
+    ]}],
+    "methods": [],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.editorial",
+      "qualifiedName": "com.eden.orchid.editorial.EditorialTheme",
+      "name": "EditorialTheme",
+      "url": "https://javaeden.github.io/Orchid/latest/Editorial/classes/com/eden/orchid/editorial/EditorialTheme"
+    }
+  }
+]

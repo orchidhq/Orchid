@@ -1,0 +1,379 @@
+[
+  {
+    "constructors": [{}],
+    "methods": [
+      {
+        "name": "startWatching",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "rootDir",
+          "type": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": ""
+          }
+        }]
+      },
+      {
+        "name": "rebuild",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        }
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.FileWatcher",
+      "name": "FileWatcher",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/FileWatcher"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [{
+      "name": "configure",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      }
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.ServeModule",
+      "name": "ServeModule",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/ServeModule"
+    }
+  },
+  {
+    "constructors": [{"parameters": [
+      {
+        "name": "context",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.OrchidContext",
+          "name": "OrchidContext",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "resources",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }
+      }
+    ]}],
+    "methods": [{
+      "name": "render",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      },
+      "parameters": [
+        {
+          "name": "t",
+          "type": {
+            "qualifiedName": "com.sun.net.httpserver.HttpExchange",
+            "name": "HttpExchange",
+            "dimension": ""
+          }
+        },
+        {
+          "name": "targetFile",
+          "type": {
+            "qualifiedName": "java.io.File",
+            "name": "File",
+            "dimension": ""
+          }
+        },
+        {
+          "name": "targetPath",
+          "type": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": ""
+          }
+        }
+      ]
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.Render404",
+      "name": "Render404",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/Render404"
+    }
+  },
+  {
+    "constructors": [{"parameters": [
+      {
+        "name": "context",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.OrchidContext",
+          "name": "OrchidContext",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "resources",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "renderIndex",
+        "type": {
+          "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
+          "name": "RenderIndex",
+          "dimension": ""
+        }
+      }
+    ]}],
+    "methods": [{
+      "name": "render",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      },
+      "parameters": [
+        {
+          "name": "t",
+          "type": {
+            "qualifiedName": "com.sun.net.httpserver.HttpExchange",
+            "name": "HttpExchange",
+            "dimension": ""
+          }
+        },
+        {
+          "name": "targetFile",
+          "type": {
+            "qualifiedName": "java.io.File",
+            "name": "File",
+            "dimension": ""
+          }
+        },
+        {
+          "name": "targetPath",
+          "type": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": ""
+          }
+        }
+      ]
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.RenderFile",
+      "name": "RenderFile",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/RenderFile"
+    }
+  },
+  {
+    "constructors": [{"parameters": [
+      {
+        "name": "context",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.OrchidContext",
+          "name": "OrchidContext",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "resources",
+        "type": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }
+      }
+    ]}],
+    "methods": [{
+      "name": "render",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      },
+      "parameters": [
+        {
+          "name": "t",
+          "type": {
+            "qualifiedName": "com.sun.net.httpserver.HttpExchange",
+            "name": "HttpExchange",
+            "dimension": ""
+          }
+        },
+        {
+          "name": "targetFile",
+          "type": {
+            "qualifiedName": "java.io.File",
+            "name": "File",
+            "dimension": ""
+          }
+        },
+        {
+          "name": "targetPath",
+          "type": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": ""
+          }
+        }
+      ]
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
+      "name": "RenderIndex",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/RenderIndex"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.ServerResourceSource",
+      "name": "ServerResourceSource",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/ServerResourceSource"
+    }
+  },
+  {
+    "constructors": [{"parameters": [
+      {
+        "name": "renderIndex",
+        "type": {
+          "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
+          "name": "RenderIndex",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "renderFile",
+        "type": {
+          "qualifiedName": "com.eden.orchid.server.server.RenderFile",
+          "name": "RenderFile",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "render404",
+        "type": {
+          "qualifiedName": "com.eden.orchid.server.server.Render404",
+          "name": "Render404",
+          "dimension": ""
+        }
+      }
+    ]}],
+    "methods": [
+      {
+        "name": "start",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "port",
+          "type": {
+            "qualifiedName": "int",
+            "name": "int",
+            "dimension": ""
+          }
+        }]
+      },
+      {
+        "name": "stop",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getPort",
+        "returns": {
+          "qualifiedName": "int",
+          "name": "int",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "handle",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "t",
+          "type": {
+            "qualifiedName": "com.sun.net.httpserver.HttpExchange",
+            "name": "HttpExchange",
+            "dimension": ""
+          }
+        }]
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.StaticServer",
+      "name": "StaticServer",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/StaticServer"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [
+      {
+        "name": "getName",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getDescription",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "run",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        }
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.ServeTask",
+      "name": "ServeTask",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/ServeTask"
+    }
+  }
+]

@@ -1,0 +1,103 @@
+[
+  {
+    "constructors": [{"parameters": [{
+      "name": "resources",
+      "type": {
+        "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+        "name": "OrchidResources",
+        "dimension": ""
+      }
+    }]}],
+    "methods": [
+      {
+        "name": "getName",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "getDescription",
+        "returns": {
+          "qualifiedName": "java.lang.String",
+          "name": "String",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "startIndexing",
+        "returns": {
+          "qualifiedName": "com.eden.common.json.JSONElement",
+          "name": "JSONElement",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "startGeneration",
+        "returns": {
+          "qualifiedName": "void",
+          "name": "void",
+          "dimension": ""
+        }
+      },
+      {
+        "name": "previous",
+        "returns": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+          "name": "OrchidPage",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "i",
+          "type": {
+            "qualifiedName": "int",
+            "name": "int",
+            "dimension": ""
+          }
+        }]
+      },
+      {
+        "name": "next",
+        "returns": {
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+          "name": "OrchidPage",
+          "dimension": ""
+        },
+        "parameters": [{
+          "name": "i",
+          "type": {
+            "qualifiedName": "int",
+            "name": "int",
+            "dimension": ""
+          }
+        }]
+      }
+    ],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.PostsGenerator",
+      "name": "PostsGenerator",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator"
+    }
+  },
+  {
+    "constructors": [{}],
+    "methods": [{
+      "name": "configure",
+      "returns": {
+        "qualifiedName": "void",
+        "name": "void",
+        "dimension": ""
+      }
+    }],
+    "fields": [],
+    "info": {
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.PostsModule",
+      "name": "PostsModule",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule"
+    }
+  }
+]
