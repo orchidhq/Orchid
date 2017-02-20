@@ -1,9 +1,9 @@
-{% if index.classes.internal %}
+{% if index.classes %}
     <li>
         <span class="opener">All Classes </span>
         <ul>
-            {% for c in index.classes.internal | sortBy('simpleName') %}
-                <li><a href="{{ c.url }}" class="noncaps">{{ c.simpleName }}</a></li>
+            {% for c in index.classes | walk('url') | sortBy('name') %}
+                <li><a href="{{ c.url }}" class="noncaps">{{ c.name }}</a></li>
             {% endfor %}
         </ul>
     </li>

@@ -117,7 +117,7 @@ public class Resources implements OrchidResources {
                             + resource.getReference().getOutputExtension();
 
                     if (entries.containsKey(key)) {
-                        if (resource.getPriority() > entries.get(relative).getPriority()) {
+                        if (resource.getPriority() > entries.get(key).getPriority()) {
                             entries.put(key, resource);
                         }
                     }

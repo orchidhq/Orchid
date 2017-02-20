@@ -6,8 +6,10 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
+import com.eden.orchid.api.events.EventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
@@ -46,13 +48,23 @@ import com.eden.orchid.impl.tasks.ListOptionsTask;
 import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
+import com.google.inject.multibindings.Multibinder;
 
 public class ImplModule extends OrchidModule {
+
+    private static final Class[] defaultSets = new Class[] {
+            OrchidResourceSource.class,
+            EventListener.class
+    };
 
     @Override
     protected void configure() {
         bind(OrchidResources.class).to(Resources.class);
         bind(OrchidContext.class).to(Context.class);
+
+        for(Class<?> defaultSet : defaultSets) {
+            Multibinder.newSetBinder(binder(), defaultSet);
+        }
 
         // Resource Sources
         addToSet(LocalResourceSource.class,

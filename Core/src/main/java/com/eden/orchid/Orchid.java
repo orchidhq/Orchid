@@ -63,7 +63,7 @@ public final class Orchid {
     public static OrchidContext getContext() { return context; }
     public static Injector getInjector() { return injector; }
 
-    // Entry points, main routines
+// Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void main(String[] args) {

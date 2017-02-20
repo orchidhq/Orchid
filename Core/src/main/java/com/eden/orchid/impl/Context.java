@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.EventEmitter;
 import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.registration.Contextual;
@@ -25,17 +26,19 @@ public final class Context implements Contextual, OrchidContext {
 
     private JSONObject root;
     private Theme theme;
-    RootDoc rootDoc;
+    private RootDoc rootDoc;
 
     private OrchidTasks orchidTasks;
     private OrchidOptions options;
     private OrchidGenerators generators;
+    private EventEmitter emitter;
 
     @Inject
-    public Context(OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators) {
+    public Context(OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators, EventEmitter emitter) {
         this.orchidTasks = orchidTasks;
         this.options = options;
         this.generators = generators;
+        this.emitter = emitter;
     }
 
     @Override public void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc) {

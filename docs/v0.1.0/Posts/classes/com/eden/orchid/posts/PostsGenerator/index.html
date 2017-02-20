@@ -78,20 +78,6 @@
                         
 
 
-    
-    
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Classes <span class="caret"></span></a>
-            <ul class="dropdown-menu scrollable-menu">
-                
-                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator">PostsGenerator</a></li>
-                
-                    <li><a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule">PostsModule</a></li>
-                
-            </ul>
-        </li>
-    
-
 
                     
                         
@@ -215,7 +201,7 @@
 
 
 <tr>
-    <td>OrchidPage <code><a href="#next_i">next</a></code>(int i)
+    <td>OrchidPage <code><a href="#next_posts_i">next</a></code>(List&lt;OrchidPage&gt; posts, int i)
     </td>
     <td></td>
 </tr>
@@ -225,7 +211,7 @@
 
 
 <tr>
-    <td>OrchidPage <code><a href="#previous_i">previous</a></code>(int i)
+    <td>OrchidPage <code><a href="#previous_posts_i">previous</a></code>(List&lt;OrchidPage&gt; posts, int i)
     </td>
     <td></td>
 </tr>
@@ -235,7 +221,7 @@
 
 
 <tr>
-    <td>void <code><a href="#startGeneration">startGeneration</a></code>()
+    <td>void <code><a href="#startGeneration_posts">startGeneration</a></code>(List&lt;OrchidPage&gt; posts)
     </td>
     <td></td>
 </tr>
@@ -245,7 +231,7 @@
 
 
 <tr>
-    <td>JSONElement <code><a href="#startIndexing">startIndexing</a></code>()
+    <td>List&lt;OrchidPage&gt; <code><a href="#startIndexing">startIndexing</a></code>()
     </td>
     <td></td>
 </tr>
@@ -374,10 +360,10 @@
 
 
 
-<div class="panel panel-default" id="next_i">
+<div class="panel panel-default" id="next_posts_i">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>OrchidPage next(int i)</code>
+            <code>OrchidPage next(List&lt;OrchidPage&gt; posts, int i)</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -401,52 +387,10 @@
             <tbody>
             
                 <tr>
-                    <td>int</td>
-                    <td>i</td>
+                    <td>List&lt;OrchidPage&gt;</td>
+                    <td>posts</td>
                     <td></td>
                 </tr>
-            
-
-            </tbody>
-        </table>
-    
-
-    <div class="panel-body">
-        <h4>Returns: </h4>
-        <code>OrchidPage </code>
-        <p></p>
-    </div>
-</div>
-            
-                
-
-
-
-<div class="panel panel-default" id="previous_i">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            <code>OrchidPage previous(int i)</code>
-        </h3>
-    </div>
-    <div class="panel-body">
-        <div>
-
-    </div>
-
-        
-            <h4>Parameters:</h4>
-        
-    </div>
-    
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Type</th>
-                <th>Variable Name</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
             
                 <tr>
                     <td>int</td>
@@ -470,10 +414,10 @@
 
 
 
-<div class="panel panel-default" id="startGeneration">
+<div class="panel panel-default" id="previous_posts_i">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>void startGeneration()</code>
+            <code>OrchidPage previous(List&lt;OrchidPage&gt; posts, int i)</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -482,9 +426,83 @@
     </div>
 
         
-            <h4>No Parameters</h4>
+            <h4>Parameters:</h4>
         
     </div>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>List&lt;OrchidPage&gt;</td>
+                    <td>posts</td>
+                    <td></td>
+                </tr>
+            
+                <tr>
+                    <td>int</td>
+                    <td>i</td>
+                    <td></td>
+                </tr>
+            
+
+            </tbody>
+        </table>
+    
+
+    <div class="panel-body">
+        <h4>Returns: </h4>
+        <code>OrchidPage </code>
+        <p></p>
+    </div>
+</div>
+            
+                
+
+
+
+<div class="panel panel-default" id="startGeneration_posts">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <code>void startGeneration(List&lt;OrchidPage&gt; posts)</code>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div>
+
+    </div>
+
+        
+            <h4>Parameters:</h4>
+        
+    </div>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>List&lt;OrchidPage&gt;</td>
+                    <td>posts</td>
+                    <td></td>
+                </tr>
+            
+
+            </tbody>
+        </table>
     
 
     <div class="panel-body">
@@ -501,7 +519,7 @@
 <div class="panel panel-default" id="startIndexing">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>JSONElement startIndexing()</code>
+            <code>List&lt;OrchidPage&gt; startIndexing()</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -517,7 +535,7 @@
 
     <div class="panel-body">
         <h4>Returns: </h4>
-        <code>JSONElement </code>
+        <code>List&lt;OrchidPage&gt; </code>
         <p></p>
     </div>
 </div>
@@ -593,7 +611,6 @@
 
 
     <script>window.index = {
-  "externalClasses": {"url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/meta/externalClasses.json"},
   "assets": {
     "css": {"files": [
       {"url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/assets/css/bootstrap_theme.css"},
@@ -602,38 +619,30 @@
     ]},
     "js": {"files": [{"url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/assets/js/docs.js"}]}
   },
-  "internalClasses": {"com": {"eden": {"orchid": {"posts": {
+  "classes": {"com": {"eden": {"orchid": {"posts": {
     "PostsGenerator": {"files": [{
-      "package": "com.eden.orchid.posts",
-      "qualifiedName": "com.eden.orchid.posts.PostsGenerator",
       "name": "PostsGenerator",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator"
     }]},
     "PostsModule": {"files": [{
-      "package": "com.eden.orchid.posts",
-      "qualifiedName": "com.eden.orchid.posts.PostsModule",
       "name": "PostsModule",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule"
     }]}
   }}}}},
-  "meta": {},
-  "posts": {"posts": {
+  "posts": {
     "2017-01-30-Get-Started": {"files": [{
       "name": "Get Started",
-      "title": "Get Started",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/posts/2017-01-30-Get-Started"
     }]},
     "2017-01-31-Writing-Posts": {"files": [{
       "name": "Creating Posts",
-      "title": "Creating Posts",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/posts/2017-01-31-Writing-Posts"
     }]},
     "2017-01-29-About": {"files": [{
       "name": "About Orchid Posts",
-      "title": "About Orchid Posts",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/posts/2017-01-29-About"
     }]}
-  }}
+  }
 };</script>
 
 
@@ -667,9 +676,14 @@
     {
       "name": "startIndexing",
       "returns": {
-        "qualifiedName": "com.eden.common.json.JSONElement",
-        "name": "JSONElement",
-        "dimension": ""
+        "qualifiedName": "java.util.List",
+        "name": "List",
+        "dimension": "",
+        "typeParameters": [{
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+          "name": "OrchidPage",
+          "dimension": ""
+        }]
       }
     },
     {
@@ -678,7 +692,20 @@
         "qualifiedName": "void",
         "name": "void",
         "dimension": ""
-      }
+      },
+      "parameters": [{
+        "name": "posts",
+        "type": {
+          "qualifiedName": "java.util.List",
+          "name": "List",
+          "dimension": "",
+          "typeParameters": [{
+            "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+            "name": "OrchidPage",
+            "dimension": ""
+          }]
+        }
+      }]
     },
     {
       "name": "previous",
@@ -687,14 +714,29 @@
         "name": "OrchidPage",
         "dimension": ""
       },
-      "parameters": [{
-        "name": "i",
-        "type": {
-          "qualifiedName": "int",
-          "name": "int",
-          "dimension": ""
+      "parameters": [
+        {
+          "name": "posts",
+          "type": {
+            "qualifiedName": "java.util.List",
+            "name": "List",
+            "dimension": "",
+            "typeParameters": [{
+              "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+              "name": "OrchidPage",
+              "dimension": ""
+            }]
+          }
+        },
+        {
+          "name": "i",
+          "type": {
+            "qualifiedName": "int",
+            "name": "int",
+            "dimension": ""
+          }
         }
-      }]
+      ]
     },
     {
       "name": "next",
@@ -703,18 +745,34 @@
         "name": "OrchidPage",
         "dimension": ""
       },
-      "parameters": [{
-        "name": "i",
-        "type": {
-          "qualifiedName": "int",
-          "name": "int",
-          "dimension": ""
+      "parameters": [
+        {
+          "name": "posts",
+          "type": {
+            "qualifiedName": "java.util.List",
+            "name": "List",
+            "dimension": "",
+            "typeParameters": [{
+              "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+              "name": "OrchidPage",
+              "dimension": ""
+            }]
+          }
+        },
+        {
+          "name": "i",
+          "type": {
+            "qualifiedName": "int",
+            "name": "int",
+            "dimension": ""
+          }
         }
-      }]
+      ]
     }
   ],
   "fields": [],
-  "content": "{\n  \"constructors\": [{\"parameters\": [{\n    \"name\": \"resources\",\n    \"type\": {\n      \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n      \"name\": \"OrchidResources\",\n      \"dimension\": \"\"\n    }\n  }]}],\n  \"methods\": [\n    {\n      \"name\": \"getName\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getDescription\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startIndexing\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.common.json.JSONElement\",\n        \"name\": \"JSONElement\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startGeneration\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"previous\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"i\",\n        \"type\": {\n          \"qualifiedName\": \"int\",\n          \"name\": \"int\",\n          \"dimension\": \"\"\n        }\n      }]\n    },\n    {\n      \"name\": \"next\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"i\",\n        \"type\": {\n          \"qualifiedName\": \"int\",\n          \"name\": \"int\",\n          \"dimension\": \"\"\n        }\n      }]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.posts\",\n    \"qualifiedName\": \"com.eden.orchid.posts.PostsGenerator\",\n    \"name\": \"PostsGenerator\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator\"\n  }\n}",
+  "title": "PostsGenerator",
+  "content": "{\n  \"constructors\": [{\"parameters\": [{\n    \"name\": \"resources\",\n    \"type\": {\n      \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n      \"name\": \"OrchidResources\",\n      \"dimension\": \"\"\n    }\n  }]}],\n  \"methods\": [\n    {\n      \"name\": \"getName\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getDescription\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startIndexing\",\n      \"returns\": {\n        \"qualifiedName\": \"java.util.List\",\n        \"name\": \"List\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n          \"name\": \"OrchidPage\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"startGeneration\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"posts\",\n        \"type\": {\n          \"qualifiedName\": \"java.util.List\",\n          \"name\": \"List\",\n          \"dimension\": \"\",\n          \"typeParameters\": [{\n            \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n            \"name\": \"OrchidPage\",\n            \"dimension\": \"\"\n          }]\n        }\n      }]\n    },\n    {\n      \"name\": \"previous\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [\n        {\n          \"name\": \"posts\",\n          \"type\": {\n            \"qualifiedName\": \"java.util.List\",\n            \"name\": \"List\",\n            \"dimension\": \"\",\n            \"typeParameters\": [{\n              \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n              \"name\": \"OrchidPage\",\n              \"dimension\": \"\"\n            }]\n          }\n        },\n        {\n          \"name\": \"i\",\n          \"type\": {\n            \"qualifiedName\": \"int\",\n            \"name\": \"int\",\n            \"dimension\": \"\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"next\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [\n        {\n          \"name\": \"posts\",\n          \"type\": {\n            \"qualifiedName\": \"java.util.List\",\n            \"name\": \"List\",\n            \"dimension\": \"\",\n            \"typeParameters\": [{\n              \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n              \"name\": \"OrchidPage\",\n              \"dimension\": \"\"\n            }]\n          }\n        },\n        {\n          \"name\": \"i\",\n          \"type\": {\n            \"qualifiedName\": \"int\",\n            \"name\": \"int\",\n            \"dimension\": \"\"\n          }\n        }\n      ]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.posts\",\n    \"qualifiedName\": \"com.eden.orchid.posts.PostsGenerator\",\n    \"name\": \"PostsGenerator\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator\"\n  }\n}",
   "info": {
     "package": "com.eden.orchid.posts",
     "qualifiedName": "com.eden.orchid.posts.PostsGenerator",
@@ -751,7 +809,7 @@
     "branch": "master",
     "username": "JavaEden"
   },
-  "d": "/Users/cbrooks/Documents/personal/java/eden/OrchidCore/plugins/Posts/build/docs/javadoc",
+  "d": "/Users/cbrooks/Documents/personal/java/eden/Orchid/plugins/Posts/build/docs/javadoc",
   "data": {"nav": [
     {
       "path": "internalClasses",
@@ -767,7 +825,7 @@
     "description": "Add Jekyll-like blogging functionality to your Orchid site."
   },
   "theme": "com.eden.orchid.bsdoc.BSDocTheme",
-  "resourcesDir": "/Users/cbrooks/Documents/personal/java/eden/OrchidCore/plugins/Posts/src/orchidDocs/resources",
+  "resourcesDir": "/Users/cbrooks/Documents/personal/java/eden/Orchid/plugins/Posts/src/orchidDocs/resources",
   "config": {
     "github": {
       "repo": "Orchid",
