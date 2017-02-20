@@ -1,14 +1,9 @@
 package com.eden.orchid.api.render;
 
-import com.eden.orchid.api.resources.OrchidReference;
-import org.json.JSONObject;
+import com.eden.orchid.api.resources.OrchidPage;
 
 public interface OrchidRenderer {
-    boolean render(
-            String template,
-            String extension,
-            boolean templateReference,
-            JSONObject pageData,
-            String alias,
-            OrchidReference reference);
+    boolean renderTemplate(OrchidPage page, String template);
+    boolean renderString(OrchidPage page, String extension, String content);
+    boolean renderRaw(OrchidPage page);
 }

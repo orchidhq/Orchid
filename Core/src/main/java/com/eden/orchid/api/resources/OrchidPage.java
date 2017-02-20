@@ -5,7 +5,6 @@ import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import lombok.Data;
-import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -70,23 +69,23 @@ public class OrchidPage implements Contextual {
      * @param templateName the full relative name of the template to render
      */
     public void renderTemplate(String templateName) {
-        renderer.render(templateName, FilenameUtils.getExtension(templateName), true, buildPageData(), alias, reference);
+        this.data = buildPageData();
+
+        renderer.renderTemplate(this, templateName);
     }
 
-    /**
-     * Render a template from a string using the given file extension to find the appropriate compilers
-     *
-     * @param template the content of a 'template' to render
-     */
-    public void renderString(String template) {
-        renderer.render(template, resource.getReference().getExtension(), false, buildPageData(), alias, reference);
+    public void renderString(String extension, String content) {
+        this.data = buildPageData();
+        renderer.renderString(this, extension, content);
     }
 
     /**
      * Render the contents of your resource directly
      */
     public void renderRawContent() {
-        renderString(getTheme().compile(resource.getReference().getExtension(), resource.getContent()));
+        this.data = buildPageData();
+
+        renderer.renderRaw(this);
     }
 
     private JSONObject buildPageData() {

@@ -29,6 +29,7 @@ import com.eden.orchid.impl.docParser.tags.ThrowsTag;
 import com.eden.orchid.impl.docParser.tags.VersionTag;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.ClassesGenerator;
+import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.options.BaseUrlOption;
 import com.eden.orchid.impl.options.CommentLanguageOption;
 import com.eden.orchid.impl.options.ConfigOption;
@@ -62,6 +63,7 @@ public class ImplModule extends OrchidModule {
     protected void configure() {
         bind(OrchidContext.class).to(OrchidContextImpl.class);
         bind(OrchidRenderer.class).to(OrchidRendererImpl.class);
+        bind(OrchidPreCompiler.class).to(FrontMatterPrecompiler.class);
 
         for(Class<?> defaultSet : defaultSets) {
             Multibinder.newSetBinder(binder(), defaultSet);
@@ -99,7 +101,8 @@ public class ImplModule extends OrchidModule {
         // Generators
         addToSet(OrchidGenerator.class,
                 AssetsGenerator.class,
-                ClassesGenerator.class);
+                ClassesGenerator.class,
+                HomepageGenerator.class);
 
         // Options
         addToSet(OrchidOption.class,

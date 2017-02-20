@@ -69,7 +69,6 @@ public final class OrchidContextImpl implements OrchidContext {
         root.put("index", new JSONObject());
         generators.startIndexing(root.getJSONObject("index"));
         generators.startGeneration();
-        theme.generateHomepage();
     }
 
     @Override public JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }

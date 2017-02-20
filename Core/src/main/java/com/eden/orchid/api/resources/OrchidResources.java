@@ -1,13 +1,12 @@
 package com.eden.orchid.api.resources;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resource.FileResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FileUtils;
@@ -136,7 +135,6 @@ public final class OrchidResources {
 
                     for (File file : files) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("readme")) {
-                            Clog.i("Found README file: #{$1}", new Object[]{file.getAbsolutePath()});
                             return new FileResource(file);
                         }
                     }
@@ -178,8 +176,6 @@ public final class OrchidResources {
 
                     for (File file : files) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("license")) {
-                            Clog.i("Found License file: #{$1}", new Object[]{file.getAbsolutePath()});
-
                             return new FileResource(file);
                         }
                     }

@@ -221,7 +221,12 @@ public class OrchidReference implements Contextual {
     }
 
     public String getTitle() {
-        return title;
+        if(!EdenUtils.isEmpty(title)) {
+            return title;
+        }
+        else {
+            return fileName;
+        }
     }
 
     public void setTitle(String title) {
