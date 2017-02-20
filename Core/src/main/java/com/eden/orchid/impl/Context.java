@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.impl.resources.DefaultResourceSource;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.RootDoc;
 import lombok.Data;
@@ -76,7 +77,7 @@ public final class Context implements Contextual, OrchidContext {
 
         reorderThemes();
 
-        for(OrchidResourceSource source : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
+        for(OrchidResourceSource source : OrchidUtils.resolveSet(DefaultResourceSource.class)) {
             if(source instanceof Theme) {
                 if(!source.getClass().isAssignableFrom(theme.getClass())) {
                     source.setPriority(-1);

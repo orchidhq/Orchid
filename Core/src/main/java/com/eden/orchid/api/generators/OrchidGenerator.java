@@ -1,7 +1,9 @@
 package com.eden.orchid.api.generators;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.api.resources.OrchidPage;
+
+import java.util.List;
 
 /**
  * Generators are what create the output pages within Orchid. Generators are run after all Options have been processed
@@ -39,14 +41,15 @@ public abstract class OrchidGenerator extends Prioritized {
     /**
      * A callback to build the index of content this OrchidGenerator intends to create.
      *
-     * @return a JSONArray or JSONObject containing the index entries
+     * @return a list of pages that will be built by this generator
      */
-    public abstract JSONElement startIndexing();
+    public abstract List<OrchidPage> startIndexing();
 
     /**
-     * A callback to begin generating content. The index is fully built and should not be changed at this time.
+     * A callback to begin generating content. The index is fully built and should not be changed at this time. The
+     * list of pages returned by `startIndexing` is passed back in as an argument to the method.
      */
-    public abstract void startGeneration();
+    public abstract void startGeneration(List<OrchidPage> pages);
 
     /**
      * Return the name of the OrchidGenerator. The index created by this OrchidGenerator is scoped under this name.

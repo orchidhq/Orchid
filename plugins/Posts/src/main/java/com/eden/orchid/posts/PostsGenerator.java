@@ -1,13 +1,10 @@
 package com.eden.orchid.posts;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
-import com.eden.orchid.utilities.OrchidUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,7 +14,6 @@ import java.util.List;
 @Singleton
 public class PostsGenerator extends OrchidGenerator {
 
-    private List<OrchidPage> posts;
     private OrchidResources resources;
 
     @Inject
@@ -37,11 +33,9 @@ public class PostsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public JSONElement startIndexing() {
-        JSONObject sitePosts = new JSONObject();
-
-        List<OrchidResource> resourcesList = resources.getResourceDirEntries("posts", null, true);
-        posts = new ArrayList<>();
+    public List<OrchidPage> startIndexing() {
+        List<OrchidResource> resourcesList = resources.getLocalResourceEntries("posts", null, true);
+        List<OrchidPage> posts = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
             if(!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
@@ -62,30 +56,23 @@ public class PostsGenerator extends OrchidGenerator {
             OrchidPage post = new OrchidPage(entry);
 
             posts.add(post);
-
-            JSONObject index = new JSONObject();
-            index.put("name", post.getReference().getTitle());
-            index.put("title", post.getReference().getTitle());
-            index.put("url", post.getReference().toString());
-
-            OrchidUtils.buildTaxonomy(entry, sitePosts, index);
         }
 
-        return new JSONElement(sitePosts);
+        return posts;
     }
 
     @Override
-    public void startGeneration() {
+    public void startGeneration(List<OrchidPage> posts) {
         int i = 0;
         for (OrchidPage post : posts) {
-            if (next(i) != null) { post.setNext(next(i)); }
-            if (previous(i) != null) { post.setPrevious(previous(i)); }
+            if (next(posts, i) != null) { post.setNext(next(posts, i)); }
+            if (previous(posts, i) != null) { post.setPrevious(previous(posts, i)); }
             post.renderTemplate("templates/pages/page.twig");
             i++;
         }
     }
 
-    public OrchidPage previous(int i) {
+    public OrchidPage previous(List<OrchidPage> posts, int i) {
         if (posts.size() > 1) {
             if (i == 0) {
                 return posts.get(posts.size() - 1);
@@ -98,7 +85,7 @@ public class PostsGenerator extends OrchidGenerator {
         return null;
     }
 
-    public OrchidPage next(int i) {
+    public OrchidPage next(List<OrchidPage> posts, int i) {
         if (posts.size() > 1) {
             if (i == posts.size() - 1) {
                 return posts.get(0);

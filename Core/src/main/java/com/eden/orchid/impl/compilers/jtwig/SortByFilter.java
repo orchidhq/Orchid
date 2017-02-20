@@ -131,7 +131,8 @@ public class SortByFilter implements JtwigFunction {
             Comparable thatValue = that.get(property);
 
             if(thisValue == null || thatValue == null) {
-                throw new RuntimeException("Liquid error: comparison of Hash with Hash failed");
+                throw new RuntimeException("comparison of Hash with Hash failed on key: '" + property + "'");
+//                return 0;
             }
 
             return thisValue.compareTo(thatValue);

@@ -24,12 +24,23 @@ public class LinkFilter implements JtwigFunction {
 
     @Override
     public Object execute(FunctionRequest request) {
-        List<Object> fnParams = request.maximumNumberOfArguments(1)
+        List<Object> fnParams = request.maximumNumberOfArguments(2)
                                        .minimumNumberOfArguments(1)
                                        .getArguments();
 
-        Object value = fnParams.get(0);
+        if(fnParams.size() == 1) {
+            String linkName = fnParams.get(0).toString();
 
-        return OrchidUtils.linkTo(value.toString());
+            return OrchidUtils.linkTo(linkName);
+        }
+        else if(fnParams.size() == 2) {
+            String linkName = fnParams.get(0).toString();
+            String indexKey = fnParams.get(1).toString();
+
+            return OrchidUtils.linkTo(indexKey, linkName);
+        }
+        else {
+            return "";
+        }
     }
 }

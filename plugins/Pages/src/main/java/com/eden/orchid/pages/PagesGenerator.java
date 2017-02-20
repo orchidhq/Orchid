@@ -1,14 +1,11 @@
 package com.eden.orchid.pages;
 
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
-import com.eden.orchid.utilities.OrchidUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +15,6 @@ import java.util.List;
 @Singleton
 public class PagesGenerator extends OrchidGenerator {
 
-    private List<OrchidPage> pages;
     private OrchidResources resources;
 
     @Inject
@@ -39,11 +35,9 @@ public class PagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public JSONElement startIndexing() {
-        JSONObject sitePages = new JSONObject();
-
-        List<OrchidResource> resourcesList = resources.getResourceDirEntries("pages", null, true);
-        pages = new ArrayList<>();
+    public List<OrchidPage> startIndexing() {
+        List<OrchidResource> resourcesList = resources.getLocalResourceEntries("pages", null, true);
+        List<OrchidPage> pages = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
             if(!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
@@ -64,20 +58,13 @@ public class PagesGenerator extends OrchidGenerator {
             OrchidPage page = new OrchidPage(entry);
 
             pages.add(page);
-
-            JSONObject index = new JSONObject();
-            index.put("name", page.getReference().getTitle());
-            index.put("title", page.getReference().getTitle());
-            index.put("url", page.getReference().toString());
-
-            OrchidUtils.buildTaxonomy(entry, sitePages, index);
         }
 
-        return new JSONElement(sitePages);
+        return pages;
     }
 
     @Override
-    public void startGeneration() {
+    public void startGeneration(List<OrchidPage> pages) {
         for (OrchidPage page : pages) {
             page.renderTemplate("templates/pages/page.twig");
         }

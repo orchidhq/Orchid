@@ -4,6 +4,8 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.impl.resources.DefaultResourceSource;
+import com.eden.orchid.impl.resources.LocalResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
@@ -16,8 +18,11 @@ public class ListResourceSourcesTask extends OrchidTask {
     private Set<OrchidResourceSource> sources;
 
     @Inject
-    public ListResourceSourcesTask(Set<OrchidResourceSource> sources) {
-        this.sources = sources;
+    public ListResourceSourcesTask(Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
+        this.sources = new ObservableTreeSet<>();
+
+        this.sources.addAll(localResourceSources);
+        this.sources.addAll(defaultResourceSources);
     }
 
     @Override

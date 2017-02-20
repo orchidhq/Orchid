@@ -1,7 +1,6 @@
 package com.eden.orchid.wiki;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -55,7 +54,7 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     @Override
-    public JSONElement startIndexing() {
+    public List<OrchidPage> startIndexing() {
 
         if(!EdenUtils.isEmpty(option.getPath())) {
             wikiBaseDir = option.getPath();
@@ -68,17 +67,12 @@ public class WikiGenerator extends OrchidGenerator {
         setupSummary();
         setupGlossary();
 
-        if(siteWiki.has(wikiBaseDir.replace("/", ""))) {
-            return new JSONElement(siteWiki.getJSONObject(wikiBaseDir.replace("/", "")));
-        }
-        else {
-            return null;
-        }
+        return wiki;
     }
 
     @Override
-    public void startGeneration() {
-        for (OrchidPage page : wiki) {
+    public void startGeneration(List<OrchidPage> pages) {
+        for (OrchidPage page : pages) {
             if(!page.getReference().getFullPath().equalsIgnoreCase(wikiBaseDir + "glossary")) {
                 findGlossaryTerms(page).renderTemplate("templates/pages/page.twig");
             }
@@ -102,7 +96,7 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     private void setupGlossary() {
-        OrchidResource glossary = resources.getResourceDirEntry(wikiBaseDir + "GLOSSARY.md");
+        OrchidResource glossary = resources.getLocalResourceEntry(wikiBaseDir + "GLOSSARY.md");
 
         if(glossary == null) {
             return;
@@ -141,7 +135,7 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     private void setupSummary() {
-        OrchidResource summary = resources.getResourceDirEntry(wikiBaseDir + "SUMMARY.md");
+        OrchidResource summary = resources.getLocalResourceEntry(wikiBaseDir + "SUMMARY.md");
 
         if(summary == null) {
             return;
@@ -158,7 +152,7 @@ public class WikiGenerator extends OrchidGenerator {
             String file = wikiBaseDir + a.attr("href");
             String path = wikiBaseDir + FilenameUtils.removeExtension(a.attr("href"));
 
-            OrchidResource resource = resources.getResourceDirEntry(file);
+            OrchidResource resource = resources.getLocalResourceEntry(file);
 
             if(resource == null) {
                 Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{ file });

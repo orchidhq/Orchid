@@ -1,16 +1,18 @@
 package com.eden.orchid.docs;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.resources.OrchidPage;
+
+import java.util.List;
 
 public class ExtraGenerator extends OrchidGenerator {
     @Override
-    public JSONElement startIndexing() {
+    public List<OrchidPage> startIndexing() {
         return null;
     }
 
     @Override
-    public void startGeneration() {
+    public void startGeneration(List<OrchidPage> pages) {
 
     }
 

@@ -33,15 +33,15 @@
         </section>
     {% endif %}
 
-    {% if index.classes and index.classes.internal %}
+    {% if index.classes %}
         <section class="bs-docs-section">
             <h1 id="classes" class="page-header">Classes</h1>
 
             <div class="all-classes">
                 <ul class="pager">
-                    {% set classList = index.classes.internal | sortBy('simpleName') %}
+                    {% set classList = index.classes | walk('url') | sortBy('name') %}
                     {% for c in classList %}
-                        <li><a href="{{ c.url }}">{{ c.simpleName }}</a></li>
+                        <li><a href="{{ c.url }}">{{ c.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

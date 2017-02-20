@@ -1,4 +1,4 @@
-rootProject.name = 'OrchidCore'
+rootProject.name = 'Orchid'
 
 include 'Core'
 

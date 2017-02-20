@@ -8,13 +8,12 @@ import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
+import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
-import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.docParser.tags.AuthorTag;
 import com.eden.orchid.impl.docParser.tags.DeprecatedTag;
 import com.eden.orchid.impl.docParser.tags.ExceptionTag;
@@ -25,9 +24,7 @@ import com.eden.orchid.impl.docParser.tags.SinceTag;
 import com.eden.orchid.impl.docParser.tags.ThrowsTag;
 import com.eden.orchid.impl.docParser.tags.VersionTag;
 import com.eden.orchid.impl.generators.AssetsGenerator;
-import com.eden.orchid.impl.generators.ExternalIndexGenerator;
-import com.eden.orchid.impl.generators.InternalIndexGenerator;
-import com.eden.orchid.impl.generators.MetadataGenerator;
+import com.eden.orchid.impl.generators.ClassesGenerator;
 import com.eden.orchid.impl.options.BaseUrlOption;
 import com.eden.orchid.impl.options.CommentLanguageOption;
 import com.eden.orchid.impl.options.ConfigOption;
@@ -38,7 +35,10 @@ import com.eden.orchid.impl.options.EnvironmentOption;
 import com.eden.orchid.impl.options.ResourcesOption;
 import com.eden.orchid.impl.options.ThemeOption;
 import com.eden.orchid.impl.options.VersionOption;
-import com.eden.orchid.impl.resources.OrchidFileResources;
+import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
+import com.eden.orchid.impl.resources.DefaultResourceSource;
+import com.eden.orchid.impl.resources.LocalResourceSource;
+import com.eden.orchid.impl.resources.Resources;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.ListCompilersTask;
 import com.eden.orchid.impl.tasks.ListGeneratorsTask;
@@ -51,12 +51,14 @@ public class ImplModule extends OrchidModule {
 
     @Override
     protected void configure() {
-        bind(OrchidResources.class).to(OrchidFileResources.class);
+        bind(OrchidResources.class).to(Resources.class);
         bind(OrchidContext.class).to(Context.class);
 
         // Resource Sources
-        addToSet(OrchidResourceSource.class,
-                OrchidFileResources.class);
+        addToSet(LocalResourceSource.class,
+                LocalResourceSource.class);
+        addToSet(DefaultResourceSource.class,
+                CoreDefaultResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,
@@ -86,9 +88,7 @@ public class ImplModule extends OrchidModule {
         // Generators
         addToSet(OrchidGenerator.class,
                 AssetsGenerator.class,
-                MetadataGenerator.class,
-                ExternalIndexGenerator.class,
-                InternalIndexGenerator.class);
+                ClassesGenerator.class);
 
         // Options
         addToSet(OrchidOption.class,

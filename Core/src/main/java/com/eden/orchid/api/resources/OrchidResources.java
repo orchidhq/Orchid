@@ -14,7 +14,7 @@ public interface OrchidResources extends Contextual {
      * @param fileName the file path and name to find
      * @return an OrchidResource if it can be found, null otherwise
      */
-    OrchidResource getResourceDirEntry(String fileName);
+    OrchidResource getLocalResourceEntry(String fileName);
 
     /**
      * Gets a single OrchidResource. The 'resourcesDir' directory is first searched, and then all registered
@@ -36,7 +36,7 @@ public interface OrchidResources extends Contextual {
      * @param recursive whether to also search subdirectories
      * @return a list of all OrchidResources found
      */
-    List<OrchidResource> getResourceDirEntries(String dirName, String[] fileExtensions, boolean recursive);
+    List<OrchidResource> getLocalResourceEntries(String dirName, String[] fileExtensions, boolean recursive);
 
     /**
      * Finds all OrchidResources in a given directory in all registered ResourceSources. The 'resourcesDir' directory is

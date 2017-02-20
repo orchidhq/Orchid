@@ -3,6 +3,7 @@ package com.eden.orchid.utilities;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidResource;
 import com.eden.orchid.impl.compilers.jtwig.WalkMapFilter;
 import com.google.inject.Injector;
@@ -73,26 +74,32 @@ public final class OrchidUtils {
         }
     }
 
-    public static String linkTo(String link) {
-        if(Orchid.getContext().query("index.internalClasses") != null) {
-            String s = findInMap(link, (JSONObject) Orchid.getContext().query("index.internalClasses").getElement());
+    public static String linkTo(String linkName) {
+        Set<OrchidGenerator> generators = new ObservableTreeSet<>(OrchidUtils.resolveSet(Orchid.getInjector(), OrchidGenerator.class));
+
+        for(OrchidGenerator generator : generators) {
+            String linkText = linkTo(generator.getName(), linkName);
+
+            if(!linkText.equals(linkName)) {
+                return linkText;
+            }
+        }
+
+        return linkName;
+    }
+
+    public static String linkTo(String indexKey, String linkName) {
+        if(Orchid.getContext().query("index." + indexKey) != null) {
+            String s = findInMap(linkName, (JSONObject) Orchid.getContext().query("index." + indexKey).getElement());
             if(!EdenUtils.isEmpty(s)) {
                 return s;
             }
         }
 
-        if(Orchid.getContext().query("index.externalClasses") != null) {
-            String s = findInMap(link, (JSONObject) Orchid.getContext().query("index.externalClasses").getElement());
-            if(!EdenUtils.isEmpty(s)) {
-                return s;
-            }
-        }
-
-        return link;
+        return linkName;
     }
 
     private static String findInMap(String link, JSONObject mapObject) {
-
         List urls = WalkMapFilter.walkObject(mapObject, "url");
         String template = "<a href=\"#{$1}\">#{$2}</a>";
 
@@ -169,5 +176,23 @@ public final class OrchidUtils {
 
     public static String stripSeparators(String str) {
         return StringUtils.strip(str.trim(), "/" + File.separator);
+    }
+
+    public static String getRelativeFilename(String sourcePath, String baseDir) {
+        if (sourcePath.contains(baseDir)) {
+            int indexOf = sourcePath.indexOf(baseDir);
+
+            if (indexOf + baseDir.length() < sourcePath.length()) {
+                String relative = sourcePath.substring((indexOf + baseDir.length()));
+
+                if (relative.startsWith(File.separator)) {
+                    relative = relative.substring(1);
+                }
+
+                return relative;
+            }
+        }
+
+        return sourcePath;
     }
 }

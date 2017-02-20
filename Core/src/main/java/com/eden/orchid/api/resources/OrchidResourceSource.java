@@ -1,6 +1,11 @@
 package com.eden.orchid.api.resources;
 
+import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.registration.Prioritized;
+import org.apache.commons.io.FilenameUtils;
+
+import java.util.List;
 
 /**
  * Resources in Orchid are hierarchical, and trying to find a Resource from the OrchidResouces will return the first
@@ -15,5 +20,23 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidResourceSource extends Prioritized {
 
+    public abstract OrchidResource getResourceEntry(String fileName);
 
+    public abstract List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive);
+
+    protected boolean shouldAddEntry(String entryName) {
+        OrchidCompiler compiler = getTheme().compilerFor(FilenameUtils.getExtension(entryName));
+
+        if (compiler != null && !EdenUtils.isEmpty(compiler.getIgnoredPatterns())) {
+            String[] pieces = entryName.split("/");
+            String entryFileName = pieces[pieces.length - 1];
+            for (String pattern : compiler.getIgnoredPatterns()) {
+                if (entryFileName.matches(pattern)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

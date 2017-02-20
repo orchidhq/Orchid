@@ -6,9 +6,9 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResource;
-import com.eden.orchid.api.resources.OrchidResourceSource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
+import com.eden.orchid.impl.resources.DefaultResourceSource;
 import com.eden.orchid.impl.resources.StringResource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import org.json.JSONObject;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.Set;
 
-public abstract class Theme extends OrchidResourceSource {
+public abstract class Theme extends DefaultResourceSource {
 
     private OrchidResources resources;
     private Set<OrchidCompiler> compilers;
