@@ -1,6 +1,6 @@
 package com.eden.orchid.server.server;
 
-import com.eden.orchid.impl.resources.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

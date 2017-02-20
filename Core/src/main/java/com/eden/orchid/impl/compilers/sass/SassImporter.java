@@ -1,10 +1,10 @@
 package com.eden.orchid.impl.compilers.sass;
 
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.Provider;
 import io.bit3.jsass.importer.Import;
 import io.bit3.jsass.importer.Importer;
 
@@ -14,12 +14,10 @@ import java.util.Collections;
 
 public class SassImporter implements Importer {
 
-    private OrchidContext context;
-    private OrchidResources resources;
+    private Provider<OrchidResources> resources;
 
     @Inject
-    public SassImporter(OrchidContext context, OrchidResources resources) {
-        this.context = context;
+    public SassImporter(Provider<OrchidResources> resources) {
         this.resources = resources;
     }
 
@@ -38,7 +36,7 @@ public class SassImporter implements Importer {
         for(String availableFile : availableFiles) {
             String absoluteUri = splitPath(previous.getAbsoluteUri().getPath()).first + "/" + availableFile;
 
-            OrchidResource importedResource = resources.getResourceEntry("assets/css/" + OrchidUtils.stripSeparators(absoluteUri));
+            OrchidResource importedResource = resources.get().getResourceEntry("assets/css/" + OrchidUtils.stripSeparators(absoluteUri));
 
             if (importedResource != null) {
                 String content = importedResource.getContent();

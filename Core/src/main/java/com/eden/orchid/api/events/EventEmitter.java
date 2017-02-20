@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.Stack;
 
 @Singleton
-public class EventEmitter {
+public final class EventEmitter {
 
     private Map<String, Set<EventListener>> eventListeners;
 

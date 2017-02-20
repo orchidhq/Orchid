@@ -5,7 +5,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.impl.resources.FreeableResource;
+import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONArray;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class OrchidGenerators implements Contextual {
+public final class OrchidGenerators implements Contextual {
     private JSONArray disabledGenerators;
     private Set<OrchidGenerator> generators;
 

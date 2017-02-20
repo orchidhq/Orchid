@@ -1,9 +1,9 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.api.registration.Contextual;
-import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.google.common.base.Optional;
+import com.google.inject.Provider;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jtwig.resource.loader.ResourceLoader;
@@ -19,15 +19,15 @@ import java.nio.charset.Charset;
 public class JTwigResourceLoader extends TypedResourceLoader {
 
     @Inject
-    public JTwigResourceLoader(OrchidResources resources) {
+    public JTwigResourceLoader(Provider<OrchidResources> resources) {
         super("orchid", new Loader(resources));
     }
 
-    private static class Loader implements ResourceLoader, Contextual {
+    private static class Loader implements ResourceLoader {
 
-        private OrchidResources resources;
+        private Provider<OrchidResources> resources;
 
-        public Loader(OrchidResources resources) {
+        public Loader(Provider<OrchidResources> resources) {
             this.resources = resources;
         }
 
@@ -83,10 +83,10 @@ public class JTwigResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(path.startsWith("/")) {
-                resource = resources.getResourceEntry(path);
+                resource = resources.get().getResourceEntry(path);
             }
             else {
-                resource = resources.getResourceEntry("templates/" + path);
+                resource = resources.get().getResourceEntry("templates/" + path);
             }
 
             return (resource != null);
@@ -98,10 +98,10 @@ public class JTwigResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(path.startsWith("/")) {
-                resource = resources.getResourceEntry(path);
+                resource = resources.get().getResourceEntry(path);
             }
             else {
-                resource = resources.getResourceEntry("templates/" + path);
+                resource = resources.get().getResourceEntry("templates/" + path);
             }
 
             if(resource != null) {

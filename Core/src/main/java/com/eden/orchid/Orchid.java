@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is the main entry point to the Orchid build process. It does little more than create a Context for Orchid to runTask
+ * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for Orchid to runTask
  * within, and then set that context into motion. It is the single point-of-entry for starting the Orchid process; both
  * Javadoc's `start` method and the Java `main` method are in here, which create the appropriate OrchidContext and then
  * runTask a single Orchid task.

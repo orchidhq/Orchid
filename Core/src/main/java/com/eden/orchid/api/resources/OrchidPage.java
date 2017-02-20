@@ -2,6 +2,8 @@ package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.render.OrchidRenderer;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import lombok.Data;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
@@ -26,7 +28,7 @@ public class OrchidPage implements Contextual {
     private OrchidResource resource;
 
     // injected members
-    private OrchidResources resources;
+    private OrchidRenderer renderer;
 
     public OrchidPage(OrchidResource resource) {
         getInjector().injectMembers(this);
@@ -68,7 +70,7 @@ public class OrchidPage implements Contextual {
      * @param templateName the full relative name of the template to render
      */
     public void renderTemplate(String templateName) {
-        resources.render(templateName, FilenameUtils.getExtension(templateName), true, buildPageData(), alias, reference);
+        renderer.render(templateName, FilenameUtils.getExtension(templateName), true, buildPageData(), alias, reference);
     }
 
     /**
@@ -77,7 +79,7 @@ public class OrchidPage implements Contextual {
      * @param template the content of a 'template' to render
      */
     public void renderString(String template) {
-        resources.render(template, resource.getReference().getExtension(), false, buildPageData(), alias, reference);
+        renderer.render(template, resource.getReference().getExtension(), false, buildPageData(), alias, reference);
     }
 
     /**
@@ -148,7 +150,7 @@ public class OrchidPage implements Contextual {
     }
 
     @Inject
-    public void setResources(OrchidResources resources) {
-        this.resources = resources;
+    public void setRenderer(OrchidRenderer renderer) {
+        this.renderer = renderer;
     }
 }

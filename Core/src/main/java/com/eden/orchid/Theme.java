@@ -5,12 +5,13 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
-import com.eden.orchid.impl.resources.DefaultResourceSource;
-import com.eden.orchid.impl.resources.StringResource;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.utilities.ObservableTreeSet;
+import com.google.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -18,12 +19,12 @@ import java.util.Set;
 
 public abstract class Theme extends DefaultResourceSource {
 
-    private OrchidResources resources;
+    private Provider<OrchidResources> resources;
     private Set<OrchidCompiler> compilers;
     private Set<OrchidPreCompiler> preCompilers;
 
     @Inject
-    public Theme(OrchidResources resources, Set<OrchidCompiler> compilers, Set<OrchidPreCompiler> preCompilers) {
+    public Theme(Provider<OrchidResources> resources, Set<OrchidCompiler> compilers, Set<OrchidPreCompiler> preCompilers) {
         this.resources = resources;
         this.compilers = new ObservableTreeSet<>(compilers);
         this.preCompilers = new ObservableTreeSet<>(preCompilers);
@@ -47,12 +48,12 @@ public abstract class Theme extends DefaultResourceSource {
 
     public void generateHomepage() {
         JSONObject frontPageData = new JSONObject(getContext().getRoot().toMap());
-        OrchidResource readmeResource = resources.getProjectReadme();
+        OrchidResource readmeResource = resources.get().getProjectReadme();
         if (readmeResource != null) {
             frontPageData.put("readme", compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
         }
 
-        OrchidResource licenseResource = resources.getProjectLicense();
+        OrchidResource licenseResource = resources.get().getProjectLicense();
         if (licenseResource != null) {
             frontPageData.put("license", compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
         }

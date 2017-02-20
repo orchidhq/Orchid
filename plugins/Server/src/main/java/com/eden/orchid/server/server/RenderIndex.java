@@ -2,7 +2,7 @@ package com.eden.orchid.server.server;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.net.httpserver.Headers;

@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.impl.compilers.jtwig.WalkMapFilter;
 import com.google.inject.Injector;
 import com.google.inject.Key;

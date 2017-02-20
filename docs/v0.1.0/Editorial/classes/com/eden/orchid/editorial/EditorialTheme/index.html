@@ -85,7 +85,7 @@
 
 <tr>
     <td>
-        <code><a href="#_resources_compilers_preCompilers">EditorialTheme</a>(OrchidResources resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)</code>
+        <code><a href="#_resources_compilers_preCompilers">EditorialTheme</a>(Provider&lt;OrchidResources&gt; resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)</code>
         <br><br>
         <span></span>
     </td>
@@ -124,7 +124,7 @@
 
 <div class="box" id="_resources_compilers_preCompilers">
     <h3>
-        <code><a href="https://javaeden.github.io/Orchid/v0.1.0/Editorial/classes/com/eden/orchid/editorial/EditorialTheme">EditorialTheme</a>(OrchidResources resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)</code>
+        <code><a href="https://javaeden.github.io/Orchid/v0.1.0/Editorial/classes/com/eden/orchid/editorial/EditorialTheme">EditorialTheme</a>(Provider&lt;OrchidResources&gt; resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)</code>
     </h3>
     <hr>
 
@@ -148,7 +148,7 @@
             <tbody>
             
                 <tr>
-                    <td>OrchidResources</td>
+                    <td>Provider&lt;OrchidResources&gt;</td>
                     <td>resources</td>
                     <td></td>
                 </tr>
@@ -318,9 +318,14 @@
     {
       "name": "resources",
       "type": {
-        "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
-        "name": "OrchidResources",
-        "dimension": ""
+        "qualifiedName": "com.google.inject.Provider",
+        "name": "Provider",
+        "dimension": "",
+        "typeParameters": [{
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }]
       }
     },
     {
@@ -353,7 +358,7 @@
   "methods": [],
   "fields": [],
   "title": "EditorialTheme",
-  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n        \"name\": \"OrchidResources\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"compilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidCompiler\",\n          \"name\": \"OrchidCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"preCompilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidPreCompiler\",\n          \"name\": \"OrchidPreCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    }\n  ]}],\n  \"methods\": [],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.editorial\",\n    \"qualifiedName\": \"com.eden.orchid.editorial.EditorialTheme\",\n    \"name\": \"EditorialTheme\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Editorial/classes/com/eden/orchid/editorial/EditorialTheme\"\n  }\n}",
+  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.google.inject.Provider\",\n        \"name\": \"Provider\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n          \"name\": \"OrchidResources\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"compilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidCompiler\",\n          \"name\": \"OrchidCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"preCompilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidPreCompiler\",\n          \"name\": \"OrchidPreCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    }\n  ]}],\n  \"methods\": [],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.editorial\",\n    \"qualifiedName\": \"com.eden.orchid.editorial.EditorialTheme\",\n    \"name\": \"EditorialTheme\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Editorial/classes/com/eden/orchid/editorial/EditorialTheme\"\n  }\n}",
   "info": {
     "package": "com.eden.orchid.editorial",
     "qualifiedName": "com.eden.orchid.editorial.EditorialTheme",

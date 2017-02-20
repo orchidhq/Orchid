@@ -4,7 +4,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.impl.docParser.docs.ClassDocParser;
-import com.eden.orchid.impl.resources.JsonResource;
+import com.eden.orchid.api.resources.resource.JsonResource;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;

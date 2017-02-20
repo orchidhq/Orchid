@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class OrchidOptions implements Contextual {
+public final class OrchidOptions implements Contextual {
 
     private List<OrchidOption> missingRequiredOptions = new ArrayList<>();
 

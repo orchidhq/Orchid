@@ -1,6 +1,6 @@
 package com.eden.orchid;
 
-import com.eden.orchid.impl.resources.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 

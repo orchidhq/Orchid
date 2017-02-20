@@ -135,7 +135,7 @@
 
 <tr>
     <td>
-        <code><a href="#_resources_compilers_preCompilers">BSDocTheme</a></code>(OrchidResources resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)
+        <code><a href="#_resources_compilers_preCompilers">BSDocTheme</a></code>(Provider&lt;OrchidResources&gt; resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)
     </td>
     <td>
         <span></span>
@@ -166,7 +166,7 @@
 <div class="panel panel-default" id="_resources_compilers_preCompilers">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>BSDocTheme(OrchidResources resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)</code>
+            <code>BSDocTheme(Provider&lt;OrchidResources&gt; resources, Set&lt;OrchidCompiler&gt; compilers, Set&lt;OrchidPreCompiler&gt; preCompilers)</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -189,7 +189,7 @@
             <tbody>
             
                 <tr>
-                    <td>OrchidResources</td>
+                    <td>Provider&lt;OrchidResources&gt;</td>
                     <td>resources</td>
                     <td></td>
                 </tr>
@@ -317,9 +317,14 @@
     {
       "name": "resources",
       "type": {
-        "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
-        "name": "OrchidResources",
-        "dimension": ""
+        "qualifiedName": "com.google.inject.Provider",
+        "name": "Provider",
+        "dimension": "",
+        "typeParameters": [{
+          "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+          "name": "OrchidResources",
+          "dimension": ""
+        }]
       }
     },
     {
@@ -352,7 +357,7 @@
   "methods": [],
   "fields": [],
   "title": "BSDocTheme",
-  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n        \"name\": \"OrchidResources\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"compilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidCompiler\",\n          \"name\": \"OrchidCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"preCompilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidPreCompiler\",\n          \"name\": \"OrchidPreCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    }\n  ]}],\n  \"methods\": [],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.bsdoc\",\n    \"qualifiedName\": \"com.eden.orchid.bsdoc.BSDocTheme\",\n    \"name\": \"BSDocTheme\",\n    \"url\": \"https://javaeden.github.io/Orchid/latest/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme\"\n  }\n}",
+  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.google.inject.Provider\",\n        \"name\": \"Provider\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n          \"name\": \"OrchidResources\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"compilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidCompiler\",\n          \"name\": \"OrchidCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"preCompilers\",\n      \"type\": {\n        \"qualifiedName\": \"java.util.Set\",\n        \"name\": \"Set\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.compilers.OrchidPreCompiler\",\n          \"name\": \"OrchidPreCompiler\",\n          \"dimension\": \"\"\n        }]\n      }\n    }\n  ]}],\n  \"methods\": [],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.bsdoc\",\n    \"qualifiedName\": \"com.eden.orchid.bsdoc.BSDocTheme\",\n    \"name\": \"BSDocTheme\",\n    \"url\": \"https://javaeden.github.io/Orchid/latest/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme\"\n  }\n}",
   "info": {
     "package": "com.eden.orchid.bsdoc",
     "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",

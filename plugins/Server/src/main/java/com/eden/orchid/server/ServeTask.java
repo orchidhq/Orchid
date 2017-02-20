@@ -48,7 +48,7 @@ public class ServeTask extends OrchidTask {
                 fileWatcher.startWatching(rootDir);
             }
             else {
-                Clog.w("Resources directory doesn't exist or isn't is a directory");
+                Clog.w("OrchidResourcesImpl directory doesn't exist or isn't is a directory");
             }
         }
         else {

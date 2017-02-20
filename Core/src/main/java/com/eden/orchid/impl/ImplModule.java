@@ -9,8 +9,10 @@ import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
 import com.eden.orchid.api.events.EventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.resources.OrchidResourceSource;
-import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.render.OrchidRenderer;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
@@ -37,10 +39,9 @@ import com.eden.orchid.impl.options.EnvironmentOption;
 import com.eden.orchid.impl.options.ResourcesOption;
 import com.eden.orchid.impl.options.ThemeOption;
 import com.eden.orchid.impl.options.VersionOption;
+import com.eden.orchid.impl.render.OrchidRendererImpl;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
-import com.eden.orchid.impl.resources.DefaultResourceSource;
-import com.eden.orchid.impl.resources.LocalResourceSource;
-import com.eden.orchid.impl.resources.Resources;
+import com.eden.orchid.impl.resources.CoreLocalResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.ListCompilersTask;
 import com.eden.orchid.impl.tasks.ListGeneratorsTask;
@@ -59,18 +60,16 @@ public class ImplModule extends OrchidModule {
 
     @Override
     protected void configure() {
-        bind(OrchidResources.class).to(Resources.class);
-        bind(OrchidContext.class).to(Context.class);
+        bind(OrchidContext.class).to(OrchidContextImpl.class);
+        bind(OrchidRenderer.class).to(OrchidRendererImpl.class);
 
         for(Class<?> defaultSet : defaultSets) {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
         // Resource Sources
-        addToSet(LocalResourceSource.class,
-                LocalResourceSource.class);
-        addToSet(DefaultResourceSource.class,
-                CoreDefaultResourceSource.class);
+        addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
+        addToSet(DefaultResourceSource.class, CoreDefaultResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,

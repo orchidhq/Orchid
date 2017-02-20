@@ -1,11 +1,11 @@
 package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.api.resources.OrchidResourceSource;
+import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.impl.resources.DefaultResourceSource;
-import com.eden.orchid.impl.resources.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;

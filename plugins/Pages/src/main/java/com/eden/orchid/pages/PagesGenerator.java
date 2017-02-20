@@ -4,7 +4,7 @@ package com.eden.orchid.pages;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.api.resources.OrchidResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
 
 import javax.inject.Inject;

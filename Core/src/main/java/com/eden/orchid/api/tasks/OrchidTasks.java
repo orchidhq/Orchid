@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 import java.util.Set;
 
 @Singleton
-public class OrchidTasks implements Contextual {
+public final class OrchidTasks implements Contextual {
 
     public static final String defaultTask = "build";
     public static final String loggerKey = "clear";
