@@ -53,6 +53,4 @@ public class OrchidRendererImpl extends OrchidRenderer {
             return false;
         }
     }
-
-
 }

@@ -14,12 +14,11 @@ import java.util.List;
 
 public class HomepageGenerator extends OrchidGenerator {
 
-    private OrchidContext context;
     private OrchidResources resources;
 
     @Inject
     public HomepageGenerator(OrchidContext context, OrchidResources resources) {
-        this.context = context;
+        super(context);
         this.resources = resources;
 
         setPriority(1);
@@ -39,7 +38,7 @@ public class HomepageGenerator extends OrchidGenerator {
     public List<OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
 
-        JSONObject frontPageData = new JSONObject(getContext().getRoot().toMap());
+        JSONObject frontPageData = new JSONObject(context.getRoot().toMap());
         OrchidResource readmeResource = resources.getProjectReadme();
         if (readmeResource != null) {
             frontPageData.put("readme", context.getTheme().compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
@@ -63,8 +62,9 @@ public class HomepageGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<OrchidPage> pages) {
-        for(OrchidPage page : pages) {
-            page.renderTemplate("templates/pages/frontPage.twig");
-        }
+        pages.stream()
+             .forEach((page -> {
+                 page.renderTemplate("templates/pages/frontPage.twig");
+             }));
     }
 }

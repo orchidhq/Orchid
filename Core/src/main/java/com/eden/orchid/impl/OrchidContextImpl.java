@@ -52,7 +52,6 @@ public final class OrchidContextImpl implements OrchidContext {
         if (shouldContinue()) {
             reorderResourceSources();
             Clog.i("Using Theme: #{$1}", new Object[]{ theme.getClass().getName() });
-            theme.onThemeSet();
             orchidTasks.run(taskName);
             return true;
         }

@@ -1,6 +1,7 @@
 package com.eden.orchid.api.resources.resourceSource;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import org.apache.commons.io.FileUtils;
@@ -14,8 +15,8 @@ import java.util.List;
 public abstract class LocalResourceSource extends OrchidResourceSource {
 
     @Inject
-    public LocalResourceSource() {
-
+    public LocalResourceSource(OrchidContext context) {
+        super(context);
     }
 
     public abstract String getDirectory();

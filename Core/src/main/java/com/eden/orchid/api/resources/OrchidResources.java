@@ -13,13 +13,16 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
+@Singleton
 public final class OrchidResources {
 
     private Set<LocalResourceSource> localResourceSources;
@@ -38,16 +41,13 @@ public final class OrchidResources {
      * @param fileName the file path and name to find
      * @return an OrchidResource if it can be found, null otherwise
      */
-    public OrchidResource getLocalResourceEntry(String fileName) {
-        for(LocalResourceSource localResourceSource : localResourceSources) {
-            OrchidResource resource = localResourceSource.getResourceEntry(fileName);
-
-            if(resource != null) {
-                return resource;
-            }
-        }
-
-        return null;
+    public OrchidResource getLocalResourceEntry(final String fileName) {
+        return localResourceSources
+                .stream()
+                .map(source -> source.getResourceEntry(fileName))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElseGet(() -> null);
     }
 
     /**
@@ -57,23 +57,18 @@ public final class OrchidResources {
      * @param fileName the file path and name to find
      * @return an OrchidResource if it can be found, null otherwise
      */
-    public OrchidResource getResourceEntry(String fileName) {
+    public OrchidResource getResourceEntry(final String fileName) {
         OrchidResource resource = getLocalResourceEntry(fileName);
 
-        if(resource != null) {
-            return resource;
+        if (resource == null) {
+            resource = defaultResourceSources
+                    .stream()
+                    .map(source -> source.getResourceEntry(fileName))
+                    .filter(Objects::nonNull)
+                    .findFirst().orElseGet(() -> null);
         }
-        else {
-            for(DefaultResourceSource defaultResourceSource : defaultResourceSources) {
-                resource = defaultResourceSource.getResourceEntry(fileName);
 
-                if(resource != null) {
-                    return resource;
-                }
-            }
-
-            return null;
-        }
+        return resource;
     }
 
     /**
@@ -82,9 +77,9 @@ public final class OrchidResources {
      * files in the given directory are returned. If recursive is true, the declared directory and all subdirectories
      * are searched instead of just the declared directory.
      *
-     * @param path the path to search in
+     * @param path           the path to search in
      * @param fileExtensions a list of extensions to match files on (optional)
-     * @param recursive whether to also search subdirectories
+     * @param recursive      whether to also search subdirectories
      * @return a list of all OrchidResources found
      */
     public List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
@@ -101,9 +96,9 @@ public final class OrchidResources {
      * extensions are specified, all files in the given directory are returned. If recursive is true, the declared
      * directory and all subdirectories are searched instead of just the declared directory.
      *
-     * @param path the path to search in
+     * @param path           the path to search in
      * @param fileExtensions a list of extensions to match files on (optional)
-     * @param recursive whether to also search subdirectories
+     * @param recursive      whether to also search subdirectories
      * @return a list of all OrchidResources found
      */
     public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
@@ -205,16 +200,13 @@ public final class OrchidResources {
             boolean recursive
     ) {
 
-        for(OrchidResourceSource resourceSource : sources) {
-            if (resourceSource.getPriority() < 0) {
-                continue;
-            }
-
-            List<OrchidResource> resources = resourceSource.getResourceEntries(path, fileExtensions, recursive);
-
-            if(resources != null) {
-                for(OrchidResource resource : resources) {
-
+        sources
+                .stream()
+                .filter(source -> source.getPriority() >= 0)
+                .map(source -> source.getResourceEntries(path, fileExtensions, recursive))
+                .filter(OrchidUtils.not(EdenUtils::isEmpty))
+                .flatMap(Collection::stream)
+                .forEach(resource -> {
                     String relative = OrchidUtils.getRelativeFilename(resource.getReference().getFullPath(), path);
 
                     String key = relative
@@ -231,8 +223,6 @@ public final class OrchidResources {
                     else {
                         entries.put(key, resource);
                     }
-                }
-            }
-        }
+                });
     }
 }

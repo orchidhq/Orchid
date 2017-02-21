@@ -1,6 +1,7 @@
 package com.eden.orchid.bsdoc;
 
 import com.eden.orchid.Theme;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 public class BSDocTheme extends Theme {
 
     @Inject
-    public BSDocTheme(OrchidPreCompiler preCompiler, Set<OrchidCompiler> compilers) {
-        super(preCompiler, compilers);
+    public BSDocTheme(OrchidContext context, OrchidPreCompiler preCompiler, Set<OrchidCompiler> compilers) {
+        super(context, preCompiler, compilers);
     }
 }

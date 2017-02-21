@@ -68,7 +68,7 @@ public class OrchidPage implements Contextual {
      *
      * @param templateName the full relative name of the template to render
      */
-    public void renderTemplate(String templateName) {
+    public void renderTemplate(String... templateName) {
         this.data = buildPageData();
 
         renderer.renderTemplate(this, templateName);
@@ -82,7 +82,7 @@ public class OrchidPage implements Contextual {
     /**
      * Render the contents of your resource directly
      */
-    public void renderRawContent() {
+    public void renderRaw() {
         this.data = buildPageData();
 
         renderer.renderRaw(this);

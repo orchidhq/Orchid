@@ -2,6 +2,7 @@ package com.eden.orchid.pages;
 
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -18,7 +19,8 @@ public class PagesGenerator extends OrchidGenerator {
     private OrchidResources resources;
 
     @Inject
-    public PagesGenerator(OrchidResources resources) {
+    public PagesGenerator(OrchidContext context, OrchidResources resources) {
+        super(context);
         this.resources = resources;
         this.priority = 700;
     }
@@ -65,8 +67,9 @@ public class PagesGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<OrchidPage> pages) {
-        for (OrchidPage page : pages) {
-            page.renderTemplate("templates/pages/page.twig");
-        }
+        pages.stream()
+             .forEach((page -> {
+                 page.renderTemplate("templates/pages/page.twig");
+             }));
     }
 }

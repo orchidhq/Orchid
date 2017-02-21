@@ -14,9 +14,10 @@ import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for Orchid to runTask
@@ -67,18 +68,15 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void main(String[] args) {
-        String task = OrchidTasks.defaultTask;
+        Map<String, String[]> options = Arrays.stream(args)
+            .filter(s -> s.startsWith("-"))
+            .map(s -> s.split("\\s+"))
+            .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
-        Map<String, String[]> options = new HashMap<>();
-        for (String arg : args) {
-            if (arg.startsWith("-")) {
-                String[] argPieces = arg.split("\\s+");
-                options.put(argPieces[0], argPieces);
-            }
-            else {
-                task = arg;
-            }
-        }
+        String task = Arrays.stream(args)
+            .filter(s -> !s.startsWith("-"))
+            .findFirst()
+            .orElseGet(() -> OrchidTasks.defaultTask);
 
         injector = Guice.createInjector(findModules());
 
@@ -91,10 +89,8 @@ public final class Orchid {
     }
 
     public static boolean start(RootDoc rootDoc) {
-        Map<String, String[]> options = new HashMap<>();
-        for (String[] a : rootDoc.options()) {
-            options.put(a[0], a);
-        }
+        Map<String, String[]> options = Arrays.stream(rootDoc.options())
+          .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
         context = injector.getInstance(OrchidContext.class);
         context.bootstrap(options, rootDoc);
@@ -110,7 +106,7 @@ public final class Orchid {
             try {
                 AbstractModule provider = matchingClass.newInstance();
                 if (provider != null) {
-                    Clog.i("Registering module of type: #{$1}", new Object[]{matchingClass.getName()});
+                    Clog.i("Registering module of type '#{$1}'", new Object[]{matchingClass.getName()});
                     modules.add(provider);
                 }
             }

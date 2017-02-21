@@ -3,7 +3,6 @@ package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
@@ -16,10 +15,9 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public final class OrchidOptions implements Contextual {
+public final class OrchidOptions {
 
     private List<OrchidOption> missingRequiredOptions = new ArrayList<>();
-
     private Set<OrchidOption> options;
 
     @Inject

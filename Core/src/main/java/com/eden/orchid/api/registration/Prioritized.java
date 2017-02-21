@@ -2,7 +2,7 @@ package com.eden.orchid.api.registration;
 
 import java.util.Observable;
 
-public abstract class Prioritized extends Observable implements Comparable<Prioritized>, Contextual {
+public abstract class Prioritized extends Observable implements Comparable<Prioritized> {
 
     protected int priority = 100;
 

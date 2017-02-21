@@ -1,6 +1,7 @@
 package com.eden.orchid.editorial;
 
 import com.eden.orchid.Theme;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 public class EditorialTheme extends Theme {
 
     @Inject
-    public EditorialTheme(OrchidPreCompiler preCompiler, Set<OrchidCompiler> compilers) {
-        super(preCompiler, compilers);
+    public EditorialTheme(OrchidContext context, OrchidPreCompiler preCompiler, Set<OrchidCompiler> compilers) {
+        super(context, preCompiler, compilers);
     }
 }

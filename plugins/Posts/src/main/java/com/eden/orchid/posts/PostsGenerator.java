@@ -1,6 +1,7 @@
 package com.eden.orchid.posts;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -17,7 +18,8 @@ public class PostsGenerator extends OrchidGenerator {
     private OrchidResources resources;
 
     @Inject
-    public PostsGenerator(OrchidResources resources) {
+    public PostsGenerator(OrchidContext context, OrchidResources resources) {
+        super(context);
         this.resources = resources;
         this.priority = 700;
     }

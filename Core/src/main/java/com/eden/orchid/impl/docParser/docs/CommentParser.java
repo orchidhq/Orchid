@@ -3,9 +3,9 @@ package com.eden.orchid.impl.docParser.docs;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
-import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
@@ -15,13 +15,15 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.Set;
 
-public class CommentParser implements Contextual {
+public class CommentParser {
 
+    private OrchidContext context;
     private Set<OrchidInlineTagHandler> inlineTagHandlers;
     private Set<OrchidBlockTagHandler> blockTagHandlers;
 
     @Inject
-    public CommentParser(Set<OrchidBlockTagHandler> blockTagHandlers, Set<OrchidInlineTagHandler> inlineTagHandlers) {
+    public CommentParser(OrchidContext context, Set<OrchidBlockTagHandler> blockTagHandlers, Set<OrchidInlineTagHandler> inlineTagHandlers) {
+        this.context = context;
         this.blockTagHandlers = new ObservableTreeSet<>(blockTagHandlers);
         this.inlineTagHandlers = new ObservableTreeSet<>(inlineTagHandlers);
     }
@@ -42,7 +44,7 @@ public class CommentParser implements Contextual {
             String content = doc.commentText();
 
             if (Orchid.getContext().query("options.commentExt") != null) {
-                content = getTheme().compile(Orchid.getContext().query("options.commentExt").toString(), content);
+                content = context.getTheme().compile(Orchid.getContext().query("options.commentExt").toString(), content);
             }
 
             comment.put("description", content);

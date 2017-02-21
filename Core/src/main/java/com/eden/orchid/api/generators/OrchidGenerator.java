@@ -1,8 +1,10 @@
 package com.eden.orchid.api.generators;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.resources.OrchidPage;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -37,6 +39,13 @@ import java.util.List;
  *
  */
 public abstract class OrchidGenerator extends Prioritized {
+
+    protected OrchidContext context;
+
+    @Inject
+    public OrchidGenerator(OrchidContext context) {
+        this.context = context;
+    }
 
     /**
      * A callback to build the index of content this OrchidGenerator intends to create.

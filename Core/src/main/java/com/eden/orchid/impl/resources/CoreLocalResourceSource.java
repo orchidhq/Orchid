@@ -8,13 +8,9 @@ import javax.inject.Inject;
 
 public class CoreLocalResourceSource extends LocalResourceSource {
 
-    private OrchidContext context;
-
     @Inject
     public CoreLocalResourceSource(OrchidContext context) {
-        super();
-        this.context = context;
-
+        super(context);
         setPriority(Integer.MAX_VALUE);
     }
 

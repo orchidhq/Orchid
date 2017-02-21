@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.docParser.docs;
 
-import com.eden.orchid.api.registration.Contextual;
 import com.sun.javadoc.ExecutableMemberDoc;
 import com.sun.javadoc.ParamTag;
 import com.sun.javadoc.Parameter;
@@ -9,7 +8,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-public class ParameterParser implements Contextual {
+public class ParameterParser {
 
     private TypeParser typeParser;
 

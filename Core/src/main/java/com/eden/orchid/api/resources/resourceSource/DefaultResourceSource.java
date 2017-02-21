@@ -1,10 +1,12 @@
 package com.eden.orchid.api.resources.resourceSource;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.JarResource;
 import org.apache.commons.io.FilenameUtils;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +17,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public abstract class DefaultResourceSource extends OrchidResourceSource {
+
+    @Inject
+    public DefaultResourceSource(OrchidContext context) {
+        super(context);
+    }
 
     private JarFile jarForClass(Class<?> clazz) {
         String path = "/" + clazz.getName().replace('.', '/') + ".class";

@@ -2,6 +2,7 @@ package com.eden.orchid.impl.compilers.frontmatter;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
@@ -15,8 +16,11 @@ import java.util.regex.Pattern;
 @Singleton
 public class FrontMatterPrecompiler extends OrchidPreCompiler {
 
+    private OrchidContext context;
+
     @Inject
-    public FrontMatterPrecompiler() {
+    public FrontMatterPrecompiler(OrchidContext context) {
+        this.context = context;
         this.priority = 100;
     }
 
@@ -26,13 +30,13 @@ public class FrontMatterPrecompiler extends OrchidPreCompiler {
 
         String result;
         if(frontMatter.second != 0) {
-            JSONObject root = new JSONObject(getContext().getRoot().toMap());
+            JSONObject root = new JSONObject(context.getRoot().toMap());
 
             for (String key : frontMatter.first.keySet()) {
                 root.put(key, frontMatter.first.get(key));
             }
 
-            result = getTheme().compile("twig", input.substring(frontMatter.second), root);
+            result = context.getTheme().compile("twig", input.substring(frontMatter.second), root);
         }
         else {
             result = input;

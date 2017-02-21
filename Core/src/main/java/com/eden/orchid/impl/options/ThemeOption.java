@@ -5,12 +5,13 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.registration.Contextual;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ThemeOption extends OrchidOption {
+public class ThemeOption extends OrchidOption implements Contextual {
 
     @Inject
     public ThemeOption() {

@@ -3,6 +3,7 @@ package com.eden.orchid.wiki;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -36,7 +37,8 @@ public class WikiGenerator extends OrchidGenerator {
     private WikiPathOption option;
 
     @Inject
-    public WikiGenerator(OrchidResources resources, WikiPathOption option) {
+    public WikiGenerator(OrchidContext context, OrchidResources resources, WikiPathOption option) {
+        super(context);
         this.resources = resources;
         this.option = option;
 
@@ -72,14 +74,15 @@ public class WikiGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<OrchidPage> pages) {
-        for (OrchidPage page : pages) {
-            if(!page.getReference().getFullPath().equalsIgnoreCase(wikiBaseDir + "glossary")) {
-                findGlossaryTerms(page).renderTemplate("templates/pages/page.twig");
-            }
-            else {
-                page.renderTemplate("templates/pages/page.twig");
-            }
-        }
+        pages.stream()
+             .forEach((page -> {
+                 if(!page.getReference().getFullPath().equalsIgnoreCase(wikiBaseDir + "glossary")) {
+                     findGlossaryTerms(page).renderTemplate("templates/pages/page.twig");
+                 }
+                 else {
+                     page.renderTemplate("templates/pages/page.twig");
+                 }
+             }));
     }
 
     private void setupIndexPage(JSONObject siteWiki, OrchidResource entry) {

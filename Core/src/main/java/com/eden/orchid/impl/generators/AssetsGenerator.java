@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.generators;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -16,7 +17,8 @@ public class AssetsGenerator extends OrchidGenerator {
     private OrchidResources resources;
 
     @Inject
-    public AssetsGenerator(OrchidResources resources) {
+    public AssetsGenerator(OrchidContext context, OrchidResources resources) {
+        super(context);
         this.resources = resources;
         this.priority = 1000;
     }
@@ -45,9 +47,8 @@ public class AssetsGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<OrchidPage> pages) {
-        for (OrchidPage asset : pages) {
-            asset.renderRawContent();
-        }
+        pages.stream()
+             .forEach(OrchidPage::renderRaw);
     }
 }
 

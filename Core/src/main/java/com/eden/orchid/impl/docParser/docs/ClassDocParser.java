@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.docParser.docs;
 
-import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.api.resources.OrchidReference;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ConstructorDoc;
@@ -12,7 +11,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.io.File;
 
-public class ClassDocParser implements Contextual {
+public class ClassDocParser {
 
     private CommentParser commentParser;
     private AnnotationParser annotationParser;

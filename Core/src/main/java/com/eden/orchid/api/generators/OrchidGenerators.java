@@ -2,8 +2,9 @@ package com.eden.orchid.api.generators;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.utilities.ObservableTreeSet;
@@ -17,80 +18,83 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Singleton
-public final class OrchidGenerators implements Contextual {
+public final class OrchidGenerators {
     private JSONArray disabledGenerators;
     private Set<OrchidGenerator> generators;
 
+    private OrchidContext context;
     private Map<String, List<OrchidPage>> indexPages;
 
     @Inject
-    public OrchidGenerators(Set<OrchidGenerator> generators) {
+    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators) {
+        this.context = context;
         this.generators = new ObservableTreeSet<>(generators);
         this.indexPages = new HashMap<>();
     }
 
     public void startIndexing(JSONObject indexObject) {
-        for (OrchidGenerator generator : generators) {
-            if(shouldUseGenerator(generator)) {
-                Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
-
-                List<OrchidPage> generatorPages = generator.startIndexing();
-                if (generatorPages != null && generatorPages.size() > 0) {
-                    if (!EdenUtils.isEmpty(generator.getName())) {
-                        indexPages.put(generator.getName(), generatorPages);
-
-                        JSONObject generatorIndex = new JSONObject();
-
-                        for(OrchidPage page : generatorPages) {
-                            JSONObject pageIndex = new JSONObject();
-
-                            pageIndex.put("name", page.getReference().getTitle());
-                            pageIndex.put("url", page.getReference().toString());
-
-                            OrchidUtils.buildTaxonomy(page.getResource(), generatorIndex, pageIndex);
-
-                            if(page.getResource() instanceof FreeableResource) {
-                                ((FreeableResource) page.getResource()).free();
-                            }
-                        }
-
-                        JSONObject fullIndexObject = generatorIndex.optJSONObject(generator.getName());
-                        if(fullIndexObject == null) {
-                            fullIndexObject = generatorIndex;
-                        }
-
-                        indexObject.put(generator.getName(), fullIndexObject);
-                    }
-                }
-            }
-        }
+        generators.stream()
+                  .filter(this::shouldUseGenerator)
+                  .map(this::indexGenerator)
+                  .filter(Objects::nonNull)
+                  .forEach(pair -> indexObject.put(pair.first, pair.second));
     }
 
     public void startGeneration() {
-        for (OrchidGenerator generator : generators) {
-            if(shouldUseGenerator(generator)) {
-                Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
+        generators.stream()
+                  .filter(this::shouldUseGenerator)
+                  .forEach(this::useGenerator);
+    }
 
-                List<OrchidPage> generatorPages = null;
-                if (!EdenUtils.isEmpty(generator.getName())) {
-                    generatorPages = indexPages.get(generator.getName());
+    private EdenPair<String, JSONObject> indexGenerator(OrchidGenerator generator) {
+        Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
+
+        List<OrchidPage> generatorPages = generator.startIndexing();
+        if (generatorPages != null && generatorPages.size() > 0) {
+            if (!EdenUtils.isEmpty(generator.getName())) {
+                indexPages.put(generator.getName(), generatorPages);
+
+                JSONObject generatorIndex = new JSONObject();
+
+                for(OrchidPage page : generatorPages) {
+                    JSONObject pageIndex = new JSONObject();
+
+                    pageIndex.put("name", page.getReference().getTitle());
+                    pageIndex.put("url", page.getReference().toString());
+
+                    OrchidUtils.buildTaxonomy(page.getResource(), generatorIndex, pageIndex);
+
+                    if(page.getResource() instanceof FreeableResource) {
+                        ((FreeableResource) page.getResource()).free();
+                    }
                 }
 
-                if(generatorPages == null) {
-                    generatorPages = new ArrayList<>();
+                JSONObject fullIndexObject = generatorIndex.optJSONObject(generator.getName());
+                if(fullIndexObject == null) {
+                    fullIndexObject = generatorIndex;
                 }
 
-                generator.startGeneration(generatorPages);
+                return new EdenPair<>(generator.getName(), fullIndexObject);
             }
         }
+
+        return null;
+    }
+
+    private void useGenerator(OrchidGenerator generator) {
+        Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
+        generator.startGeneration((!EdenUtils.isEmpty(generator.getName()))
+                ? indexPages.get(generator.getName())
+                : new ArrayList<>());
     }
 
     public boolean shouldUseGenerator(OrchidGenerator generator) {
         if(disabledGenerators == null) {
-            JSONElement el = getContext().query("options.disabledGenerators");
+            JSONElement el = context.query("options.disabledGenerators");
             if(el != null) {
                 if(el.getElement() instanceof JSONArray) {
                     disabledGenerators = (JSONArray) el.getElement();

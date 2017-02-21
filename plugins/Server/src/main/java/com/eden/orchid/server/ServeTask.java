@@ -2,6 +2,7 @@ package com.eden.orchid.server;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.registration.Contextual;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.server.server.StaticServer;
 import org.json.JSONObject;
@@ -10,7 +11,7 @@ import javax.inject.Singleton;
 import java.io.File;
 
 @Singleton
-public class ServeTask extends OrchidTask {
+public class ServeTask extends OrchidTask implements Contextual {
 
     @Override
     public String getName() {

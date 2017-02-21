@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -194,5 +195,9 @@ public final class OrchidUtils {
         }
 
         return sourcePath;
+    }
+
+    public static <T> Predicate<T> not(Predicate<T> t) {
+        return t.negate();
     }
 }

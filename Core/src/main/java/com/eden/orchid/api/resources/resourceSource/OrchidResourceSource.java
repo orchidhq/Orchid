@@ -1,11 +1,13 @@
 package com.eden.orchid.api.resources.resourceSource;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import org.apache.commons.io.FilenameUtils;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -21,12 +23,19 @@ import java.util.List;
  */
 public abstract class OrchidResourceSource extends Prioritized {
 
+    protected OrchidContext context;
+
+    @Inject
+    public OrchidResourceSource(OrchidContext context) {
+        this.context = context;
+    }
+
     public abstract OrchidResource getResourceEntry(String fileName);
 
     public abstract List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive);
 
     protected boolean shouldAddEntry(String entryName) {
-        OrchidCompiler compiler = getTheme().compilerFor(FilenameUtils.getExtension(entryName));
+        OrchidCompiler compiler = context.getTheme().compilerFor(FilenameUtils.getExtension(entryName));
 
         if (compiler != null && !EdenUtils.isEmpty(compiler.getIgnoredPatterns())) {
             String[] pieces = entryName.split("/");

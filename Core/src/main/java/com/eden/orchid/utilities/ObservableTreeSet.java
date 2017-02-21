@@ -25,14 +25,14 @@ public class ObservableTreeSet<T extends Observable> extends TreeSet<T> implemen
     }
 
     @Override
-    public boolean add(T element) {
+    synchronized public boolean add(T element) {
         element.addObserver(this);
         return super.add(element);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void update(Observable element, Object arg) {
+    synchronized public void update(Observable element, Object arg) {
         remove(element);
         add((T) element);
     }

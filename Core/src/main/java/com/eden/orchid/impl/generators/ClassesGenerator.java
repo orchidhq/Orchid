@@ -1,10 +1,11 @@
 package com.eden.orchid.impl.generators;
 
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.impl.docParser.docs.ClassDocParser;
 import com.eden.orchid.api.resources.resource.JsonResource;
+import com.eden.orchid.impl.docParser.docs.ClassDocParser;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
@@ -20,7 +21,8 @@ public class ClassesGenerator extends OrchidGenerator {
     private ClassDocParser classDocParser;
 
     @Inject
-    public ClassesGenerator(ClassDocParser classDocParser) {
+    public ClassesGenerator(OrchidContext context, ClassDocParser classDocParser) {
+        super(context);
         this.classDocParser = classDocParser;
         this.priority = 800;
     }
@@ -42,7 +44,7 @@ public class ClassesGenerator extends OrchidGenerator {
 
     @Override
     public List<OrchidPage> startIndexing() {
-        root = getContext().getRootDoc();
+        root = context.getRootDoc();
 
         if(root == null) {
             return null;
@@ -65,10 +67,11 @@ public class ClassesGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<OrchidPage> pages) {
-        for (OrchidPage page : pages) {
-            page.setAlias("classDoc");
-            page.renderTemplate("templates/pages/classDoc.twig");
-        }
+        pages.stream()
+             .forEach((page -> {
+                 page.setAlias("classDoc");
+                 page.renderTemplate("templates/pages/classDoc.twig");
+             }));
     }
 
 }
