@@ -2,6 +2,8 @@ package com.eden.orchid.api.tasks;
 
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogLogger;
+import com.eden.orchid.Orchid;
+import com.eden.orchid.api.events.EventEmitter;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -18,11 +20,13 @@ public final class OrchidTasks {
     public static final String loggerKey = "clear";
 
     private Set<OrchidTask> tasks;
+    private EventEmitter emitter;
 
     @Inject
-    public OrchidTasks(Set<OrchidTask> tasks) {
+    public OrchidTasks(Set<OrchidTask> tasks, EventEmitter emitter) {
         Clog.addLogger(loggerKey, new TaskLogger());
         this.tasks = new ObservableTreeSet<>(tasks);
+        this.emitter = emitter;
     }
 
     public void run(String taskName) {
@@ -40,7 +44,9 @@ public final class OrchidTasks {
                 .orElseGet(() -> null);
 
         if(foundTask != null) {
+            emitter.broadcast(Orchid.Events.TASK_START, foundTask);
             foundTask.run();
+            emitter.broadcast(Orchid.Events.TASK_FINISH, foundTask);
         }
     }
 

@@ -3,6 +3,7 @@ package com.eden.orchid.impl;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
+import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
@@ -16,6 +17,8 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
+import com.eden.orchid.impl.compilers.parsers.JsonParser;
+import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.docParser.tags.AuthorTag;
 import com.eden.orchid.impl.docParser.tags.DeprecatedTag;
@@ -26,13 +29,12 @@ import com.eden.orchid.impl.docParser.tags.SeeTag;
 import com.eden.orchid.impl.docParser.tags.SinceTag;
 import com.eden.orchid.impl.docParser.tags.ThrowsTag;
 import com.eden.orchid.impl.docParser.tags.VersionTag;
+import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.ClassesGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.options.BaseUrlOption;
 import com.eden.orchid.impl.options.CommentLanguageOption;
-import com.eden.orchid.impl.options.ConfigOption;
-import com.eden.orchid.impl.options.DataFilesOption;
 import com.eden.orchid.impl.options.DestinationOption;
 import com.eden.orchid.impl.options.DisabledGeneratorsOption;
 import com.eden.orchid.impl.options.EnvironmentOption;
@@ -70,6 +72,8 @@ public class ImplModule extends OrchidModule {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
+        addToSet(EventListener.class, SetupEnvironment.class);
+
         // Resource Sources
         addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
         addToSet(DefaultResourceSource.class, CoreDefaultResourceSource.class);
@@ -79,6 +83,10 @@ public class ImplModule extends OrchidModule {
                 MarkdownCompiler.class,
                 JTwigCompiler.class,
                 SassCompiler.class);
+
+        addToSet(OrchidParser.class,
+                YamlParser.class,
+                JsonParser.class);
 
         // Precompilers
         addToSet(OrchidPreCompiler.class,
@@ -109,8 +117,6 @@ public class ImplModule extends OrchidModule {
         addToSet(OrchidOption.class,
                 BaseUrlOption.class,
                 CommentLanguageOption.class,
-                ConfigOption.class,
-                DataFilesOption.class,
                 DestinationOption.class,
                 DisabledGeneratorsOption.class,
                 EnvironmentOption.class,

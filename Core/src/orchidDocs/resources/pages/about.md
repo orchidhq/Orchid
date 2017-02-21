@@ -1,7 +1,9 @@
----
+---json
 
-title: About
-root: true
+{
+    "title": "About",
+    "root": true
+}
 
 ---
 

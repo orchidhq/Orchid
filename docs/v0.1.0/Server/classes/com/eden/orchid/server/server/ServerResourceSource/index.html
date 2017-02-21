@@ -137,7 +137,7 @@
 
 <tr>
     <td>
-        <code><a href="#noarg">ServerResourceSource</a></code>()
+        <code><a href="#_context">ServerResourceSource</a></code>(OrchidContext context)
     </td>
     <td>
         <span></span>
@@ -165,10 +165,10 @@
 
 
 
-<div class="panel panel-default" id="noarg">
+<div class="panel panel-default" id="_context">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>ServerResourceSource()</code>
+            <code>ServerResourceSource(OrchidContext context)</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -176,9 +176,29 @@
 
     </div>
         
-            <h4>No Parameters</h4>
+            <h4>Parameters:</h4>
         
     </div>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Variable Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>OrchidContext</td>
+                    <td>context</td>
+                    <td></td>
+                </tr>
+            
+
+            </tbody>
+        </table>
     
 </div>
             
@@ -262,24 +282,69 @@
     <script>window.index = {
   "assets": {
     "css": {"files": [
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/bootstrap_theme.css"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/directoryListing.css"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/docs.css"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/sassfile1.css"}
+      {
+        "name": "bootstrap_theme",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/bootstrap_theme.css"
+      },
+      {
+        "name": "directoryListing",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/directoryListing.css"
+      },
+      {
+        "name": "docs",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/docs.css"
+      },
+      {
+        "name": "sassfile1",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/css/sassfile1.css"
+      }
     ]},
     "svg": {"files": [
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/css.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/csv.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/folder.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/html.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/jpg.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/js.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/json.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/png.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/txt.svg"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/xml.svg"}
+      {
+        "name": "css",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/css.svg"
+      },
+      {
+        "name": "csv",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/csv.svg"
+      },
+      {
+        "name": "folder",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/folder.svg"
+      },
+      {
+        "name": "html",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/html.svg"
+      },
+      {
+        "name": "jpg",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/jpg.svg"
+      },
+      {
+        "name": "js",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/js.svg"
+      },
+      {
+        "name": "json",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/json.svg"
+      },
+      {
+        "name": "png",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/png.svg"
+      },
+      {
+        "name": "txt",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/txt.svg"
+      },
+      {
+        "name": "xml",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/svg/xml.svg"
+      }
     ]},
-    "js": {"files": [{"url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/js/docs.js"}]}
+    "js": {"files": [{
+      "name": "docs",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/assets/js/docs.js"
+    }]}
   },
   "classes": {"com": {"eden": {"orchid": {"server": {
     "server": {
@@ -316,17 +381,28 @@
       "name": "ServeTask",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/ServeTask"
     }]}
-  }}}}}
+  }}}}},
+  "home": {"files": [{
+    "name": "Home",
+    "url": "https://javaeden.github.io/Orchid/v0.1.0/Server/index.html"
+  }]}
 };</script>
 
 
 
     <script>window.page = {
-  "constructors": [{}],
+  "constructors": [{"parameters": [{
+    "name": "context",
+    "type": {
+      "qualifiedName": "com.eden.orchid.api.OrchidContext",
+      "name": "OrchidContext",
+      "dimension": ""
+    }
+  }]}],
   "methods": [],
   "fields": [],
   "title": "ServerResourceSource",
-  "content": "{\n  \"constructors\": [{}],\n  \"methods\": [],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.server.server\",\n    \"qualifiedName\": \"com.eden.orchid.server.server.ServerResourceSource\",\n    \"name\": \"ServerResourceSource\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/ServerResourceSource\"\n  }\n}",
+  "content": "{\n  \"constructors\": [{\"parameters\": [{\n    \"name\": \"context\",\n    \"type\": {\n      \"qualifiedName\": \"com.eden.orchid.api.OrchidContext\",\n      \"name\": \"OrchidContext\",\n      \"dimension\": \"\"\n    }\n  }]}],\n  \"methods\": [],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.server.server\",\n    \"qualifiedName\": \"com.eden.orchid.server.server.ServerResourceSource\",\n    \"name\": \"ServerResourceSource\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Server/classes/com/eden/orchid/server/server/ServerResourceSource\"\n  }\n}",
   "info": {
     "package": "com.eden.orchid.server.server",
     "qualifiedName": "com.eden.orchid.server.server.ServerResourceSource",

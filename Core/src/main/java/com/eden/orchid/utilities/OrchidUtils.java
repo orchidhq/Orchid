@@ -1,6 +1,7 @@
 package com.eden.orchid.utilities;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -199,5 +200,13 @@ public final class OrchidUtils {
 
     public static <T> Predicate<T> not(Predicate<T> t) {
         return t.negate();
+    }
+
+    public static boolean elementIsObject(JSONElement el) {
+        return (el != null) && (el.getElement() != null) && (el.getElement() instanceof JSONObject);
+    }
+
+    public static boolean elementIsArray(JSONElement el) {
+        return (el != null) && (el.getElement() != null) && (el.getElement() instanceof JSONArray);
     }
 }

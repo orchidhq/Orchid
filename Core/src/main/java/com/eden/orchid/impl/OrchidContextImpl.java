@@ -2,6 +2,7 @@ package com.eden.orchid.impl;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.EventEmitter;
@@ -42,11 +43,16 @@ public final class OrchidContextImpl implements OrchidContext {
 
     @Override
     public void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc) {
+        emitter.broadcast(Orchid.Events.INIT_COMPLETE);
+
         this.root = new JSONObject();
         this.rootDoc = rootDoc;
-
         root.put("options", new JSONObject());
+
         options.parseOptions(optionsMap, root.getJSONObject("options"));
+        emitter.broadcast(Orchid.Events.OPTIONS_PARSED, root.getJSONObject("options"));
+
+        emitter.broadcast(Orchid.Events.BOOTSTRAP_COMPLETE);
     }
 
     @Override
@@ -54,10 +60,7 @@ public final class OrchidContextImpl implements OrchidContext {
         if (shouldContinue()) {
             reorderResourceSources();
             Clog.i("Using Theme: #{$1}", new Object[]{theme.getClass().getName()});
-            emitter.broadcast("themeSet", getTheme());
-
-            emitter.broadcast("counting", 1, "2", 3, null, 5);
-
+            emitter.broadcast(Orchid.Events.THEME_SET, getTheme());
             orchidTasks.run(taskName);
             return true;
         }

@@ -2,14 +2,16 @@ package com.eden.orchid.impl.compilers.frontmatter;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
-import org.yaml.snakeyaml.Yaml;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,8 @@ import java.util.regex.Pattern;
 public class FrontMatterPrecompiler extends OrchidPreCompiler {
 
     private OrchidContext context;
+
+    private static final String defaultType = "yml";
 
     @Inject
     public FrontMatterPrecompiler(OrchidContext context) {
@@ -47,7 +51,7 @@ public class FrontMatterPrecompiler extends OrchidPreCompiler {
 
     private EdenPair<JSONObject, Integer> parseFrontMatter(String input) {
         if(input.startsWith("---")) {
-            Matcher m = Pattern.compile("^---$", Pattern.MULTILINE).matcher(input);
+            Matcher m = Pattern.compile("^---(\\w+)?$", Pattern.MULTILINE).matcher(input);
 
             int matches = 0;
             int fmStart = 0;
@@ -70,9 +74,28 @@ public class FrontMatterPrecompiler extends OrchidPreCompiler {
             }
 
             if (matches == 2) {
-                String frontMatterYaml = input.substring(fmStart, fmEnd);
+                String parsedType = input.substring(0, fmStart).replaceAll("---", "");
 
-                JSONObject frontMatter = new JSONObject((Map<String, Object>) new Yaml().load(frontMatterYaml));
+                List<String> extensions = new ArrayList<>();
+                if(!EdenUtils.isEmpty(parsedType)) {
+                    extensions.add(parsedType);
+                }
+
+                if(!EdenUtils.isEmpty(context.query("options.frontMatterExt"))) {
+                    extensions.add(context.query("options.frontMatterExt").toString());
+                }
+
+                extensions.add(defaultType);
+
+                final String frontMatterText = input.substring(fmStart, fmEnd);
+
+                JSONObject frontMatter = extensions
+                        .stream()
+                        .map(ext -> context.getTheme().parse(ext, frontMatterText))
+                        .filter(OrchidUtils::elementIsObject)
+                        .map(el -> (JSONObject) el.getElement())
+                        .findFirst()
+                        .orElseGet(JSONObject::new);
 
                 return new EdenPair<>(frontMatter, contentStart);
             }

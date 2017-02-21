@@ -154,7 +154,7 @@
 
 <tr>
     <td>
-        <code><a href="#_resources">PostsGenerator</a></code>(OrchidResources resources)
+        <code><a href="#_context_resources">PostsGenerator</a></code>(OrchidContext context, OrchidResources resources)
     </td>
     <td>
         <span></span>
@@ -256,10 +256,10 @@
 
 
 
-<div class="panel panel-default" id="_resources">
+<div class="panel panel-default" id="_context_resources">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>PostsGenerator(OrchidResources resources)</code>
+            <code>PostsGenerator(OrchidContext context, OrchidResources resources)</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -280,6 +280,12 @@
             </tr>
             </thead>
             <tbody>
+            
+                <tr>
+                    <td>OrchidContext</td>
+                    <td>context</td>
+                    <td></td>
+                </tr>
             
                 <tr>
                     <td>OrchidResources</td>
@@ -613,11 +619,23 @@
     <script>window.index = {
   "assets": {
     "css": {"files": [
-      {"url": "https://javaeden.github.io/Orchid/latest/Posts/assets/css/bootstrap_theme.css"},
-      {"url": "https://javaeden.github.io/Orchid/latest/Posts/assets/css/docs.css"},
-      {"url": "https://javaeden.github.io/Orchid/latest/Posts/assets/css/sassfile1.css"}
+      {
+        "name": "bootstrap_theme",
+        "url": "https://javaeden.github.io/Orchid/latest/Posts/assets/css/bootstrap_theme.css"
+      },
+      {
+        "name": "docs",
+        "url": "https://javaeden.github.io/Orchid/latest/Posts/assets/css/docs.css"
+      },
+      {
+        "name": "sassfile1",
+        "url": "https://javaeden.github.io/Orchid/latest/Posts/assets/css/sassfile1.css"
+      }
     ]},
-    "js": {"files": [{"url": "https://javaeden.github.io/Orchid/latest/Posts/assets/js/docs.js"}]}
+    "js": {"files": [{
+      "name": "docs",
+      "url": "https://javaeden.github.io/Orchid/latest/Posts/assets/js/docs.js"
+    }]}
   },
   "classes": {"com": {"eden": {"orchid": {"posts": {
     "PostsGenerator": {"files": [{
@@ -642,20 +660,34 @@
       "name": "About Orchid Posts",
       "url": "https://javaeden.github.io/Orchid/latest/Posts/posts/2017-01-29-About"
     }]}
-  }
+  },
+  "home": {"files": [{
+    "name": "Home",
+    "url": "https://javaeden.github.io/Orchid/latest/Posts/index.html"
+  }]}
 };</script>
 
 
 
     <script>window.page = {
-  "constructors": [{"parameters": [{
-    "name": "resources",
-    "type": {
-      "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
-      "name": "OrchidResources",
-      "dimension": ""
+  "constructors": [{"parameters": [
+    {
+      "name": "context",
+      "type": {
+        "qualifiedName": "com.eden.orchid.api.OrchidContext",
+        "name": "OrchidContext",
+        "dimension": ""
+      }
+    },
+    {
+      "name": "resources",
+      "type": {
+        "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+        "name": "OrchidResources",
+        "dimension": ""
+      }
     }
-  }]}],
+  ]}],
   "methods": [
     {
       "name": "getName",
@@ -772,7 +804,7 @@
   ],
   "fields": [],
   "title": "PostsGenerator",
-  "content": "{\n  \"constructors\": [{\"parameters\": [{\n    \"name\": \"resources\",\n    \"type\": {\n      \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n      \"name\": \"OrchidResources\",\n      \"dimension\": \"\"\n    }\n  }]}],\n  \"methods\": [\n    {\n      \"name\": \"getName\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getDescription\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startIndexing\",\n      \"returns\": {\n        \"qualifiedName\": \"java.util.List\",\n        \"name\": \"List\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n          \"name\": \"OrchidPage\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"startGeneration\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"posts\",\n        \"type\": {\n          \"qualifiedName\": \"java.util.List\",\n          \"name\": \"List\",\n          \"dimension\": \"\",\n          \"typeParameters\": [{\n            \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n            \"name\": \"OrchidPage\",\n            \"dimension\": \"\"\n          }]\n        }\n      }]\n    },\n    {\n      \"name\": \"previous\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [\n        {\n          \"name\": \"posts\",\n          \"type\": {\n            \"qualifiedName\": \"java.util.List\",\n            \"name\": \"List\",\n            \"dimension\": \"\",\n            \"typeParameters\": [{\n              \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n              \"name\": \"OrchidPage\",\n              \"dimension\": \"\"\n            }]\n          }\n        },\n        {\n          \"name\": \"i\",\n          \"type\": {\n            \"qualifiedName\": \"int\",\n            \"name\": \"int\",\n            \"dimension\": \"\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"next\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [\n        {\n          \"name\": \"posts\",\n          \"type\": {\n            \"qualifiedName\": \"java.util.List\",\n            \"name\": \"List\",\n            \"dimension\": \"\",\n            \"typeParameters\": [{\n              \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n              \"name\": \"OrchidPage\",\n              \"dimension\": \"\"\n            }]\n          }\n        },\n        {\n          \"name\": \"i\",\n          \"type\": {\n            \"qualifiedName\": \"int\",\n            \"name\": \"int\",\n            \"dimension\": \"\"\n          }\n        }\n      ]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.posts\",\n    \"qualifiedName\": \"com.eden.orchid.posts.PostsGenerator\",\n    \"name\": \"PostsGenerator\",\n    \"url\": \"https://javaeden.github.io/Orchid/latest/Posts/classes/com/eden/orchid/posts/PostsGenerator\"\n  }\n}",
+  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"context\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.OrchidContext\",\n        \"name\": \"OrchidContext\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n        \"name\": \"OrchidResources\",\n        \"dimension\": \"\"\n      }\n    }\n  ]}],\n  \"methods\": [\n    {\n      \"name\": \"getName\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getDescription\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startIndexing\",\n      \"returns\": {\n        \"qualifiedName\": \"java.util.List\",\n        \"name\": \"List\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n          \"name\": \"OrchidPage\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"startGeneration\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"posts\",\n        \"type\": {\n          \"qualifiedName\": \"java.util.List\",\n          \"name\": \"List\",\n          \"dimension\": \"\",\n          \"typeParameters\": [{\n            \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n            \"name\": \"OrchidPage\",\n            \"dimension\": \"\"\n          }]\n        }\n      }]\n    },\n    {\n      \"name\": \"previous\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [\n        {\n          \"name\": \"posts\",\n          \"type\": {\n            \"qualifiedName\": \"java.util.List\",\n            \"name\": \"List\",\n            \"dimension\": \"\",\n            \"typeParameters\": [{\n              \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n              \"name\": \"OrchidPage\",\n              \"dimension\": \"\"\n            }]\n          }\n        },\n        {\n          \"name\": \"i\",\n          \"type\": {\n            \"qualifiedName\": \"int\",\n            \"name\": \"int\",\n            \"dimension\": \"\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"next\",\n      \"returns\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n        \"name\": \"OrchidPage\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [\n        {\n          \"name\": \"posts\",\n          \"type\": {\n            \"qualifiedName\": \"java.util.List\",\n            \"name\": \"List\",\n            \"dimension\": \"\",\n            \"typeParameters\": [{\n              \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n              \"name\": \"OrchidPage\",\n              \"dimension\": \"\"\n            }]\n          }\n        },\n        {\n          \"name\": \"i\",\n          \"type\": {\n            \"qualifiedName\": \"int\",\n            \"name\": \"int\",\n            \"dimension\": \"\"\n          }\n        }\n      ]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.posts\",\n    \"qualifiedName\": \"com.eden.orchid.posts.PostsGenerator\",\n    \"name\": \"PostsGenerator\",\n    \"url\": \"https://javaeden.github.io/Orchid/latest/Posts/classes/com/eden/orchid/posts/PostsGenerator\"\n  }\n}",
   "info": {
     "package": "com.eden.orchid.posts",
     "qualifiedName": "com.eden.orchid.posts.PostsGenerator",

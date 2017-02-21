@@ -157,7 +157,7 @@
 
 <tr>
     <td>
-        <code><a href="#_resources_option">WikiGenerator</a></code>(OrchidResources resources, <a href="https://javaeden.github.io/Orchid/v0.1.0/Wiki/classes/com/eden/orchid/wiki/WikiPathOption">WikiPathOption</a> option)
+        <code><a href="#_context_resources_option">WikiGenerator</a></code>(OrchidContext context, OrchidResources resources, <a href="https://javaeden.github.io/Orchid/v0.1.0/Wiki/classes/com/eden/orchid/wiki/WikiPathOption">WikiPathOption</a> option)
     </td>
     <td>
         <span></span>
@@ -239,10 +239,10 @@
 
 
 
-<div class="panel panel-default" id="_resources_option">
+<div class="panel panel-default" id="_context_resources_option">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <code>WikiGenerator(OrchidResources resources, <a href="https://javaeden.github.io/Orchid/v0.1.0/Wiki/classes/com/eden/orchid/wiki/WikiPathOption">WikiPathOption</a> option)</code>
+            <code>WikiGenerator(OrchidContext context, OrchidResources resources, <a href="https://javaeden.github.io/Orchid/v0.1.0/Wiki/classes/com/eden/orchid/wiki/WikiPathOption">WikiPathOption</a> option)</code>
         </h3>
     </div>
     <div class="panel-body">
@@ -263,6 +263,12 @@
             </tr>
             </thead>
             <tbody>
+            
+                <tr>
+                    <td>OrchidContext</td>
+                    <td>context</td>
+                    <td></td>
+                </tr>
             
                 <tr>
                     <td>OrchidResources</td>
@@ -494,11 +500,23 @@
     <script>window.index = {
   "assets": {
     "css": {"files": [
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/css/bootstrap_theme.css"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/css/docs.css"},
-      {"url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/css/sassfile1.css"}
+      {
+        "name": "bootstrap_theme",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/css/bootstrap_theme.css"
+      },
+      {
+        "name": "docs",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/css/docs.css"
+      },
+      {
+        "name": "sassfile1",
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/css/sassfile1.css"
+      }
     ]},
-    "js": {"files": [{"url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/js/docs.js"}]}
+    "js": {"files": [{
+      "name": "docs",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/assets/js/docs.js"
+    }]}
   },
   "classes": {"com": {"eden": {"orchid": {"wiki": {
     "WikiPathOption": {"files": [{
@@ -547,13 +565,25 @@
         "url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/wiki/glossary"
       }
     ]
-  }
+  },
+  "home": {"files": [{
+    "name": "Home",
+    "url": "https://javaeden.github.io/Orchid/v0.1.0/Wiki/index.html"
+  }]}
 };</script>
 
 
 
     <script>window.page = {
   "constructors": [{"parameters": [
+    {
+      "name": "context",
+      "type": {
+        "qualifiedName": "com.eden.orchid.api.OrchidContext",
+        "name": "OrchidContext",
+        "dimension": ""
+      }
+    },
     {
       "name": "resources",
       "type": {
@@ -625,7 +655,7 @@
   ],
   "fields": [],
   "title": "WikiGenerator",
-  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n        \"name\": \"OrchidResources\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"option\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.wiki.WikiPathOption\",\n        \"name\": \"WikiPathOption\",\n        \"dimension\": \"\"\n      }\n    }\n  ]}],\n  \"methods\": [\n    {\n      \"name\": \"getName\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getDescription\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startIndexing\",\n      \"returns\": {\n        \"qualifiedName\": \"java.util.List\",\n        \"name\": \"List\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n          \"name\": \"OrchidPage\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"startGeneration\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"pages\",\n        \"type\": {\n          \"qualifiedName\": \"java.util.List\",\n          \"name\": \"List\",\n          \"dimension\": \"\",\n          \"typeParameters\": [{\n            \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n            \"name\": \"OrchidPage\",\n            \"dimension\": \"\"\n          }]\n        }\n      }]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.wiki\",\n    \"qualifiedName\": \"com.eden.orchid.wiki.WikiGenerator\",\n    \"name\": \"WikiGenerator\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Wiki/classes/com/eden/orchid/wiki/WikiGenerator\"\n  }\n}",
+  "content": "{\n  \"constructors\": [{\"parameters\": [\n    {\n      \"name\": \"context\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.OrchidContext\",\n        \"name\": \"OrchidContext\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"resources\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidResources\",\n        \"name\": \"OrchidResources\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"option\",\n      \"type\": {\n        \"qualifiedName\": \"com.eden.orchid.wiki.WikiPathOption\",\n        \"name\": \"WikiPathOption\",\n        \"dimension\": \"\"\n      }\n    }\n  ]}],\n  \"methods\": [\n    {\n      \"name\": \"getName\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"getDescription\",\n      \"returns\": {\n        \"qualifiedName\": \"java.lang.String\",\n        \"name\": \"String\",\n        \"dimension\": \"\"\n      }\n    },\n    {\n      \"name\": \"startIndexing\",\n      \"returns\": {\n        \"qualifiedName\": \"java.util.List\",\n        \"name\": \"List\",\n        \"dimension\": \"\",\n        \"typeParameters\": [{\n          \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n          \"name\": \"OrchidPage\",\n          \"dimension\": \"\"\n        }]\n      }\n    },\n    {\n      \"name\": \"startGeneration\",\n      \"returns\": {\n        \"qualifiedName\": \"void\",\n        \"name\": \"void\",\n        \"dimension\": \"\"\n      },\n      \"parameters\": [{\n        \"name\": \"pages\",\n        \"type\": {\n          \"qualifiedName\": \"java.util.List\",\n          \"name\": \"List\",\n          \"dimension\": \"\",\n          \"typeParameters\": [{\n            \"qualifiedName\": \"com.eden.orchid.api.resources.OrchidPage\",\n            \"name\": \"OrchidPage\",\n            \"dimension\": \"\"\n          }]\n        }\n      }]\n    }\n  ],\n  \"fields\": [],\n  \"info\": {\n    \"package\": \"com.eden.orchid.wiki\",\n    \"qualifiedName\": \"com.eden.orchid.wiki.WikiGenerator\",\n    \"name\": \"WikiGenerator\",\n    \"url\": \"https://javaeden.github.io/Orchid/v0.1.0/Wiki/classes/com/eden/orchid/wiki/WikiGenerator\"\n  }\n}",
   "info": {
     "package": "com.eden.orchid.wiki",
     "qualifiedName": "com.eden.orchid.wiki.WikiGenerator",

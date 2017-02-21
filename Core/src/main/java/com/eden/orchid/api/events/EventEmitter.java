@@ -40,7 +40,7 @@ public final class EventEmitter {
               .filter(method -> method.isAnnotationPresent(On.class))
               .forEach(method -> {
                   On methodAnnotation = method.getAnnotation(On.class);
-                  String eventName = methodAnnotation.event();
+                  String eventName = methodAnnotation.value();
                   if (EdenUtils.isEmpty(eventName)) {
                       throw new IllegalArgumentException("Event must not be empty");
                   }

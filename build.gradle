@@ -87,7 +87,7 @@ configure(ext.mainProjects) {
 
     clean.dependsOn 'cleanCopyToVersionDocs', 'cleanCopyToLatestDocs'
     publishAll.dependsOn copyToRootDocs
-//    publishAll.dependsOn bintrayUpload
+//    publishAlgaml.dependsOn bintrayUpload
 }
 
 // apply theme-specific configurations to those projects

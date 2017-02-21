@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.EventEmitter;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.tasks.OrchidTasks;
@@ -81,9 +82,12 @@ public final class Orchid {
         injector = Guice.createInjector(findModules());
 
         context = injector.getInstance(OrchidContext.class);
+        EventEmitter emitter = injector.getInstance(EventEmitter.class);
         context.bootstrap(options, null);
 
         boolean success = context.runTask(task);
+
+        emitter.broadcast(Events.SHUTDOWN, success);
 
         System.exit((success) ? 0 : 1);
     }
@@ -93,9 +97,14 @@ public final class Orchid {
           .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
         context = injector.getInstance(OrchidContext.class);
+        EventEmitter emitter = injector.getInstance(EventEmitter.class);
         context.bootstrap(options, rootDoc);
 
-        return context.runTask(OrchidTasks.defaultTask);
+        boolean success = context.runTask(OrchidTasks.defaultTask);
+
+        emitter.broadcast(Events.SHUTDOWN, success);
+
+        return success;
     }
 
     private static List<AbstractModule> findModules() {
@@ -117,5 +126,17 @@ public final class Orchid {
         scanner.scan();
 
         return modules;
+    }
+
+// Events fired by Orchid Core
+//----------------------------------------------------------------------------------------------------------------------
+    public static class Events {
+        public static final String INIT_COMPLETE      = "INIT_COMPLETE";
+        public static final String OPTIONS_PARSED     = "OPTIONS_PARSED";
+        public static final String BOOTSTRAP_COMPLETE = "BOOTSTRAP_COMPLETE";
+        public static final String THEME_SET          = "THEME_SET";
+        public static final String TASK_START         = "TASK_START";
+        public static final String TASK_FINISH        = "TASK_FINISH";
+        public static final String SHUTDOWN           = "SHUTDOWN";
     }
 }
