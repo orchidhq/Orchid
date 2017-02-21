@@ -40,7 +40,8 @@ public final class OrchidContextImpl implements OrchidContext {
         this.emitter = emitter;
     }
 
-    @Override public void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc) {
+    @Override
+    public void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc) {
         this.root = new JSONObject();
         this.rootDoc = rootDoc;
 
@@ -48,10 +49,15 @@ public final class OrchidContextImpl implements OrchidContext {
         options.parseOptions(optionsMap, root.getJSONObject("options"));
     }
 
-    @Override public boolean runTask(String taskName) {
+    @Override
+    public boolean runTask(String taskName) {
         if (shouldContinue()) {
             reorderResourceSources();
-            Clog.i("Using Theme: #{$1}", new Object[]{ theme.getClass().getName() });
+            Clog.i("Using Theme: #{$1}", new Object[]{theme.getClass().getName()});
+            emitter.broadcast("themeSet", getTheme());
+
+            emitter.broadcast("counting", 1, "2", 3, null, 5);
+
             orchidTasks.run(taskName);
             return true;
         }
@@ -64,22 +70,24 @@ public final class OrchidContextImpl implements OrchidContext {
         return options.shouldContinue() && (theme != null) && theme.shouldContinue();
     }
 
-    @Override public void build() {
+    @Override
+    public void build() {
         root.put("index", new JSONObject());
         generators.startIndexing(root.getJSONObject("index"));
         generators.startGeneration();
     }
 
-    @Override public JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
-    
+    @Override
+    public JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
+
     private void reorderResourceSources() {
         Theme theme = getTheme();
 
         reorderThemes();
 
-        for(OrchidResourceSource source : OrchidUtils.resolveSet(DefaultResourceSource.class)) {
-            if(source instanceof Theme) {
-                if(!source.getClass().isAssignableFrom(theme.getClass())) {
+        for (OrchidResourceSource source : OrchidUtils.resolveSet(DefaultResourceSource.class)) {
+            if (source instanceof Theme) {
+                if (!source.getClass().isAssignableFrom(theme.getClass())) {
                     source.setPriority(-1);
                 }
             }
@@ -92,16 +100,16 @@ public final class OrchidContextImpl implements OrchidContext {
 
         // find the highest priority of any Theme
         int highestThemePriority = 0;
-        for(OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
+        for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
             if (resourceSourceEntry instanceof Theme) {
                 highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getPriority());
             }
         }
 
         // Go through all Themes and set each parent theme as the next-highest Theme priority
-        while(!superclass.equals(Theme.class)) {
-            for(OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
-                if(resourceSourceEntry instanceof Theme) {
+        while (!superclass.equals(Theme.class)) {
+            for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
+                if (resourceSourceEntry instanceof Theme) {
                     Theme theme = (Theme) resourceSourceEntry;
                     if (theme.getClass().equals(superclass)) {
                         theme.setPriority((highestThemePriority) - i);

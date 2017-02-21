@@ -6,7 +6,6 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidPreCompiler;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
-import com.eden.orchid.api.events.EventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.render.OrchidRenderer;
@@ -51,6 +50,8 @@ import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
 import com.google.inject.multibindings.Multibinder;
+
+import java.util.EventListener;
 
 public class ImplModule extends OrchidModule {
 
