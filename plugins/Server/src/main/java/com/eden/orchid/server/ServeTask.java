@@ -1,7 +1,9 @@
 package com.eden.orchid.server;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.server.server.StaticServer;
 import org.json.JSONObject;
@@ -9,17 +11,20 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
+import java.util.EventListener;
 
 @Singleton
-public class ServeTask extends OrchidTask {
+public class ServeTask extends OrchidTask implements EventListener {
 
     private OrchidContext context;
     private StaticServer server;
+    private FileWatcher watcher;
 
     @Inject
-    public ServeTask(OrchidContext context, StaticServer server) {
+    public ServeTask(OrchidContext context, StaticServer server, FileWatcher watcher) {
         this.context = context;
         this.server = server;
+        this.watcher = watcher;
     }
 
     @Override
@@ -51,10 +56,7 @@ public class ServeTask extends OrchidTask {
 
                 optionsJson.put("baseUrl", "http://localhost:" + server.getPort());
 
-                FileWatcher fileWatcher = new FileWatcher(context);
-
-                fileWatcher.rebuild();
-                fileWatcher.startWatching(rootDir);
+                watcher.startWatching(rootDir);
             }
             else {
                 Clog.w("OrchidResourcesImpl directory doesn't exist or isn't is a directory");
@@ -63,6 +65,16 @@ public class ServeTask extends OrchidTask {
         else {
             Clog.w("There is no resources directory to watch");
         }
+    }
+
+    @On(Orchid.Events.FILES_CHANGED)
+    public void onFilesChanges() {
+        context.build();
+    }
+
+    @On(Orchid.Events.SHUTDOWN)
+    public void onCleanShutdown() {
+        new Thread(server::stop);
     }
 }
 

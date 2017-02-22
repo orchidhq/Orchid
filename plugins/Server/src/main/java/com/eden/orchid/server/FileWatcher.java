@@ -1,7 +1,10 @@
 package com.eden.orchid.server;
 
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.sun.nio.file.SensitivityWatchEventModifier;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -22,9 +25,10 @@ import static java.nio.file.StandardWatchEventKinds.*;
 public class FileWatcher {
 
     private OrchidContext context;
-    private static WatchService watcher;
-    private static Map<WatchKey, Path> keys;
+    private WatchService watcher;
+    private Map<WatchKey, Path> keys;
 
+    @Inject
     public FileWatcher(OrchidContext context) {
         this.context = context;
     }
@@ -42,14 +46,8 @@ public class FileWatcher {
         }
     }
 
-    public void rebuild() {
-        context.build();
-    }
-
     private void register(Path dir) throws IOException {
-        WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-        Path prev = keys.get(key);
-
+        WatchKey key = dir.register(watcher, new WatchEvent.Kind[]{ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY}, SensitivityWatchEventModifier.HIGH);
         keys.put(key, dir);
     }
 
@@ -92,7 +90,7 @@ public class FileWatcher {
                 Path name = ev.context();
                 Path child = dir.resolve(name);
 
-                rebuild();
+                context.broadcast(Orchid.Events.FILES_CHANGED);
 
                 if (kind == ENTRY_CREATE) {
                     try {

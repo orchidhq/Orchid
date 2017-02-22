@@ -135,5 +135,6 @@ public final class Orchid {
         public static final String TASK_START         = "TASK_START";
         public static final String TASK_FINISH        = "TASK_FINISH";
         public static final String SHUTDOWN           = "SHUTDOWN";
+        public static final String FILES_CHANGED      = "FILES_CHANGED";
     }
 }

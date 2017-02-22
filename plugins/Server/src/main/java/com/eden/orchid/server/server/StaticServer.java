@@ -1,6 +1,7 @@
 package com.eden.orchid.server.server;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -41,7 +42,9 @@ public class StaticServer implements HttpHandler {
         String baseDir = context.query("options.d").toString();
         this.rootFolder = new File(baseDir);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            context.broadcast(Orchid.Events.SHUTDOWN, false);
+        }));
 
         new Thread(() -> {
             Clog.i("Starting http server on port #{$1}", StaticServer.this.port);

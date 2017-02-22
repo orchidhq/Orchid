@@ -24,4 +24,6 @@ public interface OrchidContext {
 
     RootDoc getRootDoc();
     Injector getInjector();
+
+    void broadcast(String event, Object... args);
 }

@@ -87,6 +87,11 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
 
+    @Override
+    public void broadcast(String event, Object... args) {
+        emitter.broadcast(event, args);
+    }
+
     private void reorderResourceSources() {
         Theme theme = getTheme();
 
