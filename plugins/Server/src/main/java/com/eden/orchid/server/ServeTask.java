@@ -1,17 +1,26 @@
 package com.eden.orchid.server;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.Orchid;
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.server.server.StaticServer;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 
 @Singleton
-public class ServeTask extends OrchidTask implements Contextual {
+public class ServeTask extends OrchidTask {
+
+    private OrchidContext context;
+    private StaticServer server;
+
+    @Inject
+    public ServeTask(OrchidContext context, StaticServer server) {
+        this.context = context;
+        this.server = server;
+    }
 
     @Override
     public String getName() {
@@ -27,23 +36,22 @@ public class ServeTask extends OrchidTask implements Contextual {
 
     @Override
     public void run() {
-        if (Orchid.getContext().query("options.resourcesDir") != null) {
-            String rootDir = Orchid.getContext().query("options.resourcesDir").toString();
+        if (context.query("options.resourcesDir") != null) {
+            String rootDir = context.query("options.resourcesDir").toString();
 
             File file = new File(rootDir);
 
             if (file.exists() && file.isDirectory()) {
                 Clog.i("Watching root resources directory for changes");
 
-                JSONObject rootJson = getContext().getRoot();
+                JSONObject rootJson = context.getRoot();
                 JSONObject optionsJson = rootJson.getJSONObject("options");
 
-                StaticServer server = getInjector().getInstance(StaticServer.class);
                 server.start(8080);
 
                 optionsJson.put("baseUrl", "http://localhost:" + server.getPort());
 
-                FileWatcher fileWatcher = new FileWatcher();
+                FileWatcher fileWatcher = new FileWatcher(context);
 
                 fileWatcher.rebuild();
                 fileWatcher.startWatching(rootDir);

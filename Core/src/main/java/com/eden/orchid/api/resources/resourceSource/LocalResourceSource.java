@@ -26,7 +26,7 @@ public abstract class LocalResourceSource extends OrchidResourceSource {
         File file = new File(getDirectory() + File.separator + fileName.replaceAll("/", File.separator));
 
         if (file.exists() && !file.isDirectory()) {
-            return new FileResource(file);
+            return new FileResource(context, file);
         }
 
         return null;
@@ -46,7 +46,7 @@ public abstract class LocalResourceSource extends OrchidResourceSource {
                 for (Object object : newFiles) {
                     File newFile = (File) object;
                     if (shouldAddEntry(newFile.getName())) {
-                        FileResource entry = new FileResource(newFile);
+                        FileResource entry = new FileResource(context, newFile);
                         entry.setPriority(getPriority());
                         entries.add(entry);
                     }

@@ -1,14 +1,15 @@
 package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
-public class OrchidReference implements Contextual {
+public class OrchidReference {
+
+    protected OrchidContext context;
 
     /**
      * The base URL of this reference, the URL at the root of your output site.
@@ -51,15 +52,16 @@ public class OrchidReference implements Contextual {
      */
     private boolean usePrettyUrl;
 
-    public OrchidReference() {
-        if (Orchid.getContext().query("options.baseUrl") != null) {
-            baseUrl = Orchid.getContext().query("options.baseUrl").toString();
+    public OrchidReference(OrchidContext context) {
+        this.context = context;
+        if (context.query("options.baseUrl") != null) {
+            baseUrl = context.query("options.baseUrl").toString();
             baseUrl = OrchidUtils.stripSeparators(baseUrl);
         }
     }
 
-    public OrchidReference(String fullFileName) {
-        this();
+    public OrchidReference(OrchidContext context, String fullFileName) {
+        this(context);
 
         if (fullFileName.contains(".")) {
             String[] parts = fullFileName.split("\\.");
@@ -90,8 +92,8 @@ public class OrchidReference implements Contextual {
 
         path = OrchidUtils.stripSeparators(path);
 
-        if (Orchid.getContext().query("options.resourcesDir") != null) {
-            String basePath = Orchid.getContext().query("options.resourcesDir").toString();
+        if (context.query("options.resourcesDir") != null) {
+            String basePath = context.query("options.resourcesDir").toString();
             basePath = OrchidUtils.stripSeparators(basePath);
 
             if (path.startsWith(basePath)) {
@@ -101,8 +103,8 @@ public class OrchidReference implements Contextual {
         }
     }
 
-    public OrchidReference(String basePath, String fullFileName) {
-        this(fullFileName);
+    public OrchidReference(OrchidContext context, String basePath, String fullFileName) {
+        this(context, fullFileName);
 
         this.basePath = basePath;
 
@@ -111,7 +113,8 @@ public class OrchidReference implements Contextual {
         }
     }
 
-    public OrchidReference(OrchidReference source) {
+    public OrchidReference(OrchidContext context, OrchidReference source) {
+        this.context = context;
         this.baseUrl = source.baseUrl;
         this.basePath = source.basePath;
         this.path = source.path;
@@ -205,7 +208,7 @@ public class OrchidReference implements Contextual {
     }
 
     public String getOutputExtension() {
-        return getTheme().getOutputExtension(extension);
+        return context.getTheme().getOutputExtension(extension);
     }
 
     public void setExtension(String extension) {
@@ -288,5 +291,9 @@ public class OrchidReference implements Contextual {
         }
 
         return output;
+    }
+
+    public OrchidContext getContext() {
+        return context;
     }
 }

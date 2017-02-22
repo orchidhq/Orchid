@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.docParser.docs;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidReference;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ConstructorDoc;
@@ -13,13 +14,16 @@ import java.io.File;
 
 public class ClassDocParser {
 
+    private OrchidContext context;
+
     private CommentParser commentParser;
     private AnnotationParser annotationParser;
     private TypeParser typeParser;
     private ParameterParser parameterParser;
 
     @Inject
-    public ClassDocParser(CommentParser commentParser, AnnotationParser annotationParser, TypeParser typeParser, ParameterParser parameterParser) {
+    public ClassDocParser(OrchidContext context, CommentParser commentParser, AnnotationParser annotationParser, TypeParser typeParser, ParameterParser parameterParser) {
+        this.context = context;
         this.commentParser = commentParser;
         this.annotationParser = annotationParser;
         this.typeParser = typeParser;
@@ -44,7 +48,7 @@ public class ClassDocParser {
     }
 
     public OrchidReference getReference(ClassDoc classDoc) {
-        OrchidReference ref = new OrchidReference("classes", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + ".html");
+        OrchidReference ref = new OrchidReference(context, "classes", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + ".html");
         ref.setUsePrettyUrl(true);
 
         return ref;

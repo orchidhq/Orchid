@@ -2,6 +2,7 @@ package com.eden.orchid.api;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Theme;
+import com.google.inject.Injector;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
 
@@ -22,4 +23,5 @@ public interface OrchidContext {
     JSONObject getRoot();
 
     RootDoc getRootDoc();
+    Injector getInjector();
 }

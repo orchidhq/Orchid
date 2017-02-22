@@ -56,7 +56,7 @@ public abstract class DefaultResourceSource extends OrchidResourceSource {
                 JarEntry entry = entries.nextElement();
 
                 if (entry.getName().endsWith(fileName) && !entry.isDirectory()) {
-                    return new JarResource(jarFile, entry);
+                    return new JarResource(context, jarFile, entry);
                 }
             }
         }
@@ -83,7 +83,7 @@ public abstract class DefaultResourceSource extends OrchidResourceSource {
                 if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.getName(), fileExtensions)) {
 
                     if (shouldAddEntry(jarEntry.getName())) {
-                        entries.add(new JarResource(jarFile, jarEntry));
+                        entries.add(new JarResource(context, jarFile, jarEntry));
                     }
                 }
             }

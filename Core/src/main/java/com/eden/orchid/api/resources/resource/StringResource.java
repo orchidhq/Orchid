@@ -2,6 +2,7 @@ package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidReference;
 
 /**
@@ -14,7 +15,7 @@ public final class StringResource extends OrchidResource {
     public StringResource(String content, OrchidReference reference) {
         super(reference);
         if(content != null) {
-            EdenPair<String, JSONElement> parsedContent = getTheme().getEmbeddedData(content);
+            EdenPair<String, JSONElement> parsedContent = getContext().getTheme().getEmbeddedData(content);
             this.rawContent = content;
             this.content = parsedContent.first;
             this.embeddedData = parsedContent.second;
@@ -26,7 +27,7 @@ public final class StringResource extends OrchidResource {
         }
     }
 
-    public StringResource(String name, String content) {
-        this(content, new OrchidReference(name));
+    public StringResource(OrchidContext context, String name, String content) {
+        this(content, new OrchidReference(context, name));
     }
 }

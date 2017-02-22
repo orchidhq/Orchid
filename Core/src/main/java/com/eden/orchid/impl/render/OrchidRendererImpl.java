@@ -1,7 +1,6 @@
 package com.eden.orchid.impl.render;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidPage;
@@ -36,7 +35,7 @@ public class OrchidRendererImpl extends OrchidRenderer {
         String outputPath = page.getReference().getFullPath();
         String outputName = page.getReference().getFileName() + "." + page.getReference().getOutputExtension();
 
-        outputPath = Orchid.getContext().query("options.d").getElement().toString() + File.separator + outputPath.replaceAll("/", File.separator);
+        outputPath = context.query("options.d").getElement().toString() + File.separator + outputPath.replaceAll("/", File.separator);
 
         File outputFile = new File(outputPath);
         if (!outputFile.exists()) {

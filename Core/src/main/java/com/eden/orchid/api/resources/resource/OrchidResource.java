@@ -1,11 +1,12 @@
 package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidReference;
 
-public abstract class OrchidResource implements Contextual {
+public abstract class OrchidResource {
 
+    protected OrchidContext context;
     protected OrchidReference reference;
 
     protected String rawContent;
@@ -19,6 +20,7 @@ public abstract class OrchidResource implements Contextual {
             throw new IllegalArgumentException("A resource must have a valid OrchidReference");
         }
         else {
+            this.context = reference.getContext();
             this.reference = reference;
         }
     }
@@ -63,4 +65,7 @@ public abstract class OrchidResource implements Contextual {
         this.priority = priority;
     }
 
+    public OrchidContext getContext() {
+        return context;
+    }
 }

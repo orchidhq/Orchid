@@ -1,8 +1,7 @@
 package com.eden.orchid.server.server;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.Orchid;
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.OrchidContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -16,7 +15,9 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 
 @Singleton
-public class StaticServer implements HttpHandler, Contextual {
+public class StaticServer implements HttpHandler {
+
+    private OrchidContext context;
     private int port;
     private HttpServer server;
     private File rootFolder;
@@ -28,7 +29,8 @@ public class StaticServer implements HttpHandler, Contextual {
     private String[] indexFiles = new String[] { "index.html", "index.htm" };
 
     @Inject
-    public StaticServer(RenderIndex renderIndex, RenderFile renderFile, Render404 render404) {
+    public StaticServer(OrchidContext context, RenderIndex renderIndex, RenderFile renderFile, Render404 render404) {
+        this.context = context;
         this.renderIndex = renderIndex;
         this.renderFile = renderFile;
         this.render404 = render404;
@@ -36,7 +38,7 @@ public class StaticServer implements HttpHandler, Contextual {
 
     public void start(int port) {
         this.port = getFreePorts(port, Integer.min(port + 1000, 65535));
-        String baseDir = Orchid.getContext().query("options.d").toString();
+        String baseDir = context.query("options.d").toString();
         this.rootFolder = new File(baseDir);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::stop));

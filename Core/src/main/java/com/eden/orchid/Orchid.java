@@ -62,9 +62,6 @@ public final class Orchid {
     private static OrchidContext context;
     private static Injector injector;
 
-    public static OrchidContext getContext() { return context; }
-    public static Injector getInjector() { return injector; }
-
 // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
 

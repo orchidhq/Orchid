@@ -18,7 +18,7 @@ public abstract class FreeableResource extends OrchidResource {
 
     protected void loadContent() {
         if(rawContent != null) {
-            EdenPair<String, JSONElement> parsedContent = getTheme().getEmbeddedData(rawContent);
+            EdenPair<String, JSONElement> parsedContent = reference.getContext().getTheme().getEmbeddedData(rawContent);
             content = parsedContent.first;
             embeddedData = parsedContent.second;
         }

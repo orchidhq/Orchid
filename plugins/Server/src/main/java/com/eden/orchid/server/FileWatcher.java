@@ -1,6 +1,6 @@
 package com.eden.orchid.server;
 
-import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -21,8 +21,13 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 public class FileWatcher {
 
+    private OrchidContext context;
     private static WatchService watcher;
     private static Map<WatchKey, Path> keys;
+
+    public FileWatcher(OrchidContext context) {
+        this.context = context;
+    }
 
     public void startWatching(String rootDir) {
         try {
@@ -38,7 +43,7 @@ public class FileWatcher {
     }
 
     public void rebuild() {
-        Orchid.getContext().build();
+        context.build();
     }
 
     private void register(Path dir) throws IOException {

@@ -1,9 +1,11 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,6 +13,13 @@ import java.util.List;
 
 @Singleton
 public class LinkFilter implements JtwigFunction {
+
+    private OrchidContext context;
+
+    @Inject
+    public LinkFilter(OrchidContext context) {
+        this.context = context;
+    }
 
     @Override
     public String name() {
@@ -31,13 +40,13 @@ public class LinkFilter implements JtwigFunction {
         if(fnParams.size() == 1) {
             String linkName = fnParams.get(0).toString();
 
-            return OrchidUtils.linkTo(linkName);
+            return OrchidUtils.linkTo(context, linkName);
         }
         else if(fnParams.size() == 2) {
             String linkName = fnParams.get(0).toString();
             String indexKey = fnParams.get(1).toString();
 
-            return OrchidUtils.linkTo(indexKey, linkName);
+            return OrchidUtils.linkTo(context, indexKey, linkName);
         }
         else {
             return "";

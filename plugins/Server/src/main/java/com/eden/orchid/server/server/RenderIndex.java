@@ -66,7 +66,7 @@ public class RenderIndex {
 
                 for (File file : files) {
                     JSONObject newFile = new JSONObject();
-                    newFile.put("url", OrchidUtils.applyBaseUrl(StringUtils.strip(targetPath, "/") + "/" + file.getName()));
+                    newFile.put("url", OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/") + "/" + file.getName()));
                     newFile.put("name", file.getName());
                     newFile.put("size", file.length());
                     newFile.put("date", formatter.format(new Date(file.lastModified())));

@@ -49,7 +49,7 @@ public class HomepageGenerator extends OrchidGenerator {
             frontPageData.put("license", context.getTheme().compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
         }
 
-        OrchidResource resource = new StringResource("index.twig", "");
+        OrchidResource resource = new StringResource(context, "index.twig", "");
         OrchidPage page = new OrchidPage(resource);
 
         page.setData(frontPageData);

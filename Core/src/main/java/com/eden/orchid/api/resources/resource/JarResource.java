@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources.resource;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidReference;
 import org.apache.commons.io.IOUtils;
 
@@ -19,8 +20,8 @@ public final class JarResource extends FreeableResource {
     private final JarEntry jarEntry;
     private final JarFile jarFile;
 
-    public JarResource(JarFile jarFile, JarEntry jarEntry) {
-        super(new OrchidReference(jarEntry.getName()));
+    public JarResource(OrchidContext context, JarFile jarFile, JarEntry jarEntry) {
+        super(new OrchidReference(context, jarEntry.getName()));
         this.jarEntry = jarEntry;
         this.jarFile = jarFile;
     }

@@ -2,20 +2,23 @@ package com.eden.orchid.impl.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.registration.Contextual;
+import com.google.inject.Provider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ThemeOption extends OrchidOption implements Contextual {
+public class ThemeOption extends OrchidOption {
+
+    private Provider<OrchidContext> contextProvider;
 
     @Inject
-    public ThemeOption() {
-        this.priority = 800;
+    public ThemeOption(Provider<OrchidContext> contextProvider) {
+        this.contextProvider = contextProvider;
+        setPriority(800);
     }
 
     @Override
@@ -33,9 +36,9 @@ public class ThemeOption extends OrchidOption implements Contextual {
         try {
             Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
 
-            Theme theme = getInjector().getInstance(themeClass);
+            Theme theme = contextProvider.get().getInjector().getInstance(themeClass);
             if(theme != null) {
-                Orchid.getContext().setTheme(theme);
+                contextProvider.get().setTheme(theme);
                 return new JSONElement(options[1]);
             }
         }

@@ -2,7 +2,6 @@ package com.eden.orchid.impl.docParser.docs;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
@@ -43,8 +42,8 @@ public class CommentParser {
         if (!EdenUtils.isEmpty(doc.commentText())) {
             String content = doc.commentText();
 
-            if (Orchid.getContext().query("options.commentExt") != null) {
-                content = context.getTheme().compile(Orchid.getContext().query("options.commentExt").toString(), content);
+            if (context.query("options.commentExt") != null) {
+                content = context.getTheme().compile(context.query("options.commentExt").toString(), content);
             }
 
             comment.put("description", content);

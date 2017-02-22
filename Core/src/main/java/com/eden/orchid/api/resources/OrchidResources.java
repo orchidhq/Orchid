@@ -1,7 +1,7 @@
 package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
@@ -25,11 +25,13 @@ import java.util.TreeMap;
 @Singleton
 public final class OrchidResources {
 
+    private OrchidContext context;
     private Set<LocalResourceSource> localResourceSources;
     private Set<DefaultResourceSource> defaultResourceSources;
 
     @Inject
-    public OrchidResources(Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
+    public OrchidResources(OrchidContext context, Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
+        this.context = context;
         this.localResourceSources = new ObservableTreeSet<>(localResourceSources);
         this.defaultResourceSources = new ObservableTreeSet<>(defaultResourceSources);
     }
@@ -116,8 +118,8 @@ public final class OrchidResources {
      * @return an OrchidResource containing the README content if it was found, null otherwise
      */
     public OrchidResource getProjectReadme() {
-        if (!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
-            String resourceDir = Orchid.getContext().query("options.resourcesDir").toString();
+        if (!EdenUtils.isEmpty(context.query("options.resourcesDir"))) {
+            String resourceDir = context.query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
 
@@ -130,7 +132,7 @@ public final class OrchidResources {
 
                     for (File file : files) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("readme")) {
-                            return new FileResource(file);
+                            return new FileResource(context, file);
                         }
                     }
                 }
@@ -157,8 +159,8 @@ public final class OrchidResources {
      * @return an OrchidResource containing the License content if it was found, null otherwise
      */
     public OrchidResource getProjectLicense() {
-        if (!EdenUtils.isEmpty(Orchid.getContext().query("options.resourcesDir"))) {
-            String resourceDir = Orchid.getContext().query("options.resourcesDir").toString();
+        if (!EdenUtils.isEmpty(context.query("options.resourcesDir"))) {
+            String resourceDir = context.query("options.resourcesDir").toString();
 
             File folder = new File(resourceDir);
 
@@ -171,7 +173,7 @@ public final class OrchidResources {
 
                     for (File file : files) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("license")) {
-                            return new FileResource(file);
+                            return new FileResource(context, file);
                         }
                     }
                 }

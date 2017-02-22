@@ -2,12 +2,11 @@ package com.eden.orchid.wiki;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -105,13 +104,13 @@ public class WikiGenerator extends OrchidGenerator {
             return;
         }
 
-        String content = Orchid.getContext().getTheme().compile(glossary.getReference().getExtension(), glossary.getContent());
+        String content = context.getTheme().compile(glossary.getReference().getExtension(), glossary.getContent());
         Document doc = Jsoup.parse(content);
 
         for (Element h2 : doc.select("h2")) {
             String id = h2.text().replaceAll("\\s+", "_").toLowerCase();
             String path = wikiBaseDir + "glossary/#" + id;
-            String url = OrchidUtils.applyBaseUrl(path);
+            String url = OrchidUtils.applyBaseUrl(context, path);
 
             Element link = new Element("a");
             link.attr("href", url);
@@ -131,7 +130,7 @@ public class WikiGenerator extends OrchidGenerator {
         }
 
         String safe = doc.toString();
-        glossary = new StringResource(wikiBaseDir + "glossary.md", safe);
+        glossary = new StringResource(context, wikiBaseDir + "glossary.md", safe);
         glossary.getReference().setTitle("Glossary");
 
         setupIndexPage(siteWiki, glossary);
@@ -144,7 +143,7 @@ public class WikiGenerator extends OrchidGenerator {
             return;
         }
 
-        String content = Orchid.getContext().getTheme().compile(summary.getReference().getExtension(), summary.getContent());
+        String content = context.getTheme().compile(summary.getReference().getExtension(), summary.getContent());
         Document doc = Jsoup.parse(content);
 
         Elements links = doc.select("a[href]");
@@ -159,7 +158,7 @@ public class WikiGenerator extends OrchidGenerator {
 
             if(resource == null) {
                 Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{ file });
-                resource = new StringResource(path + File.separator + "index.md", a.text());
+                resource = new StringResource(context, path + File.separator + "index.md", a.text());
             }
 
             OrchidPage page = new OrchidPage(resource);
@@ -196,7 +195,7 @@ public class WikiGenerator extends OrchidGenerator {
         }
 
         String safe = doc.toString();
-        summary = new StringResource(wikiBaseDir + "summary.md", safe);
+        summary = new StringResource(context, wikiBaseDir + "summary.md", safe);
         summary.getReference().setTitle("Summary");
 
         setupIndexPage(siteWiki, summary);

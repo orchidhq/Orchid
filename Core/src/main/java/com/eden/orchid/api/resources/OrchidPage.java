@@ -1,7 +1,7 @@
 package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.api.registration.Contextual;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import lombok.Data;
@@ -11,7 +11,9 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 @Data
-public class OrchidPage implements Contextual {
+public class OrchidPage {
+
+    protected OrchidContext context;
 
     private OrchidReference reference;
 
@@ -30,11 +32,12 @@ public class OrchidPage implements Contextual {
     private OrchidRenderer renderer;
 
     public OrchidPage(OrchidResource resource) {
-        getInjector().injectMembers(this);
+        this.context = resource.getContext();
+        this.context.getInjector().injectMembers(this);
 
         this.resource = resource;
 
-        this.reference = new OrchidReference(resource.getReference());
+        this.reference = new OrchidReference(this.context, resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
 
         if (resource.getEmbeddedData() != null) {
@@ -120,7 +123,7 @@ public class OrchidPage implements Contextual {
         }
 
         if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-            String compiledContent = getTheme().compile(
+            String compiledContent = context.getTheme().compile(
                     resource.getReference().getExtension(),
                     resource.getContent()
             );

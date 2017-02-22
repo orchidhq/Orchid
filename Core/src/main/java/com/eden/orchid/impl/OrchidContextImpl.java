@@ -12,6 +12,7 @@ import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.Injector;
 import com.sun.javadoc.RootDoc;
 import lombok.Data;
 import org.json.JSONObject;
@@ -24,6 +25,8 @@ import java.util.Map;
 @Singleton
 public final class OrchidContextImpl implements OrchidContext {
 
+    private Injector injector;
+
     private JSONObject root;
     private Theme theme;
     private RootDoc rootDoc;
@@ -34,7 +37,8 @@ public final class OrchidContextImpl implements OrchidContext {
     private EventEmitter emitter;
 
     @Inject
-    public OrchidContextImpl(OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators, EventEmitter emitter) {
+    public OrchidContextImpl(Injector injector, OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators, EventEmitter emitter) {
+        this.injector = injector;
         this.orchidTasks = orchidTasks;
         this.options = options;
         this.generators = generators;
@@ -88,7 +92,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
         reorderThemes();
 
-        for (OrchidResourceSource source : OrchidUtils.resolveSet(DefaultResourceSource.class)) {
+        for (OrchidResourceSource source : OrchidUtils.resolveSet(this, DefaultResourceSource.class)) {
             if (source instanceof Theme) {
                 if (!source.getClass().isAssignableFrom(theme.getClass())) {
                     source.setPriority(-1);
@@ -103,7 +107,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
         // find the highest priority of any Theme
         int highestThemePriority = 0;
-        for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
+        for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(this, OrchidResourceSource.class)) {
             if (resourceSourceEntry instanceof Theme) {
                 highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getPriority());
             }
@@ -111,7 +115,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
         // Go through all Themes and set each parent theme as the next-highest Theme priority
         while (!superclass.equals(Theme.class)) {
-            for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(OrchidResourceSource.class)) {
+            for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(this, OrchidResourceSource.class)) {
                 if (resourceSourceEntry instanceof Theme) {
                     Theme theme = (Theme) resourceSourceEntry;
                     if (theme.getClass().equals(superclass)) {

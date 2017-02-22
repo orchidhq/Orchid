@@ -1,12 +1,20 @@
 package com.eden.orchid.impl.tasks;
 
-import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.tasks.OrchidTask;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class BuildTask extends OrchidTask {
+
+    private OrchidContext context;
+
+    @Inject
+    public BuildTask(OrchidContext context) {
+        this.context = context;
+    }
 
     @Override
     public String getName() {
@@ -20,6 +28,6 @@ public class BuildTask extends OrchidTask {
 
     @Override
     public void run() {
-        Orchid.getContext().build();
+        context.build();
     }
 }
