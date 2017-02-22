@@ -51,9 +51,21 @@ configure(ext.mainProjects) {
     ext {
         commonTheme = ':themes:BsDoc'
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
-//        commonBaseUrl = 'http://localhost:8080'
-        commonBaseUrl = 'https://javaeden.github.io/Orchid'
         commonRunTask = "listThemes"
+        switch(project.property('env')) {
+            case 'prod':
+                commonBaseUrl = 'https://javaeden.github.io/Orchid'
+                break
+            case 'staging':
+                commonBaseUrl = 'http://localhost:8080'
+                break
+            case 'dev':
+                commonBaseUrl = 'http://localhost:8080'
+                break
+            default:
+                commonBaseUrl = 'http://localhost:8080'
+                break
+        }
     }
 
     apply from: "$rootDir/gradle/javadoc.gradle"
