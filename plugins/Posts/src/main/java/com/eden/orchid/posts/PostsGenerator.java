@@ -56,7 +56,7 @@ public class PostsGenerator extends OrchidGenerator {
             entry.getReference().setUsePrettyUrl(true);
 
             OrchidPage post = new OrchidPage(entry);
-
+            post.setType("post");
             posts.add(post);
         }
 
@@ -69,7 +69,7 @@ public class PostsGenerator extends OrchidGenerator {
         for (OrchidPage post : posts) {
             if (next(posts, i) != null) { post.setNext(next(posts, i)); }
             if (previous(posts, i) != null) { post.setPrevious(previous(posts, i)); }
-            post.renderTemplate("templates/pages/page.twig");
+            post.renderTemplate();
             i++;
         }
     }

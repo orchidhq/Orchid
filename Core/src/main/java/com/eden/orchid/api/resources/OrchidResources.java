@@ -46,6 +46,7 @@ public final class OrchidResources {
     public OrchidResource getLocalResourceEntry(final String fileName) {
         return localResourceSources
                 .stream()
+                .filter(source -> source.getPriority() >= 0)
                 .map(source -> source.getResourceEntry(fileName))
                 .filter(Objects::nonNull)
                 .findFirst()
@@ -65,6 +66,7 @@ public final class OrchidResources {
         if (resource == null) {
             resource = defaultResourceSources
                     .stream()
+                    .filter(source -> source.getPriority() >= 0)
                     .map(source -> source.getResourceEntry(fileName))
                     .filter(Objects::nonNull)
                     .findFirst().orElseGet(() -> null);

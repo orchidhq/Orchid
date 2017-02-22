@@ -101,7 +101,7 @@ configure(ext.mainProjects) {
 
         clean.dependsOn 'cleanCopyToVersionDocs', 'cleanCopyToLatestDocs'
         publishAll.dependsOn copyToRootDocs
-        publishAll.dependsOn bintrayUpload
+//        publishAll.dependsOn bintrayUpload
     }
 }
 

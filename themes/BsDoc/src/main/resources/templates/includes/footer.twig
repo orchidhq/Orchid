@@ -3,20 +3,11 @@
         <div class="col-xs-12">
             <nav aria-label="navigateClasses">
                 <ul class="pager">
-                    {% if head.previous %}
-                        <li class="previous"><a href="{{ head.previous.url }}"><span
-                                        aria-hidden="true">&larr;</span> {{ head.previous.title }}</a></li>
-                    {% endif %}
-
                     {% if page.previous %}
                         <li class="previous"><a href="{{ page.previous.url }}"><span
                                         aria-hidden="true">&larr;</span> {{ page.previous.title }}</a></li>
                     {% endif %}
 
-                    {% if head.next %}
-                        <li class="next"><a href="{{ head.next.url }}">{{ head.next.title }} <span
-                                        aria-hidden="true">&rarr;</span></a></li>
-                    {% endif %}
                     {% if page.next %}
                         <li class="next"><a href="{{ page.next.url }}">{{ page.next.title }} <span
                                         aria-hidden="true">&rarr;</span></a></li>

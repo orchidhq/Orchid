@@ -26,14 +26,12 @@ import java.util.List;
 public class WikiGenerator extends OrchidGenerator {
 
     private List<OrchidPage> wiki;
-    private JSONObject siteWiki;
-
-    private String wikiBaseDir = "wiki/";
-
     private List<JSONObject> terms;
 
     private OrchidResources resources;
     private WikiPathOption option;
+
+    private String wikiBaseDir = "wiki/";
 
     @Inject
     public WikiGenerator(OrchidContext context, OrchidResources resources, WikiPathOption option) {
@@ -62,7 +60,6 @@ public class WikiGenerator extends OrchidGenerator {
         }
 
         wiki = new ArrayList<>();
-        siteWiki = new JSONObject();
         terms = new ArrayList<>();
 
         setupSummary();
@@ -76,25 +73,12 @@ public class WikiGenerator extends OrchidGenerator {
         pages.stream()
              .forEach((page -> {
                  if(!page.getReference().getFullPath().equalsIgnoreCase(wikiBaseDir + "glossary")) {
-                     findGlossaryTerms(page).renderTemplate("templates/pages/page.twig");
+                     findGlossaryTerms(page).renderTemplate();
                  }
                  else {
-                     page.renderTemplate("templates/pages/page.twig");
+                     page.renderTemplate();
                  }
              }));
-    }
-
-    private void setupIndexPage(JSONObject siteWiki, OrchidResource entry) {
-        OrchidPage page = new OrchidPage(entry);
-        page.getReference().setUsePrettyUrl(true);
-
-        wiki.add(page);
-
-        JSONObject index = new JSONObject();
-        index.put("name", page.getReference().getTitle());
-        index.put("url", page.getReference().toString());
-
-        OrchidUtils.buildTaxonomy(entry, siteWiki, index);
     }
 
     private void setupGlossary() {
@@ -122,10 +106,7 @@ public class WikiGenerator extends OrchidGenerator {
 
             JSONObject index = new JSONObject();
             index.put("name", h2.text());
-            index.put("title", h2.text());
             index.put("url", url);
-
-//            AssetsGenerator.buildTaxonomy(path, siteWiki, index);
             terms.add(index);
         }
 
@@ -133,7 +114,11 @@ public class WikiGenerator extends OrchidGenerator {
         glossary = new StringResource(context, wikiBaseDir + "glossary.md", safe);
         glossary.getReference().setTitle("Glossary");
 
-        setupIndexPage(siteWiki, glossary);
+        OrchidPage page = new OrchidPage(glossary);
+        page.getReference().setUsePrettyUrl(true);
+        page.setType("wiki");
+
+        wiki.add(page);
     }
 
     private void setupSummary() {
@@ -172,14 +157,8 @@ public class WikiGenerator extends OrchidGenerator {
 
             page.getReference().setTitle(a.text());
 
+            page.setType("wiki");
             wiki.add(page);
-
-            JSONObject index = new JSONObject();
-            index.put("name", a.text());
-            index.put("title", a.text());
-            index.put("url", page.getReference().toString());
-
-            OrchidUtils.buildTaxonomy(path, siteWiki, index);
 
             if(previous != null) {
                 previous.setNext(page);
@@ -198,7 +177,12 @@ public class WikiGenerator extends OrchidGenerator {
         summary = new StringResource(context, wikiBaseDir + "summary.md", safe);
         summary.getReference().setTitle("Summary");
 
-        setupIndexPage(siteWiki, summary);
+        OrchidPage page = new OrchidPage(summary);
+        page.getReference().setUsePrettyUrl(true);
+
+        page.setType("wiki");
+
+        wiki.add(page);
     }
 
     private OrchidPage findGlossaryTerms(OrchidPage page) {

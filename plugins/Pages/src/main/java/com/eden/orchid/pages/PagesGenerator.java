@@ -58,6 +58,7 @@ public class PagesGenerator extends OrchidGenerator {
             entry.getReference().setUsePrettyUrl(true);
 
             OrchidPage page = new OrchidPage(entry);
+            page.setType("page");
 
             pages.add(page);
         }
@@ -69,7 +70,7 @@ public class PagesGenerator extends OrchidGenerator {
     public void startGeneration(List<OrchidPage> pages) {
         pages.stream()
              .forEach((page -> {
-                 page.renderTemplate("templates/pages/page.twig");
+                 page.renderTemplate();
              }));
     }
 }

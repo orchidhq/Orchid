@@ -63,8 +63,6 @@ public class HomepageGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(List<OrchidPage> pages) {
         pages.stream()
-             .forEach((page -> {
-                 page.renderTemplate("templates/pages/frontPage.twig");
-             }));
+             .forEach((page -> page.renderTemplate("frontPage")));
     }
 }

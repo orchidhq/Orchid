@@ -1,6 +1,7 @@
 package com.eden.orchid.impl;
 
 import com.eden.orchid.OrchidModule;
+import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
@@ -10,9 +11,9 @@ import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.render.OrchidRenderer;
+import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
-import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
@@ -42,6 +43,7 @@ import com.eden.orchid.impl.options.ResourcesOption;
 import com.eden.orchid.impl.options.ThemeOption;
 import com.eden.orchid.impl.options.VersionOption;
 import com.eden.orchid.impl.render.OrchidRendererImpl;
+import com.eden.orchid.impl.render.TemplateResolutionStrategyImpl;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
 import com.eden.orchid.impl.resources.CoreLocalResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
@@ -57,9 +59,9 @@ import java.util.EventListener;
 
 public class ImplModule extends OrchidModule {
 
-    private static final Class[] defaultSets = new Class[] {
-            OrchidResourceSource.class,
-            EventListener.class
+    private static final Class[] optionalSets = new Class[] {
+            EventListener.class,
+            Theme.class
     };
 
     @Override
@@ -68,7 +70,7 @@ public class ImplModule extends OrchidModule {
         bind(OrchidRenderer.class).to(OrchidRendererImpl.class);
         bind(OrchidPreCompiler.class).to(FrontMatterPrecompiler.class);
 
-        for(Class<?> defaultSet : defaultSets) {
+        for(Class<?> defaultSet : optionalSets) {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
@@ -77,6 +79,7 @@ public class ImplModule extends OrchidModule {
         // Resource Sources
         addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
         addToSet(DefaultResourceSource.class, CoreDefaultResourceSource.class);
+        addToSet(TemplateResolutionStrategy.class, TemplateResolutionStrategyImpl.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,

@@ -2,20 +2,13 @@
     <footer id="footer text-center">
 
         <div class="clearfix">
-            {% if head.previous %}
-                <div class="float-left">
-                    <a href="{{ head.previous.url }}" class="button special small pill"><span>&larr;</span> {{ head.previous.title }}</a>
-                </div>
-            {% elseif page.previous %}
+            {% if page.previous %}
                 <div class="float-left">
                     <a href="{{ page.previous.url }}" class="button special small pill"><span>&larr;</span> {{ page.previous.title }}</a>
                 </div>
             {% endif %}
-            {% if head.next %}
-                <div class="float-right">
-                    <a href="{{ head.next.url }}" class="button special small pill">{{ head.next.title }} <span>&rarr;</span></a>
-                </div>
-            {% elseif page.next %}
+
+            {% if page.next %}
                 <div class="float-right">
                     <a href="{{ page.next.url }}" class="button special small pill">{{ page.next.title }} <span>&rarr;</span></a>
                 </div>

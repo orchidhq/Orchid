@@ -21,7 +21,7 @@ public class OrchidPage {
     private OrchidPage previous;
 
     private String description;
-    private String alias;
+    private String type;
 
     private JSONObject data;
     private JSONArray menu;
@@ -100,10 +100,11 @@ public class OrchidPage {
             pageData = new JSONObject();
         }
 
-
         if (menu != null) {
             pageData.put("menu", menu);
         }
+
+        pageData.put("type", (!EdenUtils.isEmpty(type)) ? type : "page");
 
         JSONObject previousData = buildLink(previous);
         if (previousData != null) {

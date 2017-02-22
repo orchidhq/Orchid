@@ -1,4 +1,4 @@
-{% extends "layouts/geopattern.twig" %}
+{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/geopattern.twig"] %}
 
 {% block pageNav %}
 

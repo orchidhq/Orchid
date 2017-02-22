@@ -5,36 +5,36 @@
 <meta name="robots" content="index, follow">
 
 <!-- start:inject SEO data -->
-{% if head.title %}
-    <title>{{ head.title }}</title>
-    <script>window.title = '{{head.title}}';</script>
+{% if page.title %}
+    <title>{{ page.title }}</title>
+    <script>window.title = '{{page.title}}';</script>
 {% else %}
     <title>{{ options.config.about.name }}</title>
     <script>window.title = '{{ options.config.about.name }}';</script>
 {% endif %}
 
-{% if head.description %}
-    <meta name="description" content="{{ head.description }}">
+{% if page.description %}
+    <meta name="description" content="{{ page.description }}">
 {% else %}
     <title>{{ options.config.about.description }}</title>
 {% endif %}
 
-{% if head.publishStatus == 'publish' %}
+{% if page.publishStatus == 'publish' %}
     <meta name="robots" content="index, follow">
-{% elseif head.publishStatus == 'draft' %}
+{% elseif page.publishStatus == 'draft' %}
     <meta name="robots" content="noindex, nofollow">
 {% endif %}
 
-{% if head.previous %}
-    <link rel="prev" href="{{ head.previous.url }}">
+{% if page.previous %}
+    <link rel="prev" href="{{ page.previous.url }}">
 {% endif %}
 
-{% if head.next %}
-    <link rel="next" href="{{ head.next.url }}">
+{% if page.next %}
+    <link rel="next" href="{{ page.next.url }}">
 {% endif %}
 
-{% if head.canonical %}
-    <link rel="canonical" href="{{ head.canonical.url }}">
+{% if page.canonical %}
+    <link rel="canonical" href="{{ page.canonical.url }}">
 {% endif %}
 <!-- end:inject SEO data -->
 

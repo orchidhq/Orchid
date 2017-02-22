@@ -59,6 +59,7 @@ public class ClassesGenerator extends OrchidGenerator {
             classPage.setData(classInfo);
             classPage.getReference().setTitle(classDoc.simpleTypeName());
 
+            classPage.setType("classDoc");
             pages.add(classPage);
         }
 
@@ -68,10 +69,7 @@ public class ClassesGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(List<OrchidPage> pages) {
         pages.stream()
-             .forEach((page -> {
-                 page.setAlias("classDoc");
-                 page.renderTemplate("templates/pages/classDoc.twig");
-             }));
+             .forEach((page -> page.renderTemplate()));
     }
 
 }

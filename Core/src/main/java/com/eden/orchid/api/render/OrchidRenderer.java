@@ -3,16 +3,20 @@ package com.eden.orchid.api.render;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
+import java.util.Set;
 
 public abstract class OrchidRenderer {
 
+    protected Set<TemplateResolutionStrategy> strategies;
     protected OrchidResources resources;
 
     @Inject
-    public OrchidRenderer(OrchidResources resources) {
+    public OrchidRenderer(Set<TemplateResolutionStrategy> strategies, OrchidResources resources) {
+        this.strategies = new ObservableTreeSet<>(strategies);
         this.resources = resources;
     }
 
@@ -25,11 +29,13 @@ public abstract class OrchidRenderer {
      * @return true if the page was successfully rendered, false otherwise
      */
     public final boolean renderTemplate(OrchidPage page, String... templates) {
-        for(String template : templates) {
-            OrchidResource templateResource = resources.getResourceEntry(template);
+        for(TemplateResolutionStrategy templateResolutionStrategy : strategies) {
+            for (String template : templateResolutionStrategy.getPageTemplate(page, templates)) {
+                OrchidResource templateResource = resources.getResourceEntry(template);
 
-            if (templateResource != null) {
-                return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
+                if (templateResource != null) {
+                    return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-{% extends "layouts/index.twig" %}
+{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/index.twig"] %}
 
 {% block jumbotron %}
     <h1 class="home-title">{{ packageDoc.name }}</h1>

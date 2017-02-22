@@ -1,3 +1,14 @@
+---
+---
+
+{% if options.config and options.config.colors %}
+$color1: {{ options.config.colors[0] }};
+$color2: {{ options.config.colors[1] }};
+{% else %}
+$color1: #4C376C;
+$color2: #000000;
+{% endif %}
+
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700");
 
@@ -2107,13 +2118,13 @@
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		border-bottom: dotted 1px;
-		color: #f56a6a;
+		color: $color1;
 		text-decoration: none;
 	}
 
 		a:hover {
-			border-bottom-color: #f56a6a;
-			color: #f56a6a !important;
+			border-bottom-color: $color1;
+			color: $color1 !important;
 		}
 
 			a:hover strong {
@@ -2282,7 +2293,7 @@
 	}
 
 	header.major > :last-child {
-		border-bottom: solid 3px #f56a6a;
+		border-bottom: solid 3px $color1;
 		display: inline-block;
 		margin: 0 0 2em 0;
 		padding: 0 0.75em 0.5em 0;
@@ -2349,8 +2360,8 @@
 		input[type="url"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #f56a6a;
-			box-shadow: 0 0 0 1px #f56a6a;
+			border-color: $color1;
+			box-shadow: 0 0 0 1px $color1;
 		}
 
 	.select-wrapper {
@@ -2463,8 +2474,8 @@
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #f56a6a;
-			box-shadow: 0 0 0 1px #f56a6a;
+			border-color: $color1;
+			box-shadow: 0 0 0 1px $color1;
 		}
 
 	input[type="checkbox"] + label:before {
@@ -2697,7 +2708,7 @@
 				}
 
 				ul.contact li:before {
-					color: #f56a6a;
+					color: $color1;
 					display: inline-block;
 					font-size: 1.5em;
 					height: 1.125em;
@@ -2821,16 +2832,16 @@
 				}
 
 					ul.pagination li > .page.active {
-						background-color: #f56a6a;
+						background-color: $color1;
 						color: #ffffff !important;
 					}
 
 						ul.pagination li > .page.active:hover {
-							background-color: #f67878;
+							background-color: lighten($color1, 10%);
 						}
 
 						ul.pagination li > .page.active:active {
-							background-color: #f45c5c;
+							background-color: lighten($color1, 20%);
 						}
 
 				ul.pagination li:first-child {
@@ -2953,8 +2964,8 @@
 		background-color: transparent;
 		border-radius: 0.375em;
 		border: 0;
-		box-shadow: inset 0 0 0 2px #f56a6a;
-		color: #f56a6a !important;
+		box-shadow: inset 0 0 0 2px $color1;
+		color: $color1 !important;
 		cursor: pointer;
 		display: inline-block;
 		font-family: "Roboto Slab", serif;
@@ -3027,7 +3038,7 @@
 		input[type="button"].special,
 		button.special,
 		.button.special {
-			background-color: #f56a6a;
+			background-color: $color1;
 			box-shadow: none;
 			color: #ffffff !important;
 		}
@@ -3037,7 +3048,7 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: #f67878;
+				background-color: lighten($color1, 10%);
 			}
 
 			input[type="submit"].special:active,
@@ -3045,7 +3056,7 @@
 			input[type="button"].special:active,
 			button.special:active,
 			.button.special:active {
-				background-color: #f45c5c;
+				background-color: lighten($color1, 20%);
 			}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,
@@ -3147,7 +3158,7 @@
 			}
 
 				.features article .icon:before {
-					color: #f56a6a;
+					color: $color1;
 					font-size: 2.75rem;
 					position: relative;
 					top: 0.05em;
@@ -3792,7 +3803,7 @@
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
-		border-bottom: solid 5px #f56a6a;
+		border-bottom: solid 5px $color1;
 		padding: 6em 0 1em 0;
 		position: relative;
 	}
@@ -3987,7 +3998,7 @@
 		}
 
 			.menu ul a:hover, .menu ul span:hover {
-				color: #f56a6a;
+				color: $color1;
 			}
 
 			.menu ul a.opener, .menu ul span.opener {
@@ -4021,7 +4032,7 @@
 				}
 
 				.menu ul a.opener:hover:before, .menu ul span.opener:hover:before {
-					color: #f56a6a;
+					color: $color1;
 				}
 
 				.menu ul a.opener.active + ul, .menu ul span.opener.active + ul {
