@@ -87,9 +87,18 @@ public final class OrchidGenerators {
 
     private void useGenerator(OrchidGenerator generator) {
         Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
-        generator.startGeneration((!EdenUtils.isEmpty(generator.getName()))
-                ? indexPages.get(generator.getName())
-                : new ArrayList<>());
+
+        List<OrchidPage> generatorPages = null;
+
+        if(!EdenUtils.isEmpty(generator.getName())) {
+            generatorPages = indexPages.get(generator.getName());
+        }
+
+        if(generatorPages == null) {
+            generatorPages = new ArrayList<>();
+        }
+
+        generator.startGeneration(generatorPages);
     }
 
     public boolean shouldUseGenerator(OrchidGenerator generator) {
