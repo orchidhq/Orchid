@@ -52,19 +52,20 @@ configure(ext.mainProjects) {
         commonTheme = ':themes:BsDoc'
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
         commonRunTask = "listThemes"
-        switch(project.property('env')) {
-            case 'prod':
-                commonBaseUrl = 'https://javaeden.github.io/Orchid'
-                break
-            case 'staging':
-                commonBaseUrl = 'http://localhost:8080'
-                break
-            case 'dev':
-                commonBaseUrl = 'http://localhost:8080'
-                break
-            default:
-                commonBaseUrl = 'http://localhost:8080'
-                break
+        commonBaseUrl = 'http://localhost:8080'
+
+        if(project.hasProperty('env')) {
+            switch (project.property('env')) {
+                case 'prod':
+                    commonBaseUrl = 'https://javaeden.github.io/Orchid'
+                    break
+                case 'staging':
+                    commonBaseUrl = 'http://localhost:8080'
+                    break
+                case 'dev':
+                    commonBaseUrl = 'http://localhost:8080'
+                    break
+            }
         }
     }
 
@@ -77,29 +78,31 @@ configure(ext.mainProjects) {
         compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
     }
 
-    task copyToVersionDocs(type: Copy) {
-        dependsOn 'javadoc'
+    if (project.hasProperty('deploy') && project.property('deploy') == 'true') {
+        task copyToVersionDocs(type: Copy) {
+            dependsOn 'javadoc'
 
-        from "$buildDir/docs/javadoc"
-        into "$rootDir/docs/${project.version}/${project.name}"
+            from "$buildDir/docs/javadoc"
+            into "$rootDir/docs/${project.version}/${project.name}"
+        }
+
+        task copyToLatestDocs(type: Copy) {
+            dependsOn 'javadoc'
+
+            from "$buildDir/docs/javadoc"
+            into "$rootDir/docs/latest/${project.name}"
+
+            filter { it.replaceAll("/${project.version}/", "/latest/") }
+        }
+
+        task copyToRootDocs() {
+            dependsOn 'copyToVersionDocs', 'copyToLatestDocs'
+        }
+
+        clean.dependsOn 'cleanCopyToVersionDocs', 'cleanCopyToLatestDocs'
+        publishAll.dependsOn copyToRootDocs
+        publishAll.dependsOn bintrayUpload
     }
-
-    task copyToLatestDocs(type: Copy) {
-        dependsOn 'javadoc'
-
-        from "$buildDir/docs/javadoc"
-        into "$rootDir/docs/latest/${project.name}"
-
-        filter{ it.replaceAll("/${project.version}/", "/latest/")}
-    }
-
-    task copyToRootDocs() {
-        dependsOn 'copyToVersionDocs', 'copyToLatestDocs'
-    }
-
-    clean.dependsOn 'cleanCopyToVersionDocs', 'cleanCopyToLatestDocs'
-    publishAll.dependsOn copyToRootDocs
-//    publishAlgaml.dependsOn bintrayUpload
 }
 
 // apply theme-specific configurations to those projects

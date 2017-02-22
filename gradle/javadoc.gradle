@@ -5,19 +5,20 @@ orchid {
     version = "${project.version}"
     theme   = "${project.ext.commonThemeClass}"
 
-    switch(project.property('env')) {
-        case 'prod':
-            baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
-            break
-        case 'staging':
-            baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
-            break
-        case 'dev':
-            baseUrl = "${project.ext.commonBaseUrl}"
-            break
-        default:
-            baseUrl = "${project.ext.commonBaseUrl}"
-            break
+    baseUrl = "${project.ext.commonBaseUrl}"
+
+    if(project.hasProperty('env')) {
+        switch(project.property('env')) {
+            case 'prod':
+                baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
+                break
+            case 'staging':
+                baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
+                break
+            case 'dev':
+                baseUrl = "${project.ext.commonBaseUrl}"
+                break
+        }
     }
 }
 
