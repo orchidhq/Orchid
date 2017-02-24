@@ -17,6 +17,8 @@ public interface OrchidContext {
 
     JSONElement query(String pointer);
 
+    JSONObject mergeWithSiteData(Object... data);
+
     Theme getTheme();
     void setTheme(Theme theme);
 

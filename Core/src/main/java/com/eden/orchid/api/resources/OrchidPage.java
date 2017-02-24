@@ -74,12 +74,31 @@ public class OrchidPage {
     public void renderTemplate(String... templateName) {
         this.data = buildPageData();
 
+        String pageContent = getContent();
+
+        this.data.put("content", pageContent);
+
+        this.data.getJSONObject("page").put("content", pageContent);
+        if (!EdenUtils.isEmpty(type)) {
+            this.data.getJSONObject(type).put("content", pageContent);
+        }
+
         renderer.renderTemplate(this, templateName);
     }
 
-    public void renderString(String extension, String content) {
+    public void renderString(String extension, String templateString) {
         this.data = buildPageData();
-        renderer.renderString(this, extension, content);
+
+        String pageContent = getContent();
+
+        this.data.put("content", pageContent);
+
+        this.data.getJSONObject("page").put("content", pageContent);
+        if (!EdenUtils.isEmpty(type)) {
+            this.data.getJSONObject(type).put("content", pageContent);
+        }
+
+        renderer.renderString(this, extension, templateString);
     }
 
     /**
@@ -123,16 +142,10 @@ public class OrchidPage {
             pageData.put("description", description);
         }
 
-        if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-            String compiledContent = context.getTheme().compile(
-                    resource.getReference().getExtension(),
-                    resource.getContent()
-            );
-
-            pageData.put("content", compiledContent);
-        }
-        else {
-            pageData.put("content", "");
+        JSONObject pageObjectData = new JSONObject(pageData.toMap());
+        pageData.put("page", pageObjectData);
+        if (!EdenUtils.isEmpty(type)) {
+            pageData.put(type, pageObjectData);
         }
 
         return pageData;
@@ -150,6 +163,24 @@ public class OrchidPage {
         }
 
         return null;
+    }
+
+    public String getContent() {
+        if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
+            String compiledContent = resource.getContent();
+
+            if(resource.shouldPrecompile()) {
+                compiledContent = context.getTheme().precompile(compiledContent, data);
+            }
+
+            return context.getTheme().compile(
+                    resource.getReference().getExtension(),
+                    compiledContent
+            );
+        }
+        else {
+            return "";
+        }
     }
 
     @Inject

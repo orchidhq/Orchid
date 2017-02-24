@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import org.json.JSONObject;
 import org.jtwig.JtwigModel;
@@ -20,10 +20,13 @@ import java.util.Set;
 
 @Singleton
 public class JTwigCompiler extends OrchidCompiler {
+
+    private OrchidContext context;
     private EnvironmentConfiguration jtwigEnvironment;
 
     @Inject
-    public JTwigCompiler(Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
+    public JTwigCompiler(OrchidContext context, Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
+        this.context = context;
         EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
         for(JtwigFunction function : functionSet) {
@@ -45,19 +48,11 @@ public class JTwigCompiler extends OrchidCompiler {
     @Override
     public String compile(String extension, String source, Object... data) {
 
-        String s = "";
-        if(data != null && data.length > 0 && data[0] != null) {
-            s = data[0].toString();
-        }
+        JSONObject siteData = context.mergeWithSiteData(data);
 
-        JtwigModel model = null;
-
-        if(!EdenUtils.isEmpty(s)) {
-            model = JtwigModel.newModel(new JSONObject(s).toMap());
-        }
-        else {
-            model = JtwigModel.newModel();
-        }
+        JtwigModel model = (siteData != null)
+                ? JtwigModel.newModel(siteData.toMap())
+                : JtwigModel.newModel();
 
         return new JtwigTemplate(
                 new EnvironmentFactory().create(jtwigEnvironment),

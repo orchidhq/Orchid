@@ -2,6 +2,7 @@ package com.eden.orchid.impl;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
@@ -135,5 +136,23 @@ public final class OrchidContextImpl implements OrchidContext {
             i++;
             superclass = superclass.getSuperclass();
         }
+    }
+
+    public JSONObject mergeWithSiteData(Object... data) {
+        String s = "";
+        if(data != null && data.length > 0 && data[0] != null) {
+            s = data[0].toString();
+        }
+
+        JSONObject root = new JSONObject(getRoot().toMap());
+
+        if(!EdenUtils.isEmpty(s)) {
+            Clog.v(s);
+            for (String key : new JSONObject(s).keySet()) {
+                root.put(key, new JSONObject(s).get(key));
+            }
+        }
+
+        return root;
     }
 }

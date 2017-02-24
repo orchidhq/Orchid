@@ -19,13 +19,17 @@ public abstract class FreeableResource extends OrchidResource {
     protected void loadContent() {
         if(rawContent != null) {
             EdenPair<String, JSONElement> parsedContent = reference.getContext().getTheme().getEmbeddedData(rawContent);
-            content = parsedContent.first;
-            embeddedData = parsedContent.second;
+            this.content = parsedContent.first;
+            this.embeddedData = parsedContent.second;
+
+            this.shouldPrecompile = (this.embeddedData != null);
         }
         else {
-            rawContent = "";
-            content = "";
-            embeddedData = null;
+            this.rawContent = "";
+            this.content = "";
+            this.embeddedData = null;
+
+            this.shouldPrecompile = false;
         }
     }
 
@@ -60,5 +64,12 @@ public abstract class FreeableResource extends OrchidResource {
         loadContent();
 
         return super.queryEmbeddedData(pointer);
+    }
+
+    @Override
+    public boolean shouldPrecompile() {
+        loadContent();
+
+        return super.shouldPrecompile();
     }
 }

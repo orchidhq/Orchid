@@ -4,7 +4,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.compilers.OrchidPreCompiler;
+import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
@@ -16,11 +16,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Singleton
-public class FrontMatterPrecompiler extends OrchidPreCompiler {
+public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     private OrchidContext context;
 
     private static final String defaultType = "yml";
+    private static final String precompilerExtension = "twig";
 
     @Inject
     public FrontMatterPrecompiler(OrchidContext context) {
@@ -32,21 +33,17 @@ public class FrontMatterPrecompiler extends OrchidPreCompiler {
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
         EdenPair<JSONObject, Integer> frontMatter = parseFrontMatter(input);
 
-        String result;
         if(frontMatter.second != 0) {
-            JSONObject root = new JSONObject(context.getRoot().toMap());
-
-            for (String key : frontMatter.first.keySet()) {
-                root.put(key, frontMatter.first.get(key));
-            }
-
-            result = context.getTheme().compile("twig", input.substring(frontMatter.second), root);
+            return new EdenPair<>(input.substring(frontMatter.second), new JSONElement(frontMatter.first));
         }
         else {
-            result = input;
+            return new EdenPair<>(input, null);
         }
+    }
 
-        return new EdenPair<>(result, new JSONElement(frontMatter.first));
+    @Override
+    public String precompile(String input, Object... data) {
+        return context.getTheme().compile(precompilerExtension, input, context.mergeWithSiteData(data));
     }
 
     private EdenPair<JSONObject, Integer> parseFrontMatter(String input) {

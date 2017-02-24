@@ -1,8 +1,9 @@
 package com.eden.orchid.impl.compilers.sass;
 
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import io.bit3.jsass.importer.Import;
@@ -14,10 +15,12 @@ import java.util.Collections;
 
 public class SassImporter implements Importer {
 
+    private OrchidContext context;
     private Provider<OrchidResources> resources;
 
     @Inject
-    public SassImporter(Provider<OrchidResources> resources) {
+    public SassImporter(OrchidContext context, Provider<OrchidResources> resources) {
+        this.context = context;
         this.resources = resources;
     }
 
@@ -40,6 +43,10 @@ public class SassImporter implements Importer {
 
             if (importedResource != null) {
                 String content = importedResource.getContent();
+
+                if(importedResource.shouldPrecompile()) {
+                    content = context.getTheme().precompile(content, importedResource.getEmbeddedData());
+                }
 
                 try {
                     return Collections.singletonList(new Import(OrchidUtils.stripSeparators(absoluteUri), OrchidUtils.stripSeparators(absoluteUri), content));

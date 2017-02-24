@@ -25,7 +25,6 @@ public class PagesGenerator extends OrchidGenerator {
         this.priority = 700;
     }
 
-
     @Override
     public String getName() {
         return "pages";

@@ -5,7 +5,7 @@ import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
-import com.eden.orchid.api.compilers.OrchidPreCompiler;
+import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
 import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -68,7 +68,7 @@ public class ImplModule extends OrchidModule {
     protected void configure() {
         bind(OrchidContext.class).to(OrchidContextImpl.class);
         bind(OrchidRenderer.class).to(OrchidRendererImpl.class);
-        bind(OrchidPreCompiler.class).to(FrontMatterPrecompiler.class);
+        bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
 
         for(Class<?> defaultSet : optionalSets) {
             Multibinder.newSetBinder(binder(), defaultSet);
@@ -92,7 +92,7 @@ public class ImplModule extends OrchidModule {
                 JsonParser.class);
 
         // Precompilers
-        addToSet(OrchidPreCompiler.class,
+        addToSet(OrchidPrecompiler.class,
                 FrontMatterPrecompiler.class);
 
         // Block Tag Handlers

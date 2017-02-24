@@ -5,7 +5,7 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
-import com.eden.orchid.api.compilers.OrchidPreCompiler;
+import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 
@@ -17,12 +17,12 @@ public abstract class Theme extends DefaultResourceSource {
 
     private Set<OrchidCompiler> compilers;
     private Set<OrchidParser> parsers;
-    private OrchidPreCompiler preCompiler;
+    private OrchidPrecompiler precompiler;
 
     @Inject
-    public Theme(OrchidContext context, OrchidPreCompiler preCompiler, Set<OrchidCompiler> compilers, Set<OrchidParser> parsers) {
+    public Theme(OrchidContext context, OrchidPrecompiler precompiler, Set<OrchidCompiler> compilers, Set<OrchidParser> parsers) {
         super(context);
-        this.preCompiler = preCompiler;
+        this.precompiler = precompiler;
         this.compilers = new ObservableTreeSet<>(compilers);
         this.parsers = new ObservableTreeSet<>(parsers);
     }
@@ -60,7 +60,11 @@ public abstract class Theme extends DefaultResourceSource {
     }
 
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
-        return preCompiler.getEmbeddedData(input);
+        return precompiler.getEmbeddedData(input);
+    }
+
+    public String precompile(String input, Object... data) {
+        return precompiler.precompile(input, data);
     }
 
     public String getOutputExtension(String extension) {

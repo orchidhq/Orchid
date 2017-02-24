@@ -1,5 +1,6 @@
 package com.eden.orchid.api.render;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -11,13 +12,15 @@ import java.util.Set;
 
 public abstract class OrchidRenderer {
 
+    protected OrchidContext context;
     protected Set<TemplateResolutionStrategy> strategies;
     protected OrchidResources resources;
 
     @Inject
-    public OrchidRenderer(Set<TemplateResolutionStrategy> strategies, OrchidResources resources) {
-        this.strategies = new ObservableTreeSet<>(strategies);
+    public OrchidRenderer(OrchidContext context, OrchidResources resources, Set<TemplateResolutionStrategy> strategies) {
+        this.context = context;
         this.resources = resources;
+        this.strategies = new ObservableTreeSet<>(strategies);
     }
 
     /**
@@ -47,11 +50,11 @@ public abstract class OrchidRenderer {
      *
      * @param page the page to render
      * @param extension the extension that the content represents and should be compiled against
-     * @param content the template string to render
+     * @param templateString the template string to render
      * @return true if the page was successfully rendered, false otherwise
      */
-    public final boolean renderString(OrchidPage page, String extension, String content) {
-        return render(page, extension, content);
+    public final boolean renderString(OrchidPage page, String extension, String templateString) {
+        return render(page, extension, templateString);
     }
 
     /**
@@ -61,7 +64,13 @@ public abstract class OrchidRenderer {
      * @return true if the page was successfully rendered, false otherwise
      */
     public final boolean renderRaw(OrchidPage page) {
-        return render(page, page.getResource().getReference().getExtension(), page.getResource().getContent());
+        String content = page.getResource().getContent();
+
+        if(page.getResource().shouldPrecompile()) {
+            content = context.getTheme().precompile(content, page.getData());
+        }
+
+        return render(page, page.getResource().getReference().getExtension(), content);
     }
 
     /**

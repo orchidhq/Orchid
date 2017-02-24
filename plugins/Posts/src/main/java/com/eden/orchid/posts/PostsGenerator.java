@@ -7,6 +7,7 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -54,7 +55,10 @@ public class PostsGenerator extends OrchidGenerator {
             Matcher matcher = pageTitleRegex.matcher(entry.getReference().getFileName());
 
             if (matcher.matches()) {
-                JSONObject pageData = (JSONObject) entry.getEmbeddedData().getElement();
+                JSONObject pageData =
+                        (OrchidUtils.elementIsObject(entry.getEmbeddedData()))
+                        ? (JSONObject) entry.getEmbeddedData().getElement()
+                        : new JSONObject();
 
                 int year = Integer.parseInt(matcher.group(1));
                 int month = Integer.parseInt(matcher.group(2));
@@ -72,7 +76,7 @@ public class PostsGenerator extends OrchidGenerator {
                 }
                 else {
                     title = Arrays.stream(title.split("-"))
-                                  .map(word -> word.substring(0, 1) + word.substring(1))
+                                  .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
                                   .collect(Collectors.joining(" "));
                 }
 
@@ -123,22 +127,22 @@ public class PostsGenerator extends OrchidGenerator {
         }
 
         posts.sort((o1, o2) -> {
-            int result = o2.getData().getInt("year") - o1.getData().getInt("year");
+            int result = o2.getData().optInt("year") - o1.getData().optInt("year");
 
             if(result == 0) {
-                result = o2.getData().getInt("month") - o1.getData().getInt("month");
+                result = o2.getData().optInt("month") - o1.getData().optInt("month");
             }
             if(result == 0) {
-                result = o2.getData().getInt("day") - o1.getData().getInt("day");
+                result = o2.getData().optInt("day") - o1.getData().optInt("day");
             }
             if(result == 0) {
-                result = o2.getData().getInt("hour") - o1.getData().getInt("hour");
+                result = o2.getData().optInt("hour") - o1.getData().optInt("hour");
             }
             if(result == 0) {
-                result = o2.getData().getInt("minute") - o1.getData().getInt("minute");
+                result = o2.getData().optInt("minute") - o1.getData().optInt("minute");
             }
             if(result == 0) {
-                result = o2.getData().getInt("second") - o1.getData().getInt("second");
+                result = o2.getData().optInt("second") - o1.getData().optInt("second");
             }
 
             return result;
@@ -148,7 +152,6 @@ public class PostsGenerator extends OrchidGenerator {
         for (OrchidPage post : posts) {
             if (next(posts, i) != null) { post.setNext(next(posts, i)); }
             if (previous(posts, i) != null) { post.setPrevious(previous(posts, i)); }
-            post.renderTemplate();
             i++;
         }
 

@@ -19,11 +19,15 @@ public final class StringResource extends OrchidResource {
             this.rawContent = content;
             this.content = parsedContent.first;
             this.embeddedData = parsedContent.second;
+
+            this.shouldPrecompile = (this.embeddedData != null);
         }
         else {
             this.rawContent = "";
             this.content = "";
             this.embeddedData = null;
+
+            this.shouldPrecompile = false;
         }
     }
 

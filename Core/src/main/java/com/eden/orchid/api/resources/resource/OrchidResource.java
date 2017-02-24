@@ -3,7 +3,9 @@ package com.eden.orchid.api.resources.resource;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidReference;
+import lombok.Data;
 
+@Data
 public abstract class OrchidResource {
 
     protected OrchidContext context;
@@ -15,6 +17,8 @@ public abstract class OrchidResource {
 
     protected int priority;
 
+    protected boolean shouldPrecompile;
+
     public OrchidResource(OrchidReference reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A resource must have a valid OrchidReference");
@@ -22,19 +26,8 @@ public abstract class OrchidResource {
         else {
             this.context = reference.getContext();
             this.reference = reference;
+            this.shouldPrecompile = false;
         }
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getRawContent() {
-        return rawContent;
-    }
-
-    public JSONElement getEmbeddedData() {
-        return embeddedData;
     }
 
     public JSONElement queryEmbeddedData(String pointer) {
@@ -45,27 +38,7 @@ public abstract class OrchidResource {
         return null;
     }
 
-    public OrchidReference getReference() {
-        return reference;
-    }
-
-    public void setReference(OrchidReference reference) {
-        this.reference = reference;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setEmbeddedData(JSONElement embeddedData) {
-        this.embeddedData = embeddedData;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public OrchidContext getContext() {
-        return context;
+    public boolean shouldPrecompile() {
+        return shouldPrecompile;
     }
 }
