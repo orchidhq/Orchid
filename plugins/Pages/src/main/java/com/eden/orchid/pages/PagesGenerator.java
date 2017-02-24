@@ -5,8 +5,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -51,7 +51,7 @@ public class PagesGenerator extends OrchidGenerator {
 
             if(entry.queryEmbeddedData("root") != null) {
                 if(Boolean.parseBoolean(entry.queryEmbeddedData("root").toString())) {
-                    entry.getReference().stripBasePath("pages/");
+                    entry.getReference().stripBasePath("pages");
                 }
             }
 

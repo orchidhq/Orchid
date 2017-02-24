@@ -12,18 +12,18 @@ import java.util.Collections;
 import java.util.List;
 
 @Singleton
-public class LinkFilter implements JtwigFunction {
+public class LinkInFilter implements JtwigFunction {
 
     private OrchidContext context;
 
     @Inject
-    public LinkFilter(OrchidContext context) {
+    public LinkInFilter(OrchidContext context) {
         this.context = context;
     }
 
     @Override
     public String name() {
-        return "link";
+        return "linkIn";
     }
 
     @Override
@@ -33,20 +33,22 @@ public class LinkFilter implements JtwigFunction {
 
     @Override
     public Object execute(FunctionRequest request) {
-        List<Object> fnParams = request.minimumNumberOfArguments(1)
-                                       .maximumNumberOfArguments(2)
+        List<Object> fnParams = request.minimumNumberOfArguments(2)
+                                       .maximumNumberOfArguments(3)
                                        .getArguments();
 
-        if(fnParams.size() == 1) {
+        if(fnParams.size() == 2) {
             String linkName = fnParams.get(0).toString();
+            String indexKey = fnParams.get(1).toString();
 
-            return OrchidUtils.linkTo(context, linkName);
+            return OrchidUtils.linkToIndex(context, linkName, indexKey);
         }
-        else if(fnParams.size() == 2) {
-            String linkName = fnParams.get(0).toString();
-            String displayName = fnParams.get(1).toString();
+        else if(fnParams.size() == 3) {
+            String linkName    = fnParams.get(0).toString();
+            String indexKey    = fnParams.get(1).toString();
+            String displayName = fnParams.get(2).toString();
 
-            return OrchidUtils.linkTo(context, linkName, displayName);
+            return OrchidUtils.linkToIndex(context, linkName, indexKey, displayName);
         }
 
         return "";

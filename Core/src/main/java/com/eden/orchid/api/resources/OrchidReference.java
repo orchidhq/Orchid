@@ -146,10 +146,12 @@ public class OrchidReference {
     }
 
     public void stripBasePath(String basePath) {
+        basePath = OrchidUtils.stripSeparators(basePath);
+
         this.basePath = null;
 
         if (this.path.startsWith(basePath)) {
-            this.path = path.replace(basePath, "");
+            this.path = OrchidUtils.stripSeparators(path.replace(basePath, ""));
         }
     }
 

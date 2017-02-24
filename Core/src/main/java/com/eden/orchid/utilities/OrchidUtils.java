@@ -77,10 +77,14 @@ public final class OrchidUtils {
     }
 
     public static String linkTo(OrchidContext context, String linkName) {
+        return linkTo(context, linkName, linkName);
+    }
+
+    public static String linkTo(OrchidContext context, String linkName, String displayName) {
         Set<OrchidGenerator> generators = new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidGenerator.class));
 
         for(OrchidGenerator generator : generators) {
-            String linkText = linkTo(context, generator.getName(), linkName);
+            String linkText = linkToIndex(context, linkName, generator.getName(), displayName);
 
             if(!linkText.equals(linkName)) {
                 return linkText;
@@ -90,9 +94,13 @@ public final class OrchidUtils {
         return linkName;
     }
 
-    public static String linkTo(OrchidContext context, String indexKey, String linkName) {
+    public static String linkToIndex(OrchidContext context, String linkName, String indexKey) {
+        return linkToIndex(context, linkName, indexKey, linkName);
+    }
+
+    public static String linkToIndex(OrchidContext context, String linkName, String indexKey, String displayName) {
         if(context.query("index." + indexKey) != null) {
-            String s = findInMap(linkName, (JSONObject) context.query("index." + indexKey).getElement());
+            String s = findInMap(linkName, (JSONObject) context.query("index." + indexKey).getElement(), displayName);
             if(!EdenUtils.isEmpty(s)) {
                 return s;
             }
@@ -101,7 +109,7 @@ public final class OrchidUtils {
         return linkName;
     }
 
-    private static String findInMap(String link, JSONObject mapObject) {
+    private static String findInMap(String link, JSONObject mapObject, String displayName) {
         List urls = WalkMapFilter.walkObject(mapObject, "url");
         String template = "<a href=\"#{$1}\">#{$2}</a>";
 
@@ -111,10 +119,12 @@ public final class OrchidUtils {
 
                 if(map.containsKey("url")) {
                     if(map.containsKey("name") && map.get("name").toString().equals(link)) {
-                        return Clog.format(template, map.get("url"), map.get("name"));
-                    }
-                    else if(map.containsKey("qualifiedName") && map.get("qualifiedName").toString().equals(link)) {
-                        return Clog.format(template, map.get("url"), map.get("name"));
+                        if(!EdenUtils.isEmpty(displayName)) {
+                            return Clog.format(template, map.get("url"), displayName);
+                        }
+                        else {
+                            return Clog.format(template, map.get("url"), map.get("name"));
+                        }
                     }
                 }
             }

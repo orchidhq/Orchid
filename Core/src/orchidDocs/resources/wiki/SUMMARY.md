@@ -17,3 +17,4 @@
     * [Making Themes](extending/themes.md)
     * [Project-Local Extensions](extending/project_local.md)
     * [Contribute to Core](extending/core_development.md)
+    * [About](about.md)

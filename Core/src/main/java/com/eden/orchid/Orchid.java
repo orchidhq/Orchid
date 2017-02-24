@@ -39,7 +39,7 @@ public final class Orchid {
      * @return the number of arguments it expects from the command line
      */
     public static int optionLength(String option) {
-        if(injector == null) {
+        if (injector == null) {
             injector = Guice.createInjector(findModules());
         }
 
@@ -67,14 +67,14 @@ public final class Orchid {
 
     public static void main(String[] args) {
         Map<String, String[]> options = Arrays.stream(args)
-            .filter(s -> s.startsWith("-"))
-            .map(s -> s.split("\\s+"))
-            .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
+                                              .filter(s -> s.startsWith("-"))
+                                              .map(s -> s.split("\\s+"))
+                                              .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
         String task = Arrays.stream(args)
-            .filter(s -> !s.startsWith("-"))
-            .findFirst()
-            .orElseGet(() -> OrchidTasks.defaultTask);
+                            .filter(s -> !s.startsWith("-"))
+                            .findFirst()
+                            .orElseGet(() -> OrchidTasks.defaultTask);
 
         injector = Guice.createInjector(findModules());
 
@@ -91,7 +91,7 @@ public final class Orchid {
 
     public static boolean start(RootDoc rootDoc) {
         Map<String, String[]> options = Arrays.stream(rootDoc.options())
-          .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
+                                              .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
         context = injector.getInstance(OrchidContext.class);
         EventEmitter emitter = injector.getInstance(EventEmitter.class);
@@ -125,7 +125,7 @@ public final class Orchid {
         return modules;
     }
 
-// Events fired by Orchid Core
+    // Events fired by Orchid Core
 //----------------------------------------------------------------------------------------------------------------------
     public static class Events {
         public static final String INIT_COMPLETE      = "INIT_COMPLETE";
@@ -134,6 +134,8 @@ public final class Orchid {
         public static final String THEME_SET          = "THEME_SET";
         public static final String TASK_START         = "TASK_START";
         public static final String TASK_FINISH        = "TASK_FINISH";
+        public static final String BUILD_START        = "BUILD_START";
+        public static final String BUILD_FINISH       = "BUILD_FINISH";
         public static final String SHUTDOWN           = "SHUTDOWN";
         public static final String FILES_CHANGED      = "FILES_CHANGED";
     }

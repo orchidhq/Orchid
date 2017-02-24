@@ -1,0 +1,13 @@
+{% block parent %}
+    {% import 'macros/nav.twig' as _nav_ %}
+    <li>
+        <span class="opener">{{ parent.name }}</span>
+        <ul>
+            {% for child in children %}
+                {% block children %}
+                    <li class="noncaps">{{ _nav_.createLink(child) }}</li>
+                {% endblock %}
+            {% endfor %}
+        </ul>
+    </li>
+{% endblock %}

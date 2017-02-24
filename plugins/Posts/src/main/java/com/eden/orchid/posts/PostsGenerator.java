@@ -1,21 +1,32 @@
 package com.eden.orchid.posts;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Singleton
 public class PostsGenerator extends OrchidGenerator {
 
     private OrchidResources resources;
+    public static final Pattern pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)");
 
     @Inject
     public PostsGenerator(OrchidContext context, OrchidResources resources) {
@@ -40,31 +51,99 @@ public class PostsGenerator extends OrchidGenerator {
         List<OrchidPage> posts = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
-            if(!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
-                entry.getReference().setTitle(entry.queryEmbeddedData("title").toString());
-            }
-            else {
-                entry.getReference().setTitle(entry.getReference().getFileName());
-            }
+            Matcher matcher = pageTitleRegex.matcher(entry.getReference().getFileName());
 
-            if(entry.queryEmbeddedData("root") != null) {
-                if(Boolean.parseBoolean(entry.queryEmbeddedData("root").toString())) {
-                    entry.getReference().stripBasePath("posts/");
+            if (matcher.matches()) {
+                JSONObject pageData = (JSONObject) entry.getEmbeddedData().getElement();
+
+                int year = Integer.parseInt(matcher.group(1));
+                int month = Integer.parseInt(matcher.group(2));
+                int day = Integer.parseInt(matcher.group(3));
+
+                Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+                int second = calendar.get(Calendar.SECOND);
+
+                String title = matcher.group(4);
+
+                if (!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
+                    title = entry.queryEmbeddedData("title").toString();
                 }
+                else {
+                    title = Arrays.stream(title.split("-"))
+                                  .map(word -> word.substring(0, 1) + word.substring(1))
+                                  .collect(Collectors.joining(" "));
+                }
+
+                if (entry.queryEmbeddedData("date") != null) {
+                    String date = entry.queryEmbeddedData("date").toString();
+
+                    try {
+                        SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+                        Date dateTime = formatter.parse(date);
+
+                        calendar = Calendar.getInstance();
+                        calendar.setTime(dateTime);
+
+                        year = calendar.get(Calendar.YEAR);
+                        month = calendar.get(Calendar.YEAR);
+                        day = calendar.get(Calendar.YEAR);
+
+                        hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        minute = calendar.get(Calendar.MINUTE);
+                        second = calendar.get(Calendar.SECOND);
+                    }
+                    catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                pageData.put("year", year);
+                pageData.put("month", month);
+                pageData.put("day", day);
+
+                pageData.put("hour", hour);
+                pageData.put("minute", minute);
+                pageData.put("second", second);
+
+                entry.getReference().setBasePath("blog");
+                entry.getReference().setPath(Clog.format("#{$1}/#{$2}/#{$3}", year, month, day));
+                entry.getReference().setTitle(title);
+                entry.getReference().setFileName(title.replaceAll(" ", "-").toLowerCase());
+
+                entry.getReference().setUsePrettyUrl(true);
+
+                OrchidPage post = new OrchidPage(entry);
+                post.setType("post");
+                post.setData(pageData);
+
+                posts.add(post);
             }
-
-            entry.getReference().setUsePrettyUrl(true);
-
-            OrchidPage post = new OrchidPage(entry);
-            post.setType("post");
-            posts.add(post);
         }
 
-        return posts;
-    }
+        posts.sort((o1, o2) -> {
+            int result = o2.getData().getInt("year") - o1.getData().getInt("year");
 
-    @Override
-    public void startGeneration(List<OrchidPage> posts) {
+            if(result == 0) {
+                result = o2.getData().getInt("month") - o1.getData().getInt("month");
+            }
+            if(result == 0) {
+                result = o2.getData().getInt("day") - o1.getData().getInt("day");
+            }
+            if(result == 0) {
+                result = o2.getData().getInt("hour") - o1.getData().getInt("hour");
+            }
+            if(result == 0) {
+                result = o2.getData().getInt("minute") - o1.getData().getInt("minute");
+            }
+            if(result == 0) {
+                result = o2.getData().getInt("second") - o1.getData().getInt("second");
+            }
+
+            return result;
+        });
+
         int i = 0;
         for (OrchidPage post : posts) {
             if (next(posts, i) != null) { post.setNext(next(posts, i)); }
@@ -72,14 +151,20 @@ public class PostsGenerator extends OrchidGenerator {
             post.renderTemplate();
             i++;
         }
+
+        return posts;
+    }
+
+    @Override
+    public void startGeneration(List<OrchidPage> posts) {
+        for (OrchidPage post : posts) {
+            post.renderTemplate();
+        }
     }
 
     public OrchidPage previous(List<OrchidPage> posts, int i) {
         if (posts.size() > 1) {
-            if (i == 0) {
-                return posts.get(posts.size() - 1);
-            }
-            else {
+            if (i != 0) {
                 return posts.get(i - 1);
             }
         }
@@ -89,10 +174,7 @@ public class PostsGenerator extends OrchidGenerator {
 
     public OrchidPage next(List<OrchidPage> posts, int i) {
         if (posts.size() > 1) {
-            if (i == posts.size() - 1) {
-                return posts.get(0);
-            }
-            else {
+            if (i < posts.size() - 1) {
                 return posts.get(i + 1);
             }
         }

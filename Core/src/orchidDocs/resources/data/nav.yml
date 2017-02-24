@@ -1,5 +1,8 @@
 
 - type: classes
-- type: pages
-- type: posts
 - type: wiki
+- type: posts
+- type: link
+  name: About
+- type: link
+  name: Contact

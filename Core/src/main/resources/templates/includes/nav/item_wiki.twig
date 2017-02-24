@@ -1,0 +1,13 @@
+{%- if index.wiki and index.wiki.files -%}
+    {% import 'macros/nav.twig' as _nav_ %}
+
+    {% set wikiPages = [] %}
+
+    {% for p in index.wiki.files %}
+        {% if p.name == 'Summary' or p.name == 'Glossary' %}
+            {% do wikiPages.add(p) %}
+        {% endif %}
+    {% endfor %}
+
+    {{- _nav_.createSiteLink(link, wikiPages, 'Wiki') -}}
+{%- endif -%}

@@ -79,9 +79,11 @@ public final class OrchidContextImpl implements OrchidContext {
 
     @Override
     public void build() {
+        emitter.broadcast(Orchid.Events.BUILD_START);
         root.put("index", new JSONObject());
         generators.startIndexing(root.getJSONObject("index"));
         generators.startGeneration();
+        emitter.broadcast(Orchid.Events.BUILD_FINISH);
     }
 
     @Override

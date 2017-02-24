@@ -52,6 +52,7 @@ public class ServeTask extends OrchidTask implements EventListener {
                 JSONObject rootJson = context.getRoot();
                 JSONObject optionsJson = rootJson.getJSONObject("options");
 
+                context.build();
                 server.start(8080);
 
                 optionsJson.put("baseUrl", "http://localhost:" + server.getPort());

@@ -11,3 +11,6 @@ github:
   username: 'JavaEden'
   repo: 'Orchid'
   branch: 'master'
+
+disabledGenerators:
+  - 'ClassesGenerator'
