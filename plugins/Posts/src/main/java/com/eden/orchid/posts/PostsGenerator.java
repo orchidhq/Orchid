@@ -5,8 +5,10 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.OrchidReference;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
@@ -48,6 +50,44 @@ public class PostsGenerator extends OrchidGenerator {
 
     @Override
     public List<OrchidPage> startIndexing() {
+        List<OrchidPage> posts = getPostsList();
+        List<OrchidPage> archive = buildArchive(posts);
+
+        List<OrchidPage> allPages = new ArrayList<>();
+        allPages.addAll(posts);
+        allPages.addAll(archive);
+
+        return allPages;
+    }
+
+    @Override
+    public void startGeneration(List<OrchidPage> posts) {
+        for (OrchidPage post : posts) {
+            post.renderTemplate();
+        }
+    }
+
+    public OrchidPage previous(List<OrchidPage> posts, int i) {
+        if (posts.size() > 1) {
+            if (i != 0) {
+                return posts.get(i - 1);
+            }
+        }
+
+        return null;
+    }
+
+    public OrchidPage next(List<OrchidPage> posts, int i) {
+        if (posts.size() > 1) {
+            if (i < posts.size() - 1) {
+                return posts.get(i + 1);
+            }
+        }
+
+        return null;
+    }
+
+    private List<OrchidPage> getPostsList() {
         List<OrchidResource> resourcesList = resources.getLocalResourceEntries("posts", null, true);
         List<OrchidPage> posts = new ArrayList<>();
 
@@ -57,8 +97,8 @@ public class PostsGenerator extends OrchidGenerator {
             if (matcher.matches()) {
                 JSONObject pageData =
                         (OrchidUtils.elementIsObject(entry.getEmbeddedData()))
-                        ? (JSONObject) entry.getEmbeddedData().getElement()
-                        : new JSONObject();
+                                ? (JSONObject) entry.getEmbeddedData().getElement()
+                                : new JSONObject();
 
                 int year = Integer.parseInt(matcher.group(1));
                 int month = Integer.parseInt(matcher.group(2));
@@ -152,30 +192,34 @@ public class PostsGenerator extends OrchidGenerator {
         return posts;
     }
 
-    @Override
-    public void startGeneration(List<OrchidPage> posts) {
-        for (OrchidPage post : posts) {
-            post.renderTemplate();
-        }
-    }
+    private List<OrchidPage> buildArchive(List<OrchidPage> posts) {
+        List<OrchidPage> archivePages = new ArrayList<>();
 
-    public OrchidPage previous(List<OrchidPage> posts, int i) {
-        if (posts.size() > 1) {
-            if (i != 0) {
-                return posts.get(i - 1);
-            }
-        }
+        int pageSize = 4;
+        int pages = (int) Math.ceil(posts.size() / pageSize);
 
-        return null;
-    }
+        for (int i = 0; i <= pages; i++) {
+            OrchidReference pageRef = new OrchidReference(context, "archive/page/" + (i + 1) + ".html");
+            pageRef.setUsePrettyUrl(true);
+            pageRef.setTitle("Archives (Page " + (i + 1) + ")");
+            OrchidResource pageResource = new StringResource("", pageRef);
+            OrchidPage page = new OrchidPage(pageResource);
 
-    public OrchidPage next(List<OrchidPage> posts, int i) {
-        if (posts.size() > 1) {
-            if (i < posts.size() - 1) {
-                return posts.get(i + 1);
-            }
+            page.getData().put("page", i + 1);
+            page.getData().put("pageSize", pageSize);
+
+            page.setType("postArchive");
+
+            archivePages.add(page);
         }
 
-        return null;
+        int i = 0;
+        for (OrchidPage post : archivePages) {
+            if (next(posts, i) != null) { post.setNext(next(archivePages, i)); }
+            if (previous(posts, i) != null) { post.setPrevious(previous(archivePages, i)); }
+            i++;
+        }
+
+        return archivePages;
     }
 }

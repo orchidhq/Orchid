@@ -1,0 +1,14 @@
+{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/index.twig"] %}
+
+{% block mainContent %}
+
+    <section>
+        {% set blogPages = index.posts.blog | walk('url') | sortPosts | limit(postArchive.pageSize, postArchive.page) %}
+        <ul>
+            {% for blogPage in blogPages %}
+                <li><h1><a href="{{- blogPage.url -}}">{{- blogPage.name -}}</a></h1></li>
+            {% endfor %}
+        </ul>
+    </section>
+
+{% endblock %}

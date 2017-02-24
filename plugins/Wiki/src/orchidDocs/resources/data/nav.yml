@@ -1,5 +1,3 @@
 
-- type: taxonomy
-  name: Classes
-  path: internalClasses
+- type: classes
 - type: wiki

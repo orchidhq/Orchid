@@ -64,6 +64,9 @@ public class OrchidPage {
                 }
             }
         }
+        else {
+            this.data = new JSONObject();
+        }
     }
 
     /**

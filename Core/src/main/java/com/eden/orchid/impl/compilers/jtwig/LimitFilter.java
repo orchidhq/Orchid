@@ -28,19 +28,39 @@ public class LimitFilter implements JtwigFunction {
                                      .minimumNumberOfArguments(2)
                                      .getArguments();
 
-        if(fnParams.size() == 2) {
-            List list = (List) fnParams.get(0);
-            int count = Integer.parseInt(fnParams.get(1).toString());
+        try {
+            if(fnParams.size() == 2) {
+                List list = (List) fnParams.get(0);
+                int count = Integer.parseInt(fnParams.get(1).toString());
 
-            return list.subList(0, count);
+                if(count >= list.size()) {
+                    count = list.size();
+                }
+
+                return list.subList(0, count);
+            }
+            else if(fnParams.size() == 3) {
+                List list = (List) fnParams.get(0);
+                int count = Integer.parseInt(fnParams.get(1).toString());
+                int page = Integer.parseInt(fnParams.get(2).toString());
+
+                int offset = (page - 1) * count;
+                int offsetEnd = offset + count;
+
+                if(offset >= list.size()) {
+                    offset = list.size() - 1;
+                    offsetEnd = offset;
+                }
+
+                if(offsetEnd >= list.size()) {
+                    offsetEnd = list.size();
+                }
+
+                return list.subList(offset, offsetEnd);
+            }
         }
-        else if(fnParams.size() == 3) {
-            List list = (List) fnParams.get(0);
-            int count = Integer.parseInt(fnParams.get(1).toString());
-            int page = Integer.parseInt(fnParams.get(2).toString());
-            int offset = (page - 1) * count;
-            
-            return list.subList(offset, offset + count);
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;
