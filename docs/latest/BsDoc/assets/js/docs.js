@@ -118,16 +118,21 @@ function buildNav() {
     $('a').click(function() {
         var href = $.attr(this, 'href');
 
-        var target = $(href);
+        if(href.startsWith('#')) {
+            var target = $(href);
 
-        if(target.length != 0) {
-            $root.animate({
-                scrollTop: target.offset().top - 72
-            }, 500, function () {
-                window.location.hash = href;
-            });
+            if(target.length != 0) {
+                $root.animate({
+                    scrollTop: target.offset().top - 72
+                }, 500, function () {
+                    window.location.hash = href;
+                });
 
-            return false;
+                return false;
+            }
+            else {
+                return true;
+            }
         }
         else {
             return true;

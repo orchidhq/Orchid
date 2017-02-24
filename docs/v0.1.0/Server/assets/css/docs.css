@@ -12,22 +12,22 @@ body {
   font-weight: 400; }
 
 .btn-outline {
-  color: #965252;
+  color: #99ed7b;
   background-color: transparent;
-  border-color: #965252; }
+  border-color: #99ed7b; }
 
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active {
   color: #fff;
-  background-color: #965252;
-  border-color: #965252; }
+  background-color: #99ed7b;
+  border-color: #99ed7b; }
 
 .btn-outline-inverse {
   color: #fff;
   background-color: transparent;
-  border-color: #f7f0f0; }
+  border-color: white; }
 
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
-  color: #965252;
+  color: #99ed7b;
   text-shadow: none;
   background-color: #fff;
   border-color: #fff; }
@@ -36,7 +36,7 @@ body {
   display: block;
   font-weight: 500;
   color: #fff;
-  background-color: #965252;
+  background-color: #99ed7b;
   border-radius: 15%;
   cursor: default;
   text-align: center; }
@@ -54,12 +54,12 @@ body {
   line-height: 140px; }
 
 .bs-docs-booticon-inverse {
-  color: #965252;
+  color: #99ed7b;
   background-color: #fff; }
 
 .bs-docs-booticon-outline {
   background-color: transparent;
-  border: 1px solid #f7f0f0; }
+  border: 1px solid white; }
 
 .bs-docs-nav {
   margin-bottom: 0;
@@ -70,15 +70,15 @@ body {
   display: none; }
 
 .bs-docs-nav .navbar-brand, .bs-docs-nav .navbar-nav > li > a {
-  color: #965252;
+  color: #99ed7b;
   font-weight: 500; }
 
 .bs-docs-nav .navbar-nav > li > a:hover, .bs-docs-nav .navbar-nav > .active > a, .bs-docs-nav .navbar-nav > .active > a:hover {
-  color: #754040;
+  color: #76e74e;
   background-color: #f9f9f9; }
 
 .bs-docs-nav .navbar-toggle .icon-bar {
-  background-color: #965252; }
+  background-color: #99ed7b; }
 
 .bs-docs-nav .navbar-header .navbar-toggle {
   border-color: #fff; }
@@ -136,12 +136,12 @@ body {
 .bs-docs-masthead, .bs-docs-header {
   position: relative;
   padding: 30px 15px;
-  color: #f7f0f0;
+  color: white;
   text-align: center;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background-color: #af6c6c;
-  background-image: -webkit-linear-gradient(top, #965252 0, #af6c6c 100%);
-  background-image: linear-gradient(to bottom, #965252 0, #af6c6c 100%);
+  background-color: #bcf3a8;
+  background-image: -webkit-linear-gradient(top, #99ed7b 0, #bcf3a8 100%);
+  background-image: linear-gradient(to bottom, #99ed7b 0, #bcf3a8 100%);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1',  endColorstr='lighten($color1, 10%)',  GradientType=0); }
 
@@ -161,7 +161,7 @@ body {
 .bs-docs-masthead .version {
   margin-top: -15px;
   margin-bottom: 30px;
-  color: #ca9e9e; }
+  color: #f0fceb; }
 
 .bs-docs-masthead .btn {
   width: 100%;
@@ -204,7 +204,7 @@ body {
 
 @media (min-width: 768px) {
   .bs-docs-header {
-    padding-top: 60px;
+    padding-top: 110px;
     padding-bottom: 60px;
     font-size: 24px;
     text-align: left; }
@@ -226,7 +226,7 @@ body {
   line-height: 16px !important;
   text-align: left;
   background: transparent !important;
-  border: solid #c18d8d !important;
+  border: solid #def9d5 !important;
   border-width: 1px 0 !important; }
 
 .carbonad-img {
@@ -371,17 +371,17 @@ body {
 
 .bs-docs-sidebar .nav > li > a:hover, .bs-docs-sidebar .nav > li > a:focus {
   padding-left: 19px;
-  color: #965252;
+  color: #99ed7b;
   text-decoration: none;
   background-color: transparent;
-  border-left: 1px solid #965252; }
+  border-left: 1px solid #99ed7b; }
 
 .bs-docs-sidebar .nav > .active > a, .bs-docs-sidebar .nav > .active:hover > a, .bs-docs-sidebar .nav > .active:focus > a {
   padding-left: 18px;
   font-weight: 700;
-  color: #965252;
+  color: #99ed7b;
   background-color: transparent;
-  border-left: 2px solid #965252; }
+  border-left: 2px solid #99ed7b; }
 
 .bs-docs-sidebar .nav .nav {
   display: none;
@@ -412,7 +412,7 @@ body {
 
 .back-to-top:hover {
   text-decoration: none;
-  color: #965252; }
+  color: #99ed7b; }
 
 @media (min-width: 768px) {
   .back-to-top {
@@ -530,7 +530,7 @@ h1[id] {
   background-color: #5bc0de; }
 
 .color-swatches .bs-purple {
-  background-color: #965252; }
+  background-color: #99ed7b; }
 
 .color-swatches .bs-purple-light {
   background-color: #c7bfd3; }
@@ -869,7 +869,7 @@ h1[id] {
 
 .bs-glyphicons li:hover {
   color: #fff;
-  background-color: #965252; }
+  background-color: #99ed7b; }
 
 @media (min-width: 768px) {
   .bs-glyphicons {
@@ -958,7 +958,7 @@ h1[id] {
   width: 100%;
   margin-bottom: 15px;
   overflow: hidden;
-  color: #965252;
+  color: #99ed7b;
   background-color: #f9f9f9;
   border-radius: 4px; }
 
@@ -971,7 +971,7 @@ h1[id] {
 
 .bs-brand-logos .inverse {
   color: #fff;
-  background-color: #965252; }
+  background-color: #99ed7b; }
 
 .bs-brand-item h1, .bs-brand-item h3 {
   margin-top: 0;

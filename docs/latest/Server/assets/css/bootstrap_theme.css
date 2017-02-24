@@ -1,64 +1,64 @@
 .bs-docs-nav {
-  border-bottom: medium solid #b87d7d !important;
+  border-bottom: medium solid #cdf6be !important;
   -webkit-box-shadow: 0px 3px 12px 0px #888;
   -moz-box-shadow: 0px 3px 12px 0px #888;
   box-shadow: 0px 3px 12px 0px #888; }
   .bs-docs-nav .navbar-brand, .bs-docs-nav .navbar-nav > li > a {
     color: #000000; }
     .bs-docs-nav .navbar-brand:hover, .bs-docs-nav .navbar-nav > li > a:hover {
-      color: #965252; }
+      color: #99ed7b; }
   .bs-docs-nav .navbar-nav > li > a:hover, .bs-docs-nav .navbar-nav > .active > a, .bs-docs-nav .navbar-nav > .active > a:hover {
-    color: #965252; }
+    color: #99ed7b; }
 
 .bs-docs-sidebar .nav > .active > a, .bs-docs-sidebar .nav > .active:hover > a, .bs-docs-sidebar .nav > .active:focus > a {
-  color: #965252;
-  border-left: 2px solid #965252; }
+  color: #99ed7b;
+  border-left: 2px solid #99ed7b; }
 
 .bs-docs-sidebar .nav > li > a:hover, .bs-docs-sidebar .nav > li > a:focus {
-  color: #965252;
-  border-left: 1px solid #965252; }
+  color: #99ed7b;
+  border-left: 1px solid #99ed7b; }
 
 .bs-docs-sidebar.affix {
   top: 72px !important; }
 
 .back-to-top:hover {
-  color: #965252; }
+  color: #99ed7b; }
 
 a {
-  color: #c18d8d; }
+  color: #def9d5; }
 
 a:hover {
-  color: #af6c6c; }
+  color: #bcf3a8; }
 
 .bs-docs-masthead .version {
-  color: #ca9e9e; }
+  color: #f0fceb; }
 
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
-  color: #965252; }
+  color: #99ed7b; }
 
 .btn-outline-inverse {
-  border-color: #ca9e9e; }
+  border-color: #f0fceb; }
 
 blockquote {
   border-left: 5px solid #000000; }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-  background-color: #ca9e9e; }
+  background-color: #f0fceb; }
 
 #jumbotron {
   background: #000000;
-  background: linear-gradient(135deg, #000000, #965252); }
+  background: linear-gradient(135deg, #000000, #99ed7b); }
 
 body .github-fork-ribbon.left-top:before, body .github-fork-ribbon.left-top:after, body .github-fork-ribbon.left-bottom:before, body .github-fork-ribbon.left-bottom:after {
   right: auto;
   left: -3.25em; }
 
-body .github-fork-ribbon.left-top, body .github-fork-ribbon.left-bottom {
+body .github-fork-ribbon.left-top, body .github-fork-ribbon.right-top {
   top: 50px;
   z-index: 1; }
 
 body .github-fork-ribbon:before {
-  background-color: #965252; }
+  background-color: #99ed7b; }
 
 body .github-fork-ribbon:before, body .github-fork-ribbon:after {
   position: absolute;
@@ -168,7 +168,7 @@ body.sidebar-layout {
   body.sidebar-layout .nav-sidebar > .active > a:hover,
   body.sidebar-layout .nav-sidebar > .active > a:focus {
     color: #fff;
-    background-color: #d3aeae; }
+    background-color: white; }
   body.sidebar-layout .main {
     padding: 20px; }
   @media (min-width: 768px) {

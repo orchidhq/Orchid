@@ -9,8 +9,8 @@
 
 <!-- start:inject SEO data -->
 
-    <title>Orchid Wiki</title>
-    <script>window.title = 'Orchid Wiki';</script>
+    <title>Home</title>
+    <script>window.title = 'Home';</script>
 
 
 
@@ -55,12 +55,12 @@
 </head>
 <body>
 
-
-    <a class="github-fork-ribbon left-top"
+<a class="github-fork-ribbon left-top"
    href="https://github.com/JavaEden/Orchid"
    title="Fork me on GitHub">Fork me on GitHub</a>
 
-<header class="navbar navbar-fixed-top bs-docs-nav" id="top">
+
+    <header class="navbar navbar-fixed-top bs-docs-nav" id="top">
     <div class="container">
         <div class="navbar-header" role="banner">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -77,28 +77,81 @@
                     
                         
 
+    
 
+    
+            
 
-                    
-                        
+    
+
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-           aria-expanded="false">Wiki <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All Classes <span class="caret"></span></a>
         <ul class="dropdown-menu scrollable-menu">
             
                 
-                    <li><a href="https://javaeden.github.io/Orchid/latest/Wiki/wiki/about">About</a></li>
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator">WikiGenerator</a></li>
                 
-                    <li><a href="https://javaeden.github.io/Orchid/latest/Wiki/wiki/get_started">Get Started</a></li>
+            
                 
-                    <li><a href="https://javaeden.github.io/Orchid/latest/Wiki/wiki/summary">Summary</a></li>
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule">WikiModule</a></li>
                 
-                    <li><a href="https://javaeden.github.io/Orchid/latest/Wiki/wiki/glossary">Glossary</a></li>
+            
+                
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption">WikiPathOption</a></li>
                 
             
         </ul>
     </li>
 
+
+                    
+                        
+
+    
+
+    
+        
+    
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+            
+
+    
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Wiki <span class="caret"></span></a>
+        <ul class="dropdown-menu scrollable-menu">
+            
+                
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/latest/Wiki/wiki/summary">Summary</a></li>
+                
+            
+                
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/latest/Wiki/wiki/glossary">Glossary</a></li>
+                
+            
+        </ul>
+    </li>
 
 
                     
@@ -230,9 +283,6 @@ SOFTWARE.</p>
                     
 
                     
-
-                    
-                    
                 </ul>
             </nav>
         </div>
@@ -269,33 +319,234 @@ SOFTWARE.</p>
   "assets": {
     "css": {"files": [
       {
+        "data": {},
         "name": "bootstrap_theme",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/css/bootstrap_theme.css"
       },
       {
+        "data": {},
         "name": "docs",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/css/docs.css"
       },
       {
+        "data": {},
         "name": "sassfile1",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/css/sassfile1.css"
       }
     ]},
     "js": {"files": [{
+      "data": {},
       "name": "docs",
       "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/js/docs.js"
     }]}
   },
   "classes": {"com": {"eden": {"orchid": {"wiki": {
     "WikiPathOption": {"files": [{
+      "data": {
+        "constructors": [{}],
+        "methods": [
+          {
+            "name": "getFlag",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "getDescription",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "parseOption",
+            "returns": {
+              "qualifiedName": "com.eden.common.json.JSONElement",
+              "name": "JSONElement",
+              "dimension": ""
+            },
+            "parameters": [{
+              "name": "options",
+              "type": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": "[]"
+              }
+            }]
+          },
+          {
+            "name": "isRequired",
+            "returns": {
+              "qualifiedName": "boolean",
+              "name": "boolean",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "getDefaultValue",
+            "returns": {
+              "qualifiedName": "com.eden.common.json.JSONElement",
+              "name": "JSONElement",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "optionLength",
+            "returns": {
+              "qualifiedName": "int",
+              "name": "int",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "getPath",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "setPath",
+            "returns": {
+              "qualifiedName": "void",
+              "name": "void",
+              "dimension": ""
+            },
+            "parameters": [{
+              "name": "path",
+              "type": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": ""
+              }
+            }]
+          }
+        ],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.wiki",
+          "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
+          "name": "WikiPathOption",
+          "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
+        }
+      },
       "name": "WikiPathOption",
       "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
     }]},
     "WikiGenerator": {"files": [{
+      "data": {
+        "constructors": [{"parameters": [
+          {
+            "name": "context",
+            "type": {
+              "qualifiedName": "com.eden.orchid.api.OrchidContext",
+              "name": "OrchidContext",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "resources",
+            "type": {
+              "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+              "name": "OrchidResources",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "option",
+            "type": {
+              "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
+              "name": "WikiPathOption",
+              "dimension": ""
+            }
+          }
+        ]}],
+        "methods": [
+          {
+            "name": "getName",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "getDescription",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "startIndexing",
+            "returns": {
+              "qualifiedName": "java.util.List",
+              "name": "List",
+              "dimension": "",
+              "typeParameters": [{
+                "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+                "name": "OrchidPage",
+                "dimension": ""
+              }]
+            }
+          },
+          {
+            "name": "startGeneration",
+            "returns": {
+              "qualifiedName": "void",
+              "name": "void",
+              "dimension": ""
+            },
+            "parameters": [{
+              "name": "pages",
+              "type": {
+                "qualifiedName": "java.util.List",
+                "name": "List",
+                "dimension": "",
+                "typeParameters": [{
+                  "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+                  "name": "OrchidPage",
+                  "dimension": ""
+                }]
+              }
+            }]
+          }
+        ],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.wiki",
+          "qualifiedName": "com.eden.orchid.wiki.WikiGenerator",
+          "name": "WikiGenerator",
+          "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
+        }
+      },
       "name": "WikiGenerator",
       "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
     }]},
     "WikiModule": {"files": [{
+      "data": {
+        "constructors": [{}],
+        "methods": [{
+          "name": "configure",
+          "returns": {
+            "qualifiedName": "void",
+            "name": "void",
+            "dimension": ""
+          }
+        }],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.wiki",
+          "qualifiedName": "com.eden.orchid.wiki.WikiModule",
+          "name": "WikiModule",
+          "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
+        }
+      },
       "name": "WikiModule",
       "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
     }]}
@@ -303,41 +554,44 @@ SOFTWARE.</p>
   "wiki": {
     "writing": {"files": [
       {
+        "data": {},
         "name": "Glossary",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/writing/glossary"
       },
       {
+        "data": {},
         "name": "Summary",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/writing/summary"
       },
       {
+        "data": {},
         "name": "Wiki Pages",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/writing/pages"
       }
     ]},
     "files": [
       {
+        "data": {},
         "name": "About",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/about"
       },
       {
+        "data": {},
         "name": "Get Started",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/get_started"
       },
       {
+        "data": {},
         "name": "Summary",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/summary"
       },
       {
+        "data": {},
         "name": "Glossary",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/glossary"
       }
     ]
-  },
-  "home": {"files": [{
-    "name": "Home",
-    "url": "https://javaeden.github.io/Orchid/latest/Wiki/index.html"
-  }]}
+  }
 };</script>
 
 
@@ -354,11 +608,7 @@ SOFTWARE.</p>
     },
     "d": "/Users/cbrooks/Documents/personal/java/eden/Orchid/plugins/Wiki/build/docs/javadoc",
     "data": {"nav": [
-      {
-        "path": "internalClasses",
-        "name": "Classes",
-        "type": "taxonomy"
-      },
+      {"type": "classes"},
       {"type": "wiki"}
     ]},
     "commentExt": "md",
@@ -393,33 +643,234 @@ SOFTWARE.</p>
     "assets": {
       "css": {"files": [
         {
+          "data": {},
           "name": "bootstrap_theme",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/css/bootstrap_theme.css"
         },
         {
+          "data": {},
           "name": "docs",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/css/docs.css"
         },
         {
+          "data": {},
           "name": "sassfile1",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/css/sassfile1.css"
         }
       ]},
       "js": {"files": [{
+        "data": {},
         "name": "docs",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/assets/js/docs.js"
       }]}
     },
     "classes": {"com": {"eden": {"orchid": {"wiki": {
       "WikiPathOption": {"files": [{
+        "data": {
+          "constructors": [{}],
+          "methods": [
+            {
+              "name": "getFlag",
+              "returns": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "getDescription",
+              "returns": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "parseOption",
+              "returns": {
+                "qualifiedName": "com.eden.common.json.JSONElement",
+                "name": "JSONElement",
+                "dimension": ""
+              },
+              "parameters": [{
+                "name": "options",
+                "type": {
+                  "qualifiedName": "java.lang.String",
+                  "name": "String",
+                  "dimension": "[]"
+                }
+              }]
+            },
+            {
+              "name": "isRequired",
+              "returns": {
+                "qualifiedName": "boolean",
+                "name": "boolean",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "getDefaultValue",
+              "returns": {
+                "qualifiedName": "com.eden.common.json.JSONElement",
+                "name": "JSONElement",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "optionLength",
+              "returns": {
+                "qualifiedName": "int",
+                "name": "int",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "getPath",
+              "returns": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "setPath",
+              "returns": {
+                "qualifiedName": "void",
+                "name": "void",
+                "dimension": ""
+              },
+              "parameters": [{
+                "name": "path",
+                "type": {
+                  "qualifiedName": "java.lang.String",
+                  "name": "String",
+                  "dimension": ""
+                }
+              }]
+            }
+          ],
+          "fields": [],
+          "info": {
+            "package": "com.eden.orchid.wiki",
+            "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
+            "name": "WikiPathOption",
+            "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
+          }
+        },
         "name": "WikiPathOption",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiPathOption"
       }]},
       "WikiGenerator": {"files": [{
+        "data": {
+          "constructors": [{"parameters": [
+            {
+              "name": "context",
+              "type": {
+                "qualifiedName": "com.eden.orchid.api.OrchidContext",
+                "name": "OrchidContext",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "resources",
+              "type": {
+                "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
+                "name": "OrchidResources",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "option",
+              "type": {
+                "qualifiedName": "com.eden.orchid.wiki.WikiPathOption",
+                "name": "WikiPathOption",
+                "dimension": ""
+              }
+            }
+          ]}],
+          "methods": [
+            {
+              "name": "getName",
+              "returns": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "getDescription",
+              "returns": {
+                "qualifiedName": "java.lang.String",
+                "name": "String",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "startIndexing",
+              "returns": {
+                "qualifiedName": "java.util.List",
+                "name": "List",
+                "dimension": "",
+                "typeParameters": [{
+                  "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+                  "name": "OrchidPage",
+                  "dimension": ""
+                }]
+              }
+            },
+            {
+              "name": "startGeneration",
+              "returns": {
+                "qualifiedName": "void",
+                "name": "void",
+                "dimension": ""
+              },
+              "parameters": [{
+                "name": "pages",
+                "type": {
+                  "qualifiedName": "java.util.List",
+                  "name": "List",
+                  "dimension": "",
+                  "typeParameters": [{
+                    "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+                    "name": "OrchidPage",
+                    "dimension": ""
+                  }]
+                }
+              }]
+            }
+          ],
+          "fields": [],
+          "info": {
+            "package": "com.eden.orchid.wiki",
+            "qualifiedName": "com.eden.orchid.wiki.WikiGenerator",
+            "name": "WikiGenerator",
+            "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
+          }
+        },
         "name": "WikiGenerator",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiGenerator"
       }]},
       "WikiModule": {"files": [{
+        "data": {
+          "constructors": [{}],
+          "methods": [{
+            "name": "configure",
+            "returns": {
+              "qualifiedName": "void",
+              "name": "void",
+              "dimension": ""
+            }
+          }],
+          "fields": [],
+          "info": {
+            "package": "com.eden.orchid.wiki",
+            "qualifiedName": "com.eden.orchid.wiki.WikiModule",
+            "name": "WikiModule",
+            "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
+          }
+        },
         "name": "WikiModule",
         "url": "https://javaeden.github.io/Orchid/latest/Wiki/classes/com/eden/orchid/wiki/WikiModule"
       }]}
@@ -427,32 +878,39 @@ SOFTWARE.</p>
     "wiki": {
       "writing": {"files": [
         {
+          "data": {},
           "name": "Glossary",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/writing/glossary"
         },
         {
+          "data": {},
           "name": "Summary",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/writing/summary"
         },
         {
+          "data": {},
           "name": "Wiki Pages",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/writing/pages"
         }
       ]},
       "files": [
         {
+          "data": {},
           "name": "About",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/about"
         },
         {
+          "data": {},
           "name": "Get Started",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/get_started"
         },
         {
+          "data": {},
           "name": "Summary",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/summary"
         },
         {
+          "data": {},
           "name": "Glossary",
           "url": "https://javaeden.github.io/Orchid/latest/Wiki/wiki/glossary"
         }
@@ -460,6 +918,7 @@ SOFTWARE.</p>
     }
   },
   "readme": "<h1>Orchid<\/h1>\n<p><a href=\"https://travis-ci.org/JavaEden/Orchid\"><img src=\"https://travis-ci.org/JavaEden/Orchid.svg?branch=master\" alt=\"Build Status\" /><\/a><\/p>\n<p>Orchid is a modern, extensible, theme-ready Javadoc site generator.<\/p>\n",
+  "type": "page",
   "title": "Home",
   "content": ""
 };</script>
@@ -494,11 +953,7 @@ SOFTWARE.</p>
   },
   "d": "/Users/cbrooks/Documents/personal/java/eden/Orchid/plugins/Wiki/build/docs/javadoc",
   "data": {"nav": [
-    {
-      "path": "internalClasses",
-      "name": "Classes",
-      "type": "taxonomy"
-    },
+    {"type": "classes"},
     {"type": "wiki"}
   ]},
   "commentExt": "md",

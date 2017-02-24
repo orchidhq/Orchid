@@ -28,8 +28,8 @@
 .directoryListing input[type='button'],
 .directoryListing input[type='reset'],
 .directoryListing input[type='submit'] {
-  background-color: #965252;
-  border: 0.1rem solid #965252;
+  background-color: #99ed7b;
+  border: 0.1rem solid #99ed7b;
   border-radius: .4rem;
   color: #fff;
   cursor: pointer;
@@ -73,15 +73,15 @@
     .directoryListing input[type='reset'][disabled]:hover,
     .directoryListing input[type='submit'][disabled]:focus,
     .directoryListing input[type='submit'][disabled]:hover {
-      background-color: #965252;
-      border-color: #965252; }
+      background-color: #99ed7b;
+      border-color: #99ed7b; }
   .directoryListing .button.button-outline,
   .directoryListing button.button-outline,
   .directoryListing input[type='button'].button-outline,
   .directoryListing input[type='reset'].button-outline,
   .directoryListing input[type='submit'].button-outline {
     background-color: transparent;
-    color: #965252; }
+    color: #99ed7b; }
     .directoryListing .button.button-outline:focus, .directoryListing .button.button-outline:hover,
     .directoryListing button.button-outline:focus,
     .directoryListing button.button-outline:hover,
@@ -104,7 +104,7 @@
     .directoryListing input[type='submit'].button-outline[disabled]:focus,
     .directoryListing input[type='submit'].button-outline[disabled]:hover {
       border-color: inherit;
-      color: #965252; }
+      color: #99ed7b; }
   .directoryListing .button.button-clear,
   .directoryListing button.button-clear,
   .directoryListing input[type='button'].button-clear,
@@ -112,7 +112,7 @@
   .directoryListing input[type='submit'].button-clear {
     background-color: transparent;
     border-color: transparent;
-    color: #965252; }
+    color: #99ed7b; }
     .directoryListing .button.button-clear:focus, .directoryListing .button.button-clear:hover,
     .directoryListing button.button-clear:focus,
     .directoryListing button.button-clear:hover,
@@ -134,7 +134,7 @@
     .directoryListing input[type='reset'].button-clear[disabled]:hover,
     .directoryListing input[type='submit'].button-clear[disabled]:focus,
     .directoryListing input[type='submit'].button-clear[disabled]:hover {
-      color: #965252; }
+      color: #99ed7b; }
 
 .directoryListing code {
   background: #f4f5f6;
@@ -146,7 +146,7 @@
 
 .directoryListing pre {
   background: #f4f5f6;
-  border-left: 0.3rem solid #965252;
+  border-left: 0.3rem solid #99ed7b;
   overflow-y: hidden; }
   .directoryListing pre > code {
     border-radius: 0;
@@ -186,7 +186,7 @@
   .directoryListing input[type='url']:focus,
   .directoryListing textarea:focus,
   .directoryListing select:focus {
-    border-color: #965252;
+    border-color: #99ed7b;
     outline: 0; }
 
 .directoryListing select {
@@ -320,7 +320,7 @@
       padding: 0 1.0rem; } }
 
 .directoryListing a {
-  color: #965252;
+  color: #99ed7b;
   text-decoration: none; }
   .directoryListing a:focus, .directoryListing a:hover {
     color: #606c76; }
@@ -455,7 +455,7 @@
   background: white;
   border-radius: 0.4rem;
   box-shadow: 0px 2px 12px -3px rgba(0, 0, 0, 0.75);
-  border-left: 0.3rem solid #965252; }
+  border-left: 0.3rem solid #99ed7b; }
 
 .directoryListing table td.fileTypeIcon {
   width: 48px;

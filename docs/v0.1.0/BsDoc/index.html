@@ -9,8 +9,8 @@
 
 <!-- start:inject SEO data -->
 
-    <title>Orchid BSDoc Theme</title>
-    <script>window.title = 'Orchid BSDoc Theme';</script>
+    <title>Home</title>
+    <script>window.title = 'Home';</script>
 
 
 
@@ -55,12 +55,12 @@
 </head>
 <body>
 
-
-    <a class="github-fork-ribbon left-top"
+<a class="github-fork-ribbon left-top"
    href="https://github.com/JavaEden/Orchid"
    title="Fork me on GitHub">Fork me on GitHub</a>
 
-<header class="navbar navbar-fixed-top bs-docs-nav" id="top">
+
+    <header class="navbar navbar-fixed-top bs-docs-nav" id="top">
     <div class="container">
         <div class="navbar-header" role="banner">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -77,6 +77,31 @@
                     
                         
 
+    
+
+    
+            
+
+    
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">All Classes <span class="caret"></span></a>
+        <ul class="dropdown-menu scrollable-menu">
+            
+                
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme">BSDocTheme</a></li>
+                
+            
+                
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule">BsDocModule</a></li>
+                
+            
+        </ul>
+    </li>
 
 
                     
@@ -206,9 +231,6 @@ SOFTWARE.</p>
                     
 
                     
-
-                    
-                    
                 </ul>
             </nav>
         </div>
@@ -245,37 +267,109 @@ SOFTWARE.</p>
   "assets": {
     "css": {"files": [
       {
+        "data": {},
         "name": "bootstrap_theme",
         "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/css/bootstrap_theme.css"
       },
       {
+        "data": {},
         "name": "docs",
         "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/css/docs.css"
       },
       {
+        "data": {},
         "name": "sassfile1",
         "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/css/sassfile1.css"
       }
     ]},
     "js": {"files": [{
+      "data": {},
       "name": "docs",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/js/docs.js"
     }]}
   },
   "classes": {"com": {"eden": {"orchid": {"bsdoc": {
     "BSDocTheme": {"files": [{
+      "data": {
+        "constructors": [{"parameters": [
+          {
+            "name": "context",
+            "type": {
+              "qualifiedName": "com.eden.orchid.api.OrchidContext",
+              "name": "OrchidContext",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "precompiler",
+            "type": {
+              "qualifiedName": "com.eden.orchid.api.compilers.OrchidPrecompiler",
+              "name": "OrchidPrecompiler",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "compilers",
+            "type": {
+              "qualifiedName": "java.util.Set",
+              "name": "Set",
+              "dimension": "",
+              "typeParameters": [{
+                "qualifiedName": "com.eden.orchid.api.compilers.OrchidCompiler",
+                "name": "OrchidCompiler",
+                "dimension": ""
+              }]
+            }
+          },
+          {
+            "name": "parsers",
+            "type": {
+              "qualifiedName": "java.util.Set",
+              "name": "Set",
+              "dimension": "",
+              "typeParameters": [{
+                "qualifiedName": "com.eden.orchid.api.compilers.OrchidParser",
+                "name": "OrchidParser",
+                "dimension": ""
+              }]
+            }
+          }
+        ]}],
+        "methods": [],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.bsdoc",
+          "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",
+          "name": "BSDocTheme",
+          "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
+        }
+      },
       "name": "BSDocTheme",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
     }]},
     "BsDocModule": {"files": [{
+      "data": {
+        "constructors": [{}],
+        "methods": [{
+          "name": "configure",
+          "returns": {
+            "qualifiedName": "void",
+            "name": "void",
+            "dimension": ""
+          }
+        }],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.bsdoc",
+          "qualifiedName": "com.eden.orchid.bsdoc.BsDocModule",
+          "name": "BsDocModule",
+          "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
+        }
+      },
       "name": "BsDocModule",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
     }]}
-  }}}}},
-  "home": {"files": [{
-    "name": "Home",
-    "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/index.html"
-  }]}
+  }}}}}
 };</script>
 
 
@@ -291,11 +385,7 @@ SOFTWARE.</p>
       "username": "JavaEden"
     },
     "d": "/Users/cbrooks/Documents/personal/java/eden/Orchid/themes/BsDoc/build/docs/javadoc",
-    "data": {"nav": [{
-      "path": "internalClasses",
-      "name": "Classes",
-      "type": "taxonomy"
-    }]},
+    "data": {"nav": [{"type": "classes"}]},
     "commentExt": "md",
     "v": "v0.1.0",
     "about": {
@@ -320,35 +410,112 @@ SOFTWARE.</p>
     "assets": {
       "css": {"files": [
         {
+          "data": {},
           "name": "bootstrap_theme",
           "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/css/bootstrap_theme.css"
         },
         {
+          "data": {},
           "name": "docs",
           "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/css/docs.css"
         },
         {
+          "data": {},
           "name": "sassfile1",
           "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/css/sassfile1.css"
         }
       ]},
       "js": {"files": [{
+        "data": {},
         "name": "docs",
         "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/js/docs.js"
       }]}
     },
     "classes": {"com": {"eden": {"orchid": {"bsdoc": {
       "BSDocTheme": {"files": [{
+        "data": {
+          "constructors": [{"parameters": [
+            {
+              "name": "context",
+              "type": {
+                "qualifiedName": "com.eden.orchid.api.OrchidContext",
+                "name": "OrchidContext",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "precompiler",
+              "type": {
+                "qualifiedName": "com.eden.orchid.api.compilers.OrchidPrecompiler",
+                "name": "OrchidPrecompiler",
+                "dimension": ""
+              }
+            },
+            {
+              "name": "compilers",
+              "type": {
+                "qualifiedName": "java.util.Set",
+                "name": "Set",
+                "dimension": "",
+                "typeParameters": [{
+                  "qualifiedName": "com.eden.orchid.api.compilers.OrchidCompiler",
+                  "name": "OrchidCompiler",
+                  "dimension": ""
+                }]
+              }
+            },
+            {
+              "name": "parsers",
+              "type": {
+                "qualifiedName": "java.util.Set",
+                "name": "Set",
+                "dimension": "",
+                "typeParameters": [{
+                  "qualifiedName": "com.eden.orchid.api.compilers.OrchidParser",
+                  "name": "OrchidParser",
+                  "dimension": ""
+                }]
+              }
+            }
+          ]}],
+          "methods": [],
+          "fields": [],
+          "info": {
+            "package": "com.eden.orchid.bsdoc",
+            "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",
+            "name": "BSDocTheme",
+            "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
+          }
+        },
         "name": "BSDocTheme",
         "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
       }]},
       "BsDocModule": {"files": [{
+        "data": {
+          "constructors": [{}],
+          "methods": [{
+            "name": "configure",
+            "returns": {
+              "qualifiedName": "void",
+              "name": "void",
+              "dimension": ""
+            }
+          }],
+          "fields": [],
+          "info": {
+            "package": "com.eden.orchid.bsdoc",
+            "qualifiedName": "com.eden.orchid.bsdoc.BsDocModule",
+            "name": "BsDocModule",
+            "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
+          }
+        },
         "name": "BsDocModule",
         "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
       }]}
     }}}}}
   },
   "readme": "<h1>Orchid<\/h1>\n<p><a href=\"https://travis-ci.org/JavaEden/Orchid\"><img src=\"https://travis-ci.org/JavaEden/Orchid.svg?branch=master\" alt=\"Build Status\" /><\/a><\/p>\n<p>Orchid is a modern, extensible, theme-ready Javadoc site generator.<\/p>\n",
+  "type": "page",
   "title": "Home",
   "content": ""
 };</script>
@@ -378,11 +545,7 @@ SOFTWARE.</p>
     "username": "JavaEden"
   },
   "d": "/Users/cbrooks/Documents/personal/java/eden/Orchid/themes/BsDoc/build/docs/javadoc",
-  "data": {"nav": [{
-    "path": "internalClasses",
-    "name": "Classes",
-    "type": "taxonomy"
-  }]},
+  "data": {"nav": [{"type": "classes"}]},
   "commentExt": "md",
   "v": "v0.1.0",
   "about": {

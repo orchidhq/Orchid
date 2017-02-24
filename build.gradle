@@ -50,7 +50,9 @@ configure(ext.mainProjects) {
 
     ext {
         commonTheme = ':themes:BsDoc'
+//        commonTheme = ':themes:Editorial'
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
+//        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
         commonRunTask = "listThemes"
         commonBaseUrl = 'http://localhost:8080'
 

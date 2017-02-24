@@ -53,7 +53,7 @@ body .github-fork-ribbon.left-top:before, body .github-fork-ribbon.left-top:afte
   right: auto;
   left: -3.25em; }
 
-body .github-fork-ribbon.left-top, body .github-fork-ribbon.left-bottom {
+body .github-fork-ribbon.left-top, body .github-fork-ribbon.right-top {
   top: 50px;
   z-index: 1; }
 
