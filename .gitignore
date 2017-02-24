@@ -29,3 +29,6 @@ proguard/
 
 # Keystore files
 *.jks
+
+# Google Analytics
+/**/templates/meta.twig

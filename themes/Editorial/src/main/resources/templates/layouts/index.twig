@@ -9,6 +9,9 @@
     <title>Editorial by HTML5 UP</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+    {% include 'meta.twig' ignore missing %}
+
     <!-- start:inject styles -->
     {% set cssFiles = index.assets.css | walk('url') %}
     {% if cssFiles.size > 0 %}
