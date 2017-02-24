@@ -11,6 +11,7 @@ public class JTwigModule extends OrchidModule {
         addToSet(JtwigFunction.class,
                 CompileAsFilter.class,
                 JsonFilter.class,
+                LimitFilter.class,
                 LinkFilter.class,
                 LinkInFilter.class,
                 QueryFilter.class,

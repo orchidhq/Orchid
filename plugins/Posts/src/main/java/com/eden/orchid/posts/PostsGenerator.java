@@ -127,25 +127,19 @@ public class PostsGenerator extends OrchidGenerator {
         }
 
         posts.sort((o1, o2) -> {
-            int result = o2.getData().optInt("year") - o1.getData().optInt("year");
+            String[] criteria = new String[]{"year", "month", "day", "hour", "minute", "second"};
 
-            if(result == 0) {
-                result = o2.getData().optInt("month") - o1.getData().optInt("month");
-            }
-            if(result == 0) {
-                result = o2.getData().optInt("day") - o1.getData().optInt("day");
-            }
-            if(result == 0) {
-                result = o2.getData().optInt("hour") - o1.getData().optInt("hour");
-            }
-            if(result == 0) {
-                result = o2.getData().optInt("minute") - o1.getData().optInt("minute");
-            }
-            if(result == 0) {
-                result = o2.getData().optInt("second") - o1.getData().optInt("second");
+            for (String item : criteria) {
+                if (o1.getData().has(item) && o1.getData().has(item)) {
+                    int result = o2.getData().optInt(item) - o1.getData().optInt(item);
+
+                    if (result != 0) {
+                        return result;
+                    }
+                }
             }
 
-            return result;
+            return 0;
         });
 
         int i = 0;

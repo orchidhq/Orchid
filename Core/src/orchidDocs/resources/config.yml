@@ -12,5 +12,5 @@ github:
   repo: 'Orchid'
   branch: 'master'
 
-#disabledGenerators:
-#  - 'ClassesGenerator'
+disabledGenerators:
+  - 'ClassesGenerator'

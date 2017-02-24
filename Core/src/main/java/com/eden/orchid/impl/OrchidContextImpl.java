@@ -147,7 +147,6 @@ public final class OrchidContextImpl implements OrchidContext {
         JSONObject root = new JSONObject(getRoot().toMap());
 
         if(!EdenUtils.isEmpty(s)) {
-            Clog.v(s);
             for (String key : new JSONObject(s).keySet()) {
                 root.put(key, new JSONObject(s).get(key));
             }

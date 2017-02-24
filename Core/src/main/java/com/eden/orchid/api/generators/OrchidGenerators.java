@@ -65,6 +65,7 @@ public final class OrchidGenerators {
 
                     pageIndex.put("name", page.getReference().getTitle());
                     pageIndex.put("url", page.getReference().toString());
+                    pageIndex.put("data", page.getData());
 
                     OrchidUtils.buildTaxonomy(page.getResource(), generatorIndex, pageIndex);
 
