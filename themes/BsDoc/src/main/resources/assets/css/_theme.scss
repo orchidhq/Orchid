@@ -1,0 +1,77 @@
+@import "vars";
+
+a {
+  color: lighten($color1, 20%);
+}
+
+a:hover {
+  color: lighten($color1, 10%);
+}
+
+.btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
+  color: $color1;
+}
+
+.btn-outline-inverse {
+  border-color: lighten($color1, 25%);
+}
+
+blockquote {
+  border-left: 5px solid $color2;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+  background-color: lighten($color1, 25%);
+}
+
+.panel-heading {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.panel-title {
+  white-space: nowrap;
+}
+
+.tooltip-inner {
+  max-width: 500px;
+}
+
+.all-classes {
+  ul.pager {
+    text-align: left;
+
+    &.vertical {
+      li {
+        display: block;
+      }
+    }
+
+    li {
+      display: inline-block;
+      margin: 6px 6px 6px 0;
+    }
+  }
+}
+
+.dropdown-menu.scrollable-menu {
+  height: auto;
+  max-height: 350px;
+  overflow-x: scroll;
+}
+
+.panel-body {
+  position: relative;
+
+  .panel-badge {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    border-left: thin solid lightgray;
+    border-bottom: thin solid lightgray;
+    border-bottom-left-radius: 4px;
+    padding: 2px 8px;
+  }
+}

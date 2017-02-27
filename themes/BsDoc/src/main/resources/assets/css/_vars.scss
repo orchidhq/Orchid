@@ -1,0 +1,10 @@
+---
+---
+
+{% if options.config and options.config.colors %}
+$color1: {{ options.config.colors[0] }};
+$color2: {{ options.config.colors[1] }};
+{% else %}
+$color1: #4C376C;
+$color2: #000000;
+{% endif %}

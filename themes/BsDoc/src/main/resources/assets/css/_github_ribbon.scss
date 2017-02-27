@@ -1,0 +1,29 @@
+@import "vars";
+
+body {
+  .github-fork-ribbon.left-top:before, .github-fork-ribbon.left-top:after, .github-fork-ribbon.left-bottom:before, .github-fork-ribbon.left-bottom:after {
+    right: auto;
+    left: -3.25em;
+  }
+
+  .github-fork-ribbon.left-top, .github-fork-ribbon.right-top {
+    top: 50px;
+    z-index: 1;
+  }
+
+  .github-fork-ribbon:before {
+    background-color: $color1;
+  }
+
+  .github-fork-ribbon:before, .github-fork-ribbon:after {
+    position: absolute;
+    display: block;
+    width: 15.25em;
+    height: 2.0em;
+    top: 3.25em;
+  }
+
+  .github-fork-ribbon:before {
+    padding: 1.15em 0 1.15em 0;
+  }
+}

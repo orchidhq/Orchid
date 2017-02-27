@@ -1,0 +1,31 @@
+@import "vars";
+
+#jumbotron {
+  background: $color2;
+  background: linear-gradient(135deg, $color2, $color1);
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    height: 50px;
+    width: 30%;
+    background: linear-gradient(135deg, transparent 50px, white 50px);
+  }
+}
+
+.bs-docs-header h1, .bs-docs-header p {
+  margin-right: 0px;
+}
+
+.bs-docs-masthead, .bs-docs-header {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  margin-bottom: 20px;
+
+  .version {
+    color: lighten($color1, 25%);
+  }
+}

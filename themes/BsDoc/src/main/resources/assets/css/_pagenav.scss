@@ -1,0 +1,34 @@
+@import "vars";
+
+.bs-docs-sidebar {
+  .nav > .active > a, .nav > .active:hover > a, .nav > .active:focus > a {
+    color: $color1;
+
+    border-left: 2px solid $color1;
+  }
+
+  .nav > li > a:hover, .nav > li > a:focus {
+    color: $color1;
+    border-left: 1px solid $color1;
+  }
+
+  &.affix {
+    top: 72px !important;
+  }
+}
+
+.bs-docs-sidebar .nav > li > a {
+  font-size: 15px;
+}
+
+.bs-docs-sidebar .nav .nav > li > a {
+  font-size: 14px;
+}
+
+.back-to-top {
+  font-size: 13px;
+
+  &:hover {
+    color: $color1;
+  }
+}

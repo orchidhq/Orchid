@@ -1,0 +1,29 @@
+@import "vars";
+
+.bs-docs-nav {
+  .navbar-brand, .navbar-nav > li > a {
+    color: $color1;
+    &:hover {
+      color: $color1;
+    }
+  }
+
+  .navbar-nav > li > a:hover, .navbar-nav > .active > a, .navbar-nav > .active > a:hover {
+    color: darken($color1, 15%);
+  }
+
+  border-bottom: medium solid lighten($color1, 15%) !important;
+  -webkit-box-shadow: 0px 3px 12px 0px #888;
+  -moz-box-shadow: 0px 3px 12px 0px #888;
+  box-shadow: 0px 3px 12px 0px #888;
+}
+
+@media (max-width: 767px) {
+  .navbar-nav .open .dropdown-menu > li > a {
+
+    color: $color1;
+    &:hover {
+      color: darken($color1, 15%);
+    }
+  }
+}
