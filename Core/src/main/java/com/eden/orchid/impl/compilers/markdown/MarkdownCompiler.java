@@ -3,6 +3,8 @@ package com.eden.orchid.impl.compilers.markdown;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.options.MutableDataHolder;
+import com.vladsch.flexmark.util.options.MutableDataSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,13 +12,15 @@ import javax.inject.Singleton;
 @Singleton
 public class MarkdownCompiler extends OrchidCompiler {
 
-    HtmlRenderer renderer;
+    private HtmlRenderer renderer;
 
     @Inject
     public MarkdownCompiler() {
-        HtmlRenderer.Builder builder = HtmlRenderer.builder();
+        MutableDataHolder options = new MutableDataSet();
+        options.set(HtmlRenderer.GENERATE_HEADER_ID, true);
+        options.set(HtmlRenderer.RENDER_HEADER_ID, true);
 
-        renderer = HtmlRenderer.builder().build();
+        renderer = HtmlRenderer.builder(options).build();
 
         this.priority = 900;
     }

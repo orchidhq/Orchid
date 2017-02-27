@@ -3,6 +3,8 @@
 - type: wiki
 - type: posts
 - type: link
+  name: All Orchid Projects
+- type: link
   name: About
 - type: link
   name: Contact
