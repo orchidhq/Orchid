@@ -1,0 +1,72 @@
+package com.eden.orchid.javadoc.impl.generators;
+
+
+import com.eden.common.json.JSONElement;
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.resources.resource.JsonResource;
+import com.eden.orchid.javadoc.impl.docParsers.ClassDocParser;
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.RootDoc;
+import org.json.JSONObject;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+
+@Singleton
+public class JavadocClassesGenerator extends OrchidGenerator {
+
+    private RootDoc root;
+
+    private ClassDocParser classDocParser;
+
+    @Inject
+    public JavadocClassesGenerator(OrchidContext context, ClassDocParser classDocParser) {
+        super(context);
+        this.classDocParser = classDocParser;
+        this.priority = 800;
+    }
+
+    @Override
+    public String getName() {
+        return "classes";
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public List<OrchidPage> startIndexing() {
+        root = context.getRootDoc();
+
+        if (root == null) {
+            return null;
+        }
+
+        List<OrchidPage> pages = new ArrayList<>();
+
+        for (ClassDoc classDoc : root.classes()) {
+            JSONObject classInfo = classDocParser.loadClassData(classDoc);
+
+            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), classDocParser.getReference(classDoc)));
+            classPage.setData(classInfo);
+            classPage.getReference().setTitle(classDoc.simpleTypeName());
+
+            classPage.setType("classDoc");
+            pages.add(classPage);
+        }
+
+        return pages;
+    }
+
+    @Override
+    public void startGeneration(List<OrchidPage> pages) {
+        pages.stream()
+             .forEach((page -> page.renderTemplate()));
+    }
+}

@@ -115,9 +115,10 @@ configure(ext.mainProjects) {
 // apply theme-specific configurations to those projects
 configure(ext.themeProjects) {
     dependencies {
-        compile project(":Core")
+        compile project(":Core") // core lib
 
-        orchidDocsCompile project
+        orchidDocsCompile project // theme lib
+        orchidDocsCompile rootProject.ext.pluginProjects // all plugin libs
     }
 
     tasks.jar {
@@ -128,10 +129,10 @@ configure(ext.themeProjects) {
 // apply plugin-specific configurations to those projects
 configure(ext.pluginProjects) {
     dependencies {
-        compile project(":Core")
+        compile project(":Core") // core lib
 
-        orchidDocsCompile project("${project.ext.commonTheme}")
-        orchidDocsCompile project
+        orchidDocsCompile project("${project.ext.commonTheme}") // theme lib
+        orchidDocsCompile rootProject.ext.pluginProjects // all plugin libs
     }
 
     tasks.jar {

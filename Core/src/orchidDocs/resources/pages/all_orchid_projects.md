@@ -35,7 +35,9 @@ A beautiful theme for Orchid created by HTML5 UP.
 <section class="bs-docs-section">
     <h1 id="extensions" class="page-header">Extensions</h1>
     
+### [Javadoc]({{options.baseUrl | replace({'/Core': ''}) }}/Javadoc)
 
+Create beautiful Javadocs for your project within your Orchid site.
 
 ### [Pages]({{options.baseUrl | replace({'/Core': ''}) }}/Pages)
 

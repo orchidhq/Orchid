@@ -1,5 +1,6 @@
 package com.eden.orchid;
 
+import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
@@ -15,7 +16,14 @@ public abstract class OrchidModule extends AbstractModule {
 
         Arrays.stream(objectClasses).forEach(objectClass -> {
             if(setClass.isAssignableFrom(objectClass)) {
-                binder.addBinding().to(objectClass);
+
+                if(Prioritized.class.isAssignableFrom(setClass)) {
+                    bind(objectClass).in(Singleton.class);
+                    binder.addBinding().to(objectClass).in(Singleton.class);
+                }
+                else {
+                    binder.addBinding().to(objectClass);
+                }
             }
         });
     }

@@ -6,8 +6,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
-import com.eden.orchid.api.docParser.OrchidBlockTagHandler;
-import com.eden.orchid.api.docParser.OrchidInlineTagHandler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.render.OrchidRenderer;
@@ -22,18 +20,8 @@ import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
-import com.eden.orchid.impl.docParser.tags.AuthorTag;
-import com.eden.orchid.impl.docParser.tags.DeprecatedTag;
-import com.eden.orchid.impl.docParser.tags.ExceptionTag;
-import com.eden.orchid.impl.docParser.tags.LinkTag;
-import com.eden.orchid.impl.docParser.tags.ReturnTag;
-import com.eden.orchid.impl.docParser.tags.SeeTag;
-import com.eden.orchid.impl.docParser.tags.SinceTag;
-import com.eden.orchid.impl.docParser.tags.ThrowsTag;
-import com.eden.orchid.impl.docParser.tags.VersionTag;
 import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
-import com.eden.orchid.impl.generators.ClassesGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.options.BaseUrlOption;
 import com.eden.orchid.impl.options.CommentLanguageOption;
@@ -97,25 +85,9 @@ public class ImplModule extends OrchidModule {
         addToSet(OrchidPrecompiler.class,
                 FrontMatterPrecompiler.class);
 
-        // Block Tag Handlers
-        addToSet(OrchidBlockTagHandler.class,
-                AuthorTag.class,
-                DeprecatedTag.class,
-                ExceptionTag.class,
-                ReturnTag.class,
-                SeeTag.class,
-                SinceTag.class,
-                ThrowsTag.class,
-                VersionTag.class);
-
-        // Inline Tag Handlers
-        addToSet(OrchidInlineTagHandler.class,
-                LinkTag.class);
-
         // Generators
         addToSet(OrchidGenerator.class,
                 AssetsGenerator.class,
-                ClassesGenerator.class,
                 HomepageGenerator.class);
 
         // Options

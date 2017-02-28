@@ -1,0 +1,13 @@
+
+about:
+  name: Orchid Javadoc
+  description: Create beautiful Javadocs for your project within your Orchid site.
+
+colors:
+  - '#4D7A97'
+  - '#000000'
+
+github:
+  username: 'JavaEden'
+  repo: 'Orchid'
+  branch: 'master'

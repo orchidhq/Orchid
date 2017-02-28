@@ -9,4 +9,6 @@ include 'plugins:Pages'
 include 'plugins:Posts'
 include 'plugins:Wiki'
 include 'plugins:Server'
+include 'plugins:Javadoc'
+findProject(':plugins:Javadoc')?.name = 'Javadoc'
 
