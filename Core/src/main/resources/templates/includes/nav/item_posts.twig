@@ -1,21 +1,50 @@
 {%- if index.posts -%}
     {% import 'macros/nav.twig' as _nav_ %}
 
-    {% set blogPages = index.posts.blog | walk('url') | sortPosts | limit(4) %}
+    {% if not empty(link.category) %}
+        {% set postCount = length(index.posts.blog[link.category]) %}
+        {% set blogPages = index.posts.blog[link.category] %}
+        {% set blogPages = blogPages | walk('url') | sortPosts | limit(4) %}
+    {% else %}
+        {% set postCount = length(index.posts.blog) %}
+        {% set blogPages = index.posts.blog | walk('url') | sortPosts | limit(4) %}
+    {% endif %}
 
-    {% do blogPages.add({type: 'divider'}) %}
+    {% if postCount > 0 %}
+        {% do blogPages.add({type: 'divider'}) %}
 
-    {% if index.posts.archive and index.posts.archive.page %}
-
-        {% set archivePages = index.posts.archive.page | walk('url') %}
+        {% if not empty(link.category) %}
+            {% if index.posts.archive and not empty(index.posts.archive[link.category]) %}
+                {% set archivePages = index.posts.archive[link.category] %}
+                {% set archivePages = archivePages | walk('url') %}
+            {% endif %}
+        {% else %}
+            {% if index.posts.archive and not empty(index.posts.archive) %}
+                {% set archivePages = index.posts.archive | walk('url') %}
+            {% endif %}
+        {% endif %}
 
         {% for archivePage in archivePages %}
             {% if archivePage.name == 'Archives (Page 1)' %}
-                {% do archivePage.put('name', 'Archive') %}
-                {% do blogPages.add(archivePage) %}
+
+                {% if empty(link.category) and archivePage.data.category %}
+                    {% set firstArchivePage = {
+                        'name': concat(archivePage.data.category, ' Archive') | capitalize,
+                        'url': archivePage.url,
+                        'data': archivePage.data
+                    } %}
+                    {% do blogPages.add(firstArchivePage) %}
+                {% else %}
+                    {% set firstArchivePage = {
+                        'name': 'Archive',
+                        'url': archivePage.url,
+                        'data': archivePage.data
+                    } %}
+                    {% do blogPages.add(firstArchivePage) %}
+                {% endif %}
             {% endif %}
         {% endfor %}
-    {% endif %}
 
-    {{- _nav_.createSiteLink(link, blogPages, 'Blog') -}}
+        {{- _nav_.createSiteLink(link, blogPages) -}}
+    {% endif %}
 {%- endif -%}

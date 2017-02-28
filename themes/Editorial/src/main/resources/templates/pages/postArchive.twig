@@ -3,12 +3,32 @@
 {% block mainContent %}
 
     <section>
-        {% set blogPages = index.posts.blog | walk('url') | sortPosts | limit(postArchive.pageSize, postArchive.page) %}
-        <ul>
-            {% for blogPage in blogPages %}
-                <li><h1><a href="{{- blogPage.url -}}">{{- blogPage.name -}}</a></h1></li>
-            {% endfor %}
-        </ul>
+        {% if not empty(page.category) %}
+
+            <h1>All posts in category '{{ page.category }}'</h1>
+
+            {% set postCount = length(index.posts.blog[postArchive.category]) %}
+            {% set blogPages = index.posts.blog[postArchive.category] %}
+            {% set blogPages = blogPages | walk('url') | sortPosts | limit(postArchive.pageSize, postArchive.page) %}
+        {% else %}
+
+            <h1>All blog posts</h1>
+
+            {% set postCount = length(index.posts.blog) %}
+            {% set blogPages = index.posts.blog | walk('url') | sortPosts | limit(postArchive.pageSize, postArchive.page) %}
+        {% endif %}
+
+        {% if postCount > 0 %}
+            <ul>
+                {% for blogPage in blogPages %}
+                    <li><h3><a href="{{- blogPage.url -}}">{{- blogPage.name -}}</a></h3><br><p>{{ blogPage.data.excerpt }}</p></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <ul>
+                <li><h3>There's nothing here yet.</h3></li>
+            </ul>
+        {% endif %}
     </section>
 
 {% endblock %}

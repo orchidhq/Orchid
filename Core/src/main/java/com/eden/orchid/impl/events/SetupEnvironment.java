@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.EventListener;
 
 public class SetupEnvironment implements EventListener {
-    private String[] dataExtensions = new String[] {"yml", "yaml", "json"};
+    private String[] dataExtensions = new String[] {"yml", "yaml", "json", "csv", "tsv"};
     private String[] formats = new String[] {"config-#{$1}.#{$2}", "config.#{$2}"};
 
     private OrchidContext context;

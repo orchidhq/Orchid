@@ -187,7 +187,12 @@ public final class OrchidUtils {
     }
 
     public static String stripSeparators(String str) {
-        return StringUtils.strip(str.trim(), "/" + File.separator);
+        if(str != null) {
+            return StringUtils.strip(str.trim(), "/" + File.separator);
+        }
+        else {
+            return null;
+        }
     }
 
     public static String getRelativeFilename(String sourcePath, String baseDir) {

@@ -49,10 +49,15 @@ configure(ext.mainProjects) {
     version = 'v0.1.0'
 
     ext {
-        commonTheme = ':themes:BsDoc'
-//        commonTheme = ':themes:Editorial'
-        commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
-//        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
+        if(project.hasProperty('theme') && project.property('theme') == 'Editorial') {
+            commonTheme = ':themes:Editorial'
+            commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
+        }
+        else {
+            commonTheme = ':themes:BsDoc'
+            commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
+        }
+
         commonRunTask = "listThemes"
         commonBaseUrl = 'http://localhost:8080'
 

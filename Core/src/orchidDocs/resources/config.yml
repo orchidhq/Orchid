@@ -14,3 +14,9 @@ github:
 
 disabledGenerators:
   - 'ClassesGenerator'
+
+posts:
+  permalink: ':year/:month/:title'
+  categories:
+    - 'personal'
+    - 'development'

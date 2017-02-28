@@ -18,6 +18,7 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
+import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
@@ -89,7 +90,8 @@ public class ImplModule extends OrchidModule {
 
         addToSet(OrchidParser.class,
                 YamlParser.class,
-                JsonParser.class);
+                JsonParser.class,
+                CSVParser.class);
 
         // Precompilers
         addToSet(OrchidPrecompiler.class,

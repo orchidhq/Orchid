@@ -1,6 +1,6 @@
 package com.eden.orchid.posts;
 
-import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -10,6 +10,7 @@ import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.utilities.OrchidUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -20,7 +21,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,11 +34,19 @@ public class PostsGenerator extends OrchidGenerator {
     private OrchidResources resources;
     public static final Pattern pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)");
 
+    private PostsPermalinkStrategy permalinkStrategy;
+    private PostsExcerptStrategy excerptStrategy;
+
     @Inject
-    public PostsGenerator(OrchidContext context, OrchidResources resources) {
+    public PostsGenerator(OrchidContext context,
+                          OrchidResources resources,
+                          PostsPermalinkStrategy permalinkStrategy,
+                          PostsExcerptStrategy excerptStrategy) {
         super(context);
         this.resources = resources;
-        this.priority = 700;
+        this.permalinkStrategy = permalinkStrategy;
+        this.excerptStrategy = excerptStrategy;
+        setPriority(700);
     }
 
     @Override
@@ -50,12 +61,34 @@ public class PostsGenerator extends OrchidGenerator {
 
     @Override
     public List<OrchidPage> startIndexing() {
-        List<OrchidPage> posts = getPostsList();
-        List<OrchidPage> archive = buildArchive(posts);
+
+        Map<String, EdenPair<List<OrchidPage>, List<OrchidPage>>> categories = new HashMap<>();
+
+        List<String> categoryNames = new ArrayList<>();
+        if(OrchidUtils.elementIsArray(context.query("options.posts.categories"))) {
+            JSONArray categoriesArray = (JSONArray) context.query("options.posts.categories").getElement();
+
+            for (int i = 0; i < categoriesArray.length(); i++) {
+                if(!EdenUtils.isEmpty(categoriesArray.getString(i))) {
+                    categoryNames.add(categoriesArray.getString(i));
+                }
+            }
+        }
+        else {
+            categoryNames.add(null);
+        }
+
+        for (String category : categoryNames) {
+            List<OrchidPage> posts = getPostsList(category);
+            List<OrchidPage> archive = buildArchive(category, posts);
+            categories.put(category, new EdenPair<>(posts, archive));
+        }
 
         List<OrchidPage> allPages = new ArrayList<>();
-        allPages.addAll(posts);
-        allPages.addAll(archive);
+        for(String key : categories.keySet()) {
+            allPages.addAll(categories.get(key).first);
+            allPages.addAll(categories.get(key).second);
+        }
 
         return allPages;
     }
@@ -67,7 +100,7 @@ public class PostsGenerator extends OrchidGenerator {
         }
     }
 
-    public OrchidPage previous(List<OrchidPage> posts, int i) {
+    private OrchidPage previous(List<OrchidPage> posts, int i) {
         if (posts.size() > 1) {
             if (i != 0) {
                 return posts.get(i - 1);
@@ -77,7 +110,7 @@ public class PostsGenerator extends OrchidGenerator {
         return null;
     }
 
-    public OrchidPage next(List<OrchidPage> posts, int i) {
+    private OrchidPage next(List<OrchidPage> posts, int i) {
         if (posts.size() > 1) {
             if (i < posts.size() - 1) {
                 return posts.get(i + 1);
@@ -87,8 +120,16 @@ public class PostsGenerator extends OrchidGenerator {
         return null;
     }
 
-    private List<OrchidPage> getPostsList() {
-        List<OrchidResource> resourcesList = resources.getLocalResourceEntries("posts", null, true);
+    private List<OrchidPage> getPostsList(String category) {
+
+        List<OrchidResource> resourcesList;
+        if(EdenUtils.isEmpty(category)) {
+            resourcesList = resources.getLocalResourceEntries("posts", null, false);
+        }
+        else {
+            resourcesList = resources.getLocalResourceEntries("posts/" + category, null, false);
+        }
+
         List<OrchidPage> posts = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
@@ -151,16 +192,25 @@ public class PostsGenerator extends OrchidGenerator {
                 pageData.put("minute", minute);
                 pageData.put("second", second);
 
-                entry.getReference().setBasePath("blog");
-                entry.getReference().setPath(Clog.format("#{$1}/#{$2}/#{$3}", year, month, day));
-                entry.getReference().setTitle(title);
-                entry.getReference().setFileName(title.replaceAll(" ", "-").toLowerCase());
+                if(EdenUtils.isEmpty(category)) {
+                    entry.getReference().setBasePath("blog");
+                }
+                else {
+                    pageData.put("category", category);
+                    entry.getReference().setBasePath("blog/" + category);
+                }
 
-                entry.getReference().setUsePrettyUrl(true);
+                pageData.put("title", title);
+
+                setPermalink(entry.getReference(), pageData);
 
                 OrchidPage post = new OrchidPage(entry);
                 post.setType("post");
                 post.setData(pageData);
+
+                String excerpt = excerptStrategy.getExcerpt(post);
+
+                post.getData().put("excerpt", excerpt);
 
                 posts.add(post);
             }
@@ -192,14 +242,17 @@ public class PostsGenerator extends OrchidGenerator {
         return posts;
     }
 
-    private List<OrchidPage> buildArchive(List<OrchidPage> posts) {
+    private List<OrchidPage> buildArchive(String category, List<OrchidPage> posts) {
         List<OrchidPage> archivePages = new ArrayList<>();
 
         int pageSize = 4;
         int pages = (int) Math.ceil(posts.size() / pageSize);
 
         for (int i = 0; i <= pages; i++) {
-            OrchidReference pageRef = new OrchidReference(context, "archive/page/" + (i + 1) + ".html");
+            String pageName = (!EdenUtils.isEmpty(category))
+                ? "archive/" + category + "/" + (i + 1) + ".html"
+                : "archive/" + (i + 1) + ".html";
+            OrchidReference pageRef = new OrchidReference(context, pageName);
             pageRef.setUsePrettyUrl(true);
             pageRef.setTitle("Archives (Page " + (i + 1) + ")");
             OrchidResource pageResource = new StringResource("", pageRef);
@@ -207,6 +260,10 @@ public class PostsGenerator extends OrchidGenerator {
 
             page.getData().put("page", i + 1);
             page.getData().put("pageSize", pageSize);
+
+            if(!EdenUtils.isEmpty(category)) {
+                page.getData().put("category", category);
+            }
 
             page.setType("postArchive");
 
@@ -221,5 +278,19 @@ public class PostsGenerator extends OrchidGenerator {
         }
 
         return archivePages;
+    }
+
+    private void setPermalink(OrchidReference reference, JSONObject pageData) {
+        String permalink = permalinkStrategy.getPermalinkTemplate(pageData);
+
+        String[] pieces = permalink.split("/");
+
+        String resultingUrl = permalinkStrategy.applyPermalinkTemplate(permalink, pageData);
+        String title = permalinkStrategy.applyPermalinkTemplatePiece(pieces[pieces.length - 1], pageData);
+
+        reference.setTitle(pageData.getString("title"));
+        reference.setFileName(title);
+        reference.setUsePrettyUrl(true);
+        reference.setPath(OrchidUtils.stripSeparators(resultingUrl));
     }
 }
