@@ -20,11 +20,11 @@
 
 
 
-    <link rel="prev" href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts">
+    <link rel="prev" href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts/">
 
 
 
-    <link rel="next" href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts">
+    <link rel="next" href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts/">
 
 
 
@@ -103,6 +103,12 @@
                 
                     <li>
 
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsExcerptStrategy">PostsExcerptStrategy</a></li>
+                
+            
+                
+                    <li>
+
     <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsGenerator">PostsGenerator</a></li>
                 
             
@@ -110,6 +116,12 @@
                     <li>
 
     <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule">PostsModule</a></li>
+                
+            
+                
+                    <li>
+
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsPermalinkStrategy">PostsPermalinkStrategy</a></li>
                 
             
                 
@@ -126,20 +138,28 @@
                         
 
     
-
+        
+        
     
 
     
-
         
 
         
             
                 
+            
+        
+
+        
+            
+
+                
+                    
+                    
                 
             
         
-    
 
     
             
@@ -147,25 +167,25 @@
     
 
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
         <ul class="dropdown-menu scrollable-menu">
             
                 
                     <li>
 
-    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts">Creating Posts</a></li>
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts/">Creating Posts</a></li>
                 
             
                 
                     <li>
 
-    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/30/get-started">Get Started</a></li>
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/30/get-started/">Get Started</a></li>
                 
             
                 
                     <li>
 
-    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts">About Orchid Posts</a></li>
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts/">About Orchid Posts</a></li>
                 
             
                 
@@ -178,7 +198,7 @@
                 
                     <li>
 
-    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/archive/page/1">Archive</a></li>
+    <a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/archive/1">Archive</a></li>
                 
             
         </ul>
@@ -256,12 +276,12 @@ contains both the date of publication shown on the site, and also the title of t
             <nav aria-label="navigateClasses">
                 <ul class="pager">
                     
-                        <li class="previous"><a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts"><span
+                        <li class="previous"><a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts/"><span
                                         aria-hidden="true">&larr;</span> Creating Posts</a></li>
                     
 
                     
-                        <li class="next"><a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts">About Orchid Posts <span
+                        <li class="next"><a href="https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts/">About Orchid Posts <span
                                         aria-hidden="true">&rarr;</span></a></li>
                     
                 </ul>
@@ -316,6 +336,97 @@ contains both the date of publication shown on the site, and also the title of t
     }]}
   },
   "classes": {"com": {"eden": {"orchid": {"posts": {
+    "PostsPermalinkStrategy": {"files": [{
+      "data": {
+        "constructors": [{"parameters": [{
+          "name": "context",
+          "type": {
+            "qualifiedName": "com.eden.orchid.api.OrchidContext",
+            "name": "OrchidContext",
+            "dimension": ""
+          }
+        }]}],
+        "methods": [
+          {
+            "name": "getPermalinkTemplate",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            },
+            "parameters": [{
+              "name": "pageData",
+              "type": {
+                "qualifiedName": "org.json.JSONObject",
+                "name": "JSONObject",
+                "dimension": ""
+              }
+            }]
+          },
+          {
+            "name": "applyPermalinkTemplate",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            },
+            "parameters": [
+              {
+                "name": "permalink",
+                "type": {
+                  "qualifiedName": "java.lang.String",
+                  "name": "String",
+                  "dimension": ""
+                }
+              },
+              {
+                "name": "pageData",
+                "type": {
+                  "qualifiedName": "org.json.JSONObject",
+                  "name": "JSONObject",
+                  "dimension": ""
+                }
+              }
+            ]
+          },
+          {
+            "name": "applyPermalinkTemplatePiece",
+            "returns": {
+              "qualifiedName": "java.lang.String",
+              "name": "String",
+              "dimension": ""
+            },
+            "parameters": [
+              {
+                "name": "piece",
+                "type": {
+                  "qualifiedName": "java.lang.String",
+                  "name": "String",
+                  "dimension": ""
+                }
+              },
+              {
+                "name": "pageData",
+                "type": {
+                  "qualifiedName": "org.json.JSONObject",
+                  "name": "JSONObject",
+                  "dimension": ""
+                }
+              }
+            ]
+          }
+        ],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.posts",
+          "qualifiedName": "com.eden.orchid.posts.PostsPermalinkStrategy",
+          "name": "PostsPermalinkStrategy",
+          "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsPermalinkStrategy"
+        }
+      },
+      "name": "PostsPermalinkStrategy",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsPermalinkStrategy"
+    }]},
     "PostsGenerator": {"files": [{
       "data": {
         "constructors": [{"parameters": [
@@ -332,6 +443,22 @@ contains both the date of publication shown on the site, and also the title of t
             "type": {
               "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
               "name": "OrchidResources",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "permalinkStrategy",
+            "type": {
+              "qualifiedName": "com.eden.orchid.posts.PostsPermalinkStrategy",
+              "name": "PostsPermalinkStrategy",
+              "dimension": ""
+            }
+          },
+          {
+            "name": "excerptStrategy",
+            "type": {
+              "qualifiedName": "com.eden.orchid.posts.PostsExcerptStrategy",
+              "name": "PostsExcerptStrategy",
               "dimension": ""
             }
           }
@@ -386,68 +513,6 @@ contains both the date of publication shown on the site, and also the title of t
                 }]
               }
             }]
-          },
-          {
-            "name": "previous",
-            "returns": {
-              "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-              "name": "OrchidPage",
-              "dimension": ""
-            },
-            "parameters": [
-              {
-                "name": "posts",
-                "type": {
-                  "qualifiedName": "java.util.List",
-                  "name": "List",
-                  "dimension": "",
-                  "typeParameters": [{
-                    "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-                    "name": "OrchidPage",
-                    "dimension": ""
-                  }]
-                }
-              },
-              {
-                "name": "i",
-                "type": {
-                  "qualifiedName": "int",
-                  "name": "int",
-                  "dimension": ""
-                }
-              }
-            ]
-          },
-          {
-            "name": "next",
-            "returns": {
-              "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-              "name": "OrchidPage",
-              "dimension": ""
-            },
-            "parameters": [
-              {
-                "name": "posts",
-                "type": {
-                  "qualifiedName": "java.util.List",
-                  "name": "List",
-                  "dimension": "",
-                  "typeParameters": [{
-                    "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-                    "name": "OrchidPage",
-                    "dimension": ""
-                  }]
-                }
-              },
-              {
-                "name": "i",
-                "type": {
-                  "qualifiedName": "int",
-                  "name": "int",
-                  "dimension": ""
-                }
-              }
-            ]
           }
         ],
         "fields": [{
@@ -542,59 +607,99 @@ contains both the date of publication shown on the site, and also the title of t
       },
       "name": "PostsModule",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule"
+    }]},
+    "PostsExcerptStrategy": {"files": [{
+      "data": {
+        "constructors": [{"parameters": [{
+          "name": "context",
+          "type": {
+            "qualifiedName": "com.eden.orchid.api.OrchidContext",
+            "name": "OrchidContext",
+            "dimension": ""
+          }
+        }]}],
+        "methods": [{
+          "name": "getExcerpt",
+          "returns": {
+            "qualifiedName": "java.lang.String",
+            "name": "String",
+            "dimension": ""
+          },
+          "parameters": [{
+            "name": "page",
+            "type": {
+              "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+              "name": "OrchidPage",
+              "dimension": ""
+            }
+          }]
+        }],
+        "fields": [],
+        "info": {
+          "package": "com.eden.orchid.posts",
+          "qualifiedName": "com.eden.orchid.posts.PostsExcerptStrategy",
+          "name": "PostsExcerptStrategy",
+          "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsExcerptStrategy"
+        }
+      },
+      "name": "PostsExcerptStrategy",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsExcerptStrategy"
     }]}
   }}}}},
   "posts": {
-    "archive": {"page": {"1": {"files": [{
+    "archive": {"1": {"files": [{
       "data": {
         "pageSize": 4,
         "page": 1
       },
-      "name": "Archive",
-      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/archive/page/1"
-    }]}}},
+      "name": "Archives (Page 1)",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/archive/1"
+    }]}},
     "blog": {"2017": {"1": {
-      "29": {"about-orchid-posts": {"files": [{
+      "29": {"about-orchid-posts": {"": {"files": [{
         "data": {
           "month": 1,
-          "hour": 9,
+          "hour": 22,
           "year": 2017,
           "root": true,
           "title": "About Orchid Posts",
+          "excerpt": "<p>Orchid Posts is an extension for Orchid which adds navigable blog posts to your site. It uses a familiar construction\nstyle, taking inspiration from Jekyll.<\/p>\n<p>Blog posts created with Orchid Posts can be written using any language yo...",
           "day": 29,
-          "minute": 32,
-          "second": 17
+          "minute": 5,
+          "second": 36
         },
         "name": "About Orchid Posts",
-        "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts"
-      }]}},
-      "30": {"get-started": {"files": [{
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts/"
+      }]}}},
+      "30": {"get-started": {"": {"files": [{
         "data": {
           "month": 1,
-          "hour": 9,
+          "hour": 22,
           "year": 2017,
           "title": "Get Started",
+          "excerpt": "<p>Getting set up with Orchid Posts is simple. Refer to the <a href=\"#\">Orchid documentation<\/a> for help getting set up with Orchid\nbefore continuing.<\/p>\n<p>Adding Orchid Posts is as simple as adding the plugin to your dependencies in <co...",
           "day": 30,
-          "minute": 32,
-          "second": 17
+          "minute": 5,
+          "second": 37
         },
         "name": "Get Started",
-        "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/30/get-started"
-      }]}},
-      "31": {"creating-posts": {"files": [{
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/30/get-started/"
+      }]}}},
+      "31": {"creating-posts": {"": {"files": [{
         "data": {
           "month": 1,
-          "hour": 9,
+          "hour": 22,
           "year": 2017,
           "root": true,
           "title": "Creating Posts",
+          "excerpt": "<p>Pages within your blog can be written just as any other kind of content. The file extension determines which compiler\nshould be used to process the content within, and any compiler can be used with Orchid Posts, so long as it has been\nre...",
           "day": 31,
-          "minute": 32,
-          "second": 17
+          "minute": 5,
+          "second": 37
         },
         "name": "Creating Posts",
-        "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts"
-      }]}}
+        "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts/"
+      }]}}}
     }}}
   },
   "home": {"files": [{
@@ -662,6 +767,97 @@ contains both the date of publication shown on the site, and also the title of t
           }]}
         },
         "classes": {"com": {"eden": {"orchid": {"posts": {
+          "PostsPermalinkStrategy": {"files": [{
+            "data": {
+              "constructors": [{"parameters": [{
+                "name": "context",
+                "type": {
+                  "qualifiedName": "com.eden.orchid.api.OrchidContext",
+                  "name": "OrchidContext",
+                  "dimension": ""
+                }
+              }]}],
+              "methods": [
+                {
+                  "name": "getPermalinkTemplate",
+                  "returns": {
+                    "qualifiedName": "java.lang.String",
+                    "name": "String",
+                    "dimension": ""
+                  },
+                  "parameters": [{
+                    "name": "pageData",
+                    "type": {
+                      "qualifiedName": "org.json.JSONObject",
+                      "name": "JSONObject",
+                      "dimension": ""
+                    }
+                  }]
+                },
+                {
+                  "name": "applyPermalinkTemplate",
+                  "returns": {
+                    "qualifiedName": "java.lang.String",
+                    "name": "String",
+                    "dimension": ""
+                  },
+                  "parameters": [
+                    {
+                      "name": "permalink",
+                      "type": {
+                        "qualifiedName": "java.lang.String",
+                        "name": "String",
+                        "dimension": ""
+                      }
+                    },
+                    {
+                      "name": "pageData",
+                      "type": {
+                        "qualifiedName": "org.json.JSONObject",
+                        "name": "JSONObject",
+                        "dimension": ""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "applyPermalinkTemplatePiece",
+                  "returns": {
+                    "qualifiedName": "java.lang.String",
+                    "name": "String",
+                    "dimension": ""
+                  },
+                  "parameters": [
+                    {
+                      "name": "piece",
+                      "type": {
+                        "qualifiedName": "java.lang.String",
+                        "name": "String",
+                        "dimension": ""
+                      }
+                    },
+                    {
+                      "name": "pageData",
+                      "type": {
+                        "qualifiedName": "org.json.JSONObject",
+                        "name": "JSONObject",
+                        "dimension": ""
+                      }
+                    }
+                  ]
+                }
+              ],
+              "fields": [],
+              "info": {
+                "package": "com.eden.orchid.posts",
+                "qualifiedName": "com.eden.orchid.posts.PostsPermalinkStrategy",
+                "name": "PostsPermalinkStrategy",
+                "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsPermalinkStrategy"
+              }
+            },
+            "name": "PostsPermalinkStrategy",
+            "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsPermalinkStrategy"
+          }]},
           "PostsGenerator": {"files": [{
             "data": {
               "constructors": [{"parameters": [
@@ -678,6 +874,22 @@ contains both the date of publication shown on the site, and also the title of t
                   "type": {
                     "qualifiedName": "com.eden.orchid.api.resources.OrchidResources",
                     "name": "OrchidResources",
+                    "dimension": ""
+                  }
+                },
+                {
+                  "name": "permalinkStrategy",
+                  "type": {
+                    "qualifiedName": "com.eden.orchid.posts.PostsPermalinkStrategy",
+                    "name": "PostsPermalinkStrategy",
+                    "dimension": ""
+                  }
+                },
+                {
+                  "name": "excerptStrategy",
+                  "type": {
+                    "qualifiedName": "com.eden.orchid.posts.PostsExcerptStrategy",
+                    "name": "PostsExcerptStrategy",
                     "dimension": ""
                   }
                 }
@@ -732,68 +944,6 @@ contains both the date of publication shown on the site, and also the title of t
                       }]
                     }
                   }]
-                },
-                {
-                  "name": "previous",
-                  "returns": {
-                    "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-                    "name": "OrchidPage",
-                    "dimension": ""
-                  },
-                  "parameters": [
-                    {
-                      "name": "posts",
-                      "type": {
-                        "qualifiedName": "java.util.List",
-                        "name": "List",
-                        "dimension": "",
-                        "typeParameters": [{
-                          "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-                          "name": "OrchidPage",
-                          "dimension": ""
-                        }]
-                      }
-                    },
-                    {
-                      "name": "i",
-                      "type": {
-                        "qualifiedName": "int",
-                        "name": "int",
-                        "dimension": ""
-                      }
-                    }
-                  ]
-                },
-                {
-                  "name": "next",
-                  "returns": {
-                    "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-                    "name": "OrchidPage",
-                    "dimension": ""
-                  },
-                  "parameters": [
-                    {
-                      "name": "posts",
-                      "type": {
-                        "qualifiedName": "java.util.List",
-                        "name": "List",
-                        "dimension": "",
-                        "typeParameters": [{
-                          "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
-                          "name": "OrchidPage",
-                          "dimension": ""
-                        }]
-                      }
-                    },
-                    {
-                      "name": "i",
-                      "type": {
-                        "qualifiedName": "int",
-                        "name": "int",
-                        "dimension": ""
-                      }
-                    }
-                  ]
                 }
               ],
               "fields": [{
@@ -888,59 +1038,99 @@ contains both the date of publication shown on the site, and also the title of t
             },
             "name": "PostsModule",
             "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsModule"
+          }]},
+          "PostsExcerptStrategy": {"files": [{
+            "data": {
+              "constructors": [{"parameters": [{
+                "name": "context",
+                "type": {
+                  "qualifiedName": "com.eden.orchid.api.OrchidContext",
+                  "name": "OrchidContext",
+                  "dimension": ""
+                }
+              }]}],
+              "methods": [{
+                "name": "getExcerpt",
+                "returns": {
+                  "qualifiedName": "java.lang.String",
+                  "name": "String",
+                  "dimension": ""
+                },
+                "parameters": [{
+                  "name": "page",
+                  "type": {
+                    "qualifiedName": "com.eden.orchid.api.resources.OrchidPage",
+                    "name": "OrchidPage",
+                    "dimension": ""
+                  }
+                }]
+              }],
+              "fields": [],
+              "info": {
+                "package": "com.eden.orchid.posts",
+                "qualifiedName": "com.eden.orchid.posts.PostsExcerptStrategy",
+                "name": "PostsExcerptStrategy",
+                "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsExcerptStrategy"
+              }
+            },
+            "name": "PostsExcerptStrategy",
+            "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/classes/com/eden/orchid/posts/PostsExcerptStrategy"
           }]}
         }}}}},
         "posts": {
-          "archive": {"page": {"1": {"files": [{
+          "archive": {"1": {"files": [{
             "data": {
               "pageSize": 4,
               "page": 1
             },
             "name": "Archives (Page 1)",
-            "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/archive/page/1"
-          }]}}},
+            "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/archive/1"
+          }]}},
           "blog": {"2017": {"1": {
-            "29": {"about-orchid-posts": {"files": [{
+            "29": {"about-orchid-posts": {"": {"files": [{
               "data": {
                 "month": 1,
-                "hour": 9,
+                "hour": 22,
                 "year": 2017,
                 "root": true,
                 "title": "About Orchid Posts",
+                "excerpt": "<p>Orchid Posts is an extension for Orchid which adds navigable blog posts to your site. It uses a familiar construction\nstyle, taking inspiration from Jekyll.<\/p>\n<p>Blog posts created with Orchid Posts can be written using any language yo...",
                 "day": 29,
-                "minute": 32,
-                "second": 17
+                "minute": 5,
+                "second": 36
               },
               "name": "About Orchid Posts",
-              "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts"
-            }]}},
-            "30": {"get-started": {"files": [{
+              "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts/"
+            }]}}},
+            "30": {"get-started": {"": {"files": [{
               "data": {
                 "month": 1,
-                "hour": 9,
+                "hour": 22,
                 "year": 2017,
                 "title": "Get Started",
+                "excerpt": "<p>Getting set up with Orchid Posts is simple. Refer to the <a href=\"#\">Orchid documentation<\/a> for help getting set up with Orchid\nbefore continuing.<\/p>\n<p>Adding Orchid Posts is as simple as adding the plugin to your dependencies in <co...",
                 "day": 30,
-                "minute": 32,
-                "second": 17
+                "minute": 5,
+                "second": 37
               },
               "name": "Get Started",
-              "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/30/get-started"
-            }]}},
-            "31": {"creating-posts": {"files": [{
+              "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/30/get-started/"
+            }]}}},
+            "31": {"creating-posts": {"": {"files": [{
               "data": {
                 "month": 1,
-                "hour": 9,
+                "hour": 22,
                 "year": 2017,
                 "root": true,
                 "title": "Creating Posts",
+                "excerpt": "<p>Pages within your blog can be written just as any other kind of content. The file extension determines which compiler\nshould be used to process the content within, and any compiler can be used with Orchid Posts, so long as it has been\nre...",
                 "day": 31,
-                "minute": 32,
-                "second": 17
+                "minute": 5,
+                "second": 37
               },
               "name": "Creating Posts",
-              "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts"
-            }]}}
+              "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts/"
+            }]}}}
           }}}
         }
       },
@@ -956,21 +1146,22 @@ contains both the date of publication shown on the site, and also the title of t
     <script>window.page = {
   "next": {
     "title": "About Orchid Posts",
-    "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts"
+    "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/29/about-orchid-posts/"
   },
   "month": 1,
-  "hour": 9,
+  "hour": 22,
   "previous": {
     "title": "Creating Posts",
-    "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts"
+    "url": "https://javaeden.github.io/Orchid/v0.1.0/Posts/blog/2017/1/31/creating-posts/"
   },
   "year": 2017,
   "title": "Get Started",
+  "excerpt": "<p>Getting set up with Orchid Posts is simple. Refer to the <a href=\"#\">Orchid documentation<\/a> for help getting set up with Orchid\nbefore continuing.<\/p>\n<p>Adding Orchid Posts is as simple as adding the plugin to your dependencies in <co...",
   "type": "post",
   "day": 30,
   "content": "<p>Getting set up with Orchid Posts is simple. Refer to the <a href=\"#\">Orchid documentation<\/a> for help getting set up with Orchid\nbefore continuing.<\/p>\n<p>Adding Orchid Posts is as simple as adding the plugin to your dependencies in <code>build.gradle<\/code>. The plugin will\nautomatically be registered and start creating your static pages.<\/p>\n<pre><code>dependencies {\n    ...\n    orchidDocsCompile 'com.github.JavaEden:OrchidPosts:v0.1.0'\n}\n<\/code><\/pre>\n<p>The next step is to start adding content to your wiki. Create a <code>/posts<\/code> folder in your resources directory. All posts\nmust exist within this directory, but can be placed in any subdirectories.<\/p>\n<p>Posts should follow the naming convention used by Jekyll. That is, the name of a file within the <code>posts<\/code> directory\ncontains both the date of publication shown on the site, and also the title of the blog post in the following format:\n<code>YYYY-MM-DD-&lt;title with spaces replaced by dashes&gt;.md<\/code>, where the extension should match the format you are using.<\/p>\n",
-  "minute": 32,
-  "second": 17
+  "minute": 5,
+  "second": 37
 };</script>
 
 <!-- end:inject scripts -->

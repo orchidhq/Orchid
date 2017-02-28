@@ -81,7 +81,6 @@ function buildNav() {
         var h23 = $(this).find('h2[id], h3[id], .panel[id]');
 
         if (h1.length) {
-            console.log(h1);
             if (h1.data('name')) {
                 html += '<li><a href="#' + h1[0].id + '">' + h1.data('name') + '</a>';
             }
