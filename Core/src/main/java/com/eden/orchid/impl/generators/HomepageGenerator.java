@@ -21,7 +21,7 @@ public class HomepageGenerator extends OrchidGenerator {
         super(context);
         this.resources = resources;
 
-        setPriority(1);
+        setPriority(2);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class HomepageGenerator extends OrchidGenerator {
     public List<OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
 
-        JSONObject frontPageData = new JSONObject(context.getRoot().toMap());
+        JSONObject frontPageData = new JSONObject();
         OrchidResource readmeResource = resources.getProjectReadme();
         if (readmeResource != null) {
             frontPageData.put("readme", context.getTheme().compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));

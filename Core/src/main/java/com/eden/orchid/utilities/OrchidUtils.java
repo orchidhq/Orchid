@@ -224,4 +224,8 @@ public final class OrchidUtils {
     public static boolean elementIsArray(JSONElement el) {
         return (el != null) && (el.getElement() != null) && (el.getElement() instanceof JSONArray);
     }
+
+    public static List walkObject(JSONObject object, String stop) {
+        return WalkMapFilter.walkObject(object, stop);
+    }
 }

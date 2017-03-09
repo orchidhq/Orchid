@@ -130,6 +130,7 @@ public final class Orchid {
     public static class Events {
         public static final String INIT_COMPLETE      = "INIT_COMPLETE";
         public static final String OPTIONS_PARSED     = "OPTIONS_PARSED";
+        public static final String DATAFILES_PARSED   = "DATAFILES_PARSED";
         public static final String BOOTSTRAP_COMPLETE = "BOOTSTRAP_COMPLETE";
         public static final String THEME_SET          = "THEME_SET";
         public static final String TASK_START         = "TASK_START";

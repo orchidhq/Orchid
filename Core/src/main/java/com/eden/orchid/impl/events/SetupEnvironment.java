@@ -33,6 +33,7 @@ public class SetupEnvironment implements EventListener {
     public void onOptionsComplete(JSONObject options) {
         parseConfigFile(options);
         parseDataFiles(options);
+        context.broadcast(Orchid.Events.DATAFILES_PARSED, options);
     }
 
     // config file

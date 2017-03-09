@@ -20,9 +20,11 @@ import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
+import com.eden.orchid.impl.events.LoadExternalIndices;
 import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
+import com.eden.orchid.impl.generators.IndexGenerator;
 import com.eden.orchid.impl.options.BaseUrlOption;
 import com.eden.orchid.impl.options.CommentLanguageOption;
 import com.eden.orchid.impl.options.DestinationOption;
@@ -63,7 +65,9 @@ public class ImplModule extends OrchidModule {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
-        addToSet(EventListener.class, SetupEnvironment.class);
+        addToSet(EventListener.class,
+                SetupEnvironment.class,
+                LoadExternalIndices.class);
 
         // Resource Sources
         addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
@@ -88,7 +92,8 @@ public class ImplModule extends OrchidModule {
         // Generators
         addToSet(OrchidGenerator.class,
                 AssetsGenerator.class,
-                HomepageGenerator.class);
+                HomepageGenerator.class,
+                IndexGenerator.class);
 
         // Options
         addToSet(OrchidOption.class,
