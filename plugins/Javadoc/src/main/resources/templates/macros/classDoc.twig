@@ -1,0 +1,41 @@
+
+{%- macro createPageNav(classDoc) -%}
+    {% import 'macros/type.twig' as _type_ %}
+    {% import 'macros/anchor.twig' as _anchor_ %}
+    {% import 'macros/nav.twig' as _nav_ %}
+
+    {{- _nav_.createPageLink({name: 'Summary', url: '#summary'}) -}}
+
+    {% if classDoc.fields and length(classDoc.fields) > 0 %}
+        {% set fields = [] %}
+
+        {% for field in classDoc.fields | sortBy('name') %}
+            {% do fields.add({name: field.name, url: concat('#', _anchor_.fieldAnchor(field)) }) %}
+        {% endfor %}
+    {% else %}
+        {% set fields = null %}
+    {% endif %}
+    {{- _nav_.createPageLink({name: 'Fields', url: '#fields'}, fields) -}}
+
+    {% if classDoc.constructors and length(classDoc.constructors)> 0 %}
+        {% set constructors = [] %}
+
+        {% for constructor in classDoc.constructors  %}
+            {% do constructors.add({name: _type_.formatParameterList(constructor.parameters, false), url: concat('#', _anchor_.constructorAnchor(constructor)) }) %}
+        {% endfor %}
+    {% else %}
+        {% set constructors = null %}
+    {% endif %}
+    {{- _nav_.createPageLink({name: 'Constructors', url: '#constructors'}, constructors) -}}
+
+    {% if classDoc.methods and length(classDoc.methods) > 0 %}
+        {% set methods = [] %}
+
+        {% for method in classDoc.methods | sortBy('name') %}
+            {% do methods.add({name: concat(method.name, "(", _type_.formatParameterList(method.parameters, false), ")"), url: concat('#', _anchor_.methodAnchor(method)) }) %}
+        {% endfor %}
+    {% else %}
+        {% set methods = null %}
+    {% endif %}
+    {{- _nav_.createPageLink({name: 'Methods', url: '#methods'}, methods) -}}
+{%- endmacro -%}

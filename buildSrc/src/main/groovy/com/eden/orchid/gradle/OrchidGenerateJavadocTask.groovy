@@ -34,9 +34,6 @@ class OrchidGenerateJavadocTask extends Javadoc {
         if(project.orchid.destDir) {
             options.addStringOption("d", project.orchid.destDir)
         }
-        else {
-            options.addStringOption("d", "${project.buildDir}/docs/javadoc")
-        }
 
         // set common configuration options
         if(project.orchid.version) {

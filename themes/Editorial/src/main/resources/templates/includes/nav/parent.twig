@@ -5,7 +5,7 @@
         <ul>
             {% for child in children %}
                 {% block children %}
-                    <li class="noncaps">{{ _nav_.createLink(child) }}</li>
+                    {{ _nav_.createLink(child) }}
                 {% endblock %}
             {% endfor %}
         </ul>

@@ -1,6 +1,13 @@
 @import "vars";
 
 .bs-docs-sidebar {
+  .nav.bs-docs-sidenav {
+    li {
+      white-space: nowrap;
+      overflow-x: scroll;
+    }
+  }
+
   .nav > .active > a, .nav > .active:hover > a, .nav > .active:focus > a {
     color: $color1;
 

@@ -2,9 +2,9 @@
 {% block parent %}
     {% import 'macros/nav.twig' as _nav_ %}
 
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ parent.name }} <span class="caret"></span></a>
-        <ul class="dropdown-menu scrollable-menu">
+    <li>
+        <a href="{{ parent.url }}">{{ parent.name }}</a>
+        <ul class="nav">
             {% for child in children %}
                 {% block children %}
                     <li>{{ _nav_.createSiteLink(child) }}</li>

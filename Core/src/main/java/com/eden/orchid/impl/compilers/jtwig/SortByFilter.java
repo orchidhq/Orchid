@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
+import com.caseyjbrooks.clog.Clog;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
@@ -30,7 +31,6 @@ public class SortByFilter implements JtwigFunction {
         List<Object> fnParams = request.maximumNumberOfArguments(2)
                                      .minimumNumberOfArguments(2)
                                      .getArguments();
-
 
         Object value = fnParams.get(0);
         Object[] params = new Object[] { fnParams.get(1) };
@@ -131,8 +131,20 @@ public class SortByFilter implements JtwigFunction {
             Comparable thatValue = that.get(property);
 
             if(thisValue == null || thatValue == null) {
-                throw new RuntimeException("comparison of Hash with Hash failed on key: '" + property + "'");
-//                return 0;
+
+                Clog.e(that.toString());
+
+                if(thisValue == null) {
+                    Clog.e("this value is null");
+                }
+                if(thatValue == null) {
+                    Clog.e("that value is null");
+                }
+
+                Clog.e("comparison of Hash with Hash failed on key: '" + property + "', value returned null on one of the objects.");
+
+//                throw new RuntimeException("comparison of Hash with Hash failed on key: '" + property + "', value returned null on one of the objects.");
+                return 0;
             }
 
             return thisValue.compareTo(thatValue);

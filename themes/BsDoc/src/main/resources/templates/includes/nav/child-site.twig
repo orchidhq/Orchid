@@ -1,6 +1,7 @@
 {% if link.type == 'divider' -%}
     <li role="separator" class="divider"></li>
 {% elseif link.name -%}
+    <li>
     {%- if link.url -%}
         <a href="{{- link.url -}}">{{- link.name -}}</a>
     {%- elseif link.index -%}
@@ -16,4 +17,5 @@
             {{- link(link.name) -}}
         {%- endif -%}
     {%- endif -%}
+    </li>
 {%- endif %}

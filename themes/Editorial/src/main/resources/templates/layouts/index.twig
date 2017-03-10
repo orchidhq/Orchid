@@ -70,21 +70,22 @@
                 </header>
                 <ul>
                     <li><a href="{{ options.baseUrl }}/">Home</a></li>
+
                     {% include 'includes/nav.twig' with { nav: options.data.nav } %}
                 </ul>
             </nav>
             {% endblock %}
 
-            {% block pageNav %}
-                {% if page.nav %}
-                    <nav id="pageNav" class="menu">
-                        <header class="major">
-                            <h2>Page</h2>
-                        </header>
-                        {% include 'includes/nav.twig' with { nav: options.data.nav } %}
-                    </nav>
-                {% endif %}
-            {% endblock %}
+            <nav id="pageNav" class="menu">
+                <header class="major">
+                    <h2>{{ page.title }}</h2>
+                </header>
+                <ul>
+                    {% block pageNav %}
+
+                    {% endblock %}
+                </ul>
+            </nav>
         </div>
     </div>
 

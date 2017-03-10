@@ -1,49 +1,8 @@
 {% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/index.twig"] %}
 
 {% block pageNav %}
-    {% import 'macros/anchor.twig' as _anchor_ %}
-
-    <nav id="pageNav" class="menu">
-        <header class="major">
-            <h2>{{ classDoc.info.name }}</h2>
-        </header>
-        <ul>
-            <li><a href="#summary">Summary</a></li>
-
-            {% if classDoc.fields %}
-                <li>
-                    <span class="opener">Fields</span>
-                    <ul>
-                        {% for field in classDoc.fields | sortBy('name') %}
-                            <li><a href="#{{- _anchor_.fieldAnchor(field) -}}">{{ field.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endif %}
-
-            {% if classDoc.constructors %}
-                <li>
-                    <span class="opener">Constructors</span>
-                    <ul>
-                        {% for constructor in classDoc.constructors %}
-                            <li><a href="#{{- _anchor_.constructorAnchor(constructor) -}}">{{ constructor.parameters | length }} Parameters</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endif %}
-
-            {% if classDoc.methods %}
-                <li>
-                    <span class="opener">Methods</span>
-                    <ul>
-                        {% for method in classDoc.methods | sortBy('name') %}
-                            <li><a href="#{{- _anchor_.methodAnchor(method) -}}">{{ method.name }} ({{ method.parameters | length }} Parameters)</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
+    {% import 'macros/classDoc.twig' as _classDoc_ %}
+    {{- _classDoc_.createPageNav(classDoc) -}}
 {% endblock %}
 
 {% block mainContent %}

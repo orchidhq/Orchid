@@ -1,37 +1,45 @@
 
-{%- macro formatParameterList(params) -%}
+{%- macro formatParameterList(params, formatLinks) -%}
     {%- import 'macros/type.twig' as this -%}
     {%- for param in params -%}
-        {{- this.formatType(param.type) }} {{ param.name -}}
+        {{- this.formatType(param.type, formatLinks) }} {{ param.name -}}
         {%- if (loop.last) %}{% else %}, {% endif %}
     {%- endfor -%}
 {%- endmacro -%}
 
-{% macro formatType(type) %}
+{% macro formatType(type, formatLinks) %}
     {%- if type.wildcardType -%}
         {%- import 'macros/type.twig' as this -%}
         {%- if type.wildcardType['extends'] -%}
-            ? extends {{ this.typeParams(type.wildcardType['extends']) -}}
+            ? extends {{ this.typeParams(type.wildcardType['extends'], formatLinks) -}}
         {%- elseif type.wildcardType['super'] -%}
-            ? super {{ this.typeParams(type.wildcardType['super']) -}}
+            ? super {{ this.typeParams(type.wildcardType['super'], formatLinks) -}}
         {%- endif -%}
     {%- else -%}
-        {{- type.name | link -}}
+        {% if default(formatLinks, true) %}
+            {{- type.name | link -}}
+        {% else %}
+            {{- type.name -}}
+        {% endif %}
     {%- endif -%}
 
     {%- if type.typeParameters -%}
         {%- import 'macros/type.twig' as this -%}
-        &lt;{{- this.typeParams(type.typeParameters) -}}&gt;
+        &lt;{{- this.typeParams(type.typeParameters, formatLinks) -}}&gt;
     {%- endif -%}
 {% endmacro %}
 
-{%- macro typeParams(typeParams) -%}
+{%- macro typeParams(typeParams, formatLinks) -%}
     {%- for param in typeParams -%}
         {%- if param.typeParameters or param.wildcardType -%}
             {% import 'macros/type.twig' as this %}
             {{- this.formatType(param) -}}
         {%- else -%}
-            {{- param.name | link -}}
+            {% if default(formatLinks, true) %}
+                {{- param.name | link -}}
+            {% else %}
+                {{- param.name -}}
+            {% endif %}
         {%- endif -%}
         {%- if (loop.last) %}{% else %}, {% endif %}
     {%- endfor -%}
