@@ -24,94 +24,45 @@ function geopattern() {
     $('#jumbotron').geopattern(window.title, options);
 }
 
-function smoke() {
-    var canvas = $('<canvas>Your browser does not support HTML5 canvas.</canvas>');
-    canvas.css('position', 'absolute');
-    canvas.css('top', 0);
-    canvas.css('bottom', 0);
-    canvas.css('left', 0);
-    canvas.css('right', 0);
-    canvas.css('z-index', -1);
-
-    $('#jumbotron').prepend(canvas);
-
-    $('#jumbotron').css('background', 'transparent');
-
-    $('#jumbotron').waterpipe({
-        gradientStart: window.colors[0],
-        gradientEnd: window.colors[1],
-        smokeOpacity: 0.1,
-        numCircles: 3,
-        maxMaxRad: 250,
-        minMaxRad: 100,
-        minRadFactor: 0,
-        iterations: 8,
-        drawsPerFrame: 10,
-        lineWidth: 2,
-        speed: 1,
-        bgColorInner: window.colors[1],
-        bgColorOuter: window.colors[0]
-    });
-}
-
-window.pattern = {
-    chevrons: 'chevrons',
-    octagons: "octagons",
-    overlappingCircles: "overlappingCircles",
-    plusSigns: "plusSigns",
-    xes: "xes",
-    sineWaves: "sineWaves",
-    hexagons: "hexagons",
-    overlappingRings: "overlappingRings",
-    plaid: "plaid",
-    triangles: "triangles",
-    squares: "squares",
-    nestedSquares: "nestedSquares",
-    mosaicSquares: "mosaicSquares",
-    concentricCircles: "concentricCircles",
-    diamonds: "diamonds",
-    tessellation: "tessellation"
-};
-
 function buildNav() {
-    var html = '';
-
-    $('.bs-docs-section').each(function () {
-        var h1 = $(this).find('h1[id]').first();
-        var h23 = $(this).find('h2[id], h3[id], .panel[id]');
-
-        if (h1.length) {
-            if (h1.data('name')) {
-                html += '<li><a href="#' + h1[0].id + '">' + h1.data('name') + '</a>';
-            }
-            else {
-                html += '<li><a href="#' + h1[0].id + '">' + h1.clone().children().remove().end().text() + '</a>';
-            }
-
-            if (h23.length) {
-                html += '<ul class="nav">';
-                h23.each(function () {
-                    if ($(this).data('name')) {
-                        html += '<li><a href="#' + this.id + '">' + $(this).data('name') + '</a></li>';
-                    }
-                    else {
-                        html += '<li><a href="#' + this.id + '">' + $(this).text() + '</a></li>';
-                    }
-                });
-                html += '</ul>';
-            }
-
-            html += '</li>';
-        }
-    });
-
-    if (html == '') {
-        $('[role=complementary]').hide();
-        $('[role=main]').toggleClass('col-md-9 col-md-12');
-    }
-    else {
-        $('.bs-docs-sidenav').html(html);
-    }
+    // var html = '';
+    //
+    // $('.bs-docs-section').each(function () {
+    //     var h1 = $(this).find('h1[id]').first();
+    //     var h23 = $(this).find('h2[id], h3[id], .panel[id]');
+    //
+    //     if (h1.length) {
+    //         if (h1.data('name')) {
+    //             html += '<li><a href="#' + h1[0].id + '">' + h1.data('name') + '</a>';
+    //         }
+    //         else {
+    //             html += '<li><a href="#' + h1[0].id + '">' + h1.clone().children().remove().end().text() + '</a>';
+    //         }
+    //
+    //         if (h23.length) {
+    //             html += '<ul class="nav">';
+    //             h23.each(function () {
+    //                 if ($(this).data('name')) {
+    //                     html += '<li><a href="#' + this.id + '">' + $(this).data('name') + '</a></li>';
+    //                 }
+    //                 else {
+    //                     html += '<li><a href="#' + this.id + '">' + $(this).text() + '</a></li>';
+    //                 }
+    //             });
+    //             html += '</ul>';
+    //         }
+    //
+    //         html += '</li>';
+    //     }
+    // });
+    //
+    // if (html == '') {
+    //     $('[role=complementary]').hide();
+    //     $('[role=main]').toggleClass('col-md-9 col-md-12');
+    // }
+    // else {
+    //     $('.bs-docs-sidenav').html(html);
+    // }
 
     var $root = $('html, body');
     $('a').click(function () {

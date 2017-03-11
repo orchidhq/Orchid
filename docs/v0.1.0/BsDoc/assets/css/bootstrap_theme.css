@@ -1280,6 +1280,10 @@ blockquote {
     .navbar-nav .open .dropdown-menu > li > a:hover {
       color: #281d39; } }
 
+.bs-docs-sidebar .nav.bs-docs-sidenav li {
+  white-space: nowrap;
+  overflow-x: scroll; }
+
 .bs-docs-sidebar .nav > .active > a, .bs-docs-sidebar .nav > .active:hover > a, .bs-docs-sidebar .nav > .active:focus > a {
   color: #4C376C;
   border-left: 2px solid #4C376C; }
