@@ -1,0 +1,22 @@
+
+{%- macro formatAnnotations(annotations) -%}
+    {% import 'macros/annotation.twig' as _annotation_ %}
+
+    {%- for annotation in annotations | sortBy('name') -%}
+        {{- _annotation_.formatAnnotation(annotation) -}}
+    {%- endfor -%}
+{%- endmacro -%}
+
+{%- macro formatAnnotation(annotation) -%}
+    <div>
+        <span>@{{- annotation.name | link -}}</span>
+        {%- if annotation.values -%}
+            (
+            {%- for key, value in annotation.values -%}
+                {{- key -}}={{- value -}}
+                {%- if (loop.last) %}{% else %}, {% endif %}
+            {%- endfor -%}
+            )
+        {%- endif -%}
+    </div>
+{%- endmacro -%}

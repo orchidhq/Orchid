@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.events;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
@@ -8,10 +9,13 @@ import com.eden.orchid.utilities.OrchidUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.EventListener;
 
@@ -57,7 +61,9 @@ public class LoadExternalIndices implements EventListener {
                 fullIndex.put(index);
 
                 for(String key : index.keySet()) {
-                    keyedIndex.putOnce(key, new JSONArray());
+                    if(!keyedIndex.has(key)) {
+                        keyedIndex.put(key, new JSONArray());
+                    }
 
                     if(index.get(key) instanceof JSONArray) {
                         JSONArray array = index.getJSONArray(key);
@@ -76,6 +82,33 @@ public class LoadExternalIndices implements EventListener {
     }
 
     private JSONObject loadAdditionalFile(String url) {
+        if(url.startsWith("file://")) {
+            return loadLocalFile(url.replaceAll("file://", "").replaceAll("/", File.separator));
+        }
+        else {
+            return loadRemoteFile(url);
+        }
+    }
+
+    private JSONObject loadLocalFile(String url) {
+        Clog.v("Opening local file at: #{$1}", new Object[]{url});
+        try {
+            File file = new File(url);
+            String s = IOUtils.toString(new FileInputStream(file));
+
+            JSONElement el = context.getTheme().parse("json", s);
+            if(OrchidUtils.elementIsObject(el)) {
+                return (JSONObject) el.getElement();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private JSONObject loadRemoteFile(String url) {
         Request request = new Request.Builder().url(url).build();
 
         try {

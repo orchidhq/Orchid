@@ -37,12 +37,12 @@ public class LinkFilter implements JtwigFunction {
                                        .maximumNumberOfArguments(2)
                                        .getArguments();
 
-        if(fnParams.size() == 1) {
+        if(fnParams.size() == 1 && fnParams.get(0) != null) {
             String linkName = fnParams.get(0).toString();
 
             return OrchidUtils.linkTo(context, linkName);
         }
-        else if(fnParams.size() == 2) {
+        else if(fnParams.size() == 2 && fnParams.get(0) != null && fnParams.get(1) != null) {
             String linkName = fnParams.get(0).toString();
             String displayName = fnParams.get(1).toString();
 

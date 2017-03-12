@@ -13,6 +13,7 @@ import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.impl.compilers.asciidoc.AsciiDoctorCompiler;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -77,6 +78,7 @@ public class ImplModule extends OrchidModule {
         // Compilers
         addToSet(OrchidCompiler.class,
                 MarkdownCompiler.class,
+                AsciiDoctorCompiler.class,
                 JTwigCompiler.class,
                 SassCompiler.class);
 

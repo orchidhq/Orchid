@@ -5,10 +5,8 @@ include 'Core'
 include 'themes:BsDoc'
 include 'themes:Editorial'
 
+include 'plugins:Javadoc'
 include 'plugins:Pages'
 include 'plugins:Posts'
-include 'plugins:Wiki'
 include 'plugins:Server'
-include 'plugins:Javadoc'
-findProject(':plugins:Javadoc')?.name = 'Javadoc'
-
+include 'plugins:Wiki'

@@ -19,17 +19,20 @@ dependencies {
     compile 'com.univocity:univocity-parsers:2.3.1'
     compile 'org.jtwig:jtwig-core:5.75'
     compile 'com.vladsch.flexmark:flexmark:0.14.0'
+    compile 'org.asciidoctor:asciidoctorj:1.5.4'
     compile 'io.bit3:jsass:5.4.3'
 
     // generate own documentation with Orchid
     orchidDocsCompile rootProject.ext.mainProjects
 }
 
-static boolean shouldDependOnTask(Task task) {
-    return !task.path.startsWith(':Core') && task.path.endsWith(':jar')
+static boolean otherProjectsTask(Task task, String taskName) {
+    return !task.path.startsWith(':Core') && task.path.endsWith(":${taskName}")
 }
 
 project.parent.subprojects.each { subproject ->
-    project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> shouldDependOnTask(task) }
-    project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> shouldDependOnTask(task) }
+    project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
+    project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
+
+    project.tasks.javadoc.shouldRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'javadoc') }
 }

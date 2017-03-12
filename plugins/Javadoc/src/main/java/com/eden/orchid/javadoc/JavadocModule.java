@@ -7,6 +7,10 @@ import com.eden.orchid.javadoc.api.JavadocBlockTagHandler;
 import com.eden.orchid.javadoc.api.JavadocInlineTagHandler;
 import com.eden.orchid.javadoc.impl.generators.JavadocClassesGenerator;
 import com.eden.orchid.javadoc.impl.generators.JavadocPackagesGenerator;
+import com.eden.orchid.javadoc.impl.jtwig.ConstructorsFilter;
+import com.eden.orchid.javadoc.impl.jtwig.DirectSubclassesFilter;
+import com.eden.orchid.javadoc.impl.jtwig.FieldsFilter;
+import com.eden.orchid.javadoc.impl.jtwig.MethodsFilter;
 import com.eden.orchid.javadoc.impl.tags.AuthorTag;
 import com.eden.orchid.javadoc.impl.tags.DeprecatedTag;
 import com.eden.orchid.javadoc.impl.tags.ExceptionTag;
@@ -16,6 +20,7 @@ import com.eden.orchid.javadoc.impl.tags.SeeTag;
 import com.eden.orchid.javadoc.impl.tags.SinceTag;
 import com.eden.orchid.javadoc.impl.tags.ThrowsTag;
 import com.eden.orchid.javadoc.impl.tags.VersionTag;
+import org.jtwig.functions.JtwigFunction;
 
 public class JavadocModule extends OrchidModule {
 
@@ -42,5 +47,12 @@ public class JavadocModule extends OrchidModule {
 
         addToSet(DefaultResourceSource.class,
                 JavadocResourceSource.class);
+
+        addToSet(JtwigFunction.class,
+                FieldsFilter.class,
+                ConstructorsFilter.class,
+                MethodsFilter.class,
+                DirectSubclassesFilter.class
+                );
     }
 }

@@ -6,7 +6,13 @@
 {% endblock %}
 
 {% block mainContent %}
+    {% import 'macros/classDoc.twig' as _classDoc_ %}
     {% import 'macros/comment.twig' as _comment_ %}
+
+    {% set classFields = classDoc.info.qualifiedName | fields %}
+    {% set classCtors = classDoc.info.qualifiedName | constructors %}
+    {% set classMethods = classDoc.info.qualifiedName | methods %}
+    {% set directSubclasses = classDoc.info.qualifiedName | directSubclasses %}
 
     <section id="banner">
         <div class="content">
@@ -16,6 +22,8 @@
             </header>
             <hr>
             <article>
+                <div>{{- _classDoc_.createClassHeader(classDoc) -}}</div>
+                <hr>
                 <div>{{- _comment_.formatComment(classDoc.info.comment, options) -}}</div>
             </article>
         </div>
@@ -25,8 +33,19 @@
         <header class="major"><h2>Summary</h2></header>
         <article>
 
-            <header class="minor"><h3>Field Summary</h3></header>
-            {% if classDoc.fields %}
+            {% if directSubclasses %}
+                <header class="minor"><h3>Direct Subclasses</h3></header>
+                <p>
+                    {%- for subclass in directSubclasses -%}
+                        <a href="{{- subclass.url -}}">{{- subclass.name -}}</a>
+                        {%- if (loop.last) %}{% else %}, {% endif %}
+                    {%- endfor -%}
+                </p>
+                <br>
+            {% endif %}
+
+            {% if classFields %}
+                <header class="minor"><h3>Field Summary</h3></header>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -34,17 +53,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for field in classDoc.fields | sortBy('name') %}
+                    {% for field in classFields | sortBy('name') %}
                         {% include 'includes/fieldPreview.twig' %}
                     {% endfor %}
                     </tbody>
                 </table>
-            {% else %}
-                <p>No declared fields</p>
+                <br>
             {% endif %}
 
-            <header class="minor"><h3>Constructor Summary</h3></header>
-            {% if classDoc.constructors %}
+            {% if classCtors %}
+                <header class="minor"><h3>Constructor Summary</h3></header>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -52,17 +70,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for constructor in classDoc.constructors %}
+                    {% for constructor in classCtors %}
                         {% include 'includes/ctorPreview.twig' %}
                     {% endfor %}
                     </tbody>
                 </table>
-            {% else %}
-                <p>No declared constructors</p>
+                <br>
             {% endif %}
 
-            <header class="minor"><h3>Method Summary</h3></header>
-            {% if classDoc.methods %}
+            {% if classMethods %}
+                <header class="minor"><h3>Method Summary</h3></header>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -70,13 +87,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for method in classDoc.methods | sortBy('name') %}
+                    {% for method in classMethods | sortBy('name') %}
                         {% include 'includes/methodPreview.twig' %}
                     {% endfor %}
                     </tbody>
                 </table>
-            {% else %}
-                <p>No declared methods</p>
+                <br>
             {% endif %}
 
         </article>
@@ -85,8 +101,8 @@
     <section id="fields">
         <header class="major"><h2>Fields</h2></header>
         <article>
-            {% if classDoc.fields %}
-                {% for field in classDoc.fields | sortBy('name') %}
+            {% if classFields %}
+                {% for field in classFields | sortBy('name') %}
                     {% include 'includes/fieldFull.twig' %}
                 {% endfor %}
             {% else %}
@@ -98,8 +114,8 @@
     <section id="constructors">
         <header class="major"><h2>Constructors</h2></header>
         <article>
-            {% if classDoc.constructors %}
-                {% for constructor in classDoc.constructors %}
+            {% if classCtors %}
+                {% for constructor in classCtors %}
                     {% include 'includes/ctorFull.twig' %}
                 {% endfor %}
             {% else %}
@@ -111,8 +127,8 @@
     <section id="methods">
         <header class="major"><h2>Methods</h2></header>
         <article>
-            {% if classDoc.methods %}
-                {% for method in classDoc.methods | sortBy('name') %}
+            {% if classMethods %}
+                {% for method in classMethods | sortBy('name') %}
                     {% include 'includes/methodFull.twig' with { method: method, classDoc: classDoc } %}
                 {% endfor %}
             {% else %}

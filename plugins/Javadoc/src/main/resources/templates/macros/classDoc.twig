@@ -1,15 +1,18 @@
-
 {%- macro createPageNav(classDoc) -%}
     {% import 'macros/type.twig' as _type_ %}
     {% import 'macros/anchor.twig' as _anchor_ %}
     {% import 'macros/nav.twig' as _nav_ %}
 
+    {% set classFields = classDoc.info.qualifiedName | fields %}
+    {% set classCtors = classDoc.info.qualifiedName | constructors %}
+    {% set classMethods = classDoc.info.qualifiedName | methods %}
+
     {{- _nav_.createPageLink({name: 'Summary', url: '#summary'}) -}}
 
-    {% if classDoc.fields and length(classDoc.fields) > 0 %}
+    {% if classFields and length(classFields) > 0 %}
         {% set fields = [] %}
 
-        {% for field in classDoc.fields | sortBy('name') %}
+        {% for field in classFields | sortBy('name') %}
             {% do fields.add({name: field.name, url: concat('#', _anchor_.fieldAnchor(field)) }) %}
         {% endfor %}
     {% else %}
@@ -17,10 +20,10 @@
     {% endif %}
     {{- _nav_.createPageLink({name: 'Fields', url: '#fields'}, fields) -}}
 
-    {% if classDoc.constructors and length(classDoc.constructors)> 0 %}
+    {% if classCtors and length(classCtors)> 0 %}
         {% set constructors = [] %}
 
-        {% for constructor in classDoc.constructors  %}
+        {% for constructor in classCtors %}
             {% do constructors.add({name: _type_.formatParameterList(constructor.parameters, false), url: concat('#', _anchor_.constructorAnchor(constructor)) }) %}
         {% endfor %}
     {% else %}
@@ -28,10 +31,10 @@
     {% endif %}
     {{- _nav_.createPageLink({name: 'Constructors', url: '#constructors'}, constructors) -}}
 
-    {% if classDoc.methods and length(classDoc.methods) > 0 %}
+    {% if classMethods and length(classMethods) > 0 %}
         {% set methods = [] %}
 
-        {% for method in classDoc.methods | sortBy('name') %}
+        {% for method in classMethods | sortBy('name') %}
             {% do methods.add({name: concat(method.name, "(", _type_.formatParameterList(method.parameters, false), ")"), url: concat('#', _anchor_.methodAnchor(method)) }) %}
         {% endfor %}
     {% else %}
@@ -39,3 +42,38 @@
     {% endif %}
     {{- _nav_.createPageLink({name: 'Methods', url: '#methods'}, methods) -}}
 {%- endmacro -%}
+
+{%- macro createClassHeader(classDoc) -%}
+    {% import 'macros/type.twig' as _type_ %}
+    {% import 'macros/annotation.twig' as _annotation_ %}
+
+    <code>
+        {%- if classDoc.info.annotations -%}
+            {{- _annotation_.formatAnnotations(classDoc.info.annotations) -}}
+        {%- endif -%}
+        <div>
+            <b>
+                {{- classDoc.info.modifiers.visibility -}}&nbsp;
+                {%- if classDoc.info.modifiers.isStatic -%}static&nbsp;{%- endif -%}
+                {%- if classDoc.info.modifiers.isAbstract -%}abstract&nbsp;{%- endif -%}
+                {%- if classDoc.info.modifiers.isFinal -%}final&nbsp;{%- endif -%}
+                {{- classDoc.info.modifiers.objectType -}}&nbsp;
+                {{- classDoc.info.name | link -}}
+            </b>
+        </div>
+        {%- if classDoc.info.superclass -%}
+            <div style="margin-left: 10px;">extends {{ _type_.formatType(classDoc.info.superclass) -}}</div>
+        {%- endif -%}
+
+        {%- if classDoc.info.interfaces -%}
+            <div style="margin-left: 10px;">
+                implements
+                {% for interface in classDoc.info.interfaces | sortBy('name') -%}
+                    {{ _type_.formatType(interface) -}}
+                    {%- if (loop.last) %}{% else %}, {% endif %}
+                {%- endfor -%}
+            </div>
+        {%- endif -%}
+    </code>
+{%- endmacro -%}
+

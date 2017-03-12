@@ -64,7 +64,10 @@ public class IndexGenerator extends OrchidGenerator {
 
             flatIndex.put(key, flatIndexPart);
 
-            OrchidResource resource = new JsonResource(new JSONElement(flatIndexPart), new OrchidReference(context, "meta/" + key + ".index.json"));
+            JSONObject printedIndex = new JSONObject();
+            printedIndex.put(key, flatIndexPart);
+
+            OrchidResource resource = new JsonResource(new JSONElement(printedIndex), new OrchidReference(context, "meta/" + key + ".index.json"));
             new OrchidPage(resource).renderRaw();
         }
 

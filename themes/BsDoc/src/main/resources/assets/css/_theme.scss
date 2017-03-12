@@ -1,5 +1,10 @@
 @import "vars";
 
+code {
+  background-color: initial;
+  display: inline-block;
+}
+
 a {
   color: lighten($color1, 20%);
 }

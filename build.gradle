@@ -33,6 +33,7 @@ task publishAll
 // apply common plugins, configurations, dependencies, etc. to all core projects
 configure(ext.mainProjects) {
     apply plugin: 'java'
+    apply plugin: 'idea'
     apply plugin: 'maven-publish'
     apply plugin: 'com.eden.orchidPlugin'
     apply plugin: 'com.jfrog.bintray'

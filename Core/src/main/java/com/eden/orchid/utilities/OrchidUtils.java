@@ -99,8 +99,14 @@ public final class OrchidUtils {
     }
 
     public static String linkToIndex(OrchidContext context, String linkName, String indexKey, String displayName) {
-        if(context.query("index." + indexKey) != null) {
-            String s = findInMap(linkName, (JSONObject) context.query("index." + indexKey).getElement(), displayName);
+
+        JSONArray index = queryIndex(context, indexKey);
+
+        if(index != null) {
+            JSONObject indexObject = new JSONObject();
+            indexObject.put("index", index);
+
+            String s = findInMap(linkName, indexObject, displayName);
             if(!EdenUtils.isEmpty(s)) {
                 return s;
             }
@@ -118,7 +124,16 @@ public final class OrchidUtils {
                 Map map = (Map) object;
 
                 if(map.containsKey("url")) {
-                    if(map.containsKey("name") && map.get("name").toString().equals(link)) {
+                    JSONElement element = new JSONElement(new JSONObject(map));
+                    if(OrchidUtils.elementIsString(element.query("data.info.qualifiedName"))) {
+                        if(!EdenUtils.isEmpty(displayName)) {
+                            return Clog.format(template, map.get("url"), displayName);
+                        }
+                        else {
+                            return Clog.format(template, map.get("url"), map.get("name"));
+                        }
+                    }
+                    else if(map.containsKey("name") && map.get("name").toString().equals(link)) {
                         if(!EdenUtils.isEmpty(displayName)) {
                             return Clog.format(template, map.get("url"), displayName);
                         }
@@ -225,7 +240,55 @@ public final class OrchidUtils {
         return (el != null) && (el.getElement() != null) && (el.getElement() instanceof JSONArray);
     }
 
+    public static boolean elementIsString(JSONElement el) {
+        return (el != null) && (el.getElement() != null) && (el.getElement() instanceof String);
+    }
+
     public static List walkObject(JSONObject object, String stop) {
         return WalkMapFilter.walkObject(object, stop);
+    }
+
+    public static JSONArray queryIndex(OrchidContext context, String indexName) {
+        JSONArray array = new JSONArray();
+
+        JSONElement internalEl = context.query("index." + indexName);
+        if(OrchidUtils.elementIsObject(internalEl)) {
+            List items = OrchidUtils.walkObject((JSONObject) internalEl.getElement(), "url");
+
+            for(Object item : items) {
+                JSONObject object = null;
+                if(item instanceof Map) {
+                    object = new JSONObject((Map) item);
+                }
+                else if(item instanceof JSONObject) {
+                    object = (JSONObject) item;
+                }
+
+                if(object != null) {
+                    array.put(object);
+                }
+            }
+        }
+
+        JSONElement externalEl = context.query("options.externalIndex.keyedIndex." + indexName);
+        if(OrchidUtils.elementIsArray(externalEl)) {
+            JSONArray externalIndexArray = (JSONArray) externalEl.getElement();
+
+            for (int i = 0; i < externalIndexArray.length(); i++) {
+                JSONObject object = null;
+                if(externalIndexArray.get(i) instanceof Map) {
+                    object = new JSONObject((Map) externalIndexArray.get(i));
+                }
+                else if(externalIndexArray.get(i) instanceof JSONObject) {
+                    object = (JSONObject) externalIndexArray.get(i);
+                }
+
+                if(object != null) {
+                    array.put(object);
+                }
+            }
+        }
+
+        return array;
     }
 }

@@ -6,21 +6,39 @@
 {% endblock %}
 
 {% block jumbotron %}
-    <h1 class="home-title">{{ classDoc.info.name }}</h1>
+    <h1 class="home-title">{{ classDoc.info.modifiers.objectTypeName }} {{ classDoc.info.name }}</h1>
     <p class="lead">{{ classDoc.info.package }}</p>
 {% endblock %}
 
 {% block mainContent %}
+    {% import 'macros/classDoc.twig' as _classDoc_ %}
     {% import 'macros/comment.twig' as _comment_ %}
 
-    <div>{{- _comment_.formatComment(page.info.comment, options) -}}</div>
-    <br>
+    {% set classFields = classDoc.info.qualifiedName | fields %}
+    {% set classCtors = classDoc.info.qualifiedName | constructors %}
+    {% set classMethods = classDoc.info.qualifiedName | methods %}
+    {% set directSubclasses = classDoc.info.qualifiedName | directSubclasses %}
+
+    <div>{{- _classDoc_.createClassHeader(classDoc) -}}</div>
+    <hr>
+    <div>{{- _comment_.formatComment(classDoc.info.comment, options) -}}</div>
 
     <section class="bs-docs-section">
         <h1 id="summary" class="page-header">Summary</h1>
 
-        {% if classDoc.fields %}
-            <h3>All Fields</h3>
+        {% if directSubclasses %}
+            <h4>Direct Subclasses</h4>
+            <p>
+                {%- for subclass in directSubclasses -%}
+                    <a href="{{- subclass.url -}}">{{- subclass.name -}}</a>
+                    {%- if (loop.last) %}{% else %}, {% endif %}
+                {%- endfor -%}
+            </p>
+            <br>
+        {% endif %}
+
+        {% if classFields %}
+            <h4>All Fields</h4>
 
             <table class="table table-striped">
                 <thead>
@@ -30,18 +48,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for field in classDoc.fields | sortBy('name') %}
+                {% for field in classFields | sortBy('name') %}
                     {% include 'includes/fieldPreview.twig' %}
                 {% endfor %}
                 </tbody>
             </table>
-        {% else %}
-            <p>No declared fields</p>
+            <br>
         {% endif %}
 
-
-        {% if classDoc.constructors %}
-            <h3>All Constructors</h3>
+        {% if classCtors %}
+            <h4>All Constructors</h4>
 
             <table class="table table-striped">
                 <thead>
@@ -51,14 +67,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for constructor in classDoc.constructors %}
+                {% for constructor in classCtors %}
                     {% include 'includes/ctorPreview.twig' with { constructor: constructor, classDoc: classDoc } %}
                 {% endfor %}
                 </tbody>
             </table>
+            <br>
         {% endif %}
-        {% if classDoc.methods %}
-            <h3>All Methods</h3>
+
+        {% if classMethods %}
+            <h4>All Methods</h4>
 
             <table class="table table-striped">
                 <thead>
@@ -68,18 +86,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for method in classDoc.methods | sortBy('name') %}
+                {% for method in classMethods | sortBy('name') %}
                     {% include 'includes/methodPreview.twig' with { method: method, classDoc: classDoc } %}
                 {% endfor %}
                 </tbody>
             </table>
+            <br>
         {% endif %}
     </section>
 
     <section class="bs-docs-section">
         <h1 id="fields" class="page-header">Fields</h1>
-        {% if classDoc.fields %}
-            {% for field in classDoc.fields | sortBy('name') %}
+        {% if classFields %}
+            {% for field in classFields | sortBy('name') %}
                 {% include 'includes/fieldFull.twig' with { field: field, classDoc: classDoc } %}
             {% endfor %}
         {% else %}
@@ -89,8 +108,8 @@
 
     <section class="bs-docs-section">
         <h1 id="constructors" class="page-header">Constructors</h1>
-        {% if classDoc.constructors %}
-            {% for constructor in classDoc.constructors %}
+        {% if classCtors %}
+            {% for constructor in classCtors %}
                 {% include 'includes/ctorFull.twig' with { constructor: constructor, classDoc: classDoc } %}
             {% endfor %}
         {% else %}
@@ -100,8 +119,8 @@
 
     <section class="bs-docs-section">
         <h1 id="methods" class="page-header">Methods</h1>
-        {% if classDoc.methods %}
-            {% for method in classDoc.methods | sortBy('name') %}
+        {% if classMethods %}
+            {% for method in classMethods | sortBy('name') %}
                 {% include 'includes/methodFull.twig' with { method: method, classDoc: classDoc } %}
             {% endfor %}
         {% else %}

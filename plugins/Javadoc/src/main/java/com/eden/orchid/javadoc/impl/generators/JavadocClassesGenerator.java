@@ -32,7 +32,7 @@ public class JavadocClassesGenerator extends OrchidGenerator {
 
     @Override
     public String getName() {
-        return "classes";
+        return "javadoc";
     }
 
     @Override
@@ -54,8 +54,7 @@ public class JavadocClassesGenerator extends OrchidGenerator {
             JSONObject classInfo = classDocParser.loadClassData(classDoc);
 
             OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), classDocParser.getReference(classDoc)));
-            classPage.setData(classInfo);
-            classPage.getReference().setTitle(classDoc.simpleTypeName());
+            classPage.getReference().setTitle(classDoc.typeName());
 
             classPage.setType("classDoc");
             pages.add(classPage);

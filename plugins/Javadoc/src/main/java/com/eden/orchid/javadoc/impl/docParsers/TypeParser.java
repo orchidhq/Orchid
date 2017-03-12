@@ -13,9 +13,13 @@ public class TypeParser {
 
         JSONObject typeObject = new JSONObject();
 
-        typeObject.put("name", type.simpleTypeName());
+        typeObject.put("name", type.typeName());
         typeObject.put("qualifiedName", type.qualifiedTypeName());
         typeObject.put("dimension", type.dimension());
+
+        if(type.asClassDoc() != null && type.asClassDoc().containingPackage() != null) {
+            typeObject.put("package", type.asClassDoc().containingPackage().name());
+        }
 
         if (type.asParameterizedType() != null) {
             typeObject.put("typeParameters", new JSONArray());
