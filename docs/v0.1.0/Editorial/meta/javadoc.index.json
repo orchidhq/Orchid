@@ -1,0 +1,50 @@
+{"javadoc": [
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.editorial",
+      "qualifiedName": "com.eden.orchid.editorial.EditorialModule",
+      "superclass": {
+        "package": "com.eden.orchid",
+        "qualifiedName": "com.eden.orchid.OrchidModule",
+        "name": "OrchidModule",
+        "dimension": ""
+      },
+      "name": "EditorialModule",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "EditorialModule",
+    "url": "https://javaeden.github.io/Orchid/v0.1.0/Editorial/javadoc/com/eden/orchid/editorial/EditorialModule"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.editorial",
+      "qualifiedName": "com.eden.orchid.editorial.EditorialTheme",
+      "superclass": {
+        "package": "com.eden.orchid",
+        "qualifiedName": "com.eden.orchid.Theme",
+        "name": "Theme",
+        "dimension": ""
+      },
+      "name": "EditorialTheme",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "EditorialTheme",
+    "url": "https://javaeden.github.io/Orchid/v0.1.0/Editorial/javadoc/com/eden/orchid/editorial/EditorialTheme"
+  }
+]}

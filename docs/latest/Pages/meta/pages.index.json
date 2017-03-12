@@ -1,8 +1,8 @@
-[{
+{"pages": [{
   "data": {
     "root": true,
     "title": "Creating Pages"
   },
   "name": "Creating Pages",
   "url": "https://javaeden.github.io/Orchid/latest/Pages/pages"
-}]
+}]}

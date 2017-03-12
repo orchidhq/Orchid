@@ -1209,6 +1209,10 @@ h1[id] {
 .css .o, .css .o + .nt, .css .nt + .nt {
   color: #999; }
 
+code {
+  background-color: initial;
+  display: inline-block; }
+
 a {
   color: #a5cbff; }
 

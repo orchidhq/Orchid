@@ -1,4 +1,54 @@
 {
+  "javadoc": [
+    {
+      "data": {"info": {
+        "package": "com.eden.orchid.bsdoc",
+        "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",
+        "superclass": {
+          "package": "com.eden.orchid",
+          "qualifiedName": "com.eden.orchid.Theme",
+          "name": "Theme",
+          "dimension": ""
+        },
+        "name": "BSDocTheme",
+        "modifiers": {
+          "isStatic": false,
+          "visibility": "public",
+          "objectTypeName": "Class",
+          "isFinal": false,
+          "isAbstract": false,
+          "objectType": "class"
+        },
+        "dimension": ""
+      }},
+      "name": "BSDocTheme",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/javadoc/com/eden/orchid/bsdoc/BSDocTheme"
+    },
+    {
+      "data": {"info": {
+        "package": "com.eden.orchid.bsdoc",
+        "qualifiedName": "com.eden.orchid.bsdoc.BsDocModule",
+        "superclass": {
+          "package": "com.eden.orchid",
+          "qualifiedName": "com.eden.orchid.OrchidModule",
+          "name": "OrchidModule",
+          "dimension": ""
+        },
+        "name": "BsDocModule",
+        "modifiers": {
+          "isStatic": false,
+          "visibility": "public",
+          "objectTypeName": "Class",
+          "isFinal": false,
+          "isAbstract": false,
+          "objectType": "class"
+        },
+        "dimension": ""
+      }},
+      "name": "BsDocModule",
+      "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/javadoc/com/eden/orchid/bsdoc/BsDocModule"
+    }
+  ],
   "assets": [
     {
       "data": {},
@@ -64,88 +114,6 @@
       "data": {},
       "name": "docs",
       "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/assets/js/docs.js"
-    }
-  ],
-  "classes": [
-    {
-      "data": {
-        "constructors": [{"parameters": [
-          {
-            "name": "context",
-            "type": {
-              "qualifiedName": "com.eden.orchid.api.OrchidContext",
-              "name": "OrchidContext",
-              "dimension": ""
-            }
-          },
-          {
-            "name": "precompiler",
-            "type": {
-              "qualifiedName": "com.eden.orchid.api.compilers.OrchidPrecompiler",
-              "name": "OrchidPrecompiler",
-              "dimension": ""
-            }
-          },
-          {
-            "name": "compilers",
-            "type": {
-              "qualifiedName": "java.util.Set",
-              "name": "Set",
-              "dimension": "",
-              "typeParameters": [{
-                "qualifiedName": "com.eden.orchid.api.compilers.OrchidCompiler",
-                "name": "OrchidCompiler",
-                "dimension": ""
-              }]
-            }
-          },
-          {
-            "name": "parsers",
-            "type": {
-              "qualifiedName": "java.util.Set",
-              "name": "Set",
-              "dimension": "",
-              "typeParameters": [{
-                "qualifiedName": "com.eden.orchid.api.compilers.OrchidParser",
-                "name": "OrchidParser",
-                "dimension": ""
-              }]
-            }
-          }
-        ]}],
-        "methods": [],
-        "fields": [],
-        "info": {
-          "package": "com.eden.orchid.bsdoc",
-          "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",
-          "name": "BSDocTheme",
-          "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
-        }
-      },
-      "name": "BSDocTheme",
-      "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BSDocTheme"
-    },
-    {
-      "data": {
-        "constructors": [{}],
-        "methods": [{
-          "name": "configure",
-          "returns": {
-            "qualifiedName": "void",
-            "name": "void",
-            "dimension": ""
-          }
-        }],
-        "fields": [],
-        "info": {
-          "package": "com.eden.orchid.bsdoc",
-          "qualifiedName": "com.eden.orchid.bsdoc.BsDocModule",
-          "name": "BsDocModule",
-          "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
-        }
-      },
-      "name": "BsDocModule",
-      "url": "https://javaeden.github.io/Orchid/v0.1.0/BsDoc/classes/com/eden/orchid/bsdoc/BsDocModule"
     }
   ],
   "posts": [{

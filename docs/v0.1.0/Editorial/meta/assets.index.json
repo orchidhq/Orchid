@@ -1,4 +1,4 @@
-[
+{"assets": [
   {
     "data": {},
     "name": "directoryListing",
@@ -69,4 +69,4 @@
     "name": "util",
     "url": "https://javaeden.github.io/Orchid/v0.1.0/Editorial/assets/js/util.js"
   }
-]
+]}

@@ -1,0 +1,135 @@
+{"javadoc": [
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.PostsPermalinkStrategy",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "PostsPermalinkStrategy",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "PostsPermalinkStrategy",
+    "url": "https://javaeden.github.io/Orchid/latest/Posts/javadoc/com/eden/orchid/posts/PostsPermalinkStrategy"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.PostsGenerator",
+      "superclass": {
+        "package": "com.eden.orchid.api.generators",
+        "qualifiedName": "com.eden.orchid.api.generators.OrchidGenerator",
+        "name": "OrchidGenerator",
+        "dimension": ""
+      },
+      "name": "PostsGenerator",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "PostsGenerator",
+    "url": "https://javaeden.github.io/Orchid/latest/Posts/javadoc/com/eden/orchid/posts/PostsGenerator"
+  },
+  {
+    "data": {"info": {
+      "interfaces": [{
+        "package": "org.jtwig.functions",
+        "qualifiedName": "org.jtwig.functions.JtwigFunction",
+        "name": "JtwigFunction",
+        "dimension": ""
+      }],
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.SortPostsFilter",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "SortPostsFilter",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "SortPostsFilter",
+    "url": "https://javaeden.github.io/Orchid/latest/Posts/javadoc/com/eden/orchid/posts/SortPostsFilter"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.PostsModule",
+      "superclass": {
+        "package": "com.eden.orchid",
+        "qualifiedName": "com.eden.orchid.OrchidModule",
+        "name": "OrchidModule",
+        "dimension": ""
+      },
+      "name": "PostsModule",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "PostsModule",
+    "url": "https://javaeden.github.io/Orchid/latest/Posts/javadoc/com/eden/orchid/posts/PostsModule"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.posts",
+      "qualifiedName": "com.eden.orchid.posts.PostsExcerptStrategy",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "PostsExcerptStrategy",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "PostsExcerptStrategy",
+    "url": "https://javaeden.github.io/Orchid/latest/Posts/javadoc/com/eden/orchid/posts/PostsExcerptStrategy"
+  }
+]}

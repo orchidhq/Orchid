@@ -1,4 +1,4 @@
-[
+{"wiki": [
   {
     "data": {},
     "name": "Getting Started",
@@ -108,4 +108,4 @@
     "name": "Contribute to Core",
     "url": "https://javaeden.github.io/Orchid/latest/Core/wiki/extending/core_development"
   }
-]
+]}

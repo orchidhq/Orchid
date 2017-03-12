@@ -125,7 +125,7 @@ public final class OrchidUtils {
 
                 if(map.containsKey("url")) {
                     JSONElement element = new JSONElement(new JSONObject(map));
-                    if(OrchidUtils.elementIsString(element.query("data.info.qualifiedName"))) {
+                    if(OrchidUtils.elementIsString(element.query("data.info.qualifiedName")) && element.query("data.info.qualifiedName").toString().equals(link)) {
                         if(!EdenUtils.isEmpty(displayName)) {
                             return Clog.format(template, map.get("url"), displayName);
                         }

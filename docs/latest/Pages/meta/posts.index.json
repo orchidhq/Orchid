@@ -1,8 +1,8 @@
-[{
+{"posts": [{
   "data": {
     "pageSize": 4,
     "page": 1
   },
   "name": "Archives (Page 1)",
   "url": "https://javaeden.github.io/Orchid/latest/Pages/archive/1"
-}]
+}]}

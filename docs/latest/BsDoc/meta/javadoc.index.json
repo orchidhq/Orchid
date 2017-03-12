@@ -1,0 +1,50 @@
+{"javadoc": [
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.bsdoc",
+      "qualifiedName": "com.eden.orchid.bsdoc.BSDocTheme",
+      "superclass": {
+        "package": "com.eden.orchid",
+        "qualifiedName": "com.eden.orchid.Theme",
+        "name": "Theme",
+        "dimension": ""
+      },
+      "name": "BSDocTheme",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "BSDocTheme",
+    "url": "https://javaeden.github.io/Orchid/latest/BsDoc/javadoc/com/eden/orchid/bsdoc/BSDocTheme"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.bsdoc",
+      "qualifiedName": "com.eden.orchid.bsdoc.BsDocModule",
+      "superclass": {
+        "package": "com.eden.orchid",
+        "qualifiedName": "com.eden.orchid.OrchidModule",
+        "name": "OrchidModule",
+        "dimension": ""
+      },
+      "name": "BsDocModule",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "BsDocModule",
+    "url": "https://javaeden.github.io/Orchid/latest/BsDoc/javadoc/com/eden/orchid/bsdoc/BsDocModule"
+  }
+]}

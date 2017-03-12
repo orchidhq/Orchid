@@ -1,0 +1,248 @@
+{"javadoc": [
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.RenderIndex",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "RenderIndex",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "RenderIndex",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/server/RenderIndex"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.RenderFile",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "RenderFile",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "RenderFile",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/server/RenderFile"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.Render404",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "Render404",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "Render404",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/server/Render404"
+  },
+  {
+    "data": {"info": {
+      "interfaces": [{
+        "package": "com.sun.net.httpserver",
+        "qualifiedName": "com.sun.net.httpserver.HttpHandler",
+        "name": "HttpHandler",
+        "dimension": ""
+      }],
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.StaticServer",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "StaticServer",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "StaticServer",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/server/StaticServer"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.server.server",
+      "qualifiedName": "com.eden.orchid.server.server.ServerResourceSource",
+      "superclass": {
+        "package": "com.eden.orchid.api.resources.resourceSource",
+        "qualifiedName": "com.eden.orchid.api.resources.resourceSource.DefaultResourceSource",
+        "name": "DefaultResourceSource",
+        "dimension": ""
+      },
+      "name": "ServerResourceSource",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "ServerResourceSource",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/server/ServerResourceSource"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.ServeModule",
+      "superclass": {
+        "package": "com.eden.orchid",
+        "qualifiedName": "com.eden.orchid.OrchidModule",
+        "name": "OrchidModule",
+        "dimension": ""
+      },
+      "name": "ServeModule",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "ServeModule",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/ServeModule"
+  },
+  {
+    "data": {"info": {
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.FileWatcher",
+      "superclass": {
+        "package": "java.lang",
+        "qualifiedName": "java.lang.Object",
+        "name": "Object",
+        "dimension": ""
+      },
+      "name": "FileWatcher",
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "FileWatcher",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/FileWatcher"
+  },
+  {
+    "data": {"info": {
+      "interfaces": [{
+        "package": "java.util",
+        "qualifiedName": "java.util.EventListener",
+        "name": "EventListener",
+        "dimension": ""
+      }],
+      "package": "com.eden.orchid.server",
+      "qualifiedName": "com.eden.orchid.server.ServeTask",
+      "superclass": {
+        "package": "com.eden.orchid.api.tasks",
+        "qualifiedName": "com.eden.orchid.api.tasks.OrchidTask",
+        "name": "OrchidTask",
+        "dimension": ""
+      },
+      "name": "ServeTask",
+      "annotations": [{
+        "package": "javax.inject",
+        "qualifiedName": "javax.inject.Singleton",
+        "values": {},
+        "name": "Singleton",
+        "dimension": ""
+      }],
+      "modifiers": {
+        "isStatic": false,
+        "visibility": "public",
+        "objectTypeName": "Class",
+        "isFinal": false,
+        "isAbstract": false,
+        "objectType": "class"
+      },
+      "dimension": ""
+    }},
+    "name": "ServeTask",
+    "url": "https://javaeden.github.io/Orchid/latest/Server/javadoc/com/eden/orchid/server/ServeTask"
+  }
+]}

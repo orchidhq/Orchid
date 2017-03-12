@@ -1,4 +1,4 @@
-[
+{"assets": [
   {
     "data": {},
     "name": "bootstrap_theme",
@@ -64,4 +64,4 @@
     "name": "docs",
     "url": "https://javaeden.github.io/Orchid/v0.1.0/Pages/assets/js/docs.js"
   }
-]
+]}
