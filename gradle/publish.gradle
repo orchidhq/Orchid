@@ -1,69 +1,80 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
-def pomConfig = {
-    licenses {
-        license {
-            name "MIT"
-            url "https://opensource.org/licenses/MIT"
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id "JavaEden"
-            name "Casey Brooks"
-            email "cjbrooks12@gmail.com"
-        }
-    }
-}
+afterEvaluate { project ->
 
-publishing {
-    publications {
-        OrchidPublication(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            groupId "${project.group}"
-            artifactId "Orchid${project.name}"
-            version "${project.version}"
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'A modern, extensible, theme-ready Javadoc site generator')
-                root.appendNode('name', 'Orchid')
-                root.appendNode('url', 'https://javaeden.github.io/Orchid/latest/core/')
-                root.children().last() + pomConfig
+    def pomConfig = {
+        scm {
+            url 'https://github.com/JavaEden/Orchid.git'
+            connection 'https://github.com/JavaEden/Orchid.git'
+            developerConnection 'https://github.com/JavaEden/Orchid.git'
+        }
+        licenses {
+            license {
+                name 'MIT'
+                url 'https://opensource.org/licenses/MIT'
+                distribution 'repo'
+            }
+        }
+        developers {
+            developer {
+                id 'JavaEden'
+                name 'Casey Brooks'
+                email 'cjbrooks12@gmail.com'
             }
         }
     }
-}
 
-bintray {
-    user = "${project.properties['bintray.username']}"
-    key = "${project.properties['bintray.apiKey']}"
-    publications = ['OrchidPublication']
-
-    dryRun = false
-    publish = true
-    override = true
-
-    pkg {
-        repo = 'Orchid'
-        name = "Orchid${project.name}"
-        userOrg = 'javaeden'
-        licenses = ['MIT']
-        vcsUrl = 'https://github.com/JavaEden/Orchid.git'
-
-        version {
-            name = "${project.version}"
-            desc = "Orchid ${project.name} ${project.version}"
-            released  = new Date()
-
-            gpg {
-                sign = true
+    project.publishing {
+        publications {
+            OrchidPublication(MavenPublication) {
+                from project.components.java
+                artifact project.sourcesJar
+                artifact project.javadocJar
+                groupId "${project.group}"
+                artifactId "Orchid${project.name}"
+                version "${project.version}"
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', 'A modern, extensible, theme-ready Javadoc site generator')
+                    root.appendNode('name', 'Orchid')
+                    root.appendNode('url', 'https://javaeden.github.io/Orchid/latest/core/')
+                    root.children().last() + pomConfig
+                }
             }
-            mavenCentralSync {
-                sync = true
-                user = "${project.properties['mavenCentral.username']}"
-                password = "${project.properties['mavenCentral.password']}"
+        }
+    }
+
+
+    bintray {
+        user = "${project.properties['bintray.username']}"
+        key = "${project.properties['bintray.apiKey']}"
+        publications = ['OrchidPublication']
+
+        dryRun = false
+        publish = true
+        override = true
+
+        pkg {
+            repo = 'Orchid'
+            name = "Orchid${project.name}"
+            userOrg = 'javaeden'
+            licenses = ['MIT']
+            vcsUrl = 'https://github.com/JavaEden/Orchid.git'
+
+            version {
+                name = "${project.version}"
+                desc = "Orchid ${project.name} ${project.version}"
+                released = new Date()
+
+                gpg {
+                    sign = true
+                }
+                mavenCentralSync {
+                    sync = true
+                    user = "${project.properties['mavenCentral.username']}"
+                    password = "${project.properties['mavenCentral.password']}"
+                }
             }
         }
     }

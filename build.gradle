@@ -34,9 +34,7 @@ task publishAll
 configure(ext.mainProjects) {
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'maven-publish'
     apply plugin: 'com.eden.orchidPlugin'
-    apply plugin: 'com.jfrog.bintray'
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -46,7 +44,7 @@ configure(ext.mainProjects) {
         maven { url 'https://jitpack.io' }
     }
 
-    group 'com.eden.orchid'
+    group 'io.github.javaeden.orchid'
     version = 'v0.1.0'
 
     ext {
@@ -109,7 +107,7 @@ configure(ext.mainProjects) {
 
         clean.dependsOn 'cleanCopyToVersionDocs', 'cleanCopyToLatestDocs'
         publishAll.dependsOn copyToRootDocs
-//        publishAll.dependsOn bintrayUpload
+        publishAll.dependsOn bintrayUpload
     }
 }
 
