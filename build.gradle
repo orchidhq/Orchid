@@ -4,9 +4,11 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.3"
     }
 }
 
@@ -35,6 +37,7 @@ configure(ext.mainProjects) {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'com.eden.orchidPlugin'
+    apply plugin: "com.dorongold.task-tree"
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -45,7 +48,18 @@ configure(ext.mainProjects) {
     }
 
     group 'io.github.javaeden.orchid'
-    version = 'v0.1.0'
+
+    if(project.hasProperty('version')) {
+        version = project.property('version')
+    }
+    else {
+        if(project.hasProperty('env') && project.property('env') === 'snapshot') {
+            version = 'SNAPSHOT'
+        }
+        else {
+            version = 'v0.1.0'
+        }
+    }
 
     ext {
         if(project.hasProperty('theme') && project.property('theme') == 'Editorial') {
@@ -82,32 +96,6 @@ configure(ext.mainProjects) {
         testCompile 'junit:junit:4.12'
         testCompile 'org.hamcrest:hamcrest-library:1.3'
         compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
-    }
-
-    if (project.hasProperty('deploy') && project.property('deploy') == 'true') {
-        task copyToVersionDocs(type: Copy) {
-            dependsOn 'javadoc'
-
-            from "$buildDir/docs/javadoc"
-            into "$rootDir/docs/${project.version}/${project.name}"
-        }
-
-        task copyToLatestDocs(type: Copy) {
-            dependsOn 'javadoc'
-
-            from "$buildDir/docs/javadoc"
-            into "$rootDir/docs/latest/${project.name}"
-
-            filter { it.replaceAll("/${project.version}/", "/latest/") }
-        }
-
-        task copyToRootDocs() {
-            dependsOn 'copyToVersionDocs', 'copyToLatestDocs'
-        }
-
-        clean.dependsOn 'cleanCopyToVersionDocs', 'cleanCopyToLatestDocs'
-        publishAll.dependsOn copyToRootDocs
-        publishAll.dependsOn bintrayUpload
     }
 }
 
