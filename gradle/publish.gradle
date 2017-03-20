@@ -79,30 +79,6 @@ afterEvaluate { project ->
     }
 }
 
-task publishDocumentation {
-    dependsOn 'javadoc'
-
-    def source       = file("$buildDir/docs/javadoc")
-    def dest_latest  = file("$rootDir/docs/latest/${project.name}")
-    def dest_version = file("$rootDir/docs/${project.version}/${project.name}")
-
-    inputs.dir(source)
-    outputs.dir(dest_latest)
-    outputs.dir(dest_version)
-
-    doLast {
-        copy {
-            from source
-            into dest_latest
-        }
-        copy {
-            from source
-            into dest_version
-        }
-    }
-}
-
-project.tasks.publish.dependsOn publishDocumentation
 project.tasks.publish.dependsOn bintrayUpload
 
 rootProject.tasks.deploy.dependsOn project.tasks.publish

@@ -20,23 +20,18 @@ version = 'v0.1.0'
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension
 //      themeProjects - Orchid themes, required to actually use Orchid by all other projects
-//      pluginProjects - Additional functionality to add to Orchid, none of which are required by any project, but
-//          are all included in Core's Orchid build
-//      mainProjects - The aggregate of the above groups. Excludes 'empty projects' like ':themes' and ':plugins', as
-//          well as the root project and 'buildSrc'
-ext.coreProject = subprojects.findAll {
-    return (it.name == "Core")
-}
-ext.themeProjects = subprojects.findAll {
-    return (it.path.startsWith(":themes")) && (it.name != "themes")
-}
-ext.pluginProjects = subprojects.findAll {
-    return (it.path.startsWith(":plugins")) && (it.name != "plugins")
-}
-ext.mainProjects = coreProject + themeProjects + pluginProjects
+//      pluginProjects - Additional functionality to add to Orchid, none of which are required by any project
+//      bundleProjects - Groups of plugins and themes intended to make it easy to get set up with a fully-configured
+//              Orchid environment with a single dependency artifact.
+//      mainProjects - The aggregate of core, theme, and plugin groups. Includes all packages which contain sources.
+//              Excludes 'empty projects' like ':themes' and ':plugins', as well as the root project and 'buildSrc'
+ext.coreProject    = subprojects.findAll { return (it.name == "Core") }
+ext.themeProjects  = subprojects.findAll { return (it.path.startsWith(":themes"))  && (it.name != "themes") }
+ext.pluginProjects = subprojects.findAll { return (it.path.startsWith(":plugins")) && (it.name != "plugins") }
+ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
+ext.mainProjects   = coreProject + themeProjects + pluginProjects
 
 task deploy {
-
     onlyIf {
         if (project.hasProperty('env') && project.property('env') == 'prod') {
             return true
@@ -63,86 +58,7 @@ task deploy {
     }
 }
 
-// apply common plugins, configurations, dependencies, etc. to all core projects
-configure(ext.mainProjects) {
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply plugin: 'com.eden.orchidPlugin'
-    apply plugin: "com.dorongold.task-tree"
-    apply plugin: "org.ajoberstar.grgit"
-
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-
-    repositories {
-        jcenter()
-        maven { url 'https://jitpack.io' }
-    }
-
-    group 'io.github.javaeden.orchid'
-    version = rootProject.version
-
-    ext {
-        if (project.hasProperty('theme') && project.property('theme') == 'Editorial') {
-            commonTheme = ':themes:Editorial'
-            commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
-        } else {
-            commonTheme = ':themes:BsDoc'
-            commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
-        }
-
-        commonRunTask = "listThemes"
-        commonBaseUrl = 'http://localhost:8080'
-
-        if (project.hasProperty('env')) {
-            switch (project.property('env')) {
-                case 'prod':
-                    commonBaseUrl = 'https://javaeden.github.io/Orchid'
-                    break
-                case 'staging':
-                    commonBaseUrl = 'http://localhost:8080'
-                    break
-                case 'dev':
-                    commonBaseUrl = 'http://localhost:8080'
-                    break
-            }
-        }
-    }
-
-    apply from: "$rootDir/gradle/javadoc.gradle"
-    apply from: "$rootDir/gradle/publish.gradle"
-
-    dependencies {
-        testCompile 'junit:junit:4.12'
-        testCompile 'org.hamcrest:hamcrest-library:1.3'
-        compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
-    }
-}
-
-// apply theme-specific configurations to those projects
-configure(ext.themeProjects) {
-    dependencies {
-        compile project(":Core") // core lib
-
-        orchidDocsCompile project // theme lib
-        orchidDocsCompile rootProject.ext.pluginProjects // all plugin libs
-    }
-
-    tasks.jar {
-        dependsOn ':Core:jar'
-    }
-}
-
-// apply plugin-specific configurations to those projects
-configure(ext.pluginProjects) {
-    dependencies {
-        compile project(":Core") // core lib
-
-        orchidDocsCompile project("${project.ext.commonTheme}") // theme lib
-        orchidDocsCompile rootProject.ext.pluginProjects // all plugin libs
-    }
-
-    tasks.jar {
-        dependsOn ':Core:jar', "${project.ext.commonTheme}:jar"
-    }
-}
+configure(ext.mainProjects)   { apply from: "$rootDir/gradle/mainProjects.gradle" }
+configure(ext.themeProjects)  { apply from: "$rootDir/gradle/themeProjects.gradle" }
+configure(ext.pluginProjects) { apply from: "$rootDir/gradle/pluginProjects.gradle" }
+configure(ext.bundleProjects) { apply from: "$rootDir/gradle/bundleProjects.gradle" }
