@@ -46,13 +46,13 @@ afterEvaluate { project ->
 
 
     bintray {
-        user = "${project.properties['bintray.username']}"
-        key = "${project.properties['bintray.apiKey']}"
+        user = "${project.properties['bintray_username']}"
+        key = "${project.properties['bintray_apiKey']}"
         publications = ['OrchidPublication']
 
         dryRun = false
         publish = true
-        override = (project.version === 'SNAPSHOT') ? true : false
+        override = true
 
         pkg {
             repo = 'Orchid'
@@ -71,8 +71,8 @@ afterEvaluate { project ->
                 }
                 mavenCentralSync {
                     sync = true
-                    user = "${project.properties['mavenCentral.username']}"
-                    password = "${project.properties['mavenCentral.password']}"
+                    user = "${project.properties['mavenCentral_username']}"
+                    password = "${project.properties['mavenCentral_password']}"
                 }
             }
         }
@@ -104,3 +104,5 @@ task publishDocumentation {
 
 project.tasks.publish.dependsOn publishDocumentation
 project.tasks.publish.dependsOn bintrayUpload
+
+rootProject.tasks.deploy.dependsOn project.tasks.publish
