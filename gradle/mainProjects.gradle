@@ -17,10 +17,10 @@ project.version = rootProject.version
 
 ext {
     if (project.hasProperty('theme') && project.property('theme') == 'Editorial') {
-        commonTheme = ':themes:Editorial'
+        commonTheme = ':themes:OrchidEditorial'
         commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
     } else {
-        commonTheme = ':themes:BsDoc'
+        commonTheme = ':themes:OrchidBsDoc'
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
     }
 

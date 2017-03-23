@@ -27,7 +27,7 @@ dependencies {
 }
 
 static boolean otherProjectsTask(Task task, String taskName) {
-    return !task.path.startsWith(':Core') && task.path.endsWith(":${taskName}")
+    return !task.path.startsWith(':OrchidCore') && task.path.endsWith(":${taskName}")
 }
 
 project.parent.subprojects.each { subproject ->

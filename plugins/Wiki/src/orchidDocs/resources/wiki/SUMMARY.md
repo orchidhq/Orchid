@@ -6,6 +6,7 @@
 # Get Started
 
 ### [Get Started](get_started.md)
+### [Setup](setup.md)
 
 # Writing your Wiki
 

@@ -1,10 +1,10 @@
 dependencies {
-    compile project(":Core") // core lib
+    compile project(":OrchidCore") // core lib
 
     orchidDocsCompile project("${project.ext.commonTheme}") // theme lib
     orchidDocsCompile rootProject.ext.pluginProjects // all plugin libs
 }
 
 tasks.jar {
-    dependsOn ':Core:jar', "${project.ext.commonTheme}:jar"
+    dependsOn ':OrchidCore:jar', "${project.ext.commonTheme}:jar"
 }

@@ -5,9 +5,9 @@ root: true
 
 ---
 
-</section>
- 
- {{ options.baseUrl | json }}
+</section> 
+
+{{ options.baseUrl | json }}
 
 Orchid consists of one main package and several other optional packages and themes you can use to add extend your Orchid 
 site. See below for all officially-supported Orchid projects.

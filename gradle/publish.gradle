@@ -31,7 +31,7 @@ afterEvaluate { project ->
                 artifact project.sourcesJar
                 artifact project.javadocJar
                 groupId "${project.group}"
-                artifactId "Orchid${project.name}"
+                artifactId "${project.name}"
                 version "${project.version}"
                 pom.withXml {
                     def root = asNode()
@@ -55,8 +55,8 @@ afterEvaluate { project ->
         override = true
 
         pkg {
-            repo = 'Orchid'
-            name = "Orchid${project.name}"
+            repo = "${rootProject.name}"
+            name = "${project.name}"
             userOrg = 'javaeden'
             licenses = ['MIT']
             vcsUrl = 'https://github.com/JavaEden/Orchid.git'

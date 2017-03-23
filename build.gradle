@@ -25,7 +25,7 @@ version = 'v0.1.0'
 //              Orchid environment with a single dependency artifact.
 //      mainProjects - The aggregate of core, theme, and plugin groups. Includes all packages which contain sources.
 //              Excludes 'empty projects' like ':themes' and ':plugins', as well as the root project and 'buildSrc'
-ext.coreProject    = subprojects.findAll { return (it.name == "Core") }
+ext.coreProject    = subprojects.findAll { return (it.name == "OrchidCore") }
 ext.themeProjects  = subprojects.findAll { return (it.path.startsWith(":themes"))  && (it.name != "themes") }
 ext.pluginProjects = subprojects.findAll { return (it.path.startsWith(":plugins")) && (it.name != "plugins") }
 ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
@@ -43,18 +43,22 @@ task deploy {
     }
 
     doLast {
+        // go to gh-pages branch, remove 'latest' folder, copy generated docs into root, then commit and push
         grgit.checkout(branch: 'gh-pages')
-
+        delete "$rootDir/latest"
         copy {
-            from file("$rootDir/docs")
-            into file("$rootDir")
+            from "$rootDir/docs"
+            into "$rootDir"
         }
 
         grgit.add(patterns: ['latest', "${rootProject.version}"])
         grgit.commit(message: "Updates docs to '${rootProject.version}'")
         grgit.push()
 
+        // go back to master branch, tag this release, then push the tag
         grgit.checkout(branch: 'master')
+//        grgit.tag.add(name: "${rootProject.version}", message: "Deployed Orchid ${rootProject.version}", force: true)
+//        grgit.push(tags: true)
     }
 }
 

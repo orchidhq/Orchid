@@ -186,7 +186,7 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     private OrchidPage findGlossaryTerms(OrchidPage page) {
-        String content = page.getResource().getContent();
+        String content = page.getContent();
 
         for(JSONObject term : terms) {
             if(content.contains(term.getString("name"))) {
@@ -194,7 +194,10 @@ public class WikiGenerator extends OrchidGenerator {
             }
         }
 
+        JSONObject data = page.getData();
+
         page.setResource(new StringResource(content, page.getResource().getReference()));
+        page.setData(data);
         return page;
     }
 }
