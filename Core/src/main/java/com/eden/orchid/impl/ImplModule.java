@@ -8,6 +8,7 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.render.ContentFilter;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
@@ -53,7 +54,8 @@ public class ImplModule extends OrchidModule {
 
     private static final Class[] optionalSets = new Class[] {
             EventListener.class,
-            Theme.class
+            Theme.class,
+            ContentFilter.class
     };
 
     @Override

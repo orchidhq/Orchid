@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
+import com.eden.orchid.api.render.ContentFilter;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 
@@ -18,13 +19,19 @@ public abstract class Theme extends DefaultResourceSource {
     private Set<OrchidCompiler> compilers;
     private Set<OrchidParser> parsers;
     private OrchidPrecompiler precompiler;
+    private Set<ContentFilter> filters;
 
     @Inject
-    public Theme(OrchidContext context, OrchidPrecompiler precompiler, Set<OrchidCompiler> compilers, Set<OrchidParser> parsers) {
+    public Theme(OrchidContext context,
+                 OrchidPrecompiler precompiler,
+                 Set<OrchidCompiler> compilers,
+                 Set<OrchidParser> parsers,
+                 Set<ContentFilter> filters) {
         super(context);
         this.precompiler = precompiler;
         this.compilers = new ObservableTreeSet<>(compilers);
         this.parsers = new ObservableTreeSet<>(parsers);
+        this.filters = new ObservableTreeSet<>(filters);
     }
 
     public boolean shouldContinue() {
@@ -50,7 +57,13 @@ public abstract class Theme extends DefaultResourceSource {
     public String compile(String extension, String input, Object... data) {
         OrchidCompiler compiler = compilerFor(extension);
 
-        return (compiler != null) ? compiler.compile(extension, input, data) : input;
+        String compiledContent = (compiler != null) ? compiler.compile(extension, input, data) : input;
+
+        for(ContentFilter filter : filters) {
+            compiledContent = filter.apply(compiledContent);
+        }
+
+        return compiledContent;
     }
 
     public JSONElement parse(String extension, String input) {

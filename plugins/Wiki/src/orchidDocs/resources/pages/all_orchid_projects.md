@@ -10,7 +10,7 @@ root: true
 {{ options.baseUrl | json }}
 
 Orchid consists of one main package and several other optional packages and themes you can use to add extend your Orchid 
-site. See below for all officially-supported Orchid projects.
+site. See below for all officially-supported Orchid projects. (some of these pages might contain the glossary term 'MyTerm')
 
 <section class="bs-docs-section">
     <h1 id="base" class="page-header">Base</h1>  

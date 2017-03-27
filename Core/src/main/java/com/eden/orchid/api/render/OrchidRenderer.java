@@ -13,8 +13,8 @@ import java.util.Set;
 public abstract class OrchidRenderer {
 
     protected OrchidContext context;
-    protected Set<TemplateResolutionStrategy> strategies;
     protected OrchidResources resources;
+    protected Set<TemplateResolutionStrategy> strategies;
 
     @Inject
     public OrchidRenderer(OrchidContext context, OrchidResources resources, Set<TemplateResolutionStrategy> strategies) {

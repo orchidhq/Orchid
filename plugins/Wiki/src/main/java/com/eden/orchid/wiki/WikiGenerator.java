@@ -26,7 +26,7 @@ import java.util.List;
 public class WikiGenerator extends OrchidGenerator {
 
     private List<OrchidPage> wiki;
-    private List<JSONObject> terms;
+    public static List<JSONObject> terms;
 
     private OrchidResources resources;
     private WikiPathOption option;
@@ -70,15 +70,7 @@ public class WikiGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<OrchidPage> pages) {
-        pages.stream()
-             .forEach((page -> {
-                 if(!page.getReference().getFullPath().equalsIgnoreCase(wikiBaseDir + "glossary")) {
-                     findGlossaryTerms(page).renderTemplate();
-                 }
-                 else {
-                     page.renderTemplate();
-                 }
-             }));
+        pages.stream().forEach((page -> page.renderTemplate()));
     }
 
     private void setupGlossary() {
@@ -183,21 +175,5 @@ public class WikiGenerator extends OrchidGenerator {
         page.setType("wiki");
 
         wiki.add(page);
-    }
-
-    private OrchidPage findGlossaryTerms(OrchidPage page) {
-        String content = page.getContent();
-
-        for(JSONObject term : terms) {
-            if(content.contains(term.getString("name"))) {
-                content = content.replaceAll(term.getString("name"), Clog.format("<a href=\"#{$1}\">#{$2}</a>", new Object[]{ term.getString("url"), term.getString("name") }));
-            }
-        }
-
-        JSONObject data = page.getData();
-
-        page.setResource(new StringResource(content, page.getResource().getReference()));
-        page.setData(data);
-        return page;
     }
 }
