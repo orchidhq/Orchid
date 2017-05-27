@@ -2,7 +2,7 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.events.EventEmitter;
+import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.tasks.OrchidTasks;
@@ -79,7 +79,7 @@ public final class Orchid {
         injector = Guice.createInjector(findModules());
 
         context = injector.getInstance(OrchidContext.class);
-        EventEmitter emitter = injector.getInstance(EventEmitter.class);
+        EventService emitter = injector.getInstance(EventService.class);
         context.bootstrap(options, null);
 
         boolean success = context.runTask(task);
@@ -94,7 +94,7 @@ public final class Orchid {
                                               .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
         context = injector.getInstance(OrchidContext.class);
-        EventEmitter emitter = injector.getInstance(EventEmitter.class);
+        EventService emitter = injector.getInstance(EventService.class);
         context.bootstrap(options, rootDoc);
 
         boolean success = context.runTask(OrchidTasks.defaultTask);

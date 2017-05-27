@@ -12,8 +12,15 @@ github:
   repo: 'Orchid'
   branch: 'master'
 
-#disabledGenerators:
-#  - 'JavadocClassesGenerator'
+disabledGenerators:
+#  - 'AssetsGenerator'
+  - 'JavadocClassesGenerator'
+#  - 'PagesGenerator'
+#  - 'PostsGenerator'
+#  - 'WikiGenerator'
+  - 'JavadocPackagesGenerator'
+#  - 'HomepageGenerator'
+  - 'IndexGenerator'
 
 posts:
   permalink: ':year/:month/:title'

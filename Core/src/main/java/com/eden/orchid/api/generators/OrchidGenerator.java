@@ -52,13 +52,13 @@ public abstract class OrchidGenerator extends Prioritized {
      *
      * @return a list of pages that will be built by this generator
      */
-    public abstract List<OrchidPage> startIndexing();
+    public abstract List<? extends OrchidPage> startIndexing();
 
     /**
      * A callback to begin generating content. The index is fully built and should not be changed at this time. The
      * list of pages returned by `startIndexing` is passed back in as an argument to the method.
      */
-    public abstract void startGeneration(List<OrchidPage> pages);
+    public abstract void startGeneration(List<? extends OrchidPage> pages);
 
     /**
      * Return the name of the OrchidGenerator. The index created by this OrchidGenerator is scoped under this name.

@@ -3,15 +3,7 @@
 <head>
     {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
-
-    <!-- start:inject styles -->
-    {% set cssFiles = index.assets.css | walk('url') %}
-    {% if cssFiles.size > 0 %}
-        {% for file in cssFiles %}
-            <link rel="stylesheet" type="text/css" href="{{ file.url }}"/>
-        {% endfor %}
-    {% endif %}
-    <!-- end:inject styles -->
+    {{ theme.styles }}
 </head>
 <body>
 
@@ -36,7 +28,7 @@
     <div class="row">
         <div class="col-md-9" role="main">
             {% block mainContent %}
-                {{ content }}
+
             {% endblock %}
         </div>
 
@@ -67,33 +59,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/0.1.2/trianglify.min.js"></script>
 
-<!-- inject scripts -->
-{% set jsFiles = index.assets.js | walk('url') %}
-{% if jsFiles.size > 0 %}
-    {% for file in jsFiles %}
-        <script src="{{ file.url }}"></script>
-    {% endfor %}
-{% endif %}
-{% if index %}
-    <script>window.index = {{ index | json }};</script>
-{% endif %}
-
-{% if page %}
-    <script>window.page = {{ page | json }};</script>
-{% endif %}
-
-{% if options.config %}
-    <script>window.config = {{ options.config | json }};</script>
-{% endif %}
-
-{% if options %}
-    <script>window.options = {{ options | json }};</script>
-{% endif %}
-<!-- end:inject scripts -->
+{{ theme.scripts }}
 
 <script>
     $(function () {
-
         {% if options.config and options.config.colors %}
             window.colors = {{ options.config.colors | json }};
         {% else %}

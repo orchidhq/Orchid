@@ -43,7 +43,7 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     @Override
     public String precompile(String input, Object... data) {
-        return context.getTheme().compile(precompilerExtension, input, context.mergeWithSiteData(data));
+        return context.getTheme().compile(precompilerExtension, input, data);
     }
 
     private EdenPair<JSONObject, Integer> parseFrontMatter(String input) {

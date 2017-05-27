@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.JsonResource;
+import com.eden.orchid.javadoc.JavadocClassPage;
 import com.eden.orchid.javadoc.impl.docParsers.ClassDocParser;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
@@ -41,19 +42,19 @@ public class JavadocClassesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidPage> startIndexing() {
+    public List<? extends OrchidPage> startIndexing() {
         root = context.getRootDoc();
 
         if (root == null) {
             return null;
         }
 
-        List<OrchidPage> pages = new ArrayList<>();
+        List<JavadocClassPage> pages = new ArrayList<>();
 
         for (ClassDoc classDoc : root.classes()) {
             JSONObject classInfo = classDocParser.loadClassData(classDoc);
 
-            OrchidPage classPage = new OrchidPage(new JsonResource(new JSONElement(classInfo), classDocParser.getReference(classDoc)));
+            JavadocClassPage classPage = new JavadocClassPage(new JsonResource(new JSONElement(classInfo), classDocParser.getReference(classDoc)));
             classPage.getReference().setTitle(classDoc.typeName());
 
             classPage.setType("classDoc");
@@ -64,7 +65,7 @@ public class JavadocClassesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
+    public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
              .forEach((page -> page.renderTemplate()));
     }

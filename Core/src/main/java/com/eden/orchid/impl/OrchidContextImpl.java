@@ -6,9 +6,12 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.events.EventEmitter;
+import com.eden.orchid.api.events.EventService;
+import com.eden.orchid.api.events.FilterService;
 import com.eden.orchid.api.generators.OrchidGenerators;
+import com.eden.orchid.api.generators.OrchidRootIndex;
 import com.eden.orchid.api.options.OrchidOptions;
+import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTasks;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -35,29 +39,31 @@ public final class OrchidContextImpl implements OrchidContext {
     private OrchidTasks orchidTasks;
     private OrchidOptions options;
     private OrchidGenerators generators;
-    private EventEmitter emitter;
+    private EventService eventService;
+    private FilterService filterService;
 
     @Inject
-    public OrchidContextImpl(Injector injector, OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators, EventEmitter emitter) {
+    public OrchidContextImpl(Injector injector, OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators, EventService eventService, FilterService filterService) {
         this.injector = injector;
         this.orchidTasks = orchidTasks;
         this.options = options;
         this.generators = generators;
-        this.emitter = emitter;
+        this.eventService = eventService;
+        this.filterService = filterService;
     }
 
     @Override
     public void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc) {
-        emitter.broadcast(Orchid.Events.INIT_COMPLETE);
+        eventService.broadcast(Orchid.Events.INIT_COMPLETE);
 
         this.root = new JSONObject();
         this.rootDoc = rootDoc;
         root.put("options", new JSONObject());
 
         options.parseOptions(optionsMap, root.getJSONObject("options"));
-        emitter.broadcast(Orchid.Events.OPTIONS_PARSED, root.getJSONObject("options"));
+        eventService.broadcast(Orchid.Events.OPTIONS_PARSED, root.getJSONObject("options"));
 
-        emitter.broadcast(Orchid.Events.BOOTSTRAP_COMPLETE);
+        eventService.broadcast(Orchid.Events.BOOTSTRAP_COMPLETE);
     }
 
     @Override
@@ -65,7 +71,7 @@ public final class OrchidContextImpl implements OrchidContext {
         if (shouldContinue()) {
             reorderResourceSources();
             Clog.i("Using Theme: #{$1}", new Object[]{theme.getClass().getName()});
-            emitter.broadcast(Orchid.Events.THEME_SET, getTheme());
+            eventService.broadcast(Orchid.Events.THEME_SET, getTheme());
             orchidTasks.run(taskName);
             return true;
         }
@@ -80,11 +86,11 @@ public final class OrchidContextImpl implements OrchidContext {
 
     @Override
     public void build() {
-        emitter.broadcast(Orchid.Events.BUILD_START);
+        eventService.broadcast(Orchid.Events.BUILD_START);
         root.put("index", new JSONObject());
-        generators.startIndexing(root.getJSONObject("index"));
+        generators.startIndexing();
         generators.startGeneration();
-        emitter.broadcast(Orchid.Events.BUILD_FINISH);
+        eventService.broadcast(Orchid.Events.BUILD_FINISH);
     }
 
     @Override
@@ -92,7 +98,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
     @Override
     public void broadcast(String event, Object... args) {
-        emitter.broadcast(event, args);
+        eventService.broadcast(event, args);
     }
 
     private void reorderResourceSources() {
@@ -138,20 +144,35 @@ public final class OrchidContextImpl implements OrchidContext {
         }
     }
 
-    public JSONObject mergeWithSiteData(Object... data) {
-        String s = "";
-        if(data != null && data.length > 0 && data[0] != null) {
-            s = data[0].toString();
+    @Override
+    public Map<String, Object> getSiteData(Object... data) {
+        Map<String, Object> siteData = new HashMap<>();
+
+        Map<String, ?> root = getRoot().toMap();
+
+        for (String key : root.keySet()) {
+            siteData.put(key, root.get(key));
         }
 
-        JSONObject root = new JSONObject(getRoot().toMap());
+        if(data != null && data.length > 0) {
+            if(data[0] instanceof OrchidPage) {
+                OrchidPage page = (OrchidPage) data[0];
+                siteData.put("page", page);
 
-        if(!EdenUtils.isEmpty(s)) {
-            for (String key : new JSONObject(s).keySet()) {
-                root.put(key, new JSONObject(s).get(key));
+                if(!EdenUtils.isEmpty(page.getType()) && !page.getType().equalsIgnoreCase("page")) {
+                    siteData.put(page.getType(), page);
+                }
             }
         }
 
-        return root;
+        siteData.put("root", root);
+        siteData.put("theme", getTheme());
+        siteData.put("index", getIndex());
+
+        return siteData;
+    }
+
+    public OrchidRootIndex getIndex() {
+        return this.generators.getIndex();
     }
 }

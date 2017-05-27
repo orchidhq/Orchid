@@ -56,7 +56,12 @@ public class LimitFilter implements JtwigFunction {
                     offsetEnd = list.size();
                 }
 
-                return list.subList(offset, offsetEnd);
+                if(offset >= 0) {
+                    return list.subList(offset, offsetEnd);
+                }
+                else {
+                    return list.subList(0, offsetEnd);
+                }
             }
         }
         catch (Exception e) {

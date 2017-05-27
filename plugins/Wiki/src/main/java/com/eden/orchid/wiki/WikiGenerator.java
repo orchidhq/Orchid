@@ -25,8 +25,8 @@ import java.util.List;
 @Singleton
 public class WikiGenerator extends OrchidGenerator {
 
-    private List<OrchidPage> wiki;
-    public static List<JSONObject> terms;
+    private List<WikiPage> wiki;
+    public static List<JSONObject> terms = new ArrayList<>();
 
     private OrchidResources resources;
     private WikiPathOption option;
@@ -40,6 +40,7 @@ public class WikiGenerator extends OrchidGenerator {
         this.option = option;
 
         this.priority = 700;
+        this.wiki = new ArrayList<>();
     }
 
     @Override
@@ -53,14 +54,11 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidPage> startIndexing() {
+    public List<? extends OrchidPage> startIndexing() {
 
         if(!EdenUtils.isEmpty(option.getPath())) {
             wikiBaseDir = option.getPath();
         }
-
-        wiki = new ArrayList<>();
-        terms = new ArrayList<>();
 
         setupSummary();
         setupGlossary();
@@ -69,7 +67,7 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
+    public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream().forEach((page -> page.renderTemplate()));
     }
 
@@ -106,7 +104,7 @@ public class WikiGenerator extends OrchidGenerator {
         glossary = new StringResource(context, wikiBaseDir + "glossary.md", safe);
         glossary.getReference().setTitle("Glossary");
 
-        OrchidPage page = new OrchidPage(glossary);
+        WikiPage page = new WikiPage(glossary);
         page.getReference().setUsePrettyUrl(true);
         page.setType("wiki");
 
@@ -125,7 +123,7 @@ public class WikiGenerator extends OrchidGenerator {
 
         Elements links = doc.select("a[href]");
 
-        OrchidPage previous = null;
+        WikiPage previous = null;
 
         for (Element a : links) {
             String file = wikiBaseDir + a.attr("href");
@@ -138,7 +136,7 @@ public class WikiGenerator extends OrchidGenerator {
                 resource = new StringResource(context, path + File.separator + "index.md", a.text());
             }
 
-            OrchidPage page = new OrchidPage(resource);
+            WikiPage page = new WikiPage(resource);
 
             if(!EdenUtils.isEmpty(FilenameUtils.getExtension(a.attr("href")))) {
                 page.getReference().setUsePrettyUrl(true);
@@ -169,7 +167,7 @@ public class WikiGenerator extends OrchidGenerator {
         summary = new StringResource(context, wikiBaseDir + "summary.md", safe);
         summary.getReference().setTitle("Summary");
 
-        OrchidPage page = new OrchidPage(summary);
+        WikiPage page = new WikiPage(summary);
         page.getReference().setUsePrettyUrl(true);
 
         page.setType("wiki");

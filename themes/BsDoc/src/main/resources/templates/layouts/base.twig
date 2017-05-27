@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'includes/header.twig' %}
+    {% include 'meta.twig' ignore missing %}
+    {{ theme.styles }}
+</head>
+<body>
+
+<a class="github-fork-ribbon left-top"
+   href="https://github.com/{{ options.config.github.username }}/{{ options.config.github.repo }}"
+   title="Fork me on GitHub">Fork me on GitHub</a>
+
+{% block siteNav %}
+    {% include 'includes/nav.twig' %}
+{% endblock %}
+
+<div id="top"></div>
+
+{% block baseJumbotron %}
+
+{% endblock %}
+
+<div class="container bs-docs-container">
+    <div class="row">
+        <div class="col-md-9" role="main">
+            {% block mainContent %}
+
+            {% endblock %}
+        </div>
+
+        <!-- Page navigation
+        =========================================== -->
+        <div class="col-md-3" role="complementary">
+            <div class="bs-docs-sidebar hidden-print">
+                <ul class="nav bs-docs-sidenav">
+                    {% block pageNav %}
+
+                    {% endblock %}
+                </ul>
+                <a class="back-to-top" href="#top">
+                    <i class="glyphicon glyphicon-chevron-up"></i> Back to top
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<hr>
+
+<div class="container bs-docs-container">
+    {% include 'includes/footer.twig' %}
+</div>
+
+{% block baseScripts %}
+
+{% endblock %}
+
+{{ theme.scripts }}
+
+<script>
+    $(function () {
+        {% if options.config and options.config.colors %}
+        window.colors = {{ options.config.colors | json }};
+        {% else %}
+        window.colors = ['#4C376C', '#000000'];
+        {% endif %}
+        {% block baseRunScripts %}
+
+        {% endblock %}
+        buildNav();
+    });
+</script>
+</body>
+</html>

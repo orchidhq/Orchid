@@ -9,20 +9,11 @@
     <title>Editorial by HTML5 UP</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-
     {% include 'meta.twig' ignore missing %}
-
-    <!-- start:inject styles -->
-    {% set cssFiles = index.assets.css | walk('url') %}
-    {% if cssFiles.size > 0 %}
-        {% for file in cssFiles %}
-            <link rel="stylesheet" type="text/css" href="{{ file.url }}" />
-        {% endfor %}
-    {% endif %}
-    <!-- end:inject styles -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+    {{ theme.styles }}
 </head>
 <body class="is-loading">
 
@@ -91,26 +82,7 @@
 
 </div>
 
-<!-- inject scripts -->
-{% set jsFiles = index.assets.js | walk('url') %}
-{% if jsFiles.size > 0 %}
-    {% for file in jsFiles %}
-        <script src="{{ file.url }}"></script>
-    {% endfor %}
-{% endif %}
-
-{% if index %}
-    <script>window.index = {{ index | json }};</script>
-{% endif %}
-
-{% if page %}
-    <script>window.page = {{ page | json }};</script>
-{% endif %}
-
-{% if options %}
-    <script>window.options = {{ options | json }};</script>
-{% endif %}
-<!-- end:inject scripts -->
+{{ theme.scripts }}
 
 </body>
 </html>

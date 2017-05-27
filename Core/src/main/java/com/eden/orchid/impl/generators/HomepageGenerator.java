@@ -35,7 +35,7 @@ public class HomepageGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidPage> startIndexing() {
+    public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
 
         JSONObject frontPageData = new JSONObject();
@@ -54,15 +54,14 @@ public class HomepageGenerator extends OrchidGenerator {
 
         page.setData(frontPageData);
         page.getReference().setTitle("Home");
-
+        page.setType("frontPage");
         pages.add(page);
 
         return pages;
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
-        pages.stream()
-             .forEach((page -> page.renderTemplate("frontPage")));
+    public void startGeneration(List<? extends OrchidPage> pages) {
+        pages.stream().forEach((page -> page.renderTemplate()));
     }
 }

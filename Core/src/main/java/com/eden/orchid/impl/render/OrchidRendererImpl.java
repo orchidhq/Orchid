@@ -21,7 +21,7 @@ public class OrchidRendererImpl extends OrchidRenderer {
     }
 
     protected boolean render(OrchidPage page, String extension, String content) {
-        content = "" + context.getTheme().compile(extension, content, page.getData());
+        content = "" + context.getTheme().compile(extension, content, page);
 
         String outputPath = page.getReference().getFullPath();
         String outputName = page.getReference().getFileName() + "." + page.getReference().getOutputExtension();

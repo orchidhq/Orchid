@@ -2,46 +2,50 @@ package com.eden.orchid.api.generators;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
-import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.utilities.ObservableTreeSet;
-import com.eden.orchid.utilities.OrchidUtils;
+import lombok.Data;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
+@Data
 @Singleton
 public final class OrchidGenerators {
     private JSONArray disabledGenerators;
     private Set<OrchidGenerator> generators;
 
     private OrchidContext context;
-    private Map<String, List<OrchidPage>> indexPages;
+    private OrchidRootIndex index;
 
     @Inject
-    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators) {
+    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators, OrchidRootIndex index) {
         this.context = context;
         this.generators = new ObservableTreeSet<>(generators);
-        this.indexPages = new HashMap<>();
+        this.index = index;
     }
 
-    public void startIndexing(JSONObject indexObject) {
+    public void startIndexing() {
         generators.stream()
                   .filter(this::shouldUseGenerator)
-                  .map(this::indexGenerator)
-                  .filter(Objects::nonNull)
-                  .forEach(pair -> indexObject.put(pair.first, pair.second));
+                  .forEach(this::indexGenerator);
+
+//        Clog.v("We have #{$1} css pages", this.index.find("assets/css").size());
+//        Clog.v("We have #{$1} js pages", this.index.find("assets/js").size());
+//        Clog.v("We have #{$1} svg pages", this.index.find("assets/svg").size());
+//        Clog.v("We have #{$1} assets pages", this.index.find("assets").size());
+
+        Clog.v("We have #{$1} 'pages' pages", this.index.find("pages").size());
+        Clog.v("We have #{$1} 'pages/blns' pages", this.index.find("pages/blns").size());
+
+        Clog.v("We have #{$1} pages total", this.index.getAllPages().size());
     }
 
     public void startGeneration() {
@@ -50,55 +54,30 @@ public final class OrchidGenerators {
                   .forEach(this::useGenerator);
     }
 
-    private EdenPair<String, JSONObject> indexGenerator(OrchidGenerator generator) {
+    private void indexGenerator(OrchidGenerator generator) {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
-        List<OrchidPage> generatorPages = generator.startIndexing();
-        if (generatorPages != null && generatorPages.size() > 0) {
-            if (!EdenUtils.isEmpty(generator.getName())) {
-                indexPages.put(generator.getName(), generatorPages);
-
-                JSONObject generatorIndex = new JSONObject();
-
-                for(OrchidPage page : generatorPages) {
-                    JSONObject pageIndex = new JSONObject();
-
-                    pageIndex.put("name", page.getReference().getTitle());
-                    pageIndex.put("url", page.getReference().toString());
-                    pageIndex.put("data", page.getData());
-
-                    OrchidUtils.buildTaxonomy(page.getResource(), generatorIndex, pageIndex);
-
-                    if(page.getResource() instanceof FreeableResource) {
-                        ((FreeableResource) page.getResource()).free();
-                    }
+        List<? extends OrchidPage> generatorPages = generator.startIndexing();
+        if (!EdenUtils.isEmpty(generator.getName()) && generatorPages != null && generatorPages.size() > 0) {
+            for(OrchidPage page : generatorPages) {
+                index.addPage(generator.getName(), page);
+                if(page.getResource() instanceof FreeableResource) {
+                    ((FreeableResource) page.getResource()).free();
                 }
-
-                JSONObject fullIndexObject = generatorIndex.optJSONObject(generator.getName());
-                if(fullIndexObject == null) {
-                    fullIndexObject = generatorIndex;
-                }
-
-                return new EdenPair<>(generator.getName(), fullIndexObject);
             }
         }
-
-        return null;
     }
 
     private void useGenerator(OrchidGenerator generator) {
         Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
-        List<OrchidPage> generatorPages = null;
-
+        List<? extends OrchidPage> generatorPages = null;
         if(!EdenUtils.isEmpty(generator.getName())) {
-            generatorPages = indexPages.get(generator.getName());
+            generatorPages = index.getGeneratorPages(generator.getName());
         }
-
         if(generatorPages == null) {
             generatorPages = new ArrayList<>();
         }
-
         generator.startGeneration(generatorPages);
     }
 

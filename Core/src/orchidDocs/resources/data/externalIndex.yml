@@ -1,9 +1,10 @@
 
-- "file://../plugins/Javadoc/build/docs/javadoc/meta/index.json"
-- "file://../plugins/Pages/build/docs/javadoc/meta/index.json"
-- "file://../plugins/Posts/build/docs/javadoc/meta/index.json"
-- "file://../plugins/Server/build/docs/javadoc/meta/index.json"
-- "file://../plugins/Wiki/build/docs/javadoc/meta/index.json"
-
-- "file://../themes/BsDoc/build/docs/javadoc/meta/index.json"
-- "file://../themes/Editorial/build/docs/javadoc/meta/index.json"
+#- "file://../plugins/Javadoc/build/docs/javadoc/meta/index.json"
+#- "file://../plugins/Pages/build/docs/javadoc/meta/index.json"
+#- "file://../plugins/Posts/build/docs/javadoc/meta/index.json"
+#- "file://../plugins/Server/build/docs/javadoc/meta/index.json"
+#- "file://../plugins/Wiki/build/docs/javadoc/meta/index.json"
+#
+#- "file://../themes/BsDoc/build/docs/javadoc/meta/index.json"
+#- "file://../themes/Editorial/build/docs/javadoc/meta/index.json"
+#

@@ -38,12 +38,12 @@ public class IndexGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidPage> startIndexing() {
+    public List<? extends OrchidPage> startIndexing() {
         return null;
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
+    public void startGeneration(List<? extends OrchidPage> pages) {
         generateIndexFiles();
     }
 

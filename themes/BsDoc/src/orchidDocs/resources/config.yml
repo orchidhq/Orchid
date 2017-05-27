@@ -7,3 +7,13 @@ github:
   username: 'JavaEden'
   repo: 'Orchid'
   branch: 'master'
+
+disabledGenerators:
+#  - 'AssetsGenerator'
+  - 'JavadocClassesGenerator'
+#  - 'PagesGenerator'
+#  - 'PostsGenerator'
+#  - 'WikiGenerator'
+  - 'JavadocPackagesGenerator'
+#  - 'HomepageGenerator'
+  - 'IndexGenerator'

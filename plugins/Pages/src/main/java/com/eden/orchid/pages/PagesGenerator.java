@@ -36,9 +36,9 @@ public class PagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidPage> startIndexing() {
+    public List<? extends OrchidPage> startIndexing() {
         List<OrchidResource> resourcesList = resources.getLocalResourceEntries("pages", null, true);
-        List<OrchidPage> pages = new ArrayList<>();
+        List<StaticPage> pages = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
             if(!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
@@ -56,9 +56,7 @@ public class PagesGenerator extends OrchidGenerator {
 
             entry.getReference().setUsePrettyUrl(true);
 
-            OrchidPage page = new OrchidPage(entry);
-            page.setType("page");
-
+            StaticPage page = new StaticPage(entry);
             pages.add(page);
         }
 
@@ -66,7 +64,7 @@ public class PagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
+    public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
              .forEach((page -> {
                  page.renderTemplate();

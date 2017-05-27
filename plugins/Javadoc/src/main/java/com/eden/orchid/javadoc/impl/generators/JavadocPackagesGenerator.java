@@ -33,7 +33,7 @@ public class JavadocPackagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
+    public void startGeneration(List<? extends OrchidPage> pages) {
 
     }
 }

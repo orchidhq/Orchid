@@ -34,7 +34,7 @@ public class AssetsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidPage> startIndexing() {
+    public List<? extends OrchidPage> startIndexing() {
         List<OrchidResource> resourcesList = resources.getResourceEntries("assets", null, true);
         List<OrchidPage> assets = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class AssetsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<OrchidPage> pages) {
+    public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
              .forEach(OrchidPage::renderRaw);
     }

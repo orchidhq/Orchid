@@ -2,6 +2,8 @@ package com.eden.orchid.api;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Theme;
+import com.eden.orchid.api.events.FilterService;
+import com.eden.orchid.api.generators.OrchidIndex;
 import com.google.inject.Injector;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
@@ -17,7 +19,7 @@ public interface OrchidContext {
 
     JSONElement query(String pointer);
 
-    JSONObject mergeWithSiteData(Object... data);
+    Map<String, Object> getSiteData(Object... data);
 
     Theme getTheme();
     void setTheme(Theme theme);
@@ -26,6 +28,8 @@ public interface OrchidContext {
 
     RootDoc getRootDoc();
     Injector getInjector();
+    FilterService getFilterService();
+    OrchidIndex getIndex();
 
     void broadcast(String event, Object... args);
 }

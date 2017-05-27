@@ -15,21 +15,21 @@ public class OrchidPage {
 
     protected OrchidContext context;
 
-    private OrchidReference reference;
+    protected OrchidReference reference;
 
-    private OrchidPage next;
-    private OrchidPage previous;
+    protected OrchidPage next;
+    protected OrchidPage previous;
 
-    private String description;
-    private String type;
+    protected String description;
+    protected String type;
 
-    private JSONObject data;
-    private JSONArray menu;
+    protected JSONObject data;
+    protected JSONArray menu;
 
-    private OrchidResource resource;
+    protected OrchidResource resource;
 
     // injected members
-    private OrchidRenderer renderer;
+    protected OrchidRenderer renderer;
 
     public OrchidPage(OrchidResource resource) {
         this.context = resource.getContext();
@@ -76,31 +76,11 @@ public class OrchidPage {
      */
     public void renderTemplate(String... templateName) {
         this.data = buildPageData();
-
-        String pageContent = getContent();
-
-        this.data.put("content", pageContent);
-
-        this.data.getJSONObject("page").put("content", pageContent);
-        if (!EdenUtils.isEmpty(type)) {
-            this.data.getJSONObject(type).put("content", pageContent);
-        }
-
         renderer.renderTemplate(this, templateName);
     }
 
     public void renderString(String extension, String templateString) {
         this.data = buildPageData();
-
-        String pageContent = getContent();
-
-        this.data.put("content", pageContent);
-
-        this.data.getJSONObject("page").put("content", pageContent);
-        if (!EdenUtils.isEmpty(type)) {
-            this.data.getJSONObject(type).put("content", pageContent);
-        }
-
         renderer.renderString(this, extension, templateString);
     }
 
@@ -109,7 +89,6 @@ public class OrchidPage {
      */
     public void renderRaw() {
         this.data = buildPageData();
-
         renderer.renderRaw(this);
     }
 
@@ -189,5 +168,13 @@ public class OrchidPage {
     @Inject
     public void setRenderer(OrchidRenderer renderer) {
         this.renderer = renderer;
+    }
+
+    public String getTitle() {
+        return reference.getTitle();
+    }
+
+    public String getLink() {
+        return reference.toString();
     }
 }

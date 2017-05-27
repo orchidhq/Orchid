@@ -2,7 +2,6 @@ package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
-import org.json.JSONObject;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 import org.jtwig.environment.EnvironmentConfiguration;
@@ -16,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -47,17 +47,11 @@ public class JTwigCompiler extends OrchidCompiler {
 
     @Override
     public String compile(String extension, String source, Object... data) {
-
-        JSONObject siteData = context.mergeWithSiteData(data);
-
-        JtwigModel model = (siteData != null)
-                ? JtwigModel.newModel(siteData.toMap())
-                : JtwigModel.newModel();
-
+        Map<String, Object> siteData = context.getSiteData(data);
         return new JtwigTemplate(
                 new EnvironmentFactory().create(jtwigEnvironment),
                 new ResourceReference(ResourceReference.STRING, source)
-        ).render(model);
+        ).render(JtwigModel.newModel(siteData));
     }
 
     @Override

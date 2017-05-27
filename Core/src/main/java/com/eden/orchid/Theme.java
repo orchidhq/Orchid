@@ -7,6 +7,7 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.render.ContentFilter;
+import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 
@@ -84,5 +85,29 @@ public abstract class Theme extends DefaultResourceSource {
         OrchidCompiler compiler = compilerFor(extension);
 
         return (compiler != null) ? compiler.getOutputExtension() : extension;
+    }
+
+    public String scripts() {
+        String scripts = "<!-- start:inject scripts -->";
+
+        for(OrchidPage script : context.getIndex().find("assets/js")) {
+            scripts += "<script src=\"" + script.getLink() + "\"></script>";
+        }
+
+        scripts += "<!-- end:inject scripts -->";
+
+        return scripts;
+    }
+
+    public String styles() {
+        String styles = "<!-- start:inject styles -->";
+
+        for(OrchidPage style : context.getIndex().find("assets/css")) {
+            styles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + style.getLink() + "\"/>";
+        }
+
+        styles += "<!-- end:inject styles -->";
+
+        return styles;
     }
 }

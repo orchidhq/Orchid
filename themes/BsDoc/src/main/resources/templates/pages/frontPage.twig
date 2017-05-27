@@ -1,4 +1,4 @@
-{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/index.twig"] %}
+{% extends ["layouts/index.twig"] %}
 
 {% block jumbotron %}
     <h1 class="home-title">{{ options.config.about.name }}</h1>
@@ -24,37 +24,42 @@
 
 {% block mainContent %}
 
-    {% if page.readme %}
+    {% if page.data.readme %}
         <section class="bs-docs-section">
             <h1 id="readme" class="page-header">Readme</h1>
-
-            {{ page.readme }}
-
+            {{ page.data.readme }}
         </section>
     {% endif %}
 
-    {% if index.classes %}
-        <section class="bs-docs-section">
-            <h1 id="classes" class="page-header">Classes</h1>
+    {#{% if index.classes  %}#}
+        {#<section class="bs-docs-section">#}
+            {#<h1 id="classes" class="page-header">Classes</h1>#}
 
-            <div class="all-classes">
-                <ul class="pager">
-                    {% set classList = index.classes | walk('url') | sortBy('name') %}
-                    {% for c in classList %}
-                        <li><a href="{{ c.url }}">{{ c.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </section>
-    {% endif %}
+            {#<div class="all-classes">#}
+                {#<ul class="pager">#}
+                    {#{% set classList = index.classes | walk('url') | sortBy('name') %}#}
+                    {#{% for c in classList %}#}
+                        {#<li><a href="{{ c.url }}">{{ c.name }}</a></li>#}
+                    {#{% endfor %}#}
+                {#</ul>#}
+            {#</div>#}
+        {#</section>#}
+    {#{% endif %}#}
 
-    {% if page.license %}
+    {% if page.data.license %}
         <section class="bs-docs-section">
             <h1 id="license" class="page-header">License</h1>
-
-            <pre>{{ page.license }}</pre>
+            <pre>{{ page.data.license }}</pre>
         </section>
     {% endif %}
+
+    <section class="bs-docs-section">
+        <ul class="pager">
+            {% for page in index.getAllPages() %}
+                <li><a href="{{ page.link }}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
 
 {% endblock %}
 

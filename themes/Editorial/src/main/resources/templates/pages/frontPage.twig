@@ -15,22 +15,22 @@
         </div>
     </section>
 
-    {% if page.readme %}
+    {% if page.data.readme %}
         <section id="readme">
             <header class="major">
                 <h2>Readme</h2>
             </header>
-            <article>{{ page.readme }}</article>
+            <article>{{ page.data.readme }}</article>
         </section>
     {% endif %}
 
     <!-- Section -->
-    {% if page.license %}
+    {% if page.data.license %}
         <section id="license">
             <header class="major">
                 <h2>License</h2>
             </header>
-            <article><pre>{{ page.license }}</pre></article>
+            <article><pre>{{ page.data.license }}</pre></article>
         </section>
     {% endif %}
 
