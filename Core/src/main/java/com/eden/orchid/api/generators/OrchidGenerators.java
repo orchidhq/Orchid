@@ -47,9 +47,6 @@ public final class OrchidGenerators {
         buildInternalIndex();
         buildExternalIndex();
         mergeIndices(this.internalIndex, this.externalIndex);
-
-        Clog.v("External index: ");
-        Clog.v(externalIndex.toString());
     }
 
     public void startGeneration() {
