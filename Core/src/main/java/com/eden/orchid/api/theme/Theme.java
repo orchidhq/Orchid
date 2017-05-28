@@ -1,4 +1,4 @@
-package com.eden.orchid;
+package com.eden.orchid.api.theme;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
@@ -7,7 +7,7 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.render.ContentFilter;
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 

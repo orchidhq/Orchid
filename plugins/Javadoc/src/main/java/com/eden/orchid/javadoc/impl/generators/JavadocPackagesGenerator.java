@@ -3,7 +3,7 @@ package com.eden.orchid.javadoc.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

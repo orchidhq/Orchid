@@ -3,7 +3,7 @@ package com.eden.orchid.impl.render;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 
 import javax.inject.Inject;
@@ -21,8 +21,8 @@ public class OrchidRendererImpl extends OrchidRenderer {
     }
 
     protected boolean render(OrchidPage page, String extension, String content) {
+        page.prepareComponents();
         content = "" + context.getTheme().compile(extension, content, page);
-
         String outputPath = page.getReference().getFullPath();
         String outputName = page.getReference().getFileName() + "." + page.getReference().getOutputExtension();
 

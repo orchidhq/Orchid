@@ -3,7 +3,7 @@ package com.eden.orchid.javadoc.impl.docParsers;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.ClassDoc;

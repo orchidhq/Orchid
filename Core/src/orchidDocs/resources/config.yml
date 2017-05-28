@@ -20,7 +20,7 @@ disabledGenerators:
 #  - 'WikiGenerator'
   - 'JavadocPackagesGenerator'
 #  - 'HomepageGenerator'
-  - 'IndexGenerator'
+#  - 'IndexGenerator'
 
 posts:
   permalink: ':year/:month/:title'

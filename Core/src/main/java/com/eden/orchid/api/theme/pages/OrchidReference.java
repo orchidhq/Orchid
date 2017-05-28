@@ -1,13 +1,16 @@
-package com.eden.orchid.api.resources;
+package com.eden.orchid.api.theme.pages;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
+import lombok.Data;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
-public class OrchidReference {
+@Data
+public final class OrchidReference {
 
     protected OrchidContext context;
 
@@ -125,18 +128,6 @@ public class OrchidReference {
         this.usePrettyUrl = source.usePrettyUrl;
     }
 
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
-    public String getBasePath() {
-        return basePath;
-    }
-
     public void setBasePath(String basePath) {
         this.basePath = basePath;
 
@@ -188,10 +179,6 @@ public class OrchidReference {
         }
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public String getFileName() {
         if (usePrettyUrl) {
             return "index";
@@ -201,28 +188,8 @@ public class OrchidReference {
         }
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
     public String getOutputExtension() {
         return context.getTheme().getOutputExtension(extension);
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -234,21 +201,8 @@ public class OrchidReference {
         }
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean isUsePrettyUrl() {
-        return usePrettyUrl;
-    }
-
-    public void setUsePrettyUrl(boolean usePrettyUrl) {
-        this.usePrettyUrl = usePrettyUrl;
-    }
-
     @Override
     public String toString() {
-
         String output = "";
 
         if (!EdenUtils.isEmpty(baseUrl)) {
@@ -297,5 +251,34 @@ public class OrchidReference {
 
     public OrchidContext getContext() {
         return context;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject referenceJson = new JSONObject();
+        referenceJson.put("link", this.toString());
+
+        referenceJson.put("baseUrl", this.baseUrl);
+        referenceJson.put("basePath", this.basePath);
+        referenceJson.put("path", this.path);
+        referenceJson.put("fileName", this.fileName);
+        referenceJson.put("extension", this.extension);
+        referenceJson.put("id", this.id);
+        referenceJson.put("title", this.title);
+        referenceJson.put("usePrettyUrl", this.usePrettyUrl);
+
+        return referenceJson;
+    }
+
+    public static OrchidReference fromJSON(OrchidContext context, JSONObject source) {
+        OrchidReference newReference = new OrchidReference(context);
+        newReference.baseUrl      = source.optString("baseUrl");
+        newReference.basePath     = source.optString("basePath");
+        newReference.path         = source.optString("path");
+        newReference.fileName     = source.optString("fileName");
+        newReference.extension    = source.optString("extension");
+        newReference.id           = source.optString("id");
+        newReference.title        = source.optString("title");
+        newReference.usePrettyUrl = source.optBoolean("usePrettyUrl");
+        return newReference;
     }
 }

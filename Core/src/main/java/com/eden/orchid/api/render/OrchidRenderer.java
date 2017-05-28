@@ -1,7 +1,7 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.ObservableTreeSet;
@@ -82,4 +82,5 @@ public abstract class OrchidRenderer {
      * @return true if the page was successfully rendered, false otherwise
      */
     protected abstract boolean render(OrchidPage page, String extension, String content);
+
 }

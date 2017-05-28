@@ -2,7 +2,7 @@ package com.eden.orchid.impl.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.Theme;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidOption;
 import com.google.inject.Provider;

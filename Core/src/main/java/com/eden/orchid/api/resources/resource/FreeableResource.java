@@ -2,7 +2,7 @@ package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 
 /**
  * An abstract concept of a 'freeable' resource, that is one that is able to look its contents back up, and so can be

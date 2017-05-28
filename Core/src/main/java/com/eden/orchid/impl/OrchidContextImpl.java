@@ -4,17 +4,21 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.events.FilterService;
 import com.eden.orchid.api.generators.OrchidGenerators;
-import com.eden.orchid.api.generators.OrchidRootIndex;
+import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.OrchidOptions;
-import com.eden.orchid.api.resources.OrchidPage;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.components.OrchidComponent;
+import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
+import com.eden.orchid.impl.indexing.OrchidExternalIndex;
+import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
 import com.sun.javadoc.RootDoc;
@@ -162,6 +166,20 @@ public final class OrchidContextImpl implements OrchidContext {
                 if(!EdenUtils.isEmpty(page.getType()) && !page.getType().equalsIgnoreCase("page")) {
                     siteData.put(page.getType(), page);
                 }
+
+                Map<String, OrchidComponent> pageComponents = page.getComponents();
+
+                for (Map.Entry<String, OrchidComponent> componentEntry : pageComponents.entrySet()) {
+                    siteData.put(componentEntry.getKey(), componentEntry.getValue());
+                }
+            }
+            else if(data[0] instanceof OrchidComponent) {
+                OrchidComponent component = (OrchidComponent) data[0];
+                siteData.put("component", component);
+
+                if(!EdenUtils.isEmpty(component.getAlias()) && !component.getAlias().equalsIgnoreCase("component")) {
+                    siteData.put(component.getAlias(), component);
+                }
             }
         }
 
@@ -172,7 +190,19 @@ public final class OrchidContextImpl implements OrchidContext {
         return siteData;
     }
 
-    public OrchidRootIndex getIndex() {
-        return this.generators.getIndex();
+    public OrchidIndex getIndex() {
+        return this.generators.getInternalIndex();
+    }
+
+    public OrchidRootInternalIndex getInternalIndex() {
+        return this.generators.getInternalIndex();
+    }
+
+    public OrchidExternalIndex getExternalIndex() {
+        return this.generators.getExternalIndex();
+    }
+
+    public OrchidCompositeIndex getCompositeIndex() {
+        return this.generators.getCompositeIndex();
     }
 }

@@ -1,7 +1,7 @@
 package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.Theme;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.utilities.ObservableTreeSet;

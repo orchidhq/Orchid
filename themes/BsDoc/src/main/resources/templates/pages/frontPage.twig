@@ -24,10 +24,10 @@
 
 {% block mainContent %}
 
-    {% if page.data.readme %}
+    {% if readme %}
         <section class="bs-docs-section">
             <h1 id="readme" class="page-header">Readme</h1>
-            {{ page.data.readme }}
+            {{ readme.render() }}
         </section>
     {% endif %}
 
@@ -46,10 +46,10 @@
         {#</section>#}
     {#{% endif %}#}
 
-    {% if page.data.license %}
+    {% if license %}
         <section class="bs-docs-section">
             <h1 id="license" class="page-header">License</h1>
-            <pre>{{ page.data.license }}</pre>
+            <pre>{{ license.render() }}</pre>
         </section>
     {% endif %}
 

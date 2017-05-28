@@ -2,11 +2,12 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
-import org.json.JSONObject;
+import com.eden.orchid.impl.components.LicenseComponent;
+import com.eden.orchid.impl.components.ReadmeComponent;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class HomepageGenerator extends OrchidGenerator {
     public HomepageGenerator(OrchidContext context, OrchidResources resources) {
         super(context);
         this.resources = resources;
-
         setPriority(2);
     }
 
@@ -37,26 +37,15 @@ public class HomepageGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
-
-        JSONObject frontPageData = new JSONObject();
-        OrchidResource readmeResource = resources.getProjectReadme();
-        if (readmeResource != null) {
-            frontPageData.put("readme", context.getTheme().compile(readmeResource.getReference().getExtension(), readmeResource.getContent()));
-        }
-
-        OrchidResource licenseResource = resources.getProjectLicense();
-        if (licenseResource != null) {
-            frontPageData.put("license", context.getTheme().compile(licenseResource.getReference().getExtension(), licenseResource.getContent()));
-        }
-
         OrchidResource resource = new StringResource(context, "index.twig", "");
         OrchidPage page = new OrchidPage(resource);
-
-        page.setData(frontPageData);
         page.getReference().setTitle("Home");
         page.setType("frontPage");
-        pages.add(page);
 
+        page.addComponent("readme", ReadmeComponent.class);
+        page.addComponent("license", LicenseComponent.class);
+
+        pages.add(page);
         return pages;
     }
 

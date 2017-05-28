@@ -1,16 +1,12 @@
 package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,13 +21,11 @@ import java.util.TreeMap;
 @Singleton
 public final class OrchidResources {
 
-    private OrchidContext context;
     private Set<LocalResourceSource> localResourceSources;
     private Set<DefaultResourceSource> defaultResourceSources;
 
     @Inject
-    public OrchidResources(OrchidContext context, Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
-        this.context = context;
+    public OrchidResources(Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
         this.localResourceSources = new ObservableTreeSet<>(localResourceSources);
         this.defaultResourceSources = new ObservableTreeSet<>(defaultResourceSources);
     }
@@ -112,88 +106,6 @@ public final class OrchidResources {
         addEntries(entries, defaultResourceSources, path, fileExtensions, recursive);
 
         return new ArrayList<>(entries.values());
-    }
-
-    /**
-     * Find the projects README file
-     *
-     * @return an OrchidResource containing the README content if it was found, null otherwise
-     */
-    public OrchidResource getProjectReadme() {
-        if (!EdenUtils.isEmpty(context.query("options.resourcesDir"))) {
-            String resourceDir = context.query("options.resourcesDir").toString();
-
-            File folder = new File(resourceDir);
-
-            // set hard limit of searching no more than 10 parent directories for the README
-            int maxIterations = 10;
-
-            while (true) {
-                if (folder.isDirectory()) {
-                    List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
-
-                    for (File file : files) {
-                        if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("readme")) {
-                            return new FileResource(context, file);
-                        }
-                    }
-                }
-
-                // set the folder to its own parent and search again
-                if (folder.getParentFile() != null && maxIterations > 0) {
-                    folder = folder.getParentFile();
-                    maxIterations--;
-                }
-
-                // there is no more parent to search, exit the loop
-                else {
-                    break;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Find the projects License file
-     *
-     * @return an OrchidResource containing the License content if it was found, null otherwise
-     */
-    public OrchidResource getProjectLicense() {
-        if (!EdenUtils.isEmpty(context.query("options.resourcesDir"))) {
-            String resourceDir = context.query("options.resourcesDir").toString();
-
-            File folder = new File(resourceDir);
-
-            // set hard limit of searching no more than 10 parent directories for the README
-            int maxIterations = 10;
-
-            while (true) {
-                if (folder.isDirectory()) {
-                    List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
-
-                    for (File file : files) {
-                        if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase("license")) {
-                            return new FileResource(context, file);
-                        }
-                    }
-                }
-
-                // set the folder to its own parent and search again
-                if (folder.getParentFile() != null && maxIterations > 0) {
-                    folder = folder.getParentFile();
-                    maxIterations--;
-                }
-
-                // there is no more parent to search, exit the loop
-                else {
-                    break;
-                }
-            }
-        }
-
-        return null;
     }
 
     private void addEntries(

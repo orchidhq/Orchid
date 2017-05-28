@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 

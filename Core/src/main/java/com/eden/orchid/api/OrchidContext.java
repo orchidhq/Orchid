@@ -1,9 +1,12 @@
 package com.eden.orchid.api;
 
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.Theme;
 import com.eden.orchid.api.events.FilterService;
-import com.eden.orchid.api.generators.OrchidIndex;
+import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
+import com.eden.orchid.impl.indexing.OrchidExternalIndex;
+import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.google.inject.Injector;
 import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
@@ -30,6 +33,9 @@ public interface OrchidContext {
     Injector getInjector();
     FilterService getFilterService();
     OrchidIndex getIndex();
+    OrchidRootInternalIndex getInternalIndex();
+    OrchidExternalIndex getExternalIndex();
+    OrchidCompositeIndex getCompositeIndex();
 
     void broadcast(String event, Object... args);
 }

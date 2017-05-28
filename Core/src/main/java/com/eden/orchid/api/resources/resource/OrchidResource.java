@@ -2,7 +2,7 @@ package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import lombok.Data;
 
 @Data

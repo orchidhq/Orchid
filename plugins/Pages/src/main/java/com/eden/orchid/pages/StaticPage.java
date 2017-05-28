@@ -1,6 +1,6 @@
 package com.eden.orchid.pages;
 
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 
 public class StaticPage extends OrchidPage {

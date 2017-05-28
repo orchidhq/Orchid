@@ -1,7 +1,6 @@
 package com.eden.orchid.impl;
 
 import com.eden.orchid.OrchidModule;
-import com.eden.orchid.Theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
@@ -14,6 +13,7 @@ import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.impl.compilers.TextCompiler;
 import com.eden.orchid.impl.compilers.asciidoc.AsciiDoctorCompiler;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
@@ -23,7 +23,6 @@ import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
-import com.eden.orchid.impl.events.LoadExternalIndices;
 import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
@@ -69,9 +68,7 @@ public class ImplModule extends OrchidModule {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
-        addToSet(EventListener.class,
-                SetupEnvironment.class,
-                LoadExternalIndices.class);
+        addToSet(EventListener.class, SetupEnvironment.class);
 
         // Resource Sources
         addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);

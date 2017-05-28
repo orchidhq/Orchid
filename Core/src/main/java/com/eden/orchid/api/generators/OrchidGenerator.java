@@ -2,7 +2,7 @@ package com.eden.orchid.api.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.Prioritized;
-import com.eden.orchid.api.resources.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.eden.orchid.api.resources.resource;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidReference;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 
 /**
  * A Resource type that provides a plain String as content to a template. When used with renderTemplate() or renderString(),
