@@ -23,7 +23,7 @@ public abstract class LocalResourceSource extends OrchidResourceSource {
 
     @Override
     public OrchidResource getResourceEntry(String fileName) {
-        File file = new File(getDirectory() + File.separator + fileName.replaceAll("/", File.separator));
+        File file = new File(getDirectory() + "/" + fileName);
 
         if (file.exists() && !file.isDirectory()) {
             return new FileResource(context, file);
@@ -36,8 +36,8 @@ public abstract class LocalResourceSource extends OrchidResourceSource {
     public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
         List<OrchidResource> entries = new ArrayList<>();
 
-        String fullPath = getDirectory() + File.separator + path;
-        File file = new File(fullPath.replaceAll("/", File.separator));
+        String fullPath = getDirectory() + "/" + path;
+        File file = new File(fullPath);
 
         if (file.exists() && file.isDirectory()) {
             Collection newFiles = FileUtils.listFiles(file, fileExtensions, recursive);

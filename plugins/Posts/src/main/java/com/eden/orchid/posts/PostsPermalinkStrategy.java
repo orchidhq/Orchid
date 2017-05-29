@@ -30,7 +30,7 @@ public class PostsPermalinkStrategy {
             permalink = context.query("options.permalink").toString();
         }
 
-        permalink = OrchidUtils.stripSeparators(permalink);
+        permalink = OrchidUtils.normalizePath(permalink);
 
         if(!EdenUtils.isEmpty(permalink)) {
             return permalink;

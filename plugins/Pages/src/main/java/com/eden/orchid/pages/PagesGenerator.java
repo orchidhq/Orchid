@@ -66,8 +66,6 @@ public class PagesGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
-             .forEach((page -> {
-                 page.renderTemplate();
-             }));
+             .forEach(OrchidPage::renderTemplate);
     }
 }

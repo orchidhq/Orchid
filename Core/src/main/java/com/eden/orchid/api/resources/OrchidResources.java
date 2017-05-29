@@ -10,7 +10,6 @@ import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -126,7 +125,7 @@ public final class OrchidResources {
                     String relative = OrchidUtils.getRelativeFilename(resource.getReference().getFullPath(), path);
 
                     String key = relative
-                            + File.separator
+                            + "/"
                             + resource.getReference().getFileName()
                             + "."
                             + resource.getReference().getOutputExtension();

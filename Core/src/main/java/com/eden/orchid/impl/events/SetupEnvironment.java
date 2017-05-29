@@ -44,7 +44,7 @@ public class SetupEnvironment implements EventListener {
         JSONObject configFile = Arrays.stream(dataExtensions)
                 .map(ext ->
                     Arrays.stream(formats)
-                          .map(format -> parseFile(new File(resPath + File.separator + Clog.format(format, env, ext))))
+                          .map(format -> parseFile(new File(resPath + "/" + Clog.format(format, env, ext))))
                           .filter(OrchidUtils::elementIsObject)
                           .map(el -> (JSONObject) el.getElement())
                           .findFirst()
@@ -67,7 +67,7 @@ public class SetupEnvironment implements EventListener {
 
         JSONObject dataOptions = new JSONObject();
 
-        File dataDir = new File(resPath + File.separator + "data");
+        File dataDir = new File(resPath + "/data");
 
         if(dataDir.exists() && dataDir.isDirectory()) {
             new ArrayList<File>(FileUtils.listFiles(dataDir, dataExtensions, false))

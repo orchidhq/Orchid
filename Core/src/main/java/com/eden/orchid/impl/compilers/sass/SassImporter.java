@@ -39,7 +39,7 @@ public class SassImporter implements Importer {
         for(String availableFile : availableFiles) {
             String absoluteUri = splitPath(previous.getAbsoluteUri().getPath()).first + "/" + availableFile;
 
-            OrchidResource importedResource = resources.get().getResourceEntry("assets/css/" + OrchidUtils.stripSeparators(absoluteUri));
+            OrchidResource importedResource = resources.get().getResourceEntry("assets/css/" + OrchidUtils.normalizePath(absoluteUri));
 
             if (importedResource != null) {
                 String content = importedResource.getContent();
@@ -49,7 +49,7 @@ public class SassImporter implements Importer {
                 }
 
                 try {
-                    return Collections.singletonList(new Import(OrchidUtils.stripSeparators(absoluteUri), OrchidUtils.stripSeparators(absoluteUri), content));
+                    return Collections.singletonList(new Import(OrchidUtils.normalizePath(absoluteUri), OrchidUtils.normalizePath(absoluteUri), content));
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -70,7 +70,7 @@ public class SassImporter implements Importer {
             }
             String fileName = pieces[pieces.length - 1].replaceAll("_", "");
 
-            return new EdenPair<>(OrchidUtils.stripSeparators(path), OrchidUtils.stripSeparators(fileName));
+            return new EdenPair<>(OrchidUtils.normalizePath(path), OrchidUtils.normalizePath(fileName));
         }
         else {
             return new EdenPair<>("", name);

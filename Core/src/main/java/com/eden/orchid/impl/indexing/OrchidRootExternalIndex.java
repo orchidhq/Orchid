@@ -3,11 +3,13 @@ package com.eden.orchid.impl.indexing;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.inject.Singleton;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Singleton
 public final class OrchidRootExternalIndex extends OrchidExternalIndex {
 

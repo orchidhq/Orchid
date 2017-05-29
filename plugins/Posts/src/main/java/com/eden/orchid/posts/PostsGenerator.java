@@ -289,6 +289,6 @@ public class PostsGenerator extends OrchidGenerator {
         reference.setTitle(pageData.getString("title"));
         reference.setFileName(title);
         reference.setUsePrettyUrl(true);
-        reference.setPath(OrchidUtils.stripSeparators(resultingUrl));
+        reference.setPath(OrchidUtils.normalizePath(resultingUrl));
     }
 }

@@ -36,7 +36,7 @@ public class FileLoader {
 
     public JSONObject loadAdditionalFile(String url) {
         if(!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
-            return loadLocalFile(url.replaceAll("file://", "").replaceAll("/", File.separator));
+            return loadLocalFile(url.replaceAll("file://", ""));
         }
         else {
             return loadRemoteFile(url);

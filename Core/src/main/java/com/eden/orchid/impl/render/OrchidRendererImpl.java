@@ -1,10 +1,12 @@
 package com.eden.orchid.impl.render;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -23,10 +25,19 @@ public class OrchidRendererImpl extends OrchidRenderer {
     protected boolean render(OrchidPage page, String extension, String content) {
         page.prepareComponents();
         content = "" + context.getTheme().compile(extension, content, page);
-        String outputPath = page.getReference().getFullPath();
-        String outputName = page.getReference().getFileName() + "." + page.getReference().getOutputExtension();
+        String outputPath   = OrchidUtils.normalizePath(page.getReference().getFullPath());
+        String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
+        String baseDir      = OrchidUtils.normalizePath(context.query("options.d").getElement().toString());
+        String resourcesDir = OrchidUtils.normalizePath(context.query("options.resourcesDir").getElement().toString());
 
-        outputPath = context.query("options.d").getElement().toString() + File.separator + outputPath.replaceAll("/", File.separator);
+        // TODO: find out why this line is even necessary. Somwhere a base path is not being stripped properly...
+        outputPath = baseDir + "/" + outputPath.replace(resourcesDir, "").replace(baseDir, "");
+        if(baseDir.startsWith("/")) {
+            outputPath = "/" + outputPath;
+        }
+        outputPath = OrchidUtils.normalizePath(outputPath);
+        Clog.v("Output dir: '#{$1}', output path: '#{$2}'", new Object[]{baseDir, outputPath});
+        // endTODO
 
         File outputFile = new File(outputPath);
         if (!outputFile.exists()) {
@@ -34,7 +45,7 @@ public class OrchidRendererImpl extends OrchidRenderer {
         }
 
         try {
-            Path classesFile = Paths.get(outputPath + File.separator + outputName);
+            Path classesFile = Paths.get(outputPath + "/" + outputName);
             Files.write(classesFile, content.getBytes());
             return true;
         }

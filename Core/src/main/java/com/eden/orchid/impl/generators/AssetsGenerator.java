@@ -39,6 +39,7 @@ public class AssetsGenerator extends OrchidGenerator {
         List<OrchidPage> assets = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
+//            entry.getReference().setBasePath("assets");
             assets.add(new OrchidPage(entry));
         }
 

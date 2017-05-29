@@ -6,7 +6,6 @@ import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.regex.Pattern;
 
 @Data
@@ -59,7 +58,7 @@ public final class OrchidReference {
         this.context = context;
         if (context.query("options.baseUrl") != null) {
             baseUrl = context.query("options.baseUrl").toString();
-            baseUrl = OrchidUtils.stripSeparators(baseUrl);
+            baseUrl = OrchidUtils.normalizePath(baseUrl);
         }
     }
 
@@ -75,7 +74,7 @@ public final class OrchidReference {
         }
 
         if (fullFileName.contains("/")) {
-            String pattern = Pattern.quote(File.separator);
+            String pattern = Pattern.quote("/");
             String[] parts = fullFileName.split(pattern);
 
             path = "";
@@ -84,7 +83,7 @@ public final class OrchidReference {
                     fileName = parts[i].replace("." + extension, "");
                 }
                 else {
-                    path += parts[i] + File.separator;
+                    path += parts[i] + "/";
                 }
             }
         }
@@ -93,15 +92,15 @@ public final class OrchidReference {
             fileName = fullFileName.replace("." + extension, "");
         }
 
-        path = OrchidUtils.stripSeparators(path);
+        path = OrchidUtils.normalizePath(path);
 
         if (context.query("options.resourcesDir") != null) {
             String basePath = context.query("options.resourcesDir").toString();
-            basePath = OrchidUtils.stripSeparators(basePath);
+            basePath = OrchidUtils.normalizePath(basePath);
 
             if (path.startsWith(basePath)) {
                 path = path.replace(basePath, "");
-                path = OrchidUtils.stripSeparators(path);
+                path = OrchidUtils.normalizePath(path);
             }
         }
     }
@@ -137,12 +136,12 @@ public final class OrchidReference {
     }
 
     public void stripBasePath(String basePath) {
-        basePath = OrchidUtils.stripSeparators(basePath);
+        basePath = OrchidUtils.normalizePath(basePath);
 
         this.basePath = null;
 
         if (this.path.startsWith(basePath)) {
-            this.path = OrchidUtils.stripSeparators(path.replace(basePath, ""));
+            this.path = OrchidUtils.normalizePath(path.replace(basePath, ""));
         }
     }
 
@@ -152,8 +151,8 @@ public final class OrchidReference {
         if (usePrettyUrl) {
             if (!EdenUtils.isEmpty(path)) {
                 output += path;
-                if (!path.endsWith(File.separator)) {
-                    output += File.separator;
+                if (!path.endsWith("/")) {
+                    output += "/";
                 }
             }
 
@@ -172,7 +171,7 @@ public final class OrchidReference {
 
     public String getFullPath() {
         if (!EdenUtils.isEmpty(basePath)) {
-            return basePath + File.separator + getPath();
+            return basePath + "/" + getPath();
         }
         else {
             return getPath();
@@ -207,26 +206,26 @@ public final class OrchidReference {
 
         if (!EdenUtils.isEmpty(baseUrl)) {
             output += baseUrl;
-            if (!baseUrl.endsWith(File.separator)) {
-                output += File.separator;
+            if (!baseUrl.endsWith("/")) {
+                output += "/";
             }
         }
         else {
-            output += File.separator;
+            output += "/";
         }
 
         if (!EdenUtils.isEmpty(basePath)) {
             output += basePath;
 
-            if (!basePath.endsWith(File.separator)) {
-                output += File.separator;
+            if (!basePath.endsWith("/")) {
+                output += "/";
             }
         }
 
         if (!EdenUtils.isEmpty(path)) {
             output += path;
-            if (!path.endsWith(File.separator)) {
-                output += File.separator;
+            if (!path.endsWith("/")) {
+                output += "/";
             }
         }
 

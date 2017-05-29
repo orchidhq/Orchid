@@ -2,12 +2,12 @@ package com.eden.orchid.api.resources.resourceSource;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.JarResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public abstract class DefaultResourceSource extends OrchidResourceSource {
         while (jarEntries.hasMoreElements()) {
             JarEntry jarEntry = jarEntries.nextElement();
             // we are checking a file in the jar
-            if (jarEntry.getName().startsWith(path + File.separator) && !jarEntry.isDirectory()) {
+            if (OrchidUtils.normalizePath(jarEntry.getName()).startsWith(path + "/") && !jarEntry.isDirectory()) {
 
                 if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.getName(), fileExtensions)) {
 

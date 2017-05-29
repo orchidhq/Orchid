@@ -3,11 +3,11 @@ package com.eden.orchid.api.indexing;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.indexing.OrchidExternalIndex;
+import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public abstract class OrchidIndex {
     public abstract Class<? extends OrchidIndex> childIndexClass();
 
     public void addToIndex(String taxonomy, OrchidPage page) {
-        String[] pathPieces = taxonomy.split(File.separator);
+        String[] pathPieces = OrchidUtils.normalizePath(taxonomy).split("/");
 
         if(pathPieces.length > 0) {
             addToIndex(pathPieces, page);
@@ -61,7 +61,7 @@ public abstract class OrchidIndex {
 
     public List<OrchidPage> find(String taxonomy) {
         List<OrchidPage> foundPages = new ArrayList<>();
-        String[] pathPieces = taxonomy.split(File.separator);
+        String[] pathPieces = taxonomy.split("/");
         if(pathPieces.length > 0) {
             foundPages.addAll(find(pathPieces));
         }

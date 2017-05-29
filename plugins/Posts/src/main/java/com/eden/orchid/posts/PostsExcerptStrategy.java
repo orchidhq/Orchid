@@ -30,7 +30,7 @@ public class PostsExcerptStrategy {
             excerptSeparator = context.query("options.excerpt_separator").toString();
         }
 
-        excerptSeparator = OrchidUtils.stripSeparators(excerptSeparator);
+        excerptSeparator = OrchidUtils.normalizePath(excerptSeparator);
 
         String content = page.getContent();
 

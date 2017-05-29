@@ -2,6 +2,7 @@ package com.eden.orchid.impl.indexing;
 
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Singleton
 public final class OrchidRootInternalIndex extends OrchidInternalIndex {
     private Map<String, OrchidInternalIndex> allIndexedPages;

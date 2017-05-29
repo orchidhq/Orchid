@@ -35,7 +35,7 @@ public final class OrchidUtils {
             baseUrl = context.query("options.baseUrl").toString();
         }
 
-        return baseUrl + File.separator + url;
+        return baseUrl + "/" + url;
     }
 
     public static String linkTo(OrchidContext context, String linkName) {
@@ -45,10 +45,10 @@ public final class OrchidUtils {
     public static String linkTo(OrchidContext context, String linkName, String displayName) {
         Set<OrchidGenerator> generators = new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidGenerator.class));
 
-        for(OrchidGenerator generator : generators) {
+        for (OrchidGenerator generator : generators) {
             String linkText = linkToIndex(context, linkName, generator.getName(), displayName);
 
-            if(!linkText.equals(linkName)) {
+            if (!linkText.equals(linkName)) {
                 return linkText;
             }
         }
@@ -64,12 +64,12 @@ public final class OrchidUtils {
 
         JSONArray index = queryIndex(context, indexKey);
 
-        if(index != null) {
+        if (index != null) {
             JSONObject indexObject = new JSONObject();
             indexObject.put("index", index);
 
             String s = findInMap(linkName, indexObject, displayName);
-            if(!EdenUtils.isEmpty(s)) {
+            if (!EdenUtils.isEmpty(s)) {
                 return s;
             }
         }
@@ -81,22 +81,22 @@ public final class OrchidUtils {
         List urls = WalkMapFilter.walkObject(mapObject, "url");
         String template = "<a href=\"#{$1}\">#{$2}</a>";
 
-        for(Object object : urls) {
+        for (Object object : urls) {
             if (object instanceof Map) {
                 Map map = (Map) object;
 
-                if(map.containsKey("url")) {
+                if (map.containsKey("url")) {
                     JSONElement element = new JSONElement(new JSONObject(map));
-                    if(OrchidUtils.elementIsString(element.query("data.info.qualifiedName")) && element.query("data.info.qualifiedName").toString().equals(link)) {
-                        if(!EdenUtils.isEmpty(displayName)) {
+                    if (OrchidUtils.elementIsString(element.query("data.info.qualifiedName")) && element.query("data.info.qualifiedName").toString().equals(link)) {
+                        if (!EdenUtils.isEmpty(displayName)) {
                             return Clog.format(template, map.get("url"), displayName);
                         }
                         else {
                             return Clog.format(template, map.get("url"), map.get("name"));
                         }
                     }
-                    else if(map.containsKey("name") && map.get("name").toString().equals(link)) {
-                        if(!EdenUtils.isEmpty(displayName)) {
+                    else if (map.containsKey("name") && map.get("name").toString().equals(link)) {
+                        if (!EdenUtils.isEmpty(displayName)) {
                             return Clog.format(template, map.get("url"), displayName);
                         }
                         else {
@@ -113,7 +113,7 @@ public final class OrchidUtils {
     public static List<String> wrapString(String content, int width) {
         List<String> matchList = new ArrayList<>();
 
-        if(!EdenUtils.isEmpty(content)) {
+        if (!EdenUtils.isEmpty(content)) {
             Pattern regex = Pattern.compile("(.{1," + width + "}(?:\\s|$))|(.{0," + width + "})", Pattern.DOTALL);
             Matcher regexMatcher = regex.matcher(content);
             while (regexMatcher.find()) {
@@ -129,7 +129,7 @@ public final class OrchidUtils {
 
     public static String getText(Tag[] tags) {
         String text = "";
-        for(Tag tag : tags) {
+        for (Tag tag : tags) {
             text += tag.text();
         }
         return text;
@@ -152,7 +152,7 @@ public final class OrchidUtils {
             Key<Set<T>> key = Key.get(lit);
             Set<T> bindings = injector.getInstance(key);
 
-            if(bindings != null) {
+            if (bindings != null) {
                 return bindings;
             }
         }
@@ -163,15 +163,6 @@ public final class OrchidUtils {
         return new TreeSet<>();
     }
 
-    public static String stripSeparators(String str) {
-        if(str != null) {
-            return StringUtils.strip(str.trim(), "/" + File.separator);
-        }
-        else {
-            return null;
-        }
-    }
-
     public static String getRelativeFilename(String sourcePath, String baseDir) {
         if (sourcePath.contains(baseDir)) {
             int indexOf = sourcePath.indexOf(baseDir);
@@ -179,7 +170,7 @@ public final class OrchidUtils {
             if (indexOf + baseDir.length() < sourcePath.length()) {
                 String relative = sourcePath.substring((indexOf + baseDir.length()));
 
-                if (relative.startsWith(File.separator)) {
+                if (relative.startsWith("/")) {
                     relative = relative.substring(1);
                 }
 
@@ -214,43 +205,67 @@ public final class OrchidUtils {
         JSONArray array = new JSONArray();
 
         JSONElement internalEl = context.query("index." + indexName);
-        if(OrchidUtils.elementIsObject(internalEl)) {
+        if (OrchidUtils.elementIsObject(internalEl)) {
             List items = OrchidUtils.walkObject((JSONObject) internalEl.getElement(), "url");
 
-            for(Object item : items) {
+            for (Object item : items) {
                 JSONObject object = null;
-                if(item instanceof Map) {
+                if (item instanceof Map) {
                     object = new JSONObject((Map) item);
                 }
-                else if(item instanceof JSONObject) {
+                else if (item instanceof JSONObject) {
                     object = (JSONObject) item;
                 }
 
-                if(object != null) {
+                if (object != null) {
                     array.put(object);
                 }
             }
         }
 
         JSONElement externalEl = context.query("options.externalIndex.keyedIndex." + indexName);
-        if(OrchidUtils.elementIsArray(externalEl)) {
+        if (OrchidUtils.elementIsArray(externalEl)) {
             JSONArray externalIndexArray = (JSONArray) externalEl.getElement();
 
             for (int i = 0; i < externalIndexArray.length(); i++) {
                 JSONObject object = null;
-                if(externalIndexArray.get(i) instanceof Map) {
+                if (externalIndexArray.get(i) instanceof Map) {
                     object = new JSONObject((Map) externalIndexArray.get(i));
                 }
-                else if(externalIndexArray.get(i) instanceof JSONObject) {
+                else if (externalIndexArray.get(i) instanceof JSONObject) {
                     object = (JSONObject) externalIndexArray.get(i);
                 }
 
-                if(object != null) {
+                if (object != null) {
                     array.put(object);
                 }
             }
         }
 
         return array;
+    }
+
+    /**
+     * Replaces a string's OS-dependant file path-separator characters (File.separator) with '/', and also strips
+     * any slashes from the beginning and end of the string. This allows us to do path operations using the standard
+     * forward slash, bypassing any potential regex-related issues, and also makes it easy to split a path into its
+     * exact parts.
+     *
+     * @param path The path to normalize
+     * @return
+     */
+    public static String normalizePath(String path) {
+        String normalizedPath = path;
+        if (normalizedPath != null) {
+            if (File.separator.equals("\\")) {
+                normalizedPath = normalizedPath.replaceAll("\\\\", "/");
+                normalizedPath = StringUtils.strip(normalizedPath.trim(), "\\\\");
+            }
+            else {
+                normalizedPath = StringUtils.strip(normalizedPath.trim(), "/");
+            }
+        }
+
+        return normalizedPath;
     }
 }
