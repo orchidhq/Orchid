@@ -192,11 +192,11 @@ public class PostsGenerator extends OrchidGenerator {
                 pageData.put("second", second);
 
                 if(EdenUtils.isEmpty(category)) {
-                    entry.getReference().setBasePath("blog");
+                    entry.getReference().stripFromPath("blog");
                 }
                 else {
                     pageData.put("category", category);
-                    entry.getReference().setBasePath("blog/" + category);
+                    entry.getReference().stripFromPath("blog/" + category);
                 }
 
                 pageData.put("title", title);

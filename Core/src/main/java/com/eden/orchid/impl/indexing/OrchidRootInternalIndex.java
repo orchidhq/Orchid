@@ -26,7 +26,7 @@ public final class OrchidRootInternalIndex extends OrchidInternalIndex {
         List<OrchidPage> indexPages = index.getAllPages();
 
         for(OrchidPage page : indexPages) {
-            this.addToIndex(page.getReference().getFullPath(), page);
+            this.addToIndex(page.getReference().getPath(), page);
         }
     }
 

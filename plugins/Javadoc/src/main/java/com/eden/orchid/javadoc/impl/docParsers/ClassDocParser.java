@@ -44,7 +44,7 @@ public class ClassDocParser {
     }
 
     public OrchidReference getReference(ClassDoc classDoc) {
-        OrchidReference ref = new OrchidReference(context, "javadoc", classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + ".html");
+        OrchidReference ref = new OrchidReference(context, "javadoc/" + classDoc.qualifiedTypeName().replaceAll("\\.", File.separator) + ".html");
         ref.setUsePrettyUrl(true);
         return ref;
     }

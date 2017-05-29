@@ -50,7 +50,7 @@ public class PagesGenerator extends OrchidGenerator {
 
             if(entry.queryEmbeddedData("root") != null) {
                 if(Boolean.parseBoolean(entry.queryEmbeddedData("root").toString())) {
-                    entry.getReference().stripBasePath("pages");
+                    entry.getReference().stripFromPath("pages");
                 }
             }
 

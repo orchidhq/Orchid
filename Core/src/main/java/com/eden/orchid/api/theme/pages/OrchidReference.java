@@ -6,8 +6,6 @@ import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
-
 @Data
 public final class OrchidReference {
 
@@ -17,11 +15,6 @@ public final class OrchidReference {
      * The base URL of this reference, the URL at the root of your output site.
      */
     private String baseUrl;
-
-    /**
-     * The base path within the root of your site, useful for namespacing your output files to prevent conflicts.
-     */
-    private String basePath;
 
     /**
      * The path of the file within the basePath.
@@ -65,6 +58,10 @@ public final class OrchidReference {
     public OrchidReference(OrchidContext context, String fullFileName) {
         this(context);
 
+        if (fullFileName != null) {
+            fullFileName = fullFileName.trim();
+        }
+
         if (fullFileName.contains(".")) {
             String[] parts = fullFileName.split("\\.");
             this.extension = parts[parts.length - 1];
@@ -74,8 +71,7 @@ public final class OrchidReference {
         }
 
         if (fullFileName.contains("/")) {
-            String pattern = Pattern.quote("/");
-            String[] parts = fullFileName.split(pattern);
+            String[] parts = fullFileName.split("/");
 
             path = "";
             for (int i = 0; i < parts.length; i++) {
@@ -93,32 +89,11 @@ public final class OrchidReference {
         }
 
         path = OrchidUtils.normalizePath(path);
-
-        if (context.query("options.resourcesDir") != null) {
-            String basePath = context.query("options.resourcesDir").toString();
-            basePath = OrchidUtils.normalizePath(basePath);
-
-            if (path.startsWith(basePath)) {
-                path = path.replace(basePath, "");
-                path = OrchidUtils.normalizePath(path);
-            }
-        }
-    }
-
-    public OrchidReference(OrchidContext context, String basePath, String fullFileName) {
-        this(context, fullFileName);
-
-        this.basePath = basePath;
-
-        if (this.path.startsWith(basePath)) {
-            this.path = path.replace(basePath, "");
-        }
     }
 
     public OrchidReference(OrchidContext context, OrchidReference source) {
         this.context = context;
         this.baseUrl = source.baseUrl;
-        this.basePath = source.basePath;
         this.path = source.path;
         this.fileName = source.fileName;
         this.extension = source.extension;
@@ -127,21 +102,11 @@ public final class OrchidReference {
         this.usePrettyUrl = source.usePrettyUrl;
     }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
+    public void stripFromPath(String pathToStrip) {
+        pathToStrip = OrchidUtils.normalizePath(pathToStrip);
 
-        if (this.path.startsWith(basePath)) {
-            this.path = path.replace(basePath, "");
-        }
-    }
-
-    public void stripBasePath(String basePath) {
-        basePath = OrchidUtils.normalizePath(basePath);
-
-        this.basePath = null;
-
-        if (this.path.startsWith(basePath)) {
-            this.path = OrchidUtils.normalizePath(path.replace(basePath, ""));
+        if (this.path.startsWith(pathToStrip)) {
+            this.path = OrchidUtils.normalizePath(path.replace(pathToStrip, ""));
         }
     }
 
@@ -169,15 +134,6 @@ public final class OrchidReference {
         return output;
     }
 
-    public String getFullPath() {
-        if (!EdenUtils.isEmpty(basePath)) {
-            return basePath + "/" + getPath();
-        }
-        else {
-            return getPath();
-        }
-    }
-
     public String getFileName() {
         if (usePrettyUrl) {
             return "index";
@@ -192,7 +148,7 @@ public final class OrchidReference {
     }
 
     public String getTitle() {
-        if(!EdenUtils.isEmpty(title)) {
+        if (!EdenUtils.isEmpty(title)) {
             return title;
         }
         else {
@@ -200,8 +156,7 @@ public final class OrchidReference {
         }
     }
 
-    @Override
-    public String toString() {
+    public String getServerPath() {
         String output = "";
 
         if (!EdenUtils.isEmpty(baseUrl)) {
@@ -212,14 +167,6 @@ public final class OrchidReference {
         }
         else {
             output += "/";
-        }
-
-        if (!EdenUtils.isEmpty(basePath)) {
-            output += basePath;
-
-            if (!basePath.endsWith("/")) {
-                output += "/";
-            }
         }
 
         if (!EdenUtils.isEmpty(path)) {
@@ -248,6 +195,67 @@ public final class OrchidReference {
         return output;
     }
 
+//    public String getPathOnDisk() {
+//        String output = "";
+//
+//        if (!EdenUtils.isEmpty(basePath)) {
+//            output += basePath;
+//
+//            if (!basePath.endsWith("/")) {
+//                output += "/";
+//            }
+//        }
+//
+//        if (!EdenUtils.isEmpty(path)) {
+//            output += path;
+//            if (!path.endsWith("/")) {
+//                output += "/";
+//            }
+//        }
+//
+//        if (!EdenUtils.isEmpty(fileName)) {
+//            output += fileName;
+//
+//            if (!usePrettyUrl) {
+//                output += ".";
+//                if (!EdenUtils.isEmpty(extension)) {
+//                    output += extension;
+//                }
+//            }
+//        }
+//
+//        return output;
+//    }
+
+    public String getRelativePath() {
+        String output = "";
+
+        if (!EdenUtils.isEmpty(path)) {
+            output += path;
+            if (!path.endsWith("/")) {
+                output += "/";
+            }
+        }
+
+        if (!EdenUtils.isEmpty(fileName)) {
+            output += fileName;
+
+            if (!usePrettyUrl) {
+                output += ".";
+                if (!EdenUtils.isEmpty(extension)) {
+                    output += extension;
+                }
+            }
+        }
+
+        return output;
+    }
+
+    @Override
+    public String toString() {
+        return getServerPath();
+    }
+
     public OrchidContext getContext() {
         return context;
     }
@@ -257,7 +265,6 @@ public final class OrchidReference {
         referenceJson.put("link", this.toString());
 
         referenceJson.put("baseUrl", this.baseUrl);
-        referenceJson.put("basePath", this.basePath);
         referenceJson.put("path", this.path);
         referenceJson.put("fileName", this.fileName);
         referenceJson.put("extension", this.extension);
@@ -270,14 +277,14 @@ public final class OrchidReference {
 
     public static OrchidReference fromJSON(OrchidContext context, JSONObject source) {
         OrchidReference newReference = new OrchidReference(context);
-        newReference.baseUrl      = source.optString("baseUrl");
-        newReference.basePath     = source.optString("basePath");
-        newReference.path         = source.optString("path");
-        newReference.fileName     = source.optString("fileName");
-        newReference.extension    = source.optString("extension");
-        newReference.id           = source.optString("id");
-        newReference.title        = source.optString("title");
+        newReference.baseUrl = source.optString("baseUrl");
+        newReference.path = source.optString("path");
+        newReference.fileName = source.optString("fileName");
+        newReference.extension = source.optString("extension");
+        newReference.id = source.optString("id");
+        newReference.title = source.optString("title");
         newReference.usePrettyUrl = source.optBoolean("usePrettyUrl");
         return newReference;
     }
+
 }

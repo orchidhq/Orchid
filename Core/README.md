@@ -4,7 +4,3 @@
 
 The core Orchid framework. Contains basic implementations needed to generate a site, but all meaningful implementations
 are contained within the various official Orchid projects.
-
-componet alias: {{ component.alias }}
-
-{{ 'asdfasd' }}

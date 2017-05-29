@@ -7,14 +7,19 @@ import org.json.JSONObject;
 public class WikiGlossaryTermFilter extends ContentFilter {
     @Override
     public String apply(String content) {
-        String outputContent = content;
+        if (content != null) {
+            String outputContent = content;
 
-        for(JSONObject term : WikiGenerator.terms) {
-            if(outputContent.contains(term.getString("name"))) {
-                outputContent = outputContent.replaceAll(term.getString("name"), Clog.format("<a href=\"#{$1}\">#{$2}</a>", new Object[]{ term.getString("url"), term.getString("name") }));
+            for (JSONObject term : WikiGenerator.terms) {
+                if (outputContent.contains(term.getString("name"))) {
+                    outputContent = outputContent.replaceAll(term.getString("name"), Clog.format("<a href=\"#{$1}\">#{$2}</a>", new Object[]{term.getString("url"), term.getString("name")}));
+                }
             }
-        }
 
-        return outputContent;
+            return outputContent;
+        }
+        else {
+            return "";
+        }
     }
 }

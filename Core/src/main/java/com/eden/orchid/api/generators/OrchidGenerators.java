@@ -5,13 +5,13 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidInternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
-import com.eden.orchid.utilities.FileLoader;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
@@ -30,17 +30,17 @@ public final class OrchidGenerators {
     private JSONArray disabledGenerators;
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
-    private FileLoader fileLoader;
+    private OrchidResources orchidResources;
 
     private OrchidRootInternalIndex internalIndex;
     private OrchidRootExternalIndex externalIndex;
     private OrchidCompositeIndex compositeIndex;
 
     @Inject
-    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators, FileLoader fileLoader) {
+    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators, OrchidResources orchidResources) {
         this.context = context;
         this.generators = new ObservableTreeSet<>(generators);
-        this.fileLoader = fileLoader;
+        this.orchidResources = orchidResources;
     }
 
     public void startIndexing() {
@@ -72,7 +72,7 @@ public final class OrchidGenerators {
         if (!EdenUtils.isEmpty(generator.getName()) && generatorPages != null && generatorPages.size() > 0) {
             OrchidInternalIndex index = new OrchidInternalIndex(generator.getName());
             for(OrchidPage page : generatorPages) {
-                index.addToIndex(generator.getName() + "/" + page.getReference().getFullPath(), page);
+                index.addToIndex(generator.getName() + "/" + page.getReference().getPath(), page);
                 if(page.getResource() instanceof FreeableResource) {
                     ((FreeableResource) page.getResource()).free();
                 }
@@ -90,7 +90,7 @@ public final class OrchidGenerators {
             JSONArray externalIndex = (JSONArray) externalIndexReferences.getElement();
 
             for (int i = 0; i < externalIndex.length(); i++) {
-                JSONObject indexJson = this.fileLoader.loadAdditionalFile(externalIndex.getString(i));
+                JSONObject indexJson = this.orchidResources.loadAdditionalFile(externalIndex.getString(i));
                 if(indexJson != null) {
                     OrchidIndex index = OrchidIndex.fromJSON(context, indexJson);
                     this.externalIndex.addChildIndex(index);

@@ -18,6 +18,7 @@ import java.util.Map;
 public class OrchidPage {
 
     protected OrchidContext context;
+    protected OrchidResource resource;
     protected OrchidReference reference;
 
     protected OrchidPage next;
@@ -28,8 +29,6 @@ public class OrchidPage {
 
     protected JSONObject data;
     protected JSONArray menu;
-
-    protected OrchidResource resource;
 
     protected Map<String, Class<? extends OrchidComponent>> componentClasses;
     protected Map<String, OrchidComponent> components;
