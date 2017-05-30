@@ -24,7 +24,7 @@ ext {
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
     }
 
-    commonRunTask = "listThemes"
+    commonRunTask = "serve"
     commonBaseUrl = 'http://localhost:8080'
 
     if (project.hasProperty('env')) {

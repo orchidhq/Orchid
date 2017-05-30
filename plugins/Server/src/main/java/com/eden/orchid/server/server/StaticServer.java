@@ -1,19 +1,24 @@
 package com.eden.orchid.server.server;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.server.server.file.FileHandler;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.util.Set;
 
 @Singleton
 public class StaticServer implements HttpHandler {
@@ -21,26 +26,22 @@ public class StaticServer implements HttpHandler {
     private OrchidContext context;
     private int port;
     private HttpServer server;
-    private File rootFolder;
 
-    private RenderIndex renderIndex;
-    private RenderFile renderFile;
-    private Render404 render404;
-
-    private String[] indexFiles = new String[] { "index.html", "index.htm" };
+    private FileHandler fileHandler;
+    private Set<RequestHandler> requestHandlers;
 
     @Inject
-    public StaticServer(OrchidContext context, RenderIndex renderIndex, RenderFile renderFile, Render404 render404) {
+    public StaticServer(
+            OrchidContext context,
+            FileHandler fileHandler,
+            Set<RequestHandler> requestHandlers) {
         this.context = context;
-        this.renderIndex = renderIndex;
-        this.renderFile = renderFile;
-        this.render404 = render404;
+        this.fileHandler = fileHandler;
+        this.requestHandlers = requestHandlers;
     }
 
     public void start(int port) {
         this.port = getFreePorts(port, Integer.min(port + 1000, 65535));
-        String baseDir = context.query("options.d").toString();
-        this.rootFolder = new File(baseDir);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             context.broadcast(Orchid.Events.SHUTDOWN, false);
@@ -83,7 +84,7 @@ public class StaticServer implements HttpHandler {
             }
         }
 
-        if(socket != null) {
+        if (socket != null) {
             return socket.getLocalPort();
         }
         else {
@@ -95,35 +96,51 @@ public class StaticServer implements HttpHandler {
     public void handle(HttpExchange t) throws IOException {
         String targetPath = t.getRequestURI().getPath();
 
-        // Check if file exists
-        File targetFile = new File(rootFolder, targetPath.replace('/', File.separatorChar));
+        String queryParamString = t.getRequestURI().getQuery();
 
-        if (targetFile.exists()) {
-            if (targetFile.isDirectory()) {
+        boolean forceFileOverride = false;
+        boolean handled = false;
 
-                boolean rendered = false;
-                for(String indexFile : indexFiles) {
-                    String indexPath = StringUtils.strip(targetPath, "/") + "/" + indexFile;
+        if(!EdenUtils.isEmpty(queryParamString)) {
+            forceFileOverride = queryParamString.contains("forcefileoverride=true");
+        }
 
-                    File targetIndexFile = new File(rootFolder, indexPath.replace('/', File.separatorChar));
-
-                    if (targetIndexFile.exists()) {
-                        renderFile.render(t, targetIndexFile, targetPath);
-                        rendered = true;
-                        break;
-                    }
-                }
-
-                if(!rendered) {
-                    renderIndex.render(t, targetFile, targetPath);
+        if(!forceFileOverride) {
+            for (RequestHandler handler : requestHandlers) {
+                if(handler.canHandle(t, targetPath)) {
+                    handler.render(t, targetPath);
+                    handled = true;
+                    break;
                 }
             }
-            else {
-                renderFile.render(t, targetFile, targetPath);
-            }
         }
-        else {
-            render404.render(t, targetFile, targetPath);
+
+        if(!handled) {
+            fileHandler.render(t, targetPath);
         }
+    }
+
+
+
+
+
+    public static void renderString(HttpExchange t, String content) throws IOException {
+        renderString(t, content, "text/html");
+    }
+
+    public static void renderString(HttpExchange t, String content, String contentType) throws IOException {
+        Headers responseHeaders = t.getResponseHeaders();
+        responseHeaders.set("Content-Type", contentType + "; charset=UTF-8");
+        t.sendResponseHeaders(200, content.length());
+        IOUtils.write(content, t.getResponseBody());
+        t.getResponseBody().close();
+    }
+
+    public static void renderJSON(HttpExchange t, JSONObject data) throws IOException {
+        renderString(t, data.toString(), "application/json");
+    }
+
+    public static void renderJSON(HttpExchange t, JSONArray data) throws IOException {
+        renderString(t, data.toString(), "application/json");
     }
 }

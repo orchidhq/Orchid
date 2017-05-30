@@ -1,0 +1,47 @@
+{% extends "layouts/index.twig" %}
+
+{% block mainContent %}
+
+    <div class="directoryListing">
+
+        <h1>Admin page</h1>
+        <button class="btn" id="rebuildSite">Rebuild Site</button>
+        <button class="btn" id="endSession">End Session</button>
+        <button class="btn" id="findFile">Try to find file at current path</button>
+
+        <script>
+            $("#rebuildSite").click(function (event) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/rebuild',
+                    success: function (data) {
+                        alert("Site successfully recompiled: " + data.message);
+                    }
+                });
+                return false;
+            });
+
+            $("#endSession").click(function (event) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/session/end',
+                    success: function (data) {
+                        alert("Session ended: " + data.message);
+                    }
+                });
+                return false;
+            });
+
+            $("#findFile").click(function (event) {
+                if(window.location.href.includes("?")) {
+                    window.location.href = window.location.href + "&forcefileoverride=true";
+                }
+                else {
+                    window.location.href = window.location.href + "?forcefileoverride=true";
+                }
+            });
+        </script>
+
+    </div>
+
+{% endblock %}

@@ -77,5 +77,11 @@ public class ServeTask extends OrchidTask implements EventListener {
     public void onCleanShutdown() {
         new Thread(server::stop);
     }
+
+    @On(Orchid.Events.END_SESSION)
+    public void onEndSession() {
+        context.broadcast(Orchid.Events.SHUTDOWN);
+        System.exit(0);
+    }
 }
 
