@@ -1,40 +1,37 @@
-package com.eden.orchid.server.server.file;
+package com.eden.orchid.server.impl.controllers.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
+import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-@Singleton
-public class RenderIndex {
+public class IndexFileResponse {
 
     private OrchidContext context;
     private OrchidResources resources;
 
     private Map<String, String> iconMap;
 
+
     @Inject
-    public RenderIndex(OrchidContext context, OrchidResources resources) {
+    public IndexFileResponse(OrchidContext context, OrchidResources resources) {
         this.context = context;
         this.resources = resources;
+
         this.iconMap = new HashMap<>();
 
         iconMap.put("css", "/assets/svg/css.svg");
@@ -50,9 +47,7 @@ public class RenderIndex {
         iconMap.put("folder", "/assets/svg/folder.svg");
     }
 
-    public void render(HttpExchange t, File targetFile, String targetPath) throws IOException {
-        Headers responseHeaders = t.getResponseHeaders();
-
+    public NanoHTTPD.Response getResponse(File targetFile, String targetPath) {
         String content = "";
 
         if (targetFile.isDirectory()) {
@@ -97,20 +92,15 @@ public class RenderIndex {
                 OrchidResource resource = resources.getResourceEntry("templates/server/directoryListing.twig");
 
                 if (resource != null) {
-                    Clog.i("Server Directory Listing resource not null:" + targetFile.getAbsolutePath());
-                    responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
                     content = context.getTheme().compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
                 }
                 else {
-                    responseHeaders.set("Content-Type", "application/json; charset=UTF-8");
                     content = object.toString(2);
                 }
             }
         }
 
         Clog.i("Rendering Index: #{$1}", new Object[]{targetPath});
-        t.sendResponseHeaders(200, content.length());
-        IOUtils.write(content, t.getResponseBody());
-        t.getResponseBody().close();
+        return NanoHTTPD.newFixedLengthResponse(content);
     }
 }

@@ -23,6 +23,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
 import com.sun.javadoc.RootDoc;
 import lombok.Data;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -180,6 +181,18 @@ public final class OrchidContextImpl implements OrchidContext {
                 if(!EdenUtils.isEmpty(component.getAlias()) && !component.getAlias().equalsIgnoreCase("component")) {
                     siteData.put(component.getAlias(), component);
                 }
+            }
+            else if(data[0] instanceof JSONObject) {
+                JSONObject jsonObject = (JSONObject) data[0];
+                siteData.put("data", jsonObject);
+
+                for (String key : jsonObject.keySet()) {
+                    siteData.put(key, jsonObject.get(key));
+                }
+            }
+            else if(data[0] instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) data[0];
+                siteData.put("data", jsonArray);
             }
         }
 

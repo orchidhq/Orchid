@@ -1,4 +1,4 @@
-package com.eden.orchid.server.server;
+package com.eden.orchid.server;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;

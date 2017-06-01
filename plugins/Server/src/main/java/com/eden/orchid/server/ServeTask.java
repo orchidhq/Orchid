@@ -5,23 +5,24 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.server.server.StaticServer;
+import com.eden.orchid.server.api.FileWatcher;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
+import java.io.IOException;
 import java.util.EventListener;
 
 @Singleton
 public class ServeTask extends OrchidTask implements EventListener {
 
     private OrchidContext context;
-    private StaticServer server;
+    private OrchidServer server;
     private FileWatcher watcher;
 
     @Inject
-    public ServeTask(OrchidContext context, StaticServer server, FileWatcher watcher) {
+    public ServeTask(OrchidContext context, OrchidServer server, FileWatcher watcher) {
         this.context = context;
         this.server = server;
         this.watcher = watcher;
@@ -53,9 +54,14 @@ public class ServeTask extends OrchidTask implements EventListener {
                 JSONObject optionsJson = rootJson.getJSONObject("options");
 
                 context.build();
-                server.start(8080);
+                try {
+                    server.start(8080);
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
 
-                optionsJson.put("baseUrl", "http://localhost:" + server.getPort());
+                optionsJson.put("baseUrl", "http://localhost:" + server.getHttpServerPort());
 
                 watcher.startWatching(rootDir);
             }
@@ -70,16 +76,14 @@ public class ServeTask extends OrchidTask implements EventListener {
 
     @On(Orchid.Events.FILES_CHANGED)
     public void onFilesChanges() {
+        server.getWebsocket().sendMessage("Rebuilding site...");
         context.build();
-    }
-
-    @On(Orchid.Events.SHUTDOWN)
-    public void onCleanShutdown() {
-        new Thread(server::stop);
+        server.getWebsocket().sendMessage("Site Rebuilt");
     }
 
     @On(Orchid.Events.END_SESSION)
     public void onEndSession() {
+        server.getWebsocket().sendMessage("Ending Session");
         context.broadcast(Orchid.Events.SHUTDOWN);
         System.exit(0);
     }

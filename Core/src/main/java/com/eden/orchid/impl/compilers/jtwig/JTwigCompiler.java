@@ -29,6 +29,8 @@ public class JTwigCompiler extends OrchidCompiler {
         this.context = context;
         EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
+        config.parser().withoutTemplateCache();
+
         for(JtwigFunction function : functionSet) {
             config.functions().add(function);
         }
@@ -43,7 +45,6 @@ public class JTwigCompiler extends OrchidCompiler {
 
         this.priority = 1000;
     }
-
 
     @Override
     public String compile(String extension, String source, Object... data) {
