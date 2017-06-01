@@ -16,6 +16,14 @@ class OrchidPlugin implements Plugin<Project> {
             orchidDocs
         }
 
+        project.tasks.create('orchidBuild', OrchidGenerateBuildTask) {
+            dependsOn 'classes', "${configurationName}Classes"
+            main 'com.eden.orchid.Orchid'
+        }
+        project.tasks.create('orchidServe', OrchidGenerateServeTask) {
+            dependsOn 'classes', "${configurationName}Classes"
+            main 'com.eden.orchid.Orchid'
+        }
         project.tasks.create('orchidRun', OrchidGenerateMainTask) {
             dependsOn 'classes', "${configurationName}Classes"
             main 'com.eden.orchid.Orchid'
