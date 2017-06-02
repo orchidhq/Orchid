@@ -29,7 +29,7 @@ public class JTwigCompiler extends OrchidCompiler {
         this.context = context;
         EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
-        config.parser().withoutTemplateCache();
+//        config.parser().withoutTemplateCache();
 
         for(JtwigFunction function : functionSet) {
             config.functions().add(function);
