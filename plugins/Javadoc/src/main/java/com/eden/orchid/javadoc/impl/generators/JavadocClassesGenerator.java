@@ -7,6 +7,7 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.resource.JsonResource;
 import com.eden.orchid.javadoc.JavadocClassPage;
+import com.eden.orchid.javadoc.OrchidJavadoc;
 import com.eden.orchid.javadoc.impl.docParsers.ClassDocParser;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
@@ -43,7 +44,7 @@ public class JavadocClassesGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        root = context.getRootDoc();
+        root = OrchidJavadoc.rootDoc;
 
         if (root == null) {
             return null;

@@ -2,22 +2,13 @@ package com.eden.orchid.impl.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
-import com.eden.orchid.api.theme.Theme;
-import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.options.OrchidOption;
-import com.google.inject.Provider;
+import com.eden.orchid.api.theme.Theme;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-@Singleton
 public class ThemeOption extends OrchidOption {
 
-    private Provider<OrchidContext> contextProvider;
-
-    @Inject
-    public ThemeOption(Provider<OrchidContext> contextProvider) {
-        this.contextProvider = contextProvider;
+    public ThemeOption() {
         setPriority(800);
     }
 
@@ -36,9 +27,9 @@ public class ThemeOption extends OrchidOption {
         try {
             Class<? extends Theme> themeClass = (Class<? extends Theme>) Class.forName(options[1]);
 
-            Theme theme = contextProvider.get().getInjector().getInstance(themeClass);
+            Theme theme = Orchid.getInstance().getInjector().getInstance(themeClass);
             if(theme != null) {
-                contextProvider.get().setTheme(theme);
+                Orchid.getInstance().getContext().setTheme(theme);
                 return new JSONElement(options[1]);
             }
         }
@@ -48,7 +39,7 @@ public class ThemeOption extends OrchidOption {
 
         Clog.e("The Theme class #{$1} could not be found. Please make sure it has been registered properly.", new Object[] {options[1]});
 
-        return null;
+        return new JSONElement(options[1]);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.eden.orchid.javadoc.impl.tags;
 
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.javadoc.OrchidJavadoc;
 import com.eden.orchid.javadoc.api.JavadocBlockTagHandler;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.Tag;
 
 import javax.inject.Inject;
@@ -26,6 +26,6 @@ public class DeprecatedTag extends JavadocBlockTagHandler {
 
     @Override
     public JSONElement processTags(Tag[] tags) {
-        return new JSONElement(OrchidUtils.getText(tags));
+        return new JSONElement(OrchidJavadoc.getText(tags));
     }
 }

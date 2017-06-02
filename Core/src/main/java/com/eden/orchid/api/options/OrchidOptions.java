@@ -3,8 +3,8 @@ package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.utilities.ObservableTreeSet;
-import com.sun.tools.doclets.standard.Standard;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -21,8 +21,8 @@ public final class OrchidOptions {
     private Set<OrchidOption> options;
 
     @Inject
-    public OrchidOptions(Set<OrchidOption> options) {
-        this.options = new ObservableTreeSet<>(options);
+    public OrchidOptions() {
+        this.options = new ObservableTreeSet<>(Orchid.findOptions());
     }
 
     public void parseOptions(Map<String, String[]> optionsMap, JSONObject siteOptions) {
@@ -81,17 +81,5 @@ public final class OrchidOptions {
         else {
             return true;
         }
-    }
-
-// Handle Javadoc-specific stuff
-//----------------------------------------------------------------------------------------------------------------------
-    public static int optionLength(Set<OrchidOption> options, String optionFlag) {
-        for (OrchidOption option : options) {
-            if (optionFlag.equals("-" + option.getFlag())) {
-                return option.optionLength();
-            }
-        }
-
-        return Standard.optionLength(optionFlag);
     }
 }

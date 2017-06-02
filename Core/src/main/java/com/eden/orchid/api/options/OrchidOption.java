@@ -4,7 +4,9 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.registration.Prioritized;
 
 /**
- * Denotes a Javadoc-style command-line argument.
+ * Denotes a Javadoc-style command-line argument. It is important to note that Options are found by scanning the
+ * classpath and are **not** created by Dependency Injection, and so are not able to have dependencies injected into
+ * themselves.
  */
 public abstract class OrchidOption extends Prioritized {
 

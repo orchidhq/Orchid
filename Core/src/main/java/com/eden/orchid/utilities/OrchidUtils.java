@@ -10,7 +10,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
-import com.sun.javadoc.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -125,14 +124,6 @@ public final class OrchidUtils {
         }
 
         return matchList;
-    }
-
-    public static String getText(Tag[] tags) {
-        String text = "";
-        for (Tag tag : tags) {
-            text += tag.text();
-        }
-        return text;
     }
 
     public static class DefaultComparator<T> implements Comparator<T> {
@@ -252,7 +243,7 @@ public final class OrchidUtils {
      * exact parts.
      *
      * @param path The path to normalize
-     * @return
+     * @return the normalized path
      */
     public static String normalizePath(String path) {
         String normalizedPath = path;

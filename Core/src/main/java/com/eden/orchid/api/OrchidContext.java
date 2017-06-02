@@ -8,13 +8,12 @@ import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.google.inject.Injector;
-import com.sun.javadoc.RootDoc;
 import org.json.JSONObject;
 
 import java.util.Map;
 
 public interface OrchidContext {
-    void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc);
+    void bootstrap(Map<String, String[]> optionsMap);
 
     boolean runTask(String taskName);
 
@@ -29,7 +28,6 @@ public interface OrchidContext {
 
     JSONObject getRoot();
 
-    RootDoc getRootDoc();
     Injector getInjector();
     FilterService getFilterService();
     OrchidIndex getIndex();

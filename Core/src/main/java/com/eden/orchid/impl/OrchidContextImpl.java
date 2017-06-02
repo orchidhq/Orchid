@@ -21,7 +21,6 @@ import com.eden.orchid.impl.indexing.OrchidExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
-import com.sun.javadoc.RootDoc;
 import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,7 +39,6 @@ public final class OrchidContextImpl implements OrchidContext {
 
     private JSONObject root;
     private Theme theme;
-    private RootDoc rootDoc;
 
     private OrchidTasks orchidTasks;
     private OrchidOptions options;
@@ -59,11 +57,10 @@ public final class OrchidContextImpl implements OrchidContext {
     }
 
     @Override
-    public void bootstrap(Map<String, String[]> optionsMap, RootDoc rootDoc) {
+    public void bootstrap(Map<String, String[]> optionsMap) {
         eventService.broadcast(Orchid.Events.INIT_COMPLETE);
 
         this.root = new JSONObject();
-        this.rootDoc = rootDoc;
         root.put("options", new JSONObject());
 
         options.parseOptions(optionsMap, root.getJSONObject("options"));
@@ -93,7 +90,6 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void build() {
         eventService.broadcast(Orchid.Events.BUILD_START);
-        root.put("index", new JSONObject());
         generators.startIndexing();
         generators.startGeneration();
         eventService.broadcast(Orchid.Events.BUILD_FINISH);

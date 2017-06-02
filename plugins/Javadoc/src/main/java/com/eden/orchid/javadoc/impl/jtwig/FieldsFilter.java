@@ -1,6 +1,7 @@
 package com.eden.orchid.javadoc.impl.jtwig;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.javadoc.OrchidJavadoc;
 import com.eden.orchid.javadoc.impl.docParsers.ClassDocParser;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
@@ -43,7 +44,7 @@ public class FieldsFilter implements JtwigFunction {
                                        .getArguments();
 
         if(rootDoc == null) {
-            rootDoc = context.getRootDoc();
+            rootDoc = OrchidJavadoc.rootDoc;
         }
 
         if(fnParams.size() == 1 && fnParams.get(0) != null) {

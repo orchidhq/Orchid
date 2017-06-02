@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class OrchidPlugin implements Plugin<Project> {
-    String configurationName = 'orchidDocs'
+    public static String configurationName = 'orchidDocs'
 
     void apply(Project project) {
         // create Orchid closure, configuration, and sourceSet
@@ -27,13 +27,6 @@ class OrchidPlugin implements Plugin<Project> {
         project.tasks.create('orchidRun', OrchidGenerateMainTask) {
             dependsOn 'classes', "${configurationName}Classes"
             main 'com.eden.orchid.Orchid'
-        }
-
-        // remove normal 'javadoc' task and replace it with our own
-        project.tasks.replace('javadoc', OrchidGenerateJavadocTask)
-        project.tasks.javadoc {
-            dependsOn 'classes', "${configurationName}Classes"
-            options.doclet = 'com.eden.orchid.Orchid'
         }
     }
 }

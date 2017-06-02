@@ -4,14 +4,10 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.tasks.OrchidTasks;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sun.javadoc.LanguageVersion;
-import com.sun.javadoc.RootDoc;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
 import java.util.ArrayList;
@@ -28,117 +24,144 @@ import java.util.stream.Collectors;
  */
 public final class Orchid {
 
-// Doclet hackery to allow this to parse documentation as expected and not crash...
+// Events fired by Orchid Core
 //----------------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Get the number of arguments that a given option expects from the command line. This number includes the option
-     * itself: for example '-d /output/javadoc' should return 2.
-     *
-     * @param option the option to parse
-     * @return the number of arguments it expects from the command line
-     */
-    public static int optionLength(String option) {
-        if (injector == null) {
-            injector = Guice.createInjector(findModules());
+    public static class Events {
+        public static final String INIT_COMPLETE = "INIT_COMPLETE";
+        public static final String OPTIONS_PARSED = "OPTIONS_PARSED";
+        public static final String DATAFILES_PARSED = "DATAFILES_PARSED";
+        public static final String BOOTSTRAP_COMPLETE = "BOOTSTRAP_COMPLETE";
+        public static final String THEME_SET = "THEME_SET";
+        public static final String TASK_START = "TASK_START";
+        public static final String TASK_FINISH = "TASK_FINISH";
+        public static final String BUILD_START = "BUILD_START";
+        public static final String BUILD_FINISH = "BUILD_FINISH";
+        public static final String SHUTDOWN = "SHUTDOWN";
+        public static final String FILES_CHANGED = "FILES_CHANGED";
+        public static final String FORCE_REBUILD = "FORCE_REBUILD";
+        public static final String END_SESSION = "END_SESSION";
+    }
+
+// Make main Orchid object a singleton
+//----------------------------------------------------------------------------------------------------------------------
+
+    private static Orchid instance;
+    private static List<OrchidOption> orchidOptions;
+    private static List<AbstractModule> modules;
+
+    public static Orchid getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Orchid has not been initialized yet");
         }
 
-        return OrchidOptions.optionLength(OrchidUtils.resolveSet(injector, OrchidOption.class), option);
+        return instance;
     }
 
-    /**
-     * NOTE: Without this method present and returning LanguageVersion.JAVA_1_5,
-     * Javadoc will not process generics because it assumes LanguageVersion.JAVA_1_1
-     *
-     * @return language version (hard coded to LanguageVersion.JAVA_1_5)
-     */
-    public static LanguageVersion languageVersion() {
-        return LanguageVersion.JAVA_1_5;
+    public static Orchid getInstance(Map<String, String[]> options) {
+        if (instance == null) {
+            instance = new Orchid(options);
+        }
+        return getInstance();
     }
 
-// Data Members, Getters, Setters
+    public static List<AbstractModule> findModules(Map<String, String[]> options) {
+        if(Orchid.modules == null) {
+            Orchid.modules = new ArrayList<>();
+
+            FastClasspathScanner scanner = new FastClasspathScanner();
+            scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
+                try {
+                    AbstractModule provider = matchingClass.newInstance();
+                    if (provider != null) {
+                        Orchid.modules.add(provider);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            scanner.scan();
+        }
+
+        return Orchid.modules;
+    }
+
+    public static List<OrchidOption> findOptions() {
+        if(Orchid.orchidOptions == null) {
+            Orchid.orchidOptions = new ArrayList<>();
+
+            FastClasspathScanner scanner = new FastClasspathScanner();
+            scanner.matchSubclassesOf(OrchidOption.class, (matchingClass) -> {
+                try {
+                    OrchidOption option = matchingClass.newInstance();
+                    if (option != null) {
+                        Orchid.orchidOptions.add(option);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            scanner.scan();
+        }
+
+        return Orchid.orchidOptions;
+    }
+
+// Make main Orchid object a singleton
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static OrchidContext context;
-    private static Injector injector;
+    private OrchidContext context;
+    private Injector injector;
+    private Map<String, String[]> options;
 
-// Entry points, main routines
-//----------------------------------------------------------------------------------------------------------------------
+    public Orchid(Map<String, String[]> options) {
+        this.options = options;
+    }
 
-    public static void main(String[] args) {
-        Map<String, String[]> options = Arrays.stream(args)
-                                              .filter(s -> s.startsWith("-"))
-                                              .map(s -> s.split("\\s+"))
-                                              .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
+    public boolean start(List<AbstractModule> modules, String task) {
+        for (AbstractModule module : modules) {
+            Clog.i("Registering module of type '#{$1}'", new Object[]{module.getClass().getName()});
+        }
 
-        String task = Arrays.stream(args)
-                            .filter(s -> !s.startsWith("-"))
-                            .findFirst()
-                            .orElseGet(() -> OrchidTasks.defaultTask);
-
-        injector = Guice.createInjector(findModules());
+        injector = Guice.createInjector(modules);
 
         context = injector.getInstance(OrchidContext.class);
         EventService emitter = injector.getInstance(EventService.class);
-        context.bootstrap(options, null);
+        context.bootstrap(options);
 
         boolean success = context.runTask(task);
-
-        emitter.broadcast(Events.SHUTDOWN, success);
-
-        System.exit((success) ? 0 : 1);
-    }
-
-    public static boolean start(RootDoc rootDoc) {
-        Map<String, String[]> options = Arrays.stream(rootDoc.options())
-                                              .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
-
-        context = injector.getInstance(OrchidContext.class);
-        EventService emitter = injector.getInstance(EventService.class);
-        context.bootstrap(options, rootDoc);
-
-        boolean success = context.runTask(OrchidTasks.defaultTask);
 
         emitter.broadcast(Events.SHUTDOWN, success);
 
         return success;
     }
 
-    private static List<AbstractModule> findModules() {
-        List<AbstractModule> modules = new ArrayList<>();
-
-        FastClasspathScanner scanner = new FastClasspathScanner();
-        scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
-            try {
-                AbstractModule provider = matchingClass.newInstance();
-                if (provider != null) {
-                    Clog.i("Registering module of type '#{$1}'", new Object[]{matchingClass.getName()});
-                    modules.add(provider);
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        scanner.scan();
-
-        return modules;
+    public OrchidContext getContext() {
+        return context;
     }
 
-    // Events fired by Orchid Core
+    public Injector getInjector() {
+        return injector;
+    }
+
+    // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
-    public static class Events {
-        public static final String INIT_COMPLETE      = "INIT_COMPLETE";
-        public static final String OPTIONS_PARSED     = "OPTIONS_PARSED";
-        public static final String DATAFILES_PARSED   = "DATAFILES_PARSED";
-        public static final String BOOTSTRAP_COMPLETE = "BOOTSTRAP_COMPLETE";
-        public static final String THEME_SET          = "THEME_SET";
-        public static final String TASK_START         = "TASK_START";
-        public static final String TASK_FINISH        = "TASK_FINISH";
-        public static final String BUILD_START        = "BUILD_START";
-        public static final String BUILD_FINISH       = "BUILD_FINISH";
-        public static final String SHUTDOWN           = "SHUTDOWN";
-        public static final String FILES_CHANGED      = "FILES_CHANGED";
-        public static final String END_SESSION        = "END_SESSION";
+
+    public static void main(String[] args) {
+        Map<String, String[]> options = Arrays
+                .stream(args)
+                .filter(s -> s.startsWith("-"))
+                .map(s -> s.split("\\s+"))
+                .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
+
+        String task = Arrays
+                .stream(args)
+                .filter(s -> !s.startsWith("-"))
+                .findFirst()
+                .orElse(OrchidTasks.defaultTask);
+
+        System.exit((Orchid.getInstance(options).start(findModules(options), task)) ? 0 : 1);
     }
 }

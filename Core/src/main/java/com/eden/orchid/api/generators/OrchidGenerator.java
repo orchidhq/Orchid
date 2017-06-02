@@ -57,6 +57,8 @@ public abstract class OrchidGenerator extends Prioritized {
     /**
      * A callback to begin generating content. The index is fully built and should not be changed at this time. The
      * list of pages returned by `startIndexing` is passed back in as an argument to the method.
+     *
+     * @param pages the pages to render
      */
     public abstract void startGeneration(List<? extends OrchidPage> pages);
 

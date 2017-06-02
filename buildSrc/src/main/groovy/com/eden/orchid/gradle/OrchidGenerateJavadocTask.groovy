@@ -6,10 +6,13 @@ class OrchidGenerateJavadocTask extends Javadoc {
 
     OrchidGenerateJavadocTask() {
         source = [project.sourceSets.main.allJava.getSrcDirs()]
+
+        dependsOn 'classes', "${OrchidPlugin.configurationName}Classes"
     }
 
     @Override
     protected void generate() {
+        options.doclet = 'com.eden.orchid.javadoc.OrchidJavadoc'
 
         // set classpath from custom Orchid configuration
         options.docletpath.addAll(project.configurations.getByName('orchidDocsCompile'))
