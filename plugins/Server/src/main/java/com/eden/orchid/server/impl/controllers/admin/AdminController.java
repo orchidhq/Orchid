@@ -3,8 +3,15 @@ package com.eden.orchid.server.impl.controllers.admin;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
+import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
+import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.server.OrchidServer;
 import com.eden.orchid.server.api.OrchidController;
 import com.eden.orchid.server.api.OrchidRequest;
@@ -67,7 +74,16 @@ public class AdminController implements OrchidController {
 
     private Collection<?> getList(String name) {
         switch(name.toLowerCase()) {
-            case "compilers": return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidCompiler.class));
+            case "compilers":       return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidCompiler.class));
+            case "generators":      return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidGenerator.class));
+            case "options":         return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidOption.class));
+            case "resourceSources":
+                ObservableTreeSet<OrchidResourceSource> toReturn = new ObservableTreeSet<>();
+                toReturn.addAll(OrchidUtils.resolveSet(context, LocalResourceSource.class));
+                toReturn.addAll(OrchidUtils.resolveSet(context, DefaultResourceSource.class));
+                return new ObservableTreeSet<>(toReturn);
+            case "tasks":           return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidTask.class));
+            case "themes":          return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, Theme.class));
         }
 
         return null;

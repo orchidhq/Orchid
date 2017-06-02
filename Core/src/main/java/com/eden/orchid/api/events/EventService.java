@@ -1,7 +1,5 @@
 package com.eden.orchid.api.events;
 
-import com.caseyjbrooks.clog.Clog;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.EventListener;
@@ -16,16 +14,15 @@ public final class EventService extends BaseBroadcastService<On> {
     public EventService(Set<EventListener> eventListeners, EventEmitter emitter) {
         super();
         this.emitter = emitter;
-
-        for (EventListener listener : eventListeners) {
-            findListeners(listener, On.class);
-        }
+//        for (EventListener listener : eventListeners) {
+//            findListeners(listener, On.class);
+//        }
     }
 
     public void broadcast(String event, Object... args) {
-        super.startBroadcast(event);
+//        super.startBroadcast(event);
         emitter.broadcast(event, args);
-        Clog.d("Broadcasting event: '#{$1}' (#{$2} args)", new Object[]{event, (args != null) ? args.length : 0});
-        endBroadcast();
+//        Clog.d("Broadcasting event: '#{$1}' (#{$2} args)", new Object[]{event, (args != null) ? args.length : 0});
+//        endBroadcast();
     }
 }

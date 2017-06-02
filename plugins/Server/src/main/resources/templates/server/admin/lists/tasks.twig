@@ -16,7 +16,7 @@
             <tbody>
             {% for task in tasks %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ classname(task, true) }}">{{ classname(task, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(task, true) }}">{{ site.getClassname(task, false) }}</a></td>
                     <td>{{ task.getPriority }}</td>
                     <td><code>{{ task.name }}</code></td>
                     <td>{{ task.description }}</td>

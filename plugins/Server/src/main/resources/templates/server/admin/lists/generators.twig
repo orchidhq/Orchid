@@ -16,7 +16,7 @@
             <tbody>
             {% for generator in generators %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ classname(generator, true) }}">{{ classname(generator, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(generator, true) }}">{{ site.getClassname(generator, false) }}</a></td>
                     <td>{{ generator.priority }}</td>
                     <td><code>{{ generator.name }}</code></td>
                     <td>{{ generator.description }}</td>

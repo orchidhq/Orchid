@@ -16,8 +16,8 @@
             <tbody>
             {% for theme in themes %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ classname(theme, true) }}">{{ classname(theme, false) }}</a></td>
-                    <td>{{ theme.getPriority() }}</td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(theme, true) }}">{{ site.getClassname(theme, false) }}</a></td>
+                    <td>{{ theme.priority }}</td>
                     <td><code>{{ theme.name }}</code></td>
                 </tr>
             {% endfor %}

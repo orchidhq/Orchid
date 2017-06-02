@@ -60,6 +60,10 @@
         #form-wrapper .received {
             background-color: #F2F2F2;
         }
+
+        #form-wrapper .event {
+            background-color: #E8E8F0;
+        }
     </style>
 </head>
 
@@ -104,128 +108,12 @@
 
         {% endblock %}
 
-        {% block socketArea %}
-            <div id="page-wrapper">
-                <h1>WebSockets Demo</h1>
-
-                <div class="text-left">
-                    <div id="form-wrapper">
-                        <a href="#" class="close" id="close">&times;</a>
-                        <div id="status">Connecting...</div>
-
-                        <br><br>
-
-                        <form id="message-form" action="#" method="post" class="form-horizontal">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Message" id="message" required>
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <br><br>
-
-                        <ul id="messages"></ul>
-                    </div>
-                </div>
-            </div>
-        {% endblock %}
-
     </div>
 </div>
 {{ theme.scripts }}
-<script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
 
-    window.onload = function () {
-        function createWebsocketConnection() {
-            var websocketUrl = 'ws://localhost:{{ websocketPort }}';
+{% block scripts %}
 
-            window.formWrapper = document.getElementById('form-wrapper');
-            window.socketStatus = document.getElementById('status');
-            window.messages = document.getElementById('messages');
-            window.messageForm = document.getElementById('message-form');
-            window.closeButton = document.getElementById('close');
-            window.socket = new WebSocket(websocketUrl);
-
-            window.socket.onopen = function (event) {
-                if (window.socketStatus) {
-                    window.socketStatus.className = 'open';
-                    window.socketStatus.innerHTML = 'Connected to: ' + websocketUrl;
-                }
-                if(window.formWrapper) {
-                    window.formWrapper.className = 'alert alert-success';
-                }
-            };
-            window.socket.onerror = function (error) {
-                console.log('WebSocket Error: ' + error);
-            };
-            window.socket.onmessage = function (event) {
-                var message = event.data;
-                if(window.messages) {
-                    window.messages.innerHTML += '<li class="received"><span>Received: </span>' + message + '</li>';
-                }
-            };
-            window.socket.onclose = function (event) {
-                if (window.socketStatus) {
-                    window.socketStatus.innerHTML = 'Disconnected from WebSocket.';
-                    window.socketStatus.className = 'closed';
-                }
-                if(window.formWrapper) {
-                    formWrapper.className = 'alert alert-danger';
-                }
-            };
-        }
-
-        if (window.messageForm) {
-            window.messageForm.onsubmit = function (e) {
-                e.preventDefault();
-                if (window.socket) {
-                    var message = document.getElementById('message').value;
-                    window.socket.send(message);
-
-                    if(window.messages) {
-                        window.messages.innerHTML += '<li class="sent"><span>Sent: </span>' + message + '</li>';
-                    }
-
-                    document.getElementById('message').value = '';
-                }
-                else {
-                    if(window.messages) {
-                        window.messages.innerHTML += '<li class="sent"><span>Websocket connection is not open</span></li>';
-                    }
-                }
-                return false;
-            };
-        }
-
-        if (window.closeButton) {
-            window.closeButton.onclick = function (e) {
-                e.preventDefault();
-
-                if (window.socket) {
-                    if (window.messages.innerHTML.length > 0) {
-                        window.messages.innerHTML = '';
-                    }
-                    else {
-                        window.socket.close();
-                        window.socket = undefined;
-                    }
-                }
-                else {
-                    createWebsocketConnection();
-                }
-                return false;
-            };
-        }
-
-        createWebsocketConnection();
-    };
-</script>
-
+{% endblock %}
 </body>
 </html>

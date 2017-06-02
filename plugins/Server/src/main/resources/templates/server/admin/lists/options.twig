@@ -18,7 +18,7 @@
             <tbody>
             {% for option in options %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ classname(option, true) }}">{{ classname(option, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(option, true) }}">{{ site.getClassname(option, false) }}</a></td>
                     <td>{{ option.priority }}</td>
                     <td><code>{{ option.flag }}</code></td>
                     <td>{{ option.optionLength }}</td>

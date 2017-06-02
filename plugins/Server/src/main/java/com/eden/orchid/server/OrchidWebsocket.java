@@ -1,15 +1,18 @@
 package com.eden.orchid.server;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.server.api.ServerUtils;
 import fi.iki.elonen.NanoWSD;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.IOException;
 import java.util.EventListener;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class OrchidWebsocket extends NanoWSD implements EventListener {
 
     private OrchidContext context;
@@ -43,7 +46,7 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
         }
     }
 
-    private static class WebsocketHandler extends WebSocket {
+    private class WebsocketHandler extends WebSocket {
         public WebsocketHandler(IHTTPSession handshakeRequest) {
             super(handshakeRequest);
         }
@@ -66,6 +69,14 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
         protected void onMessage(WebSocketFrame message) {
             try {
                 message.setUnmasked();
+
+                if(message.getTextPayload().equalsIgnoreCase("exit")) {
+                    context.broadcast(Orchid.Events.END_SESSION);
+                }
+                else if(message.getTextPayload().equalsIgnoreCase("rebuild")) {
+                    context.broadcast(Orchid.Events.FORCE_REBUILD);
+                }
+
                 sendFrame(message);
             } catch (IOException e) {
                 throw new RuntimeException(e);

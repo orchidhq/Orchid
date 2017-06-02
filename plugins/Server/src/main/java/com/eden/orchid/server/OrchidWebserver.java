@@ -3,19 +3,20 @@ package com.eden.orchid.server;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.server.api.ServerUtils;
-import com.eden.orchid.server.api.methods.Delete;
-import com.eden.orchid.server.api.methods.Get;
 import com.eden.orchid.server.api.OrchidController;
 import com.eden.orchid.server.api.OrchidRequest;
 import com.eden.orchid.server.api.OrchidResponse;
 import com.eden.orchid.server.api.OrchidRoute;
+import com.eden.orchid.server.api.ServerUtils;
+import com.eden.orchid.server.api.methods.Delete;
+import com.eden.orchid.server.api.methods.Get;
 import com.eden.orchid.server.api.methods.Post;
 import com.eden.orchid.server.api.methods.Put;
 import com.eden.orchid.server.impl.controllers.files.FileController;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class OrchidWebserver extends NanoHTTPD {
 
     private static Class<? extends Annotation>[] annotationClasses = new Class[]{Get.class, Post.class, Put.class, Delete.class};

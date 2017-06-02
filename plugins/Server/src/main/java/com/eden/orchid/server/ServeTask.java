@@ -57,7 +57,7 @@ public class ServeTask extends OrchidTask implements EventListener {
                 try {
                     server.start(8080);
                 }
-                catch (IOException e){
+                catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -76,9 +76,28 @@ public class ServeTask extends OrchidTask implements EventListener {
 
     @On(Orchid.Events.FILES_CHANGED)
     public void onFilesChanges() {
-        server.getWebsocket().sendMessage("Rebuilding site...");
+        server.getWebsocket().sendMessage("Files Changed");
         context.build();
-        server.getWebsocket().sendMessage("Site Rebuilt");
+    }
+
+    @On(Orchid.Events.FORCE_REBUILD)
+    public void onForceRebuild() {
+        server.getWebsocket().sendMessage("Forcing Rebuild");
+        context.build();
+    }
+
+    @On(Orchid.Events.BUILD_START)
+    public void onBuildStarted() {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Rebuilding site...");
+        }
+    }
+
+    @On(Orchid.Events.BUILD_FINISH)
+    public void onBuildFinished() {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Site Rebuilt");
+        }
     }
 
     @On(Orchid.Events.END_SESSION)
@@ -86,6 +105,13 @@ public class ServeTask extends OrchidTask implements EventListener {
         server.getWebsocket().sendMessage("Ending Session");
         context.broadcast(Orchid.Events.SHUTDOWN);
         System.exit(0);
+    }
+
+    @On()
+    public void onAnyEvent(String event) {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Event: " + event);
+        }
     }
 }
 

@@ -26,3 +26,11 @@
         </table>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+{% endblock %}

@@ -15,8 +15,8 @@
             <tbody>
             {% for resourceSource in resourceSources %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ classname(resourceSource, true) }}">{{ classname(resourceSource, false) }}</a></td>
-                    <td>{{ resourceSource.getPriority() }}</td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(resourceSource, true) }}">{{ site.getClassname(resourceSource, false) }}</a></td>
+                    <td>{{ resourceSource.priority }}</td>
                 </tr>
             {% endfor %}
             </tbody>
