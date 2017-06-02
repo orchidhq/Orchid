@@ -1,0 +1,28 @@
+{% extends 'templates/server/admin/base/base.twig' %}
+
+{% block main %}
+    <h1>Available Compilers</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Priority</th>
+                <th>Input Extensions</th>
+                <th>Default Output Extension</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for compiler in compilers %}
+                <tr>
+                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(compiler, true) }}">{{ site.getClassname(compiler, false) }}</a></td>
+                    <td>{{ compiler.priority }}</td>
+                    <td><code>{{ compiler.sourceExtensions | join('</code>, <code>') }}</code></td>
+                    <td><code>{{ compiler.outputExtension }}</code></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

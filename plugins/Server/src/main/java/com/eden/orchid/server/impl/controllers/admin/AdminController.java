@@ -2,18 +2,22 @@ package com.eden.orchid.server.impl.controllers.admin;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.server.api.methods.Get;
+import com.eden.orchid.server.OrchidServer;
 import com.eden.orchid.server.api.OrchidController;
 import com.eden.orchid.server.api.OrchidRequest;
 import com.eden.orchid.server.api.OrchidResponse;
-import com.eden.orchid.server.OrchidServer;
+import com.eden.orchid.server.api.methods.Get;
+import com.eden.orchid.utilities.ObservableTreeSet;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collection;
 
 @Singleton
 public class AdminController implements OrchidController {
@@ -44,4 +48,29 @@ public class AdminController implements OrchidController {
         }
         return new OrchidResponse(content);
     }
+
+    @Get(path="/lists/:name")
+    public OrchidResponse renderList(OrchidRequest request, String name) {
+        Clog.v("calling /admin/lists/:name");
+        OrchidResource resource = resources.getResourceEntry("templates/server/admin/lists/" + name + ".twig");
+        if(resource != null) {
+            JSONObject data = new JSONObject();
+            data.put("httpServerPort", server.get().getHttpServerPort());
+            data.put("websocketPort", server.get().getWebsocketPort());
+
+            data.put(name, getList(name));
+
+            return new OrchidResponse(context.getTheme().compile(resource.getReference().getExtension(), resource.getContent(), data));
+        }
+        return new OrchidResponse("List not found");
+    }
+
+    private Collection<?> getList(String name) {
+        switch(name.toLowerCase()) {
+            case "compilers": return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidCompiler.class));
+        }
+
+        return null;
+    }
+
 }

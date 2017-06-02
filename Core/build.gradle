@@ -7,7 +7,7 @@ dependencies {
 
     // core utilities
     compile 'com.github.JavaEden:Common:74714dca1f'
-    compile 'com.github.JavaEden:Clog4j:v1.3.0'
+    compile 'com.github.JavaEden:Clog:v1.3.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'org.projectlombok:lombok:1.16.16'
     compile 'commons-io:commons-io:2.5'
@@ -20,6 +20,7 @@ dependencies {
     compile 'com.vladsch.flexmark:flexmark:0.19.6'
     compile 'org.asciidoctor:asciidoctorj:1.5.4'
     compile 'io.bit3:jsass:5.5.1'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
     // generate own documentation with Orchid
     orchidDocsCompile rootProject.ext.mainProjects

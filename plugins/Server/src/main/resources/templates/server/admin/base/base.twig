@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    {{ theme.styles }}
+
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+
+        #form-wrapper ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.95rem;
+        }
+
+        #form-wrapper ul li {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #EEE;
+        }
+
+        #form-wrapper ul li:first-child {
+            border-top: 1px solid #EEE;
+        }
+
+        #form-wrapper ul li span {
+            display: inline-block;
+            width: 90px;
+            font-weight: bold;
+            color: #999;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #form-wrapper .sent {
+            background-color: #F8F8F8;
+        }
+
+        #form-wrapper .received {
+            background-color: #F2F2F2;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/lists/compilers">Compilers</a></li>
+                        <li><a href="/admin/lists/generators">Generators</a></li>
+                        <li><a href="/admin/lists/options">Options</a></li>
+                        <li><a href="/admin/lists/resourceSources">Resource Sources</a></li>
+                        <li><a href="/admin/lists/tasks">Tasks</a></li>
+                        <li><a href="/admin/lists/themes">Themes</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="starter-template">
+        {% block main %}
+
+        {% endblock %}
+
+        {% block socketArea %}
+            <div id="page-wrapper">
+                <h1>WebSockets Demo</h1>
+
+                <div class="text-left">
+                    <div id="form-wrapper">
+                        <a href="#" class="close" id="close">&times;</a>
+                        <div id="status">Connecting...</div>
+
+                        <br><br>
+
+                        <form id="message-form" action="#" method="post" class="form-horizontal">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Message" id="message" required>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <br><br>
+
+                        <ul id="messages"></ul>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+    </div>
+</div>
+{{ theme.scripts }}
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    window.onload = function () {
+        function createWebsocketConnection() {
+            var websocketUrl = 'ws://localhost:{{ websocketPort }}';
+
+            window.formWrapper = document.getElementById('form-wrapper');
+            window.socketStatus = document.getElementById('status');
+            window.messages = document.getElementById('messages');
+            window.messageForm = document.getElementById('message-form');
+            window.closeButton = document.getElementById('close');
+            window.socket = new WebSocket(websocketUrl);
+
+            window.socket.onopen = function (event) {
+                if (window.socketStatus) {
+                    window.socketStatus.className = 'open';
+                    window.socketStatus.innerHTML = 'Connected to: ' + websocketUrl;
+                }
+                if(window.formWrapper) {
+                    window.formWrapper.className = 'alert alert-success';
+                }
+            };
+            window.socket.onerror = function (error) {
+                console.log('WebSocket Error: ' + error);
+            };
+            window.socket.onmessage = function (event) {
+                var message = event.data;
+                if(window.messages) {
+                    window.messages.innerHTML += '<li class="received"><span>Received: </span>' + message + '</li>';
+                }
+            };
+            window.socket.onclose = function (event) {
+                if (window.socketStatus) {
+                    window.socketStatus.innerHTML = 'Disconnected from WebSocket.';
+                    window.socketStatus.className = 'closed';
+                }
+                if(window.formWrapper) {
+                    formWrapper.className = 'alert alert-danger';
+                }
+            };
+        }
+
+        if (window.messageForm) {
+            window.messageForm.onsubmit = function (e) {
+                e.preventDefault();
+                if (window.socket) {
+                    var message = document.getElementById('message').value;
+                    window.socket.send(message);
+
+                    if(window.messages) {
+                        window.messages.innerHTML += '<li class="sent"><span>Sent: </span>' + message + '</li>';
+                    }
+
+                    document.getElementById('message').value = '';
+                }
+                else {
+                    if(window.messages) {
+                        window.messages.innerHTML += '<li class="sent"><span>Websocket connection is not open</span></li>';
+                    }
+                }
+                return false;
+            };
+        }
+
+        if (window.closeButton) {
+            window.closeButton.onclick = function (e) {
+                e.preventDefault();
+
+                if (window.socket) {
+                    if (window.messages.innerHTML.length > 0) {
+                        window.messages.innerHTML = '';
+                    }
+                    else {
+                        window.socket.close();
+                        window.socket = undefined;
+                    }
+                }
+                else {
+                    createWebsocketConnection();
+                }
+                return false;
+            };
+        }
+
+        createWebsocketConnection();
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'templates/server/admin/base/base.twig' %}
+
+{% block main %}
+    <h1>Available Tasks</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Priority</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td><a href="#" data-toggle="tooltip" title="{{ classname(task, true) }}">{{ classname(task, false) }}</a></td>
+                    <td>{{ task.getPriority }}</td>
+                    <td><code>{{ task.name }}</code></td>
+                    <td>{{ task.description }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

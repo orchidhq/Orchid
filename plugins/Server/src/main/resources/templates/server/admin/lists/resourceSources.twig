@@ -1,0 +1,25 @@
+{% extends 'templates/server/admin/base/base.twig' %}
+
+{% block main %}
+
+    <h1>Available Resource Sources</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>Priority</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for resourceSource in resourceSources %}
+                <tr>
+                    <td><a href="#" data-toggle="tooltip" title="{{ classname(resourceSource, true) }}">{{ classname(resourceSource, false) }}</a></td>
+                    <td>{{ resourceSource.getPriority() }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

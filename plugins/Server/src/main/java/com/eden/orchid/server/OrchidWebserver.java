@@ -166,8 +166,10 @@ public class OrchidWebserver extends NanoHTTPD {
             case DELETE: matchingRoute = findRoute(route, deleteRoutes); break;
         }
 
+        Clog.i("Incoming request: " + route);
+
         if(matchingRoute != null) {
-            return matchingRoute.call(new OrchidRequest()).getResponse();
+            return matchingRoute.call(new OrchidRequest(session, matchingRoute)).getResponse();
         }
         else {
             return fileController.findFile(OrchidUtils.normalizePath(route));

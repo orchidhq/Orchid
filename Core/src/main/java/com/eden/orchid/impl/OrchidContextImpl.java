@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -190,15 +191,28 @@ public final class OrchidContextImpl implements OrchidContext {
                     siteData.put(key, jsonObject.get(key));
                 }
             }
+            else if(data[0] instanceof Map) {
+                Map<String, ?> map = (Map<String, ?>) data[0];
+                siteData.put("data", map);
+
+                for (String key : map.keySet()) {
+                    siteData.put(key, map.get(key));
+                }
+            }
             else if(data[0] instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) data[0];
                 siteData.put("data", jsonArray);
+            }
+            else if(data[0] instanceof Collection) {
+                Collection collection = (Collection) data[0];
+                siteData.put("data", collection);
             }
         }
 
         siteData.put("root", root);
         siteData.put("theme", getTheme());
         siteData.put("index", getIndex());
+        siteData.put("site", this);
 
         return siteData;
     }
@@ -217,5 +231,18 @@ public final class OrchidContextImpl implements OrchidContext {
 
     public OrchidCompositeIndex getCompositeIndex() {
         return this.generators.getCompositeIndex();
+    }
+
+    public String getClassname(Object object, boolean fullName) {
+        if(fullName) {
+            return object.getClass().getName();
+        }
+        else {
+            return object.getClass().getSimpleName();
+        }
+    }
+
+    public String getClassname(Object object) {
+        return getClassname(object, false);
     }
 }

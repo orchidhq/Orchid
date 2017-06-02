@@ -6,7 +6,9 @@ import com.eden.orchid.utilities.OrchidUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServerUtils {
 
@@ -60,5 +62,39 @@ public class ServerUtils {
         }
 
         return regex ;
+    }
+
+    public static Map<String, String> parsePathParams(String routePath, String calledPath) {
+        String[] routePathPieces = routePath.split("/");
+        String[] calledPathPieces = calledPath.split("/");
+        if(routePathPieces.length != calledPathPieces.length) {
+            throw new IllegalArgumentException("Route path and called path do not match");
+        }
+
+        Clog.v("Parsing path: routePath=" + routePath);
+        Clog.v("Parsing path: calledPath=" + calledPath);
+
+        Map<String, String> pathParams = new HashMap<>();
+
+        for (int i = 0; i < routePathPieces.length; i++) {
+            if(routePathPieces[i].startsWith(":")) {
+                String key = routePathPieces[i].substring(1);
+                String value = calledPathPieces[i];
+
+                Clog.v("Found path param: #{$1} = #{$2}", new Object[]{key, value});
+
+                pathParams.put(key, value);
+            }
+            else if((routePathPieces[i].startsWith("{") && routePathPieces[i].endsWith("}"))) {
+                String key = routePathPieces[i].substring(1, routePathPieces[i].length() - 2);
+                String value = calledPathPieces[i];
+
+                Clog.v("Found path param: #{$1} = #{$2}", new Object[]{key, value});
+
+                pathParams.put(key, value);
+            }
+        }
+
+        return pathParams;
     }
 }
