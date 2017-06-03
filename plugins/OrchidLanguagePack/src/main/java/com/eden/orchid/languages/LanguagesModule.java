@@ -5,8 +5,10 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.languages.impl.AsciiDoctorCompiler;
 import com.eden.orchid.languages.impl.CSVParser;
+import com.eden.orchid.languages.impl.CodeFilter;
 import com.eden.orchid.languages.impl.TOMLParser;
 import com.eden.orchid.languages.impl.TextCompiler;
+import org.jtwig.functions.JtwigFunction;
 
 public class LanguagesModule extends OrchidModule {
 
@@ -21,5 +23,9 @@ public class LanguagesModule extends OrchidModule {
         addToSet(OrchidParser.class,
                 CSVParser.class,
                 TOMLParser.class);
+
+        // Syntax highlighting via Pygments
+        addToSet(JtwigFunction.class,
+                CodeFilter.class);
     }
 }
