@@ -1,0 +1,37 @@
+
+dependencies {
+    // Dynamic Component Registration
+    compile 'com.google.inject:guice:4.1.0'
+    compile 'com.google.inject.extensions:guice-multibindings:4.1.0'
+    compile 'io.github.lukehutch:fast-classpath-scanner:2.0.21'
+
+    // core utilities
+    compile 'com.github.JavaEden:Common:74714dca1f'
+    compile 'com.github.JavaEden:Clog:v1.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    compile 'org.projectlombok:lombok:1.16.16'
+    compile 'commons-io:commons-io:2.5'
+
+    // Included parsers: JSON, YAML, Twig, Markdown, Sass
+    compile 'org.json:json:20170516'
+    compile 'org.yaml:snakeyaml:1.18'
+    compile 'org.jtwig:jtwig-core:5.85.3.RELEASE'
+    compile 'com.vladsch.flexmark:flexmark:0.19.6'
+    compile 'io.bit3:jsass:5.5.1'
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+    // generate own documentation with Orchid
+    orchidDocsCompile rootProject.ext.mainProjects
+}
+
+static boolean otherProjectsTask(Task task, String taskName) {
+    return !task.path.startsWith(':OrchidCore') && task.path.endsWith(":${taskName}")
+}
+
+project.parent.subprojects.each { subproject ->
+    project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
+    project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
+
+    project.tasks.javadoc.shouldRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'javadoc') }
+}

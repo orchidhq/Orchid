@@ -1,0 +1,19 @@
+
+about:
+  name: Orchid
+  description: A modern, extensible, theme-ready Javadoc site generator.
+
+colors:
+  - '#FF8800'
+  - '#000000'
+
+github:
+  username: 'JavaEden'
+  repo: 'Orchid'
+  branch: 'master'
+
+posts:
+  permalink: ':year/:month/:title'
+  categories:
+    - 'personal'
+    - 'development'

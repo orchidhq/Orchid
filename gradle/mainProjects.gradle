@@ -1,5 +1,3 @@
-import com.eden.orchid.gradle.OrchidGenerateJavadocTask
-
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'com.eden.orchidPlugin'
@@ -54,4 +52,4 @@ dependencies {
 }
 
 // remove normal 'javadoc' task and replace it with our own
-tasks.replace('javadoc', OrchidGenerateJavadocTask)
+tasks.replace('javadoc', com.eden.orchid.gradle.OrchidGenerateJavadocTask)

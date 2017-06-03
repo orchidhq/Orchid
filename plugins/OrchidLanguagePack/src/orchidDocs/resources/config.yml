@@ -1,0 +1,13 @@
+
+about:
+  name: Orchid Language Pack
+  description: Adds several useful markup languages and configuration parsers to your Orchid build, including Asciidoctor and TOML.
+
+colors:
+  - '#585858'
+  - '#000000'
+
+github:
+  username: 'JavaEden'
+  repo: 'Orchid'
+  branch: 'master'

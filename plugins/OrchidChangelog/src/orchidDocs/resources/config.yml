@@ -1,0 +1,13 @@
+
+about:
+  name: Orchid Changelog
+  description: Adds a simple way to track and view changes across the various versions of your application or library.
+
+colors:
+  - '#606080'
+  - '#000000'
+
+github:
+  username: 'JavaEden'
+  repo: 'Orchid'
+  branch: 'master'

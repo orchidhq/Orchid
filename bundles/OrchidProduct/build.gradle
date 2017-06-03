@@ -1,0 +1,8 @@
+dependencies {
+    compile project(':OrchidCore')
+    compile project(':plugins:OrchidChangelog')
+    compile project(':plugins:OrchidPages')
+    compile project(':plugins:OrchidWiki')
+    compile project(':plugins:OrchidServer')
+    compile project(':plugins:OrchidLanguagePack')
+}

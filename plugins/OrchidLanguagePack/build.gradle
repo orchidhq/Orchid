@@ -1,0 +1,6 @@
+
+dependencies {
+    compile 'org.asciidoctor:asciidoctorj:1.5.4'
+    compile 'com.univocity:univocity-parsers:2.4.1'
+    compile 'com.moandjiezana.toml:toml4j:0.7.1'
+}
