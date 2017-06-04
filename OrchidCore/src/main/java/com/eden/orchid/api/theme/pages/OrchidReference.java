@@ -143,7 +143,7 @@ public final class OrchidReference {
     }
 
     public String getOutputExtension() {
-        return context.getTheme().getOutputExtension(extension);
+        return context.getOutputExtension(extension);
     }
 
     public String getTitle() {

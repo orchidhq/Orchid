@@ -229,7 +229,7 @@ public final class OrchidResources {
             File file = new File(url);
             String s = IOUtils.toString(new FileInputStream(file));
 
-            JSONElement el = context.getTheme().parse("json", s);
+            JSONElement el = context.parse("json", s);
             if(OrchidUtils.elementIsObject(el)) {
                 return (JSONObject) el.getElement();
             }

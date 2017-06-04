@@ -43,7 +43,7 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     @Override
     public String precompile(String input, Object... data) {
-        return context.getTheme().compile(precompilerExtension, input, data);
+        return context.compile(precompilerExtension, input, data);
     }
 
     private EdenPair<JSONObject, Integer> parseFrontMatter(String input) {
@@ -84,7 +84,7 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
                 JSONObject frontMatter = extensions
                         .stream()
-                        .map(ext -> context.getTheme().parse(ext, frontMatterText))
+                        .map(ext -> context.parse(ext, frontMatterText))
                         .filter(OrchidUtils::elementIsObject)
                         .map(el -> (JSONObject) el.getElement())
                         .findFirst()

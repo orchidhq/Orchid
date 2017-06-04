@@ -67,7 +67,7 @@ public abstract class OrchidRenderer {
         String content = page.getResource().getContent();
 
         if(page.getResource().shouldPrecompile()) {
-            content = context.getTheme().precompile(content, page.getData());
+            content = context.precompile(content, page.getData());
         }
 
         return render(page, page.getResource().getReference().getExtension(), content);

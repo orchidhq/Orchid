@@ -32,7 +32,7 @@ public class NotFound404Response {
 
         String content = "";
         if(resource != null) {
-            content = context.getTheme().compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
+            content = context.compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
         }
 
         Clog.i("Rendering 404: #{$1}", new Object[]{targetPath});

@@ -92,7 +92,7 @@ public class IndexFileResponse {
                 OrchidResource resource = resources.getResourceEntry("templates/server/directoryListing.twig");
 
                 if (resource != null) {
-                    content = context.getTheme().compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
+                    content = context.compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
                 }
                 else {
                     content = object.toString(2);

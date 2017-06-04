@@ -36,7 +36,7 @@ public abstract class OrchidComponent {
             for (String template : templateResolutionStrategy.getComponentTemplate(this, templates)) {
                 OrchidResource templateResource = resources.getResourceEntry(template);
                 if (templateResource != null) {
-                    return context.getTheme().compile(templateResource.getReference().getExtension(), templateResource.getContent(), this);
+                    return context.compile(templateResource.getReference().getExtension(), templateResource.getContent(), this);
                 }
             }
         }
@@ -45,6 +45,6 @@ public abstract class OrchidComponent {
     }
 
     public String renderString(String extension, String templateString) {
-        return context.getTheme().compile(extension, templateString, this);
+        return context.compile(extension, templateString, this);
     }
 }

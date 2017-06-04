@@ -35,7 +35,7 @@ public abstract class OrchidResourceSource extends Prioritized {
     public abstract List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive);
 
     protected boolean shouldAddEntry(String entryName) {
-        OrchidCompiler compiler = context.getTheme().compilerFor(FilenameUtils.getExtension(entryName));
+        OrchidCompiler compiler = context.compilerFor(FilenameUtils.getExtension(entryName));
 
         if (compiler != null && !EdenUtils.isEmpty(compiler.getIgnoredPatterns())) {
             String[] pieces = entryName.split("/");

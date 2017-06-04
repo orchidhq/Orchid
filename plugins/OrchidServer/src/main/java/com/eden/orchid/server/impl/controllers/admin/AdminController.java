@@ -51,7 +51,7 @@ public class AdminController implements OrchidController {
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
 
-            content = context.getTheme().compile(resource.getReference().getExtension(), resource.getContent(), data);
+            content = context.compile(resource.getReference().getExtension(), resource.getContent(), data);
         }
         return new OrchidResponse(content);
     }
@@ -67,7 +67,7 @@ public class AdminController implements OrchidController {
 
             data.put(name, getList(name));
 
-            return new OrchidResponse(context.getTheme().compile(resource.getReference().getExtension(), resource.getContent(), data));
+            return new OrchidResponse(context.compile(resource.getReference().getExtension(), resource.getContent(), data));
         }
         return new OrchidResponse("List not found");
     }

@@ -43,7 +43,7 @@ public class CommentParser {
             String content = doc.commentText();
 
             if (context.query("options.commentExt") != null) {
-                content = context.getTheme().compile(context.query("options.commentExt").toString(), content);
+                content = context.compile(context.query("options.commentExt").toString(), content);
             }
 
             comment.put("description", content);

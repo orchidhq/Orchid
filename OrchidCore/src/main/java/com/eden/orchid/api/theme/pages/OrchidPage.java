@@ -108,10 +108,10 @@ public class OrchidPage {
             String compiledContent = resource.getContent();
 
             if(resource.shouldPrecompile()) {
-                compiledContent = context.getTheme().precompile(compiledContent, data);
+                compiledContent = context.precompile(compiledContent, data);
             }
 
-            return context.getTheme().compile(
+            return context.compile(
                     resource.getReference().getExtension(),
                     compiledContent
             );

@@ -71,7 +71,7 @@ public class WikiGenerator extends OrchidGenerator {
             return;
         }
 
-        String content = context.getTheme().compile(glossary.getReference().getExtension(), glossary.getContent());
+        String content = context.compile(glossary.getReference().getExtension(), glossary.getContent());
         Document doc = Jsoup.parse(content);
 
         for (Element h2 : doc.select("h2")) {
@@ -111,7 +111,7 @@ public class WikiGenerator extends OrchidGenerator {
             return;
         }
 
-        String content = context.getTheme().compile(summary.getReference().getExtension(), summary.getContent());
+        String content = context.compile(summary.getReference().getExtension(), summary.getContent());
         Document doc = Jsoup.parse(content);
 
         Elements links = doc.select("a[href]");

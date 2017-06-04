@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.sass;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidResources;
@@ -53,7 +52,7 @@ public class SassImporter implements Importer {
                 String content = importedResource.getContent();
 
                 if(importedResource.shouldPrecompile()) {
-                    content = context.getTheme().precompile(content, importedResource.getEmbeddedData());
+                    content = context.precompile(content, importedResource.getEmbeddedData());
                 }
 
                 try {
