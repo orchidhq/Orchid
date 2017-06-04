@@ -53,6 +53,21 @@
         </section>
     {% endif %}
 
+
+    <section class="bs-docs-section">
+        <h1 id="classes" class="page-header">Classes</h1>
+
+        <div class="all-classes">
+            <ul class="pager">
+                {% set classList = index.find('about') %}
+                {% for c in classList %}
+                    <li><a href="{{ c.link }}">{{ c.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+
 {% endblock %}
 
 

@@ -8,7 +8,6 @@ import com.eden.orchid.javadoc.api.JavadocInlineTagHandler;
 import com.eden.orchid.javadoc.impl.generators.JavadocClassesGenerator;
 import com.eden.orchid.javadoc.impl.generators.JavadocPackagesGenerator;
 import com.eden.orchid.javadoc.impl.jtwig.ConstructorsFilter;
-import com.eden.orchid.javadoc.impl.jtwig.DirectSubclassesFilter;
 import com.eden.orchid.javadoc.impl.jtwig.FieldsFilter;
 import com.eden.orchid.javadoc.impl.jtwig.MethodsFilter;
 import com.eden.orchid.javadoc.impl.tags.AuthorTag;
@@ -51,8 +50,6 @@ public class JavadocModule extends OrchidModule {
         addToSet(JtwigFunction.class,
                 FieldsFilter.class,
                 ConstructorsFilter.class,
-                MethodsFilter.class,
-                DirectSubclassesFilter.class
-                );
+                MethodsFilter.class);
     }
 }

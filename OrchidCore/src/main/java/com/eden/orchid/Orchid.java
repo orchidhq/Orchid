@@ -2,9 +2,9 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.events.EventService;
-import com.eden.orchid.api.options.OrchidOption;
-import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.OrchidFlags;
+import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -47,7 +47,7 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
     private static Orchid instance;
-    private static List<OrchidOption> orchidOptions;
+    private static List<OrchidFlag> orchidFlags;
     private static List<AbstractModule> modules;
 
     public static Orchid getInstance() {
@@ -63,6 +63,28 @@ public final class Orchid {
             instance = new Orchid(options);
         }
         return getInstance();
+    }
+
+    public static List<OrchidFlag> findFlags() {
+        if(Orchid.orchidFlags == null) {
+            Orchid.orchidFlags = new ArrayList<>();
+
+            FastClasspathScanner scanner = new FastClasspathScanner();
+            scanner.matchClassesImplementing(OrchidFlag.class, (matchingClass) -> {
+                try {
+                    OrchidFlag option = matchingClass.newInstance();
+                    if (option != null) {
+                        Orchid.orchidFlags.add(option);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            scanner.scan();
+        }
+
+        return Orchid.orchidFlags;
     }
 
     public static List<AbstractModule> findModules(Map<String, String[]> options) {
@@ -87,26 +109,12 @@ public final class Orchid {
         return Orchid.modules;
     }
 
-    public static List<OrchidOption> findOptions() {
-        if(Orchid.orchidOptions == null) {
-            Orchid.orchidOptions = new ArrayList<>();
+    public static String findTask(Map<String, String[]> options) {
+        return options.get("-task")[1];
+    }
 
-            FastClasspathScanner scanner = new FastClasspathScanner();
-            scanner.matchSubclassesOf(OrchidOption.class, (matchingClass) -> {
-                try {
-                    OrchidOption option = matchingClass.newInstance();
-                    if (option != null) {
-                        Orchid.orchidOptions.add(option);
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            scanner.scan();
-        }
-
-        return Orchid.orchidOptions;
+    public static Class<? extends Theme> findTheme(Map<String, String[]> options) throws ClassNotFoundException, ClassCastException {
+        return (Class<? extends Theme>) Class.forName(options.get("-theme")[1]);
     }
 
 // Make main Orchid object a singleton
@@ -114,36 +122,31 @@ public final class Orchid {
 
     private OrchidContext context;
     private Injector injector;
-    private Map<String, String[]> options;
+    private Map<String, String[]> flags;
 
-    public Orchid(Map<String, String[]> options) {
-        this.options = options;
+    public Orchid(Map<String, String[]> flags) {
+        this.flags = flags;
     }
 
-    public boolean start(List<AbstractModule> modules, String task) {
+    public boolean start(List<AbstractModule> modules, Class<? extends Theme> themeClass, String task) {
         for (AbstractModule module : modules) {
             Clog.i("Registering module of type '#{$1}'", new Object[]{module.getClass().getName()});
         }
 
+        modules.add(OrchidFlags.getInstance().parseFlags(this.flags));
+
         injector = Guice.createInjector(modules);
-
         context = injector.getInstance(OrchidContext.class);
-        EventService emitter = injector.getInstance(EventService.class);
-        context.bootstrap(options);
 
-        boolean success = context.runTask(task);
+        Theme theme = injector.getInstance(themeClass);
 
-        emitter.broadcast(Events.SHUTDOWN, success);
-
+        boolean success = context.runTask(theme, task);
+        context.broadcast(Events.SHUTDOWN, success);
         return success;
     }
 
     public OrchidContext getContext() {
         return context;
-    }
-
-    public Injector getInjector() {
-        return injector;
     }
 
     // Entry points, main routines
@@ -156,12 +159,22 @@ public final class Orchid {
                 .map(s -> s.split("\\s+"))
                 .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
-        String task = Arrays
-                .stream(args)
-                .filter(s -> !s.startsWith("-"))
-                .findFirst()
-                .orElse(OrchidTasks.defaultTask);
-
-        System.exit((Orchid.getInstance(options).start(findModules(options), task)) ? 0 : 1);
+        try {
+            List<AbstractModule> modules = Orchid.findModules(options);
+            Class<? extends Theme> theme = Orchid.findTheme(options);
+            String task = Orchid.findTask(options);
+            System.exit((Orchid.getInstance(options).start(modules, theme, task)) ? 0 : 1);
+        }
+        catch (ClassNotFoundException e) {
+            Clog.e("Theme class could not be found.");
+            System.exit(1);
+        }
+        catch (ClassCastException e) {
+            Clog.e("Class given for Theme is not a subclass of " + Theme.class.getName());
+            System.exit(1);
+        }
     }
 }
+
+
+// TODO HIGHEST PRIORITY - render everything against a specific theme, which is typically the context default theme, but may actually be different. Multiple themes FTW!

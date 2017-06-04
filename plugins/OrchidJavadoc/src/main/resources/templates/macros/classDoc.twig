@@ -58,7 +58,7 @@
                 {%- if classDoc.info.modifiers.isAbstract -%}abstract&nbsp;{%- endif -%}
                 {%- if classDoc.info.modifiers.isFinal -%}final&nbsp;{%- endif -%}
                 {{- classDoc.info.modifiers.objectType -}}&nbsp;
-                {{- classDoc.info.name | link -}}
+                {#{{- classDoc.info.name | link -}}#}
             </b>
         </div>
         {%- if classDoc.info.superclass -%}

@@ -78,10 +78,6 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
                     extensions.add(parsedType);
                 }
 
-                if(!EdenUtils.isEmpty(context.query("options.frontMatterExt"))) {
-                    extensions.add(context.query("options.frontMatterExt").toString());
-                }
-
                 extensions.add(defaultType);
 
                 final String frontMatterText = input.substring(fmStart, fmEnd);

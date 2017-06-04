@@ -10,6 +10,7 @@ import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -39,13 +40,20 @@ public final class OrchidResources {
     private Set<DefaultResourceSource> defaultResourceSources;
     private OkHttpClient client;
 
+    private final String resourcesDir;
+
     @Inject
-    public OrchidResources(OrchidContext context, Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
+    public OrchidResources(
+            OrchidContext context,
+            @Named("resourcesDir") String resourcesDir,
+            Set<LocalResourceSource> localResourceSources,
+            Set<DefaultResourceSource> defaultResourceSources) {
         this.context = context;
         this.localResourceSources = new ObservableTreeSet<>(localResourceSources);
         this.defaultResourceSources = new ObservableTreeSet<>(defaultResourceSources);
 
         this.client = new OkHttpClient();
+        this.resourcesDir = resourcesDir;
     }
 
     /**
@@ -58,11 +66,21 @@ public final class OrchidResources {
     public OrchidResource getLocalResourceEntry(final String fileName) {
         return localResourceSources
                 .stream()
-                .filter(source -> source.getPriority() >= 0)
                 .map(source -> source.getResourceEntry(fileName))
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * Gets a single OrchidResource from the directory declared by the 'resourcesDir' option. Themes and other
+     * registered resource sources are not considered.
+     *
+     * @param fileName the file path and name to find
+     * @return an OrchidResource if it can be found, null otherwise
+     */
+    public OrchidResource getThemeResourceEntry(final String fileName) {
+        return context.getTheme().getResourceEntry(fileName);
     }
 
     /**
@@ -73,17 +91,25 @@ public final class OrchidResources {
      * @return an OrchidResource if it can be found, null otherwise
      */
     public OrchidResource getResourceEntry(final String fileName) {
+        // first check for a resource in any specified local resource sources
         OrchidResource resource = getLocalResourceEntry(fileName);
 
+        // If nothing found in local resources, check the theme
+        if (resource == null) {
+            resource = getThemeResourceEntry(fileName);
+        }
+
+        // If nothing found in the theme, check the default resource sources
         if (resource == null) {
             resource = defaultResourceSources
                     .stream()
-                    .filter(source -> source.getPriority() >= 0)
                     .map(source -> source.getResourceEntry(fileName))
                     .filter(Objects::nonNull)
-                    .findFirst().orElseGet(() -> null);
+                    .findFirst()
+                    .orElse(null);
         }
 
+        // return the resource if found, otherwise null
         return resource;
     }
 
@@ -107,6 +133,27 @@ public final class OrchidResources {
     }
 
     /**
+     * Finds all OrchidResources in a given directory in the 'resources directory' that contain one of the declared file
+     * extensions. Themes and other registered resource sources are not considered. If no extensions are specified, all
+     * files in the given directory are returned. If recursive is true, the declared directory and all subdirectories
+     * are searched instead of just the declared directory.
+     *
+     * @param path           the path to search in
+     * @param fileExtensions a list of extensions to match files on (optional)
+     * @param recursive      whether to also search subdirectories
+     * @return a list of all OrchidResources found
+     */
+    public List<OrchidResource> getThemeResourceEntries(String path, String[] fileExtensions, boolean recursive) {
+        TreeMap<String, OrchidResource> entries = new TreeMap<>();
+
+        List<OrchidResourceSource> themeSources = new ArrayList<>();
+        themeSources.add(context.getTheme());
+        addEntries(entries, themeSources, path, fileExtensions, recursive);
+
+        return new ArrayList<>(entries.values());
+    }
+
+    /**
      * Finds all OrchidResources in a given directory in all registered ResourceSources. The 'resourcesDir' directory is
      * first searched, and then all registered ResourceSources (which include themes) in order of priority. If no
      * extensions are specified, all files in the given directory are returned. If recursive is true, the declared
@@ -120,7 +167,15 @@ public final class OrchidResources {
     public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
+        // add entries from local sources
         addEntries(entries, localResourceSources, path, fileExtensions, recursive);
+
+        // add entries from theme
+        List<OrchidResourceSource> themeSources = new ArrayList<>();
+        themeSources.add(context.getTheme());
+        addEntries(entries, themeSources, path, fileExtensions, recursive);
+
+        // add entries from other sources
         addEntries(entries, defaultResourceSources, path, fileExtensions, recursive);
 
         return new ArrayList<>(entries.values());
@@ -159,12 +214,6 @@ public final class OrchidResources {
                     }
                 });
     }
-
-
-
-
-
-
 
     public JSONObject loadAdditionalFile(String url) {
         if(!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
@@ -221,41 +270,38 @@ public final class OrchidResources {
     }
 
     public OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
-        if (!EdenUtils.isEmpty(context.query("options.resourcesDir"))) {
-            String resourceDir = context.query("options.resourcesDir").toString();
+        File folder = new File(resourcesDir);
 
-            File folder = new File(resourceDir);
+        while (true) {
+            if (folder.isDirectory()) {
+                List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
 
-            while (true) {
-                if (folder.isDirectory()) {
-                    List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
-
-                    for (File file : files) {
-                        if(!strict) {
-                            if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
-                                return new FileResource(context, file);
-                            }
+                for (File file : files) {
+                    if(!strict) {
+                        if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
+                            return new FileResource(context, file);
                         }
-                        else {
-                            if (file.getName().equals(filename)) {
-                                return new FileResource(context, file);
-                            }
+                    }
+                    else {
+                        if (file.getName().equals(filename)) {
+                            return new FileResource(context, file);
                         }
                     }
                 }
+            }
 
-                // set the folder to its own parent and search again
-                if (folder.getParentFile() != null && maxIterations > 0) {
-                    folder = folder.getParentFile();
-                    maxIterations--;
-                }
+            // set the folder to its own parent and search again
+            if (folder.getParentFile() != null && maxIterations > 0) {
+                folder = folder.getParentFile();
+                maxIterations--;
+            }
 
-                // there is no more parent to search, exit the loop
-                else {
-                    break;
-                }
+            // there is no more parent to search, exit the loop
+            else {
+                break;
             }
         }
+
 
         return null;
     }

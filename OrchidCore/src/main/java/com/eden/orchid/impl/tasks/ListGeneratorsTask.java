@@ -43,19 +43,10 @@ public class ListGeneratorsTask extends OrchidTask {
         Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
 
         for (OrchidGenerator generator : generators) {
-
-            if (orchidGenerators.shouldUseGenerator(generator)) {
-                Clog.logger(OrchidTasks.loggerKey, "" +
-                                "#{ $0 | fg('cyan') }[#{$1}]#{$0 |reset}" +
-                                "#{ $0 | fg('magenta') }[#{$2}]#{$0 |reset}",
-                        new Object[]{generator.getPriority(), generator.getClass().getName()});
-            }
-            else {
-                Clog.logger(OrchidTasks.loggerKey, "" +
-                                "#{ $0 | fg('cyan') }[#{$1}]#{$0 |reset}" +
-                                "#{ $0 | fg('red') }[#{$2} (disabled)]#{$0 |reset}",
-                        new Object[]{generator.getPriority(), generator.getClass().getName()});
-            }
+            Clog.logger(OrchidTasks.loggerKey, "" +
+                            "#{ $0 | fg('cyan') }[#{$1}]#{$0 |reset}" +
+                            "#{ $0 | fg('red') }[#{$2} (disabled)]#{$0 |reset}",
+                    new Object[]{generator.getPriority(), generator.getClass().getName()});
 
             for (String line : OrchidUtils.wrapString(generator.getDescription(), 80)) {
                 Clog.logger(OrchidTasks.loggerKey, "    " + line);

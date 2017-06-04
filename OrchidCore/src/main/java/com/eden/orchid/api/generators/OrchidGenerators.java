@@ -51,7 +51,6 @@ public final class OrchidGenerators {
 
     public void startGeneration() {
         generators.stream()
-                  .filter(this::shouldUseGenerator)
                   .forEach(this::useGenerator);
     }
 
@@ -61,7 +60,6 @@ public final class OrchidGenerators {
     private void buildInternalIndex() {
         this.internalIndex = new OrchidRootInternalIndex();
         generators.stream()
-                  .filter(this::shouldUseGenerator)
                   .forEach(this::indexGenerator);
     }
 
@@ -122,32 +120,5 @@ public final class OrchidGenerators {
             generatorPages = new ArrayList<>();
         }
         generator.startGeneration(generatorPages);
-    }
-
-// Utilities
-//----------------------------------------------------------------------------------------------------------------------
-
-    public boolean shouldUseGenerator(OrchidGenerator generator) {
-        if(disabledGenerators == null) {
-            JSONElement el = context.query("options.disabledGenerators");
-            if(el != null) {
-                if(el.getElement() instanceof JSONArray) {
-                    disabledGenerators = (JSONArray) el.getElement();
-                }
-            }
-        }
-
-        if(disabledGenerators != null) {
-            for(int i = 0; i < disabledGenerators.length(); i++) {
-                if(disabledGenerators.getString(i).equalsIgnoreCase(generator.getClass().getName())) {
-                    return false;
-                }
-                else if(disabledGenerators.getString(i).equalsIgnoreCase(generator.getClass().getSimpleName())) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 }

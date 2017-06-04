@@ -33,7 +33,7 @@ class OrchidGenerateBuildTask extends JavaExec {
 
         // set common configuration options
 
-        projectArgs.add "build"
+        projectArgs.add "-task build"
 
         if(project.orchid.version) {
             projectArgs.add "-v ${project.orchid.version}"

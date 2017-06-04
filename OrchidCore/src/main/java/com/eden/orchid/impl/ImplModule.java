@@ -6,7 +6,6 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.OrchidOption;
 import com.eden.orchid.api.render.ContentFilter;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
@@ -24,14 +23,6 @@ import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
-import com.eden.orchid.impl.options.BaseUrlOption;
-import com.eden.orchid.impl.options.CommentLanguageOption;
-import com.eden.orchid.impl.options.DestinationOption;
-import com.eden.orchid.impl.options.DisabledGeneratorsOption;
-import com.eden.orchid.impl.options.EnvironmentOption;
-import com.eden.orchid.impl.options.ResourcesOption;
-import com.eden.orchid.impl.options.ThemeOption;
-import com.eden.orchid.impl.options.VersionOption;
 import com.eden.orchid.impl.render.OrchidRendererImpl;
 import com.eden.orchid.impl.render.TemplateResolutionStrategyImpl;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
@@ -91,17 +82,6 @@ public class ImplModule extends OrchidModule {
                 AssetsGenerator.class,
                 HomepageGenerator.class,
                 IndexGenerator.class);
-
-        // Options
-        addToSet(OrchidOption.class,
-                BaseUrlOption.class,
-                CommentLanguageOption.class,
-                DestinationOption.class,
-                DisabledGeneratorsOption.class,
-                EnvironmentOption.class,
-                ResourcesOption.class,
-                ThemeOption.class,
-                VersionOption.class);
 
         // Tasks
         addToSet(OrchidTask.class,

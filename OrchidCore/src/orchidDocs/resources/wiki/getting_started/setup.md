@@ -69,7 +69,7 @@ artifacts {
     your Orchid site should be added as dependencies to 'orchidDocsCompile'.
     - There are several officially-supported Orchid plugins. By using the 'OrchidAll' bundle, you will be automatically
      set up with the core framework and all officially-supported extensions and themes. Alternatively, you can see the
-     full list of available pacakges at {{ 'All Orchid Projects' | linkIn('pages') }}, and pick and choose the features
+     full list of available pacakges at {{ 'All Orchid Projects' }}, and pick and choose the features
      you want from there.
 4) The 'orchid' closure allows you to customize your Orchid build. There are several properties that must be set in 
     order for Orchid to run successfully. The 'theme' must be set as the fully-qualified class name of the Theme you

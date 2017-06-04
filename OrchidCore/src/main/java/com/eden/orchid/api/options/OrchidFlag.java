@@ -1,14 +1,18 @@
 package com.eden.orchid.api.options;
 
-import com.eden.common.json.JSONElement;
-import com.eden.orchid.api.registration.Prioritized;
-
 /**
  * Denotes a Javadoc-style command-line argument. It is important to note that Options are found by scanning the
  * classpath and are **not** created by Dependency Injection, and so are not able to have dependencies injected into
  * themselves.
  */
-public abstract class OrchidOption extends Prioritized {
+public interface OrchidFlag {
+    enum FlagType {
+        STRING,
+        STRING_ARRAY,
+        INTEGER,
+        DOUBLE,
+        BOOLEAN,
+    }
 
     /**
      * Return the number of arguments this OrchidOption is expecting. This number is strictly enforced, and the option will
@@ -24,7 +28,7 @@ public abstract class OrchidOption extends Prioritized {
      *
      * @return the length of this option, including the flag itself
      */
-    public abstract int optionLength();
+    default int optionLength() { return 2; }
 
     /**
      * A callback for when an option on the command-line matches the optionLength or when optionLength is 0. Whatever
@@ -33,14 +37,30 @@ public abstract class OrchidOption extends Prioritized {
      * @param options the raw values found on the command line. Its length will always be exactly equal to optionLength
      * @return the data parsed from the command-line option
      */
-    public abstract JSONElement parseOption(String[] options);
+    default Object parseFlag(String[] options) { return options[1]; }
 
     /**
      * If this value is not false, this callback is used instead to get a value for this option. Whatever JSONElement is
      * returned will be available in the root JSONObject at `options.{flag}`.
      * @return the default value for this OrchidOption
      */
-    public abstract JSONElement getDefaultValue();
+    default Object getDefaultValue() { return null; }
+
+    /**
+     * Flags are simple values that can only be of type String, Integer, Float, or Boolean, or String[]. Return the
+     * type that this flag represents.
+     * @return the type of this flag.
+     */
+    default FlagType getFlagType() { return FlagType.STRING; }
+
+    /**
+     * Return true if this OrchidOption must be set before continuing with the Orchid build.
+     *
+     * @return true if this option is required, false otherwise.
+     */
+    default boolean isRequired() {
+        return false;
+    }
 
     /**
      * The name of the flag used on the command-line. This value should _not_ start with a dash, but options specified
@@ -49,21 +69,12 @@ public abstract class OrchidOption extends Prioritized {
      *
      * @return the flag, without any leading dash
      */
-    public abstract String getFlag();
+    String getFlag();
 
     /**
      * Return a description of this OrchidOption, which is displayed when listing available Options.
      *
      * @return this option's description
      */
-    public abstract String getDescription();
-
-    /**
-     * Return true if this OrchidOption must be set before continuing with the Orchid build.
-     *
-     * @return true if this option is required, false otherwise.
-     */
-    public boolean isRequired() {
-        return false;
-    }
+    String getDescription();
 }

@@ -33,7 +33,7 @@ class OrchidGenerateServeTask extends JavaExec {
 
         // set common configuration options
 
-        projectArgs.add "serve"
+        projectArgs.add "-task serve"
 
         if(project.orchid.version) {
             projectArgs.add "-v ${project.orchid.version}"

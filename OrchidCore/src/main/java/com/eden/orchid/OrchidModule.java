@@ -1,7 +1,6 @@
 package com.eden.orchid;
 
 import com.eden.orchid.api.registration.Prioritized;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
@@ -31,11 +30,6 @@ public abstract class OrchidModule extends AbstractModule {
 
     protected final void addTheme(Class<? extends Theme> themeClass) {
         bind(themeClass).in(Singleton.class);
-
-        Multibinder<Theme> themeBinder = Multibinder.newSetBinder(binder(), Theme.class);
-        themeBinder.addBinding().to(themeClass).in(Singleton.class);
-
-        Multibinder<DefaultResourceSource> resourceSourceBinder = Multibinder.newSetBinder(binder(), DefaultResourceSource.class);
-        resourceSourceBinder.addBinding().to(themeClass).in(Singleton.class);
+        Multibinder.newSetBinder(binder(), Theme.class).addBinding().to(themeClass).in(Singleton.class);
     }
 }

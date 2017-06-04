@@ -1,6 +1,5 @@
 package com.eden.orchid.impl;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
@@ -9,9 +8,9 @@ import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.events.FilterService;
 import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.OrchidOptions;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
-import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
@@ -19,7 +18,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
 import lombok.Data;
 import org.json.JSONArray;
@@ -30,6 +28,7 @@ import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 @Data
 @Singleton
@@ -38,58 +37,49 @@ public final class OrchidContextImpl implements OrchidContext {
     private Injector injector;
 
     private JSONObject root;
-    private Theme theme;
+    private Theme defaultTheme;
+    private Stack<Theme> themeStack;
 
     private OrchidTasks orchidTasks;
+    private OrchidFlags flags;
     private OrchidOptions options;
     private OrchidGenerators generators;
+    private OrchidResources resources;
+
     private EventService eventService;
     private FilterService filterService;
 
     @Inject
-    public OrchidContextImpl(Injector injector, OrchidTasks orchidTasks, OrchidOptions options, OrchidGenerators generators, EventService eventService, FilterService filterService) {
+    public OrchidContextImpl(
+            Injector injector,
+            OrchidTasks orchidTasks,
+            OrchidGenerators generators,
+            EventService eventService,
+            FilterService filterService,
+            OrchidOptions options) {
         this.injector = injector;
         this.orchidTasks = orchidTasks;
-        this.options = options;
+        this.flags = OrchidFlags.getInstance();
         this.generators = generators;
         this.eventService = eventService;
         this.filterService = filterService;
-    }
-
-    @Override
-    public void bootstrap(Map<String, String[]> optionsMap) {
-        eventService.broadcast(Orchid.Events.INIT_COMPLETE);
+        this.options = options;
 
         this.root = new JSONObject();
-        root.put("options", new JSONObject());
-
-        options.parseOptions(optionsMap, root.getJSONObject("options"));
-        eventService.broadcast(Orchid.Events.OPTIONS_PARSED, root.getJSONObject("options"));
-
-        eventService.broadcast(Orchid.Events.BOOTSTRAP_COMPLETE);
+        this.themeStack = new Stack<>();
     }
 
     @Override
-    public boolean runTask(String taskName) {
-        if (shouldContinue()) {
-            reorderResourceSources();
-            Clog.i("Using Theme: #{$1}", new Object[]{theme.getClass().getName()});
-            eventService.broadcast(Orchid.Events.THEME_SET, getTheme());
-            orchidTasks.run(taskName);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    private boolean shouldContinue() {
-        return options.shouldContinue() && (theme != null) && theme.shouldContinue();
+    public boolean runTask(Theme defaultTheme, String taskName) {
+        this.defaultTheme = defaultTheme;
+        orchidTasks.run(taskName);
+        return true;
     }
 
     @Override
     public void build() {
         eventService.broadcast(Orchid.Events.BUILD_START);
+        options.loadOptions();
         generators.startIndexing();
         generators.startGeneration();
         eventService.broadcast(Orchid.Events.BUILD_FINISH);
@@ -101,49 +91,6 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void broadcast(String event, Object... args) {
         eventService.broadcast(event, args);
-    }
-
-    private void reorderResourceSources() {
-        Theme theme = getTheme();
-
-        reorderThemes();
-
-        for (OrchidResourceSource source : OrchidUtils.resolveSet(this, DefaultResourceSource.class)) {
-            if (source instanceof Theme) {
-                if (!source.getClass().isAssignableFrom(theme.getClass())) {
-                    source.setPriority(-1);
-                }
-            }
-        }
-    }
-
-    private void reorderThemes() {
-        Class<?> superclass = getTheme().getClass();
-        int i = 0;
-
-        // find the highest priority of any Theme
-        int highestThemePriority = 0;
-        for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(this, OrchidResourceSource.class)) {
-            if (resourceSourceEntry instanceof Theme) {
-                highestThemePriority = Math.max(highestThemePriority, resourceSourceEntry.getPriority());
-            }
-        }
-
-        // Go through all Themes and set each parent theme as the next-highest Theme priority
-        while (!superclass.equals(Theme.class)) {
-            for (OrchidResourceSource resourceSourceEntry : OrchidUtils.resolveSet(this, OrchidResourceSource.class)) {
-                if (resourceSourceEntry instanceof Theme) {
-                    Theme theme = (Theme) resourceSourceEntry;
-                    if (theme.getClass().equals(superclass)) {
-                        theme.setPriority((highestThemePriority) - i);
-                        break;
-                    }
-                }
-            }
-
-            i++;
-            superclass = superclass.getSuperclass();
-        }
     }
 
     @Override
@@ -206,7 +153,7 @@ public final class OrchidContextImpl implements OrchidContext {
         }
 
         siteData.put("root", root);
-        siteData.put("theme", getTheme());
+        siteData.put("theme", getDefaultTheme());
         siteData.put("index", getIndex());
         siteData.put("site", this);
 
@@ -240,5 +187,20 @@ public final class OrchidContextImpl implements OrchidContext {
 
     public String getClassname(Object object) {
         return getClassname(object, false);
+    }
+
+    @Override
+    public Theme getTheme() {
+        return (themeStack.size() > 0) ? themeStack.peek() : this.defaultTheme;
+    }
+
+    @Override
+    public void pushTheme(Theme theme) {
+        themeStack.push(theme);
+    }
+
+    @Override
+    public void popTheme() {
+        themeStack.pop();
     }
 }

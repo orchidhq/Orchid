@@ -1,10 +1,8 @@
 package com.eden.orchid.javadoc.impl.docParsers;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ConstructorDoc;
@@ -16,8 +14,6 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ClassDocParser {
 
@@ -201,31 +197,6 @@ public class ClassDocParser {
 
             fields.put(field);
         }
-        return fields;
-    }
-
-    public JSONArray getDirectSubclasses(ClassDoc classDoc) {
-
-        Map<String, JSONObject> relatedClasses = new HashMap<>();
-        JSONArray fields = new JSONArray();
-
-        JSONArray element = OrchidUtils.queryIndex(context, "javadoc");
-
-        for (int i = 0; i < element.length(); i++) {
-            JSONObject object = element.getJSONObject(i);
-            JSONElement objectElement = new JSONElement(object);
-
-            if (objectElement.query("data.info") != null && objectElement.query("data.info.superclass") != null) {
-                String objectQualifiedName = objectElement.query("data.info.qualifiedName").getElement().toString();
-                String superclassQualifiedName = objectElement.query("data.info.superclass.qualifiedName").getElement().toString();
-
-                if (superclassQualifiedName.equals(classDoc.qualifiedName()) && !relatedClasses.containsKey(objectQualifiedName)) {
-                    relatedClasses.put(objectQualifiedName, object);
-                    fields.put(object);
-                }
-            }
-        }
-
         return fields;
     }
 }

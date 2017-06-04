@@ -1,8 +1,8 @@
 package com.eden.orchid.api.resources.resource;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -48,22 +48,13 @@ public final class FileResource extends FreeableResource  {
 
     private static String pathFromFile(OrchidContext context, File file) {
         String filePath = file.getPath();
+        String basePath = OrchidFlags.getInstance().getString("resourcesDir");
+        basePath = basePath.replaceAll("\\\\", "/");
+        filePath = filePath.replaceAll("\\\\", "/");
 
-//        Clog.v("Creating OrchidReference: initial filePath='#{$1}'", new Object[]{filePath});
-
-        if(OrchidUtils.elementIsString(context.query("options.resourcesDir"))) {
-            String basePath = context.query("options.resourcesDir").getElement().toString();
-            basePath = basePath.replaceAll("\\\\", "/");
-            filePath = filePath.replaceAll("\\\\", "/");
-
-//            Clog.v("Creating OrchidReference: basePath='#{$1}'", new Object[]{basePath});
-
-            if(filePath.startsWith(basePath)) {
-                filePath = filePath.replaceAll(basePath, "");
-            }
+        if(filePath.startsWith(basePath)) {
+            filePath = filePath.replaceAll(basePath, "");
         }
-
-//        Clog.v("Creating OrchidReference: final filePath='#{$1}'", new Object[]{filePath});
 
         return filePath;
     }

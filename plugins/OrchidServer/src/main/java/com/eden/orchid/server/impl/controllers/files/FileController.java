@@ -1,6 +1,7 @@
 package com.eden.orchid.server.impl.controllers.files;
 
 import com.eden.orchid.api.OrchidContext;
+import com.google.inject.name.Named;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,18 +20,26 @@ public class FileController {
     private IndexFileResponse indexFileResponse;
     private NotFound404Response notFound404Response;
 
+    private final String destination;
+
     @Inject
-    public FileController(OrchidContext context, StaticFileResponse staticFileResponse, IndexFileResponse indexFileResponse, NotFound404Response notFound404Response) {
+    public FileController(
+            OrchidContext context,
+            @Named("d") String destination,
+            StaticFileResponse staticFileResponse,
+            IndexFileResponse indexFileResponse,
+            NotFound404Response notFound404Response) {
         this.context = context;
         this.staticFileResponse = staticFileResponse;
         this.indexFileResponse = indexFileResponse;
         this.notFound404Response = notFound404Response;
+
+        this.destination = destination;
     }
 
     public NanoHTTPD.Response findFile(String targetPath) {
         if(this.rootFolder == null) {
-            String baseDir = context.query("options.d").toString();
-            this.rootFolder = new File(baseDir);
+            this.rootFolder = new File(this.destination);
         }
 
         File targetFile = new File(rootFolder, targetPath);

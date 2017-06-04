@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.server.api.FileWatcher;
+import com.google.inject.name.Named;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -21,11 +22,19 @@ public class ServeTask extends OrchidTask implements EventListener {
     private OrchidServer server;
     private FileWatcher watcher;
 
+    private final String resourcesDir;
+
     @Inject
-    public ServeTask(OrchidContext context, OrchidServer server, FileWatcher watcher) {
+    public ServeTask(
+            OrchidContext context,
+            @Named("resourcesDir") String resourcesDir,
+            OrchidServer server,
+            FileWatcher watcher) {
         this.context = context;
         this.server = server;
         this.watcher = watcher;
+
+        this.resourcesDir = resourcesDir;
     }
 
     @Override
@@ -42,35 +51,29 @@ public class ServeTask extends OrchidTask implements EventListener {
 
     @Override
     public void run() {
-        if (context.query("options.resourcesDir") != null) {
-            String rootDir = context.query("options.resourcesDir").toString();
+        File file = new File(resourcesDir);
 
-            File file = new File(rootDir);
+        if (file.exists() && file.isDirectory()) {
+            Clog.i("Watching root resources directory for changes");
 
-            if (file.exists() && file.isDirectory()) {
-                Clog.i("Watching root resources directory for changes");
+            JSONObject rootJson = context.getRoot();
+//            JSONObject optionsJson = rootJson.getJSONObject("options");
 
-                JSONObject rootJson = context.getRoot();
-                JSONObject optionsJson = rootJson.getJSONObject("options");
-
-                context.build();
-                try {
-                    server.start(8080);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                optionsJson.put("baseUrl", "http://localhost:" + server.getHttpServerPort());
-
-                watcher.startWatching(rootDir);
+            context.build();
+            try {
+                server.start(8080);
             }
-            else {
-                Clog.w("OrchidResourcesImpl directory doesn't exist or isn't is a directory");
+            catch (IOException e) {
+                e.printStackTrace();
             }
+
+            //TODO: find out how I could dynamically set the base URL (i'm thinking this should not be a flag)
+//            optionsJson.put("baseUrl", "http://localhost:" + server.getHttpServerPort());
+
+            watcher.startWatching(resourcesDir);
         }
         else {
-            Clog.w("There is no resources directory to watch");
+            Clog.w("OrchidResourcesImpl directory doesn't exist or isn't is a directory");
         }
     }
 

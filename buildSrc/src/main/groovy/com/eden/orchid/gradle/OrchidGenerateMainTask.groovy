@@ -33,10 +33,10 @@ class OrchidGenerateMainTask extends JavaExec {
 
         // set common configuration options
         if(project.hasProperty('runTask')) {
-            projectArgs.add "${project.property('runTask')}"
+            projectArgs.add "-task ${project.property('runTask')}"
         }
         else if(project.orchid.runTask) {
-            projectArgs.add "${project.orchid.runTask}"
+            projectArgs.add "-task ${project.orchid.runTask}"
         }
         if(project.orchid.version) {
             projectArgs.add "-v ${project.orchid.version}"

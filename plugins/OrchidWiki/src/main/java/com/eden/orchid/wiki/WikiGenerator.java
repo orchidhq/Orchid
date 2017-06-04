@@ -29,15 +29,13 @@ public class WikiGenerator extends OrchidGenerator {
     public static List<JSONObject> terms = new ArrayList<>();
 
     private OrchidResources resources;
-    private WikiPathOption option;
 
     private String wikiBaseDir = "wiki/";
 
     @Inject
-    public WikiGenerator(OrchidContext context, OrchidResources resources, WikiPathOption option) {
+    public WikiGenerator(OrchidContext context, OrchidResources resources) {
         super(context);
         this.resources = resources;
-        this.option = option;
 
         this.priority = 700;
         this.wiki = new ArrayList<>();
@@ -55,11 +53,6 @@ public class WikiGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-
-        if(!EdenUtils.isEmpty(option.getPath())) {
-            wikiBaseDir = option.getPath();
-        }
-
         setupSummary();
         setupGlossary();
 

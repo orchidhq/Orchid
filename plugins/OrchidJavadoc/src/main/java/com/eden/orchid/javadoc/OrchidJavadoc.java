@@ -1,14 +1,18 @@
 package com.eden.orchid.javadoc;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.api.options.OrchidOption;
+import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.api.theme.Theme;
+import com.google.inject.AbstractModule;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.Tag;
 import com.sun.tools.doclets.standard.Standard;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -31,7 +35,7 @@ public final class OrchidJavadoc {
      * @return the number of arguments it expects from the command line
      */
     public static int optionLength(String optionFlag) {
-        for (OrchidOption option : Orchid.findOptions()) {
+        for (OrchidFlag option : Orchid.findFlags()) {
             if (optionFlag.equals("-" + option.getFlag())) {
                 return option.optionLength();
             }
@@ -62,7 +66,19 @@ public final class OrchidJavadoc {
 
         OrchidJavadoc.rootDoc = rootDoc;
 
-        return Orchid.getInstance(options).start(Orchid.findModules(options), OrchidTasks.defaultTask);
+        try {
+            List<AbstractModule> modules = Orchid.findModules(options);
+            Class<? extends Theme> theme = Orchid.findTheme(options);
+            return Orchid.getInstance(options).start(modules, theme, OrchidTasks.defaultTask);
+        }
+        catch (ClassNotFoundException e) {
+            Clog.e("Theme class could not be found.");
+            return false;
+        }
+        catch (ClassCastException e) {
+            Clog.e("Class given for Theme is not a subclass of " + Theme.class.getName());
+            return false;
+        }
     }
 
     public static String getText(Tag[] tags) {

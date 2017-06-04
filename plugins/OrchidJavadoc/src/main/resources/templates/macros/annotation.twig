@@ -8,15 +8,15 @@
 {%- endmacro -%}
 
 {%- macro formatAnnotation(annotation) -%}
-    <div>
-        <span>@{{- annotation.name | link -}}</span>
-        {%- if annotation.values -%}
-            (
-            {%- for key, value in annotation.values -%}
-                {{- key -}}={{- value -}}
-                {%- if (loop.last) %}{% else %}, {% endif %}
-            {%- endfor -%}
-            )
-        {%- endif -%}
-    </div>
+    {#<div>#}
+        {#<span>@{{- annotation.name | link -}}</span>#}
+        {#{%- if annotation.values -%}#}
+            {#(#}
+            {#{%- for key, value in annotation.values -%}#}
+                {#{{- key -}}={{- value -}}#}
+                {#{%- if (loop.last) %}{% else %}, {% endif %}#}
+            {#{%- endfor -%}#}
+            {#)#}
+        {#{%- endif -%}#}
+    {#</div>#}
 {%- endmacro -%}

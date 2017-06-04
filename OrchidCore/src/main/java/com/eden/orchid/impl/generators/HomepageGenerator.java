@@ -2,10 +2,10 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.components.LicenseComponent;
 import com.eden.orchid.impl.components.ReadmeComponent;
 
