@@ -7,7 +7,7 @@ root: true
 
 </section>
  
- {{ options.baseUrl | json }}
+ {{ flags.baseUrl | json }}
 
 Orchid consists of one main package and several other optional packages and themes you can use to add extend your Orchid 
 site. See below for all officially-supported Orchid projects.
@@ -15,7 +15,7 @@ site. See below for all officially-supported Orchid projects.
 <section class="bs-docs-section">
     <h1 id="base" class="page-header">Base</h1>  
 
-### [Core]({{options.baseUrl | replace({'/Core': ''}) }}/Core)
+### [Core]({{flags.baseUrl | replace({'/Core': ''}) }}/Core)
 
 The main framework used in building Orchid documentation sites.
 </section> 
@@ -23,11 +23,11 @@ The main framework used in building Orchid documentation sites.
 <section class="bs-docs-section">
     <h1 id="themes" class="page-header">Themes</h1>
 
-### [BsDoc]({{options.baseUrl | replace({'/Core': ''}) }}/BsDoc)
+### [BsDoc]({{flags.baseUrl | replace({'/Core': ''}) }}/BsDoc)
 
 A theme for Orchid based off the Bootstrap documentation site.
 
-### [Editorial]({{options.baseUrl | replace({'/Core': ''}) }}/Editorial)
+### [Editorial]({{flags.baseUrl | replace({'/Core': ''}) }}/Editorial)
 
 A beautiful theme for Orchid created by HTML5 UP.
 
@@ -37,23 +37,23 @@ A beautiful theme for Orchid created by HTML5 UP.
 <section class="bs-docs-section">
     <h1 id="extensions" class="page-header">Extensions</h1>
     
-### [Javadoc]({{options.baseUrl | replace({'/Core': ''}) }}/Javadoc)
+### [Javadoc]({{flags.baseUrl | replace({'/Core': ''}) }}/Javadoc)
 
 Create beautiful Javadocs for your project within your Orchid site.
 
-### [Pages]({{options.baseUrl | replace({'/Core': ''}) }}/Pages)
+### [Pages]({{flags.baseUrl | replace({'/Core': ''}) }}/Pages)
 
 Add static pages with rich taxonomy to your Orchid site.
 
-### [Posts]({{options.baseUrl | replace({'/Core': ''}) }}/Posts)
+### [Posts]({{flags.baseUrl | replace({'/Core': ''}) }}/Posts)
 
 Add Jekyll-like blogging functionality to your Orchid site.
 
-### [Wiki]({{options.baseUrl | replace({'/Core': ''}) }}/Wiki)
+### [Wiki]({{flags.baseUrl | replace({'/Core': ''}) }}/Wiki)
 
 A Gitbook-like wiki for your Orchid site.
 
-### [Server]({{options.baseUrl | replace({'/Core': ''}) }}/Server)
+### [Server]({{flags.baseUrl | replace({'/Core': ''}) }}/Server)
 
 Continuous builds and an embedded file server to make writing your content experience delightful.
 

@@ -10,7 +10,7 @@ automatically be registered and start creating wiki pages.
 ```
 dependencies {
     ...
-    orchidDocsCompile 'com.github.JavaEden:OrchidWiki:{{options.v}}'
+    orchidDocsCompile 'com.github.JavaEden:OrchidWiki:{{flags.v}}'
 }
 ```
 

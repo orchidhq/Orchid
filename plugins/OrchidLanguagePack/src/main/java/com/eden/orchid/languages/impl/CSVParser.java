@@ -1,6 +1,5 @@
 package com.eden.orchid.languages.impl;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
@@ -19,7 +18,7 @@ public class CSVParser extends OrchidParser {
     }
 
     @Override
-    public JSONElement parse(String extension, String input) {
+    public JSONObject parse(String extension, String input) {
         List<String[]> allRows;
 
         if(extension.equalsIgnoreCase("csv")) {
@@ -52,8 +51,7 @@ public class CSVParser extends OrchidParser {
         }
 
         JSONObject object = new JSONObject();
-        object.put("list", array);
-
-        return new JSONElement(object);
+        object.put(OrchidParser.arrayAsObjectKey, array);
+        return object;
     }
 }

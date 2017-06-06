@@ -45,7 +45,7 @@ public interface OrchidContext {
     OrchidCompiler compilerFor(String extension);
     OrchidParser parserFor(String extension);
     String compile(String extension, String input, Object... data);
-    JSONElement parse(String extension, String input);
+    JSONObject parse(String extension, String input);
     EdenPair<String, JSONElement> getEmbeddedData(String input);
     String precompile(String input, Object... data);
     String getOutputExtension(String extension);

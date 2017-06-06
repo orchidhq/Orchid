@@ -7,6 +7,7 @@ import com.eden.orchid.Orchid;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.name.Names;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,14 +20,14 @@ public final class OrchidFlags {
     private static OrchidFlags instance;
 
     public static OrchidFlags getInstance(Collection<OrchidFlag> flags) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OrchidFlags(flags);
         }
         return instance;
     }
 
     public static OrchidFlags getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OrchidFlags(Orchid.findFlags());
         }
         return instance;
@@ -35,6 +36,7 @@ public final class OrchidFlags {
     private List<OrchidFlag> missingRequiredFlags = new ArrayList<>();
     private Collection<OrchidFlag> flags;
     private Map<String, EdenPair<OrchidFlag.FlagType, Object>> parsedFlags;
+    private JSONObject parsedFlagsData;
 
     private OrchidFlags(Collection<OrchidFlag> flags) {
         this.flags = flags;
@@ -59,15 +61,32 @@ public final class OrchidFlags {
         return new AbstractModule() {
             @Override
             protected void configure() {
-                for(Map.Entry<String, EdenPair<OrchidFlag.FlagType, Object>> entry : parsedFlags.entrySet()) {
+                parsedFlagsData = new JSONObject();
+
+                for (Map.Entry<String, EdenPair<OrchidFlag.FlagType, Object>> entry : parsedFlags.entrySet()) {
                     AnnotatedBindingBuilder binder = null;
 
                     switch (entry.getValue().first) {
-                        case BOOLEAN:      binder = bind(Boolean.class); break;
-                        case DOUBLE:       binder = bind(Double.class); break;
-                        case INTEGER:      binder = bind(Integer.class); break;
-                        case STRING:       binder = bind(String.class); break;
-                        case STRING_ARRAY: binder = bind(String[].class); break;
+                        case BOOLEAN:
+                            binder = bind(Boolean.class);
+                            parsedFlagsData.put(entry.getKey(), (boolean) entry.getValue().second);
+                            break;
+                        case DOUBLE:
+                            binder = bind(Double.class);
+                            parsedFlagsData.put(entry.getKey(), (double) entry.getValue().second);
+                            break;
+                        case INTEGER:
+                            binder = bind(Integer.class);
+                            parsedFlagsData.put(entry.getKey(), (int) entry.getValue().second);
+                            break;
+                        case STRING:
+                            binder = bind(String.class);
+                            parsedFlagsData.put(entry.getKey(), (String) entry.getValue().second);
+                            break;
+                        case STRING_ARRAY:
+                            binder = bind(String[].class);
+                            parsedFlagsData.put(entry.getKey(), (String[]) entry.getValue().second);
+                            break;
                     }
 
                     binder.annotatedWith(Names.named(entry.getKey()))
@@ -78,7 +97,7 @@ public final class OrchidFlags {
     }
 
     private boolean validateOptionLength(OrchidFlag flag, String[] options) {
-        if(options != null) {
+        if (options != null) {
             if (options.length == flag.optionLength()) {
                 return true;
             }
@@ -106,7 +125,7 @@ public final class OrchidFlags {
             }
         }
 
-        if(validateFlagType(flag, flagValue)) {
+        if (validateFlagType(flag, flagValue)) {
             parsedFlags.put(flag.getFlag(), new EdenPair<>(flag.getFlagType(), flagValue));
         }
         else if (flag.isRequired()) {
@@ -115,49 +134,63 @@ public final class OrchidFlags {
     }
 
     private boolean validateFlagType(OrchidFlag flag, Object flagValue) {
-        if(flagValue == null) {
+        if (flagValue == null) {
             return false;
         }
 
         switch (flag.getFlagType()) {
-            case BOOLEAN: return (flagValue instanceof Boolean);
-            case DOUBLE: return (flagValue instanceof Float) || (flagValue instanceof Double);
-            case INTEGER: return (flagValue instanceof Integer) || (flagValue instanceof Long);
-            case STRING: return (flagValue instanceof String);
-            case STRING_ARRAY: return (flagValue instanceof String[]);
-            default: return false;
+            case BOOLEAN:
+                return (flagValue instanceof Boolean);
+            case DOUBLE:
+                return (flagValue instanceof Float) || (flagValue instanceof Double);
+            case INTEGER:
+                return (flagValue instanceof Integer) || (flagValue instanceof Long);
+            case STRING:
+                return (flagValue instanceof String);
+            case STRING_ARRAY:
+                return (flagValue instanceof String[]);
+            default:
+                return false;
         }
     }
 
     public String getString(String key) {
-        if(parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.STRING)) {
+        if (parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.STRING)) {
             return (String) parsedFlags.get(key).second;
         }
         return null;
     }
+
     public String[] getStringArray(String key) {
-        if(parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.STRING_ARRAY)) {
+        if (parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.STRING_ARRAY)) {
             return (String[]) parsedFlags.get(key).second;
         }
         return null;
     }
+
     public int getInteger(String key) {
-        if(parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.INTEGER)) {
+        if (parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.INTEGER)) {
             return (int) parsedFlags.get(key).second;
         }
         return 0;
     }
+
     public double getDouble(String key) {
-        if(parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.DOUBLE)) {
+        if (parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.DOUBLE)) {
             return (double) parsedFlags.get(key).second;
         }
         return 0;
     }
+
     public boolean getBoolean(String key) {
-        if(parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.BOOLEAN)) {
+        if (parsedFlags.containsKey(key) && parsedFlags.get(key).first.equals(OrchidFlag.FlagType.BOOLEAN)) {
             return (boolean) parsedFlags.get(key).second;
         }
         return false;
+    }
+
+    public JSONObject getData() {
+        return parsedFlagsData;
     }
 
     public Collection<OrchidFlag> getFlags() {

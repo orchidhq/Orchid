@@ -45,6 +45,9 @@ public final class OrchidContextImpl implements OrchidContext {
     private Injector injector;
 
     private JSONObject root;
+    private JSONObject optionsData;
+    private JSONObject configData;
+
     private Theme defaultTheme;
     private Stack<Theme> themeStack;
 
@@ -101,7 +104,10 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void build() {
         eventService.broadcast(Orchid.Events.BUILD_START);
-        options.loadOptions();
+        optionsData = options.loadOptions();
+
+        configData = (optionsData.has("config")) ? optionsData.getJSONObject("config") : new JSONObject();
+
         generators.startIndexing();
         generators.startGeneration();
         eventService.broadcast(Orchid.Events.BUILD_FINISH);
@@ -178,6 +184,9 @@ public final class OrchidContextImpl implements OrchidContext {
         siteData.put("theme", getDefaultTheme());
         siteData.put("index", getIndex());
         siteData.put("site", this);
+        siteData.put("options", optionsData.toMap());
+        siteData.put("config", configData.toMap());
+        siteData.put("flags", flags.getData().toMap());
 
         return siteData;
     }
@@ -259,7 +268,7 @@ public final class OrchidContextImpl implements OrchidContext {
         return compiledContent;
     }
 
-    public JSONElement parse(String extension, String input) {
+    public JSONObject parse(String extension, String input) {
         OrchidParser parser = parserFor(extension);
 
         return (parser != null) ? parser.parse(extension, input) : null;

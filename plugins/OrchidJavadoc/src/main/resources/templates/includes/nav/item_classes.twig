@@ -1,7 +1,0 @@
-{%- if index.javadoc -%}
-    {% import 'macros/nav.twig' as _nav_ %}
-
-    {% set classList = index.javadoc | walk('url') | sortBy('name') %}
-
-    {{- _nav_.createSiteLink(link, classList, 'All Classes') -}}
-{%- endif -%}

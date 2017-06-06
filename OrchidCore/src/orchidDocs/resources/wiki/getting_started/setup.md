@@ -31,7 +31,7 @@ repositories {
 // #3 
 dependencies {
     ...
-    orchidDocsCompile 'io.github.javaeden.orchid:OrchidAll:{{ options.version }}'
+    orchidDocsCompile 'io.github.javaeden.orchid:OrchidAll:{{ flags.v }}'
 }
 
 // #4

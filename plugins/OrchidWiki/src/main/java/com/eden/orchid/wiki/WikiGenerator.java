@@ -42,7 +42,7 @@ public class WikiGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getName() {
+    public String getKey() {
         return "wiki";
     }
 

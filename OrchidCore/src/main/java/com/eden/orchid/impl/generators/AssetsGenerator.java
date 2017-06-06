@@ -24,7 +24,7 @@ public class AssetsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getName() {
+    public String getKey() {
         return "assets";
     }
 

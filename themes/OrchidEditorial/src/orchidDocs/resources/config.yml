@@ -7,3 +7,7 @@ github:
   username: 'JavaEden'
   repo: 'Orchid'
   branch: 'master'
+
+colors:
+  - #4C376C
+  - #000000

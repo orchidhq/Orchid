@@ -41,6 +41,7 @@ public class JTwigCompiler extends OrchidCompiler {
         }
         config.resources().resourceLoaders().set(loaders);
 
+
         jtwigEnvironment = config.build();
 
         this.priority = 1000;
@@ -64,5 +65,4 @@ public class JTwigCompiler extends OrchidCompiler {
     public String[] getSourceExtensions() {
         return new String[] {"html", "twig"};
     }
-
 }

@@ -14,7 +14,7 @@ automatically be registered and start creating your static pages.
 ```
 dependencies {
     ...
-    orchidDocsCompile 'com.github.JavaEden:OrchidPages:{{options.v}}'
+    orchidDocsCompile 'com.github.JavaEden:OrchidPages:{{flags.v}}'
 }
 ```
 

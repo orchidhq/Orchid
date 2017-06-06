@@ -49,7 +49,7 @@ public class PostsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getName() {
+    public String getKey() {
         return "posts";
     }
 

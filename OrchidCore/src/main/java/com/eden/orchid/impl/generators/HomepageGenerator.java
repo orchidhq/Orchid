@@ -25,7 +25,7 @@ public class HomepageGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getName() {
+    public String getKey() {
         return "home";
     }
 

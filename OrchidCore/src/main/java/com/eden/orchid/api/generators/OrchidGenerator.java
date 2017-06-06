@@ -21,7 +21,7 @@ import java.util.List;
  * * 'url' - the url of the target page. This should be absolute using the set baseUrl OrchidOption, which is done automatically
  * by OrchidReference
  *
- * This JSONElement is then placed into the root JSONObject under the key specified by `getName()`. At generation time,
+ * This JSONElement is then placed into the root JSONObject under the key specified by `getKey()`. At generation time,
  * this index will be used to create deep-links throughout the site, typically through the page navigation or from
  * manually creating links, either through Javadoc 'see' or 'link' tags, or using an output filter in the main template.
  *
@@ -67,7 +67,7 @@ public abstract class OrchidGenerator extends Prioritized {
      *
      * @return this generator's name
      */
-    public abstract String getName();
+    public abstract String getKey();
 
     /**
      * Return a description of this OrchidGenerator, which is displayed when listing available Generators.

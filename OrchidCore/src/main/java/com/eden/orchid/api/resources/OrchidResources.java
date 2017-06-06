@@ -1,6 +1,5 @@
 package com.eden.orchid.api.resources;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.FileResource;
@@ -228,11 +227,7 @@ public final class OrchidResources {
         try {
             File file = new File(url);
             String s = IOUtils.toString(new FileInputStream(file));
-
-            JSONElement el = context.parse("json", s);
-            if(OrchidUtils.elementIsObject(el)) {
-                return (JSONObject) el.getElement();
-            }
+            return context.parse("json", s);
         }
         catch (FileNotFoundException e) {
             // ignore files not being found

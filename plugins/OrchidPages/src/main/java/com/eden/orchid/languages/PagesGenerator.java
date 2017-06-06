@@ -26,7 +26,7 @@ public class PagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getName() {
+    public String getKey() {
         return "pages";
     }
 

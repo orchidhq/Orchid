@@ -19,7 +19,7 @@ public class JavadocPackagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getName() {
+    public String getKey() {
         return "javadocPackages";
     }
 

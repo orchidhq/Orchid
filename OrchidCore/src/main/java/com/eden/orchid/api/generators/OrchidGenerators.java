@@ -67,15 +67,15 @@ public final class OrchidGenerators {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
 
-        if (!EdenUtils.isEmpty(generator.getName()) && generatorPages != null && generatorPages.size() > 0) {
-            OrchidInternalIndex index = new OrchidInternalIndex(generator.getName());
+        if (!EdenUtils.isEmpty(generator.getKey()) && generatorPages != null && generatorPages.size() > 0) {
+            OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
             for(OrchidPage page : generatorPages) {
-                index.addToIndex(generator.getName() + "/" + page.getReference().getPath(), page);
+                index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
                 if(page.getResource() instanceof FreeableResource) {
                     ((FreeableResource) page.getResource()).free();
                 }
             }
-            this.internalIndex.addChildIndex(generator.getName(), index);
+            this.internalIndex.addChildIndex(generator.getKey(), index);
         }
     }
 
@@ -113,8 +113,8 @@ public final class OrchidGenerators {
         Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
         List<? extends OrchidPage> generatorPages = null;
-        if(!EdenUtils.isEmpty(generator.getName())) {
-            generatorPages = internalIndex.getGeneratorPages(generator.getName());
+        if(!EdenUtils.isEmpty(generator.getKey())) {
+            generatorPages = internalIndex.getGeneratorPages(generator.getKey());
         }
         if(generatorPages == null) {
             generatorPages = new ArrayList<>();

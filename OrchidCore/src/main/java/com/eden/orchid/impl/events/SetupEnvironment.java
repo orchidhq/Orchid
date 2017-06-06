@@ -59,7 +59,7 @@ public class SetupEnvironment implements EventListener {
 //                     .forEach(file -> {
 //                         JSONElement parsedFile = parseFile(file);
 //                         if(parsedFile != null) {
-//                             dataOptions.put(FilenameUtils.removeExtension(file.getName()), parsedFile.getElement());
+//                             dataOptions.put(FilenameUtils.removeExtension(file.getKey()), parsedFile.getElement());
 //                         }
 //                     });
 //        }
@@ -73,7 +73,7 @@ public class SetupEnvironment implements EventListener {
 //        }
 //
 //        try {
-//            return context.getTheme().parse(FilenameUtils.getExtension(file.getName()), IOUtils.toString(new FileInputStream(file)));
+//            return context.getTheme().parse(FilenameUtils.getExtension(file.getKey()), IOUtils.toString(new FileInputStream(file)));
 //        }
 //        catch (Exception e) {
 //            e.printStackTrace();
