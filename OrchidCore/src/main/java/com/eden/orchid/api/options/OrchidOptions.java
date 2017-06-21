@@ -26,7 +26,7 @@ public class OrchidOptions {
     private String environment;
 
     private String[] dataParserExtensions;
-    private String[] formats = new String[] {"config-#{$1}.#{$2}", "config.#{$2}"};
+    private String[] formats = new String[]{"config-#{$1}.#{$2}", "config.#{$2}"};
 
     @Inject
     public OrchidOptions(
@@ -54,12 +54,12 @@ public class OrchidOptions {
         JSONObject dataFiles = loadDatafiles();
 
         options.put("data", dataFiles);
-        for(String key : dataFiles.keySet()) {
+        for (String key : dataFiles.keySet()) {
             options.put(key, dataFiles.get(key));
         }
 
         options.put("config", configOptions);
-        for(String key : configOptions.keySet()) {
+        for (String key : configOptions.keySet()) {
             options.put(key, configOptions.get(key));
         }
 
@@ -93,14 +93,16 @@ public class OrchidOptions {
 
         JSONObject allDatafiles = new JSONObject();
 
-        for(OrchidResource file : files) {
+        for (OrchidResource file : files) {
             JSONObject fileData = context.parse(file.getReference().getExtension(), file.getContent());
 
-            if(fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
-                allDatafiles.put(file.getReference().getFileName(), fileData.getJSONArray(OrchidParser.arrayAsObjectKey));
-            }
-            else {
-                allDatafiles.put(file.getReference().getFileName(), fileData);
+            if (fileData != null) {
+                if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
+                    allDatafiles.put(file.getReference().getFileName(), fileData.getJSONArray(OrchidParser.arrayAsObjectKey));
+                }
+                else {
+                    allDatafiles.put(file.getReference().getFileName(), fileData);
+                }
             }
 
         }

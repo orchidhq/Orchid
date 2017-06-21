@@ -4,8 +4,14 @@ about:
   description: Continuous builds and an embedded file server to make writing your content experience delightful.
 
 colors:
-  - '#99ed7b'
-  - '#000000'
+  primary: 'green'
+  secondary: 'orange'
+
+shades:
+  primary: 'darken-1'
+
+navigation:
+  headerBackground: 'https://s-media-cache-ak0.pinimg.com/736x/a0/d5/29/a0d529fdfe67a8905e57d8c4967b0758.jpg'
 
 github:
   username: 'JavaEden'

@@ -4,6 +4,9 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import lombok.Data;
+import org.apache.commons.io.IOUtils;
+
+import java.io.InputStream;
 
 @Data
 public abstract class OrchidResource {
@@ -40,5 +43,9 @@ public abstract class OrchidResource {
 
     public boolean shouldPrecompile() {
         return shouldPrecompile;
+    }
+
+    public InputStream getContentStream() {
+        return IOUtils.toInputStream(rawContent);
     }
 }

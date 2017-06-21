@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A Resource type that provides a content to a template from a resource file on disk. When used with
@@ -57,5 +58,16 @@ public final class FileResource extends FreeableResource  {
         }
 
         return filePath;
+    }
+
+    @Override
+    public InputStream getContentStream() {
+        try {
+            return new FileInputStream(file);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

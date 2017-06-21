@@ -9,5 +9,5 @@ github:
   branch: 'master'
 
 colors:
-  - #4C376C
-  - #000000
+  primary: '#4C376C'
+  secondary: '#000000'

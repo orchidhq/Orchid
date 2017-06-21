@@ -5,6 +5,7 @@ import com.eden.orchid.api.theme.pages.OrchidReference;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -46,5 +47,16 @@ public final class JarResource extends FreeableResource {
         }
 
         super.loadContent();
+    }
+
+    @Override
+    public InputStream getContentStream() {
+        try {
+            return jarFile.getInputStream(jarEntry);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

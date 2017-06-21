@@ -24,6 +24,18 @@ ul.side-nav.fixed {
       padding: 0 37.5px 0 45px;
     }
   }
+
+  .userView {
+    min-height: 180px;
+
+    .background {
+      img {
+        object-position: 50% 50%;
+        height: 100%;
+        filter: brightness(75%);
+      }
+    }
+  }
 }
 
 nav.top-nav {

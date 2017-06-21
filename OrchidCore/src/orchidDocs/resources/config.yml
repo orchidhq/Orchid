@@ -4,11 +4,14 @@ about:
   description: A modern, extensible, theme-ready Javadoc site generator.
 
 colors:
-  primary: 'grey'
+  primary: 'indigo'
   secondary: 'orange'
 
 shades:
   primary: 'darken-2'
+
+navigation:
+  headerBackground: 'https://s-media-cache-ak0.pinimg.com/736x/a0/d5/29/a0d529fdfe67a8905e57d8c4967b0758.jpg'
 
 github:
   username: 'JavaEden'
