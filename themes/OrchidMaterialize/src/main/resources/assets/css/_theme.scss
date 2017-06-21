@@ -1,0 +1,83 @@
+/***************
+  HTML Styles
+***************/
+
+@import "materialize";
+
+header, main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width: 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+ul.side-nav.fixed {
+  ul.collapsible-accordion {
+    a.collapsible-header {
+      padding: 0 30px;
+    }
+    .collapsible-body li a {
+      font-weight: 400;
+      padding: 0 37.5px 0 45px;
+    }
+  }
+}
+
+nav.top-nav {
+  height: 122px;
+  box-shadow: none;
+
+  a.page-title {
+    line-height: 122px;
+    font-size: 48px;
+  }
+}
+a.button-collapse.top-nav {
+  position: absolute;
+  text-align: center;
+  height: 48px;
+  width: 48px;
+  left: 7.5%;
+  top: 0;
+  float: none;
+  margin-left: 1.5rem;
+  color: #fff;
+  font-size: 36px;
+  z-index: 2;
+  line-height: 122px;
+
+  i {
+    font-size: 32px;
+  }
+}
+
+@media #{$small-and-down} {
+  a.button-collapse.top-nav {
+    left: 5%;
+  }
+}
+@media #{$medium-and-down} {
+  nav .nav-wrapper {
+    text-align: center;
+    a.page-title {
+      font-size: 36px;
+    }
+  }
+}
+
+@media #{$large-and-up} {
+  .container {
+    width: 85%;
+  }
+}
+
+footer{
+  font-size: .9rem;
+}
+
+.page-footer .footer-copyright {
+  background-color: rgba(51, 51, 51, 0.2);
+}

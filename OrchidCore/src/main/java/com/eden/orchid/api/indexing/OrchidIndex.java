@@ -5,6 +5,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.indexing.OrchidExternalIndex;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
+import org.apache.commons.lang3.NotImplementedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -96,6 +97,18 @@ public abstract class OrchidIndex {
         }
 
         return allPages;
+    }
+
+    public OrchidIndex get(String key) {
+        return childrenPages.get(key);
+    }
+
+    public Map<String, OrchidIndex> getChildren() {
+        return childrenPages;
+    }
+
+    private Map<String, OrchidIndex> getChildrenPages() {
+        throw new NotImplementedException("");
     }
 
     public JSONObject toJSON() {

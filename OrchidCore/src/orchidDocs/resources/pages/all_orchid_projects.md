@@ -1,7 +1,6 @@
 ---
 
 title: All Orchid Projects
-root: true
 
 ---
 

@@ -1,5 +1,0 @@
----
-
-title: Command Injection (Ruby)
-
----

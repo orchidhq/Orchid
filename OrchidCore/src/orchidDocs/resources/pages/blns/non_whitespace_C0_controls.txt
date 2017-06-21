@@ -1,5 +1,0 @@
----
-
-title: Non-whitespace C0 controls
-
----

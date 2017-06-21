@@ -36,7 +36,6 @@ public class PrioritizedSetFilter<T extends Prioritized> {
         if(fullFilteredSet != null) {
             return fullFilteredSet;
         }
-
         JSONElement element = context.query("options." + key);
 
         Stream<T> filter = originalSet.stream();
@@ -92,7 +91,7 @@ public class PrioritizedSetFilter<T extends Prioritized> {
 
         Set<T> initialFilteredSet = filter.collect(Collectors.toSet());
 
-        initialFilteredSet = (Set<T>) context.getFilterService().filter("filter:" + key, initialFilteredSet);
+//        initialFilteredSet = (Set<T>) context.getFilterService().filter("filter:" + key, initialFilteredSet);
 
         fullFilteredSet = new ObservableTreeSet<>(initialFilteredSet);
 

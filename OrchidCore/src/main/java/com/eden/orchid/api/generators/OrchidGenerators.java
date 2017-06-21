@@ -14,6 +14,7 @@ import com.eden.orchid.impl.indexing.OrchidRootExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.utilities.PrioritizedSetFilter;
 import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import java.util.Set;
 @Singleton
 public final class OrchidGenerators {
     private JSONArray disabledGenerators;
+    private Set<OrchidGenerator> allGenerators;
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
     private OrchidResources orchidResources;
@@ -39,11 +41,13 @@ public final class OrchidGenerators {
     @Inject
     public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators, OrchidResources orchidResources) {
         this.context = context;
-        this.generators = new ObservableTreeSet<>(generators);
+        this.allGenerators = new ObservableTreeSet<>(generators);
         this.orchidResources = orchidResources;
     }
 
     public void startIndexing() {
+        this.generators = new PrioritizedSetFilter<>(context, "generators", this.allGenerators).getFilteredSet();
+
         buildInternalIndex();
         buildExternalIndex();
         mergeIndices(this.internalIndex, this.externalIndex);

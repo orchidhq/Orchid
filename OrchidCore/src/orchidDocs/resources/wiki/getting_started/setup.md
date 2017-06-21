@@ -4,6 +4,8 @@ pluginVersion: v0.1.7
 
 ---
 
+Using Colors: {{ config.colors.primary }}
+
 Orchid can be used as a command-line utility, but using it from the command line is quite verbose and so the recommended
 setup is to use Gradle to build your projects. Orchid offers an official Gradle plugin which makes the process of using
 Orchid dead-simple, configuring many things for you based on the default Gradle project structure, and even plugs directly

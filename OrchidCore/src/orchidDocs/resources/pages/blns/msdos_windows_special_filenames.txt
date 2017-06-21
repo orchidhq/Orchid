@@ -1,5 +1,0 @@
----
-
-title: MSDOS/Windows Special Filenames
-
----

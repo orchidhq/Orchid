@@ -28,5 +28,7 @@ class OrchidPlugin implements Plugin<Project> {
             dependsOn 'classes', "${configurationName}Classes"
             main 'com.eden.orchid.Orchid'
         }
+
+        project.tasks.replace("javadoc", OrchidGenerateJavadocTask)
     }
 }

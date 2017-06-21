@@ -2,7 +2,6 @@
 
 {
     "title": "About",
-    "root": true,
     "layout": "geopattern2"
 }
 

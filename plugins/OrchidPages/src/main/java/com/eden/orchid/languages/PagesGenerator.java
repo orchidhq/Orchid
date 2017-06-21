@@ -4,9 +4,12 @@ package com.eden.orchid.languages;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.menus.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.pages.OrchidPage;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class PagesGenerator extends OrchidGenerator {
+public class PagesGenerator extends OrchidGenerator implements OrchidMenuItemType {
 
     private OrchidResources resources;
 
@@ -67,5 +70,23 @@ public class PagesGenerator extends OrchidGenerator {
     public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
              .forEach(OrchidPage::renderTemplate);
+    }
+
+    @Override
+    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+        List<OrchidMenuItem> menuItems = new ArrayList<>();
+
+        List<OrchidPage> pages = context.getInternalIndex().getGeneratorPages("pages");
+
+        if(menuItemJson.has("atRoot") && menuItemJson.getBoolean("atRoot")) {
+            for(OrchidPage page : pages) {
+                menuItems.add(new OrchidMenuItem(context, page));
+            }
+        }
+        else {
+            menuItems.add(new OrchidMenuItem(context, "Pages", pages));
+        }
+
+        return menuItems;
     }
 }

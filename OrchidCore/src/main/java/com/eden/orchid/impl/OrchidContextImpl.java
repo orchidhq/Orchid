@@ -104,6 +104,12 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void build() {
         eventService.broadcast(Orchid.Events.BUILD_START);
+
+        getTheme().clearCachedMenus();
+        for(Theme theme : themeStack) {
+            theme.clearCachedMenus();
+        }
+
         optionsData = options.loadOptions();
 
         configData = (optionsData.has("config")) ? optionsData.getJSONObject("config") : new JSONObject();
@@ -114,7 +120,15 @@ public final class OrchidContextImpl implements OrchidContext {
     }
 
     @Override
-    public JSONElement query(String pointer) { return new JSONElement(root).query(pointer); }
+    public JSONElement query(String pointer) {
+        if(!EdenUtils.isEmpty(pointer)) {
+            if(pointer.startsWith("options.")) {
+                return new JSONElement(optionsData).query(pointer.replace("options.", ""));
+            }
+        }
+
+        return new JSONElement(root).query(pointer);
+    }
 
     @Override
     public void broadcast(String event, Object... args) {

@@ -1,0 +1,24 @@
+{% extends ["layouts/index.twig"] %}
+
+{% block mainContent %}
+
+    {% if readme %}
+        {{ readme.render() }}
+    {% endif %}
+
+    {% if license %}
+        <pre class="language-markup">{{ license.render() }}</pre>
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

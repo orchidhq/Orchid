@@ -4,10 +4,13 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.api.theme.menus.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
@@ -21,9 +24,10 @@ import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
-public class WikiGenerator extends OrchidGenerator {
+public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType {
 
     private List<WikiPage> wiki;
     public static List<JSONObject> terms = new ArrayList<>();
@@ -67,7 +71,7 @@ public class WikiGenerator extends OrchidGenerator {
     private void setupGlossary() {
         OrchidResource glossary = resources.getLocalResourceEntry(wikiBaseDir + "GLOSSARY.md");
 
-        if(glossary == null) {
+        if (glossary == null) {
             return;
         }
 
@@ -107,7 +111,7 @@ public class WikiGenerator extends OrchidGenerator {
     private void setupSummary() {
         OrchidResource summary = resources.getLocalResourceEntry(wikiBaseDir + "SUMMARY.md");
 
-        if(summary == null) {
+        if (summary == null) {
             return;
         }
 
@@ -118,20 +122,24 @@ public class WikiGenerator extends OrchidGenerator {
 
         WikiPage previous = null;
 
+        int i = 1;
+
         for (Element a : links) {
             String file = wikiBaseDir + a.attr("href");
             String path = wikiBaseDir + FilenameUtils.removeExtension(a.attr("href"));
 
             OrchidResource resource = resources.getLocalResourceEntry(file);
 
-            if(resource == null) {
-                Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{ file });
+            if (resource == null) {
+                Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{file});
                 resource = new StringResource(context, path + File.separator + "index.md", a.text());
             }
 
             WikiPage page = new WikiPage(resource);
+            page.setOrder(i);
+            i++;
 
-            if(!EdenUtils.isEmpty(FilenameUtils.getExtension(a.attr("href")))) {
+            if (!EdenUtils.isEmpty(FilenameUtils.getExtension(a.attr("href")))) {
                 page.getReference().setUsePrettyUrl(true);
             }
             else {
@@ -143,7 +151,7 @@ public class WikiGenerator extends OrchidGenerator {
             page.setType("wiki");
             wiki.add(page);
 
-            if(previous != null) {
+            if (previous != null) {
                 previous.setNext(page);
                 page.setPrevious(previous);
 
@@ -166,5 +174,44 @@ public class WikiGenerator extends OrchidGenerator {
         page.setType("wiki");
 
         wiki.add(page);
+    }
+
+    @Override
+    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+        List<OrchidMenuItem> menuItems = new ArrayList<>();
+
+        OrchidIndex wikiIndex = context.getIndex().get("wiki");
+
+        Map<String, OrchidIndex> wikiSections = wikiIndex.getChildren();
+
+        for (Map.Entry<String, OrchidIndex> section : wikiSections.entrySet()) {
+            List<OrchidPage> sectionPages = section.getValue().getAllPages();
+
+            sectionPages.sort((OrchidPage o1, OrchidPage o2) -> {
+                if (o1 instanceof WikiPage && o2 instanceof WikiPage) {
+                    return ((WikiPage) o1).getOrder() - ((WikiPage) o2).getOrder();
+                }
+                else {
+                    return 0;
+                }
+            });
+
+            menuItems.add(new OrchidMenuItem(context, section.getKey(), sectionPages));
+        }
+
+        menuItems.sort((OrchidMenuItem o1, OrchidMenuItem o2) -> {
+            OrchidPage p1 = o1.getChildren().get(0).getPage();
+            OrchidPage p2 = o2.getChildren().get(0).getPage();
+
+            if ((p1 != null && p1 instanceof WikiPage) && (p2 != null && p2 instanceof WikiPage)) {
+                return ((WikiPage) p1).getOrder() - ((WikiPage) p2).getOrder();
+            }
+            else {
+                return 0;
+            }
+        });
+
+
+        return menuItems;
     }
 }

@@ -13,6 +13,7 @@ import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -34,6 +35,7 @@ import com.eden.orchid.impl.tasks.ListOptionsTask;
 import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
+import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.google.inject.multibindings.Multibinder;
 
 import java.util.EventListener;
@@ -92,5 +94,8 @@ public class ImplModule extends OrchidModule {
                 ListResourceSourcesTask.class,
                 ListTasksTask.class,
                 ListThemesTask.class);
+
+        // Menu Items
+        addToMap(OrchidMenuItemType.class, "separator", DividerMenuItem.class);
     }
 }

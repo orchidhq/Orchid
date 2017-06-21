@@ -1,11 +1,14 @@
 
 about:
-  name: Orchid
+  name: OrchidCore
   description: A modern, extensible, theme-ready Javadoc site generator.
 
 colors:
-  - '#FF8800'
-  - '#000000'
+  primary: 'grey'
+  secondary: 'orange'
+
+shades:
+  primary: 'darken-2'
 
 github:
   username: 'JavaEden'

@@ -1,5 +1,0 @@
----
-
-title: IRC specific strings
-
----

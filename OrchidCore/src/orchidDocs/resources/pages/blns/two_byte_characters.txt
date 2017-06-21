@@ -1,5 +1,0 @@
----
-
-title: Two-Byte Characters
-
----

@@ -1,0 +1,42 @@
+<ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
+    <li>
+        <div class="userView">
+            <div class="background">
+                <img src="{{ (options.navigation.headerBackground) ? options.navigation.headerBackground : 'https://fthmb.tqn.com/RRIWIP8SijJSBbtnhDpcU2JNx1I=/960x0/filters:no_upscale()/about/blooming-pink-orchid-on-a-green-branch-157480173-588b8b753df78caebc4665cb.jpg' }}"
+                     style="transform: scaleX(-1); filter: FlipH; object-fit: cover; width: 100%">
+            </div>
+            <a><span class="white-text name">{{ page.title }}</span></a>
+            <a><span class="white-text email">{{ options.about.name }}</span></a>
+        </div>
+    </li>
+
+    {% for menuItem in theme.menu() %}
+        {% if menuItem.hasChildren() %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="bold"><a class="collapsible-header {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %} truncate waves-effect">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                {% for childLink in menuItem.children %}
+                                    {% if length(childLink.title) > 0 %}
+                                        <li class="{{ (page == childLink.page) ? 'active' : '' }} truncate"><a
+                                                    href="{{ childLink.link }}">{{ childLink.title }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        {% elseif menuItem.isSeparator() %}
+            <li><div class="divider"></div></li>
+            {% if length(menuItem.title) > 0 %}
+                <li><a class="subheader">{{ menuItem.title }}</a></li>
+            {% endif %}
+        {% else %}
+            {% if length(menuItem.title) > 0 %}
+                <li class="bold"><a href="{{ menuItem.link }}" class="waves-effect waves-teal truncate">{{ menuItem.title }}</a></li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</ul>
