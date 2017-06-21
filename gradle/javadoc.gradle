@@ -5,9 +5,8 @@ orchid {
     version = "${project.version}"
     theme   = "${project.ext.commonThemeClass}"
 
-    baseUrl = "${project.ext.commonBaseUrl}"
-
     if(project.hasProperty('env')) {
+        println "setting baseUrl from env (${project.property('env')}): ${project.ext.commonBaseUrl}/${project.version}/${project.name}"
         switch(project.property('env')) {
             case 'prod':
                 baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
@@ -19,6 +18,10 @@ orchid {
                 baseUrl = "${project.ext.commonBaseUrl}"
                 break
         }
+    }
+    else {
+        baseUrl = "${project.ext.commonBaseUrl}"
+        println "setting default baseUrl: ${project.ext.commonBaseUrl}"
     }
 }
 

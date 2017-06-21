@@ -32,7 +32,6 @@ ext {
     }
 
     commonRunTask = "listOptions"
-    commonBaseUrl = 'http://localhost:8080'
 
     if (project.hasProperty('env')) {
         switch (project.property('env')) {
@@ -46,6 +45,9 @@ ext {
                 commonBaseUrl = 'http://localhost:8080'
                 break
         }
+    }
+    else {
+        commonBaseUrl = 'http://localhost:8080'
     }
 }
 
