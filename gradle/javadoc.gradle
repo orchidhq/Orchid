@@ -63,4 +63,4 @@ task publishDocumentation {
     }
 }
 
-rootProject.tasks.deploy.dependsOn project.tasks.publishDocumentation
+rootProject.tasks.publishDocumentation.dependsOn project.tasks.publishDocumentation

@@ -31,7 +31,14 @@ ext.pluginProjects = subprojects.findAll { return (it.path.startsWith(":plugins"
 ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
 ext.mainProjects   = coreProject + themeProjects + pluginProjects
 
+task publishDocumentation {
+
+}
+
 task deploy {
+
+    dependsOn publishDocumentation
+
     onlyIf {
         if (project.hasProperty('env') && project.property('env') == 'prod') {
             return true
