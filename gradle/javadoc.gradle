@@ -63,8 +63,4 @@ task publishDocumentation {
     }
 }
 
-gradle.taskGraph.whenReady { graph ->
-    if (graph.hasTask(publish)) {
-        project.tasks.publish.dependsOn publishDocumentation
-    }
-}
+rootProject.tasks.deploy.dependsOn project.tasks.publishDocumentation
