@@ -4,57 +4,53 @@ title: All Orchid Projects
 
 ---
 
-</section>
- 
- {{ flags.baseUrl | json }}
-
 Orchid consists of one main package and several other optional packages and themes you can use to add extend your Orchid 
 site. See below for all officially-supported Orchid projects.
 
-<section class="bs-docs-section">
-    <h1 id="base" class="page-header">Base</h1>  
-
-### [Core]({{flags.baseUrl | replace({'/Core': ''}) }}/Core)
+### [Core]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidCore)
 
 The main framework used in building Orchid documentation sites.
-</section> 
 
-<section class="bs-docs-section">
-    <h1 id="themes" class="page-header">Themes</h1>
+# Themes
 
-### [BsDoc]({{flags.baseUrl | replace({'/Core': ''}) }}/BsDoc)
+### [BsDoc]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidBsDoc)
 
 A theme for Orchid based off the Bootstrap documentation site.
 
-### [Editorial]({{flags.baseUrl | replace({'/Core': ''}) }}/Editorial)
+### [Editorial]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidEditorial)
 
 A beautiful theme for Orchid created by HTML5 UP.
 
+### [OrchidMaterialize]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidMaterialize)
 
-</section>
+A theme for Orchid using Materialize CSS.
 
-<section class="bs-docs-section">
-    <h1 id="extensions" class="page-header">Extensions</h1>
+# Plugins
+
+### [Changelog]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidChangeog)
+
+Adds a simple way to track and view changes across the various versions of your application or library.
     
-### [Javadoc]({{flags.baseUrl | replace({'/Core': ''}) }}/Javadoc)
+### [Javadoc]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidJavadoc)
 
 Create beautiful Javadocs for your project within your Orchid site.
 
-### [Pages]({{flags.baseUrl | replace({'/Core': ''}) }}/Pages)
+### [Language Pack]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidChangeog)
+
+Adds several useful markup languages and configuration parsers to your Orchid build, including Asciidoctor and TOML.
+
+### [Pages]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidPages)
 
 Add static pages with rich taxonomy to your Orchid site.
 
-### [Posts]({{flags.baseUrl | replace({'/Core': ''}) }}/Posts)
+### [Posts]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidPosts)
 
 Add Jekyll-like blogging functionality to your Orchid site.
 
-### [Wiki]({{flags.baseUrl | replace({'/Core': ''}) }}/Wiki)
+### [Wiki]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidWiki)
 
 A Gitbook-like wiki for your Orchid site.
 
-### [Server]({{flags.baseUrl | replace({'/Core': ''}) }}/Server)
+### [Server]({{flags.baseUrl | replace({'/Core': ''}) }}/OrchidServer)
 
 Continuous builds and an embedded file server to make writing your content experience delightful.
-
-
-</section>
