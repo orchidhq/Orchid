@@ -1,5 +1,5 @@
 
 * [Overview](overview.md)
-* [Setup](setup.md)
-* [Basic Usage](basic_usage.md)
-* [Extending Orchid Javadoc](extending.md)
+* [Setup](setup/setup.md)
+* [Basic Usage](setup/basic_usage.md)
+* [Extending Orchid Javadoc](setup/extending.md)

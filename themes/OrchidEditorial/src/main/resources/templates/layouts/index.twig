@@ -6,13 +6,8 @@
 -->
 <html>
 <head>
-    <title>Editorial by HTML5 UP</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
     {{ theme.styles }}
 </head>
 <body class="is-loading">
@@ -26,7 +21,7 @@
 
             <!-- Header -->
             <header id="header">
-                <a href="{{ flags.baseUrl }}/" class="logo">{{ options.config.about.name }}</a>
+                <a href="{{ flags.baseUrl }}/" class="logo">{{ options.about.name }}</a>
                 <ul class="icons">
                     <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
                     <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
@@ -43,43 +38,7 @@
     </div>
 
     <!-- Sidebar -->
-    <div id="sidebar">
-        <div class="inner">
-
-            <!-- Search -->
-            <section id="search" class="alt">
-                <form method="post" action="#">
-                    <input type="text" name="query" id="query" placeholder="Search"/>
-                </form>
-            </section>
-
-            <!-- Menu -->
-            {% block siteNav %}
-            <nav id="siteNav" class="menu">
-                <header class="major">
-                    <h2>Site</h2>
-                </header>
-                <ul>
-                    <li><a href="{{ flags.baseUrl }}/">Home</a></li>
-
-                    {#{% include 'includes/nav.twig' with { nav: options.data.nav } %}#}
-                </ul>
-            </nav>
-            {% endblock %}
-
-            <nav id="pageNav" class="menu">
-                <header class="major">
-                    <h2>{{ page.title }}</h2>
-                </header>
-                <ul>
-                    {% block pageNav %}
-
-                    {% endblock %}
-                </ul>
-            </nav>
-        </div>
-    </div>
-
+    {% include 'includes/sidebar.twig' %}
 </div>
 
 {{ theme.scripts }}

@@ -1,5 +1,3 @@
 
 - type: 'pages'
-  atRoot: true
-- type: 'separator'
 - type: 'wiki'

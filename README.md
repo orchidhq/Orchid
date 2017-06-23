@@ -25,7 +25,6 @@ A beautiful and truly unique documentation engine and static site generator.
 - Improve Themes
     - Standardize the usage of Layout, Page, and Component templates so that individual plugins can inject a Page 
       seamlessly into the themes's Layouts, and so that components can be rendered seamlessly in any Page template
-    - More themes. I want a good theme used across all pages which has a strong sidebar for documentation, similar to Hugo
     - One Theme must be set for the whole project, but more themes may optionally be set on a per-generator basis. These
       additional themes are intrinsically part of the Preferences parsing process. Should pass the target theme to the
       Renderer along with the data to be rendered. This makes the theme process not a globally-defined construct, and also

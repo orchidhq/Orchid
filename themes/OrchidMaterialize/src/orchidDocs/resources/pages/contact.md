@@ -1,7 +1,6 @@
 ---
 
 title: Contact
-root: true
 
 ---
 

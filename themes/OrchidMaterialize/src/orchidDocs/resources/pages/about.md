@@ -1,10 +1,6 @@
----json
-
-{
-    "title": "About",
-    "root": true,
-    "layout": "geopattern2"
-}
+---
+    
+title: About
 
 ---
 

@@ -1,15 +1,5 @@
 
-# About
-
-### [About](about.md)
-
-# Get Started
-
-### [Get Started](get_started.md)
-### [Setup](setup.md)
-
-# Writing your Wiki
-
-### [Glossary](writing/glossary.md)
-### [Summary](writing/summary.md)
-### [Wiki Pages](writing/pages.md)
+* [Overview](overview.md)
+* [Setup](setup/setup.md)
+* [Basic Usage](setup/basic_usage.md)
+* [Extending Orchid Javadoc](setup/extending.md)

@@ -11,9 +11,7 @@
    href="https://github.com/{{ options.config.github.username }}/{{ options.config.github.repo }}"
    title="Fork me on GitHub">Fork me on GitHub</a>
 
-{% block siteNav %}
-
-{% endblock %}
+{% include 'includes/navbar.twig' %}
 
 <div id="top"></div>
 
@@ -32,16 +30,7 @@
         <!-- Page navigation
         =========================================== -->
         <div class="col-md-3" role="complementary">
-            <div class="bs-docs-sidebar hidden-print">
-                <ul class="nav bs-docs-sidenav">
-                    {% block pageNav %}
-
-                    {% endblock %}
-                </ul>
-                <a class="back-to-top" href="#top">
-                    <i class="glyphicon glyphicon-chevron-up"></i> Back to top
-                </a>
-            </div>
+            {% include 'includes/sidenav.twig' %}
         </div>
     </div>
 </div>

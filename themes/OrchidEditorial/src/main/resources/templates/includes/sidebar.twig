@@ -1,0 +1,46 @@
+<div id="sidebar">
+    <div class="inner">
+
+        <!-- Search -->
+        <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Search"/>
+            </form>
+        </section>
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <header class="major">
+                <h2>{{ config.about.name }}</h2>
+            </header>
+            <ul>
+                {% for menuItem in theme.menu() %}
+                    {% if menuItem.hasChildren() %}
+                        <li>
+                            <span class="opener {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</span>
+                            <ul>
+                                {% for childLink in menuItem.children %}
+                                    {% if length(childLink.title) > 0 %}
+                                        <li class="{{ (page == childLink.page) ? 'active' : '' }}"><a
+                                                    href="{{ childLink.link }}">{{ childLink.title }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% elseif menuItem.isSeparator() %}
+                        <li>
+                            <div class="divider"></div>
+                        </li>
+                        {% if length(menuItem.title) > 0 %}
+                            <li><a class="subheader">{{ menuItem.title }}</a></li>
+                        {% endif %}
+                    {% else %}
+                        {% if length(menuItem.title) > 0 %}
+                            <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</div>

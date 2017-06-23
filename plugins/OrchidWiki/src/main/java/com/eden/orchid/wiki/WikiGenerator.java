@@ -196,12 +196,18 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
                 }
             });
 
-            menuItems.add(new OrchidMenuItem(context, section.getKey(), sectionPages));
+            if(sectionPages.size() == 1) {
+                menuItems.add(new OrchidMenuItem(context, sectionPages.get(0)));
+            }
+            else {
+                menuItems.add(new OrchidMenuItem(context, section.getKey(), sectionPages));
+            }
+
         }
 
         menuItems.sort((OrchidMenuItem o1, OrchidMenuItem o2) -> {
-            OrchidPage p1 = o1.getChildren().get(0).getPage();
-            OrchidPage p2 = o2.getChildren().get(0).getPage();
+            OrchidPage p1 = (o1.isHasChildren()) ? o1.getChildren().get(0).getPage() : o1.getPage();
+            OrchidPage p2 = (o2.isHasChildren()) ? o2.getChildren().get(0).getPage() : o2.getPage();
 
             if ((p1 != null && p1 instanceof WikiPage) && (p2 != null && p2 instanceof WikiPage)) {
                 return ((WikiPage) p1).getOrder() - ((WikiPage) p2).getOrder();

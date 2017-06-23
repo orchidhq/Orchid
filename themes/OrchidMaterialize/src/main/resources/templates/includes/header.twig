@@ -1,0 +1,31 @@
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="index, follow">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+{% if page.title %}
+    <title>{{ page.title }}</title>
+{% else %}
+    <title>{{ config.about.name }}</title>
+{% endif %}
+
+{% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+{% else %}
+    <meta name="description" content="{{ config.about.description  }}">
+{% endif %}
+
+{% if page.previous %}
+    <link rel="prev" href="{{ page.previous.link }}">
+{% endif %}
+
+{% if page.next %}
+    <link rel="next" href="{{ page.next.link }}">
+{% endif %}
+
+{% if page.canonical %}
+    <link rel="canonical" href="{{ page.canonical.url }}">
+{% endif %}

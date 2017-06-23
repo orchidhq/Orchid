@@ -2,6 +2,7 @@
 ---
 
 {% if config and config.colors %}
+/* using colors {{ config.colors.primary }} */
 $color1: {{ config.colors.primary }};
 $color2: {{ config.colors.secondary }};
 {% else %}

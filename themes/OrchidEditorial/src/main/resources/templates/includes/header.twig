@@ -1,28 +1,19 @@
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="robots" content="index, follow">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
 
-<!-- start:inject SEO data -->
 {% if page.title %}
     <title>{{ page.title }}</title>
-    <script>window.title = '{{page.title}}';</script>
 {% else %}
-    <title>{{ options.config.about.name }}</title>
-    <script>window.title = '{{ options.config.about.name }}';</script>
+    <title>{{ config.about.name }}</title>
 {% endif %}
 
 {% if page.description %}
     <meta name="description" content="{{ page.description }}">
 {% else %}
-    <title>{{ options.config.about.description }}</title>
-{% endif %}
-
-{% if page.publishStatus == 'publish' %}
-    <meta name="robots" content="index, follow">
-{% elseif page.publishStatus == 'draft' %}
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="{{ config.about.description }}">
 {% endif %}
 
 {% if page.previous %}
@@ -34,20 +25,5 @@
 {% endif %}
 
 {% if page.canonical %}
-    <link rel="canonical" href="{{ page.canonical.url }}">
+    <link rel="canonical" href="{{ page.canonical.link }}">
 {% endif %}
-<!-- end:inject SEO data -->
-
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.ie.min.css" />
-<![endif]-->
-
-
-<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css" rel="stylesheet" />
-
-<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js"></script>
