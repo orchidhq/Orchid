@@ -1,17 +1,17 @@
 ---
 ---
 
-$config-primary-color:   "{{ (config.colors.primary)   ? config.colors.primary   : 'cyan'       }}" !default;
-$config-secondary-color: "{{ (config.colors.secondary) ? config.colors.secondary : 'orange'     }}" !default;
-$config-success-color:   "{{ (config.colors.success)   ? config.colors.success   : 'green'      }}" !default;
-$config-error-color:     "{{ (config.colors.error)     ? config.colors.error     : 'red'        }}" !default;
-$config-link-color:      "{{ (config.colors.link)      ? config.colors.link      : 'light-blue' }}" !default;
+$config-primary-color:   "{{ (options.colors.primary)   ? options.colors.primary   : 'cyan'       }}" !default;
+$config-secondary-color: "{{ (options.colors.secondary) ? options.colors.secondary : 'orange'     }}" !default;
+$config-success-color:   "{{ (options.colors.success)   ? options.colors.success   : 'green'      }}" !default;
+$config-error-color:     "{{ (options.colors.error)     ? options.colors.error     : 'red'        }}" !default;
+$config-link-color:      "{{ (options.colors.link)      ? options.colors.link      : 'light-blue' }}" !default;
 
-$config-primary-shade:   "{{ (config.shades.primary)   ? config.shades.primary   : 'lighten-2'  }}" !default;
-$config-secondary-shade: "{{ (config.shades.secondary) ? config.shades.secondary : 'lighten-1'  }}" !default;
-$config-success-shade:   "{{ (config.shades.success)   ? config.shades.success   : 'base'       }}" !default;
-$config-error-shade:     "{{ (config.shades.error)     ? config.shades.error     : 'base'       }}" !default;
-$config-link-shade:      "{{ (config.shades.link)      ? config.shades.link      : 'darken-1'   }}" !default;
+$config-primary-shade:   "{{ (options.shades.primary)   ? options.shades.primary   : 'lighten-2'  }}" !default;
+$config-secondary-shade: "{{ (options.shades.secondary) ? options.shades.secondary : 'lighten-1'  }}" !default;
+$config-success-shade:   "{{ (options.shades.success)   ? options.shades.success   : 'base'       }}" !default;
+$config-error-shade:     "{{ (options.shades.error)     ? options.shades.error     : 'base'       }}" !default;
+$config-link-shade:      "{{ (options.shades.link)      ? options.shades.link      : 'darken-1'   }}" !default;
 
 // Custom style
 @import "theme";

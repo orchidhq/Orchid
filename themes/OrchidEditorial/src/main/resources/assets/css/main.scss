@@ -1,10 +1,10 @@
 ---
 ---
 
-{% if config and config.colors %}
-/* using colors {{ config.colors.primary }} */
-$color1: {{ config.colors.primary }};
-$color2: {{ config.colors.secondary }};
+{% if options and options.colors %}
+/* using colors {{ options.colors.primary }} */
+$color1: {{ options.colors.primary }};
+$color2: {{ options.colors.secondary }};
 {% else %}
 $color1: #4C376C;
 $color2: #000000;

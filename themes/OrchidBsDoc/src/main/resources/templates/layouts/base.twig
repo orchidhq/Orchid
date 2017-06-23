@@ -8,7 +8,7 @@
 <body>
 
 <a class="github-fork-ribbon left-top"
-   href="https://github.com/{{ options.config.github.username }}/{{ options.config.github.repo }}"
+   href="https://github.com/{{ options.github.username }}/{{ options.github.repo }}"
    title="Fork me on GitHub">Fork me on GitHub</a>
 
 {% include 'includes/navbar.twig' %}
@@ -50,8 +50,8 @@
 
 <script>
     $(function () {
-        {% if options.config and options.config.colors %}
-        window.colors = {{ options.config.colors | json }};
+        {% if options and options.colors %}
+        window.colors = {{ options.colors | json }};
         {% else %}
         window.colors = ['#4C376C', '#000000'];
         {% endif %}
