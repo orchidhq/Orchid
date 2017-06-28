@@ -67,10 +67,10 @@ afterEvaluate { project ->
                 released = new Date()
 
                 gpg {
-                    sign = true
+                    sign = false
                 }
                 mavenCentralSync {
-                    sync = true
+                    sync = false
                     user = "${project.properties['mavenCentral_username']}"
                     password = "${project.properties['mavenCentral_password']}"
                 }
