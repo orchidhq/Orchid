@@ -2,6 +2,7 @@ package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
@@ -25,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -53,6 +55,82 @@ public final class OrchidResources {
 
         this.client = new OkHttpClient();
         this.resourcesDir = resourcesDir;
+    }
+
+    /**
+     * Finds a datafile with the given filename, regardless of format, and parses the content, returning the raw data
+     * contained within as a JSONObject. The file extensions are based on what is acceptable to all currently registered
+     * OrchidParsers.
+     *
+     * @param fileName the file path and name to find (without the file extension)
+     * @return a JSONObject with the data contained within the file if it can be found, null otherwise
+     */
+    public JSONObject getLocalDatafile(final String fileName) {
+        return Arrays
+                .stream(getParserExtensions())
+                .map(ext -> {
+                    OrchidResource resource = getLocalResourceEntry(fileName + "." + ext);
+                    if(resource != null) {
+                        String content = resource.getContent();
+
+                        if(!EdenUtils.isEmpty(content)) {
+                            return context.parse(ext, content);
+                        }
+                    }
+
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Finds all datafiles in the given directory, regardless of format, and parses the content, returning the raw data
+     * contained within as a JSONObject where each file is a key in the JSONObject. The file extensions are based on
+     * what is acceptable to all currently registered OrchidParsers.
+     *
+     * @param directory the directory to find datafiles within
+     * @return a JSONObject with the data contained within the file if it can be found, null otherwise
+     */
+    public JSONObject getLocalDatafiles(final String directory) {
+        List<OrchidResource> files = getLocalResourceEntries(directory, getParserExtensions(), false);
+
+        JSONObject allDatafiles = new JSONObject();
+
+        for (OrchidResource file : files) {
+            file.getReference().setUsePrettyUrl(false);
+            JSONObject fileData = context.parse(file.getReference().getExtension(), file.getContent());
+
+            if (fileData != null) {
+                if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
+                    allDatafiles.put(file.getReference().getFileName(), fileData.getJSONArray(OrchidParser.arrayAsObjectKey));
+                }
+                else {
+                    allDatafiles.put(file.getReference().getFileName(), fileData);
+                }
+            }
+
+        }
+
+        return allDatafiles;
+    }
+
+    public String[] getParserExtensions() {
+
+        List<String> extensions = new ArrayList<>();
+
+        for(OrchidParser parser : OrchidUtils.resolveSet(context, OrchidParser.class)) {
+            if(!EdenUtils.isEmpty(parser.getSourceExtensions())) {
+                for (String ext : parser.getSourceExtensions()) {
+                    extensions.add(ext);
+                }
+            }
+        }
+
+        String[] extensionsArray = new String[extensions.size()];
+        extensions.toArray(extensionsArray);
+        return extensionsArray;
     }
 
     /**
@@ -215,7 +293,7 @@ public final class OrchidResources {
     }
 
     public JSONObject loadAdditionalFile(String url) {
-        if(!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
+        if (!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
             return loadLocalFile(url.replaceAll("file://", ""));
         }
         else {
@@ -245,7 +323,7 @@ public final class OrchidResources {
         try {
             Response response = client.newCall(request).execute();
 
-            if(response.isSuccessful()) {
+            if (response.isSuccessful()) {
                 return new JSONObject(response.body().string());
             }
         }
@@ -272,7 +350,7 @@ public final class OrchidResources {
                 List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
 
                 for (File file : files) {
-                    if(!strict) {
+                    if (!strict) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
                             return new FileResource(context, file);
                         }

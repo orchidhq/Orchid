@@ -46,7 +46,7 @@ public final class OrchidReference {
      * Whether to use a 'pretty' url syntax. For example: 'www.example.com/pretty.html' with 'pretty' syntax moves the
      * fileName to the path and adds 'index.html' as the fileName, so the resulting url looks like 'www.example.com/pretty'
      */
-    private boolean usePrettyUrl;
+    private boolean usePrettyUrl = true;
 
     public OrchidReference(OrchidContext context) {
         this.context = context;

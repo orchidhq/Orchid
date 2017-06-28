@@ -9,6 +9,12 @@
     {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
     {{ theme.styles }}
+
+    <style>
+        #readme p > img {
+            width: 100%;
+        }
+    </style>
 </head>
 <body class="is-loading">
 
@@ -32,6 +38,8 @@
             {% block mainContent %}
                 {{ content }}
             {% endblock %}
+
+            {#<pre>{{ options | json }}</pre>#}
         </div>
         <hr>
         {% include 'includes/footer.twig' %}

@@ -16,7 +16,7 @@ dependencies {
     compile 'org.json:json:20170516'
     compile 'org.yaml:snakeyaml:1.18'
     compile 'org.jtwig:jtwig-core:5.85.3.RELEASE'
-    compile 'com.vladsch.flexmark:flexmark:0.19.6'
+    compile 'com.vladsch.flexmark:flexmark-all:0.20.0'
     compile 'io.bit3:jsass:5.5.1'
 
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'

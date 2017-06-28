@@ -7,6 +7,10 @@ colors:
   primary: 'indigo'
   secondary: 'orange'
 
+#colors:
+#  primary: '#ED7E00'
+#  secondary: '#000000'
+
 shades:
   primary: 'darken-2'
 
@@ -18,8 +22,4 @@ github:
   repo: 'Orchid'
   branch: 'master'
 
-posts:
-  permalink: ':year/:month/:title'
-  categories:
-    - 'personal'
-    - 'development'
+changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'

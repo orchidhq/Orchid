@@ -49,10 +49,6 @@ class OrchidGenerateJavadocTask extends Javadoc {
             options.addStringOption("baseUrl", project.orchid.baseUrl)
         }
 
-        if(project.orchid.disabledGenerators != null && project.orchid.disabledGenerators.size() > 0) {
-            options.addStringOption("disabledGenerators", String.join(File.pathSeparator, project.orchid.disabledGenerators))
-        }
-
         // set any additional arguments
         if(project.orchid.args != null && project.orchid.args.size() > 0) {
             for(String arg : project.orchid.args) {

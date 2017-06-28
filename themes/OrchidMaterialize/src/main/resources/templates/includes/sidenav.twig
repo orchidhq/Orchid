@@ -10,11 +10,56 @@
         </div>
     </li>
 
+    {% set changelogVersions = index.get('versions') %}
+
+    {% if changelogVersions and changelogVersions.getAllPages().size() > 0 %}
+        <li>
+            <a class='dropdown-button versions-dropdown btn' href='#'
+               data-activates='versionDropdown'>Currently: {{ flags.v }}</a>
+            <ul id='versionDropdown' class='dropdown-content'></ul>
+        </li>
+
+        {% if options.changelogVersionSource %}
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var request = new XMLHttpRequest();
+                request.open('GET', '{{ options.changelogVersionSource }}', true);
+
+                request.onload = function () {
+                    if (request.status >= 200 && request.status < 400) {
+                        var versions = JSON.parse(request.responseText).childrenPages.versions.childrenPages;
+
+                        var dropdownVersions = document.getElementById('versionDropdown');
+                        dropdownVersions.innerHTML = '';
+
+                        for (var key in versions) {
+                            if (versions.hasOwnProperty(key)) {
+                                var li = document.createElement('li');
+                                var a = document.createElement('a');
+                                var linkText = document.createTextNode(versions[key].ownKey);
+                                a.appendChild(linkText);
+                                a.href = versions[key].ownPages[0].reference.link;
+                                li.appendChild(a);
+                                dropdownVersions.appendChild(li);
+                            }
+                        }
+
+                        $('.dropdown-button.versions-dropdown').sideNav({});
+                    }
+                };
+                request.send();
+            }, false);
+            </script>
+        {% endif %}
+    {% endif %}
+
+
     {% for menuItem in theme.menu() %}
         {% if menuItem.hasChildren() %}
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
-                    <li class="bold"><a class="collapsible-header {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %} truncate waves-effect">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>
+                    <li class="bold"><a
+                                class="collapsible-header {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %} truncate waves-effect">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>
                         <div class="collapsible-body">
                             <ul>
                                 {% for childLink in menuItem.children %}
@@ -29,13 +74,16 @@
                 </ul>
             </li>
         {% elseif menuItem.isSeparator() %}
-            <li><div class="divider"></div></li>
+            <li>
+                <div class="divider"></div>
+            </li>
             {% if length(menuItem.title) > 0 %}
                 <li><a class="subheader">{{ menuItem.title }}</a></li>
             {% endif %}
         {% else %}
             {% if length(menuItem.title) > 0 %}
-                <li class="bold"><a href="{{ menuItem.link }}" class="waves-effect waves-teal truncate">{{ menuItem.title }}</a></li>
+                <li class="bold"><a href="{{ menuItem.link }}"
+                                    class="waves-effect waves-teal truncate">{{ menuItem.title }}</a></li>
             {% endif %}
         {% endif %}
     {% endfor %}

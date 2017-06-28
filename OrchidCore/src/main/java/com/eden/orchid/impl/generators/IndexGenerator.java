@@ -53,6 +53,7 @@ public class IndexGenerator extends OrchidGenerator {
         mappedIndex.keySet().forEach(key -> {
             OrchidResource resource = new JsonResource(new JSONElement(mappedIndex.get(key).toJSON()), new OrchidReference(context, "meta/" + key + ".index.json"));
             OrchidPage page = new OrchidPage(resource);
+            page.getReference().setUsePrettyUrl(false);
             page.renderRaw();
 
             indices.addToIndex(indices.getOwnKey() + "/" + page.getReference().getPath(), page);
@@ -61,12 +62,14 @@ public class IndexGenerator extends OrchidGenerator {
         // Render full composite index page
         OrchidResource compositeIndexResource = new JsonResource(new JSONElement(internalIndex.toJSON()), new OrchidReference(context, "meta/index.json"));
         OrchidPage compositeIndexPage = new OrchidPage(compositeIndexResource);
+        compositeIndexPage.getReference().setUsePrettyUrl(false);
         compositeIndexPage.renderRaw();
         indices.addToIndex(indices.getOwnKey() + "/" + compositeIndexPage.getReference().getPath(), compositeIndexPage);
 
         // Render an index of all indices, so individual index pages can be found
         OrchidResource indicesIndexResource = new JsonResource(new JSONElement(indices.toJSON()), new OrchidReference(context, "meta/indices.json"));
         OrchidPage indicesPage = new OrchidPage(indicesIndexResource);
+        indicesPage.getReference().setUsePrettyUrl(false);
         indicesPage.renderRaw();
     }
 }

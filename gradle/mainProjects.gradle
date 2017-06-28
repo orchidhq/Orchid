@@ -1,5 +1,3 @@
-import com.eden.orchid.gradle.OrchidGenerateJavadocTask
-
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'com.eden.orchidPlugin'
@@ -29,6 +27,8 @@ ext {
     else {
         commonTheme = ':themes:OrchidMaterialize'
         commonThemeClass = 'com.eden.orchid.materialize.MaterializeTheme'
+//        commonTheme = ':themes:OrchidEditorial'
+//        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
     }
 
     commonRunTask = "listOptions"

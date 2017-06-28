@@ -40,6 +40,7 @@ public class HomepageGenerator extends OrchidGenerator {
         OrchidResource resource = new StringResource(context, "index.twig", "");
         OrchidPage page = new OrchidPage(resource);
         page.getReference().setTitle("Home");
+        page.getReference().setUsePrettyUrl(false);
         page.setType("frontPage");
 
         page.addComponent("readme", ReadmeComponent.class);
