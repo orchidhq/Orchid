@@ -20,6 +20,18 @@ private plugins and a rich API so you can make your site as beautiful and unique
 
 [View the full documentation](http://javaeden.github.io/orchid/latest/OrchidCore) or see the quick-start below.
 
+## Table of Contents
+
+1. [Installation](#installation)
+1. [Configuration](#configuration)
+1. [Development Progress](#development-progress)
+    1. [Core Packages](#core-packages)
+    1. [Themes](#themes)
+    1. [Plugins](#plugins)
+1. [License](#license)
+1. [Contributing](#contributing)
+1. [Contact](#contact)
+
 ## Installation
 
 Orchid integrates with any new or existing Gradle project. To get started, pick a Bundle (OrchidAll, OrchidBlog, or 
@@ -29,8 +41,8 @@ plugins afterward, both official and unofficial. Then, setup your project's `bui
 ```groovy
 
 plugins {
-    // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL
-    id: 'io.github.javaeden.orchid:orchidPlugin:{version}'
+    // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL   
+    id "com.eden.orchidPlugin" version "{version}"
 }
 
 repositories {
@@ -43,7 +55,7 @@ repositories {
 dependencies {
     // Add an Orchid Bundle. OrchidAll comes with all official themes included.
     // You must include a theme separately when using the OrchidBlog and OrchidProduct bundles 
-    orchidDocsCompile 'io.github.javaeden.orchid:OrchidAll:{version}'
+    orchidDocsRuntime 'io.github.javaeden.orchid:OrchidAll:{version}'
 }
 
 orchid {
@@ -100,30 +112,30 @@ The following table lists all Orchid packages currently in development:
 
 #### Core Packages
 
-| Name                 | Version | Build Status |
-| -------------------- | ------- | ------------ |
-| Orchid Core          | v0.2.0  | Passing      |
-| Orchid Gradle Plugin | v0.2.0  | Passing      |
+| Name                 | Version |
+| -------------------- | ------- |
+| Orchid Core          | v0.2.2  |
+| Orchid Gradle Plugin | v0.2.0  |
 
 #### Themes
 
-| Name              | Version | Build Status |
-| ----------------- | ------- | ------------ |
-| OrchidBsDoc       | v0.2.0  | Passing      |
-| OrchidEditorial   | v0.2.0  | Passing      |
-| OrchidMaterialize | v0.2.0  | Passing      |
+| Name              | Version |
+| ----------------- | ------- |
+| OrchidBsDoc       | v0.2.2  |
+| OrchidEditorial   | v0.2.2  |
+| OrchidMaterialize | v0.2.2  |
 
 #### Plugins
 
-| Name         | Version | Build Status |
-| ------------ | ------- | ------------ |
-| Changelog    | v0.2.0  | Passing      |
-| Javadoc      | v0.2.0  | Passing      |
-| LanguagePack | v0.2.0  | Passing      |
-| Pages        | v0.2.0  | Passing      |
-| Posts        | v0.2.0  | Passing      |
-| Server       | v0.2.0  | Passing      |
-| Wiki         | v0.2.0  | Passing      |
+| Name         | Version |
+| ------------ | ------- |
+| Changelog    | v0.2.2  |
+| Javadoc      | v0.2.2  |
+| LanguagePack | v0.2.2  |
+| Pages        | v0.2.2  |
+| Posts        | v0.2.2  |
+| Server       | v0.2.2  |
+| Wiki         | v0.2.2  |
 
 ## License
 
@@ -134,7 +146,8 @@ information.
 
 This repository is comprised of many individual projects, which are all listed above. You can build and run any project
 with Gradle from the project root, such as `gradle :OrchidCore:assemble` or `gradle :plugins:OrchidServer:assemble`, or 
-you may navigate to a particular project's subdirectory to run the Gradle commands directly.
+you may navigate to a particular project's subdirectory to run the Gradle commands directly. When contributing code, 
+please indent using 4 spaces and keep braces on the same lines.
 
 ## Contact
 
