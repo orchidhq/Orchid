@@ -21,15 +21,11 @@ public abstract class FreeableResource extends OrchidResource {
             EdenPair<String, JSONElement> parsedContent = reference.getContext().getEmbeddedData(rawContent);
             this.content = parsedContent.first;
             this.embeddedData = parsedContent.second;
-
-            this.shouldPrecompile = (this.embeddedData != null);
         }
         else {
             this.rawContent = "";
             this.content = "";
             this.embeddedData = null;
-
-            this.shouldPrecompile = false;
         }
     }
 
@@ -64,12 +60,5 @@ public abstract class FreeableResource extends OrchidResource {
         loadContent();
 
         return super.queryEmbeddedData(pointer);
-    }
-
-    @Override
-    public boolean shouldPrecompile() {
-        loadContent();
-
-        return super.shouldPrecompile();
     }
 }

@@ -68,8 +68,7 @@ public class PagesGenerator extends OrchidGenerator implements OrchidMenuItemTyp
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream()
-             .forEach(OrchidPage::renderTemplate);
+        pages.stream().forEach(OrchidPage::renderTemplate);
     }
 
     @Override

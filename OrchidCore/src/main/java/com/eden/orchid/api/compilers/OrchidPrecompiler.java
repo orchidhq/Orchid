@@ -23,4 +23,6 @@ public abstract class OrchidPrecompiler extends Prioritized {
 
     public abstract String precompile(String input, Object... data);
 
+    public abstract boolean shouldPrecompile(String input);
+
 }

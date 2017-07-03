@@ -95,9 +95,7 @@ public class PostsGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> posts) {
-        for (OrchidPage post : posts) {
-            post.renderTemplate();
-        }
+        posts.stream().forEach(OrchidPage::renderTemplate);
     }
 
     private OrchidPage previous(List<? extends OrchidPage> posts, int i) {

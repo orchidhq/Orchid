@@ -29,7 +29,6 @@ import java.util.Map;
 @Singleton
 public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType {
 
-    private List<WikiPage> wiki;
     public static List<JSONObject> terms = new ArrayList<>();
 
     private OrchidResources resources;
@@ -42,7 +41,6 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
         this.resources = resources;
 
         this.priority = 700;
-        this.wiki = new ArrayList<>();
     }
 
     @Override
@@ -57,18 +55,21 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        setupSummary();
-        setupGlossary();
+        ArrayList<OrchidPage> wiki = new ArrayList<>();
+        WikiGenerator.terms = new ArrayList<>();
+
+        setupSummary(wiki);
+        setupGlossary(wiki);
 
         return wiki;
     }
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream().forEach((page -> page.renderTemplate()));
+        pages.stream().forEach(OrchidPage::renderTemplate);
     }
 
-    private void setupGlossary() {
+    private void setupGlossary(ArrayList<OrchidPage> wiki) {
         OrchidResource glossary = resources.getLocalResourceEntry(wikiBaseDir + "GLOSSARY.md");
 
         if (glossary == null) {
@@ -108,7 +109,7 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
         wiki.add(page);
     }
 
-    private void setupSummary() {
+    private void setupSummary(ArrayList<OrchidPage> wiki) {
         OrchidResource summary = resources.getLocalResourceEntry(wikiBaseDir + "SUMMARY.md");
 
         if (summary == null) {

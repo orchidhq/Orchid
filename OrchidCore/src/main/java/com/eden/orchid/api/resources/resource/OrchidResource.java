@@ -2,6 +2,7 @@ package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
@@ -20,8 +21,6 @@ public abstract class OrchidResource {
 
     protected int priority;
 
-    protected boolean shouldPrecompile;
-
     public OrchidResource(OrchidReference reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A resource must have a valid OrchidReference");
@@ -29,7 +28,6 @@ public abstract class OrchidResource {
         else {
             this.context = reference.getContext();
             this.reference = reference;
-            this.shouldPrecompile = false;
         }
     }
 
@@ -41,11 +39,11 @@ public abstract class OrchidResource {
         return null;
     }
 
-    public boolean shouldPrecompile() {
-        return shouldPrecompile;
+    public final boolean shouldPrecompile() {
+        return context.getInjector().getInstance(OrchidPrecompiler.class).shouldPrecompile(getRawContent());
     }
 
     public InputStream getContentStream() {
-        return IOUtils.toInputStream(rawContent);
+        return IOUtils.toInputStream(getRawContent());
     }
 }

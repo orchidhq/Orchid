@@ -15,7 +15,7 @@ buildscript {
 
 apply plugin: "org.ajoberstar.grgit"
 
-version = 'v0.2.1'
+version = 'v0.2.2'
 
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension

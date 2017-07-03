@@ -30,11 +30,6 @@ public final class ExternalResource extends OrchidResource {
     }
 
     @Override
-    public boolean isShouldPrecompile() {
-        throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
-    }
-
-    @Override
     public void setReference(OrchidReference reference) {
         throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
     }
@@ -56,11 +51,6 @@ public final class ExternalResource extends OrchidResource {
 
     @Override
     public void setPriority(int priority) {
-        throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
-    }
-
-    @Override
-    public void setShouldPrecompile(boolean shouldPrecompile) {
         throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
     }
 }

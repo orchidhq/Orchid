@@ -4,7 +4,14 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.moandjiezana.toml.Toml;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 public class TOMLParser extends OrchidParser {
+
+    @Override
+    public String getDelimiter() {
+        return Pattern.quote("+");
+    }
 
     @Override
     public String[] getSourceExtensions() {
@@ -14,7 +21,6 @@ public class TOMLParser extends OrchidParser {
     @Override
     public JSONObject parse(String extension, String input) {
         Toml toml = new Toml().read(input);
-        JSONObject object = new JSONObject(toml.toMap());
-        return object;
+        return new JSONObject(toml.toMap());
     }
 }

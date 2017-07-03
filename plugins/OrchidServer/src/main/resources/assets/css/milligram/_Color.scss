@@ -1,13 +1,14 @@
 ---
+
+stuff: 'things'
+
 ---
 
 // Color
 // ––––––––––––––––––––––––––––––––––––––––––––––––––
 
-
 $color-initial: #fff !default;
 
-//language="twig"
 {% if options.config and options.config.colors %}
 $color-primary: {{ options.config.colors[0] }} !default;
 {% else %}
