@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.components;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.components.OrchidComponent;
@@ -12,8 +13,9 @@ public class LicenseComponent extends OrchidComponent {
     @Inject
     public LicenseComponent(
             OrchidContext context,
-            OrchidResources resources) {
-        super(context, resources);
+            OrchidResources resources,
+            TemplateResolutionStrategy strategy) {
+        super(context, resources, strategy);
         this.alias = "license";
     }
 

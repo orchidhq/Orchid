@@ -1,9 +1,12 @@
 package com.eden.orchid.posts;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
@@ -13,7 +16,6 @@ import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -28,13 +30,22 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Singleton
-public class PostsGenerator extends OrchidGenerator {
+public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     private OrchidResources resources;
     public static final Pattern pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)");
     private PostsPermalinkStrategy permalinkStrategy;
 
     public static Map<String, EdenPair<List<PostPage>, List<PostArchivePage>>> categories;
+
+    @Option
+    public String permalink;
+
+    @Option("categories")
+    public String[] categoryNames;
+
+    @Option
+    public PostsPaginator pagination;
 
     @Inject
     public PostsGenerator(OrchidContext context,
@@ -58,29 +69,20 @@ public class PostsGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-
         // Map category names to pairs of PostPages and PostArchivePages
         categories = new HashMap<>();
 
-        List<String> categoryNames = new ArrayList<>();
-
-        if(OrchidUtils.elementIsArray(context.query("options.posts.categories"))) {
-            JSONArray categoriesArray = (JSONArray) context.query("options.posts.categories").getElement();
-
-            for (int i = 0; i < categoriesArray.length(); i++) {
-                if(!EdenUtils.isEmpty(categoriesArray.getString(i))) {
-                    categoryNames.add(categoriesArray.getString(i));
-                }
-            }
+        if(EdenUtils.isEmpty(categoryNames)) {
+            List<PostPage> posts = getPostsList(null);
+            List<PostArchivePage> archive = buildArchive(null, posts);
+            categories.put(null, new EdenPair<>(posts, archive));
         }
         else {
-            categoryNames.add(null);
-        }
-
-        for (String category : categoryNames) {
-            List<PostPage> posts = getPostsList(category);
-            List<PostArchivePage> archive = buildArchive(category, posts);
-            categories.put(category, new EdenPair<>(posts, archive));
+            for (String category : categoryNames) {
+                List<PostPage> posts = getPostsList(category);
+                List<PostArchivePage> archive = buildArchive(category, posts);
+                categories.put(category, new EdenPair<>(posts, archive));
+            }
         }
 
         List<OrchidPage> allPages = new ArrayList<>();
@@ -204,10 +206,9 @@ public class PostsGenerator extends OrchidGenerator {
     private List<PostArchivePage> buildArchive(String category, List<PostPage> posts) {
         List<PostArchivePage> archivePages = new ArrayList<>();
 
-        int pageSize = (context.query("options.posts.pagination.pageSize") != null)
-                ? (int) context.query("options.posts.pagination.pageSize").getElement()
-                : 100;
-        int pages = (int) Math.ceil(posts.size() / pageSize);
+        Clog.v("Archive Page Size: " + pagination.pageSize);
+
+        int pages = (int) Math.ceil(posts.size() / pagination.pageSize);
 
         for (int i = 0; i <= pages; i++) {
             String pageName = (!EdenUtils.isEmpty(category))
@@ -235,7 +236,7 @@ public class PostsGenerator extends OrchidGenerator {
 
             PostArchivePage page = new PostArchivePage(new StringResource("", pageRef));
 
-            page.setPostList(posts.subList((i * pageSize), Math.min(((i+1) * pageSize), posts.size())));
+            page.setPostList(posts.subList((i * pagination.pageSize), Math.min(((i+1) * pagination.pageSize), posts.size())));
 
             if(!EdenUtils.isEmpty(category)) {
                 page.setCategory(category);

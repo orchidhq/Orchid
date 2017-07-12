@@ -1,13 +1,16 @@
-package com.eden.orchid.posts;
+package com.eden.orchid.posts.pages;
 
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.posts.PostsExcerptStrategy;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.inject.Inject;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class PostPage extends OrchidPage {
 
     private PostsExcerptStrategy excerptStrategy;

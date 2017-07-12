@@ -1,4 +1,4 @@
-package com.eden.orchid.languages.menu;
+package com.eden.orchid.pages.menu;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.menus.OrchidMenuItem;

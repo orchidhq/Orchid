@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.render;
+package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TemplateResolutionStrategyImpl extends TemplateResolutionStrategy {
+public class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
 
     @Override
     public List<String> getPageTemplate(OrchidPage page, String... templates) {
@@ -36,8 +36,8 @@ public class TemplateResolutionStrategyImpl extends TemplateResolutionStrategy {
                 .distinct()
                 .flatMap(template -> Stream.of(
                         template,
-                        "templates/" + template + ".twig",
-                        "templates/components/" + template + ".twig")
+                        template + ".twig",
+                        "components/" + template + ".twig")
                 )
                 .collect(Collectors.toList());
     }

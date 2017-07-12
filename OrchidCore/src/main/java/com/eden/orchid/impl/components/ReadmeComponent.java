@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.components;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.components.OrchidComponent;
@@ -10,8 +11,8 @@ import javax.inject.Inject;
 public class ReadmeComponent extends OrchidComponent {
 
     @Inject
-    public ReadmeComponent(OrchidContext context, OrchidResources resources) {
-        super(context, resources);
+    public ReadmeComponent(OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {
+        super(context, resources, strategy);
         this.alias = "readme";
     }
 

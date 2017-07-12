@@ -1,0 +1,21 @@
+{
+  "stringOption": "string value",
+  "intOption": 10,
+  "doubleOption": 10.5,
+  "innerOption": {
+    "innerStringOption": "inner string value"
+  },
+  "innerOptionArray": [
+    {"innerStringOption": "inner string value 1"},
+    {"innerStringOption": "inner string value 2"},
+    {"innerStringOption": "inner string value 3"}
+  ],
+  "setterStringOption": "json value",
+  "primaryKey": "primary key value",
+  "primaryKeySetter": "primary key setter value",
+  "inaccessibleParentStringOption": "inaccessible value",
+  "accessibleParentStringOption": "accessible value",
+  "stringArrayOption": ["one", "two", "three"],
+  "intArrayOption": [1, 2, 3],
+  "integerArrayOption": [4, 5, 6]
+}

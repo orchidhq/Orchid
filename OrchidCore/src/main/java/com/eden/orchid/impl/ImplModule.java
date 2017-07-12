@@ -6,6 +6,7 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.render.ContentFilter;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
@@ -22,6 +23,13 @@ import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
+import com.eden.orchid.impl.options.BooleanOptionExtractor;
+import com.eden.orchid.impl.options.DoubleOptionExtractor;
+import com.eden.orchid.impl.options.FloatOptionExtractor;
+import com.eden.orchid.impl.options.IntOptionExtractor;
+import com.eden.orchid.impl.options.LongOptionExtractor;
+import com.eden.orchid.impl.options.OptionsHolderOptionExtractor;
+import com.eden.orchid.impl.options.StringOptionExtractor;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
 import com.eden.orchid.impl.resources.CoreLocalResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
@@ -92,5 +100,15 @@ public class ImplModule extends OrchidModule {
 
         // Menu Items
         addToMap(OrchidMenuItemType.class, "separator", DividerMenuItem.class);
+
+        // OptionsExtractors
+        addToSet(OptionExtractor.class,
+                StringOptionExtractor.class,
+                IntOptionExtractor.class,
+                LongOptionExtractor.class,
+                FloatOptionExtractor.class,
+                DoubleOptionExtractor.class,
+                BooleanOptionExtractor.class,
+                OptionsHolderOptionExtractor.class);
     }
 }

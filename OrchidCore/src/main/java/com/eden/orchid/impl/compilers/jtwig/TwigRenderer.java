@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.render;
+package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
@@ -13,19 +13,18 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Set;
 
-public class OrchidRendererImpl extends OrchidRenderer {
+public class TwigRenderer extends OrchidRenderer {
 
     private final String destination;
 
     @Inject
-    public OrchidRendererImpl(
+    public TwigRenderer(
             OrchidContext context,
             @Named("d") String destination,
             OrchidResources resources,
-            Set<TemplateResolutionStrategy> strategies) {
-        super(context, resources, strategies);
+            TemplateResolutionStrategy strategy) {
+        super(context, resources, strategy);
         this.destination = destination;
     }
 

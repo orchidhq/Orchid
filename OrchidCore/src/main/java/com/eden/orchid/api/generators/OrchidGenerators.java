@@ -5,6 +5,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -69,6 +70,17 @@ public final class OrchidGenerators {
 
     private void indexGenerator(OrchidGenerator generator) {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
+
+        if(generator instanceof OptionsHolder) {
+            JSONElement el = context.query("options." + generator.getKey());
+            if(OrchidUtils.elementIsObject(el)) {
+                ((OptionsHolder) generator).extractOptions(context, (JSONObject) el.getElement());
+            }
+            else {
+                ((OptionsHolder) generator).extractOptions(context, new JSONObject());
+            }
+        }
+
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
 
         if (!EdenUtils.isEmpty(generator.getKey()) && generatorPages != null && generatorPages.size() > 0) {
@@ -86,7 +98,7 @@ public final class OrchidGenerators {
     private void buildExternalIndex() {
         this.externalIndex = new OrchidRootExternalIndex();
 
-        JSONElement externalIndexReferences = context.query("options.data.externalIndex");
+        JSONElement externalIndexReferences = context.query("options.externalIndex");
 
         if(OrchidUtils.elementIsArray(externalIndexReferences)) {
             JSONArray externalIndex = (JSONArray) externalIndexReferences.getElement();

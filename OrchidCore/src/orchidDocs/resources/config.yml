@@ -25,7 +25,7 @@ github:
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 
 posts:
-#  permalink: ':year/:monthName/:title'
+  permalink: ':year/:monthName/:title'
 
 menu:
   - type: 'wiki'
@@ -34,5 +34,6 @@ menu:
   - type: 'postCategories'
   - type: 'latestPosts'
     count: 5
+    category: 'catone'
   - type: 'javadocPackages'
   - type: 'javadocClasses'

@@ -5,16 +5,13 @@ import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 
-import java.util.Set;
+import javax.inject.Inject;
 
-public class MethodsComponent extends OrchidComponent {
+public class ConstructorsComponent extends OrchidComponent {
 
-    public MethodsComponent(OrchidContext context, Set<TemplateResolutionStrategy> strategies, OrchidResources resources) {
-        super(context, strategies, resources);
-    }
-
-    @Override
-    public String render() {
-        return null;
+    @Inject
+    public ConstructorsComponent(OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {
+        super(context, resources, strategy);
+        this.alias = "javadocClassCtors";
     }
 }
