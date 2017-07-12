@@ -4,7 +4,14 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 public class JsonParser extends OrchidParser {
+
+    @Override
+    public String getDelimiter() {
+        return Pattern.quote(";");
+    }
 
     @Override
     public String[] getSourceExtensions() {

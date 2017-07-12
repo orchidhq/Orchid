@@ -1,6 +1,6 @@
-{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/index.twig"] %}
+{% extends page.getLayout() %}
 
-{% block mainContent %}
+{% block pageContent %}
 
     <section id="summary">
         <header class="major"><h2>{{ page.title }}</h2></header>

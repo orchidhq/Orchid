@@ -2,28 +2,30 @@ package com.eden.orchid.javadoc;
 
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
-import com.eden.orchid.javadoc.api.JavadocBlockTagHandler;
-import com.eden.orchid.javadoc.api.JavadocInlineTagHandler;
-import com.eden.orchid.javadoc.impl.generators.JavadocClassesGenerator;
-import com.eden.orchid.javadoc.impl.generators.JavadocPackagesGenerator;
-import com.eden.orchid.javadoc.impl.tags.AuthorTag;
-import com.eden.orchid.javadoc.impl.tags.DeprecatedTag;
-import com.eden.orchid.javadoc.impl.tags.ExceptionTag;
-import com.eden.orchid.javadoc.impl.tags.LinkTag;
-import com.eden.orchid.javadoc.impl.tags.ReturnTag;
-import com.eden.orchid.javadoc.impl.tags.SeeTag;
-import com.eden.orchid.javadoc.impl.tags.SinceTag;
-import com.eden.orchid.javadoc.impl.tags.ThrowsTag;
-import com.eden.orchid.javadoc.impl.tags.VersionTag;
+import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.javadoc.menu.AllClassesMenuItemType;
+import com.eden.orchid.javadoc.menu.AllPackagesMenuItemType;
+import com.eden.orchid.javadoc.tags.api.JavadocBlockTagHandler;
+import com.eden.orchid.javadoc.tags.api.JavadocInlineTagHandler;
+import com.eden.orchid.javadoc.tags.impl.AuthorTag;
+import com.eden.orchid.javadoc.tags.impl.DeprecatedTag;
+import com.eden.orchid.javadoc.tags.impl.ExceptionTag;
+import com.eden.orchid.javadoc.tags.impl.LinkTag;
+import com.eden.orchid.javadoc.tags.impl.ReturnTag;
+import com.eden.orchid.javadoc.tags.impl.SeeTag;
+import com.eden.orchid.javadoc.tags.impl.SinceTag;
+import com.eden.orchid.javadoc.tags.impl.ThrowsTag;
+import com.eden.orchid.javadoc.tags.impl.VersionTag;
 
+@IgnoreModule
 public class JavadocModule extends OrchidModule {
 
     @Override
     protected void configure() {
         addToSet(OrchidGenerator.class,
-                JavadocClassesGenerator.class,
-                JavadocPackagesGenerator.class);
+                JavadocGenerator.class);
 
         // Block Tag Handlers
         addToSet(JavadocBlockTagHandler.class,
@@ -42,5 +44,8 @@ public class JavadocModule extends OrchidModule {
 
         addToSet(DefaultResourceSource.class,
                 JavadocResourceSource.class);
+
+        addToMap(OrchidMenuItemType.class, "javadocClasses", AllClassesMenuItemType.class);
+        addToMap(OrchidMenuItemType.class, "javadocPackages", AllPackagesMenuItemType.class);
     }
 }

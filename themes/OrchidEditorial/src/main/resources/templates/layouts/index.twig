@@ -35,11 +35,9 @@
                 </ul>
             </header>
 
-            {% block mainContent %}
+            {% block pageContent %}
                 {{ content }}
             {% endblock %}
-
-            {#<pre>{{ options | json }}</pre>#}
         </div>
         <hr>
         {% include 'includes/footer.twig' %}

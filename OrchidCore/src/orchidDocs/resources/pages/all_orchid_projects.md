@@ -27,7 +27,7 @@ A theme for Orchid using Materialize CSS.
 
 # Plugins
 
-### [Changelog]({{flags.baseUrl | replace({'/OrchidCore': ''}) }}/OrchidChangeog)
+### [Changelog]({{flags.baseUrl | replace({'/OrchidCore': ''}) }}/OrchidChangelog)
 
 Adds a simple way to track and view changes across the various versions of your application or library.
     
@@ -35,7 +35,7 @@ Adds a simple way to track and view changes across the various versions of your 
 
 Create beautiful Javadocs for your project within your Orchid site.
 
-### [Language Pack]({{flags.baseUrl | replace({'/OrchidCore': ''}) }}/OrchidChangeog)
+### [Language Pack]({{flags.baseUrl | replace({'/OrchidCore': ''}) }}/OrchidLanguageDoc)
 
 Adds several useful markup languages and configuration parsers to your Orchid build, including Asciidoctor and TOML.
 

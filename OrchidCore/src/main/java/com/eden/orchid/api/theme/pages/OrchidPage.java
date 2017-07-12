@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.pages;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
@@ -32,6 +33,8 @@ public class OrchidPage {
 
     protected Map<String, Class<? extends OrchidComponent>> componentClasses;
     protected Map<String, OrchidComponent> components;
+
+    protected String layout;
 
     // injected members
     protected OrchidRenderer renderer;
@@ -134,6 +137,15 @@ public class OrchidPage {
         return reference.toString();
     }
 
+    public String getLayout() {
+        if(!EdenUtils.isEmpty(layout)) {
+            return Clog.format("[#{$1}.twig, layouts/#{$1}.twig, layouts/index.twig]", new Object[]{layout});
+        }
+        else {
+            return "layouts/index.twig";
+        }
+    }
+
 // Manage page components
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -151,6 +163,7 @@ public class OrchidPage {
 
             OrchidComponent component = injector.getInstance(componentClass.getValue());
             if(component != null) {
+                component.setPage(this);
                 component.prepare();
                 if(!componentClass.getKey().equals(componentClass.getValue().getName())) {
                     this.components.put(componentClass.getKey(), component);
@@ -167,15 +180,6 @@ public class OrchidPage {
 
     public OrchidComponent getComponent(String alias) {
         return this.components.getOrDefault(alias, null);
-    }
-
-    public String renderComponent(String alias) {
-        OrchidComponent component = getComponent(alias);
-        if(component != null) {
-            return component.render();
-        }
-
-        return "";
     }
 
 // Convert a page to/from JSON

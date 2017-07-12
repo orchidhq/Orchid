@@ -11,6 +11,15 @@ import java.util.Arrays;
 
 public abstract class OrchidModule extends AbstractModule {
 
+    public static <T> AbstractModule of(final Class<T> injectedClass, final T value) {
+        return new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(injectedClass).toInstance(value);
+            }
+        };
+    }
+
     @SafeVarargs
     protected final <T> void addToSet(Class<T> setClass, Class<? extends T>... objectClasses) {
         Multibinder<T> binder = Multibinder.newSetBinder(binder(), setClass);
@@ -29,11 +38,6 @@ public abstract class OrchidModule extends AbstractModule {
         });
     }
 
-    protected final void addTheme(Class<? extends Theme> themeClass) {
-        bind(themeClass).in(Singleton.class);
-        Multibinder.newSetBinder(binder(), Theme.class).addBinding().to(themeClass).in(Singleton.class);
-    }
-
     protected final <T> void addToMap(Class<T> setClass, String key, Class<? extends T> objectClass) {
         MapBinder<String, T> mapbinder = MapBinder.newMapBinder(binder(), String.class, setClass);
 
@@ -47,6 +51,10 @@ public abstract class OrchidModule extends AbstractModule {
                 mapbinder.addBinding(key).to(objectClass);
             }
         }
+    }
 
+    protected final void addTheme(Class<? extends Theme> themeClass) {
+        bind(themeClass).in(Singleton.class);
+        Multibinder.newSetBinder(binder(), Theme.class).addBinding().to(themeClass).in(Singleton.class);
     }
 }

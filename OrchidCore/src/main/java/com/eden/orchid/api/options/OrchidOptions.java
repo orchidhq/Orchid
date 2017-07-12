@@ -51,9 +51,7 @@ public class OrchidOptions {
             options.put(key, configOptions.get(key));
         }
 
-        generators
-                .stream()
-                .forEach(generator -> options.put(generator.getKey(), loadGeneratorOptions(generator)));
+        // TODO: Extract options into generator
 
         return options;
     }

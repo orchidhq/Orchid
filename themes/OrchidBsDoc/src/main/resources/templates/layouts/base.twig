@@ -22,7 +22,7 @@
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-9" role="main">
-            {% block mainContent %}
+            {% block pageContent %}
 
             {% endblock %}
         </div>
@@ -51,9 +51,9 @@
 <script>
     $(function () {
         {% if options and options.colors %}
-        window.colors = {{ options.colors | json }};
+            window.colors = ['{{ options.colors.primary }}', '{{ options.colors.secondary }}'];
         {% else %}
-        window.colors = ['#4C376C', '#000000'];
+            window.colors = ['#4C376C', '#000000'];
         {% endif %}
         {% block baseRunScripts %}
 

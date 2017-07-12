@@ -2,6 +2,7 @@ package com.eden.orchid.javadoc;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.api.theme.Theme;
@@ -17,10 +18,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for Orchid to runTask
- * within, and then set that context into motion. It is the single point-of-entry for starting the Orchid process; both
- * Javadoc's `start` method and the Java `main` method are in here, which create the appropriate OrchidContext and then
- * runTask a single Orchid task.
+ * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for
+ * Orchid to runTask within, and then set that context into motion. It is the single point-of-entry for starting the
+ * Orchid process; both Javadoc's `start` method and the Java `main` method are in here, which create the appropriate
+ * OrchidContext and then runTask a single Orchid task.
  */
 public final class OrchidJavadoc {
 
@@ -57,17 +58,16 @@ public final class OrchidJavadoc {
 // Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static RootDoc rootDoc;
-
     public static boolean start(RootDoc rootDoc) {
         Map<String, String[]> options = Arrays
                 .stream(rootDoc.options())
                 .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
-        OrchidJavadoc.rootDoc = rootDoc;
-
         try {
             List<AbstractModule> modules = Orchid.findModules(options);
+            modules.add(OrchidModule.of(RootDoc.class, rootDoc));
+            modules.add(new JavadocModule());
+
             Class<? extends Theme> theme = Orchid.findTheme(options);
             return Orchid.getInstance(options).start(modules, theme, OrchidTasks.defaultTask);
         }

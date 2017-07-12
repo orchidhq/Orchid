@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +22,6 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     private OrchidContext context;
 
-    private static final String defaultType = "yml";
     private static final String precompilerExtension = "twig";
 
     private List<EdenPair<String, OrchidParser>> delimiters;
@@ -40,8 +38,6 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
                 delimiters.add(new EdenPair<>(parser.getDelimiter(), parser));
             }
         }
-
-        delimiters.add(new EdenPair<>("-", null));
     }
 
     @Override
@@ -71,18 +67,17 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
         if(header.isValidHeader) {
             final String frontMatterText = input.substring(header.fmStart, header.fmEnd);
 
-            JSONObject frontMatter;
+            JSONObject frontMatter = null;
 
-            if(header.parser != null) {
-                frontMatter = header.parser.parse("" + header.parser.getDelimiter(), frontMatterText);
+            if(!EdenUtils.isEmpty(header.extension)) {
+                frontMatter = context.parse(header.extension, frontMatterText);
+                if(frontMatter == null) {
+                    frontMatter = header.parser.parse("" + header.parser.getDelimiter(), frontMatterText);
+                }
             }
-            else {
-                frontMatter = header.extensions
-                        .stream()
-                        .map(ext -> context.parse(ext, frontMatterText))
-                        .filter(Objects::nonNull)
-                        .findFirst()
-                        .orElseGet(JSONObject::new);
+
+            if(frontMatter == null) {
+                frontMatter = new JSONObject();
             }
 
             return new EdenPair<>(frontMatter, header.contentStart);
@@ -118,21 +113,13 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
             if (matches == 2) {
                 FrontMatterHeader header = new FrontMatterHeader(true, fmStart, fmEnd, contentStart);
 
-                if(delimiter.second != null) {
-                    header.parser = delimiter.second;
-                    header.delimiter = delimiter.first;
-                }
-                else {
-                    header.delimiter = null;
+                header.parser = delimiter.second;
+                header.delimiter = delimiter.first;
 
-                    String parsedType = input.substring(0, header.fmStart).replaceAll(delimiter.first + "{3}", "");
+                String parsedType = input.substring(0, header.fmStart).replaceAll(delimiter.first + "{3}", "");
 
-                    header.extensions = new ArrayList<>();
-                    if(!EdenUtils.isEmpty(parsedType)) {
-                        header.extensions.add(parsedType);
-                    }
-
-                    header.extensions.add(defaultType);
+                if(!EdenUtils.isEmpty(parsedType)) {
+                    header.extension = parsedType;
                 }
 
                 return header;
@@ -149,7 +136,7 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
         int contentStart;
 
         String delimiter;
-        List<String> extensions;
+        String extension;
         OrchidParser parser;
 
         FrontMatterHeader(boolean isValidHeader, int fmStart, int fmEnd, int contentStart) {
@@ -171,7 +158,7 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
                     ", fmEnd=" + fmEnd +
                     ", contentStart=" + contentStart +
                     ", delimiter='" + delimiter + '\'' +
-                    ", extensions=" + extensions +
+                    ", extension=" + extension +
                     ", parser=" + parser +
                     '}';
         }

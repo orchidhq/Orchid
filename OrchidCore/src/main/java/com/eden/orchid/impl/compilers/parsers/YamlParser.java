@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public class YamlParser extends OrchidParser {
+
+    @Override
+    public String getDelimiter() {
+        return "-";
+    }
+
     @Override
     public String[] getSourceExtensions() {
         return new String[] {"yaml", "yml"};

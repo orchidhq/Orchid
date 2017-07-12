@@ -7,8 +7,6 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.render.ContentFilter;
-import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
@@ -24,8 +22,6 @@ import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
-import com.eden.orchid.impl.render.OrchidRendererImpl;
-import com.eden.orchid.impl.render.TemplateResolutionStrategyImpl;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
 import com.eden.orchid.impl.resources.CoreLocalResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
@@ -51,7 +47,6 @@ public class ImplModule extends OrchidModule {
     @Override
     protected void configure() {
         bind(OrchidContext.class).to(OrchidContextImpl.class);
-        bind(OrchidRenderer.class).to(OrchidRendererImpl.class);
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
 
         for(Class<?> defaultSet : optionalSets) {
@@ -63,7 +58,7 @@ public class ImplModule extends OrchidModule {
         // Resource Sources
         addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
         addToSet(DefaultResourceSource.class, CoreDefaultResourceSource.class);
-        addToSet(TemplateResolutionStrategy.class, TemplateResolutionStrategyImpl.class);
+
 
         // Compilers
         addToSet(OrchidCompiler.class,

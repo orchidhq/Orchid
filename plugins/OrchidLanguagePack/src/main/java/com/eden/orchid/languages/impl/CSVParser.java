@@ -5,9 +5,11 @@ import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 public class CSVParser extends OrchidParser {
@@ -26,14 +28,14 @@ public class CSVParser extends OrchidParser {
             settings.getFormat().setLineSeparator("\n");
             CsvParser parser = new CsvParser(settings);
 
-            allRows = parser.parseAll(org.apache.commons.io.IOUtils.toInputStream(input));
+            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.defaultCharset()));
         }
         else {
             TsvParserSettings settings = new TsvParserSettings();
             settings.getFormat().setLineSeparator("\n");
             TsvParser parser = new TsvParser(settings);
 
-            allRows = parser.parseAll(org.apache.commons.io.IOUtils.toInputStream(input));
+            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.defaultCharset()));
         }
 
         JSONArray array = new JSONArray();

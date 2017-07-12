@@ -23,6 +23,12 @@ public abstract class DefaultResourceSource extends OrchidResourceSource {
         super(context);
     }
 
+    @Inject
+    public DefaultResourceSource(OrchidContext context, int priority) {
+        super(context);
+        setPriority(priority);
+    }
+
     private JarFile jarForClass(Class<?> clazz) {
         String path = "/" + clazz.getName().replace('.', '/') + ".class";
         URL jarUrl = clazz.getResource(path);

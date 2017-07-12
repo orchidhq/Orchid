@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.OrchidFlags;
+import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -93,14 +94,17 @@ public final class Orchid {
 
             FastClasspathScanner scanner = new FastClasspathScanner();
             scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
-                try {
-                    AbstractModule provider = matchingClass.newInstance();
-                    if (provider != null) {
-                        Orchid.modules.add(provider);
+
+                if(!matchingClass.isAnnotationPresent(IgnoreModule.class)) {
+                    try {
+                        AbstractModule provider = matchingClass.newInstance();
+                        if (provider != null) {
+                            Orchid.modules.add(provider);
+                        }
                     }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             scanner.scan();

@@ -1,0 +1,13 @@
+{% extends page.getLayout() %}
+
+{% block pageContent %}
+
+    {% if readme %}
+        <div>{% include readme.getTemplate() %}</div>
+    {% endif %}
+
+    {% if license %}
+        <div>{% include license.getTemplate() %}</div>
+    {% endif %}
+
+{% endblock %}

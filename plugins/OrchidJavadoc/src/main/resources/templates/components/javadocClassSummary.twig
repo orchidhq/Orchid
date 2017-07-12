@@ -1,0 +1,22 @@
+
+{% set cd = page.classDoc %}
+
+
+<div>
+    <code>
+        <div>
+            {% for annotation in cd.annotations %}
+                <span>@{{annotation.annotationType.name}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            <b>public&nbsp;class&nbsp;<a href="https://javaeden.github.io/Orchid/v0.1.0/Core/javadoc/com/eden/orchid/impl/generators/AssetsGenerator">AssetsGenerator</a></b>
+        </div>
+        <div style="margin-left: 10px;">extends <a href="https://javaeden.github.io/Orchid/v0.1.0/Core/javadoc/com/eden/orchid/api/generators/OrchidGenerator">OrchidGenerator</a></div>
+    </code>
+</div>
+
+
+<h3>Class {{ page.classDoc.name }}</h3>
+
+<b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b>

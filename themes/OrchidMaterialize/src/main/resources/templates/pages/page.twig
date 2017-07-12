@@ -1,5 +1,5 @@
-{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/index.twig"] %}
+{% extends page.getLayout() %}
 
-{% block mainContent %}
+{% block pageContent %}
     <div class="flow-text" style="min-height: 306px;">{{ page.content }}</div>
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends page.getLayout() %}
+
+{% block pageContent %}
+
+    <h3>Package {{ javadocPackage.packageDoc.name }}</h3>
+
+    <ul>
+        {% for classDocPage in javadocPackage.classes %}
+            <li>Class: <a href="{{ classDocPage.link }}">{{ classDocPage.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends page.getLayout() %}
+
+{% block pageContent %}
+
+    {% for year in postArchive.years %}
+        <h3>{{ year }}</h3>
+
+        {% for month in postArchive.getMonths(year) %}
+            <b>{{ postArchive.getMonthName(month) }}</b>
+
+            <ul>
+                {% for post in postArchive.postsInMonth(year, month) %}
+                    <li><a href="{{post.link}}">{{post.title}}</a></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+
+    {% endfor %}
+
+{% endblock %}

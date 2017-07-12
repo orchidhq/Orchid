@@ -8,7 +8,7 @@ colors:
   secondary: 'orange'
 
 #colors:
-#  primary: '#ED7E00'
+#  primary: '#ffa033'
 #  secondary: '#000000'
 
 shades:
@@ -23,3 +23,16 @@ github:
   branch: 'master'
 
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
+
+posts:
+#  permalink: ':year/:monthName/:title'
+
+menu:
+  - type: 'wiki'
+  - type: 'page'
+    page: 'All Orchid Projects'
+  - type: 'postCategories'
+  - type: 'latestPosts'
+    count: 5
+  - type: 'javadocPackages'
+  - type: 'javadocClasses'

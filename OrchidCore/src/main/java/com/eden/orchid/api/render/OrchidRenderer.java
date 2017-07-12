@@ -1,26 +1,24 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.utilities.ObservableTreeSet;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
-import java.util.Set;
 
 public abstract class OrchidRenderer {
 
     protected OrchidContext context;
     protected OrchidResources resources;
-    protected Set<TemplateResolutionStrategy> strategies;
+    protected TemplateResolutionStrategy strategy;
 
     @Inject
-    public OrchidRenderer(OrchidContext context, OrchidResources resources, Set<TemplateResolutionStrategy> strategies) {
+    public OrchidRenderer(OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {
         this.context = context;
         this.resources = resources;
-        this.strategies = new ObservableTreeSet<>(strategies);
+        this.strategy = strategy;
     }
 
     /**
@@ -32,13 +30,11 @@ public abstract class OrchidRenderer {
      * @return true if the page was successfully rendered, false otherwise
      */
     public final boolean renderTemplate(OrchidPage page, String... templates) {
-        for(TemplateResolutionStrategy templateResolutionStrategy : strategies) {
-            for (String template : templateResolutionStrategy.getPageTemplate(page, templates)) {
-                OrchidResource templateResource = resources.getResourceEntry(template);
+        for (String template : strategy.getPageTemplate(page, templates)) {
+            OrchidResource templateResource = resources.getResourceEntry(template);
 
-                if (templateResource != null) {
-                    return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
-                }
+            if (templateResource != null) {
+                return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
             }
         }
 

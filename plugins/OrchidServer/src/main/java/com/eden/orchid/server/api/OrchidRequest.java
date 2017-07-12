@@ -30,7 +30,7 @@ public class OrchidRequest {
     }
 
     public String query(String key) {
-        return session.getParms().get(key);
+        return (session.getParameters().get(key).size() > 0) ? session.getParameters().get(key).get(0) : "";
     }
     public List<String> queryList(String key) {
         return session.getParameters().get(key);
@@ -40,8 +40,8 @@ public class OrchidRequest {
         if(pathParams.containsKey(key)) {
             return pathParams.get(key);
         }
-        else if(session.getParms().containsKey(key)) {
-            return session.getParms().get(key);
+        else if(session.getParameters().containsKey(key)) {
+            return (session.getParameters().get(key).size() > 0) ? session.getParameters().get(key).get(0) : "";
         }
         return null;
     }

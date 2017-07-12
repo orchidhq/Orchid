@@ -1,13 +1,13 @@
 package com.eden.orchid.api.theme.components;
 
+import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.OrchidResources;
-import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Data;
 
 import javax.inject.Inject;
-import java.util.Set;
 
 @Data
 public abstract class OrchidComponent {
@@ -15,13 +15,12 @@ public abstract class OrchidComponent {
     protected String alias;
     protected String defaultAlias;
     protected OrchidContext context;
-    protected Set<TemplateResolutionStrategy> strategies;
     protected OrchidResources resources;
+    protected OrchidPage page;
 
     @Inject
-    public OrchidComponent(OrchidContext context, Set<TemplateResolutionStrategy> strategies, OrchidResources resources) {
+    public OrchidComponent(OrchidContext context, OrchidResources resources) {
         this.context = context;
-        this.strategies = strategies;
         this.resources = resources;
     }
 
@@ -29,22 +28,20 @@ public abstract class OrchidComponent {
 
     }
 
-    public abstract String render();
-
-    public String renderTemplate(String... templates) {
-        for(TemplateResolutionStrategy templateResolutionStrategy : strategies) {
-            for (String template : templateResolutionStrategy.getComponentTemplate(this, templates)) {
-                OrchidResource templateResource = resources.getResourceEntry(template);
-                if (templateResource != null) {
-                    return context.compile(templateResource.getReference().getExtension(), templateResource.getContent(), this);
-                }
-            }
-        }
-
-        return "";
+    public String getContent() {
+        return null;
     }
 
     public String renderString(String extension, String templateString) {
         return context.compile(extension, templateString, this);
+    }
+
+    public String getTemplate() {
+        if(!EdenUtils.isEmpty(alias)) {
+            return Clog.format("[#{$1}.twig, components/#{$1}.twig]", alias);
+        }
+        else {
+            throw new RuntimeException("Component template must be defined in order to render as template");
+        }
     }
 }

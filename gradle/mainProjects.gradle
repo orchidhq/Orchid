@@ -25,10 +25,14 @@ ext {
         commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
     }
     else {
-        commonTheme = ':themes:OrchidMaterialize'
-        commonThemeClass = 'com.eden.orchid.materialize.MaterializeTheme'
+        commonTheme = ':themes:OrchidBsDoc'
+        commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
+
 //        commonTheme = ':themes:OrchidEditorial'
 //        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
+
+//        commonTheme = ':themes:OrchidMaterialize'
+//        commonThemeClass = 'com.eden.orchid.materialize.MaterializeTheme'
     }
 
     commonRunTask = "listOptions"

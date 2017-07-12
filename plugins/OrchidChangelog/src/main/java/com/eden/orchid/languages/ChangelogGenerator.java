@@ -5,7 +5,9 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,7 +40,7 @@ public class ChangelogGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        List<ChangelogPage> pages = new ArrayList<>();
+        List<OrchidPage> pages = new ArrayList<>();
         JSONObject changelog = resources.getLocalDatafile("changelog");
 
         if(changelog != null) {
@@ -46,14 +48,18 @@ public class ChangelogGenerator extends OrchidGenerator {
                 JSONArray versions = changelog.getJSONArray(OrchidParser.arrayAsObjectKey);
 
                 for (int i = 0; i < versions.length(); i++) {
-                    pages.add(new ChangelogPage(context, versions.getJSONObject(i), versions.getJSONObject(i).getString("version")));
+                    pages.add(new OrchidExternalPage(OrchidReference.fromUrl(
+                            context,
+                            versions.getJSONObject(i).getString("version"),
+                            versions.getJSONObject(i).getString("url"))));
                 }
             }
             else {
                 for (String key : changelog.keySet()) {
-                    JSONObject version = changelog.getJSONObject(key);
-                    version.put("version", key);
-                    pages.add(new ChangelogPage(context, version, key));
+                    pages.add(new OrchidExternalPage(OrchidReference.fromUrl(
+                            context,
+                            key,
+                            changelog.getJSONObject(key).getString("url"))));
                 }
             }
         }
@@ -63,6 +69,6 @@ public class ChangelogGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream().forEach(OrchidPage::renderTemplate);
+//        pages.stream().forEach(OrchidPage::renderTemplate);
     }
 }

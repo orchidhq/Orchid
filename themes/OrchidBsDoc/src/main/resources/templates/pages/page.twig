@@ -1,4 +1,4 @@
-{% extends [page.layout, concat('layouts/', page.layout, '.twig'), "layouts/geopattern.twig"] %}
+{% extends page.getLayout() %}
 
 {% block pageNav %}
 
@@ -8,7 +8,7 @@
     <h1 class="home-title">{{ page.title }}</h1>
 {% endblock %}
 
-{% block mainContent %}
+{% block pageContent %}
 
     <section class="bs-docs-section">
         {{ page.content }}

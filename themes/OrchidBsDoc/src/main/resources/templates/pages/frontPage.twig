@@ -1,4 +1,4 @@
-{% extends ["layouts/index.twig"] %}
+{% extends page.getLayout() %}
 
 {% block jumbotron %}
     <h1 class="home-title">{{ options.about.name }}</h1>
@@ -12,7 +12,7 @@
     </p>
 {% endblock %}
 
-{% block mainContent %}
+{% block pageContent %}
 
     {% if readme %}
         <section class="bs-docs-section">

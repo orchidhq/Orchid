@@ -7,6 +7,8 @@ import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
 import org.json.JSONObject;
 
+import java.net.URL;
+
 @Data
 public final class OrchidReference {
 
@@ -286,4 +288,20 @@ public final class OrchidReference {
         return newReference;
     }
 
+    public static OrchidReference fromUrl(OrchidContext context, String title, String url) {
+        try {
+            URL parsedUrl = new URL(url);
+            OrchidReference newReference = new OrchidReference(context);
+            newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
+            newReference.path = parsedUrl.getPath();
+            newReference.fileName = "";
+            newReference.title = title;
+            newReference.extension = "";
+            return newReference;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

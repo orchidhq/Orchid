@@ -2,8 +2,8 @@
 ---
 
 {% if options and options.colors %}
-$color1: {{ options.colors[0] }};
-$color2: {{ options.colors[1] }};
+$color1: {{ options.colors.primary }};
+$color2: {{ options.colors.secondary }};
 {% else %}
 $color1: #4C376C;
 $color2: #000000;

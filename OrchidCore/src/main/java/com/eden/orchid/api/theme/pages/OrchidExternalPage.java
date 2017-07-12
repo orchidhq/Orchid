@@ -75,9 +75,4 @@ public class OrchidExternalPage extends OrchidPage {
     public OrchidComponent getComponent(String alias) {
         throw new UnsupportedOperationException("This method is not allowed on OrchidExternalPage");
     }
-
-    @Override
-    public String renderComponent(String alias) {
-        throw new UnsupportedOperationException("This method is not allowed on OrchidExternalPage");
-    }
 }
