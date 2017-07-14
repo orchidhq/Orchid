@@ -11,10 +11,10 @@ public class JavadocClassPage extends OrchidPage {
     private ClassDoc classDoc;
 
     public JavadocClassPage(OrchidContext context, ClassDoc classDoc) {
-        super(new SimpleResource(context, classDoc.qualifiedName().replaceAll("\\.", "/") + ".html"));
-        this.type = "javadocClass";
+        super(new SimpleResource(context, classDoc.qualifiedName().replaceAll("\\.", "/") + ".html"),
+                "javadocClass",
+                classDoc.typeName());
         this.classDoc = classDoc;
-        this.getReference().setTitle(classDoc.typeName());
     }
 
     public JavadocPackagePage getPackagePage() {

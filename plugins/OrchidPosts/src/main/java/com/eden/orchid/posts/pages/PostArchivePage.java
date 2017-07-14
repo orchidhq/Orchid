@@ -19,9 +19,7 @@ public class PostArchivePage extends OrchidPage {
     protected String category;
 
     public PostArchivePage(OrchidResource resource) {
-        super(resource);
-
-        this.type = "postArchive";
+        super(resource, "postArchive");
     }
 
     public List<Integer> getYears() {

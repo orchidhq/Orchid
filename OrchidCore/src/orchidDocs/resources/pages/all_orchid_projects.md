@@ -1,7 +1,5 @@
 ---
 
-title: All Orchid Projects
-
 ---
 
 Orchid consists of one main package and several other optional packages and themes you can use to add extend your Orchid 

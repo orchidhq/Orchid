@@ -7,6 +7,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
@@ -32,7 +33,6 @@ import java.util.stream.Collectors;
 @Singleton
 public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
-    private OrchidResources resources;
     public static final Pattern pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)");
     private PostsPermalinkStrategy permalinkStrategy;
 
@@ -48,18 +48,9 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     public PostsPaginator pagination;
 
     @Inject
-    public PostsGenerator(OrchidContext context,
-                          OrchidResources resources,
-                          PostsPermalinkStrategy permalinkStrategy) {
-        super(context);
-        this.resources = resources;
+    public PostsGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer, PostsPermalinkStrategy permalinkStrategy) {
+        super(700, "posts", context, resources, renderer);
         this.permalinkStrategy = permalinkStrategy;
-        setPriority(700);
-    }
-
-    @Override
-    public String getKey() {
-        return "posts";
     }
 
     @Override
@@ -96,7 +87,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> posts) {
-        posts.stream().forEach(OrchidPage::renderTemplate);
+        posts.forEach(renderer::renderTemplate);
     }
 
     private OrchidPage previous(List<? extends OrchidPage> posts, int i) {

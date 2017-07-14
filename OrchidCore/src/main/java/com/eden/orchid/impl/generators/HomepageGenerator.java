@@ -2,12 +2,13 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.components.LicenseComponent;
-import com.eden.orchid.impl.components.ReadmeComponent;
+import com.eden.orchid.impl.themes.components.LicenseComponent;
+import com.eden.orchid.impl.themes.components.ReadmeComponent;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -15,18 +16,9 @@ import java.util.List;
 
 public class HomepageGenerator extends OrchidGenerator {
 
-    private OrchidResources resources;
-
     @Inject
-    public HomepageGenerator(OrchidContext context, OrchidResources resources) {
-        super(context);
-        this.resources = resources;
-        setPriority(2);
-    }
-
-    @Override
-    public String getKey() {
-        return "home";
+    public HomepageGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+        super(2, "home", context, resources, renderer);
     }
 
     @Override
@@ -38,13 +30,12 @@ public class HomepageGenerator extends OrchidGenerator {
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
         OrchidResource resource = new StringResource(context, "index.twig", "");
-        OrchidPage page = new OrchidPage(resource);
+        OrchidPage page = new OrchidPage(resource, "frontPage");
         page.getReference().setTitle("Home");
         page.getReference().setUsePrettyUrl(false);
-        page.setType("frontPage");
 
-        page.addComponent("readme", ReadmeComponent.class);
-        page.addComponent("license", LicenseComponent.class);
+        page.addComponent(LicenseComponent.class);
+        page.addComponent(ReadmeComponent.class);
 
         pages.add(page);
         return pages;
@@ -52,6 +43,6 @@ public class HomepageGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream().forEach((page -> page.renderTemplate()));
+        pages.forEach(renderer::renderTemplate);
     }
 }

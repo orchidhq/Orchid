@@ -7,6 +7,13 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
+import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
+import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
+import com.eden.orchid.api.options.extractors.IntOptionExtractor;
+import com.eden.orchid.api.options.extractors.LongOptionExtractor;
+import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
+import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.render.ContentFilter;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
@@ -19,17 +26,9 @@ import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
-import com.eden.orchid.impl.events.SetupEnvironment;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
-import com.eden.orchid.impl.options.BooleanOptionExtractor;
-import com.eden.orchid.impl.options.DoubleOptionExtractor;
-import com.eden.orchid.impl.options.FloatOptionExtractor;
-import com.eden.orchid.impl.options.IntOptionExtractor;
-import com.eden.orchid.impl.options.LongOptionExtractor;
-import com.eden.orchid.impl.options.OptionsHolderOptionExtractor;
-import com.eden.orchid.impl.options.StringOptionExtractor;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
 import com.eden.orchid.impl.resources.CoreLocalResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
@@ -61,12 +60,9 @@ public class ImplModule extends OrchidModule {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
-        addToSet(EventListener.class, SetupEnvironment.class);
-
         // Resource Sources
         addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
         addToSet(DefaultResourceSource.class, CoreDefaultResourceSource.class);
-
 
         // Compilers
         addToSet(OrchidCompiler.class,

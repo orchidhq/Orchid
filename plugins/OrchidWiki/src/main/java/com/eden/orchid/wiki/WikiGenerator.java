@@ -1,15 +1,12 @@
 package com.eden.orchid.wiki;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -24,28 +21,17 @@ import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
-public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType {
+public class WikiGenerator extends OrchidGenerator {
 
     public static List<JSONObject> terms = new ArrayList<>();
-
-    private OrchidResources resources;
 
     private String wikiBaseDir = "wiki/";
 
     @Inject
-    public WikiGenerator(OrchidContext context, OrchidResources resources) {
-        super(context);
-        this.resources = resources;
-
-        this.priority = 700;
-    }
-
-    @Override
-    public String getKey() {
-        return "wiki";
+    public WikiGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+        super(700, "wiki", context, resources, renderer);
     }
 
     @Override
@@ -66,7 +52,7 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream().forEach(OrchidPage::renderTemplate);
+        pages.forEach(renderer::renderTemplate);
     }
 
     private void setupGlossary(ArrayList<OrchidPage> wiki) {
@@ -100,12 +86,8 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
 
         String safe = doc.toString();
         glossary = new StringResource(context, wikiBaseDir + "glossary.md", safe);
-        glossary.getReference().setTitle("Glossary");
-
-        WikiPage page = new WikiPage(glossary);
+        WikiPage page = new WikiPage(glossary, "Glossary");
         page.getReference().setUsePrettyUrl(true);
-        page.setType("wiki");
-
         wiki.add(page);
     }
 
@@ -136,20 +118,11 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
                 resource = new StringResource(context, path + File.separator + "index.md", a.text());
             }
 
-            WikiPage page = new WikiPage(resource);
+            WikiPage page = new WikiPage(resource, a.text());
+
             page.setOrder(i);
             i++;
 
-            if (!EdenUtils.isEmpty(FilenameUtils.getExtension(a.attr("href")))) {
-                page.getReference().setUsePrettyUrl(true);
-            }
-            else {
-                page.getReference().setUsePrettyUrl(true);
-            }
-
-            page.getReference().setTitle(a.text());
-
-            page.setType("wiki");
             wiki.add(page);
 
             if (previous != null) {
@@ -167,58 +140,8 @@ public class WikiGenerator extends OrchidGenerator implements OrchidMenuItemType
 
         String safe = doc.toString();
         summary = new StringResource(context, wikiBaseDir + "summary.md", safe);
-        summary.getReference().setTitle("Summary");
-
-        WikiPage page = new WikiPage(summary);
+        WikiPage page = new WikiPage(summary, "Summary");
         page.getReference().setUsePrettyUrl(true);
-
-        page.setType("wiki");
-
         wiki.add(page);
-    }
-
-    @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
-        List<OrchidMenuItem> menuItems = new ArrayList<>();
-
-        OrchidIndex wikiIndex = context.getIndex().get("wiki");
-
-        Map<String, OrchidIndex> wikiSections = wikiIndex.getChildren();
-
-        for (Map.Entry<String, OrchidIndex> section : wikiSections.entrySet()) {
-            List<OrchidPage> sectionPages = section.getValue().getAllPages();
-
-            sectionPages.sort((OrchidPage o1, OrchidPage o2) -> {
-                if (o1 instanceof WikiPage && o2 instanceof WikiPage) {
-                    return ((WikiPage) o1).getOrder() - ((WikiPage) o2).getOrder();
-                }
-                else {
-                    return 0;
-                }
-            });
-
-            if(sectionPages.size() == 1) {
-                menuItems.add(new OrchidMenuItem(context, sectionPages.get(0)));
-            }
-            else {
-                menuItems.add(new OrchidMenuItem(context, section.getKey(), sectionPages));
-            }
-
-        }
-
-        menuItems.sort((OrchidMenuItem o1, OrchidMenuItem o2) -> {
-            OrchidPage p1 = (o1.isHasChildren()) ? o1.getChildren().get(0).getPage() : o1.getPage();
-            OrchidPage p2 = (o2.isHasChildren()) ? o2.getChildren().get(0).getPage() : o2.getPage();
-
-            if ((p1 != null && p1 instanceof WikiPage) && (p2 != null && p2 instanceof WikiPage)) {
-                return ((WikiPage) p1).getOrder() - ((WikiPage) p2).getOrder();
-            }
-            else {
-                return 0;
-            }
-        });
-
-
-        return menuItems;
     }
 }

@@ -1,5 +1,6 @@
 package com.eden.orchid.pages.menu;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.menus.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.OrchidMenuItemType;

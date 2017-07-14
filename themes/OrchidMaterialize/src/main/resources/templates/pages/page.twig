@@ -1,5 +1,7 @@
-{% extends page.getLayout() %}
+{% extends page | template('layout') %}
 
 {% block pageContent %}
-    <div class="flow-text" style="min-height: 306px;">{{ page.content }}</div>
+    <div class="flow-text">
+        {#{% include page.getComponent('pageContent') | template('component') %}#}
+    </div>
 {% endblock %}

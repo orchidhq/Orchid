@@ -4,6 +4,7 @@ package com.eden.orchid.languages;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -19,23 +20,14 @@ import java.util.List;
 @Singleton
 public class ChangelogGenerator extends OrchidGenerator {
 
-    protected OrchidResources resources;
-
     @Inject
-    public ChangelogGenerator(OrchidContext context, OrchidResources resources) {
-        super(context);
-        this.priority = 700;
-        this.resources = resources;
-    }
-
-    @Override
-    public String getKey() {
-        return "changelog";
+    public ChangelogGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+        super(700, "changelog", context, resources, renderer);
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "";
     }
 
     @Override
@@ -69,6 +61,6 @@ public class ChangelogGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-//        pages.stream().forEach(OrchidPage::renderTemplate);
+
     }
 }

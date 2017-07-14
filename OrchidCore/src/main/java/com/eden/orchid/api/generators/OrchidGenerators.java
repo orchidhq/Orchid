@@ -16,7 +16,6 @@ import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.utilities.PrioritizedSetFilter;
-import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,10 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Data
 @Singleton
 public final class OrchidGenerators {
-    private JSONArray disabledGenerators;
+
     private Set<OrchidGenerator> allGenerators;
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
@@ -38,6 +36,8 @@ public final class OrchidGenerators {
     private OrchidRootInternalIndex internalIndex;
     private OrchidRootExternalIndex externalIndex;
     private OrchidCompositeIndex compositeIndex;
+
+    private boolean renderParallel = false;
 
     @Inject
     public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators, OrchidResources orchidResources) {
@@ -135,6 +135,67 @@ public final class OrchidGenerators {
         if(generatorPages == null) {
             generatorPages = new ArrayList<>();
         }
-        generator.startGeneration(generatorPages);
+        if(renderParallel) {
+            generator.startGeneration(generatorPages);
+        }
+        else {
+            generator.startGeneration(generatorPages);
+        }
+    }
+
+    public Set<OrchidGenerator> getAllGenerators() {
+        return allGenerators;
+    }
+
+    public void setAllGenerators(Set<OrchidGenerator> allGenerators) {
+        this.allGenerators = allGenerators;
+    }
+
+    public Set<OrchidGenerator> getGenerators() {
+        return generators;
+    }
+
+    public void setGenerators(Set<OrchidGenerator> generators) {
+        this.generators = generators;
+    }
+
+    public OrchidContext getContext() {
+        return context;
+    }
+
+    public void setContext(OrchidContext context) {
+        this.context = context;
+    }
+
+    public OrchidResources getOrchidResources() {
+        return orchidResources;
+    }
+
+    public void setOrchidResources(OrchidResources orchidResources) {
+        this.orchidResources = orchidResources;
+    }
+
+    public OrchidRootInternalIndex getInternalIndex() {
+        return internalIndex;
+    }
+
+    public void setInternalIndex(OrchidRootInternalIndex internalIndex) {
+        this.internalIndex = internalIndex;
+    }
+
+    public OrchidRootExternalIndex getExternalIndex() {
+        return externalIndex;
+    }
+
+    public void setExternalIndex(OrchidRootExternalIndex externalIndex) {
+        this.externalIndex = externalIndex;
+    }
+
+    public OrchidCompositeIndex getCompositeIndex() {
+        return compositeIndex;
+    }
+
+    public void setCompositeIndex(OrchidCompositeIndex compositeIndex) {
+        this.compositeIndex = compositeIndex;
     }
 }

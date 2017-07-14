@@ -26,11 +26,10 @@ public abstract class OrchidRenderer {
      * that could be located will be the template used.
      *
      * @param page the page to render
-     * @param templates a list of templates to attempt to render with
      * @return true if the page was successfully rendered, false otherwise
      */
-    public final boolean renderTemplate(OrchidPage page, String... templates) {
-        for (String template : strategy.getPageTemplate(page, templates)) {
+    public final boolean renderTemplate(OrchidPage page) {
+        for (String template : strategy.getPageTemplate(page)) {
             OrchidResource templateResource = resources.getResourceEntry(template);
 
             if (templateResource != null) {

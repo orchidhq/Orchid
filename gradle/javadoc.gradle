@@ -1,6 +1,5 @@
 
 orchid {
-    includeMainConfiguration = true
     runTask = "${project.ext.commonRunTask}"
     version = "${project.version}"
     theme   = "${project.ext.commonThemeClass}"

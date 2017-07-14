@@ -6,7 +6,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,30 +14,60 @@ import java.util.stream.Stream;
 public class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
 
     @Override
-    public List<String> getPageTemplate(OrchidPage page, String... templates) {
-        return Arrays
-                .stream((!EdenUtils.isEmpty(templates)) ? templates : new String[]{page.getType(), "page"})
-                .filter(OrchidUtils.not(EdenUtils::isEmpty))
-                .distinct()
-                .flatMap(template -> Stream.of(
-                        template,
-                        "templates/" + template + "-" + page.getType() + ".twig",
-                        "templates/" + template + ".twig",
-                        "templates/pages/" + template + "-" + page.getType() + ".twig",
-                        "templates/pages/" + template + ".twig")
-                )
-                .collect(Collectors.toList());
-    }
+    public List<String> getPageLayout(OrchidPage page) {
+        List<String> templateNames = new ArrayList<>();
+        templateNames.add(page.getLayout());
+        templateNames.add("index");
 
-    public List<String> getComponentTemplate(OrchidComponent component, String... templates) {
-        return Arrays
-                .stream((!EdenUtils.isEmpty(templates)) ? templates : new String[]{component.getAlias()})
+        return templateNames
+                .stream()
                 .filter(OrchidUtils.not(EdenUtils::isEmpty))
                 .distinct()
                 .flatMap(template -> Stream.of(
                         template,
                         template + ".twig",
-                        "components/" + template + ".twig")
+                        "layouts/" + template + ".twig")
+                )
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<String> getPageTemplate(OrchidPage page) {
+        List<String> templateNames = new ArrayList<>();
+        if(!EdenUtils.isEmpty(page.getTemplates())) {
+            for(String templateName : page.getTemplates()) {
+                templateNames.add(templateName);
+            }
+        }
+        templateNames.add(page.getKey());
+        templateNames.add("page");
+
+        return expandTemplateList(templateNames, "pages");
+    }
+
+    public List<String> getComponentTemplate(OrchidComponent component) {
+        List<String> templateNames = new ArrayList<>();
+        if(!EdenUtils.isEmpty(component.getTemplates())) {
+            for(String templateName : component.getTemplates()) {
+                templateNames.add(templateName);
+            }
+        }
+        templateNames.add(component.getKey());
+
+        return expandTemplateList(templateNames, "components");
+    }
+
+    public List<String> expandTemplateList(final List<String> templates, final String templateBase) {
+        return templates
+                .stream()
+                .filter(OrchidUtils.not(EdenUtils::isEmpty))
+                .distinct()
+                .flatMap(template -> Stream.of(
+                        template,
+                        template + ".twig",
+                        templateBase + "/" + template,
+                        templateBase + "/" + template + ".twig")
                 )
                 .collect(Collectors.toList());
     }

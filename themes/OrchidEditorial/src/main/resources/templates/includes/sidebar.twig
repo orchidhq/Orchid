@@ -14,7 +14,7 @@
                 <h2>{{ options.about.name }}</h2>
             </header>
             <ul>
-                {% for menuItem in theme.menu() %}
+                {% for menuItem in page.theme.menu() %}
                     {% if menuItem.hasChildren() %}
                         <li>
                             <span class="opener {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</span>

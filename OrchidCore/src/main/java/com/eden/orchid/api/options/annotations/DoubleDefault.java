@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.options;
+package com.eden.orchid.api.options.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

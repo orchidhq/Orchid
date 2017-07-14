@@ -57,7 +57,7 @@
         {#</script>#}
     {#{% endif %}#}
 
-    {% for menuItem in theme.menu() %}
+    {% for menuItem in page.theme.menu() %}
         {% if menuItem.hasChildren() %}
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">

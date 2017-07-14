@@ -10,9 +10,6 @@ class OrchidGenerateServeTask extends JavaExec {
         def projectArgs = new ArrayList<String>()
 
         // set classpath from custom Orchid configuration
-        if(project.orchid.includeMainConfiguration) {
-            classpath += project.sourceSets.main.runtimeClasspath
-        }
         classpath += project.sourceSets.orchidDocs.runtimeClasspath
 
         // Set the resources directory

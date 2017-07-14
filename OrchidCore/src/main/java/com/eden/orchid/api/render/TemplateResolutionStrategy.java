@@ -8,8 +8,10 @@ import java.util.List;
 
 public abstract class TemplateResolutionStrategy extends Prioritized {
 
-    public abstract List<String> getPageTemplate(OrchidPage page, String... templates);
+    public abstract List<String> getPageLayout(OrchidPage page);
 
-    public abstract List<String> getComponentTemplate(OrchidComponent component, String... templates);
+    public abstract List<String> getPageTemplate(OrchidPage page);
+
+    public abstract List<String> getComponentTemplate(OrchidComponent component);
 
 }

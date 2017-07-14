@@ -23,11 +23,7 @@ public class PostPage extends OrchidPage {
     private List<String> tags;
 
     public PostPage(OrchidResource resource) {
-        super(resource);
-
-        this.setType("post");
-
-        context.getInjector().injectMembers(this);
+        super(resource, "post");
     }
 
     @Inject

@@ -1,6 +1,6 @@
 <div class="bs-docs-sidebar hidden-print">
     <ul class="nav bs-docs-sidenav">
-        {% for menuItem in theme.menu() %}
+        {% for menuItem in page.theme.menu() %}
             {% if menuItem.hasChildren() %}
                 <li class="has-children {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">
                     <a>{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>

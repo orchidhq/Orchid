@@ -34,6 +34,5 @@ menu:
   - type: 'postCategories'
   - type: 'latestPosts'
     count: 5
-    category: 'catone'
   - type: 'javadocPackages'
   - type: 'javadocClasses'

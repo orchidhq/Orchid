@@ -71,9 +71,10 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
             if(!EdenUtils.isEmpty(header.extension)) {
                 frontMatter = context.parse(header.extension, frontMatterText);
-                if(frontMatter == null) {
-                    frontMatter = header.parser.parse("" + header.parser.getDelimiter(), frontMatterText);
-                }
+            }
+
+            if(frontMatter == null) {
+                frontMatter = header.parser.parse("" + header.parser.getDelimiter(), frontMatterText);
             }
 
             if(frontMatter == null) {

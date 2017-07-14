@@ -16,12 +16,6 @@ class OrchidGenerateJavadocTask extends Javadoc {
 
         // set classpath from custom Orchid configuration
         options.docletpath.addAll(project.configurations.getByName('orchidDocsCompile'))
-
-        if(project.orchid.includeMainConfiguration) {
-            options.docletpath.addAll(project.configurations.getByName('compile'))
-            classpath += project.sourceSets.main.runtimeClasspath
-        }
-
         classpath += project.sourceSets.orchidDocs.runtimeClasspath
         options.docletpath.addAll(classpath.files)
 

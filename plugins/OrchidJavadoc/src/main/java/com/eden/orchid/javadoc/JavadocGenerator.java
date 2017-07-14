@@ -3,11 +3,9 @@ package com.eden.orchid.javadoc;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.render.OrchidRenderer;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.javadoc.components.ConstructorsComponent;
-import com.eden.orchid.javadoc.components.FieldsComponent;
-import com.eden.orchid.javadoc.components.MethodsComponent;
-import com.eden.orchid.javadoc.components.SummaryComponent;
 import com.eden.orchid.javadoc.pages.JavadocClassPage;
 import com.eden.orchid.javadoc.pages.JavadocPackagePage;
 import com.sun.javadoc.ClassDoc;
@@ -32,15 +30,9 @@ public class JavadocGenerator extends OrchidGenerator {
     public static List<JavadocPackagePage> allPackages;
 
     @Inject
-    public JavadocGenerator(OrchidContext context, RootDoc rootDoc) {
-        super(context);
-        this.priority = 800;
+    public JavadocGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer, RootDoc rootDoc) {
+        super(800, "javadoc", context, resources, renderer);
         this.rootDoc = rootDoc;
-    }
-
-    @Override
-    public String getKey() {
-        return "javadoc";
     }
 
     @Override
@@ -83,10 +75,10 @@ public class JavadocGenerator extends OrchidGenerator {
 
         for (JavadocClassPage classDocPage : allClasses) {
             classDocPage.setPackagePage(packagePageMap.get(classDocPage.getClassDoc().containingPackage()));
-            classDocPage.addComponent("summary", SummaryComponent.class);
-            classDocPage.addComponent("fields", FieldsComponent.class);
-            classDocPage.addComponent("ctors", ConstructorsComponent.class);
-            classDocPage.addComponent("methods", MethodsComponent.class);
+//            classDocPage.addComponent("summary", SummaryComponent.class);
+//            classDocPage.addComponent("fields", FieldsComponent.class);
+//            classDocPage.addComponent("ctors", ConstructorsComponent.class);
+//            classDocPage.addComponent("methods", MethodsComponent.class);
         }
 
         List<OrchidPage> pages = new ArrayList<>();
@@ -98,10 +90,6 @@ public class JavadocGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        if(rootDoc == null) {
-            return;
-        }
-
-        pages.stream().forEach(OrchidPage::renderTemplate);
+        pages.forEach(renderer::renderTemplate);
     }
 }

@@ -1,5 +1,5 @@
-{% extends page.getLayout() %}
+{% extends page | template('layout') %}
 
 {% block pageContent %}
-    <div style="min-height: 306px;">{{ page.content }}</div>
+    {% include page.getComponent('pageContent') | template('component') %}
 {% endblock %}

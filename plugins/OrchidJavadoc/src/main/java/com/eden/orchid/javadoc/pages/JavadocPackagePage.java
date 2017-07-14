@@ -10,13 +10,13 @@ import java.util.List;
 public class JavadocPackagePage extends OrchidPage {
 
     private PackageDoc packageDoc;
-    List<JavadocClassPage> classes;
+    private List<JavadocClassPage> classes;
 
     public JavadocPackagePage(OrchidContext context, PackageDoc packageDoc, List<JavadocClassPage> classes) {
-        super(new SimpleResource(context, packageDoc.name().replaceAll("\\.", "/") + ".html"));
-        this.type = "javadocPackage";
+        super(new SimpleResource(context, packageDoc.name().replaceAll("\\.", "/") + ".html"),
+                "javadocPackage",
+                packageDoc.name());
         this.packageDoc = packageDoc;
-        this.getReference().setTitle(packageDoc.name());
         this.classes = classes;
     }
 

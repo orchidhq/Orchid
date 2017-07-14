@@ -12,11 +12,9 @@ public class ChangelogPage extends OrchidPage {
 
     public ChangelogPage(OrchidContext context, JSONObject changelogData, String versionName) {
         this(new JsonResource(new JSONElement(changelogData), new OrchidReference(context, "versions/" + versionName + ".html")));
-        this.type = "changelog";
     }
 
     public ChangelogPage(OrchidResource resource) {
-        super(resource);
-        this.type = "changelog";
+        super(resource, "changelog");
     }
 }

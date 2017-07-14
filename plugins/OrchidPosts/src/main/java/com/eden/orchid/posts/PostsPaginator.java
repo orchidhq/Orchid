@@ -2,7 +2,7 @@ package com.eden.orchid.posts;
 
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.impl.options.IntDefault;
+import com.eden.orchid.api.options.annotations.IntDefault;
 
 public class PostsPaginator implements OptionsHolder {
 

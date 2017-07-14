@@ -2,6 +2,8 @@ package com.eden.orchid.api.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.api.render.OrchidRenderer;
+import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
@@ -40,12 +42,36 @@ import java.util.List;
  */
 public abstract class OrchidGenerator extends Prioritized {
 
+    protected final String key;
+
     protected OrchidContext context;
+    protected OrchidResources resources;
+    protected OrchidRenderer renderer;
 
     @Inject
-    public OrchidGenerator(OrchidContext context) {
+    public OrchidGenerator(int priority, String key, OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+        setPriority(priority);
+        this.key = key;
         this.context = context;
+        this.resources = resources;
+        this.renderer = renderer;
     }
+
+    /**
+     * Return the name of the OrchidGenerator. The index created by this OrchidGenerator is scoped under this name.
+     *
+     * @return this generator's name
+     */
+    public final String getKey() {
+        return key;
+    }
+
+    /**
+     * Return a description of this OrchidGenerator, which is displayed when listing available Generators.
+     *
+     * @return this generator's description
+     */
+    public abstract String getDescription();
 
     /**
      * A callback to build the index of content this OrchidGenerator intends to create.
@@ -61,19 +87,5 @@ public abstract class OrchidGenerator extends Prioritized {
      * @param pages the pages to render
      */
     public abstract void startGeneration(List<? extends OrchidPage> pages);
-
-    /**
-     * Return the name of the OrchidGenerator. The index created by this OrchidGenerator is scoped under this name.
-     *
-     * @return this generator's name
-     */
-    public abstract String getKey();
-
-    /**
-     * Return a description of this OrchidGenerator, which is displayed when listing available Generators.
-     *
-     * @return this generator's description
-     */
-    public abstract String getDescription();
 
 }

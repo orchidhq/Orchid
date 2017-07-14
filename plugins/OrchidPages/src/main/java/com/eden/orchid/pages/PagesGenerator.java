@@ -1,9 +1,9 @@
 package com.eden.orchid.pages;
 
 
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -16,23 +16,14 @@ import java.util.List;
 @Singleton
 public class PagesGenerator extends OrchidGenerator {
 
-    private OrchidResources resources;
-
     @Inject
-    public PagesGenerator(OrchidContext context, OrchidResources resources) {
-        super(context);
-        this.resources = resources;
-        this.priority = 700;
-    }
-
-    @Override
-    public String getKey() {
-        return "pages";
+    public PagesGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+        super(700, "pages", context, resources, renderer);
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return "";
     }
 
     @Override
@@ -41,20 +32,11 @@ public class PagesGenerator extends OrchidGenerator {
         List<StaticPage> pages = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
-            if(!EdenUtils.isEmpty(entry.queryEmbeddedData("title"))) {
-                entry.getReference().setTitle(entry.queryEmbeddedData("title").toString());
-            }
-            else {
-                entry.getReference().setTitle(entry.getReference().getFileName());
-            }
-
             if(entry.queryEmbeddedData("root") != null) {
                 if(Boolean.parseBoolean(entry.queryEmbeddedData("root").toString())) {
                     entry.getReference().stripFromPath("pages");
                 }
             }
-
-            entry.getReference().setUsePrettyUrl(true);
 
             StaticPage page = new StaticPage(entry);
             pages.add(page);
@@ -65,6 +47,11 @@ public class PagesGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream().forEach(OrchidPage::renderTemplate);
+        try {
+            pages.forEach(renderer::renderTemplate);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

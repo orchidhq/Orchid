@@ -3,7 +3,7 @@
 <head>
     {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
-    {{ theme.styles }}
+    {{ page.theme.styles }}
 </head>
 <body>
 
@@ -47,7 +47,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
 
-{{ theme.scripts }}
+{{ page.theme.scripts }}
 
 <script>
     $(function () {

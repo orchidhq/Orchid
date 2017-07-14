@@ -25,7 +25,6 @@ import com.eden.orchid.impl.indexing.OrchidExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.google.inject.Injector;
-import lombok.Data;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,7 +37,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-@Data
 @Singleton
 public final class OrchidContextImpl implements OrchidContext {
 
@@ -149,24 +147,12 @@ public final class OrchidContextImpl implements OrchidContext {
             if(data[0] instanceof OrchidPage) {
                 OrchidPage page = (OrchidPage) data[0];
                 siteData.put("page", page);
-
-                if(!EdenUtils.isEmpty(page.getType()) && !page.getType().equalsIgnoreCase("page")) {
-                    siteData.put(page.getType(), page);
-                }
-
-                Map<String, OrchidComponent> pageComponents = page.getComponents();
-
-                for (Map.Entry<String, OrchidComponent> componentEntry : pageComponents.entrySet()) {
-                    siteData.put(componentEntry.getKey(), componentEntry.getValue());
-                }
+                siteData.put(page.getKey(), page);
             }
             else if(data[0] instanceof OrchidComponent) {
                 OrchidComponent component = (OrchidComponent) data[0];
                 siteData.put("component", component);
-
-                if(!EdenUtils.isEmpty(component.getAlias()) && !component.getAlias().equalsIgnoreCase("component")) {
-                    siteData.put(component.getAlias(), component);
-                }
+                siteData.put(component.getKey(), component);
             }
             else if(data[0] instanceof JSONObject) {
                 JSONObject jsonObject = (JSONObject) data[0];
@@ -194,13 +180,8 @@ public final class OrchidContextImpl implements OrchidContext {
             }
         }
 
-        siteData.put("root", root);
-        siteData.put("theme", getDefaultTheme());
         siteData.put("index", getIndex());
-        siteData.put("site", this);
         siteData.put("options", optionsData.toMap());
-        siteData.put("config", configData.toMap());
-        siteData.put("flags", flags.getData().toMap());
 
         return siteData;
     }
@@ -236,7 +217,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
     @Override
     public Theme getTheme() {
-        return (themeStack.size() > 0) ? themeStack.peek() : this.defaultTheme;
+        return (themeStack.size() > 0) ? themeStack.peek() : getDefaultTheme();
     }
 
     @Override
@@ -248,11 +229,6 @@ public final class OrchidContextImpl implements OrchidContext {
     public void popTheme() {
         themeStack.pop();
     }
-
-
-
-
-
 
     public OrchidCompiler compilerFor(String extension) {
         return compilers
@@ -300,5 +276,79 @@ public final class OrchidContextImpl implements OrchidContext {
         OrchidCompiler compiler = compilerFor(extension);
 
         return (compiler != null) ? compiler.getOutputExtension() : extension;
+    }
+
+
+    @Override
+    public Injector getInjector() {
+        return injector;
+    }
+
+    @Override
+    public JSONObject getRoot() {
+        return root;
+    }
+
+    public JSONObject getOptionsData() {
+        return optionsData;
+    }
+
+    public JSONObject getConfigData() {
+        return configData;
+    }
+
+    @Override
+    public Theme getDefaultTheme() {
+        return defaultTheme;
+    }
+
+    public Stack<Theme> getThemeStack() {
+        return themeStack;
+    }
+
+    public OrchidTasks getOrchidTasks() {
+        return orchidTasks;
+    }
+
+    public OrchidFlags getFlags() {
+        return flags;
+    }
+
+    public OrchidOptions getOptions() {
+        return options;
+    }
+
+    public OrchidGenerators getGenerators() {
+        return generators;
+    }
+
+    @Override
+    public OrchidResources getResources() {
+        return resources;
+    }
+
+    public EventService getEventService() {
+        return eventService;
+    }
+
+    @Override
+    public FilterService getFilterService() {
+        return filterService;
+    }
+
+    public Set<OrchidCompiler> getCompilers() {
+        return compilers;
+    }
+
+    public Set<OrchidParser> getParsers() {
+        return parsers;
+    }
+
+    public OrchidPrecompiler getPrecompiler() {
+        return precompiler;
+    }
+
+    public Set<ContentFilter> getFilters() {
+        return filters;
     }
 }

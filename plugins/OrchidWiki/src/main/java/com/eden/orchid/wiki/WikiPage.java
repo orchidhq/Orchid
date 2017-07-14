@@ -7,8 +7,8 @@ public class WikiPage extends OrchidPage {
 
     private int order;
 
-    public WikiPage(OrchidResource resource) {
-        super(resource);
+    public WikiPage(OrchidResource resource, String title) {
+        super(resource, "wiki", title);
     }
 
     public int getOrder() {

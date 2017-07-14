@@ -2,9 +2,10 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,18 +15,9 @@ import java.util.List;
 @Singleton
 public class AssetsGenerator extends OrchidGenerator {
 
-    private OrchidResources resources;
-
     @Inject
-    public AssetsGenerator(OrchidContext context, OrchidResources resources) {
-        super(context);
-        this.resources = resources;
-        this.priority = 1000;
-    }
-
-    @Override
-    public String getKey() {
-        return "assets";
+    public AssetsGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+        super(1000, "assets", context, resources, renderer);
     }
 
     @Override
@@ -39,7 +31,7 @@ public class AssetsGenerator extends OrchidGenerator {
         List<OrchidPage> assets = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
-            OrchidPage page = new OrchidPage(entry);
+            OrchidPage page = new OrchidPage(entry, "asset");
             page.getReference().setUsePrettyUrl(false);
             assets.add(page);
         }
@@ -49,8 +41,7 @@ public class AssetsGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream()
-             .forEach(OrchidPage::renderRaw);
+        pages.forEach(renderer::renderRaw);
     }
 }
 

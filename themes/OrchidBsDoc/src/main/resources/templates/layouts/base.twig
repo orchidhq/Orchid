@@ -3,7 +3,7 @@
 <head>
     {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
-    {{ theme.styles }}
+    {{ page.theme.styles }}
 </head>
 <body>
 
@@ -46,7 +46,7 @@
 
 {% endblock %}
 
-{{ theme.scripts }}
+{{ page.theme.scripts }}
 
 <script>
     $(function () {

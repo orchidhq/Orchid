@@ -1,6 +1,7 @@
-package com.eden.orchid.impl.options;
+package com.eden.orchid.api.options.extractors;
 
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

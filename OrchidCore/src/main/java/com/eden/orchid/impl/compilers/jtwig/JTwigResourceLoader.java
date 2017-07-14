@@ -1,7 +1,7 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.common.base.Optional;
 import com.google.inject.Provider;
 import org.apache.commons.io.IOUtils;
@@ -38,10 +38,8 @@ public class JTwigResourceLoader extends TypedResourceLoader {
 
         @Override
         public InputStream load(String path) {
-            if(path.trim().startsWith("[") && path.trim().endsWith("]")) {
-                String[] templates = StringUtils.strip(path, "[]").split(",");
-
-                for(String template : templates) {
+            if(isMultiPath(path)) {
+                for(String template : getMultiPaths(path)) {
                     if(templateExists(template)) {
                         return loadTemplate(template);
                     }
@@ -56,10 +54,8 @@ public class JTwigResourceLoader extends TypedResourceLoader {
 
         @Override
         public boolean exists(String path) {
-            if(path.trim().startsWith("[") && path.trim().endsWith("]")) {
-                String[] templates = StringUtils.strip(path, "[]").split(",");
-
-                for(String template : templates) {
+            if(isMultiPath(path)) {
+                for(String template : getMultiPaths(path)) {
                     if(templateExists(template)) {
                         return true;
                     }
@@ -111,6 +107,14 @@ public class JTwigResourceLoader extends TypedResourceLoader {
             else {
                 return null;
             }
+        }
+
+        private boolean isMultiPath(String path) {
+            return (path.trim().startsWith("[") && path.trim().endsWith("]"));
+        }
+
+        private String[] getMultiPaths(String path) {
+            return StringUtils.strip(path, "[]").split(",");
         }
     }
 }

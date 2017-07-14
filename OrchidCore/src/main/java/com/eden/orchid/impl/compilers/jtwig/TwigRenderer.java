@@ -19,17 +19,12 @@ public class TwigRenderer extends OrchidRenderer {
     private final String destination;
 
     @Inject
-    public TwigRenderer(
-            OrchidContext context,
-            @Named("d") String destination,
-            OrchidResources resources,
-            TemplateResolutionStrategy strategy) {
+    public TwigRenderer(@Named("d") String destination, OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {
         super(context, resources, strategy);
         this.destination = destination;
     }
 
     protected boolean render(OrchidPage page, String extension, String content) {
-        page.prepareComponents();
         content = "" + context.compile(extension, content, page);
         String outputPath   = OrchidUtils.normalizePath(page.getReference().getPath());
         String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());

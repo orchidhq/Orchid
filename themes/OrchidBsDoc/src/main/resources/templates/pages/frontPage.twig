@@ -1,4 +1,4 @@
-{% extends page.getLayout() %}
+{% extends page | template('layout') %}
 
 {% block jumbotron %}
     <h1 class="home-title">{{ options.about.name }}</h1>
