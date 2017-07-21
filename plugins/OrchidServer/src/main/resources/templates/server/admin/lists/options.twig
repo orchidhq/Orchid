@@ -18,7 +18,7 @@
             <tbody>
             {% for option in options %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(option, true) }}">{{ site.getClassname(option, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ class(option).name }}">{{ class(option).simpleName }}</a></td>
                     <td>{{ option.priority }}</td>
                     <td><code>{{ option.flag }}</code></td>
                     <td>{{ option.optionLength }}</td>
@@ -28,4 +28,12 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 {% endblock %}

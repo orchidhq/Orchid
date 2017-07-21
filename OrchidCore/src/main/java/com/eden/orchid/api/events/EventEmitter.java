@@ -61,7 +61,7 @@ public final class EventEmitter {
         this.eventListeners.putIfAbsent(event, new HashSet<>());
 
         eventsInProgress.push(event);
-        Clog.d("Broadcasting event: '#{$1}' (#{$2} args)", new Object[]{event, (args != null) ? args.length : 0});
+        Clog.d("Broadcasting event: '#{$1}' (#{$2} args)", event, (args != null) ? args.length : 0);
         for (EdenPair<Method, Object> callback : this.eventListeners.get(event)) {
             callMethod(false, event, callback.first, callback.second, args);
         }

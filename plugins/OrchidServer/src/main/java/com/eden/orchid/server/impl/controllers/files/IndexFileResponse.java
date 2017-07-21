@@ -100,7 +100,7 @@ public class IndexFileResponse {
             }
         }
 
-        Clog.i("Rendering Index: #{$1}", new Object[]{targetPath});
+        Clog.i("Rendering Index: #{$1}", targetPath);
         return NanoHTTPD.newFixedLengthResponse(content);
     }
 }

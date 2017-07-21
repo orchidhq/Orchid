@@ -15,11 +15,19 @@
             <tbody>
             {% for resourceSource in resourceSources %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(resourceSource, true) }}">{{ site.getClassname(resourceSource, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ class(resourceSource).name }}">{{ class(resourceSource).simpleName }}</a></td>
                     <td>{{ resourceSource.priority }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 {% endblock %}

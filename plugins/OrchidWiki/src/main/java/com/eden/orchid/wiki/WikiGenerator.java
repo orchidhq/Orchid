@@ -1,8 +1,13 @@
 package com.eden.orchid.wiki;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenPair;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -10,7 +15,6 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,14 +24,21 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
-public class WikiGenerator extends OrchidGenerator {
+public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
-    public static List<JSONObject> terms = new ArrayList<>();
+    public static Map<String, EdenPair<WikiSummaryPage, List<WikiPage>>> sections;
 
-    private String wikiBaseDir = "wiki/";
+    @Option("baseDir")
+    @StringDefault("wiki")
+    public String wikiBaseDir;
+
+    @Option("sections")
+    public String[] sectionNames;
 
     @Inject
     public WikiGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
@@ -41,13 +52,30 @@ public class WikiGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        ArrayList<OrchidPage> wiki = new ArrayList<>();
-        WikiGenerator.terms = new ArrayList<>();
+        sections = new HashMap<>();
 
-        setupSummary(wiki);
-        setupGlossary(wiki);
+        if (EdenUtils.isEmpty(sectionNames)) {
+            EdenPair<WikiSummaryPage, List<WikiPage>> wiki = getWikiPages(null);
+            if (wiki != null) {
+                sections.put(null, wiki);
+            }
+        }
+        else {
+            for (String section : sectionNames) {
+                EdenPair<WikiSummaryPage, List<WikiPage>> wiki = getWikiPages(section);
+                if (wiki != null) {
+                    sections.put(section, wiki);
+                }
+            }
+        }
 
-        return wiki;
+        List<OrchidPage> allPages = new ArrayList<>();
+        for (String key : sections.keySet()) {
+            allPages.add(sections.get(key).first);
+            allPages.addAll(sections.get(key).second);
+        }
+
+        return allPages;
     }
 
     @Override
@@ -55,47 +83,20 @@ public class WikiGenerator extends OrchidGenerator {
         pages.forEach(renderer::renderTemplate);
     }
 
-    private void setupGlossary(ArrayList<OrchidPage> wiki) {
-        OrchidResource glossary = resources.getLocalResourceEntry(wikiBaseDir + "GLOSSARY.md");
+    private EdenPair<WikiSummaryPage, List<WikiPage>> getWikiPages(String section) {
+        ArrayList<WikiPage> wiki = new ArrayList<>();
 
-        if (glossary == null) {
-            return;
-        }
+        String sectionBaseDir = (!EdenUtils.isEmpty(section)) ?
+                OrchidUtils.normalizePath(wikiBaseDir) + "/" + OrchidUtils.normalizePath(section) + "/" :
+                OrchidUtils.normalizePath(wikiBaseDir) + "/";
 
-        String content = context.compile(glossary.getReference().getExtension(), glossary.getContent());
-        Document doc = Jsoup.parse(content);
+        OrchidResource summary = resources.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md");
 
-        for (Element h2 : doc.select("h2")) {
-            String id = h2.text().replaceAll("\\s+", "_").toLowerCase();
-            String path = wikiBaseDir + "glossary/#" + id;
-            String url = OrchidUtils.applyBaseUrl(context, path);
-
-            Element link = new Element("a");
-            link.attr("href", url);
-            link.text(h2.text());
-
-            h2.attr("id", id);
-            h2.empty();
-            h2.appendChild(link);
-
-            JSONObject index = new JSONObject();
-            index.put("name", h2.text());
-            index.put("url", url);
-            terms.add(index);
-        }
-
-        String safe = doc.toString();
-        glossary = new StringResource(context, wikiBaseDir + "glossary.md", safe);
-        WikiPage page = new WikiPage(glossary, "Glossary");
-        page.getReference().setUsePrettyUrl(true);
-        wiki.add(page);
-    }
-
-    private void setupSummary(ArrayList<OrchidPage> wiki) {
-        OrchidResource summary = resources.getLocalResourceEntry(wikiBaseDir + "SUMMARY.md");
+        Clog.i("Wiki Base Dir: {}. Section: {}. Section Base Dir: {}", wikiBaseDir, section, sectionBaseDir);
 
         if (summary == null) {
-            return;
+            Clog.w("Could not find wiki summary page in '#{$1}'", sectionBaseDir);
+            return null;
         }
 
         String content = context.compile(summary.getReference().getExtension(), summary.getContent());
@@ -108,13 +109,13 @@ public class WikiGenerator extends OrchidGenerator {
         int i = 1;
 
         for (Element a : links) {
-            String file = wikiBaseDir + a.attr("href");
-            String path = wikiBaseDir + FilenameUtils.removeExtension(a.attr("href"));
+            String file = sectionBaseDir + a.attr("href");
+            String path = sectionBaseDir + FilenameUtils.removeExtension(a.attr("href"));
 
             OrchidResource resource = resources.getLocalResourceEntry(file);
 
             if (resource == null) {
-                Clog.w("Could not find wiki resource page at '#{$1}'", new Object[]{file});
+                Clog.w("Could not find wiki resource page at '#{$1}'", file);
                 resource = new StringResource(context, path + File.separator + "index.md", a.text());
             }
 
@@ -139,9 +140,12 @@ public class WikiGenerator extends OrchidGenerator {
         }
 
         String safe = doc.toString();
-        summary = new StringResource(context, wikiBaseDir + "summary.md", safe);
-        WikiPage page = new WikiPage(summary, "Summary");
-        page.getReference().setUsePrettyUrl(true);
-        wiki.add(page);
+        summary = new StringResource(context, sectionBaseDir + "summary.md", safe);
+
+        String sectionTitle = (!EdenUtils.isEmpty(section)) ? section : "Wiki";
+        WikiSummaryPage summaryPage = new WikiSummaryPage(summary, OrchidUtils.camelcaseToTitleCase(sectionTitle));
+        summaryPage.getReference().setUsePrettyUrl(true);
+
+        return new EdenPair<>(summaryPage, wiki);
     }
 }

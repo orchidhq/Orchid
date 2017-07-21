@@ -27,8 +27,15 @@ changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/met
 posts:
   permalink: ':year/:monthName/:title'
 
+wiki:
+  sections:
+    - 'userManual'
+    - 'reference'
+
 menu:
+  - type: 'wikiSections'
   - type: 'wiki'
+    section: 'reference'
   - type: 'page'
     page: 'All Orchid Projects'
   - type: 'postCategories'

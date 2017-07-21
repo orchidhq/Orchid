@@ -16,7 +16,7 @@
             <tbody>
             {% for theme in themes %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(theme, true) }}">{{ site.getClassname(theme, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ class(theme).name }}">{{ class(theme).simpleName }}</a></td>
                     <td>{{ theme.priority }}</td>
                     <td><code>{{ theme.name }}</code></td>
                 </tr>
@@ -24,4 +24,12 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 {% endblock %}

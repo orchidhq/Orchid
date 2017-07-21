@@ -16,13 +16,21 @@
             <tbody>
             {% for generator in generators %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(generator, true) }}">{{ site.getClassname(generator, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ class(generator).name }}">{{ class(generator).simpleName }}</a></td>
                     <td>{{ generator.priority }}</td>
-                    <td><code>{{ generator.name }}</code></td>
+                    <td><code>{{ generator.key }}</code></td>
                     <td>{{ generator.description }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 {% endblock %}

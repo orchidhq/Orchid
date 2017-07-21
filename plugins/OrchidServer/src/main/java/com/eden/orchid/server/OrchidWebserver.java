@@ -113,7 +113,7 @@ public class OrchidWebserver extends NanoHTTPD {
     }
 
     private void validateControllerMethod(java.lang.reflect.Method method, String path) {
-        Clog.d("Registering path: '#{$1}", new Object[]{path});
+        Clog.d("Registering path: '#{$1}", path);
 
         if(EdenUtils.isEmpty(path) || !path.startsWith("/")) {
             throw new IllegalArgumentException("OrchidController's path must not be empty and must start with a slash");

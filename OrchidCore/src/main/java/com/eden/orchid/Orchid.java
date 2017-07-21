@@ -134,7 +134,7 @@ public final class Orchid {
 
     public boolean start(List<AbstractModule> modules, Class<? extends Theme> themeClass, String task) {
         for (AbstractModule module : modules) {
-            Clog.i("Registering module of type '#{$1}'", new Object[]{module.getClass().getName()});
+            Clog.i("Registering module of type '#{$1}'", module.getClass().getName());
         }
 
         modules.add(OrchidFlags.getInstance().parseFlags(this.flags));

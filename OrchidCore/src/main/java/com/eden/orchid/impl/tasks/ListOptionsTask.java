@@ -36,7 +36,8 @@ public class ListOptionsTask extends OrchidTask {
                 Clog.logger(OrchidTasks.loggerKey, "" +
                                 "#{ $0 | fg('magenta') }[#{$2}]#{$0 |reset}" +
                                 "#{ $0 | fg('yellow') }[#{$3}]#{$0 |reset}",
-                        new Object[]{"-" + option.getFlag(), option.optionLength() + " parameters"});
+                        "-" + option.getFlag(),
+                        option.optionLength() + " parameters");
 
                 for (String line : OrchidUtils.wrapString(option.getDescription(), 80)) {
                     Clog.logger(OrchidTasks.loggerKey, "    " + line);

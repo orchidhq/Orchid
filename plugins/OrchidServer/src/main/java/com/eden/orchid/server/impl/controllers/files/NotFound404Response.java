@@ -35,7 +35,7 @@ public class NotFound404Response {
             content = context.compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
         }
 
-        Clog.i("Rendering 404: #{$1}", new Object[]{targetPath});
+        Clog.i("Rendering 404: #{$1}", targetPath);
         return NanoHTTPD.newFixedLengthResponse(content);
     }
 }

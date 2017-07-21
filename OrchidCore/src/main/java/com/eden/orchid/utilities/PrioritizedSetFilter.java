@@ -47,7 +47,7 @@ public class PrioritizedSetFilter<T extends Prioritized> {
                 JSONArray allowedItems = filterQuery.getJSONArray(ALLOWED_KEY);
 
                 if (allowedItems.length() > 0) {
-                    Clog.v("PrioritizedSetFilter '#{$1}' applying filters to whitelist items", new Object[]{key});
+                    Clog.v("PrioritizedSetFilter '#{$1}' applying filters to whitelist items", key);
 
                     filter = filter.filter(t -> {
                         boolean inAllowedItems = false;
@@ -70,7 +70,7 @@ public class PrioritizedSetFilter<T extends Prioritized> {
                 JSONArray disabledItems = filterQuery.getJSONArray(DISABLED_KEY);
 
                 if (disabledItems.length() > 0) {
-                    Clog.v("PrioritizedSetFilter '#{$1}' applying filters to blacklist items", new Object[]{key});
+                    Clog.v("PrioritizedSetFilter '#{$1}' applying filters to blacklist items", key);
                     filter = filter.filter(t -> {
                         boolean inDisallowedItems = false;
 

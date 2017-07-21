@@ -1,6 +1,5 @@
 package com.eden.orchid.posts;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -196,8 +195,6 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     private List<PostArchivePage> buildArchive(String category, List<PostPage> posts) {
         List<PostArchivePage> archivePages = new ArrayList<>();
-
-        Clog.v("Archive Page Size: " + pagination.pageSize);
 
         int pages = (int) Math.ceil(posts.size() / pagination.pageSize);
 

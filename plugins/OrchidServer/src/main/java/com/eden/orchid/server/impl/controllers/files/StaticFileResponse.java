@@ -35,11 +35,9 @@ public class StaticFileResponse {
 
     public NanoHTTPD.Response getResponse(File targetFile, String targetPath) {
         //TODO: attempt to use NanoHttpd facilities for guessing MIME type
-        String mimeType = mimeTypes.containsKey(FilenameUtils.getExtension(targetFile.getName()))
-                ? mimeTypes.get(FilenameUtils.getExtension(targetFile.getName()))
-                : "text/plain";
+        String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
-        Clog.i("Rendering File: #{$1}", new Object[]{targetPath});
+        Clog.i("Rendering File: #{$1}", targetPath);
         try {
             return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, new FileInputStream(targetFile), targetFile.length());
         }

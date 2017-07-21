@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public final class OrchidUtils {
     public static String applyBaseUrl(OrchidContext context, String url) {
@@ -130,7 +132,6 @@ public final class OrchidUtils {
         return (el != null) && (el.getElement() != null) && (el.getElement() instanceof String);
     }
 
-
     /**
      * Replaces a string's OS-dependant file path-separator characters (File.separator) with '/', and also strips
      * any slashes from the beginning and end of the string. This allows us to do path operations using the standard
@@ -153,5 +154,12 @@ public final class OrchidUtils {
         }
 
         return normalizedPath;
+    }
+
+    public static String camelcaseToTitleCase(String camelcase) {
+        return Arrays
+                .stream(StringUtils.splitByCharacterTypeCamelCase(camelcase))
+                .map(StringUtils::capitalize)
+                .collect(Collectors.joining(" "));
     }
 }

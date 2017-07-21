@@ -81,7 +81,7 @@ public class ServerUtils {
                 String key = routePathPieces[i].substring(1);
                 String value = calledPathPieces[i];
 
-                Clog.v("Found path param: #{$1} = #{$2}", new Object[]{key, value});
+                Clog.v("Found path param: #{$1} = #{$2}", key, value);
 
                 pathParams.put(key, value);
             }
@@ -89,7 +89,7 @@ public class ServerUtils {
                 String key = routePathPieces[i].substring(1, routePathPieces[i].length() - 2);
                 String value = calledPathPieces[i];
 
-                Clog.v("Found path param: #{$1} = #{$2}", new Object[]{key, value});
+                Clog.v("Found path param: #{$1} = #{$2}", key, value);
 
                 pathParams.put(key, value);
             }

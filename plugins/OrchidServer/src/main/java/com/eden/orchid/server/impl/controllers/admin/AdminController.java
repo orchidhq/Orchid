@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class AdminController implements OrchidController {
@@ -61,7 +63,7 @@ public class AdminController implements OrchidController {
         Clog.v("calling /admin/lists/:name");
         OrchidResource resource = resources.getResourceEntry("templates/server/admin/lists/" + name + ".twig");
         if(resource != null) {
-            JSONObject data = new JSONObject();
+            Map<String, Object> data = new HashMap<>();
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
 
@@ -76,7 +78,7 @@ public class AdminController implements OrchidController {
         switch(name.toLowerCase()) {
             case "compilers":       return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidCompiler.class));
             case "generators":      return new ObservableTreeSet<>(OrchidUtils.resolveSet(context, OrchidGenerator.class));
-            case "options":         return OrchidUtils.resolveSet(context, OrchidFlag.class);
+            case "options":         return OrchidFlags.getInstance().getFlags();
             case "resourceSources":
                 ObservableTreeSet<OrchidResourceSource> toReturn = new ObservableTreeSet<>();
                 toReturn.addAll(OrchidUtils.resolveSet(context, LocalResourceSource.class));

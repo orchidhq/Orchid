@@ -46,7 +46,7 @@ public class ListCompilersTask extends OrchidTask {
                     "#{ $0 | fg('cyan') }   [#{$1}]#{$0 |reset}" +
                             "#{ $0 | fg('magenta') }[#{$2 | join(', ')}]#{$0 |reset}" +
                             "#{ $0 | fg('yellow') }[#{$3}]#{$0 |reset}",
-                    new Object[]{compiler.getPriority(), compiler.getSourceExtensions(), compiler.getOutputExtension()});
+                    compiler.getPriority(), compiler.getSourceExtensions(), compiler.getOutputExtension());
 
         }
     }

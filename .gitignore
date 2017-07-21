@@ -33,3 +33,5 @@ proguard/
 
 # Google Analytics
 /**/templates/meta.twig
+
+OrchidCore/src/orchidDocs/resources/generatePosts\.py

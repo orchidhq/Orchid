@@ -16,7 +16,7 @@
             <tbody>
             {% for compiler in compilers %}
                 <tr>
-                    <td><a href="#" data-toggle="tooltip" title="{{ site.getClassname(compiler, true) }}">{{ site.getClassname(compiler, false) }}</a></td>
+                    <td><a href="#" data-toggle="tooltip" title="{{ class(compiler).name }}">{{ class(compiler).simpleName }}</a></td>
                     <td>{{ compiler.priority }}</td>
                     <td><code>{{ compiler.sourceExtensions | join('</code>, <code>') }}</code></td>
                     <td><code>{{ compiler.outputExtension }}</code></td>

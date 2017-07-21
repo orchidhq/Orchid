@@ -1,15 +1,18 @@
 package com.eden.orchid.wiki.menu;
 
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.theme.menus.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.wiki.WikiGenerator;
 import com.eden.orchid.wiki.WikiPage;
+import com.eden.orchid.wiki.WikiSummaryPage;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +29,17 @@ public class WikiPagesMenuItemType implements OrchidMenuItemType {
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
-        OrchidIndex wikiIndex = context.getIndex().get("wiki");
+        Map<String, EdenPair<WikiSummaryPage, List<WikiPage>>> sections = new HashMap<>();
 
-        Map<String, OrchidIndex> wikiSections = wikiIndex.getChildren();
+        if(menuItemJson.has("section") && WikiGenerator.sections.containsKey(menuItemJson.getString("section"))) {
+            sections.put(menuItemJson.getString("section"), WikiGenerator.sections.get(menuItemJson.getString("section")));
+        }
+        else {
+            sections.putAll(WikiGenerator.sections);
+        }
 
-        for (Map.Entry<String, OrchidIndex> section : wikiSections.entrySet()) {
-            List<OrchidPage> sectionPages = section.getValue().getAllPages();
+        for (Map.Entry<String, EdenPair<WikiSummaryPage, List<WikiPage>>> section : sections.entrySet()) {
+            List<OrchidPage> sectionPages = new ArrayList<>(section.getValue().second);
 
             sectionPages.sort((OrchidPage o1, OrchidPage o2) -> {
                 if (o1 instanceof WikiPage && o2 instanceof WikiPage) {
@@ -46,9 +54,8 @@ public class WikiPagesMenuItemType implements OrchidMenuItemType {
                 menuItems.add(new OrchidMenuItem(context, sectionPages.get(0)));
             }
             else {
-                menuItems.add(new OrchidMenuItem(context, section.getKey(), sectionPages));
+                menuItems.add(new OrchidMenuItem(context, section.getValue().first.getTitle(), sectionPages));
             }
-
         }
 
         menuItems.sort((OrchidMenuItem o1, OrchidMenuItem o2) -> {
@@ -62,7 +69,6 @@ public class WikiPagesMenuItemType implements OrchidMenuItemType {
                 return 0;
             }
         });
-
 
         return menuItems;
     }

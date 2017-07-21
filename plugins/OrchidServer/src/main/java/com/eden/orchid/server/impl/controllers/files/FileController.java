@@ -46,7 +46,7 @@ public class FileController {
             this.rootFolder = new File(this.destination);
         }
 
-        Clog.v("Target path: '#{$1}'", new Object[]{targetPath});
+        Clog.v("Target path: '#{$1}'", targetPath);
         if(targetPath.equalsIgnoreCase("favicon.ico")) {
             Clog.v("Attempting to locate Favicon");
             return faviconResponse.getResponse(targetPath);

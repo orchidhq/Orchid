@@ -64,6 +64,11 @@
         #form-wrapper .event {
             background-color: #E8E8F0;
         }
+
+        .tooltip-inner {
+            max-width: 350px; /* set this to your maximum fitting width */
+            width: inherit; /* will take up least amount of space */
+        }
     </style>
 </head>
 
@@ -104,10 +109,11 @@
 
 <div class="container">
     <div class="starter-template">
-        {% block main %}
+        <div class="text-left">
+            {% block main %}
 
-        {% endblock %}
-
+            {% endblock %}
+        </div>
     </div>
 </div>
 {{ page.theme.scripts }}

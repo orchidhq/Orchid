@@ -25,7 +25,7 @@ public class FilterService extends BaseBroadcastService<Filter> {
 
         Object filteredArg = arg;
 
-        Clog.d("Applying Filter: '#{$1}' (#{$2} args)", new Object[]{event, arg.getClass().getName()});
+        Clog.d("Applying Filter: '#{$1}' (#{$2} args)", event, arg.getClass().getName());
         for (EdenPair<Method, Object> callback : this.listeners.get(event)) {
             filteredArg = callMethod(callback.first, callback.second, arg);
         }

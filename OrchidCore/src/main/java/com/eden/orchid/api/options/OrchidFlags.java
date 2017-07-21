@@ -53,7 +53,7 @@ public final class OrchidFlags {
 
         if (missingRequiredFlags.size() > 0) {
             for (OrchidFlag flag : missingRequiredFlags) {
-                Clog.e("Missing required flag: -#{$1} - #{$2}", new Object[]{flag.getFlag(), flag.getDescription()});
+                Clog.e("Missing required flag: -#{$1} - #{$2}", flag.getFlag(), flag.getDescription());
             }
             throw new RuntimeException("Some required flags are missing, cannot continue.");
         }
@@ -102,7 +102,7 @@ public final class OrchidFlags {
                 return true;
             }
 
-            Clog.e("'-#{$1}' flag should be of length #{$2}: was given #{$3}", new Object[]{flag.getFlag(), flag.optionLength(), options.length});
+            Clog.e("'-#{$1}' flag should be of length #{$2}: was given #{$3}", flag.getFlag(), flag.optionLength(), options.length);
         }
         return false;
     }

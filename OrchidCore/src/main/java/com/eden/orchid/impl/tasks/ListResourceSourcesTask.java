@@ -57,7 +57,7 @@ public class ListResourceSourcesTask extends OrchidTask {
                 message += "#{ $0 | fg('magenta') }[#{$2}]#{$0 |reset}";
             }
 
-            Clog.logger(OrchidTasks.loggerKey, message, new Object[]{source.getPriority(), source.getClass().getName()});
+            Clog.logger(OrchidTasks.loggerKey, message, source.getPriority(), source.getClass().getName());
         }
     }
 }

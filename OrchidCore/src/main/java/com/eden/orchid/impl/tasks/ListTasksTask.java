@@ -37,7 +37,7 @@ public class ListTasksTask extends OrchidTask {
                 "\n------------------------------------------------------------------------------------");
 
         for(OrchidTask task : OrchidUtils.resolveSet(context, OrchidTask.class)) {
-            Clog.logger(OrchidTasks.loggerKey, "#{ $0 | fg('magenta') }[#{$1}]#{$0 |reset}", new Object[]{ task.getName() });
+            Clog.logger(OrchidTasks.loggerKey, "#{ $0 | fg('magenta') }[#{$1}]#{$0 |reset}",  task.getName() );
 
             for(String line : OrchidUtils.wrapString(task.getDescription(), 80)) {
                 Clog.logger(OrchidTasks.loggerKey, "    " + line);

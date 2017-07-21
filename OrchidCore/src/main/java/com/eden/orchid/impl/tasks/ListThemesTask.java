@@ -61,7 +61,7 @@ public class ListThemesTask extends OrchidTask {
                 }
             }
 
-            Clog.logger(OrchidTasks.loggerKey, message, new Object[]{theme.getPriority(), theme.getClass().getName(), theme.getClass().getSuperclass().getSimpleName()});
+            Clog.logger(OrchidTasks.loggerKey, message, theme.getPriority(), theme.getClass().getName(), theme.getClass().getSuperclass().getSimpleName());
         }
     }
 }
