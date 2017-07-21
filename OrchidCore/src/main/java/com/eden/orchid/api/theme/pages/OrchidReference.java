@@ -292,7 +292,14 @@ public final class OrchidReference {
         try {
             URL parsedUrl = new URL(url);
             OrchidReference newReference = new OrchidReference(context);
-            newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
+
+            if(parsedUrl.getPort() == 80) {
+                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
+            }
+            else {
+                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() + ":" + parsedUrl.getPort();
+            }
+
             newReference.path = parsedUrl.getPath();
             newReference.fileName = "";
             newReference.title = title;

@@ -33,13 +33,14 @@ wiki:
     - 'reference'
 
 menu:
-  - type: 'wikiSections'
-  - type: 'wiki'
-    section: 'reference'
+  - type: 'link'
+    title: 'Home'
+    url: '/'
   - type: 'page'
     page: 'All Orchid Projects'
-  - type: 'postCategories'
+  - type: 'wikiSections'
   - type: 'latestPosts'
     count: 5
+  - type: 'postCategories'
   - type: 'javadocPackages'
   - type: 'javadocClasses'

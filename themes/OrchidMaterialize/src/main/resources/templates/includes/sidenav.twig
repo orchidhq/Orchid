@@ -13,8 +13,8 @@
     {% set changelogVersions = index.getGeneratorPages('changelog') %}
 
     <li>
-        <a class='dropdown-button versions-dropdown btn' href='#'
-           data-activates='versionDropdown'>Currently: {{ flags.v }}</a>
+        <a id="dropdown-button" class='dropdown-button versions-dropdown btn' href='#'
+           data-activates='versionDropdown'>Currently: {{ theme.v }}</a>
         <ul id='versionDropdown' class='dropdown-content'>
             {% if changelogVersions and changelogVersions.size() > 0 %}
                 {% for version in changelogVersions %}
@@ -24,38 +24,38 @@
         </ul>
     </li>
 
-    {#{% if options.changelogVersionSource %}#}
-        {#<script>#}
-            {#document.addEventListener('DOMContentLoaded', function () {#}
-                {#var request = new XMLHttpRequest();#}
-                {#request.open('GET', '{{ options.changelogVersionSource }}', true);#}
+    {% if options.changelogVersionSource %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var request = new XMLHttpRequest();
+                request.open('GET', '{{ options.changelogVersionSource }}', true);
 
-                {#request.onload = function () {#}
-                    {#if (request.status >= 200 && request.status < 400) {#}
-                        {#var versions = JSON.parse(request.responseText).childrenPages.versions.childrenPages;#}
+                request.onload = function () {
+                    if (request.status >= 200 && request.status < 400) {
+                        var versions = JSON.parse(request.responseText).childrenPages.versions.childrenPages;
 
-                        {#var dropdownVersions = document.getElementById('versionDropdown');#}
-                        {#dropdownVersions.innerHTML = '';#}
+                        var dropdownVersions = document.getElementById('versionDropdown');
+                        dropdownVersions.innerHTML = '';
 
-                        {#for (var key in versions) {#}
-                            {#if (versions.hasOwnProperty(key)) {#}
-                                {#var li = document.createElement('li');#}
-                                {#var a = document.createElement('a');#}
-                                {#var linkText = document.createTextNode(versions[key].ownKey);#}
-                                {#a.appendChild(linkText);#}
-                                {#a.href = versions[key].ownPages[0].reference.link;#}
-                                {#li.appendChild(a);#}
-                                {#dropdownVersions.appendChild(li);#}
-                            {#}#}
-                        {#}#}
+                        for (var key in versions) {
+                            if (versions.hasOwnProperty(key)) {
+                                var li = document.createElement('li');
+                                var a = document.createElement('a');
+                                var linkText = document.createTextNode(versions[key].ownKey);
+                                a.appendChild(linkText);
+                                a.href = versions[key].ownPages[0].reference.link;
+                                li.appendChild(a);
+                                dropdownVersions.appendChild(li);
+                            }
+                        }
 
-                        {#$('.dropdown-button.versions-dropdown').sideNav({});#}
-                    {#}#}
-                {#};#}
-                {#request.send();#}
-            {#}, false);#}
-        {#</script>#}
-    {#{% endif %}#}
+                        $('.dropdown-button.versions-dropdown').sideNav({});
+                    }
+                };
+                request.send();
+            }, false);
+        </script>
+    {% endif %}
 
     {% for menuItem in page.theme.menu() %}
         {% if menuItem.hasChildren() %}

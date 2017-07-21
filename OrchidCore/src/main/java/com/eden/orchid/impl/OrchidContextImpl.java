@@ -15,7 +15,6 @@ import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.OrchidOptions;
 import com.eden.orchid.api.render.ContentFilter;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
@@ -53,7 +52,6 @@ public final class OrchidContextImpl implements OrchidContext {
     private OrchidFlags flags;
     private OrchidOptions options;
     private OrchidGenerators generators;
-    private OrchidResources resources;
 
     private EventService eventService;
     private FilterService filterService;
@@ -320,11 +318,6 @@ public final class OrchidContextImpl implements OrchidContext {
 
     public OrchidGenerators getGenerators() {
         return generators;
-    }
-
-    @Override
-    public OrchidResources getResources() {
-        return resources;
     }
 
     public EventService getEventService() {

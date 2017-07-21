@@ -39,13 +39,14 @@ import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
+import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.google.inject.multibindings.Multibinder;
 
 import java.util.EventListener;
 
 public class ImplModule extends OrchidModule {
 
-    private static final Class[] optionalSets = new Class[] {
+    private static final Class[] optionalSets = new Class[]{
             EventListener.class,
             Theme.class,
             ContentFilter.class
@@ -56,7 +57,7 @@ public class ImplModule extends OrchidModule {
         bind(OrchidContext.class).to(OrchidContextImpl.class);
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
 
-        for(Class<?> defaultSet : optionalSets) {
+        for (Class<?> defaultSet : optionalSets) {
             Multibinder.newSetBinder(binder(), defaultSet);
         }
 
@@ -96,6 +97,7 @@ public class ImplModule extends OrchidModule {
 
         // Menu Items
         addToMap(OrchidMenuItemType.class, "separator", DividerMenuItem.class);
+        addToMap(OrchidMenuItemType.class, "link", LinkMenuItem.class);
 
         // OptionsExtractors
         addToSet(OptionExtractor.class,

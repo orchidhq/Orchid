@@ -6,7 +6,6 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.events.FilterService;
 import com.eden.orchid.api.indexing.OrchidIndex;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidExternalIndex;
@@ -37,8 +36,6 @@ public interface OrchidContext {
     OrchidRootInternalIndex getInternalIndex();
     OrchidExternalIndex getExternalIndex();
     OrchidCompositeIndex getCompositeIndex();
-
-    OrchidResources getResources();
 
     void broadcast(String event, Object... args);
 

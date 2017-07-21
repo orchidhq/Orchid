@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        sections = new HashMap<>();
+        sections = new LinkedHashMap<>();
 
         if (EdenUtils.isEmpty(sectionNames)) {
             EdenPair<WikiSummaryPage, List<WikiPage>> wiki = getWikiPages(null);
@@ -92,10 +92,8 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
         OrchidResource summary = resources.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md");
 
-        Clog.i("Wiki Base Dir: {}. Section: {}. Section Base Dir: {}", wikiBaseDir, section, sectionBaseDir);
-
         if (summary == null) {
-            Clog.w("Could not find wiki summary page in '#{$1}'", sectionBaseDir);
+            Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir);
             return null;
         }
 

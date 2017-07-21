@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -60,7 +60,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         // Map category names to pairs of PostPages and PostArchivePages
-        categories = new HashMap<>();
+        categories = new LinkedHashMap<>();
 
         if(EdenUtils.isEmpty(categoryNames)) {
             List<PostPage> posts = getPostsList(null);

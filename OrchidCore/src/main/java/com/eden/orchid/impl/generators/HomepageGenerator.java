@@ -7,7 +7,6 @@ import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.themes.components.LicenseComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 
 import javax.inject.Inject;
@@ -33,10 +32,7 @@ public class HomepageGenerator extends OrchidGenerator {
         OrchidPage page = new OrchidPage(resource, "frontPage");
         page.getReference().setTitle("Home");
         page.getReference().setUsePrettyUrl(false);
-
-        page.addComponent(LicenseComponent.class);
         page.addComponent(ReadmeComponent.class);
-
         pages.add(page);
         return pages;
     }
