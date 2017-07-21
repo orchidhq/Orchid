@@ -293,11 +293,11 @@ public final class OrchidReference {
             URL parsedUrl = new URL(url);
             OrchidReference newReference = new OrchidReference(context);
 
-            if(parsedUrl.getPort() == 80) {
-                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
+            if(parsedUrl.getPort() != -1) {
+                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() + ":" + parsedUrl.getPort();
             }
             else {
-                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() + ":" + parsedUrl.getPort();
+                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
             }
 
             newReference.path = parsedUrl.getPath();
