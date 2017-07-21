@@ -114,28 +114,28 @@ The following table lists all Orchid packages currently in development:
 
 | Name                 | Version |
 | -------------------- | ------- |
-| Orchid Core          | v0.2.2  |
-| Orchid Gradle Plugin | v0.2.0  |
+| Orchid Core          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion) |
+| Orchid Gradle Plugin | [ ![Download](https://img.shields.io/badge/Gradle%20Plugin-v0.2.0-blue.svg) ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)  |
 
 #### Themes
 
 | Name              | Version |
 | ----------------- | ------- |
-| OrchidBsDoc       | v0.2.2  |
-| OrchidEditorial   | v0.2.2  |
-| OrchidMaterialize | v0.2.2  |
+| OrchidBsDoc       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBsDoc/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion) |
+| OrchidEditorial   | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidEditorial/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion) |
+| OrchidMaterialize | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidMaterialize/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidMaterialize/_latestVersion) |
 
 #### Plugins
 
 | Name         | Version |
 | ------------ | ------- |
-| Changelog    | v0.2.2  |
-| Javadoc      | v0.2.2  |
-| LanguagePack | v0.2.2  |
-| Pages        | v0.2.2  |
-| Posts        | v0.2.2  |
-| Server       | v0.2.2  |
-| Wiki         | v0.2.2  |
+| Changelog    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidChangelog/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidChangelog/_latestVersion) |
+| Javadoc      | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidJavadoc/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidJavadoc/_latestVersion) |
+| LanguagePack | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidLanguagePack/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidLanguagePack/_latestVersion) |
+| Pages        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPages/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPages/_latestVersion) |
+| Posts        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPosts/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion) |
+| Server       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidServer/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidServer/_latestVersion) |
+| Wiki         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
 
 ## License
 
