@@ -38,6 +38,16 @@ public abstract class OrchidModule extends AbstractModule {
         });
     }
 
+    protected final <T> void addToSet(Class<T> setClass, T... objects) {
+        Multibinder<T> binder = Multibinder.newSetBinder(binder(), setClass);
+
+        Arrays.stream(objects).forEach(object -> {
+            if (setClass.isAssignableFrom(object.getClass())) {
+                binder.addBinding().toInstance(object);
+            }
+        });
+    }
+
     protected final <T> void addToMap(Class<T> setClass, String key, Class<? extends T> objectClass) {
         MapBinder<String, T> mapbinder = MapBinder.newMapBinder(binder(), String.class, setClass);
 

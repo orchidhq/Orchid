@@ -27,6 +27,8 @@ public class OrchidPage implements OptionsHolder {
     @Getter @Setter protected JSONObject data;
     @Getter @Setter protected String key;
 
+    @Getter @Setter protected boolean isCurrent;
+
     @Getter @Setter @Option protected String title;
     @Getter @Setter @Option protected String description;
     @Getter @Setter @Option protected String layout;

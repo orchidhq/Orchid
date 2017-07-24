@@ -4,9 +4,9 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.menus.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
-import com.eden.orchid.posts.PostsGenerator;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -16,10 +16,12 @@ import java.util.List;
 public class LatestPostsMenuType implements OrchidMenuItemType {
 
     private OrchidContext context;
+    private PostsModel postsModel;
 
     @Inject
-    public LatestPostsMenuType(OrchidContext context) {
+    public LatestPostsMenuType(OrchidContext context, PostsModel postsModel) {
         this.context = context;
+        this.postsModel = postsModel;
     }
 
     @Override
@@ -31,11 +33,11 @@ public class LatestPostsMenuType implements OrchidMenuItemType {
         int latestPostCount = (menuItemJson.has("count")) ? menuItemJson.getInt("count") : 10;
 
         if (context.query("options.posts.categories") != null && menuItemJson.has("category")) {
-            category = PostsGenerator.categories.get(menuItemJson.getString("category"));
+            category = postsModel.getCategories().get(menuItemJson.getString("category"));
             categoryName = menuItemJson.getString("category");
         }
         else {
-            category = PostsGenerator.categories.get(null);
+            category = postsModel.getCategories().get(null);
             categoryName = "blog";
         }
 

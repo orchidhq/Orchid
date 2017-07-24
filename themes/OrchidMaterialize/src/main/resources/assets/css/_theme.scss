@@ -18,6 +18,9 @@ ul.side-nav.fixed {
   ul.collapsible-accordion {
     a.collapsible-header {
       padding: 0 30px;
+      &:hover {
+        background-color: rgba(0,0,0,0.05);
+      }
     }
     .collapsible-body li a {
       font-weight: 400;
@@ -92,4 +95,12 @@ footer{
 
 .page-footer .footer-copyright {
   background-color: rgba(51, 51, 51, 0.2);
+}
+
+li.task-list-item {
+  input[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: initial;
+    left: initial;
+    opacity: initial;
+  }
 }

@@ -1,18 +1,16 @@
 package com.eden.orchid.impl.compilers.markdown;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.IRender;
-import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
-import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class MarkdownCompiler extends OrchidCompiler {
@@ -21,20 +19,21 @@ public class MarkdownCompiler extends OrchidCompiler {
     private IRender renderer;
 
     @Inject
-    public MarkdownCompiler() {
+    public MarkdownCompiler(Set<Extension> extensionSet) {
         this.priority = 900;
-        List<Extension> extensionList = Arrays.asList(
-                TablesExtension.create(),
-                StrikethroughExtension.create()
-        );
 
-        MutableDataSet formatOptions = new MutableDataSet();
-        formatOptions.set(HtmlRenderer.GENERATE_HEADER_ID, true);
-        formatOptions.set(HtmlRenderer.RENDER_HEADER_ID, true);
-        formatOptions.set(Parser.EXTENSIONS, extensionList);
+        for(Extension extension : extensionSet) {
+            Clog.v(extension.getClass().getName());
+        }
 
-        parser = Parser.builder(formatOptions).build();
-        renderer = HtmlRenderer.builder(formatOptions).build();
+        MutableDataSet options = new MutableDataSet();
+        options.set(HtmlRenderer.GENERATE_HEADER_ID, true);
+        options.set(HtmlRenderer.RENDER_HEADER_ID, true);
+
+        options.set(Parser.EXTENSIONS, extensionSet);
+
+        parser = Parser.builder(options).build();
+        renderer = HtmlRenderer.builder(options).build();
     }
 
     @Override

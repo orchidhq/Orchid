@@ -1,5 +1,6 @@
 package com.eden.orchid.posts;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -12,8 +13,10 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.posts.components.PostTagsComponent;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
+import com.eden.orchid.posts.pages.PostTagArchivePage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -22,9 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     public static final Pattern pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)");
     private PostsPermalinkStrategy permalinkStrategy;
 
-    public static Map<String, EdenPair<List<PostPage>, List<PostArchivePage>>> categories;
+    private PostsModel postsModel;
 
     @Option
     public String permalink;
@@ -47,9 +48,15 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     public PostsPaginator pagination;
 
     @Inject
-    public PostsGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer, PostsPermalinkStrategy permalinkStrategy) {
+    public PostsGenerator(
+            OrchidContext context,
+            OrchidResources resources,
+            OrchidRenderer renderer,
+            PostsPermalinkStrategy permalinkStrategy,
+            PostsModel postsModel) {
         super(700, "posts", context, resources, renderer);
         this.permalinkStrategy = permalinkStrategy;
+        this.postsModel = postsModel;
     }
 
     @Override
@@ -59,26 +66,36 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        // Map category names to pairs of PostPages and PostArchivePages
-        categories = new LinkedHashMap<>();
+        postsModel.initialize();
 
         if(EdenUtils.isEmpty(categoryNames)) {
             List<PostPage> posts = getPostsList(null);
             List<PostArchivePage> archive = buildArchive(null, posts);
-            categories.put(null, new EdenPair<>(posts, archive));
+            postsModel.getCategories().put(null, new EdenPair<>(posts, archive));
+            tagPosts(posts);
         }
         else {
             for (String category : categoryNames) {
                 List<PostPage> posts = getPostsList(category);
                 List<PostArchivePage> archive = buildArchive(category, posts);
-                categories.put(category, new EdenPair<>(posts, archive));
+                postsModel.getCategories().put(category, new EdenPair<>(posts, archive));
+                tagPosts(posts);
             }
         }
 
+        for (String tag : postsModel.getTagNames()) {
+            List<PostPage> posts = postsModel.getPostsTagged(tag);
+            List<PostTagArchivePage> archive = buildTagArchive(tag, posts);
+            postsModel.getTags().get(tag).second.addAll(archive);
+        }
+
         List<OrchidPage> allPages = new ArrayList<>();
-        for(String key : categories.keySet()) {
-            allPages.addAll(categories.get(key).first);
-            allPages.addAll(categories.get(key).second);
+        for(String key : postsModel.getCategories().keySet()) {
+            allPages.addAll(postsModel.getCategories().get(key).first);
+            allPages.addAll(postsModel.getCategories().get(key).second);
+        }
+        for(String key : postsModel.getTags().keySet()) {
+            allPages.addAll(postsModel.getTags().get(key).second);
         }
 
         return allPages;
@@ -152,6 +169,10 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
                 post.setData(pageData);
 
                 permalinkStrategy.applyPermalink(post);
+
+                post.addComponent(PostTagsComponent.class);
+
+                post.extractOptions(context, post.getData());
 
                 posts.add(post);
             }
@@ -241,5 +262,47 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
         }
 
         return archivePages;
+    }
+
+    private List<PostTagArchivePage> buildTagArchive(String tag, List<PostPage> posts) {
+        List<PostTagArchivePage> tagArchivePages = new ArrayList<>();
+
+        int pages = (int) Math.ceil(posts.size() / pagination.pageSize);
+
+        for (int i = 0; i <= pages; i++) {
+            String pageName = "tags/" + tag + "/" + (i + 1) + ".html";
+            OrchidReference pageRef = new OrchidReference(context, pageName);
+
+            if(i == 0) {
+                pageRef.setTitle(Clog.format("Posts tagged '#{$1}'", StringUtils.capitalize(tag)));
+            }
+            else {
+                pageRef.setTitle(Clog.format("Posts tagged '#{$1}' (Page #{$2})", StringUtils.capitalize(tag), (i + 1)));
+            }
+
+            PostTagArchivePage page = new PostTagArchivePage(new StringResource("", pageRef));
+            page.setPostList(posts.subList((i * pagination.pageSize), Math.min(((i+1) * pagination.pageSize), posts.size())));
+            page.setTag(tag);
+            tagArchivePages.add(page);
+        }
+
+        int i = 0;
+        for (PostTagArchivePage post : tagArchivePages) {
+            if (next(posts, i) != null) { post.setNext(next(tagArchivePages, i)); }
+            if (previous(posts, i) != null) { post.setPrevious(previous(tagArchivePages, i)); }
+            i++;
+        }
+
+        return tagArchivePages;
+    }
+
+    private void tagPosts(List<PostPage> posts) {
+        for (PostPage post : posts) {
+            if(!EdenUtils.isEmpty(post.getTags())) {
+                for (String tag : post.getTags()) {
+                    postsModel.tagPost(tag, post);
+                }
+            }
+        }
     }
 }

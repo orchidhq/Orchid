@@ -22,6 +22,10 @@ public class PostArchivePage extends OrchidPage {
         super(resource, "postArchive");
     }
 
+    protected PostArchivePage(OrchidResource resource, String key) {
+        super(resource, key);
+    }
+
     public List<Integer> getYears() {
         List<Integer> years = new ArrayList<>();
 

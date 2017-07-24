@@ -42,5 +42,6 @@ menu:
   - type: 'latestPosts'
     count: 5
   - type: 'postCategories'
+  - type: 'postTags'
   - type: 'javadocPackages'
   - type: 'javadocClasses'

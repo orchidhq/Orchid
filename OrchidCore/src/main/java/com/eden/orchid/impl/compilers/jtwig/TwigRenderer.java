@@ -25,6 +25,7 @@ public class TwigRenderer extends OrchidRenderer {
     }
 
     protected boolean render(OrchidPage page, String extension, String content) {
+        page.setCurrent(true);
         content = "" + context.compile(extension, content, page);
         String outputPath   = OrchidUtils.normalizePath(page.getReference().getPath());
         String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
@@ -37,10 +38,12 @@ public class TwigRenderer extends OrchidRenderer {
         try {
             Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
             Files.write(classesFile, content.getBytes());
+            page.setCurrent(false);
             return true;
         }
         catch (Exception e) {
             e.printStackTrace();
+            page.setCurrent(false);
             return false;
         }
     }

@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ public abstract class OrchidRenderer {
 
     protected OrchidContext context;
     protected OrchidResources resources;
-    protected TemplateResolutionStrategy strategy;
+    @Getter protected TemplateResolutionStrategy strategy;
 
     @Inject
     public OrchidRenderer(OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {

@@ -1,7 +1,10 @@
-+++
-title = "DumiNrHRD TmMJoTIcC SZ zmvLqUx"
-description = "gpKG RtOt ERclkCxTl wzEyrMoYj D OjxfNOP RbcZ Ic Irrp XS U yiSh ZB WM LD bHASmV wIqLDA qnNQIe Ynwil ux"
-+++
+---
+title: 'Another Tagged Post'
+tags: 
+    - 'one'
+    - 'three'
+    - 'four'
+---
 
 lo aHfVW jEds V gBsJstI GLXDW HamKpim uUlPNFIs mbMPKxf s dthfTNY gYUvhnRwa nR uHIMArH ezzrVdpCnN fuS APfWhdFg kRW LkJmlWzlJU EeiFeytFo W QRRwzxCUA qLYkplnwsL SmwHtlkYz OY v vUveC iseyuRQrGW UTTlCbx PqOHX QJ JpR DCgoq htq qTqHA ZtK qEzYOnFglR ecMO Ru YOHcKXc uhtnuA E UbFDpxlPph OHoBIdqMPc ejCZSt sbUAmeiMc ICM N nWPIPCqw ISRqRDg Iuu bDDr HgHPQ NPkN AzaqQv NcZomnuXds JlhhI F QCnpNI tho kTEv QBQLmYg
 
@@ -17,3 +20,6 @@ zFdv KCg eUuHugCG iLJSmeSND lMPYU uhlCqI fGIlW raZYXBDx bsZgduShQT qDyhJmBoP OUx
 
 fZffwLLszt uYi XcBANa OIKu oKFvAe k yrocp lZgVWAYZ vnIpLkJTkL EMZHCiC hUwxO dnrJylCEz xjHLgX hDphZEssfs OXxwiUfMc lYb qphAYySbL ODgO CW YNzLeJUf cPapUYT OxICzPDn VyxCbNoYE Oe XFd tyeNT SuggckQyM ziHExSVJvs SGsdF SkWc i CvYscoBg nCXLbfku VGeh JmQ GGDJyb c dFdHOdLY UY HbVxqZhDj vbikbxFyr DUvW mcQAqieKET vSh kSGEuP DwQtIndfFd UymSX PzokJeMiXx O KhRWKjqV QmpDjAAGsA Zh qqpVH xOL Iw phCFfz vHdVmwDag RnUQxQNS fhmyhed MtKts zOictWdbsA Qk Xm lGjWSkyidr Rdos x o BUYMzqvnP RenjPshXn C
 
+- [x] Finish my changes
+- [ ] Push my commits to GitHub
+- [ ] Open a pull request

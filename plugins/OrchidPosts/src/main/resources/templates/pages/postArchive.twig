@@ -2,14 +2,14 @@
 
 {% block pageContent %}
 
-    {% for year in postArchive.years %}
+    {% for year in page.years %}
         <h3>{{ year }}</h3>
 
-        {% for month in postArchive.getMonths(year) %}
+        {% for month in page.getMonths(year) %}
             <b>{{ postArchive.getMonthName(month) }}</b>
 
             <ul>
-                {% for post in postArchive.postsInMonth(year, month) %}
+                {% for post in page.postsInMonth(year, month) %}
                     <li><a href="{{post.link}}">{{post.title}}</a></li>
                 {% endfor %}
             </ul>
