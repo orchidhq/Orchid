@@ -1,0 +1,21 @@
+{% if menuItem.hasChildren() %}
+    <li>
+        <span class="opener">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</span>
+        <ul>
+            {% for childLink in menuItem.children %}
+                {% include 'includes/menuItem.twig' with {menuItem: childLink}%}
+            {% endfor %}
+        </ul>
+    </li>
+{% elseif menuItem.isSeparator() %}
+    <li>
+        <div class="divider"></div>
+    </li>
+    {% if length(menuItem.title) > 0 %}
+        <li><a class="subheader">{{ menuItem.title }}</a></li>
+    {% endif %}
+{% else %}
+    {% if length(menuItem.title) > 0 %}
+        <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
+    {% endif %}
+{% endif %}

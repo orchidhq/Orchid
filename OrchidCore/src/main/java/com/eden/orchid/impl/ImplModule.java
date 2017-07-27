@@ -39,6 +39,7 @@ import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
+import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.google.inject.multibindings.Multibinder;
 
@@ -98,6 +99,7 @@ public class ImplModule extends OrchidModule {
         // Menu Items
         addToMap(OrchidMenuItemType.class, "separator", DividerMenuItem.class);
         addToMap(OrchidMenuItemType.class, "link", LinkMenuItem.class);
+        addToMap(OrchidMenuItemType.class, "index", IndexMenuItem.class);
 
         // OptionsExtractors
         addToSet(OptionExtractor.class,

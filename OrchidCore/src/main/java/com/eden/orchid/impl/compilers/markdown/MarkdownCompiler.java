@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.markdown;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.IRender;
@@ -21,10 +20,6 @@ public class MarkdownCompiler extends OrchidCompiler {
     @Inject
     public MarkdownCompiler(Set<Extension> extensionSet) {
         this.priority = 900;
-
-        for(Extension extension : extensionSet) {
-            Clog.v(extension.getClass().getName());
-        }
 
         MutableDataSet options = new MutableDataSet();
         options.set(HtmlRenderer.GENERATE_HEADER_ID, true);

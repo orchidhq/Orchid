@@ -3986,7 +3986,6 @@ $color2: #000000;
 		list-style: none;
 		margin-bottom: 0;
 		padding: 0;
-		text-transform: uppercase;
 	}
 
 		.menu ul a, .menu ul span {
@@ -3994,7 +3993,7 @@ $color2: #000000;
 			color: inherit;
 			cursor: pointer;
 			display: block;
-			font-size: 0.9em;
+			font-size: 1.0em;
 			padding: 0.625em 0;
 		}
 
@@ -4054,14 +4053,14 @@ $color2: #000000;
 	}
 
 		.menu > ul > li > ul {
-			color: #9fa3a6;
+			//color: #9fa3a6;
 			display: none;
 			margin: 0.5em 0 1.5em 0;
 			padding-left: 1em;
 		}
 
 			.menu > ul > li > ul a, .menu > ul > li > ul span {
-				font-size: 0.8em;
+				//font-size: 0.9em;
 			}
 
 			.menu > ul > li > ul > li {
@@ -4073,6 +4072,13 @@ $color2: #000000;
 			border-top: 0;
 			margin-top: 0;
 			padding-top: 0;
+		}
+
+		.menu ul {
+			display: none;
+		}
+		.menu ul.top-level {
+			display: block;
 		}
 
 .text-left    { text-align: left;    }

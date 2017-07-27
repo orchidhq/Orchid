@@ -3,13 +3,13 @@ about:
   name: OrchidCore
   description: A modern, extensible, theme-ready Javadoc site generator.
 
-colors:
-  primary: 'indigo'
-  secondary: 'orange'
-
 #colors:
-#  primary: '#ffa033'
-#  secondary: '#000000'
+#  primary: 'indigo'
+#  secondary: 'orange'
+#
+colors:
+  primary: '#ffa033'
+  secondary: '#000000'
 
 shades:
   primary: 'darken-2'
@@ -38,10 +38,12 @@ menu:
     url: '/'
   - type: 'page'
     page: 'All Orchid Projects'
-  - type: 'wikiSections'
   - type: 'latestPosts'
     count: 5
   - type: 'postCategories'
   - type: 'postTags'
   - type: 'javadocPackages'
   - type: 'javadocClasses'
+  - type: 'index'
+    title: 'Wiki'
+    index: 'wiki'
