@@ -1,0 +1,30 @@
+{% if menuItem.hasChildren() %}
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li class="bold"><a
+                        class="collapsible-header {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (childLink.page.isCurrent()) ? 'active' : '' }}{% endif %}{% endfor %} truncate waves-effect">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>
+                <div class="collapsible-body">
+                    <ul>
+                        {% for childLink in menuItem.children %}
+                            {% include 'includes/menuItem.twig' with {menuItem: childLink}%}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+{% elseif menuItem.isSeparator() %}
+    <li>
+        <div class="divider"></div>
+    </li>
+    {% if length(menuItem.title) > 0 %}
+        <li><a class="subheader">{{ menuItem.title }}</a></li>
+    {% endif %}
+{% else %}
+    {% if length(menuItem.title) > 0 %}
+        <li class="bold {{ (menuItem.page.isCurrent()) ? 'active' : '' }}">
+            <a href="{{ menuItem.link }}"
+               class="waves-effect waves-teal truncate">{{ menuItem.title }}</a>
+        </li>
+    {% endif %}
+{% endif %}

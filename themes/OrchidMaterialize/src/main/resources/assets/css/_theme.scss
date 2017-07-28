@@ -104,3 +104,26 @@ li.task-list-item {
     opacity: initial;
   }
 }
+
+.collapsible-header:before {
+  -moz-transition: color 0.2s ease-in-out, -moz-transform 0.2s ease-in-out;
+  -webkit-transition: color 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+  -ms-transition: color 0.2s ease-in-out, -ms-transform 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  font-family: 'Material Icons';
+  color: #BDBDBD;
+  content: '\e313';
+  position: absolute;
+  right: 16px;
+  font-size: 24px;
+}
+.collapsible-header.active:before {
+  -moz-transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  color: rgba(0, 0, 0, 0.87);
+}
+.side-nav.fixed .collapsible-body > ul > li {
+  padding-left: 20px;
+}
