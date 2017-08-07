@@ -6,6 +6,7 @@ import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,6 +15,22 @@ import java.util.List;
 
 @Singleton
 public class AssetsGenerator extends OrchidGenerator {
+
+    private String[] binaryExtensions = new String[] {
+            "jpg",
+            "jpeg",
+            "png",
+            "pdf",
+            "gif",
+            "svg",
+
+            // Webfont Formats
+            "otf",
+            "eot",
+            "ttf",
+            "woff",
+            "woff2",
+    };
 
     @Inject
     public AssetsGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
@@ -41,7 +58,28 @@ public class AssetsGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.forEach(renderer::renderRaw);
+        pages.stream()
+             .filter(this::isBinaryFile)
+             .forEach(renderer::renderBinary);
+
+        pages.stream()
+             .filter(OrchidUtils.not(this::isBinaryFile))
+             .forEach(renderer::renderRaw);
+    }
+
+    private boolean isBinaryFile(OrchidPage page) {
+        String outputExtension = page.getReference().getOutputExtension();
+
+        boolean isBinary = false;
+
+        for(String binaryExtension : binaryExtensions) {
+            if(outputExtension.equalsIgnoreCase(binaryExtension)) {
+                isBinary = true;
+                break;
+            }
+        }
+
+        return isBinary;
     }
 }
 

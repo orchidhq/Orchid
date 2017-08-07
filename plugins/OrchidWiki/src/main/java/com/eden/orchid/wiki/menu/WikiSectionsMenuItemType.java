@@ -2,8 +2,8 @@ package com.eden.orchid.wiki.menu;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.wiki.WikiGenerator;
 import com.eden.orchid.wiki.WikiPage;
 import com.eden.orchid.wiki.WikiSummaryPage;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WikiSectionsMenuItemType implements OrchidMenuItemType {
+public class WikiSectionsMenuItemType implements OrchidMenuItemFactory {
 
     private OrchidContext context;
 

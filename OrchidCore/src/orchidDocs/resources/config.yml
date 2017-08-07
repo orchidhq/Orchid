@@ -33,17 +33,16 @@ wiki:
     - 'reference'
 
 menu:
-  - type: 'link'
-    title: 'Home'
-    url: '/'
-  - type: 'page'
-    page: 'All Orchid Projects'
-  - type: 'latestPosts'
-    count: 5
-  - type: 'postCategories'
-  - type: 'postTags'
-  - type: 'javadocPackages'
-  - type: 'javadocClasses'
-  - type: 'index'
-    title: 'Wiki'
-    index: 'wiki'
+  mainMenu:
+    - type: 'link'
+      title: 'Home'
+      url: '/'
+    - type: 'page'
+      page: 'All Orchid Projects'
+    - type: 'latestPosts'
+      count: 5
+    - type: 'postCategories'
+    - type: 'postTags'
+    - type: 'javadocPackages'
+    - type: 'javadocClasses'
+    - type: 'wikiSections'

@@ -1,8 +1,8 @@
 package com.eden.orchid.javadoc.menu;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.JavadocGenerator;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class AllClassesMenuItemType implements OrchidMenuItemType {
+public class AllClassesMenuItemType implements OrchidMenuItemFactory {
 
     private OrchidContext context;
 

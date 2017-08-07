@@ -1,9 +1,8 @@
 package com.eden.orchid.impl.themes.menus;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -14,7 +13,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkMenuItem implements OrchidMenuItemType {
+public class LinkMenuItem implements OrchidMenuItemFactory {
 
     private OrchidContext context;
     private String baseUrl;

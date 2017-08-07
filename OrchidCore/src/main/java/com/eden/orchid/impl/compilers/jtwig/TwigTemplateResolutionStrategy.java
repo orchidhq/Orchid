@@ -64,10 +64,10 @@ public class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
                 .filter(OrchidUtils.not(EdenUtils::isEmpty))
                 .distinct()
                 .flatMap(template -> Stream.of(
-                        template,
-                        template + ".twig",
-                        templateBase + "/" + template,
-                        templateBase + "/" + template + ".twig")
+                        "templates/" + template,
+                        "templates/" + template + ".twig",
+                        "templates/" + templateBase + "/" + template,
+                        "templates/" + templateBase + "/" + template + ".twig")
                 )
                 .collect(Collectors.toList());
     }

@@ -1,15 +1,15 @@
 package com.eden.orchid.impl.themes.menus;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DividerMenuItem implements OrchidMenuItemType {
+public class DividerMenuItem implements OrchidMenuItemFactory {
 
     private OrchidContext context;
 

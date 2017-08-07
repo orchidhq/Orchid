@@ -78,11 +78,11 @@ public class JTwigResourceLoader extends TypedResourceLoader {
 
             OrchidResource resource;
 
-            if(path.startsWith("/")) {
-                resource = resources.get().getResourceEntry(path);
+            if(!path.startsWith("templates/")) {
+                resource = resources.get().getResourceEntry("templates/" + path);
             }
             else {
-                resource = resources.get().getResourceEntry("templates/" + path);
+                resource = resources.get().getResourceEntry(path);
             }
 
             return (resource != null);
@@ -93,11 +93,11 @@ public class JTwigResourceLoader extends TypedResourceLoader {
 
             OrchidResource resource;
 
-            if(path.startsWith("/")) {
-                resource = resources.get().getResourceEntry(path);
+            if(!path.startsWith("templates")) {
+                resource = resources.get().getResourceEntry("templates/" + path);
             }
             else {
-                resource = resources.get().getResourceEntry("templates/" + path);
+                resource = resources.get().getResourceEntry(path);
             }
 
             if(resource != null) {

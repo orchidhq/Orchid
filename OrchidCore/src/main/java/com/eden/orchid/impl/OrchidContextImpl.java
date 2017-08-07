@@ -23,6 +23,7 @@ import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidExternalIndex;
 import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.ObservableTreeSet;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -101,24 +102,44 @@ public final class OrchidContextImpl implements OrchidContext {
     public void build() {
         eventService.broadcast(Orchid.Events.BUILD_START);
 
-        getTheme().clearCachedMenus();
-        for(Theme theme : themeStack) {
-            theme.clearCachedMenus();
+        getTheme().clearCache();
+        for (Theme theme : themeStack) {
+            theme.clearCache();
         }
 
         optionsData = options.loadOptions();
 
+        // Create theme menus
+        JSONElement menuElement = query("options.menu");
+        if (OrchidUtils.elementIsArray(menuElement)) {
+            getTheme().createMenu(null, (JSONArray) menuElement.getElement());
+        }
+        else if (OrchidUtils.elementIsObject(menuElement)) {
+            getTheme().createMenus((JSONObject) menuElement.getElement());
+        }
+
         configData = (optionsData.has("config")) ? optionsData.getJSONObject("config") : new JSONObject();
 
         generators.startIndexing();
+
+        // Add discovered assets
+        // TODO: Leave this up to themes/pages/components to add their own assets rather than do it by force
+        // TODO: Alternatively, allow this behavior as a flag?s
+        for (OrchidPage style : getIndex().find("assets/js")) {
+            getTheme().addJs(style);
+        }
+        for (OrchidPage style : getIndex().find("assets/css")) {
+            getTheme().addCss(style);
+        }
+
         generators.startGeneration();
         eventService.broadcast(Orchid.Events.BUILD_FINISH);
     }
 
     @Override
     public JSONElement query(String pointer) {
-        if(!EdenUtils.isEmpty(pointer)) {
-            if(pointer.startsWith("options.")) {
+        if (!EdenUtils.isEmpty(pointer)) {
+            if (pointer.startsWith("options.")) {
                 return new JSONElement(optionsData).query(pointer.replace("options.", ""));
             }
         }
@@ -141,18 +162,18 @@ public final class OrchidContextImpl implements OrchidContext {
             siteData.put(key, root.get(key));
         }
 
-        if(data != null && data.length > 0) {
-            if(data[0] instanceof OrchidPage) {
+        if (data != null && data.length > 0) {
+            if (data[0] instanceof OrchidPage) {
                 OrchidPage page = (OrchidPage) data[0];
                 siteData.put("page", page);
                 siteData.put(page.getKey(), page);
             }
-            else if(data[0] instanceof OrchidComponent) {
+            else if (data[0] instanceof OrchidComponent) {
                 OrchidComponent component = (OrchidComponent) data[0];
                 siteData.put("component", component);
                 siteData.put(component.getKey(), component);
             }
-            else if(data[0] instanceof JSONObject) {
+            else if (data[0] instanceof JSONObject) {
                 JSONObject jsonObject = (JSONObject) data[0];
                 siteData.put("data", jsonObject);
 
@@ -160,7 +181,7 @@ public final class OrchidContextImpl implements OrchidContext {
                     siteData.put(key, jsonObject.get(key));
                 }
             }
-            else if(data[0] instanceof Map) {
+            else if (data[0] instanceof Map) {
                 Map<String, ?> map = (Map<String, ?>) data[0];
                 siteData.put("data", map);
 
@@ -168,11 +189,11 @@ public final class OrchidContextImpl implements OrchidContext {
                     siteData.put(key, map.get(key));
                 }
             }
-            else if(data[0] instanceof JSONArray) {
+            else if (data[0] instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) data[0];
                 siteData.put("data", jsonArray);
             }
-            else if(data[0] instanceof Collection) {
+            else if (data[0] instanceof Collection) {
                 Collection collection = (Collection) data[0];
                 siteData.put("data", collection);
             }
@@ -198,19 +219,6 @@ public final class OrchidContextImpl implements OrchidContext {
 
     public OrchidCompositeIndex getCompositeIndex() {
         return this.generators.getCompositeIndex();
-    }
-
-    public String getClassname(Object object, boolean fullName) {
-        if(fullName) {
-            return object.getClass().getName();
-        }
-        else {
-            return object.getClass().getSimpleName();
-        }
-    }
-
-    public String getClassname(Object object) {
-        return getClassname(object, false);
     }
 
     @Override
@@ -249,7 +257,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
         String compiledContent = (compiler != null) ? compiler.compile(extension, input, data) : input;
 
-        for(ContentFilter filter : filters) {
+        for (ContentFilter filter : filters) {
             compiledContent = filter.apply(compiledContent);
         }
 
@@ -275,7 +283,6 @@ public final class OrchidContextImpl implements OrchidContext {
 
         return (compiler != null) ? compiler.getOutputExtension() : extension;
     }
-
 
     @Override
     public Injector getInjector() {

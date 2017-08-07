@@ -11,6 +11,8 @@ import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
+import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
+import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
@@ -18,8 +20,7 @@ import com.eden.orchid.api.render.ContentFilter;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.theme.Theme;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -38,6 +39,7 @@ import com.eden.orchid.impl.tasks.ListOptionsTask;
 import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
+import com.eden.orchid.impl.themes.LocalTheme;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
@@ -49,7 +51,6 @@ public class ImplModule extends OrchidModule {
 
     private static final Class[] optionalSets = new Class[]{
             EventListener.class,
-            Theme.class,
             ContentFilter.class
     };
 
@@ -57,6 +58,8 @@ public class ImplModule extends OrchidModule {
     protected void configure() {
         bind(OrchidContext.class).to(OrchidContextImpl.class);
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
+
+        addTheme(LocalTheme.class);
 
         for (Class<?> defaultSet : optionalSets) {
             Multibinder.newSetBinder(binder(), defaultSet);
@@ -97,9 +100,9 @@ public class ImplModule extends OrchidModule {
                 ListThemesTask.class);
 
         // Menu Items
-        addToMap(OrchidMenuItemType.class, "separator", DividerMenuItem.class);
-        addToMap(OrchidMenuItemType.class, "link", LinkMenuItem.class);
-        addToMap(OrchidMenuItemType.class, "index", IndexMenuItem.class);
+        addToMap(OrchidMenuItemFactory.class, "separator", DividerMenuItem.class);
+        addToMap(OrchidMenuItemFactory.class, "link", LinkMenuItem.class);
+        addToMap(OrchidMenuItemFactory.class, "index", IndexMenuItem.class);
 
         // OptionsExtractors
         addToSet(OptionExtractor.class,
@@ -109,6 +112,8 @@ public class ImplModule extends OrchidModule {
                 FloatOptionExtractor.class,
                 DoubleOptionExtractor.class,
                 BooleanOptionExtractor.class,
-                OptionsHolderOptionExtractor.class);
+                OptionsHolderOptionExtractor.class,
+                JSONObjectOptionExtractor.class,
+                JSONArrayOptionExtractor.class);
     }
 }

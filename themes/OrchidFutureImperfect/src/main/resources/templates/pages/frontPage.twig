@@ -1,0 +1,15 @@
+{% extends page | template('layout') %}
+
+{% block pageContent %}
+
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>{{ options.about.name }}</h1>
+                <p>{{ options.about.description }}</p>
+            </header>
+        </div>
+    </section>
+
+{% endblock %}
+

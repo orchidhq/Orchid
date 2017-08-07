@@ -70,7 +70,7 @@ afterEvaluate { project ->
                     sign = true
                 }
                 mavenCentralSync {
-                    sync = true
+                    sync = false
                     user = "${project.properties['mavenCentral_username']}"
                     password = "${project.properties['mavenCentral_password']}"
                 }

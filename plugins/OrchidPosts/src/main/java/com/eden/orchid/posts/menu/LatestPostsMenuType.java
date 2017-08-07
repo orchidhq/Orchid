@@ -2,8 +2,8 @@ package com.eden.orchid.posts.menu;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LatestPostsMenuType implements OrchidMenuItemType {
+public class LatestPostsMenuType implements OrchidMenuItemFactory {
 
     private OrchidContext context;
     private PostsModel postsModel;

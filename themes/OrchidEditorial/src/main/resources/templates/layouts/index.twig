@@ -8,7 +8,7 @@
 <head>
     {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
-    {{ page.theme.styles }}
+    {% include 'includes/styles.twig' %}
 
     <style>
         #readme p > img {
@@ -47,7 +47,7 @@
     {% include 'includes/sidebar.twig' %}
 </div>
 
-{{ page.theme.scripts }}
+{% include 'includes/scripts.twig' %}
 
 </body>
 </html>

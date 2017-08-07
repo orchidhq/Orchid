@@ -6,17 +6,24 @@ import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.ComponentHolderDelegate;
 import com.eden.orchid.api.theme.components.OrchidComponent;
+import com.eden.orchid.api.theme.menus.MenuHolder;
+import com.eden.orchid.api.theme.menus.MenuHolderDelegate;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Set;
 
-public class OrchidPage implements OptionsHolder {
+public class OrchidPage implements OptionsHolder, AssetHolder, MenuHolder {
 
     protected OrchidContext context;
 
@@ -34,7 +41,9 @@ public class OrchidPage implements OptionsHolder {
     @Getter @Setter @Option protected String layout;
     @Getter @Setter @Option protected String[] templates;
 
-    protected ComponentHolder componentHolder;
+    @Getter @Setter protected ComponentHolder componentHolder;
+    @Getter @Setter protected AssetHolder assets;
+    @Getter @Setter protected MenuHolder menus;
 
     public OrchidPage(OrchidResource resource, String key) {
         this(resource, key, null);
@@ -47,6 +56,8 @@ public class OrchidPage implements OptionsHolder {
     public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
         this.componentHolder = context.getInjector().getInstance(ComponentHolderDelegate.class);
+        this.assets = context.getInjector().getInstance(AssetHolderDelegate.class);
+        this.menus = context.getInjector().getInstance(MenuHolderDelegate.class);
 
         this.key = key;
         this.templates = new String[]{"page"};
@@ -179,4 +190,27 @@ public class OrchidPage implements OptionsHolder {
     public Set<OrchidComponent> getRemainingComponents() {
         return componentHolder.getRemainingComponents(this);
     }
+
+// Assets
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override public void addJs(OrchidPage jsAsset) { assets.addJs(jsAsset); }
+    @Override public void addCss(OrchidPage cssAsset) { assets.addCss(cssAsset); }
+    @Override public List<OrchidPage> getScripts() { return context.getTheme().getScripts(); }
+    @Override public List<OrchidPage> getStyles() { return context.getTheme().getStyles(); }
+    @Override public void flushJs() { assets.flushJs(); }
+    @Override public void flushCss() { assets.flushCss(); }
+    @Override public void clearAssets() { assets.clearAssets(); }
+
+// Menus
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override public void createMenus(JSONObject menuJson) { menus.createMenus(menuJson); }
+    @Override public void createMenu(String menuId, JSONArray menuJson) { menus.createMenu(menuId, menuJson); }
+    @Override public void addMenuItem(String menuId, JSONObject menuItemJson) { menus.addMenuItem(menuId, menuItemJson); }
+    @Override public void addMenuItems(String menuId, JSONArray menuItemsJson) { menus.addMenuItems(menuId, menuItemsJson); }
+    @Override public List<OrchidMenuItem> getMenu() { return menus.getMenu(); }
+    @Override public List<OrchidMenuItem> getMenu(String menuId) { return menus.getMenu(menuId); }
+    @Override public void clearMenus() { menus.clearMenus(); }
+
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
+import java.io.InputStream;
 
 public abstract class OrchidRenderer {
 
@@ -70,6 +71,17 @@ public abstract class OrchidRenderer {
     }
 
     /**
+     * Render the content of a page directly, as a binary stream. No further processing is performed on the file
+     * contents, so as to preserve the binary format.
+     *
+     * @param page the page to render
+     * @return true if the page was successfully rendered, false otherwise
+     */
+    public final boolean renderBinary(OrchidPage page) {
+        return render(page, page.getResource().getReference().getExtension(), page.getResource().getContentStream());
+    }
+
+    /**
      * Internal representation of a 'render' operation.
      *
      * @param page the page to render
@@ -78,5 +90,15 @@ public abstract class OrchidRenderer {
      * @return true if the page was successfully rendered, false otherwise
      */
     protected abstract boolean render(OrchidPage page, String extension, String content);
+
+    /**
+     * Internal representation of a 'render' operation on a binary stream.
+     *
+     * @param page the page to render
+     * @param extension the extension that the content represents and should be compiled against
+     * @param content the template string to render
+     * @return true if the page was successfully rendered, false otherwise
+     */
+    protected abstract boolean render(OrchidPage page, String extension, InputStream content);
 
 }

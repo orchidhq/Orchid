@@ -1,0 +1,5 @@
+<!-- start:inject scripts -->
+{% for script in page.scripts %}
+    <script src="{{ script.link }}"></script>
+{% endfor %}
+<!-- end:inject scripts -->

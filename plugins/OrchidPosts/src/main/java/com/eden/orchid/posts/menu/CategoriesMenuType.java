@@ -2,8 +2,8 @@ package com.eden.orchid.posts.menu;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostArchivePage;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CategoriesMenuType implements OrchidMenuItemType {
+public class CategoriesMenuType implements OrchidMenuItemFactory {
 
     private OrchidContext context;
     private PostsModel postsModel;

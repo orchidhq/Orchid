@@ -1,0 +1,13 @@
+
+about:
+  name: Orchid Editorial Theme
+  description: A beautiful theme for Orchid created by HTML5 UP.
+
+github:
+  username: 'JavaEden'
+  repo: 'Orchid'
+  branch: 'master'
+
+colors:
+  primary: '#508a4c'
+  secondary: '#000000'

@@ -15,6 +15,7 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -84,6 +85,17 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
     }
 
     private EdenPair<WikiSummaryPage, List<WikiPage>> getWikiPages(String section) {
+        JSONObject pageMenuItem = new JSONObject();
+        pageMenuItem.put("type", "wiki");
+
+        if(!EdenUtils.isEmpty(section)) {
+            pageMenuItem.put("title", section + " Wiki");
+            pageMenuItem.put("section", section);
+        }
+        else {
+            pageMenuItem.put("title", "Wiki");
+        }
+
         ArrayList<WikiPage> wiki = new ArrayList<>();
 
         String sectionBaseDir = (!EdenUtils.isEmpty(section)) ?
@@ -119,6 +131,8 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
             WikiPage page = new WikiPage(resource, a.text());
 
+            page.addMenuItem(null, pageMenuItem);
+
             page.setOrder(i);
             i++;
 
@@ -143,6 +157,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
         String sectionTitle = (!EdenUtils.isEmpty(section)) ? section : "Wiki";
         WikiSummaryPage summaryPage = new WikiSummaryPage(summary, OrchidUtils.camelcaseToTitleCase(sectionTitle));
         summaryPage.getReference().setUsePrettyUrl(true);
+        summaryPage.addMenuItem(null, pageMenuItem);
 
         return new EdenPair<>(summaryPage, wiki);
     }

@@ -14,10 +14,21 @@
                 <h2>{{ options.about.name }}</h2>
             </header>
             <ul class="top-level">
-                {% for menuItem in page.theme.menu() %}
+                {% for menuItem in page.theme.getMenu("mainMenu") %}
                     {% include 'includes/menuItem.twig' %}
                 {% endfor %}
             </ul>
+
+            {% set pageMenuItems = page.getMenu() %}
+            {% if pageMenuItems|length > 0 %}
+                <hr>
+                <ul class="top-level">
+                    {% for menuItem in pageMenuItems %}
+                        {% include 'includes/menuItem.twig' %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </nav>
+
     </div>
 </div>

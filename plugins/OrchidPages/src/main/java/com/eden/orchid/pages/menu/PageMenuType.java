@@ -1,9 +1,8 @@
 package com.eden.orchid.pages.menu;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.menus.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.OrchidMenuItemType;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONObject;
 
@@ -11,7 +10,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageMenuType implements OrchidMenuItemType {
+public class PageMenuType implements OrchidMenuItemFactory {
 
     protected OrchidContext context;
 

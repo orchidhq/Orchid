@@ -1,0 +1,5 @@
+<!-- start:inject styles -->
+{% for style in page.styles %}
+    <link rel="stylesheet" type="text/css" href="{{ style.link }}"/>
+{% endfor %}
+<!-- end:inject styles -->

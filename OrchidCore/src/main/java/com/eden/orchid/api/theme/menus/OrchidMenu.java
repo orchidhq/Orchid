@@ -1,7 +1,8 @@
 package com.eden.orchid.api.theme.menus;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
 import org.json.JSONArray;
@@ -12,38 +13,47 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class OrchidMenu {
+public final class OrchidMenu {
 
-    protected OrchidContext context;
-    protected List<OrchidMenuItem> menuItems;
-    protected String menuName;
+    private OrchidContext context;
+    private JSONArray menuJson;
+    private Map<String, OrchidMenuItemFactory> menuItemTypes;
 
-    public OrchidMenu(OrchidContext context, String menuName) {
+    private List<OrchidMenuItem> menuItems;
+
+    public OrchidMenu(OrchidContext context, JSONArray menuItems) {
         this.context = context;
-        this.menuName = menuName;
+        this.menuJson = menuItems;
     }
 
     public List<OrchidMenuItem> getMenuItems() {
-        if(menuItems == null) {
+        if (menuItems == null) {
             menuItems = new ArrayList<>();
 
-            JSONElement menuElement = context.query("options.menu");
-            Map<String, OrchidMenuItemType> menuItemTypes = OrchidUtils.resolveMap(context, OrchidMenuItemType.class);
+            menuItemTypes = OrchidUtils.resolveMap(context, OrchidMenuItemFactory.class);
 
-            if(OrchidUtils.elementIsArray(menuElement)) {
-                JSONArray menuJson = (JSONArray) menuElement.getElement();
+            for (int i = 0; i < menuJson.length(); i++) {
+                JSONObject menuItemJson = menuJson.getJSONObject(i);
+                String menuItemType = menuItemJson.getString("type");
 
-                for (int i = 0; i < menuJson.length(); i++) {
-                    JSONObject menuItemJson = menuJson.getJSONObject(i);
-                    String menuItemType = menuItemJson.getString("type");
-
-                    if(menuItemTypes.containsKey(menuItemType)) {
-                        menuItems.addAll(menuItemTypes.get(menuItemType).getMenuItems(menuItemJson));
-                    }
+                if (menuItemTypes.containsKey(menuItemType)) {
+                    menuItems.addAll(menuItemTypes.get(menuItemType).getMenuItems(menuItemJson));
                 }
             }
         }
 
         return menuItems;
+    }
+
+    public void addMenuItem(JSONObject menuItemJson) {
+        menuItems = null;
+        menuJson.put(menuItemJson);
+    }
+
+    public void addMenuItems(JSONArray menuItemsJson) {
+        menuItems = null;
+        for (int i = 0; i < menuItemsJson.length(); i++) {
+            menuJson.put(menuItemsJson.get(i));
+        }
     }
 }

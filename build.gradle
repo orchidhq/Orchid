@@ -15,7 +15,7 @@ buildscript {
 
 apply plugin: "org.ajoberstar.grgit"
 
-version = 'v0.2.6'
+version = 'v0.2.7'
 
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension
@@ -60,6 +60,8 @@ task deploy {
 
         grgit.add(patterns: ['latest', "${rootProject.version}"])
         grgit.commit(message: "Updates docs to '${rootProject.version}'")
+        System.setProperty("org.ajoberstar.grgit.auth.username", project.properties['github_username'])
+        System.setProperty("org.ajoberstar.grgit.auth.password", project.properties['github_password'])
         grgit.push()
 
         // go back to master branch, tag this release, then push the tag
