@@ -1,6 +1,5 @@
 package com.eden.orchid.wiki.menu;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
@@ -69,7 +68,6 @@ public class WikiPagesMenuItemType implements OrchidMenuItemFactory {
                 if(!menuSection.equalsIgnoreCase("wiki")) {
                     ref.stripFromPath("wiki");
                 }
-                Clog.v("WikiMenuItem path: {}", ref.getPath());
                 wikiPagesIndex.addToIndex(ref.getPath(), page);
             }
         }

@@ -1,6 +1,6 @@
 ---
 
 title: 'Title is different?'
-permalink: ':year/:month/:day/:title'
+permalink: ':year/:month/:day/:slug'
 
 ---

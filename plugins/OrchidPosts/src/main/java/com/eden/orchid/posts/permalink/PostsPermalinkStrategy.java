@@ -1,20 +1,23 @@
-package com.eden.orchid.posts;
+package com.eden.orchid.posts.permalink;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.posts.pages.PostPage;
+import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
-import java.time.Month;
+import java.util.Set;
 
 public class PostsPermalinkStrategy {
 
     private OrchidContext context;
+    private Set<PermalinkPathType> pathTypes;
 
     @Inject
-    public PostsPermalinkStrategy(OrchidContext context) {
+    public PostsPermalinkStrategy(OrchidContext context, Set<PermalinkPathType> pathTypes) {
         this.context = context;
+        this.pathTypes = new ObservableTreeSet<>(pathTypes);
     }
 
     public void applyPermalink(PostPage post) {
@@ -49,10 +52,10 @@ public class PostsPermalinkStrategy {
         }
         else {
             if(post.getData().has("category")) {
-                return ":category/:year/:month/:title";
+                return ":category/:year/:month/:slug";
             }
             else {
-                return ":year/:month/:title";
+                return ":year/:month/:slug";
             }
         }
     }
@@ -82,27 +85,10 @@ public class PostsPermalinkStrategy {
         }
 
         if(pieceKey != null) {
-            switch (pieceKey) {
-                case "title":
-                    resultingPiece = post.getTitle();
-                    break;
-                case "year":
-                    resultingPiece = "" + post.getYear();
-                    break;
-                case "month":
-                    resultingPiece = "" + post.getMonth();
-                    break;
-                case "monthName":
-                    resultingPiece = Month.of(post.getMonth()).toString();
-                    break;
-                case "day":
-                    resultingPiece = "" + post.getDay();
-                    break;
-                default:
-                    if(post.getData().has(pieceKey)) {
-                        resultingPiece = post.getData().get(pieceKey).toString();
-                    }
-                    break;
+            for(PermalinkPathType pathType : pathTypes) {
+                if(pathType.acceptsKey(post, pieceKey)) {
+                    resultingPiece = pathType.format(post, pieceKey);
+                }
             }
 
             if(resultingPiece == null) {
@@ -113,6 +99,13 @@ public class PostsPermalinkStrategy {
             resultingPiece = piece;
         }
 
-        return resultingPiece.replaceAll(" ", "-").toLowerCase() + "/";
+        return sanitizePathPiece(resultingPiece) + "/";
+    }
+
+    private String sanitizePathPiece(String pathPiece) {
+        String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
+        s = s.replaceAll("[^\\w-_]", "");
+
+        return s;
     }
 }

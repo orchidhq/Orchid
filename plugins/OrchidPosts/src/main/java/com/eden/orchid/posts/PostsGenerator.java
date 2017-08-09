@@ -17,6 +17,7 @@ import com.eden.orchid.posts.components.PostTagsComponent;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.pages.PostTagArchivePage;
+import com.eden.orchid.posts.permalink.PostsPermalinkStrategy;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -166,6 +167,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
                 post.setCategory(category);
 
                 post.getReference().setTitle(title);
+                post.setTitle(title);
                 post.setData(pageData);
 
                 permalinkStrategy.applyPermalink(post);
