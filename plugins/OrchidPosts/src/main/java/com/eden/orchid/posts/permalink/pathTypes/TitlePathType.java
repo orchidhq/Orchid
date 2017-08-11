@@ -1,6 +1,5 @@
 package com.eden.orchid.posts.permalink.pathTypes;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.permalink.PermalinkPathType;
 
@@ -20,7 +19,6 @@ public class TitlePathType extends PermalinkPathType {
 
     @Override
     public String format(PostPage post, String key) {
-        Clog.v("title key: {} - {}", key, post.getTitle());
         return post.getTitle();
     }
 

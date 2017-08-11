@@ -21,8 +21,6 @@ public class ApiController implements OrchidController {
 
     @Get(path="/")
     public OrchidResponse doNothing(OrchidRequest request) {
-        Clog.v("calling /api");
-
         JSONObject object = new JSONObject();
         object.put("message", "Successful API hit");
 

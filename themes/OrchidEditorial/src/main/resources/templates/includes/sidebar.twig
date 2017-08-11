@@ -14,7 +14,7 @@
                 <h2>{{ options.about.name }}</h2>
             </header>
             <ul class="top-level">
-                {% for menuItem in page.theme.getMenu("mainMenu") %}
+                {% for menuItem in page.theme.getMenu() %}
                     {% include 'includes/menuItem.twig' %}
                 {% endfor %}
             </ul>

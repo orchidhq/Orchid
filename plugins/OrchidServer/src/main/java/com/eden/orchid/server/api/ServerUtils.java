@@ -71,26 +71,17 @@ public class ServerUtils {
             throw new IllegalArgumentException("Route path and called path do not match");
         }
 
-        Clog.v("Parsing path: routePath=" + routePath);
-        Clog.v("Parsing path: calledPath=" + calledPath);
-
         Map<String, String> pathParams = new HashMap<>();
 
         for (int i = 0; i < routePathPieces.length; i++) {
             if(routePathPieces[i].startsWith(":")) {
                 String key = routePathPieces[i].substring(1);
                 String value = calledPathPieces[i];
-
-                Clog.v("Found path param: #{$1} = #{$2}", key, value);
-
                 pathParams.put(key, value);
             }
             else if((routePathPieces[i].startsWith("{") && routePathPieces[i].endsWith("}"))) {
                 String key = routePathPieces[i].substring(1, routePathPieces[i].length() - 2);
                 String value = calledPathPieces[i];
-
-                Clog.v("Found path param: #{$1} = #{$2}", key, value);
-
                 pathParams.put(key, value);
             }
         }

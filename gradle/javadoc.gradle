@@ -20,6 +20,10 @@ orchid {
     else {
         baseUrl = "${project.ext.commonBaseUrl}"
     }
+
+    args = [
+        "absApiKey ${project.properties['ABS_ApiKey']}"
+    ]
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

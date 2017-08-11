@@ -1,6 +1,7 @@
 ---
-
-title: 'Title is different?'
-permalink: ':year/:month/:day/:title'
-
+title: 'Post One'
 ---
+
+> ((Galatians 2:19-21)) 
+
+**((John))**

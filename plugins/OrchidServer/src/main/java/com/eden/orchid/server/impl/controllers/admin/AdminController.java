@@ -1,6 +1,5 @@
 package com.eden.orchid.server.impl.controllers.admin;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -44,7 +43,6 @@ public class AdminController implements OrchidController {
 
     @Get(path="/")
     public OrchidResponse doNothing(OrchidRequest request) {
-        Clog.v("calling /admin");
         OrchidResource resource = resources.getResourceEntry("templates/server/admin/admin.twig");
         String content = "";
         if(resource != null) {
@@ -60,7 +58,6 @@ public class AdminController implements OrchidController {
 
     @Get(path="/lists/:name")
     public OrchidResponse renderList(OrchidRequest request, String name) {
-        Clog.v("calling /admin/lists/:name");
         OrchidResource resource = resources.getResourceEntry("templates/server/admin/lists/" + name + ".twig");
         if(resource != null) {
             Map<String, Object> data = new HashMap<>();

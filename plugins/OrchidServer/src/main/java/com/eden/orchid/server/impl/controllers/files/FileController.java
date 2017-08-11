@@ -1,6 +1,5 @@
 package com.eden.orchid.server.impl.controllers.files;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.google.inject.name.Named;
 import fi.iki.elonen.NanoHTTPD;
@@ -46,9 +45,7 @@ public class FileController {
             this.rootFolder = new File(this.destination);
         }
 
-        Clog.v("Target path: '#{$1}'", targetPath);
         if(targetPath.equalsIgnoreCase("favicon.ico")) {
-            Clog.v("Attempting to locate Favicon");
             return faviconResponse.getResponse(targetPath);
         }
 

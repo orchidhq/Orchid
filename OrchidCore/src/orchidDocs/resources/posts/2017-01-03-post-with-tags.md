@@ -1,6 +1,3 @@
 ---
-
-title: 'Title is different?'
-permalink: ':year/:month/:day/:slug'
-
+title: 'Post Three'
 ---

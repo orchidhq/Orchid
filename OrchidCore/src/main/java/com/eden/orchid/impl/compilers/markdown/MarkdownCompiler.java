@@ -18,7 +18,7 @@ public class MarkdownCompiler extends OrchidCompiler {
     private IRender renderer;
 
     @Inject
-    public MarkdownCompiler(Set<Extension> extensionSet) {
+    public MarkdownCompiler(Set<Extension> extensionSet, Set<MutableDataSet> injectedOptions) {
         this.priority = 900;
 
         MutableDataSet options = new MutableDataSet();
@@ -26,6 +26,10 @@ public class MarkdownCompiler extends OrchidCompiler {
         options.set(HtmlRenderer.RENDER_HEADER_ID, true);
 
         options.set(Parser.EXTENSIONS, extensionSet);
+
+        for(MutableDataSet injectedOption : injectedOptions) {
+            options.setAll(injectedOption);
+        }
 
         parser = Parser.builder(options).build();
         renderer = HtmlRenderer.builder(options).build();

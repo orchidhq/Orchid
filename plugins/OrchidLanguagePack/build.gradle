@@ -5,4 +5,8 @@ dependencies {
     compile 'com.moandjiezana.toml:toml4j:0.7.1'
     compile 'org.python:jython-standalone:2.5.3'
     compile 'org.pygments:pygments:1.5'
+
+    compile 'com.github.JavaEden:Eden:v0.1.0'
+    compile 'com.github.JavaEden:EdenFlexmark:v0.1.2'
+    compile 'com.github.JavaEden:American-Bible-Society-Client:v0.1.0'
 }

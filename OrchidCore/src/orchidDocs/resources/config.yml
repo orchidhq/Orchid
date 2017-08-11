@@ -3,13 +3,13 @@ about:
   name: OrchidCore
   description: A modern, extensible, theme-ready Javadoc site generator.
 
-colors:
-  primary: 'indigo'
-  secondary: 'orange'
-
 #colors:
-#  primary: '#ffa033'
-#  secondary: '#000000'
+#  primary: 'indigo'
+#  secondary: 'orange'
+#
+colors:
+  primary: '#ffa033'
+  secondary: '#000000'
 
 shades:
   primary: 'darken-2'
@@ -24,8 +24,22 @@ github:
 
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 
+generators:
+  enabled:
+    - 'PostsGenerator'
+    - 'HomepageGenerator'
+    - 'AssetsGenerator'
+#  disabled:
+#    - 'WikiGenerator'
+#    - 'HomepageGenerator'
+#    - 'IndexGenerator'
+#    - 'PagesGenerator'
+#    - 'ChangelogGenerator'
+#    - 'JavadocGenerator'
+#    - 'AssetsGenerator'
+
 posts:
-  permalink: ':year/:monthName/:title'
+  permalink: ':year/:monthName/:slug'
 
 wiki:
   sections:
@@ -33,16 +47,15 @@ wiki:
     - 'reference'
 
 menu:
-  mainMenu:
-    - type: 'link'
-      title: 'Home'
-      url: '/'
-    - type: 'page'
-      page: 'All Orchid Projects'
-    - type: 'latestPosts'
-      count: 5
-    - type: 'postCategories'
-    - type: 'postTags'
-    - type: 'javadocPackages'
-    - type: 'javadocClasses'
-    - type: 'wikiSections'
+  - type: 'link'
+    title: 'Home'
+    url: '/'
+  - type: 'page'
+    page: 'All Orchid Projects'
+  - type: 'latestPosts'
+    count: 5
+  - type: 'postCategories'
+  - type: 'postTags'
+  - type: 'javadocPackages'
+  - type: 'javadocClasses'
+  - type: 'wikiSections'

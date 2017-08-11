@@ -1,5 +1,3 @@
 ---
-
-permalink: ':year/:month/:day/:slug'
-
+title: 'Post Four'
 ---

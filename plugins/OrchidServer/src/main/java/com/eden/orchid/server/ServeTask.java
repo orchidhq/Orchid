@@ -1,6 +1,5 @@
 package com.eden.orchid.server;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
@@ -54,8 +53,6 @@ public class ServeTask extends OrchidTask implements EventListener {
         File file = new File(resourcesDir);
 
         if (file.exists() && file.isDirectory()) {
-            Clog.i("Watching root resources directory for changes");
-
             JSONObject rootJson = context.getRoot();
 //            JSONObject optionsJson = rootJson.getJSONObject("options");
 
@@ -71,9 +68,6 @@ public class ServeTask extends OrchidTask implements EventListener {
 //            optionsJson.put("baseUrl", "http://localhost:" + server.getHttpServerPort());
 
             watcher.startWatching(resourcesDir);
-        }
-        else {
-            Clog.w("OrchidResourcesImpl directory doesn't exist or isn't is a directory");
         }
     }
 

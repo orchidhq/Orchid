@@ -1,5 +1,3 @@
 ---
-
-permalink: ':year/:month/:day/:title'
-
+title: 'Post Two'
 ---
