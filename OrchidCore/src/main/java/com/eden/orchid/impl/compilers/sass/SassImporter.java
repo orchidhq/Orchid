@@ -26,23 +26,24 @@ public class SassImporter implements Importer {
 
     @Override
     public Collection<Import> apply(String url, Import previous) {
-
         EdenPair<String, String> thisItem = splitPath(url);
 
-        String[] availableFiles = new String[] {
+        String[] availableFiles = new String[]{
                 thisItem.first + "/" + thisItem.second + ".scss",
                 thisItem.first + "/" + thisItem.second + ".sass",
                 thisItem.first + "/" + "_" + thisItem.second + ".scss",
                 thisItem.first + "/" + "_" + thisItem.second + ".sass"
         };
 
-        for(String availableFile : availableFiles) {
-            String absoluteUri = OrchidUtils.normalizePath(splitPath(previous.getAbsoluteUri().getPath()).first + "/" + availableFile);
+        for (String availableFile : availableFiles) {
+            String pathStart = OrchidUtils.normalizePath(splitPath(previous.getAbsoluteUri().getPath()).first);
+            String pathEnd = OrchidUtils.normalizePath(availableFile);
+            String absoluteUri = OrchidUtils.normalizePath(pathStart + "/" + pathEnd);
 
-            if(absoluteUri.contains("//")) {
+            if (absoluteUri.contains("//")) {
                 absoluteUri = absoluteUri.replaceAll("//", "/");
             }
-            if(absoluteUri.startsWith("/")) {
+            if (absoluteUri.startsWith("/")) {
                 absoluteUri = absoluteUri.substring(1);
             }
 
@@ -51,7 +52,7 @@ public class SassImporter implements Importer {
             if (importedResource != null) {
                 String content = importedResource.getContent();
 
-                if(importedResource.shouldPrecompile()) {
+                if (importedResource.shouldPrecompile()) {
                     content = context.precompile(content, importedResource.getEmbeddedData());
                 }
 
@@ -73,7 +74,7 @@ public class SassImporter implements Importer {
         name = name.replaceAll("\\\\\\\\", "/");
         name = name.replaceAll("\\\\", "/");
 
-        if(name.contains("/")) {
+        if (name.contains("/")) {
             String[] pieces = name.split("/");
             String path = "";
 

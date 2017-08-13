@@ -146,11 +146,9 @@ public final class OrchidUtils {
         if (normalizedPath != null) {
             if (File.separator.equals("\\")) {
                 normalizedPath = normalizedPath.replaceAll("\\\\", "/");
-                normalizedPath = StringUtils.strip(normalizedPath.trim(), "\\\\");
             }
-            else {
-                normalizedPath = StringUtils.strip(normalizedPath.trim(), "/");
-            }
+
+            normalizedPath = StringUtils.strip(normalizedPath.trim(), "/");
         }
 
         return normalizedPath;
