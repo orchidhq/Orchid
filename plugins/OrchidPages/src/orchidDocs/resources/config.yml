@@ -3,9 +3,13 @@ about:
   name: Orchid Pages
   description: Add static pages with rich taxonomy to your Orchid site.
 
+#colors:
+#  primary: 'orange'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'orange'
-  secondary: 'orange'
+  primary: '#FF9800'
+  secondary: '#000000'
 
 shades:
   primary: 'lighten-2'

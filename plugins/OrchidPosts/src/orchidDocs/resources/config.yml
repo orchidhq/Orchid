@@ -3,9 +3,13 @@ about:
   name: Orchid Posts
   description: Add Jekyll-like blogging functionality to your Orchid site.
 
+#colors:
+#  primary: 'deep-orange'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'deep-orange'
-  secondary: 'orange'
+  primary: '#FF5722'
+  secondary: '#000000'
 
 shades:
   primary: 'lighten-2'

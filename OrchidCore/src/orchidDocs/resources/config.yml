@@ -24,20 +24,6 @@ github:
 
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 
-generators:
-  enabled:
-    - 'PostsGenerator'
-    - 'HomepageGenerator'
-    - 'AssetsGenerator'
-#  disabled:
-#    - 'WikiGenerator'
-#    - 'HomepageGenerator'
-#    - 'IndexGenerator'
-#    - 'PagesGenerator'
-#    - 'ChangelogGenerator'
-#    - 'JavadocGenerator'
-#    - 'AssetsGenerator'
-
 posts:
   permalink: ':year/:monthName/:slug'
 

@@ -3,9 +3,13 @@ about:
   name: Orchid Language Pack
   description: Adds several useful markup languages and configuration parsers to your Orchid build, including Asciidoctor and TOML.
 
+#colors:
+#  primary: 'light-green'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'light-green'
-  secondary: 'orange'
+  primary: '#8BC34A'
+  secondary: '#000000'
 
 shades:
   primary: 'base'

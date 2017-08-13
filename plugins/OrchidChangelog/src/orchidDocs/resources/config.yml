@@ -3,9 +3,13 @@ about:
   name: Orchid Changelog
   description: Adds a simple way to track and view changes across the various versions of your application or library.
 
+#colors:
+#  primary: 'blue'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'blue'
-  secondary: 'orange'
+  primary: '#7aadff'
+  secondary: '#000000'
 
 shades:
   primary: 'lighten-2'

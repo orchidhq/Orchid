@@ -3,9 +3,13 @@ about:
   name: Orchid Wiki
   description: A Gitbook-like wiki for your Orchid site.
 
+#colors:
+#  primary: 'light-blue'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'light-blue'
-  secondary: 'orange'
+  primary: '#03A9F4'
+  secondary: '#000000'
 
 shades:
   primary: 'lighten-1'

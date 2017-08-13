@@ -3,9 +3,13 @@ about:
   name: Orchid Server
   description: Continuous builds and an embedded file server to make writing your content experience delightful.
 
+#colors:
+#  primary: 'green'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'green'
-  secondary: 'orange'
+  primary: '#4CAF50'
+  secondary: '#000000'
 
 shades:
   primary: 'darken-1'

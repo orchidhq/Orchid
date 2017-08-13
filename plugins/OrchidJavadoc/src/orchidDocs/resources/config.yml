@@ -3,9 +3,13 @@ about:
   name: Orchid Javadoc
   description: Create beautiful Javadocs for your project within your Orchid site.
 
+#colors:
+#  primary: 'cyan'
+#  secondary: 'orange'
+#
 colors:
-  primary: 'cyan'
-  secondary: 'orange'
+  primary: '#4D7A97'
+  secondary: '#000000'
 
 shades:
   primary: 'darken-2'
