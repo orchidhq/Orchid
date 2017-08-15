@@ -5,7 +5,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -21,8 +20,8 @@ import java.util.List;
 public class ChangelogGenerator extends OrchidGenerator {
 
     @Inject
-    public ChangelogGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
-        super(700, "changelog", context, resources, renderer);
+    public ChangelogGenerator(OrchidContext context, OrchidRenderer renderer) {
+        super(700, "changelog", context, renderer);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class ChangelogGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
-        JSONObject changelog = resources.getLocalDatafile("changelog");
+        JSONObject changelog = context.getLocalDatafile("changelog");
 
         if(changelog != null) {
             if(changelog.has(OrchidParser.arrayAsObjectKey)) {

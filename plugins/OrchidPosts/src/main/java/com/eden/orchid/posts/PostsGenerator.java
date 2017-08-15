@@ -8,7 +8,6 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -51,11 +50,10 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     @Inject
     public PostsGenerator(
             OrchidContext context,
-            OrchidResources resources,
             OrchidRenderer renderer,
             PostsPermalinkStrategy permalinkStrategy,
             PostsModel postsModel) {
-        super(700, "posts", context, resources, renderer);
+        super(700, "posts", context, renderer);
         this.permalinkStrategy = permalinkStrategy;
         this.postsModel = postsModel;
     }
@@ -130,10 +128,10 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     private List<PostPage> getPostsList(String category) {
         List<OrchidResource> resourcesList;
         if(EdenUtils.isEmpty(category)) {
-            resourcesList = resources.getLocalResourceEntries("posts", null, false);
+            resourcesList = context.getLocalResourceEntries("posts", null, false);
         }
         else {
-            resourcesList = resources.getLocalResourceEntries("posts/" + category, null, false);
+            resourcesList = context.getLocalResourceEntries("posts/" + category, null, false);
         }
 
         List<PostPage> posts = new ArrayList<>();

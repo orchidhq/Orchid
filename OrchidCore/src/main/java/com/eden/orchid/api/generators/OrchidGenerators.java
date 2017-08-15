@@ -6,16 +6,14 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidInternalIndex;
-import com.eden.orchid.impl.indexing.OrchidRootExternalIndex;
-import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.utilities.PrioritizedSetFilter;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,33 +23,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Getter @Setter
 @Singleton
 public final class OrchidGenerators {
 
     private Set<OrchidGenerator> allGenerators;
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
-    private OrchidResources orchidResources;
-
-    private OrchidRootInternalIndex internalIndex;
-    private OrchidRootExternalIndex externalIndex;
-    private OrchidCompositeIndex compositeIndex;
-
-    private boolean renderParallel = false;
 
     @Inject
-    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators, OrchidResources orchidResources) {
+    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators) {
         this.context = context;
         this.allGenerators = new ObservableTreeSet<>(generators);
-        this.orchidResources = orchidResources;
     }
 
     public void startIndexing() {
         this.generators = new PrioritizedSetFilter<>(context, "generators", this.allGenerators).getFilteredSet();
 
+        context.clearIndex();
+
         buildInternalIndex();
         buildExternalIndex();
-        mergeIndices(this.internalIndex, this.externalIndex);
+        context.mergeIndices(context.getInternalIndex(), context.getExternalIndex());
     }
 
     public void startGeneration() {
@@ -63,7 +56,6 @@ public final class OrchidGenerators {
 //----------------------------------------------------------------------------------------------------------------------
 
     private void buildInternalIndex() {
-        this.internalIndex = new OrchidRootInternalIndex();
         generators.stream()
                   .forEach(this::indexGenerator);
     }
@@ -91,33 +83,22 @@ public final class OrchidGenerators {
                     ((FreeableResource) page.getResource()).free();
                 }
             }
-            this.internalIndex.addChildIndex(generator.getKey(), index);
+            context.addChildIndex(generator.getKey(), index);
         }
     }
 
     private void buildExternalIndex() {
-        this.externalIndex = new OrchidRootExternalIndex();
-
         JSONElement externalIndexReferences = context.query("options.externalIndex");
 
         if(OrchidUtils.elementIsArray(externalIndexReferences)) {
             JSONArray externalIndex = (JSONArray) externalIndexReferences.getElement();
 
             for (int i = 0; i < externalIndex.length(); i++) {
-                JSONObject indexJson = this.orchidResources.loadAdditionalFile(externalIndex.getString(i));
+                JSONObject indexJson = this.context.loadAdditionalFile(externalIndex.getString(i));
                 if(indexJson != null) {
                     OrchidIndex index = OrchidIndex.fromJSON(context, indexJson);
-                    this.externalIndex.addChildIndex(index);
+                    context.addExternalChildIndex(index);
                 }
-            }
-        }
-    }
-
-    private void mergeIndices(OrchidIndex... indices) {
-        this.compositeIndex = new OrchidCompositeIndex("composite");
-        for(OrchidIndex index : indices) {
-            if(index != null) {
-                this.compositeIndex.mergeIndex(index);
             }
         }
     }
@@ -130,72 +111,12 @@ public final class OrchidGenerators {
 
         List<? extends OrchidPage> generatorPages = null;
         if(!EdenUtils.isEmpty(generator.getKey())) {
-            generatorPages = internalIndex.getGeneratorPages(generator.getKey());
+            generatorPages = context.getGeneratorPages(generator.getKey());
         }
         if(generatorPages == null) {
             generatorPages = new ArrayList<>();
         }
-        if(renderParallel) {
-            generator.startGeneration(generatorPages);
-        }
-        else {
-            generator.startGeneration(generatorPages);
-        }
-    }
 
-    public Set<OrchidGenerator> getAllGenerators() {
-        return allGenerators;
-    }
-
-    public void setAllGenerators(Set<OrchidGenerator> allGenerators) {
-        this.allGenerators = allGenerators;
-    }
-
-    public Set<OrchidGenerator> getGenerators() {
-        return generators;
-    }
-
-    public void setGenerators(Set<OrchidGenerator> generators) {
-        this.generators = generators;
-    }
-
-    public OrchidContext getContext() {
-        return context;
-    }
-
-    public void setContext(OrchidContext context) {
-        this.context = context;
-    }
-
-    public OrchidResources getOrchidResources() {
-        return orchidResources;
-    }
-
-    public void setOrchidResources(OrchidResources orchidResources) {
-        this.orchidResources = orchidResources;
-    }
-
-    public OrchidRootInternalIndex getInternalIndex() {
-        return internalIndex;
-    }
-
-    public void setInternalIndex(OrchidRootInternalIndex internalIndex) {
-        this.internalIndex = internalIndex;
-    }
-
-    public OrchidRootExternalIndex getExternalIndex() {
-        return externalIndex;
-    }
-
-    public void setExternalIndex(OrchidRootExternalIndex externalIndex) {
-        this.externalIndex = externalIndex;
-    }
-
-    public OrchidCompositeIndex getCompositeIndex() {
-        return compositeIndex;
-    }
-
-    public void setCompositeIndex(OrchidCompositeIndex compositeIndex) {
-        this.compositeIndex = compositeIndex;
+        generator.startGeneration(generatorPages);
     }
 }

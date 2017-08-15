@@ -2,7 +2,6 @@ package com.eden.orchid.server.impl.controllers.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidResources;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
 
@@ -15,14 +14,12 @@ import java.util.Map;
 public class StaticFileResponse {
 
     private OrchidContext context;
-    private OrchidResources resources;
 
     private Map<String, String> mimeTypes;
 
     @Inject
-    public StaticFileResponse(OrchidContext context, OrchidResources resources) {
+    public StaticFileResponse(OrchidContext context) {
         this.context = context;
-        this.resources = resources;
 
         mimeTypes = new HashMap<>();
         mimeTypes.put("html", "text/html");

@@ -4,12 +4,13 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
 
-@Data
+@Getter @Setter
 public abstract class OrchidResource {
 
     protected OrchidContext context;
@@ -45,5 +46,9 @@ public abstract class OrchidResource {
 
     public InputStream getContentStream() {
         return IOUtils.toInputStream(getRawContent());
+    }
+
+    public String getRawContent() {
+        return rawContent;
     }
 }

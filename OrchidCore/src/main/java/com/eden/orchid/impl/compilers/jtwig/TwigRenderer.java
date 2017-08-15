@@ -3,7 +3,6 @@ package com.eden.orchid.impl.compilers.jtwig;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
@@ -21,8 +20,8 @@ public class TwigRenderer extends OrchidRenderer {
     private final String destination;
 
     @Inject
-    public TwigRenderer(@Named("d") String destination, OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {
-        super(context, resources, strategy);
+    public TwigRenderer(@Named("d") String destination, OrchidContext context, TemplateResolutionStrategy strategy) {
+        super(context, strategy);
         this.destination = destination;
     }
 

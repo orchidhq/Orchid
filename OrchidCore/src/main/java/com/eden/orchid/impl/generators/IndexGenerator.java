@@ -5,7 +5,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.JsonResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -20,8 +19,8 @@ import java.util.Map;
 public class IndexGenerator extends OrchidGenerator {
 
     @Inject
-    public IndexGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
-        super(1, "indices", context, resources, renderer);
+    public IndexGenerator(OrchidContext context, OrchidRenderer renderer) {
+        super(1, "indices", context, renderer);
     }
 
     @Override

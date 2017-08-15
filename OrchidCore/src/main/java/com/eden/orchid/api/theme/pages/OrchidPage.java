@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class OrchidPage implements OptionsHolder, AssetHolder, MenuHolder {
 
-    protected OrchidContext context;
+    @Getter protected OrchidContext context;
 
     @Getter @Setter protected OrchidResource resource;
     @Getter @Setter protected OrchidReference reference;

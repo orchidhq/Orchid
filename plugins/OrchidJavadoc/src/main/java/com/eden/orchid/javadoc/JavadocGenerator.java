@@ -4,7 +4,6 @@ package com.eden.orchid.javadoc;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.pages.JavadocClassPage;
 import com.eden.orchid.javadoc.pages.JavadocPackagePage;
@@ -30,8 +29,8 @@ public class JavadocGenerator extends OrchidGenerator {
     public static List<JavadocPackagePage> allPackages;
 
     @Inject
-    public JavadocGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer, RootDoc rootDoc) {
-        super(800, "javadoc", context, resources, renderer);
+    public JavadocGenerator(OrchidContext context, OrchidRenderer renderer, RootDoc rootDoc) {
+        super(800, "javadoc", context, renderer);
         this.rootDoc = rootDoc;
     }
 

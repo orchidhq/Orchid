@@ -4,7 +4,6 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.OrchidResources;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -17,7 +16,6 @@ public class OrchidOptions {
     private OrchidContext context;
     private Set<OrchidGenerator> generators;
     private Set<OrchidParser> parsers;
-    private OrchidResources resources;
     private String environment;
 
     private String[] formats = new String[]{"config-#{$1}", "config"};
@@ -26,12 +24,10 @@ public class OrchidOptions {
     public OrchidOptions(
             OrchidContext context,
             Set<OrchidGenerator> generators,
-            Set<OrchidParser> parsers,
-            OrchidResources resources) {
+            Set<OrchidParser> parsers) {
         this.context = context;
         this.generators = generators;
         this.parsers = parsers;
-        this.resources = resources;
         this.environment = OrchidFlags.getInstance().getString("environment");
     }
 
@@ -39,7 +35,7 @@ public class OrchidOptions {
         JSONObject options = new JSONObject();
 
         JSONObject configOptions = loadConfigFile();
-        JSONObject dataFiles = resources.getLocalDatafiles("data");
+        JSONObject dataFiles = context.getLocalDatafiles("data");
 
         options.put("data", dataFiles);
         for (String key : dataFiles.keySet()) {
@@ -58,7 +54,7 @@ public class OrchidOptions {
 
     public JSONObject loadConfigFile() {
         return Arrays.stream(formats)
-                     .map(format -> resources.getLocalDatafile(Clog.format(format, environment)))
+                     .map(format -> context.getLocalDatafile(Clog.format(format, environment)))
                      .filter(Objects::nonNull)
                      .findFirst()
                      .orElse(null);

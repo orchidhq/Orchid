@@ -5,14 +5,12 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.server.api.ServerUtils;
 import fi.iki.elonen.NanoWSD;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.EventListener;
 
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter
 public class OrchidWebsocket extends NanoWSD implements EventListener {
 
     private OrchidContext context;

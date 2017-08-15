@@ -2,7 +2,6 @@ package com.eden.orchid.server.impl.controllers.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONObject;
@@ -12,12 +11,10 @@ import javax.inject.Inject;
 public class NotFound404Response {
 
     private OrchidContext context;
-    private OrchidResources resources;
 
     @Inject
-    public NotFound404Response(OrchidContext context, OrchidResources resources) {
+    public NotFound404Response(OrchidContext context) {
         this.context = context;
-        this.resources = resources;
     }
 
     public NanoHTTPD.Response getResponse(String targetPath) {
@@ -28,7 +25,7 @@ public class NotFound404Response {
         JSONObject object = new JSONObject(context.getRoot().toMap());
         object.put("page", page);
 
-        OrchidResource resource = resources.getResourceEntry("templates/server/404.twig");
+        OrchidResource resource = context.getResourceEntry("templates/server/404.twig");
 
         String content = "";
         if(resource != null) {

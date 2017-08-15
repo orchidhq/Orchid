@@ -1,13 +1,14 @@
 package com.eden.orchid.server;
 
 import com.eden.orchid.api.OrchidContext;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 
-@Data
+@Getter @Setter
 @Singleton
 public class OrchidServer {
 

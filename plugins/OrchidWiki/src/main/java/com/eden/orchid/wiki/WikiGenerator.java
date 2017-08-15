@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -42,8 +41,8 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
     public String[] sectionNames;
 
     @Inject
-    public WikiGenerator(OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
-        super(700, "wiki", context, resources, renderer);
+    public WikiGenerator(OrchidContext context, OrchidRenderer renderer) {
+        super(700, "wiki", context, renderer);
     }
 
     @Override
@@ -102,7 +101,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
                 OrchidUtils.normalizePath(wikiBaseDir) + "/" + OrchidUtils.normalizePath(section) + "/" :
                 OrchidUtils.normalizePath(wikiBaseDir) + "/";
 
-        OrchidResource summary = resources.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md");
+        OrchidResource summary = context.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md");
 
         if (summary == null) {
             Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir);
@@ -122,7 +121,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
             String file = sectionBaseDir + a.attr("href");
             String path = sectionBaseDir + FilenameUtils.removeExtension(a.attr("href"));
 
-            OrchidResource resource = resources.getLocalResourceEntry(file);
+            OrchidResource resource = context.getLocalResourceEntry(file);
 
             if (resource == null) {
                 Clog.w("Could not find wiki resource page at '#{$1}'", file);

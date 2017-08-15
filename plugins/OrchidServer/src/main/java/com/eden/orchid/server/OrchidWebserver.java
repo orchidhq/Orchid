@@ -15,8 +15,8 @@ import com.eden.orchid.server.api.methods.Put;
 import com.eden.orchid.server.impl.controllers.files.FileController;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -26,8 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter @Setter
 public class OrchidWebserver extends NanoHTTPD {
 
     private static Class<? extends Annotation>[] annotationClasses = new Class[]{Get.class, Post.class, Put.class, Delete.class};

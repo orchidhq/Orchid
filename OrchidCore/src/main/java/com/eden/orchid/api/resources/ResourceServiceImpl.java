@@ -10,6 +10,7 @@ import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +34,9 @@ import java.util.Set;
 import java.util.TreeMap;
 
 @Singleton
-public final class OrchidResources {
+public final class ResourceServiceImpl implements ResourceService {
 
-    private OrchidContext context;
+    private Provider<OrchidContext> contextProvider;
     private Set<LocalResourceSource> localResourceSources;
     private Set<DefaultResourceSource> defaultResourceSources;
     private OkHttpClient client;
@@ -44,12 +44,14 @@ public final class OrchidResources {
     private final String resourcesDir;
 
     @Inject
-    public OrchidResources(
-            OrchidContext context,
+    public ResourceServiceImpl(
+            Provider<OrchidContext> contextProvider,
             @Named("resourcesDir") String resourcesDir,
             Set<LocalResourceSource> localResourceSources,
             Set<DefaultResourceSource> defaultResourceSources) {
-        this.context = context;
+
+        this.contextProvider = contextProvider;
+
         this.localResourceSources = new ObservableTreeSet<>(localResourceSources);
         this.defaultResourceSources = new ObservableTreeSet<>(defaultResourceSources);
 
@@ -57,24 +59,22 @@ public final class OrchidResources {
         this.resourcesDir = resourcesDir;
     }
 
-    /**
-     * Finds a datafile with the given filename, regardless of format, and parses the content, returning the raw data
-     * contained within as a JSONObject. The file extensions are based on what is acceptable to all currently registered
-     * OrchidParsers.
-     *
-     * @param fileName the file path and name to find (without the file extension)
-     * @return a JSONObject with the data contained within the file if it can be found, null otherwise
-     */
+    @Override
+    public ResourceService getResourceService() {
+        return this;
+    }
+
+    @Override
     public JSONObject getLocalDatafile(final String fileName) {
-        return Arrays
-                .stream(getParserExtensions())
+        return contextProvider
+                .get().getParserExtensions().stream()
                 .map(ext -> {
                     OrchidResource resource = getLocalResourceEntry(fileName + "." + ext);
-                    if(resource != null) {
+                    if (resource != null) {
                         String content = resource.getContent();
 
-                        if(!EdenUtils.isEmpty(content)) {
-                            return context.parse(ext, content);
+                        if (!EdenUtils.isEmpty(content)) {
+                            return contextProvider.get().parse(ext, content);
                         }
                     }
 
@@ -85,22 +85,17 @@ public final class OrchidResources {
                 .orElse(null);
     }
 
-    /**
-     * Finds all datafiles in the given directory, regardless of format, and parses the content, returning the raw data
-     * contained within as a JSONObject where each file is a key in the JSONObject. The file extensions are based on
-     * what is acceptable to all currently registered OrchidParsers.
-     *
-     * @param directory the directory to find datafiles within
-     * @return a JSONObject with the data contained within the file if it can be found, null otherwise
-     */
+    @Override
     public JSONObject getLocalDatafiles(final String directory) {
-        List<OrchidResource> files = getLocalResourceEntries(directory, getParserExtensions(), false);
+        String[] parserExtensions = new String[contextProvider.get().getParserExtensions().size()];
+        contextProvider.get().getParserExtensions().toArray(parserExtensions);
+        List<OrchidResource> files = getLocalResourceEntries(directory, parserExtensions, false);
 
         JSONObject allDatafiles = new JSONObject();
 
         for (OrchidResource file : files) {
             file.getReference().setUsePrettyUrl(false);
-            JSONObject fileData = context.parse(file.getReference().getExtension(), file.getContent());
+            JSONObject fileData = contextProvider.get().parse(file.getReference().getExtension(), file.getContent());
 
             if (fileData != null) {
                 if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
@@ -116,30 +111,7 @@ public final class OrchidResources {
         return allDatafiles;
     }
 
-    public String[] getParserExtensions() {
-
-        List<String> extensions = new ArrayList<>();
-
-        for(OrchidParser parser : OrchidUtils.resolveSet(context, OrchidParser.class)) {
-            if(!EdenUtils.isEmpty(parser.getSourceExtensions())) {
-                for (String ext : parser.getSourceExtensions()) {
-                    extensions.add(ext);
-                }
-            }
-        }
-
-        String[] extensionsArray = new String[extensions.size()];
-        extensions.toArray(extensionsArray);
-        return extensionsArray;
-    }
-
-    /**
-     * Gets a single OrchidResource from the directory declared by the 'resourcesDir' option. Themes and other
-     * registered resource sources are not considered.
-     *
-     * @param fileName the file path and name to find
-     * @return an OrchidResource if it can be found, null otherwise
-     */
+    @Override
     public OrchidResource getLocalResourceEntry(final String fileName) {
         return localResourceSources
                 .stream()
@@ -149,24 +121,12 @@ public final class OrchidResources {
                 .orElse(null);
     }
 
-    /**
-     * Gets a single OrchidResource from the directory declared by the 'resourcesDir' option. Themes and other
-     * registered resource sources are not considered.
-     *
-     * @param fileName the file path and name to find
-     * @return an OrchidResource if it can be found, null otherwise
-     */
+    @Override
     public OrchidResource getThemeResourceEntry(final String fileName) {
-        return context.getTheme().getResourceEntry(fileName);
+        return contextProvider.get().getTheme().getResourceEntry(fileName);
     }
 
-    /**
-     * Gets a single OrchidResource. The 'resourcesDir' directory is first searched, and then all registered
-     * ResourceSources (which include themes) in order of priority.
-     *
-     * @param fileName the file path and name to find
-     * @return an OrchidResource if it can be found, null otherwise
-     */
+    @Override
     public OrchidResource getResourceEntry(final String fileName) {
         // first check for a resource in any specified local resource sources
         OrchidResource resource = getLocalResourceEntry(fileName);
@@ -190,17 +150,7 @@ public final class OrchidResources {
         return resource;
     }
 
-    /**
-     * Finds all OrchidResources in a given directory in the 'resources directory' that contain one of the declared file
-     * extensions. Themes and other registered resource sources are not considered. If no extensions are specified, all
-     * files in the given directory are returned. If recursive is true, the declared directory and all subdirectories
-     * are searched instead of just the declared directory.
-     *
-     * @param path           the path to search in
-     * @param fileExtensions a list of extensions to match files on (optional)
-     * @param recursive      whether to also search subdirectories
-     * @return a list of all OrchidResources found
-     */
+    @Override
     public List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
@@ -209,38 +159,18 @@ public final class OrchidResources {
         return new ArrayList<>(entries.values());
     }
 
-    /**
-     * Finds all OrchidResources in a given directory in the 'resources directory' that contain one of the declared file
-     * extensions. Themes and other registered resource sources are not considered. If no extensions are specified, all
-     * files in the given directory are returned. If recursive is true, the declared directory and all subdirectories
-     * are searched instead of just the declared directory.
-     *
-     * @param path           the path to search in
-     * @param fileExtensions a list of extensions to match files on (optional)
-     * @param recursive      whether to also search subdirectories
-     * @return a list of all OrchidResources found
-     */
+    @Override
     public List<OrchidResource> getThemeResourceEntries(String path, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         List<OrchidResourceSource> themeSources = new ArrayList<>();
-        themeSources.add(context.getTheme());
+        themeSources.add(contextProvider.get().getTheme());
         addEntries(entries, themeSources, path, fileExtensions, recursive);
 
         return new ArrayList<>(entries.values());
     }
 
-    /**
-     * Finds all OrchidResources in a given directory in all registered ResourceSources. The 'resourcesDir' directory is
-     * first searched, and then all registered ResourceSources (which include themes) in order of priority. If no
-     * extensions are specified, all files in the given directory are returned. If recursive is true, the declared
-     * directory and all subdirectories are searched instead of just the declared directory.
-     *
-     * @param path           the path to search in
-     * @param fileExtensions a list of extensions to match files on (optional)
-     * @param recursive      whether to also search subdirectories
-     * @return a list of all OrchidResources found
-     */
+    @Override
     public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
@@ -249,7 +179,7 @@ public final class OrchidResources {
 
         // add entries from theme
         List<OrchidResourceSource> themeSources = new ArrayList<>();
-        themeSources.add(context.getTheme());
+        themeSources.add(contextProvider.get().getTheme());
         addEntries(entries, themeSources, path, fileExtensions, recursive);
 
         // add entries from other sources
@@ -292,6 +222,7 @@ public final class OrchidResources {
                 });
     }
 
+    @Override
     public JSONObject loadAdditionalFile(String url) {
         if (!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
             return loadLocalFile(url.replaceAll("file://", ""));
@@ -301,11 +232,12 @@ public final class OrchidResources {
         }
     }
 
+    @Override
     public JSONObject loadLocalFile(String url) {
         try {
             File file = new File(url);
             String s = IOUtils.toString(new FileInputStream(file));
-            return context.parse("json", s);
+            return contextProvider.get().parse("json", s);
         }
         catch (FileNotFoundException e) {
             // ignore files not being found
@@ -317,6 +249,7 @@ public final class OrchidResources {
         return null;
     }
 
+    @Override
     public JSONObject loadRemoteFile(String url) {
         Request request = new Request.Builder().url(url).build();
 
@@ -334,14 +267,17 @@ public final class OrchidResources {
         return null;
     }
 
+    @Override
     public OrchidResource findClosestFile(String filename) {
         return findClosestFile(filename, false);
     }
 
+    @Override
     public OrchidResource findClosestFile(String filename, boolean strict) {
         return findClosestFile(filename, strict, 10);
     }
 
+    @Override
     public OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
         File folder = new File(resourcesDir);
 
@@ -352,12 +288,12 @@ public final class OrchidResources {
                 for (File file : files) {
                     if (!strict) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
-                            return new FileResource(context, file);
+                            return new FileResource(contextProvider.get(), file);
                         }
                     }
                     else {
                         if (file.getName().equals(filename)) {
-                            return new FileResource(context, file);
+                            return new FileResource(contextProvider.get(), file);
                         }
                     }
                 }
@@ -375,7 +311,7 @@ public final class OrchidResources {
             }
         }
 
-
         return null;
     }
+
 }

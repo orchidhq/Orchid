@@ -2,10 +2,16 @@ package com.eden.orchid.impl;
 
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.CompilerService;
+import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
+import com.eden.orchid.api.events.EventService;
+import com.eden.orchid.api.events.EventServiceImpl;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.indexing.IndexService;
+import com.eden.orchid.api.indexing.IndexServiceImpl;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
@@ -16,10 +22,13 @@ import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
-import com.eden.orchid.api.render.ContentFilter;
+import com.eden.orchid.api.resources.ResourceService;
+import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.theme.ThemeService;
+import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
@@ -50,14 +59,20 @@ import java.util.EventListener;
 public class ImplModule extends OrchidModule {
 
     private static final Class[] optionalSets = new Class[]{
-            EventListener.class,
-            ContentFilter.class
+            EventListener.class
     };
 
     @Override
     protected void configure() {
-        bind(OrchidContext.class).to(OrchidContextImpl.class);
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
+
+        bind(CompilerService.class).to(CompilerServiceImpl.class);
+        bind(ThemeService.class).to(ThemeServiceImpl.class);
+        bind(EventService.class).to(EventServiceImpl.class);
+        bind(IndexService.class).to(IndexServiceImpl.class);
+        bind(ResourceService.class).to(ResourceServiceImpl.class);
+
+        bind(OrchidContext.class).to(OrchidContextImpl.class);
 
         addTheme(LocalTheme.class);
 

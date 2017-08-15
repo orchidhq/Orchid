@@ -4,12 +4,13 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.utilities.OrchidUtils;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 import java.net.URL;
 
-@Data
+@Getter @Setter
 public final class OrchidReference {
 
     protected OrchidContext context;

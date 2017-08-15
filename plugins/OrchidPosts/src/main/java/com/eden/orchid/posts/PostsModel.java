@@ -4,7 +4,8 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.pages.PostTagArchivePage;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Getter @Setter
 @Singleton
-@Data
 public class PostsModel {
 
     private Map<String, EdenPair<List<PostPage>, List<PostArchivePage>>> categories;

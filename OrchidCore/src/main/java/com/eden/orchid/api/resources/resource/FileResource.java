@@ -27,7 +27,6 @@ public final class FileResource extends FreeableResource  {
 
     public FileResource(File file, OrchidReference reference) {
         super(reference);
-
         this.file = file;
     }
 

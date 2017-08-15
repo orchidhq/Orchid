@@ -3,11 +3,10 @@ package com.eden.orchid.posts.pages;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter @Setter
 public class PostPage extends OrchidPage {
 
     private int year;

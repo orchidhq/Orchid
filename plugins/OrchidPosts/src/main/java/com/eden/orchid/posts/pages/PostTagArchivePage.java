@@ -1,11 +1,10 @@
 package com.eden.orchid.posts.pages;
 
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter @Setter
 public class PostTagArchivePage extends PostArchivePage {
 
     public PostTagArchivePage(OrchidResource resource) {

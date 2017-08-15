@@ -1,7 +1,6 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -13,13 +12,11 @@ import java.io.InputStream;
 public abstract class OrchidRenderer {
 
     protected OrchidContext context;
-    protected OrchidResources resources;
     @Getter protected TemplateResolutionStrategy strategy;
 
     @Inject
-    public OrchidRenderer(OrchidContext context, OrchidResources resources, TemplateResolutionStrategy strategy) {
+    public OrchidRenderer(OrchidContext context, TemplateResolutionStrategy strategy) {
         this.context = context;
-        this.resources = resources;
         this.strategy = strategy;
     }
 
@@ -32,7 +29,7 @@ public abstract class OrchidRenderer {
      */
     public final boolean renderTemplate(OrchidPage page) {
         for (String template : strategy.getPageTemplate(page)) {
-            OrchidResource templateResource = resources.getResourceEntry(template);
+            OrchidResource templateResource = context.getResourceEntry(template);
 
             if (templateResource != null) {
                 return render(page, FilenameUtils.getExtension(template), templateResource.getContent());

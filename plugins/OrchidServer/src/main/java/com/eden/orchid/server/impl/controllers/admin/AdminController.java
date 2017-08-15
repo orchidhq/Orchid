@@ -4,7 +4,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidFlags;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
@@ -31,19 +30,17 @@ import java.util.Map;
 public class AdminController implements OrchidController {
 
     private OrchidContext context;
-    private OrchidResources resources;
     private Provider<OrchidServer> server;
 
     @Inject
-    public AdminController(OrchidContext context, OrchidResources resources, Provider<OrchidServer> server) {
+    public AdminController(OrchidContext context, Provider<OrchidServer> server) {
         this.context = context;
-        this.resources = resources;
         this.server = server;
     }
 
     @Get(path="/")
     public OrchidResponse doNothing(OrchidRequest request) {
-        OrchidResource resource = resources.getResourceEntry("templates/server/admin/admin.twig");
+        OrchidResource resource = context.getResourceEntry("templates/server/admin/admin.twig");
         String content = "";
         if(resource != null) {
 
@@ -58,7 +55,7 @@ public class AdminController implements OrchidController {
 
     @Get(path="/lists/:name")
     public OrchidResponse renderList(OrchidRequest request, String name) {
-        OrchidResource resource = resources.getResourceEntry("templates/server/admin/lists/" + name + ".twig");
+        OrchidResource resource = context.getResourceEntry("templates/server/admin/lists/" + name + ".twig");
         if(resource != null) {
             Map<String, Object> data = new HashMap<>();
             data.put("httpServerPort", server.get().getHttpServerPort());

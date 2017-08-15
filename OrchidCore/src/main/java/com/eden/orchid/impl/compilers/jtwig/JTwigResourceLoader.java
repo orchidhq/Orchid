@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.api.resources.OrchidResources;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.common.base.Optional;
 import com.google.inject.Provider;
@@ -19,16 +19,16 @@ import java.nio.charset.Charset;
 public class JTwigResourceLoader extends TypedResourceLoader {
 
     @Inject
-    public JTwigResourceLoader(Provider<OrchidResources> resources) {
+    public JTwigResourceLoader(Provider<OrchidContext> resources) {
         super("orchid", new Loader(resources));
     }
 
     private static class Loader implements ResourceLoader {
 
-        private Provider<OrchidResources> resources;
+        private Provider<OrchidContext> contextProvider;
 
-        public Loader(Provider<OrchidResources> resources) {
-            this.resources = resources;
+        public Loader(Provider<OrchidContext> contextProvider) {
+            this.contextProvider = contextProvider;
         }
 
         @Override
@@ -79,10 +79,10 @@ public class JTwigResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(!path.startsWith("templates/")) {
-                resource = resources.get().getResourceEntry("templates/" + path);
+                resource = contextProvider.get().getResourceEntry("templates/" + path);
             }
             else {
-                resource = resources.get().getResourceEntry(path);
+                resource = contextProvider.get().getResourceEntry(path);
             }
 
             return (resource != null);
@@ -94,10 +94,10 @@ public class JTwigResourceLoader extends TypedResourceLoader {
             OrchidResource resource;
 
             if(!path.startsWith("templates")) {
-                resource = resources.get().getResourceEntry("templates/" + path);
+                resource = contextProvider.get().getResourceEntry("templates/" + path);
             }
             else {
-                resource = resources.get().getResourceEntry(path);
+                resource = contextProvider.get().getResourceEntry(path);
             }
 
             if(resource != null) {

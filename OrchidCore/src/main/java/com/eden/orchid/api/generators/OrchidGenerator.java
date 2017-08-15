@@ -3,7 +3,6 @@ package com.eden.orchid.api.generators;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
@@ -45,15 +44,13 @@ public abstract class OrchidGenerator extends Prioritized {
     protected final String key;
 
     protected OrchidContext context;
-    protected OrchidResources resources;
     protected OrchidRenderer renderer;
 
     @Inject
-    public OrchidGenerator(int priority, String key, OrchidContext context, OrchidResources resources, OrchidRenderer renderer) {
+    public OrchidGenerator(int priority, String key, OrchidContext context, OrchidRenderer renderer) {
         setPriority(priority);
         this.key = key;
         this.context = context;
-        this.resources = resources;
         this.renderer = renderer;
     }
 

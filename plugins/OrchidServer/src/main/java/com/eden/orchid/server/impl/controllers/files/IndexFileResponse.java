@@ -2,7 +2,6 @@ package com.eden.orchid.server.impl.controllers.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.OrchidResources;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
@@ -22,15 +21,12 @@ import java.util.Map;
 public class IndexFileResponse {
 
     private OrchidContext context;
-    private OrchidResources resources;
-
     private Map<String, String> iconMap;
 
 
     @Inject
-    public IndexFileResponse(OrchidContext context, OrchidResources resources) {
+    public IndexFileResponse(OrchidContext context) {
         this.context = context;
-        this.resources = resources;
 
         this.iconMap = new HashMap<>();
 
@@ -89,7 +85,7 @@ public class IndexFileResponse {
                 JSONObject object = new JSONObject(context.getRoot().toMap());
                 object.put("page", page);
 
-                OrchidResource resource = resources.getResourceEntry("templates/server/directoryListing.twig");
+                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.twig");
 
                 if (resource != null) {
                     content = context.compile(resource.getReference().getExtension(), resource.getContent(), object.toString(2));
