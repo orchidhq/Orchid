@@ -1,5 +1,6 @@
 package com.eden.orchid.api.indexing;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
@@ -14,13 +15,15 @@ import java.util.List;
 @Singleton
 public final class IndexServiceImpl implements IndexService {
 
+    private OrchidContext context;
+
     private OrchidRootInternalIndex internalIndex;
     private OrchidRootExternalIndex externalIndex;
     private OrchidCompositeIndex compositeIndex;
 
     @Override
-    public IndexService getIndexService() {
-        return this;
+    public void initialize(OrchidContext context) {
+        this.context = context;
     }
 
     @Override

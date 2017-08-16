@@ -1,36 +1,48 @@
 package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.compilers.OrchidParser;
-import com.eden.orchid.api.generators.OrchidGenerator;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Set;
 
-public class OrchidOptions {
+public class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;
-    private Set<OrchidGenerator> generators;
-    private Set<OrchidParser> parsers;
     private String environment;
 
     private String[] formats = new String[]{"config-#{$1}", "config"};
 
+    private JSONObject optionsData;
+
     @Inject
-    public OrchidOptions(
-            OrchidContext context,
-            Set<OrchidGenerator> generators,
-            Set<OrchidParser> parsers) {
-        this.context = context;
-        this.generators = generators;
-        this.parsers = parsers;
+    public OptionsServiceImpl() {
         this.environment = OrchidFlags.getInstance().getString("environment");
     }
 
+    @Override
+    public void initialize(OrchidContext context) {
+        this.context = context;
+    }
+
+    @Override
+    public void clearOptions() {
+        optionsData = null;
+    }
+
+    @Override
+    public JSONObject getOptionsData() {
+        if(optionsData == null) {
+            optionsData = loadOptions();
+        }
+        return optionsData;
+    }
+
+    @Override
     public JSONObject loadOptions() {
         JSONObject options = new JSONObject();
 
@@ -47,11 +59,10 @@ public class OrchidOptions {
             options.put(key, configOptions.get(key));
         }
 
-        // TODO: Extract options into generator
-
         return options;
     }
 
+    @Override
     public JSONObject loadConfigFile() {
         return Arrays.stream(formats)
                      .map(format -> context.getLocalDatafile(Clog.format(format, environment)))
@@ -60,7 +71,11 @@ public class OrchidOptions {
                      .orElse(null);
     }
 
-    public JSONObject loadGeneratorOptions(OrchidGenerator generator) {
-        return new JSONObject();
+    @Override
+    public JSONElement query(String pointer) {
+        if (!EdenUtils.isEmpty(pointer)) {
+            return new JSONElement(getOptionsData()).query(pointer);
+        }
+        return null;
     }
 }

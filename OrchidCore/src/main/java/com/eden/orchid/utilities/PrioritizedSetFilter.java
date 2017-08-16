@@ -36,7 +36,7 @@ public class PrioritizedSetFilter<T extends Prioritized> {
         if(fullFilteredSet != null) {
             return fullFilteredSet;
         }
-        JSONElement element = context.query("options." + key);
+        JSONElement element = context.query(key);
 
         Stream<T> filter = originalSet.stream();
 

@@ -133,9 +133,15 @@ public final class Orchid {
     }
 
     public boolean start(List<AbstractModule> modules, Class<? extends Theme> themeClass, String task) {
+        String moduleLog = "Using the following modules: ";
+        moduleLog += "\n--------------------";
         for (AbstractModule module : modules) {
-            Clog.i("Registering module of type '#{$1}'", module.getClass().getName());
+            if(!module.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
+                moduleLog += "\n * " + module.getClass().getName();
+            }
         }
+        moduleLog += "\n--------------------";
+        Clog.i(moduleLog);
 
         modules.add(OrchidFlags.getInstance().parseFlags(this.flags));
 
@@ -143,8 +149,8 @@ public final class Orchid {
         context = injector.getInstance(OrchidContext.class);
 
         Theme theme = injector.getInstance(themeClass);
-
-        boolean success = context.runTask(theme, task);
+        context.setDefaultTheme(theme);
+        boolean success = context.run(task);
         context.broadcast(Events.SHUTDOWN, success);
         return success;
     }
@@ -153,7 +159,7 @@ public final class Orchid {
         return context;
     }
 
-    // Entry points, main routines
+// Entry points, main routines
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void main(String[] args) {
@@ -167,7 +173,16 @@ public final class Orchid {
             List<AbstractModule> modules = Orchid.findModules(options);
             Class<? extends Theme> theme = Orchid.findTheme(options);
             String task = Orchid.findTask(options);
-            System.exit((Orchid.getInstance(options).start(modules, theme, task)) ? 0 : 1);
+
+            boolean success;
+            try {
+                success = Orchid.getInstance(options).start(modules, theme, task);
+            }
+            catch (Exception e) {
+                success = false;
+                Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
+            }
+            System.exit(success ? 0 : 1);
         }
         catch (ClassNotFoundException e) {
             Clog.e("Theme class could not be found.");

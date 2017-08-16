@@ -64,7 +64,7 @@ public final class OrchidGenerators {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
         if(generator instanceof OptionsHolder) {
-            JSONElement el = context.query("options." + generator.getKey());
+            JSONElement el = context.query(generator.getKey());
             if(OrchidUtils.elementIsObject(el)) {
                 ((OptionsHolder) generator).extractOptions(context, (JSONObject) el.getElement());
             }
@@ -88,7 +88,7 @@ public final class OrchidGenerators {
     }
 
     private void buildExternalIndex() {
-        JSONElement externalIndexReferences = context.query("options.externalIndex");
+        JSONElement externalIndexReferences = context.query("externalIndex");
 
         if(OrchidUtils.elementIsArray(externalIndexReferences)) {
             JSONArray externalIndex = (JSONArray) externalIndexReferences.getElement();

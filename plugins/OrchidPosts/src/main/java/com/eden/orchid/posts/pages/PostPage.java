@@ -15,6 +15,7 @@ public class PostPage extends OrchidPage {
 
     private String category;
     @Option protected String[] tags;
+    @Option protected String featuredImage;
 
     public PostPage(OrchidResource resource) {
         super(resource, "post");

@@ -1,68 +1,68 @@
 package com.eden.orchid.api.resources;
 
+import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import org.json.JSONObject;
 
 import java.util.List;
 
-public interface ResourceService {
-
-    ResourceService getResourceService();
+public interface ResourceService extends OrchidService {
 
     default JSONObject getLocalDatafile(final String fileName) {
-        return getResourceService().getLocalDatafile(fileName);
+        return getService(ResourceService.class).getLocalDatafile(fileName);
     }
 
     default JSONObject getLocalDatafiles(final String directory) {
-        return getResourceService().getLocalDatafiles(directory);
+        return getService(ResourceService.class).getLocalDatafiles(directory);
     }
 
     default OrchidResource getLocalResourceEntry(final String fileName) {
-        return getResourceService().getLocalResourceEntry(fileName);
+        return getService(ResourceService.class).getLocalResourceEntry(fileName);
     }
 
     default OrchidResource getThemeResourceEntry(final String fileName) {
-        return getResourceService().getThemeResourceEntry(fileName);
+        return getService(ResourceService.class).getThemeResourceEntry(fileName);
     }
 
     default OrchidResource getResourceEntry(final String fileName) {
-        return getResourceService().getResourceEntry(fileName);
+        return getService(ResourceService.class).getResourceEntry(fileName);
     }
 
     default List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getResourceService().getLocalResourceEntries(path, fileExtensions, recursive);
+        return getService(ResourceService.class).getLocalResourceEntries(path, fileExtensions, recursive);
     }
 
     default List<OrchidResource> getThemeResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getResourceService().getThemeResourceEntries(path, fileExtensions, recursive);
+        return getService(ResourceService.class).getThemeResourceEntries(path, fileExtensions, recursive);
     }
 
     default List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getResourceService().getResourceEntries(path, fileExtensions, recursive);
+        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive);
     }
 
     default JSONObject loadAdditionalFile(String url) {
-        return getResourceService().loadAdditionalFile(url);
+        return getService(ResourceService.class).loadAdditionalFile(url);
     }
 
     default JSONObject loadLocalFile(String url) {
-        return getResourceService().loadLocalFile(url);
+        return getService(ResourceService.class).loadLocalFile(url);
     }
 
     default JSONObject loadRemoteFile(String url) {
-        return getResourceService().loadRemoteFile(url);
+        return getService(ResourceService.class).loadRemoteFile(url);
     }
 
     default OrchidResource findClosestFile(String filename) {
-        return getResourceService().findClosestFile(filename);
+        return getService(ResourceService.class).findClosestFile(filename);
     }
 
     default OrchidResource findClosestFile(String filename, boolean strict) {
-        return getResourceService().findClosestFile(filename, strict);
+        return getService(ResourceService.class).findClosestFile(filename, strict);
     }
 
     default OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
-        return getResourceService().findClosestFile(filename, strict, maxIterations);
+        return getService(ResourceService.class).findClosestFile(filename, strict, maxIterations);
     }
 
 }

@@ -7,7 +7,8 @@ dependencies {
 
     // core utilities
     compile 'com.github.JavaEden:Common:aa28e2b745'
-    compile 'com.github.JavaEden:Clog4j:v1.5.0'
+    compile 'com.github.JavaEden:Clog:v1.6.1'
+    compile 'com.github.JavaEden:Clog4j:v1.6.1'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'org.projectlombok:lombok:1.16.16'
     compile 'commons-io:commons-io:2.5'

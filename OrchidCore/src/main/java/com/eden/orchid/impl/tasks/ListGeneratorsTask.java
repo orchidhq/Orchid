@@ -4,7 +4,6 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.tasks.OrchidTasks;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
@@ -36,23 +35,23 @@ public class ListGeneratorsTask extends OrchidTask {
 
     @Override
     public void run() {
-        Clog.logger(OrchidTasks.loggerKey, "" +
+        Clog.logger(null, "" +
                 "#{ $0 | fg('cyan') }[Priority]#{$0 |reset}" +
                 "#{ $0 | fg('magenta') }[Name]#{$0 |reset}");
-        Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
-        Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
+        Clog.logger(null, "------------------------------------------------------------------------------------");
+        Clog.logger(null, "------------------------------------------------------------------------------------");
 
         for (OrchidGenerator generator : generators) {
-            Clog.logger(OrchidTasks.loggerKey, "" +
+            Clog.logger(null, "" +
                             "#{ $0 | fg('cyan') }[#{$1}]#{$0 |reset}" +
                             "#{ $0 | fg('red') }[#{$2} (disabled)]#{$0 |reset}",
                     generator.getPriority(), generator.getClass().getName());
 
             for (String line : OrchidUtils.wrapString(generator.getDescription(), 80)) {
-                Clog.logger(OrchidTasks.loggerKey, "    " + line);
+                Clog.logger(null, "    " + line);
             }
-            Clog.logger(OrchidTasks.loggerKey, "    --------------------------------------------------------------------------------");
-            Clog.logger(OrchidTasks.loggerKey, "");
+            Clog.logger(null, "    --------------------------------------------------------------------------------");
+            Clog.logger(null, "");
         }
     }
 }

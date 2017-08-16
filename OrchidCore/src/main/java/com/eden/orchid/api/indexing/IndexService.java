@@ -1,5 +1,6 @@
 package com.eden.orchid.api.indexing;
 
+import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
 import com.eden.orchid.impl.indexing.OrchidInternalIndex;
@@ -9,55 +10,53 @@ import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 import java.util.Collection;
 import java.util.List;
 
-public interface IndexService {
-
-    IndexService getIndexService();
+public interface IndexService extends OrchidService {
 
     default void clearIndex() {
-        getIndexService().clearIndex();
+        getService(IndexService.class).clearIndex();
     }
 
     default OrchidIndex getIndex() {
-        return getIndexService().getIndex();
+        return getService(IndexService.class).getIndex();
     }
 
     default OrchidRootInternalIndex getInternalIndex() {
-        return getIndexService().getInternalIndex();
+        return getService(IndexService.class).getInternalIndex();
     }
 
     default OrchidRootExternalIndex getExternalIndex() {
-        return getIndexService().getExternalIndex();
+        return getService(IndexService.class).getExternalIndex();
     }
 
     default OrchidCompositeIndex getCompositeIndex() {
-        return getIndexService().getCompositeIndex();
+        return getService(IndexService.class).getCompositeIndex();
     }
 
     default void mergeIndices(OrchidIndex... indices) {
-        getIndexService().mergeIndices(indices);
+        getService(IndexService.class).mergeIndices(indices);
     }
 
     default List<OrchidPage> getGeneratorPages(String generator) {
-        return getIndexService().getGeneratorPages(generator);
+        return getService(IndexService.class).getGeneratorPages(generator);
     }
 
     default void addChildIndex(String key, OrchidInternalIndex index) {
-        getIndexService().addChildIndex(key, index);
+        getService(IndexService.class).addChildIndex(key, index);
     }
 
     default void addExternalChildIndex(OrchidIndex index) {
-        getIndexService().addExternalChildIndex(index);
+        getService(IndexService.class).addExternalChildIndex(index);
     }
 
     default OrchidIndex createIndex(String rootKey, Collection<? extends OrchidPage> pages) {
-        return getIndexService().createIndex(rootKey, pages);
+        return getService(IndexService.class).createIndex(rootKey, pages);
     }
 
     default OrchidPage findPageByName(String name) {
-        return getIndexService().findPageByName(name);
+        return getService(IndexService.class).findPageByName(name);
     }
 
     default OrchidPage findPageByPath(String path) {
-        return getIndexService().findPageByPath(path);
+        return getService(IndexService.class).findPageByPath(path);
     }
 }

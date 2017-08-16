@@ -1,11 +1,11 @@
 package com.eden.orchid.api.events;
 
-public interface EventService {
+import com.eden.orchid.api.OrchidService;
 
-    EventService getEventService();
+public interface EventService extends OrchidService {
 
     default void broadcast(String event, Object... args) {
-        getEventService().broadcast(event, args);
+        getService(EventService.class).broadcast(event, args);
     }
 
 }

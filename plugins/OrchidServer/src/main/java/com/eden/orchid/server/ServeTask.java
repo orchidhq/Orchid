@@ -6,7 +6,6 @@ import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.server.api.FileWatcher;
 import com.google.inject.name.Named;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -53,7 +52,7 @@ public class ServeTask extends OrchidTask implements EventListener {
         File file = new File(resourcesDir);
 
         if (file.exists() && file.isDirectory()) {
-            JSONObject rootJson = context.getRoot();
+//            JSONObject rootJson = context.getRoot();
 //            JSONObject optionsJson = rootJson.getJSONObject("options");
 
             context.build();

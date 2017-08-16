@@ -22,7 +22,7 @@ public class NotFound404Response {
         page.put("title", "404 - " + targetPath);
         page.put("path", targetPath);
 
-        JSONObject object = new JSONObject(context.getRoot().toMap());
+        JSONObject object = new JSONObject(context.getOptionsData().toMap());
         object.put("page", page);
 
         OrchidResource resource = context.getResourceEntry("templates/server/404.twig");

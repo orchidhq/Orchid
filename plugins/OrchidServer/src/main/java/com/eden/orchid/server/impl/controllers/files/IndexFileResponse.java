@@ -82,7 +82,7 @@ public class IndexFileResponse {
                 page.put("dirs", jsonDirs);
                 page.put("files", jsonFiles);
 
-                JSONObject object = new JSONObject(context.getRoot().toMap());
+                JSONObject object = new JSONObject(context.getOptionsData().toMap());
                 object.put("page", page);
 
                 OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.twig");

@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.options.OrchidFlag;
-import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.sun.javadoc.LanguageVersion;
@@ -69,7 +69,7 @@ public final class OrchidJavadoc {
             modules.add(new JavadocModule());
 
             Class<? extends Theme> theme = Orchid.findTheme(options);
-            return Orchid.getInstance(options).start(modules, theme, OrchidTasks.defaultTask);
+            return Orchid.getInstance(options).start(modules, theme, TaskServiceImpl.defaultTask);
         }
         catch (ClassNotFoundException e) {
             Clog.e("Theme class could not be found.");

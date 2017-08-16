@@ -1,30 +1,30 @@
 package com.eden.orchid.api.theme;
 
-public interface ThemeService {
+import com.eden.orchid.api.OrchidService;
 
-    ThemeService getThemeService();
+public interface ThemeService extends OrchidService {
 
     default void clearThemes() {
-        getThemeService().clearThemes();
+        getService(ThemeService.class).clearThemes();
     }
 
     default void setDefaultTheme(Theme theme) {
-        getThemeService().setDefaultTheme(theme);
+        getService(ThemeService.class).setDefaultTheme(theme);
     }
 
     default Theme getDefaultTheme() {
-        return getThemeService().getDefaultTheme();
+        return getService(ThemeService.class).getDefaultTheme();
     }
 
     default Theme getTheme() {
-        return getThemeService().getTheme();
+        return getService(ThemeService.class).getTheme();
     }
 
     default void pushTheme(Theme theme) {
-        getThemeService().pushTheme(theme);
+        getService(ThemeService.class).pushTheme(theme);
     }
 
     default void popTheme() {
-        getThemeService().popTheme();
+        getService(ThemeService.class).popTheme();
     }
 }

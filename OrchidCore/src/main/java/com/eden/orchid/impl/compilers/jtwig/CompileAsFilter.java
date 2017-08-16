@@ -41,6 +41,6 @@ public class CompileAsFilter implements JtwigFunction {
         String text = fnParams.get(0).toString();
         String extension = fnParams.get(1).toString();
 
-        return context.compile(extension, text, new JSONObject(context.getRoot().toMap()));
+        return context.compile(extension, text, new JSONObject(context.getOptionsData().toMap()));
     }
 }

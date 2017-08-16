@@ -13,6 +13,8 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.OptionsService;
+import com.eden.orchid.api.options.OptionsServiceImpl;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
@@ -27,6 +29,8 @@ import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.tasks.TaskService;
+import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.ThemeService;
 import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
@@ -71,6 +75,8 @@ public class ImplModule extends OrchidModule {
         bind(EventService.class).to(EventServiceImpl.class);
         bind(IndexService.class).to(IndexServiceImpl.class);
         bind(ResourceService.class).to(ResourceServiceImpl.class);
+        bind(TaskService.class).to(TaskServiceImpl.class);
+        bind(OptionsService.class).to(OptionsServiceImpl.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 

@@ -10,7 +10,6 @@ import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -36,7 +35,7 @@ import java.util.TreeMap;
 @Singleton
 public final class ResourceServiceImpl implements ResourceService {
 
-    private Provider<OrchidContext> contextProvider;
+    private OrchidContext context;
     private Set<LocalResourceSource> localResourceSources;
     private Set<DefaultResourceSource> defaultResourceSources;
     private OkHttpClient client;
@@ -45,12 +44,9 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Inject
     public ResourceServiceImpl(
-            Provider<OrchidContext> contextProvider,
             @Named("resourcesDir") String resourcesDir,
             Set<LocalResourceSource> localResourceSources,
             Set<DefaultResourceSource> defaultResourceSources) {
-
-        this.contextProvider = contextProvider;
 
         this.localResourceSources = new ObservableTreeSet<>(localResourceSources);
         this.defaultResourceSources = new ObservableTreeSet<>(defaultResourceSources);
@@ -60,21 +56,20 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public ResourceService getResourceService() {
-        return this;
+    public void initialize(OrchidContext context) {
+        this.context = context;
     }
 
     @Override
     public JSONObject getLocalDatafile(final String fileName) {
-        return contextProvider
-                .get().getParserExtensions().stream()
+        return context.getParserExtensions().stream()
                 .map(ext -> {
                     OrchidResource resource = getLocalResourceEntry(fileName + "." + ext);
                     if (resource != null) {
                         String content = resource.getContent();
 
                         if (!EdenUtils.isEmpty(content)) {
-                            return contextProvider.get().parse(ext, content);
+                            return context.parse(ext, content);
                         }
                     }
 
@@ -87,15 +82,15 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Override
     public JSONObject getLocalDatafiles(final String directory) {
-        String[] parserExtensions = new String[contextProvider.get().getParserExtensions().size()];
-        contextProvider.get().getParserExtensions().toArray(parserExtensions);
+        String[] parserExtensions = new String[context.getParserExtensions().size()];
+        context.getParserExtensions().toArray(parserExtensions);
         List<OrchidResource> files = getLocalResourceEntries(directory, parserExtensions, false);
 
         JSONObject allDatafiles = new JSONObject();
 
         for (OrchidResource file : files) {
             file.getReference().setUsePrettyUrl(false);
-            JSONObject fileData = contextProvider.get().parse(file.getReference().getExtension(), file.getContent());
+            JSONObject fileData = context.parse(file.getReference().getExtension(), file.getContent());
 
             if (fileData != null) {
                 if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
@@ -123,7 +118,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Override
     public OrchidResource getThemeResourceEntry(final String fileName) {
-        return contextProvider.get().getTheme().getResourceEntry(fileName);
+        return context.getTheme().getResourceEntry(fileName);
     }
 
     @Override
@@ -164,7 +159,7 @@ public final class ResourceServiceImpl implements ResourceService {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         List<OrchidResourceSource> themeSources = new ArrayList<>();
-        themeSources.add(contextProvider.get().getTheme());
+        themeSources.add(context.getTheme());
         addEntries(entries, themeSources, path, fileExtensions, recursive);
 
         return new ArrayList<>(entries.values());
@@ -179,7 +174,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
         // add entries from theme
         List<OrchidResourceSource> themeSources = new ArrayList<>();
-        themeSources.add(contextProvider.get().getTheme());
+        themeSources.add(context.getTheme());
         addEntries(entries, themeSources, path, fileExtensions, recursive);
 
         // add entries from other sources
@@ -237,7 +232,7 @@ public final class ResourceServiceImpl implements ResourceService {
         try {
             File file = new File(url);
             String s = IOUtils.toString(new FileInputStream(file));
-            return contextProvider.get().parse("json", s);
+            return context.parse("json", s);
         }
         catch (FileNotFoundException e) {
             // ignore files not being found
@@ -288,12 +283,12 @@ public final class ResourceServiceImpl implements ResourceService {
                 for (File file : files) {
                     if (!strict) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
-                            return new FileResource(contextProvider.get(), file);
+                            return new FileResource(context, file);
                         }
                     }
                     else {
                         if (file.getName().equals(filename)) {
-                            return new FileResource(contextProvider.get(), file);
+                            return new FileResource(context, file);
                         }
                     }
                 }

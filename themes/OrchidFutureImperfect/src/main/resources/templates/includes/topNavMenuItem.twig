@@ -1,0 +1,9 @@
+{% if menuItem.hasChildren() %}
+
+{% elseif menuItem.isSeparator() %}
+
+{% else %}
+    {% if length(menuItem.title) > 0 %}
+        <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
+    {% endif %}
+{% endif %}

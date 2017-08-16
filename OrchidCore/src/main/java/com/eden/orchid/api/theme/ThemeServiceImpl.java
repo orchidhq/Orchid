@@ -1,8 +1,12 @@
 package com.eden.orchid.api.theme;
 
+import com.eden.orchid.api.OrchidContext;
+
 import java.util.Stack;
 
 public final class ThemeServiceImpl implements ThemeService {
+
+    private OrchidContext context;
 
     private Theme defaultTheme;
     private Stack<Theme> themeStack;
@@ -12,8 +16,8 @@ public final class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public ThemeService getThemeService() {
-        return this;
+    public void initialize(OrchidContext context) {
+        this.context = context;
     }
 
     @Override

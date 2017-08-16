@@ -1,9 +1,8 @@
 package com.eden.orchid.impl.tasks;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.tasks.OrchidTasks;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
@@ -34,13 +33,13 @@ public class ListThemesTask extends OrchidTask {
 
     @Override
     public void run() {
-        Clog.logger(OrchidTasks.loggerKey, "" +
+        Clog.logger(null, "" +
                 "#{ $0 | fg('cyan') }[Priority]#{$0 |reset}" +
                 "#{ $0 | fg('magenta') }[Theme]#{$0 |reset}" +
                 "#{ $0 | fg('blue') }[Theme Parent]#{$0 |reset}" +
                 "");
-        Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
-        Clog.logger(OrchidTasks.loggerKey, "------------------------------------------------------------------------------------");
+        Clog.logger(null, "------------------------------------------------------------------------------------");
+        Clog.logger(null, "------------------------------------------------------------------------------------");
 
         for (Theme theme : themes) {
 
@@ -61,7 +60,7 @@ public class ListThemesTask extends OrchidTask {
                 }
             }
 
-            Clog.logger(OrchidTasks.loggerKey, message, theme.getPriority(), theme.getClass().getName(), theme.getClass().getSuperclass().getSimpleName());
+            Clog.logger(null, message, theme.getPriority(), theme.getClass().getName(), theme.getClass().getSuperclass().getSimpleName());
         }
     }
 }

@@ -3,6 +3,7 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.ObservableTreeSet;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,8 @@ import java.util.Set;
 @Singleton
 public final class CompilerServiceImpl implements CompilerService {
 
+    private OrchidContext context;
+
     private Set<OrchidCompiler> compilers;
     private Set<OrchidParser> parsers;
     private OrchidPrecompiler precompiler;
@@ -34,6 +37,11 @@ public final class CompilerServiceImpl implements CompilerService {
         this.compilers = new ObservableTreeSet<>(compilers);
         this.parsers = new ObservableTreeSet<>(parsers);
         buildCompilerIndex();
+    }
+
+    @Override
+    public void initialize(OrchidContext context) {
+        this.context = context;
     }
 
     private void buildCompilerIndex() {
@@ -56,11 +64,6 @@ public final class CompilerServiceImpl implements CompilerService {
                 }
             }
         }
-    }
-
-    @Override
-    public CompilerService getCompilerService() {
-        return this;
     }
 
     public Set<String> getParserExtensions() {
