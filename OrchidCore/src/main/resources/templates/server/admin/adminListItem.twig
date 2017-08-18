@@ -1,0 +1,15 @@
+{% extends 'templates/server/admin/adminList.twig' %}
+
+{% block listItem %}
+    <section class="row placeholders">
+        <div class="col-12 placeholder">
+            {% include concat('templates/server/admin/lists/', adminList.key, '-item.twig') %}
+        </div>
+    </section>
+
+    <section class="row  placeholders">
+        <div class="col-12 placeholder">
+            {% include concat('templates/server/admin/itemOptions.twig') %}
+        </div>
+    </section>
+{% endblock %}

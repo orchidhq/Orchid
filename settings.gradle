@@ -12,7 +12,6 @@ include 'plugins:OrchidJavadoc'
 include 'plugins:OrchidLanguagePack'
 include 'plugins:OrchidPages'
 include 'plugins:OrchidPosts'
-include 'plugins:OrchidServer'
 include 'plugins:OrchidWiki'
 
 include 'bundles:OrchidAll'

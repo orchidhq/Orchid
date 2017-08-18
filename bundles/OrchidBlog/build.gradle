@@ -2,6 +2,5 @@ dependencies {
     compile project(':OrchidCore')
     compile project(':plugins:OrchidPosts')
     compile project(':plugins:OrchidPages')
-    compile project(':plugins:OrchidServer')
     compile project(':plugins:OrchidLanguagePack')
 }

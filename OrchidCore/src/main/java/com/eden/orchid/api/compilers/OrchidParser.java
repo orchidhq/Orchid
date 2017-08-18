@@ -30,6 +30,15 @@ public abstract class OrchidParser extends Prioritized {
     }
 
     /**
+     * Return the un-quoted delimiter string so it can be displayed to the user.
+     *
+     * @return an un-quoted delimiting string
+     */
+    public String getDelimiterString() {
+        return getDelimiter();
+    }
+
+    /**
      * Processes content according to a particular extension. The Parser expects to return a JSON object, regardless
      * of whether it parsed JSONObject- or JSONArray-type content. If the result of processing is a JSONArray, it is
      * expected that the array data will exist in a JSONObject at the OrchidParser.arrayAsObjectKey.

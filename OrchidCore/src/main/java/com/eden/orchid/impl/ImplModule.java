@@ -28,6 +28,9 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.server.OrchidController;
+import com.eden.orchid.api.server.OrchidFileController;
+import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
@@ -45,6 +48,15 @@ import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
 import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
 import com.eden.orchid.impl.resources.CoreLocalResourceSource;
+import com.eden.orchid.impl.server.admin.AdminController;
+import com.eden.orchid.impl.server.admin.lists.CompilersList;
+import com.eden.orchid.impl.server.admin.lists.GeneratorsList;
+import com.eden.orchid.impl.server.admin.lists.OptionsList;
+import com.eden.orchid.impl.server.admin.lists.ParsersList;
+import com.eden.orchid.impl.server.admin.lists.ResourceSourcesList;
+import com.eden.orchid.impl.server.admin.lists.TasksList;
+import com.eden.orchid.impl.server.admin.lists.ThemesList;
+import com.eden.orchid.impl.server.files.FileController;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.ListCompilersTask;
 import com.eden.orchid.impl.tasks.ListGeneratorsTask;
@@ -52,6 +64,7 @@ import com.eden.orchid.impl.tasks.ListOptionsTask;
 import com.eden.orchid.impl.tasks.ListResourceSourcesTask;
 import com.eden.orchid.impl.tasks.ListTasksTask;
 import com.eden.orchid.impl.tasks.ListThemesTask;
+import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.themes.LocalTheme;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
@@ -62,13 +75,12 @@ import java.util.EventListener;
 
 public class ImplModule extends OrchidModule {
 
-    private static final Class[] optionalSets = new Class[]{
-            EventListener.class
-    };
+    private static final Class[] optionalSets = new Class[]{};
 
     @Override
     protected void configure() {
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
+        bind(OrchidFileController.class).to(FileController.class);
 
         bind(CompilerService.class).to(CompilerServiceImpl.class);
         bind(ThemeService.class).to(ThemeServiceImpl.class);
@@ -112,6 +124,7 @@ public class ImplModule extends OrchidModule {
 
         // Tasks
         addToSet(OrchidTask.class,
+                ServeTask.class,
                 BuildTask.class,
                 ListCompilersTask.class,
                 ListGeneratorsTask.class,
@@ -136,5 +149,21 @@ public class ImplModule extends OrchidModule {
                 OptionsHolderOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
                 JSONArrayOptionExtractor.class);
+
+        // Server
+        addToSet(EventListener.class,
+                ServeTask.class);
+
+        addToSet(OrchidController.class,
+                AdminController.class);
+
+        addToSet(AdminList.class,
+                CompilersList.class,
+                GeneratorsList.class,
+                OptionsList.class,
+                ParsersList.class,
+                ResourceSourcesList.class,
+                TasksList.class,
+                ThemesList.class);
     }
 }

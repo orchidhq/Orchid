@@ -10,7 +10,12 @@ public class JsonParser extends OrchidParser {
 
     @Override
     public String getDelimiter() {
-        return Pattern.quote(";");
+        return Pattern.quote(getDelimiterString());
+    }
+
+    @Override
+    public String getDelimiterString() {
+        return ";";
     }
 
     @Override
