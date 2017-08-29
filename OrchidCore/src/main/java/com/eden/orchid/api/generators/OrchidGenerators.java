@@ -5,13 +5,12 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
-import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.registration.PrioritizedSetFilter;
 import com.eden.orchid.api.resources.resource.FreeableResource;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.indexing.OrchidInternalIndex;
-import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.utilities.PrioritizedSetFilter;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -22,10 +21,11 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Getter @Setter
 @Singleton
-public final class OrchidGenerators {
+public class OrchidGenerators {
 
     private Set<OrchidGenerator> allGenerators;
     private Set<OrchidGenerator> generators;
@@ -34,7 +34,7 @@ public final class OrchidGenerators {
     @Inject
     public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators) {
         this.context = context;
-        this.allGenerators = new ObservableTreeSet<>(generators);
+        this.allGenerators = new TreeSet<>(generators);
     }
 
     public void startIndexing() {
@@ -63,14 +63,12 @@ public final class OrchidGenerators {
     private void indexGenerator(OrchidGenerator generator) {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
-        if(generator instanceof OptionsHolder) {
-            JSONElement el = context.query(generator.getKey());
-            if(OrchidUtils.elementIsObject(el)) {
-                ((OptionsHolder) generator).extractOptions(context, (JSONObject) el.getElement());
-            }
-            else {
-                ((OptionsHolder) generator).extractOptions(context, new JSONObject());
-            }
+        JSONElement el = context.query(generator.getKey());
+        if(OrchidUtils.elementIsObject(el)) {
+            generator.extractOptions(context, (JSONObject) el.getElement());
+        }
+        else {
+            generator.extractOptions(context, new JSONObject());
         }
 
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
@@ -117,6 +115,20 @@ public final class OrchidGenerators {
             generatorPages = new ArrayList<>();
         }
 
-        generator.startGeneration(generatorPages);
+        Theme generatorTheme = null;
+        if(!EdenUtils.isEmpty(generator.getTheme())) {
+            generatorTheme = context.findTheme(generator.getTheme());
+        }
+
+        if(generatorTheme != null) {
+            Clog.d("Applying [{}] theme to [{}] generator", generatorTheme.getClass().getSimpleName(), generator.getKey());
+            context.pushTheme(generatorTheme);
+            generator.startGeneration(generatorPages);
+            generatorTheme.renderAssets();
+            context.popTheme();
+        }
+        else {
+            generator.startGeneration(generatorPages);
+        }
     }
 }

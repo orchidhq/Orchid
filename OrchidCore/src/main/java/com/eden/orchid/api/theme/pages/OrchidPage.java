@@ -13,13 +13,12 @@ import com.eden.orchid.api.theme.components.ComponentHolderDelegate;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.MenuHolder;
 import com.eden.orchid.api.theme.menus.MenuHolderDelegate;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -178,6 +177,10 @@ public class OrchidPage implements OptionsHolder, AssetHolder, MenuHolder {
     public void addComponent(Class<? extends OrchidComponent> componentClass) {
         componentHolder.addComponent(componentClass);
     }
+    public boolean hasComponent(String componentKey) {
+        return componentHolder.hasComponent(this, componentKey);
+    }
+
 
     public OrchidComponent getComponent(String componentKey) {
         return componentHolder.getComponent(this, componentKey);
@@ -194,23 +197,56 @@ public class OrchidPage implements OptionsHolder, AssetHolder, MenuHolder {
 // Assets
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override public void addJs(OrchidPage jsAsset) { assets.addJs(jsAsset); }
-    @Override public void addCss(OrchidPage cssAsset) { assets.addCss(cssAsset); }
-    @Override public List<OrchidPage> getScripts() { return context.getTheme().getScripts(); }
-    @Override public List<OrchidPage> getStyles() { return context.getTheme().getStyles(); }
-    @Override public void flushJs() { assets.flushJs(); }
-    @Override public void flushCss() { assets.flushCss(); }
-    @Override public void clearAssets() { assets.clearAssets(); }
+
+    @Override
+    public AssetHolder getAssetHolder() {
+        return assets;
+    }
+
+    @Override
+    public List<OrchidPage> getScripts() {
+        List<OrchidPage> scripts = new ArrayList<>();
+        scripts.addAll(context.getTheme().getScripts());
+        try {
+            Set<OrchidComponent> components = getComponents();
+            if (!EdenUtils.isEmpty(components)) {
+                components
+                        .stream()
+                        .map(OrchidComponent::getScripts)
+                        .forEach(scripts::addAll);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return scripts;
+    }
+
+    @Override
+    public List<OrchidPage> getStyles() {
+        List<OrchidPage> styles = new ArrayList<>();
+        styles.addAll(context.getTheme().getStyles());
+        try {
+            Set<OrchidComponent> components = getComponents();
+            if (!EdenUtils.isEmpty(components)) {
+                components
+                        .stream()
+                        .map(OrchidComponent::getStyles)
+                        .forEach(styles::addAll);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return styles;
+    }
 
 // Menus
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override public void createMenus(JSONObject menuJson) { menus.createMenus(menuJson); }
-    @Override public void createMenu(String menuId, JSONArray menuJson) { menus.createMenu(menuId, menuJson); }
-    @Override public void addMenuItem(String menuId, JSONObject menuItemJson) { menus.addMenuItem(menuId, menuItemJson); }
-    @Override public void addMenuItems(String menuId, JSONArray menuItemsJson) { menus.addMenuItems(menuId, menuItemsJson); }
-    @Override public List<OrchidMenuItem> getMenu() { return menus.getMenu(); }
-    @Override public List<OrchidMenuItem> getMenu(String menuId) { return menus.getMenu(menuId); }
-    @Override public void clearMenus() { menus.clearMenus(); }
+    @Override
+    public MenuHolder getMenuHolder() {
+        return menus;
+    }
 
 }

@@ -11,7 +11,7 @@ public class SinceTag extends JavadocBlockTagHandler {
 
     @Inject
     public SinceTag() {
-        this.priority = 20;
+        super(20);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class MarkdownCompiler extends OrchidCompiler {
 
     @Inject
     public MarkdownCompiler(Set<Extension> extensionSet, Set<MutableDataSet> injectedOptions) {
-        this.priority = 900;
+        super(900);
 
         MutableDataSet options = new MutableDataSet();
         options.set(HtmlRenderer.GENERATE_HEADER_ID, true);

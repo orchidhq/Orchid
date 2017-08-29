@@ -16,7 +16,7 @@ public class HomepageGenerator extends OrchidGenerator {
 
     @Inject
     public HomepageGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(2, "home", context, renderer);
+        super(3, "home", context, renderer);
     }
 
     @Override

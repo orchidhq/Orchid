@@ -4,9 +4,15 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.regex.Pattern;
 
 public class JsonParser extends OrchidParser {
+
+    @Inject
+    public JsonParser() {
+        super(100);
+    }
 
     @Override
     public String getDelimiter() {

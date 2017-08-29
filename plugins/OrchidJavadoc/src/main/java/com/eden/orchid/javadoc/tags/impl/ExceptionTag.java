@@ -11,7 +11,7 @@ public class ExceptionTag extends JavadocBlockTagHandler {
 
     @Inject
     public ExceptionTag() {
-        this.priority = 70;
+        super(70);
     }
 
     @Override

@@ -1,14 +1,9 @@
 ---
 ---
 
-{% if options and options.colors %}
 /* using colors {{ options.colors.primary }} */
-$color1: {{ options.colors.primary }};
-$color2: {{ options.colors.secondary }};
-{% else %}
-$color1: #4C376C;
-$color2: #000000;
-{% endif %}
+$color1: {{ theme.primaryColor }};
+$color2: {{ theme.secondaryColor }};
 
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700");

@@ -10,7 +10,7 @@ public class MonthNamePathType extends PermalinkPathType {
 
     @Inject
     public MonthNamePathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

@@ -25,21 +25,22 @@ public class AdminController extends OrchidController {
 
     @Inject
     public AdminController(OrchidContext context, Provider<OrchidServer> server, Set<AdminList> adminLists) {
+        super(1000);
         this.context = context;
         this.server = server;
         this.adminLists = adminLists;
-        setPriority(1000);
     }
 
     @Get(path = "/")
     public OrchidResponse doNothing(OrchidRequest request) {
-        OrchidResource resource = context.getResourceEntry("templates/server/admin/admin.twig");
+        OrchidResource resource = context.getResourceEntry("templates/server/admin/index.html");
         String content = "";
         if (resource != null) {
             Map<String, Object> data = new HashMap<>();
             data.put("adminLists", adminLists);
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
+            data.put("theme", context.getAdminTheme());
 
             content = context.compile(resource.getReference().getExtension(), resource.getContent(), data);
         }
@@ -62,6 +63,8 @@ public class AdminController extends OrchidController {
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
             data.put("adminList", foundList);
+            data.put("theme", context.getAdminTheme());
+
             OrchidResource resource = context.getResourceEntry("templates/server/admin/adminList.twig");
             return new OrchidResponse(context.compile(resource.getReference().getExtension(), resource.getContent(), data));
         }
@@ -89,6 +92,8 @@ public class AdminController extends OrchidController {
                 data.put("websocketPort", server.get().getWebsocketPort());
                 data.put("adminList", foundList);
                 data.put("listItem", listItem);
+                data.put("theme", context.getAdminTheme());
+
                 OrchidResource resource = context.getResourceEntry("templates/server/admin/adminListItem.twig");
                 return new OrchidResponse(context.compile(resource.getReference().getExtension(), resource.getContent(), data));
             }
@@ -100,5 +105,4 @@ public class AdminController extends OrchidController {
             return new OrchidResponse("List not found");
         }
     }
-
 }

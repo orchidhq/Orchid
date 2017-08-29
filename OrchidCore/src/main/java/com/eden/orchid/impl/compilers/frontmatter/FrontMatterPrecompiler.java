@@ -6,7 +6,6 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
-import com.eden.orchid.utilities.ObservableTreeSet;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -14,6 +13,7 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,12 +28,12 @@ public class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     @Inject
     public FrontMatterPrecompiler(OrchidContext context, Set<OrchidParser> parsers) {
+        super(100);
         this.context = context;
-        this.priority = 100;
 
         delimiters = new ArrayList<>();
 
-        for(OrchidParser parser : new ObservableTreeSet<>(parsers)) {
+        for(OrchidParser parser : new TreeSet<>(parsers)) {
             if(parser.getDelimiter() != null) {
                 delimiters.add(new EdenPair<>(parser.getDelimiter(), parser));
             }

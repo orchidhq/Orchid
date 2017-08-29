@@ -5,11 +5,12 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.registration.IgnoreModule;
-import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,16 +30,19 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
     public static class Events {
+        // Overall lifecycle
         public static final String INIT_COMPLETE = "INIT_COMPLETE";
-        public static final String OPTIONS_PARSED = "OPTIONS_PARSED";
-        public static final String DATAFILES_PARSED = "DATAFILES_PARSED";
-        public static final String BOOTSTRAP_COMPLETE = "BOOTSTRAP_COMPLETE";
-        public static final String THEME_SET = "THEME_SET";
+        public static final String ON_START = "ON_START";
+        public static final String ON_FINISH = "ON_FINISH";
+        public static final String SHUTDOWN = "SHUTDOWN";
+
+        // Build Lifecycle
         public static final String TASK_START = "TASK_START";
-        public static final String TASK_FINISH = "TASK_FINISH";
         public static final String BUILD_START = "BUILD_START";
         public static final String BUILD_FINISH = "BUILD_FINISH";
-        public static final String SHUTDOWN = "SHUTDOWN";
+        public static final String TASK_FINISH = "TASK_FINISH";
+
+        // Server Events
         public static final String FILES_CHANGED = "FILES_CHANGED";
         public static final String FORCE_REBUILD = "FORCE_REBUILD";
         public static final String END_SESSION = "END_SESSION";
@@ -113,14 +117,6 @@ public final class Orchid {
         return Orchid.modules;
     }
 
-    public static String findTask(Map<String, String[]> options) {
-        return options.get("-task")[1];
-    }
-
-    public static Class<? extends Theme> findTheme(Map<String, String[]> options) throws ClassNotFoundException, ClassCastException {
-        return (Class<? extends Theme>) Class.forName(options.get("-theme")[1]);
-    }
-
 // Make main Orchid object a singleton
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -132,7 +128,10 @@ public final class Orchid {
         this.flags = flags;
     }
 
-    public boolean start(List<AbstractModule> modules, Class<? extends Theme> themeClass, String task) {
+    public void start(List<AbstractModule> modules) {
+        modules.add(OrchidFlags.getInstance().parseFlags(this.flags));
+        injector = Guice.createInjector(modules);
+
         String moduleLog = "Using the following modules: ";
         moduleLog += "\n--------------------";
         for (AbstractModule module : modules) {
@@ -143,16 +142,21 @@ public final class Orchid {
         moduleLog += "\n--------------------";
         Clog.i(moduleLog);
 
-        modules.add(OrchidFlags.getInstance().parseFlags(this.flags));
+        DumperOptions options = new DumperOptions();
+        options.setIndent(4);
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
-        injector = Guice.createInjector(modules);
+        Yaml yaml = new Yaml(options);
+
+        String flagLog = "Flag values: ";
+        flagLog += "\n--------------------\n";
+        flagLog += yaml.dump(OrchidFlags.getInstance().getData().toMap());
+        flagLog += "--------------------";
+        Clog.i(flagLog);
+
         context = injector.getInstance(OrchidContext.class);
-
-        Theme theme = injector.getInstance(themeClass);
-        context.setDefaultTheme(theme);
-        boolean success = context.run(task);
-        context.broadcast(Events.SHUTDOWN, success);
-        return success;
+        context.start();
+        context.finish();
     }
 
     public OrchidContext getContext() {
@@ -169,31 +173,15 @@ public final class Orchid {
                 .map(s -> s.split("\\s+"))
                 .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
-        try {
-            List<AbstractModule> modules = Orchid.findModules(options);
-            Class<? extends Theme> theme = Orchid.findTheme(options);
-            String task = Orchid.findTask(options);
+        List<AbstractModule> modules = Orchid.findModules(options);
 
-            boolean success;
-            try {
-                success = Orchid.getInstance(options).start(modules, theme, task);
-            }
-            catch (Exception e) {
-                success = false;
-                Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
-            }
-            System.exit(success ? 0 : 1);
+        try {
+            Orchid.getInstance(options).start(modules);
+            System.exit(0);
         }
-        catch (ClassNotFoundException e) {
-            Clog.e("Theme class could not be found.");
-            System.exit(1);
-        }
-        catch (ClassCastException e) {
-            Clog.e("Class given for Theme is not a subclass of " + Theme.class.getName());
+        catch (Exception e) {
+            Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
             System.exit(1);
         }
     }
 }
-
-
-// TODO HIGHEST PRIORITY - render everything against a specific theme, which is typically the context default theme, but may actually be different. Multiple themes FTW!

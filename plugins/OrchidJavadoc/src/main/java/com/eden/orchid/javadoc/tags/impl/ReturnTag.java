@@ -11,7 +11,7 @@ public class ReturnTag extends JavadocBlockTagHandler {
 
     @Inject
     public ReturnTag() {
-        this.priority = 60;
+        super(60);
     }
 
     @Override

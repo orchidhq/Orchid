@@ -20,6 +20,11 @@ public class IndexMenuItem implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "index";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
         if (menuItemJson.has("title") && menuItemJson.has("index")) {

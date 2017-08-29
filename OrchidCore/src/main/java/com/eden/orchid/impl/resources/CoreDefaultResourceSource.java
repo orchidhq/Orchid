@@ -9,7 +9,6 @@ public class CoreDefaultResourceSource extends DefaultResourceSource {
 
     @Inject
     public CoreDefaultResourceSource(OrchidContext context) {
-        super(context);
-        setPriority(1);
+        super(context, 1);
     }
 }

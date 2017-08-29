@@ -21,6 +21,7 @@ public class FileController implements OrchidFileController {
     private IndexFileResponse indexFileResponse;
     private NotFound404Response notFound404Response;
     private FaviconResponse faviconResponse;
+    private AdminAssetResponse adminAssetResponse;
 
     private final String destination;
 
@@ -31,12 +32,14 @@ public class FileController implements OrchidFileController {
             StaticFileResponse staticFileResponse,
             IndexFileResponse indexFileResponse,
             NotFound404Response notFound404Response,
-            FaviconResponse faviconResponse) {
+            FaviconResponse faviconResponse,
+            AdminAssetResponse adminAssetResponse) {
         this.context = context;
         this.staticFileResponse = staticFileResponse;
         this.indexFileResponse = indexFileResponse;
         this.notFound404Response = notFound404Response;
         this.faviconResponse = faviconResponse;
+        this.adminAssetResponse = adminAssetResponse;
 
         this.destination = destination;
     }
@@ -69,7 +72,13 @@ public class FileController implements OrchidFileController {
             }
         }
         else {
-            return notFound404Response.getResponse(targetPath);
+            NanoHTTPD.Response adminAsset = adminAssetResponse.getResponse(targetFile, targetPath);
+            if(adminAsset != null) {
+                return adminAsset;
+            }
+            else {
+                return notFound404Response.getResponse(targetPath);
+            }
         }
     }
 }

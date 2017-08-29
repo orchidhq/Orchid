@@ -9,6 +9,10 @@ import com.sun.javadoc.Tag;
  */
 public abstract class JavadocInlineTagHandler extends Prioritized {
 
+    public JavadocInlineTagHandler(int priority) {
+        super(priority);
+    }
+
     public abstract JSONElement processTag(Tag tag);
 
     public abstract String getName();

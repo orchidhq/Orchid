@@ -8,6 +8,10 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidTask extends Prioritized implements Runnable {
 
+    public OrchidTask(int priority) {
+        super(priority);
+    }
+
     /**
      * Return the name of this OrchidTask
      *

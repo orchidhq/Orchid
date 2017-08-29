@@ -3,11 +3,11 @@ package com.eden.orchid.posts.permalink;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.posts.pages.PostPage;
-import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class PostsPermalinkStrategy {
 
@@ -17,7 +17,7 @@ public class PostsPermalinkStrategy {
     @Inject
     public PostsPermalinkStrategy(OrchidContext context, Set<PermalinkPathType> pathTypes) {
         this.context = context;
-        this.pathTypes = new ObservableTreeSet<>(pathTypes);
+        this.pathTypes = new TreeSet<>(pathTypes);
     }
 
     public void applyPermalink(PostPage post) {

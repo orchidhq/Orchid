@@ -6,18 +6,33 @@ import java.util.List;
 
 public interface AssetHolder {
 
-    void addJs(OrchidPage jsAsset);
-    void addCss(OrchidPage cssAsset);
+    AssetHolder getAssetHolder();
 
-    List<OrchidPage> getScripts();
-    List<OrchidPage> getStyles();
-
-    void flushJs();
-    void flushCss();
-    
-    default void clearAssets() {
-        this.flushJs();
-        this.flushCss();
+    default void addJs(OrchidPage jsAsset) {
+        getAssetHolder().addJs(jsAsset);
     }
 
+    default void addCss(OrchidPage cssAsset) {
+        getAssetHolder().addCss(cssAsset);
+    }
+
+    default List<OrchidPage> getScripts() {
+        return getAssetHolder().getScripts();
+    }
+
+    default List<OrchidPage> getStyles() {
+        return getAssetHolder().getStyles();
+    }
+
+    default void flushJs() {
+        getAssetHolder().flushJs();
+    }
+
+    default void flushCss() {
+        getAssetHolder().flushCss();
+    }
+    
+    default void clearAssets() {
+        getAssetHolder().clearAssets();
+    }
 }

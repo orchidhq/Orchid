@@ -11,7 +11,7 @@ public class AuthorTag extends JavadocBlockTagHandler {
 
     @Inject
     public AuthorTag() {
-        this.priority = 10;
+        super(10);
     }
 
     @Override

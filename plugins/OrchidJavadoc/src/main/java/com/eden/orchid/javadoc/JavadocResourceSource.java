@@ -9,7 +9,6 @@ public class JavadocResourceSource extends DefaultResourceSource {
 
     @Inject
     public JavadocResourceSource(OrchidContext context) {
-        super(context);
-        setPriority(10);
+        super(context, 10);
     }
 }

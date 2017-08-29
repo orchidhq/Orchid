@@ -1,5 +1,6 @@
 package com.eden.orchid.impl;
 
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.CompilerService;
@@ -21,6 +22,7 @@ import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 @Getter
@@ -40,7 +42,8 @@ public final class OrchidContextImpl implements OrchidContext {
             IndexService indexService,
             ResourceService resourceService,
             TaskService taskService,
-            OptionsService optionsService
+            OptionsService optionsService,
+            Set<OrchidService> additionalServices
     ) {
         this.injector = injector;
 
@@ -52,6 +55,10 @@ public final class OrchidContextImpl implements OrchidContext {
         initializeService(ResourceService.class, resourceService);
         initializeService(TaskService.class, taskService);
         initializeService(OptionsService.class, optionsService);
+
+        for(OrchidService service : additionalServices) {
+            services.put(service.getClass(), service);
+        }
 
         initialize(this);
     }
@@ -66,6 +73,20 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void initialize(OrchidContext context) {
         services.values().forEach(service -> service.initialize(context));
+        broadcast(Orchid.Events.INIT_COMPLETE, this);
+    }
+
+    @Override
+    public void start() {
+        services.values().forEach(OrchidService::onStart);
+        broadcast(Orchid.Events.ON_START, this);
+    }
+
+    @Override
+    public void finish() {
+        broadcast(Orchid.Events.ON_FINISH, this);
+        services.values().forEach(OrchidService::onFinish);
+        broadcast(Orchid.Events.SHUTDOWN, this);
     }
 
     @Override
@@ -120,6 +141,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
         siteData.put("index", getService(IndexService.class).getIndex());
         siteData.put("options", getService(OptionsService.class).getOptionsData().toMap());
+        siteData.put("theme", getService(ThemeService.class).getTheme());
 
         return siteData;
     }

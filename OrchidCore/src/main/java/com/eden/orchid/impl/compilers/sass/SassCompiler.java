@@ -15,7 +15,7 @@ public class SassCompiler extends OrchidCompiler {
 
     @Inject
     public SassCompiler(SassImporter importer) {
-        this.priority = 800;
+        super(800);
 
         options = new Options();
         options.getImporters().add(importer);

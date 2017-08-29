@@ -19,6 +19,14 @@ compatibility with many of the existing static site generators, such as Jekyll, 
 Orchid is painless. And if you can't find a plugin to do what you need, Orchid provides an intuitive way to add your own 
 private plugins and a rich API so you can make your site as beautiful and unique as an Orchid.
 
+### Features
+
+- Plugin-driven Architecture
+- Multi-theme support
+- Link to other Orchid sites
+- Powerful and flexible indexing, unique to Orchid
+- Fully replaces Jekyll, Gitbook, Javadocs, and more!  
+
 [View the full documentation](http://javaeden.github.io/orchid/latest/OrchidCore) or see the quick-start below.
 
 ## Table of Contents

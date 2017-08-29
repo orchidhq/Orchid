@@ -4,9 +4,6 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.utilities.ObservableTreeSet;
-import lombok.Getter;
-import lombok.Setter;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -15,8 +12,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
-@Getter @Setter
 @Singleton
 public final class CompilerServiceImpl implements CompilerService {
 
@@ -26,6 +23,7 @@ public final class CompilerServiceImpl implements CompilerService {
     private Set<OrchidParser> parsers;
     private OrchidPrecompiler precompiler;
 
+    private Set<String> compilerExtensions;
     private Set<String> parserExtensions;
 
     private Map<String, OrchidCompiler> compilerMap;
@@ -34,8 +32,8 @@ public final class CompilerServiceImpl implements CompilerService {
     @Inject
     public CompilerServiceImpl(Set<OrchidCompiler> compilers, Set<OrchidParser> parsers, OrchidPrecompiler precompiler) {
         this.precompiler = precompiler;
-        this.compilers = new ObservableTreeSet<>(compilers);
-        this.parsers = new ObservableTreeSet<>(parsers);
+        this.compilers = new TreeSet<>(compilers);
+        this.parsers = new TreeSet<>(parsers);
         buildCompilerIndex();
     }
 
@@ -45,9 +43,19 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     private void buildCompilerIndex() {
+        this.compilerExtensions = new HashSet<>();
         this.parserExtensions = new HashSet<>();
         this.compilerMap = new HashMap<>();
         this.parserMap = new HashMap<>();
+
+        for (OrchidCompiler compiler : this.compilers) {
+            if (!EdenUtils.isEmpty(compiler.getSourceExtensions())) {
+                for (String ext : compiler.getSourceExtensions()) {
+                    compilerExtensions.add(ext);
+                    compilerMap.put(ext, compiler);
+                }
+            }
+        }
 
         for (OrchidParser parser : this.parsers) {
             if (!EdenUtils.isEmpty(parser.getSourceExtensions())) {
@@ -57,13 +65,10 @@ public final class CompilerServiceImpl implements CompilerService {
                 }
             }
         }
-        for (OrchidCompiler compiler : this.compilers) {
-            if (!EdenUtils.isEmpty(compiler.getSourceExtensions())) {
-                for (String ext : compiler.getSourceExtensions()) {
-                    compilerMap.put(ext, compiler);
-                }
-            }
-        }
+    }
+
+    public Set<String> getCompilerExtensions() {
+        return compilerExtensions;
     }
 
     public Set<String> getParserExtensions() {

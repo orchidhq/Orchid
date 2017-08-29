@@ -5,32 +5,32 @@
     <section id="banner">
         <div class="content">
             <header>
-                <h1>{{ options.about.name }}</h1>
-                <p>{{ options.about.description }}</p>
+                <h1>{{ theme.about.name }}</h1>
+                <p>{{ theme.about.description }}</p>
             </header>
             <br><br><br>
             <ul class="actions">
-                <li><a href="https://github.com/{{ options.github.username }}/{{ options.github.repo }}" class="button big">View Source</a></li>
+                <li><a href="https://github.com/{{ theme.about.githubUsername }}/{{ theme.about.githubRepo }}" class="button big">View Source</a></li>
             </ul>
         </div>
     </section>
 
-    {% if readme %}
+    {% if page.hasComponent('readme') %}
         <section id="readme">
             <header class="major">
                 <h2>Readme</h2>
             </header>
-            <article>{{ readme.render() }}</article>
+            <article>{% include page.getComponent('readme') | template('component') %}</article>
         </section>
     {% endif %}
 
     <!-- Section -->
-    {% if license %}
+    {% if page.hasComponent('license') %}
         <section id="license">
             <header class="major">
                 <h2>License</h2>
             </header>
-            <article><pre>{{ license.render() }}</pre></article>
+            <article>{% include page.getComponent('license') | template('component') %}</article>
         </section>
     {% endif %}
 

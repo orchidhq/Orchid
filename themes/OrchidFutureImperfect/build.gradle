@@ -4,5 +4,5 @@ dependencies {
 }
 
 orchid {
-    theme = 'com.eden.orchid.html5up.futureimperfect.FutureImperfectTheme'
+    theme = 'FutureImperfect'
 }

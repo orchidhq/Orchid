@@ -11,6 +11,8 @@ public interface ComponentHolder {
 
     void addComponent(Class<? extends OrchidComponent> componentClass);
 
+    boolean hasComponent(OrchidPage page, String componentKey);
+
     OrchidComponent getComponent(OrchidPage page, String componentKey);
 
     Set<OrchidComponent> getComponents(OrchidPage page);

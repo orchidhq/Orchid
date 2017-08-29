@@ -22,6 +22,11 @@ public class AllPackagesMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "javadocPackages";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> items = new ArrayList<>();
         List<OrchidPage> pages = new ArrayList<>(JavadocGenerator.allPackages);

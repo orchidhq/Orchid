@@ -2,11 +2,11 @@ package com.eden.orchid.impl.server.admin.lists;
 
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.server.admin.AdminList;
-import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ParsersList implements AdminList<OrchidParser> {
 
@@ -14,7 +14,7 @@ public class ParsersList implements AdminList<OrchidParser> {
 
     @Inject
     public ParsersList(Set<OrchidParser> list) {
-        this.list = new ObservableTreeSet<>(list);
+        this.list = new TreeSet<>(list);
     }
 
     @Override

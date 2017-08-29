@@ -24,6 +24,11 @@ public class WikiSectionsMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "wikiSections";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 

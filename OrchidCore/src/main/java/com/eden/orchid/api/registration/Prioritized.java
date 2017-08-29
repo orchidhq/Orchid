@@ -1,25 +1,15 @@
 package com.eden.orchid.api.registration;
 
-import java.util.Observable;
+public abstract class Prioritized implements Comparable<Prioritized> {
 
-public abstract class Prioritized extends Observable implements Comparable<Prioritized> {
+    protected final int priority;
 
-    protected int priority = 100;
+    public Prioritized(int priority) {
+        this.priority = priority;
+    }
 
     public int getPriority() {
         return priority;
-    }
-
-    public void setPriority(int priority) {
-        if (this.priority != priority) {
-            setChanged();
-        }
-
-        this.priority = priority;
-
-        if (hasChanged()) {
-            notifyObservers();
-        }
     }
 
     @Override

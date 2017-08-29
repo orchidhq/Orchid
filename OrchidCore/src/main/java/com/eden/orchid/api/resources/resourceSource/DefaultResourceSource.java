@@ -19,14 +19,8 @@ import java.util.jar.JarFile;
 public abstract class DefaultResourceSource extends OrchidResourceSource {
 
     @Inject
-    public DefaultResourceSource(OrchidContext context) {
-        super(context);
-    }
-
-    @Inject
     public DefaultResourceSource(OrchidContext context, int priority) {
-        super(context);
-        setPriority(priority);
+        super(context, priority);
     }
 
     private JarFile jarForClass(Class<?> clazz) {

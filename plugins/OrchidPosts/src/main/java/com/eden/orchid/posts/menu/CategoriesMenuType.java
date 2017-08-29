@@ -27,6 +27,11 @@ public class CategoriesMenuType implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "postCategories";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> items = new ArrayList<>();
 

@@ -1,14 +1,15 @@
-package com.eden.orchid.utilities;
+package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,8 +20,8 @@ public class PrioritizedSetFilter<T extends Prioritized> {
 
     private OrchidContext context;
     private final String key;
-    private final ObservableTreeSet<T> originalSet;
-    private ObservableTreeSet<T> fullFilteredSet;
+    private final Set<T> originalSet;
+    private Set<T> fullFilteredSet;
 
     public PrioritizedSetFilter(OrchidContext context, String key, Set<T> originalSet) {
         if(EdenUtils.isEmpty(key)) {
@@ -29,7 +30,7 @@ public class PrioritizedSetFilter<T extends Prioritized> {
 
         this.context = context;
         this.key = key;
-        this.originalSet = new ObservableTreeSet<>(originalSet);
+        this.originalSet = new TreeSet<>(originalSet);
     }
 
     public Set<T> getFilteredSet() {
@@ -90,7 +91,7 @@ public class PrioritizedSetFilter<T extends Prioritized> {
         }
 
         Set<T> initialFilteredSet = filter.collect(Collectors.toSet());
-        fullFilteredSet = new ObservableTreeSet<>(initialFilteredSet);
+        fullFilteredSet = new TreeSet<>(initialFilteredSet);
 
         return fullFilteredSet;
     }

@@ -9,7 +9,7 @@ public class YearPathType extends PermalinkPathType {
 
     @Inject
     public YearPathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

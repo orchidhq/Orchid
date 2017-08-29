@@ -9,7 +9,7 @@ public class MonthPathType extends PermalinkPathType {
 
     @Inject
     public MonthPathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

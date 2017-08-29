@@ -19,6 +19,11 @@ public class DividerMenuItem implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "separator";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 

@@ -10,7 +10,7 @@ public class LinkTag extends JavadocInlineTagHandler {
 
     @Inject
     public LinkTag() {
-        this.priority = 40;
+        super(40);
     }
 
     @Override

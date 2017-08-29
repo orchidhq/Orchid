@@ -1,17 +1,17 @@
 ---
 ---
 
-$config-primary-color:   "{{ (options.colors.primary)   ? options.colors.primary   : 'cyan'       }}" !default;
-$config-secondary-color: "{{ (options.colors.secondary) ? options.colors.secondary : 'orange'     }}" !default;
-$config-success-color:   "{{ (options.colors.success)   ? options.colors.success   : 'green'      }}" !default;
-$config-error-color:     "{{ (options.colors.error)     ? options.colors.error     : 'red'        }}" !default;
-$config-link-color:      "{{ (options.colors.link)      ? options.colors.link      : 'light-blue' }}" !default;
+$config-primary-color:   "{{ (options.materialize.colors.primary)   ? options.materialize.colors.primary   : 'cyan'       }}" !default;
+$config-secondary-color: "{{ (options.materialize.colors.secondary) ? options.materialize.colors.secondary : 'orange'     }}" !default;
+$config-success-color:   "{{ (options.materialize.colors.success)   ? options.materialize.colors.success   : 'green'      }}" !default;
+$config-error-color:     "{{ (options.materialize.colors.error)     ? options.materialize.colors.error     : 'red'        }}" !default;
+$config-link-color:      "{{ (options.materialize.colors.link)      ? options.materialize.colors.link      : 'light-blue' }}" !default;
 
-$config-primary-shade:   "{{ (options.shades.primary)   ? options.shades.primary   : 'lighten-2'  }}" !default;
-$config-secondary-shade: "{{ (options.shades.secondary) ? options.shades.secondary : 'lighten-1'  }}" !default;
-$config-success-shade:   "{{ (options.shades.success)   ? options.shades.success   : 'base'       }}" !default;
-$config-error-shade:     "{{ (options.shades.error)     ? options.shades.error     : 'base'       }}" !default;
-$config-link-shade:      "{{ (options.shades.link)      ? options.shades.link      : 'darken-1'   }}" !default;
+$config-primary-shade:   "{{ (options.materialize.shades.primary)   ? options.materialize.shades.primary   : 'lighten-2'  }}" !default;
+$config-secondary-shade: "{{ (options.materialize.shades.secondary) ? options.materialize.shades.secondary : 'lighten-1'  }}" !default;
+$config-success-shade:   "{{ (options.materialize.shades.success)   ? options.materialize.shades.success   : 'base'       }}" !default;
+$config-error-shade:     "{{ (options.materialize.shades.error)     ? options.materialize.shades.error     : 'base'       }}" !default;
+$config-link-shade:      "{{ (options.materialize.shades.link)      ? options.materialize.shades.link      : 'darken-1'   }}" !default;
 
 // Custom style
 @import "theme";

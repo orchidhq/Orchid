@@ -1,37 +1,52 @@
 package com.eden.orchid.api.tasks;
 
-import com.eden.common.json.JSONElement;
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.events.EventServiceImpl;
+import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.generators.OrchidGenerators;
-import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.utilities.ObservableTreeSet;
-import com.eden.orchid.utilities.OrchidUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.eden.orchid.api.server.FileWatcher;
+import com.eden.orchid.api.server.OrchidServer;
+import com.google.inject.name.Named;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Arrays;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.EventListener;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
-public final class TaskServiceImpl implements TaskService {
+public final class TaskServiceImpl implements TaskService, EventListener {
 
     public static String defaultTask = "build";
 
     private OrchidContext context;
     private Set<OrchidTask> tasks;
-    private EventServiceImpl emitter;
     private OrchidGenerators generators;
 
+    private OrchidServer server;
+    private FileWatcher watcher;
+
+    private final String task;
+    private final String resourcesDir;
+
     @Inject
-    public TaskServiceImpl(Set<OrchidTask> tasks, EventServiceImpl emitter, OrchidGenerators generators) {
-        this.tasks = new ObservableTreeSet<>(tasks);
-        this.emitter = emitter;
+    public TaskServiceImpl(
+            Set<OrchidTask> tasks,
+            OrchidGenerators generators,
+            @Named("task") String task,
+            @Named("resourcesDir") String resourcesDir,
+            OrchidServer server,
+            FileWatcher watcher) {
+        this.tasks = new TreeSet<>(tasks);
         this.generators = generators;
+
+        this.server = server;
+        this.watcher = watcher;
+
+        this.task = task;
+        this.resourcesDir = resourcesDir;
     }
 
     @Override
@@ -39,27 +54,29 @@ public final class TaskServiceImpl implements TaskService {
         this.context = context;
     }
 
+    @Override
+    public void onStart() {
+        run(task);
+    }
+
     public boolean run(String taskName) {
-        OrchidTask foundTask = Arrays
-                .stream((new String[]{taskName, defaultTask, "build"}))
-                .map(t ->
-                    tasks
-                        .stream()
-                        .filter(task -> task.getName().equals(t))
-                        .findFirst()
-                        .orElseGet(() -> null)
-                )
-                .filter(Objects::nonNull)
+        OrchidTask foundTask = tasks
+                .stream()
+                .sorted()
+                .filter(task -> task.getName().equals(taskName))
                 .findFirst()
-                .orElseGet(() -> null);
+                .orElse(null);
 
-        if(foundTask != null) {
-            emitter.broadcast(Orchid.Events.TASK_START, foundTask);
+        if (foundTask != null) {
+            context.broadcast(Orchid.Events.TASK_START, foundTask);
             foundTask.run();
-            emitter.broadcast(Orchid.Events.TASK_FINISH, foundTask);
+            context.broadcast(Orchid.Events.TASK_FINISH, foundTask);
+            return true;
         }
-
-        return true;
+        else {
+            Clog.e("Could not find task {} to run", taskName);
+            return false;
+        }
     }
 
     @Override
@@ -69,33 +86,69 @@ public final class TaskServiceImpl implements TaskService {
         context.clearOptions();
         context.loadOptions();
 
-        // Create theme menus
-        JSONElement menuElement = context.query("menu");
-        if (OrchidUtils.elementIsArray(menuElement)) {
-            context.getTheme().createMenu(null, (JSONArray) menuElement.getElement());
-        }
-        else if (OrchidUtils.elementIsObject(menuElement)) {
-            context.getTheme().createMenus((JSONObject) menuElement.getElement());
-        }
+        context.pushTheme(context.getDefaultTheme());
 
         generators.startIndexing();
-
-        // Add discovered assets
-        // TODO: Leave this up to themes/pages/components to add their own assets rather than do it by force
-        // TODO: Alternatively, allow this behavior as a flag?
-        for (OrchidPage style : context.getIndex().find("assets/js")) {
-            context.getTheme().addJs(style);
-        }
-        for (OrchidPage style : context.getIndex().find("assets/css")) {
-            context.getTheme().addCss(style);
-        }
-
         generators.startGeneration();
+
         context.broadcast(Orchid.Events.BUILD_FINISH);
     }
 
     @Override
+    public void watch() {
+        watcher.startWatching(resourcesDir);
+    }
+
+    @Override
     public void serve() {
-        run("serve");
+        try {
+            server.start(8080);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+// Build Events
+//----------------------------------------------------------------------------------------------------------------------
+
+    @On(Orchid.Events.FILES_CHANGED)
+    public void onFilesChanges() {
+        server.getWebsocket().sendMessage("Files Changed");
+        context.build();
+    }
+
+    @On(Orchid.Events.FORCE_REBUILD)
+    public void onForceRebuild() {
+        server.getWebsocket().sendMessage("Forcing Rebuild");
+        context.build();
+    }
+
+    @On(Orchid.Events.BUILD_START)
+    public void onBuildStarted() {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Rebuilding site...");
+        }
+    }
+
+    @On(Orchid.Events.BUILD_FINISH)
+    public void onBuildFinished() {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Site Rebuilt");
+        }
+    }
+
+    @On(Orchid.Events.END_SESSION)
+    public void onEndSession() {
+        server.getWebsocket().sendMessage("Ending Session");
+        context.broadcast(Orchid.Events.SHUTDOWN);
+        System.exit(0);
+    }
+
+    @On()
+    public void onAnyEvent(String event) {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Event: " + event);
+        }
     }
 }

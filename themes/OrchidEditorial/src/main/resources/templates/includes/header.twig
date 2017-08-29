@@ -7,13 +7,13 @@
 {% if page.title %}
     <title>{{ page.title }}</title>
 {% else %}
-    <title>{{ options.about.name }}</title>
+    <title>{{ theme.about.name }}</title>
 {% endif %}
 
 {% if page.description %}
     <meta name="description" content="{{ page.description }}">
 {% else %}
-    <meta name="description" content="{{ options.about.description }}">
+    <meta name="description" content="{{ theme.about.description }}">
 {% endif %}
 
 {% if page.previous %}

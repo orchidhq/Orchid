@@ -28,6 +28,11 @@ public class TagsMenuType implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "postTags";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> items = new ArrayList<>();
 

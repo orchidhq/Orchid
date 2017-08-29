@@ -1,19 +1,21 @@
 package com.eden.orchid;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.IntDefault;
+import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
-import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
-import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -24,6 +26,11 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class TestOptions {
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        Clog.setMinPriority(Clog.Priority.FATAL);
+    }
 
     public static class ParentTestOptionsClass implements OptionsHolder {
         @Option

@@ -7,6 +7,10 @@ public abstract class OrchidParser extends Prioritized {
 
     public static final String arrayAsObjectKey = "listData";
 
+    public OrchidParser(int priority) {
+        super(priority);
+    }
+
     /**
      * Returns the file extensions which are able to be processed by this Parser. When content needs to be processed by
      * a parser, it looks for the highest-priority parser which accepts the given extension.

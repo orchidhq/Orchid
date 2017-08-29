@@ -12,8 +12,7 @@ public class CoreLocalResourceSource extends LocalResourceSource {
 
     @Inject
     public CoreLocalResourceSource(OrchidContext context, @Named("resourcesDir") String resourcesDir) {
-        super(context);
-        setPriority(Integer.MAX_VALUE);
+        super(context, Integer.MAX_VALUE);
         this.resourcesDir = resourcesDir;
     }
 

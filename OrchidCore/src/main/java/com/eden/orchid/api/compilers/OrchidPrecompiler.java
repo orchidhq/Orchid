@@ -11,6 +11,10 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidPrecompiler extends Prioritized {
 
+    public OrchidPrecompiler(int priority) {
+        super(priority);
+    }
+
     /**
      * Extract the data embedded within some given content, returning the data that was extracted as well as the content
      * after the embedded data has been removed.

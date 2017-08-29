@@ -11,7 +11,6 @@ public class PostsResourceSource extends DefaultResourceSource {
 
     @Inject
     public PostsResourceSource(OrchidContext context) {
-        super(context);
-        setPriority(20);
+        super(context, 20);
     }
 }

@@ -42,6 +42,17 @@ public class ComponentHolderDelegate implements ComponentHolder {
     }
 
     @Override
+    public boolean hasComponent(OrchidPage page, String componentKey) {
+        for(OrchidComponent component : getComponents(page)) {
+            if(component.getKey().equals(componentKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public void addComponent(Class<? extends OrchidComponent> componentClass) {
         componentClasses.add(componentClass);
     }
@@ -84,7 +95,7 @@ public class ComponentHolderDelegate implements ComponentHolder {
                     component.extractOptions(context, componentData);
 
                     if(componentData.has("priority")) {
-                        component.setPriority(componentData.getInt("priority"));
+//                        component.setPriority(componentData.getInt("priority")); // TODO: find a way to allow components to be sorted dynamically
                     }
                 }
                 else {

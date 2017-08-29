@@ -4,19 +4,19 @@ import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
-import com.eden.orchid.utilities.ObservableTreeSet;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ResourceSourcesList implements AdminList<OrchidResourceSource> {
 
-    private ObservableTreeSet<OrchidResourceSource> list;
+    private TreeSet<OrchidResourceSource> list;
 
     @Inject
     public ResourceSourcesList(Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
-        list = new ObservableTreeSet<>();
+        list = new TreeSet<>();
         list.addAll(localResourceSources);
         list.addAll(defaultResourceSources);
     }

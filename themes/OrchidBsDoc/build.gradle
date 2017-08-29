@@ -4,5 +4,5 @@ dependencies {
 }
 
 orchid {
-    theme = 'com.eden.orchid.bsdoc.BSDocTheme'
+    theme = 'BsDoc'
 }

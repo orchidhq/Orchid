@@ -8,7 +8,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
-import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
@@ -31,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 @Singleton
 public final class ResourceServiceImpl implements ResourceService {
@@ -48,8 +48,8 @@ public final class ResourceServiceImpl implements ResourceService {
             Set<LocalResourceSource> localResourceSources,
             Set<DefaultResourceSource> defaultResourceSources) {
 
-        this.localResourceSources = new ObservableTreeSet<>(localResourceSources);
-        this.defaultResourceSources = new ObservableTreeSet<>(defaultResourceSources);
+        this.localResourceSources = new TreeSet<>(localResourceSources);
+        this.defaultResourceSources = new TreeSet<>(defaultResourceSources);
 
         this.client = new OkHttpClient();
         this.resourcesDir = resourcesDir;

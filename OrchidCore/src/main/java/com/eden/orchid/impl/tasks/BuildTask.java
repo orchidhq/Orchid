@@ -13,6 +13,7 @@ public class BuildTask extends OrchidTask {
 
     @Inject
     public BuildTask(OrchidContext context) {
+        super(100);
         this.context = context;
     }
 

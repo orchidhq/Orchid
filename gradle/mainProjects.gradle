@@ -17,25 +17,16 @@ project.version = rootProject.version
 
 ext {
     if (project.hasProperty('theme') && project.property('theme') == 'Editorial') {
-        commonTheme = ':themes:OrchidEditorial'
-        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
+//        commonTheme = 'Editorial'
     }
     else if (project.hasProperty('theme') && project.property('theme') == 'BsDoc') {
-        commonTheme = ':themes:OrchidBsDoc'
-        commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
+//        commonTheme = 'BsDoc'
     }
     else {
-//        commonTheme = ':themes:OrchidBsDoc'
-//        commonThemeClass = 'com.eden.orchid.bsdoc.BSDocTheme'
-
-        commonTheme = ':themes:OrchidEditorial'
-        commonThemeClass = 'com.eden.orchid.editorial.EditorialTheme'
-
-//        commonTheme = ':themes:OrchidFutureImperfect'
-//        commonThemeClass = 'com.eden.orchid.html5up.futureimperfect.FutureImperfectTheme'
-
-//        commonTheme = ':themes:OrchidMaterialize'
-//        commonThemeClass = 'com.eden.orchid.materialize.MaterializeTheme'
+//        commonTheme = 'BsDoc'
+        commonTheme = 'Editorial'
+//        commonTheme = 'FutureImperfect'
+//        commonTheme = 'Materialize'
     }
 
     commonRunTask = "listOptions"

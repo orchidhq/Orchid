@@ -12,6 +12,10 @@ public interface TaskService extends OrchidService {
         getService(TaskService.class).build();
     }
 
+    default void watch() {
+        getService(TaskService.class).watch();
+    }
+
     default void serve() {
         getService(TaskService.class).serve();
     }

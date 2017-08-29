@@ -5,10 +5,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
 public class YamlParser extends OrchidParser {
+
+    @Inject
+    public YamlParser() {
+        super(100);
+    }
 
     @Override
     public String getDelimiter() {

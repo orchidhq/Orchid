@@ -15,8 +15,8 @@ import java.util.List;
 public abstract class LocalResourceSource extends OrchidResourceSource {
 
     @Inject
-    public LocalResourceSource(OrchidContext context) {
-        super(context);
+    public LocalResourceSource(OrchidContext context, int priority) {
+        super(context, priority);
     }
 
     public abstract String getDirectory();

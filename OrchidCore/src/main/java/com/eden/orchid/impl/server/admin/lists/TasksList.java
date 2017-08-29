@@ -3,13 +3,13 @@ package com.eden.orchid.impl.server.admin.lists;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.utilities.ObservableTreeSet;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class TasksList implements AdminList<OrchidTask> {
 
@@ -29,7 +29,7 @@ public class TasksList implements AdminList<OrchidTask> {
     @Override
     public Collection<OrchidTask> getItems() {
         if(list == null) {
-            list = new ObservableTreeSet<>(OrchidUtils.resolveSet(contextProvider.get(), OrchidTask.class));
+            list = new TreeSet<>(OrchidUtils.resolveSet(contextProvider.get(), OrchidTask.class));
         }
         return list;
     }

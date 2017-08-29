@@ -1,5 +1,8 @@
 <!-- start:inject scripts -->
-{% for script in page.scripts %}
-    <script src="{{ script.link }}"></script>
-{% endfor %}
+{% set scripts = page.scripts %}
+{% if scripts|length > 0 %}
+    {% for script in scripts %}
+        <script src="{{ script.link }}"></script>
+    {% endfor %}
+{% endif %}
 <!-- end:inject scripts -->

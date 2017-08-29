@@ -11,7 +11,7 @@ public class ThrowsTag extends JavadocBlockTagHandler {
 
     @Inject
     public ThrowsTag() {
-        this.priority = 80;
+        super(80);
     }
 
     @Override

@@ -9,6 +9,10 @@ import java.util.Set;
 
 public interface CompilerService extends OrchidService {
 
+    default Set<String> getCompilerExtensions() {
+        return getService(CompilerService.class).getCompilerExtensions();
+    }
+
     default Set<String> getParserExtensions() {
         return getService(CompilerService.class).getParserExtensions();
     }

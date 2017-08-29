@@ -26,10 +26,11 @@ public class JTwigCompiler extends OrchidCompiler {
 
     @Inject
     public JTwigCompiler(OrchidContext context, Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
+        super(1000);
         this.context = context;
         EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
-//        config.parser().withoutTemplateCache();
+        config.parser().withoutTemplateCache();
 
         for(JtwigFunction function : functionSet) {
             config.functions().add(function);
@@ -43,8 +44,6 @@ public class JTwigCompiler extends OrchidCompiler {
 
 
         jtwigEnvironment = config.build();
-
-        this.priority = 1000;
     }
 
     @Override

@@ -16,9 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
@@ -75,27 +73,6 @@ public final class OrchidUtils {
         }
 
         return new TreeSet<>();
-    }
-
-    public static <T> Map<String, T> resolveMap(OrchidContext context, Class<T> clazz) {
-        return resolveMap(context.getInjector(), clazz);
-    }
-
-    public static <T> Map<String, T> resolveMap(Injector injector, Class<T> clazz) {
-        try {
-            TypeLiteral<Map<String, T>> lit = (TypeLiteral<Map<String, T>>) TypeLiteral.get(Types.mapOf(String.class, clazz));
-            Key<Map<String, T>> key = Key.get(lit);
-            Map<String, T> bindings = injector.getInstance(key);
-
-            if (bindings != null) {
-                return bindings;
-            }
-        }
-        catch (Exception e) {
-
-        }
-
-        return new HashMap<>();
     }
 
     public static String getRelativeFilename(String sourcePath, String baseDir) {

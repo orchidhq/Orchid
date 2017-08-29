@@ -11,7 +11,7 @@ public class DeprecatedTag extends JavadocBlockTagHandler {
 
     @Inject
     public DeprecatedTag() {
-        this.priority = 90;
+        super(90);
     }
 
     @Override

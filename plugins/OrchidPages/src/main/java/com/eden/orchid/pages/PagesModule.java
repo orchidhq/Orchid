@@ -12,7 +12,8 @@ public class PagesModule extends OrchidModule {
     protected void configure() {
         addToSet(OrchidGenerator.class, PagesGenerator.class);
 
-        addToMap(OrchidMenuItemFactory.class, "pages", AllPagesMenuType.class);
-        addToMap(OrchidMenuItemFactory.class, "page", PageMenuType.class);
+        addToSet(OrchidMenuItemFactory.class,
+                AllPagesMenuType.class,
+                PageMenuType.class);
     }
 }

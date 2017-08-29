@@ -9,7 +9,7 @@ public class TitlePathType extends PermalinkPathType {
 
     @Inject
     public TitlePathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

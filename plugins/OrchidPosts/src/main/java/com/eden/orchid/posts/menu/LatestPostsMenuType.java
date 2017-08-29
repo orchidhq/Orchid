@@ -25,6 +25,11 @@ public class LatestPostsMenuType implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "latestPosts";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> items = new ArrayList<>();
 

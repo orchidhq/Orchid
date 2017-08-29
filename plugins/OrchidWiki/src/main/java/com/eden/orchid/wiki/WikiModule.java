@@ -12,7 +12,8 @@ public class WikiModule extends OrchidModule {
     protected void configure() {
         addToSet(OrchidGenerator.class, WikiGenerator.class);
 
-        addToMap(OrchidMenuItemFactory.class, "wiki", WikiPagesMenuItemType.class);
-        addToMap(OrchidMenuItemFactory.class, "wikiSections", WikiSectionsMenuItemType.class);
+        addToSet(OrchidMenuItemFactory.class,
+                WikiPagesMenuItemType.class,
+                WikiSectionsMenuItemType.class);
     }
 }

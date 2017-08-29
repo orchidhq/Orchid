@@ -11,7 +11,7 @@ public class SlugPathType extends PermalinkPathType {
 
     @Inject
     public SlugPathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

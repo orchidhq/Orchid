@@ -9,7 +9,7 @@ public class DataPropertyPathType extends PermalinkPathType {
 
     @Inject
     public DataPropertyPathType() {
-        this.priority = 1;
+        super(1);
     }
 
     @Override

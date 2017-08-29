@@ -5,6 +5,10 @@ import com.eden.orchid.posts.pages.PostPage;
 
 public abstract class PermalinkPathType extends Prioritized {
 
+    public PermalinkPathType(int priority) {
+        super(priority);
+    }
+
     public abstract boolean acceptsKey(PostPage post, String key);
 
     public abstract String format(PostPage post, String key);

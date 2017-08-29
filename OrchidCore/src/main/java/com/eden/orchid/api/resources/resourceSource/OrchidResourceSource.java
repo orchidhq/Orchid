@@ -26,7 +26,8 @@ public abstract class OrchidResourceSource extends Prioritized {
     protected OrchidContext context;
 
     @Inject
-    public OrchidResourceSource(OrchidContext context) {
+    public OrchidResourceSource(OrchidContext context, int priority) {
+        super(priority);
         this.context = context;
     }
 

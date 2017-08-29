@@ -20,6 +20,11 @@ public interface OrchidContext extends
         TaskService,
         OptionsService
 {
+
     Injector getInjector();
+
+    void start();
+    void finish();
+
     Map<String, Object> getSiteData(Object... data);
 }

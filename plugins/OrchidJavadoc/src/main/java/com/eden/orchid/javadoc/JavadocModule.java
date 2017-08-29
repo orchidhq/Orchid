@@ -45,7 +45,8 @@ public class JavadocModule extends OrchidModule {
         addToSet(DefaultResourceSource.class,
                 JavadocResourceSource.class);
 
-        addToMap(OrchidMenuItemFactory.class, "javadocClasses", AllClassesMenuItemType.class);
-        addToMap(OrchidMenuItemFactory.class, "javadocPackages", AllPackagesMenuItemType.class);
+        addToSet(OrchidMenuItemFactory.class,
+                AllClassesMenuItemType.class,
+                AllPackagesMenuItemType.class);
     }
 }

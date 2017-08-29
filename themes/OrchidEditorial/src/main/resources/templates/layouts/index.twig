@@ -8,7 +8,7 @@
 <head>
     {% include 'includes/header.twig' %}
     {% include 'meta.twig' ignore missing %}
-    {% include 'includes/styles.twig' %}
+    {% include 'includes/styles.twig' with {page: page} only %}
 
     <style>
         #readme p > img {
@@ -27,7 +27,7 @@
 
             <!-- Header -->
             <header id="header">
-                <a href="{{ flags.baseUrl }}/" class="logo">{{ options.about.name }}</a>
+                <a href="{{ flags.baseUrl }}/" class="logo">{{ theme.about.name }}</a>
                 <ul class="icons">
                     <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
                     <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
@@ -47,7 +47,7 @@
     {% include 'includes/sidebar.twig' %}
 </div>
 
-{% include 'includes/scripts.twig' %}
+{% include 'includes/scripts.twig' with {page: page} only %}
 
 </body>
 </html>

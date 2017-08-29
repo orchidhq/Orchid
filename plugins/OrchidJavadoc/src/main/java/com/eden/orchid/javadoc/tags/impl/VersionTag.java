@@ -11,7 +11,7 @@ public class VersionTag extends JavadocBlockTagHandler {
 
     @Inject
     public VersionTag() {
-        this.priority = 20;
+        super(20);
     }
 
     @Override

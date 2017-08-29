@@ -15,6 +15,11 @@ public class ThemeOption implements OrchidFlag {
     }
 
     @Override
+    public Object getDefaultValue() {
+        return "com.eden.orchid.impl.themes.DefaultTheme";
+    }
+
+    @Override
     public boolean isRequired() {
         return true;
     }

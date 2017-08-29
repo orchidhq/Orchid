@@ -1,9 +1,13 @@
 package com.eden.orchid.api.generators;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -39,16 +43,21 @@ import java.util.List;
  * which should typically be 'templates/layouts/index.twig'.
  *
  */
-public abstract class OrchidGenerator extends Prioritized {
+public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 
     protected final String key;
 
     protected OrchidContext context;
     protected OrchidRenderer renderer;
 
+    @Option
+    @Getter
+    @Setter
+    private String theme;
+
     @Inject
     public OrchidGenerator(int priority, String key, OrchidContext context, OrchidRenderer renderer) {
-        setPriority(priority);
+        super(priority);
         this.key = key;
         this.context = context;
         this.renderer = renderer;

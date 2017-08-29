@@ -9,6 +9,10 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidCompiler extends Prioritized {
 
+    public OrchidCompiler(int priority) {
+        super(priority);
+    }
+
     /**
      * Compile content with a particular file extension using the optional provided data.
      *

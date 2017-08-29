@@ -20,6 +20,11 @@ public class PageMenuType implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "page";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 

@@ -25,6 +25,11 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
     }
 
     @Override
+    public String getKey() {
+        return "link";
+    }
+
+    @Override
     public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 

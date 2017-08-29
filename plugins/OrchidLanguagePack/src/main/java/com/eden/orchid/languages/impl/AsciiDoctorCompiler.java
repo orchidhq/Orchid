@@ -15,10 +15,9 @@ public class AsciiDoctorCompiler extends OrchidCompiler {
 
     @Inject
     public AsciiDoctorCompiler() {
+        super(800);
         asciidoctor = Asciidoctor.Factory.create();
         options = new Options();
-
-        this.priority = 800;
     }
 
     @Override

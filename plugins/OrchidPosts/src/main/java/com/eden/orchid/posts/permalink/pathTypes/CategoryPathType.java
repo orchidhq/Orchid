@@ -9,7 +9,7 @@ public class CategoryPathType extends PermalinkPathType {
 
     @Inject
     public CategoryPathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

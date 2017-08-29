@@ -9,7 +9,7 @@ public class DayPathType extends PermalinkPathType {
 
     @Inject
     public DayPathType() {
-        this.priority = 100;
+        super(100);
     }
 
     @Override

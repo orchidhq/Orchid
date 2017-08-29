@@ -10,7 +10,7 @@ public class TextCompiler extends OrchidCompiler {
 
     @Inject
     public TextCompiler() {
-        this.priority = 800;
+        super(800);
     }
 
     @Override

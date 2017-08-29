@@ -6,12 +6,18 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
+
+    @Inject
+    public TwigTemplateResolutionStrategy() {
+        super(100);
+    }
 
     @Override
     public List<String> getPageLayout(OrchidPage page) {

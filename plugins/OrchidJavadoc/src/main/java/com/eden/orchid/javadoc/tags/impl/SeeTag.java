@@ -11,7 +11,7 @@ public class SeeTag extends JavadocBlockTagHandler {
 
     @Inject
     public SeeTag() {
-        this.priority = 40;
+        super(40);
     }
 
     @Override

@@ -23,6 +23,11 @@ public class MenuHolderDelegate implements MenuHolder {
     }
 
     @Override
+    public MenuHolder getMenuHolder() {
+        return this;
+    }
+
+    @Override
     public void createMenus(JSONObject menuJson) {
         for (String key : menuJson.keySet()) {
             if(menuJson.get(key) instanceof JSONArray) {
@@ -56,10 +61,12 @@ public class MenuHolderDelegate implements MenuHolder {
         menus.get(menuId).addMenuItems(menuItemsJson);
     }
 
+    @Override
     public List<OrchidMenuItem> getMenu() {
         return getMenu(null);
     }
 
+    @Override
     public List<OrchidMenuItem> getMenu(String menuId) {
         if (menus.containsKey(menuId)) {
             return menus.get(menuId).getMenuItems();

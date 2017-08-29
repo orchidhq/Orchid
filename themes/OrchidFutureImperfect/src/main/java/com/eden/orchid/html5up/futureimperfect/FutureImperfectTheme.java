@@ -9,6 +9,11 @@ public class FutureImperfectTheme extends Theme {
 
     @Inject
     public FutureImperfectTheme(OrchidContext context) {
-        super(context);
+        super(context, 100);
+    }
+
+    @Override
+    public String getKey() {
+        return "FutureImperfect";
     }
 }

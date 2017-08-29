@@ -1,26 +1,28 @@
 
-about:
-  name: OrchidCore
-  description: A modern, extensible, theme-ready Javadoc site generator.
+materialize:
+  about:
+    name: OrchidCore
+    description: A modern, extensible, theme-ready Javadoc site generator.
+  colors:
+    primary: 'indigo'
+    secondary: 'orange'
+  shades:
+    primary: 'darken-2'
+  navigation:
+    headerBackground: 'https://s-media-cache-ak0.pinimg.com/736x/a0/d5/29/a0d529fdfe67a8905e57d8c4967b0758.jpg'
+  github:
+    username: 'JavaEden'
+    repo: 'Orchid'
+    branch: 'master'
 
-#colors:
-#  primary: 'indigo'
-#  secondary: 'orange'
-#
-colors:
-  primary: '#ffa033'
-  secondary: '#000000'
-
-shades:
-  primary: 'darken-2'
-
-navigation:
-  headerBackground: 'https://s-media-cache-ak0.pinimg.com/736x/a0/d5/29/a0d529fdfe67a8905e57d8c4967b0758.jpg'
-
-github:
-  username: 'JavaEden'
-  repo: 'Orchid'
-  branch: 'master'
+editorial:
+  about:
+    name: OrchidCore
+    description: A modern, extensible, theme-ready Javadoc site generator.
+    githubUsername: 'JavaEden'
+    githubRepo: 'Orchid'
+  primaryColor: '#ffa033'
+  secondaryColor: '#000000'
 
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 
@@ -38,10 +40,15 @@ menu:
     url: '/'
   - type: 'page'
     page: 'All Orchid Projects'
-  - type: 'latestPosts'
-    count: 5
-  - type: 'postCategories'
-  - type: 'postTags'
-  - type: 'javadocPackages'
-  - type: 'javadocClasses'
-  - type: 'wikiSections'
+#  - type: 'latestPosts'
+#    count: 5
+#  - type: 'postCategories'
+#  - type: 'postTags'
+#  - type: 'javadocPackages'
+#  - type: 'javadocClasses'
+#  - type: 'wikiSections'
+
+generators:
+  disabled:
+    - 'JavadocGenerator'
+    - 'ChangelogGenerator'

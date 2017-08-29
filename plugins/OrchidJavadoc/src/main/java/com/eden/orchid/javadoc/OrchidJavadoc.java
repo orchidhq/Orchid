@@ -1,11 +1,8 @@
 package com.eden.orchid.javadoc;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.options.OrchidFlag;
-import com.eden.orchid.api.tasks.TaskServiceImpl;
-import com.eden.orchid.api.theme.Theme;
 import com.google.inject.AbstractModule;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
@@ -63,22 +60,11 @@ public final class OrchidJavadoc {
                 .stream(rootDoc.options())
                 .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
-        try {
-            List<AbstractModule> modules = Orchid.findModules(options);
-            modules.add(OrchidModule.of(RootDoc.class, rootDoc));
-            modules.add(new JavadocModule());
-
-            Class<? extends Theme> theme = Orchid.findTheme(options);
-            return Orchid.getInstance(options).start(modules, theme, TaskServiceImpl.defaultTask);
-        }
-        catch (ClassNotFoundException e) {
-            Clog.e("Theme class could not be found.");
-            return false;
-        }
-        catch (ClassCastException e) {
-            Clog.e("Class given for Theme is not a subclass of " + Theme.class.getName());
-            return false;
-        }
+        List<AbstractModule> modules = Orchid.findModules(options);
+        modules.add(OrchidModule.of(RootDoc.class, rootDoc));
+        modules.add(new JavadocModule());
+        Orchid.getInstance(options).start(modules);
+        return true;
     }
 
     public static String getText(Tag[] tags) {

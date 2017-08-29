@@ -4,9 +4,15 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.moandjiezana.toml.Toml;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.regex.Pattern;
 
 public class TOMLParser extends OrchidParser {
+
+    @Inject
+    public TOMLParser() {
+        super(100);
+    }
 
     @Override
     public String getDelimiter() {

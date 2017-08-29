@@ -49,6 +49,9 @@ public final class OrchidFlags {
             if (validateOptionLength(flag, options)) {
                 parseFlag(flag, options);
             }
+            else if(flag.isRequired() && options == null) {
+                parseFlag(flag, new String[] {"-" + flag.getFlag(), flag.getDefaultValue().toString() });
+            }
         }
 
         if (missingRequiredFlags.size() > 0) {

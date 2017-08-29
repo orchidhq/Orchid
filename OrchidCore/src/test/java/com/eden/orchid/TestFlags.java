@@ -1,5 +1,6 @@
 package com.eden.orchid;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.google.inject.AbstractModule;
@@ -7,6 +8,7 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.inject.Inject;
@@ -20,6 +22,11 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class TestFlags {
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        Clog.setMinPriority(Clog.Priority.FATAL);
+    }
 
 // Test Setup
 //----------------------------------------------------------------------------------------------------------------------
@@ -91,6 +98,58 @@ public class TestFlags {
                 return FlagType.INTEGER;
             }
         });
+        flagParsers.add(new OrchidFlag() {
+            @Override
+            public String getFlag() {
+                return "six";
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public Object getDefaultValue() {
+                return "valueSix";
+            }
+
+            @Override
+            public boolean isRequired() {
+                return true;
+            }
+        });
+        flagParsers.add(new OrchidFlag() {
+            @Override
+            public String getFlag() {
+                return "seven";
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public Object getDefaultValue() {
+                return 14;
+            }
+
+            @Override
+            public boolean isRequired() {
+                return true;
+            }
+
+            @Override
+            public Object parseFlag(String[] options) {
+                return Integer.parseInt(options[1]);
+            }
+
+            @Override
+            public FlagType getFlagType() {
+                return FlagType.INTEGER;
+            }
+        });
     }
 
     static class TestInjectionOneClass {
@@ -120,6 +179,24 @@ public class TestFlags {
         }
     }
 
+    static class TestInjectionSixClass {
+        public final String value;
+
+        @Inject
+        public TestInjectionSixClass(@Named("six") String value) {
+            this.value = value;
+        }
+    }
+
+    static class TestInjectionSevenClass {
+        public final int value;
+
+        @Inject
+        public TestInjectionSevenClass(@Named("seven") int value) {
+            this.value = value;
+        }
+    }
+
 // Run Actual Tests
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -128,11 +205,13 @@ public class TestFlags {
         AbstractModule module = OrchidFlags.getInstance(flagParsers).parseFlags(flagsMap);
 
         // verify that the options get parsed correctly
-        assertThat(OrchidFlags.getInstance().getString("one"),   is(equalTo("valueOne")));
-        assertThat(OrchidFlags.getInstance().getString("two"),   is(equalTo("valueTwo")));
-        assertThat(OrchidFlags.getInstance().getString("three"), is(equalTo("valueThree")));
-        assertThat(OrchidFlags.getInstance().getString("four"),  isEmptyOrNullString()); // "four" has no parser for it
-        assertThat(OrchidFlags.getInstance().getInteger("five"), is(equalTo(17))); // "five"'s parser returned an int
+        assertThat(OrchidFlags.getInstance().getString("one"),    is(equalTo("valueOne")));
+        assertThat(OrchidFlags.getInstance().getString("two"),    is(equalTo("valueTwo")));
+        assertThat(OrchidFlags.getInstance().getString("three"),  is(equalTo("valueThree")));
+        assertThat(OrchidFlags.getInstance().getString("four"),   isEmptyOrNullString()); // "four" has no parser for it
+        assertThat(OrchidFlags.getInstance().getInteger("five"),  is(equalTo(17))); // "five"'s parser returned an int
+        assertThat(OrchidFlags.getInstance().getString("six"),    is(equalTo("valueSix")));
+        assertThat(OrchidFlags.getInstance().getInteger("seven"), is(equalTo(14)));
 
         // Test that the parser correctly creates a module that is capable of injecting the parsed flags
         Injector injector = Guice.createInjector(module);
@@ -141,6 +220,11 @@ public class TestFlags {
         assertThat(oneClass.value, is(equalTo("valueOne")));
         TestInjectionTwoClass twoClass = injector.getInstance(TestInjectionTwoClass.class);
         assertThat(twoClass.value, is(equalTo(17)));
+
+        TestInjectionSixClass sixClass = injector.getInstance(TestInjectionSixClass.class);
+        assertThat(sixClass.value, is(equalTo("valueSix")));
+        TestInjectionSevenClass sevenClass = injector.getInstance(TestInjectionSevenClass.class);
+        assertThat(sevenClass.value, is(equalTo(14)));
 
         boolean threwError = false;
         try {
