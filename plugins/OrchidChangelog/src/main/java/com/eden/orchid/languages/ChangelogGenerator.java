@@ -32,7 +32,7 @@ public class ChangelogGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
-        JSONObject changelog = context.getLocalDatafile("changelog");
+        JSONObject changelog = context.getDatafile("changelog");
 
         if(changelog != null) {
             if(changelog.has(OrchidParser.arrayAsObjectKey)) {

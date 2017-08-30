@@ -61,7 +61,7 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public JSONObject getLocalDatafile(final String fileName) {
+    public JSONObject getDatafile(final String fileName) {
         return context.getParserExtensions().stream()
                 .map(ext -> {
                     OrchidResource resource = getLocalResourceEntry(fileName + "." + ext);
@@ -81,7 +81,7 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public JSONObject getLocalDatafiles(final String directory) {
+    public JSONObject getDatafiles(final String directory) {
         String[] parserExtensions = new String[context.getParserExtensions().size()];
         context.getParserExtensions().toArray(parserExtensions);
         List<OrchidResource> files = getLocalResourceEntries(directory, parserExtensions, false);

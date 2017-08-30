@@ -15,14 +15,18 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class OrchidUtils {
     public static String applyBaseUrl(OrchidContext context, String url) {
@@ -136,5 +140,21 @@ public final class OrchidUtils {
                 .stream(StringUtils.splitByCharacterTypeCamelCase(camelcase))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(" "));
+    }
+
+    public static <T, R> R firstBy(Stream<T> stream, Function<? super T, ? extends R> mapper) {
+        return stream
+                .map(mapper)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static <T, R> R firstBy(T[] items, Function<? super T, ? extends R> mapper) {
+        return firstBy(Arrays.stream(items), mapper);
+    }
+
+    public static <T, R> R firstBy(Collection<T> items, Function<? super T, ? extends R> mapper) {
+        return firstBy(items.stream(), mapper);
     }
 }

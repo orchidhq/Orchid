@@ -25,6 +25,4 @@ public interface OrchidContext extends
 
     void start();
     void finish();
-
-    Map<String, Object> getSiteData(Object... data);
 }

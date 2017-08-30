@@ -29,8 +29,9 @@ public final class CompilerServiceTest {
         Clog.setMinPriority(Clog.Priority.FATAL);
     }
 
-    private CompilerService serviceDelegate;
-    private CompilerServiceImpl underTest;
+    private OrchidContext context;
+    private CompilerService underTest;
+    private CompilerServiceImpl service;
 
     private OrchidCompiler mockCompiler;
     private OrchidParser mockParser;
@@ -72,31 +73,26 @@ public final class CompilerServiceTest {
         when(mockPrecompiler.precompile(mockInput)).thenReturn(precompilerOutput);
         when(mockPrecompiler.getEmbeddedData(mockInput)).thenReturn(precompilerEmbeddedData);
 
-
         // test the service directly
-        OrchidContext context = mock(OrchidContext.class);
-        underTest = new CompilerServiceImpl(compilers, parsers, mockPrecompiler);
-        underTest.initialize(context);
+        context = mock(OrchidContext.class);
+        service = new CompilerServiceImpl(compilers, parsers, mockPrecompiler);
+        service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
-        serviceDelegate = new CompilerService() {
+        underTest = new CompilerService() {
             public void initialize(OrchidContext context) { }
-            public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) underTest; }
+            public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) service; }
         };
     }
 
     @Test
     public void getCompilerExtensions() throws Throwable {
         assertThat(underTest.getCompilerExtensions(), containsInAnyOrder("md", "markdown"));
-
-        assertThat(serviceDelegate.getCompilerExtensions(), containsInAnyOrder("md", "markdown"));
     }
 
     @Test
     public void getParserExtensions() throws Throwable {
         assertThat(underTest.getParserExtensions(), containsInAnyOrder("yaml", "yml"));
-
-        assertThat(serviceDelegate.getParserExtensions(), containsInAnyOrder("yaml", "yml"));
     }
 
     @Test
@@ -104,10 +100,6 @@ public final class CompilerServiceTest {
         assertThat(underTest.compilerFor("md"), is(mockCompiler));
         assertThat(underTest.compilerFor("markdown"), is(mockCompiler));
         assertThat(underTest.compilerFor("ad"), is(nullValue()));
-
-        assertThat(serviceDelegate.compilerFor("md"), is(mockCompiler));
-        assertThat(serviceDelegate.compilerFor("markdown"), is(mockCompiler));
-        assertThat(serviceDelegate.compilerFor("ad"), is(nullValue()));
     }
 
     @Test
@@ -115,51 +107,34 @@ public final class CompilerServiceTest {
         assertThat(underTest.parserFor("yml"), is(mockParser));
         assertThat(underTest.parserFor("yaml"), is(mockParser));
         assertThat(underTest.parserFor("json"), is(nullValue()));
-
-        assertThat(serviceDelegate.parserFor("yml"), is(mockParser));
-        assertThat(serviceDelegate.parserFor("yaml"), is(mockParser));
-        assertThat(serviceDelegate.parserFor("json"), is(nullValue()));
     }
 
     @Test
     public void compile() throws Throwable {
         assertThat(underTest.compile("md", mockInput), is(compiledOutput));
         assertThat(underTest.compile("markdown", mockInput), is(compiledOutput));
-
-        assertThat(serviceDelegate.compile("md", mockInput), is(compiledOutput));
-        assertThat(serviceDelegate.compile("markdown", mockInput), is(compiledOutput));
     }
 
     @Test
     public void parse() throws Throwable {
         assertThat(underTest.parse("yml", mockInput), is(parsedOutput));
         assertThat(underTest.parse("yaml", mockInput), is(parsedOutput));
-
-        assertThat(serviceDelegate.parse("yml", mockInput), is(parsedOutput));
-        assertThat(serviceDelegate.parse("yaml", mockInput), is(parsedOutput));
     }
 
     @Test
     public void getEmbeddedData() throws Throwable {
         assertThat(underTest.getEmbeddedData(mockInput), is(precompilerEmbeddedData));
-
-        assertThat(serviceDelegate.getEmbeddedData(mockInput), is(precompilerEmbeddedData));
     }
 
     @Test
     public void precompile() throws Throwable {
         assertThat(underTest.precompile(mockInput), is(precompilerOutput));
-
-        assertThat(serviceDelegate.precompile(mockInput), is(precompilerOutput));
     }
 
     @Test
     public void getOutputExtension() throws Throwable {
         assertThat(underTest.getOutputExtension("md"), is("html"));
         assertThat(underTest.getOutputExtension("markdown"), is("html"));
-
-        assertThat(serviceDelegate.getOutputExtension("md"), is("html"));
-        assertThat(serviceDelegate.getOutputExtension("markdown"), is("html"));
     }
 
 }

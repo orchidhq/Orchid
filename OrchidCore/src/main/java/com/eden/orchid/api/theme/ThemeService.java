@@ -55,7 +55,7 @@ public interface ThemeService extends OrchidService {
     }
 
     default void pushAdminTheme(AdminTheme theme, JSONObject themeOptions) {
-        getService(ThemeService.class).pushAdminTheme(theme);
+        getService(ThemeService.class).pushAdminTheme(theme, themeOptions);
     }
 
     default void popAdminTheme() {

@@ -29,8 +29,8 @@ public final class ThemeServiceTest {
     }
 
     private OrchidContext context;
-    private ThemeService serviceDelegate;
-    private ThemeServiceImpl underTest;
+    private ThemeService underTest;
+    private ThemeServiceImpl service;
 
     private GlobalAssetHolder globalAssetHolder;
 
@@ -64,51 +64,44 @@ public final class ThemeServiceTest {
         adminThemeContextOptions = new JSONObject();
         adminTheme2ContextOptions = new JSONObject();
 
-        // test the service directly
+
+        // Mock Context
         context = mock(OrchidContext.class);
         when(context.query("theme")).thenReturn(new JSONElement(themeContextOptions));
         when(context.query("theme2")).thenReturn(new JSONElement(theme2ContextOptions));
         when(context.query("adminTheme")).thenReturn(new JSONElement(adminThemeContextOptions));
         when(context.query("adminTheme2")).thenReturn(new JSONElement(adminTheme2ContextOptions));
 
-        underTest = new ThemeServiceImpl(globalAssetHolder, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
-        underTest.initialize(context);
+        // Create instance of Service Implementation
+        service = new ThemeServiceImpl(globalAssetHolder, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
+        service.initialize(context);
 
-        // test that the public implementation is identical to the real implementation
-        serviceDelegate = new ThemeService() {
+        // Create wrapper around the Implementation to verify it works in composition
+        underTest = new ThemeService() {
             public void initialize(OrchidContext context) { }
-            public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) underTest; }
+            public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) service; }
         };
     }
 
     @Test
     public void getGlobalAssetHolder() throws Throwable {
         assertThat(underTest.getGlobalAssetHolder(), is(globalAssetHolder));
-
-        assertThat(serviceDelegate.getGlobalAssetHolder(), is(globalAssetHolder));
     }
 
     @Test
     public void getDefaultTheme() throws Throwable {
         assertThat(underTest.getDefaultTheme(), is(theme1));
-
-        assertThat(serviceDelegate.getDefaultTheme(), is(theme1));
     }
 
     @Test
     public void getTheme() throws Throwable {
         assertThat(underTest.getTheme(), is(theme1));
-
-        assertThat(serviceDelegate.getTheme(), is(theme1));
     }
 
     @Test
     public void findTheme() throws Throwable {
         assertThat(underTest.findTheme("theme1"), is(theme1));
         assertThat(underTest.findTheme("theme2"), is(nullValue()));
-
-        assertThat(serviceDelegate.findTheme("theme1"), is(theme1));
-        assertThat(serviceDelegate.findTheme("theme2"), is(nullValue()));
     }
 
     @Test
@@ -125,22 +118,6 @@ public final class ThemeServiceTest {
         assertThat(underTest.getTheme(), is(theme2));
         underTest.clearThemes();
         assertThat(underTest.getTheme(), is(theme1));
-    }
-
-    @Test
-    public void pushAndPopThemeDelegate() throws Throwable {
-        Theme theme2 = mock(Theme.class);
-        when(theme2 .getKey()).thenReturn("theme2");
-
-        serviceDelegate.pushTheme(theme2);
-        assertThat(serviceDelegate.getTheme(), is(theme2));
-        serviceDelegate.popTheme();
-        assertThat(serviceDelegate.getTheme(), is(theme1));
-
-        serviceDelegate.pushTheme(theme2, new JSONObject());
-        assertThat(serviceDelegate.getTheme(), is(theme2));
-        serviceDelegate.clearThemes();
-        assertThat(serviceDelegate.getTheme(), is(theme1));
     }
 
     @Test
@@ -178,24 +155,17 @@ public final class ThemeServiceTest {
     @Test
     public void getDefaultAdminTheme() throws Throwable {
         assertThat(underTest.getDefaultAdminTheme(), is(adminTheme1));
-
-        assertThat(serviceDelegate.getDefaultAdminTheme(), is(adminTheme1));
     }
 
     @Test
     public void getAdminTheme() throws Throwable {
         assertThat(underTest.getAdminTheme(), is(adminTheme1));
-
-        assertThat(serviceDelegate.getAdminTheme(), is(adminTheme1));
     }
 
     @Test
     public void findAdminTheme() throws Throwable {
         assertThat(underTest.findAdminTheme("adminTheme1"), is(adminTheme1));
         assertThat(underTest.findAdminTheme("adminTheme2"), is(nullValue()));
-
-        assertThat(serviceDelegate.findAdminTheme("adminTheme1"), is(adminTheme1));
-        assertThat(serviceDelegate.findAdminTheme("adminTheme2"), is(nullValue()));
     }
 
     @Test
@@ -212,22 +182,6 @@ public final class ThemeServiceTest {
         assertThat(underTest.getAdminTheme(), is(adminTheme2));
         underTest.clearAdminThemes();
         assertThat(underTest.getAdminTheme(), is(adminTheme1));
-    }
-
-    @Test
-    public void pushAndPopAdminThemeDelegate() throws Throwable {
-        AdminTheme adminTheme2 = mock(AdminTheme.class);
-        when(adminTheme2.getKey()).thenReturn("adminTheme2");
-
-        serviceDelegate.pushAdminTheme(adminTheme2);
-        assertThat(serviceDelegate.getAdminTheme(), is(adminTheme2));
-        serviceDelegate.popAdminTheme();
-        assertThat(serviceDelegate.getAdminTheme(), is(adminTheme1));
-
-        serviceDelegate.pushAdminTheme(adminTheme2, new JSONObject());
-        assertThat(serviceDelegate.getAdminTheme(), is(adminTheme2));
-        serviceDelegate.clearAdminThemes();
-        assertThat(serviceDelegate.getAdminTheme(), is(adminTheme1));
     }
 
     @Test
@@ -256,11 +210,12 @@ public final class ThemeServiceTest {
         underTest.popAdminTheme();
 
         // Test that if we pass it options directly when pushing the theme, it will use that
-        JSONObject customOptionsData = new JSONObject();
+        when(context.query("adminTheme")).thenReturn(null);
+        when(context.query("adminTheme3")).thenReturn(null);
+        JSONObject customOptionsData = mock(JSONObject.class);
         underTest.pushAdminTheme(adminTheme3, customOptionsData);
         verify(adminTheme3).extractOptions(context, customOptionsData);
         underTest.popAdminTheme();
     }
-    
 
 }

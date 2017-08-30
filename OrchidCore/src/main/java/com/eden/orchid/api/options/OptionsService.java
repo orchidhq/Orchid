@@ -4,6 +4,8 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidService;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 public interface OptionsService extends OrchidService {
 
     default void clearOptions() {
@@ -24,6 +26,10 @@ public interface OptionsService extends OrchidService {
 
     default JSONElement query(String pointer) {
         return getService(OptionsService.class).query(pointer);
+    }
+
+    default Map<String, Object> getSiteData(Object... data) {
+        return getService(OptionsService.class).getSiteData(data);
     }
 
 }

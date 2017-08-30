@@ -1,7 +1,6 @@
 package com.eden.orchid.api.resources;
 
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import org.json.JSONObject;
 
@@ -9,12 +8,12 @@ import java.util.List;
 
 public interface ResourceService extends OrchidService {
 
-    default JSONObject getLocalDatafile(final String fileName) {
-        return getService(ResourceService.class).getLocalDatafile(fileName);
+    default JSONObject getDatafile(final String fileName) {
+        return getService(ResourceService.class).getDatafile(fileName);
     }
 
-    default JSONObject getLocalDatafiles(final String directory) {
-        return getService(ResourceService.class).getLocalDatafiles(directory);
+    default JSONObject getDatafiles(final String directory) {
+        return getService(ResourceService.class).getDatafiles(directory);
     }
 
     default OrchidResource getLocalResourceEntry(final String fileName) {

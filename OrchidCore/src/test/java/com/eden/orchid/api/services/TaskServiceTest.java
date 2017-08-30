@@ -27,8 +27,9 @@ public final class TaskServiceTest {
         Clog.setMinPriority(Clog.Priority.FATAL);
     }
 
-    private TaskService serviceDelegate;
-    private TaskServiceImpl underTest;
+    private OrchidContext context;
+    private TaskService underTest;
+    private TaskServiceImpl service;
 
     @Before
     public void testSetup() {
@@ -46,14 +47,14 @@ public final class TaskServiceTest {
         FileWatcher fileWatcher = mock(FileWatcher.class);
 
         // test the service directly
-        OrchidContext context = mock(OrchidContext.class);
-        underTest = new TaskServiceImpl(tasks, generators, "", "", server, fileWatcher);
-        underTest.initialize(context);
+        context = mock(OrchidContext.class);
+        service = new TaskServiceImpl(tasks, generators, "", "", server, fileWatcher);
+        service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
-        serviceDelegate = new TaskService() {
+        underTest = new TaskService() {
             public void initialize(OrchidContext context) { }
-            public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) underTest; }
+            public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) service; }
         };
     }
 
@@ -62,10 +63,6 @@ public final class TaskServiceTest {
         assertThat(underTest.run("task1"), is(true));
         assertThat(underTest.run("task2"), is(true));
         assertThat(underTest.run("task3"), is(false));
-
-        assertThat(serviceDelegate.run("task1"), is(true));
-        assertThat(serviceDelegate.run("task2"), is(true));
-        assertThat(serviceDelegate.run("task3"), is(false));
     }
 
     @Test
