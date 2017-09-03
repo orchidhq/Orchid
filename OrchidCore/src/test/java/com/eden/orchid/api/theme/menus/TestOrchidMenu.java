@@ -1,9 +1,10 @@
-package com.eden.orchid.api.themes.menus;
+package com.eden.orchid.api.theme.menus;
 
 import com.caseyjbrooks.clog.Clog;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
+@Test(groups={"menus", "unit"})
 public class TestOrchidMenu {
 
     @BeforeClass

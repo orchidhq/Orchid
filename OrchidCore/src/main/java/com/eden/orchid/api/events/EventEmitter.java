@@ -19,7 +19,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 @Singleton
-public final class EventEmitter {
+public class EventEmitter {
 
     private Map<String, Set<EdenPair<Method, Object>>> eventListeners;
     private Set<EdenPair<Method, Object>> sniffers;

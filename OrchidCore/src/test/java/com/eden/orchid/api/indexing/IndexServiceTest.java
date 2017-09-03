@@ -1,17 +1,16 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.indexing;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.events.EventEmitter;
-import com.eden.orchid.api.events.EventService;
-import com.eden.orchid.api.events.EventServiceImpl;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.*;
 
-public final class EventServiceTest {
+@Test(groups={"services", "unit"})
+public final class IndexServiceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -19,20 +18,19 @@ public final class EventServiceTest {
     }
 
     private OrchidContext context;
-    private EventService underTest;
-    private EventServiceImpl service;
+    private IndexService underTest;
+    private IndexServiceImpl service;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
-        EventEmitter emitter = mock(EventEmitter.class);
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new EventServiceImpl(emitter);
+        service = new IndexServiceImpl();
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
-        underTest = new EventService() {
+        underTest = new IndexService() {
             public void initialize(OrchidContext context) { }
             public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) service; }
         };

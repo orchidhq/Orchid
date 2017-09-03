@@ -1,15 +1,15 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.options.OptionsService;
-import com.eden.orchid.api.options.OptionsServiceImpl;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.*;
 
+@Test(groups={"services", "unit"}, dependsOnGroups = {"options"})
 public final class OptionsServiceTest {
 
     @BeforeClass
@@ -21,12 +21,12 @@ public final class OptionsServiceTest {
     private OptionsService underTest;
     private OptionsServiceImpl service;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new OptionsServiceImpl();
+        service = new OptionsServiceImpl("test");
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation

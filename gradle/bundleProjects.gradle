@@ -15,7 +15,6 @@ project.version = rootProject.version
 apply from: "$rootDir/gradle/publish.gradle"
 
 dependencies {
-    testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
 }
 

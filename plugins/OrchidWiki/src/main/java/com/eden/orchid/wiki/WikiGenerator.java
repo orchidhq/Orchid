@@ -130,6 +130,8 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
             WikiPage page = new WikiPage(resource, a.text());
 
+
+
             page.addMenuItem(null, pageMenuItem);
 
             page.setOrder(i);

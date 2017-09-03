@@ -1,27 +1,23 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.compilers;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.compilers.CompilerService;
-import com.eden.orchid.api.compilers.CompilerServiceImpl;
-import com.eden.orchid.api.compilers.OrchidCompiler;
-import com.eden.orchid.api.compilers.OrchidParser;
-import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+@Test(groups={"services", "unit"})
 public final class CompilerServiceTest {
 
     @BeforeClass
@@ -44,7 +40,7 @@ public final class CompilerServiceTest {
     private JSONElement precompilerElement;
     private EdenPair<String, JSONElement> precompilerEmbeddedData;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
         // target outputs
         mockInput = "input";

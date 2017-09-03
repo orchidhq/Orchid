@@ -1,4 +1,4 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.tasks;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
@@ -6,20 +6,18 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
-import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.tasks.TaskService;
-import com.eden.orchid.api.tasks.TaskServiceImpl;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+@Test(groups={"services", "unit"})
 public final class TaskServiceTest {
 
     @BeforeClass
@@ -31,7 +29,7 @@ public final class TaskServiceTest {
     private TaskService underTest;
     private TaskServiceImpl service;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
         Set<OrchidTask> tasks = new HashSet<>();
         OrchidTask task1 = mock(OrchidTask.class);

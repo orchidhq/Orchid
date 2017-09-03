@@ -16,6 +16,7 @@ import com.eden.orchid.api.theme.menus.MenuHolderDelegate;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -55,8 +56,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder, MenuHolder {
     public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
         this.componentHolder = context.getInjector().getInstance(ComponentHolderDelegate.class);
-        this.assets = context.getInjector().getInstance(AssetHolderDelegate.class);
-        this.menus = context.getInjector().getInstance(MenuHolderDelegate.class);
+        this.assets = new AssetHolderDelegate(context);
+        this.menus = new MenuHolderDelegate(context);
+        this.menus.createMenu(null, new JSONArray());
 
         this.key = key;
         this.templates = new String[]{"page"};

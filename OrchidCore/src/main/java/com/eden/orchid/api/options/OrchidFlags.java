@@ -3,7 +3,6 @@ package com.eden.orchid.api.options;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.Orchid;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.name.Names;
@@ -28,7 +27,7 @@ public final class OrchidFlags {
 
     public static OrchidFlags getInstance() {
         if (instance == null) {
-            instance = new OrchidFlags(Orchid.findFlags());
+            throw new IllegalStateException("No instance of OrchidFlags has been created, initialize OrchidFlags with [Collection<OrchidFlag> flags] first");
         }
         return instance;
     }

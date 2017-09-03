@@ -6,6 +6,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.google.inject.name.Named;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,8 +27,8 @@ public class OptionsServiceImpl implements OptionsService {
     private JSONObject optionsData;
 
     @Inject
-    public OptionsServiceImpl() {
-        this.environment = OrchidFlags.getInstance().getString("environment");
+    public OptionsServiceImpl(@Named("environment") String environment) {
+        this.environment = environment;
     }
 
     @Override

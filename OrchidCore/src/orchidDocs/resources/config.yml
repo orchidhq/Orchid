@@ -1,5 +1,5 @@
 
-materialize:
+Materialize:
   about:
     name: OrchidCore
     description: A modern, extensible, theme-ready Javadoc site generator.
@@ -15,7 +15,7 @@ materialize:
     repo: 'Orchid'
     branch: 'master'
 
-editorial:
+Editorial:
   about:
     name: OrchidCore
     description: A modern, extensible, theme-ready Javadoc site generator.
@@ -46,7 +46,7 @@ menu:
 #  - type: 'postTags'
 #  - type: 'javadocPackages'
 #  - type: 'javadocClasses'
-#  - type: 'wikiSections'
+  - type: 'wikiSections'
 
 generators:
   disabled:

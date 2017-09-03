@@ -65,3 +65,4 @@ task publishDocumentation {
 }
 
 rootProject.tasks.publishDocumentation.dependsOn project.tasks.publishDocumentation
+project.tasks.javadoc.shouldRunAfter project.tasks.check

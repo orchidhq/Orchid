@@ -1,10 +1,11 @@
-package com.eden.orchid.api.themes.components;
+package com.eden.orchid.api.theme.pages;
 
 import com.caseyjbrooks.clog.Clog;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-public class TestOrchidComponent {
+@Test(groups={"pages", "unit"})
+public class TestOrchidPage {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

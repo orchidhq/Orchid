@@ -1,16 +1,18 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.events;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.indexing.IndexService;
-import com.eden.orchid.api.indexing.IndexServiceImpl;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public final class IndexServiceTest {
+@Test(groups={"services", "unit"})
+public final class EventServiceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -18,22 +20,28 @@ public final class IndexServiceTest {
     }
 
     private OrchidContext context;
-    private IndexService underTest;
-    private IndexServiceImpl service;
+    private EventService underTest;
+    private EventServiceImpl service;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
+        EventEmitter emitter = mock(EventEmitter.class);
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new IndexServiceImpl();
+        service = new EventServiceImpl(emitter);
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
-        underTest = new IndexService() {
+        underTest = new EventService() {
             public void initialize(OrchidContext context) { }
             public <T extends OrchidService> T getService(Class<T> serviceClass) { return (T) service; }
         };
+    }
+
+    @Test
+    public void testTestMethod() throws Throwable {
+        assertThat(1, is(equalTo(1)));
     }
 
 }

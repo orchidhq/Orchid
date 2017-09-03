@@ -1,20 +1,20 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.resources;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.resources.ResourceService;
-import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
+@Test(groups={"services", "unit"})
 public final class ResourceServiceTest {
 
     @BeforeClass
@@ -32,7 +32,7 @@ public final class ResourceServiceTest {
     private Set<DefaultResourceSource> defaultResourceSources;
     private DefaultResourceSource mockDefaultResourceSource;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
         resourcesDir = "mockResourcesDir";
         localResourceSources = new HashSet<>();

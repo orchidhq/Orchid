@@ -1,10 +1,6 @@
-package com.eden.orchid;
+package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.api.options.Option;
-import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.OptionsExtractor;
-import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
@@ -14,17 +10,18 @@ import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
+@Test(groups={"options", "unit"})
 public class TestOptions {
 
     @BeforeClass
@@ -123,7 +120,7 @@ public class TestOptions {
     private JSONObject options;
     private OptionsExtractor extractor;
 
-    @Before
+    @BeforeTest
     public void setupTest() {
         options = new JSONObject();
 

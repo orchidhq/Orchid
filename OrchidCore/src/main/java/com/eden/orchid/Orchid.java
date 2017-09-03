@@ -129,7 +129,7 @@ public final class Orchid {
     }
 
     public void start(List<AbstractModule> modules) {
-        modules.add(OrchidFlags.getInstance().parseFlags(this.flags));
+        modules.add(OrchidFlags.getInstance(Orchid.findFlags()).parseFlags(this.flags));
         injector = Guice.createInjector(modules);
 
         String moduleLog = "Using the following modules: ";

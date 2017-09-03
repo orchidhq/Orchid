@@ -1,15 +1,13 @@
-package com.eden.orchid;
+package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.api.options.OrchidFlag;
-import com.eden.orchid.api.options.OrchidFlags;
 import com.google.inject.AbstractModule;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,9 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
+@Test(groups={"options", "unit"})
 public class TestFlags {
 
     @BeforeClass
@@ -34,7 +33,52 @@ public class TestFlags {
     private Map<String, String[]> flagsMap;
     private List<OrchidFlag> flagParsers;
 
-    @Before
+    static class TestInjectionOneClass {
+        public final String value;
+
+        @Inject
+        public TestInjectionOneClass(@Named("one") String value) {
+            this.value = value;
+        }
+    }
+
+    static class TestInjectionTwoClass {
+        public final int value;
+
+        @Inject
+        public TestInjectionTwoClass(@Named("five") int value) {
+            this.value = value;
+        }
+    }
+
+    static class TestInjectionThreeClass {
+        public final String value;
+
+        @Inject
+        public TestInjectionThreeClass(@Named("five") String value) {
+            this.value = value;
+        }
+    }
+
+    static class TestInjectionSixClass {
+        public final String value;
+
+        @Inject
+        public TestInjectionSixClass(@Named("six") String value) {
+            this.value = value;
+        }
+    }
+
+    static class TestInjectionSevenClass {
+        public final int value;
+
+        @Inject
+        public TestInjectionSevenClass(@Named("seven") int value) {
+            this.value = value;
+        }
+    }
+
+    @BeforeTest
     public void setupTest() {
         flagsMap = new HashMap<>();
         flagsMap.put("-one",   new String[] {"-one",   "valueOne"});
@@ -150,51 +194,6 @@ public class TestFlags {
                 return FlagType.INTEGER;
             }
         });
-    }
-
-    static class TestInjectionOneClass {
-        public final String value;
-
-        @Inject
-        public TestInjectionOneClass(@Named("one") String value) {
-            this.value = value;
-        }
-    }
-
-    static class TestInjectionTwoClass {
-        public final int value;
-
-        @Inject
-        public TestInjectionTwoClass(@Named("five") int value) {
-            this.value = value;
-        }
-    }
-
-    static class TestInjectionThreeClass {
-        public final String value;
-
-        @Inject
-        public TestInjectionThreeClass(@Named("five") String value) {
-            this.value = value;
-        }
-    }
-
-    static class TestInjectionSixClass {
-        public final String value;
-
-        @Inject
-        public TestInjectionSixClass(@Named("six") String value) {
-            this.value = value;
-        }
-    }
-
-    static class TestInjectionSevenClass {
-        public final int value;
-
-        @Inject
-        public TestInjectionSevenClass(@Named("seven") int value) {
-            this.value = value;
-        }
     }
 
 // Run Actual Tests

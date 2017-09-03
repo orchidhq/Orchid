@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
@@ -36,6 +35,8 @@ public abstract class Theme extends AbstractTheme implements MenuHolder {
         this.themeOptions = options;
         OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
         extractor.extractOptions(this, options);
+
+        createMenus();
     }
 
     protected void createMenus() {
@@ -44,31 +45,21 @@ public abstract class Theme extends AbstractTheme implements MenuHolder {
         // look for menus in local theme options
         if(themeOptions != null) {
             menuElement = new JSONElement(themeOptions).query("menu");
-            if(menuElement != null) {
-                Clog.v("We have local theme options");
-            }
         }
 
         // look for menus in global site options
         if(menuElement == null) {
             menuElement = context.query("menu");
-            if(menuElement != null) {
-                Clog.v("We have global theme options");
-            }
         }
 
         if(menuElement != null) {
             // create single menu from array definition
             if (OrchidUtils.elementIsArray(menuElement)) {
-                Clog.v("We have menu array");
                 createMenu(null, (JSONArray) menuElement.getElement());
-                Clog.v(((JSONArray) menuElement.getElement()).toString(2));
             }
 
             // create multiple menus from object definition
             else if (OrchidUtils.elementIsObject(menuElement)) {
-                Clog.v("We have menu object");
-                Clog.v(((JSONObject) menuElement.getElement()).toString(2));
                 createMenus((JSONObject) menuElement.getElement());
             }
         }

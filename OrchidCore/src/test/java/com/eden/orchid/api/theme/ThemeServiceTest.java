@@ -1,26 +1,23 @@
-package com.eden.orchid.api.services;
+package com.eden.orchid.api.theme;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.theme.AdminTheme;
-import com.eden.orchid.api.theme.Theme;
-import com.eden.orchid.api.theme.ThemeService;
-import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+@Test(groups={"services", "unit"}, dependsOnGroups = {"theme"})
 public final class ThemeServiceTest {
 
     @BeforeClass
@@ -45,7 +42,7 @@ public final class ThemeServiceTest {
     private AdminTheme adminTheme1;
     private Set<AdminTheme> adminThemes;
 
-    @Before
+    @BeforeTest
     public void testSetup() {
         themes = new HashSet<>();
         theme1 = mock(Theme.class);

@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.menus;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
@@ -33,18 +32,13 @@ public final class OrchidMenu {
             menuItems = new ArrayList<>();
 
             menuItemTypes = OrchidUtils.resolveSet(context, OrchidMenuItemFactory.class);
-            for (OrchidMenuItemFactory factory : menuItemTypes) {
-                Clog.i("{} - {}", factory.getKey(), factory.getClass().getName());
-            }
 
             for (int i = 0; i < menuJson.length(); i++) {
                 JSONObject menuItemJson = menuJson.getJSONObject(i);
                 String menuItemType = menuItemJson.getString("type");
-                Clog.v("Creating menu item: {}", menuItemType);
 
                 for (OrchidMenuItemFactory factory : menuItemTypes) {
-                    if(factory.getKey().equals(menuItemType)) {
-                        Clog.v("Found menu item: {}", menuItemType);
+                    if (factory.getKey().equals(menuItemType)) {
                         menuItems.addAll(factory.getMenuItems(menuItemJson));
                         break;
                     }
