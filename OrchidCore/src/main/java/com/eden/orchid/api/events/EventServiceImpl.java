@@ -2,6 +2,7 @@ package com.eden.orchid.api.events;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import lombok.Getter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,10 +18,10 @@ public final class EventServiceImpl implements EventService {
     private OrchidContext context;
 
     private Set<OrchidEventListener> eventListeners;
-    private Set<EventServiceImpl.EventHandler> eventHandlers;
-    private Stack<OrchidEvent> eventsInProgress;
+    @Getter private Set<EventServiceImpl.EventHandler> eventHandlers;
+    private Stack<Class<? extends OrchidEvent>> eventsInProgress;
 
-    private static class EventHandler {
+    static class EventHandler {
         public Class<? extends OrchidEvent> eventClass;
         public boolean allowSubclasses;
 
@@ -89,21 +90,26 @@ public final class EventServiceImpl implements EventService {
 
     @Override
     public void broadcast(OrchidEvent event) {
-        for (OrchidEvent inProgress : eventsInProgress) {
-            if (event.equals(inProgress)) {
+        for (Class<? extends OrchidEvent> inProgress : eventsInProgress) {
+            if (event.getClass().equals(inProgress)) {
                 throw new IllegalStateException(Clog.format("The event '#{$1}' is already in progress, it cannot be emitted again until this cycle has finished.", event.getClass().toString()));
             }
         }
 
-        eventsInProgress.push(event);
+        eventsInProgress.push(event.getClass());
         Clog.d("Broadcasting event: '#{$1}'", event.getClass().getSimpleName());
         for (EventHandler handler : this.eventHandlers) {
-            callMethod(event, handler);
+            try {
+                callMethod(event, handler);
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         eventsInProgress.pop();
     }
 
-    private void callMethod(OrchidEvent event, EventHandler handler) {
+    private void callMethod(OrchidEvent event, EventHandler handler) throws Exception {
         Class<?> paramClass = handler.callback.getParameterTypes()[0];
 
         boolean callMethod = false;
@@ -120,12 +126,7 @@ public final class EventServiceImpl implements EventService {
         }
 
         if(callMethod) {
-            try {
-                handler.callback.invoke(handler.acceptor, event);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            handler.callback.invoke(handler.acceptor, event);
         }
     }
 

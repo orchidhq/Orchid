@@ -7,7 +7,7 @@ import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -29,7 +29,7 @@ public final class TaskServiceTest {
     private TaskService underTest;
     private TaskServiceImpl service;
 
-    @BeforeTest
+    @BeforeMethod
     public void testSetup() {
         Set<OrchidTask> tasks = new HashSet<>();
         OrchidTask task1 = mock(OrchidTask.class);

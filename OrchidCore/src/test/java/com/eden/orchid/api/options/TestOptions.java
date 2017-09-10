@@ -11,7 +11,7 @@ import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -120,7 +120,7 @@ public class TestOptions {
     private JSONObject options;
     private OptionsExtractor extractor;
 
-    @BeforeTest
+    @BeforeMethod
     public void setupTest() {
         options = new JSONObject();
 

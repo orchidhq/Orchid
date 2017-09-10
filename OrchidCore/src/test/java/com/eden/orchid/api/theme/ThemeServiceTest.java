@@ -7,7 +7,7 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -42,7 +42,7 @@ public final class ThemeServiceTest {
     private AdminTheme adminTheme1;
     private Set<AdminTheme> adminThemes;
 
-    @BeforeTest
+    @BeforeMethod
     public void testSetup() {
         themes = new HashSet<>();
         theme1 = mock(Theme.class);

@@ -7,7 +7,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -40,7 +40,7 @@ public final class CompilerServiceTest {
     private JSONElement precompilerElement;
     private EdenPair<String, JSONElement> precompilerEmbeddedData;
 
-    @BeforeTest
+    @BeforeMethod
     public void testSetup() {
         // target outputs
         mockInput = "input";

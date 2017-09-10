@@ -6,7 +6,7 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -32,7 +32,7 @@ public final class ResourceServiceTest {
     private Set<DefaultResourceSource> defaultResourceSources;
     private DefaultResourceSource mockDefaultResourceSource;
 
-    @BeforeTest
+    @BeforeMethod
     public void testSetup() {
         resourcesDir = "mockResourcesDir";
         localResourceSources = new HashSet<>();

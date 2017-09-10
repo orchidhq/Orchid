@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.*;
@@ -21,7 +21,7 @@ public final class OptionsServiceTest {
     private OptionsService underTest;
     private OptionsServiceImpl service;
 
-    @BeforeTest
+    @BeforeMethod
     public void testSetup() {
 
         // test the service directly

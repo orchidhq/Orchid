@@ -6,7 +6,7 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
@@ -78,7 +78,7 @@ public class TestFlags {
         }
     }
 
-    @BeforeTest
+    @BeforeMethod
     public void setupTest() {
         flagsMap = new HashMap<>();
         flagsMap.put("-one",   new String[] {"-one",   "valueOne"});
