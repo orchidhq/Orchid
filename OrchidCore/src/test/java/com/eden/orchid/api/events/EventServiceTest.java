@@ -7,6 +7,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -25,11 +27,10 @@ public final class EventServiceTest {
 
     @BeforeTest
     public void testSetup() {
-        EventEmitter emitter = mock(EventEmitter.class);
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new EventServiceImpl(emitter);
+        service = new EventServiceImpl(new HashSet<>());
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
