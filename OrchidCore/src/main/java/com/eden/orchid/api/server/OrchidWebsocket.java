@@ -67,10 +67,10 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
                 message.setUnmasked();
 
                 if(message.getTextPayload().equalsIgnoreCase("exit")) {
-                    context.broadcast(Orchid.Events.END_SESSION);
+                    context.broadcast(Orchid.Lifecycle.EndSession.fire(this));
                 }
                 else if(message.getTextPayload().equalsIgnoreCase("rebuild")) {
-                    context.broadcast(Orchid.Events.FORCE_REBUILD);
+                    context.build();
                 }
 
                 sendFrame(message);

@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface On {
-    String value() default "";
+    Class<? extends OrchidEvent> value();
+    boolean subclasses() default false;
 }

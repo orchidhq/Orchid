@@ -68,20 +68,20 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void initialize(OrchidContext context) {
         services.values().forEach(service -> service.initialize(context));
-        broadcast(Orchid.Events.INIT_COMPLETE, this);
+        broadcast(Orchid.Lifecycle.InitComplete.fire(this));
     }
 
     @Override
     public void start() {
         services.values().forEach(OrchidService::onStart);
-        broadcast(Orchid.Events.ON_START, this);
+        broadcast(Orchid.Lifecycle.OnStart.fire(this));
     }
 
     @Override
     public void finish() {
-        broadcast(Orchid.Events.ON_FINISH, this);
+        broadcast(Orchid.Lifecycle.OnFinish.fire(this));
         services.values().forEach(OrchidService::onFinish);
-        broadcast(Orchid.Events.SHUTDOWN, this);
+        broadcast(Orchid.Lifecycle.Shutdown.fire(this));
     }
 
     @Override

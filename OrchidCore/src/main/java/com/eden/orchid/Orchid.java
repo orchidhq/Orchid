@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.registration.IgnoreModule;
@@ -25,28 +26,6 @@ import java.util.stream.Collectors;
  * runTask a single Orchid task.
  */
 public final class Orchid {
-
-// Events fired by Orchid Core
-//----------------------------------------------------------------------------------------------------------------------
-
-    public static class Events {
-        // Overall lifecycle
-        public static final String INIT_COMPLETE = "INIT_COMPLETE";
-        public static final String ON_START = "ON_START";
-        public static final String ON_FINISH = "ON_FINISH";
-        public static final String SHUTDOWN = "SHUTDOWN";
-
-        // Build Lifecycle
-        public static final String TASK_START = "TASK_START";
-        public static final String BUILD_START = "BUILD_START";
-        public static final String BUILD_FINISH = "BUILD_FINISH";
-        public static final String TASK_FINISH = "TASK_FINISH";
-
-        // Server Events
-        public static final String FILES_CHANGED = "FILES_CHANGED";
-        public static final String FORCE_REBUILD = "FORCE_REBUILD";
-        public static final String END_SESSION = "END_SESSION";
-    }
 
 // Make main Orchid object a singleton
 //----------------------------------------------------------------------------------------------------------------------
@@ -184,4 +163,53 @@ public final class Orchid {
             System.exit(1);
         }
     }
+
+// Events fired by Orchid Core
+//----------------------------------------------------------------------------------------------------------------------
+
+    public static class Lifecycle {
+        public static class InitComplete extends OrchidEvent {
+            private InitComplete(Object sender) { super(sender); }
+            public static InitComplete fire(Object sender) { return new InitComplete(sender); }
+        }
+        public static class OnStart extends OrchidEvent {
+            private OnStart(Object sender) { super(sender); }
+            public static OnStart fire(Object sender) { return new OnStart(sender); }
+        }
+        public static class OnFinish extends OrchidEvent {
+            private OnFinish(Object sender) { super(sender); }
+            public static OnFinish fire(Object sender) { return new OnFinish(sender); }
+        }
+        public static class Shutdown extends OrchidEvent {
+            private Shutdown(Object sender) { super(sender); }
+            public static Shutdown fire(Object sender) { return new Shutdown(sender); }
+        }
+
+        public static class TaskStart extends OrchidEvent {
+            private TaskStart(Object sender) { super(sender); }
+            public static TaskStart fire(Object sender) { return new TaskStart(sender); }
+        }
+        public static class BuildStart extends OrchidEvent {
+            private BuildStart(Object sender) { super(sender); }
+            public static BuildStart fire(Object sender) { return new BuildStart(sender); }
+        }
+        public static class BuildFinish extends OrchidEvent {
+            private BuildFinish(Object sender) { super(sender); }
+            public static BuildFinish fire(Object sender) { return new BuildFinish(sender); }
+        }
+        public static class TaskFinish extends OrchidEvent {
+            private TaskFinish(Object sender) { super(sender); }
+            public static TaskFinish fire(Object sender) { return new TaskFinish(sender); }
+        }
+
+        public static class FilesChanged extends OrchidEvent {
+            private FilesChanged(Object sender) { super(sender); }
+            public static FilesChanged fire(Object sender) { return new FilesChanged(sender); }
+        }
+        public static class EndSession extends OrchidEvent {
+            private EndSession(Object sender) { super(sender); }
+            public static EndSession fire(Object sender) { return new EndSession(sender); }
+        }
+    }
+    
 }

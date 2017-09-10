@@ -5,9 +5,8 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
-import java.util.EventListener;
 
-public class ServeTask extends OrchidTask implements EventListener {
+public class ServeTask extends OrchidTask {
 
     private Provider<OrchidContext> contextProvider;
 

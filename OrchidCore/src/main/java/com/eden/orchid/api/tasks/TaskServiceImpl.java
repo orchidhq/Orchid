@@ -4,6 +4,8 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
+import com.eden.orchid.api.events.OrchidEvent;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
@@ -12,14 +14,11 @@ import com.google.inject.name.Named;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.EventListener;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
-public final class TaskServiceImpl implements TaskService, EventListener {
-
-    public static String defaultTask = "build";
+public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     private OrchidContext context;
     private Set<OrchidTask> tasks;
@@ -68,9 +67,9 @@ public final class TaskServiceImpl implements TaskService, EventListener {
                 .orElse(null);
 
         if (foundTask != null) {
-            context.broadcast(Orchid.Events.TASK_START, foundTask);
+            context.broadcast(Orchid.Lifecycle.TaskStart.fire(this));
             foundTask.run();
-            context.broadcast(Orchid.Events.TASK_FINISH, foundTask);
+            context.broadcast(Orchid.Lifecycle.TaskFinish.fire(this));
             return true;
         }
         else {
@@ -81,7 +80,7 @@ public final class TaskServiceImpl implements TaskService, EventListener {
 
     @Override
     public void build() {
-        context.broadcast(Orchid.Events.BUILD_START);
+        context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
         context.clearThemes();
         context.clearOptions();
         context.loadOptions();
@@ -91,7 +90,7 @@ public final class TaskServiceImpl implements TaskService, EventListener {
         generators.startIndexing();
         generators.startGeneration();
 
-        context.broadcast(Orchid.Events.BUILD_FINISH);
+        context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
     }
 
     @Override
@@ -112,41 +111,42 @@ public final class TaskServiceImpl implements TaskService, EventListener {
 // Build Events
 //----------------------------------------------------------------------------------------------------------------------
 
-    @On(Orchid.Events.FILES_CHANGED)
-    public void onFilesChanges() {
+    @On(Orchid.Lifecycle.FilesChanged.class)
+    public void onFilesChanges(Orchid.Lifecycle.FilesChanged event) {
         server.getWebsocket().sendMessage("Files Changed");
         context.build();
     }
 
-    @On(Orchid.Events.FORCE_REBUILD)
-    public void onForceRebuild() {
-        server.getWebsocket().sendMessage("Forcing Rebuild");
-        context.build();
-    }
-
-    @On(Orchid.Events.BUILD_START)
-    public void onBuildStarted() {
+    @On(Orchid.Lifecycle.BuildStart.class)
+    public void onBuildStarted(Orchid.Lifecycle.BuildStart event) {
         if (server != null && server.getWebsocket() != null) {
             server.getWebsocket().sendMessage("Rebuilding site...");
         }
     }
 
-    @On(Orchid.Events.BUILD_FINISH)
-    public void onBuildFinished() {
+    @On(Orchid.Lifecycle.BuildFinish.class)
+    public void onBuildFinished(Orchid.Lifecycle.BuildFinish event) {
         if (server != null && server.getWebsocket() != null) {
             server.getWebsocket().sendMessage("Site Rebuilt");
         }
     }
 
-    @On(Orchid.Events.END_SESSION)
-    public void onEndSession() {
+    @On(Orchid.Lifecycle.EndSession.class)
+    public void onEndSession(Orchid.Lifecycle.EndSession event) {
         server.getWebsocket().sendMessage("Ending Session");
-        context.broadcast(Orchid.Events.SHUTDOWN);
+        context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
         System.exit(0);
     }
 
-    @On()
-    public void onAnyEvent(String event) {
+    @On(value = OrchidEvent.class, subclasses = true)
+    public void onAnyEvent(OrchidEvent event) {
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Event: " + event);
+        }
+    }
+
+    @On(value = OrchidEvent.class, subclasses = true)
+    public void onAnyEvent2(Orchid.Lifecycle.EndSession event) {
         if (server != null && server.getWebsocket() != null) {
             server.getWebsocket().sendMessage("Event: " + event);
         }

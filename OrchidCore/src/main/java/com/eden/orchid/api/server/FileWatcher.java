@@ -90,7 +90,7 @@ public class FileWatcher {
                 Path name = ev.context();
                 Path child = dir.resolve(name);
 
-                context.broadcast(Orchid.Events.FILES_CHANGED);
+                context.broadcast(Orchid.Lifecycle.FilesChanged.fire(this));
 
                 if (kind == ENTRY_CREATE) {
                     try {

@@ -10,6 +10,7 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.events.EventServiceImpl;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
@@ -69,8 +70,6 @@ import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.google.inject.multibindings.Multibinder;
-
-import java.util.EventListener;
 
 public class ImplModule extends OrchidModule {
 
@@ -150,8 +149,8 @@ public class ImplModule extends OrchidModule {
                 JSONArrayOptionExtractor.class);
 
         // Server
-        addToSet(EventListener.class,
-                ServeTask.class);
+        addToSet(OrchidEventListener.class,
+                TaskServiceImpl.class);
 
         addToSet(OrchidController.class,
                 AdminController.class);
