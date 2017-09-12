@@ -1,33 +1,34 @@
+apply plugin: 'java-library'
 
 dependencies {
-    testCompile 'org.testng:testng:6.11'
+    testImplementation 'org.testng:testng:6.11'
 
     // Dynamic Component Registration
-    compile 'com.google.inject:guice:4.1.0'
-    compile 'com.google.inject.extensions:guice-multibindings:4.1.0'
-    compile 'io.github.lukehutch:fast-classpath-scanner:2.0.21'
+    api 'com.google.inject:guice:4.1.0'
+    api 'com.google.inject.extensions:guice-multibindings:4.1.0'
+    api 'io.github.lukehutch:fast-classpath-scanner:2.4.7'
 
     // core utilities
-    compile 'com.github.JavaEden:Common:aa28e2b745'
-    compile 'com.github.JavaEden:Clog:v1.6.1'
-    compile 'com.github.JavaEden:Clog4j:v1.6.1'
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
-    compile 'org.projectlombok:lombok:1.16.16'
-    compile 'commons-io:commons-io:2.5'
+    api 'com.github.JavaEden:Common:aa28e2b745'
+    api 'com.github.JavaEden:Clog:v1.6.1'
+    api 'com.github.JavaEden:Clog4j:v1.6.1'
+    api 'org.projectlombok:lombok:1.16.18'
+    api 'com.squareup.okhttp3:okhttp:3.9.0'
+    api 'commons-io:commons-io:2.5'
 
     // Included parsers: JSON, YAML, Twig, Markdown, Sass
-    compile 'org.json:json:20170516'
-    compile 'org.yaml:snakeyaml:1.18'
-    compile 'org.jtwig:jtwig-core:5.86.0.RELEASE'
-    compile 'com.vladsch.flexmark:flexmark-all:0.20.0'
-    compile 'io.bit3:jsass:5.5.1'
+    api 'org.json:json:20170516'
+    api 'org.jtwig:jtwig-core:5.86.1.RELEASE'
+    api 'org.yaml:snakeyaml:1.18'
+    api 'com.vladsch.flexmark:flexmark-all:0.26.4'
+    api 'io.bit3:jsass:5.5.3'
 
     // server
-    compile 'org.nanohttpd:nanohttpd:2.3.1'
-    compile 'org.nanohttpd:nanohttpd-websocket:2.3.1'
+    api 'org.nanohttpd:nanohttpd:2.3.1'
+    api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
 
     // generate own documentation with Orchid
-    orchidDocsCompile rootProject.ext.mainProjects
+    orchidDocsRuntime rootProject.ext.mainProjects
 }
 
 static boolean otherProjectsTask(Task task, String taskName) {

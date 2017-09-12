@@ -1,12 +1,12 @@
 
 dependencies {
-    compile 'org.asciidoctor:asciidoctorj:1.5.4'
-    compile 'com.univocity:univocity-parsers:2.4.1'
-    compile 'com.moandjiezana.toml:toml4j:0.7.1'
-    compile 'org.python:jython-standalone:2.5.3'
-    compile 'org.pygments:pygments:1.5'
+    implementation 'org.asciidoctor:asciidoctorj:1.5.6'
+    implementation 'com.univocity:univocity-parsers:2.5.0'
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+    implementation 'org.python:jython-standalone:2.7.0'
+    implementation 'org.pygments:pygments:2.2.0'
 
-    compile 'com.github.JavaEden:Eden:v0.1.0'
-    compile 'com.github.JavaEden:EdenFlexmark:v0.1.2'
-    compile 'com.github.JavaEden:American-Bible-Society-Client:v0.1.0'
+    implementation 'com.github.JavaEden:Eden:v0.1.0'
+    implementation 'com.github.JavaEden:EdenFlexmark:v0.1.2'
+    implementation 'com.github.JavaEden:American-Bible-Society-Client:v0.1.0'
 }

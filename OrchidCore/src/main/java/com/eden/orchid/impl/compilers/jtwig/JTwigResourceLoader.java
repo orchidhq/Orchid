@@ -5,7 +5,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.common.base.Optional;
 import com.google.inject.Provider;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jtwig.resource.loader.ResourceLoader;
 import org.jtwig.resource.loader.TypedResourceLoader;
 
@@ -37,58 +36,12 @@ public class JTwigResourceLoader extends TypedResourceLoader {
         }
 
         @Override
-        public InputStream load(String path) {
-            if(isMultiPath(path)) {
-                for(String template : getMultiPaths(path)) {
-                    if(templateExists(template)) {
-                        return loadTemplate(template);
-                    }
-                }
-
-                return IOUtils.toInputStream("");
-            }
-            else {
-                return loadTemplate(path);
-            }
-        }
-
-        @Override
-        public boolean exists(String path) {
-            if(isMultiPath(path)) {
-                for(String template : getMultiPaths(path)) {
-                    if(templateExists(template)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            else {
-                return templateExists(path);
-            }
-        }
-
-        @Override
         public Optional<URL> toUrl(String path) {
             return Optional.absent();
         }
 
-        private boolean templateExists(String path) {
-            path = path.trim();
-
-            OrchidResource resource;
-
-            if(!path.startsWith("templates/")) {
-                resource = contextProvider.get().getResourceEntry("templates/" + path);
-            }
-            else {
-                resource = contextProvider.get().getResourceEntry(path);
-            }
-
-            return (resource != null);
-        }
-
-        private InputStream loadTemplate(String path) {
+        @Override
+        public InputStream load(String path) {
             path = path.trim();
 
             OrchidResource resource;
@@ -109,12 +62,21 @@ public class JTwigResourceLoader extends TypedResourceLoader {
             }
         }
 
-        private boolean isMultiPath(String path) {
-            return (path.trim().startsWith("[") && path.trim().endsWith("]"));
+        @Override
+        public boolean exists(String path) {
+            path = path.trim();
+
+            OrchidResource resource;
+
+            if(!path.startsWith("templates/")) {
+                resource = contextProvider.get().getResourceEntry("templates/" + path);
+            }
+            else {
+                resource = contextProvider.get().getResourceEntry(path);
+            }
+
+            return (resource != null);
         }
 
-        private String[] getMultiPaths(String path) {
-            return StringUtils.strip(path, "[]").split(",");
-        }
     }
 }

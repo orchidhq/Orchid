@@ -56,7 +56,7 @@ public class TemplateFilter implements JtwigFunction {
         }
 
         if (templates != null) {
-            return "[" + String.join(",", templates) + "]";
+            return templates;
         }
 
         throw new IllegalArgumentException("Could not get templates");
