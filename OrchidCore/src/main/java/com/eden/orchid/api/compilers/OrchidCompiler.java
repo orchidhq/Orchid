@@ -9,6 +9,12 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidCompiler extends Prioritized {
 
+    /**
+     * Initialize the OrchidCompiler with a set priority. Compilers with a higher priority are chosen first to process a
+     * given input content when multiple Compilers can process the same input extension.
+     *
+     * @param priority priority
+     */
     public OrchidCompiler(int priority) {
         super(priority);
     }
