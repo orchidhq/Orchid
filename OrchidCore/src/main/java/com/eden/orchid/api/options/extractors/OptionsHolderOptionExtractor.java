@@ -13,6 +13,31 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type  | Coercion |
+ * |------------|----------|
+ * | JSONObject | direct   |
+ * | Map        | new JSONObject from map |
+ * | JSONArray  | direct   |
+ * | anything[] | new JSONArray from array |
+ * | List       | new JSONArray from list |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type                    | Annotation   | Default Value            |
+ * |-------------------------------|--------------|--------------------------|
+ * | ? extends OptionsHolder       | none         | null                     |
+ * | List<? extends OptionsHolder> | none         | null                     |
+ *
+ * ### _Notes_
+ *
+ * This can deserialize any JSONObject into any class that implements OptionsHolder, and can also handle any generic
+ * List of OptionsHolders of the same Class. The class to deserialize by in that List should be set with @ListClass on
+ * the field.
+ */
 public class OptionsHolderOptionExtractor implements OptionExtractor<OptionsHolder> {
 
     private Provider<OptionsExtractor> extractorProvider;

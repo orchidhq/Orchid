@@ -7,6 +7,22 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type  | Coercion |
+ * |------------|----------|
+ * | JSONArray  | direct   |
+ * | anything[] | new JSONArray from array |
+ * | List       | new JSONArray from list |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type | Annotation  | Default Value |
+ * |------------|-------------|---------------|
+ * | JSONArray  | none        | null          |
+ */
 public class JSONArrayOptionExtractor implements OptionExtractor<JSONArray> {
 
     @Override

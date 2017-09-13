@@ -65,11 +65,6 @@ public final class EventServiceTest {
     }
 
     @Test
-    public void testTestMethod() throws Throwable {
-        assertThat(1, is(equalTo(1)));
-    }
-
-    @Test
     public void testSetupCorrectly() throws Throwable {
         String[] validCallbackNames = new String[]{
                 "callbackOne",

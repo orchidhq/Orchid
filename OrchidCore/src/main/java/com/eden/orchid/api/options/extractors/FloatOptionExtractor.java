@@ -9,6 +9,22 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type | Coercion |
+ * |-----------|----------|
+ * | number    | direct   |
+ * | string    | parse as number |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type | Annotation    | Default Value              |
+ * |------------|---------------|----------------------------|
+ * | float      | @FloatDefault | Annotation value() or 0.0f |
+ * | Float      | @FloatDefault | Annotation value() or 0.0f |
+ */
 public class FloatOptionExtractor implements OptionExtractor<Float> {
 
     @Override
@@ -21,7 +37,7 @@ public class FloatOptionExtractor implements OptionExtractor<Float> {
 
     @Override
     public Float getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof Float) {
+        if(options.has(key) && options.get(key) instanceof Double) {
             return (float) options.getDouble(key);
         }
         else if(field.isAnnotationPresent(FloatDefault.class)) {

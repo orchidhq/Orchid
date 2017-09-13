@@ -9,6 +9,22 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type | Coercion |
+ * |-----------|----------|
+ * | string    | direct   |
+ * | anything  | toString |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type   | Annotation     | Default Value              |
+ * |--------------|----------------|----------------------------|
+ * | String       | @StringDefault | Annotation value() or null |
+ * | String[]     | none           | Empty String[]             |
+ */
 public class StringOptionExtractor implements OptionExtractor<String> {
 
     @Override
@@ -32,7 +48,18 @@ public class StringOptionExtractor implements OptionExtractor<String> {
 
     @Override
     public List<String> getList(Field field, JSONObject options, String key) {
-        JSONArray array = (options.has(key)) ? options.getJSONArray(key) : new JSONArray();
+        JSONArray array = new JSONArray();
+
+        if((options.has(key) && options.get(key) instanceof JSONArray)) {
+            array = options.getJSONArray(key);
+        }
+        else if((options.has(key) && options.get(key) instanceof String[])) {
+            String[] strings = (String[]) options.get(key);
+            for(String s : strings) {
+                array.put(s);
+            }
+        }
+
         List<String> list = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             list.add(array.getString(i));

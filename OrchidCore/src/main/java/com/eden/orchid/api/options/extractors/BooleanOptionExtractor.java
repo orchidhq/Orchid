@@ -7,6 +7,23 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type | Coercion |
+ * |-----------|----------|
+ * | boolean   | direct   |
+ * | number    | 0=false, otherwise true |
+ * | string    | if able to parse as number, then number, otherwise: "true"=true, "false"=false (case insensitive |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type | Annotation      | Default Value               |
+ * |------------|-----------------|-----------------------------|
+ * | boolean    | @BooleanDefault | Annotation value() or false |
+ * | Boolean    | @BooleanDefault | Annotation value() or false |
+ */
 public class BooleanOptionExtractor implements OptionExtractor<Boolean> {
 
     @Override

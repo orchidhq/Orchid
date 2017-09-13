@@ -6,6 +6,21 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type  | Coercion |
+ * |------------|----------|
+ * | JSONObject | direct   |
+ * | Map        | new JSONObject from map |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type | Annotation  | Default Value |
+ * |------------|-------------|---------------|
+ * | JSONObject | none        | null          |
+ */
 public class JSONObjectOptionExtractor implements OptionExtractor<JSONObject> {
 
     @Override

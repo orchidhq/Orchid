@@ -9,6 +9,22 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type | Coercion |
+ * |-----------|----------|
+ * | number    | direct   |
+ * | string    | parse as number |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type | Annotation     | Default Value             |
+ * |------------|----------------|---------------------------|
+ * | double     | @DoubleDefault | Annotation value() or 0.0 |
+ * | Double     | @DoubleDefault | Annotation value() or 0.0 |
+ */
 public class DoubleOptionExtractor implements OptionExtractor<Double> {
 
     @Override

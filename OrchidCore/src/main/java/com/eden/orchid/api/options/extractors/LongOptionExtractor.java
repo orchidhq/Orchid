@@ -9,6 +9,22 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ### Source Types
+ *
+ * | Item Type | Coercion |
+ * |-----------|----------|
+ * | number    | direct   |
+ * | string    | parse as number |
+ *
+ *
+ * ### Destination Types
+ *
+ * | Field Type | Annotation   | Default Value            |
+ * |------------|--------------|--------------------------|
+ * | long       | @LongDefault | Annotation value() or 0L |
+ * | Long       | @LongDefault | Annotation value() or 0L |
+ */
 public class LongOptionExtractor implements OptionExtractor<Long> {
 
     @Override
