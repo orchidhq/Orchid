@@ -35,6 +35,18 @@ public final class EventServiceTest {
     private TestEventListener listener;
     private Set<OrchidEventListener> listeners;
 
+    private String[] validCallbackNames = new String[]{
+            "callbackOne",
+            "callbackTwo",
+            "callbackThree",
+            "callbackFive",
+            "callbackSix",
+            "callbackSeven",
+            "callbackEleven",
+            "callbackTwelve",
+            "callbackThirteen"
+    };
+
     @BeforeMethod
     public void testSetup() {
         Clog.setMinPriority(Clog.Priority.FATAL);
@@ -66,18 +78,6 @@ public final class EventServiceTest {
 
     @Test
     public void testSetupCorrectly() throws Throwable {
-        String[] validCallbackNames = new String[]{
-                "callbackOne",
-                "callbackTwo",
-                "callbackThree",
-                "callbackFive",
-                "callbackSix",
-                "callbackSeven",
-                "callbackEleven",
-                "callbackTwelve",
-                "callbackThirteen"
-        };
-
         assertThat(service.getEventHandlers().size(), is(equalTo(validCallbackNames.length)));
 
         List<String> callbackNames = service
@@ -87,6 +87,19 @@ public final class EventServiceTest {
                 .collect(Collectors.toList());
 
         assertThat(callbackNames, containsInAnyOrder(validCallbackNames));
+    }
+
+    @Test
+    public void testDynamicSetup() throws Throwable {
+        assertThat(service.getEventHandlers().size(), is(equalTo(validCallbackNames.length)));
+
+        DynamicEventListener dynamicEventListener = new DynamicEventListener();
+
+        underTest.registerEventListeners(dynamicEventListener);
+        assertThat(service.getEventHandlers().size(), is(equalTo(validCallbackNames.length + 1)));
+
+        underTest.deregisterEventListeners(dynamicEventListener);
+        assertThat(service.getEventHandlers().size(), is(equalTo(validCallbackNames.length)));
     }
 
     @Test
@@ -267,6 +280,13 @@ public final class EventServiceTest {
         public void callbackThirteen(EventThatFiresNewValidEvent event) {
             // callback fires a new event that is not of the same type, and so is valid
             underTest.broadcast(new TestEvent(this));
+        }
+    }
+
+    private class DynamicEventListener implements OrchidEventListener {
+        @On(TestEvent.class)
+        public void callbackOne(TestEvent event) {
+            // declares and receives a discrete Event class
         }
     }
 

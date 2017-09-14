@@ -6,12 +6,16 @@ import org.json.JSONObject;
 /**
  * A generic Parser used to convert structured text input into a usable JSONObject. Commonly used for extracting data
  * from configuration files or from blocks embedded within content files.
+ *
+ * @since v1.0.0
  */
 public abstract class OrchidParser extends Prioritized {
 
     /**
      * If the Parser evaluates the input to be an Array structure rather than Object structure, the resulting array data
      * should be wrapped in a JSONObject with this value as its only key, pointing to the Array contents.
+     *
+     * @since v1.0.0
      */
     public static final String arrayAsObjectKey = "listData";
 
@@ -20,6 +24,8 @@ public abstract class OrchidParser extends Prioritized {
      * given input content when multiple Parsers can process the same input extension.
      *
      * @param priority priority
+     *
+     * @since v1.0.0
      */
     public OrchidParser(int priority) {
         super(priority);
@@ -30,6 +36,8 @@ public abstract class OrchidParser extends Prioritized {
      * a parser, it looks for the highest-priority parser which accepts the given extension.
      *
      * @return the file extensions which are able to be processed by this Parser
+     *
+     * @since v1.0.0
      */
     public abstract String[] getSourceExtensions();
 
@@ -42,6 +50,8 @@ public abstract class OrchidParser extends Prioritized {
      * characters.
      *
      * @return a delimiting string
+     *
+     * @since v1.0.0
      */
     public String getDelimiter() {
         return null;
@@ -51,6 +61,8 @@ public abstract class OrchidParser extends Prioritized {
      * Return the un-quoted delimiter string so it can be displayed to the user.
      *
      * @return an un-quoted delimiting string
+     *
+     * @since v1.0.0
      */
     public String getDelimiterString() {
         return getDelimiter();
@@ -64,6 +76,8 @@ public abstract class OrchidParser extends Prioritized {
      * @param extension the extension to parse the content against
      * @param input the content to parse
      * @return a JSONObject representing the data found by parsing the content
+     *
+     * @since v1.0.0
      */
     public abstract JSONObject parse(String extension, String input);
 

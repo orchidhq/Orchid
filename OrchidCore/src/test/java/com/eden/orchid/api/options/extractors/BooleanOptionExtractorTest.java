@@ -1,6 +1,9 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenPair;
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -10,9 +13,12 @@ import java.lang.reflect.Field;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
 
 @Test(groups = {"unit"})
 public class BooleanOptionExtractorTest {
+
+    private OrchidContext context;
 
     private BooleanOptionExtractor underTest;
     private String optionKey;
@@ -23,7 +29,13 @@ public class BooleanOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        underTest = new BooleanOptionExtractor();
+        context = mock(OrchidContext.class);
+
+        BooleanConverter converter = mock(BooleanConverter.class);
+        when(converter.convert(Boolean.TRUE)).thenReturn(new EdenPair<>(true, true));
+        when(converter.convert(Boolean.FALSE)).thenReturn(new EdenPair<>(true, false));
+
+        underTest = new BooleanOptionExtractor(converter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

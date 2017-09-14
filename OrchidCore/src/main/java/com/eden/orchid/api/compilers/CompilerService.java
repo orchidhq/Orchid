@@ -7,6 +7,12 @@ import org.json.JSONObject;
 
 import java.util.Set;
 
+/**
+ * Handles the conversion of source content from one language or format to another. Specific OrchidCompilers or
+ * OrchidParsers can be added seamlessly by injecting into the appropriate set in your Module.
+ *
+ * @since v1.0.0
+ */
 public interface CompilerService extends OrchidService {
 
     /**
@@ -14,6 +20,7 @@ public interface CompilerService extends OrchidService {
      *
      * @return the file extensions that can be processed
      *
+     * @since v1.0.0
      * @see OrchidCompiler
      */
     default Set<String> getCompilerExtensions() {
@@ -25,6 +32,8 @@ public interface CompilerService extends OrchidService {
      *
      * @param extension the input file extension
      * @return the file extension the input will become after being compiled against this input extension
+     *
+     * @since v1.0.0
      */
     default String getOutputExtension(String extension) {
         return getService(CompilerService.class).getOutputExtension(extension);
@@ -35,6 +44,7 @@ public interface CompilerService extends OrchidService {
      *
      * @return the file extensions that can be processed
      *
+     * @since v1.0.0
      * @see OrchidParser
      */
     default Set<String> getParserExtensions() {
@@ -47,6 +57,7 @@ public interface CompilerService extends OrchidService {
      * @param extension the extension representing content that needs to be compiled
      * @return an appropriate OrchidCompiler if once was found that matches the extension, null otherwise
      *
+     * @since v1.0.0
      * @see OrchidCompiler
      */
     default OrchidCompiler compilerFor(String extension) {
@@ -59,6 +70,7 @@ public interface CompilerService extends OrchidService {
      * @param extension the extension representing content that needs to be parsed
      * @return an appropriate OrchidParser if once was found that matches the extension, null otherwise
      *
+     * @since v1.0.0
      * @see OrchidParser
      */
     default OrchidParser parserFor(String extension) {
@@ -74,6 +86,7 @@ public interface CompilerService extends OrchidService {
      * @param data (optional) additional data to pass to the OrchidCompiler
      * @return the compiled output data if an appropriate Compiler could be found, otherwise the unprocessed input
      *
+     * @since v1.0.0
      * @see OrchidCompiler
      */
     default String compile(String extension, String input, Object... data) {
@@ -87,6 +100,7 @@ public interface CompilerService extends OrchidService {
      * @param input the input to parse
      * @return the data represented by the input if an appropriate Parser could be found, otherwise an empty JSONObject
      *
+     * @since v1.0.0
      * @see OrchidParser
      */
     default JSONObject parse(String extension, String input) {
@@ -100,6 +114,7 @@ public interface CompilerService extends OrchidService {
      * @param input the input content to parse
      * @return a pair representing the content after removal of embedded content, and the content that was embedded
      *
+     * @since v1.0.0
      * @see OrchidPrecompiler
      */
     default EdenPair<String, JSONElement> getEmbeddedData(String input) {
@@ -115,6 +130,7 @@ public interface CompilerService extends OrchidService {
      * @param data the data to render into the input content
      * @return the resulting content, which may then be passed to its associated OrchidCompiler
      *
+     * @since v1.0.0
      * @see OrchidPrecompiler
      */
     default String precompile(String input, Object... data) {

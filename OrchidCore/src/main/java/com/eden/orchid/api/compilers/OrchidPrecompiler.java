@@ -9,6 +9,8 @@ import com.eden.orchid.api.registration.Prioritized;
  * Generally, this is used to extract data embedded within the file, returning the extracted data and the content after
  * it has had its embedded data removed so that the resulting content can be compiled with special options specific to
  * that file.
+ *
+ * @since v1.0.0
  */
 public abstract class OrchidPrecompiler extends Prioritized {
 
@@ -17,6 +19,8 @@ public abstract class OrchidPrecompiler extends Prioritized {
      * implementation to be chosen at runtime.
      *
      * @param priority priority
+     *
+     * @since v1.0.0
      */
     public OrchidPrecompiler(int priority) {
         super(priority);
@@ -27,6 +31,8 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @param input the input to evaluate
      * @return whether this precompiler should continue processing this input
+     *
+     * @since v1.0.0
      */
     public abstract boolean shouldPrecompile(String input);
 
@@ -36,6 +42,8 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @param input the input content to parse
      * @return a pair representing the content after removal of embedded content, and the content that was embedded
+     *
+     * @since v1.0.0
      */
     public abstract EdenPair<String, JSONElement> getEmbeddedData(String input);
 
@@ -47,6 +55,8 @@ public abstract class OrchidPrecompiler extends Prioritized {
      * @param input the input content to precompile
      * @param data the data to render into the input content
      * @return the resulting content, which may then be passed to its associated OrchidCompiler
+     *
+     * @since v1.0.0
      */
     public abstract String precompile(String input, Object... data);
 

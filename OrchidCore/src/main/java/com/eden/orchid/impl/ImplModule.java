@@ -8,6 +8,13 @@ import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
+import com.eden.orchid.api.converters.BooleanConverter;
+import com.eden.orchid.api.converters.DoubleConverter;
+import com.eden.orchid.api.converters.FloatConverter;
+import com.eden.orchid.api.converters.IntegerConverter;
+import com.eden.orchid.api.converters.LongConverter;
+import com.eden.orchid.api.converters.NumberConverter;
+import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.events.EventServiceImpl;
 import com.eden.orchid.api.events.OrchidEventListener;
@@ -136,14 +143,23 @@ public class ImplModule extends OrchidModule {
                 IndexMenuItem.class
         );
 
+        // TypeConverters
+        addToSet(TypeConverter.class,
+                BooleanConverter.class,
+                NumberConverter.class,
+                LongConverter.class,
+                DoubleConverter.class,
+                IntegerConverter.class,
+                FloatConverter.class);
+
         // OptionsExtractors
         addToSet(OptionExtractor.class,
+                BooleanOptionExtractor.class,
                 StringOptionExtractor.class,
                 IntOptionExtractor.class,
                 LongOptionExtractor.class,
                 FloatOptionExtractor.class,
                 DoubleOptionExtractor.class,
-                BooleanOptionExtractor.class,
                 OptionsHolderOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
                 JSONArrayOptionExtractor.class);

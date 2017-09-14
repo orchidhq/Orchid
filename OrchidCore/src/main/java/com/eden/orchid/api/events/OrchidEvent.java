@@ -4,6 +4,8 @@ package com.eden.orchid.api.events;
  * A generic representation of an Event used to communicate intended or completed actions and extend core functionality.
  *
  * @param <T> the type of the sender, used to communicate from where the event was sent.
+ *
+ * @since v1.0.0
  */
 public abstract class OrchidEvent<T> {
 
@@ -14,6 +16,8 @@ public abstract class OrchidEvent<T> {
      * class object.
      *
      * @param sender the sender
+     *
+     * @since v1.0.0
      */
     public OrchidEvent(T sender) {
         this.sender = sender;
@@ -21,7 +25,10 @@ public abstract class OrchidEvent<T> {
 
     /**
      * Get the Object that sent this Event
-     * @return
+     *
+     * @return the sender
+     *
+     * @since v1.0.0
      */
     public T getSender() {
         return sender;

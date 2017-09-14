@@ -9,8 +9,6 @@ import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
 import com.google.inject.Injector;
 
-import java.util.Map;
-
 public interface OrchidContext extends
         CompilerService,
         ThemeService,

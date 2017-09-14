@@ -40,12 +40,13 @@ public final class EventServiceImpl implements EventService {
     public void initialize(OrchidContext context) {
         this.context = context;
         for (OrchidEventListener listener : eventListeners) {
-            findEventHandlers(listener);
+            registerEventListeners(listener);
         }
     }
 
-    private void findEventHandlers(Object o) {
-        Arrays.stream(o.getClass().getDeclaredMethods())
+    @Override
+    public void registerEventListeners(OrchidEventListener listener) {
+        Arrays.stream(listener.getClass().getDeclaredMethods())
               .filter(method -> method.isAnnotationPresent(On.class))
               .forEach(method -> {
                   On methodAnnotation = method.getAnnotation(On.class);
@@ -54,7 +55,7 @@ public final class EventServiceImpl implements EventService {
                   EventHandler handler = new EventHandler();
                   handler.eventClass = methodAnnotation.value();
                   handler.allowSubclasses = methodAnnotation.subclasses();
-                  handler.acceptor = o;
+                  handler.acceptor = listener;
                   handler.callback = method;
 
                   boolean addHandler = true;
@@ -62,23 +63,23 @@ public final class EventServiceImpl implements EventService {
                   if(handler.callback.getParameterCount() != 1) {
                       addHandler = false;
                       if(handler.allowSubclasses) {
-                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}] or a subclass of it.", o.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
+                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}] or a subclass of it.", listener.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
                       }
                       else {
-                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}]", o.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
+                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}]", listener.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
                       }
                   }
 
                   if(handler.allowSubclasses) {
                       if(addHandler && !eventType.isAssignableFrom(handler.callback.getParameterTypes()[0])) {
                           addHandler = false;
-                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}] or a subclass of it.", o.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
+                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}] or a subclass of it.", listener.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
                       }
                   }
                   else {
                       if(addHandler && !eventType.equals(handler.callback.getParameterTypes()[0])) {
                           addHandler = false;
-                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}]", o.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
+                          Clog.e("Event handler [{}.{}] must accept a single parameter of type [{}]", listener.getClass().getSimpleName(), method.getName(), eventType.getSimpleName());
                       }
                   }
 
@@ -86,6 +87,11 @@ public final class EventServiceImpl implements EventService {
                       this.eventHandlers.add(handler);
                   }
               });
+    }
+
+    @Override
+    public void deregisterEventListeners(OrchidEventListener listener) {
+        eventHandlers.removeIf(eventHandler -> eventHandler.acceptor == listener);
     }
 
     @Override

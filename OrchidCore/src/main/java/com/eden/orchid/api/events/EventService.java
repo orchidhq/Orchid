@@ -61,13 +61,40 @@ import com.eden.orchid.api.OrchidService;
  *
  * Every Event class has access to its sender object, which uses Generics that may be useful in determining what action
  * to take for a given Event instance.
+ *
+ * @since v1.0.0
  */
 public interface EventService extends OrchidService {
+
+    /**
+     * Registers event listeners for an specific object. Classes injected into OrchidEventListener set are automatically
+     * registered at injection time, but additional instances may be registered later.
+     *
+     * @param listener the object containing callback events to register
+     *
+     * @since v1.0.0
+     */
+    default void registerEventListeners(OrchidEventListener listener) {
+        getService(EventService.class).registerEventListeners(listener);
+    }
+
+    /**
+     * Removes callbacks from a specific instance from being called.
+     *
+     * @param listener the object containing callback events to deregister
+     *
+     * @since v1.0.0
+     */
+    default void deregisterEventListeners(OrchidEventListener listener) {
+        getService(EventService.class).deregisterEventListeners(listener);
+    }
 
     /**
      * Broadcast an intended or completed action to the application to extend the core functionality.
      *
      * @param event the event to broadcast
+     *
+     * @since v1.0.0
      */
     default void broadcast(OrchidEvent event) {
         getService(EventService.class).broadcast(event);
