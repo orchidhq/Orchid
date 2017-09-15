@@ -47,6 +47,7 @@ menu:
 #  - type: 'javadocPackages'
 #  - type: 'javadocClasses'
   - type: 'wikiSections'
+  - type: 'styleguide'
 
 generators:
   disabled:

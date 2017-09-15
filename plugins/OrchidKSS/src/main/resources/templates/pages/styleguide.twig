@@ -1,0 +1,25 @@
+{% extends page | template('layout') %}
+
+{% block pageContent %}
+
+    <section id="summary">
+        <header class="major"><h2>Section {{ page.styleguideSection.sectionReference }}</h2></header>
+        <article>
+            <p>{{ page.styleguideSection.description }}</p>
+
+            <div>
+                <h3>Markup: </h3>
+
+                {% for modifier in page.styleguideSection.modifiers %}
+                    <div><b><i>{{ modifier.name }}</i></b></div><br>
+                    <div>{{ modifier.description }}</div><br>
+                    <div>{{ page.formatMarkup(modifier) | raw }}</div><br>
+                    {% if not loop.last %}
+                        <hr><br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+
+{% endblock %}

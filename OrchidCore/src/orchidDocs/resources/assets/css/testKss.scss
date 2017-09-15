@@ -1,0 +1,45 @@
+/*
+Buttons
+
+Markup: <a class="button -modifierClass">Button Text</a>
+
+.blue  - A blue button
+.red   - A red button
+.green - A green button
+
+Styleguide 1.1.
+*/
+.button {
+  &.blue {
+    color: blue;
+  }
+  &.red {
+    color: red;
+  }
+  &.green {
+    color: green;
+  }
+}
+
+/*
+Links
+
+Markup: <a class="link -modifierClass">Link Text</a>
+
+.blue  - A blue link
+.red   - A red link
+.green - A green link
+
+Styleguide 2.1.
+*/
+.link {
+  &.blue {
+    color: blue;
+  }
+  &.red {
+    color: red;
+  }
+  &.green {
+    color: green;
+  }
+}

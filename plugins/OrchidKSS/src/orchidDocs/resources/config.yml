@@ -1,0 +1,27 @@
+
+Editorial:
+  about:
+    name: OrchidKSS
+    description: Generate a living styleguide from annotated CSS, Sass, Scss, or LESS
+    githubUsername: 'JavaEden'
+    githubRepo: 'Orchid'
+  primaryColor: '#ffa033'
+  secondaryColor: '#000000'
+
+menu:
+  - type: 'link'
+    title: 'Home'
+    url: '/'
+  - type: 'page'
+    page: 'All Orchid Projects'
+  - type: 'wikiSections'
+
+generators:
+  disabled:
+    - 'JavadocGenerator'
+    - 'ChangelogGenerator'
+    - 'PostsGenerator'
+    - 'PagesGenerator'
+
+menu:
+  - type: 'wiki'

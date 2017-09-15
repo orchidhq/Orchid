@@ -1,0 +1,45 @@
+/*
+Sass and the technicolor dream-button.
+
+Markup: <a class="button -modifierClass"></a>
+
+.blue  - A blue button
+.red   - A red button
+.green - A green button
+
+Styleguide 1.1.1.
+*/
+.button {
+  &.blue {
+    color: blue;
+  }
+  &.red {
+    color: red;
+  }
+  &.green {
+    color: green;
+  }
+}
+
+/*
+Sass and the technicolor dream-link.
+
+Markup: <a class="link -modifierClass"></a>
+
+.blue  - A blue link
+.red   - A red link
+.green - A green link
+
+Styleguide 1.2.1.
+*/
+.link {
+  &.blue {
+    color: blue;
+  }
+  &.red {
+    color: red;
+  }
+  &.green {
+    color: green;
+  }
+}
