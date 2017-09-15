@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.events.OrchidEventListener;
-import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
 import com.google.inject.name.Named;
@@ -22,7 +21,6 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     private OrchidContext context;
     private Set<OrchidTask> tasks;
-    private OrchidGenerators generators;
 
     private OrchidServer server;
     private FileWatcher watcher;
@@ -33,13 +31,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Inject
     public TaskServiceImpl(
             Set<OrchidTask> tasks,
-            OrchidGenerators generators,
             @Named("task") String task,
             @Named("resourcesDir") String resourcesDir,
             OrchidServer server,
             FileWatcher watcher) {
         this.tasks = new TreeSet<>(tasks);
-        this.generators = generators;
 
         this.server = server;
         this.watcher = watcher;
@@ -87,8 +83,8 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
         context.pushTheme(context.getDefaultTheme());
 
-        generators.startIndexing();
-        generators.startGeneration();
+        context.startIndexing();
+        context.startGeneration();
 
         context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
     }

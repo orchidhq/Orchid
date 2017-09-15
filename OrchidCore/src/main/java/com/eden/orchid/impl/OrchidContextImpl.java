@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
+import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.resources.ResourceService;
@@ -38,7 +39,9 @@ public final class OrchidContextImpl implements OrchidContext {
             ResourceService resourceService,
             TaskService taskService,
             OptionsService optionsService,
-            Set<OrchidService> additionalServices
+            GeneratorService generatorService,
+
+            Set<OrchidService>additionalServices
     ) {
         this.injector = injector;
 
@@ -50,6 +53,7 @@ public final class OrchidContextImpl implements OrchidContext {
         initializeService(ResourceService.class, resourceService);
         initializeService(TaskService.class, taskService);
         initializeService(OptionsService.class, optionsService);
+        initializeService(GeneratorService.class, generatorService);
 
         for(OrchidService service : additionalServices) {
             services.put(service.getClass(), service);

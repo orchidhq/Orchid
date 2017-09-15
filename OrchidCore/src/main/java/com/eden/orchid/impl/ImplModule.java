@@ -18,6 +18,8 @@ import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.events.EventServiceImpl;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.generators.GeneratorService;
+import com.eden.orchid.api.generators.GeneratorServiceImpl;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
@@ -96,6 +98,7 @@ public class ImplModule extends OrchidModule {
         bind(ResourceService.class).to(ResourceServiceImpl.class);
         bind(TaskService.class).to(TaskServiceImpl.class);
         bind(OptionsService.class).to(OptionsServiceImpl.class);
+        bind(GeneratorService.class).to(GeneratorServiceImpl.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 

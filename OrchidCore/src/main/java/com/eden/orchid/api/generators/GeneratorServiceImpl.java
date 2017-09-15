@@ -25,18 +25,23 @@ import java.util.TreeSet;
 
 @Getter @Setter
 @Singleton
-public class OrchidGenerators {
+public class GeneratorServiceImpl implements GeneratorService {
 
     private Set<OrchidGenerator> allGenerators;
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
 
     @Inject
-    public OrchidGenerators(OrchidContext context, Set<OrchidGenerator> generators) {
-        this.context = context;
+    public GeneratorServiceImpl(Set<OrchidGenerator> generators) {
         this.allGenerators = new TreeSet<>(generators);
     }
 
+    @Override
+    public void initialize(OrchidContext context) {
+        this.context = context;
+    }
+
+    @Override
     public void startIndexing() {
         this.generators = new PrioritizedSetFilter<>(context, "generators", this.allGenerators).getFilteredSet();
 
@@ -44,9 +49,11 @@ public class OrchidGenerators {
 
         buildInternalIndex();
         buildExternalIndex();
+
         context.mergeIndices(context.getInternalIndex(), context.getExternalIndex());
     }
 
+    @Override
     public void startGeneration() {
         generators.stream()
                   .forEach(this::useGenerator);

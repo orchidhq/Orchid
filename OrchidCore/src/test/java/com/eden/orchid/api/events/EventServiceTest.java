@@ -173,7 +173,7 @@ public final class EventServiceTest {
         verify(listener).callbackOne(any());
     }
 
-// Classs used for testing
+// Classes used for testing
 //----------------------------------------------------------------------------------------------------------------------
 
     private static class TestEvent extends OrchidEvent {

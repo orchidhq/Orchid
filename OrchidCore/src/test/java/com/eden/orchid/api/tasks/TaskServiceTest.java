@@ -3,7 +3,6 @@ package com.eden.orchid.api.tasks;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.generators.OrchidGenerators;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
 import org.testng.annotations.BeforeClass;
@@ -40,13 +39,12 @@ public final class TaskServiceTest {
         when(task2.getName()).thenReturn("task2");
         tasks.add(task2);
 
-        OrchidGenerators generators = mock(OrchidGenerators.class);
         OrchidServer server = mock(OrchidServer.class);
         FileWatcher fileWatcher = mock(FileWatcher.class);
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new TaskServiceImpl(tasks, generators, "", "", server, fileWatcher);
+        service = new TaskServiceImpl(tasks, "", "", server, fileWatcher);
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
