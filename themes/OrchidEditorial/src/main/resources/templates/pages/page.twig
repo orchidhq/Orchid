@@ -1,12 +1,5 @@
 {% extends page | template('layout') %}
 
 {% block pageContent %}
-
-    <section id="summary">
-        <header class="major"><h2>{{ page.title }}</h2></header>
-        <article>
-            {{ page.content }}
-        </article>
-    </section>
-
+    {{ page.content }}
 {% endblock %}

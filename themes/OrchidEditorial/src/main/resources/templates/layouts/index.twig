@@ -35,8 +35,15 @@
                 </ul>
             </header>
 
-            {% block pageContent %}
-                {{ content }}
+            {% block fullPageContent %}
+                <section id="pageContent">
+                    <header class="major"><h2>{{ page.title }}</h2></header>
+                    <article>
+                        {% block pageContent %}
+                            {{ content }}
+                        {% endblock %}
+                    </article>
+                </section>
             {% endblock %}
         </div>
         <hr>

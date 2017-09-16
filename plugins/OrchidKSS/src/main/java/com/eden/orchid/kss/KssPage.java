@@ -13,9 +13,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class KssPage extends OrchidPage {
+
+    private KssPage parent;
+    private List<KssPage> children;
 
     private StyleguideSection styleguideSection;
 
@@ -28,7 +34,10 @@ public class KssPage extends OrchidPage {
                 "styleguide/"
                         + (!EdenUtils.isEmpty(sectionBase) ? sectionBase : "")
                         + OrchidUtils.normalizePath(String.join("/", sectionName.split("\\."))) + ".html")));
+//        + "section-" + sectionName + ".html")));
+
         this.styleguideSection = styleguideSection;
+        this.children = new ArrayList<>();
 
         String[] sectionPathPieces = sectionName.split("\\.");
 
@@ -45,7 +54,7 @@ public class KssPage extends OrchidPage {
 
     @Override
     public String getTitle() {
-        return styleguideSection.getDescription();
+        return "Section " +  styleguideSection.getStyleGuideReference() + " - " + styleguideSection.getName();
     }
 
     public String getStylesheet() {

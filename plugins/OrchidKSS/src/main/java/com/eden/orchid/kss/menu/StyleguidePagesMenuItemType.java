@@ -1,11 +1,9 @@
 package com.eden.orchid.kss.menu;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
-import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.impl.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.kss.KssGenerator;
 import com.eden.orchid.kss.KssPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -51,11 +49,9 @@ public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
             menuSection = "styleguide";
         }
 
-        OrchidIndex styleguidePagesIndex = new OrchidInternalIndex(menuSection);
+        List<OrchidPage> allPages = new ArrayList<>();
 
-        for (Map.Entry<String, List<KssPage>> section : sections.entrySet()) {
-            List<KssPage> sectionPages = new ArrayList<>(section.getValue());
-
+        for (List<KssPage> sectionPages : sections.values()) {
             sectionPages.sort((KssPage o1, KssPage o2) -> {
                 int comparableSections = Math.min(o1.getSectionPath().length, o2.getSectionPath().length);
                 for (int i = 0; i < comparableSections; i++) {
@@ -63,19 +59,13 @@ public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
                         return o1.getSectionPath()[i] - o2.getSectionPath()[i];
                     }
                 }
-                return 0;
+                return o1.getSectionPath().length - o2.getSectionPath().length;
             });
 
-            for (KssPage page : sectionPages) {
-                OrchidReference ref = new OrchidReference(context, page.getReference());
-                if(!menuSection.equalsIgnoreCase("styleguide")) {
-                    ref.stripFromPath("styleguide");
-                }
-                styleguidePagesIndex.addToIndex(ref.getPath(), page);
-            }
+            allPages.addAll(sectionPages);
         }
 
-        menuItems.add(new OrchidMenuItem(context, menuItemTitle, styleguidePagesIndex));
+        menuItems.add(new OrchidMenuItem(context, menuItemTitle, allPages));
 
         return menuItems;
     }

@@ -1,7 +1,9 @@
 package com.eden.orchid.kss.parser;
 
 import com.eden.common.util.EdenPair;
+import com.eden.common.util.EdenUtils;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +26,10 @@ public class StyleguideSection {
     @Getter private String name;
     @Getter private String description;
     @Getter private String styleGuideReference;
+    @Getter private String[] styleGuidePath;
+
+    @Getter @Setter private StyleguideSection parent;
+    @Getter @Setter private List<StyleguideSection> children;
 
     @Getter private String modifiersText;
     @Getter private List<Modifier> modifiers;
@@ -32,6 +38,7 @@ public class StyleguideSection {
         this.raw = commentText;
         this.filename = filename;
         this.tags = new HashMap<>();
+        this.children = new ArrayList<>();
 
         // Split comment block into sections, then put into a list so they can be manipulated
         String[] commentSectionsArray = raw.split("\n\n");
@@ -52,9 +59,11 @@ public class StyleguideSection {
                 Matcher m = Pattern.compile("Styleguide (.+)").matcher(cleaned);
                 if (m.find()) {
                     this.styleGuideReference = m.group(1);
+                    this.styleGuidePath = this.styleGuideReference.split("\\.");
                 }
                 else {
                     this.styleGuideReference = "";
+                    this.styleGuidePath = new String[]{"1"};
                 }
                 this.commentSections.remove(i);
                 continue;
@@ -107,6 +116,39 @@ public class StyleguideSection {
 
         return markup;
     }
+
+    public String getPathAtLevel(int level) {
+        if(!EdenUtils.isEmpty(styleGuidePath) && styleGuidePath.length >= level) {
+            return styleGuidePath[level - 1];
+        }
+
+        return null;
+    }
+
+    public boolean isPathAtLevelTerminating(int level) {
+        if(!EdenUtils.isEmpty(styleGuidePath) && styleGuidePath.length == level) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public String getTerminatingPath() {
+        if(!EdenUtils.isEmpty(styleGuidePath)) {
+            return styleGuidePath[styleGuidePath.length - 1];
+        }
+
+        return null;
+    }
+
+    public int getDepth() {
+        if(!EdenUtils.isEmpty(styleGuidePath)) {
+            return styleGuidePath.length;
+        }
+
+        return 0;
+    }
+
 
 // Implementation Helpers
 //----------------------------------------------------------------------------------------------------------------------

@@ -49,7 +49,7 @@ public class KssGenerator extends OrchidGenerator {
     public List<? extends OrchidPage> startIndexing() {
         sections = new LinkedHashMap<>();
 
-        if(!EdenUtils.isEmpty(stylesheet)) {
+        if (!EdenUtils.isEmpty(stylesheet)) {
             Clog.i("KSS additional stylesheet: " + stylesheet);
         }
 
@@ -79,15 +79,38 @@ public class KssGenerator extends OrchidGenerator {
         List<KssPage> pages = new ArrayList<>();
 
         KssParser parser = new KssParser(resources);
-        for(Map.Entry<String, StyleguideSection> styleguideSection : parser.getStyleguideSections().entrySet()) {
+        for (Map.Entry<String, StyleguideSection> styleguideSection : parser.getStyleguideSections().entrySet()) {
             KssPage page = new KssPage(this.context, styleguideSection.getValue(), section, styleguideSection.getKey());
 
-            if(!EdenUtils.isEmpty(stylesheet)) {
+            if (!EdenUtils.isEmpty(stylesheet)) {
                 page.setStylesheet(stylesheet);
             }
 
             pages.add(page);
         }
+
+        try {
+            for (KssPage page : pages) {
+                for (KssPage otherPage : pages) {
+                    if (page.getStyleguideSection().getDepth() > 1 && page.getStyleguideSection() != null) {
+                        // find parent of [page]
+                        if (otherPage.getStyleguideSection() == page.getStyleguideSection().getParent()) {
+                            page.setParent(otherPage);
+                        }
+                    }
+
+                    // also find children of [page]
+                    if (otherPage.getStyleguideSection() != null && otherPage.getStyleguideSection().getParent() == page.getStyleguideSection()) {
+                        page.getChildren().add(otherPage);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         return pages;
     }
 

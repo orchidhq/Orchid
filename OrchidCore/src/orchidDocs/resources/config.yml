@@ -34,8 +34,8 @@ wiki:
     - 'userManual'
     - 'reference'
 
-styleguide:
-  stylesheet: 'http://www.goldsgym.com/assets/dist/css/theme.css'
+#styleguide:
+#  stylesheet: 'stylesheet url'
 
 menu:
   - type: 'link'
