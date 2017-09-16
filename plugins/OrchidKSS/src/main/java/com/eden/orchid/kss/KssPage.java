@@ -7,24 +7,27 @@ import com.eden.orchid.api.resources.resource.JsonResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.kss.parser.Modifier;
 import com.eden.orchid.kss.parser.StyleguideSection;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 @Getter
+@Setter
 public class KssPage extends OrchidPage {
 
     private StyleguideSection styleguideSection;
 
     private int[] sectionPath;
 
+    private String stylesheet;
+
     public KssPage(OrchidContext context, StyleguideSection styleguideSection, String sectionBase, String sectionName) {
         this(new JsonResource(new JSONElement(new JSONObject()), new OrchidReference(context,
                 "styleguide/"
                         + (!EdenUtils.isEmpty(sectionBase) ? sectionBase : "")
-                        + OrchidUtils.normalizePath(String.join("/", sectionName.split("\\."))) + "/index.html")));
+                        + OrchidUtils.normalizePath(String.join("/", sectionName.split("\\."))) + ".html")));
         this.styleguideSection = styleguideSection;
 
         String[] sectionPathPieces = sectionName.split("\\.");
@@ -45,7 +48,25 @@ public class KssPage extends OrchidPage {
         return styleguideSection.getDescription();
     }
 
-    public String formatMarkup(Modifier modifier) {
-        return styleguideSection.getMarkup().replaceAll("-modifierClass", modifier.className());
+    public String getStylesheet() {
+        if(!EdenUtils.isEmpty(styleguideSection.getStylesheet())) {
+            return styleguideSection.getStylesheet();
+        }
+        else if(!EdenUtils.isEmpty(stylesheet)) {
+            return stylesheet;
+        }
+
+        return "";
+    }
+
+    public boolean hasStylesheet() {
+        if(!EdenUtils.isEmpty(styleguideSection.getStylesheet())) {
+            return true;
+        }
+        else if(!EdenUtils.isEmpty(stylesheet)) {
+            return true;
+        }
+
+        return false;
     }
 }

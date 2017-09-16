@@ -1,5 +1,6 @@
 package com.eden.orchid.kss;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -31,9 +32,12 @@ public class KssGenerator extends OrchidGenerator {
     @Option("sections")
     public String[] sectionNames;
 
+    @Option
+    public String stylesheet;
+
     @Inject
     public KssGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(700, "changelog", context, renderer);
+        super(700, "styleguide", context, renderer);
     }
 
     @Override
@@ -44,6 +48,10 @@ public class KssGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         sections = new LinkedHashMap<>();
+
+        if(!EdenUtils.isEmpty(stylesheet)) {
+            Clog.i("KSS additional stylesheet: " + stylesheet);
+        }
 
         if (EdenUtils.isEmpty(sectionNames)) {
             sections.put(null, getStyleguidePages(null));
@@ -73,6 +81,11 @@ public class KssGenerator extends OrchidGenerator {
         KssParser parser = new KssParser(resources);
         for(Map.Entry<String, StyleguideSection> styleguideSection : parser.getStyleguideSections().entrySet()) {
             KssPage page = new KssPage(this.context, styleguideSection.getValue(), section, styleguideSection.getKey());
+
+            if(!EdenUtils.isEmpty(stylesheet)) {
+                page.setStylesheet(stylesheet);
+            }
+
             pages.add(page);
         }
         return pages;

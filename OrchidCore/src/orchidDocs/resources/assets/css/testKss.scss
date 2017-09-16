@@ -1,37 +1,27 @@
-/*
-Buttons
 
-Markup: <a class="button -modifierClass">Button Text</a>
-
-.blue  - A blue button
-.red   - A red button
-.green - A green button
-
-Styleguide 1.1.
-*/
-.button {
-  &.blue {
-    color: blue;
-  }
-  &.red {
-    color: red;
-  }
-  &.green {
-    color: green;
-  }
-}
-
-/*
-Links
-
-Markup: <a class="link -modifierClass">Link Text</a>
-
-.blue  - A blue link
-.red   - A red link
-.green - A green link
-
-Styleguide 2.1.
-*/
+// Buttons Variants
+//
+// Button variants go well just about anywhere!
+//
+// .button-border  - A basic button with a border
+// .button-clear   - A clear Golds Gym styled button with only text
+// .button-link    - A clear Golds Gym styled button with only text
+// .button-smaller - A smaller button
+// .button-larger  - A larger button
+// .button-block   - Makes a button display as a block to fill the parent container
+// .disabled       - Disabled button state
+//
+// Markup:
+// <div class="button -modifierClass">Find a Gym</div>
+// <div class="button btn-dark -modifierClass">Find a Gym</div>
+// <div class="button btn-primary -modifierClass">Find a Gym</div>
+// <div class="button btn-secondary -modifierClass">Find a Gym</div>
+// <div class="button btn-warning -modifierClass">Find a Gym</div>
+// <div class="button btn-error -modifierClass">Find a Gym</div>
+//
+// wrapper: <div class="p2">-markup</div>
+//
+// Styleguide 1.1.
 .link {
   &.blue {
     color: blue;
@@ -43,3 +33,5 @@ Styleguide 2.1.
     color: green;
   }
 }
+
+

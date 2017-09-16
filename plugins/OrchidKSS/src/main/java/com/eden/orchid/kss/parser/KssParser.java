@@ -56,7 +56,7 @@ public class KssParser {
 
     public void addStyleguideSection(String block, String filename) {
         StyleguideSection section = new StyleguideSection(block, filename);
-        sections.put(section.getSectionReference(), section);
+        sections.put(section.getStyleGuideReference(), section);
     }
 
     public Map<String, StyleguideSection> getStyleguideSections() {
