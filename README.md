@@ -72,10 +72,7 @@ dependencies {
 orchid {
     // Version, theme, and baseUrl are required
     version = "${project.version}"
-    theme   = "{theme class}"
-    
-    // Add this is you are developing a theme or plugin to include its own `main module` sources in the Orchid build
-    includeMainConfiguration = true
+    theme   = "{theme}"
     
     // The following properties are optional
     
@@ -130,23 +127,24 @@ The following table lists all Orchid packages currently in development:
 
 #### Themes
 
-| Name              | Version |
-| ----------------- | ------- |
-| OrchidBsDoc       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBsDoc/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion) |
-| OrchidEditorial   | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidEditorial/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion) |
-| OrchidMaterialize | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidMaterialize/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidMaterialize/_latestVersion) |
+| Name                  | Version |
+| --------------------- | ------- |
+| OrchidBsDoc           | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBsDoc/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion) |
+| OrchidEditorial       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidEditorial/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion) |
+| OrchidFutureImperfect | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidFutureImperfect/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidFutureImperfect/_latestVersion) |
+| OrchidMaterialize     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidMaterialize/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidMaterialize/_latestVersion) |
 
 #### Plugins
 
-| Name         | Version |
-| ------------ | ------- |
-| Changelog    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidChangelog/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidChangelog/_latestVersion) |
-| Javadoc      | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidJavadoc/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidJavadoc/_latestVersion) |
-| LanguagePack | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidLanguagePack/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidLanguagePack/_latestVersion) |
-| Pages        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPages/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPages/_latestVersion) |
-| Posts        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPosts/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion) |
-| Server       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidServer/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidServer/_latestVersion) |
-| Wiki         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
+| Name           | Version |
+| -------------- | ------- |
+| Changelog      | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidChangelog/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidChangelog/_latestVersion) |
+| Javadoc        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidJavadoc/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidJavadoc/_latestVersion) |
+| KSS Styleguide | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidKSS/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidKSS/_latestVersion) |
+| LanguagePack   | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidLanguagePack/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidLanguagePack/_latestVersion) |
+| Pages          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPages/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPages/_latestVersion) |
+| Posts          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPosts/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion) |
+| Wiki           | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
 
 ## License
 
@@ -156,7 +154,7 @@ information.
 ## Contributing
 
 This repository is comprised of many individual projects, which are all listed above. You can build and run any project
-with Gradle from the project root, such as `gradle :OrchidCore:assemble` or `gradle :plugins:OrchidServer:assemble`, or 
+with Gradle from the project root, such as `gradle :OrchidCore:assemble` or `gradle :plugins:OrchidWiki:assemble`, or 
 you may navigate to a particular project's subdirectory to run the Gradle commands directly. When contributing code, 
 please indent using 4 spaces and keep braces on the same lines.
 
