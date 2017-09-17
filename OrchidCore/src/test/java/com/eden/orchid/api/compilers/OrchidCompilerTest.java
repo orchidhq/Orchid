@@ -25,6 +25,5 @@ public final class OrchidCompilerTest {
     @Test
     public void getCompilerExtensions() throws Throwable {
         assertThat(underTest.getPriority(), is(equalTo(100)));
-        assertThat(underTest.getIgnoredPatterns(), is(nullValue()));
     }
 }

@@ -56,9 +56,4 @@ public class SassCompiler extends OrchidCompiler {
 
         return input;
     }
-
-    @Override
-    public String[] getIgnoredPatterns() {
-        return new String[]{"_.*"};
-    }
 }
