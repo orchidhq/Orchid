@@ -27,6 +27,7 @@ proguard/
 # Intellij
 *.iml
 .idea/workspace.xml
+Orchid.iws
 
 # Keystore files
 *.jks
