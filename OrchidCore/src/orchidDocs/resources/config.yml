@@ -34,9 +34,6 @@ wiki:
     - 'userManual'
     - 'reference'
 
-styleguide:
-  stylesheet: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
-
 menu:
   - type: 'link'
     title: 'Home'
@@ -50,9 +47,9 @@ menu:
 #  - type: 'javadocPackages'
 #  - type: 'javadocClasses'
   - type: 'wikiSections'
-  - type: 'styleguide'
 
 generators:
   disabled:
     - 'JavadocGenerator'
     - 'ChangelogGenerator'
+    - 'KssGenerator'
