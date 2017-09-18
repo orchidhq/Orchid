@@ -34,8 +34,8 @@ wiki:
     - 'userManual'
     - 'reference'
 
-#styleguide:
-#  stylesheet: ''
+styleguide:
+  stylesheet: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
 
 menu:
   - type: 'link'
