@@ -107,38 +107,48 @@ public class StyleguideSection {
         return tags.getOrDefault(sectionKey.toLowerCase(), "");
     }
 
+    private String getOwnWrapper() {
+        String formattedMarkup = "" + getTaggedSection("wrapper");
+        if(!EdenUtils.isEmpty(formattedMarkup) && formattedMarkup.contains("-markup")) {
+            return formattedMarkup;
+        }
+        else {
+            return "-markup";
+        }
+    }
+
+    public String getWrapper() {
+        // if we have our own wrapper, add it now
+        String formattedMarkup = getOwnWrapper();
+
+        // if parent has a wrapper, add it now
+        String parentWrapper = (parent != null) ? parent.getWrapper() : "";
+        if(!EdenUtils.isEmpty(parentWrapper) && parentWrapper.contains("-markup")) {
+            formattedMarkup = parentWrapper.replaceAll("-markup", formattedMarkup);
+        }
+
+        return formattedMarkup;
+    }
+
     public String formatMarkup(Modifier modifier) {
+        String formattedMarkup = "";
+
+        // set markup and add modifier class
         String markup = getTaggedSection("markup");
-        String wrapper = getTaggedSection("wrapper");
-
-        markup = markup.replaceAll("-modifierClass", modifier.className());
-        markup = wrapper.replaceAll("-markup", markup);
-
-        return markup;
-    }
-
-    public String getPathAtLevel(int level) {
-        if(!EdenUtils.isEmpty(styleGuidePath) && styleGuidePath.length >= level) {
-            return styleGuidePath[level - 1];
+        if(!EdenUtils.isEmpty(markup) && markup.contains("-modifierClass")) {
+            formattedMarkup = markup.replaceAll("-modifierClass", modifier.className());
+        }
+        else {
+            formattedMarkup = "<div class='-modifierClass'>Markup</div>".replaceAll("-modifierClass", modifier.className());
         }
 
-        return null;
-    }
-
-    public boolean isPathAtLevelTerminating(int level) {
-        if(!EdenUtils.isEmpty(styleGuidePath) && styleGuidePath.length == level) {
-            return true;
+        // if we have our own wrapper, add it now
+        String wrapper = getWrapper();
+        if(!EdenUtils.isEmpty(wrapper) && wrapper.contains("-markup")) {
+            formattedMarkup = wrapper.replaceAll("-markup", formattedMarkup);
         }
 
-        return false;
-    }
-
-    public String getTerminatingPath() {
-        if(!EdenUtils.isEmpty(styleGuidePath)) {
-            return styleGuidePath[styleGuidePath.length - 1];
-        }
-
-        return null;
+        return formattedMarkup;
     }
 
     public int getDepth() {
@@ -147,6 +157,21 @@ public class StyleguideSection {
         }
 
         return 0;
+    }
+
+    public boolean isParentOf(StyleguideSection styleguideSection) {
+        if(styleguideSection.styleGuidePath.length == (styleGuidePath.length + 1)) {
+
+            for (int i = 0; i < styleGuidePath.length; i++) {
+                if(!styleguideSection.styleGuidePath[i].equalsIgnoreCase(styleGuidePath[i])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
 

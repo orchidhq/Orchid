@@ -114,7 +114,7 @@ public class KssParser {
 
             for(StyleguideSection sectionAtDepth : sectionDepths.get(i)) {
                 for(StyleguideSection possibleParent : sectionDepths.get(i - 1)) {
-                    if(possibleParent.getTerminatingPath().equalsIgnoreCase(sectionAtDepth.getPathAtLevel(i - 1))) {
+                    if(possibleParent.isParentOf(sectionAtDepth)) {
                         sectionAtDepth.setParent(possibleParent);
                         break;
                     }
