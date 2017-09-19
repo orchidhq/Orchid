@@ -1,6 +1,8 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.FloatConverter;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.FloatDefault;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -14,6 +16,8 @@ import static org.hamcrest.Matchers.*;
 @Test(groups = {"unit"})
 public class FloatOptionExtractorTest {
 
+    private StringConverter stringConverter;
+    private FloatConverter floatConverter;
     private FloatOptionExtractor underTest;
     private String optionKey;
     private JSONObject optionsObject;
@@ -23,7 +27,9 @@ public class FloatOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        underTest = new FloatOptionExtractor();
+        stringConverter = new StringConverter();
+        floatConverter = new FloatConverter(stringConverter);
+        underTest = new FloatOptionExtractor(floatConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

@@ -1,6 +1,8 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.LongConverter;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.LongDefault;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -14,6 +16,8 @@ import static org.hamcrest.Matchers.*;
 @Test(groups = {"unit"})
 public class LongOptionExtractorTest {
 
+    private StringConverter stringConverter;
+    private LongConverter longConverter;
     private LongOptionExtractor underTest;
     private String optionKey;
     private JSONObject optionsObject;
@@ -23,7 +27,9 @@ public class LongOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        underTest = new LongOptionExtractor();
+        stringConverter = new StringConverter();
+        longConverter = new LongConverter(stringConverter);
+        underTest = new LongOptionExtractor(longConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

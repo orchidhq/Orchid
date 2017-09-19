@@ -1,6 +1,8 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.IntegerConverter;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -14,6 +16,8 @@ import static org.hamcrest.Matchers.*;
 @Test(groups = {"unit"})
 public class IntOptionExtractorTest {
 
+    private StringConverter stringConverter;
+    private IntegerConverter integerConverter;
     private IntOptionExtractor underTest;
     private String optionKey;
     private JSONObject optionsObject;
@@ -23,7 +27,9 @@ public class IntOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        underTest = new IntOptionExtractor();
+        stringConverter = new StringConverter();
+        integerConverter = new IntegerConverter(stringConverter);
+        underTest = new IntOptionExtractor(integerConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

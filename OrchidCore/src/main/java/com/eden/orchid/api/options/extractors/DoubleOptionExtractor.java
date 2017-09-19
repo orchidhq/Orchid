@@ -1,10 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.orchid.api.converters.DoubleConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.DoubleDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,13 @@ import java.util.List;
  */
 public class DoubleOptionExtractor implements OptionExtractor<Double> {
 
+    private DoubleConverter converter;
+
+    @Inject
+    public DoubleOptionExtractor(DoubleConverter converter) {
+        this.converter = converter;
+    }
+
     @Override
     public boolean acceptsClass(Class<?> clazz) {
         return clazz.equals(double.class)
@@ -35,10 +44,14 @@ public class DoubleOptionExtractor implements OptionExtractor<Double> {
                 || clazz.equals(Double[].class);
     }
 
+    public double getValue(Object object) {
+        return converter.convert(object).second;
+    }
+
     @Override
     public Double getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof Double) {
-            return options.getDouble(key);
+        if(options.has(key)) {
+            return getValue(options.get(key));
         }
         else if(field.isAnnotationPresent(DoubleDefault.class)) {
             return field.getAnnotation(DoubleDefault.class).value();

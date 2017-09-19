@@ -1,6 +1,13 @@
 package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.BooleanConverter;
+import com.eden.orchid.api.converters.DoubleConverter;
+import com.eden.orchid.api.converters.FloatConverter;
+import com.eden.orchid.api.converters.IntegerConverter;
+import com.eden.orchid.api.converters.LongConverter;
+import com.eden.orchid.api.converters.NumberConverter;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
@@ -120,6 +127,14 @@ public class TestOptions {
     private JSONObject options;
     private OptionsExtractor extractor;
 
+    private StringConverter stringConverter;
+    private IntegerConverter integerConverter;
+    private LongConverter longConverter;
+    private FloatConverter floatConverter;
+    private DoubleConverter doubleConverter;
+    private NumberConverter numberConverter;
+    private BooleanConverter booleanConverter;
+
     @BeforeMethod
     public void setupTest() {
         options = new JSONObject();
@@ -153,13 +168,21 @@ public class TestOptions {
             e.printStackTrace();
         }
 
+        stringConverter = new StringConverter();
+        integerConverter = new IntegerConverter(stringConverter);
+        longConverter = new LongConverter(stringConverter);
+        floatConverter = new FloatConverter(stringConverter);
+        doubleConverter = new DoubleConverter(stringConverter);
+        numberConverter = new NumberConverter(longConverter, doubleConverter);
+        booleanConverter = new BooleanConverter(stringConverter, numberConverter);
+
         Set<OptionExtractor> extractors = new HashSet<>();
 
-        extractors.add(new StringOptionExtractor());
-        extractors.add(new IntOptionExtractor());
-        extractors.add(new LongOptionExtractor());
-        extractors.add(new FloatOptionExtractor());
-        extractors.add(new DoubleOptionExtractor());
+        extractors.add(new StringOptionExtractor(stringConverter));
+        extractors.add(new IntOptionExtractor(integerConverter));
+        extractors.add(new LongOptionExtractor(longConverter));
+        extractors.add(new FloatOptionExtractor(floatConverter));
+        extractors.add(new DoubleOptionExtractor(doubleConverter));
         extractors.add(new OptionsHolderOptionExtractor(() -> extractor));
 
         extractor = new OptionsExtractor(extractors);

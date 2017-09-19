@@ -1,10 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.orchid.api.converters.FloatConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.FloatDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,13 @@ import java.util.List;
  */
 public class FloatOptionExtractor implements OptionExtractor<Float> {
 
+    private FloatConverter converter;
+
+    @Inject
+    public FloatOptionExtractor(FloatConverter converter) {
+        this.converter = converter;
+    }
+
     @Override
     public boolean acceptsClass(Class<?> clazz) {
         return clazz.equals(float.class)
@@ -35,10 +44,14 @@ public class FloatOptionExtractor implements OptionExtractor<Float> {
                 || clazz.equals(Float[].class);
     }
 
+    public float getValue(Object object) {
+        return converter.convert(object).second;
+    }
+
     @Override
     public Float getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof Double) {
-            return (float) options.getDouble(key);
+        if(options.has(key)) {
+            return getValue(options.get(key));
         }
         else if(field.isAnnotationPresent(FloatDefault.class)) {
             return field.getAnnotation(FloatDefault.class).value();

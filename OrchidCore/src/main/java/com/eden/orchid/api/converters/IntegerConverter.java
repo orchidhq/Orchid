@@ -2,6 +2,8 @@ package com.eden.orchid.api.converters;
 
 import com.eden.common.util.EdenPair;
 
+import javax.inject.Inject;
+
 /**
  * | Input  | Result               | Converter |
  * |--------|----------------------|-----------|
@@ -12,6 +14,13 @@ import com.eden.common.util.EdenPair;
  */
 public class IntegerConverter implements TypeConverter<Integer> {
 
+    private StringConverter stringConverter;
+
+    @Inject
+    public IntegerConverter(StringConverter stringConverter) {
+        this.stringConverter = stringConverter;
+    }
+
     @Override
     public Class<Integer> resultClass() {
         return Integer.class;
@@ -19,16 +28,12 @@ public class IntegerConverter implements TypeConverter<Integer> {
 
     @Override
     public EdenPair<Boolean, Integer> convert(Object object) {
-        if(object != null) {
-            try {
-                return new EdenPair<>(true, Integer.parseInt(object.toString()));
-            }
-            catch (NumberFormatException e) {
-                return new EdenPair<>(false, 0);
-            }
+        try {
+            return new EdenPair<>(true, Integer.parseInt(stringConverter.convert(object).second));
         }
-
-        return new EdenPair<>(false, 0);
+        catch (NumberFormatException e) {
+            return new EdenPair<>(false, 0);
+        }
     }
 
 }

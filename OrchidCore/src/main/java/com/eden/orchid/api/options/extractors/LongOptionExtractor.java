@@ -1,10 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.LongDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,13 @@ import java.util.List;
  */
 public class LongOptionExtractor implements OptionExtractor<Long> {
 
+    private LongConverter converter;
+
+    @Inject
+    public LongOptionExtractor(LongConverter converter) {
+        this.converter = converter;
+    }
+
     @Override
     public boolean acceptsClass(Class<?> clazz) {
         return clazz.equals(long.class)
@@ -35,10 +44,14 @@ public class LongOptionExtractor implements OptionExtractor<Long> {
                 || clazz.equals(Long[].class);
     }
 
+    public long getValue(Object object) {
+        return converter.convert(object).second;
+    }
+
     @Override
     public Long getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof Long) {
-            return options.getLong(key);
+        if(options.has(key)) {
+            return getValue(options.get(key));
         }
         else if(field.isAnnotationPresent(LongDefault.class)) {
             return field.getAnnotation(LongDefault.class).value();

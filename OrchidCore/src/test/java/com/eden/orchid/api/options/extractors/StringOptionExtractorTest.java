@@ -1,6 +1,7 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import org.hamcrest.collection.IsArrayContainingInAnyOrder;
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import static org.hamcrest.Matchers.*;
 @Test(groups = {"unit"})
 public class StringOptionExtractorTest {
 
+    private StringConverter stringConverter;
     private StringOptionExtractor underTest;
     private String optionKey;
     private JSONObject optionsObject;
@@ -26,7 +28,8 @@ public class StringOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        underTest = new StringOptionExtractor();
+        stringConverter = new StringConverter();
+        underTest = new StringOptionExtractor(stringConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();
@@ -48,7 +51,7 @@ public class StringOptionExtractorTest {
         assertThat(optionsObject.has(optionKey), is(false));
 
         field = ClassTestClass.class.getField("emptyDefaultField");
-        assertThat(underTest.getOption(field, optionsObject, optionKey), is(nullValue()));
+        assertThat(underTest.getOption(field, optionsObject, optionKey), is(equalTo("")));
 
         field = ClassTestClass.class.getField("filledDefaultField");
         assertThat(underTest.getOption(field, optionsObject, optionKey), is(equalTo("11")));

@@ -2,6 +2,8 @@ package com.eden.orchid.api.converters;
 
 import com.eden.common.util.EdenPair;
 
+import javax.inject.Inject;
+
 /**
  * | Input  | Result                 | Converter |
  * |--------|------------------------|-----------|
@@ -12,6 +14,13 @@ import com.eden.common.util.EdenPair;
  */
 public class FloatConverter implements TypeConverter<Float> {
 
+    private StringConverter stringConverter;
+
+    @Inject
+    public FloatConverter(StringConverter stringConverter) {
+        this.stringConverter = stringConverter;
+    }
+
     @Override
     public Class<Float> resultClass() {
         return Float.class;
@@ -19,16 +28,12 @@ public class FloatConverter implements TypeConverter<Float> {
 
     @Override
     public EdenPair<Boolean, Float> convert(Object object) {
-        if(object != null) {
-            try {
-                return new EdenPair<>(true, Float.parseFloat(object.toString()));
-            }
-            catch (NumberFormatException e) {
-                return new EdenPair<>(false, 0.0f);
-            }
+        try {
+            return new EdenPair<>(true, Float.parseFloat(stringConverter.convert(object).second));
         }
-
-        return new EdenPair<>(false, 0.0f);
+        catch (NumberFormatException e) {
+            return new EdenPair<>(false, 0.0f);
+        }
     }
 
 }

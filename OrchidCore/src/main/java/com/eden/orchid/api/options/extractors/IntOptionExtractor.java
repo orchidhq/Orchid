@@ -1,10 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.orchid.api.converters.IntegerConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,13 @@ import java.util.List;
  */
 public class IntOptionExtractor implements OptionExtractor<Integer> {
 
+    private IntegerConverter converter;
+
+    @Inject
+    public IntOptionExtractor(IntegerConverter converter) {
+        this.converter = converter;
+    }
+
     @Override
     public boolean acceptsClass(Class<?> clazz) {
         return clazz.equals(int.class)
@@ -35,10 +44,14 @@ public class IntOptionExtractor implements OptionExtractor<Integer> {
                 || clazz.equals(Integer[].class);
     }
 
+    public int getValue(Object object) {
+        return converter.convert(object).second;
+    }
+
     @Override
     public Integer getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof Integer) {
-            return options.getInt(key);
+        if(options.has(key)) {
+            return getValue(options.get(key));
         }
         else if(field.isAnnotationPresent(IntDefault.class)) {
             return field.getAnnotation(IntDefault.class).value();

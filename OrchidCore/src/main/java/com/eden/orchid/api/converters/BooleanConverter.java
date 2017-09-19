@@ -17,10 +17,12 @@ import javax.inject.Inject;
  */
 public class BooleanConverter implements TypeConverter<Boolean> {
 
+    private StringConverter stringConverter;
     private NumberConverter numberConverter;
 
     @Inject
-    public BooleanConverter(NumberConverter numberConverter) {
+    public BooleanConverter(StringConverter stringConverter, NumberConverter numberConverter) {
+        this.stringConverter = stringConverter;
         this.numberConverter = numberConverter;
     }
 
@@ -39,7 +41,7 @@ public class BooleanConverter implements TypeConverter<Boolean> {
             return new EdenPair<>(true, (Boolean) object);
         }
         if (object instanceof String) {
-            String s = (String) object;
+            String s = stringConverter.convert(object).second;
             if (s.equalsIgnoreCase("true")) {
                 return new EdenPair<>(true, true);
             }
@@ -57,7 +59,6 @@ public class BooleanConverter implements TypeConverter<Boolean> {
                 return new EdenPair<>(true, true);
             }
         }
-
 
         return new EdenPair<>(false, false);
     }

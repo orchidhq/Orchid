@@ -1,9 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.BooleanConverter;
+import com.eden.orchid.api.converters.DoubleConverter;
+import com.eden.orchid.api.converters.LongConverter;
+import com.eden.orchid.api.converters.NumberConverter;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -20,6 +23,11 @@ public class BooleanOptionExtractorTest {
 
     private OrchidContext context;
 
+    private StringConverter stringConverter;
+    private LongConverter longConverter;
+    private DoubleConverter doubleConverter;
+    private NumberConverter numberConverter;
+    private BooleanConverter booleanConverter;
     private BooleanOptionExtractor underTest;
     private String optionKey;
     private JSONObject optionsObject;
@@ -31,11 +39,13 @@ public class BooleanOptionExtractorTest {
         Clog.setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
 
-        BooleanConverter converter = mock(BooleanConverter.class);
-        when(converter.convert(Boolean.TRUE)).thenReturn(new EdenPair<>(true, true));
-        when(converter.convert(Boolean.FALSE)).thenReturn(new EdenPair<>(true, false));
+        stringConverter = new StringConverter();
+        longConverter = new LongConverter(stringConverter);
+        doubleConverter = new DoubleConverter(stringConverter);
+        numberConverter = new NumberConverter(longConverter, doubleConverter);
+        booleanConverter = new BooleanConverter(stringConverter, numberConverter);
 
-        underTest = new BooleanOptionExtractor(converter);
+        underTest = new BooleanOptionExtractor(booleanConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

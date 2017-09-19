@@ -19,6 +19,7 @@ public final class ConvertersTest {
 
     private OrchidContext context;
 
+    private StringConverter stringConverter;
     private BooleanConverter booleanConverter;
     private NumberConverter numberConverter;
     private LongConverter longConverter;
@@ -28,12 +29,13 @@ public final class ConvertersTest {
 
     @BeforeMethod
     public void testSetup() {
-        floatConverter = new FloatConverter();
-        integerConverter = new IntegerConverter();
-        doubleConverter = new DoubleConverter();
-        longConverter = new LongConverter();
+        stringConverter = new StringConverter();
+        floatConverter = new FloatConverter(stringConverter);
+        integerConverter = new IntegerConverter(stringConverter);
+        doubleConverter = new DoubleConverter(stringConverter);
+        longConverter = new LongConverter(stringConverter);
         numberConverter = new NumberConverter(longConverter, doubleConverter);
-        booleanConverter = new BooleanConverter(numberConverter);
+        booleanConverter = new BooleanConverter(stringConverter, numberConverter);
     }
 
     @Test

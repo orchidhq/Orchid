@@ -1,23 +1,18 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.common.util.EdenPair;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ### Source Types
- *
- * | Item Type | Coercion |
- * |-----------|----------|
- * | string    | direct   |
- * | anything  | toString |
- *
- *
  * ### Destination Types
  *
  * | Field Type   | Annotation     | Default Value              |
@@ -27,23 +22,37 @@ import java.util.List;
  */
 public class StringOptionExtractor implements OptionExtractor<String> {
 
+    private StringConverter converter;
+
+    @Inject
+    public StringOptionExtractor(StringConverter converter) {
+        this.converter = converter;
+    }
+
     @Override
     public boolean acceptsClass(Class<?> clazz) {
         return clazz.equals(String.class)
                 || clazz.equals(String[].class);
     }
 
+    public String getValue(Object object) {
+        return converter.convert(object).second;
+    }
+
     @Override
     public String getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof String) {
-            return options.getString(key);
+        if(options.has(key)) {
+            EdenPair<Boolean, String> value = converter.convert(options.get(key));
+            if(value.first) {
+                return value.second;
+            }
         }
-        else if(field.isAnnotationPresent(StringDefault.class)) {
+
+        if(field.isAnnotationPresent(StringDefault.class)) {
             return field.getAnnotation(StringDefault.class).value();
         }
-        else {
-            return null;
-        }
+
+        return "";
     }
 
     @Override
