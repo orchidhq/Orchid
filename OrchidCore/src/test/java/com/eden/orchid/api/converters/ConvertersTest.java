@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.*;
 
 @Test(groups={"services", "unit"})
 public final class ConvertersTest {
@@ -19,6 +21,7 @@ public final class ConvertersTest {
 
     private OrchidContext context;
 
+    private StringConverterHelper stringConverterHelper;
     private StringConverter stringConverter;
     private BooleanConverter booleanConverter;
     private NumberConverter numberConverter;
@@ -29,13 +32,27 @@ public final class ConvertersTest {
 
     @BeforeMethod
     public void testSetup() {
-        stringConverter = new StringConverter();
+        stringConverterHelper = spy(new ClogStringConverterHelper());
+        stringConverter = new StringConverter(stringConverterHelper);
         floatConverter = new FloatConverter(stringConverter);
         integerConverter = new IntegerConverter(stringConverter);
         doubleConverter = new DoubleConverter(stringConverter);
         longConverter = new LongConverter(stringConverter);
         numberConverter = new NumberConverter(longConverter, doubleConverter);
         booleanConverter = new BooleanConverter(stringConverter, numberConverter);
+    }
+
+    @Test
+    public void testStringConverter() throws Throwable {
+        assertThat(stringConverter.resultClass(), is(equalTo(String.class)));
+
+        assertThat(stringConverter.convert(12.2).first, is(true));
+        assertThat(stringConverter.convert(12.2).second, is(equalTo("12.2")));
+
+        verify(stringConverterHelper, atLeastOnce()).convert(any());
+
+        assertThat(stringConverter.convert("12.2f").first, is(true));
+        assertThat(stringConverter.convert("12.2f").second, is(equalTo("12.2f")));
     }
 
     @Test

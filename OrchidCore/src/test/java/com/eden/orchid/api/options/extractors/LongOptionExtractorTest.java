@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.LongDefault;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -27,7 +28,7 @@ public class LongOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        stringConverter = new StringConverter();
+        stringConverter = new StringConverter(new ClogStringConverterHelper());
         longConverter = new LongConverter(stringConverter);
         underTest = new LongOptionExtractor(longConverter);
         optionKey = "optionKey";

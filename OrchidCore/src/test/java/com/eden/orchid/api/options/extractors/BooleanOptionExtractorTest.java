@@ -8,6 +8,7 @@ import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.converters.NumberConverter;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -39,7 +40,7 @@ public class BooleanOptionExtractorTest {
         Clog.setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
 
-        stringConverter = new StringConverter();
+        stringConverter = new StringConverter(new ClogStringConverterHelper());
         longConverter = new LongConverter(stringConverter);
         doubleConverter = new DoubleConverter(stringConverter);
         numberConverter = new NumberConverter(longConverter, doubleConverter);

@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.converters.DoubleConverter;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.DoubleDefault;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -27,7 +28,7 @@ public class DoubleOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        stringConverter = new StringConverter();
+        stringConverter = new StringConverter(new ClogStringConverterHelper());
         doubleConverter = new DoubleConverter(stringConverter);
         underTest = new DoubleOptionExtractor(doubleConverter);
         optionKey = "optionKey";

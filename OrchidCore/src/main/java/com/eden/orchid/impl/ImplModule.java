@@ -14,6 +14,7 @@ import com.eden.orchid.api.converters.FloatConverter;
 import com.eden.orchid.api.converters.IntegerConverter;
 import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.converters.NumberConverter;
+import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.events.EventServiceImpl;
@@ -50,6 +51,7 @@ import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.ThemeService;
 import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -122,6 +124,8 @@ public class ImplModule extends OrchidModule {
         addToSet(OrchidParser.class,
                 YamlParser.class,
                 JsonParser.class);
+
+        bind(StringConverterHelper.class).to(ClogStringConverterHelper.class);
 
         // Precompilers
         addToSet(OrchidPrecompiler.class,

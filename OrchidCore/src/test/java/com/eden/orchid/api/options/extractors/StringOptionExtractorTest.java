@@ -3,6 +3,7 @@ package com.eden.orchid.api.options.extractors;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.hamcrest.collection.IsArrayContainingInAnyOrder;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -28,7 +29,7 @@ public class StringOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        stringConverter = new StringConverter();
+        stringConverter = new StringConverter(new ClogStringConverterHelper());
         underTest = new StringOptionExtractor(stringConverter);
         optionKey = "optionKey";
 

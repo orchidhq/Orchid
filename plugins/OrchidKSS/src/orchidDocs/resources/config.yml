@@ -8,14 +8,6 @@ Editorial:
   primaryColor: '#ffa033'
   secondaryColor: '#000000'
 
-menu:
-  - type: 'link'
-    title: 'Home'
-    url: '/'
-  - type: 'page'
-    page: 'All Orchid Projects'
-  - type: 'wikiSections'
-
 generators:
   disabled:
     - 'JavadocGenerator'

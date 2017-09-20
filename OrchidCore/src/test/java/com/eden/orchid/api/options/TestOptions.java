@@ -16,6 +16,7 @@ import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -168,7 +169,7 @@ public class TestOptions {
             e.printStackTrace();
         }
 
-        stringConverter = new StringConverter();
+        stringConverter = new StringConverter(new ClogStringConverterHelper());
         integerConverter = new IntegerConverter(stringConverter);
         longConverter = new LongConverter(stringConverter);
         floatConverter = new FloatConverter(stringConverter);
