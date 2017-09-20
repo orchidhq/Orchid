@@ -24,7 +24,7 @@ import java.util.List;
 public class JSONObjectOptionExtractor implements OptionExtractor<JSONObject> {
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(JSONObject.class);
     }
 

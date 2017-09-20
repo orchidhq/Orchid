@@ -48,7 +48,7 @@ public class OptionsHolderOptionExtractor implements OptionExtractor<OptionsHold
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         if(OptionsHolder.class.isAssignableFrom(clazz)) {
             return true;
         }

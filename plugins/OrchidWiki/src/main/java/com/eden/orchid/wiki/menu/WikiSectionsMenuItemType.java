@@ -7,7 +7,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.wiki.WikiGenerator;
 import com.eden.orchid.wiki.WikiPage;
 import com.eden.orchid.wiki.WikiSummaryPage;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class WikiSectionsMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
         for (Map.Entry<String, EdenPair<WikiSummaryPage, List<WikiPage>>> section : WikiGenerator.sections.entrySet()) {

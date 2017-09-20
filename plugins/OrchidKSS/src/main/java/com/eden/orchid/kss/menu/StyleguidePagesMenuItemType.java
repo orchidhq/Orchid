@@ -1,13 +1,14 @@
 package com.eden.orchid.kss.menu;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.kss.KssGenerator;
 import com.eden.orchid.kss.KssPage;
 import com.eden.orchid.utilities.OrchidUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ import java.util.Map;
 public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
 
     private OrchidContext context;
+
+    @Option
+    public String section;
 
     @Inject
     public StyleguidePagesMenuItemType(OrchidContext context) {
@@ -30,7 +34,7 @@ public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
         Map<String, List<KssPage>> sections = new HashMap<>();
@@ -38,10 +42,10 @@ public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
         String menuItemTitle;
         String menuSection;
 
-        if (menuItemJson.has("section") && KssGenerator.sections.containsKey(menuItemJson.getString("section"))) {
-            sections.put(menuItemJson.getString("section"), KssGenerator.sections.get(menuItemJson.getString("section")));
-            menuItemTitle = OrchidUtils.camelcaseToTitleCase(menuItemJson.getString("section")) + " Styleguide";
-            menuSection = menuItemJson.getString("section");
+        if (!EdenUtils.isEmpty(section) && KssGenerator.sections.containsKey(section)) {
+            sections.put(section, KssGenerator.sections.get(section));
+            menuItemTitle = OrchidUtils.camelcaseToTitleCase(section) + " Styleguide";
+            menuSection = section;
         }
         else {
             sections.putAll(KssGenerator.sections);

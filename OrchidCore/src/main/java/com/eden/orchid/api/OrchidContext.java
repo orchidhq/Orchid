@@ -10,6 +10,8 @@ import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
 import com.google.inject.Injector;
 
+import java.util.Set;
+
 public interface OrchidContext extends
         CompilerService,
         ThemeService,
@@ -22,6 +24,8 @@ public interface OrchidContext extends
 {
 
     Injector getInjector();
+
+    <T> Set<T> resolveSet(Class<T> clazz);
 
     void start();
     void finish();

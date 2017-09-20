@@ -4,10 +4,6 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
-import com.google.inject.util.Types;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,8 +15,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -56,27 +50,6 @@ public final class OrchidUtils {
         public int compare(T o1, T o2) {
             return o1.getClass().getName().compareTo(o2.getClass().getName());
         }
-    }
-
-    public static <T> Set<T> resolveSet(OrchidContext context, Class<T> clazz) {
-        return resolveSet(context.getInjector(), clazz);
-    }
-
-    public static <T> Set<T> resolveSet(Injector injector, Class<T> clazz) {
-        try {
-            TypeLiteral<Set<T>> lit = (TypeLiteral<Set<T>>) TypeLiteral.get(Types.setOf(clazz));
-            Key<Set<T>> key = Key.get(lit);
-            Set<T> bindings = injector.getInstance(key);
-
-            if (bindings != null) {
-                return bindings;
-            }
-        }
-        catch (Exception e) {
-
-        }
-
-        return new TreeSet<>();
     }
 
     public static String getRelativeFilename(String sourcePath, String baseDir) {

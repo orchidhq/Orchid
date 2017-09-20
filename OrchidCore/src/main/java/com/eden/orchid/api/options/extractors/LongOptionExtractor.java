@@ -37,7 +37,7 @@ public class LongOptionExtractor implements OptionExtractor<Long> {
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(long.class)
                 || clazz.equals(Long.class)
                 || clazz.equals(long[].class)

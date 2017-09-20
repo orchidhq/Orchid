@@ -1,8 +1,6 @@
-package com.eden.orchid.impl;
+package com.eden.orchid.api;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.generators.GeneratorService;
@@ -12,6 +10,9 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import com.google.inject.util.Types;
 import lombok.Getter;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
 @Getter
@@ -92,6 +94,28 @@ public final class OrchidContextImpl implements OrchidContext {
     @SuppressWarnings("unchecked")
     public <T extends OrchidService> T getService(Class<T> serviceClass) {
         return (T) services.get(serviceClass);
+    }
+
+
+// Other
+//----------------------------------------------------------------------------------------------------------------------
+
+    public <T> Set<T> resolveSet(Class<T> clazz) {
+        Injector injector = getInjector();
+        try {
+            TypeLiteral<Set<T>> lit = (TypeLiteral<Set<T>>) TypeLiteral.get(Types.setOf(clazz));
+            Key<Set<T>> key = Key.get(lit);
+            Set<T> bindings = injector.getInstance(key);
+
+            if (bindings != null) {
+                return bindings;
+            }
+        }
+        catch (Exception e) {
+
+        }
+
+        return new TreeSet<>();
     }
 
 }

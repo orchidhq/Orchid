@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OptionExtractor<T> {
 
-    boolean acceptsClass(Class<?> clazz);
+    boolean acceptsClass(Class clazz);
 
     T getOption(Field field, JSONObject options, String key);
     List<T> getList(Field field, JSONObject options, String key);

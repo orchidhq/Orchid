@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 /**
  * A Resource type that provides a content to a template from a resource file on disk. When used with
@@ -35,7 +36,7 @@ public final class FileResource extends FreeableResource  {
         if(rawContent == null) {
             try {
                 if (file != null) {
-                    rawContent = IOUtils.toString(new FileInputStream(file));
+                    rawContent = IOUtils.toString(new FileInputStream(file), Charset.defaultCharset());
                 }
             }
             catch (IOException e) {

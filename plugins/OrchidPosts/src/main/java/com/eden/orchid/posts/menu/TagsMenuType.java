@@ -9,7 +9,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.pages.PostTagArchivePage;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class TagsMenuType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> items = new ArrayList<>();
 
         if(!EdenUtils.isEmpty(postsModel.getTagNames())) {

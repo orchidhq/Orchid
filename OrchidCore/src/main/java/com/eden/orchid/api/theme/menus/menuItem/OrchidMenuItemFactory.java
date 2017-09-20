@@ -1,13 +1,13 @@
 package com.eden.orchid.api.theme.menus.menuItem;
 
-import org.json.JSONObject;
+import com.eden.orchid.api.options.OptionsHolder;
 
 import java.util.List;
 
-public interface OrchidMenuItemFactory {
+public interface OrchidMenuItemFactory extends OptionsHolder {
 
     String getKey();
 
-    List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson);
+    List<OrchidMenuItem> getMenuItems();
 
 }

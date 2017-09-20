@@ -37,7 +37,7 @@ public class FloatOptionExtractor implements OptionExtractor<Float> {
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(float.class)
                 || clazz.equals(Float.class)
                 || clazz.equals(float[].class)

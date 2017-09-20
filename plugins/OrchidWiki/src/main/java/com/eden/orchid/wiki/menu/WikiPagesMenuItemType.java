@@ -1,8 +1,10 @@
 package com.eden.orchid.wiki.menu;
 
 import com.eden.common.util.EdenPair;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -12,7 +14,6 @@ import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.wiki.WikiGenerator;
 import com.eden.orchid.wiki.WikiPage;
 import com.eden.orchid.wiki.WikiSummaryPage;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ import java.util.Map;
 public class WikiPagesMenuItemType implements OrchidMenuItemFactory {
 
     private OrchidContext context;
+
+    @Option
+    public String section;
 
     @Inject
     public WikiPagesMenuItemType(OrchidContext context) {
@@ -35,7 +39,7 @@ public class WikiPagesMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
         Map<String, EdenPair<WikiSummaryPage, List<WikiPage>>> sections = new HashMap<>();
@@ -43,10 +47,10 @@ public class WikiPagesMenuItemType implements OrchidMenuItemFactory {
         String menuItemTitle;
         String menuSection;
 
-        if (menuItemJson.has("section") && WikiGenerator.sections.containsKey(menuItemJson.getString("section"))) {
-            sections.put(menuItemJson.getString("section"), WikiGenerator.sections.get(menuItemJson.getString("section")));
-            menuItemTitle = OrchidUtils.camelcaseToTitleCase(menuItemJson.getString("section")) + " Wiki";
-            menuSection = menuItemJson.getString("section");
+        if (!EdenUtils.isEmpty(section) && WikiGenerator.sections.containsKey(section)) {
+            sections.put(section, WikiGenerator.sections.get(section));
+            menuItemTitle = OrchidUtils.camelcaseToTitleCase(section) + " Wiki";
+            menuSection = section;
         }
         else {
             sections.putAll(WikiGenerator.sections);

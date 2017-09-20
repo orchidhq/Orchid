@@ -1,10 +1,14 @@
 package com.eden.orchid.impl.generators;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.Description;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -29,6 +33,10 @@ public class AssetsGenerator extends OrchidGenerator {
             "woff",
             "woff2",
     };
+
+    @Option("binaryExtensions")
+    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
+    public String[] customBinaryExtensions;
 
     @Inject
     public AssetsGenerator(OrchidContext context, OrchidRenderer renderer) {
@@ -57,6 +65,9 @@ public class AssetsGenerator extends OrchidGenerator {
         pages.stream()
              .filter(this::isBinaryFile)
              .forEach(renderer::renderBinary);
+        pages.stream()
+             .filter(OrchidUtils.not(this::isBinaryFile))
+             .forEach(renderer::renderRaw);
 
         context.getGlobalAssetHolder()
                .getScripts()
@@ -86,6 +97,15 @@ public class AssetsGenerator extends OrchidGenerator {
             if (outputExtension.equalsIgnoreCase(binaryExtension)) {
                 isBinary = true;
                 break;
+            }
+        }
+
+        if (!EdenUtils.isEmpty(customBinaryExtensions)) {
+            for (String binaryExtension : customBinaryExtensions) {
+                if (outputExtension.equalsIgnoreCase(binaryExtension)) {
+                    isBinary = true;
+                    break;
+                }
             }
         }
 

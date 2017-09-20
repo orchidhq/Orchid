@@ -5,7 +5,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.kss.KssGenerator;
 import com.eden.orchid.kss.KssPage;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class StyleguideSectionsMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
         for (Map.Entry<String, List<KssPage>> section : KssGenerator.sections.entrySet()) {

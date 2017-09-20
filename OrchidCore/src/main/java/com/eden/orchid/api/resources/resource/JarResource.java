@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -38,7 +39,7 @@ public final class JarResource extends FreeableResource {
         if(rawContent == null) {
             try {
                 if(jarFile != null && jarEntry != null) {
-                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry));
+                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry), Charset.defaultCharset());
                 }
             }
             catch (IOException e) {

@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 @Getter @Setter
 public abstract class OrchidResource {
@@ -45,7 +46,7 @@ public abstract class OrchidResource {
     }
 
     public InputStream getContentStream() {
-        return IOUtils.toInputStream(getRawContent());
+        return IOUtils.toInputStream(getRawContent(), Charset.defaultCharset());
     }
 
     public String getRawContent() {

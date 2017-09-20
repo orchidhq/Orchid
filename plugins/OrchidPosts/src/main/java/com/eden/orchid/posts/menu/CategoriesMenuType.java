@@ -8,7 +8,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class CategoriesMenuType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> items = new ArrayList<>();
 
         if(postsModel.getCategoryNames().size() > 1) {

@@ -37,7 +37,7 @@ public class IntOptionExtractor implements OptionExtractor<Integer> {
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(int.class)
                 || clazz.equals(Integer.class)
                 || clazz.equals(int[].class)

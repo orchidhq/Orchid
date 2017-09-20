@@ -1,9 +1,10 @@
 package com.eden.orchid.impl.themes.menus;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -12,6 +13,9 @@ import java.util.List;
 public class DividerMenuItem implements OrchidMenuItemFactory {
 
     private OrchidContext context;
+
+    @Option
+    public String title;
 
     @Inject
     public DividerMenuItem(OrchidContext context) {
@@ -24,11 +28,11 @@ public class DividerMenuItem implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
-        if(menuItemJson.has("title")) {
-            menuItems.add(new OrchidMenuItem(context, menuItemJson.getString("title")));
+        if(!EdenUtils.isEmpty(title)) {
+            menuItems.add(new OrchidMenuItem(context, title));
         }
         else {
             menuItems.add(new OrchidMenuItem(context));

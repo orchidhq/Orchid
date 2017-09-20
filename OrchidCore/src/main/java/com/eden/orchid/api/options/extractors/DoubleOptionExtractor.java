@@ -37,7 +37,7 @@ public class DoubleOptionExtractor implements OptionExtractor<Double> {
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(double.class)
                 || clazz.equals(Double.class)
                 || clazz.equals(double[].class)

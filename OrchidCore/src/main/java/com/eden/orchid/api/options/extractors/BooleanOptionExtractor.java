@@ -27,7 +27,7 @@ public class BooleanOptionExtractor implements OptionExtractor<Boolean> {
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(boolean.class)
                 || clazz.equals(Boolean.class);
     }

@@ -1,13 +1,14 @@
 package com.eden.orchid.impl.themes.menus;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -17,6 +18,12 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
 
     private OrchidContext context;
     private String baseUrl;
+
+    @Option
+    public String title;
+
+    @Option
+    public String url;
 
     @Inject
     public LinkMenuItem(OrchidContext context, @Named("baseUrl") String baseUrl) {
@@ -30,13 +37,10 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> menuItems = new ArrayList<>();
 
-        if (menuItemJson.has("title") && menuItemJson.has("url")) {
-            String title = menuItemJson.getString("title");
-            String url = menuItemJson.getString("url");
-
+        if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(url)) {
             if(url.trim().equals("/")) {
                 url = this.baseUrl;
             }

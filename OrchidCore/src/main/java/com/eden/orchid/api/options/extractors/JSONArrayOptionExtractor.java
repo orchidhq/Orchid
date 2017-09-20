@@ -26,7 +26,7 @@ import java.util.List;
 public class JSONArrayOptionExtractor implements OptionExtractor<JSONArray> {
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(JSONArray.class);
     }
 

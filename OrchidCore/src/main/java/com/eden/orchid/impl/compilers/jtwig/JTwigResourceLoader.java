@@ -55,7 +55,7 @@ public class JTwigResourceLoader extends TypedResourceLoader {
 
             if(resource != null) {
                 String content = resource.getContent();
-                return IOUtils.toInputStream(content);
+                return IOUtils.toInputStream(content, Charset.defaultCharset());
             }
             else {
                 return null;

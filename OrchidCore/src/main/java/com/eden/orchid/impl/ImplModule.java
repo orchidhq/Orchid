@@ -1,57 +1,22 @@
 package com.eden.orchid.impl;
 
 import com.eden.orchid.OrchidModule;
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.compilers.CompilerService;
-import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
-import com.eden.orchid.api.converters.BooleanConverter;
-import com.eden.orchid.api.converters.DoubleConverter;
-import com.eden.orchid.api.converters.FloatConverter;
-import com.eden.orchid.api.converters.IntegerConverter;
-import com.eden.orchid.api.converters.LongConverter;
-import com.eden.orchid.api.converters.NumberConverter;
-import com.eden.orchid.api.converters.StringConverterHelper;
-import com.eden.orchid.api.converters.TypeConverter;
-import com.eden.orchid.api.events.EventService;
-import com.eden.orchid.api.events.EventServiceImpl;
 import com.eden.orchid.api.events.OrchidEventListener;
-import com.eden.orchid.api.generators.GeneratorService;
-import com.eden.orchid.api.generators.GeneratorServiceImpl;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.indexing.IndexService;
-import com.eden.orchid.api.indexing.IndexServiceImpl;
-import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.OptionsService;
-import com.eden.orchid.api.options.OptionsServiceImpl;
-import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
-import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
-import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
-import com.eden.orchid.api.options.extractors.IntOptionExtractor;
-import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
-import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
-import com.eden.orchid.api.options.extractors.LongOptionExtractor;
-import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
-import com.eden.orchid.api.options.extractors.StringOptionExtractor;
-import com.eden.orchid.api.resources.ResourceService;
-import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.OrchidFileController;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
-import com.eden.orchid.api.theme.ThemeService;
-import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
-import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -93,17 +58,6 @@ public class ImplModule extends OrchidModule {
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
         bind(OrchidFileController.class).to(FileController.class);
 
-        bind(CompilerService.class).to(CompilerServiceImpl.class);
-        bind(ThemeService.class).to(ThemeServiceImpl.class);
-        bind(EventService.class).to(EventServiceImpl.class);
-        bind(IndexService.class).to(IndexServiceImpl.class);
-        bind(ResourceService.class).to(ResourceServiceImpl.class);
-        bind(TaskService.class).to(TaskServiceImpl.class);
-        bind(OptionsService.class).to(OptionsServiceImpl.class);
-        bind(GeneratorService.class).to(GeneratorServiceImpl.class);
-
-        bind(OrchidContext.class).to(OrchidContextImpl.class);
-
         addToSet(Theme.class, DefaultTheme.class);
         addToSet(AdminTheme.class, DefaultAdminTheme.class);
 
@@ -124,8 +78,6 @@ public class ImplModule extends OrchidModule {
         addToSet(OrchidParser.class,
                 YamlParser.class,
                 JsonParser.class);
-
-        bind(StringConverterHelper.class).to(ClogStringConverterHelper.class);
 
         // Precompilers
         addToSet(OrchidPrecompiler.class,
@@ -149,27 +101,6 @@ public class ImplModule extends OrchidModule {
                 LinkMenuItem.class,
                 IndexMenuItem.class
         );
-
-        // TypeConverters
-        addToSet(TypeConverter.class,
-                BooleanConverter.class,
-                NumberConverter.class,
-                LongConverter.class,
-                DoubleConverter.class,
-                IntegerConverter.class,
-                FloatConverter.class);
-
-        // OptionsExtractors
-        addToSet(OptionExtractor.class,
-                BooleanOptionExtractor.class,
-                StringOptionExtractor.class,
-                IntOptionExtractor.class,
-                LongOptionExtractor.class,
-                FloatOptionExtractor.class,
-                DoubleOptionExtractor.class,
-                OptionsHolderOptionExtractor.class,
-                JSONObjectOptionExtractor.class,
-                JSONArrayOptionExtractor.class);
 
         // Server
         addToSet(OrchidEventListener.class,

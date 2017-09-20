@@ -30,7 +30,7 @@ public class StringOptionExtractor implements OptionExtractor<String> {
     }
 
     @Override
-    public boolean acceptsClass(Class<?> clazz) {
+    public boolean acceptsClass(Class clazz) {
         return clazz.equals(String.class)
                 || clazz.equals(String[].class);
     }

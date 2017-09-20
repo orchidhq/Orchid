@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -231,7 +232,7 @@ public final class ResourceServiceImpl implements ResourceService {
     public JSONObject loadLocalFile(String url) {
         try {
             File file = new File(url);
-            String s = IOUtils.toString(new FileInputStream(file));
+            String s = IOUtils.toString(new FileInputStream(file), Charset.defaultCharset());
             return context.parse("json", s);
         }
         catch (FileNotFoundException e) {

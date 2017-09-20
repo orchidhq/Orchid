@@ -5,7 +5,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.JavadocGenerator;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class AllPackagesMenuItemType implements OrchidMenuItemFactory {
     }
 
     @Override
-    public List<OrchidMenuItem> getMenuItems(JSONObject menuItemJson) {
+    public List<OrchidMenuItem> getMenuItems() {
         List<OrchidMenuItem> items = new ArrayList<>();
         List<OrchidPage> pages = new ArrayList<>(JavadocGenerator.allPackages);
         pages.sort(Comparator.comparing(OrchidPage::getTitle));

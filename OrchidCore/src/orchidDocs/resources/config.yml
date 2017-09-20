@@ -40,13 +40,17 @@ menu:
     url: '/'
   - type: 'page'
     page: 'All Orchid Projects'
-#  - type: 'latestPosts'
-#    count: 5
-#  - type: 'postCategories'
-#  - type: 'postTags'
-#  - type: 'javadocPackages'
-#  - type: 'javadocClasses'
+  - type: 'latestPosts'
+    count: 5
+  - type: 'postCategories'
+  - type: 'postTags'
+  - type: 'javadocPackages'
+  - type: 'javadocClasses'
   - type: 'wikiSections'
+  - type: 'wiki'
+    section: 'reference'
+  - type: 'wiki'
+    section: 'userManual'
 
 generators:
   disabled:
