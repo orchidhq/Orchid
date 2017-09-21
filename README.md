@@ -25,6 +25,7 @@ private plugins and a rich API so you can make your site as beautiful and unique
 
 - Plugin-driven Architecture
 - Multi-theme support
+- Admin interface to manage your content and gain deep insights into your build
 - Link to other Orchid sites
 - Powerful and flexible indexing, unique to Orchid
 - Fully replaces Jekyll, Gitbook, Javadocs, and more!  
