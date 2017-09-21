@@ -1,4 +1,3 @@
-<h1>{{ class(listItem).name }}</h1>
-<h3>{{ listItem.getPriority }}</h3>
-<h3><code>{{ listItem.name }}</code></h3>
-<h3>{{ listItem.description }}</h3>
+<h1>{{ class(listItem).simpleName | capitalize }}</h1>
+<p><code>{{ listItem.getPriority }}: [{{ listItem.name }}]</code></p>
+<p>{{ listItem.description }}</p>

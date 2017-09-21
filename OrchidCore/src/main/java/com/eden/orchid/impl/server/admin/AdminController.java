@@ -1,6 +1,9 @@
 package com.eden.orchid.impl.server.admin;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OptionsDescription;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.OrchidRequest;
@@ -12,7 +15,9 @@ import com.google.inject.Provider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,10 +38,13 @@ public class AdminController extends OrchidController {
 
     @Get(path = "/")
     public OrchidResponse doNothing(OrchidRequest request) {
-        OrchidResource resource = context.getResourceEntry("templates/server/admin/index.html");
+        Clog.v("Rendering admin index page");
+        OrchidResource resource = context.getResourceEntry("templates/server/admin/admin.twig");
         String content = "";
         if (resource != null) {
             Map<String, Object> data = new HashMap<>();
+            data.put("controller", this);
+            data.put("cxt", context);
             data.put("adminLists", adminLists);
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
@@ -59,6 +67,8 @@ public class AdminController extends OrchidController {
 
         if (foundList != null) {
             Map<String, Object> data = new HashMap<>();
+            data.put("controller", this);
+            data.put("cxt", context);
             data.put("adminLists", adminLists);
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
@@ -87,6 +97,8 @@ public class AdminController extends OrchidController {
             Object listItem = foundList.getItem(id);
             if (listItem != null) {
                 Map<String, Object> data = new HashMap<>();
+                data.put("controller", this);
+                data.put("cxt", context);
                 data.put("adminLists", adminLists);
                 data.put("httpServerPort", server.get().getHttpServerPort());
                 data.put("websocketPort", server.get().getWebsocketPort());
@@ -104,5 +116,17 @@ public class AdminController extends OrchidController {
         else {
             return new OrchidResponse("List not found");
         }
+    }
+
+    public boolean hasOptions(Object object) {
+        return object instanceof OptionsHolder;
+    }
+
+    public List<OptionsDescription> getOptions(Object object) {
+        if(object instanceof OptionsHolder) {
+            return ((OptionsHolder) object).describeOptions(context);
+        }
+
+        return new ArrayList<>();
     }
 }

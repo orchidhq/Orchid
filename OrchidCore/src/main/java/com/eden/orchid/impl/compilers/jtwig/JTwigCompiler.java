@@ -10,6 +10,8 @@ import org.jtwig.environment.EnvironmentFactory;
 import org.jtwig.functions.JtwigFunction;
 import org.jtwig.resource.loader.TypedResourceLoader;
 import org.jtwig.resource.reference.ResourceReference;
+import org.jtwig.cache.CacheExtension;
+import org.jtwig.cache.configuration.DefaultCacheConfiguration;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,6 +44,7 @@ public class JTwigCompiler extends OrchidCompiler {
         }
         config.resources().resourceLoaders().set(loaders);
 
+        config.extensions().add(new CacheExtension(new DefaultCacheConfiguration()));
 
         jtwigEnvironment = config.build();
     }

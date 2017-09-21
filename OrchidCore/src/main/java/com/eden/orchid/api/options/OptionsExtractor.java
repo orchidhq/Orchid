@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,45 @@ public class OptionsExtractor {
     }
 
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
+        Set<Field> fields = findOptionFields(optionsHolder);
+
+        for (Field field : fields) {
+            String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                    ? field.getAnnotation(Option.class).value()
+                    : field.getName();
+
+            if (field.getType().isArray()) {
+                setOptionArray(optionsHolder, field, options, key);
+            }
+            else if (List.class.isAssignableFrom(field.getType())) {
+                setOptionArray(optionsHolder, field, options, key);
+            }
+            else {
+                setOption(optionsHolder, field, options, key);
+            }
+        }
+    }
+
+    public List<OptionsDescription> describeOptions(OptionsHolder optionsHolder) {
+        Set<Field> fields = findOptionFields(optionsHolder);
+
+        List<OptionsDescription> optionDescriptions = new ArrayList<>();
+
+        for (Field field : fields) {
+            String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                    ? field.getAnnotation(Option.class).value()
+                    : field.getName();
+            String description = (field.getAnnotation(Description.class) != null && !EdenUtils.isEmpty(field.getAnnotation(Description.class).value()))
+                    ? field.getAnnotation(Description.class).value()
+                    : "";
+
+            optionDescriptions.add(new OptionsDescription(key, field.getType(), description));
+        }
+
+        return optionDescriptions;
+    }
+
+    private Set<Field> findOptionFields(OptionsHolder optionsHolder) {
         Class<?> optionsHolderClass = optionsHolder.getClass();
 
         Set<Field> fields = new HashSet<>();
@@ -37,21 +77,7 @@ public class OptionsExtractor {
             optionsHolderClass = optionsHolderClass.getSuperclass();
         }
 
-        for (Field field : fields) {
-            String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
-                    ? field.getAnnotation(Option.class).value()
-                    : field.getName();
-
-            if (field.getType().isArray()) {
-                setOptionArray(optionsHolder, field, options, key);
-            }
-            else if (List.class.isAssignableFrom(field.getType())) {
-                setOptionArray(optionsHolder, field, options, key);
-            }
-            else {
-                setOption(optionsHolder, field, options, key);
-            }
-        }
+        return fields;
     }
 
     private void setOptionArray(OptionsHolder optionsHolder, Field field, JSONObject options, String key) {

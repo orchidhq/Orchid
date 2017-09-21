@@ -1,5 +1,4 @@
-<h1>{{ class(listItem).name }}</h1>
-<h3>{{ listItem.priority }}</h3>
-<h3><code>{{ listItem.flag }}</code></h3>
-<h3>{{ listItem.itemLength }}</h3>
-<h3>{{ listItem.required }}</h3>
+<h1>{{ class(listItem).simpleName | capitalize }}</h1>
+<p><code>{{ listItem.priority }}: [{{ listItem.flag }}]</code></p>
+<p>{{ listItem.itemLength }}</p>
+<p>{{ listItem.required }}</p>
