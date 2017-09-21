@@ -14,7 +14,7 @@ public class OrchidSiteImpl implements OrchidSite {
 
     @Getter private final String orchidVersion;
     @Getter @Setter private String version;
-    @Getter @Setter private String baseUrl;
+    @Getter private String baseUrl;
     @Getter @Setter private String environment;
 
     @Inject

@@ -47,8 +47,7 @@ ext {
         }
     }
     else {
-//        commonBaseUrl = 'http://localhost:8080'
-        commonBaseUrl = 'https://javaeden.github.io/Orchid'
+        commonBaseUrl = 'http://localhost:8080'
     }
 }
 

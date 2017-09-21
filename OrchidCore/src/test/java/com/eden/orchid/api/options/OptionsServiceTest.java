@@ -26,7 +26,7 @@ public final class OptionsServiceTest {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new OptionsServiceImpl("test");
+        service = new OptionsServiceImpl();
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
