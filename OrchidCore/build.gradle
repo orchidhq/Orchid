@@ -48,3 +48,21 @@ project.parent.subprojects.each { subproject ->
 
     project.tasks.javadoc.shouldRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'javadoc') }
 }
+
+// Generate a Class containing the current build version, so it can be injected into OrchidSite
+task generateSources {
+    def outputDir = file("$buildDir/generated-src")
+    outputs.dir outputDir
+    doFirst {
+        def srcFile = new File(outputDir, "com/eden/orchid/OrchidVersion.java")
+        srcFile.parentFile.mkdirs()
+        srcFile.write("""
+package com.eden.orchid;
+public class OrchidVersion {
+   public static String getVersion() { return "$project.version"; }
+}
+""")
+    }
+}
+compileJava.dependsOn generateSources
+compileJava.source generateSources.outputs.files, sourceSets.main.java

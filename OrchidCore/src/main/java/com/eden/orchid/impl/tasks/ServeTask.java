@@ -31,8 +31,8 @@ public class ServeTask extends OrchidTask {
 
     @Override
     public void run() {
-        contextProvider.get().build();
         contextProvider.get().serve();
+        contextProvider.get().build();
         contextProvider.get().watch();
     }
 }

@@ -32,10 +32,15 @@ import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
+import com.eden.orchid.api.site.OrchidSite;
+import com.eden.orchid.api.site.OrchidSiteImpl;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.ThemeService;
 import com.eden.orchid.api.theme.ThemeServiceImpl;
+import com.google.inject.Provides;
+import com.google.inject.name.Named;
+import com.eden.orchid.OrchidVersion;
 
 public class ApiModule extends OrchidModule {
 
@@ -73,5 +78,11 @@ public class ApiModule extends OrchidModule {
                 OptionsHolderOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
                 JSONArrayOptionExtractor.class);
+    }
+
+    @Provides
+    OrchidSite provideOrchidSite(@Named("v") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment) {
+        OrchidSite site = new OrchidSiteImpl(OrchidVersion.getVersion(), version, baseUrl, environment);
+        return site;
     }
 }

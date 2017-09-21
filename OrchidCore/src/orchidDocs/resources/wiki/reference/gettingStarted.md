@@ -20,7 +20,7 @@ your project's `build.gradle` file like so:
 
 plugins {
     // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL
-    id: 'io.github.javaeden.orchid:orchidPlugin:{{flags.v}}'
+    id: 'io.github.javaeden.orchid:orchidPlugin:{{site.version}}'
 }
 
 repositories {
@@ -33,7 +33,7 @@ repositories {
 dependencies {
     // Add an Orchid Bundle. OrchidAll comes with all official themes included.
     // You must include a theme separately when using the OrchidBlog and OrchidProduct bundles 
-    orchidDocsCompile 'io.github.javaeden.orchid:OrchidAll:{{flags.v}}'
+    orchidDocsCompile 'io.github.javaeden.orchid:OrchidAll:{{site.version}}'
 }
 
 orchid {
@@ -46,7 +46,7 @@ orchid {
     
     // The following properties are optional
     
-    baseUrl = "{{flags.baseUrl}}"                 // a baseUrl appended to all generated links. Defaults to '/'
+    baseUrl = "{{site.baseUrl}}"                  // a baseUrl appended to all generated links. Defaults to '/'
     srcDir  = "path/to/new/source/directory"      // defaults to 'src/orchidDocs/resources'
     destDir = "path/to/new/destination/directory" // defaults to 'build/docs/javadoc'
     runTask = "build"                             // specify a task to run with 'gradle orchidRun'

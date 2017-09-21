@@ -8,6 +8,7 @@ import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.resources.ResourceService;
+import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
 import com.google.inject.Injector;
@@ -28,6 +29,7 @@ import java.util.TreeSet;
 public final class OrchidContextImpl implements OrchidContext {
 
     private Injector injector;
+    private OrchidSite site;
 
     private Map<Class<? extends OrchidService>, OrchidService> services;
 
@@ -35,6 +37,7 @@ public final class OrchidContextImpl implements OrchidContext {
     public OrchidContextImpl(
             Injector injector,
 
+            OrchidSite site,
             CompilerService compilerService,
             ThemeService themeService,
             EventService eventService,
@@ -47,8 +50,10 @@ public final class OrchidContextImpl implements OrchidContext {
             Set<OrchidService>additionalServices
     ) {
         this.injector = injector;
+        this.site = site;
 
         services = new HashMap<>();
+        initializeService(OrchidSite.class, site);
         initializeService(CompilerService.class, compilerService);
         initializeService(ThemeService.class, themeService);
         initializeService(EventService.class, eventService);

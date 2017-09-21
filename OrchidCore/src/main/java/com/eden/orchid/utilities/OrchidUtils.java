@@ -3,7 +3,6 @@ package com.eden.orchid.utilities;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.OrchidFlags;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,9 +23,8 @@ import java.util.stream.Stream;
 
 public final class OrchidUtils {
     public static String applyBaseUrl(OrchidContext context, String url) {
-        return OrchidFlags.getInstance().getString("baseUrl") + "/" + url;
+        return context.getBaseUrl() + "/" + OrchidUtils.normalizePath(url);
     }
-
 
     public static List<String> wrapString(String content, int width) {
         List<String> matchList = new ArrayList<>();

@@ -2,7 +2,6 @@ package com.eden.orchid.api.theme.pages;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,7 +53,7 @@ public final class OrchidReference {
     public OrchidReference(OrchidContext context) {
         this.context = context;
 
-        baseUrl = OrchidUtils.normalizePath(OrchidFlags.getInstance().getString("baseUrl"));
+        baseUrl = context.getBaseUrl();
     }
 
     public OrchidReference(OrchidContext context, String fullFileName) {

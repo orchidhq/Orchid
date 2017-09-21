@@ -134,6 +134,7 @@ public final class Orchid {
         Clog.i(flagLog);
 
         context = injector.getInstance(OrchidContext.class);
+        Clog.i("Running Orchid version {}, site version {} in {} environment", context.getOrchidVersion(), context.getVersion(), context.getEnvironment());
         context.start();
         context.finish();
     }

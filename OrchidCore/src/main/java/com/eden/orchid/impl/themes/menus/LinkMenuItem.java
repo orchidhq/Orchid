@@ -8,7 +8,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.google.inject.name.Named;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import java.util.List;
 public class LinkMenuItem implements OrchidMenuItemFactory {
 
     private OrchidContext context;
-    private String baseUrl;
 
     @Option
     public String title;
@@ -26,9 +24,8 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
     public String url;
 
     @Inject
-    public LinkMenuItem(OrchidContext context, @Named("baseUrl") String baseUrl) {
+    public LinkMenuItem(OrchidContext context) {
         this.context = context;
-        this.baseUrl = baseUrl;
     }
 
     @Override
@@ -42,10 +39,10 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
 
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(url)) {
             if(url.trim().equals("/")) {
-                url = this.baseUrl;
+                url = context.getBaseUrl();
             }
             else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-                url = OrchidUtils.applyBaseUrl(context, OrchidUtils.normalizePath(url));
+                url = OrchidUtils.applyBaseUrl(context, url);
             }
 
             menuItems.add(new OrchidMenuItem(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url))));

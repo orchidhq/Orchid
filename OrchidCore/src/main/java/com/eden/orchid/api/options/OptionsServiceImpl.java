@@ -6,11 +6,9 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.google.inject.name.Named;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,16 +18,10 @@ import java.util.Objects;
 public class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;
-    private String environment;
 
     private String[] formats = new String[]{"config-#{$1}", "config"};
 
     private JSONObject optionsData;
-
-    @Inject
-    public OptionsServiceImpl(@Named("environment") String environment) {
-        this.environment = environment;
-    }
 
     @Override
     public void initialize(OrchidContext context) {
@@ -75,7 +67,7 @@ public class OptionsServiceImpl implements OptionsService {
     @Override
     public JSONObject loadConfigFile() {
         return Arrays.stream(formats)
-                     .map(format -> context.getDatafile(Clog.format(format, environment)))
+                     .map(format -> context.getDatafile(Clog.format(format, context.getEnvironment())))
                      .filter(Objects::nonNull)
                      .findFirst()
                      .orElse(null);
@@ -130,6 +122,7 @@ public class OptionsServiceImpl implements OptionsService {
             }
         }
 
+        siteData.put("site", context.getSite());
         siteData.put("index", context.getIndex());
         siteData.put("options", context.getOptionsData().toMap());
         siteData.put("theme", context.getTheme());
