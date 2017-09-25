@@ -20,7 +20,7 @@
         <h1><a href="#">{{ options.about.name }}</a></h1>
         <nav class="links">
             <ul>
-                {% for menuItem in page.theme.getMenu() %}
+                {% for menuItem in theme.menu.menuItems %}
                     {% include 'includes/topNavMenuItem.twig' %}
                 {% endfor %}
             </ul>
@@ -38,7 +38,7 @@
     <section id="menu">
         <section>
             <ul class="links">
-                {% for menuItem in page.theme.getMenu() %}
+                {% for menuItem in page.menu.menuItems %}
                     {% include 'includes/topNavMenuItem.twig' %}
                 {% endfor %}
             </ul>

@@ -17,17 +17,8 @@
 </header>
 <main>
     <div class="container">
-        {% block jumbotron %}
-        {% endblock %}
-        {% block pageComponents %}
-            {% block pageContent %}
-            {% endblock %}
-            {% block remainingComponents %}
-                {% for component in page.remainingComponents %}
-                    {% include component | template('component') %}
-                {% endfor %}
-            {% endblock %}
-        {% endblock %}
+        {% block jumbotron %}{% endblock %}
+        {% embed 'includes/pageContent.twig' %}{% endembed %}
     </div>
 </main>
 

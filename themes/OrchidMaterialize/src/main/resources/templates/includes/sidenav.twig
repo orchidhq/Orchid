@@ -57,7 +57,7 @@
         </script>
     {% endif %}
 
-    {% for menuItem in page.theme.menu() %}
+    {% for menuItem in theme.menu.menuItems %}
         {% include 'includes/menuItem.twig' %}
     {% endfor %}
 </ul>

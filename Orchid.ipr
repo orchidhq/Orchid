@@ -79,22 +79,22 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module filepath="$PROJECT_DIR$/Orchid.iml" fileurl="file://$PROJECT_DIR$/Orchid.iml" />
-      <module filepath="$PROJECT_DIR$/bundles/OrchidAll/OrchidAll.iml" fileurl="file://$PROJECT_DIR$/bundles/OrchidAll/OrchidAll.iml" />
-      <module filepath="$PROJECT_DIR$/bundles/OrchidBlog/OrchidBlog.iml" fileurl="file://$PROJECT_DIR$/bundles/OrchidBlog/OrchidBlog.iml" />
-      <module filepath="$PROJECT_DIR$/themes/OrchidBsDoc/OrchidBsDoc.iml" fileurl="file://$PROJECT_DIR$/themes/OrchidBsDoc/OrchidBsDoc.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidChangelog/OrchidChangelog.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidChangelog/OrchidChangelog.iml" />
-      <module filepath="$PROJECT_DIR$/OrchidCore/OrchidCore.iml" fileurl="file://$PROJECT_DIR$/OrchidCore/OrchidCore.iml" />
-      <module filepath="$PROJECT_DIR$/themes/OrchidEditorial/OrchidEditorial.iml" fileurl="file://$PROJECT_DIR$/themes/OrchidEditorial/OrchidEditorial.iml" />
-      <module filepath="$PROJECT_DIR$/themes/OrchidFutureImperfect/OrchidFutureImperfect.iml" fileurl="file://$PROJECT_DIR$/themes/OrchidFutureImperfect/OrchidFutureImperfect.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidJavadoc/OrchidJavadoc.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidJavadoc/OrchidJavadoc.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidKSS/OrchidKSS.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidKSS/OrchidKSS.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidLanguagePack/OrchidLanguagePack.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidLanguagePack/OrchidLanguagePack.iml" />
-      <module filepath="$PROJECT_DIR$/themes/OrchidMaterialize/OrchidMaterialize.iml" fileurl="file://$PROJECT_DIR$/themes/OrchidMaterialize/OrchidMaterialize.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" />
-      <module filepath="$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" fileurl="file://$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" />
-      <module filepath="$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" fileurl="file://$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Orchid.iml" filepath="$PROJECT_DIR$/Orchid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bundles/OrchidAll/OrchidAll.iml" filepath="$PROJECT_DIR$/bundles/OrchidAll/OrchidAll.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bundles/OrchidBlog/OrchidBlog.iml" filepath="$PROJECT_DIR$/bundles/OrchidBlog/OrchidBlog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themes/OrchidBsDoc/OrchidBsDoc.iml" filepath="$PROJECT_DIR$/themes/OrchidBsDoc/OrchidBsDoc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidChangelog/OrchidChangelog.iml" filepath="$PROJECT_DIR$/plugins/OrchidChangelog/OrchidChangelog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OrchidCore/OrchidCore.iml" filepath="$PROJECT_DIR$/OrchidCore/OrchidCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themes/OrchidEditorial/OrchidEditorial.iml" filepath="$PROJECT_DIR$/themes/OrchidEditorial/OrchidEditorial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themes/OrchidFutureImperfect/OrchidFutureImperfect.iml" filepath="$PROJECT_DIR$/themes/OrchidFutureImperfect/OrchidFutureImperfect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidJavadoc/OrchidJavadoc.iml" filepath="$PROJECT_DIR$/plugins/OrchidJavadoc/OrchidJavadoc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidKSS/OrchidKSS.iml" filepath="$PROJECT_DIR$/plugins/OrchidKSS/OrchidKSS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidLanguagePack/OrchidLanguagePack.iml" filepath="$PROJECT_DIR$/plugins/OrchidLanguagePack/OrchidLanguagePack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themes/OrchidMaterialize/OrchidMaterialize.iml" filepath="$PROJECT_DIR$/themes/OrchidMaterialize/OrchidMaterialize.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" filepath="$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" filepath="$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" filepath="$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" filepath="$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
