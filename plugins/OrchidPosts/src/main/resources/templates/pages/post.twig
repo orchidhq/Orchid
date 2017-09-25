@@ -1,10 +1,5 @@
 {% extends page | template('layout') %}
 
 {% block pageContent %}
-    <div class="post-content">
-        {% include page.getComponent('pageContent') | template('component') %}
-    </div>
-    <div class="post-tags">
-        {% include page.getComponent('postTags') | template('component') %}
-    </div>
+
 {% endblock %}

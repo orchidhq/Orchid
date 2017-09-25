@@ -1,6 +1,7 @@
 package com.eden.orchid.api;
 
 import com.eden.orchid.OrchidModule;
+import com.eden.orchid.OrchidVersion;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.converters.BooleanConverter;
@@ -22,6 +23,7 @@ import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.options.OptionsServiceImpl;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
+import com.eden.orchid.api.options.extractors.ComponentHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
@@ -29,6 +31,7 @@ import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
+import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
@@ -40,7 +43,6 @@ import com.eden.orchid.api.theme.ThemeService;
 import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
-import com.eden.orchid.OrchidVersion;
 
 public class ApiModule extends OrchidModule {
 
@@ -77,7 +79,10 @@ public class ApiModule extends OrchidModule {
                 DoubleOptionExtractor.class,
                 OptionsHolderOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
-                JSONArrayOptionExtractor.class);
+                JSONArrayOptionExtractor.class,
+                OrchidMenuOptionExtractor.class,
+                ComponentHolderOptionExtractor.class
+        );
     }
 
     @Provides

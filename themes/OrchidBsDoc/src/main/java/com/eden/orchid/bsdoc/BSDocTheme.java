@@ -10,12 +10,7 @@ public class BSDocTheme extends Theme {
 
     @Inject
     public BSDocTheme(OrchidContext context) {
-        super(context, 100);
-    }
-
-    @Override
-    public String getKey() {
-        return "BsDoc";
+        super(context, "BsDoc", 100);
     }
 
     @Override

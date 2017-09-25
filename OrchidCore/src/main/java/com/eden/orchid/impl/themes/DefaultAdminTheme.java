@@ -11,12 +11,7 @@ public class DefaultAdminTheme extends AdminTheme {
 
     @Inject
     public DefaultAdminTheme(OrchidContext context) {
-        super(context);
-    }
-
-    @Override
-    public String getKey() {
-        return "Default";
+        super(context, "Default");
     }
 
     @Override

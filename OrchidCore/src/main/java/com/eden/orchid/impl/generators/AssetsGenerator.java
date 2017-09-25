@@ -1,13 +1,11 @@
 package com.eden.orchid.impl.generators;
 
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.Description;
-import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,26 +14,6 @@ import java.util.List;
 
 @Singleton
 public class AssetsGenerator extends OrchidGenerator {
-
-    public static String[] binaryExtensions = new String[]{
-            "jpg",
-            "jpeg",
-            "png",
-            "pdf",
-            "gif",
-            "svg",
-
-            // Webfont Formats
-            "otf",
-            "eot",
-            "ttf",
-            "woff",
-            "woff2",
-    };
-
-    @Option("binaryExtensions")
-    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
-    public String[] customBinaryExtensions;
 
     @Inject
     public AssetsGenerator(OrchidContext context, OrchidRenderer renderer) {
@@ -62,10 +40,10 @@ public class AssetsGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
-             .filter(page -> isBinaryFile(page.getReference().getOutputExtension(), this.customBinaryExtensions))
+             .filter(page -> context.isBinaryExtension(page.getReference().getOutputExtension()))
              .forEach(renderer::renderBinary);
         pages.stream()
-             .filter(page -> isBinaryFile(page.getReference().getOutputExtension(), this.customBinaryExtensions))
+             .filter(OrchidUtils.not(page -> context.isBinaryExtension(page.getReference().getOutputExtension())))
              .forEach(renderer::renderRaw);
 
         context.getGlobalAssetHolder()
@@ -85,29 +63,6 @@ public class AssetsGenerator extends OrchidGenerator {
                .getStyles()
                .stream()
                .forEach(renderer::renderRaw);
-    }
-
-    public static boolean isBinaryFile(String outputExtension, String[] customBinaryExtensions) {
-
-        boolean isBinary = false;
-
-        for (String binaryExtension : binaryExtensions) {
-            if (outputExtension.equalsIgnoreCase(binaryExtension)) {
-                isBinary = true;
-                break;
-            }
-        }
-
-        if (!EdenUtils.isEmpty(customBinaryExtensions)) {
-            for (String binaryExtension : customBinaryExtensions) {
-                if (outputExtension.equalsIgnoreCase(binaryExtension)) {
-                    isBinary = true;
-                    break;
-                }
-            }
-        }
-
-        return isBinary;
     }
 }
 

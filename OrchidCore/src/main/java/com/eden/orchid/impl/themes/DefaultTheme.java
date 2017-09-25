@@ -9,11 +9,7 @@ public class DefaultTheme extends Theme {
 
     @Inject
     public DefaultTheme(OrchidContext context) {
-        super(context, 100);
+        super(context, "Default", 100);
     }
 
-    @Override
-    public String getKey() {
-        return "Default";
-    }
 }

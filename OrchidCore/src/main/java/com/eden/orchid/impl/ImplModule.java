@@ -16,6 +16,7 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
@@ -30,6 +31,7 @@ import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
 import com.eden.orchid.impl.resources.CoreLocalResourceSource;
 import com.eden.orchid.impl.server.admin.AdminController;
 import com.eden.orchid.impl.server.admin.lists.CompilersList;
+import com.eden.orchid.impl.server.admin.lists.ComponentsList;
 import com.eden.orchid.impl.server.admin.lists.GeneratorsList;
 import com.eden.orchid.impl.server.admin.lists.OptionsList;
 import com.eden.orchid.impl.server.admin.lists.ParsersList;
@@ -42,6 +44,9 @@ import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.tasks.WatchTask;
 import com.eden.orchid.impl.themes.DefaultAdminTheme;
 import com.eden.orchid.impl.themes.DefaultTheme;
+import com.eden.orchid.impl.themes.components.LicenseComponent;
+import com.eden.orchid.impl.themes.components.PageContentComponent;
+import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
@@ -99,8 +104,13 @@ public class ImplModule extends OrchidModule {
         addToSet(OrchidMenuItemFactory.class,
                 DividerMenuItem.class,
                 LinkMenuItem.class,
-                IndexMenuItem.class
-        );
+                IndexMenuItem.class);
+
+        // Component Types
+        addToSet(OrchidComponent.class,
+                LicenseComponent.class,
+                ReadmeComponent.class,
+                PageContentComponent.class);
 
         // Server
         addToSet(OrchidEventListener.class,
@@ -111,6 +121,7 @@ public class ImplModule extends OrchidModule {
 
         addToSet(AdminList.class,
                 CompilersList.class,
+                ComponentsList.class,
                 GeneratorsList.class,
                 OptionsList.class,
                 ParsersList.class,

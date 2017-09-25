@@ -12,14 +12,11 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.posts.components.PostTagsComponent;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.pages.PostTagArchivePage;
 import com.eden.orchid.posts.permalink.PostsPermalinkStrategy;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -143,11 +140,6 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
             if (matcher.matches()) {
                 PostPage post = new PostPage(entry);
 
-                JSONObject pageData =
-                        (OrchidUtils.elementIsObject(entry.getEmbeddedData()))
-                                ? (JSONObject) entry.getEmbeddedData().getElement()
-                                : new JSONObject();
-
                 int year = Integer.parseInt(matcher.group(1));
                 int month = Integer.parseInt(matcher.group(2));
                 int day = Integer.parseInt(matcher.group(3));
@@ -166,13 +158,8 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
                 post.getReference().setTitle(title);
                 post.setTitle(title);
-                post.setData(pageData);
 
                 permalinkStrategy.applyPermalink(post);
-
-                post.addComponent(PostTagsComponent.class);
-
-                post.extractOptions(context, post.getData());
 
                 posts.add(post);
             }

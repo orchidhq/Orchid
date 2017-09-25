@@ -35,6 +35,21 @@ public final class OrchidMenu {
         }
     }
 
+    public boolean isEmpty() {
+        if (menuItems != null) {
+            if(menuItems.size() > 0) {
+                return false;
+            }
+        }
+        else if (menuJson != null) {
+            if(menuJson.length() > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public List<OrchidMenuItem> getMenuItems() {
         if (menuItems == null) {
             menuItems = new ArrayList<>();

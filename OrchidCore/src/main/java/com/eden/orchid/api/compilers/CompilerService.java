@@ -5,6 +5,7 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidService;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -135,6 +136,31 @@ public interface CompilerService extends OrchidService {
      */
     default String precompile(String input, Object... data) {
         return getService(CompilerService.class).precompile(input, data);
+    }
+
+    /**
+     * Many file types need to be processed and rendered as a binary stream rather than being decoded into a String.
+     * This method returns a List of the current known binary file extensions, so it can be determined how to process
+     * a given file type.
+     *
+     * @return the current known binary file extensions
+     *
+     * @since v1.0.0
+     */
+    default List<String> getBinaryExtensions() {
+        return getService(CompilerService.class).getBinaryExtensions();
+    }
+
+    /**
+     * Determines if a given file extension is known to require processing as a binary stream rather than an encoded
+     * String.
+     *
+     * @return true if the extension represents a binary file type, false otherwise
+     *
+     * @since v1.0.0
+     */
+    default boolean isBinaryExtension(String extension) {
+        return getService(CompilerService.class).isBinaryExtension(extension);
     }
 
 }

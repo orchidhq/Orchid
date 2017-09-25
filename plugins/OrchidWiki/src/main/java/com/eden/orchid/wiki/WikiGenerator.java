@@ -130,9 +130,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
             WikiPage page = new WikiPage(resource, a.text());
 
-
-
-            page.addMenuItem(null, pageMenuItem);
+            page.getMenu().addMenuItem(pageMenuItem);
 
             page.setOrder(i);
             i++;
@@ -158,7 +156,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
         String sectionTitle = (!EdenUtils.isEmpty(section)) ? section : "Wiki";
         WikiSummaryPage summaryPage = new WikiSummaryPage(summary, OrchidUtils.camelcaseToTitleCase(sectionTitle));
         summaryPage.getReference().setUsePrettyUrl(true);
-        summaryPage.addMenuItem(null, pageMenuItem);
+        summaryPage.getMenu().addMenuItem(pageMenuItem);
 
         return new EdenPair<>(summaryPage, wiki);
     }

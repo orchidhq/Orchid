@@ -11,4 +11,5 @@ public class PageContentComponent extends OrchidComponent {
     public PageContentComponent(OrchidContext context) {
         super(100, "pageContent", context);
     }
+
 }

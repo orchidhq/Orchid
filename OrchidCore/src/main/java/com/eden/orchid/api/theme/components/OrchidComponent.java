@@ -6,7 +6,6 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,6 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
 
     protected String key;
     protected OrchidContext context;
-    protected OrchidPage page;
 
     private boolean rendered;
 
@@ -32,10 +30,6 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.key = key;
         this.context = context;
         this.assets = new AssetHolderDelegate(context);
-    }
-
-    public void prepare(OrchidPage page) {
-        this.page = page;
     }
 
     @Override

@@ -3,7 +3,7 @@
         <span class="opener">{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</span>
         <ul>
             {% for childLink in menuItem.children %}
-                {% include 'includes/menuItem.twig' with {menuItem: childLink}%}
+                {% include 'includes/menuItem.twig' with {menuItem: childLink} only %}
             {% endfor %}
         </ul>
     </li>

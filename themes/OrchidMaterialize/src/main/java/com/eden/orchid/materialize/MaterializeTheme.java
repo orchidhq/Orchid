@@ -18,12 +18,7 @@ public class MaterializeTheme extends Theme {
 
     @Inject
     public MaterializeTheme(OrchidContext context) {
-        super(context, 100);
-    }
-
-    @Override
-    public String getKey() {
-        return "Materialize";
+        super(context, "Materialize", 100);
     }
 
     @Override

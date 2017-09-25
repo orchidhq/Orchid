@@ -5,7 +5,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.generators.AssetsGenerator;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
 
@@ -31,7 +30,7 @@ public class AdminAssetResponse {
         Clog.i("Rendering admin File: #{$1}", targetPath);
         if (res != null) {
 
-            if(AssetsGenerator.isBinaryFile(FilenameUtils.getExtension(targetFile.getName()), null)) {
+            if(context.isBinaryExtension(FilenameUtils.getExtension(targetFile.getName()))) {
                 try {
                     InputStream stream = res.getContentStream();
                     return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, stream, stream.available());

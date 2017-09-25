@@ -4,18 +4,43 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Description;
+import com.eden.orchid.api.options.Option;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
 public final class CompilerServiceImpl implements CompilerService {
+
+    private String[] binaryExtensions = new String[]{
+            "jpg",
+            "jpeg",
+            "png",
+            "pdf",
+            "gif",
+            "svg",
+
+            // Webfont Formats
+            "otf",
+            "eot",
+            "ttf",
+            "woff",
+            "woff2",
+    };
+
+    @Option("binaryExtensions")
+    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
+    public String[] customBinaryExtensions;
 
     private OrchidContext context;
 
@@ -104,6 +129,28 @@ public final class CompilerServiceImpl implements CompilerService {
     public String getOutputExtension(String extension) {
         OrchidCompiler compiler = compilerFor(extension);
         return (compiler != null) ? compiler.getOutputExtension() : extension;
+    }
+
+    public List<String> getBinaryExtensions() {
+        List<String> allBinaryExtensions = new ArrayList<>();
+
+        Collections.addAll(allBinaryExtensions, binaryExtensions);
+
+        if (!EdenUtils.isEmpty(customBinaryExtensions)) {
+            Collections.addAll(allBinaryExtensions, customBinaryExtensions);
+        }
+
+        return allBinaryExtensions;
+    }
+
+    public boolean isBinaryExtension(String extension) {
+        for (String binaryExtension : getBinaryExtensions()) {
+            if (extension.equalsIgnoreCase(binaryExtension)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

@@ -6,7 +6,7 @@ import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.themes.components.ReadmeComponent;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -27,11 +27,29 @@ public class HomepageGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
-        OrchidResource resource = new StringResource(context, "index.twig", "");
-        OrchidPage page = new OrchidPage(resource, "frontPage");
+
+        OrchidResource resource = context.getLocalResourceEntry("homepage.md");
+        OrchidPage page;
+        if(resource == null) {
+            resource = new StringResource(context, "index.twig", "");
+            page = new OrchidPage(resource, "frontPage");
+
+            JSONObject readmeComponent = new JSONObject();
+            readmeComponent.put("type", "readme");
+            page.getComponents().addComponent(readmeComponent);
+
+            JSONObject licenseComponent = new JSONObject();
+            licenseComponent.put("type", "license");
+            page.getComponents().addComponent(licenseComponent);
+        }
+        else {
+            page = new OrchidPage(resource, "frontPage");
+            page.getReference().setFileName("index");
+        }
+
         page.getReference().setTitle("Home");
         page.getReference().setUsePrettyUrl(false);
-        page.addComponent(ReadmeComponent.class);
+
         pages.add(page);
         return pages;
     }

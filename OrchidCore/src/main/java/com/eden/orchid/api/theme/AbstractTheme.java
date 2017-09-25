@@ -15,14 +15,18 @@ public abstract class AbstractTheme extends DefaultResourceSource implements Opt
 
     protected AssetHolder assets;
 
+    @Getter
+    protected final String key;
+
     @Getter @Setter
     protected JSONObject options;
 
     @Getter @Setter
     protected boolean hasRenderedAssets;
 
-    public AbstractTheme(OrchidContext context, int priority) {
+    public AbstractTheme(OrchidContext context, String key, int priority) {
         super(context, priority);
+        this.key = key;
         this.assets = new ThemeAssetHolder(context, this);
     }
 
@@ -31,8 +35,6 @@ public abstract class AbstractTheme extends DefaultResourceSource implements Opt
         OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
         extractor.extractOptions(this, options);
     }
-
-    public abstract String getKey();
 
     public void clearCache() {
         assets.clearAssets();

@@ -18,12 +18,7 @@ public class EditorialTheme extends Theme {
 
     @Inject
     public EditorialTheme(OrchidContext context) {
-        super(context, 100);
-    }
-
-    @Override
-    public String getKey() {
-        return "Editorial";
+        super(context, "Editorial", 100);
     }
 
     @Override
