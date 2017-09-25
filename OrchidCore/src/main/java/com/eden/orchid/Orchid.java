@@ -194,6 +194,44 @@ public final class Orchid {
             private BuildStart(Object sender) { super(sender); }
             public static BuildStart fire(Object sender) { return new BuildStart(sender); }
         }
+
+        public static class ProgressEvent extends OrchidEvent {
+            protected String progressType;
+            protected int currentProgress;
+            protected int maxProgress;
+
+            private ProgressEvent(Object sender, String progressType, int currentProgress, int maxProgress) {
+                super(sender);
+                this.progressType = progressType;
+                this.currentProgress = currentProgress;
+                this.maxProgress = maxProgress;
+            }
+
+            @Override
+            public String toString() {
+                return Clog.format("progress[{}] {}/{}", progressType, currentProgress, maxProgress);
+            }
+        }
+
+        public static class IndexProgress extends ProgressEvent {
+            private IndexProgress(Object sender, int currentProgress, int maxProgress) {
+                super(sender, "index", currentProgress, maxProgress);
+            }
+            public static IndexProgress fire(Object sender, int currentProgress, int maxProgress) { return new IndexProgress(sender, currentProgress, maxProgress); }
+        }
+        public static class BuildProgress extends ProgressEvent {
+            protected long millis;
+            private BuildProgress(Object sender, int currentProgress, int maxProgress, long millis) {
+                super(sender, "build", currentProgress, maxProgress);
+                this.millis = millis;
+            }
+            @Override
+            public String toString() {
+                return Clog.format("progress[{}] {}/{}/{}", progressType, currentProgress, maxProgress, millis);
+            }
+            public static BuildProgress fire(Object sender, int currentProgress, int maxProgress, long millis) { return new BuildProgress(sender, currentProgress, maxProgress, millis); }
+        }
+
         public static class BuildFinish extends OrchidEvent {
             private BuildFinish(Object sender) { super(sender); }
             public static BuildFinish fire(Object sender) { return new BuildFinish(sender); }

@@ -89,6 +89,7 @@ public final class OrchidContextImpl implements OrchidContext {
         Clog.addTagToBlacklist("org.jtwig.property.resolver.CallMethodPropertyResolver");
         services.values().forEach(OrchidService::onStart);
         broadcast(Orchid.Lifecycle.OnStart.fire(this));
+        services.values().forEach(OrchidService::onPostStart);
     }
 
     @Override

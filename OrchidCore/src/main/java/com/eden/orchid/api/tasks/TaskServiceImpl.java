@@ -50,7 +50,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     }
 
     @Override
-    public void onStart() {
+    public void onPostStart() {
         run(task);
     }
 
@@ -113,20 +113,6 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         context.build();
     }
 
-    @On(Orchid.Lifecycle.BuildStart.class)
-    public void onBuildStarted(Orchid.Lifecycle.BuildStart event) {
-        if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage("Rebuilding site...");
-        }
-    }
-
-    @On(Orchid.Lifecycle.BuildFinish.class)
-    public void onBuildFinished(Orchid.Lifecycle.BuildFinish event) {
-        if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage("Site Rebuilt");
-        }
-    }
-
     @On(Orchid.Lifecycle.EndSession.class)
     public void onEndSession(Orchid.Lifecycle.EndSession event) {
         server.getWebsocket().sendMessage("Ending Session");
@@ -137,14 +123,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @On(value = OrchidEvent.class, subclasses = true)
     public void onAnyEvent(OrchidEvent event) {
         if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage("Event: " + event);
-        }
-    }
-
-    @On(value = OrchidEvent.class, subclasses = true)
-    public void onAnyEvent2(Orchid.Lifecycle.EndSession event) {
-        if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage("Event: " + event);
+            server.getWebsocket().sendMessage(event.toString());
         }
     }
 }

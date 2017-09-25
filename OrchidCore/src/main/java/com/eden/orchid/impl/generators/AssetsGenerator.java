@@ -8,7 +8,6 @@ import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +17,7 @@ import java.util.List;
 @Singleton
 public class AssetsGenerator extends OrchidGenerator {
 
-    private String[] binaryExtensions = new String[]{
+    public static String[] binaryExtensions = new String[]{
             "jpg",
             "jpeg",
             "png",
@@ -63,10 +62,10 @@ public class AssetsGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
-             .filter(this::isBinaryFile)
+             .filter(page -> isBinaryFile(page.getReference().getOutputExtension(), this.customBinaryExtensions))
              .forEach(renderer::renderBinary);
         pages.stream()
-             .filter(OrchidUtils.not(this::isBinaryFile))
+             .filter(page -> isBinaryFile(page.getReference().getOutputExtension(), this.customBinaryExtensions))
              .forEach(renderer::renderRaw);
 
         context.getGlobalAssetHolder()
@@ -88,8 +87,7 @@ public class AssetsGenerator extends OrchidGenerator {
                .forEach(renderer::renderRaw);
     }
 
-    private boolean isBinaryFile(OrchidPage page) {
-        String outputExtension = page.getReference().getOutputExtension();
+    public static boolean isBinaryFile(String outputExtension, String[] customBinaryExtensions) {
 
         boolean isBinary = false;
 

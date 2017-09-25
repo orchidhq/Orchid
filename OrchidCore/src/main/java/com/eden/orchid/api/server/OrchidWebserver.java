@@ -41,7 +41,7 @@ public class OrchidWebserver extends NanoHTTPD {
         this.fileController = fileController;
 
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-        System.out.println("\nRunning! Point your browsers to http://localhost:" + getListeningPort() + "/ \n");
+        Clog.i("Webserver Running! Point your browsers to http://localhost:" + getListeningPort() + "/");
         context.setBaseUrl(Clog.format("http://localhost:{}/", getListeningPort()));
 
         getRoutes = new ArrayList<>();

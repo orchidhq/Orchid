@@ -2,7 +2,9 @@ package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -18,9 +20,12 @@ public class ThemeAssetHolder implements AssetHolder {
 
     private OrchidContext context;
 
+    private AbstractTheme theme;
+
     @Inject
-    public ThemeAssetHolder(OrchidContext context) {
+    public ThemeAssetHolder(OrchidContext context, AbstractTheme theme) {
         this.context = context;
+        this.theme = theme;
         this.js = new ArrayList<>();
         this.css = new ArrayList<>();
     }
@@ -45,6 +50,11 @@ public class ThemeAssetHolder implements AssetHolder {
     }
 
     @Override
+    public void addJs(String jsAsset) {
+        addJs(new OrchidPage(theme.getResourceEntry(jsAsset), FilenameUtils.getBaseName(jsAsset)));
+    }
+
+    @Override
     public void addCss(OrchidPage cssAsset) {
         if(validAsset(cssAsset, CSS_EXT)) {
             cssAsset.getReference().setUsePrettyUrl(false);
@@ -56,6 +66,11 @@ public class ThemeAssetHolder implements AssetHolder {
                     cssAsset.getReference().getOutputExtension(),
                     CSS_EXT);
         }
+    }
+
+    @Override
+    public void addCss(String cssAsset) {
+        addCss(new OrchidPage(theme.getResourceEntry(cssAsset), FilenameUtils.getBaseName(cssAsset)));
     }
 
     @Override

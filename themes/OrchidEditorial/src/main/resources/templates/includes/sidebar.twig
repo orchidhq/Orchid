@@ -14,11 +14,9 @@
                 <h2>{{ theme.about.name }}</h2>
             </header>
             <ul class="top-level">
-                {% cache persistent 'mainThemeMenu' %}
-                    {% for menuItem in theme.getMenu() %}
-                        {% include 'includes/menuItem.twig' %}
-                    {% endfor %}
-                {% endcache %}
+                {% for menuItem in theme.getMenu() %}
+                    {% include 'includes/menuItem.twig' %}
+                {% endfor %}
             </ul>
 
             {% set pageMenuItems = page.getMenu() %}

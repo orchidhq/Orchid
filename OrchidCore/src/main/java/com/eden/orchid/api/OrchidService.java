@@ -6,6 +6,8 @@ public interface OrchidService {
 
     default void onStart() { }
 
+    default void onPostStart() { }
+
     default void onFinish() { }
 
     @SuppressWarnings("unchecked")

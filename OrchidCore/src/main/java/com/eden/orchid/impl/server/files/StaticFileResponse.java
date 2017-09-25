@@ -15,19 +15,22 @@ public class StaticFileResponse {
 
     private OrchidContext context;
 
-    private Map<String, String> mimeTypes;
+    public static Map<String, String> mimeTypes = new HashMap<>();
 
-    @Inject
-    public StaticFileResponse(OrchidContext context) {
-        this.context = context;
-
-        mimeTypes = new HashMap<>();
+    static {
         mimeTypes.put("html", "text/html");
         mimeTypes.put("htm",  "text/html");
         mimeTypes.put("css",  "text/css");
         mimeTypes.put("js",   "application/javascript");
         mimeTypes.put("json", "application/json");
         mimeTypes.put("svg",  "image/svg+xml");
+        mimeTypes.put("png",  "image/png");
+        mimeTypes.put("jpg",  "image/jpeg");
+    }
+
+    @Inject
+    public StaticFileResponse(OrchidContext context) {
+        this.context = context;
     }
 
     public NanoHTTPD.Response getResponse(File targetFile, String targetPath) {

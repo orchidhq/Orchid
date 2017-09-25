@@ -3,6 +3,7 @@ package com.eden.orchid.api.generators;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.registration.PrioritizedSetFilter;
@@ -31,6 +32,10 @@ public class GeneratorServiceImpl implements GeneratorService {
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
 
+    private int progress;
+    private int maxProgress;
+    private int totalPageCount;
+
     @Inject
     public GeneratorServiceImpl(Set<OrchidGenerator> generators) {
         this.allGenerators = new TreeSet<>(generators);
@@ -43,7 +48,10 @@ public class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startIndexing() {
-        this.generators = new PrioritizedSetFilter<>(context, "generators", this.allGenerators).getFilteredSet();
+        progress = 0;
+        totalPageCount = 0;
+        generators = new PrioritizedSetFilter<>(context, "generators", this.allGenerators).getFilteredSet();
+        maxProgress = this.generators.size();
 
         context.clearIndex();
 
@@ -51,12 +59,16 @@ public class GeneratorServiceImpl implements GeneratorService {
         buildExternalIndex();
 
         context.mergeIndices(context.getInternalIndex(), context.getExternalIndex());
+        context.broadcast(Orchid.Lifecycle.IndexProgress.fire(this, maxProgress, maxProgress));
     }
 
     @Override
     public void startGeneration() {
+        progress = 0;
+        maxProgress = totalPageCount;
         generators.stream()
                   .forEach(this::useGenerator);
+        context.broadcast(Orchid.Lifecycle.BuildProgress.fire(this, maxProgress, maxProgress, 0));
     }
 
 // Indexing phase
@@ -70,8 +82,10 @@ public class GeneratorServiceImpl implements GeneratorService {
     private void indexGenerator(OrchidGenerator generator) {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
+        context.broadcast(Orchid.Lifecycle.IndexProgress.fire(this, progress, maxProgress));
+
         JSONElement el = context.query(generator.getKey());
-        if(OrchidUtils.elementIsObject(el)) {
+        if (OrchidUtils.elementIsObject(el)) {
             generator.extractOptions(context, (JSONObject) el.getElement());
         }
         else {
@@ -81,26 +95,30 @@ public class GeneratorServiceImpl implements GeneratorService {
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
 
         if (!EdenUtils.isEmpty(generator.getKey()) && generatorPages != null && generatorPages.size() > 0) {
+            totalPageCount += generatorPages.size();
             OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
-            for(OrchidPage page : generatorPages) {
+            for (OrchidPage page : generatorPages) {
+                page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
-                if(page.getResource() instanceof FreeableResource) {
+                if (page.getResource() instanceof FreeableResource) {
                     ((FreeableResource) page.getResource()).free();
                 }
             }
             context.addChildIndex(generator.getKey(), index);
         }
+
+        progress++;
     }
 
     private void buildExternalIndex() {
         JSONElement externalIndexReferences = context.query("externalIndex");
 
-        if(OrchidUtils.elementIsArray(externalIndexReferences)) {
+        if (OrchidUtils.elementIsArray(externalIndexReferences)) {
             JSONArray externalIndex = (JSONArray) externalIndexReferences.getElement();
 
             for (int i = 0; i < externalIndex.length(); i++) {
                 JSONObject indexJson = this.context.loadAdditionalFile(externalIndex.getString(i));
-                if(indexJson != null) {
+                if (indexJson != null) {
                     OrchidIndex index = OrchidIndex.fromJSON(context, indexJson);
                     context.addExternalChildIndex(index);
                 }
@@ -115,19 +133,19 @@ public class GeneratorServiceImpl implements GeneratorService {
         Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
         List<? extends OrchidPage> generatorPages = null;
-        if(!EdenUtils.isEmpty(generator.getKey())) {
+        if (!EdenUtils.isEmpty(generator.getKey())) {
             generatorPages = context.getGeneratorPages(generator.getKey());
         }
-        if(generatorPages == null) {
+        if (generatorPages == null) {
             generatorPages = new ArrayList<>();
         }
 
         Theme generatorTheme = null;
-        if(!EdenUtils.isEmpty(generator.getTheme())) {
+        if (!EdenUtils.isEmpty(generator.getTheme())) {
             generatorTheme = context.findTheme(generator.getTheme());
         }
 
-        if(generatorTheme != null) {
+        if (generatorTheme != null) {
             Clog.d("Applying [{}] theme to [{}] generator", generatorTheme.getClass().getSimpleName(), generator.getKey());
             context.pushTheme(generatorTheme);
             generator.startGeneration(generatorPages);
@@ -136,6 +154,13 @@ public class GeneratorServiceImpl implements GeneratorService {
         }
         else {
             generator.startGeneration(generatorPages);
+        }
+    }
+
+    public void onPageGenerated(OrchidPage page, long millis) {
+        if (page.isIndexed()) {
+            progress++;
+            context.broadcast(Orchid.Lifecycle.BuildProgress.fire(this, progress, maxProgress, millis));
         }
     }
 }

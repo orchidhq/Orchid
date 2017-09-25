@@ -35,6 +35,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder, MenuHolder {
     @Getter @Setter protected String key;
 
     @Getter @Setter protected boolean isCurrent;
+    @Getter @Setter protected boolean isIndexed;
 
     @Getter @Setter @Option protected String title;
     @Getter @Setter @Option protected String description;

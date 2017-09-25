@@ -23,7 +23,7 @@ public abstract class AbstractTheme extends DefaultResourceSource implements Opt
 
     public AbstractTheme(OrchidContext context, int priority) {
         super(context, priority);
-        this.assets = new ThemeAssetHolder(context);
+        this.assets = new ThemeAssetHolder(context, this);
     }
 
     public void extractOptions(OrchidContext context, JSONObject options) {

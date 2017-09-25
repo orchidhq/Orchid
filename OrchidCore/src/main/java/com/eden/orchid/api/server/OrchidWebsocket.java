@@ -22,7 +22,7 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
         this.context = context;
 
         start(timeoutMinutes * 60 * 1000, true);
-        System.out.println("\nWebsocket running! Point your browsers to http://localhost:" + getListeningPort() + "/ \n");
+        Clog.i("Websocket running! Point your browsers to http://localhost:" + getListeningPort() + "/");
     }
 
     @Override
@@ -49,16 +49,12 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
 
         @Override
         protected void onOpen() {
-            Clog.d("Opened");
+            Clog.d("Websocket Opened");
         }
 
         @Override
         protected void onClose(WebSocketFrame.CloseCode code, String reason, boolean initiatedByRemote) {
-            Clog.d("Closed [#{$1}] #{$2}#{$3}", new Object[]{
-                    (initiatedByRemote ? "Remote" : "Self"),
-                    (code != null ? code : "UnknownCloseCode[" + code + "]"),
-                    (reason != null && !reason.isEmpty() ? ": " + reason : "")
-            });
+            Clog.d("Websocket Closed");
         }
 
         @Override
@@ -81,7 +77,6 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
 
         @Override
         protected void onPong(WebSocketFrame pong) {
-            Clog.d("Pong " + pong);
         }
 
         @Override
@@ -91,12 +86,10 @@ public class OrchidWebsocket extends NanoWSD implements EventListener {
 
         @Override
         protected void debugFrameReceived(WebSocketFrame frame) {
-            Clog.d("Received " + frame);
         }
 
         @Override
         protected void debugFrameSent(WebSocketFrame frame) {
-            Clog.d("Sent " + frame);
         }
     }
 }

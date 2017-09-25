@@ -103,7 +103,6 @@ public final class EventServiceImpl implements EventService {
         }
 
         eventsInProgress.push(event.getClass());
-        Clog.d("Broadcasting event: '#{$1}'", event.getClass().getSimpleName());
         for (EventHandler handler : this.eventHandlers) {
             try {
                 callMethod(event, handler);

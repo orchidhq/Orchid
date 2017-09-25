@@ -33,4 +33,9 @@ public abstract class OrchidEvent<T> {
     public T getSender() {
         return sender;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

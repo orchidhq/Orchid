@@ -1,5 +1,6 @@
 package com.eden.orchid.api.server;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.sun.nio.file.SensitivityWatchEventModifier;
@@ -75,7 +76,7 @@ public class FileWatcher {
 
             Path dir = keys.get(key);
             if (dir == null) {
-                System.err.println("WatchKey not recognized!!");
+                Clog.e("WatchKey not recognized!!");
                 continue;
             }
 

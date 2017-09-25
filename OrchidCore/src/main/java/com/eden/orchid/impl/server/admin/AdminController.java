@@ -11,6 +11,7 @@ import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.server.annotations.Get;
+import com.eden.orchid.impl.server.files.AdminAssetResponse;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
@@ -25,15 +26,17 @@ import java.util.Set;
 public class AdminController extends OrchidController {
 
     private OrchidContext context;
+    private AdminAssetResponse adminAssets;
     private Provider<OrchidServer> server;
     private Set<AdminList> adminLists;
 
     @Inject
-    public AdminController(OrchidContext context, Provider<OrchidServer> server, Set<AdminList> adminLists) {
+    public AdminController(OrchidContext context, Provider<OrchidServer> server, Set<AdminList> adminLists, AdminAssetResponse adminAssets) {
         super(1000);
         this.context = context;
         this.server = server;
         this.adminLists = adminLists;
+        this.adminAssets = adminAssets;
     }
 
     @Get(path = "/")
@@ -48,7 +51,8 @@ public class AdminController extends OrchidController {
             data.put("adminLists", adminLists);
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
-            data.put("theme", context.getAdminTheme());
+            data.put("adminTheme", context.getAdminTheme());
+            data.put("site", context.getSite());
 
             content = context.compile(resource.getReference().getExtension(), resource.getContent(), data);
         }
@@ -73,7 +77,8 @@ public class AdminController extends OrchidController {
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
             data.put("adminList", foundList);
-            data.put("theme", context.getAdminTheme());
+            data.put("adminTheme", context.getAdminTheme());
+            data.put("site", context.getSite());
 
             OrchidResource resource = context.getResourceEntry("templates/server/admin/adminList.twig");
             return new OrchidResponse(context.compile(resource.getReference().getExtension(), resource.getContent(), data));
@@ -104,7 +109,8 @@ public class AdminController extends OrchidController {
                 data.put("websocketPort", server.get().getWebsocketPort());
                 data.put("adminList", foundList);
                 data.put("listItem", listItem);
-                data.put("theme", context.getAdminTheme());
+                data.put("adminTheme", context.getAdminTheme());
+                data.put("site", context.getSite());
 
                 OrchidResource resource = context.getResourceEntry("templates/server/admin/adminListItem.twig");
                 return new OrchidResponse(context.compile(resource.getReference().getExtension(), resource.getContent(), data));

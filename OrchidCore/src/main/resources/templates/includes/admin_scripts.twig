@@ -1,0 +1,8 @@
+<!-- start:inject scripts -->
+{% set scripts = adminTheme.getScripts() %}
+{% if scripts|length > 0 %}
+    {% for script in scripts %}
+        <script src="{{ script.link }}"></script>
+    {% endfor %}
+{% endif %}
+<!-- end:inject scripts -->

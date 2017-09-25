@@ -12,7 +12,15 @@ public interface AssetHolder {
         getAssetHolder().addJs(jsAsset);
     }
 
+    default void addJs(String jsAsset) {
+        getAssetHolder().addJs(jsAsset);
+    }
+
     default void addCss(OrchidPage cssAsset) {
+        getAssetHolder().addCss(cssAsset);
+    }
+
+    default void addCss(String cssAsset) {
         getAssetHolder().addCss(cssAsset);
     }
 

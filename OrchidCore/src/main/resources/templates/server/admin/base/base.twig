@@ -1,35 +1,35 @@
+<!--
+ * CoreUI - Open Source Bootstrap Admin Template
+ * @version v1.0.0
+ * @link http://coreui.io
+ * Copyright (c) 2017 creativeLabs Łukasz Holeczek
+ * @license MIT
+ -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword"
+          content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
+    <title>CoreUI - Open Source Bootstrap Admin Template</title>
 
-    <title>Dashboard Template for Bootstrap</title>
+    {#<!-- Icons -->#}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css"
+          rel="stylesheet">
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css" rel="stylesheet">
-
-    {% include 'includes/styles.twig' %}
+    {% include 'includes/admin_styles.twig' %}
 
     {% block styles %}
 
     {% endblock %}
 
     <style>
-        body {
-            padding-top: 50px;
-        }
-
-        .starter-template {
-            padding: 40px 15px;
-            text-align: center;
-        }
-
         #form-wrapper ul {
             list-style: none;
             margin: 0;
@@ -75,61 +75,274 @@
     </style>
 </head>
 
-<body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Dashboard</a>
-    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+<header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">&#9776;</button>
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler sidebar-minimizer d-md-down-none" type="button">&#9776;</button>
+    <ul class="nav navbar-nav d-md-down-none">
+        <li class="nav-item px-3">
+            <a class="nav-link">Dashboard</a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto"></ul>
+    <button class="navbar-toggler aside-menu-toggler" type="button">&#9776;</button>
+</header>
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+<div class="app-body">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="https://github.com/JavaEden/Orchid">
+                        <i class="fa fa-github"></i>
+                        <span>Orchid</span>
+                        <span class="badge badge-primary">{{ site.orchidVersion }}</span>
+                    </a>
+                </li>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-            <ul class="nav nav-pills flex-column">
-                {% for list in adminLists %}
-                    <li class="nav-item"><a class="nav-link" href="/admin/lists/{{list.key}}">{{ list.key }}</a></li>
-                {% endfor %}
+                <li class="nav-item"><hr></li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">
+                        <i class="icon-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/innerpage">
+                        <i class="icon-home"></i>
+                        <span>inner page</span>
+                    </a>
+                </li>
             </ul>
         </nav>
+    </div>
 
-        <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
-            {% block main %}
+    <main class="main">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/admin">Orchid Admin</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+
+            <li class="breadcrumb-menu">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <a class="btn" href="https://javaeden.github.io/Orchid/latest/OrchidCore/"><i class="fa fa-book"></i> &nbsp;Documentation</a>
+                </div>
+            </li>
+        </ol>
+        <div class="progress mb-4" id="workingIndicator" style="height: 3px; background-color: #e4e5e6;">
+            <div
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    aria-valuenow="100"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    style="width: 100%; display: none;"></div>
+        </div>
+
+        <div class="container-fluid">
+            {% block mainContent %}
 
             {% endblock %}
-        </main>
-    </div>
+        </div>
+    </main>
+
+    <aside class="aside-menu">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#availableOptions" role="tab"><i
+                            class="icon-settings"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#timeline" role="tab"><i class="icon-list"></i></a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="availableOptions" role="tabpanel">
+
+                {% for adminList in adminLists %}
+                    <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
+                        <small><b>{{ adminList.key | capitalize }}</b></small>
+                    </div>
+
+                    {% for item in adminList.getItems() %}
+                        <a href="/admin/lists/{{ adminList.key }}/{{ adminList.getItemId(item) }}">
+                            <div class="callout callout-warning m-0 py-1">
+                                <div><strong>{{ class(item).simpleName }}</strong></div>
+                            </div>
+                        </a>
+                        <hr class="mx-3 my-0">
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+
+            <div class="tab-pane" id="timeline" role="tabpanel">
+                <div class="eventsHeader callout m-0 py-2 text-muted text-center bg-secondary text-uppercase">
+                    <small><b>Events</b></small>
+                </div>
+                <div class="eventsClearButton callout m-0 py-2 text-muted text-center bg-light text-uppercase" style="cursor: pointer">
+                    <small>clear</small>
+                </div>
+                <div class="eventsList"></div>
+            </div>
+        </div>
+    </aside>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
-<script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+<footer class="app-footer p-0 border-top-0">
+    <form id="messageform">
+        <div class="input-group form-control-lg p-0">
+            <span class="input-group-btn form-control-lg p-0">
+                <button class="btn btn-secondary" type="button" style="height: 50px;">Submit</button>
+            </span>
+            <input id="message" type="text" class="form-control form-control-lg" placeholder="Enter Command...">
+        </div>
+    </form>
+</footer>
 
-{% include 'includes/scripts.twig' %}
+{% include 'includes/admin_scripts.twig' %}
 
 {% block scripts %}
 
 {% endblock %}
+
+<script>
+
+    $(function () {
+        window.buildingIndicatorParent = $('#workingIndicator');
+        window.buildingIndicator = $('#workingIndicator .progress-bar');
+        window.socketMessages = $('#timeline');
+        window.eventsList = $('#timeline .eventsList');
+
+        function createWebsocketConnection() {
+            var websocketUrl = 'ws://localhost:{{ websocketPort }}';
+
+            window.socket = new WebSocket(websocketUrl);
+
+            window.socket.onopen = function (event) {
+            };
+            window.socket.onerror = function (error) {
+                console.log('WebSocket Error: ' + error);
+            };
+            window.socket.onmessage = function (event) {
+                var message = event.data;
+                if (message.startsWith("progress[index]")) {
+                    var progress = message.replace("progress[index]", '').trim().split("/");
+
+                    setProgress(progress[0], progress[1], 'warning');
+                    addMessage(false, 'Indexing Progress: ' + progress[0] + "/" + progress[1], 'warning');
+                }
+                else if (message.startsWith("progress[build]")) {
+                    var progress = message.replace("progress[build]", '').trim().split("/");
+
+
+                    setProgress(progress[0], progress[1], 'info');
+
+                    var millis = progress[2];
+                    if (millis > 0) {
+                        addMessage(false, 'Building Progress: ' + progress[0] + "/" + progress[1] + ' (took ' + millis + 'ms)', 'info');
+                    }
+                    else {
+                        addMessage(false, 'Building Progress: ' + progress[0] + "/" + progress[1], 'info');
+                    }
+                }
+                else if (message.startsWith('Event: ')) {
+                    addMessage(false, message.substring(7));
+                }
+                else {
+                    addMessage(false, message);
+                }
+            };
+            window.socket.onclose = function (event) {
+            };
+        }
+
+        $("#messageform").submit(function (e) {
+            e.preventDefault();
+            submitCommand();
+            return false;
+        });
+
+        $("#messageform .btn.btn-secondary").click(function (e) {
+            e.preventDefault();
+            submitCommand();
+            return false;
+        });
+
+        $('#timeline .eventsClearButton').click(function (e) {
+            e.preventDefault();
+            window.eventsList.html('');
+            return false;
+        });
+
+        function submitCommand() {
+            console.log("Submit command");
+            if (window.socket) {
+                var message = document.getElementById('message').value;
+                window.socket.send(message);
+                addMessage(true, message);
+                document.getElementById('message').value = '';
+            }
+            else {
+                addMessage(true, 'Websocket connection is not open', 'danger');
+            }
+        }
+
+        function addMessage(wasSent, message, colorClass) {
+            var calloutClass = (colorClass) ? colorClass : ((wasSent) ? 'warning' : 'primary');
+            var calloutName = (wasSent) ? 'Sent' : 'Received';
+
+            var maxNumberOfElements = 100;
+            var numberOfElements = window.eventsList.children().length;
+
+            if(numberOfElements > maxNumberOfElements) {
+                window.eventsList.children().slice(maxNumberOfElements - numberOfElements).remove();
+            }
+
+            window.eventsList.prepend('<div class="callout callout-' + calloutClass + ' m-0 py-3">' +
+                '<div>Event <strong>' + calloutName + '</strong></div>' +
+                '<small class="text-muted mr-3">' + message + '</small>' +
+                '</div><hr class="mx-3 my-0">');
+        }
+
+        function setProgress(currentProgress, maxProgress, colorClass) {
+            currentProgress = parseInt(currentProgress);
+            maxProgress = parseInt(maxProgress);
+
+            var progressPercentage = Math.min(Math.round((currentProgress / maxProgress) * 100), 100);
+
+            if (progressPercentage >= 0 && progressPercentage < 100) {
+                window.buildingIndicator.show();
+
+                window.buildingIndicator.removeClass('bg-success');
+                window.buildingIndicator.removeClass('bg-info');
+                window.buildingIndicator.removeClass('bg-warning');
+                window.buildingIndicator.removeClass('bg-danger');
+                window.buildingIndicator.addClass('bg-' + colorClass);
+
+                window.buildingIndicator.css('width', progressPercentage + '%');
+                window.buildingIndicator.attr('aria-valuenow', currentProgress);
+                window.buildingIndicator.attr('aria-valuemax', maxProgress);
+                window.buildingIndicatorParent.css('background-color', '#f0f3f5');
+            }
+            else {
+                window.buildingIndicator.hide();
+
+                window.buildingIndicator.css('width', progressPercentage + '%');
+                window.buildingIndicator.attr('aria-valuenow', currentProgress);
+                window.buildingIndicator.attr('aria-valuemax', maxProgress);
+                window.buildingIndicatorParent.css('background-color', '#e4e5e6');
+            }
+        }
+
+        createWebsocketConnection();
+    });
+</script>
+
 </body>
+
 </html>

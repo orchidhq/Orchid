@@ -46,6 +46,12 @@ public final class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
+    public void onStart() {
+        themes.pushTheme(themes.getDefaultTheme());
+        adminThemes.pushTheme(adminThemes.getDefaultTheme());
+    }
+
+    @Override
     public AssetHolder getGlobalAssetHolder() {
         return assetHolder;
     }
@@ -148,6 +154,7 @@ public final class ThemeServiceImpl implements ThemeService {
 
         public void clearThemes() {
             themeStack.clear();
+            pushTheme(this.defaultTheme);
         }
     }
 }

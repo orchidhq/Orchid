@@ -26,7 +26,12 @@ public class TwigRenderer extends OrchidRenderer {
     }
 
     protected boolean render(OrchidPage page, String extension, String content) {
+        long startTime = System.currentTimeMillis();
+        long stopTime;
+        boolean success;
+
         page.setCurrent(true);
+
         content = "" + context.compile(extension, content, page);
         String outputPath   = OrchidUtils.normalizePath(page.getReference().getPath());
         String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
@@ -39,18 +44,28 @@ public class TwigRenderer extends OrchidRenderer {
         try {
             Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
             Files.write(classesFile, content.getBytes());
-            page.setCurrent(false);
-            return true;
+            success = true;
         }
         catch (Exception e) {
             e.printStackTrace();
-            page.setCurrent(false);
-            return false;
+            success = false;
         }
+
+        page.setCurrent(false);
+
+        stopTime = System.currentTimeMillis();
+        context.onPageGenerated(page, stopTime - startTime);
+
+        return success;
     }
 
     protected boolean render(OrchidPage page, String extension, InputStream content) {
+        long startTime = System.currentTimeMillis();
+        long stopTime;
+        boolean success;
+
         page.setCurrent(true);
+
         String outputPath   = OrchidUtils.normalizePath(page.getReference().getPath());
         String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
 
@@ -62,13 +77,18 @@ public class TwigRenderer extends OrchidRenderer {
         try {
             Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
             Files.write(classesFile, IOUtils.toByteArray(content));
-            page.setCurrent(false);
-            return true;
+            success = true;
         }
         catch (Exception e) {
             e.printStackTrace();
-            page.setCurrent(false);
-            return false;
+            success = false;
         }
+
+        page.setCurrent(false);
+
+        stopTime = System.currentTimeMillis();
+        context.onPageGenerated(page, stopTime - startTime);
+
+        return success;
     }
 }
