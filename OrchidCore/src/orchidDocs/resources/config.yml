@@ -37,6 +37,13 @@ Editorial:
     - type: 'javadocClasses'
     - type: 'wikiSections'
 
+FutureImperfect:
+  sidebar:
+    - type: template
+      templates:
+        - 'customComponentTemplate.twig'
+
+
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 
 posts:

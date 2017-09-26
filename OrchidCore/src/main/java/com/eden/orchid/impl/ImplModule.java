@@ -7,8 +7,8 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.OrchidFileController;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -47,6 +47,7 @@ import com.eden.orchid.impl.themes.DefaultTheme;
 import com.eden.orchid.impl.themes.components.LicenseComponent;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
+import com.eden.orchid.impl.themes.components.TemplateComponent;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
@@ -110,7 +111,8 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidComponent.class,
                 LicenseComponent.class,
                 ReadmeComponent.class,
-                PageContentComponent.class);
+                PageContentComponent.class,
+                TemplateComponent.class);
 
         // Server
         addToSet(OrchidEventListener.class,

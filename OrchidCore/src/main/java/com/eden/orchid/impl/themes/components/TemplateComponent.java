@@ -1,0 +1,23 @@
+package com.eden.orchid.impl.themes.components;
+
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.theme.components.OrchidComponent;
+import lombok.Getter;
+import lombok.Setter;
+import org.json.JSONObject;
+
+import javax.inject.Inject;
+
+public final class TemplateComponent extends OrchidComponent {
+
+    @Getter @Setter
+    @Option
+    public JSONObject data;
+
+    @Inject
+    public TemplateComponent(OrchidContext context) {
+        super(context, "template", 100);
+    }
+
+}

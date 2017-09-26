@@ -11,25 +11,16 @@ targetCompatibility = '1.8'
 repositories {
     jcenter()
     maven { url 'https://jitpack.io' }
-    maven { url 'https://dl.bintray.com/jtwig/maven' }
 }
 
 project.group 'io.github.javaeden.orchid'
 project.version = rootProject.version
 
 ext {
-    if (project.hasProperty('theme') && project.property('theme') == 'Editorial') {
-//        commonTheme = 'Editorial'
-    }
-    else if (project.hasProperty('theme') && project.property('theme') == 'BsDoc') {
-//        commonTheme = 'BsDoc'
-    }
-    else {
-//        commonTheme = 'BsDoc'
-        commonTheme = 'Editorial'
-//        commonTheme = 'FutureImperfect'
-//        commonTheme = 'Materialize'
-    }
+//    commonTheme = 'BsDoc'
+    commonTheme = 'Editorial'
+//    commonTheme = 'FutureImperfect'
+//    commonTheme = 'Materialize'
 
     commonRunTask = "listOptions"
 
@@ -45,8 +36,7 @@ ext {
                 commonBaseUrl = 'http://localhost:8080'
                 break
         }
-    }
-    else {
+    } else {
         commonBaseUrl = 'http://localhost:8080'
     }
 }

@@ -109,13 +109,17 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @On(Orchid.Lifecycle.FilesChanged.class)
     public void onFilesChanges(Orchid.Lifecycle.FilesChanged event) {
-        server.getWebsocket().sendMessage("Files Changed");
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Files Changed");
+        }
         context.build();
     }
 
     @On(Orchid.Lifecycle.EndSession.class)
     public void onEndSession(Orchid.Lifecycle.EndSession event) {
-        server.getWebsocket().sendMessage("Ending Session");
+        if (server != null && server.getWebsocket() != null) {
+            server.getWebsocket().sendMessage("Ending Session");
+        }
         context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
         System.exit(0);
     }
