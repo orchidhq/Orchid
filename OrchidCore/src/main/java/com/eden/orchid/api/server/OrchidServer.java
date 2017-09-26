@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @Singleton
-public final class OrchidServer {
+public class OrchidServer {
 
     @Getter
     private final OrchidContext context;

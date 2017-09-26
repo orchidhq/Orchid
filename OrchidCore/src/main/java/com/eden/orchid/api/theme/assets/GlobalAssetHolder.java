@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public final class GlobalAssetHolder implements AssetHolder {
+public class GlobalAssetHolder implements AssetHolder {
 
     private final List<OrchidPage> js;
     private final List<OrchidPage> css;

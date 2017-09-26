@@ -22,7 +22,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class FileWatcher {
+public class FileWatcher {
 
     private final OrchidContext context;
     private WatchService watcher;
