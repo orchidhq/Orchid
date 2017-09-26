@@ -3,7 +3,7 @@ package com.eden.orchid.javadoc;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.registration.IgnoreModule;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.javadoc.menu.AllClassesMenuItemType;
 import com.eden.orchid.javadoc.menu.AllPackagesMenuItemType;
@@ -42,7 +42,7 @@ public class JavadocModule extends OrchidModule {
         addToSet(JavadocInlineTagHandler.class,
                 LinkTag.class);
 
-        addToSet(DefaultResourceSource.class,
+        addToSet(PluginResourceSource.class,
                 JavadocResourceSource.class);
 
         addToSet(OrchidMenuItem.class,

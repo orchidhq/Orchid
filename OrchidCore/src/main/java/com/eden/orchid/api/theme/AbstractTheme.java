@@ -2,13 +2,13 @@ package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.ThemeAssetHolder;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class AbstractTheme extends DefaultResourceSource implements OptionsHolder, AssetHolder {
+public abstract class AbstractTheme extends PluginResourceSource implements OptionsHolder, AssetHolder {
 
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;

@@ -11,9 +11,9 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StaticFileResponse {
+public final class StaticFileResponse {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     public static Map<String, String> mimeTypes = new HashMap<>();
 

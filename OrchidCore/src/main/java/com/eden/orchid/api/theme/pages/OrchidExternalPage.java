@@ -7,7 +7,7 @@ import com.eden.orchid.api.resources.resource.ExternalResource;
  * functionality for Pages is disabled for this page type, and is intended just to be used so external pages can be
  * linked to in the same way as internal pages.
  */
-public class OrchidExternalPage extends OrchidPage {
+public final class OrchidExternalPage extends OrchidPage {
 
     public OrchidExternalPage(OrchidReference reference) {
         super(new ExternalResource(reference), "ext");
@@ -17,4 +17,5 @@ public class OrchidExternalPage extends OrchidPage {
     public String getContent() {
         throw new UnsupportedOperationException("This method is not allowed on OrchidExternalPage");
     }
+
 }

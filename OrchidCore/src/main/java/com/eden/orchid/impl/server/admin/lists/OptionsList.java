@@ -7,9 +7,9 @@ import com.eden.orchid.api.server.admin.AdminList;
 import javax.inject.Inject;
 import java.util.Collection;
 
-public class OptionsList implements AdminList<OrchidFlag> {
+public final class OptionsList implements AdminList<OrchidFlag> {
 
-    private Collection<OrchidFlag> list;
+    private final Collection<OrchidFlag> list;
 
     @Inject
     public OptionsList() {

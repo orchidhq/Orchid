@@ -7,9 +7,9 @@ import fi.iki.elonen.NanoHTTPD;
 import javax.inject.Inject;
 import java.io.InputStream;
 
-public class FaviconResponse {
+public final class FaviconResponse {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     @Inject
     public FaviconResponse(OrchidContext context) {

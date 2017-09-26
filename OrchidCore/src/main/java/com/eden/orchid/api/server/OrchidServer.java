@@ -2,27 +2,26 @@ package com.eden.orchid.api.server;
 
 import com.eden.orchid.api.OrchidContext;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Set;
 
-@Getter @Setter
 @Singleton
-public class OrchidServer {
+public final class OrchidServer {
 
-    private OrchidContext context;
+    @Getter
+    private final OrchidContext context;
 
-    private int httpServerPort;
-    private int websocketPort;
+    @Getter private int httpServerPort;
+    @Getter private int websocketPort;
 
-    private OrchidWebserver server;
-    private OrchidWebsocket websocket;
+    @Getter private OrchidWebserver server;
+    @Getter private OrchidWebsocket websocket;
 
-    private Set<OrchidController> controllers;
-    private OrchidFileController fileController;
+    @Getter private final Set<OrchidController> controllers;
+    @Getter private final OrchidFileController fileController;
 
     @Inject
     public OrchidServer(OrchidContext context, Set<OrchidController> controllers, OrchidFileController fileController) {

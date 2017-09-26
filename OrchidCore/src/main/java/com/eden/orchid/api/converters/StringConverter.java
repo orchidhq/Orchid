@@ -12,9 +12,9 @@ import javax.inject.Inject;
  *
  * @since v1.0.0
  */
-public class StringConverter implements TypeConverter<String> {
+public final class StringConverter implements TypeConverter<String> {
 
-    private StringConverterHelper helper;
+    private final StringConverterHelper helper;
 
     @Inject
     public StringConverter(StringConverterHelper helper) {

@@ -7,9 +7,9 @@ import com.google.inject.Provider;
 import javax.inject.Inject;
 import java.util.EventListener;
 
-public class WatchTask extends OrchidTask implements EventListener {
+public final class WatchTask extends OrchidTask implements EventListener {
 
-    private Provider<OrchidContext> contextProvider;
+    private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public WatchTask(Provider<OrchidContext> contextProvider) {

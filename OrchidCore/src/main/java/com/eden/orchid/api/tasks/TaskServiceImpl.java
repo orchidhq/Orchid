@@ -20,10 +20,10 @@ import java.util.TreeSet;
 public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     private OrchidContext context;
-    private Set<OrchidTask> tasks;
+    private final Set<OrchidTask> tasks;
 
-    private OrchidServer server;
-    private FileWatcher watcher;
+    private final OrchidServer server;
+    private final FileWatcher watcher;
 
     private final String task;
     private final String resourcesDir;

@@ -12,12 +12,12 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PrioritizedSetFilter<T extends Prioritized> {
+public final class PrioritizedSetFilter<T extends Prioritized> {
 
     private static final String ALLOWED_KEY = "enabled";
     private static final String DISABLED_KEY = "disabled";
 
-    private OrchidContext context;
+    private final OrchidContext context;
     private final String key;
     private final Set<T> originalSet;
     private Set<T> fullFilteredSet;

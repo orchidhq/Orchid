@@ -12,7 +12,7 @@ import java.net.URL;
 @Getter @Setter
 public final class OrchidReference {
 
-    protected OrchidContext context;
+    protected final OrchidContext context;
 
     /**
      * The base URL of this reference, the URL at the root of your output site.
@@ -195,38 +195,6 @@ public final class OrchidReference {
 
         return output;
     }
-
-//    public String getPathOnDisk() {
-//        String output = "";
-//
-//        if (!EdenUtils.isEmpty(basePath)) {
-//            output += basePath;
-//
-//            if (!basePath.endsWith("/")) {
-//                output += "/";
-//            }
-//        }
-//
-//        if (!EdenUtils.isEmpty(path)) {
-//            output += path;
-//            if (!path.endsWith("/")) {
-//                output += "/";
-//            }
-//        }
-//
-//        if (!EdenUtils.isEmpty(fileName)) {
-//            output += fileName;
-//
-//            if (!usePrettyUrl) {
-//                output += ".";
-//                if (!EdenUtils.isEmpty(extension)) {
-//                    output += extension;
-//                }
-//            }
-//        }
-//
-//        return output;
-//    }
 
     public String getRelativePath() {
         String output = "";

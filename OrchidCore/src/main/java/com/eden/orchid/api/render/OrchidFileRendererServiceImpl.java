@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class OrchidFileRendererServiceImpl extends BaseOrchidRendererServiceImpl {
+public final class OrchidFileRendererServiceImpl extends BaseOrchidRendererServiceImpl {
 
     private final String destination;
 

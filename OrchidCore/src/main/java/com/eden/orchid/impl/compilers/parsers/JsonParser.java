@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.regex.Pattern;
 
-public class JsonParser extends OrchidParser {
+public final class JsonParser extends OrchidParser {
 
     @Inject
     public JsonParser() {

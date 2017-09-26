@@ -2,19 +2,18 @@ package com.eden.orchid.impl.tasks;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.google.inject.Provider;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
-public class BuildTask extends OrchidTask {
+public final class BuildTask extends OrchidTask {
 
-    private OrchidContext context;
+    private final Provider<OrchidContext> contextProvider;
 
     @Inject
-    public BuildTask(OrchidContext context) {
+    public BuildTask(Provider<OrchidContext> contextProvider) {
         super(100);
-        this.context = context;
+        this.contextProvider = contextProvider;
     }
 
     @Override
@@ -29,6 +28,6 @@ public class BuildTask extends OrchidTask {
 
     @Override
     public void run() {
-        context.build();
+        contextProvider.get().build();
     }
 }

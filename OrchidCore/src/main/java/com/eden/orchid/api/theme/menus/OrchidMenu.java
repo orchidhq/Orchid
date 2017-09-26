@@ -17,9 +17,9 @@ import java.util.Set;
 @Getter @Setter
 public final class OrchidMenu {
 
-    private OrchidContext context;
-    private JSONArray menuJson;
-    private Map<String, Class<? extends OrchidMenuItem>> menuItemTypesMap;
+    private final OrchidContext context;
+    private final JSONArray menuJson;
+    private final Map<String, Class<? extends OrchidMenuItem>> menuItemTypesMap;
 
     private List<OrchidMenuItem> menuItems;
     private List<OrchidMenuItemImpl> menuItemsChildren;

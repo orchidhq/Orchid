@@ -4,15 +4,12 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import fi.iki.elonen.NanoWSD;
-import lombok.Getter;
 
 import java.io.IOException;
-import java.util.EventListener;
 
-@Getter
-public class OrchidWebsocket extends NanoWSD implements EventListener {
+public final class OrchidWebsocket extends NanoWSD {
 
-    private OrchidContext context;
+    private final OrchidContext context;
     private WebSocket webSocket;
 
     private int timeoutMinutes = 30;

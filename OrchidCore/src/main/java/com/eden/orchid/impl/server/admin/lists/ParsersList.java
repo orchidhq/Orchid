@@ -8,9 +8,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ParsersList implements AdminList<OrchidParser> {
+public final class ParsersList implements AdminList<OrchidParser> {
 
-    private Set<OrchidParser> list;
+    private final Set<OrchidParser> list;
 
     @Inject
     public ParsersList(Set<OrchidParser> list) {

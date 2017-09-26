@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServerUtils {
+public final class ServerUtils {
 
     public static int getNearestFreePort(int rangeMin) {
         int rangeMax = Integer.min(rangeMin + 1000, 65535);

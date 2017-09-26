@@ -49,7 +49,7 @@ import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
-public class ApiModule extends OrchidModule {
+public final class ApiModule extends OrchidModule {
 
     @Override
     protected void configure() {
@@ -103,7 +103,7 @@ public class ApiModule extends OrchidModule {
 
     @Spell(name="thingie")
     public static String getThingie(Object object) {
-        Clog.v("is this thingie working");
-        return "Lauren is awesome";
+        return "the thingie";
     }
+
 }

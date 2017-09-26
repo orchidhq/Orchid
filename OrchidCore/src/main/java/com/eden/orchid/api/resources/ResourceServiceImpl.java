@@ -5,8 +5,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
@@ -37,8 +37,8 @@ import java.util.TreeSet;
 public final class ResourceServiceImpl implements ResourceService {
 
     private OrchidContext context;
-    private Set<LocalResourceSource> localResourceSources;
-    private Set<DefaultResourceSource> defaultResourceSources;
+    private Set<FileResourceSource> fileResourceSources;
+    private Set<PluginResourceSource> pluginResourceSources;
     private OkHttpClient client;
 
     private final String resourcesDir;
@@ -46,11 +46,11 @@ public final class ResourceServiceImpl implements ResourceService {
     @Inject
     public ResourceServiceImpl(
             @Named("resourcesDir") String resourcesDir,
-            Set<LocalResourceSource> localResourceSources,
-            Set<DefaultResourceSource> defaultResourceSources) {
+            Set<FileResourceSource> fileResourceSources,
+            Set<PluginResourceSource> pluginResourceSources) {
 
-        this.localResourceSources = new TreeSet<>(localResourceSources);
-        this.defaultResourceSources = new TreeSet<>(defaultResourceSources);
+        this.fileResourceSources = new TreeSet<>(fileResourceSources);
+        this.pluginResourceSources = new TreeSet<>(pluginResourceSources);
 
         this.client = new OkHttpClient();
         this.resourcesDir = resourcesDir;
@@ -109,7 +109,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Override
     public OrchidResource getLocalResourceEntry(final String fileName) {
-        return localResourceSources
+        return fileResourceSources
                 .stream()
                 .map(source -> source.getResourceEntry(fileName))
                 .filter(Objects::nonNull)
@@ -134,7 +134,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
         // If nothing found in the theme, check the default resource sources
         if (resource == null) {
-            resource = defaultResourceSources
+            resource = pluginResourceSources
                     .stream()
                     .map(source -> source.getResourceEntry(fileName))
                     .filter(Objects::nonNull)
@@ -150,7 +150,7 @@ public final class ResourceServiceImpl implements ResourceService {
     public List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
-        addEntries(entries, localResourceSources, path, fileExtensions, recursive);
+        addEntries(entries, fileResourceSources, path, fileExtensions, recursive);
 
         return new ArrayList<>(entries.values());
     }
@@ -171,7 +171,7 @@ public final class ResourceServiceImpl implements ResourceService {
         TreeMap<String, OrchidResource> entries = new TreeMap<>();
 
         // add entries from local sources
-        addEntries(entries, localResourceSources, path, fileExtensions, recursive);
+        addEntries(entries, fileResourceSources, path, fileExtensions, recursive);
 
         // add entries from theme
         List<OrchidResourceSource> themeSources = new ArrayList<>();
@@ -179,7 +179,7 @@ public final class ResourceServiceImpl implements ResourceService {
         addEntries(entries, themeSources, path, fileExtensions, recursive);
 
         // add entries from other sources
-        addEntries(entries, defaultResourceSources, path, fileExtensions, recursive);
+        addEntries(entries, pluginResourceSources, path, fileExtensions, recursive);
 
         return new ArrayList<>(entries.values());
     }

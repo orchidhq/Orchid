@@ -11,9 +11,9 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
 
-public class SassImporter implements Importer {
+public final class SassImporter implements Importer {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     @Inject
     public SassImporter(OrchidContext context) {

@@ -5,7 +5,7 @@ import com.eden.orchid.api.theme.Theme;
 
 import javax.inject.Inject;
 
-public class DefaultTheme extends Theme {
+public final class DefaultTheme extends Theme {
 
     @Inject
     public DefaultTheme(OrchidContext context) {

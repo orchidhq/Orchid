@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class JsonFilter implements JtwigFunction {
+public final class JsonFilter implements JtwigFunction {
 
     @Override
     public String name() {

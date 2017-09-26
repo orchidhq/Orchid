@@ -15,10 +15,10 @@ import javax.inject.Inject;
  *
  * @since v1.0.0
  */
-public class BooleanConverter implements TypeConverter<Boolean> {
+public final class BooleanConverter implements TypeConverter<Boolean> {
 
-    private StringConverter stringConverter;
-    private NumberConverter numberConverter;
+    private final StringConverter stringConverter;
+    private final NumberConverter numberConverter;
 
     @Inject
     public BooleanConverter(StringConverter stringConverter, NumberConverter numberConverter) {

@@ -9,9 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SassCompiler extends OrchidCompiler {
+public final class SassCompiler extends OrchidCompiler {
 
-    private Options options;
+    private final Options options;
 
     @Inject
     public SassCompiler(SassImporter importer) {

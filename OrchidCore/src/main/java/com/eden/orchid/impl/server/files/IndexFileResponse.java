@@ -18,11 +18,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class IndexFileResponse {
+public final class IndexFileResponse {
 
-    private OrchidContext context;
-    private Map<String, String> iconMap;
-
+    private final OrchidContext context;
+    private final Map<String, String> iconMap;
 
     @Inject
     public IndexFileResponse(OrchidContext context) {

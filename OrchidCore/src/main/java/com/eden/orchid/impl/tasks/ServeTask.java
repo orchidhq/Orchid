@@ -6,9 +6,9 @@ import com.google.inject.Provider;
 
 import javax.inject.Inject;
 
-public class ServeTask extends OrchidTask {
+public final class ServeTask extends OrchidTask {
 
-    private Provider<OrchidContext> contextProvider;
+    private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public ServeTask(Provider<OrchidContext> contextProvider) {

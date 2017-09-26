@@ -12,10 +12,10 @@ import javax.inject.Inject;
  *
  * @since v1.0.0
  */
-public class NumberConverter implements TypeConverter<Number> {
+public final class NumberConverter implements TypeConverter<Number> {
 
-    private LongConverter longConverter;
-    private DoubleConverter doubleConverter;
+    private final LongConverter longConverter;
+    private final DoubleConverter doubleConverter;
 
     @Inject
     public NumberConverter(LongConverter longConverter, DoubleConverter doubleConverter) {

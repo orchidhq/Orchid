@@ -23,7 +23,7 @@ import java.util.List;
  * |------------|-------------|---------------|
  * | JSONArray  | none        | null          |
  */
-public class JSONArrayOptionExtractor implements OptionExtractor<JSONArray> {
+public final class JSONArrayOptionExtractor implements OptionExtractor<JSONArray> {
 
     @Override
     public boolean acceptsClass(Class clazz) {

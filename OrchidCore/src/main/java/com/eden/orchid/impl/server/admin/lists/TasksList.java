@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.server.admin.lists;
 
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.google.inject.Provider;
@@ -10,14 +9,13 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class TasksList implements AdminList<OrchidTask> {
+public final class TasksList implements AdminList<OrchidTask> {
 
-    private Set<OrchidTask> list;
-    private Provider<OrchidContext> contextProvider;
+    private final Provider<Set<OrchidTask>> tasksSetProvider;
 
     @Inject
-    public TasksList(Provider<OrchidContext> contextProvider) {
-        this.contextProvider = contextProvider;
+    public TasksList(Provider<Set<OrchidTask>> tasksSetProvider) {
+        this.tasksSetProvider = tasksSetProvider;
     }
 
     @Override
@@ -27,10 +25,7 @@ public class TasksList implements AdminList<OrchidTask> {
 
     @Override
     public Collection<OrchidTask> getItems() {
-        if(list == null) {
-            list = new TreeSet<>(contextProvider.get().resolveSet(OrchidTask.class));
-        }
-        return list;
+        return new TreeSet<>(tasksSetProvider.get());
     }
 
     @Override

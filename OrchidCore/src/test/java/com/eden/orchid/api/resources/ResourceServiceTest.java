@@ -3,8 +3,8 @@ package com.eden.orchid.api.resources;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -27,25 +27,25 @@ public final class ResourceServiceTest {
     private ResourceServiceImpl service;
 
     private String resourcesDir;
-    private Set<LocalResourceSource> localResourceSources;
-    private LocalResourceSource mockLocalResourceSource;
-    private Set<DefaultResourceSource> defaultResourceSources;
-    private DefaultResourceSource mockDefaultResourceSource;
+    private Set<FileResourceSource> fileResourceSources;
+    private FileResourceSource mockFileResourceSource;
+    private Set<PluginResourceSource> pluginResourceSources;
+    private PluginResourceSource mockPluginResourceSource;
 
     @BeforeMethod
     public void testSetup() {
         resourcesDir = "mockResourcesDir";
-        localResourceSources = new HashSet<>();
-        mockLocalResourceSource = mock(LocalResourceSource.class);
-        localResourceSources.add(mockLocalResourceSource);
+        fileResourceSources = new HashSet<>();
+        mockFileResourceSource = mock(FileResourceSource.class);
+        fileResourceSources.add(mockFileResourceSource);
 
-        defaultResourceSources = new HashSet<>();
-        mockDefaultResourceSource = mock(DefaultResourceSource.class);
-        defaultResourceSources.add(mockDefaultResourceSource);
+        pluginResourceSources = new HashSet<>();
+        mockPluginResourceSource = mock(PluginResourceSource.class);
+        pluginResourceSources.add(mockPluginResourceSource);
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new ResourceServiceImpl(resourcesDir, localResourceSources, defaultResourceSources);
+        service = new ResourceServiceImpl(resourcesDir, fileResourceSources, pluginResourceSources);
         service.initialize(context);
 
         // test that the public implementation is identical to the real implementation

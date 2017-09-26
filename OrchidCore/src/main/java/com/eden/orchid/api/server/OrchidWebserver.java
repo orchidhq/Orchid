@@ -10,7 +10,6 @@ import com.eden.orchid.api.server.annotations.Put;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -19,20 +18,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-@Getter @Setter
-public class OrchidWebserver extends NanoHTTPD {
+public final class OrchidWebserver extends NanoHTTPD {
 
     private static Class<? extends Annotation>[] annotationClasses = new Class[]{Get.class, Post.class, Put.class, Delete.class};
 
-    OrchidContext context;
+    @Getter private final OrchidContext context;
 
-    private Set<OrchidController> controllers;
-    private OrchidFileController fileController;
+    @Getter private final Set<OrchidController> controllers;
+    @Getter private final OrchidFileController fileController;
 
-    private List<OrchidRoute> getRoutes;
-    private List<OrchidRoute> postRoutes;
-    private List<OrchidRoute> putRoutes;
-    private List<OrchidRoute> deleteRoutes;
+    private final List<OrchidRoute> getRoutes;
+    private final List<OrchidRoute> postRoutes;
+    private final List<OrchidRoute> putRoutes;
+    private final List<OrchidRoute> deleteRoutes;
 
     public OrchidWebserver(OrchidContext context, Set<OrchidController> controllers, OrchidFileController fileController, int port) throws IOException {
         super(ServerUtils.getNearestFreePort(port));
@@ -181,4 +179,5 @@ public class OrchidWebserver extends NanoHTTPD {
             return fileController.findFile(OrchidUtils.normalizePath(route));
         }
     }
+
 }

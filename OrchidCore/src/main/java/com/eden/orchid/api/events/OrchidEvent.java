@@ -1,5 +1,7 @@
 package com.eden.orchid.api.events;
 
+import lombok.Getter;
+
 /**
  * A generic representation of an Event used to communicate intended or completed actions and extend core functionality.
  *
@@ -9,6 +11,7 @@ package com.eden.orchid.api.events;
  */
 public abstract class OrchidEvent<T> {
 
+    @Getter
     private final T sender;
 
     /**
@@ -21,17 +24,6 @@ public abstract class OrchidEvent<T> {
      */
     public OrchidEvent(T sender) {
         this.sender = sender;
-    }
-
-    /**
-     * Get the Object that sent this Event
-     *
-     * @return the sender
-     *
-     * @since v1.0.0
-     */
-    public T getSender() {
-        return sender;
     }
 
     @Override

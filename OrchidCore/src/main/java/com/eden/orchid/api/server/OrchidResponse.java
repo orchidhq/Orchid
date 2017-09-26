@@ -4,7 +4,7 @@ import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class OrchidResponse {
+public final class OrchidResponse {
 
     private NanoHTTPD.Response response;
 

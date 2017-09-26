@@ -8,15 +8,15 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssetHolderDelegate implements AssetHolder {
+public final class AssetHolderDelegate implements AssetHolder {
+
+    protected final OrchidContext context;
 
     public static final String JS_EXT = "js";
     public static final String CSS_EXT = "css";
 
-    private List<OrchidPage> js;
-    private List<OrchidPage> css;
-
-    private OrchidContext context;
+    private final List<OrchidPage> js;
+    private final List<OrchidPage> css;
 
     @Inject
     public AssetHolderDelegate(OrchidContext context) {

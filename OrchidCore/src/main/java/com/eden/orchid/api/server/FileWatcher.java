@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
@@ -20,12 +22,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.nio.file.LinkOption.*;
-import static java.nio.file.StandardWatchEventKinds.*;
+public final class FileWatcher {
 
-public class FileWatcher {
-
-    private OrchidContext context;
+    private final OrchidContext context;
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
 
@@ -48,7 +47,11 @@ public class FileWatcher {
     }
 
     private void register(Path dir) throws IOException {
-        WatchKey key = dir.register(watcher, new WatchEvent.Kind[]{ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY}, SensitivityWatchEventModifier.HIGH);
+        WatchKey key = dir.register(watcher, new WatchEvent.Kind[]{
+                StandardWatchEventKinds.ENTRY_CREATE,
+                StandardWatchEventKinds.ENTRY_DELETE,
+                StandardWatchEventKinds.ENTRY_MODIFY
+        }, SensitivityWatchEventModifier.HIGH);
         keys.put(key, dir);
     }
 
@@ -83,7 +86,7 @@ public class FileWatcher {
             for (WatchEvent<?> event : key.pollEvents()) {
                 WatchEvent.Kind kind = event.kind();
 
-                if (kind == OVERFLOW) {
+                if (kind == StandardWatchEventKinds.OVERFLOW) {
                     continue;
                 }
 
@@ -93,9 +96,9 @@ public class FileWatcher {
 
                 context.broadcast(Orchid.Lifecycle.FilesChanged.fire(this));
 
-                if (kind == ENTRY_CREATE) {
+                if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                     try {
-                        if (Files.isDirectory(child, NOFOLLOW_LINKS)) {
+                        if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
                             registerAll(child);
                         }
                     }
@@ -114,4 +117,5 @@ public class FileWatcher {
             }
         }
     }
+
 }

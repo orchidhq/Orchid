@@ -20,9 +20,9 @@ import java.util.List;
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
  */
-public class StringOptionExtractor implements OptionExtractor<String> {
+public final class StringOptionExtractor implements OptionExtractor<String> {
 
-    private StringConverter converter;
+    private final StringConverter converter;
 
     @Inject
     public StringOptionExtractor(StringConverter converter) {

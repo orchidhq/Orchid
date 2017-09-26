@@ -2,7 +2,7 @@ package com.eden.orchid.posts;
 
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.posts.components.PostTagsComponent;
@@ -31,7 +31,7 @@ public class PostsModule extends OrchidModule {
         addToSet(OrchidComponent.class,
                 PostTagsComponent.class);
 
-        addToSet(DefaultResourceSource.class,
+        addToSet(PluginResourceSource.class,
                 PostsResourceSource.class);
 
         addToSet(PermalinkPathType.class,

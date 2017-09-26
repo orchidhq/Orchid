@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
+public final class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
 
     @Inject
     public TwigTemplateResolutionStrategy() {

@@ -8,9 +8,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ThemesList implements AdminList<Theme> {
+public final class ThemesList implements AdminList<Theme> {
 
-    private Set<Theme> list;
+    private final Set<Theme> list;
 
     @Inject
     public ThemesList(Set<Theme> list) {

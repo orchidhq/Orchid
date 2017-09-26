@@ -5,7 +5,7 @@ import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import org.jtwig.functions.JtwigFunction;
 import org.jtwig.resource.loader.TypedResourceLoader;
 
-public class JTwigModule extends OrchidModule {
+public final class JTwigModule extends OrchidModule {
 
     @Override
     protected void configure() {

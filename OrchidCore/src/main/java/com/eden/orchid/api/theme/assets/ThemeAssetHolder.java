@@ -10,17 +10,17 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThemeAssetHolder implements AssetHolder {
+public final class ThemeAssetHolder implements AssetHolder {
+
+    private final OrchidContext context;
 
     public static final String JS_EXT = "js";
     public static final String CSS_EXT = "css";
 
-    private List<OrchidPage> js;
-    private List<OrchidPage> css;
+    private final List<OrchidPage> js;
+    private final List<OrchidPage> css;
 
-    private OrchidContext context;
-
-    private AbstractTheme theme;
+    private final AbstractTheme theme;
 
     @Inject
     public ThemeAssetHolder(OrchidContext context, AbstractTheme theme) {

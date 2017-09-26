@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndexMenuItem extends OrchidMenuItem {
+public final class IndexMenuItem extends OrchidMenuItem {
 
     @Option
     public String title;

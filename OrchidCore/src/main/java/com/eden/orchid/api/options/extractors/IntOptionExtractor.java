@@ -27,9 +27,9 @@ import java.util.List;
  * | int        | @IntDefault | Annotation value() or 0 |
  * | Integer    | @IntDefault | Annotation value() or 0 |
  */
-public class IntOptionExtractor implements OptionExtractor<Integer> {
+public final class IntOptionExtractor implements OptionExtractor<Integer> {
 
-    private IntegerConverter converter;
+    private final IntegerConverter converter;
 
     @Inject
     public IntOptionExtractor(IntegerConverter converter) {

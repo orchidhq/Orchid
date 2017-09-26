@@ -21,7 +21,7 @@ import java.util.List;
  * |------------|-------------|---------------|
  * | JSONObject | none        | null          |
  */
-public class JSONObjectOptionExtractor implements OptionExtractor<JSONObject> {
+public final class JSONObjectOptionExtractor implements OptionExtractor<JSONObject> {
 
     @Override
     public boolean acceptsClass(Class clazz) {

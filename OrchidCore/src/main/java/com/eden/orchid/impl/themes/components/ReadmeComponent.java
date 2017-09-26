@@ -6,7 +6,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 
 import javax.inject.Inject;
 
-public class ReadmeComponent extends OrchidComponent {
+public final class ReadmeComponent extends OrchidComponent {
 
     @Inject
     public ReadmeComponent(OrchidContext context) {

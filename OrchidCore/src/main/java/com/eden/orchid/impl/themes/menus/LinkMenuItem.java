@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkMenuItem extends OrchidMenuItem {
+public final class LinkMenuItem extends OrchidMenuItem {
 
     @Option
     public String title;

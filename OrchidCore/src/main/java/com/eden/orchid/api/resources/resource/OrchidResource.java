@@ -14,8 +14,8 @@ import java.nio.charset.Charset;
 @Getter @Setter
 public abstract class OrchidResource {
 
-    protected OrchidContext context;
-    protected OrchidReference reference;
+    protected final OrchidContext context;
+    protected final OrchidReference reference;
 
     protected String rawContent;
     protected String content;

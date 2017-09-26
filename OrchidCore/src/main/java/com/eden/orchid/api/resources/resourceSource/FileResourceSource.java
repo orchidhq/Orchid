@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class LocalResourceSource extends OrchidResourceSource {
+public abstract class FileResourceSource extends OrchidResourceSource {
 
     @Inject
-    public LocalResourceSource(OrchidContext context, int priority) {
+    public FileResourceSource(OrchidContext context, int priority) {
         super(context, priority);
     }
 

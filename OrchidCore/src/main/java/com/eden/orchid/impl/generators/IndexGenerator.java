@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-public class IndexGenerator extends OrchidGenerator {
+public final class IndexGenerator extends OrchidGenerator {
 
     @Inject
     public IndexGenerator(OrchidContext context) {

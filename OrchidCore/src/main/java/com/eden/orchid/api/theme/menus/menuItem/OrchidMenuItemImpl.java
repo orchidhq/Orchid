@@ -15,9 +15,9 @@ import java.util.Map;
 @Getter @Setter
 public class OrchidMenuItemImpl {
 
-    protected String alias;
+    protected final OrchidContext context;
 
-    protected OrchidContext context;
+    protected String alias;
 
     protected List<OrchidMenuItemImpl> children;
     protected OrchidPage page;

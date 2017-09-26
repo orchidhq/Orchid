@@ -12,9 +12,9 @@ import javax.inject.Inject;
  *
  * @since v1.0.0
  */
-public class DoubleConverter implements TypeConverter<Double> {
+public final class DoubleConverter implements TypeConverter<Double> {
 
-    private StringConverter stringConverter;
+    private final StringConverter stringConverter;
 
     @Inject
     public DoubleConverter(StringConverter stringConverter) {

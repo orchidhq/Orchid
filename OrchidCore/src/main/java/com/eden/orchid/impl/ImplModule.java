@@ -7,8 +7,8 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.OrchidFileController;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -27,8 +27,8 @@ import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
-import com.eden.orchid.impl.resources.CoreDefaultResourceSource;
-import com.eden.orchid.impl.resources.CoreLocalResourceSource;
+import com.eden.orchid.impl.resources.CoreResourceSource;
+import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.server.admin.AdminController;
 import com.eden.orchid.impl.server.admin.lists.CompilersList;
 import com.eden.orchid.impl.server.admin.lists.ComponentsList;
@@ -52,7 +52,7 @@ import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.google.inject.multibindings.Multibinder;
 
-public class ImplModule extends OrchidModule {
+public final class ImplModule extends OrchidModule {
 
     private static final Class[] optionalSets = new Class[]{
             OrchidService.class
@@ -71,8 +71,8 @@ public class ImplModule extends OrchidModule {
         }
 
         // Resource Sources
-        addToSet(LocalResourceSource.class, CoreLocalResourceSource.class);
-        addToSet(DefaultResourceSource.class, CoreDefaultResourceSource.class);
+        addToSet(FileResourceSource.class, LocalFileResourceSource.class);
+        addToSet(PluginResourceSource.class, CoreResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,

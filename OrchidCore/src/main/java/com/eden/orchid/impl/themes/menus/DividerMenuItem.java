@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DividerMenuItem extends OrchidMenuItem {
+public final class DividerMenuItem extends OrchidMenuItem {
 
     @Option
     public String title;

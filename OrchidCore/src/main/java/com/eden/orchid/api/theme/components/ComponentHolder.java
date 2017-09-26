@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ComponentHolder {
+public final class ComponentHolder {
 
-    private OrchidContext context;
-    private JSONArray componentsJson;
-    private Map<String, Class<? extends OrchidComponent>> componentTypesMap;
+    private final OrchidContext context;
+    private final JSONArray componentsJson;
+    private final Map<String, Class<? extends OrchidComponent>> componentTypesMap;
 
     private List<OrchidComponent> components;
 

@@ -6,7 +6,7 @@ import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
 
-public class FlexmarkModule extends OrchidModule {
+public final class FlexmarkModule extends OrchidModule {
 
     @Override
     protected void configure() {

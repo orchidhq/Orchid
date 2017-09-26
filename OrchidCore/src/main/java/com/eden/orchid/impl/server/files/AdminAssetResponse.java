@@ -12,9 +12,9 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.InputStream;
 
-public class AdminAssetResponse {
+public final class AdminAssetResponse {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     @Inject
     public AdminAssetResponse(OrchidContext context) {

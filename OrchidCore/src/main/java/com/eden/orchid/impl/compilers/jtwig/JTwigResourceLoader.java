@@ -15,7 +15,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 @Singleton
-public class JTwigResourceLoader extends TypedResourceLoader {
+public final class JTwigResourceLoader extends TypedResourceLoader {
 
     @Inject
     public JTwigResourceLoader(Provider<OrchidContext> resources) {
@@ -24,9 +24,9 @@ public class JTwigResourceLoader extends TypedResourceLoader {
 
     private static class Loader implements ResourceLoader {
 
-        private Provider<OrchidContext> contextProvider;
+        private final Provider<OrchidContext> contextProvider;
 
-        public Loader(Provider<OrchidContext> contextProvider) {
+        Loader(Provider<OrchidContext> contextProvider) {
             this.contextProvider = contextProvider;
         }
 

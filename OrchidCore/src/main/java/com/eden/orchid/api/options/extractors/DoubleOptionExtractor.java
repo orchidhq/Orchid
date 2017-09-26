@@ -27,9 +27,9 @@ import java.util.List;
  * | double     | @DoubleDefault | Annotation value() or 0.0 |
  * | Double     | @DoubleDefault | Annotation value() or 0.0 |
  */
-public class DoubleOptionExtractor implements OptionExtractor<Double> {
+public final class DoubleOptionExtractor implements OptionExtractor<Double> {
 
-    private DoubleConverter converter;
+    private final DoubleConverter converter;
 
     @Inject
     public DoubleOptionExtractor(DoubleConverter converter) {

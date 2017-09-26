@@ -12,9 +12,9 @@ import javax.inject.Inject;
  *
  * @since v1.0.0
  */
-public class LongConverter implements TypeConverter<Long> {
+public final class LongConverter implements TypeConverter<Long> {
 
-    private StringConverter stringConverter;
+    private final StringConverter stringConverter;
 
     @Inject
     public LongConverter(StringConverter stringConverter) {

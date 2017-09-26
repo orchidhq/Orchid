@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Singleton
-public class CompileAsFilter implements JtwigFunction {
+public final class CompileAsFilter implements JtwigFunction {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     @Inject
     public CompileAsFilter(OrchidContext context) {

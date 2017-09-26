@@ -18,13 +18,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Singleton
-public class FrontMatterPrecompiler extends OrchidPrecompiler {
+public final class FrontMatterPrecompiler extends OrchidPrecompiler {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     private static final String precompilerExtension = "twig";
 
-    private List<EdenPair<String, OrchidParser>> delimiters;
+    private final List<EdenPair<String, OrchidParser>> delimiters;
 
     @Inject
     public FrontMatterPrecompiler(OrchidContext context, Set<OrchidParser> parsers) {

@@ -5,7 +5,8 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import java.util.List;
 
-public class OrchidCompositeIndex extends OrchidIndex {
+public final class OrchidCompositeIndex extends OrchidIndex {
+
     public OrchidCompositeIndex(String ownKey) {
         super(ownKey);
     }
@@ -14,7 +15,6 @@ public class OrchidCompositeIndex extends OrchidIndex {
     public Class<? extends OrchidIndex> childIndexClass() {
         return OrchidCompositeIndex.class;
     }
-
 
     public void mergeIndex(OrchidIndex index) {
         List<OrchidPage> indexPages = index.getAllPages();

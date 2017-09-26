@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public abstract class DefaultResourceSource extends OrchidResourceSource {
+public abstract class PluginResourceSource extends OrchidResourceSource {
 
     @Inject
-    public DefaultResourceSource(OrchidContext context, int priority) {
+    public PluginResourceSource(OrchidContext context, int priority) {
         super(context, priority);
     }
 

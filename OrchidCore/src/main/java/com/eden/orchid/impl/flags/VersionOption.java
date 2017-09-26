@@ -2,7 +2,7 @@ package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
 
-public class VersionOption implements OrchidFlag {
+public final class VersionOption implements OrchidFlag {
 
     @Override
     public String getFlag() {
@@ -13,4 +13,5 @@ public class VersionOption implements OrchidFlag {
     public String getDescription() {
         return "the version of your library";
     }
+
 }

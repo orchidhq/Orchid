@@ -19,9 +19,9 @@ import java.util.List;
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
  */
-public class ComponentHolderOptionExtractor implements OptionExtractor<ComponentHolder> {
+public final class ComponentHolderOptionExtractor implements OptionExtractor<ComponentHolder> {
 
-    private Provider<OrchidContext> contextProvider;
+    private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public ComponentHolderOptionExtractor(Provider<OrchidContext> contextProvider) {

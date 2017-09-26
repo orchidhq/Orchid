@@ -44,13 +44,13 @@ import java.util.List;
  */
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 
+    @Getter
     protected final String key;
 
-    protected OrchidContext context;
+    protected final OrchidContext context;
 
+    @Getter @Setter
     @Option
-    @Getter
-    @Setter
     private String theme;
 
     @Inject
@@ -58,15 +58,6 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
         super(priority);
         this.key = key;
         this.context = context;
-    }
-
-    /**
-     * Return the name of the OrchidGenerator. The index created by this OrchidGenerator is scoped under this name.
-     *
-     * @return this generator's name
-     */
-    public final String getKey() {
-        return key;
     }
 
     /**

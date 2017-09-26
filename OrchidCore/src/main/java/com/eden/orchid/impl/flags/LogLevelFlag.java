@@ -3,7 +3,7 @@ package com.eden.orchid.impl.flags;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidFlag;
 
-public class LogLevelFlag implements OrchidFlag {
+public final class LogLevelFlag implements OrchidFlag {
 
     @Override
     public String getFlag() {

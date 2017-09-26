@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class OptionsExtractor {
+public final class OptionsExtractor {
 
-    private Set<OptionExtractor> extractors;
+    private final Set<OptionExtractor> extractors;
 
     @Inject
     public OptionsExtractor(Set<OptionExtractor> extractors) {
@@ -134,4 +134,5 @@ public class OptionsExtractor {
             e.printStackTrace();
         }
     }
+
 }

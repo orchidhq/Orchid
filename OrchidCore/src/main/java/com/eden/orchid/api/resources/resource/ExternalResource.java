@@ -30,11 +30,6 @@ public final class ExternalResource extends OrchidResource {
     }
 
     @Override
-    public void setReference(OrchidReference reference) {
-        throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
-    }
-
-    @Override
     public void setRawContent(String rawContent) {
         throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
     }

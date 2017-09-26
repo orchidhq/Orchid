@@ -7,12 +7,12 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Map;
 
-public class OrchidRequest {
+public final class OrchidRequest {
 
-    OrchidRoute route;
-    NanoHTTPD.IHTTPSession session;
+    private OrchidRoute route;
+    private NanoHTTPD.IHTTPSession session;
 
-    Map<String, String> pathParams;
+    private Map<String, String> pathParams;
 
     public OrchidRequest(NanoHTTPD.IHTTPSession session, OrchidRoute route) {
         this.session = session;

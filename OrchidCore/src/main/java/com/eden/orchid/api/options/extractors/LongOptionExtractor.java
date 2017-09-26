@@ -27,9 +27,9 @@ import java.util.List;
  * | long       | @LongDefault | Annotation value() or 0L |
  * | Long       | @LongDefault | Annotation value() or 0L |
  */
-public class LongOptionExtractor implements OptionExtractor<Long> {
+public final class LongOptionExtractor implements OptionExtractor<Long> {
 
-    private LongConverter converter;
+    private final LongConverter converter;
 
     @Inject
     public LongOptionExtractor(LongConverter converter) {

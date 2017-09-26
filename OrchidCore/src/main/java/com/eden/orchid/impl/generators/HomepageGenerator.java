@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomepageGenerator extends OrchidGenerator {
+public final class HomepageGenerator extends OrchidGenerator {
 
     @Inject
     public HomepageGenerator(OrchidContext context) {

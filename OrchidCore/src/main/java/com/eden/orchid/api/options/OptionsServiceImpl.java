@@ -4,7 +4,6 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class OptionsServiceImpl implements OptionsService {
+public final class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;
 
@@ -90,11 +89,6 @@ public class OptionsServiceImpl implements OptionsService {
                 OrchidPage page = (OrchidPage) data[0];
                 siteData.put("page", page);
                 siteData.put(page.getKey(), page);
-            }
-            else if (data[0] instanceof OrchidComponent) {
-                OrchidComponent component = (OrchidComponent) data[0];
-                siteData.put("component", component);
-                siteData.put(component.getKey(), component);
             }
             else if (data[0] instanceof JSONObject) {
                 JSONObject jsonObject = (JSONObject) data[0];

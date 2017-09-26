@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 
-public class OrchidSiteImpl implements OrchidSite {
+public final class OrchidSiteImpl implements OrchidSite {
 
     private OrchidContext context;
 

@@ -88,7 +88,7 @@ public final class ThemeServiceImpl implements ThemeService {
         private Stack<T> themeStack;
         private Set<T> availableThemes;
 
-        public ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes) {
+        ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes) {
             this.context = context;
             this.defaultThemeKey = defaultTheme;
             this.defaultOptionsKey = defaultOptionsKey;
@@ -97,15 +97,15 @@ public final class ThemeServiceImpl implements ThemeService {
             this.themeStack = new Stack<>();
         }
 
-        public T getTheme() {
+        T getTheme() {
             return (themeStack.size() > 0) ? themeStack.peek() : defaultTheme;
         }
 
-        public T getDefaultTheme() {
+        T getDefaultTheme() {
             return defaultTheme;
         }
 
-        public T findTheme(String themeKey) {
+        T findTheme(String themeKey) {
             T foundTheme = availableThemes
                     .stream()
                     .sorted()
@@ -122,7 +122,7 @@ public final class ThemeServiceImpl implements ThemeService {
             }
         }
 
-        public void pushTheme(T theme) {
+        void pushTheme(T theme) {
             JSONObject themeOptions;
 
             if(OrchidUtils.elementIsObject(context.query(theme.getKey()))) {
@@ -138,7 +138,7 @@ public final class ThemeServiceImpl implements ThemeService {
             pushTheme(theme, themeOptions);
         }
 
-        public void pushTheme(T theme, JSONObject themeOptions) {
+        void pushTheme(T theme, JSONObject themeOptions) {
             theme.clearCache();
             theme.initialize();
 
@@ -148,11 +148,11 @@ public final class ThemeServiceImpl implements ThemeService {
             themeStack.push(theme);
         }
 
-        public void popTheme() {
+        void popTheme() {
             themeStack.pop();
         }
 
-        public void clearThemes() {
+        void clearThemes() {
             themeStack.clear();
             pushTheme(this.defaultTheme);
         }

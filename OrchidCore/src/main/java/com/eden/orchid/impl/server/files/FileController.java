@@ -9,9 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import javax.inject.Inject;
 import java.io.File;
 
-public class FileController implements OrchidFileController {
+public final class FileController implements OrchidFileController {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     private File rootFolder;
 

@@ -12,9 +12,9 @@ import javax.inject.Inject;
  *
  * @since v1.0.0
  */
-public class FloatConverter implements TypeConverter<Float> {
+public final class FloatConverter implements TypeConverter<Float> {
 
-    private StringConverter stringConverter;
+    private final StringConverter stringConverter;
 
     @Inject
     public FloatConverter(StringConverter stringConverter) {

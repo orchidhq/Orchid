@@ -12,10 +12,10 @@ import javax.inject.Singleton;
 import java.util.Set;
 
 @Singleton
-public class MarkdownCompiler extends OrchidCompiler {
+public final class MarkdownCompiler extends OrchidCompiler {
 
-    private Parser parser;
-    private IRender renderer;
+    private final Parser parser;
+    private final IRender renderer;
 
     @Inject
     public MarkdownCompiler(Set<Extension> extensionSet, Set<MutableDataSet> injectedOptions) {

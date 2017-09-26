@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class GlobalAssetHolder implements AssetHolder {
+public final class GlobalAssetHolder implements AssetHolder {
 
-    private List<OrchidPage> js;
-    private List<OrchidPage> css;
+    private final List<OrchidPage> js;
+    private final List<OrchidPage> css;
 
     @Inject
     public GlobalAssetHolder() {

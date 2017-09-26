@@ -26,9 +26,9 @@ import java.util.TreeSet;
 
 @Getter @Setter
 @Singleton
-public class GeneratorServiceImpl implements GeneratorService {
+public final class GeneratorServiceImpl implements GeneratorService {
 
-    private Set<OrchidGenerator> allGenerators;
+    private final Set<OrchidGenerator> allGenerators;
     private Set<OrchidGenerator> generators;
     private OrchidContext context;
 

@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Singleton
-public class TemplateFilter implements JtwigFunction {
+public final class TemplateFilter implements JtwigFunction {
 
-    private TemplateResolutionStrategy templateResolutionStrategy;
+    private final TemplateResolutionStrategy templateResolutionStrategy;
 
     @Inject
     public TemplateFilter(TemplateResolutionStrategy templateResolutionStrategy) {

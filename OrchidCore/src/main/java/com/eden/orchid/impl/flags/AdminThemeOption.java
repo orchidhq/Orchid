@@ -2,7 +2,7 @@ package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
 
-public class AdminThemeOption implements OrchidFlag {
+public final class AdminThemeOption implements OrchidFlag {
 
     @Override
     public String getFlag() {

@@ -2,7 +2,7 @@ package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
 
-public class ResourcesDirectoryOption implements OrchidFlag {
+public final class ResourcesDirectoryOption implements OrchidFlag {
 
     @Override
     public String getFlag() {

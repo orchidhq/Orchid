@@ -5,7 +5,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 
 import javax.inject.Inject;
 
-public class PageContentComponent extends OrchidComponent {
+public final class PageContentComponent extends OrchidComponent {
 
     @Inject
     public PageContentComponent(OrchidContext context) {

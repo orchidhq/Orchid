@@ -1,7 +1,7 @@
 package com.eden.orchid.impl.server.admin.lists;
 
-import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
 
@@ -10,15 +10,15 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ResourceSourcesList implements AdminList<OrchidResourceSource> {
+public final class ResourceSourcesList implements AdminList<OrchidResourceSource> {
 
-    private TreeSet<OrchidResourceSource> list;
+    private final TreeSet<OrchidResourceSource> list;
 
     @Inject
-    public ResourceSourcesList(Set<LocalResourceSource> localResourceSources, Set<DefaultResourceSource> defaultResourceSources) {
+    public ResourceSourcesList(Set<FileResourceSource> fileResourceSources, Set<PluginResourceSource> pluginResourceSources) {
         list = new TreeSet<>();
-        list.addAll(localResourceSources);
-        list.addAll(defaultResourceSources);
+        list.addAll(fileResourceSources);
+        list.addAll(pluginResourceSources);
     }
 
     @Override

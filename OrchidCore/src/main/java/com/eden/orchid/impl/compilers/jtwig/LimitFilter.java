@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Singleton
-public class LimitFilter implements JtwigFunction {
+public final class LimitFilter implements JtwigFunction {
 
     @Override
     public String name() {

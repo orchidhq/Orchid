@@ -2,18 +2,16 @@ package com.eden.orchid.api.server;
 
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
-public class OrchidRoute {
+public final class OrchidRoute {
 
-    private final OrchidController controller;
-    private final Method method;
-    private final String namespace;
+    @Getter private final OrchidController controller;
+    @Getter private final Method method;
+    @Getter private final String namespace;
     private final String path;
 
     public OrchidRoute(OrchidController controller, Method method, String path) {

@@ -17,9 +17,9 @@ import java.util.List;
  * | boolean    | @BooleanDefault | Annotation value() or false |
  * | Boolean    | @BooleanDefault | Annotation value() or false |
  */
-public class BooleanOptionExtractor implements OptionExtractor<Boolean> {
+public final class BooleanOptionExtractor implements OptionExtractor<Boolean> {
 
-    private BooleanConverter converter;
+    private final BooleanConverter converter;
 
     @Inject
     public BooleanOptionExtractor(BooleanConverter converter) {

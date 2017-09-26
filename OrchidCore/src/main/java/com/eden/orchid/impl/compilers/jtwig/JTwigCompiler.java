@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class JTwigCompiler extends OrchidCompiler {
+public final class JTwigCompiler extends OrchidCompiler {
 
-    private OrchidContext context;
-    private EnvironmentConfiguration jtwigEnvironment;
+    private final OrchidContext context;
+    private final EnvironmentConfiguration jtwigEnvironment;
 
     @Inject
     public JTwigCompiler(OrchidContext context, Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {

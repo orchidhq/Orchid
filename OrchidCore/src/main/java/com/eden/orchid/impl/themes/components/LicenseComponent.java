@@ -6,7 +6,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 
 import javax.inject.Inject;
 
-public class LicenseComponent extends OrchidComponent {
+public final class LicenseComponent extends OrchidComponent {
 
     @Inject
     public LicenseComponent(OrchidContext context) {

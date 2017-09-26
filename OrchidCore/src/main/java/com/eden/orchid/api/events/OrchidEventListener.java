@@ -7,4 +7,5 @@ package com.eden.orchid.api.events;
  * @since v1.0.0
  */
 public interface OrchidEventListener {
+
 }

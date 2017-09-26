@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class AssetsGenerator extends OrchidGenerator {
+public final class AssetsGenerator extends OrchidGenerator {
 
     @Inject
     public AssetsGenerator(OrchidContext context) {

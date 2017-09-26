@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-public class NotFound404Response {
+public final class NotFound404Response {
 
-    private OrchidContext context;
+    private final OrchidContext context;
 
     @Inject
     public NotFound404Response(OrchidContext context) {
