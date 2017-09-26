@@ -8,6 +8,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,9 +56,7 @@ public class TwigTemplateResolutionStrategy extends TemplateResolutionStrategy {
     public List<String> getComponentTemplate(OrchidComponent component) {
         List<String> templateNames = new ArrayList<>();
         if(!EdenUtils.isEmpty(component.getTemplates())) {
-            for(String templateName : component.getTemplates()) {
-                templateNames.add(templateName);
-            }
+            Collections.addAll(templateNames, component.getTemplates());
         }
         templateNames.add(component.getKey());
 

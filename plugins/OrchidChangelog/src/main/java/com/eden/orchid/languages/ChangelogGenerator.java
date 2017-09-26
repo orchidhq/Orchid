@@ -4,7 +4,6 @@ package com.eden.orchid.languages;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -20,8 +19,8 @@ import java.util.List;
 public class ChangelogGenerator extends OrchidGenerator {
 
     @Inject
-    public ChangelogGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(700, "changelog", context, renderer);
+    public ChangelogGenerator(OrchidContext context) {
+        super(context, "changelog", 700);
     }
 
     @Override

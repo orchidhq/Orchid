@@ -9,6 +9,6 @@ public class FieldsComponent extends OrchidComponent {
 
     @Inject
     public FieldsComponent(OrchidContext context) {
-        super(30, "javadocClassFields", context);
+        super(context, "javadocClassFields", 30);
     }
 }

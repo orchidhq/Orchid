@@ -20,7 +20,7 @@ import java.util.List;
  */
 public abstract class OrchidResourceSource extends Prioritized {
 
-    protected OrchidContext context;
+    protected final OrchidContext context;
 
     @Inject
     public OrchidResourceSource(OrchidContext context, int priority) {

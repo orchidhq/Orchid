@@ -3,8 +3,8 @@ package com.eden.orchid.impl.themes.menus;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -13,9 +13,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinkMenuItem implements OrchidMenuItemFactory {
-
-    private OrchidContext context;
+public class LinkMenuItem extends OrchidMenuItem {
 
     @Option
     public String title;
@@ -25,17 +23,12 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
 
     @Inject
     public LinkMenuItem(OrchidContext context) {
-        this.context = context;
+        super(context, "link", 100);
     }
 
     @Override
-    public String getKey() {
-        return "link";
-    }
-
-    @Override
-    public List<OrchidMenuItem> getMenuItems() {
-        List<OrchidMenuItem> menuItems = new ArrayList<>();
+    public List<OrchidMenuItemImpl> getMenuItems() {
+        List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(url)) {
             if(url.trim().equals("/")) {
@@ -45,7 +38,7 @@ public class LinkMenuItem implements OrchidMenuItemFactory {
                 url = OrchidUtils.applyBaseUrl(context, url);
             }
 
-            menuItems.add(new OrchidMenuItem(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url))));
+            menuItems.add(new OrchidMenuItemImpl(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url))));
         }
 
         return menuItems;

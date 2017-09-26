@@ -8,7 +8,6 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.StringDefault;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -41,8 +40,8 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
     public String[] sectionNames;
 
     @Inject
-    public WikiGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(700, "wiki", context, renderer);
+    public WikiGenerator(OrchidContext context) {
+        super(context, "wiki", 700);
     }
 
     @Override
@@ -80,7 +79,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.forEach(renderer::renderTemplate);
+        pages.forEach(context::renderTemplate);
     }
 
     private EdenPair<WikiSummaryPage, List<WikiPage>> getWikiPages(String section) {

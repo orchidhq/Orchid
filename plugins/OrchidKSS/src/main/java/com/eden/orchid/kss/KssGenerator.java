@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.kss.parser.KssParser;
@@ -36,8 +35,8 @@ public class KssGenerator extends OrchidGenerator {
     public String stylesheet;
 
     @Inject
-    public KssGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(700, "styleguide", context, renderer);
+    public KssGenerator(OrchidContext context) {
+        super(context, "styleguide", 700);
     }
 
     @Override
@@ -116,6 +115,6 @@ public class KssGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.forEach(renderer::renderTemplate);
+        pages.forEach(context::renderTemplate);
     }
 }

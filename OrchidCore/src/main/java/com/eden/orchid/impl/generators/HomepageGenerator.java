@@ -2,7 +2,6 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -15,8 +14,8 @@ import java.util.List;
 public class HomepageGenerator extends OrchidGenerator {
 
     @Inject
-    public HomepageGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(3, "home", context, renderer);
+    public HomepageGenerator(OrchidContext context) {
+        super(context, "home", 3);
     }
 
     @Override
@@ -51,11 +50,12 @@ public class HomepageGenerator extends OrchidGenerator {
         page.getReference().setUsePrettyUrl(false);
 
         pages.add(page);
+
         return pages;
     }
 
     @Override
     public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.forEach(renderer::renderTemplate);
+        pages.forEach(context::renderTemplate);
     }
 }

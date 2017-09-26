@@ -1,5 +1,8 @@
 package com.eden.orchid.api;
 
+import com.caseyjbrooks.clog.Clog;
+import com.caseyjbrooks.clog.parseltongue.Parseltongue;
+import com.caseyjbrooks.clog.parseltongue.Spell;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.OrchidVersion;
 import com.eden.orchid.api.compilers.CompilerService;
@@ -33,6 +36,8 @@ import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
+import com.eden.orchid.api.render.OrchidFileRendererServiceImpl;
+import com.eden.orchid.api.render.OrchidRenderService;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.site.OrchidSite;
@@ -56,6 +61,7 @@ public class ApiModule extends OrchidModule {
         bind(TaskService.class).to(TaskServiceImpl.class);
         bind(OptionsService.class).to(OptionsServiceImpl.class);
         bind(GeneratorService.class).to(GeneratorServiceImpl.class);
+        bind(OrchidRenderService.class).to(OrchidFileRendererServiceImpl.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 
@@ -83,11 +89,21 @@ public class ApiModule extends OrchidModule {
                 OrchidMenuOptionExtractor.class,
                 ComponentHolderOptionExtractor.class
         );
+
+        Parseltongue formatter = (Parseltongue) Clog.getFormatter();
+        formatter.findSpells(this.getClass());
+        Clog.setFormatter(formatter);
     }
 
     @Provides
     OrchidSite provideOrchidSite(@Named("v") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment) {
         OrchidSite site = new OrchidSiteImpl(OrchidVersion.getVersion(), version, baseUrl, environment);
         return site;
+    }
+
+    @Spell(name="thingie")
+    public static String getThingie(Object object) {
+        Clog.v("is this thingie working");
+        return "Lauren is awesome";
     }
 }

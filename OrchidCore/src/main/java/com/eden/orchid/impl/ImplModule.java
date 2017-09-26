@@ -17,7 +17,7 @@ import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -101,7 +101,7 @@ public class ImplModule extends OrchidModule {
                 ServeTask.class);
 
         // Menu Items
-        addToSet(OrchidMenuItemFactory.class,
+        addToSet(OrchidMenuItem.class,
                 DividerMenuItem.class,
                 LinkMenuItem.class,
                 IndexMenuItem.class);

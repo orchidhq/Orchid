@@ -1,8 +1,6 @@
-package com.eden.orchid.impl.compilers.jtwig;
+package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
@@ -15,17 +13,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class TwigRenderer extends OrchidRenderer {
+public class OrchidFileRendererServiceImpl extends BaseOrchidRendererServiceImpl {
 
     private final String destination;
 
     @Inject
-    public TwigRenderer(@Named("d") String destination, OrchidContext context, TemplateResolutionStrategy strategy) {
+    public OrchidFileRendererServiceImpl(@Named("d") String destination, OrchidContext context, TemplateResolutionStrategy strategy) {
         super(context, strategy);
         this.destination = destination;
     }
 
-    protected boolean render(OrchidPage page, String extension, String content) {
+    public boolean render(OrchidPage page, String extension, String content) {
         long startTime = System.currentTimeMillis();
         long stopTime;
         boolean success;
@@ -59,7 +57,7 @@ public class TwigRenderer extends OrchidRenderer {
         return success;
     }
 
-    protected boolean render(OrchidPage page, String extension, InputStream content) {
+    public boolean render(OrchidPage page, String extension, InputStream content) {
         long startTime = System.currentTimeMillis();
         long stopTime;
         boolean success;
@@ -91,4 +89,5 @@ public class TwigRenderer extends OrchidRenderer {
 
         return success;
     }
+
 }

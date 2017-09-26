@@ -2,7 +2,6 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -16,8 +15,8 @@ import java.util.List;
 public class AssetsGenerator extends OrchidGenerator {
 
     @Inject
-    public AssetsGenerator(OrchidContext context, OrchidRenderer renderer) {
-        super(2, "assets", context, renderer);
+    public AssetsGenerator(OrchidContext context) {
+        super(context, "assets", 2);
     }
 
     @Override
@@ -41,28 +40,28 @@ public class AssetsGenerator extends OrchidGenerator {
     public void startGeneration(List<? extends OrchidPage> pages) {
         pages.stream()
              .filter(page -> context.isBinaryExtension(page.getReference().getOutputExtension()))
-             .forEach(renderer::renderBinary);
+             .forEach(context::renderBinary);
         pages.stream()
              .filter(OrchidUtils.not(page -> context.isBinaryExtension(page.getReference().getOutputExtension())))
-             .forEach(renderer::renderRaw);
+             .forEach(context::renderRaw);
 
         context.getGlobalAssetHolder()
                .getScripts()
                .stream()
-               .forEach(renderer::renderRaw);
+               .forEach(context::renderRaw);
         context.getGlobalAssetHolder()
                .getStyles()
                .stream()
-               .forEach(renderer::renderRaw);
+               .forEach(context::renderRaw);
 
         context.getDefaultTheme()
                .getScripts()
                .stream()
-               .forEach(renderer::renderRaw);
+               .forEach(context::renderRaw);
         context.getDefaultTheme()
                .getStyles()
                .stream()
-               .forEach(renderer::renderRaw);
+               .forEach(context::renderRaw);
     }
 }
 

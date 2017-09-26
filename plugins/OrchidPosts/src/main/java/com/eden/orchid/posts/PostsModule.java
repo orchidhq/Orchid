@@ -4,7 +4,7 @@ import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.resources.resourceSource.DefaultResourceSource;
 import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.posts.components.PostTagsComponent;
 import com.eden.orchid.posts.menu.CategoriesMenuType;
 import com.eden.orchid.posts.menu.LatestPostsMenuType;
@@ -23,7 +23,7 @@ public class PostsModule extends OrchidModule {
     protected void configure() {
         addToSet(OrchidGenerator.class, PostsGenerator.class);
 
-        addToSet(OrchidMenuItemFactory.class,
+        addToSet(OrchidMenuItem.class,
                 CategoriesMenuType.class,
                 LatestPostsMenuType.class,
                 TagsMenuType.class);
@@ -31,7 +31,8 @@ public class PostsModule extends OrchidModule {
         addToSet(OrchidComponent.class,
                 PostTagsComponent.class);
 
-        addToSet(DefaultResourceSource.class, PostsResourceSource.class);
+        addToSet(DefaultResourceSource.class,
+                PostsResourceSource.class);
 
         addToSet(PermalinkPathType.class,
                 YearPathType.class,

@@ -9,6 +9,6 @@ public class MethodsComponent extends OrchidComponent {
 
     @Inject
     public MethodsComponent(OrchidContext context) {
-        super(40, "javadocClassMethods", context);
+        super(context, "javadocClassMethods", 40);
     }
 }

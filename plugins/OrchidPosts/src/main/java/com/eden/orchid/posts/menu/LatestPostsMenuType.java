@@ -4,8 +4,8 @@ import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
@@ -14,9 +14,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LatestPostsMenuType implements OrchidMenuItemFactory {
+public class LatestPostsMenuType extends OrchidMenuItem {
 
-    private OrchidContext context;
     private PostsModel postsModel;
 
     @Option
@@ -27,18 +26,13 @@ public class LatestPostsMenuType implements OrchidMenuItemFactory {
 
     @Inject
     public LatestPostsMenuType(OrchidContext context, PostsModel postsModel) {
-        this.context = context;
+        super(context, "latestPosts", 100);
         this.postsModel = postsModel;
     }
 
     @Override
-    public String getKey() {
-        return "latestPosts";
-    }
-
-    @Override
-    public List<OrchidMenuItem> getMenuItems() {
-        List<OrchidMenuItem> items = new ArrayList<>();
+    public List<OrchidMenuItemImpl> getMenuItems() {
+        List<OrchidMenuItemImpl> items = new ArrayList<>();
 
         EdenPair<List<PostPage>, List<PostArchivePage>> category;
         String categoryName;
@@ -53,7 +47,7 @@ public class LatestPostsMenuType implements OrchidMenuItemFactory {
             categoryName = "blog";
         }
 
-        items.add(new OrchidMenuItem(
+        items.add(new OrchidMenuItemImpl(
                 context,
                 "Latest from " + categoryName,
                 new ArrayList<>(category.first.subList(0, Math.min(category.first.size(), latestPostCount)))));

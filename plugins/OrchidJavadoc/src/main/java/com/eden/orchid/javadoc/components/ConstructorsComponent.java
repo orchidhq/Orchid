@@ -9,6 +9,6 @@ public class ConstructorsComponent extends OrchidComponent {
 
     @Inject
     public ConstructorsComponent(OrchidContext context) {
-        super(20, "javadocClassCtors", context);
+        super(context, "javadocClassCtors", 20);
     }
 }

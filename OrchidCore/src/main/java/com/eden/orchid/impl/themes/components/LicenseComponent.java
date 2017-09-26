@@ -10,7 +10,7 @@ public class LicenseComponent extends OrchidComponent {
 
     @Inject
     public LicenseComponent(OrchidContext context) {
-        super(40, "license", context);
+        super(context, "license", 40);
     }
 
     public String getContent() {

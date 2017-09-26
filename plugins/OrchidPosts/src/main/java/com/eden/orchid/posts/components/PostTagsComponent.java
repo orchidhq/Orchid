@@ -9,6 +9,6 @@ public class PostTagsComponent extends OrchidComponent {
 
     @Inject
     public PostTagsComponent(OrchidContext context) {
-        super(25, "postTags", context);
+        super(context, "postTags", 25);
     }
 }

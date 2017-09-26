@@ -10,7 +10,7 @@ public class ReadmeComponent extends OrchidComponent {
 
     @Inject
     public ReadmeComponent(OrchidContext context) {
-        super(50, "readme", context);
+        super(context, "readme", 50);
     }
 
     public String getContent() {

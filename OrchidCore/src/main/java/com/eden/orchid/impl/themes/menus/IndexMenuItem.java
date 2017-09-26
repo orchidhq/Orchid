@@ -4,16 +4,14 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndexMenuItem implements OrchidMenuItemFactory {
-
-    private OrchidContext context;
+public class IndexMenuItem extends OrchidMenuItem {
 
     @Option
     public String title;
@@ -23,20 +21,15 @@ public class IndexMenuItem implements OrchidMenuItemFactory {
 
     @Inject
     public IndexMenuItem(OrchidContext context) {
-        this.context = context;
+        super(context, "index", 100);
     }
 
     @Override
-    public String getKey() {
-        return "index";
-    }
-
-    @Override
-    public List<OrchidMenuItem> getMenuItems() {
-        List<OrchidMenuItem> menuItems = new ArrayList<>();
+    public List<OrchidMenuItemImpl> getMenuItems() {
+        List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(index)) {
             OrchidIndex foundIndex = context.getIndex().findIndex(index);
-            menuItems.add(new OrchidMenuItem(context, title, foundIndex));
+            menuItems.add(new OrchidMenuItemImpl(context, title, foundIndex));
         }
 
         return menuItems;

@@ -2,7 +2,7 @@ package com.eden.orchid.api.theme.menus;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -19,19 +19,20 @@ public final class OrchidMenu {
 
     private OrchidContext context;
     private JSONArray menuJson;
-    private Map<String, OrchidMenuItemFactory> menuItemTypesMap;
+    private Map<String, Class<? extends OrchidMenuItem>> menuItemTypesMap;
 
     private List<OrchidMenuItem> menuItems;
+    private List<OrchidMenuItemImpl> menuItemsChildren;
 
     public OrchidMenu(OrchidContext context, JSONArray menuItems) {
         this.context = context;
         this.menuJson = menuItems;
 
-        Set<OrchidMenuItemFactory> menuItemTypes = context.resolveSet(OrchidMenuItemFactory.class);
+        Set<OrchidMenuItem> menuItemTypes = context.resolveSet(OrchidMenuItem.class);
         menuItemTypesMap = new HashMap<>();
 
-        for (OrchidMenuItemFactory factory : menuItemTypes) {
-            menuItemTypesMap.put(factory.getKey(), factory);
+        for (OrchidMenuItem factory : menuItemTypes) {
+            menuItemTypesMap.put(factory.getKey(), factory.getClass());
         }
     }
 
@@ -50,7 +51,7 @@ public final class OrchidMenu {
         return true;
     }
 
-    public List<OrchidMenuItem> getMenuItems() {
+    public List<OrchidMenuItemImpl> getMenuItems() {
         if (menuItems == null) {
             menuItems = new ArrayList<>();
 
@@ -59,23 +60,32 @@ public final class OrchidMenu {
                 String menuItemType = menuItemJson.getString("type");
 
                 if(menuItemTypesMap.containsKey(menuItemType)) {
-                    OrchidMenuItemFactory factory = menuItemTypesMap.get(menuItemType);
-                    factory.extractOptions(context, menuItemJson);
-                    menuItems.addAll(factory.getMenuItems());
+                    OrchidMenuItem menuitem = context.getInjector().getInstance(menuItemTypesMap.get(menuItemType));
+                    menuitem.extractOptions(context, menuItemJson);
+                    menuItems.add(menuitem);
                 }
             }
         }
 
-        return menuItems;
+        if(menuItemsChildren == null) {
+            menuItemsChildren = new ArrayList<>();
+            for(OrchidMenuItem menuItem : menuItems) {
+                menuItemsChildren.addAll(menuItem.getMenuItems());
+            }
+        }
+
+        return menuItemsChildren;
     }
 
     public void addMenuItem(JSONObject menuItemJson) {
         menuItems = null;
+        menuItemsChildren = null;
         menuJson.put(menuItemJson);
     }
 
     public void addMenuItems(JSONArray menuItemsJson) {
         menuItems = null;
+        menuItemsChildren = null;
         for (int i = 0; i < menuItemsJson.length(); i++) {
             menuJson.put(menuItemsJson.get(i));
         }

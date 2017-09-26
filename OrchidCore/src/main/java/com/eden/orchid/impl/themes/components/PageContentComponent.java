@@ -9,7 +9,7 @@ public class PageContentComponent extends OrchidComponent {
 
     @Inject
     public PageContentComponent(OrchidContext context) {
-        super(100, "pageContent", context);
+        super(context, "pageContent", 100);
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.TreeSet;
 @Singleton
 public final class CompilerServiceImpl implements CompilerService {
 
-    private String[] binaryExtensions = new String[]{
+    private String[] binaryExtensions = new String[] {
             "jpg",
             "jpeg",
             "png",

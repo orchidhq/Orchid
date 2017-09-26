@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme.components;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Description;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
@@ -11,29 +12,31 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 
-@Getter @Setter
 public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder {
 
-    protected String key;
-    protected OrchidContext context;
+    protected final OrchidContext context;
 
-    private boolean rendered;
-
-    protected AssetHolder assets;
+    @Getter protected final String key;
+    @Getter protected final AssetHolder assetHolder;
 
     @Option
+    @Description("Specify a list of templates to use when rendering this component. The first template that exists " +
+            "will be chosen for this component.")
+    @Getter @Setter
     protected String[] templates;
 
+    @Option
+    @Description("By default, components are rendered in the order in which they are declared, but the ordering can " +
+            "be changed by setting the order on any individual component. A higher value for order will render that " +
+            "component earlier in the list.")
+    @Getter @Setter
+    protected int order;
+
     @Inject
-    public OrchidComponent(int priority, String key, OrchidContext context) {
+    public OrchidComponent(OrchidContext context, String key, int priority) {
         super(priority);
         this.key = key;
         this.context = context;
-        this.assets = new AssetHolderDelegate(context);
-    }
-
-    @Override
-    public AssetHolder getAssetHolder() {
-        return assets;
+        this.assetHolder = new AssetHolderDelegate(context);
     }
 }

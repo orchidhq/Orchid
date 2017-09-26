@@ -3,8 +3,8 @@ package com.eden.orchid.kss.menu;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.kss.KssGenerator;
 import com.eden.orchid.kss.KssPage;
@@ -16,26 +16,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
-
-    private OrchidContext context;
+public class StyleguidePagesMenuItemType extends OrchidMenuItem {
 
     @Option
     public String section;
 
     @Inject
     public StyleguidePagesMenuItemType(OrchidContext context) {
-        this.context = context;
+        super(context, "styleguide", 100);
     }
 
     @Override
-    public String getKey() {
-        return "styleguide";
-    }
-
-    @Override
-    public List<OrchidMenuItem> getMenuItems() {
-        List<OrchidMenuItem> menuItems = new ArrayList<>();
+    public List<OrchidMenuItemImpl> getMenuItems() {
+        List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
         Map<String, List<KssPage>> sections = new HashMap<>();
 
@@ -69,7 +62,7 @@ public class StyleguidePagesMenuItemType implements OrchidMenuItemFactory {
             allPages.addAll(sectionPages);
         }
 
-        menuItems.add(new OrchidMenuItem(context, menuItemTitle, allPages));
+        menuItems.add(new OrchidMenuItemImpl(context, menuItemTitle, allPages));
 
         return menuItems;
     }

@@ -36,10 +36,6 @@ Editorial:
     - type: 'javadocPackages'
     - type: 'javadocClasses'
     - type: 'wikiSections'
-    - type: 'wiki'
-      section: 'reference'
-    - type: 'wiki'
-      section: 'userManual'
 
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 

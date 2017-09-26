@@ -52,4 +52,5 @@ public abstract class OrchidCompiler extends Prioritized {
      * @since v1.0.0
      */
     public abstract String[] getSourceExtensions();
+
 }

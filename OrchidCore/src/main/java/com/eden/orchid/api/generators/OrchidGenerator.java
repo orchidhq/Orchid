@@ -4,7 +4,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +47,6 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     protected final String key;
 
     protected OrchidContext context;
-    protected OrchidRenderer renderer;
 
     @Option
     @Getter
@@ -56,11 +54,10 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     private String theme;
 
     @Inject
-    public OrchidGenerator(int priority, String key, OrchidContext context, OrchidRenderer renderer) {
+    public OrchidGenerator(OrchidContext context, String key, int priority) {
         super(priority);
         this.key = key;
         this.context = context;
-        this.renderer = renderer;
     }
 
     /**

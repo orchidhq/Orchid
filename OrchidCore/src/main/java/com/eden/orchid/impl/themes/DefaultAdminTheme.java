@@ -11,11 +11,11 @@ public class DefaultAdminTheme extends AdminTheme {
 
     @Inject
     public DefaultAdminTheme(OrchidContext context) {
-        super(context, "Default");
+        super(context, "Default", 100);
     }
 
     @Override
-    protected void addAssets() {
+    public void addAssets() {
         addCss("assets/css/admin_style.css");
 
         addJs("assets/js/vendor/jquery.min.js");
@@ -27,6 +27,7 @@ public class DefaultAdminTheme extends AdminTheme {
         addJs("assets/js/admin_app.js");
     }
 
+    // TODO: Remove these methods when Jtwig has updated to access default methods
     @Override
     public List<OrchidPage> getScripts() {
         return getAssetHolder().getScripts();

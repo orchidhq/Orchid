@@ -1,15 +1,13 @@
 package com.eden.orchid.api.registration;
 
+import lombok.Getter;
+
 public abstract class Prioritized implements Comparable<Prioritized> {
 
-    protected final int priority;
+    @Getter protected final int priority;
 
     public Prioritized(int priority) {
         this.priority = priority;
-    }
-
-    public int getPriority() {
-        return priority;
     }
 
     @Override

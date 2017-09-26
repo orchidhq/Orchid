@@ -5,8 +5,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.impl.indexing.OrchidInternalIndex;
@@ -21,26 +21,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WikiPagesMenuItemType implements OrchidMenuItemFactory {
-
-    private OrchidContext context;
+public class WikiPagesMenuItemType extends OrchidMenuItem {
 
     @Option
     public String section;
 
     @Inject
     public WikiPagesMenuItemType(OrchidContext context) {
-        this.context = context;
+        super(context, "wiki", 100);
     }
 
     @Override
-    public String getKey() {
-        return "wiki";
-    }
-
-    @Override
-    public List<OrchidMenuItem> getMenuItems() {
-        List<OrchidMenuItem> menuItems = new ArrayList<>();
+    public List<OrchidMenuItemImpl> getMenuItems() {
+        List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
         Map<String, EdenPair<WikiSummaryPage, List<WikiPage>>> sections = new HashMap<>();
 
@@ -81,7 +74,7 @@ public class WikiPagesMenuItemType implements OrchidMenuItemFactory {
             }
         }
 
-        menuItems.add(new OrchidMenuItem(context, menuItemTitle, wikiPagesIndex));
+        menuItems.add(new OrchidMenuItemImpl(context, menuItemTitle, wikiPagesIndex));
 
         return menuItems;
     }

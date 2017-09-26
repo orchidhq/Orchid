@@ -144,6 +144,24 @@
             </footer>
         </article>
 
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2><a href="#">Euismod et accumsan</a></h2>
+                    <p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
+                </div>
+                <div class="meta">
+                    <time class="published" datetime="2015-10-22">October 22, 2015</time>
+                    <a href="#" class="author"><span class="name">Jane Doe</span><img
+                                src="/assets/images/avatar.jpg"
+                                alt=""/></a>
+                </div>
+            </header>
+            <a href="#" class="image featured"><img
+                        src="/assets/images/pic03.jpg" alt=""/></a>
+            {% embed 'includes/pageContent.twig' %}{% endembed %}
+        </article>
+
         <!-- Pagination -->
         <ul class="actions pagination">
             <li><a href="" class="disabled button big previous">Previous Page</a></li>
@@ -216,6 +234,14 @@
                     </header>
                     <a href="#" class="image"><img
                                 src="/assets/images/pic07.jpg" alt=""/></a>
+                </article>
+
+                <article class="mini-post">
+                    {% for component in theme.sidebar.remainingComponents %}
+                        <div class="component component-{{ component.key }}">
+                            {% include component | template('component') %}
+                        </div>
+                    {% endfor %}
                 </article>
 
             </div>

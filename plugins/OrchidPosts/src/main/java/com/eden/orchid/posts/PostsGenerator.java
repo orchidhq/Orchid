@@ -7,7 +7,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -45,12 +44,8 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     public PostsPaginator pagination;
 
     @Inject
-    public PostsGenerator(
-            OrchidContext context,
-            OrchidRenderer renderer,
-            PostsPermalinkStrategy permalinkStrategy,
-            PostsModel postsModel) {
-        super(700, "posts", context, renderer);
+    public PostsGenerator(OrchidContext context, PostsPermalinkStrategy permalinkStrategy, PostsModel postsModel) {
+        super(context, "posts", 700);
         this.permalinkStrategy = permalinkStrategy;
         this.postsModel = postsModel;
     }
@@ -99,7 +94,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> posts) {
-        posts.forEach(renderer::renderTemplate);
+        posts.forEach(context::renderTemplate);
     }
 
     private OrchidPage previous(List<? extends OrchidPage> posts, int i) {

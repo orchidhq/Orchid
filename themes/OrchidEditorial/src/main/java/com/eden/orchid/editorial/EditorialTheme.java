@@ -22,7 +22,7 @@ public class EditorialTheme extends Theme {
     }
 
     @Override
-    protected void addAssets() {
+    public void addAssets() {
         addCss(new OrchidPage(this.getResourceEntry("assets/css/editorial.scss"), "main_css"));
         addJs(new OrchidPage(this.getResourceEntry("assets/js/editorial.js"), "main_js"));
         addJs(new OrchidPage(this.getResourceEntry("assets/js/editorial_util.js"), "util_js"));

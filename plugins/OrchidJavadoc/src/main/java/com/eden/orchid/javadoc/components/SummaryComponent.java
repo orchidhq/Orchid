@@ -9,6 +9,6 @@ public class SummaryComponent extends OrchidComponent {
 
     @Inject
     public SummaryComponent(OrchidContext context) {
-        super(10, "javadocClassSummary", context);
+        super(context, "javadocClassSummary", 10);
     }
 }
