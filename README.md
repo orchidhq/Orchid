@@ -163,13 +163,13 @@ To release a new version of Orchid:
 
 - Orchid Core, and all plugins and themes:
     - Start with clean Git index
-    - Increment `version` in root `build.gradle`, according to Semantic Versioning
+    - Increment `version` in root `build.gradle`, according to [Semantic Versioning](http://semver.org/) and prefixed with `v`
     - Commit and push version change
     - `gradle clean build deploy -Penv=prod` (requires API keys and credentials for Github and Bintray)
 - Orchid Gradle Plugin
     - Start with clean Git index
     - `cd buildSrc` (buildSrc is not recognized as a normal part of the Gradle project, but its is a project in its own local directory)
-    - Increment `version` in `buildSrc/build.gradle`, according to Semantic Versioning
+    - Increment `version` in `buildSrc/build.gradle`, according to [Semantic Versioning](http://semver.org/) and prefixed with `v`
     - `gradle publishPlugins`
 
 ## Contact
