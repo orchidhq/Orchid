@@ -12,7 +12,7 @@ dependencies {
     compile localGroovy()
 }
 
-version = 'v0.2.0'
+version = 'v0.3.0'
 
 pluginBundle {
     website = 'http://www.gradle.org/'
