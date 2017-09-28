@@ -27,12 +27,13 @@ import java.util.List;
  * | long       | @LongDefault | Annotation value() or 0L |
  * | Long       | @LongDefault | Annotation value() or 0L |
  */
-public final class LongOptionExtractor implements OptionExtractor<Long> {
+public final class LongOptionExtractor extends OptionExtractor<Long> {
 
     private final LongConverter converter;
 
     @Inject
     public LongOptionExtractor(LongConverter converter) {
+        super(50);
         this.converter = converter;
     }
 

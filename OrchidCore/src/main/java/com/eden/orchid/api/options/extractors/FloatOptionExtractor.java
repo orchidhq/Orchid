@@ -27,12 +27,13 @@ import java.util.List;
  * | float      | @FloatDefault | Annotation value() or 0.0f |
  * | Float      | @FloatDefault | Annotation value() or 0.0f |
  */
-public final class FloatOptionExtractor implements OptionExtractor<Float> {
+public final class FloatOptionExtractor extends OptionExtractor<Float> {
 
     private final FloatConverter converter;
 
     @Inject
     public FloatOptionExtractor(FloatConverter converter) {
+        super(50);
         this.converter = converter;
     }
 

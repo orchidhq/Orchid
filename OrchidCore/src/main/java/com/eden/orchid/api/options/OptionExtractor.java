@@ -1,15 +1,27 @@
 package com.eden.orchid.api.options;
 
+import com.eden.orchid.api.registration.Prioritized;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-public interface OptionExtractor<T> {
+public abstract class OptionExtractor<T> extends Prioritized {
 
-    boolean acceptsClass(Class clazz);
+    public OptionExtractor(int priority) {
+        super(priority);
+    }
 
-    T getOption(Field field, JSONObject options, String key);
-    List<T> getList(Field field, JSONObject options, String key);
-    Object getArray(Field field, JSONObject options, String key);
+    public abstract boolean acceptsClass(Class clazz);
+
+    public abstract T getOption(Field field, JSONObject options, String key);
+
+    public List<T> getList(Field field, JSONObject options, String key) {
+        return null;
+    }
+
+    public Object getArray(Field field, JSONObject options, String key) {
+        return null;
+    }
+
 }

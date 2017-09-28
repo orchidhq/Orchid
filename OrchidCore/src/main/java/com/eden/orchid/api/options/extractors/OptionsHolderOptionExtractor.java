@@ -38,12 +38,13 @@ import java.util.List;
  * List of OptionsHolders of the same Class. The class to deserialize by in that List should be set with @ListClass on
  * the field.
  */
-public final class OptionsHolderOptionExtractor implements OptionExtractor<OptionsHolder> {
+public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsHolder> {
 
     private final Provider<OptionsExtractor> extractorProvider;
 
     @Inject
     public OptionsHolderOptionExtractor(Provider<OptionsExtractor> extractorProvider) {
+        super(25);
         this.extractorProvider = extractorProvider;
     }
 

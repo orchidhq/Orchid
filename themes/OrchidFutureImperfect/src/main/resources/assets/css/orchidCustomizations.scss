@@ -1,0 +1,18 @@
+
+.post.single {
+  max-width: 960px;
+  margin: 0 auto 3em auto;
+
+  footer {
+    border-top: solid 1px rgba(160, 160, 160, 0.3);
+    padding-top: 1em;
+
+    span {
+      margin: 0 2em 2em 0;
+
+      &.grow {
+        flex-grow: 1;
+      }
+    }
+  }
+}

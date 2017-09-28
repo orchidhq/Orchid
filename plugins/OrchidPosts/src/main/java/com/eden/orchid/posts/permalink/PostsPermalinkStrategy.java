@@ -2,6 +2,7 @@ package com.eden.orchid.posts.permalink;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.posts.PostsModel;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
@@ -12,11 +13,13 @@ import java.util.TreeSet;
 public class PostsPermalinkStrategy {
 
     private OrchidContext context;
+    private PostsModel postsModel;
     private Set<PermalinkPathType> pathTypes;
 
     @Inject
-    public PostsPermalinkStrategy(OrchidContext context, Set<PermalinkPathType> pathTypes) {
+    public PostsPermalinkStrategy(OrchidContext context, PostsModel postsModel, Set<PermalinkPathType> pathTypes) {
         this.context = context;
+        this.postsModel = postsModel;
         this.pathTypes = new TreeSet<>(pathTypes);
     }
 
@@ -35,28 +38,11 @@ public class PostsPermalinkStrategy {
     }
 
     private String getPermalinkTemplate(PostPage post) {
-
-        String permalink = null;
-
-        if (post.getData().has("permalink")) {
-            permalink = post.getData().getString("permalink");
-        }
-        else if (!EdenUtils.isEmpty(context.query("options.posts.permalink"))) {
-            permalink = context.query("options.posts.permalink").toString();
-        }
-
-        permalink = OrchidUtils.normalizePath(permalink);
-
-        if(!EdenUtils.isEmpty(permalink)) {
-            return permalink;
+        if (!EdenUtils.isEmpty(post.getPermalink())) {
+            return post.getPermalink();
         }
         else {
-            if(post.getData().has("category")) {
-                return ":category/:year/:month/:slug";
-            }
-            else {
-                return ":year/:month/:slug";
-            }
+            return postsModel.getPermalink();
         }
     }
 

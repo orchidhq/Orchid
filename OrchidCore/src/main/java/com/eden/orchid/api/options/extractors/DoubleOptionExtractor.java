@@ -27,12 +27,13 @@ import java.util.List;
  * | double     | @DoubleDefault | Annotation value() or 0.0 |
  * | Double     | @DoubleDefault | Annotation value() or 0.0 |
  */
-public final class DoubleOptionExtractor implements OptionExtractor<Double> {
+public final class DoubleOptionExtractor extends OptionExtractor<Double> {
 
     private final DoubleConverter converter;
 
     @Inject
     public DoubleOptionExtractor(DoubleConverter converter) {
+        super(50);
         this.converter = converter;
     }
 

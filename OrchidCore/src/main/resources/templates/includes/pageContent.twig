@@ -2,11 +2,5 @@
 
 {% endblock %}
 {% block remainingComponents %}
-    {% if page.components and page.components.remainingComponents.size > 0 %}
-        {% for component in page.components.remainingComponents %}
-            <div class="component component-{{ component.key }}">
-                {% include component | template('component') %}
-            </div>
-        {% endfor %}
-    {% endif %}
+    {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
 {% endblock %}

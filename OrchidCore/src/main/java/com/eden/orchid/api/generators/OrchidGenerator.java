@@ -53,6 +53,10 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     @Option
     private String theme;
 
+    @Getter @Setter
+    @Option
+    public String layout;
+
     @Inject
     public OrchidGenerator(OrchidContext context, String key, int priority) {
         super(priority);

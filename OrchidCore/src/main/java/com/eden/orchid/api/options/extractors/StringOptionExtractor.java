@@ -20,12 +20,13 @@ import java.util.List;
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
  */
-public final class StringOptionExtractor implements OptionExtractor<String> {
+public final class StringOptionExtractor extends OptionExtractor<String> {
 
     private final StringConverter converter;
 
     @Inject
     public StringOptionExtractor(StringConverter converter) {
+        super(10);
         this.converter = converter;
     }
 

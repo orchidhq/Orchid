@@ -33,6 +33,7 @@ import com.eden.orchid.impl.server.admin.AdminController;
 import com.eden.orchid.impl.server.admin.lists.CompilersList;
 import com.eden.orchid.impl.server.admin.lists.ComponentsList;
 import com.eden.orchid.impl.server.admin.lists.GeneratorsList;
+import com.eden.orchid.impl.server.admin.lists.MenuItemsList;
 import com.eden.orchid.impl.server.admin.lists.OptionsList;
 import com.eden.orchid.impl.server.admin.lists.ParsersList;
 import com.eden.orchid.impl.server.admin.lists.ResourceSourcesList;
@@ -129,6 +130,7 @@ public final class ImplModule extends OrchidModule {
                 ParsersList.class,
                 ResourceSourcesList.class,
                 TasksList.class,
-                ThemesList.class);
+                ThemesList.class,
+                MenuItemsList.class);
     }
 }

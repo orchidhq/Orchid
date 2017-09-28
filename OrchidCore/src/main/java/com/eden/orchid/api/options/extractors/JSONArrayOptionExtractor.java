@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.OptionExtractor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -23,7 +24,12 @@ import java.util.List;
  * |------------|-------------|---------------|
  * | JSONArray  | none        | null          |
  */
-public final class JSONArrayOptionExtractor implements OptionExtractor<JSONArray> {
+public final class JSONArrayOptionExtractor extends OptionExtractor<JSONArray> {
+
+    @Inject
+    public JSONArrayOptionExtractor() {
+        super(10);
+    }
 
     @Override
     public boolean acceptsClass(Class clazz) {

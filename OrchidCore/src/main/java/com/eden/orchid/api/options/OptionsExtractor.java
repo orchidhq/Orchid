@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,13 +12,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Singleton
 public class OptionsExtractor {
 
-    private final Set<OptionExtractor> extractors;
+    private final List<OptionExtractor> extractors;
 
     @Inject
     public OptionsExtractor(Set<OptionExtractor> extractors) {
-        this.extractors = extractors;
+        this.extractors = new ArrayList<>(extractors);
+        this.extractors.sort((o1, o2) -> o2.getPriority() - o1.getPriority());
     }
 
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
@@ -90,7 +93,7 @@ public class OptionsExtractor {
             }
         }
 
-        if(!foundExtractor) {
+        if (!foundExtractor) {
             setOptionValue(optionsHolder, field, key, field.getType(), null);
         }
     }
@@ -106,7 +109,7 @@ public class OptionsExtractor {
             }
         }
 
-        if(!foundExtractor) {
+        if (!foundExtractor) {
             setOptionValue(optionsHolder, field, key, field.getType(), null);
         }
     }

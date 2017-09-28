@@ -140,6 +140,13 @@ public final class GeneratorServiceImpl implements GeneratorService {
             generatorPages = new ArrayList<>();
         }
 
+        //TODO: Find a better way for pages to access their generator, so we don't have to modify state like this
+        for(OrchidPage page : generatorPages) {
+            if(EdenUtils.isEmpty(page.getLayout()) && !EdenUtils.isEmpty(generator.getLayout())) {
+                page.setLayout(generator.getLayout());
+            }
+        }
+
         Theme generatorTheme = null;
         if (!EdenUtils.isEmpty(generator.getTheme())) {
             generatorTheme = context.findTheme(generator.getTheme());

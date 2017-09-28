@@ -27,12 +27,13 @@ import java.util.List;
  * | int        | @IntDefault | Annotation value() or 0 |
  * | Integer    | @IntDefault | Annotation value() or 0 |
  */
-public final class IntOptionExtractor implements OptionExtractor<Integer> {
+public final class IntOptionExtractor extends OptionExtractor<Integer> {
 
     private final IntegerConverter converter;
 
     @Inject
     public IntOptionExtractor(IntegerConverter converter) {
+        super(50);
         this.converter = converter;
     }
 

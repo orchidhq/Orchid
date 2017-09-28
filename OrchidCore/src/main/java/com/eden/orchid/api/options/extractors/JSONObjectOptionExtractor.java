@@ -3,6 +3,7 @@ package com.eden.orchid.api.options.extractors;
 import com.eden.orchid.api.options.OptionExtractor;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -21,7 +22,12 @@ import java.util.List;
  * |------------|-------------|---------------|
  * | JSONObject | none        | null          |
  */
-public final class JSONObjectOptionExtractor implements OptionExtractor<JSONObject> {
+public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject> {
+
+    @Inject
+    public JSONObjectOptionExtractor() {
+        super(10);
+    }
 
     @Override
     public boolean acceptsClass(Class clazz) {

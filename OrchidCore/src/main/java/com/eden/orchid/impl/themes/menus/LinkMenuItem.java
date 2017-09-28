@@ -19,6 +19,9 @@ public final class LinkMenuItem extends OrchidMenuItem {
     public String title;
 
     @Option
+    public String subtitle;
+
+    @Option
     public String url;
 
     @Inject
@@ -38,7 +41,13 @@ public final class LinkMenuItem extends OrchidMenuItem {
                 url = OrchidUtils.applyBaseUrl(context, url);
             }
 
-            menuItems.add(new OrchidMenuItemImpl(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url))));
+            OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url)));
+
+            if(!EdenUtils.isEmpty(subtitle)) {
+                item.setSubtitle(subtitle);
+            }
+
+            menuItems.add(item);
         }
 
         return menuItems;

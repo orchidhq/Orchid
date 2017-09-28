@@ -7,6 +7,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.ListClass;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -35,7 +37,16 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     private PostsModel postsModel;
 
     @Option
+    @StringDefault(":year/:month/:slug")
     public String permalink;
+
+    @Option
+    @StringDefault("<!--more-->")
+    public String excerptSeparator;
+
+    @Option
+    @ListClass(Author.class)
+    public List<Author> authors;
 
     @Option("categories")
     public String[] categoryNames;
@@ -57,7 +68,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        postsModel.initialize();
+        postsModel.initialize(permalink, layout, excerptSeparator, authors);
 
         if(EdenUtils.isEmpty(categoryNames)) {
             List<PostPage> posts = getPostsList(null);
@@ -94,7 +105,12 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public void startGeneration(List<? extends OrchidPage> posts) {
-        posts.forEach(context::renderTemplate);
+        try {
+            posts.forEach(context::renderTemplate);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private OrchidPage previous(List<? extends OrchidPage> posts, int i) {
@@ -133,7 +149,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
             Matcher matcher = pageTitleRegex.matcher(entry.getReference().getFileName());
 
             if (matcher.matches()) {
-                PostPage post = new PostPage(entry);
+                PostPage post = new PostPage(entry, postsModel);
 
                 int year = Integer.parseInt(matcher.group(1));
                 int month = Integer.parseInt(matcher.group(2));
@@ -160,31 +176,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
             }
         }
 
-        posts.sort((o1, o2) -> {
-            String[] criteria = new String[]{"year", "month", "day"};
-
-            for (String item : criteria) {
-                int result = 0;
-
-                switch (item) {
-                    case "year":
-                        result = o2.getYear() - o1.getYear();
-                        break;
-                    case "month":
-                        result = o2.getMonth() - o1.getMonth();
-                        break;
-                    case "day":
-                        result = o2.getDay() - o1.getDay();
-                        break;
-                }
-
-                if (result != 0) {
-                    return result;
-                }
-            }
-
-            return 0;
-        });
+        posts.sort(PostsModel.postPageComparator);
 
         int i = 0;
         for (PostPage post : posts) {

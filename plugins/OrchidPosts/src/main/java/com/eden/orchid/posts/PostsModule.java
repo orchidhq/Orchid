@@ -2,14 +2,18 @@ package com.eden.orchid.posts;
 
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.posts.components.PostTagsComponent;
+import com.eden.orchid.posts.components.RecentPostsComponent;
 import com.eden.orchid.posts.menu.CategoriesMenuType;
 import com.eden.orchid.posts.menu.LatestPostsMenuType;
 import com.eden.orchid.posts.menu.TagsMenuType;
 import com.eden.orchid.posts.permalink.PermalinkPathType;
+import com.eden.orchid.posts.permalink.pathTypes.CategoryPathType;
+import com.eden.orchid.posts.permalink.pathTypes.DataPropertyPathType;
 import com.eden.orchid.posts.permalink.pathTypes.DayPathType;
 import com.eden.orchid.posts.permalink.pathTypes.MonthNamePathType;
 import com.eden.orchid.posts.permalink.pathTypes.MonthPathType;
@@ -29,17 +33,23 @@ public class PostsModule extends OrchidModule {
                 TagsMenuType.class);
 
         addToSet(OrchidComponent.class,
-                PostTagsComponent.class);
+                PostTagsComponent.class,
+                RecentPostsComponent.class);
 
         addToSet(PluginResourceSource.class,
                 PostsResourceSource.class);
 
         addToSet(PermalinkPathType.class,
-                YearPathType.class,
-                MonthPathType.class,
-                MonthNamePathType.class,
+                CategoryPathType.class,
+                DataPropertyPathType.class,
                 DayPathType.class,
+                MonthNamePathType.class,
+                MonthPathType.class,
+                SlugPathType.class,
                 TitlePathType.class,
-                SlugPathType.class);
+                YearPathType.class);
+
+        addToSet(OptionExtractor.class,
+                AuthorOptionExtractor.class);
     }
 }

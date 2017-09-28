@@ -21,7 +21,6 @@ public final class OrchidMenu {
     private final JSONArray menuJson;
     private final Map<String, Class<? extends OrchidMenuItem>> menuItemTypesMap;
 
-    private List<OrchidMenuItem> menuItems;
     private List<OrchidMenuItemImpl> menuItemsChildren;
 
     public OrchidMenu(OrchidContext context, JSONArray menuItems) {
@@ -37,13 +36,13 @@ public final class OrchidMenu {
     }
 
     public boolean isEmpty() {
-        if (menuItems != null) {
-            if(menuItems.size() > 0) {
+        if (menuItemsChildren != null) {
+            if (menuItemsChildren.size() > 0) {
                 return false;
             }
         }
         else if (menuJson != null) {
-            if(menuJson.length() > 0) {
+            if (menuJson.length() > 0) {
                 return false;
             }
         }
@@ -52,39 +51,41 @@ public final class OrchidMenu {
     }
 
     public List<OrchidMenuItemImpl> getMenuItems() {
-        if (menuItems == null) {
-            menuItems = new ArrayList<>();
+        try {
+            if (menuItemsChildren == null) {
+                List<OrchidMenuItem> menuItems = new ArrayList<>();
 
-            for (int i = 0; i < menuJson.length(); i++) {
-                JSONObject menuItemJson = menuJson.getJSONObject(i);
-                String menuItemType = menuItemJson.getString("type");
+                for (int i = 0; i < menuJson.length(); i++) {
+                    JSONObject menuItemJson = menuJson.getJSONObject(i);
+                    String menuItemType = menuItemJson.getString("type");
 
-                if(menuItemTypesMap.containsKey(menuItemType)) {
-                    OrchidMenuItem menuitem = context.getInjector().getInstance(menuItemTypesMap.get(menuItemType));
-                    menuitem.extractOptions(context, menuItemJson);
-                    menuItems.add(menuitem);
+                    if (menuItemTypesMap.containsKey(menuItemType)) {
+                        OrchidMenuItem menuitem = context.getInjector().getInstance(menuItemTypesMap.get(menuItemType));
+                        menuitem.extractOptions(context, menuItemJson);
+                        menuItems.add(menuitem);
+                    }
+                }
+
+                menuItemsChildren = new ArrayList<>();
+                for (OrchidMenuItem menuItem : menuItems) {
+                    menuItemsChildren.addAll(menuItem.getMenuItems());
                 }
             }
-        }
 
-        if(menuItemsChildren == null) {
-            menuItemsChildren = new ArrayList<>();
-            for(OrchidMenuItem menuItem : menuItems) {
-                menuItemsChildren.addAll(menuItem.getMenuItems());
-            }
+            return menuItemsChildren;
         }
-
-        return menuItemsChildren;
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public void addMenuItem(JSONObject menuItemJson) {
-        menuItems = null;
         menuItemsChildren = null;
         menuJson.put(menuItemJson);
     }
 
     public void addMenuItems(JSONArray menuItemsJson) {
-        menuItems = null;
         menuItemsChildren = null;
         for (int i = 0; i < menuItemsJson.length(); i++) {
             menuJson.put(menuItemsJson.get(i));

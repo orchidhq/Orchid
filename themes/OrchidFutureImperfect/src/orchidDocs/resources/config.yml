@@ -1,13 +1,68 @@
+FutureImperfect:
+  about:
+    siteName: 'Future Imperfect'
+    tagline: 'Detrius, caesium, et mineralis?'
+    blurb: Ubi est castus burgus? Victrixs mori in dexter vierium! Prarere solite ducunt ad superbus imber. Neuter apolloniates vix imitaris glos est.
+    avatar: 'assets/images/logo.jpg'
+  social:
+    facebook: 'http://example.com/'
+    twitter: 'http://example.com/'
+    instagram: 'http://example.com/'
+    rss: 'http://example.com/'
+    email: 'http://example.com/'
+  topMenu:
+    - type: 'link'
+      title: 'Home'
+      url: '/'
+    - type: 'postCategories'
+      category: 'personal'
+      title: 'blog'
+    - type: 'page'
+      page: 'Resume'
+    - type: 'page'
+      page: 'Projects'
+    - type: 'page'
+      page: 'Bio'
+    - type: 'page'
+      page: 'Contact'
+  drawerMenu:
+    - type: 'page'
+      page: 'Resume'
+    - type: 'page'
+      page: 'Projects'
+    - type: 'page'
+      page: 'Bio'
+    - type: 'page'
+      page: 'Contact'
+  sidebar:
+    - type: recentPosts
+      limit: 3
+      category: programming
+      templates:
+          - 'includes/postPreview_mini.twig'
+    - type: recentPosts
+      limit: 5
+      category: personal
+      templates:
+          - 'includes/postPreview_list.twig'
 
-about:
-  name: Orchid Editorial Theme
-  description: A beautiful theme for Orchid created by HTML5 UP.
+pages:
+  layout: layouts/single.twig
 
-github:
-  username: 'JavaEden'
-  repo: 'Orchid'
-  branch: 'master'
+posts:
+  layout: layouts/single.twig
+  categories:
+    - 'personal'
+    - 'programming'
+  permalink: ':category/:year/:monthName/:slug'
+  authors:
+    - name: 'Casey Brooks'
+      avatar: 'assets/images/avatar.jpg'
 
-colors:
-  primary: '#508a4c'
-  secondary: '#000000'
+generators:
+  disabled:
+    - 'WikiGenerator'
+    - 'IndexGenerator'
+    - 'JavadocGenerator'
+    - 'ChangelogGenerator'
+    - 'KssGenerator'

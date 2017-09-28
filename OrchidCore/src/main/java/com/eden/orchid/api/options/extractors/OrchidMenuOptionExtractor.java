@@ -19,12 +19,13 @@ import java.util.List;
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
  */
-public final class OrchidMenuOptionExtractor implements OptionExtractor<OrchidMenu> {
+public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu> {
 
     private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public OrchidMenuOptionExtractor(Provider<OrchidContext> contextProvider) {
+        super(100);
         this.contextProvider = contextProvider;
     }
 

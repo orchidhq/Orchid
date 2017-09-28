@@ -17,12 +17,13 @@ import java.util.List;
  * | boolean    | @BooleanDefault | Annotation value() or false |
  * | Boolean    | @BooleanDefault | Annotation value() or false |
  */
-public final class BooleanOptionExtractor implements OptionExtractor<Boolean> {
+public final class BooleanOptionExtractor extends OptionExtractor<Boolean> {
 
     private final BooleanConverter converter;
 
     @Inject
     public BooleanOptionExtractor(BooleanConverter converter) {
+        super(50);
         this.converter = converter;
     }
 

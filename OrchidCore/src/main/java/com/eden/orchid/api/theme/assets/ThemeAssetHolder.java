@@ -2,6 +2,7 @@ package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FilenameUtils;
@@ -51,7 +52,10 @@ public final class ThemeAssetHolder implements AssetHolder {
 
     @Override
     public void addJs(String jsAsset) {
-        addJs(new OrchidPage(theme.getResourceEntry(jsAsset), FilenameUtils.getBaseName(jsAsset)));
+        OrchidResource resource = theme.getResourceEntry(jsAsset);
+        if(resource != null) {
+            addJs(new OrchidPage(resource, FilenameUtils.getBaseName(jsAsset)));
+        }
     }
 
     @Override
@@ -70,7 +74,10 @@ public final class ThemeAssetHolder implements AssetHolder {
 
     @Override
     public void addCss(String cssAsset) {
-        addCss(new OrchidPage(theme.getResourceEntry(cssAsset), FilenameUtils.getBaseName(cssAsset)));
+        OrchidResource resource = theme.getResourceEntry(cssAsset);
+        if(resource != null) {
+            addCss(new OrchidPage(theme.getResourceEntry(cssAsset), FilenameUtils.getBaseName(cssAsset)));
+        }
     }
 
     @Override
