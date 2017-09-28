@@ -159,6 +159,19 @@ with Gradle from the project root, such as `gradle :OrchidCore:assemble` or `gra
 you may navigate to a particular project's subdirectory to run the Gradle commands directly. When contributing code, 
 please indent using 4 spaces and keep braces on the same lines.
 
+To release a new version of Orchid:
+
+- Orchid Core, and all plugins and themes:
+    - Start with clean Git index
+    - Increment `version` in root `build.gradle`, according to Semantic Versioning
+    - Commit and push version change
+    - `gradle clean build deploy -Penv=prod` (requires API keys and credentials for Github and Bintray)
+- Orchid Gradle Plugin
+    - Start with clean Git index
+    - `cd buildSrc` (buildSrc is not recognized as a normal part of the Gradle project, but its is a project in its own local directory)
+    - Increment `version` in `buildSrc/build.gradle`, according to Semantic Versioning
+    - `gradle publishPlugins`
+
 ## Contact
 
 Orchid is being actively developed by Casey Brooks. Please open an issue here with questions or bug/feature requests, or
