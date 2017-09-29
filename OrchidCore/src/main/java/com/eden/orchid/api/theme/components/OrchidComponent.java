@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
+import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,11 +33,19 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     @Getter @Setter
     protected int order;
 
+    @Getter @Setter @Option protected String[] extraCss;
+    @Getter @Setter @Option protected String[] extraJs;
+
     @Inject
     public OrchidComponent(OrchidContext context, String key, int priority) {
         super(priority);
         this.key = key;
         this.context = context;
         this.assetHolder = new AssetHolderDelegate(context);
+    }
+
+    @Override
+    public void addAssets() {
+        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this);
     }
 }

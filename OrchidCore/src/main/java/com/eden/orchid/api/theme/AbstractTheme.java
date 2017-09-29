@@ -1,10 +1,12 @@
 package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.ThemeAssetHolder;
+import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,9 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
 
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
+
+    @Getter @Setter @Option protected String[] extraCss;
+    @Getter @Setter @Option protected String[] extraJs;
 
     @Getter @Setter protected boolean hasRenderedAssets;
 
@@ -31,7 +36,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     }
 
     public void addAssets() {
-
+        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this);
     }
 
     public void renderAssets() {

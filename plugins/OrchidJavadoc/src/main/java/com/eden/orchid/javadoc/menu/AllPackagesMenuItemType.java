@@ -21,9 +21,11 @@ public class AllPackagesMenuItemType extends OrchidMenuItem {
     @Override
     public List<OrchidMenuItemImpl> getMenuItems() {
         List<OrchidMenuItemImpl> items = new ArrayList<>();
-        List<OrchidPage> pages = new ArrayList<>(JavadocGenerator.allPackages);
-        pages.sort(Comparator.comparing(OrchidPage::getTitle));
-        items.add(new OrchidMenuItemImpl(context, "All Packages", pages));
+        if(JavadocGenerator.allPackages != null) {
+            List<OrchidPage> pages = new ArrayList<>(JavadocGenerator.allPackages);
+            pages.sort(Comparator.comparing(OrchidPage::getTitle));
+            items.add(new OrchidMenuItemImpl(context, "All Packages", pages));
+        }
         return items;
     }
 }

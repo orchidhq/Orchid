@@ -9,10 +9,10 @@
             </div>
             <div class="meta">
                 <time class="published" datetime="{{ post.publishedDate('yyyy-MM-dd') }}">{{ post.publishedDate() }}</time>
-                <a href="#" class="author"><span class="name">{{ theme.about.siteName }}</span><img src="{{ site.baseUrl }}/{{ theme.about.avatar }}" alt=""/></a>
+                <a href="#" class="author"><span class="name">{{ theme.about.siteName }}</span><img src="{{ theme.about.avatar }}" alt=""/></a>
             </div>
         </header>
-        <span class="image featured"><img src="{{ site.featuredImage }}" alt=""/></span>
+        <span class="image featured"><img src="{{ page.featuredImage }}" alt=""/></span>
         {{ page.content }}
     </article>
 

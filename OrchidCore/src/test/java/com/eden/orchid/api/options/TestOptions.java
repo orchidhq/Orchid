@@ -1,6 +1,7 @@
 package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.converters.DoubleConverter;
 import com.eden.orchid.api.converters.FloatConverter;
@@ -28,6 +29,7 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.mock;
 
 @Test(groups={"options", "unit"})
 public class TestOptions {
@@ -127,6 +129,7 @@ public class TestOptions {
 
     private JSONObject options;
     private OptionsExtractor extractor;
+    private OrchidContext context;
 
     private StringConverter stringConverter;
     private IntegerConverter integerConverter;
@@ -139,6 +142,7 @@ public class TestOptions {
     @BeforeMethod
     public void setupTest() {
         options = new JSONObject();
+        context = mock(OrchidContext.class);
 
         try {
             String s = "{\n" +
@@ -179,7 +183,7 @@ public class TestOptions {
 
         Set<OptionExtractor> extractors = new HashSet<>();
 
-        extractors.add(new StringOptionExtractor(stringConverter));
+        extractors.add(new StringOptionExtractor(() -> context, stringConverter));
         extractors.add(new IntOptionExtractor(integerConverter));
         extractors.add(new LongOptionExtractor(longConverter));
         extractors.add(new FloatOptionExtractor(floatConverter));

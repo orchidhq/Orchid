@@ -58,6 +58,7 @@ public final class ComponentHolder {
                 if(componentTypesMap.containsKey(componentType)) {
                     OrchidComponent component = context.getInjector().getInstance(componentTypesMap.get(componentType));
                     component.extractOptions(context, componentJson);
+                    component.addAssets();
                     components.add(component);
                 }
             }

@@ -11,6 +11,7 @@ import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
+import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -36,6 +37,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter @Option protected String description;
     @Getter @Setter @Option protected String layout;
     @Getter @Setter @Option protected String[] templates;
+
+    @Getter @Setter @Option protected String[] extraCss;
+    @Getter @Setter @Option protected String[] extraJs;
 
     @Getter @Setter protected AssetHolder assets;
 
@@ -83,11 +87,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             }
         }
 
-        if (this.components.isEmpty()) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("type", "pageContent");
-            this.components.addComponent(jsonObject);
-        }
+        addComponents();
+        addAssets();
     }
 
     public String getLink() {
@@ -171,6 +172,18 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 // Assets
 //----------------------------------------------------------------------------------------------------------------------
 
+    public void addComponents() {
+        if (this.components.isEmpty()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "pageContent");
+            this.components.addComponent(jsonObject);
+        }
+    }
+
+    public void addAssets() {
+        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this);
+    }
+
     @Override
     public AssetHolder getAssetHolder() {
         return assets;
@@ -192,6 +205,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+
         return scripts;
     }
 

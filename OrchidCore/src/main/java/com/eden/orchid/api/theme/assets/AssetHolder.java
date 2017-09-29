@@ -8,9 +8,7 @@ public interface AssetHolder {
 
     AssetHolder getAssetHolder();
 
-    default void addAssets() {
-        getAssetHolder().addAssets();
-    }
+    void addAssets();
 
     default void addJs(OrchidPage jsAsset) {
         getAssetHolder().addJs(jsAsset);

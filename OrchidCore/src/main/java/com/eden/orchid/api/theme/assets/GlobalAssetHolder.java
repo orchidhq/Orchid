@@ -20,6 +20,11 @@ public class GlobalAssetHolder implements AssetHolder {
     }
 
     @Override
+    public void addAssets() {
+        throw new UnsupportedOperationException("GlobalAssetHolder cannot add its own assets");
+    }
+
+    @Override
     public AssetHolder getAssetHolder() {
         return this;
     }

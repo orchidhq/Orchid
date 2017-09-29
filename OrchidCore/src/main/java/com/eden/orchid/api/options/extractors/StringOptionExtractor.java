@@ -1,9 +1,14 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.common.util.EdenPair;
+import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.Provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,11 +27,13 @@ import java.util.List;
  */
 public final class StringOptionExtractor extends OptionExtractor<String> {
 
+    private final Provider<OrchidContext> contextProvider;
     private final StringConverter converter;
 
     @Inject
-    public StringOptionExtractor(StringConverter converter) {
+    public StringOptionExtractor(Provider<OrchidContext> contextProvider, StringConverter converter) {
         super(10);
+        this.contextProvider = contextProvider;
         this.converter = converter;
     }
 
@@ -42,18 +49,37 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
 
     @Override
     public String getOption(Field field, JSONObject options, String key) {
+        String fieldValue = null;
         if(options.has(key)) {
             EdenPair<Boolean, String> value = converter.convert(options.get(key));
             if(value.first) {
-                return value.second;
+                fieldValue = value.second;
             }
         }
 
-        if(field.isAnnotationPresent(StringDefault.class)) {
-            return field.getAnnotation(StringDefault.class).value();
+        if(fieldValue == null && field.isAnnotationPresent(StringDefault.class)) {
+            fieldValue = field.getAnnotation(StringDefault.class).value();
         }
 
-        return "";
+        if(field.isAnnotationPresent(ApplyBaseUrl.class)) {
+            boolean shouldApplybaseUrl = true;
+
+            if(!EdenUtils.isEmpty(fieldValue)) {
+                if(fieldValue.startsWith("http://") || fieldValue.startsWith("https://")) {
+                    shouldApplybaseUrl = false;
+                }
+            }
+
+            if(shouldApplybaseUrl) {
+                fieldValue = OrchidUtils.applyBaseUrl(contextProvider.get(), fieldValue);
+            }
+        }
+
+        if(fieldValue == null) {
+            fieldValue = "";
+        }
+
+        return fieldValue;
     }
 
     @Override

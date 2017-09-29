@@ -3,6 +3,7 @@ package com.eden.orchid.html5up.futureimperfect;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
@@ -33,6 +34,8 @@ public class FutureImperfectTheme extends Theme {
         addJs("assets/js/skel.min.js");
         addJs("assets/js/util.js");
         addJs("assets/js/main.js");
+
+        super.addAssets();
     }
 
     public static class About implements OptionsHolder {
@@ -40,7 +43,10 @@ public class FutureImperfectTheme extends Theme {
         @Option public String siteName;
         @Option public String tagline;
         @Option public String blurb;
-        @Option public String avatar;
+
+        @Option
+        @ApplyBaseUrl
+        public String avatar;
 
     }
 

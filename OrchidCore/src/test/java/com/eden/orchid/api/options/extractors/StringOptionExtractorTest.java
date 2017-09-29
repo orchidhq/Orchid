@@ -1,6 +1,7 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.converters.ClogStringConverterHelper;
@@ -15,10 +16,12 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.mock;
 
 @Test(groups = {"unit"})
 public class StringOptionExtractorTest {
 
+    private OrchidContext context;
     private StringConverter stringConverter;
     private StringOptionExtractor underTest;
     private String optionKey;
@@ -29,8 +32,9 @@ public class StringOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
+        context = mock(OrchidContext.class);
         stringConverter = new StringConverter(new ClogStringConverterHelper());
-        underTest = new StringOptionExtractor(stringConverter);
+        underTest = new StringOptionExtractor(() -> context, stringConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

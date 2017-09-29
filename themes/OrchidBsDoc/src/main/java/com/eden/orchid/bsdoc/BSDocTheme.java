@@ -17,5 +17,7 @@ public class BSDocTheme extends Theme {
     public void addAssets() {
         addCss(new OrchidPage(this.getResourceEntry("assets/css/bsdoc.scss"), "bsdoc_scss"));
         addJs(new OrchidPage(this.getResourceEntry("assets/js/bsdoc.js"), "bsdoc_js"));
+
+        super.addAssets();
     }
 }

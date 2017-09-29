@@ -37,6 +37,11 @@ public final class ThemeAssetHolder implements AssetHolder {
     }
 
     @Override
+    public void addAssets() {
+        throw new UnsupportedOperationException("ThemeAssetHolder cannot add its own assets");
+    }
+
+    @Override
     public void addJs(OrchidPage jsAsset) {
         if(validAsset(jsAsset, JS_EXT)) {
             jsAsset.getReference().setUsePrettyUrl(false);
@@ -55,6 +60,9 @@ public final class ThemeAssetHolder implements AssetHolder {
         OrchidResource resource = theme.getResourceEntry(jsAsset);
         if(resource != null) {
             addJs(new OrchidPage(resource, FilenameUtils.getBaseName(jsAsset)));
+        }
+        else {
+            Clog.w("Could not find JS asset: {}", jsAsset);
         }
     }
 
@@ -77,6 +85,9 @@ public final class ThemeAssetHolder implements AssetHolder {
         OrchidResource resource = theme.getResourceEntry(cssAsset);
         if(resource != null) {
             addCss(new OrchidPage(theme.getResourceEntry(cssAsset), FilenameUtils.getBaseName(cssAsset)));
+        }
+        else {
+            Clog.w("Could not find CSS asset: {}", cssAsset);
         }
     }
 

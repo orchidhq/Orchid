@@ -1,6 +1,7 @@
 package com.eden.orchid.posts.pages;
 
 import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.Author;
@@ -28,7 +29,11 @@ public class PostPage extends OrchidPage {
     @Option protected Author author;
 
     @Option protected String[] tags;
-    @Option protected String featuredImage;
+
+    @Option
+    @ApplyBaseUrl
+    protected String featuredImage;
+
     @Option protected String tagline;
 
     @Option protected String permalink;

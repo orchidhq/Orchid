@@ -26,6 +26,11 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
+    public void addAssets() {
+        throw new UnsupportedOperationException("AssetHolderDelegate cannot add its own assets");
+    }
+
+    @Override
     public AssetHolder getAssetHolder() {
         return this;
     }

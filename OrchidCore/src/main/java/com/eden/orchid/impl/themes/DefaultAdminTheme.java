@@ -25,6 +25,8 @@ public final class DefaultAdminTheme extends AdminTheme {
         addJs("assets/js/vendor/Chart.min.js");
 
         addJs("assets/js/admin_app.js");
+
+        super.addAssets();
     }
 
     // TODO: Remove these methods when Jtwig has updated to access default methods
@@ -37,4 +39,5 @@ public final class DefaultAdminTheme extends AdminTheme {
     public List<OrchidPage> getStyles() {
         return getAssetHolder().getStyles();
     }
+
 }
