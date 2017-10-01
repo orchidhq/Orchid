@@ -1,6 +1,10 @@
 package com.eden.orchid.api;
 
-public interface OrchidService {
+import com.eden.orchid.api.options.OptionsHolder;
+
+public interface OrchidService extends OptionsHolder {
+
+    default String getKey() { return getClass().getSimpleName().replaceAll("Impl", ""); }
 
     void initialize(OrchidContext context);
 

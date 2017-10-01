@@ -27,6 +27,10 @@ public interface OrchidContext extends
         OrchidRenderService
 {
 
+    default String getKey() { return "context"; }
+
+    void extractServiceOptions();
+
     Injector getInjector();
     OrchidSite getSite();
 

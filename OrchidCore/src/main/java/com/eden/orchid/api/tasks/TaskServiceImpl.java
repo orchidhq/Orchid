@@ -77,11 +77,14 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Override
     public void build() {
         context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
-        context.clearThemes();
+
         context.clearOptions();
         context.loadOptions();
 
+        context.clearThemes();
         context.pushTheme(context.getDefaultTheme());
+
+        context.extractServiceOptions();
 
         context.startIndexing();
         context.startGeneration();

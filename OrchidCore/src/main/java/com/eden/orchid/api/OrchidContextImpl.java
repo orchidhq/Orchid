@@ -1,6 +1,7 @@
 package com.eden.orchid.api;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
@@ -12,11 +13,13 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
 import lombok.Getter;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -106,6 +109,19 @@ public final class OrchidContextImpl implements OrchidContext {
     @SuppressWarnings("unchecked")
     public <T extends OrchidService> T getService(Class<T> serviceClass) {
         return (T) services.get(serviceClass);
+    }
+
+    @Override
+    public void extractServiceOptions() {
+        services.values().forEach(service -> {
+            JSONElement el = query("services." + service.getKey());
+            if (OrchidUtils.elementIsObject(el)) {
+                service.extractOptions(this, (JSONObject) el.getElement());
+            }
+            else {
+                service.extractOptions(this, new JSONObject());
+            }
+        });
     }
 
 

@@ -1,7 +1,10 @@
 package com.eden.orchid.impl.generators;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.Description;
+import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -13,6 +16,10 @@ import java.util.List;
 
 @Singleton
 public final class AssetsGenerator extends OrchidGenerator {
+
+    @Option
+    @Description("Set which local resource directories you want to copy static assets from.")
+    public String[] sourceDirs;
 
     @Inject
     public AssetsGenerator(OrchidContext context) {
@@ -26,13 +33,19 @@ public final class AssetsGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        List<OrchidResource> resourcesList = context.getResourceEntries("assets/images", null, true);
         List<OrchidPage> assets = new ArrayList<>();
-        for (OrchidResource entry : resourcesList) {
-            OrchidPage page = new OrchidPage(entry, "asset");
-            page.getReference().setUsePrettyUrl(false);
-            assets.add(page);
+
+        if (!EdenUtils.isEmpty(sourceDirs)) {
+            for (String sourceDir : sourceDirs) {
+                List<OrchidResource> resourcesList = context.getResourceEntries(sourceDir, null, true);
+                for (OrchidResource entry : resourcesList) {
+                    OrchidPage page = new OrchidPage(entry, entry.getReference().getFileName());
+                    page.getReference().setUsePrettyUrl(false);
+                    assets.add(page);
+                }
+            }
         }
+
         return assets;
     }
 
