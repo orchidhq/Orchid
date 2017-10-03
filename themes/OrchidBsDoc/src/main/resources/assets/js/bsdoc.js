@@ -12,16 +12,16 @@ function trianglify() {
     header.css('background-image', pattern.dataUrl);
 }
 
-function geopattern() {
+function geopattern(title, selectedPattern) {
     var options = {};
     options.color = window.colors[0];
     options.baseColor = window.colors[1];
 
-    if (window.selectedPattern) {
-        options.generator = window.selectedPattern;
+    if (selectedPattern) {
+        options.generator = selectedPattern;
     }
 
-    $('#jumbotron').geopattern(window.title, options);
+    $('#jumbotron').geopattern(title, options);
 }
 
 function buildNav() {

@@ -1,4 +1,11 @@
 ---
+title: 'Programming Post Two'
+author: 'Casey Brooks'
+featuredImage: '/assets/images/pic002.jpg'
+tags: 
+    - Two
+    - Programming
+    - Orchid
 ---
 
 > Pol, a bene calcaria, xiphias! Amicitia trabems, tanquam talis olla.

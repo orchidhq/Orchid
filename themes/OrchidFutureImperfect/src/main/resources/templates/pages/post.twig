@@ -9,14 +9,17 @@
                 <p>{{ post.tagline }}</p>
             </div>
             <div class="meta">
-                <time class="published" datetime="{{ post.publishedDate('yyyy-MM-dd') }}">{{ post.publishedDate() }}</time>
-                <a href="#" class="author"><span class="name">{{ post.author.name }}</span><img src="{{ post.author.avatar }}" alt=""/></a>
+                <time class="published"
+                      datetime="{{ post.publishedDate('yyyy-MM-dd') }}">{{ post.publishedDate() }}</time>
+                <a href="#" class="author"><span class="name">{{ post.author.name }}</span><img
+                            src="{{ post.author.avatar }}" alt=""/></a>
             </div>
         </header>
         <a href="{{ post.link }}" class="image featured"><img src="{{ post.featuredImage }}" alt=""/></a>
         {{ post.content }}
         <footer>
-            <span class="grow">Categorized under <a href="{{ post.categoryPage.link }}">{{ post.categoryPage.title }}</a></span>
+            <span class="grow">Categorized under <a
+                        href="{{ post.categoryPage.link }}">{{ post.categoryPage.title }}</a></span>
             <span><b>Tags: </b></span>
             <ul class="stats">
                 {% for tagPage in post.tagPages %}
@@ -25,5 +28,17 @@
             </ul>
         </footer>
     </article>
+
+    {% block remainingComponents %}
+        {% if componentHolder and componentHolder.remainingComponents.size > 0 %}
+            {% for component in componentHolder.remainingComponents %}
+                <article class="post single">
+                    <div class="component component-{{ component.key }}">
+                        {% include component | template('component') %}
+                    </div>
+                </article>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}
 
 {% endblock %}

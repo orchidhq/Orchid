@@ -23,21 +23,15 @@ public final class TwigTemplateResolutionStrategy extends TemplateResolutionStra
     @Override
     public List<String> getPageLayout(OrchidPage page) {
         List<String> templateNames = new ArrayList<>();
-        templateNames.add(page.getLayout());
+        if(!EdenUtils.isEmpty(page.getLayout())) {
+            templateNames.add(page.getLayout());
+        }
+        if(page.getGenerator() != null && !EdenUtils.isEmpty(page.getGenerator().getLayout())) {
+            templateNames.add(page.getGenerator().getLayout());
+        }
         templateNames.add("index");
-
-        return templateNames
-                .stream()
-                .filter(OrchidUtils.not(EdenUtils::isEmpty))
-                .distinct()
-                .flatMap(template -> Stream.of(
-                        template,
-                        template + ".twig",
-                        "layouts/" + template + ".twig")
-                )
-                .collect(Collectors.toList());
+        return expandTemplateList(templateNames, "layouts");
     }
-
 
     @Override
     public List<String> getPageTemplate(OrchidPage page) {

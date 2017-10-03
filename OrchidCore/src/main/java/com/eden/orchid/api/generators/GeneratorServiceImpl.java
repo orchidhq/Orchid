@@ -98,6 +98,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
             totalPageCount += generatorPages.size();
             OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
             for (OrchidPage page : generatorPages) {
+                page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
                 if (page.getResource() instanceof FreeableResource) {
@@ -138,13 +139,6 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
         if (generatorPages == null) {
             generatorPages = new ArrayList<>();
-        }
-
-        //TODO: Find a better way for pages to access their generator, so we don't have to modify state like this
-        for(OrchidPage page : generatorPages) {
-            if(EdenUtils.isEmpty(page.getLayout()) && !EdenUtils.isEmpty(generator.getLayout())) {
-                page.setLayout(generator.getLayout());
-            }
         }
 
         Theme generatorTheme = null;

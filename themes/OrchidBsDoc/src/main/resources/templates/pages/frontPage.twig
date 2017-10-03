@@ -1,43 +1,15 @@
 {% extends page | template('layout') %}
 
-{% block jumbotron %}
-    <h1 class="home-title">{{ options.about.name }}</h1>
-    <p class="lead">{{ options.about.description }}</p>
-    <p class="lead">
-        <a href="https://github.com/{{ options.github.username }}/{{ options.github.repo }}"
-           class="btn btn-outline-inverse btn-lg">Download</a>
-    </p>
-    <p class="version">
-        Currently {{ flags.v }}
-    </p>
+{% block baseJumbotron %}
+    <div class="bs-docs-masthead" id="jumbotron">
+        <div class="container">
+            <h1 class="home-title">{{ theme.about.siteName }}</h1>
+            <p class="lead">{{ theme.about.description }}</p>
+            <p class="lead">
+                <a href="https://github.com/{{ theme.about.githubUsername }}/{{ theme.about.githubRepo }}"
+                   class="btn btn-outline-inverse btn-lg">Download</a>
+            </p>
+            <p class="version">Currently {{ site.version }}</p>
+        </div>
+    </div>
 {% endblock %}
-
-{% block pageContent %}
-
-    {% if readme %}
-        <section class="bs-docs-section">
-            <h1 id="readme" class="page-header">Readme</h1>
-            {{ readme.render() }}
-        </section>
-    {% endif %}
-
-    {% if license %}
-        <section class="bs-docs-section">
-            <h1 id="license" class="page-header">License</h1>
-            <pre>{{ license.render() }}</pre>
-        </section>
-    {% endif %}
-
-{% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-

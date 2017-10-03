@@ -1,9 +1,18 @@
 ---
+title: 'Programming Post Five'
+author: 'Casey Brooks'
+featuredImage: '/assets/images/pic003.jpg'
+tags: 
+    - Five
+    - Programming
+    - Orchid
 ---
 
 > Pol, a bene calcaria, xiphias! Amicitia trabems, tanquam talis olla.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu bibendum odio. Aenean in sapien felis. Pellentesque sem lectus, lobortis elementum felis eget, laoreet tempus lacus. Maecenas hendrerit risus sed sapien fringilla aliquam. Nullam a lobortis ligula, eget maximus lectus. Curabitur porta sagittis orci, non convallis libero tristique in. Cras sed dapibus elit. Phasellus sit amet erat eu tortor tempor gravida. Sed egestas est ac interdum aliquet. Integer ut gravida erat. Integer euismod est ut pellentesque dapibus. Nam tortor odio, fermentum eu efficitur et, consequat at dui. Cras blandit leo non nisl dictum, id elementum erat fermentum. Ut pharetra orci at quam congue tristique. Cras consequat justo nec hendrerit laoreet.
+
+<!--more-->
 
 Phasellus id ipsum ut felis dapibus viverra vel eu neque. Aenean tincidunt porttitor vulputate. Etiam condimentum accumsan commodo. Integer imperdiet varius varius. Morbi eu sem massa. Ut augue quam, pellentesque venenatis risus sit amet, consectetur convallis nibh. Vivamus ipsum tellus, facilisis quis laoreet sit amet, bibendum ut dolor. Mauris id neque aliquam, dignissim nunc non, mollis dolor. Fusce faucibus, purus in congue efficitur, nunc orci hendrerit dolor, vel elementum lorem ante vel erat. Donec mattis elit nulla, varius interdum lacus elementum non. Pellentesque pharetra feugiat viverra. Proin ultricies, tellus a molestie iaculis, mi est vulputate mauris, eu pharetra lectus massa vitae odio. Phasellus scelerisque nunc nec luctus tincidunt. Etiam vulputate molestie ligula in dignissim. Integer in tortor id ante sollicitudin viverra.
 

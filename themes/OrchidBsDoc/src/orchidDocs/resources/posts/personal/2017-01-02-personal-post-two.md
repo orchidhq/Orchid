@@ -1,4 +1,11 @@
 ---
+title: 'Personal Post Two'
+author: 'Casey Brooks'
+featuredImage: '/assets/images/pic002.jpg'
+tags: 
+    - Two
+    - Personal
+    - Orchid
 ---
 
 > Pol, a bene calcaria, xiphias! Amicitia trabems, tanquam talis olla.

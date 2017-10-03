@@ -77,6 +77,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Override
     public void build() {
         context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
+        Clog.i("Build Starting...");
 
         context.clearOptions();
         context.loadOptions();
@@ -90,6 +91,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         context.startGeneration();
 
         context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
+        Clog.i("Build Complete");
     }
 
     @Override

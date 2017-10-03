@@ -1,9 +1,41 @@
+BsDoc:
+  about:
+    siteName: 'Bootstrap Docs'
+    description: 'Detrius, caesium, et mineralis?'
+    githubUsername: 'JavaEden'
+    githubRepo: 'Orchid'
+  menu:
+    - type: 'link'
+      title: 'Home'
+      url: '/'
+    - type: 'postCategories'
+      title: 'Blog'
+    - type: 'page'
+      page: 'Resume'
+    - type: 'page'
+      page: 'Projects'
+    - type: 'page'
+      page: 'Bio'
+    - type: 'page'
+      page: 'Contact'
 
-about:
-  name: Orchid BSDoc Theme
-  description: A theme for Orchid based off the Bootstrap documentation site.
+pages:
+  layout: layouts/geopattern2.twig
 
-github:
-  username: 'JavaEden'
-  repo: 'Orchid'
-  branch: 'master'
+posts:
+  layout: layouts/index2.twig
+  categories:
+    - 'personal'
+    - 'programming'
+  permalink: ':category/:year/:monthName/:slug'
+  authors:
+    - name: 'Casey Brooks'
+      avatar: 'assets/images/avatar.jpg'
+
+generators:
+  disabled:
+    - 'WikiGenerator'
+    - 'IndexGenerator'
+    - 'JavadocGenerator'
+    - 'ChangelogGenerator'
+    - 'KssGenerator'

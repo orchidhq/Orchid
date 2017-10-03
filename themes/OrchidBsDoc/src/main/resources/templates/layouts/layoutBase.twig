@@ -7,8 +7,8 @@
 </head>
 <body>
 
-<a class="github-fork-ribbon left-top"
-   href="https://github.com/{{ options.github.username }}/{{ options.github.repo }}"
+<a class="github-fork-ribbon {% block ribbonSide %}{{ 'left-top' }}{% endblock %}"
+   href="https://github.com/{{ theme.about.githubUsername }}/{{ theme.about.githubRepo }}"
    title="Fork me on GitHub">Fork me on GitHub</a>
 
 {% include 'includes/navbar.twig' %}
@@ -22,7 +22,12 @@
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-9" role="main">
-            {% embed 'includes/pageContent.twig' %}{% endembed %}
+            {% block pageContent %}
+
+            {% endblock %}
+            {% block remainingComponents %}
+                {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
+            {% endblock %}
         </div>
 
         <!-- Page navigation
@@ -40,7 +45,7 @@
     {% include 'includes/footer.twig' %}
 </div>
 
-{% block baseScripts %}
+{% block layoutScripts %}
 
 {% endblock %}
 
@@ -48,16 +53,13 @@
 
 <script>
     $(function () {
-        {% if options and options.colors %}
-            window.colors = ['{{ options.colors.primary }}', '{{ options.colors.secondary }}'];
-        {% else %}
-            window.colors = ['#4C376C', '#000000'];
-        {% endif %}
-        {% block baseRunScripts %}
+        window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
+        {% block setupJumbotron %}
 
         {% endblock %}
         buildNav();
     });
 </script>
+
 </body>
 </html>
