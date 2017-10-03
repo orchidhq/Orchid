@@ -4,7 +4,12 @@ import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.javadoc.components.ConstructorsComponent;
+import com.eden.orchid.javadoc.components.FieldsComponent;
+import com.eden.orchid.javadoc.components.MethodsComponent;
+import com.eden.orchid.javadoc.components.SummaryComponent;
 import com.eden.orchid.javadoc.menu.AllClassesMenuItemType;
 import com.eden.orchid.javadoc.menu.AllPackagesMenuItemType;
 import com.eden.orchid.javadoc.tags.api.JavadocBlockTagHandler;
@@ -26,6 +31,13 @@ public class JavadocModule extends OrchidModule {
     protected void configure() {
         addToSet(OrchidGenerator.class,
                 JavadocGenerator.class);
+
+        // Components
+        addToSet(OrchidComponent.class,
+                ConstructorsComponent.class,
+                FieldsComponent.class,
+                MethodsComponent.class,
+                SummaryComponent.class);
 
         // Block Tag Handlers
         addToSet(JavadocBlockTagHandler.class,

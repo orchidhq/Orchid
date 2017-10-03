@@ -1,1 +1,29 @@
-Methods Component
+{% if page.classDoc.methods|length > 0 %}
+    <h3>Methods</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>
+                <span>Method</span>
+            </td>
+            <td>
+                <span>Description</span>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for method in page.classDoc.methods %}
+            <tr>
+                <td>
+                    <span><code>{{ method.name }}{{ method.flatSignature }}</code></span>
+                </td>
+                <td>
+                    <span>{{ method.comment }}</span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h3>No Methods</h3>
+{% endif %}

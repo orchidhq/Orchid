@@ -15,7 +15,7 @@
                     {% if menuItem.hasChildren() %}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ menuItem.title }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu scrollable-menu">
                                 {% for childLink in menuItem.children %}
                                     <li><a href="{{ childLink.link }}">{{ childLink.title }}</a></li>
                                 {% endfor %}

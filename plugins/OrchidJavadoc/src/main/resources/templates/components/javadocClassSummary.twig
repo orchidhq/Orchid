@@ -1,22 +1,27 @@
-
-{% set cd = page.classDoc %}
-
-
 <div>
     <code>
-        <div>
-            {% for annotation in cd.annotations %}
+        <span>
+            {% for annotation in page.classDoc.annotations %}
                 <span>@{{annotation.annotationType.name}}</span>
             {% endfor %}
-        </div>
-        <div>
-            <b>public&nbsp;class&nbsp;<a href="https://javaeden.github.io/Orchid/v0.1.0/Core/javadoc/com/eden/orchid/impl/generators/AssetsGenerator">AssetsGenerator</a></b>
-        </div>
-        <div style="margin-left: 10px;">extends <a href="https://javaeden.github.io/Orchid/v0.1.0/Core/javadoc/com/eden/orchid/api/generators/OrchidGenerator">OrchidGenerator</a></div>
+        </span>
+        <span>
+            <b>{{ page.classDoc.modifiers }} {{ page.classType }} <a href="{{ page.link }}">{{ page.classDoc.name }}</a></b>
+        </span>
+
+        {% set parentClassPage = page.getClassPage(page.classDoc.superclass.qualifiedName) %}
+
+        {% if parentClassPage is not null %}
+            <span>extends <a href="{{ parentClassPage.link }}">{{parentClassPage.title}}</a></span>
+        {% else %}
+            <span>extends <b>{{ page.classDoc.superclass.name }}</b></span>
+        {% endif %}
     </code>
 </div>
 
-
 <h3>Class {{ page.classDoc.name }}</h3>
+<p><b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b></p>
 
-<b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b>
+<div class="class-description">
+    {{ page.content }}
+</div>

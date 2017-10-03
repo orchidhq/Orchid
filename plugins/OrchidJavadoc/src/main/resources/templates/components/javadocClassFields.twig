@@ -1,1 +1,29 @@
-Fields Component
+{% if page.classDoc.fields|length > 0 %}
+    <h3>Fields</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>
+                <span>Field</span>
+            </td>
+            <td>
+                <span>Description</span>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for field in page.classDoc.fields %}
+            <tr>
+                <td>
+                    <span>{{ field.type.name }} <code>{{ field.name }}</code></span>
+                </td>
+                <td>
+                    <span>{{ field.comment }}</span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h3>No Fields</h3>
+{% endif %}

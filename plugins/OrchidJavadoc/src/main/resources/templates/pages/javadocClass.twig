@@ -1,19 +1,1 @@
 {% extends page | template('layout') %}
-
-{% block pageContent %}
-    {% if summary %}
-        <div class="summary">{% include summary.getTemplate() %}</div>
-    {% endif %}
-    {% if fields %}
-        <h3>Fields</h3>
-        <div class="fields">{% include fields.getTemplate() %}</div>
-    {% endif %}
-    {% if ctors %}
-        <h3>Constructors</h3>
-        <div class="ctors">{% include ctors.getTemplate() %}</div>
-    {% endif %}
-    {% if methods %}
-        <h3>Methods</h3>
-        <div class="methods">{% include methods.getTemplate() %}</div>
-    {% endif %}
-{% endblock %}

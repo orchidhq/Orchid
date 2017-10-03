@@ -24,13 +24,13 @@ public class JavadocGenerator extends OrchidGenerator {
 
     protected RootDoc rootDoc;
 
-    public static List<JavadocClassPage> allClasses;
-    public static List<JavadocPackagePage> allPackages;
+    private final JavadocModel model;
 
     @Inject
-    public JavadocGenerator(OrchidContext context, RootDoc rootDoc) {
+    public JavadocGenerator(OrchidContext context, RootDoc rootDoc, JavadocModel model) {
         super(context, "javadoc", 800);
         this.rootDoc = rootDoc;
+        this.model = model;
     }
 
     @Override
@@ -49,17 +49,16 @@ public class JavadocGenerator extends OrchidGenerator {
             packages.add(classDoc.containingPackage());
         }
 
-        allClasses = new ArrayList<>();
-        allPackages = new ArrayList<>();
+        model.initialize(new ArrayList<>(), new ArrayList<>());
 
         for (ClassDoc classDoc : classes) {
-            allClasses.add(new JavadocClassPage(context, classDoc));
+            model.getAllClasses().add(new JavadocClassPage(context, classDoc));
         }
 
         Map<PackageDoc, JavadocPackagePage> packagePageMap = new HashMap<>();
         for (PackageDoc packageDoc : packages) {
             List<JavadocClassPage> classesInPackage = new ArrayList<>();
-            for (JavadocClassPage classDocPage : allClasses) {
+            for (JavadocClassPage classDocPage : model.getAllClasses()) {
                 if(classDocPage.getClassDoc().containingPackage().equals(packageDoc)) {
                     classesInPackage.add(classDocPage);
                 }
@@ -67,23 +66,15 @@ public class JavadocGenerator extends OrchidGenerator {
 
             JavadocPackagePage packagePage = new JavadocPackagePage(context, packageDoc, classesInPackage);
 
-            allPackages.add(packagePage);
+            model.getAllPackages().add(packagePage);
             packagePageMap.put(packageDoc, packagePage);
         }
 
-        for (JavadocClassPage classDocPage : allClasses) {
+        for (JavadocClassPage classDocPage : model.getAllClasses()) {
             classDocPage.setPackagePage(packagePageMap.get(classDocPage.getClassDoc().containingPackage()));
-//            classDocPage.addComponent("summary", SummaryComponent.class);
-//            classDocPage.addComponent("fields", FieldsComponent.class);
-//            classDocPage.addComponent("ctors", ConstructorsComponent.class);
-//            classDocPage.addComponent("methods", MethodsComponent.class);
         }
 
-        List<OrchidPage> pages = new ArrayList<>();
-        pages.addAll(allClasses);
-        pages.addAll(allPackages);
-
-        return pages;
+        return model.getAllPages();
     }
 
     @Override

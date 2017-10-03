@@ -14,13 +14,16 @@ import com.eden.orchid.impl.indexing.OrchidInternalIndex;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -36,6 +39,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
     private int maxProgress;
     private int totalPageCount;
 
+    private Map<String, GeneratorMetrics> metrics;
+
     @Inject
     public GeneratorServiceImpl(Set<OrchidGenerator> generators) {
         this.allGenerators = new TreeSet<>(generators);
@@ -48,6 +53,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startIndexing() {
+        metrics = new HashMap<>();
+
         progress = 0;
         totalPageCount = 0;
         generators = new PrioritizedSetFilter<>(context, "generators", this.allGenerators).getFilteredSet();
@@ -68,7 +75,105 @@ public final class GeneratorServiceImpl implements GeneratorService {
         maxProgress = totalPageCount;
         generators.stream()
                   .forEach(this::useGenerator);
+        printMetrics();
         context.broadcast(Orchid.Lifecycle.BuildProgress.fire(this, maxProgress, maxProgress, 0));
+    }
+
+    private void ensureMetricsExist(OrchidGenerator generator) {
+        if (generator != null && !metrics.containsKey(generator.getKey())) {
+            metrics.put(generator.getKey(), new GeneratorMetrics(generator.key, generator.getClass().getSimpleName()));
+        }
+    }
+
+    private void printMetrics() {
+        GeneratorMetrics compositeMetrics = new GeneratorMetrics("total", "Totals");
+        compositeMetrics.startIndexing();
+        compositeMetrics.stopIndexing();
+        compositeMetrics.startGenerating();
+        compositeMetrics.stopGenerating();
+
+        int titleColumnWidth = 0;
+        int pageCountColumnWidth = 0;
+        int indexingTimeColumnWidth = 0;
+        int generationTimeColumnWidth = 0;
+        int meanPageTimeColumnWidth = 0;
+        int medianPageTimeColumnWidth = 0;
+
+        for (GeneratorMetrics metric : metrics.values()) {
+            compositeMetrics.setIndexingStartTime(Math.min(compositeMetrics.getIndexingStartTime(), metric.getIndexingStartTime()));
+            compositeMetrics.setIndexingEndTime(Math.min(compositeMetrics.getIndexingEndTime(), metric.getIndexingEndTime()));
+            compositeMetrics.setGeneratingStartTime(Math.min(compositeMetrics.getGeneratingStartTime(), metric.getGeneratingStartTime()));
+            compositeMetrics.setGeneratingEndTime(Math.min(compositeMetrics.getGeneratingEndTime(), metric.getGeneratingEndTime()));
+            compositeMetrics.addAllGenerationTimes(metric.getPageGenerationTimes());
+
+            titleColumnWidth          = Math.max(titleColumnWidth,          metric.getTitle().length());
+            pageCountColumnWidth      = Math.max(pageCountColumnWidth,      Integer.toString(metric.getPageGenerationTimes().size()).length());
+            indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   metric.getIndexingTime().length());
+            generationTimeColumnWidth = Math.max(generationTimeColumnWidth, metric.getGeneratingTime().length());
+            meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   metric.getMeanPageTime().length());
+            medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, metric.getMedianPageTime().length());
+        }
+
+        titleColumnWidth          = Math.max(titleColumnWidth,          compositeMetrics.getTitle().length());
+        pageCountColumnWidth      = Math.max(pageCountColumnWidth,      Integer.toString(compositeMetrics.getPageGenerationTimes().size()).length());
+        indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   compositeMetrics.getIndexingTime().length());
+        generationTimeColumnWidth = Math.max(generationTimeColumnWidth, compositeMetrics.getGeneratingTime().length());
+        meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   compositeMetrics.getMeanPageTime().length());
+        medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, compositeMetrics.getMedianPageTime().length());
+
+        titleColumnWidth          = Math.max(titleColumnWidth,          "Generator".length());
+        pageCountColumnWidth      = Math.max(medianPageTimeColumnWidth, "Page Count".length());
+        indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   "Indexing Time".length());
+        generationTimeColumnWidth = Math.max(generationTimeColumnWidth, "Generation Time".length());
+        meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   "Mean Page Generation Time".length());
+        medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, "Median Page Generation Time".length());
+
+        String table = "";
+
+        String rowFormat = "| #{$1} | #{$2} | #{$3} | #{$4} | #{$5} | #{$6} |\n";
+
+        table += Clog.format(rowFormat,
+                StringUtils.leftPad("Generator", titleColumnWidth),
+                StringUtils.leftPad("Page Count", pageCountColumnWidth),
+                StringUtils.leftPad("Indexing Time", indexingTimeColumnWidth),
+                StringUtils.leftPad("Generation Time", generationTimeColumnWidth),
+                StringUtils.leftPad("Mean Page Generation Time", meanPageTimeColumnWidth),
+                StringUtils.leftPad("Median Page Generation Time", medianPageTimeColumnWidth));
+
+        table += Clog.format(rowFormat,
+                StringUtils.leftPad("", titleColumnWidth, "-"),
+                StringUtils.leftPad("", pageCountColumnWidth, "-"),
+                StringUtils.leftPad("", indexingTimeColumnWidth, "-"),
+                StringUtils.leftPad("", generationTimeColumnWidth, "-"),
+                StringUtils.leftPad("", meanPageTimeColumnWidth, "-"),
+                StringUtils.leftPad("", medianPageTimeColumnWidth, "-"));
+
+        for (GeneratorMetrics metric : metrics.values()) {
+            table += Clog.format(rowFormat,
+                    StringUtils.leftPad(metric.getTitle(), titleColumnWidth),
+                    StringUtils.leftPad(Integer.toString(metric.getPageGenerationTimes().size()), pageCountColumnWidth),
+                    StringUtils.leftPad(metric.getIndexingTime(), indexingTimeColumnWidth),
+                    StringUtils.leftPad(metric.getGeneratingTime(), generationTimeColumnWidth),
+                    StringUtils.leftPad(metric.getMeanPageTime(), meanPageTimeColumnWidth),
+                    StringUtils.leftPad(metric.getMedianPageTime(), medianPageTimeColumnWidth));
+        }
+        table += Clog.format(rowFormat,
+                StringUtils.leftPad("", titleColumnWidth, "-"),
+                StringUtils.leftPad("", pageCountColumnWidth, "-"),
+                StringUtils.leftPad("", indexingTimeColumnWidth, "-"),
+                StringUtils.leftPad("", generationTimeColumnWidth, "-"),
+                StringUtils.leftPad("", meanPageTimeColumnWidth, "-"),
+                StringUtils.leftPad("", medianPageTimeColumnWidth, "-"));
+
+        table += Clog.format(rowFormat,
+                StringUtils.leftPad(compositeMetrics.getTitle(), titleColumnWidth),
+                StringUtils.leftPad(Integer.toString(compositeMetrics.getPageGenerationTimes().size()), pageCountColumnWidth),
+                StringUtils.leftPad(compositeMetrics.getIndexingTime(), indexingTimeColumnWidth),
+                StringUtils.leftPad(compositeMetrics.getGeneratingTime(), generationTimeColumnWidth),
+                StringUtils.leftPad(compositeMetrics.getMeanPageTime(), meanPageTimeColumnWidth),
+                StringUtils.leftPad(compositeMetrics.getMedianPageTime(), medianPageTimeColumnWidth));
+
+        Clog.i("Build Metrics:\n" + table);
     }
 
 // Indexing phase
@@ -81,6 +186,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     private void indexGenerator(OrchidGenerator generator) {
         Clog.d("Indexing generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
+
+        ensureMetricsExist(generator);
+        metrics.get(generator.getKey()).startIndexing();
 
         context.broadcast(Orchid.Lifecycle.IndexProgress.fire(this, progress, maxProgress));
 
@@ -109,6 +217,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
 
         progress++;
+
+        metrics.get(generator.getKey()).stopIndexing();
     }
 
     private void buildExternalIndex() {
@@ -133,6 +243,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
     private void useGenerator(OrchidGenerator generator) {
         Clog.d("Using generator: #{$1}:[#{$2 | className}]", generator.getPriority(), generator);
 
+        ensureMetricsExist(generator);
+        metrics.get(generator.getKey()).startGenerating();
+
         List<? extends OrchidPage> generatorPages = null;
         if (!EdenUtils.isEmpty(generator.getKey())) {
             generatorPages = context.getGeneratorPages(generator.getKey());
@@ -156,12 +269,20 @@ public final class GeneratorServiceImpl implements GeneratorService {
         else {
             generator.startGeneration(generatorPages);
         }
+
+        ensureMetricsExist(generator);
+        metrics.get(generator.getKey()).stopGenerating();
     }
 
     public void onPageGenerated(OrchidPage page, long millis) {
         if (page.isIndexed()) {
             progress++;
             context.broadcast(Orchid.Lifecycle.BuildProgress.fire(this, progress, maxProgress, millis));
+
+            if (page.getGenerator() != null) {
+                ensureMetricsExist(page.getGenerator());
+                metrics.get(page.getGenerator().getKey()).addPageGenerationTime(millis);
+            }
         }
     }
 }

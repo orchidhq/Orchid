@@ -15,6 +15,21 @@ Materialize:
     repo: 'Orchid'
     branch: 'master'
 
+BsDoc:
+  about:
+    siteName: OrchidCore
+    description: A modern, extensible, theme-ready Javadoc site generator.
+    githubUsername: 'JavaEden'
+    githubRepo: 'Orchid'
+  menu:
+    - type: 'link'
+      title: 'Home'
+      url: '/'
+    - type: 'postCategories'
+      title: 'Blog'
+    - type: 'javadocPackages'
+    - type: 'javadocClasses'
+
 Editorial:
   about:
     name: OrchidCore
@@ -43,7 +58,6 @@ FutureImperfect:
       templates:
         - 'customComponentTemplate.twig'
 
-
 changelogVersionSource: 'https://javaeden.github.io/Orchid/latest/OrchidCore/meta/changelog.index.json'
 
 posts:
@@ -56,6 +70,6 @@ wiki:
 
 generators:
   disabled:
-    - 'JavadocGenerator'
+#    - 'JavadocGenerator'
     - 'ChangelogGenerator'
     - 'KssGenerator'
