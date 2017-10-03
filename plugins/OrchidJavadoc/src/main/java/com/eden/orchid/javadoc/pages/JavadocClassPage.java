@@ -21,8 +21,6 @@ public class JavadocClassPage extends OrchidPage {
         components.addComponent(new JSONObject("{\"type\": \"javadocClassFields\"}"));
         components.addComponent(new JSONObject("{\"type\": \"javadocClassCtors\"}"));
         components.addComponent(new JSONObject("{\"type\": \"javadocClassMethods\"}"));
-
-//        classDoc.constructors()[0].name()
     }
 
     public String getClassType() {

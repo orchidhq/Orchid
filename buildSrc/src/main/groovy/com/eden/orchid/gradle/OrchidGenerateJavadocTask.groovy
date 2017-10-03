@@ -19,24 +19,14 @@ class OrchidGenerateJavadocTask extends Javadoc {
         classpath += project.sourceSets.orchidDocs.runtimeClasspath
         options.docletpath.addAll(classpath.files)
 
-        // Set the resources directory
-        if(project.orchid.srcDir) {
-            options.addStringOption("resourcesDir", project.orchid.srcDir)
-        }
-        else {
-            options.addStringOption("resourcesDir", project.sourceSets.orchidDocs.resources.srcDirs[0].toString())
-        }
-
-        // set the output directory
-        if(project.orchid.destDir) {
-            options.addStringOption("d", project.orchid.destDir)
-        }
-
         // set common configuration options
-        options.addStringOption("v",       OrchidPluginHelpers.getPropertyValue(project, 'version', project.version))
-        options.addStringOption("theme",   OrchidPluginHelpers.getPropertyValue(project, 'theme', 'Default'))
-        options.addStringOption("baseUrl", OrchidPluginHelpers.getPropertyValue(project, 'baseUrl', ''))
-        options.addStringOption("task",    OrchidPluginHelpers.getPropertyValue(project, 'runTask', 'build'))
+        destinationDir = project.file(OrchidPluginHelpers.getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/javadoc'))
+
+        options.addStringOption "resourcesDir", OrchidPluginHelpers.getPropertyValue(project, 'srcDir', project.sourceSets.orchidDocs.resources.srcDirs[0].toString())
+        options.addStringOption "v",            OrchidPluginHelpers.getPropertyValue(project, 'version', project.version)
+        options.addStringOption "theme",        OrchidPluginHelpers.getPropertyValue(project, 'theme', 'Default')
+        options.addStringOption "baseUrl",      OrchidPluginHelpers.getPropertyValue(project, 'baseUrl', '')
+        options.addStringOption "task",         OrchidPluginHelpers.getPropertyValue(project, 'runTask', 'build')
 
         // set any additional arguments
         if(project.orchid.args != null && project.orchid.args.size() > 0) {
