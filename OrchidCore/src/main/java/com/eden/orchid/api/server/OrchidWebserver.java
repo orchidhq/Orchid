@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class OrchidWebserver extends NanoHTTPD {
@@ -153,30 +155,38 @@ public final class OrchidWebserver extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-        OrchidRoute matchingRoute = null;
+        try {
+            Map<String, String> files = new HashMap<>();
+            OrchidRoute matchingRoute = null;
 
-        String route = "/" + OrchidUtils.normalizePath(session.getUri());
+            String route = "/" + OrchidUtils.normalizePath(session.getUri());
 
-        switch (session.getMethod()) {
-            case GET:
-                matchingRoute = findRoute(route, getRoutes);
-                break;
-            case POST:
-                matchingRoute = findRoute(route, postRoutes);
-                break;
-            case PUT:
-                matchingRoute = findRoute(route, putRoutes);
-                break;
-            case DELETE:
-                matchingRoute = findRoute(route, deleteRoutes);
-                break;
+            switch (session.getMethod()) {
+                case GET:
+                    matchingRoute = findRoute(route, getRoutes);
+                    break;
+                case POST:
+                    session.parseBody(files);
+                    matchingRoute = findRoute(route, postRoutes);
+                    break;
+                case PUT:
+                    session.parseBody(files);
+                    matchingRoute = findRoute(route, putRoutes);
+                    break;
+                case DELETE:
+                    matchingRoute = findRoute(route, deleteRoutes);
+                    break;
+            }
+
+            if (matchingRoute != null) {
+                return matchingRoute.call(new OrchidRequest(session, matchingRoute, files)).getResponse();
+            }
+            else {
+                return fileController.findFile(OrchidUtils.normalizePath(route));
+            }
         }
-
-        if (matchingRoute != null) {
-            return matchingRoute.call(new OrchidRequest(session, matchingRoute)).getResponse();
-        }
-        else {
-            return fileController.findFile(OrchidUtils.normalizePath(route));
+        catch(Exception e) {
+            return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "SERVER INTERNAL ERROR: IOException: " + e.getMessage());
         }
     }
 

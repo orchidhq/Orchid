@@ -21,7 +21,7 @@ public final class OrchidResponse {
     }
 
     public OrchidResponse(String content, String mimeType) {
-        this.response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, content, mimeType);
+        this.response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, content);
     }
 
     public OrchidResponse(NanoHTTPD.Response response) {
@@ -29,6 +29,7 @@ public final class OrchidResponse {
     }
 
     public NanoHTTPD.Response getResponse() {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         return response;
     }
 }

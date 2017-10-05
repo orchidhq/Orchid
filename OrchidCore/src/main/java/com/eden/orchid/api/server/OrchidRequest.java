@@ -13,16 +13,17 @@ public final class OrchidRequest {
     private NanoHTTPD.IHTTPSession session;
 
     private Map<String, String> pathParams;
+    private Map<String, String> files;
 
-    public OrchidRequest(NanoHTTPD.IHTTPSession session, OrchidRoute route) {
+    public OrchidRequest(NanoHTTPD.IHTTPSession session, OrchidRoute route, Map<String, String> files) {
         this.session = session;
         this.route = route;
+        this.files = files;
 
         pathParams = ServerUtils.parsePathParams(
                 OrchidUtils.normalizePath(route.getPath()),
                 OrchidUtils.normalizePath(session.getUri())
         );
-
     }
 
     public String path(String key) {
@@ -32,8 +33,13 @@ public final class OrchidRequest {
     public String query(String key) {
         return (session.getParameters().get(key).size() > 0) ? session.getParameters().get(key).get(0) : "";
     }
+
     public List<String> queryList(String key) {
         return session.getParameters().get(key);
+    }
+
+    public Map<String, String> files() {
+        return files;
     }
 
     public String input(String key) {
@@ -42,6 +48,9 @@ public final class OrchidRequest {
         }
         else if(session.getParameters().containsKey(key)) {
             return (session.getParameters().get(key).size() > 0) ? session.getParameters().get(key).get(0) : "";
+        }
+        else if(files.containsKey(key)) {
+            return files.get(key);
         }
         return null;
     }
