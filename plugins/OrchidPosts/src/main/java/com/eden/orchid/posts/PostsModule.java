@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.posts.components.DisqusComponent;
 import com.eden.orchid.posts.components.PostTagsComponent;
 import com.eden.orchid.posts.components.RecentPostsComponent;
 import com.eden.orchid.posts.menu.CategoriesMenuType;
@@ -34,7 +35,8 @@ public class PostsModule extends OrchidModule {
 
         addToSet(OrchidComponent.class,
                 PostTagsComponent.class,
-                RecentPostsComponent.class);
+                RecentPostsComponent.class,
+                DisqusComponent.class);
 
         addToSet(PluginResourceSource.class,
                 PostsResourceSource.class);

@@ -18,6 +18,7 @@ import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.pages.PostTagArchivePage;
 import com.eden.orchid.posts.permalink.PostsPermalinkStrategy;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -53,6 +54,9 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Option
     public PostsPaginator pagination;
+
+    @Option
+    public String disqusShortname;
 
     @Inject
     public PostsGenerator(OrchidContext context, PostsPermalinkStrategy permalinkStrategy, PostsModel postsModel) {
@@ -171,6 +175,22 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
                 post.setTitle(title);
 
                 permalinkStrategy.applyPermalink(post);
+
+                if(!EdenUtils.isEmpty(disqusShortname)) {
+                    if(post.getComponents().hasComponent("disqus")) {
+                        JSONObject disqusComponent = post.getComponents().getComponentData("disqus");
+                        if(disqusComponent != null && !disqusComponent.has("shortname")) {
+                            disqusComponent.put("shortname", disqusShortname);
+                            post.getComponents().invalidateComponents();
+                        }
+                    }
+                    else {
+                        JSONObject disqusComponent = new JSONObject();
+                        disqusComponent.put("type", "disqus");
+                        disqusComponent.put("shortname", disqusShortname);
+                        post.getComponents().addComponent(disqusComponent);
+                    }
+                }
 
                 posts.add(post);
             }

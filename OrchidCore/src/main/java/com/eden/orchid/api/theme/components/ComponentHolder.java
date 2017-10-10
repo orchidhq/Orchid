@@ -47,6 +47,40 @@ public final class ComponentHolder {
         return true;
     }
 
+    public boolean hasComponent(String key) {
+        if (components == null) {
+            for (int i = 0; i < componentsJson.length(); i++) {
+                JSONObject componentJson = componentsJson.getJSONObject(i);
+                String componentType = componentJson.getString("type");
+                if(componentType.equals(key)) {
+                    return true;
+                }
+            }
+        }
+        else {
+            for(OrchidComponent component : components) {
+                if(component.getKey().equals(key)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public JSONObject getComponentData(String key) {
+        for (int i = 0; i < componentsJson.length(); i++) {
+            JSONObject componentJson = componentsJson.getJSONObject(i);
+            String componentType = componentJson.getString("type");
+            if(componentType.equals(key)) {
+                invalidateComponents();
+                return componentJson;
+            }
+        }
+
+        return null;
+    }
+
     public List<OrchidComponent> getComponents() {
         if (components == null) {
             components = new ArrayList<>();
@@ -72,14 +106,18 @@ public final class ComponentHolder {
     }
 
     public void addComponent(JSONObject menuItemJson) {
-        components = null;
+        invalidateComponents();
         componentsJson.put(menuItemJson);
     }
 
     public void addComponents(JSONArray menuItemsJson) {
-        components = null;
+        invalidateComponents();
         for (int i = 0; i < menuItemsJson.length(); i++) {
             componentsJson.put(menuItemsJson.get(i));
         }
+    }
+
+    public void invalidateComponents() {
+        components = null;
     }
 }
