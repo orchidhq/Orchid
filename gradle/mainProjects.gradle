@@ -22,7 +22,7 @@ ext {
 //    commonTheme = 'FutureImperfect'
 //    commonTheme = 'Materialize'
 
-    commonRunTask = "listOptions"
+    commonRunTask = "build"
 
     if (project.hasProperty('env')) {
         switch (project.property('env')) {
