@@ -35,7 +35,10 @@ private plugins and a rich API so you can make your site as beautiful and unique
 ## Table of Contents
 
 1. [Installation](#installation)
-1. [Configuration](#configuration)
+1. [Site Configuration](#site-configuration)
+1. [Page Configuration](#page-configuration)
+1. [Components and menus](#components-and-menus)
+1. [Theming](#theming)
 1. [Development Progress](#development-progress)
     1. [Core Packages](#core-packages)
     1. [Themes](#themes)
@@ -87,17 +90,11 @@ orchid {
 
 You can now run Orchid in the following ways:
 
-1) `./gradlew orchidRun` - Runs an Orchid task. The `runTask` should be specified in `build.gradle` or passed as a Gradle
-    project property (`-PrunTask=build`). The task `listTasks` will show a list of all tasks that can be run given the 
-    plugins currently installed. Similarly, `listOptions` will list all options that can be set through Gradle. 
-2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
-    `build/docs/javadoc` unless the output directory has been changed.
-3) `./gradlew orchidServe` - Sets up a development server and watches files for changes. Must have the `OrchidServer` 
-    plugin installed for this task to work, which is included in all the above bundles.
-4) If you are developing a Java application, Orchid replaces the standard Javadoc task with its own `build` task. In 
-    addition to running the standard Orchid build, when Orchid is run from Javadoc it will be able to create pages 
-    for all your project's classes and packages, just like you'd expect from a normal Javadoc site, but embedded within
-    your chosen Orchid theme. You must have the `OrchidJavadoc` plugin installed for this to work properly.
+1) `./gradlew orchidRun` - Runs an Orchid task. The `runTask` should be specified in `build.gradle` or passed as a Gradle project property (`-PorchidRunTask=build`). The task `listTasks` will show a list of all tasks that can be run given the plugins currently installed.
+2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in `build/docs/javadoc` unless the output directory has been changed. You can then view the site by starting any HTTP file server in the root of the output directory.
+3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in `build/docs/javadoc` unless the output directory has been changed.
+4) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` (or the closest available port).
+5) If you are developing a Java application, Orchid replaces the standard Javadoc task with its own `build` task. In addition to running the standard Orchid build, when Orchid is run from Javadoc it will be able to create pages for all your project's classes and packages, just like you'd expect from a normal Javadoc site, but embedded within your chosen Orchid theme. You must have the `OrchidJavadoc` plugin installed for this to work properly.
     
 _On windows, all the above commands need to be run with `gradlew` instead of `./gradlew`._
 
@@ -105,11 +102,101 @@ The Orchid Gradle plugin adds a new configuration and content root to your proje
 (you may have to create this folder yourself). All your site content sits in `src/orchidDocs/resources`, and any 
 additional classes you'd like to include as a private plugin can be placed in `src/orchidDocs/java`. 
 
-## Configuration
+## Site Configuration
 
-You should create a `config.yml` file in your resources directory to customize your theme or configure your build. These
-values can then be used in all templates and when preprocessing your content files under the `options` variable. 
-Alternatively, you may create a file in `data/` with your data which will be accessible at `options.[filename]`.
+You should create a `config.yml` file in your resources directory to customize your theme or configure your build. These values are then "injected" into various classes throughout the build, including themes, services, generators, pages, components, and menu items, and then are available for use simply as properties of the object they were injected into. A sample `config.yml` looks like:
+
+```yaml
+# options for the Theme
+Editorial:
+  extraCss: ['assets/css/customCss.scss'] # extra CSS or JS can be added to any Theme, Page, or Component
+  menu: # the theme defined at menu at `menu`. Each object is injected into the menu item it creates. Pages may also define their own menus or component areas
+    - type: 'link'
+      title: 'Home'
+      url: '/'
+    - type: 'postCategories'
+      category: 'personal'
+      title: 'blog'
+    - type: 'page'
+      page: 'Contact'
+  sidebar: # Similar to menus, the theme defined at sidebare to hold Components. Each object is injected into the object it creates.
+    - type: recentPosts
+      limit: 3
+      category: programming
+      templates: # any Component or Page can specify a list of templates, the first matching template will be used
+          - 'includes/postPreview_mini.twig'
+    - type: recentPosts
+      limit: 5
+      category: personal
+      templates:
+          - 'includes/postPreview_list.twig'
+
+# Set the options for the Assets, Pages, and posts generators. 
+assets: 
+  sourceDirs: # set directories to copy all assets from
+    - 'assets/images'
+
+pages:
+  layout: single # Generators can specify a default layout for the pages they generate, otherwise it is decided by the Page or falls back to 'index'
+
+# Some plugins can be quite highly configurable, such as OrchidPosts
+posts:
+  layout: single
+  permalink: ':category/:year/:month/:slug'
+  disqusShortname: 'shortname'
+  categories:
+    - 'personal'
+    - 'programming'
+  authors:
+    - name: 'Author'
+      avatar: 'assets/images/avatar.jpg'
+```
+
+## Page Configuration
+
+While Orchid does not mandate any folder structure (leaving it up to plugins to define), plugins that use files on disk can add options to the page with FrontMatter. FrontMatter is a block of YAML between a pair of three dashes `---` on their own line. When FrontMatter is given (even if nothing is between the pairs of dashes) the FrontMatter block will be removed and the rest of the file preprocessed with Twig. A Page's typical FrontMatter may look like: 
+
+```
+---
+layout: single # set the page's layout. Can be a full file name and path, such as 'layouts/single.twig' or just the filename for a file in the resource dir 'templates/layouts' folder
+components: # All Pages have a Component area at 'components', but may define additional areas. The same goes for Menus
+  - type: recentPosts
+    limit: 3
+    category: ':any'
+    templates:
+        - 'includes/postPreview_large.twig'
+---
+
+Page Content Here
+```
+
+In addition to YAML, Orchid supports JSON for FrontMatter, by using `;;;` delimiters rather than `---`, or TOML (when OrchidLanguagePage plugin in use) with `+++`, or by adding the desired format extension directly after the opening delimiter:
+
+> ```
+> ---toml
+> ---
+> ```
+> and
+> ```
+> +++
+> +++
+> ```
+> are equivalent.
+
+## Components and Menus
+
+Pages and Themes may each, independently, define Menus and Component Areas. They are declared within the Java Class that defines the page or theme, and then rendered from within the Twig templates. Just because a menu or component area is defined doesn't mean it is actually used: the Theme base class has a menu at `menu` but an individual theme may choose to ignore it and use multiple menus with more semantic names. Likewise, the Page base class has a menu at `menu` and a component area at `components`. 
+
+Themes and menus are both set up with an array of objects, which are then lazily converted into Component and MenuItem objects. This ensures that the indexing process has completed by the time the menus and components are being created. Plugins may define their own components and menu item type, and several common ones are included in OrchidCore.
+
+When Components are created, they are rendered with a template (typically from `templates/components` from top-to-bottom in the order defined in the array data creation, however, it is common for specific Page types or generators to add components themselves, which get added after the FrontMatter or config.yml-defined components. 
+
+When Menus are created, rather than having a one-to-one correspondance of menu item config to menu item in the theme, Menus Items return a list of individual items. These items may be arranged in a recursive tree, but always wrap a Page object and generate a link with an absolute URL. 
+
+## Theming
+
+Orchid supports multiple themes in one build seamlessly. By default, Orchid will use the Theme specified on the command line or through the Gradle config, but themes may be applied to Generators, which will then be used for all pages rendered by that Generator.
+
 
 ## Development Progress
 
