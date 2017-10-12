@@ -73,3 +73,7 @@ generators:
 #    - 'JavadocGenerator'
     - 'ChangelogGenerator'
     - 'KssGenerator'
+
+presentations:
+  presentations:
+    - 'helloWorld'

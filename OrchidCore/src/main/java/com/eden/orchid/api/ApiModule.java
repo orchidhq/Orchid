@@ -89,21 +89,12 @@ public final class ApiModule extends OrchidModule {
                 OrchidMenuOptionExtractor.class,
                 ComponentHolderOptionExtractor.class
         );
-
-        Parseltongue formatter = (Parseltongue) Clog.getFormatter();
-        formatter.findSpells(this.getClass());
-        Clog.setFormatter(formatter);
     }
 
     @Provides
     OrchidSite provideOrchidSite(@Named("v") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment) {
         OrchidSite site = new OrchidSiteImpl(OrchidVersion.getVersion(), version, baseUrl, environment);
         return site;
-    }
-
-    @Spell(name="thingie")
-    public static String getThingie(Object object) {
-        return "the thingie";
     }
 
 }

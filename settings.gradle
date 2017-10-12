@@ -13,6 +13,7 @@ include 'plugins:OrchidKSS'
 include 'plugins:OrchidLanguagePack'
 include 'plugins:OrchidPages'
 include 'plugins:OrchidPosts'
+include 'plugins:OrchidPresentations'
 include 'plugins:OrchidWiki'
 
 include 'bundles:OrchidAll'

@@ -84,7 +84,7 @@ public final class ThemeAssetHolder implements AssetHolder {
     public void addCss(String cssAsset) {
         OrchidResource resource = theme.getResourceEntry(cssAsset);
         if(resource != null) {
-            addCss(new OrchidPage(theme.getResourceEntry(cssAsset), FilenameUtils.getBaseName(cssAsset)));
+            addCss(new OrchidPage(resource, FilenameUtils.getBaseName(cssAsset)));
         }
         else {
             Clog.w("Could not find CSS asset: {}", cssAsset);

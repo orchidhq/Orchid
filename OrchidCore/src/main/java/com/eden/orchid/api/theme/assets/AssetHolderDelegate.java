@@ -2,7 +2,9 @@ package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -51,6 +53,17 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
+    public void addJs(String jsAsset) {
+        OrchidResource resource = context.getResourceEntry(jsAsset);
+        if(resource != null) {
+            addJs(new OrchidPage(resource, FilenameUtils.getBaseName(jsAsset)));
+        }
+        else {
+            Clog.w("Could not find JS asset: {}", jsAsset);
+        }
+    }
+
+    @Override
     public void addCss(OrchidPage cssAsset) {
         if(validAsset(cssAsset, CSS_EXT)) {
             cssAsset.getReference().setUsePrettyUrl(false);
@@ -62,6 +75,17 @@ public final class AssetHolderDelegate implements AssetHolder {
                     cssAsset.getReference().getFileName(),
                     cssAsset.getReference().getOutputExtension(),
                     CSS_EXT);
+        }
+    }
+
+    @Override
+    public void addCss(String cssAsset) {
+        OrchidResource resource = context.getResourceEntry(cssAsset);
+        if(resource != null) {
+            addCss(new OrchidPage(resource, FilenameUtils.getBaseName(cssAsset)));
+        }
+        else {
+            Clog.w("Could not find CSS asset: {}", cssAsset);
         }
     }
 

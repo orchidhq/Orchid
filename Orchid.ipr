@@ -14,7 +14,10 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="OrchidPresentations_main" target="1.8" />
+      <module name="OrchidPresentations_test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="CopyrightManager" default="" />
   <component name="DependencyValidationManager">
@@ -41,6 +44,17 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/OrchidCore" />
+          </set>
+        </option>
+        <option name="useAutoImport" value="true" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/plugins/OrchidPresentations" />
+        <option name="gradleJvm" value="1.8" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/plugins/OrchidPresentations" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />
@@ -93,6 +107,9 @@
       <module fileurl="file://$PROJECT_DIR$/themes/OrchidMaterialize/OrchidMaterialize.iml" filepath="$PROJECT_DIR$/themes/OrchidMaterialize/OrchidMaterialize.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" filepath="$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" filepath="$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations.iml" filepath="$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_main.iml" filepath="$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_test.iml" filepath="$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_test.iml" />
       <module fileurl="file://$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" filepath="$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" filepath="$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" />
     </modules>
