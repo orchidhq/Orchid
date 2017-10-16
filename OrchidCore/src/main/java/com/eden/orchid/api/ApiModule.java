@@ -1,8 +1,5 @@
 package com.eden.orchid.api;
 
-import com.caseyjbrooks.clog.Clog;
-import com.caseyjbrooks.clog.parseltongue.Parseltongue;
-import com.caseyjbrooks.clog.parseltongue.Spell;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.OrchidVersion;
 import com.eden.orchid.api.compilers.CompilerService;
@@ -36,8 +33,8 @@ import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
-import com.eden.orchid.api.render.OrchidFileRendererServiceImpl;
-import com.eden.orchid.api.render.OrchidRenderService;
+import com.eden.orchid.api.render.FileRenderServiceImpl;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.site.OrchidSite;
@@ -61,7 +58,7 @@ public final class ApiModule extends OrchidModule {
         bind(TaskService.class).to(TaskServiceImpl.class);
         bind(OptionsService.class).to(OptionsServiceImpl.class);
         bind(GeneratorService.class).to(GeneratorServiceImpl.class);
-        bind(OrchidRenderService.class).to(OrchidFileRendererServiceImpl.class);
+        bind(RenderService.class).to(FileRenderServiceImpl.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 

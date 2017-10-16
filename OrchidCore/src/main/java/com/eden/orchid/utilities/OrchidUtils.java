@@ -1,6 +1,5 @@
 package com.eden.orchid.utilities;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -17,6 +16,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -132,9 +132,18 @@ public final class OrchidUtils {
         return firstBy(items.stream(), mapper);
     }
 
+    public static <T, U> boolean inArray(T item, U[] items, BiPredicate<T, U> condition) {
+        for(U test : items) {
+            if(condition.test(item, test)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder) {
         if(!EdenUtils.isEmpty(extraCss)) {
-            Clog.d("Adding extra CSS in {}", holder.getClass().getSimpleName());
             Arrays.stream(extraCss)
                   .map(context::getResourceEntry)
                   .filter(Objects::nonNull)
@@ -142,7 +151,6 @@ public final class OrchidUtils {
                   .forEach(holder::addCss);
         }
         if(!EdenUtils.isEmpty(extraJs)) {
-            Clog.d("Adding extra JS in {}", holder.getClass().getSimpleName());
             Arrays.stream(extraJs)
                   .map(context::getResourceEntry)
                   .filter(Objects::nonNull)

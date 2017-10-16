@@ -8,7 +8,6 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.languages.impl.AsciiDoctorCompiler;
 import com.eden.orchid.languages.impl.CSVParser;
 import com.eden.orchid.languages.impl.CodeFilter;
-import com.eden.orchid.languages.impl.TOMLParser;
 import com.eden.orchid.languages.impl.TextCompiler;
 import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.util.options.MutableDataSet;
@@ -25,8 +24,7 @@ public class LanguagesModule extends OrchidModule {
 
         // Parsers
         addToSet(OrchidParser.class,
-                CSVParser.class,
-                TOMLParser.class);
+                CSVParser.class);
 
         // Syntax highlighting via Pygments
         addToSet(JtwigFunction.class,

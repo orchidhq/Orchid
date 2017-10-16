@@ -38,7 +38,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     private PostsModel postsModel;
 
     @Option
-    @StringDefault(":year/:month/:slug")
+    @StringDefault(":year/:month/:day/:slug")
     public String permalink;
 
     @Option
@@ -139,18 +139,25 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     private List<PostPage> getPostsList(String category) {
         List<OrchidResource> resourcesList;
+        String baseCategoryPath;
+
         if(EdenUtils.isEmpty(category)) {
-            resourcesList = context.getLocalResourceEntries("posts", null, false);
+            baseCategoryPath = "posts";
         }
         else {
-            resourcesList = context.getLocalResourceEntries("posts/" + category, null, false);
+            baseCategoryPath = "posts/" + category;
         }
+
+        resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true);
 
         List<PostPage> posts = new ArrayList<>();
 
         for (OrchidResource entry : resourcesList) {
             entry.getReference().setUsePrettyUrl(false);
-            Matcher matcher = pageTitleRegex.matcher(entry.getReference().getFileName());
+
+            String formattedFilename = PostsUtils.getPostFilename(entry, baseCategoryPath);
+
+            Matcher matcher = pageTitleRegex.matcher(formattedFilename);
 
             if (matcher.matches()) {
                 PostPage post = new PostPage(entry, postsModel);

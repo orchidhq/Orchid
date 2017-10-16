@@ -1,6 +1,17 @@
 
-* [Getting Started](gettingStarted.md)
+* [Quickstart](quickstart.md)
 
-* [Page 1](tester/page1.md)
-* [Page 2](tester/page2.md)
+### Building Blocks
 
+* [Pages](basics/pages.md)
+* [Themes](basics/themes.md)
+* [Generators](basics/generators.md)
+* [Menus](basics/menus.md)
+* [Components](basics/components.md)
+
+### Configuration 
+
+* [Directory Structure](configuration/directory-structure.md)
+* [Site Configuration](configuration/site-config.md)
+* [Page Configuration](configuration/page-config.md)
+* [Advanced Customization](configuration/advanced-customization.md)

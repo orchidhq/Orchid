@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.server.admin;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsDescription;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -38,7 +37,6 @@ public class AdminController extends OrchidController {
 
     @Get(path = "/")
     public OrchidResponse doNothing(OrchidRequest request) {
-        Clog.v("Rendering admin index page");
         OrchidResource resource = context.getResourceEntry("templates/server/admin/admin.twig");
         String content = "";
         if (resource != null) {

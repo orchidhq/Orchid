@@ -1,6 +1,8 @@
 package com.eden.orchid.posts.permalink.pathTypes;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.posts.PostsGenerator;
+import com.eden.orchid.posts.PostsUtils;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.permalink.PermalinkPathType;
 
@@ -21,7 +23,18 @@ public class SlugPathType extends PermalinkPathType {
 
     @Override
     public String format(PostPage post, String key) {
-        Matcher matcher = PostsGenerator.pageTitleRegex.matcher(post.getReference().getFileName());
+        String baseCategoryPath;
+
+        if(EdenUtils.isEmpty(post.getCategory())) {
+            baseCategoryPath = "posts";
+        }
+        else {
+            baseCategoryPath = "posts/" + post.getCategory();
+        }
+
+        String formattedFilename = PostsUtils.getPostFilename(post.getResource(), baseCategoryPath);
+
+        Matcher matcher = PostsGenerator.pageTitleRegex.matcher(formattedFilename);
 
         if (matcher.matches()) {
             return matcher.group(4);

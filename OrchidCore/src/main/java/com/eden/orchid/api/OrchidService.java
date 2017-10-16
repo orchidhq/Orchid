@@ -4,7 +4,16 @@ import com.eden.orchid.api.options.OptionsHolder;
 
 public interface OrchidService extends OptionsHolder {
 
-    default String getKey() { return getClass().getSimpleName().replaceAll("Impl", ""); }
+    default String getKey() {
+        String key = getClass().getSimpleName();
+        key = key.replaceAll("Service", "");
+        key = key.replaceAll("Impl", "");
+        key = key.substring(0, 1).toLowerCase() + key.substring(1);
+        if(!key.endsWith("s")) {
+            key = key + "s";
+        }
+        return key;
+    }
 
     void initialize(OrchidContext context);
 

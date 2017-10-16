@@ -1,6 +1,5 @@
 package com.eden.orchid.presentations;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -58,11 +57,5 @@ public class PresentationComponent extends OrchidComponent {
     @Override
     public void onPostExtraction() {
         this.presentation = model.getPresentations().getOrDefault(presentationKey, null);
-        if(this.presentation != null) {
-            Clog.v("we found a presentation at {} with {} slides", presentationKey, this.presentation.getSlides().size());
-        }
-        else {
-            Clog.v("No presentation at key {} was found", presentationKey);
-        }
     }
 }

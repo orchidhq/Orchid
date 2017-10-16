@@ -42,6 +42,10 @@ public final class CompilerServiceImpl implements CompilerService {
     @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
     public String[] customBinaryExtensions;
 
+    @Option("compilerExtensions")
+    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a mapping with keys of the unrecognized extension and values of the known extension. These take precedence over the normally recognized extensions.")
+    public JSONObject customCompilerExtensions;
+
     private OrchidContext context;
 
     private Set<OrchidCompiler> compilers;
@@ -54,6 +58,9 @@ public final class CompilerServiceImpl implements CompilerService {
     private Map<String, OrchidCompiler> compilerMap;
     private Map<String, OrchidParser> parserMap;
 
+    private Map<String, OrchidCompiler> customCompilerMap;
+    private Map<String, OrchidParser> customParserMap;
+
     @Inject
     public CompilerServiceImpl(Set<OrchidCompiler> compilers, Set<OrchidParser> parsers, OrchidPrecompiler precompiler) {
         this.precompiler = precompiler;
@@ -65,6 +72,11 @@ public final class CompilerServiceImpl implements CompilerService {
     @Override
     public void initialize(OrchidContext context) {
         this.context = context;
+    }
+
+    @Override
+    public void onPostExtraction() {
+        buildCustomCompilerIndex();
     }
 
     private void buildCompilerIndex() {
@@ -92,8 +104,28 @@ public final class CompilerServiceImpl implements CompilerService {
         }
     }
 
+    private void buildCustomCompilerIndex() {
+        this.customCompilerMap = new HashMap<>();
+        this.customParserMap = new HashMap<>();
+
+        if(customCompilerExtensions != null) {
+            for(String ext : customCompilerExtensions.keySet()) {
+                if(compilerMap.containsKey(customCompilerExtensions.getString(ext))) {
+                    customCompilerMap.put(ext, compilerMap.get(customCompilerExtensions.getString(ext)));
+                }
+            }
+        }
+    }
+
     public Set<String> getCompilerExtensions() {
-        return compilerExtensions;
+        Set<String> allExtensions = new HashSet<>();
+
+        if(customCompilerExtensions != null) {
+            allExtensions.addAll(customCompilerExtensions.keySet());
+        }
+        allExtensions.addAll(compilerExtensions);
+
+        return allExtensions;
     }
 
     public Set<String> getParserExtensions() {
@@ -101,10 +133,16 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     public OrchidCompiler compilerFor(String extension) {
+        if(customCompilerMap != null && customCompilerMap.containsKey(extension)) {
+            return customCompilerMap.get(extension);
+        }
         return compilerMap.getOrDefault(extension, null);
     }
 
     public OrchidParser parserFor(String extension) {
+        if(customParserMap != null && customParserMap.containsKey(extension)) {
+            return customParserMap.get(extension);
+        }
         return parserMap.getOrDefault(extension, null);
     }
 

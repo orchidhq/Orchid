@@ -157,17 +157,17 @@ posts:
 While Orchid does not mandate any folder structure (leaving it up to plugins to define), plugins that use files on disk can add options to the page with FrontMatter. FrontMatter is a block of YAML between a pair of three dashes `---` on their own line. When FrontMatter is given (even if nothing is between the pairs of dashes) the FrontMatter block will be removed and the rest of the file preprocessed with Twig. A Page's typical FrontMatter may look like: 
 
 ```
----
-layout: single # set the page's layout. Can be a full file name and path, such as 'layouts/single.twig' or just the filename for a file in the resource dir 'templates/layouts' folder
-components: # All Pages have a Component area at 'components', but may define additional areas. The same goes for Menus
+ ---
+ layout: single # set the page's layout. Can be a full file name and path, such as 'layouts/single.twig' or just the filename for a file in the resource dir 'templates/layouts' folder
+ components: # All Pages have a Component area at 'components', but may define additional areas. The same goes for Menus
   - type: recentPosts
     limit: 3
     category: ':any'
     templates:
         - 'includes/postPreview_large.twig'
----
+ ---
 
-Page Content Here
+ Page Content Here
 ```
 
 In addition to YAML, Orchid supports JSON for FrontMatter, by using `;;;` delimiters rather than `---`, or TOML (when OrchidLanguagePage plugin in use) with `+++`, or by adding the desired format extension directly after the opening delimiter:

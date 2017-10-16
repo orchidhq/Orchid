@@ -48,10 +48,6 @@ public class KssGenerator extends OrchidGenerator {
     public List<? extends OrchidPage> startIndexing() {
         sections = new LinkedHashMap<>();
 
-        if (!EdenUtils.isEmpty(stylesheet)) {
-            Clog.i("KSS additional stylesheet: " + stylesheet);
-        }
-
         if (EdenUtils.isEmpty(sectionNames)) {
             sections.put(null, getStyleguidePages(null));
         }

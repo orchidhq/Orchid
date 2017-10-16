@@ -268,7 +268,7 @@ public final class OrchidReference {
                 newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
             }
 
-            newReference.path = parsedUrl.getPath();
+            newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath());
             newReference.fileName = "";
             newReference.title = title;
             newReference.extension = "";

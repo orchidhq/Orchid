@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.server.files;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -95,7 +94,6 @@ public final class IndexFileResponse {
             }
         }
 
-        Clog.i("Rendering Index: #{$1}", targetPath);
         return NanoHTTPD.newFixedLengthResponse(content);
     }
 }

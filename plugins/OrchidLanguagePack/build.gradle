@@ -2,7 +2,6 @@
 dependencies {
     implementation 'org.asciidoctor:asciidoctorj:1.5.6'
     implementation 'com.univocity:univocity-parsers:2.5.5'
-    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
     implementation 'org.python:jython-standalone:2.7.1'
     implementation 'org.pygments:pygments:2.2.0'
 

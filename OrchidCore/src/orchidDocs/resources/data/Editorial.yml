@@ -1,0 +1,14 @@
+extraJs:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/prism.min.js'
+  - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-java.min.js'
+  - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-yaml.min.js'
+extraCss:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/themes/prism.min.css'
+about:
+  name: OrchidCore
+  description: A beautiful and truly unique documentation engine and static site generator.
+  githubUsername: 'JavaEden'
+  githubRepo: 'Orchid'
+primaryColor: '#ffa033'
+secondaryColor: '#000000'
+

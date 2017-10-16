@@ -74,6 +74,16 @@ public class OrchidMenuItemImpl {
         }
     }
 
+    public OrchidMenuItemImpl(OrchidContext context, @NonNull List<OrchidMenuItemImpl> menuItems, @NonNull String title) {
+        this.context = context;
+        this.hasChildren = true;
+
+        this.title = title;
+
+        this.children = new ArrayList<>(menuItems);
+        this.page = null;
+    }
+
     public OrchidMenuItemImpl(OrchidContext context, String title, @NonNull OrchidPage page) {
         this.context = context;
         this.hasChildren = false;

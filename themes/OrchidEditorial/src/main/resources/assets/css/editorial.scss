@@ -4121,3 +4121,13 @@ p img {
 p a img {
   width: initial;
 }
+
+pre code {
+  margin: 0 auto 2em auto;
+  max-width: 40rem;
+}
+
+blockquote {
+  margin: 0 auto 2em auto;
+  max-width: 40rem;
+}

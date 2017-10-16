@@ -1,5 +1,8 @@
 package com.eden.orchid.impl;
 
+import com.caseyjbrooks.clog.Clog;
+import com.caseyjbrooks.clog.ClogFormatter;
+import com.caseyjbrooks.clog.parseltongue.Parseltongue;
 import com.eden.orchid.OrchidModule;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
@@ -50,8 +53,10 @@ import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
+import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.utilities.ClogSpells;
 import com.google.inject.multibindings.Multibinder;
 
 public final class ImplModule extends OrchidModule {
@@ -105,6 +110,7 @@ public final class ImplModule extends OrchidModule {
         // Menu Items
         addToSet(OrchidMenuItem.class,
                 DividerMenuItem.class,
+                DropdownMenuItem.class,
                 LinkMenuItem.class,
                 IndexMenuItem.class);
 
@@ -132,5 +138,10 @@ public final class ImplModule extends OrchidModule {
                 TasksList.class,
                 ThemesList.class,
                 MenuItemsList.class);
+
+        ClogFormatter formatter = Clog.getFormatter();
+        if(formatter instanceof Parseltongue) {
+            ((Parseltongue) formatter).findSpells(ClogSpells.class);
+        }
     }
 }

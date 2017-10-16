@@ -108,8 +108,6 @@
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" filepath="$PROJECT_DIR$/plugins/OrchidPages/OrchidPages.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" filepath="$PROJECT_DIR$/plugins/OrchidPosts/OrchidPosts.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations.iml" filepath="$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_main.iml" filepath="$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_test.iml" filepath="$PROJECT_DIR$/plugins/OrchidPresentations/OrchidPresentations_test.iml" />
       <module fileurl="file://$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" filepath="$PROJECT_DIR$/bundles/OrchidProduct/OrchidProduct.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" filepath="$PROJECT_DIR$/plugins/OrchidWiki/OrchidWiki.iml" />
     </modules>

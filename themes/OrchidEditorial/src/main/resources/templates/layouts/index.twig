@@ -10,6 +10,8 @@
     {% include 'meta.twig' ignore missing %}
     {% include 'includes/styles.twig' with {page: page} only %}
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/themes/prism.min.css">
+
     <style>
         #readme p > img {
             width: 100%;
@@ -53,6 +55,10 @@
 </div>
 
 {% include 'includes/scripts.twig' with {page: page} only %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-yaml.min.js"></script>
 
 </body>
 </html>

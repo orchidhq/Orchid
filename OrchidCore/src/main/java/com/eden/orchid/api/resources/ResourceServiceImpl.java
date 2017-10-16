@@ -5,9 +5,9 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -85,7 +86,7 @@ public final class ResourceServiceImpl implements ResourceService {
     public JSONObject getDatafiles(final String directory) {
         String[] parserExtensions = new String[context.getParserExtensions().size()];
         context.getParserExtensions().toArray(parserExtensions);
-        List<OrchidResource> files = getLocalResourceEntries(directory, parserExtensions, false);
+        List<OrchidResource> files = getLocalResourceEntries(directory, parserExtensions, true);
 
         JSONObject allDatafiles = new JSONObject();
 
@@ -93,18 +94,41 @@ public final class ResourceServiceImpl implements ResourceService {
             file.getReference().setUsePrettyUrl(false);
             JSONObject fileData = context.parse(file.getReference().getExtension(), file.getContent());
 
-            if (fileData != null) {
-                if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
-                    allDatafiles.put(file.getReference().getFileName(), fileData.getJSONArray(OrchidParser.arrayAsObjectKey));
-                }
-                else {
-                    allDatafiles.put(file.getReference().getFileName(), fileData);
-                }
-            }
+            String innerPath = OrchidUtils.normalizePath(file.getReference().getPath().replaceAll(directory, ""));
 
+            String[] filePathPieces = OrchidUtils.normalizePath(innerPath + "/" + file.getReference().getFileName()).split("/");
+
+            addNestedDataToMap(allDatafiles, filePathPieces, fileData);
         }
 
         return allDatafiles;
+    }
+
+    private void addNestedDataToMap(JSONObject allDatafiles, String[] pathPieces, JSONObject fileData) {
+        if (fileData != null && pathPieces.length > 0) {
+            if(pathPieces.length > 1) {
+                if(!allDatafiles.has(pathPieces[0])) {
+                    allDatafiles.put(pathPieces[0], new JSONObject());
+                }
+                String[] newArray = Arrays.copyOfRange(pathPieces, 1, pathPieces.length);
+                addNestedDataToMap(allDatafiles.getJSONObject(pathPieces[0]), newArray, fileData);
+            }
+            else {
+                if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
+                    allDatafiles.put(pathPieces[0], fileData.getJSONArray(OrchidParser.arrayAsObjectKey));
+                }
+                else {
+                    if(allDatafiles.has(pathPieces[0]) && (allDatafiles.get(pathPieces[0]) instanceof JSONObject)) {
+                        for(String key : fileData.keySet()) {
+                            allDatafiles.getJSONObject(pathPieces[0]).put(key, fileData.get(key));
+                        }
+                    }
+                    else {
+                        allDatafiles.put(pathPieces[0], fileData);
+                    }
+                }
+            }
+        }
     }
 
     @Override

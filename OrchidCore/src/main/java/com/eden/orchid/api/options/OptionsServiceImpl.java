@@ -35,32 +35,34 @@ public final class OptionsServiceImpl implements OptionsService {
     @Override
     public JSONObject getOptionsData() {
         if (optionsData == null) {
-            optionsData = loadOptions();
+            loadOptions();
         }
         return optionsData;
     }
 
     @Override
     public JSONObject loadOptions() {
-        JSONObject options = new JSONObject();
+        if (optionsData == null) {
+            optionsData = new JSONObject();
 
-        JSONObject dataFiles = context.getDatafiles("data");
-        if (dataFiles != null) {
-            options.put("data", dataFiles);
-            for (String key : dataFiles.keySet()) {
-                options.put(key, dataFiles.get(key));
+            JSONObject dataFiles = context.getDatafiles("data");
+            if (dataFiles != null) {
+                optionsData.put("data", dataFiles);
+                for (String key : dataFiles.keySet()) {
+                    optionsData.put(key, dataFiles.get(key));
+                }
+            }
+
+            JSONObject configOptions = loadConfigFile();
+            if (configOptions != null) {
+                optionsData.put("config", configOptions);
+                for (String key : configOptions.keySet()) {
+                    optionsData.put(key, configOptions.get(key));
+                }
             }
         }
 
-        JSONObject configOptions = loadConfigFile();
-        if (configOptions != null) {
-            options.put("config", configOptions);
-            for (String key : configOptions.keySet()) {
-                options.put(key, configOptions.get(key));
-            }
-        }
-
-        return options;
+        return optionsData;
     }
 
     @Override

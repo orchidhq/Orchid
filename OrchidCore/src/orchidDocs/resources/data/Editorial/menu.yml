@@ -1,0 +1,24 @@
+- type: 'link'
+  title: 'Home'
+  url: '/'
+- type: 'dropdown'
+  title: 'Plugins'
+  menu:
+    - { type: 'link', title: 'OrchidPages',         url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidPages/'}
+    - { type: 'link', title: 'OrchidPosts',         url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidPosts/'}
+    - { type: 'link', title: 'OrchidWiki',          url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidWiki/'}
+    - { type: 'link', title: 'OrchidJavadoc',       url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidJavadoc/'}
+    - { type: 'link', title: 'OrchidKSS',           url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidKSS/'}
+    - { type: 'link', title: 'OrchidChangelog',     url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidChangelog/'}
+    - { type: 'link', title: 'OrchidPresentations', url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidPresentations/'}
+    - { type: 'link', title: 'OrchidLanguagePack',  url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidLanguagePack/'}
+- type: 'dropdown'
+  title: 'Themes'
+  menu:
+    - { type: 'link', title: 'OrchidBsDoc',           url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidBsDoc/'}
+    - { type: 'link', title: 'OrchidEditorial',       url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidEditorial/'}
+    - { type: 'link', title: 'OrchidFutureImperfect', url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidFutureImperfect/'}
+    - { type: 'link', title: 'OrchidMaterialize',     url: '#{ $0 | baseUrl }/#{ $0 | version }/OrchidMaterialize/'}
+- type: 'wikiSections'
+- type: 'javadocPackages'
+- type: 'javadocClasses'
