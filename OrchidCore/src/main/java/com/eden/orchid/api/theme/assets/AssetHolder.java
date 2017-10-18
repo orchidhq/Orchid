@@ -45,4 +45,8 @@ public interface AssetHolder {
     default void clearAssets() {
         getAssetHolder().clearAssets();
     }
+
+    default boolean shouldDownloadExternalAssets() {
+        return true;
+    }
 }

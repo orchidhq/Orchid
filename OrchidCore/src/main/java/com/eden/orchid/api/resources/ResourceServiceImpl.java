@@ -3,11 +3,13 @@ package com.eden.orchid.api.resources;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
+import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
@@ -48,12 +50,13 @@ public final class ResourceServiceImpl implements ResourceService {
     public ResourceServiceImpl(
             @Named("resourcesDir") String resourcesDir,
             Set<FileResourceSource> fileResourceSources,
-            Set<PluginResourceSource> pluginResourceSources) {
+            Set<PluginResourceSource> pluginResourceSources,
+            OkHttpClient client) {
 
         this.fileResourceSources = new TreeSet<>(fileResourceSources);
         this.pluginResourceSources = new TreeSet<>(pluginResourceSources);
 
-        this.client = new OkHttpClient();
+        this.client = client;
         this.resourcesDir = resourcesDir;
     }
 
@@ -148,8 +151,18 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Override
     public OrchidResource getResourceEntry(final String fileName) {
-        // first check for a resource in any specified local resource sources
-        OrchidResource resource = getLocalResourceEntry(fileName);
+        OrchidResource resource = null;
+
+        // If the fileName looks like an external resource, return a Resource pointing to that resource
+        if(OrchidUtils.isExternal(fileName)) {
+            OrchidReference ref = OrchidReference.fromUrl(context, FilenameUtils.getName(fileName), fileName);
+            resource = new ExternalResource(ref);
+        }
+
+        // If not external, check for a resource in any specified local resource sources
+        if (resource == null) {
+            resource = getLocalResourceEntry(fileName);
+        }
 
         // If nothing found in local resources, check the theme
         if (resource == null) {

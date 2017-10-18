@@ -1,6 +1,8 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -9,13 +11,17 @@ import org.apache.commons.io.FilenameUtils;
 import javax.inject.Inject;
 import java.io.InputStream;
 
-public abstract class BaseOrchidRendererServiceImpl implements OrchidRenderService {
+public abstract class BaseRenderServiceImpl implements RenderService {
 
     protected OrchidContext context;
     @Getter protected TemplateResolutionStrategy strategy;
 
+    @Option
+    @BooleanDefault(false)
+    public boolean dry;
+
     @Inject
-    public BaseOrchidRendererServiceImpl(OrchidContext context, TemplateResolutionStrategy strategy) {
+    public BaseRenderServiceImpl(OrchidContext context, TemplateResolutionStrategy strategy) {
         this.context = context;
         this.strategy = strategy;
     }
@@ -26,11 +32,13 @@ public abstract class BaseOrchidRendererServiceImpl implements OrchidRenderServi
     }
 
     public final boolean renderTemplate(OrchidPage page) {
-        for (String template : strategy.getPageTemplate(page)) {
-            OrchidResource templateResource = context.getResourceEntry(template);
+        if(!skipPage(page)) {
+            for (String template : strategy.getPageTemplate(page)) {
+                OrchidResource templateResource = context.getResourceEntry(template);
 
-            if (templateResource != null) {
-                return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
+                if (templateResource != null) {
+                    return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
+                }
             }
         }
 
@@ -38,21 +46,35 @@ public abstract class BaseOrchidRendererServiceImpl implements OrchidRenderServi
     }
 
     public final boolean renderString(OrchidPage page, String extension, String templateString) {
-        return render(page, extension, templateString);
+        if(!skipPage(page)) {
+            return render(page, extension, templateString);
+        }
+        return false;
     }
 
     public final boolean renderRaw(OrchidPage page) {
-        String content = page.getResource().getContent();
+        if(!skipPage(page)) {
+            String content = page.getResource().getContent();
 
-        if(page.getResource().shouldPrecompile()) {
-            content = context.precompile(content, page.getData());
+            if (page.getResource().shouldPrecompile()) {
+                content = context.precompile(content, page.getData());
+            }
+
+            return render(page, page.getResource().getReference().getExtension(), content);
         }
-
-        return render(page, page.getResource().getReference().getExtension(), content);
+        return false;
     }
 
     public final boolean renderBinary(OrchidPage page) {
-        return render(page, page.getResource().getReference().getExtension(), page.getResource().getContentStream());
+        if(!skipPage(page)) {
+            return render(page, page.getResource().getReference().getExtension(), page.getResource().getContentStream());
+        }
+
+        return false;
+    }
+
+    protected boolean skipPage(OrchidPage page) {
+        return dry || page.isDraft() || !page.shouldRender();
     }
 
     /**

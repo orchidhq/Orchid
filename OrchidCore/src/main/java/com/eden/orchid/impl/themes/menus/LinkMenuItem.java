@@ -37,7 +37,7 @@ public final class LinkMenuItem extends OrchidMenuItem {
             if(url.trim().equals("/")) {
                 url = context.getBaseUrl();
             }
-            else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
+            else if (!(OrchidUtils.isExternal(url))) {
                 url = OrchidUtils.applyBaseUrl(context, url);
             }
 

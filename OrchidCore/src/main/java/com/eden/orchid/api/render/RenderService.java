@@ -5,7 +5,12 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import java.io.InputStream;
 
-public interface OrchidRenderService extends OrchidService {
+public interface RenderService extends OrchidService {
+
+    @Override
+    default String getKey() {
+        return "renderer";
+    }
 
     /**
      * Render the given page with the given template resource. A list of templates can be given, and the first resource
@@ -15,7 +20,7 @@ public interface OrchidRenderService extends OrchidService {
      * @return true if the page was successfully rendered, false otherwise
      */
     default boolean renderTemplate(OrchidPage page) {
-        return getService(OrchidRenderService.class).renderTemplate(page);
+        return getService(RenderService.class).renderTemplate(page);
     }
 
     /**
@@ -27,7 +32,7 @@ public interface OrchidRenderService extends OrchidService {
      * @return true if the page was successfully rendered, false otherwise
      */
     default boolean renderString(OrchidPage page, String extension, String templateString) {
-        return getService(OrchidRenderService.class).renderString(page, extension, templateString);
+        return getService(RenderService.class).renderString(page, extension, templateString);
     }
 
     /**
@@ -37,7 +42,7 @@ public interface OrchidRenderService extends OrchidService {
      * @return true if the page was successfully rendered, false otherwise
      */
     default boolean renderRaw(OrchidPage page) {
-        return getService(OrchidRenderService.class).renderRaw(page);
+        return getService(RenderService.class).renderRaw(page);
     }
 
     /**
@@ -48,7 +53,7 @@ public interface OrchidRenderService extends OrchidService {
      * @return true if the page was successfully rendered, false otherwise
      */
     default boolean renderBinary(OrchidPage page) {
-        return getService(OrchidRenderService.class).renderBinary(page);
+        return getService(RenderService.class).renderBinary(page);
     }
 
     /**
@@ -60,7 +65,7 @@ public interface OrchidRenderService extends OrchidService {
      * @return true if the page was successfully rendered, false otherwise
      */
     default boolean render(OrchidPage page, String extension, String content) {
-        return getService(OrchidRenderService.class).render(page, extension, content);
+        return getService(RenderService.class).render(page, extension, content);
     }
 
     /**
@@ -72,7 +77,7 @@ public interface OrchidRenderService extends OrchidService {
      * @return true if the page was successfully rendered, false otherwise
      */
     default boolean render(OrchidPage page, String extension, InputStream content) {
-        return getService(OrchidRenderService.class).render(page, extension, content);
+        return getService(RenderService.class).render(page, extension, content);
     }
 
 }

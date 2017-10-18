@@ -4,6 +4,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
@@ -23,6 +24,9 @@ public abstract class OrchidResource {
 
     protected int priority;
 
+    @Getter(AccessLevel.NONE)
+    protected boolean shouldRender = true;
+
     public OrchidResource(OrchidReference reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A resource must have a valid OrchidReference");
@@ -41,8 +45,12 @@ public abstract class OrchidResource {
         return null;
     }
 
-    public final boolean shouldPrecompile() {
+    public boolean shouldPrecompile() {
         return context.getInjector().getInstance(OrchidPrecompiler.class).shouldPrecompile(getRawContent());
+    }
+
+    public boolean shouldRender() {
+        return shouldRender;
     }
 
     public InputStream getContentStream() {

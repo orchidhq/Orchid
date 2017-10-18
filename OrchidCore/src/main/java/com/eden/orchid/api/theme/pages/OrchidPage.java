@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.Option;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class OrchidPage implements OptionsHolder, AssetHolder {
 
@@ -40,6 +42,12 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter @Option protected String description;
     @Getter @Setter @Option protected String layout;
     @Getter @Setter @Option protected String[] templates;
+
+    @Getter
+    @Setter
+    @Option
+    @BooleanDefault(false)
+    protected boolean draft;
 
     @Getter @Setter @Option protected String[] extraCss;
     @Getter @Setter @Option protected String[] extraJs;
@@ -65,7 +73,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         this.templates = new String[]{"page"};
 
         this.resource = resource;
-        this.reference = new OrchidReference(this.context, resource.getReference());
+        this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
 
         if (path != null) {
@@ -118,6 +126,10 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public Theme getTheme() {
         return context.getTheme();
+    }
+
+    public boolean shouldRender() {
+        return resource.shouldRender();
     }
 
 // Serialize/deserialize from JSON
@@ -196,19 +208,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     public List<OrchidPage> getScripts() {
         List<OrchidPage> scripts = new ArrayList<>();
         scripts.addAll(context.getTheme().getScripts());
-        try {
-            List<OrchidComponent> componentsList = components.getComponents();
-            if (!EdenUtils.isEmpty(componentsList)) {
-                componentsList
-                        .stream()
-                        .map(OrchidComponent::getScripts)
-                        .forEach(scripts::addAll);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        scripts.addAll(assets.getScripts());
+        addComponentAssets(scripts, OrchidComponent::getScripts);
 
         return scripts;
     }
@@ -217,19 +218,25 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     public List<OrchidPage> getStyles() {
         List<OrchidPage> styles = new ArrayList<>();
         styles.addAll(context.getTheme().getStyles());
+        styles.addAll(assets.getStyles());
+        addComponentAssets(styles, OrchidComponent::getStyles);
+
+        return styles;
+    }
+
+    private void addComponentAssets(List<OrchidPage> assets, Function<? super OrchidComponent, ? extends List<OrchidPage>> getter) {
         try {
             List<OrchidComponent> componentsList = components.getComponents();
             if (!EdenUtils.isEmpty(componentsList)) {
                 componentsList
                         .stream()
-                        .map(OrchidComponent::getStyles)
-                        .forEach(styles::addAll);
+                        .map(getter)
+                        .forEach(assets::addAll);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return styles;
     }
 
 }

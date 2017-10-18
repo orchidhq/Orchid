@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -92,8 +93,8 @@ public final class OrchidReference {
         path = OrchidUtils.normalizePath(path);
     }
 
-    public OrchidReference(OrchidContext context, OrchidReference source) {
-        this.context = context;
+    public OrchidReference(OrchidReference source) {
+        this.context = source.context;
         this.baseUrl = source.baseUrl;
         this.path = source.path;
         this.fileName = source.fileName;
@@ -193,7 +194,7 @@ public final class OrchidReference {
             output += id;
         }
 
-        return output;
+        return OrchidUtils.normalizePath(output);
     }
 
     public String getRelativePath() {
@@ -268,10 +269,10 @@ public final class OrchidReference {
                 newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
             }
 
-            newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath());
-            newReference.fileName = "";
+            newReference.fileName = FilenameUtils.removeExtension(FilenameUtils.getName(parsedUrl.getPath()));
+            newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));
             newReference.title = title;
-            newReference.extension = "";
+            newReference.extension = FilenameUtils.getExtension(FilenameUtils.getName(url));
             return newReference;
         }
         catch (Exception e) {

@@ -2,9 +2,11 @@ package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
@@ -57,8 +59,18 @@ public final class ThemeAssetHolder implements AssetHolder {
 
     @Override
     public void addJs(String jsAsset) {
-        OrchidResource resource = theme.getResourceEntry(jsAsset);
+        OrchidResource resource;
+        if(OrchidUtils.isExternal(jsAsset)) {
+            resource = context.getResourceEntry(jsAsset);
+        }
+        else {
+            resource = theme.getResourceEntry(jsAsset);
+        }
+
         if(resource != null) {
+            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
+                ((ExternalResource) resource).setDownload(true);
+            }
             addJs(new OrchidPage(resource, FilenameUtils.getBaseName(jsAsset)));
         }
         else {
@@ -82,8 +94,17 @@ public final class ThemeAssetHolder implements AssetHolder {
 
     @Override
     public void addCss(String cssAsset) {
-        OrchidResource resource = theme.getResourceEntry(cssAsset);
+        OrchidResource resource;
+        if(OrchidUtils.isExternal(cssAsset)) {
+            resource = context.getResourceEntry(cssAsset);
+        }
+        else {
+            resource = theme.getResourceEntry(cssAsset);
+        }
         if(resource != null) {
+            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
+                ((ExternalResource) resource).setDownload(true);
+            }
             addCss(new OrchidPage(resource, FilenameUtils.getBaseName(cssAsset)));
         }
         else {

@@ -1,6 +1,5 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -8,11 +7,9 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public final class OptionsServiceImpl implements OptionsService {
 
@@ -67,11 +64,23 @@ public final class OptionsServiceImpl implements OptionsService {
 
     @Override
     public JSONObject loadConfigFile() {
-        return Arrays.stream(formats)
-                     .map(format -> context.getDatafile(Clog.format(format, context.getEnvironment())))
-                     .filter(Objects::nonNull)
-                     .findFirst()
-                     .orElse(null);
+        JSONObject allConfig = new JSONObject();
+
+        JSONObject config = context.getDatafile("config");
+        if(config != null) {
+            for(String key : config.keySet()) {
+                allConfig.put(key, config.get(key));
+            }
+        }
+
+        JSONObject envConfig = context.getDatafile("config-" + context.getEnvironment());
+        if(envConfig != null) {
+            for(String key : envConfig.keySet()) {
+                allConfig.put(key, envConfig.get(key));
+            }
+        }
+
+        return allConfig;
     }
 
     @Override

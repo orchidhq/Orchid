@@ -3,17 +3,15 @@ package com.eden.orchid.impl.themes.menus;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Option;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
+import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.pages.OrchidExternalPage;
-import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class LinkMenuItem extends OrchidMenuItem {
+public final class DropdownMenuItem extends OrchidMenuItem {
 
     @Option
     public String title;
@@ -22,31 +20,26 @@ public final class LinkMenuItem extends OrchidMenuItem {
     public String subtitle;
 
     @Option
-    public String url;
+    public OrchidMenu menu;
 
     @Inject
-    public LinkMenuItem(OrchidContext context) {
-        super(context, "link", 100);
+    public DropdownMenuItem(OrchidContext context) {
+        super(context, "dropdown", 100);
     }
 
     @Override
     public List<OrchidMenuItemImpl> getMenuItems() {
         List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
-        if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(url)) {
-            if(url.trim().equals("/")) {
-                url = context.getBaseUrl();
-            }
-            else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-                url = OrchidUtils.applyBaseUrl(context, url);
-            }
+        if (!EdenUtils.isEmpty(title) && menu != null) {
 
-            OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url)));
+            List<OrchidMenuItemImpl> dropdownItems = menu.getMenuItems();
+
+            OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, dropdownItems, title);
 
             if(!EdenUtils.isEmpty(subtitle)) {
                 item.setSubtitle(subtitle);
             }
-
             menuItems.add(item);
         }
 

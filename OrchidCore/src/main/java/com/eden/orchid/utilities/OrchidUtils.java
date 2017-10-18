@@ -158,4 +158,8 @@ public final class OrchidUtils {
                   .forEach(holder::addJs);
         }
     }
+
+    public static boolean isExternal(String fileName) {
+        return (fileName.startsWith("http://") || fileName.startsWith("https://"));
+    }
 }

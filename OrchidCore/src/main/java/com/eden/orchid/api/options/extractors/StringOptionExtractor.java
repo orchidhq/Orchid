@@ -65,7 +65,7 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
             boolean shouldApplybaseUrl = true;
 
             if(!EdenUtils.isEmpty(fieldValue)) {
-                if(fieldValue.startsWith("http://") || fieldValue.startsWith("https://")) {
+                if(OrchidUtils.isExternal(fieldValue)) {
                     shouldApplybaseUrl = false;
                 }
             }

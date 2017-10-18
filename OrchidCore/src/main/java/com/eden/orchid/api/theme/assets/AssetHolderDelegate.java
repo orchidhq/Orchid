@@ -2,6 +2,7 @@ package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FilenameUtils;
@@ -56,6 +57,9 @@ public final class AssetHolderDelegate implements AssetHolder {
     public void addJs(String jsAsset) {
         OrchidResource resource = context.getResourceEntry(jsAsset);
         if(resource != null) {
+            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
+                ((ExternalResource) resource).setDownload(true);
+            }
             addJs(new OrchidPage(resource, FilenameUtils.getBaseName(jsAsset)));
         }
         else {
@@ -82,6 +86,9 @@ public final class AssetHolderDelegate implements AssetHolder {
     public void addCss(String cssAsset) {
         OrchidResource resource = context.getResourceEntry(cssAsset);
         if(resource != null) {
+            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
+                ((ExternalResource) resource).setDownload(true);
+            }
             addCss(new OrchidPage(resource, FilenameUtils.getBaseName(cssAsset)));
         }
         else {

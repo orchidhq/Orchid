@@ -13,12 +13,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public final class OrchidFileRendererServiceImpl extends BaseOrchidRendererServiceImpl {
+public final class FileRenderServiceImpl extends BaseRenderServiceImpl {
 
     private final String destination;
 
     @Inject
-    public OrchidFileRendererServiceImpl(@Named("d") String destination, OrchidContext context, TemplateResolutionStrategy strategy) {
+    public FileRenderServiceImpl(@Named("d") String destination, OrchidContext context, TemplateResolutionStrategy strategy) {
         super(context, strategy);
         this.destination = destination;
     }
@@ -26,27 +26,29 @@ public final class OrchidFileRendererServiceImpl extends BaseOrchidRendererServi
     public boolean render(OrchidPage page, String extension, String content) {
         long startTime = System.currentTimeMillis();
         long stopTime;
-        boolean success;
+        boolean success = true;
 
         page.setCurrent(true);
 
-        content = "" + context.compile(extension, content, page);
-        String outputPath   = OrchidUtils.normalizePath(page.getReference().getPath());
-        String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
+        if(!skipPage(page)) {
+            content = "" + context.compile(extension, content, page);
+            String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
+            String outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
 
-        File outputFile = new File(this.destination + "/" + outputPath);
-        if (!outputFile.exists()) {
-            outputFile.mkdirs();
-        }
+            File outputFile = new File(this.destination + "/" + outputPath);
+            if (!outputFile.exists()) {
+                outputFile.mkdirs();
+            }
 
-        try {
-            Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
-            Files.write(classesFile, content.getBytes());
-            success = true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            success = false;
+            try {
+                Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
+                Files.write(classesFile, content.getBytes());
+                success = true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                success = false;
+            }
         }
 
         page.setCurrent(false);
@@ -60,26 +62,28 @@ public final class OrchidFileRendererServiceImpl extends BaseOrchidRendererServi
     public boolean render(OrchidPage page, String extension, InputStream content) {
         long startTime = System.currentTimeMillis();
         long stopTime;
-        boolean success;
+        boolean success = true;
 
         page.setCurrent(true);
 
-        String outputPath   = OrchidUtils.normalizePath(page.getReference().getPath());
-        String outputName   = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
+        if(!skipPage(page)) {
+            String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
+            String outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
 
-        File outputFile = new File(this.destination + "/" + outputPath);
-        if (!outputFile.exists()) {
-            outputFile.mkdirs();
-        }
+            File outputFile = new File(this.destination + "/" + outputPath);
+            if (!outputFile.exists()) {
+                outputFile.mkdirs();
+            }
 
-        try {
-            Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
-            Files.write(classesFile, IOUtils.toByteArray(content));
-            success = true;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            success = false;
+            try {
+                Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
+                Files.write(classesFile, IOUtils.toByteArray(content));
+                success = true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                success = false;
+            }
         }
 
         page.setCurrent(false);

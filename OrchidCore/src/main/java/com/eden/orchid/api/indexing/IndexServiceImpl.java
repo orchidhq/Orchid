@@ -79,7 +79,7 @@ public final class IndexServiceImpl implements IndexService {
         OrchidIndex index = new OrchidInternalIndex(rootKey);
 
         for (OrchidPage page : pages) {
-            OrchidReference ref = new OrchidReference(page.getContext(), page.getReference());
+            OrchidReference ref = new OrchidReference(page.getReference());
             index.addToIndex(ref.getPath(), page);
         }
 
