@@ -5,7 +5,7 @@ import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.annotations.StringDefault;

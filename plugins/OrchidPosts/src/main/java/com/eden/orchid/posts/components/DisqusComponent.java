@@ -1,7 +1,7 @@
 package com.eden.orchid.posts.components;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 
 import javax.inject.Inject;

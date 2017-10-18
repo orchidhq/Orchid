@@ -4,8 +4,8 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Description;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
 import org.json.JSONObject;
 
 import javax.inject.Inject;

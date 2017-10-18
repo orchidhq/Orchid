@@ -6,7 +6,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;

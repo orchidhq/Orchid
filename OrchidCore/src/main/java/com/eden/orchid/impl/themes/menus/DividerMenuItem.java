@@ -2,7 +2,7 @@ package com.eden.orchid.impl.themes.menus;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 

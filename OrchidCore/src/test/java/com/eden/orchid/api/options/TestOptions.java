@@ -11,6 +11,7 @@ import com.eden.orchid.api.converters.NumberConverter;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.ListClass;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
@@ -190,7 +191,9 @@ public class TestOptions {
         extractors.add(new DoubleOptionExtractor(doubleConverter));
         extractors.add(new OptionsHolderOptionExtractor(() -> extractor));
 
-        extractor = new OptionsExtractor(extractors);
+        Set<OptionValidator> validators = new HashSet<>();
+
+        extractor = new OptionsExtractor(extractors, validators);
     }
 
     @Test

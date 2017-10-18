@@ -1,8 +1,8 @@
 package com.eden.orchid.api.theme.components;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Description;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;

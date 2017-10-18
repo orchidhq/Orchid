@@ -1,6 +1,6 @@
 package com.eden.orchid.posts.pages;
 
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;

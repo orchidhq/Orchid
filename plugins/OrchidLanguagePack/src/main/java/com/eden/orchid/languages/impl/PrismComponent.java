@@ -2,7 +2,7 @@ package com.eden.orchid.languages.impl;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.utilities.OrchidUtils;

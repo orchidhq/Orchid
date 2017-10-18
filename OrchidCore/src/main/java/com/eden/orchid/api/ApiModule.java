@@ -20,6 +20,7 @@ import com.eden.orchid.api.generators.GeneratorServiceImpl;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.OptionValidator;
 import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.options.OptionsServiceImpl;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
@@ -33,6 +34,7 @@ import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
+import com.eden.orchid.api.options.validators.StringExistsValidator;
 import com.eden.orchid.api.render.FileRenderServiceImpl;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.ResourceService;
@@ -86,6 +88,10 @@ public final class ApiModule extends OrchidModule {
                 OrchidMenuOptionExtractor.class,
                 ComponentHolderOptionExtractor.class
         );
+
+        // OptionsValidators
+        addToSet(OptionValidator.class,
+                StringExistsValidator.class);
     }
 
     @Provides

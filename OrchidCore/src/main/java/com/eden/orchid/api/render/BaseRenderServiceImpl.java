@@ -1,7 +1,7 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;

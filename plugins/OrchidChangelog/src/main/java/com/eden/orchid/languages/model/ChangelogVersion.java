@@ -1,6 +1,6 @@
 package com.eden.orchid.languages.model;
 
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import lombok.Getter;
 import lombok.Setter;

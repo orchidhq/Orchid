@@ -1,7 +1,7 @@
 package com.eden.orchid.api.generators;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.Option;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.pages.OrchidPage;
