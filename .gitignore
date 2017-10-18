@@ -28,6 +28,7 @@ proguard/
 *.iml
 .idea/workspace.xml
 Orchid.iws
+Orchid.ipr
 
 # Keystore files
 *.jks
