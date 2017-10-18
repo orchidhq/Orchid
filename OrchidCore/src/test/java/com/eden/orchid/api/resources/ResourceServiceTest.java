@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import okhttp3.OkHttpClient;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,6 +26,7 @@ public final class ResourceServiceTest {
     private OrchidContext context;
     private ResourceService underTest;
     private ResourceServiceImpl service;
+    private OkHttpClient client;
 
     private String resourcesDir;
     private Set<FileResourceSource> fileResourceSources;
@@ -45,7 +47,8 @@ public final class ResourceServiceTest {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new ResourceServiceImpl(resourcesDir, fileResourceSources, pluginResourceSources);
+        client = mock(OkHttpClient.class);
+        service = new ResourceServiceImpl(resourcesDir, fileResourceSources, pluginResourceSources, client);
         service.initialize(context);
 
         // test that the public implementation is identical to the real implementation
