@@ -1,0 +1,59 @@
+{
+  "ownKey": "javadoc",
+  "childrenPages": {"com": {
+    "ownKey": "com",
+    "childrenPages": {"eden": {
+      "ownKey": "eden",
+      "childrenPages": {"orchid": {
+        "ownKey": "orchid",
+        "childrenPages": {"materialize": {
+          "ownKey": "materialize",
+          "childrenPages": {
+            "MaterializeModule": {
+              "ownKey": "MaterializeModule",
+              "ownPages": [{
+                "reference": {
+                  "path": "com/eden/orchid/materialize",
+                  "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidMaterialize",
+                  "fileName": "MaterializeModule",
+                  "extension": "html",
+                  "usePrettyUrl": true,
+                  "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidMaterialize/com/eden/orchid/materialize/MaterializeModule"
+                },
+                "data": {},
+                "description": ""
+              }]
+            },
+            "MaterializeTheme": {
+              "ownKey": "MaterializeTheme",
+              "ownPages": [{
+                "reference": {
+                  "path": "com/eden/orchid/materialize",
+                  "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidMaterialize",
+                  "fileName": "MaterializeTheme",
+                  "extension": "html",
+                  "usePrettyUrl": true,
+                  "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidMaterialize/com/eden/orchid/materialize/MaterializeTheme"
+                },
+                "data": {},
+                "description": ""
+              }]
+            }
+          },
+          "ownPages": [{
+            "reference": {
+              "path": "com/eden/orchid",
+              "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidMaterialize",
+              "fileName": "materialize",
+              "extension": "html",
+              "usePrettyUrl": true,
+              "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidMaterialize/com/eden/orchid/materialize"
+            },
+            "data": {},
+            "description": ""
+          }]
+        }}
+      }}
+    }}
+  }}
+}

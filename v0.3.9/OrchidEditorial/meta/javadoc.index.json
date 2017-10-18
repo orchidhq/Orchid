@@ -1,0 +1,59 @@
+{
+  "ownKey": "javadoc",
+  "childrenPages": {"com": {
+    "ownKey": "com",
+    "childrenPages": {"eden": {
+      "ownKey": "eden",
+      "childrenPages": {"orchid": {
+        "ownKey": "orchid",
+        "childrenPages": {"editorial": {
+          "ownKey": "editorial",
+          "childrenPages": {
+            "EditorialModule": {
+              "ownKey": "EditorialModule",
+              "ownPages": [{
+                "reference": {
+                  "path": "com/eden/orchid/editorial",
+                  "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidEditorial",
+                  "fileName": "EditorialModule",
+                  "extension": "html",
+                  "usePrettyUrl": true,
+                  "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidEditorial/com/eden/orchid/editorial/EditorialModule"
+                },
+                "data": {},
+                "description": ""
+              }]
+            },
+            "EditorialTheme": {
+              "ownKey": "EditorialTheme",
+              "ownPages": [{
+                "reference": {
+                  "path": "com/eden/orchid/editorial",
+                  "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidEditorial",
+                  "fileName": "EditorialTheme",
+                  "extension": "html",
+                  "usePrettyUrl": true,
+                  "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidEditorial/com/eden/orchid/editorial/EditorialTheme"
+                },
+                "data": {},
+                "description": ""
+              }]
+            }
+          },
+          "ownPages": [{
+            "reference": {
+              "path": "com/eden/orchid",
+              "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidEditorial",
+              "fileName": "editorial",
+              "extension": "html",
+              "usePrettyUrl": true,
+              "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidEditorial/com/eden/orchid/editorial"
+            },
+            "data": {},
+            "description": ""
+          }]
+        }}
+      }}
+    }}
+  }}
+}
