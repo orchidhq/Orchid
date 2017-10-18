@@ -92,6 +92,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             Matcher m = Pattern.compile("^" + delimiter.first + "{3}(\\w+)?$", Pattern.MULTILINE).matcher(input);
 
             int matches = 0;
+            int firstMatchStart = 0;
             int fmStart = 0;
             int fmEnd = 0;
 
@@ -100,6 +101,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             // if we find a match, get the group
             while (m.find()) {
                 if (matches == 0) {
+                    firstMatchStart = m.start();
                     fmStart = m.end();
                     matches++;
                 }
@@ -111,7 +113,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
                 }
             }
 
-            if (matches == 2) {
+            if (matches == 2 && firstMatchStart == 0) {
                 FrontMatterHeader header = new FrontMatterHeader(true, fmStart, fmEnd, contentStart);
 
                 header.parser = delimiter.second;

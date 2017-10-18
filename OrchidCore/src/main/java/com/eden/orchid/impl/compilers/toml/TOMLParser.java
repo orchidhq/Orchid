@@ -1,4 +1,4 @@
-package com.eden.orchid.languages.impl;
+package com.eden.orchid.impl.compilers.toml;
 
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.moandjiezana.toml.Toml;

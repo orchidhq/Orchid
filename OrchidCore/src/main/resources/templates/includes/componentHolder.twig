@@ -1,7 +1,7 @@
 {% if componentHolder and componentHolder.remainingComponents.size > 0 %}
     {% for component in componentHolder.remainingComponents %}
         <div class="component component-{{ component.key }}">
-            {% include component | template('component') %}
+            {% include component | template('component') ignore missing %}
         </div>
     {% endfor %}
 {% endif %}

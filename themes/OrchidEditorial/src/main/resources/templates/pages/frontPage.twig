@@ -25,7 +25,7 @@
                 {% if page.components and page.components.remainingComponents.size > 0 %}
                     {% for component in page.components.remainingComponents %}
                         <div class="component component-{{ component.key }}">
-                            {% include component | template('component') %}
+                            {% include component | template('component') ignore missing %}
                         </div>
                     {% endfor %}
                 {% endif %}

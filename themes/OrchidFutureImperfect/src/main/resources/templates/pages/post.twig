@@ -34,7 +34,7 @@
         {% for component in post.components.remainingComponents %}
             <article class="post single">
                 <div class="component component-{{ component.key }}">
-                    {% include component | template('component') %}
+                    {% include component | template('component') ignore missing %}
                 </div>
             </article>
         {% endfor %}

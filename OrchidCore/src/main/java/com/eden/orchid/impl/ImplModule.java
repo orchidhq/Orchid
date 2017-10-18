@@ -27,6 +27,8 @@ import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
+import com.eden.orchid.impl.compilers.text.TextCompiler;
+import com.eden.orchid.impl.compilers.toml.TOMLParser;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
@@ -85,10 +87,12 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidCompiler.class,
                 MarkdownCompiler.class,
                 JTwigCompiler.class,
-                SassCompiler.class);
+                SassCompiler.class,
+                TextCompiler.class);
 
         addToSet(OrchidParser.class,
                 YamlParser.class,
+                TOMLParser.class,
                 JsonParser.class);
 
         // Precompilers
