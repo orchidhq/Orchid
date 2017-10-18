@@ -1,4 +1,4 @@
-package com.eden.orchid.wiki;
+package com.eden.orchid.wiki.pages;
 
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.resources.resource.OrchidResource;

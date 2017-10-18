@@ -1,7 +1,6 @@
 package com.eden.orchid.wiki;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -12,6 +11,10 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.wiki.model.WikiModel;
+import com.eden.orchid.wiki.model.WikiSection;
+import com.eden.orchid.wiki.pages.WikiPage;
+import com.eden.orchid.wiki.pages.WikiSummaryPage;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -23,14 +26,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
 public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
-    public static Map<String, EdenPair<WikiSummaryPage, List<WikiPage>>> sections;
+    private final WikiModel model;
 
     @Option("baseDir")
     @StringDefault("wiki")
@@ -40,8 +41,9 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
     public String[] sectionNames;
 
     @Inject
-    public WikiGenerator(OrchidContext context) {
+    public WikiGenerator(OrchidContext context, WikiModel model) {
         super(context, "wiki", 700);
+        this.model = model;
     }
 
     @Override
@@ -51,30 +53,24 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        sections = new LinkedHashMap<>();
+        model.initialize();
 
         if (EdenUtils.isEmpty(sectionNames)) {
-            EdenPair<WikiSummaryPage, List<WikiPage>> wiki = getWikiPages(null);
+            WikiSection wiki = getWikiPages(null);
             if (wiki != null) {
-                sections.put(null, wiki);
+                model.getSections().put(null, wiki);
             }
         }
         else {
             for (String section : sectionNames) {
-                EdenPair<WikiSummaryPage, List<WikiPage>> wiki = getWikiPages(section);
+                WikiSection wiki = getWikiPages(section);
                 if (wiki != null) {
-                    sections.put(section, wiki);
+                    model.getSections().put(section, wiki);
                 }
             }
         }
 
-        List<OrchidPage> allPages = new ArrayList<>();
-        for (String key : sections.keySet()) {
-            allPages.add(sections.get(key).first);
-            allPages.addAll(sections.get(key).second);
-        }
-
-        return allPages;
+        return model.getAllPages();
     }
 
     @Override
@@ -82,7 +78,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
         pages.forEach(context::renderTemplate);
     }
 
-    private EdenPair<WikiSummaryPage, List<WikiPage>> getWikiPages(String section) {
+    private WikiSection getWikiPages(String section) {
         JSONObject pageMenuItem = new JSONObject();
         pageMenuItem.put("type", "wiki");
 
@@ -157,6 +153,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
         summaryPage.getReference().setUsePrettyUrl(true);
         summaryPage.getMenu().addMenuItem(pageMenuItem);
 
-        return new EdenPair<>(summaryPage, wiki);
+        return new WikiSection(section, summaryPage, wiki);
     }
+
 }
