@@ -16,7 +16,7 @@ buildscript {
 apply plugin: "org.ajoberstar.grgit"
 apply plugin: 'idea'
 
-version = 'v0.3.9'
+version = 'v0.3.10'
 
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension
