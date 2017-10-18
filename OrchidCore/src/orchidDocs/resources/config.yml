@@ -11,5 +11,4 @@ services:
       - 'posts'
       - 'pages'
       - 'presentations'
-      - 'changelog'
       - 'styleguide'

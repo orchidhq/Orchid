@@ -1,0 +1,37 @@
+{% block changelogListWrapper %}
+    <div id="changelogVersions">
+        {% block changelogList %}
+            <ul></ul>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block changelogScript %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var request = new XMLHttpRequest();
+            request.open('GET', '{{ component.model.sourceUrl }}', true);
+
+            request.onload = function () {
+                if (request.status >= 200 && request.status < 400) {
+                    var versions = JSON.parse(request.responseText);
+
+                    var dropdownVersions = document.querySelector('#changelogVersions ul');
+
+                    dropdownVersions.innerHTML = '';
+
+                    for (var i = 0; i < versions.length; i++) {
+                        var li = document.createElement('li');
+                        var a = document.createElement('a');
+                        var linkText = document.createTextNode(versions[i].name);
+                        a.appendChild(linkText);
+                        a.href = versions[i].url;
+                        li.appendChild(a);
+                        dropdownVersions.appendChild(li);
+                    }
+                }
+            };
+            request.send();
+        }, false);
+    </script>
+{% endblock %}

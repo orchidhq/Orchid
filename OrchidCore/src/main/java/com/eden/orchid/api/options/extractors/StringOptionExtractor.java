@@ -58,7 +58,10 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
         }
 
         if(fieldValue == null && field.isAnnotationPresent(StringDefault.class)) {
-            fieldValue = field.getAnnotation(StringDefault.class).value();
+            EdenPair<Boolean, String> value = converter.convert(field.getAnnotation(StringDefault.class).value());
+            if(value.first) {
+                fieldValue = value.second;
+            }
         }
 
         if(field.isAnnotationPresent(ApplyBaseUrl.class)) {
