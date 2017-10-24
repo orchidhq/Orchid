@@ -58,7 +58,7 @@ afterEvaluate { project ->
             repo = "${rootProject.name}"
             name = "${project.name}"
             userOrg = 'javaeden'
-            licenses = ['MIT']
+            licenses = ['LGPL-3.0']
             vcsUrl = 'https://github.com/JavaEden/Orchid.git'
 
             version {
