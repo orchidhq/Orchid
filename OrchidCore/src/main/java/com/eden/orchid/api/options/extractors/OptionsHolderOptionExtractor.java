@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -63,7 +64,7 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
     @Override
     public OptionsHolder getOption(Field field, JSONObject options, String key) {
         try {
-            OptionsHolder holder = (OptionsHolder) field.getType().newInstance();
+            OptionsHolder holder = (OptionsHolder) Orchid.getInstance().getContext().getInjector().getInstance(field.getType());
             if(options.has(key)) {
                 extractorProvider.get().extractOptions(holder, options.getJSONObject(key));
             }

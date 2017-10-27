@@ -8,6 +8,7 @@ include 'themes:OrchidFutureImperfect'
 include 'themes:OrchidMaterialize'
 
 include 'plugins:OrchidChangelog'
+include 'plugins:OrchidForms'
 include 'plugins:OrchidJavadoc'
 include 'plugins:OrchidKSS'
 include 'plugins:OrchidLanguagePack'

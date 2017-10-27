@@ -29,10 +29,10 @@ public class OptionsExtractor {
     @Inject
     public OptionsExtractor(Set<OptionExtractor> extractors, Set<OptionValidator> validators) {
         this.extractors = new ArrayList<>(extractors);
-        this.extractors.sort(Comparator.comparing(Prioritized::getPriority));
+        this.extractors.sort(Comparator.comparing(Prioritized::getPriority).reversed());
 
         this.validators = new ArrayList<>(validators);
-        this.validators.sort(Comparator.comparing(Prioritized::getPriority));
+        this.validators.sort(Comparator.comparing(Prioritized::getPriority).reversed());
     }
 
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
