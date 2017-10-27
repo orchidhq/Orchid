@@ -1,6 +1,7 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import static org.hamcrest.Matchers.*;
 @Test(groups = {"unit"})
 public class OptionsHolderOptionExtractorTest {
 
+    private OrchidContext context;
     private OptionsHolderOptionExtractor underTest;
     private String optionKey;
     private JSONObject optionsObject;
@@ -28,9 +30,10 @@ public class OptionsHolderOptionExtractorTest {
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
 
+        context = mock(OrchidContext.class);
         extractor = mock(OptionsExtractor.class);
 
-        underTest = new OptionsHolderOptionExtractor(() -> extractor);
+        underTest = new OptionsHolderOptionExtractor(() -> extractor, () -> context);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();

@@ -19,6 +19,7 @@ import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.converters.ClogStringConverterHelper;
+import com.google.inject.Injector;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -30,7 +31,7 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @Test(groups={"options", "unit"})
 public class TestOptions {
@@ -131,6 +132,7 @@ public class TestOptions {
     private JSONObject options;
     private OptionsExtractor extractor;
     private OrchidContext context;
+    private Injector injector;
 
     private StringConverter stringConverter;
     private IntegerConverter integerConverter;
@@ -144,6 +146,10 @@ public class TestOptions {
     public void setupTest() {
         options = new JSONObject();
         context = mock(OrchidContext.class);
+        injector = mock(Injector.class);
+        when(context.getInjector()).thenReturn(injector);
+        when(injector.getInstance(InnerTestOptionsClass.class)).thenReturn(new InnerTestOptionsClass());
+
 
         try {
             String s = "{\n" +
@@ -189,7 +195,7 @@ public class TestOptions {
         extractors.add(new LongOptionExtractor(longConverter));
         extractors.add(new FloatOptionExtractor(floatConverter));
         extractors.add(new DoubleOptionExtractor(doubleConverter));
-        extractors.add(new OptionsHolderOptionExtractor(() -> extractor));
+        extractors.add(new OptionsHolderOptionExtractor(() -> extractor, () -> context));
 
         Set<OptionValidator> validators = new HashSet<>();
 
