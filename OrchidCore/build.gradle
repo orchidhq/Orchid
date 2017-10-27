@@ -23,7 +23,7 @@ dependencies {
 
     // Included parsers: JSON, YAML, TOML, Twig, Markdown, Sass
     api 'org.json:json:20170516'
-    api 'org.yaml:snakeyaml:1.18'
+    api 'org.yaml:snakeyaml:1.19'
     api 'com.moandjiezana.toml:toml4j:0.7.2'
     api 'org.jtwig:jtwig-core:5.86.1.RELEASE'
     api 'com.vladsch.flexmark:flexmark-all:0.27.0'
