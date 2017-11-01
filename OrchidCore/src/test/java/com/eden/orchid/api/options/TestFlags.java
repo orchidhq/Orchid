@@ -201,7 +201,8 @@ public class TestFlags {
 
     @Test
     public void testParsingFlags() throws Throwable {
-        AbstractModule module = OrchidFlags.getInstance(flagParsers).parseFlags(flagsMap);
+        OrchidFlags.instance = new OrchidFlags(flagParsers);
+        AbstractModule module = OrchidFlags.getInstance().parseFlags(flagsMap);
 
         // verify that the options get parsed correctly
         assertThat(OrchidFlags.getInstance().getString("one"),    is(equalTo("valueOne")));

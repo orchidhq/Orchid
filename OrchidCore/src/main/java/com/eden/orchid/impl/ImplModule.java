@@ -10,6 +10,7 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
@@ -61,6 +62,7 @@ import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.utilities.ClogSpells;
 import com.google.inject.multibindings.Multibinder;
 
+@IgnoreModule
 public final class ImplModule extends OrchidModule {
 
     private static final Class[] optionalSets = new Class[]{

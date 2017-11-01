@@ -6,6 +6,8 @@ import com.eden.common.util.EdenUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.name.Names;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import lombok.Getter;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -16,28 +18,37 @@ import java.util.Map;
 
 public final class OrchidFlags {
 
-    private static OrchidFlags instance;
-
-    public static OrchidFlags getInstance(Collection<OrchidFlag> flags) {
-        if (instance == null) {
-            instance = new OrchidFlags(flags);
-        }
-        return instance;
-    }
+    static OrchidFlags instance;
 
     public static OrchidFlags getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("No instance of OrchidFlags has been created, initialize OrchidFlags with [Collection<OrchidFlag> flags] first");
+            List<OrchidFlag> orchidFlags = new ArrayList<>();
+
+            FastClasspathScanner scanner = new FastClasspathScanner();
+            scanner.matchClassesImplementing(OrchidFlag.class, (matchingClass) -> {
+                try {
+                    OrchidFlag option = matchingClass.newInstance();
+                    if (option != null) {
+                        orchidFlags.add(option);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            scanner.scan();
+            instance = new OrchidFlags(orchidFlags);
         }
         return instance;
     }
 
-    private List<OrchidFlag> missingRequiredFlags = new ArrayList<>();
-    private Collection<OrchidFlag> flags;
-    private Map<String, EdenPair<OrchidFlag.FlagType, Object>> parsedFlags;
+    @Getter private Collection<OrchidFlag> flags;
     private JSONObject parsedFlagsData;
 
-    private OrchidFlags(Collection<OrchidFlag> flags) {
+    private List<OrchidFlag> missingRequiredFlags = new ArrayList<>();
+    private Map<String, EdenPair<OrchidFlag.FlagType, Object>> parsedFlags;
+
+    OrchidFlags(Collection<OrchidFlag> flags) {
         this.flags = flags;
         this.parsedFlags = new HashMap<>();
     }
@@ -193,9 +204,5 @@ public final class OrchidFlags {
 
     public JSONObject getData() {
         return parsedFlagsData;
-    }
-
-    public Collection<OrchidFlag> getFlags() {
-        return flags;
     }
 }

@@ -23,12 +23,21 @@ import com.eden.orchid.javadoc.tags.impl.SeeTag;
 import com.eden.orchid.javadoc.tags.impl.SinceTag;
 import com.eden.orchid.javadoc.tags.impl.ThrowsTag;
 import com.eden.orchid.javadoc.tags.impl.VersionTag;
+import com.sun.javadoc.RootDoc;
 
 @IgnoreModule
 public class JavadocModule extends OrchidModule {
 
+    private final RootDoc rootDoc;
+
+    public JavadocModule(RootDoc rootDoc) {
+        this.rootDoc = rootDoc;
+    }
+
     @Override
     protected void configure() {
+        bind(RootDoc.class).toInstance(rootDoc);
+
         addToSet(OrchidGenerator.class,
                 JavadocGenerator.class);
 

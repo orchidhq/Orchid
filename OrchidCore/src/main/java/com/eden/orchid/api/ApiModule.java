@@ -35,6 +35,7 @@ import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.validators.StringExistsValidator;
+import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.render.FileRenderServiceImpl;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.ResourceService;
@@ -48,6 +49,7 @@ import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
+@IgnoreModule
 public final class ApiModule extends OrchidModule {
 
     @Override

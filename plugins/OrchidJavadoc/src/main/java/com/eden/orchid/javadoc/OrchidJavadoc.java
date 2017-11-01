@@ -1,16 +1,15 @@
 package com.eden.orchid.javadoc;
 
 import com.eden.orchid.Orchid;
-import com.eden.orchid.OrchidModule;
+import com.eden.orchid.StandardModule;
 import com.eden.orchid.api.options.OrchidFlag;
-import com.google.inject.AbstractModule;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import com.sun.javadoc.Tag;
 import com.sun.tools.doclets.standard.Standard;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -33,7 +32,7 @@ public final class OrchidJavadoc {
      * @return the number of arguments it expects from the command line
      */
     public static int optionLength(String optionFlag) {
-        for (OrchidFlag option : Orchid.findFlags()) {
+        for (OrchidFlag option : OrchidFlags.getInstance().getFlags()) {
             if (optionFlag.equals("-" + option.getFlag())) {
                 return option.optionLength();
             }
@@ -60,11 +59,10 @@ public final class OrchidJavadoc {
                 .stream(rootDoc.options())
                 .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
 
-        List<AbstractModule> modules = Orchid.findModules(options);
-        modules.add(OrchidModule.of(RootDoc.class, rootDoc));
-        modules.add(new JavadocModule());
-        Orchid.getInstance(options).start(modules);
-        return true;
+        return Orchid.getInstance().start(
+                StandardModule.builder().flags(options).build(),
+                new JavadocModule(rootDoc)
+        );
     }
 
     public static String getText(Tag[] tags) {
