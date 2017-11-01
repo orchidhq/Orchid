@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+
+
+    <title>Section 1.1.2 - Buttons 3-1</title>
+
+
+
+    <meta name="description" content="">
+
+
+
+
+
+
+
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-54516992-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+    <!-- start:inject styles -->
+
+
+    
+        <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/Orchid/v0.3.9/OrchidKSS/assets/css/editorial.css"/>
+    
+
+<!-- end:inject styles -->
+
+    
+
+    <style>
+        #readme p > img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="is-loading">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="/" class="logo"></a>
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+                </ul>
+            </header>
+
+            
+
+    <div id="styleguide">
+        <p>Button description
+</p>
+
+        
+            <div>
+                <div>Parent</div>
+                <ul>
+                    <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidKSS/styleguide/1/1">Buttons 2</a></li>
+                </ul>
+            </div>
+        
+
+        
+
+        <div>
+            <h3>Markup: </h3>
+
+            <div class="markup">
+                
+                    <div><b><i>.btn-default</i></b></div><br>
+                    <div>A default button</div><br>
+                    <div> <div style="border: thin solid gray; padding: 10px;"> <div style="border: thin solid gray; padding: 10px;"> <div style="border: thin solid gray; padding: 10px;">
+<div class="btn btn-default">Button</div>
+<div class="btn btn-default" disabled="disabled">Button</div></div></div></div></div><br>
+                    
+                
+                    <div><b><i>.btn-primary</i></b></div><br>
+                    <div>A primary button</div><br>
+                    <div> <div style="border: thin solid gray; padding: 10px;"> <div style="border: thin solid gray; padding: 10px;"> <div style="border: thin solid gray; padding: 10px;">
+<div class="btn btn-primary">Button</div>
+<div class="btn btn-primary" disabled="disabled">Button</div></div></div></div></div><br>
+                    
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function ready(fn) {
+            if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+                fn();
+            } else {
+                document.addEventListener('DOMContentLoaded', fn);
+            }
+        }
+
+        ready(function () {
+            var shadowHost = document.querySelector("#styleguide .markup");
+            if (shadowHost.attachShadow) {
+                var shadowRoot = shadowHost.attachShadow({mode: 'open'});
+
+                var innerHtml = '<style>body { font-size: 62.5%; }</style>';
+
+                
+                    console.log("including stylesheet from https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+                    innerHtml = innerHtml + '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">';
+                
+
+                innerHtml = innerHtml + shadowHost.innerHTML;
+
+                shadowRoot.innerHTML = innerHtml;
+            }
+        });
+    </script>
+
+
+        </div>
+        <hr>
+        <div class="inner">
+    <footer id="footer text-center">
+
+        <div class="clearfix">
+            
+
+            
+        </div>
+
+        <p class="text-center">
+            &copy; JavaEden. All rights reserved.
+        </p>
+        <p class="text-center">
+            Design: <a href="https://html5up.net">HTML5 UP</a>.
+            Created with <a href="https://github.com/JavaEden/Orchid">Orchid </a> and <b>Orchid Editorial Theme</b>.
+        </p>
+        <p class="text-center">
+            Currently: v0.3.9.
+        </p>
+    </footer>
+
+</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+    <div class="inner">
+
+        <!-- Search -->
+        <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Search"/>
+            </form>
+        </section>
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <header class="major">
+                <h2>OrchidKSS</h2>
+            </header>
+            <ul class="top-level">
+                
+            </ul>
+
+            
+
+            
+        </nav>
+
+    </div>
+</div>
+</div>
+
+<!-- start:inject scripts -->
+
+
+    
+        <script src="https://javaeden.github.io/Orchid/v0.3.9/OrchidKSS/assets/js/editorial.js"></script>
+    
+        <script src="https://javaeden.github.io/Orchid/v0.3.9/OrchidKSS/assets/js/editorial_util.js"></script>
+    
+
+<!-- end:inject scripts -->
+
+</body>
+</html>

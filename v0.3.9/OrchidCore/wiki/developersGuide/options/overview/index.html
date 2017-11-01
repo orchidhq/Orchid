@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+
+
+    <title>Understanding Options</title>
+
+
+
+    <meta name="description" content="">
+
+
+
+    <link rel="prev" href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/components">
+
+
+
+    <link rel="next" href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/options/extracting">
+
+
+
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-54516992-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+    <!-- start:inject styles -->
+
+
+    
+        <link rel="stylesheet" type="text/css" href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/assets/css/editorial.css"/>
+    
+
+<!-- end:inject styles -->
+
+    
+
+    <style>
+        #readme p > img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="is-loading">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            <header id="header">
+                <a href="/" class="logo"></a>
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+                </ul>
+            </header>
+
+            
+                <section id="pageContent">
+                    <header class="major"><h2>Understanding Options</h2></header>
+                    <article>
+                        
+
+
+
+    
+    
+        <div class="component component-pageContent">
+            
+        </div>
+    
+
+
+                    </article>
+                </section>
+            
+        </div>
+        <hr>
+        <div class="inner">
+    <footer id="footer text-center">
+
+        <div class="clearfix">
+            
+                <div class="float-left">
+                    <a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/components" class="button special small pill"><span>&larr;</span> Declaring Component Areas</a>
+                </div>
+            
+
+            
+                <div class="float-right">
+                    <a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/options/extracting" class="button special small pill">Extracting Custom Objects <span>&rarr;</span></a>
+                </div>
+            
+        </div>
+
+        <p class="text-center">
+            &copy; JavaEden. All rights reserved.
+        </p>
+        <p class="text-center">
+            Design: <a href="https://html5up.net">HTML5 UP</a>.
+            Created with <a href="https://github.com/JavaEden/Orchid">Orchid </a> and <b>Orchid Editorial Theme</b>.
+        </p>
+        <p class="text-center">
+            Currently: v0.3.9.
+        </p>
+    </footer>
+
+</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+    <div class="inner">
+
+        <!-- Search -->
+        <section id="search" class="alt">
+            <form method="post" action="#">
+                <input type="text" name="query" id="query" placeholder="Search"/>
+            </form>
+        </section>
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <header class="major">
+                <h2>OrchidCore</h2>
+            </header>
+            <ul class="top-level">
+                
+                    
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore">Home</a></li>
+    
+
+                
+                    
+    <li>
+        <span class="opener">Plugins</span>
+        <ul>
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidPages">OrchidPages</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidPosts">OrchidPosts</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidWiki">OrchidWiki</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidJavadoc">OrchidJavadoc</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidKSS">OrchidKSS</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidChangelog">OrchidChangelog</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidPresentations">OrchidPresentations</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidLanguagePack">OrchidLanguagePack</a></li>
+    
+
+            
+        </ul>
+    </li>
+
+                
+                    
+    <li>
+        <span class="opener">Themes</span>
+        <ul>
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidBsDoc">OrchidBsDoc</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidEditorial">OrchidEditorial</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidFutureImperfect">OrchidFutureImperfect</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/v0.3.9/OrchidMaterialize">OrchidMaterialize</a></li>
+    
+
+            
+        </ul>
+    </li>
+
+                
+                    
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/userManual/summary">User Manual</a></li>
+    
+
+                
+                    
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/summary">Developers Guide</a></li>
+    
+
+                
+            </ul>
+
+            
+                <hr>
+                <ul class="top-level">
+                    
+                        
+    <li>
+        <span class="opener">Developers Guide Wiki</span>
+        <ul>
+            
+                
+    <li>
+        <span class="opener">Themes</span>
+        <ul>
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/components">Declaring Component Areas</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/assets">Adding Assets</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/templates">Layouts and Page Templates</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/options">Declaring Options</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/themes/menus">Declaring Menus</a></li>
+    
+
+            
+        </ul>
+    </li>
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/getting-started">Getting Started</a></li>
+    
+
+            
+                
+    <li>
+        <span class="opener">Plugins</span>
+        <ul>
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/plugins/overview">Overview</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/plugins/themes">Themes</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/plugins/components">Components</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/plugins/generators">Generators and Pages</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/plugins/compilers">Parsers and Compilers</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/plugins/tasks">Tasks</a></li>
+    
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li>
+        <span class="opener">Options</span>
+        <ul>
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/options/overview">Understanding Options</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/options/string-formatting">String Formatting</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/options/extracting">Extracting Custom Objects</a></li>
+    
+
+            
+                
+    
+        <li><a href="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/wiki/developersGuide/options/type-coercion">Type Coercion in Extraction</a></li>
+    
+
+            
+        </ul>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                </ul>
+            
+        </nav>
+
+    </div>
+</div>
+</div>
+
+<!-- start:inject scripts -->
+
+
+    
+        <script src="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/assets/js/editorial.js"></script>
+    
+        <script src="https://javaeden.github.io/Orchid/v0.3.9/OrchidCore/assets/js/editorial_util.js"></script>
+    
+
+<!-- end:inject scripts -->
+
+</body>
+</html>

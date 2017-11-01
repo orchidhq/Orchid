@@ -1,0 +1,65 @@
+{
+  "ownKey": "pages",
+  "childrenPages": {
+    "resume": {
+      "ownKey": "resume",
+      "ownPages": [{
+        "reference": {
+          "path": "",
+          "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc",
+          "fileName": "resume",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc/resume"
+        },
+        "data": {},
+        "description": ""
+      }]
+    },
+    "projects": {
+      "ownKey": "projects",
+      "ownPages": [{
+        "reference": {
+          "path": "",
+          "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc",
+          "fileName": "projects",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc/projects"
+        },
+        "data": {},
+        "description": ""
+      }]
+    },
+    "contact": {
+      "ownKey": "contact",
+      "ownPages": [{
+        "reference": {
+          "path": "",
+          "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc",
+          "fileName": "contact",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc/contact"
+        },
+        "data": {},
+        "description": ""
+      }]
+    },
+    "bio": {
+      "ownKey": "bio",
+      "ownPages": [{
+        "reference": {
+          "path": "",
+          "baseUrl": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc",
+          "fileName": "bio",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://javaeden.github.io/Orchid/v0.3.9/OrchidBsDoc/bio"
+        },
+        "data": {},
+        "description": ""
+      }]
+    }
+  }
+}
