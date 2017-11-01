@@ -1,0 +1,11 @@
+<form name="{{ form.key }}" action="{{ form.action }}" class="orchid-form" {{ form.attributes }} method="{{ form.method }}">
+    <div class="row">
+        {% for key, field in form.fields %}
+            <div class="{{ field.span }}">
+                {% include field.templates ignore missing %}
+            </div>
+        {% endfor %}
+    </div>
+    <br>
+    <input type="submit" value="Submit">
+</form>
