@@ -51,7 +51,7 @@ public final class TemplateFilter implements JtwigFunction {
                     templates = templateResolutionStrategy.getPageLayout((OrchidPage) fnParams.get(0));
                     break;
                 case "page":
-                    templates = templateResolutionStrategy.getPageLayout((OrchidPage) fnParams.get(0));
+                    templates = templateResolutionStrategy.getPageTemplate((OrchidPage) fnParams.get(0));
                     break;
                 case "component":
                     templates = templateResolutionStrategy.getComponentTemplate((OrchidComponent) fnParams.get(0));

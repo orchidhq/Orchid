@@ -2,11 +2,11 @@ package com.eden.orchid.html5up.futureimperfect;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
+import com.eden.orchid.api.theme.models.About;
+import com.eden.orchid.api.theme.models.Social;
 
 import javax.inject.Inject;
 
@@ -38,25 +38,4 @@ public class FutureImperfectTheme extends Theme {
         super.addAssets();
     }
 
-    public static class About implements OptionsHolder {
-
-        @Option public String siteName;
-        @Option public String tagline;
-        @Option public String blurb;
-
-        @Option
-        @ApplyBaseUrl
-        public String avatar;
-
-    }
-
-    public static class Social implements OptionsHolder {
-
-        @Option public String twitter;
-        @Option public String facebook;
-        @Option public String instagram;
-        @Option public String rss;
-        @Option public String email;
-
-    }
 }

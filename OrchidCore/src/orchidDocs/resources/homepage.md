@@ -1,4 +1,5 @@
 ---
+layout: frontPage
 components:
   - type: form
     form: contact

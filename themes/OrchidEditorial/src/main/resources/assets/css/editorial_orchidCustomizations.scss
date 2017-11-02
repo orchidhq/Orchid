@@ -1,0 +1,71 @@
+.menu ul {
+  display: none;
+}
+.menu ul.top-level {
+  display: block;
+}
+
+.text-left    { text-align: left;    }
+.text-center  { text-align: center;  }
+.text-right   { text-align: right;   }
+.text-justify { text-align: justify; }
+
+.clerafix::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.button.special.small.pill {
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+}
+
+.noncaps {
+  text-transform: initial;
+}
+
+code {
+  display: inline-block;
+}
+
+#sidebar .inner {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+p img {
+  width: 100%;
+}
+
+p a img {
+  width: initial;
+}
+
+pre {
+  margin: 0;
+  max-width: 40rem;
+}
+blockquote {
+  margin: 0;
+  max-width: 40rem;
+}
+
+pre[class*=language-] {
+  background: #ffffff;
+  padding: 0;
+}
+code[class*=language-] {
+  background: #f5f2f0;
+  margin: 0 ;
+  border: none;
+}

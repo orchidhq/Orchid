@@ -11,7 +11,7 @@
         <!-- Menu -->
         <nav id="siteNav" class="menu">
             <header class="major">
-                <h2>{{ theme.about.name }}</h2>
+                <h2>{{ page.title }}</h2>
             </header>
             <ul class="top-level">
                 {% for menuItem in theme.menu.menuItems %}
@@ -30,6 +30,18 @@
                 </ul>
             {% endif %}
         </nav>
+
+        <!-- Section -->
+        <section>
+            <p class="text-center">
+                Currently {{ site.version }}. Created with <a href="https://github.com/JavaEden/Orchid">Orchid </a> and <b>Orchid Editorial Theme</b>.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright text-center">&copy; JavaEden. All rights reserved.<br>Design by <a href="https://html5up.net">HTML5 UP</a></p>
+        </footer>
 
     </div>
 </div>

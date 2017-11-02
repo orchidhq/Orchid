@@ -8,9 +8,7 @@
         </ul>
     </li>
 {% elseif menuItem.isSeparator() %}
-    <li>
-        <div class="divider"></div>
-    </li>
+    <li><div class="divider"></div></li>
     {% if length(menuItem.title) > 0 %}
         <li><a class="subheader">{{ menuItem.title }}</a></li>
     {% endif %}

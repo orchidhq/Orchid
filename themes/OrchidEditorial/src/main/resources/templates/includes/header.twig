@@ -1,29 +1,22 @@
-
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
-
-{% if page.title %}
-    <title>{{ page.title }}</title>
-{% else %}
-    <title>{{ theme.about.name }}</title>
-{% endif %}
-
-{% if page.description %}
-    <meta name="description" content="{{ page.description }}">
-{% else %}
-    <meta name="description" content="{{ theme.about.description }}">
-{% endif %}
-
-{% if page.previous %}
-    <link rel="prev" href="{{ page.previous.link }}">
-{% endif %}
-
-{% if page.next %}
-    <link rel="next" href="{{ page.next.link }}">
-{% endif %}
-
-{% if page.canonical %}
-    <link rel="canonical" href="{{ page.canonical.link }}">
-{% endif %}
+<header id="header">
+    <a href="{{ site.baseUrl }}" class="logo">{{ theme.about.siteName }}</a>
+    <ul class="icons">
+        {% if theme.social is defined %}
+            {% if theme.social.github is not empty %}
+                <li><a href="https://github.com/{{ theme.social.github }}" class="icon fa-github"><span class="label">Github</span></a></li>
+            {% endif %}
+            {% if theme.social.twitter is not empty %}
+                <li><a href="{{ theme.social.twitter }}" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+            {% endif %}
+            {% if theme.social.facebook is not empty %}
+                <li><a href="{{ theme.social.facebook }}" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+            {% endif %}
+            {% if theme.social.instagram is not empty %}
+                <li><a href="{{ theme.social.instagram }}" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+            {% endif %}
+            {% if theme.social.googlePlus is not empty %}
+                <li><a href="{{ theme.social.googlePlus }}" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</header>

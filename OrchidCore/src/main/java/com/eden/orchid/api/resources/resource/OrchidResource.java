@@ -1,6 +1,7 @@
 package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -60,4 +61,23 @@ public abstract class OrchidResource {
     public String getRawContent() {
         return rawContent;
     }
+
+    public String compileContent(Object... data) {
+        if (EdenUtils.isEmpty(getContent())) {
+            String compiledContent = getContent();
+
+            if (shouldPrecompile()) {
+                compiledContent = context.precompile(compiledContent, data);
+            }
+
+            return context.compile(
+                    getReference().getExtension(),
+                    compiledContent
+            );
+        }
+        else {
+            return "";
+        }
+    }
+
 }

@@ -1,8 +1,8 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
 
     public final boolean renderTemplate(OrchidPage page) {
         if(!skipPage(page)) {
-            for (String template : strategy.getPageTemplate(page)) {
+            for (String template : strategy.getPageLayout(page)) {
                 OrchidResource templateResource = context.getResourceEntry(template);
 
                 if (templateResource != null) {

@@ -1,0 +1,24 @@
+
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid {{ site.orchidVersion }}" />
+
+{% if page.title %}
+    <title>{{ page.title }}</title>
+{% else %}
+    <title>{{ theme.about.name }}</title>
+{% endif %}
+
+{% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+{% else %}
+    <meta name="description" content="{{ theme.about.description }}">
+{% endif %}
+
+{% if page.previous %}
+    <link rel="prev" href="{{ page.previous.link }}">
+{% endif %}
+
+{% if page.next %}
+    <link rel="next" href="{{ page.next.link }}">
+{% endif %}

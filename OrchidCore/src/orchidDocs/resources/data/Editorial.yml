@@ -1,7 +1,6 @@
 about:
-  name: OrchidCore
-  description: A beautiful and truly unique documentation engine and static site generator.
-  githubUsername: 'JavaEden'
-  githubRepo: 'Orchid'
+  siteName: OrchidCore
+  siteDescription: A beautiful and truly unique documentation engine and static site generator.
+social:
+  github: 'JavaEden/Orchid'
 primaryColor: '#ffa033'
-secondaryColor: '#000000'

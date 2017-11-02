@@ -1,6 +1,1 @@
-{% block pageContent %}
-
-{% endblock %}
-{% block remainingComponents %}
-    {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
-{% endblock %}
+{% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
