@@ -63,7 +63,7 @@ public abstract class OrchidResource {
     }
 
     public String compileContent(Object... data) {
-        if (EdenUtils.isEmpty(getContent())) {
+        if (!EdenUtils.isEmpty(getContent())) {
             String compiledContent = getContent();
 
             if (shouldPrecompile()) {

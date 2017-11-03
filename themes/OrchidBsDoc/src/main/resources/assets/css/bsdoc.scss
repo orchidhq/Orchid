@@ -5,3 +5,10 @@
 @import "pagenav";
 @import "github_ribbon";
 @import "jumbotron";
+
+
+.bs-docs-container {
+  img {
+    max-width: 100%;
+  }
+}

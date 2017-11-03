@@ -6,7 +6,6 @@
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](http://www.gnu.org/licenses/lgpl-3.0)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1)](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JavaEden/Orchid&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/JavaEden/Orchid/branch/master/graph/badge.svg)](https://codecov.io/gh/JavaEden/Orchid)
-[![Dependency Status](https://www.versioneye.com/user/projects/59b7f9fa6725bd004a5e58ff/badge.svg?style=flat)](https://www.versioneye.com/user/projects/59b7f9fa6725bd004a5e58ff)
 
 > A beautiful and truly unique documentation engine and static site generator.
 

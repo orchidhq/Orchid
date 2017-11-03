@@ -7,7 +7,9 @@ class OrchidGenerateJavadocTask extends Javadoc {
     OrchidGenerateJavadocTask() {
         source = [project.sourceSets.main.allJava.getSrcDirs()]
         dependsOn 'classes', "${OrchidPlugin.configurationName}Classes"
-        onlyIf { !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) }
+        onlyIf {
+            !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) && !project.orchid.noJavadoc
+        }
     }
 
     @Override

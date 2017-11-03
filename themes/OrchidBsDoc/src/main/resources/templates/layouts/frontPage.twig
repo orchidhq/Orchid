@@ -1,4 +1,4 @@
-{% extends page | template('layout') %}
+{% extends 'layouts/trianglifyBase.twig' %}
 
 {% block baseJumbotron %}
     <div class="bs-docs-masthead" id="jumbotron">
@@ -6,7 +6,7 @@
             <h1 class="home-title">{{ theme.about.siteName }}</h1>
             <p class="lead">{{ theme.about.description }}</p>
             <p class="lead">
-                <a href="https://github.com/{{ theme.about.githubUsername }}/{{ theme.about.githubRepo }}"
+                <a href="https://github.com/{{ theme.social.github }}"
                    class="btn btn-outline-inverse btn-lg">Download</a>
             </p>
             <p class="version">Currently {{ site.version }}</p>
