@@ -1,9 +1,6 @@
 ---
 layout: frontPage
 components:
-  - type: form
-    form: contact
-  - type: pageContent
   - type: readme
   - type: license
   - type: prism
@@ -13,6 +10,5 @@ components:
       - 'java'
       - 'groovy'
       - 'markdown'
-      
 ---
 

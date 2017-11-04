@@ -1,5 +1,2 @@
-{% extends page | template('layout') %}
 
-{% block pageContent %}
-    {% include page.getComponent('pageContent') | template('component') %}
-{% endblock %}
+{{ page.content }}

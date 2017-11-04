@@ -1,20 +1,13 @@
-{% extends page | template('layout') %}
+{% for year in page.years %}
+    <h3>{{ year }}</h3>
 
-{% block pageContent %}
+    {% for month in page.getMonths(year) %}
+        <b>{{ postArchive.getMonthName(month) }}</b>
 
-    {% for year in page.years %}
-        <h3>{{ year }}</h3>
-
-        {% for month in page.getMonths(year) %}
-            <b>{{ postArchive.getMonthName(month) }}</b>
-
-            <ul>
-                {% for post in page.postsInMonth(year, month) %}
-                    <li><a href="{{post.link}}">{{post.title}}</a></li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-
+        <ul>
+            {% for post in page.postsInMonth(year, month) %}
+                <li><a href="{{post.link}}">{{post.title}}</a></li>
+            {% endfor %}
+        </ul>
     {% endfor %}
-
-{% endblock %}
+{% endfor %}

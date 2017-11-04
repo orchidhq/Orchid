@@ -32,7 +32,8 @@ public class PrismComponent extends OrchidComponent {
         super(context, "prism", 100);
     }
 
-    @Override public void addAssets() {
+    @Override
+    public void addAssets() {
         super.addAssets();
 
         addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js");
@@ -54,5 +55,10 @@ public class PrismComponent extends OrchidComponent {
                 addJs(OrchidUtils.normalizePath(prismSource) + "/components/prism-" + lang + ".min.js");
             }
         }
+    }
+
+    @Override
+    public boolean isHidden() {
+        return true;
     }
 }

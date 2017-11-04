@@ -1,72 +1,66 @@
-{% extends page | template('layout') %}
+<div id="styleguide">
+    <p>{{ page.styleguideSection.description }}</p>
 
-{% block fullPageContent %}
-
-    <div id="styleguide">
-        <p>{{ page.styleguideSection.description }}</p>
-
-        {% if page.parent %}
-            <div>
-                <div>Parent</div>
-                <ul>
-                    <li><a href="{{ page.parent.link }}">{{ page.parent.styleguideSection.name }}</a></li>
-                </ul>
-            </div>
-        {% endif %}
-
-        {% if page.children is not empty %}
-            <div>
-                <div>Children</div>
-                <ul>
-                    {% for child in page.children %}
-                        <li><a href="{{ child.link }}">{{ child.styleguideSection.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
+    {% if page.parent %}
         <div>
-            <h3>Markup: </h3>
+            <div>Parent</div>
+            <ul>
+                <li><a href="{{ page.parent.link }}">{{ page.parent.styleguideSection.name }}</a></li>
+            </ul>
+        </div>
+    {% endif %}
 
-            <div class="markup">
-                {% for modifier in page.styleguideSection.modifiers %}
-                    <div><b><i>{{ modifier.name }}</i></b></div><br>
-                    <div>{{ modifier.description }}</div><br>
-                    <div>{{ page.styleguideSection.formatMarkup(modifier) | raw }}</div><br>
-                    {% if not loop.last %}
-                        <hr><br>
-                    {% endif %}
+    {% if page.children is not empty %}
+        <div>
+            <div>Children</div>
+            <ul>
+                {% for child in page.children %}
+                    <li><a href="{{ child.link }}">{{ child.styleguideSection.name }}</a></li>
                 {% endfor %}
-            </div>
+            </ul>
+        </div>
+    {% endif %}
+
+    <div>
+        <h3>Markup: </h3>
+
+        <div class="markup">
+            {% for modifier in page.styleguideSection.modifiers %}
+                <div><b><i>{{ modifier.name }}</i></b></div><br>
+                <div>{{ modifier.description }}</div><br>
+                <div>{{ page.styleguideSection.formatMarkup(modifier) | raw }}</div><br>
+                {% if not loop.last %}
+                    <hr><br>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
+</div>
 
-    <script>
-        function ready(fn) {
-            if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-                fn();
-            } else {
-                document.addEventListener('DOMContentLoaded', fn);
-            }
+<script>
+    function ready(fn) {
+        if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
         }
+    }
 
-        ready(function () {
-            var shadowHost = document.querySelector("#styleguide .markup");
-            if (shadowHost.attachShadow) {
-                var shadowRoot = shadowHost.attachShadow({mode: 'open'});
+    ready(function () {
+        var shadowHost = document.querySelector("#styleguide .markup");
+        if (shadowHost.attachShadow) {
+            var shadowRoot = shadowHost.attachShadow({mode: 'open'});
 
-                var innerHtml = '<style>body { font-size: 62.5%; }</style>';
+            var innerHtml = '<style>body { font-size: 62.5%; }</style>';
 
-                {% if page.hasStylesheet() %}
-                    console.log("including stylesheet from {{ page.stylesheet }}");
-                    innerHtml = innerHtml + '<link rel="stylesheet" href="{{ page.stylesheet }}">';
-                {% endif %}
+            {% if page.hasStylesheet() %}
+                console.log("including stylesheet from {{ page.stylesheet }}");
+                innerHtml = innerHtml + '<link rel="stylesheet" href="{{ page.stylesheet }}">';
+            {% endif %}
 
-                innerHtml = innerHtml + shadowHost.innerHTML;
+            innerHtml = innerHtml + shadowHost.innerHTML;
 
-                shadowRoot.innerHTML = innerHtml;
-            }
-        });
-    </script>
-
-{% endblock %}
+            shadowRoot.innerHTML = innerHtml;
+        }
+    });
+</script>

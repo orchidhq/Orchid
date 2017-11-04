@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme.components;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -36,6 +37,9 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     @Getter @Setter @Option protected String[] extraCss;
     @Getter @Setter @Option protected String[] extraJs;
 
+    @Getter @Setter @Option protected boolean hidden;
+    @Getter @Setter @Option @BooleanDefault(false) protected boolean noWrapper;
+
     @Inject
     public OrchidComponent(OrchidContext context, String key, int priority) {
         super(priority);
@@ -48,4 +52,5 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     public void addAssets() {
         OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this);
     }
+
 }

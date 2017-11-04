@@ -4,21 +4,16 @@
 
     <!-- Main -->
     <div id="main">
-        {% block pageContent %}
-            {% embed 'includes/pageContent.twig' %}{% endembed %}
-        {% endblock %}
 
-        <!-- start:inject components -->
-        {% if page.components and page.components.remainingComponents.size > 0 %}
-            {% for component in page.components.remainingComponents %}
+        {% embed 'includes/componentHolder.twig' with {componentHolder: page.components} %}
+            {% block componentWrapper %}
                 <article class="post single">
                     <div class="component component-{{ component.key }}">
                         {% include component | template('component') ignore missing %}
                     </div>
                 </article>
-            {% endfor %}
-        {% endif %}
-        <!-- end:inject components -->
+            {% endblock %}
+        {% endembed %}
 
         {% include 'includes/pagination.twig' %}
     </div>

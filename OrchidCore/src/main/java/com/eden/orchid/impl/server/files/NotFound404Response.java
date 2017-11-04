@@ -46,8 +46,7 @@ public final class NotFound404Response {
         }
 
         OrchidPage page = new OrchidPage(new StringResource(context, "404.txt", notFoundIndexContent), "404");
-        page.addCss(new OrchidPage(context.getResourceEntry("https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css"), ""));
-        page.addCss("assets/css/directoryListing.css");
+        page.addJs("assets/js/shadowComponents.js");
         for (String template : strategy.getPageLayout(page)) {
             OrchidResource templateResource = context.getResourceEntry(template);
             if (templateResource != null) {

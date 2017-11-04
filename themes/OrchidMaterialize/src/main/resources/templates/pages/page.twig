@@ -1,7 +1,4 @@
-{% extends page | template('layout') %}
 
-{% block pageContent %}
-    <div class="flow-text">
-        {#{% include page.getComponent('pageContent') | template('component') %}#}
-    </div>
-{% endblock %}
+<div class="flow-text">
+    {{ page.content }}
+</div>
