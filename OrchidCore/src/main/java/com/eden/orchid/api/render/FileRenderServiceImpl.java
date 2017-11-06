@@ -23,50 +23,12 @@ public final class FileRenderServiceImpl extends BaseRenderServiceImpl {
         this.destination = destination;
     }
 
-    public boolean render(OrchidPage page, String extension, String content) {
+    public boolean render(OrchidPage page, InputStream content) {
         long startTime = System.currentTimeMillis();
         long stopTime;
         boolean success = true;
 
-        page.setCurrent(true);
-
-        if(!skipPage(page)) {
-            content = "" + context.compile(extension, content, page);
-            String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
-            String outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
-
-            File outputFile = new File(this.destination + "/" + outputPath);
-            if (!outputFile.exists()) {
-                outputFile.mkdirs();
-            }
-
-            try {
-                Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
-                Files.write(classesFile, content.getBytes());
-                success = true;
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                success = false;
-            }
-        }
-
-        page.setCurrent(false);
-
-        stopTime = System.currentTimeMillis();
-        context.onPageGenerated(page, stopTime - startTime);
-
-        return success;
-    }
-
-    public boolean render(OrchidPage page, String extension, InputStream content) {
-        long startTime = System.currentTimeMillis();
-        long stopTime;
-        boolean success = true;
-
-        page.setCurrent(true);
-
-        if(!skipPage(page)) {
+        if (!skipPage(page)) {
             String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
             String outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
 
@@ -85,8 +47,6 @@ public final class FileRenderServiceImpl extends BaseRenderServiceImpl {
                 success = false;
             }
         }
-
-        page.setCurrent(false);
 
         stopTime = System.currentTimeMillis();
         context.onPageGenerated(page, stopTime - startTime);

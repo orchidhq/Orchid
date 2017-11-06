@@ -2,19 +2,21 @@ package com.eden.orchid.impl.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,12 +27,10 @@ public final class IndexFileResponse {
 
     private final OrchidContext context;
     private final Map<String, String> iconMap;
-    private final TemplateResolutionStrategy strategy;
 
     @Inject
-    public IndexFileResponse(OrchidContext context, TemplateResolutionStrategy strategy) {
+    public IndexFileResponse(OrchidContext context) {
         this.context = context;
-        this.strategy = strategy;
 
         this.iconMap = new HashMap<>();
 
@@ -103,11 +103,13 @@ public final class IndexFileResponse {
 
                 OrchidPage page = new OrchidPage(new StringResource(context, "directoryListing.txt", directoryListingContent), "directoryListing");
                 page.addJs("assets/js/shadowComponents.js");
-                for (String template : strategy.getPageLayout(page)) {
-                    OrchidResource templateResource = context.getResourceEntry(template);
-                    if (templateResource != null) {
-                        content = "" + context.compile(FilenameUtils.getExtension(template), templateResource.getContent(), page);
-                    }
+
+                InputStream is = context.getRenderedTemplate(page);
+                try {
+                    content = IOUtils.toString(is, Charset.defaultCharset());
+                }
+                catch (Exception e) {
+                    content = "";
                 }
             }
         }

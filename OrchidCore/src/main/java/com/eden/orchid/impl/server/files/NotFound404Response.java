@@ -7,10 +7,12 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import fi.iki.elonen.NanoHTTPD;
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 
 public final class NotFound404Response {
 
@@ -47,11 +49,12 @@ public final class NotFound404Response {
 
         OrchidPage page = new OrchidPage(new StringResource(context, "404.txt", notFoundIndexContent), "404");
         page.addJs("assets/js/shadowComponents.js");
-        for (String template : strategy.getPageLayout(page)) {
-            OrchidResource templateResource = context.getResourceEntry(template);
-            if (templateResource != null) {
-                content = "" + context.compile(FilenameUtils.getExtension(template), templateResource.getContent(), page);
-            }
+        InputStream is = context.getRenderedTemplate(page);
+        try {
+            content = IOUtils.toString(is, Charset.defaultCharset());
+        }
+        catch (Exception e) {
+            content = "";
         }
 
         return NanoHTTPD.newFixedLengthResponse(content);

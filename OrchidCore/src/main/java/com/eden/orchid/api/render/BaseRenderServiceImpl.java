@@ -7,6 +7,7 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
 import java.io.InputStream;
@@ -31,70 +32,81 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         this.context = context;
     }
 
-    public final boolean renderTemplate(OrchidPage page) {
-        if(!skipPage(page)) {
-            for (String template : strategy.getPageLayout(page)) {
-                OrchidResource templateResource = context.getResourceEntry(template);
+    public final InputStream getRenderedTemplate(OrchidPage page) {
+        InputStream is = null;
 
-                if (templateResource != null) {
-                    return render(page, FilenameUtils.getExtension(template), templateResource.getContent());
-                }
+        page.setCurrent(true);
+
+        for (String template : strategy.getPageLayout(page)) {
+            OrchidResource templateResource = context.getResourceEntry(template);
+            if (templateResource != null) {
+                String content = "" + context.compile(FilenameUtils.getExtension(template), templateResource.getContent(), page);
+                is = toStream(content);
             }
         }
 
-        return false;
+        page.setCurrent(false);
+
+        return is;
+    }
+
+    public final boolean renderTemplate(OrchidPage page) {
+        return render(page, getRenderedTemplate(page));
+    }
+
+    public final InputStream getRenderedString(OrchidPage page, String extension, String templateString) {
+        page.setCurrent(true);
+        String content = "" + context.compile(extension, templateString, page);
+        page.setCurrent(false);
+        return toStream(content);
     }
 
     public final boolean renderString(OrchidPage page, String extension, String templateString) {
-        if(!skipPage(page)) {
-            return render(page, extension, templateString);
+        return render(page, getRenderedString(page, extension, templateString));
+    }
+
+    public final InputStream getRenderedRaw(OrchidPage page) {
+        page.setCurrent(true);
+        String content = page.getResource().getContent();
+        if (page.getResource().shouldPrecompile()) {
+            content = context.precompile(content, page.getData());
         }
-        return false;
+        content = "" + context.compile(page.getResource().getReference().getExtension(), content, page);
+        page.setCurrent(false);
+        return toStream(content);
     }
 
     public final boolean renderRaw(OrchidPage page) {
-        if(!skipPage(page)) {
-            String content = page.getResource().getContent();
+        return render(page, getRenderedRaw(page));
+    }
 
-            if (page.getResource().shouldPrecompile()) {
-                content = context.precompile(content, page.getData());
-            }
-
-            return render(page, page.getResource().getReference().getExtension(), content);
-        }
-        return false;
+    public final InputStream getRenderedBinary(OrchidPage page) {
+        page.setCurrent(true);
+        InputStream is = page.getResource().getContentStream();
+        page.setCurrent(false);
+        return is;
     }
 
     public final boolean renderBinary(OrchidPage page) {
-        if(!skipPage(page)) {
-            return render(page, page.getResource().getReference().getExtension(), page.getResource().getContentStream());
-        }
-
-        return false;
+        return render(page, getRenderedBinary(page));
     }
 
-    protected boolean skipPage(OrchidPage page) {
+    protected final InputStream toStream(String content) {
+        try {
+            return IOUtils.toInputStream(content, "UTF-8");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    protected final boolean skipPage(OrchidPage page) {
         return dry || page.isDraft() || !page.shouldRender();
     }
 
     /**
-     * Internal representation of a 'render' operation.
-     *
-     * @param page the page to render
-     * @param extension the extension that the content represents and should be compiled against
-     * @param content the template string to render
-     * @return true if the page was successfully rendered, false otherwise
+     * {@inheritDoc}
      */
-    public abstract boolean render(OrchidPage page, String extension, String content);
-
-    /**
-     * Internal representation of a 'render' operation on a binary stream.
-     *
-     * @param page the page to render
-     * @param extension the extension that the content represents and should be compiled against
-     * @param content the template string to render
-     * @return true if the page was successfully rendered, false otherwise
-     */
-    public abstract boolean render(OrchidPage page, String extension, InputStream content);
+    public abstract boolean render(OrchidPage page, InputStream content);
 
 }
