@@ -2,6 +2,7 @@ package com.eden.orchid.impl.server.files;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.server.OrchidResponse;
 import fi.iki.elonen.NanoHTTPD;
 
 import javax.inject.Inject;
@@ -16,14 +17,14 @@ public final class FaviconResponse {
         this.context = context;
     }
 
-    public NanoHTTPD.Response getResponse(String targetPath) {
+    public OrchidResponse getResponse(String targetPath) {
         try {
             OrchidResource faviconResource = context.getResourceEntry("favicon.ico");
             if(faviconResource != null) {
                 InputStream is = faviconResource.getContentStream();
 
                 if(is != null) {
-                    return NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "image/x-icon", is);
+                    return new OrchidResponse(NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "image/x-icon", is));
                 }
             }
         }
@@ -31,6 +32,6 @@ public final class FaviconResponse {
             e.printStackTrace();
         }
 
-        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.NOT_FOUND, "image/x-icon", "");
+        return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.NOT_FOUND, "image/x-icon", ""));
     }
 }

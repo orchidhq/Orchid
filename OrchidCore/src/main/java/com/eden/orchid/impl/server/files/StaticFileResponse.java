@@ -2,6 +2,7 @@ package com.eden.orchid.impl.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.server.OrchidResponse;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
 
@@ -33,16 +34,16 @@ public final class StaticFileResponse {
         this.context = context;
     }
 
-    public NanoHTTPD.Response getResponse(File targetFile, String targetPath) {
+    public OrchidResponse getResponse(File targetFile, String targetPath) {
         //TODO: attempt to use NanoHttpd facilities for guessing MIME type
         String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
         Clog.i("Rendering File: #{$1}", targetPath);
         try {
-            return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, new FileInputStream(targetFile), targetFile.length());
+            return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, new FileInputStream(targetFile), targetFile.length()));
         }
         catch (Exception e) {
-            return NanoHTTPD.newFixedLengthResponse("Something went wrong opening file: " + targetPath);
+            return new OrchidResponse(NanoHTTPD.newFixedLengthResponse("Something went wrong opening file: " + targetPath));
         }
     }
 }

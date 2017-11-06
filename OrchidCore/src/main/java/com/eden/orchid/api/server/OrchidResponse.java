@@ -4,6 +4,8 @@ import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+
 public final class OrchidResponse {
 
     private NanoHTTPD.Response response;
@@ -22,6 +24,15 @@ public final class OrchidResponse {
 
     public OrchidResponse(String content, String mimeType) {
         this.response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, content);
+    }
+
+    public OrchidResponse(InputStream content, String mimeType) {
+        try {
+            this.response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, content, content.available());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public OrchidResponse(NanoHTTPD.Response response) {

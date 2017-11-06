@@ -171,11 +171,20 @@ public final class OrchidWebserver extends NanoHTTPD {
                     break;
             }
 
+            OrchidResponse response;
+
             if (matchingRoute != null) {
-                return matchingRoute.call(new OrchidRequest(session, matchingRoute, files)).getResponse();
+                response = matchingRoute.call(new OrchidRequest(session, matchingRoute, files));
             }
             else {
-                return fileController.findFile(OrchidUtils.normalizePath(route));
+                response = fileController.findFile(OrchidUtils.normalizePath(route));
+            }
+
+            if(response != null) {
+                return response.getResponse();
+            }
+            else {
+                return NanoHTTPD.newFixedLengthResponse(Response.Status.NOT_FOUND, "text/html", "");
             }
         }
         catch(Exception e) {

@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
@@ -47,7 +48,7 @@ public final class IndexFileResponse {
         iconMap.put("folder", "/assets/svg/folder.svg");
     }
 
-    public NanoHTTPD.Response getResponse(File targetFile, String targetPath) {
+    public OrchidResponse getResponse(File targetFile, String targetPath) {
         String content = "";
 
         if (targetFile.isDirectory()) {
@@ -114,6 +115,6 @@ public final class IndexFileResponse {
             }
         }
 
-        return NanoHTTPD.newFixedLengthResponse(content);
+        return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(content));
     }
 }

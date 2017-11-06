@@ -2,8 +2,8 @@ package com.eden.orchid.impl.server.files;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.OrchidFileController;
+import com.eden.orchid.api.server.OrchidResponse;
 import com.google.inject.name.Named;
-import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
@@ -44,7 +44,7 @@ public final class FileController implements OrchidFileController {
         this.destination = destination;
     }
 
-    public NanoHTTPD.Response findFile(String targetPath) {
+    public OrchidResponse findFile(String targetPath) {
         if(this.rootFolder == null) {
             this.rootFolder = new File(this.destination);
         }
@@ -72,7 +72,7 @@ public final class FileController implements OrchidFileController {
             }
         }
         else {
-            NanoHTTPD.Response adminAsset = adminAssetResponse.getResponse(targetFile, targetPath);
+            OrchidResponse adminAsset = adminAssetResponse.getResponse(targetFile, targetPath);
             if(adminAsset != null) {
                 return adminAsset;
             }

@@ -2,9 +2,9 @@ package com.eden.orchid.impl.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.IOUtils;
@@ -17,15 +17,13 @@ import java.nio.charset.Charset;
 public final class NotFound404Response {
 
     private final OrchidContext context;
-    private final TemplateResolutionStrategy strategy;
 
     @Inject
-    public NotFound404Response(OrchidContext context, TemplateResolutionStrategy strategy) {
+    public NotFound404Response(OrchidContext context) {
         this.context = context;
-        this.strategy = strategy;
     }
 
-    public NanoHTTPD.Response getResponse(String targetPath) {
+    public OrchidResponse getResponse(String targetPath) {
         String content = "";
         Clog.i("Rendering 404: #{$1}", targetPath);
 
@@ -57,6 +55,6 @@ public final class NotFound404Response {
             content = "";
         }
 
-        return NanoHTTPD.newFixedLengthResponse(content);
+        return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(content));
     }
 }
