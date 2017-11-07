@@ -18,7 +18,6 @@ public interface RenderService extends OrchidService {
      *
      * @param page the page to render
      * @return InputStream the stream representing the final contents
-     *
      * @since v1.0.0
      */
     default InputStream getRenderedTemplate(OrchidPage page) {
@@ -30,11 +29,10 @@ public interface RenderService extends OrchidService {
      * final output. The layout chosen for the page is determined by {@link TemplateResolutionStrategy}.
      *
      * @param page the page to render
-     * @return true if the page was successfully rendered, false otherwise
-     *
+     * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
      * @since v1.0.0
      */
-    default boolean renderTemplate(OrchidPage page) {
+    default boolean renderTemplate(final OrchidPage page) {
         return getService(RenderService.class).renderTemplate(page);
     }
 
@@ -42,11 +40,10 @@ public interface RenderService extends OrchidService {
      * Render the given page using a literal String as a template, returning an InputStream representing the final
      * contents. More useful for testing, as templates should be preferred for the ability to be overridden.
      *
-     * @param page the page to render
-     * @param extension the extension that the content represents and should be compiled against
+     * @param page           the page to render
+     * @param extension      the extension that the content represents and should be compiled against
      * @param templateString the template string
      * @return InputStream the stream representing the final contents
-     *
      * @since v1.0.0
      */
     default InputStream getRenderedString(OrchidPage page, String extension, String templateString) {
@@ -57,14 +54,13 @@ public interface RenderService extends OrchidService {
      * Render the given page using a literal String as a template, producing a side-effect as the intended final output.
      * More useful for testing, as templates should be preferred for the ability to be overridden.
      *
-     * @param page the page to render
-     * @param extension the extension that the content represents and should be compiled against
+     * @param page           the page to render
+     * @param extension      the extension that the content represents and should be compiled against
      * @param templateString the template string to render
-     * @return true if the page was successfully rendered, false otherwise
-     *
+     *                       * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
      * @since v1.0.0
      */
-    default boolean renderString(OrchidPage page, String extension, String templateString) {
+    default boolean renderString(final OrchidPage page, final String extension, final String templateString) {
         return getService(RenderService.class).renderString(page, extension, templateString);
     }
 
@@ -74,7 +70,6 @@ public interface RenderService extends OrchidService {
      *
      * @param page the page to render
      * @return InputStream the stream representing the final contents
-     *
      * @since v1.0.0
      */
     default InputStream getRenderedRaw(OrchidPage page) {
@@ -86,11 +81,10 @@ public interface RenderService extends OrchidService {
      * output. The contents may still be preprocessed, and is useful for rendering text assets like CSS or JS.
      *
      * @param page the page to render
-     * @return true if the page was successfully rendered, false otherwise
-     *
+     * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
      * @since v1.0.0
      */
-    default boolean renderRaw(OrchidPage page) {
+    default boolean renderRaw(final OrchidPage page) {
         return getService(RenderService.class).renderRaw(page);
     }
 
@@ -100,7 +94,6 @@ public interface RenderService extends OrchidService {
      *
      * @param page the page to render
      * @return InputStream the stream used to create side-effects by the render operation
-     *
      * @since v1.0.0
      */
     default InputStream getRenderedBinary(OrchidPage page) {
@@ -112,11 +105,10 @@ public interface RenderService extends OrchidService {
      * output. No further processing is performed on the file contents, so as to preserve the binary format.
      *
      * @param page the page to render
-     * @return true if the page was successfully rendered, false otherwise
-     *
+     * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
      * @since v1.0.0
      */
-    default boolean renderBinary(OrchidPage page) {
+    default boolean renderBinary(final OrchidPage page) {
         return getService(RenderService.class).renderBinary(page);
     }
 

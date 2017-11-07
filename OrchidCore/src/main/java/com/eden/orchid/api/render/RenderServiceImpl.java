@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 public class RenderServiceImpl implements RenderService {
 
@@ -57,8 +58,8 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public final boolean renderTemplate(OrchidPage page) {
-        return renderInternal(page, getRenderedTemplate(page));
+    public final boolean renderTemplate(final OrchidPage page) {
+        return renderInternal(page, () -> getRenderedTemplate(page));
     }
 
     @Override
@@ -70,8 +71,8 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public final boolean renderString(OrchidPage page, String extension, String templateString) {
-        return renderInternal(page, getRenderedString(page, extension, templateString));
+    public final boolean renderString(final OrchidPage page, final String extension, final String templateString) {
+        return renderInternal(page, () -> getRenderedString(page, extension, templateString));
     }
 
     @Override
@@ -87,8 +88,8 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public final boolean renderRaw(OrchidPage page) {
-        return renderInternal(page, getRenderedRaw(page));
+    public final boolean renderRaw(final OrchidPage page) {
+        return renderInternal(page, () -> getRenderedRaw(page));
     }
 
     @Override
@@ -100,8 +101,8 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public final boolean renderBinary(OrchidPage page) {
-        return renderInternal(page, getRenderedBinary(page));
+    public final boolean renderBinary(final OrchidPage page) {
+        return renderInternal(page, () -> getRenderedBinary(page));
     }
 
     InputStream toStream(String content) {
@@ -117,12 +118,12 @@ public class RenderServiceImpl implements RenderService {
         return dry || (page.isDraft() && !renderDrafts) || !page.shouldRender();
     }
 
-    boolean renderInternal(OrchidPage page, InputStream content) {
+    boolean renderInternal(OrchidPage page, Supplier<InputStream> factory) {
         long startTime = System.currentTimeMillis();
         long stopTime;
 
         if (!skipPage(page)) {
-            return renderer.render(page, content);
+            return renderer.render(page, factory.get());
         }
 
         stopTime = System.currentTimeMillis();

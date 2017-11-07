@@ -100,6 +100,9 @@ public final class RenderServiceTest {
         };
     }
 
+// Test Rendering Template Resource as Layout
+//----------------------------------------------------------------------------------------------------------------------
+
     @Test
     public void testGetRenderedTemplate() throws Throwable {
         InputStream stream = underTest.getRenderedTemplate(page);
@@ -120,6 +123,16 @@ public final class RenderServiceTest {
         verify(page, times(2)).setCurrent(anyBoolean());
         verify(renderer).render(any(), any());
     }
+
+    @Test
+    public void testRenderTemplateNotCalledWhenSkipped() throws Throwable {
+        page.setDraft(true);
+        assertThat(underTest.renderTemplate(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+// Test Rendering Strings as Layouts
+//----------------------------------------------------------------------------------------------------------------------
 
     @Test
     public void testGetRenderedString() throws Throwable {
@@ -143,6 +156,16 @@ public final class RenderServiceTest {
     }
 
     @Test
+    public void testRenderStringNotCalledWhenSkipped() throws Throwable {
+        page.setDraft(true);
+        assertThat(underTest.renderString(page, "html", layoutContent), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+// Test Rending Raw Contents without Layout
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
     public void testGetRenderedRaw() throws Throwable {
         InputStream stream = underTest.getRenderedRaw(page);
         assertThat(stream, is(notNullValue()));
@@ -164,6 +187,16 @@ public final class RenderServiceTest {
     }
 
     @Test
+    public void testRenderRawNotCalledWhenSkipped() throws Throwable {
+        page.setDraft(true);
+        assertThat(underTest.renderRaw(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+// Test Rendering raw contents as binary stream
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
     public void testGetRenderedBinary() throws Throwable {
         InputStream stream = underTest.getRenderedBinary(page);
         assertThat(stream, is(notNullValue()));
@@ -183,6 +216,16 @@ public final class RenderServiceTest {
         verify(page, times(2)).setCurrent(anyBoolean());
         verify(renderer).render(any(), any());
     }
+
+    @Test
+    public void testRenderBinaryNotCalledWhenSkipped() throws Throwable {
+        page.setDraft(true);
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+// Test RenderService utility methods
+//----------------------------------------------------------------------------------------------------------------------
 
     @Test
     public void testToStream() throws Throwable {
