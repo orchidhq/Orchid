@@ -32,6 +32,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         this.context = context;
     }
 
+    @Override
     public final InputStream getRenderedTemplate(OrchidPage page) {
         InputStream is = null;
 
@@ -50,10 +51,12 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         return is;
     }
 
+    @Override
     public final boolean renderTemplate(OrchidPage page) {
         return render(page, getRenderedTemplate(page));
     }
 
+    @Override
     public final InputStream getRenderedString(OrchidPage page, String extension, String templateString) {
         page.setCurrent(true);
         String content = "" + context.compile(extension, templateString, page);
@@ -61,10 +64,12 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         return toStream(content);
     }
 
+    @Override
     public final boolean renderString(OrchidPage page, String extension, String templateString) {
         return render(page, getRenderedString(page, extension, templateString));
     }
 
+    @Override
     public final InputStream getRenderedRaw(OrchidPage page) {
         page.setCurrent(true);
         String content = page.getResource().getContent();
@@ -76,10 +81,12 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         return toStream(content);
     }
 
+    @Override
     public final boolean renderRaw(OrchidPage page) {
         return render(page, getRenderedRaw(page));
     }
 
+    @Override
     public final InputStream getRenderedBinary(OrchidPage page) {
         page.setCurrent(true);
         InputStream is = page.getResource().getContentStream();
@@ -87,6 +94,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         return is;
     }
 
+    @Override
     public final boolean renderBinary(OrchidPage page) {
         return render(page, getRenderedBinary(page));
     }
@@ -107,6 +115,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract boolean render(OrchidPage page, InputStream content);
 
 }

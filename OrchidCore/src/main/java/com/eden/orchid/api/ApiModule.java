@@ -1,7 +1,6 @@
 package com.eden.orchid.api;
 
 import com.eden.orchid.OrchidModule;
-import com.eden.orchid.OrchidVersion;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.converters.BooleanConverter;
@@ -98,8 +97,12 @@ public final class ApiModule extends OrchidModule {
 
     @Provides
     OrchidSite provideOrchidSite(@Named("v") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment) {
-        OrchidSite site = new OrchidSiteImpl(OrchidVersion.getVersion(), version, baseUrl, environment);
-        return site;
+        try {
+            return new OrchidSiteImpl((String) Class.forName("com.eden.orchid.OrchidVersion").getMethod("getVersion").invoke(null), version, baseUrl, environment);
+        }
+        catch (Exception e) {
+            return new OrchidSiteImpl("", version, baseUrl, environment);
+        }
     }
 
 }
