@@ -120,18 +120,4 @@ public interface RenderService extends OrchidService {
         return getService(RenderService.class).renderBinary(page);
     }
 
-    /**
-     * Internal representation of a 'render' operation on a binary stream, producing a side-effect as the intended final
-     * output.
-     *
-     * @param page the page to render
-     * @param content the template string to render
-     * @return true if the page was successfully rendered, false otherwise
-     *
-     * @since v1.0.0
-     */
-    default boolean render(OrchidPage page, InputStream content) {
-        return getService(RenderService.class).render(page, content);
-    }
-
 }

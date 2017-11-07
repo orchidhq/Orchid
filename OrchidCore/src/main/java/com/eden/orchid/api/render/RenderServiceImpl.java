@@ -5,26 +5,31 @@ import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
 import java.io.InputStream;
 
-public abstract class BaseRenderServiceImpl implements RenderService {
+public class RenderServiceImpl implements RenderService {
 
     protected OrchidContext context;
-    @Getter protected TemplateResolutionStrategy strategy;
+    protected TemplateResolutionStrategy strategy;
+    protected OrchidRenderer renderer;
 
     @Option
     @BooleanDefault(false)
     public boolean dry;
 
+    @Option
+    @BooleanDefault(false)
+    public boolean renderDrafts;
+
     @Inject
-    public BaseRenderServiceImpl(OrchidContext context, TemplateResolutionStrategy strategy) {
+    public RenderServiceImpl(OrchidContext context, TemplateResolutionStrategy strategy, OrchidRenderer renderer) {
         this.context = context;
         this.strategy = strategy;
+        this.renderer = renderer;
     }
 
     @Override
@@ -53,7 +58,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
 
     @Override
     public final boolean renderTemplate(OrchidPage page) {
-        return render(page, getRenderedTemplate(page));
+        return renderInternal(page, getRenderedTemplate(page));
     }
 
     @Override
@@ -66,7 +71,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
 
     @Override
     public final boolean renderString(OrchidPage page, String extension, String templateString) {
-        return render(page, getRenderedString(page, extension, templateString));
+        return renderInternal(page, getRenderedString(page, extension, templateString));
     }
 
     @Override
@@ -83,7 +88,7 @@ public abstract class BaseRenderServiceImpl implements RenderService {
 
     @Override
     public final boolean renderRaw(OrchidPage page) {
-        return render(page, getRenderedRaw(page));
+        return renderInternal(page, getRenderedRaw(page));
     }
 
     @Override
@@ -96,10 +101,10 @@ public abstract class BaseRenderServiceImpl implements RenderService {
 
     @Override
     public final boolean renderBinary(OrchidPage page) {
-        return render(page, getRenderedBinary(page));
+        return renderInternal(page, getRenderedBinary(page));
     }
 
-    protected final InputStream toStream(String content) {
+    InputStream toStream(String content) {
         try {
             return IOUtils.toInputStream(content, "UTF-8");
         }
@@ -108,14 +113,22 @@ public abstract class BaseRenderServiceImpl implements RenderService {
         }
     }
 
-    protected final boolean skipPage(OrchidPage page) {
-        return dry || page.isDraft() || !page.shouldRender();
+    boolean skipPage(OrchidPage page) {
+        return dry || (page.isDraft() && !renderDrafts) || !page.shouldRender();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract boolean render(OrchidPage page, InputStream content);
+    boolean renderInternal(OrchidPage page, InputStream content) {
+        long startTime = System.currentTimeMillis();
+        long stopTime;
+
+        if (!skipPage(page)) {
+            return renderer.render(page, content);
+        }
+
+        stopTime = System.currentTimeMillis();
+        context.onPageGenerated(page, stopTime - startTime);
+
+        return false;
+    }
 
 }

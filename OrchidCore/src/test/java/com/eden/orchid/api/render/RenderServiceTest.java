@@ -38,9 +38,10 @@ public final class RenderServiceTest {
     private OptionsExtractor extractor;
     private OrchidContext context;
     private RenderService underTest;
-    private BaseRenderServiceImpl service;
+    private RenderServiceImpl service;
     private TemplateResolutionStrategy templateResolutionStrategy;
     private OrchidPrecompiler precompiler;
+    private OrchidRenderer renderer;
 
     private String resourceContent;
     private OrchidReference reference;
@@ -58,7 +59,9 @@ public final class RenderServiceTest {
         injector = mock(Injector.class);
         extractor = mock(OptionsExtractor.class);
         precompiler = mock(OrchidPrecompiler.class);
+        renderer = mock(OrchidRenderer.class);
         when(injector.getInstance(OptionsExtractor.class)).thenReturn(extractor);
+        when(renderer.render(any(), any())).thenReturn(true);
 
         resourceContent = "test content";
         layoutContent = "test layout";
@@ -86,11 +89,7 @@ public final class RenderServiceTest {
         when(context.precompile(layoutContent, page.getData())).thenReturn(layoutContent);
         when(context.precompile(resourceContent, page.getData())).thenReturn(resourceContent);
 
-        service = new BaseRenderServiceImpl(context, templateResolutionStrategy) {
-            @Override public boolean render(OrchidPage page, InputStream content) {
-                return true;
-            }
-        };
+        service = new RenderServiceImpl(context, templateResolutionStrategy, renderer);
         service.initialize(context);
         service = spy(service);
 
@@ -114,7 +113,12 @@ public final class RenderServiceTest {
 
     @Test
     public void testRenderTemplate() throws Throwable {
+        assertThat(page.isCurrent(), is(false));
         assertThat(underTest.renderTemplate(page), is(true));
+        assertThat(page.isCurrent(), is(false));
+
+        verify(page, times(2)).setCurrent(anyBoolean());
+        verify(renderer).render(any(), any());
     }
 
     @Test
@@ -130,7 +134,12 @@ public final class RenderServiceTest {
 
     @Test
     public void testRenderString() throws Throwable {
+        assertThat(page.isCurrent(), is(false));
         assertThat(underTest.renderString(page, "html", layoutContent), is(true));
+        assertThat(page.isCurrent(), is(false));
+
+        verify(page, times(2)).setCurrent(anyBoolean());
+        verify(renderer).render(any(), any());
     }
 
     @Test
@@ -146,7 +155,12 @@ public final class RenderServiceTest {
 
     @Test
     public void testRenderRaw() throws Throwable {
+        assertThat(page.isCurrent(), is(false));
         assertThat(underTest.renderRaw(page), is(true));
+        assertThat(page.isCurrent(), is(false));
+
+        verify(page, times(2)).setCurrent(anyBoolean());
+        verify(renderer).render(any(), any());
     }
 
     @Test
@@ -162,8 +176,65 @@ public final class RenderServiceTest {
 
     @Test
     public void testRenderBinary() throws Throwable {
+        assertThat(page.isCurrent(), is(false));
         assertThat(underTest.renderBinary(page), is(true));
+        assertThat(page.isCurrent(), is(false));
 
+        verify(page, times(2)).setCurrent(anyBoolean());
+        verify(renderer).render(any(), any());
+    }
+
+    @Test
+    public void testToStream() throws Throwable {
+        assertThat(service.toStream(resourceContent), is(notNullValue()));
+        assertThat(service.toStream(null), is(nullValue()));
+    }
+
+    @Test
+    public void testSkipPage() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+
+        service.dry = true;
+        assertThat(service.skipPage(page), is(true));
+
+        service.dry = false;
+        page.setDraft(true);
+        assertThat(service.skipPage(page), is(true));
+
+        service.renderDrafts = true;
+        assertThat(service.skipPage(page), is(false));
+    }
+
+    @Test
+    public void testRenderingSkippedInDryRun() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        service.dry = true;
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+    @Test
+    public void testDraftSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setDraft(true);
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+    @Test
+    public void testDraftNotSkippedWhenRenderingDrafts() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setDraft(true);
+        assertThat(service.skipPage(page), is(true));
+        service.renderDrafts = true;
+        assertThat(service.skipPage(page), is(false));
+
+        assertThat(underTest.renderBinary(page), is(true));
+        verify(renderer, times(1)).render(any(), any());
     }
 
 
