@@ -27,8 +27,8 @@ public class FutureImperfectTheme extends Theme {
 
     @Override
     public void addAssets() {
-        addCss("assets/css/main.css");
-        addCss("assets/css/orchidCustomizations.scss");
+        addCss("assets/css/futureImperfect_main.scss");
+        addCss("assets/css/futureImperfect_orchidCustomizations.scss");
 
         addJs("assets/js/jquery.min.js");
         addJs("assets/js/skel.min.js");
