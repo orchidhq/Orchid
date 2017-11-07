@@ -12,7 +12,6 @@ import java.util.function.LongConsumer;
 public class GeneratorMetrics {
 
     private String key;
-    private String title;
 
     private long indexingStartTime;
     private long generatingStartTime;
@@ -22,9 +21,8 @@ public class GeneratorMetrics {
 
     private List<Long> pageGenerationTimes;
 
-    public GeneratorMetrics(String key, String title) {
+    public GeneratorMetrics(String key) {
         this.key = key;
-        this.title = title;
         pageGenerationTimes = new ArrayList<>();
     }
 

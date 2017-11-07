@@ -122,14 +122,16 @@ public class RenderServiceImpl implements RenderService {
         long startTime = System.currentTimeMillis();
         long stopTime;
 
+        boolean result = false;
+
         if (!skipPage(page)) {
-            return renderer.render(page, factory.get());
+            result = renderer.render(page, factory.get());
         }
 
         stopTime = System.currentTimeMillis();
         context.onPageGenerated(page, stopTime - startTime);
 
-        return false;
+        return result;
     }
 
 }
