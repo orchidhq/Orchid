@@ -3,7 +3,7 @@ package com.eden.orchid.impl;
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogFormatter;
 import com.caseyjbrooks.clog.parseltongue.Parseltongue;
-import com.eden.orchid.OrchidModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;

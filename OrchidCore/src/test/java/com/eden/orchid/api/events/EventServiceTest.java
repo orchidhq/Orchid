@@ -87,6 +87,7 @@ public final class EventServiceTest {
                 .collect(Collectors.toList());
 
         assertThat(callbackNames, containsInAnyOrder(validCallbackNames));
+        assertThat(specificEvent.toString(), is("TestEvent"));
     }
 
     @Test

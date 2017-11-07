@@ -2,7 +2,7 @@ package com.eden.orchid.languages;
 
 import com.eden.americanbiblesociety.ABSRepository;
 import com.eden.flexmark.BibleVerseExtension;
-import com.eden.orchid.OrchidModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.theme.components.OrchidComponent;

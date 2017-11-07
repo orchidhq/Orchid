@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.OrchidModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import org.jtwig.functions.JtwigFunction;
 import org.jtwig.resource.loader.TypedResourceLoader;

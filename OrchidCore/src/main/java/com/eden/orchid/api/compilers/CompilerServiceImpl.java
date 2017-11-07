@@ -59,7 +59,6 @@ public final class CompilerServiceImpl implements CompilerService {
     private Map<String, OrchidParser> parserMap;
 
     private Map<String, OrchidCompiler> customCompilerMap;
-    private Map<String, OrchidParser> customParserMap;
 
     @Inject
     public CompilerServiceImpl(Set<OrchidCompiler> compilers, Set<OrchidParser> parsers, OrchidPrecompiler precompiler) {
@@ -106,7 +105,6 @@ public final class CompilerServiceImpl implements CompilerService {
 
     private void buildCustomCompilerIndex() {
         this.customCompilerMap = new HashMap<>();
-        this.customParserMap = new HashMap<>();
 
         if(customCompilerExtensions != null) {
             for(String ext : customCompilerExtensions.keySet()) {
@@ -140,9 +138,6 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     public OrchidParser parserFor(String extension) {
-        if(customParserMap != null && customParserMap.containsKey(extension)) {
-            return customParserMap.get(extension);
-        }
         return parserMap.getOrDefault(extension, null);
     }
 

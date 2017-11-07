@@ -8,7 +8,7 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.impl.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.indexing.OrchidInternalIndex;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.wiki.model.WikiModel;
 import com.eden.orchid.wiki.model.WikiSection;

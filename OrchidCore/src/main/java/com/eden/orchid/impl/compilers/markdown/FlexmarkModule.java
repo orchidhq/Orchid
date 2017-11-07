@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.markdown;
 
-import com.eden.orchid.OrchidModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;

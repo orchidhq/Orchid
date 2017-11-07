@@ -1,6 +1,8 @@
 package com.eden.orchid;
 
 import com.eden.orchid.api.ApiModule;
+import com.eden.orchid.api.registration.ClasspathModuleInstaller;
+import com.eden.orchid.api.registration.FlagsModule;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.impl.ImplModule;
 import com.google.inject.AbstractModule;

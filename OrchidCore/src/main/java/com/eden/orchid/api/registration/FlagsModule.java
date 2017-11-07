@@ -1,7 +1,6 @@
-package com.eden.orchid;
+package com.eden.orchid.api.registration;
 
 import com.eden.orchid.api.options.OrchidFlags;
-import com.eden.orchid.api.registration.IgnoreModule;
 import com.google.inject.AbstractModule;
 
 import java.util.Map;

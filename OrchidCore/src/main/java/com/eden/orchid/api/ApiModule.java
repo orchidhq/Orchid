@@ -1,6 +1,6 @@
 package com.eden.orchid.api;
 
-import com.eden.orchid.OrchidModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.converters.BooleanConverter;

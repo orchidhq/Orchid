@@ -1,6 +1,5 @@
-package com.eden.orchid.impl.indexing;
+package com.eden.orchid.api.indexing;
 
-import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.eden.orchid;
+package com.eden.orchid.api.registration;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;

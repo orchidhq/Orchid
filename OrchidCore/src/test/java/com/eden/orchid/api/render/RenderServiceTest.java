@@ -31,7 +31,7 @@ public final class RenderServiceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.VERBOSE);
+        Clog.setMinPriority(Clog.Priority.FATAL);
     }
 
     private Injector injector;

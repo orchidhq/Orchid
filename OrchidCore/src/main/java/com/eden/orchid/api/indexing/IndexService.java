@@ -2,10 +2,6 @@ package com.eden.orchid.api.indexing;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.indexing.OrchidCompositeIndex;
-import com.eden.orchid.impl.indexing.OrchidInternalIndex;
-import com.eden.orchid.impl.indexing.OrchidRootExternalIndex;
-import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
 
 import java.util.Collection;
 import java.util.List;

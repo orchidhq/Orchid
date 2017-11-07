@@ -10,7 +10,7 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.indexing.OrchidInternalIndex;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;

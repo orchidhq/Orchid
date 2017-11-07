@@ -1,6 +1,4 @@
-package com.eden.orchid.impl.indexing;
-
-import com.eden.orchid.api.indexing.OrchidIndex;
+package com.eden.orchid.api.indexing;
 
 public class OrchidInternalIndex extends OrchidIndex {
 

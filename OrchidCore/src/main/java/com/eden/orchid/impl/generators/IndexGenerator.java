@@ -8,8 +8,8 @@ import com.eden.orchid.api.resources.resource.JsonResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.impl.indexing.OrchidInternalIndex;
-import com.eden.orchid.impl.indexing.OrchidRootInternalIndex;
+import com.eden.orchid.api.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.indexing.OrchidRootInternalIndex;
 
 import javax.inject.Inject;
 import java.util.List;
