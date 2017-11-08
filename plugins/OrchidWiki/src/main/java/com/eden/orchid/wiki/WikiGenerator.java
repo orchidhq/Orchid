@@ -110,7 +110,7 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
         WikiPage previous = null;
 
-        int i = 1;
+        int i = 0;
 
         for (Element a : links) {
             String file = sectionBaseDir + a.attr("href");
@@ -127,8 +127,8 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
             page.getMenu().addMenuItem(pageMenuItem);
 
-            page.setOrder(i);
             i++;
+            page.setOrder(i);
 
             wiki.add(page);
 

@@ -3,6 +3,7 @@
 
 ### Building Blocks
 
+* [Foundations](basics/foundations.md)
 * [Pages](basics/pages.md)
 * [Themes](basics/themes.md)
 * [Generators](basics/generators.md)

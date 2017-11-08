@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,8 @@ public class OrchidMenuItemImpl {
     protected boolean hasChildren;
 
     protected boolean isSeparator;
+
+    protected Comparator<OrchidMenuItemImpl> indexComparator;
 
     public OrchidMenuItemImpl(OrchidContext context, String title, OrchidIndex index) {
         this.context = context;
@@ -129,6 +132,13 @@ public class OrchidMenuItemImpl {
     }
 
     public List<OrchidMenuItemImpl> getChildren() {
+        if(indexComparator != null) {
+            for(OrchidMenuItemImpl child : children) {
+                child.setIndexComparator(indexComparator);
+            }
+
+            children.sort(indexComparator);
+        }
         return children;
     }
 

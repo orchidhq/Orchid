@@ -52,20 +52,25 @@ p a img {
 }
 
 pre {
-  margin: 0;
   max-width: 40rem;
+  margin: 0 0 2em 0;
 }
 blockquote {
-  margin: 0;
+  margin: 0 0 2em 0;
   max-width: 40rem;
 }
 
 pre[class*=language-] {
   background: #ffffff;
   padding: 0;
+  margin: 0 0 2em 0 !important;
 }
 code[class*=language-] {
   background: #f5f2f0;
-  margin: 0 ;
+  margin: 0 0 2em 0 !important;
   border: none;
+}
+
+li > ul {
+  margin: 0;
 }
