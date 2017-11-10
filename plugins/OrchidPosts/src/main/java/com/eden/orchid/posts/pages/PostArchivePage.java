@@ -1,5 +1,6 @@
 package com.eden.orchid.posts.pages;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -66,5 +67,16 @@ public class PostArchivePage extends OrchidPage {
 
     public String getMonthName(int month) {
         return Month.of(month).toString();
+    }
+
+    @Override
+    public List<String> getTemplates() {
+        List<String> templates = super.getTemplates();
+        if(!EdenUtils.isEmpty(category)) {
+            templates.add(0, category);
+            templates.add(0, "postArchive-" + category);
+        }
+
+        return templates;
     }
 }

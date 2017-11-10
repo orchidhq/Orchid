@@ -49,6 +49,7 @@ public class RenderServiceImpl implements RenderService {
             if (templateResource != null) {
                 String content = "" + context.compile(FilenameUtils.getExtension(template), templateResource.getContent(), page);
                 is = toStream(content);
+                break;
             }
         }
 

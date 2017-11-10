@@ -85,3 +85,33 @@
 			}
 		}
 	}
+
+    .mini-posts.archive {
+      width: 100%;
+      .mini-post {
+        margin: 2em 2em 0 0;
+        display: inline-block;
+
+        .image {
+          height: 240px;
+        }
+
+        @include breakpoint(xlarge) {
+          width: calc(33% - 2em);
+        }
+        @include breakpoint(large) {
+          width: calc(33% - 2em);
+        }
+        @include breakpoint(large) {
+          width: calc(50% - 2em);
+        }
+        @include breakpoint(small) {
+          display: block;
+          width: 100%;
+        }
+        @include breakpoint(xsmall) {
+          display: block;
+          width: 100%;
+        }
+      }
+    }

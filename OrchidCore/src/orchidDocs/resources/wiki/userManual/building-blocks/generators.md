@@ -1,13 +1,4 @@
 ---
-components:
-  - type: pageContent
-  - type: prism
-    theme: 'twilight'
-    languages:
-      - 'yaml'
-      - 'java'
-      - 'groovy'
-      - 'markdown'
 ---
 
 Generators are the work-horses of Orchid. They have two jobs: to decide what Pages should exist for a particular section

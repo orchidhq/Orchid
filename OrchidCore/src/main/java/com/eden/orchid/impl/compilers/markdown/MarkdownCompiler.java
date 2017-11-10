@@ -24,6 +24,8 @@ public final class MarkdownCompiler extends OrchidCompiler {
         MutableDataSet options = new MutableDataSet();
         options.set(HtmlRenderer.GENERATE_HEADER_ID, true);
         options.set(HtmlRenderer.RENDER_HEADER_ID, true);
+        options.set(Parser.HTML_BLOCK_PARSER, true);
+        options.set(Parser.HTML_BLOCK_DEEP_PARSER, true);
 
         options.set(Parser.EXTENSIONS, extensionSet);
 

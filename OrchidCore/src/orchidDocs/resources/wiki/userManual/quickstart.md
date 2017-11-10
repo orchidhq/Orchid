@@ -1,13 +1,4 @@
 ---
-components:
-  - type: pageContent
-  - type: prism
-    theme: 'twilight'
-    languages:
-      - 'yaml'
-      - 'java'
-      - 'groovy'
-      - 'markdown'
 ---
 
 ## Start a new Orchid project

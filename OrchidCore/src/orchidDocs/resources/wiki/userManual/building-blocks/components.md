@@ -1,13 +1,4 @@
 ---
-components:
-  - type: pageContent
-  - type: prism
-    theme: 'twilight'
-    languages:
-      - 'yaml'
-      - 'java'
-      - 'groovy'
-      - 'markdown'
 ---
 
 Components are single, logical blocks of content within a Page. They typically represent the main content area of a 

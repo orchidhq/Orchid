@@ -153,6 +153,10 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
         summaryPage.getReference().setUsePrettyUrl(true);
         summaryPage.getMenu().addMenuItem(pageMenuItem);
 
+        for(WikiPage wikiPage : wiki) {
+            wikiPage.setSectionSummary(summaryPage);
+        }
+
         return new WikiSection(section, summaryPage, wiki);
     }
 

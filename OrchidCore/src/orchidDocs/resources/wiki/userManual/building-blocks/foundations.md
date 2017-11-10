@@ -1,13 +1,4 @@
 ---
-components:
-  - type: pageContent
-  - type: prism
-    theme: 'twilight'
-    languages:
-      - 'yaml'
-      - 'java'
-      - 'groovy'
-      - 'markdown'
 ---
 
 > Orchid: A beautiful and truly unique documentation engine and static site generator

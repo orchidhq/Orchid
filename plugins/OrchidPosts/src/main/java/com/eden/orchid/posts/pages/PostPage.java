@@ -1,7 +1,8 @@
 package com.eden.orchid.posts.pages;
 
-import com.eden.orchid.api.options.annotations.Option;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.Author;
@@ -80,5 +81,16 @@ public class PostPage extends OrchidPage {
         }
 
         return tagArchivePages;
+    }
+
+    @Override
+    public List<String> getTemplates() {
+        List<String> templates = super.getTemplates();
+        if(!EdenUtils.isEmpty(category)) {
+            templates.add(0, category);
+            templates.add(0, "post-" + category);
+        }
+
+        return templates;
     }
 }

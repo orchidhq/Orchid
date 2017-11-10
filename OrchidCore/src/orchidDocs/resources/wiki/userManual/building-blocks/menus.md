@@ -1,13 +1,4 @@
 ---
-components:
-  - type: pageContent
-  - type: prism
-    theme: 'twilight'
-    languages:
-      - 'yaml'
-      - 'java'
-      - 'groovy'
-      - 'markdown'
 ---
 
 Menus are typically defined by the Theme and by the Page, and it is common for both kinds of menus to appear on a single

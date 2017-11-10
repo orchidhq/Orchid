@@ -37,9 +37,7 @@ public final class TwigTemplateResolutionStrategy extends TemplateResolutionStra
     public List<String> getPageTemplate(OrchidPage page) {
         List<String> templateNames = new ArrayList<>();
         if(!EdenUtils.isEmpty(page.getTemplates())) {
-            for(String templateName : page.getTemplates()) {
-                templateNames.add(templateName);
-            }
+            templateNames.addAll(page.getTemplates());
         }
         templateNames.add(page.getKey());
         templateNames.add("page");

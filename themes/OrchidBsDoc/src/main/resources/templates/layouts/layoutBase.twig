@@ -26,9 +26,7 @@
 
             {% endblock %}
             {% block remainingComponents %}
-                <!-- start:inject components -->
                 {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
-                <!-- end:inject components -->
             {% endblock %}
         </div>
 

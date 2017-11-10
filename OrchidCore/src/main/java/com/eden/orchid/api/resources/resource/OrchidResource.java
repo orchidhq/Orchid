@@ -80,4 +80,9 @@ public abstract class OrchidResource {
         }
     }
 
+    @Override public String toString() {
+        return "OrchidResource[" + this.getClass().getSimpleName() + "]{" +
+                "reference=" + reference.getRelativePath() +
+                '}';
+    }
 }

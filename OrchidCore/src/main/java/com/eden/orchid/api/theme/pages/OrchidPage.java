@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -42,7 +43,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter @Option protected String title;
     @Getter @Setter @Option protected String description;
     @Getter @Setter @Option protected String layout;
-    @Getter @Setter @Option protected String[] templates;
+    @Setter @Option protected String[] templates;
 
     @Getter
     @Setter
@@ -123,6 +124,13 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public boolean shouldRender() {
         return resource.shouldRender();
+    }
+
+    public List<String> getTemplates() {
+        List<String> templates = new ArrayList<>();
+        Collections.addAll(templates, this.templates);
+
+        return templates;
     }
 
 // Serialize/deserialize from JSON

@@ -4,3 +4,11 @@ about:
 social:
   github: 'JavaEden/Orchid'
 primaryColor: '#ffa033'
+commonPageElements:
+  - type: prism
+    theme: 'twilight'
+    languages:
+      - 'yaml'
+      - 'java'
+      - 'groovy'
+      - 'markdown'

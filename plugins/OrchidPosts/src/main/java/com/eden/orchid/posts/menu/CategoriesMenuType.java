@@ -37,7 +37,7 @@ public class CategoriesMenuType extends OrchidMenuItem {
     public List<OrchidMenuItemImpl> getMenuItems() {
         List<OrchidMenuItemImpl> items = new ArrayList<>();
 
-        if(!EdenUtils.isEmpty(category)) {
+        if(!EdenUtils.isEmpty(category) && postsModel.getCategories().containsKey(category)) {
             OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, postsModel.getCategories().get(category).second.get(0));
             if(!EdenUtils.isEmpty(title)) {
                 menuItem.setTitle(title);
@@ -49,10 +49,19 @@ public class CategoriesMenuType extends OrchidMenuItem {
             for(Map.Entry<String, EdenPair<List<PostPage>, List<PostArchivePage>>> tag : postsModel.getCategories().entrySet()) {
                 pages.add(tag.getValue().second.get(0));
             }
-            items.add(new OrchidMenuItemImpl(context, "Categories", pages));
+
+            OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, "Categories", pages);
+            if(!EdenUtils.isEmpty(title)) {
+                menuItem.setTitle(title);
+            }
+            items.add(menuItem);
         }
-        else {
-            items.add(new OrchidMenuItemImpl(context, postsModel.getCategories().get(null).second.get(0)));
+        else if(postsModel.getCategories().containsKey(null)) {
+            OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, postsModel.getCategories().get(null).second.get(0));
+            if(!EdenUtils.isEmpty(title)) {
+                menuItem.setTitle(title);
+            }
+            items.add(menuItem);
         }
 
         return items;

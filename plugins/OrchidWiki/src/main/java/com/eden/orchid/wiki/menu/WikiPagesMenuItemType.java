@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
@@ -27,6 +28,9 @@ public class WikiPagesMenuItemType extends OrchidMenuItem {
 
     @Option
     public String section;
+
+    @Option @BooleanDefault(true)
+    public boolean topLevel;
 
     @Inject
     public WikiPagesMenuItemType(OrchidContext context, WikiModel model) {
@@ -60,7 +64,7 @@ public class WikiPagesMenuItemType extends OrchidMenuItem {
             List<OrchidPage> sectionPages = new ArrayList<>(section.getValue().getWikiPages());
             for (OrchidPage page : sectionPages) {
                 OrchidReference ref = new OrchidReference(page.getReference());
-                if(!menuSection.equalsIgnoreCase("wiki")) {
+                if (!menuSection.equalsIgnoreCase("wiki")) {
                     ref.stripFromPath("wiki");
                 }
                 wikiPagesIndex.addToIndex(ref.getPath(), page);
@@ -69,8 +73,23 @@ public class WikiPagesMenuItemType extends OrchidMenuItem {
 
         menuItems.add(new OrchidMenuItemImpl(context, menuItemTitle, wikiPagesIndex));
 
-        for(OrchidMenuItemImpl item : menuItems) {
+        for (OrchidMenuItemImpl item : menuItems) {
             item.setIndexComparator(menuItemComparator);
+        }
+
+        if (topLevel) {
+            List<OrchidMenuItemImpl> innerItems = new ArrayList<>();
+
+            for (OrchidMenuItemImpl item : menuItems) {
+                if (item.isHasChildren()) {
+                    innerItems.addAll(item.getChildren());
+                }
+                else {
+                    innerItems.add(item);
+                }
+            }
+
+            menuItems = innerItems;
         }
 
         return menuItems;
@@ -80,30 +99,41 @@ public class WikiPagesMenuItemType extends OrchidMenuItem {
         int o1Order = 0;
         int o2Order = 0;
 
-        if(o1.getPage() != null) {
-            if(o1.getPage() instanceof WikiPage) {
-                WikiPage oo1 = (WikiPage) o1.getPage();
-                o1Order = oo1.getOrder();
+        if (o1.getPage() != null) {
+            if (o1.getPage() instanceof WikiPage) {
+                o1Order = ((WikiPage) o1.getPage()).getOrder();
             }
         }
-        if(o2.getPage() != null) {
-            if(o2.getPage() instanceof WikiPage) {
-                WikiPage oo2 = (WikiPage) o2.getPage();
-                o2Order = oo2.getOrder();
+        if (o2.getPage() != null) {
+            if (o2.getPage() instanceof WikiPage) {
+                o2Order = ((WikiPage) o2.getPage()).getOrder();
             }
         }
 
-        if(o1Order > 0 && o2Order > 0) {
+        if (o1Order > 0 && o2Order > 0) {
             return o1Order - o2Order;
         }
-        else if(o1.isHasChildren()){
-            return 1;
-        }
-        else if(o2.isHasChildren()){
-            return -1;
-        }
         else {
-            return 0;
+            if (o1.isHasChildren()) {
+                if (o1.getChildren().size() > 0 && o1.getChildren().get(0) != null && o1.getChildren().get(0).getPage() != null) {
+                    if (o1.getChildren().get(0).getPage() instanceof WikiPage) {
+                        o1Order = ((WikiPage) o1.getChildren().get(0).getPage()).getOrder();
+                    }
+                }
+            }
+            if (o2.isHasChildren()) {
+                if (o2.getChildren().size() > 0 && o2.getChildren().get(0) != null && o2.getChildren().get(0).getPage() != null) {
+                    if (o2.getChildren().get(0).getPage() instanceof WikiPage) {
+                        o2Order = ((WikiPage) o2.getChildren().get(0).getPage()).getOrder();
+                    }
+                }
+            }
+
+            if (o1Order > 0 && o2Order > 0) {
+                return o1Order - o2Order;
+            }
         }
+
+        return 0;
     };
 }

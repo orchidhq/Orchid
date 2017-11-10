@@ -7,8 +7,8 @@ import lombok.Setter;
 
 public class WikiPage extends OrchidPage {
 
-    @Getter @Setter
-    private int order;
+    @Getter @Setter private int order;
+    @Getter @Setter private WikiSummaryPage sectionSummary;
 
     public WikiPage(OrchidResource resource, String title) {
         super(resource, "wiki", title);

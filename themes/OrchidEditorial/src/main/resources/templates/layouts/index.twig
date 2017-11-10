@@ -28,7 +28,8 @@
                 <section id="pageContent">
                     <header class="major"><h2>{{ page.title }}</h2></header>
                     <article>
-                        {% include 'includes/pageContent.twig' %}
+                        {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
+                        {% include 'includes/componentHolder.twig' with {componentHolder: theme.commonPageElements} %}
                     </article>
                 </section>
             {% endblock %}

@@ -17,8 +17,8 @@ project.group 'io.github.javaeden.orchid'
 project.version = rootProject.version
 
 ext {
-//    commonTheme = 'BsDoc'
-    commonTheme = 'Editorial'
+    commonTheme = 'BsDoc'
+//    commonTheme = 'Editorial'
 //    commonTheme = 'FutureImperfect'
 //    commonTheme = 'Materialize'
 

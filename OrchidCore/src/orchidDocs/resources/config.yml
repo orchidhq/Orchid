@@ -1,5 +1,6 @@
 
 wiki:
+  layout: 'wikiPage'
   sections:
     - 'userManual'
     - 'developersGuide'
@@ -8,7 +9,6 @@ services:
   generators:
     disabled:
       - 'javadoc'
-      - 'posts'
       - 'pages'
       - 'presentations'
       - 'styleguide'
