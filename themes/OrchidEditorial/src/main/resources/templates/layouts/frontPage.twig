@@ -21,7 +21,7 @@
 {% block pageContent %}
     <section id="pageContent">
         <article>
-            {% embed 'includes/pageContent.twig' %}{% endembed %}
+            {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
         </article>
     </section>
 {% endblock %}
