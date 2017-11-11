@@ -67,10 +67,12 @@ public class BuildMetrics {
 
     public void startGeneratingGenerator(String generator) {
         ensureMetricsExist(generator);
+        generatorMetricsMap.get(generator).startGenerating();
     }
 
     public void stopGeneratingGenerator(String generator) {
         ensureMetricsExist(generator);
+        generatorMetricsMap.get(generator).stopGenerating();
     }
 
     public void onPageGenerated(OrchidPage page, long millis) {
@@ -114,11 +116,11 @@ public class BuildMetrics {
         int medianPageTimeColumnWidth = 0;
 
         for (GeneratorMetrics metric : generatorMetricsMap.values()) {
-            compositeMetrics.setIndexingStartTime(Math.min(compositeMetrics.getIndexingStartTime(), metric.getIndexingStartTime()));
-            compositeMetrics.setIndexingEndTime(Math.min(compositeMetrics.getIndexingEndTime(), metric.getIndexingEndTime()));
+            compositeMetrics.setIndexingStartTime(  Math.min(compositeMetrics.getIndexingStartTime(), metric.getIndexingStartTime()));
+            compositeMetrics.setIndexingEndTime(    Math.max(compositeMetrics.getIndexingEndTime(), metric.getIndexingEndTime()));
             compositeMetrics.setGeneratingStartTime(Math.min(compositeMetrics.getGeneratingStartTime(), metric.getGeneratingStartTime()));
-            compositeMetrics.setGeneratingEndTime(Math.min(compositeMetrics.getGeneratingEndTime(), metric.getGeneratingEndTime()));
-            compositeMetrics.addAllGenerationTimes(metric.getPageGenerationTimes());
+            compositeMetrics.setGeneratingEndTime(  Math.max(compositeMetrics.getGeneratingEndTime(), metric.getGeneratingEndTime()));
+            compositeMetrics.addAllGenerationTimes( metric.getPageGenerationTimes());
 
             titleColumnWidth          = Math.max(titleColumnWidth,          metric.getKey().length());
             pageCountColumnWidth      = Math.max(pageCountColumnWidth,      Integer.toString(metric.getPageGenerationTimes().size()).length());
@@ -136,7 +138,7 @@ public class BuildMetrics {
         medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, compositeMetrics.getMedianPageTime().length());
 
         titleColumnWidth          = Math.max(titleColumnWidth,          "Generator".length());
-        pageCountColumnWidth      = Math.max(medianPageTimeColumnWidth, "Page Count".length());
+        pageCountColumnWidth      = Math.max(pageCountColumnWidth, "Page Count".length());
         indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   "Indexing Time".length());
         generationTimeColumnWidth = Math.max(generationTimeColumnWidth, "Generation Time".length());
         meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   "Mean Page Generation Time".length());

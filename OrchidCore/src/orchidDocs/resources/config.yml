@@ -9,6 +9,5 @@ services:
   generators:
     disabled:
       - 'javadoc'
-      - 'pages'
       - 'presentations'
       - 'styleguide'

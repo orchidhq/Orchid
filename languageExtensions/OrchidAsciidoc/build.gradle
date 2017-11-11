@@ -1,0 +1,4 @@
+
+dependencies {
+    implementation 'org.asciidoctor:asciidoctorj:1.5.6'
+}

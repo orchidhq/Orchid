@@ -1,4 +1,2 @@
 ---
 ---
-
-Front Matter

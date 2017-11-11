@@ -1,0 +1,6 @@
+
+dependencies {
+    implementation 'com.github.JavaEden:Eden:v0.1.0'
+    implementation 'com.github.JavaEden:EdenFlexmark:v0.1.2'
+    implementation 'com.github.JavaEden:American-Bible-Society-Client:v0.1.0'
+}

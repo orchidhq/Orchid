@@ -22,6 +22,7 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.impl.compilers.csv.CSVParser;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -93,6 +94,7 @@ public final class ImplModule extends OrchidModule {
                 TextCompiler.class);
 
         addToSet(OrchidParser.class,
+                CSVParser.class,
                 YamlParser.class,
                 TOMLParser.class,
                 JsonParser.class);
