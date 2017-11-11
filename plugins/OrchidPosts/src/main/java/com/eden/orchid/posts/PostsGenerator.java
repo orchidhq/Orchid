@@ -207,8 +207,8 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
         int i = 0;
         for (PostPage post : posts) {
-            if (next(posts, i) != null) { post.setNext(next(posts, i)); }
-            if (previous(posts, i) != null) { post.setPrevious(previous(posts, i)); }
+            if (next(posts, i) != null) { post.setPrevious(next(posts, i)); }
+            if (previous(posts, i) != null) { post.setNext(previous(posts, i)); }
             i++;
         }
 
