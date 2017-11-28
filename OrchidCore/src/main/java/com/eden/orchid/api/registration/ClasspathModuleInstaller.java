@@ -6,6 +6,7 @@ import com.google.inject.Module;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
 import java.lang.reflect.Modifier;
+import java.util.stream.Stream;
 
 @IgnoreModule
 public class ClasspathModuleInstaller extends AbstractModule {
@@ -18,9 +19,7 @@ public class ClasspathModuleInstaller extends AbstractModule {
 
         FastClasspathScanner scanner = new FastClasspathScanner();
         scanner.matchClassesImplementing(Module.class, (matchingClass) -> {
-            if (!matchingClass.isAnnotationPresent(IgnoreModule.class) && !(
-                    matchingClass.isInterface() || Modifier.isAbstract(matchingClass.getModifiers())
-            )) {
+            if (isInstantiable(matchingClass)) {
                 try {
                     Module provider = matchingClass.newInstance();
                     if (provider != null) {
@@ -39,6 +38,27 @@ public class ClasspathModuleInstaller extends AbstractModule {
 
         moduleLog.append("\n--------------------");
         Clog.i(moduleLog.toString());
+    }
+
+    private boolean isInstantiable(Class<?> matchingClass) {
+        if(matchingClass.isAnnotationPresent(IgnoreModule.class)) {
+            return false;
+        }
+        if(matchingClass.isInterface()) {
+            return false;
+        }
+        if(Modifier.isAbstract(matchingClass.getModifiers())) {
+            return false;
+        }
+        if(!hasParameterlessPublicConstructor(matchingClass)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean hasParameterlessPublicConstructor(Class<?> clazz) {
+        return Stream.of(clazz.getConstructors()).anyMatch((c) -> c.getParameterCount() == 0);
     }
 
 }
