@@ -1,6 +1,5 @@
 package com.eden.orchid.api.resources.resource;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import lombok.Getter;
@@ -83,11 +82,7 @@ public final class ExternalResource extends FreeableResource {
             Request request = new Request.Builder().url(originalExternalReference.toString()).build();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                Clog.v("Call to {} was successful", originalExternalReference.toString());
                 return response.body();
-            }
-            else {
-                Clog.v("Call to {} was not successful. Status={}", originalExternalReference.toString(), response.code());
             }
 
             return null;

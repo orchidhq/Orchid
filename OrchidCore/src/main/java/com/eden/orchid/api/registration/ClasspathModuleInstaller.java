@@ -2,7 +2,10 @@ package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
 import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+
+import java.lang.reflect.Modifier;
 
 @IgnoreModule
 public class ClasspathModuleInstaller extends AbstractModule {
@@ -14,10 +17,12 @@ public class ClasspathModuleInstaller extends AbstractModule {
         moduleLog.append("\n--------------------");
 
         FastClasspathScanner scanner = new FastClasspathScanner();
-        scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
-            if(!matchingClass.isAnnotationPresent(IgnoreModule.class)) {
+        scanner.matchClassesImplementing(Module.class, (matchingClass) -> {
+            if (!matchingClass.isAnnotationPresent(IgnoreModule.class) && !(
+                    matchingClass.isInterface() || Modifier.isAbstract(matchingClass.getModifiers())
+            )) {
                 try {
-                    AbstractModule provider = matchingClass.newInstance();
+                    Module provider = matchingClass.newInstance();
                     if (provider != null) {
                         install(provider);
                         if (!provider.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {

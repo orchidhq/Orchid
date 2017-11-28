@@ -22,7 +22,7 @@ import java.util.Set;
 @Singleton
 public class JavadocGenerator extends OrchidGenerator {
 
-    protected RootDoc rootDoc;
+    private final RootDoc rootDoc;
 
     private final JavadocModel model;
 

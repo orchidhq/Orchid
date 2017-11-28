@@ -10,8 +10,8 @@ afterEvaluate { project ->
         }
         licenses {
             license {
-                name 'MIT'
-                url 'https://opensource.org/licenses/MIT'
+                name 'LGPL-3.0'
+                url 'https://opensource.org/licenses/LGPL-3.0'
                 distribution 'repo'
             }
         }
@@ -44,7 +44,6 @@ afterEvaluate { project ->
         }
     }
 
-
     bintray {
         user = "${project.properties['bintray_username']}"
         key = "${project.properties['bintray_apiKey']}"
@@ -70,7 +69,7 @@ afterEvaluate { project ->
                     sign = true
                 }
                 mavenCentralSync {
-                    sync = false
+                    sync = !(project.hasProperty('skipMavenCentralSync') && project.property('skipMavenCentralSync'))
                     user = "${project.properties['mavenCentral_username']}"
                     password = "${project.properties['mavenCentral_password']}"
                 }

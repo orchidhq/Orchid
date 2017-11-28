@@ -4,7 +4,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.JavadocModel;
 import com.sun.javadoc.ClassDoc;
-import org.json.JSONObject;
 
 public class JavadocClassPage extends OrchidPage {
 
@@ -14,13 +13,6 @@ public class JavadocClassPage extends OrchidPage {
     public JavadocClassPage(OrchidContext context, ClassDoc classDoc) {
         super(new ClassDocResource(context, classDoc), "javadocClass", classDoc.typeName());
         this.classDoc = classDoc;
-    }
-
-    public void addComponents() {
-        components.addComponent(new JSONObject("{\"type\": \"javadocClassSummary\"}"));
-        components.addComponent(new JSONObject("{\"type\": \"javadocClassFields\"}"));
-        components.addComponent(new JSONObject("{\"type\": \"javadocClassCtors\"}"));
-        components.addComponent(new JSONObject("{\"type\": \"javadocClassMethods\"}"));
     }
 
     public String getClassType() {

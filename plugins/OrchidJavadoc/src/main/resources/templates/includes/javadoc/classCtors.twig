@@ -1,0 +1,32 @@
+{% if page.classDoc.constructors|length > 0 %}
+
+    <h2 id="panels-list-group">Constructors</h2>
+
+    {% for ctor in page.classDoc.constructors %}
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><code>{{ ctor.name }}{{ ctor.flatSignature }}</code></div>
+            <div class="panel-body">
+                <p>{{ ctor.commentText }}</p>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Parameters</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for param in ctor.parameters %}
+                    <tr>
+                        <td><code>{{ param.type }} {{ param.name }}</code></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% else %}
+    <h3>No Constructors</h3>
+{% endif %}

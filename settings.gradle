@@ -23,5 +23,4 @@ include 'languageExtensions:OrchidSyntaxHighlighter'
 
 include 'bundles:OrchidAll'
 include 'bundles:OrchidBlog'
-include 'bundles:OrchidProduct'
 include 'bundles:OrchidLanguagePack'

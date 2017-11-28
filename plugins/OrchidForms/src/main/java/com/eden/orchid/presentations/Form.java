@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,7 +35,7 @@ public class Form implements OptionsHolder {
         this.context = context;
         this.key = key;
         this.formData = formData;
-        this.fields = new HashMap<>();
+        this.fields = new LinkedHashMap<>();
         try {
             extractOptions(context, formData);
 

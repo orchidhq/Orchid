@@ -1,4 +1,35 @@
 
+theme:
+  about:
+    siteName: OrchidCore
+    siteDescription: A beautiful and truly unique documentation engine and static site generator.
+  social:
+    github: 'JavaEden/Orchid'
+  primaryColor: '#ffa033'
+  commonPageElements:
+    - type: prism
+      theme: 'twilight'
+      languages:
+        - 'yaml'
+        - 'java'
+        - 'groovy'
+        - 'markdown'
+  menu:
+    - type: 'link'
+      title: 'Home'
+      url: '/'
+    - type: 'wikiSections'
+    - type: 'pages'
+      section: 'plugins'
+    - type: 'pages'
+      section: 'themes'
+    - type: 'pages'
+      section: 'bundles'
+    - type: 'postCategories'
+      title: 'News'
+    - type: 'javadocPackages'
+    - type: 'javadocClasses'
+
 wiki:
   layout: 'wikiPage'
   sections:
@@ -8,6 +39,5 @@ wiki:
 services:
   generators:
     disabled:
-      - 'javadoc'
       - 'presentations'
       - 'styleguide'
