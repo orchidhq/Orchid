@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
+@Description("Create a structured and navigable knowledge-base for your project.")
 public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
 
     private final WikiModel model;
@@ -44,11 +46,6 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
     public WikiGenerator(OrchidContext context, WikiModel model) {
         super(context, "wiki", 700);
         this.model = model;
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
     }
 
     @Override

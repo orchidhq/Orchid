@@ -5,6 +5,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.resources.resource.JsonResource;
@@ -24,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Singleton
+@Description("Track changes and create references to all versions of your project.")
 public class ChangelogGenerator extends OrchidGenerator {
 
     private final ChangelogModel model;
@@ -40,11 +42,6 @@ public class ChangelogGenerator extends OrchidGenerator {
     public ChangelogGenerator(OrchidContext context, ChangelogModel model) {
         super(context, "changelog", 700);
         this.model = model;
-    }
-
-    @Override
-    public String getDescription() {
-        return "";
     }
 
     @Override

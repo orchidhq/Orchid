@@ -5,6 +5,7 @@ import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.ListClass;
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Singleton
+@Description("Share your thoughts and interests with blog posts and archives.")
 public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
     public static final Pattern pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)");
@@ -63,11 +65,6 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
         super(context, "posts", 700);
         this.permalinkStrategy = permalinkStrategy;
         this.postsModel = postsModel;
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
     }
 
     @Override

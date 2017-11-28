@@ -2,6 +2,7 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -11,16 +12,12 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+@Description("Generates the root homepage for your site.")
 public final class HomepageGenerator extends OrchidGenerator {
 
     @Inject
     public HomepageGenerator(OrchidContext context) {
         super(context, "home", 3);
-    }
-
-    @Override
-    public String getDescription() {
-        return "Generates the root homepage for your site.";
     }
 
     @Override

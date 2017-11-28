@@ -3,6 +3,7 @@ package com.eden.orchid.kss;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
+@Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).")
 public class KssGenerator extends OrchidGenerator {
 
     public static Map<String, List<KssPage>> sections;
@@ -36,11 +38,6 @@ public class KssGenerator extends OrchidGenerator {
     @Inject
     public KssGenerator(OrchidContext context) {
         super(context, "styleguide", 700);
-    }
-
-    @Override
-    public String getDescription() {
-        return "";
     }
 
     @Override

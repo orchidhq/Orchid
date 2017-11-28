@@ -4,27 +4,24 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.indexing.OrchidRootInternalIndex;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.JsonResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.api.indexing.OrchidInternalIndex;
-import com.eden.orchid.api.indexing.OrchidRootInternalIndex;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
+@Description("Generates index files to connect your site to others.")
 public final class IndexGenerator extends OrchidGenerator {
 
     @Inject
     public IndexGenerator(OrchidContext context) {
         super(context, "indices", 1);
-    }
-
-    @Override
-    public String getDescription() {
-        return "Generates index files to connect your site to others.";
     }
 
     @Override

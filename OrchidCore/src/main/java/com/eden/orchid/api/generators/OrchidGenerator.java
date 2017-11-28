@@ -65,13 +65,6 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     }
 
     /**
-     * Return a description of this OrchidGenerator, which is displayed when listing available Generators.
-     *
-     * @return this generator's description
-     */
-    public abstract String getDescription();
-
-    /**
      * A callback to build the index of content this OrchidGenerator intends to create.
      *
      * @return a list of pages that will be built by this generator

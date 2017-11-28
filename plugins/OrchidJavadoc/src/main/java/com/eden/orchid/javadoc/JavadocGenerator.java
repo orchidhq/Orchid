@@ -3,6 +3,7 @@ package com.eden.orchid.javadoc;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.pages.JavadocClassPage;
 import com.eden.orchid.javadoc.pages.JavadocPackagePage;
@@ -20,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
+@Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " +
+        "of methods, fields, etc. but in your site's theme.")
 public class JavadocGenerator extends OrchidGenerator {
 
     private final RootDoc rootDoc;
@@ -31,12 +34,6 @@ public class JavadocGenerator extends OrchidGenerator {
         super(context, "javadoc", 800);
         this.rootDoc = rootDoc;
         this.model = model;
-    }
-
-    @Override
-    public String getDescription() {
-        return "Creates a page for each Class and Package in your project, displaying the expected Javadoc " +
-                "information of methods, fields, etc. but in your site's theme.";
     }
 
     @Override

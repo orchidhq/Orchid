@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
+@Description("Prints all assets to the output directory. This is all scripts and styles (after compilation) that have " +
+        "been registered to an AssetHolder, and all files in the directories specified in config.sourceDirs.")
 public final class AssetsGenerator extends OrchidGenerator {
 
     @Option
@@ -24,11 +26,6 @@ public final class AssetsGenerator extends OrchidGenerator {
     @Inject
     public AssetsGenerator(OrchidContext context) {
         super(context, "assets", 2);
-    }
-
-    @Override
-    public String getDescription() {
-        return "Prints all assets to the output directory. This is all scripts and styles (after compilation) that have been registered to an AssetHolder, and all binary files in the 'assets/images'";
     }
 
     @Override

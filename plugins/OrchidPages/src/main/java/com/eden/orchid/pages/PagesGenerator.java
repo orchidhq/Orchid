@@ -3,6 +3,7 @@ package com.eden.orchid.pages;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
+@Description("Generates static pages with the same output folder as their input, minus the base directory. Input " +
+        "pages come from 'baseDir' option value, which defaults to 'pages'.")
 public class PagesGenerator extends OrchidGenerator {
 
     @Option("baseDir")
@@ -23,12 +26,6 @@ public class PagesGenerator extends OrchidGenerator {
     @Inject
     public PagesGenerator(OrchidContext context) {
         super(context, "pages", 700);
-    }
-
-    @Override
-    public String getDescription() {
-        return "Generates static pages with the same output folder as their input, minus the base directory. Input " +
-                "pages come from 'baseDir' option value, which defaults to 'pages'";
     }
 
     @Override

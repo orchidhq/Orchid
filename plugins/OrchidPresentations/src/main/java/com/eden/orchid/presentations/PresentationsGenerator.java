@@ -3,6 +3,7 @@ package com.eden.orchid.presentations;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Description("Embed presentations and slide-decks in your pages.")
 public class PresentationsGenerator extends OrchidGenerator {
 
     private final PresentationsModel model;
@@ -30,11 +32,6 @@ public class PresentationsGenerator extends OrchidGenerator {
     public PresentationsGenerator(OrchidContext context, PresentationsModel model) {
         super(context, "presentations", 25);
         this.model = model;
-    }
-
-    @Override
-    public String getDescription() {
-        return "";
     }
 
     @Override
