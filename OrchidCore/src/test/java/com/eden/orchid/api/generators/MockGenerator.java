@@ -16,11 +16,6 @@ public class MockGenerator extends OrchidGenerator {
     }
 
     @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
     public List<? extends OrchidPage> startIndexing() {
         return mockPages;
     }

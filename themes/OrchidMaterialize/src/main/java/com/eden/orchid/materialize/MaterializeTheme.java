@@ -3,7 +3,6 @@ package com.eden.orchid.materialize;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.Theme;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -23,9 +22,9 @@ public class MaterializeTheme extends Theme {
 
     @Override
     public void addAssets() {
-        addCss(new OrchidPage(this.getResourceEntry("assets/css/appStyles.scss"), "appStyles_scss"));
-        addJs(new OrchidPage(this.getResourceEntry("assets/js/jquery-2.1.1.min.js"), "jquery-2_1_1_min_js"));
-        addJs(new OrchidPage(this.getResourceEntry("assets/js/materialize.min.js"), "materialize_min_js"));
+        addCss("assets/css/appStyles.scss");
+        addJs("assets/js/jquery-2.1.1.min.js");
+        addJs("assets/js/materialize.min.js");
 
         super.addAssets();
     }

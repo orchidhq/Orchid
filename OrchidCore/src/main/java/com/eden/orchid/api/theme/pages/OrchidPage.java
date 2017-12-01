@@ -3,13 +3,14 @@ package com.eden.orchid.api.theme.pages;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
@@ -69,7 +70,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
-        this.assets = new AssetHolderDelegate(context);
+        this.assets = new AssetHolderDelegate(context, this, "page");
         this.components = new ComponentHolder(context, new JSONArray());
 
         this.key = key;
@@ -197,7 +198,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public void addAssets() {
-        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this);
+        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
     }
 
     @Override
@@ -206,8 +207,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public List<OrchidPage> getScripts() {
-        List<OrchidPage> scripts = new ArrayList<>();
+    public List<AssetPage> getScripts() {
+        List<AssetPage> scripts = new ArrayList<>();
         scripts.addAll(context.getTheme().getScripts());
         scripts.addAll(assets.getScripts());
         addComponentAssets(scripts, OrchidComponent::getScripts);
@@ -216,8 +217,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public List<OrchidPage> getStyles() {
-        List<OrchidPage> styles = new ArrayList<>();
+    public List<AssetPage> getStyles() {
+        List<AssetPage> styles = new ArrayList<>();
         styles.addAll(context.getTheme().getStyles());
         styles.addAll(assets.getStyles());
         addComponentAssets(styles, OrchidComponent::getStyles);
@@ -225,7 +226,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         return styles;
     }
 
-    private void addComponentAssets(List<OrchidPage> assets, Function<? super OrchidComponent, ? extends List<OrchidPage>> getter) {
+    private void addComponentAssets(List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
         try {
             List<OrchidComponent> componentsList = components.getComponents();
             if (!EdenUtils.isEmpty(componentsList)) {

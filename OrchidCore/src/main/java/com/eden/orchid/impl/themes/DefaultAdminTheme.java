@@ -2,7 +2,7 @@ package com.eden.orchid.impl.themes;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.AdminTheme;
-import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.assets.AssetPage;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -31,12 +31,12 @@ public final class DefaultAdminTheme extends AdminTheme {
 
     // TODO: Remove these methods when Jtwig has updated to access default methods
     @Override
-    public List<OrchidPage> getScripts() {
+    public List<AssetPage> getScripts() {
         return getAssetHolder().getScripts();
     }
 
     @Override
-    public List<OrchidPage> getStyles() {
+    public List<AssetPage> getStyles() {
         return getAssetHolder().getStyles();
     }
 

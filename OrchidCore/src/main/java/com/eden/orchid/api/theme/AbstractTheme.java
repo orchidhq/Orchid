@@ -36,7 +36,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     }
 
     public void addAssets() {
-        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this);
+        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
     }
 
     public void renderAssets() {

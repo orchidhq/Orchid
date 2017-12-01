@@ -1,7 +1,5 @@
 package com.eden.orchid.api.theme.assets;
 
-import com.eden.orchid.api.theme.pages.OrchidPage;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -10,8 +8,8 @@ import java.util.List;
 @Singleton
 public class GlobalAssetHolder implements AssetHolder {
 
-    private final List<OrchidPage> js;
-    private final List<OrchidPage> css;
+    private final List<AssetPage> js;
+    private final List<AssetPage> css;
 
     @Inject
     public GlobalAssetHolder() {
@@ -31,23 +29,23 @@ public class GlobalAssetHolder implements AssetHolder {
 
     // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check again
     @Override
-    public void addJs(OrchidPage jsAsset) {
+    public void addJs(AssetPage jsAsset) {
         js.add(jsAsset);
     }
 
     // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check again
     @Override
-    public void addCss(OrchidPage cssAsset) {
+    public void addCss(AssetPage cssAsset) {
         css.add(cssAsset);
     }
 
     @Override
-    public List<OrchidPage> getScripts() {
+    public List<AssetPage> getScripts() {
         return js;
     }
 
     @Override
-    public List<OrchidPage> getStyles() {
+    public List<AssetPage> getStyles() {
         return css;
     }
 

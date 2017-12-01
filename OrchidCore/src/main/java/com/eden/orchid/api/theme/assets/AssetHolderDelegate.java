@@ -20,15 +20,20 @@ public final class AssetHolderDelegate implements AssetHolder {
     public static final String JS_EXT = "js";
     public static final String CSS_EXT = "css";
 
-    private final List<OrchidPage> js;
-    private final List<OrchidPage> css;
+    private final List<AssetPage> js;
+    private final List<AssetPage> css;
 
     @Getter @Setter
     private boolean shouldDownloadAssets;
 
+    private Object source;
+    private String sourceKey;
+
     @Inject
-    public AssetHolderDelegate(OrchidContext context) {
+    public AssetHolderDelegate(OrchidContext context, Object source, String sourceKey) {
         this.context = context;
+        this.source = source;
+        this.sourceKey = sourceKey;
         this.js = new ArrayList<>();
         this.css = new ArrayList<>();
     }
@@ -44,7 +49,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public void addJs(OrchidPage jsAsset) {
+    public void addJs(AssetPage jsAsset) {
         if(validAsset(jsAsset, JS_EXT)) {
             jsAsset.getReference().setUsePrettyUrl(false);
             js.add(jsAsset);
@@ -65,7 +70,7 @@ public final class AssetHolderDelegate implements AssetHolder {
             if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
                 ((ExternalResource) resource).setDownload(true);
             }
-            addJs(new OrchidPage(resource, FilenameUtils.getBaseName(jsAsset)));
+            addJs(new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset)));
         }
         else {
             Clog.w("Could not find JS asset: {}", jsAsset);
@@ -73,7 +78,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public void addCss(OrchidPage cssAsset) {
+    public void addCss(AssetPage cssAsset) {
         if(validAsset(cssAsset, CSS_EXT)) {
             cssAsset.getReference().setUsePrettyUrl(false);
             css.add(cssAsset);
@@ -94,7 +99,7 @@ public final class AssetHolderDelegate implements AssetHolder {
             if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
                 ((ExternalResource) resource).setDownload(true);
             }
-            addCss(new OrchidPage(resource, FilenameUtils.getBaseName(cssAsset)));
+            addCss(new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset)));
         }
         else {
             Clog.w("Could not find CSS asset: {}", cssAsset);
@@ -102,12 +107,12 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public List<OrchidPage> getScripts() {
+    public List<AssetPage> getScripts() {
         return js;
     }
 
     @Override
-    public List<OrchidPage> getStyles() {
+    public List<AssetPage> getStyles() {
         return css;
     }
 

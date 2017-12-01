@@ -1,7 +1,5 @@
 package com.eden.orchid.api.theme.assets;
 
-import com.eden.orchid.api.theme.pages.OrchidPage;
-
 import java.util.List;
 
 public interface AssetHolder {
@@ -10,7 +8,7 @@ public interface AssetHolder {
 
     void addAssets();
 
-    default void addJs(OrchidPage jsAsset) {
+    default void addJs(AssetPage jsAsset) {
         getAssetHolder().addJs(jsAsset);
     }
 
@@ -18,7 +16,7 @@ public interface AssetHolder {
         getAssetHolder().addJs(jsAsset);
     }
 
-    default void addCss(OrchidPage cssAsset) {
+    default void addCss(AssetPage cssAsset) {
         getAssetHolder().addCss(cssAsset);
     }
 
@@ -26,11 +24,11 @@ public interface AssetHolder {
         getAssetHolder().addCss(cssAsset);
     }
 
-    default List<OrchidPage> getScripts() {
+    default List<AssetPage> getScripts() {
         return getAssetHolder().getScripts();
     }
 
-    default List<OrchidPage> getStyles() {
+    default List<AssetPage> getStyles() {
         return getAssetHolder().getStyles();
     }
 

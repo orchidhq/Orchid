@@ -4,7 +4,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -142,19 +142,19 @@ public final class OrchidUtils {
         return false;
     }
 
-    public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder) {
+    public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder, Object source, String sourceKey) {
         if(!EdenUtils.isEmpty(extraCss)) {
             Arrays.stream(extraCss)
                   .map(context::getResourceEntry)
                   .filter(Objects::nonNull)
-                  .map(orchidResource -> new OrchidPage(orchidResource, orchidResource.getReference().getTitle()))
+                  .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
                   .forEach(holder::addCss);
         }
         if(!EdenUtils.isEmpty(extraJs)) {
             Arrays.stream(extraJs)
                   .map(context::getResourceEntry)
                   .filter(Objects::nonNull)
-                  .map(orchidResource -> new OrchidPage(orchidResource, orchidResource.getReference().getTitle()))
+                  .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
                   .forEach(holder::addJs);
         }
     }
