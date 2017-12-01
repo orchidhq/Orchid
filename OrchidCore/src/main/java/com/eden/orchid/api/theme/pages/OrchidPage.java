@@ -231,6 +231,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             if (!EdenUtils.isEmpty(componentsList)) {
                 componentsList
                         .stream()
+                        .peek(OrchidComponent::addAssets)
                         .map(getter)
                         .forEach(assets::addAll);
             }

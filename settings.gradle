@@ -15,6 +15,7 @@ include 'plugins:OrchidPages'
 include 'plugins:OrchidPluginDocs'
 include 'plugins:OrchidPosts'
 include 'plugins:OrchidPresentations'
+include 'plugins:OrchidSwagger'
 include 'plugins:OrchidWiki'
 
 include 'languageExtensions:OrchidAsciidoc'

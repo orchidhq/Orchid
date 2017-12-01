@@ -20,8 +20,9 @@
         <div class="inner">
 
             <!-- Header -->
-            {% include 'includes/header.twig' %}
-
+            {% block innerHeader %}
+                {% include 'includes/header.twig' %}
+            {% endblock %}
             {% block banner %}
             {% endblock %}
             {% block pageContent %}

@@ -1,0 +1,9 @@
+{% extends 'layouts/index.twig' %}
+
+{% block innerHeader %}
+
+{% endblock %}
+
+{% block pageContent %}
+    {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
+{% endblock %}
