@@ -31,6 +31,8 @@ public class PostsModel {
 
     @Inject
     public PostsModel() {
+        this.categories = new LinkedHashMap<>();
+        this.tags = new LinkedHashMap<>();
     }
 
     void initialize(String permalink, String layout, String excerptSeparator, List<Author> authors) {

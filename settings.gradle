@@ -20,6 +20,7 @@ include 'plugins:OrchidWiki'
 
 include 'languageExtensions:OrchidAsciidoc'
 include 'languageExtensions:OrchidBible'
+include 'languageExtensions:OrchidDiagrams'
 include 'languageExtensions:OrchidSyntaxHighlighter'
 
 include 'bundles:OrchidAll'

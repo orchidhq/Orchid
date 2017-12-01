@@ -25,8 +25,10 @@ public class WikiSectionsMenuItemType extends OrchidMenuItem {
     public List<OrchidMenuItemImpl> getMenuItems() {
         List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
-        for (Map.Entry<String, WikiSection> section : model.getSections().entrySet()) {
-            menuItems.add(new OrchidMenuItemImpl(context, section.getValue().getSummaryPage()));
+        if (model != null && model.getSections() != null) {
+            for (Map.Entry<String, WikiSection> section : model.getSections().entrySet()) {
+                menuItems.add(new OrchidMenuItemImpl(context, section.getValue().getSummaryPage()));
+            }
         }
 
         return menuItems;
