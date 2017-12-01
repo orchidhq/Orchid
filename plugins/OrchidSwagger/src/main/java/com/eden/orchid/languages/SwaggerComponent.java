@@ -1,4 +1,4 @@
-package com.eden.orchid.languages.components;
+package com.eden.orchid.languages;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Option;
@@ -20,6 +20,8 @@ public final class SwaggerComponent extends OrchidComponent {
     @Option
     public JSONObject allSwaggerOptions;
 
+    protected boolean hasAddedAssets;
+
     @Inject
     public SwaggerComponent(OrchidContext context) {
         super(context, "swaggerUi", 100);
@@ -27,11 +29,14 @@ public final class SwaggerComponent extends OrchidComponent {
 
     @Override
     public void addAssets() {
-        super.addAssets();
+        if (!hasAddedAssets) {
+            super.addAssets();
 
-        addCss("assets/css/swagger-ui.css");
-        addJs("assets/js/swagger-ui-bundle.js");
-        addJs("assets/js/swagger-ui-standalone-preset.js");
+            addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui.css");
+            addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui-bundle.js");
+            addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui-standalone-preset.js");
+            hasAddedAssets = true;
+        }
     }
 
 }

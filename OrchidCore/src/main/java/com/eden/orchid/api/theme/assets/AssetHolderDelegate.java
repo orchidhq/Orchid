@@ -5,6 +5,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
@@ -20,6 +22,9 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     private final List<OrchidPage> js;
     private final List<OrchidPage> css;
+
+    @Getter @Setter
+    private boolean shouldDownloadAssets;
 
     @Inject
     public AssetHolderDelegate(OrchidContext context) {
@@ -125,5 +130,10 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     private boolean validAsset(OrchidPage asset, String targetExtension) {
         return asset.getReference().getOutputExtension().equalsIgnoreCase(targetExtension);
+    }
+
+    @Override
+    public boolean shouldDownloadExternalAssets() {
+        return shouldDownloadAssets;
     }
 }

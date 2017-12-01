@@ -46,6 +46,8 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.key = key;
         this.context = context;
         this.assetHolder = new AssetHolderDelegate(context);
+
+        ((AssetHolderDelegate)this.assetHolder).setShouldDownloadAssets(false);
     }
 
     @Override
