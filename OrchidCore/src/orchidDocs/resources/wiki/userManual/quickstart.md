@@ -44,12 +44,12 @@ The plugin is explained in more detail in the [Advanced Configuration](#) sectio
 
 Add the following lines to your `dependencies` block:
 
-```groovy
+{% filter highlightPrism('groovy') %}
 dependencies {
     compile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
     orchidDocsCompile "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
 }
-```
+{% endfilter %}
 
 The dependency in `orchidDocsCompile` adds all official Orchid core packages, themes, and plugins for ease of setup. You
 may instead choose which specific packages you want to install, which are listed on the [homepage]({{site.baseUrl}}). 
@@ -60,13 +60,13 @@ The dependency in `compile` is optional, but is needed if you intend to create p
 
 Add the following block to the top-level of your `build.gradle`:
 
-```groovy
+{% filter highlightPrism('groovy') %}
 orchid {
     version = "${project.version}" 
     theme = "FutureImperfect" // or whatever theme you choose
     baseUrl = "http://localhost:8080" // you may want to change this when deploying to production
 }
-```
+{% endfilter %}
 
 **Step 4**
 

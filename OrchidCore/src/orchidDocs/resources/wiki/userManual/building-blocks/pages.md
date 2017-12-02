@@ -1,6 +1,8 @@
 ---
 ---
 
+# Pages Overview
+
 Pages are the most fundamental unit of content in an Orchid site. A Page represents a single HTML file in the output of 
 your site, and the rest of Orchid revolves around the Page. The following outlines the key players in an Orchid site
 and how they all interact:

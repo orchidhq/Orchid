@@ -1,6 +1,5 @@
 package com.eden.orchid.api;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
@@ -91,8 +90,8 @@ public final class OrchidContextImpl implements OrchidContext {
 
     @Override
     public void start() {
-        Clog.addTagToBlacklist("org.jtwig.environment.EnvironmentFactory");
-        Clog.addTagToBlacklist("org.jtwig.property.resolver.CallMethodPropertyResolver");
+//        Clog.addTagToBlacklist("org.jtwig.environment.EnvironmentFactory");
+//        Clog.addTagToBlacklist("org.jtwig.property.resolver.CallMethodPropertyResolver");
         services.values().forEach(OrchidService::onStart);
         broadcast(Orchid.Lifecycle.OnStart.fire(this));
         services.values().forEach(OrchidService::onPostStart);

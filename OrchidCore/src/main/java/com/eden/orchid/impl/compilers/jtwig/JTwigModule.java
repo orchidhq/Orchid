@@ -14,7 +14,8 @@ public final class JTwigModule extends OrchidModule {
                 JsonFilter.class,
                 LimitFilter.class,
                 SortByFilter.class,
-                TemplateFilter.class
+                TemplateFilter.class,
+                AlertFilter.class
         );
 
         addToSet(TypedResourceLoader.class,

@@ -1,9 +1,9 @@
 
+* [Introduction](intro.md)
 * [Quick-Start](quickstart.md)
 
 ## Building Blocks
 
-* [Foundations](building-blocks/foundations.md)
 * [Pages](building-blocks/pages.md)
 * [Themes](building-blocks/themes.md)
 * [Generators](building-blocks/generators.md)

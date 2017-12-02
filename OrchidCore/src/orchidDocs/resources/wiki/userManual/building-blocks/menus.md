@@ -1,6 +1,8 @@
 ---
 ---
 
+# Menus Overview
+
 Menus are typically defined by the Theme and by the Page, and it is common for both kinds of menus to appear on a single
 output Page's layout. Menus typically pull pages from the Index to dynamically generate the menu items, so all that
 is required to keep a menu up-to-date is to choose the appropriate menu item types.

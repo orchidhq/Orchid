@@ -1,15 +1,25 @@
 package com.eden.orchid.languages.highlighter;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 import org.python.util.PythonInterpreter;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class HighlightFilter implements JtwigFunction {
+
+    private final OrchidContext context;
+
+    @Inject
+    public HighlightFilter(OrchidContext context) {
+        this.context = context;
+    }
 
     @Override
     public String name() {
@@ -43,24 +53,26 @@ public class HighlightFilter implements JtwigFunction {
     }
 
     public Object apply(String input, String language) {
-        PythonInterpreter interpreter = new PythonInterpreter();
+        try {
+            PythonInterpreter interpreter = new PythonInterpreter();
 
-        String pythonScript =
-                "from pygments import highlight\n"
-                + "from pygments.lexers import get_lexer_by_name\n"
-                + "from pygments.formatters import HtmlFormatter\n"
-                + "\n"
-                + "lexer = get_lexer_by_name(codeLanguage, stripall=True)\n"
-                + "formatter = HtmlFormatter(linenos=True)\n"
-                + "\nresult = highlight(code, lexer, formatter)";
+            OrchidResource pygmentsScript = context.getResourceEntry("scripts/pygments/pygments.py");
 
-        // Set a variable with the content you want to work with
-        interpreter.set("code", input);
-        interpreter.set("codeLanguage", ((!EdenUtils.isEmpty(language)) ? language : "java"));
+            String pythonScript = pygmentsScript.getContent();
 
-        // Simple use Pygments as you would in Python
-        interpreter.exec(pythonScript);
+            // Set a variable with the content you want to work with
+            interpreter.set("code", input);
+            interpreter.set("codeLanguage", ((!EdenUtils.isEmpty(language)) ? language : "java"));
 
-        return interpreter.get("result", String.class);
+            // Simple use Pygments as you would in Python
+            interpreter.exec(pythonScript);
+
+            return interpreter.get("result", String.class);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return input;
     }
 }

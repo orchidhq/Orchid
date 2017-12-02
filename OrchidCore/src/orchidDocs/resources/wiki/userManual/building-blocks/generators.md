@@ -1,6 +1,8 @@
 ---
 ---
 
+# Generators Overview
+
 Generators are the work-horses of Orchid. They have two jobs: to decide what Pages should exist for a particular section
 of the site, and how we need to process content to create that page. Generators work in two phases: the Indexing phase, 
 and the Generation phase: 

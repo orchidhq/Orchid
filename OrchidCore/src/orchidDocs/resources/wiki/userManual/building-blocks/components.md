@@ -12,7 +12,8 @@ can be defined by the theme. There is no difference in whether a Component is at
 
 Most pages include a Component that represents the intrinsic content of that Page. For example, a Blog post comes from a
 single source file and produces a single Page whose "content" is simply the text content of that file. This component is 
-added to Pages by default, unless the Generator or Page says otherwise.
+added to Pages by default, unless the Generator or Page says otherwise. If you specify custom components to use on a 
+Page and want to include the Page content, make sure to add the "pageContent" component.
 
 When rendering Page Content, it is common for the pages produced by different Generators to have different requirements
 in rendering. For example, a Page produces by the OrchidPages may want to show a list of tags and its author, while a

@@ -39,7 +39,7 @@ setting the default theme.
 
 ## Example `config.yml`
 
-```yaml
+{% filter highlightPrism('yaml') %}
 Editorial: # options passed to the Theme come from an object at that Theme's key
   menu: 
     - type: 'readme' 
@@ -56,7 +56,7 @@ services: # Services are all scoped under the `services` object, and are used to
       - 'pages'
       - 'presentations'
       - 'styleguide'
-```
+{% endfilter %}
 
 > NOTE: By convention, Themes' keys are in `PascalCase` while Generators' keys are in `camelCase`. Options passed to 
 > Services are all contained under the `services` object, each at their key within `services`. This all helps prevent 
@@ -78,7 +78,7 @@ For example, the following directory structure and YAML config are equivalent:
 
 **Config in one single config.yml**
 
-```yaml
+{% filter highlightPrism('yaml') %}
 theme:
     siteName: 'My Site'
     components:
@@ -91,11 +91,11 @@ theme:
         - type: link
           title: 'Contact'
           url: '/contact'
-```
+{% endfilter %}
 
 **Config broken into several files**
 
-```txt
+{% filter highlightPrism('text') %}
 /
 |-- config.yml # main site configuration (still necessary)
 |-- /data
@@ -103,7 +103,7 @@ theme:
     |-- /theme
         |-- components.yml # contains an array of components
         |-- menu.yml # contains an array of menu items
-```
+{% endfilter %}
 
 ## How these options get used
 

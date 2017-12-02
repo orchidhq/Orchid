@@ -1,14 +1,26 @@
 .menu ul {
   display: none;
 }
+
 .menu ul.top-level {
   display: block;
 }
 
-.text-left    { text-align: left;    }
-.text-center  { text-align: center;  }
-.text-right   { text-align: right;   }
-.text-justify { text-align: justify; }
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
 
 .clerafix::after {
   display: block;
@@ -34,10 +46,6 @@
   text-transform: initial;
 }
 
-code {
-  display: inline-block;
-}
-
 #sidebar .inner {
   height: 100%;
   overflow-y: scroll;
@@ -55,21 +63,24 @@ pre {
   max-width: 40rem;
   margin: 0 0 2em 0;
 }
+
 blockquote {
   margin: 0 0 2em 0;
   max-width: 40rem;
 }
 
-pre[class*=language-] {
-  background: #ffffff;
-  padding: 0;
-  margin: 0 0 2em 0 !important;
-}
-code[class*=language-] {
-  background: #f5f2f0;
-  margin: 0 0 2em 0 !important;
-  border: none;
-}
+//pre[class*=language-] {
+//  padding-top: 0 !important;
+//  padding-bottom: 0 !important;
+//  border-radius: 0.25rem;
+//}
+//
+//code[class*=language-] {
+//  background: initial;
+//  border: initial;
+//  padding: 0;
+//}
+
 
 li > ul {
   margin: 0;
