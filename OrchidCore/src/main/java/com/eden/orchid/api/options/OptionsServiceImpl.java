@@ -92,37 +92,37 @@ public final class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
-    public Map<String, Object> getSiteData(Object... data) {
+    public Map<String, Object> getSiteData(Object data) {
         Map<String, Object> siteData = new HashMap<>();
 
-        if (data != null && data.length > 0) {
-            if (data[0] instanceof OrchidPage) {
-                OrchidPage page = (OrchidPage) data[0];
+        if (data != null) {
+            if (data instanceof OrchidPage) {
+                OrchidPage page = (OrchidPage) data;
                 siteData.put("page", page);
                 siteData.put(page.getKey(), page);
             }
-            else if (data[0] instanceof JSONObject) {
-                JSONObject jsonObject = (JSONObject) data[0];
+            else if (data instanceof JSONObject) {
+                JSONObject jsonObject = (JSONObject) data;
                 siteData.put("data", jsonObject);
 
                 for (String key : jsonObject.keySet()) {
                     siteData.put(key, jsonObject.get(key));
                 }
             }
-            else if (data[0] instanceof Map) {
-                Map<String, ?> map = (Map<String, ?>) data[0];
+            else if (data instanceof Map) {
+                Map<String, ?> map = (Map<String, ?>) data;
                 siteData.put("data", map);
 
                 for (String key : map.keySet()) {
                     siteData.put(key, map.get(key));
                 }
             }
-            else if (data[0] instanceof JSONArray) {
-                JSONArray jsonArray = (JSONArray) data[0];
+            else if (data instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) data;
                 siteData.put("data", jsonArray);
             }
-            else if (data[0] instanceof Collection) {
-                Collection collection = (Collection) data[0];
+            else if (data instanceof Collection) {
+                Collection collection = (Collection) data;
                 siteData.put("data", collection);
             }
         }

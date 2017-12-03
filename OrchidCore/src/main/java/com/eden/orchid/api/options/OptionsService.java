@@ -28,7 +28,7 @@ public interface OptionsService extends OrchidService {
         return getService(OptionsService.class).query(pointer);
     }
 
-    default Map<String, Object> getSiteData(Object... data) {
+    default Map<String, Object> getSiteData(Object data) {
         return getService(OptionsService.class).getSiteData(data);
     }
 

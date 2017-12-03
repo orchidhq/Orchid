@@ -16,6 +16,8 @@ import java.util.Map;
 @Singleton
 public final class AlertFilter implements JtwigFunction {
 
+    public static boolean showLog = false;
+
     private final OrchidContext context;
 
     @Inject
@@ -56,10 +58,15 @@ public final class AlertFilter implements JtwigFunction {
 
     public Object apply(String input, String alertLevel) {
         OrchidResource resource = context.getResourceEntry("templates/includes/alert.twig");
-        Map<String, Object> data = new HashMap<>();
-        data.put("content", input);
-        data.put("alertLevel", alertLevel);
+        if (resource != null) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("content", input);
+            data.put("alertLevel", alertLevel);
 
-        return resource.compileContent(data);
+            return resource.compileContent(data);
+        }
+        else {
+            return input;
+        }
     }
 }
