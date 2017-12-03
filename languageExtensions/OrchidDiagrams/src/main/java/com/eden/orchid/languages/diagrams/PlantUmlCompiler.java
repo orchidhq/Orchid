@@ -34,12 +34,18 @@ public class PlantUmlCompiler extends OrchidCompiler {
                 }
 
                 // compile string to SVG
-                final ByteArrayOutputStream os = new ByteArrayOutputStream();
-                String desc = new SourceStringReader(source).generateImage(os, new FileFormatOption(FileFormat.SVG));
+                ByteArrayOutputStream os = new ByteArrayOutputStream(1024);
+
+                FileFormatOption fileFormat = new FileFormatOption(FileFormat.SVG);
+                fileFormat.hideMetadata();
+
+                SourceStringReader reader = new SourceStringReader(source);
+                reader.outputImage(os, fileFormat);
                 os.close();
-                String s = "<div>";
-                s += new String(os.toByteArray(), Charset.forName("UTF-8"));
-                s += "</div>";
+
+                String s = new String(os.toByteArray(), Charset.forName("UTF-8"));
+                s = s.replaceAll("<\\?(.*)\\?>", ""); // remove XML declaration
+
                 return s;
             }
             catch (IOException e) {

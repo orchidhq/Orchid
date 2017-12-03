@@ -84,13 +84,28 @@ public interface CompilerService extends OrchidService {
      *
      * @param extension the extension to find a Compiler for
      * @param input the input to compile
-     * @param data (optional) additional data to pass to the OrchidCompiler
      * @return the compiled output data if an appropriate Compiler could be found, otherwise the unprocessed input
      *
      * @since v1.0.0
      * @see OrchidCompiler
      */
-    default String compile(String extension, String input, Object... data) {
+    default String compile(String extension, String input) {
+        return getService(CompilerService.class).compile(extension, input);
+    }
+
+    /**
+     * Compiles input against a given Compiler identified by file extension. Additional data may be passed in that
+     * individual Compilers may use to render into the resulting output.
+     *
+     * @param extension the extension to find a Compiler for
+     * @param input the input to compile
+     * @param data additional data to pass to the OrchidCompiler
+     * @return the compiled output data if an appropriate Compiler could be found, otherwise the unprocessed input
+     *
+     * @since v1.0.0
+     * @see OrchidCompiler
+     */
+    default String compile(String extension, String input, Object data) {
         return getService(CompilerService.class).compile(extension, input, data);
     }
 
@@ -128,13 +143,28 @@ public interface CompilerService extends OrchidService {
      * or build timestamp into a plain-text content that does not have an associated OrchidCompiler.
      *
      * @param input the input content to precompile
+     * @return the resulting content, which may then be passed to its associated OrchidCompiler
+     *
+     * @since v1.0.0
+     * @see OrchidPrecompiler
+     */
+    default String precompile(String input) {
+        return getService(CompilerService.class).precompile(input);
+    }
+
+    /**
+     * When processing the input content, it is common to "inject" values into its contents which are made available
+     * to the main compiler that can't normally handle such operations. An example would be to render the site version
+     * or build timestamp into a plain-text content that does not have an associated OrchidCompiler.
+     *
+     * @param input the input content to precompile
      * @param data the data to render into the input content
      * @return the resulting content, which may then be passed to its associated OrchidCompiler
      *
      * @since v1.0.0
      * @see OrchidPrecompiler
      */
-    default String precompile(String input, Object... data) {
+    default String precompile(String input, Object data) {
         return getService(CompilerService.class).precompile(input, data);
     }
 

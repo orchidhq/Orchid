@@ -141,7 +141,11 @@ public final class CompilerServiceImpl implements CompilerService {
         return parserMap.getOrDefault(extension, null);
     }
 
-    public String compile(String extension, String input, Object... data) {
+    public String compile(String extension, String input) {
+        return this.compile(extension, input, null);
+    }
+
+    public String compile(String extension, String input, Object data) {
         OrchidCompiler compiler = compilerFor(extension);
 
         if (compiler != null) {
@@ -161,7 +165,11 @@ public final class CompilerServiceImpl implements CompilerService {
         return precompiler.getEmbeddedData(input);
     }
 
-    public String precompile(String input, Object... data) {
+    public String precompile(String input) {
+        return this.precompile(input, null);
+    }
+
+    public String precompile(String input, Object data) {
         return precompiler.precompile(input, context.getSiteData(data));
     }
 
