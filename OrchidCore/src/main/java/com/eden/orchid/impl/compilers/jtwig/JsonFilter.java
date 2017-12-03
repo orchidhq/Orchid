@@ -36,8 +36,7 @@ public final class JsonFilter implements JtwigFunction {
         return apply(value);
     }
 
-    public Object apply(Object value, Object... params) {
-
+    public String apply(Object value, Object... params) {
         if(value instanceof JSONObject) {
             return ((JSONObject) value).toString(2);
         }
@@ -51,6 +50,6 @@ public final class JsonFilter implements JtwigFunction {
             return new JSONArray((Collection) value).toString(2);
         }
 
-        return value;
+        return value.toString();
     }
 }

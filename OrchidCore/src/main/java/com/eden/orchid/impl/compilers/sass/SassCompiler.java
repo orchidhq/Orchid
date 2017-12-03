@@ -7,6 +7,7 @@ import io.bit3.jsass.Options;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Map;
 
 @Singleton
 public final class SassCompiler extends OrchidCompiler {
@@ -32,7 +33,7 @@ public final class SassCompiler extends OrchidCompiler {
     }
 
     @Override
-    public String compile(String extension, String input, Object... data) {
+    public String compile(String extension, String input, Map<String, Object> data) {
         if (extension.equals("scss")) {
             try {
                 options.setIsIndentedSyntaxSrc(false);

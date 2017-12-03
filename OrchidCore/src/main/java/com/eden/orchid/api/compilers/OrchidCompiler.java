@@ -2,6 +2,8 @@ package com.eden.orchid.api.compilers;
 
 import com.eden.orchid.api.registration.Prioritized;
 
+import java.util.Map;
+
 /**
  * A generic compiler which can be used by a Theme to transform content. When a Theme is requested to compile a file of
  * a given type, it searches the list of registered Compilers and picks the one with the highest priority that is able
@@ -33,7 +35,7 @@ public abstract class OrchidCompiler extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract String compile(String extension, String input, Object... data);
+    public abstract String compile(String extension, String input, Map<String, Object> data);
 
     /**
      * Gets the file extension representing the type of the output content.

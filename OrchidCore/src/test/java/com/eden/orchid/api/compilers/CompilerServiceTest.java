@@ -58,9 +58,9 @@ public final class CompilerServiceTest {
         compilers.add(mockCompiler);
         when(mockCompiler.getSourceExtensions()).thenReturn(new String[]{"md", "markdown"});
         when(mockCompiler.getOutputExtension()).thenReturn("html");
-        when(mockCompiler.compile("md", mockInput)).thenReturn(compiledOutput);
-        when(mockCompiler.compile("markdown", mockInput)).thenReturn(compiledOutput);
-        when(mockCompiler.compile("mkdwn", mockInput)).thenReturn(compiledOutput);
+        when(mockCompiler.compile("md", mockInput, null)).thenReturn(compiledOutput);
+        when(mockCompiler.compile("markdown", mockInput, null)).thenReturn(compiledOutput);
+        when(mockCompiler.compile("mkdwn", mockInput, null)).thenReturn(compiledOutput);
 
         Set<OrchidParser> parsers = new HashSet<>();
         mockParser = mock(OrchidParser.class);
@@ -70,11 +70,12 @@ public final class CompilerServiceTest {
         when(mockParser.parse("yaml", "input")).thenReturn(parsedOutput);
 
         mockPrecompiler = mock(OrchidPrecompiler.class);
-        when(mockPrecompiler.precompile(mockInput)).thenReturn(precompilerOutput);
+        when(mockPrecompiler.precompile(mockInput, null)).thenReturn(precompilerOutput);
         when(mockPrecompiler.getEmbeddedData(mockInput)).thenReturn(precompilerEmbeddedData);
 
         // test the service directly
         context = mock(OrchidContext.class);
+        when(context.getSiteData(any())).thenReturn(null);
         service = new CompilerServiceImpl(compilers, parsers, mockPrecompiler);
         service.initialize(context);
 

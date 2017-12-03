@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Map;
 
 @Singleton
 public class PlantUmlCompiler extends OrchidCompiler {
@@ -20,7 +21,7 @@ public class PlantUmlCompiler extends OrchidCompiler {
     }
 
     @Override
-    public String compile(String extension, String source, Object... data) {
+    public String compile(String extension, String source, Map<String, Object> data) {
         try {
             try {
                 // ensure string is wrapped in @startuml...@enduml

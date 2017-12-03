@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -53,7 +54,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
     }
 
     @Override
-    public String precompile(String input, Object... data) {
+    public String precompile(String input, Map<String, Object> data) {
         return context.compile(precompilerExtension, input, data);
     }
 

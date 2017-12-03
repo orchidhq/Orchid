@@ -30,7 +30,7 @@ import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
-import com.eden.orchid.impl.compilers.toml.TOMLParser;
+import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;

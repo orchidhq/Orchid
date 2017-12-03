@@ -6,6 +6,7 @@ import org.asciidoctor.Options;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Map;
 
 @Singleton
 public class AsciiDoctorCompiler extends OrchidCompiler {
@@ -21,7 +22,7 @@ public class AsciiDoctorCompiler extends OrchidCompiler {
     }
 
     @Override
-    public String compile(String extension, String source, Object... data) {
+    public String compile(String extension, String source, Map<String, Object> data) {
         return asciidoctor.convert(source, options);
     }
 

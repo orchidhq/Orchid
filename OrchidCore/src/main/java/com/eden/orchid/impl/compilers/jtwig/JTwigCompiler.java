@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.jtwig;
 
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -21,13 +20,11 @@ import java.util.Set;
 @Singleton
 public final class JTwigCompiler extends OrchidCompiler {
 
-    private final OrchidContext context;
     private final EnvironmentConfiguration jtwigEnvironment;
 
     @Inject
-    public JTwigCompiler(OrchidContext context, Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
+    public JTwigCompiler(Set<JtwigFunction> functionSet, Set<TypedResourceLoader> loaderSet) {
         super(1000);
-        this.context = context;
         EnvironmentConfigurationBuilder config = EnvironmentConfigurationBuilder.configuration();
 
         config.parser().withoutTemplateCache();
@@ -46,12 +43,11 @@ public final class JTwigCompiler extends OrchidCompiler {
     }
 
     @Override
-    public String compile(String extension, String source, Object... data) {
-        Map<String, Object> siteData = context.getSiteData(data);
+    public String compile(String extension, String source, Map<String, Object> data) {
         return new JtwigTemplate(
                 new EnvironmentFactory().create(jtwigEnvironment),
                 new ResourceReference(ResourceReference.STRING, source)
-        ).render(JtwigModel.newModel(siteData));
+        ).render(JtwigModel.newModel(data));
     }
 
     @Override

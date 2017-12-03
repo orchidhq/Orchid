@@ -143,7 +143,13 @@ public final class CompilerServiceImpl implements CompilerService {
 
     public String compile(String extension, String input, Object... data) {
         OrchidCompiler compiler = compilerFor(extension);
-        return (compiler != null) ? compiler.compile(extension, input, data) : input;
+
+        if (compiler != null) {
+            return compiler.compile(extension, input, context.getSiteData(data));
+        }
+        else {
+            return input;
+        }
     }
 
     public JSONObject parse(String extension, String input) {
@@ -156,7 +162,7 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     public String precompile(String input, Object... data) {
-        return precompiler.precompile(input, data);
+        return precompiler.precompile(input, context.getSiteData(data));
     }
 
     public String getOutputExtension(String extension) {

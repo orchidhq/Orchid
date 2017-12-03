@@ -9,6 +9,7 @@ import com.vladsch.flexmark.util.options.MutableDataSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -24,8 +25,6 @@ public final class MarkdownCompiler extends OrchidCompiler {
         MutableDataSet options = new MutableDataSet();
         options.set(HtmlRenderer.GENERATE_HEADER_ID, true);
         options.set(HtmlRenderer.RENDER_HEADER_ID, true);
-        options.set(Parser.HTML_BLOCK_PARSER, true);
-        options.set(Parser.HTML_BLOCK_DEEP_PARSER, true);
 
         options.set(Parser.EXTENSIONS, extensionSet);
 
@@ -38,7 +37,7 @@ public final class MarkdownCompiler extends OrchidCompiler {
     }
 
     @Override
-    public String compile(String extension, String source, Object... data) {
+    public String compile(String extension, String source, Map<String, Object> data) {
         return renderer.render(parser.parse(source));
     }
 

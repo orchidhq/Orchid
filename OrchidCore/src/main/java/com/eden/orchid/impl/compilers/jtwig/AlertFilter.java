@@ -9,7 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public final class AlertFilter implements JtwigFunction {
@@ -54,14 +56,10 @@ public final class AlertFilter implements JtwigFunction {
 
     public Object apply(String input, String alertLevel) {
         OrchidResource resource = context.getResourceEntry("templates/includes/alert.twig");
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("content", input);
-//        data.put("alertLevel", alertLevel);
-//        return resource.compileContent(data);
+        Map<String, Object> data = new HashMap<>();
+        data.put("content", input);
+        data.put("alertLevel", alertLevel);
 
-        return resource
-                .getContent()
-                .replaceAll("\\{\\{\\s*content\\s*}}", input)
-                .replaceAll("\\{\\{\\s*alertLevel\\s*}}", alertLevel);
+        return resource.compileContent(data);
     }
 }

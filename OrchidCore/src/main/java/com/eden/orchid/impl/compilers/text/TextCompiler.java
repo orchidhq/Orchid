@@ -4,6 +4,7 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Map;
 
 @Singleton
 public class TextCompiler extends OrchidCompiler {
@@ -14,7 +15,7 @@ public class TextCompiler extends OrchidCompiler {
     }
 
     @Override
-    public String compile(String extension, String source, Object... data) {
+    public String compile(String extension, String source, Map<String, Object> data) {
         return source;
     }
 

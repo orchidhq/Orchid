@@ -4,6 +4,8 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.registration.Prioritized;
 
+import java.util.Map;
+
 /**
  * The precompiler is a compiler to be run against files before they are sent to their appropriate OrchidCompiler.
  * Generally, this is used to extract data embedded within the file, returning the extracted data and the content after
@@ -58,6 +60,6 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract String precompile(String input, Object... data);
+    public abstract String precompile(String input, Map<String, Object> data);
 
 }

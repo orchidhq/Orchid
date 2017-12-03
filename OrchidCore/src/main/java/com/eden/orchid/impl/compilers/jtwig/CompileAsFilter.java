@@ -33,7 +33,6 @@ public final class CompileAsFilter implements JtwigFunction {
 
     @Override
     public Object execute(FunctionRequest request) {
-
         List<Object> fnParams = request.maximumNumberOfArguments(2)
                                        .minimumNumberOfArguments(2)
                                        .getArguments();

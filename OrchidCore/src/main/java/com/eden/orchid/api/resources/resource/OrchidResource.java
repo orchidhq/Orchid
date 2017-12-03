@@ -72,7 +72,8 @@ public abstract class OrchidResource {
 
             return context.compile(
                     getReference().getExtension(),
-                    compiledContent
+                    compiledContent,
+                    data
             );
         }
         else {
