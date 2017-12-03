@@ -36,7 +36,7 @@ public final class StaticFileResponse {
 
     public OrchidResponse getResponse(File targetFile, String targetPath) {
         //TODO: attempt to use NanoHttpd facilities for guessing MIME type
-        String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
+        String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), NanoHTTPD.getMimeTypeForFile(targetFile.getName()));
 
         Clog.i("Rendering File: #{$1}", targetPath);
         try {
