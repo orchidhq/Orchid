@@ -27,7 +27,7 @@ private plugins and a rich API so you can make your site as beautiful and unique
 - Admin interface to manage your content and gain deep insights into your build
 - Link to other Orchid sites
 - Powerful and flexible indexing, unique to Orchid
-- Fully replaces Jekyll, Gitbook, Javadocs, and more!  
+- Fully replaces Jekyll, Gitbook, Javadocs, and more!
 
 [View the full documentation](http://javaeden.github.io/orchid/latest/OrchidCore) or see the quick-start below.
 
