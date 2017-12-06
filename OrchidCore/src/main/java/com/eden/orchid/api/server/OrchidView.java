@@ -2,26 +2,38 @@ package com.eden.orchid.api.server;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.admin.AdminList;
+import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
+import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Accessors(chain = true, fluent = true)
-public final class OrchidView {
+public class OrchidView implements OptionsHolder, AssetHolder {
 
-    private final OrchidContext context;
-    private final OrchidController controller;
+    @Getter @Setter private String layout;
 
-    private Provider<OrchidServer> server;
-    private Provider<Set<AdminList>> adminLists;
+    @Getter @Setter private String title;
+    @Getter @Setter private String[] breadcrumbs;
+
+    @Getter private final OrchidContext context;
+    @Getter private final OrchidController controller;
+
+    @Getter @Setter protected AssetHolder assets;
+
+    @Getter private Provider<OrchidServer> server;
+    @Getter private Provider<Set<AdminList>> adminLists;
 
     @Getter private String view;
     @Getter @Setter private Map<String, ?> data;
@@ -35,6 +47,12 @@ public final class OrchidView {
         this.controller = controller;
         this.view = view;
         this.data = data;
+
+        this.title = OrchidUtils.camelcaseToTitleCase(view);
+
+        this.assets = new AssetHolderDelegate(context, this, "page");
+        this.layout = "templates/server/admin/base.twig";
+
         context.getInjector().injectMembers(this);
     }
 
@@ -51,11 +69,42 @@ public final class OrchidView {
         this.server = server;
     }
 
+// Assets
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public AssetHolder getAssetHolder() {
+        return assets;
+    }
+
+    @Override
+    public void addAssets() {
+
+    }
+
+    @Override
+    public List<AssetPage> getScripts() {
+        List<AssetPage> scripts = new ArrayList<>();
+        scripts.addAll(context.getAdminTheme().getScripts());
+        scripts.addAll(assets.getScripts());
+
+        return scripts;
+    }
+
+    @Override
+    public List<AssetPage> getStyles() {
+        List<AssetPage> styles = new ArrayList<>();
+        styles.addAll(context.getAdminTheme().getStyles());
+        styles.addAll(assets.getStyles());
+
+        return styles;
+    }
+
 // View renderer
 //----------------------------------------------------------------------------------------------------------------------
 
-    public String renderView() {
-        OrchidResource resource = context.getResourceEntry(Clog.format("templates/server/admin/{}.twig", this.view));
+    public final String renderView() {
+        OrchidResource resource = context.getResourceEntry(Clog.format("templates/server/admin/{}.twig", OrchidUtils.normalizePath(this.view)));
         if(resource != null) {
 
             Map<String, Object> data = new HashMap<>();

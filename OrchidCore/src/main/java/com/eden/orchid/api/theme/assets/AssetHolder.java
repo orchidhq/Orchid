@@ -45,6 +45,6 @@ public interface AssetHolder {
     }
 
     default boolean shouldDownloadExternalAssets() {
-        return true;
+        return false;
     }
 }

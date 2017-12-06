@@ -34,7 +34,9 @@ public class AdminController extends OrchidController {
 
     @Get(path = "/")
     public OrchidResponse index(OrchidRequest request) {
-        return new OrchidResponse(context).view(new OrchidView(context, this, "admin"));
+        OrchidView view = new OrchidView(context, this, "admin");
+
+        return new OrchidResponse(context).view(view);
     }
 
     @Get(path = "/lists/:name/:id")
@@ -54,7 +56,11 @@ public class AdminController extends OrchidController {
                 data.put("adminList", foundList);
                 data.put("listItem", listItem);
 
-                return new OrchidResponse(context).view(new OrchidView(context, this, "adminListItem", data));
+                OrchidView view = new OrchidView(context, this, "adminListItem", data);
+                view.setTitle(id);
+                view.setBreadcrumbs(new String[] {"lists", foundList.getKey()});
+
+                return new OrchidResponse(context).view(view);
             }
         }
 
@@ -66,7 +72,11 @@ public class AdminController extends OrchidController {
         Map<String, Object> data = new HashMap<>();
         data.put("params", params);
 
-        return new OrchidResponse(context).view(new OrchidView(context, this, "adminParams", data));
+        OrchidView view = new OrchidView(context, this, "adminParams", data);
+        view.setTitle(paramKey);
+        view.setBreadcrumbs(new String[] {"paramKey"});
+
+        return new OrchidResponse(context).view(view);
     }
 
     public boolean hasOptions(Object object) {

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 @Accessors(chain = true, fluent = true)
@@ -30,7 +31,7 @@ public final class OrchidResponse {
     @Getter @Setter private String mimeType;
     @Getter @Setter private Map<String, String> headers;
 
-    private NanoHTTPD.Response response;
+    @Setter private NanoHTTPD.Response response;
 
     public OrchidResponse(OrchidContext context) {
         this.context = context;
@@ -84,6 +85,16 @@ public final class OrchidResponse {
 
     public OrchidResponse status(int status) {
         this.status = NanoHTTPD.Response.Status.lookup(status);
+
+        return this;
+    }
+
+    public OrchidResponse header(String header, String value) {
+        if(headers == null) {
+            headers = new HashMap<>();
+        }
+
+        headers.put(header, value);
 
         return this;
     }

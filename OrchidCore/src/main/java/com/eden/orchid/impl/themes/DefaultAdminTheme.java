@@ -2,10 +2,8 @@ package com.eden.orchid.impl.themes;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.AdminTheme;
-import com.eden.orchid.api.theme.assets.AssetPage;
 
 import javax.inject.Inject;
-import java.util.List;
 
 public final class DefaultAdminTheme extends AdminTheme {
 
@@ -16,7 +14,11 @@ public final class DefaultAdminTheme extends AdminTheme {
 
     @Override
     public void addAssets() {
+        addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+        addCss("https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css");
+
         addCss("assets/css/admin_style.css");
+        addCss("assets/css/admin_orchid.css");
 
         addJs("assets/js/vendor/jquery.min.js");
         addJs("assets/js/vendor/popper.min.js");
@@ -25,19 +27,9 @@ public final class DefaultAdminTheme extends AdminTheme {
         addJs("assets/js/vendor/Chart.min.js");
 
         addJs("assets/js/admin_app.js");
+        addJs("assets/js/admin_orchid.js");
 
         super.addAssets();
-    }
-
-    // TODO: Remove these methods when Jtwig has updated to access default methods
-    @Override
-    public List<AssetPage> getScripts() {
-        return getAssetHolder().getScripts();
-    }
-
-    @Override
-    public List<AssetPage> getStyles() {
-        return getAssetHolder().getStyles();
     }
 
 }
