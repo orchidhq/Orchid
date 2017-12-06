@@ -1,6 +1,5 @@
 package com.eden.orchid.api;
 
-import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.compilers.CompilerServiceImpl;
 import com.eden.orchid.api.converters.BooleanConverter;
@@ -35,12 +34,15 @@ import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.validators.StringExistsValidator;
 import com.eden.orchid.api.registration.IgnoreModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.render.FileRenderer;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.RenderServiceImpl;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
+import com.eden.orchid.api.server.OrchidFileController;
+import com.eden.orchid.api.server.files.FileController;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.site.OrchidSiteImpl;
 import com.eden.orchid.api.tasks.TaskService;
@@ -65,6 +67,7 @@ public final class ApiModule extends OrchidModule {
         bind(GeneratorService.class).to(GeneratorServiceImpl.class);
         bind(RenderService.class).to(RenderServiceImpl.class);
         bind(OrchidRenderer.class).to(FileRenderer.class);
+        bind(OrchidFileController.class).to(FileController.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 

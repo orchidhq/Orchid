@@ -1,17 +1,17 @@
 ---
 ---
 
-$config-primary-color:   "{{ (options.materialize.colors.primary)   ? options.materialize.colors.primary   : 'cyan'       }}" !default;
-$config-secondary-color: "{{ (options.materialize.colors.secondary) ? options.materialize.colors.secondary : 'orange'     }}" !default;
-$config-success-color:   "{{ (options.materialize.colors.success)   ? options.materialize.colors.success   : 'green'      }}" !default;
-$config-error-color:     "{{ (options.materialize.colors.error)     ? options.materialize.colors.error     : 'red'        }}" !default;
-$config-link-color:      "{{ (options.materialize.colors.link)      ? options.materialize.colors.link      : 'light-blue' }}" !default;
+$config-primary-color:   "{{ theme.colors.primary   }}" !default;
+$config-secondary-color: "{{ theme.colors.secondary }}" !default;
+$config-success-color:   "{{ theme.colors.success   }}" !default;
+$config-error-color:     "{{ theme.colors.error     }}" !default;
+$config-link-color:      "{{ theme.colors.link      }}" !default;
 
-$config-primary-shade:   "{{ (options.materialize.shades.primary)   ? options.materialize.shades.primary   : 'lighten-2'  }}" !default;
-$config-secondary-shade: "{{ (options.materialize.shades.secondary) ? options.materialize.shades.secondary : 'lighten-1'  }}" !default;
-$config-success-shade:   "{{ (options.materialize.shades.success)   ? options.materialize.shades.success   : 'base'       }}" !default;
-$config-error-shade:     "{{ (options.materialize.shades.error)     ? options.materialize.shades.error     : 'base'       }}" !default;
-$config-link-shade:      "{{ (options.materialize.shades.link)      ? options.materialize.shades.link      : 'darken-1'   }}" !default;
+$config-primary-shade:   "{{ theme.shades.primary   }}" !default;
+$config-secondary-shade: "{{ theme.shades.secondary }}" !default;
+$config-success-shade:   "{{ theme.shades.success   }}" !default;
+$config-error-shade:     "{{ theme.shades.error     }}" !default;
+$config-link-shade:      "{{ theme.shades.link      }}" !default;
 
 // Custom style
 @import "theme";

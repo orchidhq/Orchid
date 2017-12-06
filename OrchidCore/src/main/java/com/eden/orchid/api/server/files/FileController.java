@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.server.files;
+package com.eden.orchid.api.server.files;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.OrchidFileController;

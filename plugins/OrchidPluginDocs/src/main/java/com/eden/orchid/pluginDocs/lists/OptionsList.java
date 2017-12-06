@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.server.admin.lists;
+package com.eden.orchid.pluginDocs.lists;
 
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.OrchidFlags;

@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.server.files;
+package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
@@ -6,7 +6,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
@@ -30,19 +29,20 @@ public final class AdminAssetResponse {
 
         Clog.i("Rendering admin File: #{$1}", targetPath);
         if (res != null) {
-
             if(context.isBinaryExtension(FilenameUtils.getExtension(targetFile.getName()))) {
-                try {
-                    InputStream stream = res.getContentStream();
-                    return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, stream, stream.available()));
-                }
-                catch (Exception e) {
-                    return new OrchidResponse(NanoHTTPD.newFixedLengthResponse("Something went wrong opening file: " + targetPath));
-                }
+                InputStream stream = res.getContentStream();
+
+                return new OrchidResponse(context)
+                        .contentStream(stream)
+                        .mimeType(mimeType);
             }
             else {
                 OrchidPage page = new OrchidPage(res, "");
-                return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, page.getContent()));
+
+                return new OrchidResponse(context)
+                        .mimeType(mimeType)
+                        .content(page.getContent())
+                        .mimeType(mimeType);
             }
         }
 

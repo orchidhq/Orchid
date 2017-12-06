@@ -1,40 +1,40 @@
-package com.eden.orchid.impl.server.admin.lists;
+package com.eden.orchid.pluginDocs.lists;
 
-import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.server.admin.AdminList;
+import com.eden.orchid.api.theme.components.OrchidComponent;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public final class ParsersList implements AdminList<OrchidParser> {
+public final class ComponentsList implements AdminList<OrchidComponent> {
 
-    private final Set<OrchidParser> list;
+    private Set<OrchidComponent> list;
 
     @Inject
-    public ParsersList(Set<OrchidParser> list) {
+    public ComponentsList(Set<OrchidComponent> list) {
         this.list = new TreeSet<>(list);
     }
 
     @Override
     public String getKey() {
-        return "parsers";
+        return "components";
     }
 
     @Override
-    public Collection<OrchidParser> getItems() {
+    public Collection<OrchidComponent> getItems() {
         return list;
     }
 
     @Override
-    public String getItemId(OrchidParser item) {
+    public String getItemId(OrchidComponent item) {
         return item.getClass().getSimpleName();
     }
 
     @Override
-    public OrchidParser getItem(String id) {
-        for(OrchidParser item : getItems()) {
+    public OrchidComponent getItem(String id) {
+        for(OrchidComponent item : getItems()) {
             if(id.equals(item.getClass().getSimpleName())) {
                 return item;
             }

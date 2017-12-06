@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.server.files;
+package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
@@ -7,7 +7,6 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
-import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -115,6 +114,6 @@ public final class IndexFileResponse {
             }
         }
 
-        return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(content));
+        return new OrchidResponse(context).content(content);
     }
 }

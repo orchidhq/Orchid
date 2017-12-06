@@ -4,6 +4,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +54,22 @@ public final class OrchidRequest {
             return files.get(key);
         }
         return null;
+    }
+
+    public JSONObject all() {
+        Map<String, Object> all = new HashMap<>();
+        all.putAll(pathParams);
+        for(Map.Entry<String, List<String>> entry : session.getParameters().entrySet()) {
+            if(entry.getValue().size() > 0) {
+                all.put(entry.getKey(), entry.getValue().get(0));
+            }
+            else {
+                all.put(entry.getKey(), "");
+            }
+        }
+        all.putAll(files);
+
+        return new JSONObject(all);
     }
 
     public JSONObject body() {

@@ -3,6 +3,7 @@ package com.eden.orchid.api.server;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.server.annotations.Delete;
 import com.eden.orchid.api.server.annotations.Get;
 import com.eden.orchid.api.server.annotations.Post;
@@ -83,29 +84,33 @@ public final class OrchidWebserver extends NanoHTTPD {
 
     private void register(OrchidController controller, Get methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
-        validateControllerMethod(method, path);
-        getRoutes.add(new OrchidRoute(controller, method, path));
+        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
+        validateControllerMethod(method, path, paramsClass);
+        getRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
     }
 
     private void register(OrchidController controller, Post methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
-        validateControllerMethod(method, path);
-        postRoutes.add(new OrchidRoute(controller, method, path));
+        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
+        validateControllerMethod(method, path, paramsClass);
+        postRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
     }
 
     private void register(OrchidController controller, Put methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
-        validateControllerMethod(method, path);
-        putRoutes.add(new OrchidRoute(controller, method, path));
+        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
+        validateControllerMethod(method, path, paramsClass);
+        putRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
     }
 
     private void register(OrchidController controller, Delete methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
-        validateControllerMethod(method, path);
-        deleteRoutes.add(new OrchidRoute(controller, method, path));
+        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
+        validateControllerMethod(method, path, paramsClass);
+        deleteRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
     }
 
-    private void validateControllerMethod(java.lang.reflect.Method method, String path) {
+    private void validateControllerMethod(java.lang.reflect.Method method, String path, Class<? extends OptionsHolder> paramsClass) {
         if (EdenUtils.isEmpty(path) || !path.startsWith("/")) {
             throw new IllegalArgumentException("OrchidController's path must not be empty and must start with a slash");
         }
@@ -116,22 +121,50 @@ public final class OrchidWebserver extends NanoHTTPD {
             throw new IllegalArgumentException("OrchidController's return value must be of type [OrchidResponse]");
         }
 
+        boolean hasParamsClass = !OptionsHolder.class.equals(paramsClass);
+
+        String controllerClass = method.getDeclaringClass().getName();
+        String controllerAction = method.getName();
+
         List<String> pathParams = ServerUtils.getPathParams(path);
         Class<?>[] methodParameters = method.getParameterTypes();
-        if (methodParameters.length != pathParams.size() + 1) {
-            throw new IllegalArgumentException("OrchidController's parameters must accept a first parameter of type [OrchidRequest] followed by " + pathParams.size() + "[String] parameters for the path parameters");
+
+        if(hasParamsClass) {
+            if (methodParameters.length != pathParams.size() + 2) {
+                throw new IllegalArgumentException(Clog.format(
+                        "Controller action [{}@{}] must accept a first parameter of type [OrchidRequest], a second parameter of {}, followed by {} [String] parameters for the path parameters",
+                        controllerClass, controllerAction, paramsClass.getName(), pathParams.size()
+                ));
+            }
+        }
+        else {
+            if (methodParameters.length != pathParams.size() + 1) {
+                throw new IllegalArgumentException(Clog.format(
+                        "Controller action [{}@{}] must accept a first parameter of type [OrchidRequest], followed by {} [String] parameters for the path parameters",
+                        controllerClass, controllerAction, pathParams.size()
+                ));
+            }
         }
 
         for (int i = 0; i < methodParameters.length; i++) {
-            if (i == 0) {
-                if (!methodParameters[i].equals(OrchidRequest.class)) {
-                    throw new IllegalArgumentException("OrchidController's first argument must be of type [OrchidRequest]");
-                }
-            }
-            else {
-                if (!methodParameters[i].equals(String.class)) {
-                    throw new IllegalArgumentException("OrchidController's path parameters must be accepted as type [String]");
-                }
+            switch(i) {
+                case 0:
+                    if (!methodParameters[i].equals(OrchidRequest.class)) {
+                        throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]'s first argument must be of type [OrchidRequest]"));
+                    }
+                    break;
+                case 1:
+                    if(hasParamsClass) {
+                        if (!methodParameters[i].equals(paramsClass)) {
+                            throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]'s second argument must be of type [{}]", paramsClass.getName()));
+                        }
+                        break;
+                    }
+                default:
+                    if (!methodParameters[i].equals(String.class)) {
+                        throw new IllegalArgumentException("Controller action [{}@{}]'s path parameters must be accepted as type [String]");
+                    }
+                    break;
             }
         }
     }
@@ -153,6 +186,8 @@ public final class OrchidWebserver extends NanoHTTPD {
             OrchidRoute matchingRoute = null;
 
             String route = "/" + OrchidUtils.normalizePath(session.getUri());
+
+            Clog.i("Serving: [{}] {}", session.getMethod(), route);
 
             switch (session.getMethod()) {
                 case GET:

@@ -1,8 +1,8 @@
-package com.eden.orchid.impl.server.admin.lists;
+package com.eden.orchid.pluginDocs.lists;
 
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
 
 import javax.inject.Inject;

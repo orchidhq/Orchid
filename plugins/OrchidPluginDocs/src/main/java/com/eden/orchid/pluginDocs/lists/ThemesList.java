@@ -1,40 +1,40 @@
-package com.eden.orchid.impl.server.admin.lists;
+package com.eden.orchid.pluginDocs.lists;
 
-import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.server.admin.AdminList;
+import com.eden.orchid.api.theme.Theme;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public final class CompilersList implements AdminList<OrchidCompiler> {
+public final class ThemesList implements AdminList<Theme> {
 
-    private Set<OrchidCompiler> list;
+    private final Set<Theme> list;
 
     @Inject
-    public CompilersList(Set<OrchidCompiler> list) {
+    public ThemesList(Set<Theme> list) {
         this.list = new TreeSet<>(list);
     }
 
     @Override
     public String getKey() {
-        return "compilers";
+        return "themes";
     }
 
     @Override
-    public Collection<OrchidCompiler> getItems() {
+    public Collection<Theme> getItems() {
         return list;
     }
 
     @Override
-    public String getItemId(OrchidCompiler item) {
+    public String getItemId(Theme item) {
         return item.getClass().getSimpleName();
     }
 
     @Override
-    public OrchidCompiler getItem(String id) {
-        for(OrchidCompiler item : getItems()) {
+    public Theme getItem(String id) {
+        for(Theme item : getItems()) {
             if(id.equals(item.getClass().getSimpleName())) {
                 return item;
             }

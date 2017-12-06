@@ -1,6 +1,6 @@
-package com.eden.orchid.impl.server.admin.lists;
+package com.eden.orchid.pluginDocs.lists;
 
-import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.server.admin.AdminList;
 
 import javax.inject.Inject;
@@ -8,33 +8,33 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public final class GeneratorsList implements AdminList<OrchidGenerator> {
+public final class CompilersList implements AdminList<OrchidCompiler> {
 
-    private Set<OrchidGenerator> list;
+    private Set<OrchidCompiler> list;
 
     @Inject
-    public GeneratorsList(Set<OrchidGenerator> list) {
+    public CompilersList(Set<OrchidCompiler> list) {
         this.list = new TreeSet<>(list);
     }
 
     @Override
     public String getKey() {
-        return "generators";
+        return "compilers";
     }
 
     @Override
-    public Collection<OrchidGenerator> getItems() {
+    public Collection<OrchidCompiler> getItems() {
         return list;
     }
 
     @Override
-    public String getItemId(OrchidGenerator item) {
+    public String getItemId(OrchidCompiler item) {
         return item.getClass().getSimpleName();
     }
 
     @Override
-    public OrchidGenerator getItem(String id) {
-        for(OrchidGenerator item : getItems()) {
+    public OrchidCompiler getItem(String id) {
+        for(OrchidCompiler item : getItems()) {
             if(id.equals(item.getClass().getSimpleName())) {
                 return item;
             }

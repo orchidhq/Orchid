@@ -1,9 +1,8 @@
-package com.eden.orchid.impl.server.files;
+package com.eden.orchid.api.server.files;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.OrchidResponse;
-import fi.iki.elonen.NanoHTTPD;
 
 import javax.inject.Inject;
 import java.io.InputStream;
@@ -24,7 +23,9 @@ public final class FaviconResponse {
                 InputStream is = faviconResource.getContentStream();
 
                 if(is != null) {
-                    return new OrchidResponse(NanoHTTPD.newChunkedResponse(NanoHTTPD.Response.Status.OK, "image/x-icon", is));
+                    return new OrchidResponse(context)
+                            .contentStream(is)
+                            .mimeType("image/x-icon");
                 }
             }
         }
@@ -32,6 +33,9 @@ public final class FaviconResponse {
             e.printStackTrace();
         }
 
-        return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.NOT_FOUND, "image/x-icon", ""));
+        return new OrchidResponse(context)
+                .content("")
+                .status(404)
+                .mimeType("image/x-icon");
     }
 }

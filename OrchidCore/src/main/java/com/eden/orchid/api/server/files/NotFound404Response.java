@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.server.files;
+package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
@@ -6,7 +6,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
@@ -55,6 +54,6 @@ public final class NotFound404Response {
             content = "";
         }
 
-        return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(content));
+        return new OrchidResponse(context).content(content);
     }
 }

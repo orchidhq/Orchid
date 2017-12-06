@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.server.files;
+package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
@@ -40,10 +40,12 @@ public final class StaticFileResponse {
 
         Clog.i("Rendering File: #{$1}", targetPath);
         try {
-            return new OrchidResponse(NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, mimeType, new FileInputStream(targetFile), targetFile.length()));
+            return new OrchidResponse(context)
+                    .contentStream(new FileInputStream(targetFile), targetFile.length())
+                    .mimeType(mimeType);
         }
         catch (Exception e) {
-            return new OrchidResponse(NanoHTTPD.newFixedLengthResponse("Something went wrong opening file: " + targetPath));
+            return new OrchidResponse(context).content("Something went wrong opening file: " + targetPath);
         }
     }
 }

@@ -3,7 +3,6 @@ package com.eden.orchid.impl;
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogFormatter;
 import com.caseyjbrooks.clog.parseltongue.Parseltongue;
-import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
@@ -11,11 +10,10 @@ import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.registration.IgnoreModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
-import com.eden.orchid.api.server.OrchidFileController;
-import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
@@ -27,26 +25,16 @@ import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
+import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
-import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.server.admin.AdminController;
-import com.eden.orchid.impl.server.admin.lists.CompilersList;
-import com.eden.orchid.impl.server.admin.lists.ComponentsList;
-import com.eden.orchid.impl.server.admin.lists.GeneratorsList;
-import com.eden.orchid.impl.server.admin.lists.MenuItemsList;
-import com.eden.orchid.impl.server.admin.lists.OptionsList;
-import com.eden.orchid.impl.server.admin.lists.ParsersList;
-import com.eden.orchid.impl.server.admin.lists.ResourceSourcesList;
-import com.eden.orchid.impl.server.admin.lists.TasksList;
-import com.eden.orchid.impl.server.admin.lists.ThemesList;
-import com.eden.orchid.impl.server.files.FileController;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.tasks.WatchTask;
@@ -73,7 +61,6 @@ public final class ImplModule extends OrchidModule {
     @Override
     protected void configure() {
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
-        bind(OrchidFileController.class).to(FileController.class);
 
         addToSet(Theme.class, DefaultTheme.class);
         addToSet(AdminTheme.class, DefaultAdminTheme.class);
@@ -136,19 +123,8 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidController.class,
                 AdminController.class);
 
-        addToSet(AdminList.class,
-                CompilersList.class,
-                ComponentsList.class,
-                GeneratorsList.class,
-                OptionsList.class,
-                ParsersList.class,
-                ResourceSourcesList.class,
-                TasksList.class,
-                ThemesList.class,
-                MenuItemsList.class);
-
         ClogFormatter formatter = Clog.getFormatter();
-        if(formatter instanceof Parseltongue) {
+        if (formatter instanceof Parseltongue) {
             ((Parseltongue) formatter).findSpells(ClogSpells.class);
         }
     }

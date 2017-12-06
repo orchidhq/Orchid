@@ -1,40 +1,40 @@
-package com.eden.orchid.impl.server.admin.lists;
+package com.eden.orchid.pluginDocs.lists;
 
+import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.server.admin.AdminList;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
-public final class MenuItemsList implements AdminList<OrchidMenuItem> {
+public final class ParsersList implements AdminList<OrchidParser> {
 
-    private Set<OrchidMenuItem> list;
+    private final Set<OrchidParser> list;
 
     @Inject
-    public MenuItemsList(Set<OrchidMenuItem> list) {
+    public ParsersList(Set<OrchidParser> list) {
         this.list = new TreeSet<>(list);
     }
 
     @Override
     public String getKey() {
-        return "menuItems";
+        return "parsers";
     }
 
     @Override
-    public Collection<OrchidMenuItem> getItems() {
+    public Collection<OrchidParser> getItems() {
         return list;
     }
 
     @Override
-    public String getItemId(OrchidMenuItem item) {
+    public String getItemId(OrchidParser item) {
         return item.getClass().getSimpleName();
     }
 
     @Override
-    public OrchidMenuItem getItem(String id) {
-        for(OrchidMenuItem item : getItems()) {
+    public OrchidParser getItem(String id) {
+        for(OrchidParser item : getItems()) {
             if(id.equals(item.getClass().getSimpleName())) {
                 return item;
             }
