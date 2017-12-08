@@ -22,11 +22,11 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.impl.compilers.csv.CSVParser;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
-import com.eden.orchid.impl.compilers.jtwig.JTwigCompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
+import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
 import com.eden.orchid.impl.generators.AssetsGenerator;
@@ -76,7 +76,7 @@ public final class ImplModule extends OrchidModule {
         // Compilers
         addToSet(OrchidCompiler.class,
                 MarkdownCompiler.class,
-                JTwigCompiler.class,
+                PebbleCompiler.class,
                 SassCompiler.class,
                 TextCompiler.class);
 

@@ -2,11 +2,14 @@ package com.eden.orchid.impl.compilers.jtwig;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.mitchellbosecke.pebble.extension.Filter;
+import com.mitchellbosecke.pebble.extension.escaper.SafeString;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,9 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public final class AlertFilter implements JtwigFunction {
-
-    public static boolean showLog = false;
+public final class AlertFilter implements JtwigFunction, Filter {
 
     private final OrchidContext context;
 
@@ -56,7 +57,17 @@ public final class AlertFilter implements JtwigFunction {
         }
     }
 
-    public Object apply(String input, String alertLevel) {
+    @Override
+    public Object apply(Object input, Map<String, Object> args) {
+        return new SafeString(apply(input, args.getOrDefault("level", "info").toString()));
+    }
+
+    @Override
+    public List<String> getArgumentNames() {
+        return Arrays.asList("level");
+    }
+
+    private String apply(Object input, String alertLevel) {
         OrchidResource resource = context.getResourceEntry("templates/includes/alert.twig");
         if (resource != null) {
             Map<String, Object> data = new HashMap<>();
@@ -66,7 +77,7 @@ public final class AlertFilter implements JtwigFunction {
             return resource.compileContent(data);
         }
         else {
-            return input;
+            return (String) input;
         }
     }
 }

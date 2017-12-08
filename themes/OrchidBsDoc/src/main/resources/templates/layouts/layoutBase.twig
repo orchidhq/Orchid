@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% include 'includes/header.twig' %}
-    {% include 'meta.twig' ignore missing %}
+    {% include 'meta.twig' %}
     {% include 'includes/styles.twig' %}
 </head>
 <body>
@@ -26,7 +26,7 @@
 
             {% endblock %}
             {% block remainingComponents %}
-                {% include 'includes/componentHolder.twig' with {componentHolder: page.components} %}
+                {% include 'includes/componentHolder.twig' with {"componentHolder": page.components} %}
             {% endblock %}
         </div>
 

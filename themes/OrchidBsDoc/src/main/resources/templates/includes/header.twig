@@ -4,23 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="robots" content="index, follow">
 
-{% if page.title %}
+{% if page.title is not empty %}
     <title>{{ page.title }}</title>
 {% else %}
     <title>{{ theme.about.siteName }}</title>
 {% endif %}
 
-{% if page.description %}
+{% if page.description is not empty %}
     <meta name="description" content="{{ page.description }}">
 {% else %}
     <meta name="description" content="{{ theme.about.description }}">
 {% endif %}
 
-{% if page.previous %}
+{% if page.previous is not empty %}
     <link rel="prev" href="{{ page.previous.link }}">
 {% endif %}
 
-{% if page.next %}
+{% if page.next is not empty %}
     <link rel="next" href="{{ page.next.link }}">
 {% endif %}
 

@@ -2,11 +2,11 @@
     <ul class="nav bs-docs-sidenav">
         {% for menuItem in page.menu.menuItems %}
             {% if menuItem.hasChildren() %}
-                <li class="has-children {% for childLink in menuItem.children %}{% if length(childLink.title) > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">
+                <li class="has-children {% for childLink in menuItem.children %}{% if childLink.title|length > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">
                     <a>{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>
                     <ul class="nav">
                         {% for childLink in menuItem.children %}
-                            {% if length(childLink.title) > 0 %}
+                            {% if childLink.title|length > 0 %}
                                 <li class="{{ (page == childLink.page) ? 'active' : '' }}"><a
                                             href="{{ childLink.link }}">{{ childLink.title }}</a></li>
                             {% endif %}
@@ -17,18 +17,18 @@
                 <li>
                     <div class="divider"></div>
                 </li>
-                {% if length(menuItem.title) > 0 %}
+                {% if menuItem.title|length > 0 %}
                     <li><a class="subheader">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% else %}
-                {% if length(menuItem.title) > 0 %}
+                {% if menuItem.title|length > 0 %}
                     <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% endif %}
         {% endfor %}
     </ul>
 
-    {% include 'includes/componentHolder.twig' with {componentHolder: theme.sidebar} %}
+    {% include 'includes/componentHolder.twig' with {"componentHolder": theme.sidebar} %}
 
     <a class="back-to-top" href="#top">
         <i class="glyphicon glyphicon-chevron-up"></i> Back to top
