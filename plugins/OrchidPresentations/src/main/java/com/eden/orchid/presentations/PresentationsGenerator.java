@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Description("Embed presentations and slide-decks in your pages.")
 public class PresentationsGenerator extends OrchidGenerator {
@@ -51,7 +52,7 @@ public class PresentationsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
 
     }
 

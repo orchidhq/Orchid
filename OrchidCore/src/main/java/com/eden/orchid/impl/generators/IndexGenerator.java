@@ -15,6 +15,7 @@ import com.eden.orchid.api.theme.pages.OrchidReference;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Description("Generates index files to connect your site to others.")
 public final class IndexGenerator extends OrchidGenerator {
@@ -30,7 +31,7 @@ public final class IndexGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
         generateIndexFiles();
     }
 

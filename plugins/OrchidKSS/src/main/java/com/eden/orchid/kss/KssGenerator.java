@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Singleton
 @Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).")
@@ -106,7 +107,7 @@ public class KssGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderTemplate);
     }
 }

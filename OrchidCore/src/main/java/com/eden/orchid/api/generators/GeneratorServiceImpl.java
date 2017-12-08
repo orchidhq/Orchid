@@ -6,6 +6,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
@@ -42,6 +43,14 @@ public final class GeneratorServiceImpl implements GeneratorService {
     @Option @Getter @Setter
     private String[] externalIndices;
 
+    @Getter @Setter
+    @Option @BooleanDefault(false)
+    private boolean parallelIndexing;
+
+    @Getter @Setter
+    @Option @BooleanDefault(true)
+    private boolean parallelGeneration;
+
     @Inject
     public GeneratorServiceImpl(Set<OrchidGenerator> generators, BuildMetrics metrics) {
         this.allGenerators = new TreeSet<>(generators);
@@ -72,7 +81,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void buildInternalIndex() {
-        getFilteredGenerators().forEach(this::indexGenerator);
+        getFilteredGenerators(parallelIndexing).forEach(this::indexGenerator);
     }
 
     private void indexGenerator(OrchidGenerator generator) {
@@ -126,7 +135,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     @Override
     public void startGeneration() {
         metrics.startGeneration();
-        getFilteredGenerators().forEach(this::useGenerator);
+        getFilteredGenerators(parallelGeneration).forEach(this::useGenerator);
         metrics.stopGeneration();
     }
 
@@ -142,6 +151,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
             generatorPages = new ArrayList<>();
         }
 
+        Stream<? extends OrchidPage> generatorPagesStream = generator.isParallel() ? generatorPages.parallelStream() : generatorPages.stream();
+
         Theme generatorTheme = null;
         if (!EdenUtils.isEmpty(generator.getTheme())) {
             generatorTheme = context.findTheme(generator.getTheme());
@@ -150,12 +161,12 @@ public final class GeneratorServiceImpl implements GeneratorService {
         if (generatorTheme != null) {
             Clog.d("Applying [{}] theme to [{}] generator", generatorTheme.getClass().getSimpleName(), generator.getKey());
             context.pushTheme(generatorTheme);
-            generator.startGeneration(generatorPages);
+            generator.startGeneration(generatorPagesStream);
             generatorTheme.renderAssets();
             context.popTheme();
         }
         else {
-            generator.startGeneration(generatorPages);
+            generator.startGeneration(generatorPagesStream);
         }
 
         metrics.stopGeneratingGenerator(generator.getKey());
@@ -168,8 +179,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
 // Utilities
 //----------------------------------------------------------------------------------------------------------------------
 
-    Stream<OrchidGenerator> getFilteredGenerators() {
-        Stream<OrchidGenerator> generatorStream = generators.stream();
+    Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
+        Stream<OrchidGenerator> generatorStream = (parallel) ? generators.parallelStream() : generators.stream();
 
         if(!EdenUtils.isEmpty(disabled)) {
             generatorStream = generatorStream

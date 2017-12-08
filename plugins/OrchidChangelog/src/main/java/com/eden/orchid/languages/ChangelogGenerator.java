@@ -6,8 +6,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.ListClass;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.JsonResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -23,6 +23,7 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Singleton
 @Description("Track changes and create references to all versions of your project.")
@@ -76,7 +77,7 @@ public class ChangelogGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderRaw);
     }
 }

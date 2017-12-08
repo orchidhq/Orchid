@@ -5,10 +5,10 @@ import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.ListClass;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Singleton
 @Description("Share your thoughts and interests with blog posts and archives.")
@@ -105,7 +106,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> posts) {
+    public void startGeneration(Stream<? extends OrchidPage> posts) {
         try {
             posts.forEach(context::renderTemplate);
         }

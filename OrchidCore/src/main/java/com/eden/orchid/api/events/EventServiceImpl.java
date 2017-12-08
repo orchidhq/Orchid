@@ -95,7 +95,7 @@ public final class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void broadcast(OrchidEvent event) {
+    public synchronized void broadcast(OrchidEvent event) {
         for (Class<? extends OrchidEvent> inProgress : eventsInProgress) {
             if (event.getClass().equals(inProgress)) {
                 throw new IllegalStateException(Clog.format("The event '#{$1}' is already in progress, it cannot be emitted again until this cycle has finished.", event.getClass().toString()));

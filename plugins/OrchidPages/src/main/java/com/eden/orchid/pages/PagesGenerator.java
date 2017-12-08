@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Singleton
 @Description("Generates static pages with the same output folder as their input, minus the base directory. Input " +
@@ -43,7 +44,7 @@ public class PagesGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
         try {
             pages.forEach(context::renderTemplate);
         }

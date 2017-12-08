@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Description("Indexes form definitions so they can be easily referenced from components on different pages.")
 public class FormsGenerator extends OrchidGenerator {
@@ -45,7 +46,7 @@ public class FormsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
 
     }
 

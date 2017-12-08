@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Singleton
 @Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " +
@@ -75,7 +76,7 @@ public class JavadocGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderTemplate);
     }
 }

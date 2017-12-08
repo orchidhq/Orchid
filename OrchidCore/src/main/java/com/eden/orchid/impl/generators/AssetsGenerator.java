@@ -7,12 +7,12 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Singleton
 @Description("Prints all assets to the output directory. This is all scripts and styles (after compilation) that have " +
@@ -47,30 +47,28 @@ public final class AssetsGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
-        pages.stream()
-             .filter(page -> context.isBinaryExtension(page.getReference().getOutputExtension()))
-             .forEach(context::renderBinary);
-        pages.stream()
-             .filter(OrchidUtils.not(page -> context.isBinaryExtension(page.getReference().getOutputExtension())))
-             .forEach(context::renderRaw);
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
+        pages.forEach(page -> {
+            if(context.isBinaryExtension(page.getReference().getOutputExtension())) {
+                context.renderBinary(page);
+            }
+            else {
+                context.renderRaw(page);
+            }
+        });
 
         context.getGlobalAssetHolder()
                .getScripts()
-               .stream()
                .forEach(context::renderRaw);
         context.getGlobalAssetHolder()
                .getStyles()
-               .stream()
                .forEach(context::renderRaw);
 
         context.getDefaultTheme()
                .getScripts()
-               .stream()
                .forEach(context::renderRaw);
         context.getDefaultTheme()
                .getStyles()
-               .stream()
                .forEach(context::renderRaw);
     }
 }

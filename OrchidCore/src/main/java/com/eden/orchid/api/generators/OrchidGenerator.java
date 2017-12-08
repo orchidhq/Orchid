@@ -1,8 +1,9 @@
 package com.eden.orchid.api.generators;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Generators are what create the output pages within Orchid. Generators are run after all Options have been processed
@@ -57,6 +59,10 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     @Option
     public String layout;
 
+    @Getter @Setter
+    @Option @BooleanDefault(true)
+    public boolean parallel;
+
     @Inject
     public OrchidGenerator(OrchidContext context, String key, int priority) {
         super(priority);
@@ -77,6 +83,6 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
      *
      * @param pages the pages to render
      */
-    public abstract void startGeneration(List<? extends OrchidPage> pages);
+    public abstract void startGeneration(Stream<? extends OrchidPage> pages);
 
 }

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Description("Generates the root homepage for your site.")
 public final class HomepageGenerator extends OrchidGenerator {
@@ -52,7 +53,7 @@ public final class HomepageGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderTemplate);
     }
 }

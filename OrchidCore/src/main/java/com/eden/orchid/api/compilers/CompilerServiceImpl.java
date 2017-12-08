@@ -149,7 +149,9 @@ public final class CompilerServiceImpl implements CompilerService {
         OrchidCompiler compiler = compilerFor(extension);
 
         if (compiler != null) {
-            return compiler.compile(extension, input, context.getSiteData(data));
+            synchronized(compiler) {
+                return compiler.compile(extension, input, context.getSiteData(data));
+            }
         }
         else {
             return input;
