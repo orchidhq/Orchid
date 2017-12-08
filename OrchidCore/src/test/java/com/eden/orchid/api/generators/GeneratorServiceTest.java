@@ -154,27 +154,27 @@ public final class GeneratorServiceTest {
         service.startIndexing();
         List<OrchidGenerator> generators;
 
-        generators = service.getFilteredGenerators().collect(Collectors.toList());
+        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator1, generator2, generator3));
 
         service.setDisabled(new String[]{"gen1"});
 
-        generators = service.getFilteredGenerators().collect(Collectors.toList());
+        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator2, generator3));
 
         service.setDisabled(null);
 
-        generators = service.getFilteredGenerators().collect(Collectors.toList());
+        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator1, generator2, generator3));
 
         service.setEnabled(new String[]{"gen1"});
 
-        generators = service.getFilteredGenerators().collect(Collectors.toList());
+        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator1));
 
         service.setDisabled(new String[]{"gen1"});
 
-        generators = service.getFilteredGenerators().collect(Collectors.toList());
+        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
         assertThat(generators.size(), is(0));
     }
 

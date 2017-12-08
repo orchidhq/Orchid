@@ -4,6 +4,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MockGenerator extends OrchidGenerator {
 
@@ -21,7 +23,7 @@ public class MockGenerator extends OrchidGenerator {
     }
 
     @Override
-    public void startGeneration(List<? extends OrchidPage> pages) {
-        generatedPages = pages;
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
+        generatedPages = pages.collect(Collectors.toList());
     }
 }
