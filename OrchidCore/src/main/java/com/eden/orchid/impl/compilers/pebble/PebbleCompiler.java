@@ -1,6 +1,9 @@
 package com.eden.orchid.impl.compilers.pebble;
 
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.OrchidCompiler;
+import com.eden.orchid.api.events.On;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.extension.Extension;
 import com.mitchellbosecke.pebble.extension.Filter;
@@ -27,24 +30,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Singleton
-public final class PebbleCompiler extends OrchidCompiler {
+public final class PebbleCompiler extends OrchidCompiler implements OrchidEventListener {
 
+    private ExecutorService executor;
     private PebbleEngine engine;
 
     @Inject
     public PebbleCompiler(PebbleTemplateLoader loader, Set<JtwigFunction> filters) {
         super(10000);
 
+        executor = Executors.newFixedThreadPool(10);
+
         engine = new PebbleEngine.Builder()
                 .loader(loader)
+                .executorService(executor)
                 .extension(new Extension() {
                     @Override public Map<String, Filter> getFilters() {
                         Map<String, Filter> filterMap = new HashMap<>();
 
-                        for(JtwigFunction function : filters) {
-                            if(function instanceof Filter) {
+                        for (JtwigFunction function : filters) {
+                            if (function instanceof Filter) {
                                 filterMap.put(function.name(), (Filter) function);
                             }
                         }
@@ -122,6 +131,15 @@ public final class PebbleCompiler extends OrchidCompiler {
 
     @Override
     public String[] getSourceExtensions() {
-        return new String[] {"html", "twig", "peb", "pebble"};
+        return new String[]{"html", "twig", "peb", "pebble"};
     }
+
+// Clean up executor on shutdown
+//----------------------------------------------------------------------------------------------------------------------
+
+    @On(Orchid.Lifecycle.Shutdown.class)
+    public void onEndSession(Orchid.Lifecycle.Shutdown event) {
+        executor.shutdown();
+    }
+
 }

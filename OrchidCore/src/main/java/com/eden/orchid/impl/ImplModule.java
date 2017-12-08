@@ -118,7 +118,8 @@ public final class ImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
-                TaskServiceImpl.class);
+                TaskServiceImpl.class,
+                PebbleCompiler.class);
 
         addToSet(OrchidController.class,
                 AdminController.class);
