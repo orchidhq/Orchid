@@ -8,15 +8,7 @@
 
     <!-- Main -->
     <div id="main">
-        {% embed 'includes/componentHolder.peb' with {componentHolder: page.components} %}
-            {% block componentWrapper %}
-                <article class="post single">
-                    <div class="component component-{{ component.key }}">
-                        {% include component | template('component') ignore missing %}
-                    </div>
-                </article>
-            {% endblock %}
-        {% endembed %}
+        {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
 
         <div style="max-width: 960px; margin: 0 auto 3em auto;">
             {% include 'includes/pagination.peb' %}

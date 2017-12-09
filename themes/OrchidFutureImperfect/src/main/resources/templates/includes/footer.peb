@@ -1,21 +1,11 @@
 <!-- Footer -->
 <section id="footer">
     <ul class="icons">
-        {% if length(theme.social.twitter) > 0 %}
-            <li><a href="{{ theme.social.twitter }}" class="fa-twitter"><span class="label">Twitter</span></a></li>
-        {% endif %}
-        {% if length(theme.social.facebook) > 0 %}
-            <li><a href="{{ theme.social.facebook }}" class="fa-facebook"><span class="label">Facebook</span></a></li>
-        {% endif %}
-        {% if length(theme.social.instagram) > 0 %}
-            <li><a href="{{ theme.social.instagram }}" class="fa-instagram"><span class="label">Instagram</span></a></li>
-        {% endif %}
-        {% if length(theme.social.rss) > 0 %}
-            <li><a href="{{ theme.social.rss }}" class="fa-rss"><span class="label">RSS</span></a></li>
-        {% endif %}
-        {% if length(theme.social.email) > 0 %}
-            <li><a href="{{ theme.social.email }}" class="fa-envelope"><span class="label">Email</span></a></li>
-        {% endif %}
+    {% if theme.social is not empty %}
+    {% for item in theme.social.items %}
+        <li><a href="{{ item.link }}" class="{{ item.icon }}"><span class="label">{{ item.label }}</span></a></li>
+    {% endfor %}
+    {% endif %}
     </ul>
     <p class="copyright">
         &copy; {{ theme.about.siteName }}.

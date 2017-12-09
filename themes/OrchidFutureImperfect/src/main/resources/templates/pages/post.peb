@@ -12,7 +12,7 @@
         </div>
     </header>
     <a href="{{ post.link }}" class="image featured"><img src="{{ post.featuredImage }}" alt="{{ post.featuredImageAlt }}"/></a>
-    {{ post.content }}
+    {{ post.content | raw }}
     <footer>
         <span class="grow">Categorized under <a
                     href="{{ post.categoryPage.link }}">{{ post.categoryPage.title }}</a></span>

@@ -18,7 +18,7 @@
     <a href="{{ post.link }}" class="image featured gallery">
         <img src="{{ post.featuredImage }}" alt="{{ post.featuredImageAlt }}" style="max-height: initial;"/>
     </a>
-    {{ post.content }}
+    {{ post.content | raw }}
     <footer>
         <span class="grow">Categorized under <a
                     href="{{ post.categoryPage.link }}">{{ post.categoryPage.title }}</a></span>

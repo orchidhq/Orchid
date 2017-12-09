@@ -1,12 +1,12 @@
 <!-- Pagination -->
 <ul class="actions pagination">
-    {% if page.previous %}
+    {% if page.previous is not empty %}
         <li><a href="{{ page.previous.link }}" class="button big previous">Previous Page</a></li>
     {% else %}
         <li><a href="" class="disabled button big previous">Previous Page</a></li>
     {% endif %}
 
-    {% if page.next %}
+    {% if page.next is not empty %}
         <li><a href="{{ page.next.link }}" class="button big next">Next Page</a></li>
     {% else %}
         <li><a href="" class="disabled button big next">Next Page</a></li>

@@ -20,6 +20,5 @@
                 {% endfor %}
             </div>
         </section>
-
     {% endfor %}
 {% endfor %}

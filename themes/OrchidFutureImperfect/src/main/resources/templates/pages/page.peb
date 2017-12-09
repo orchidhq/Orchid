@@ -8,5 +8,5 @@
         </div>
     </header>
     <span class="image featured"><img src="{{ page.featuredImage }}" alt=""/></span>
-    {{ page.content }}
+    {{ page.content | raw }}
 </article>
