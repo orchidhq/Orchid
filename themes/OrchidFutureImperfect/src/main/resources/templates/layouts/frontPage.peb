@@ -1,0 +1,5 @@
+{% extends 'layouts/index.peb' %}
+
+{% block bodyClass %}
+    {{ 'front-page' }}
+{% endblock %}

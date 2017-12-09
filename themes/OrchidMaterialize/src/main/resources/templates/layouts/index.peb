@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'includes/header.peb' %}
+    {% include 'includes/styles.peb' %}
+    <style>
+        .container p > img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    {% include 'includes/navbar.peb' %}
+    {% include 'includes/sidenav.peb' %}
+</header>
+<main>
+    <div class="container">
+        {% block jumbotron %}{% endblock %}
+        {% include 'includes/componentHolder.peb' with {componentHolder: page.components} %}
+    </div>
+</main>
+
+{% include 'includes/footer.peb' %}
+
+{% include 'includes/scripts.peb' %}
+
+<script>
+    $(document).ready(function () {
+        $(".button-collapse").sideNav();
+    });
+</script>
+</body>
+</html>

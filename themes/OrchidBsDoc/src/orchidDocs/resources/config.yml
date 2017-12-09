@@ -20,10 +20,10 @@ BsDoc:
       page: 'Contact'
 
 pages:
-  layout: layouts/geopattern2.twig
+  layout: layouts/geopattern2.peb
 
 posts:
-  layout: layouts/index2.twig
+  layout: layouts/index2.peb
   categories:
     - 'personal'
     - 'programming'

@@ -131,7 +131,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
 
     @Override
     public String[] getSourceExtensions() {
-        return new String[]{"html", "twig", "peb", "pebble"};
+        return new String[]{"html", "peb", "pebble"};
     }
 
 // Clean up executor on shutdown

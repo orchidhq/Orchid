@@ -23,7 +23,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     private final OrchidContext context;
 
-    private static final String precompilerExtension = "twig";
+    private static final String precompilerExtension = "peb";
 
     private final List<EdenPair<String, OrchidParser>> delimiters;
 

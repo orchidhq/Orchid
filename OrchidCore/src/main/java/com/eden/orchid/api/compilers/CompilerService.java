@@ -194,7 +194,7 @@ public interface CompilerService extends OrchidService {
     }
 
     /**
-     * Normally, a filename like `index.php.twig` would be read as being compiled with the `twig` extension, but instead
+     * Normally, a filename like `index.php.peb` would be read as being compiled with the `peb` extension, but instead
      * of rendering to the normal `html` output extension, use `php`. However, for a filename file `index.min.js`, the
      * `min` should be ignored from this process and kept in the filename, as it is a common convention to use `min.js`
      * to denote a compiled/minified Javascript asset.

@@ -20,7 +20,7 @@ public class TextField extends FormField {
 
     public List<String> getTemplates() {
         List<String> allTemplates = super.getTemplates();
-        allTemplates.add("fields/textual.twig");
+        allTemplates.add("fields/textual.peb");
         return allTemplates;
     }
 

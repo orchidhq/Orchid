@@ -1,0 +1,20 @@
+<div class="inner">
+    <footer id="footer text-center">
+        <div class="clearfix">
+            {% if page.previous is not empty %}
+                <div class="float-left">
+                    <a href="{{ page.previous.link }}" class="button special small pill">
+                        <span>&larr;</span> {{ page.previous.title }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if page.next is not empty %}
+                <div class="float-right">
+                    <a href="{{ page.next.link }}" class="button special small pill">
+                        {{ page.next.title }}<span>&rarr;</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </footer>
+</div>

@@ -39,9 +39,9 @@ import java.util.stream.Stream;
  * template for an OrchidPage and generating a page according to that template. This template should be provided by the
  * Theme, but if the Theme did not implement the desired template, Orchid will attempt to find a suitable fallback.
  *
- * It is also worth noting that templates can be provided by OrchidGenerator extensions apart from a Theme, and when using
- * Twig as the main template engine, can be injected into the site's content by extending one of the Theme's layouts,
- * which should typically be 'templates/layouts/index.twig'.
+ * It is also worth noting that templates can be provided by OrchidGenerator extensions apart from a Theme, and when
+ * using Pebble as the main template engine, can be injected into the site's content by extending one of the Theme's
+ * layouts, which should typically be 'templates/layouts/index.peb'.
  *
  */
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {

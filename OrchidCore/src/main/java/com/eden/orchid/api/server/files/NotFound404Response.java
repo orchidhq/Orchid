@@ -26,7 +26,7 @@ public final class NotFound404Response {
         String content = "";
         Clog.i("Rendering 404: #{$1}", targetPath);
 
-        OrchidResource resource = context.getResourceEntry("templates/server/404.twig");
+        OrchidResource resource = context.getResourceEntry("templates/server/404.peb");
 
         JSONObject indexPageVars = new JSONObject();
         indexPageVars.put("title", "Not Found - " + targetPath);

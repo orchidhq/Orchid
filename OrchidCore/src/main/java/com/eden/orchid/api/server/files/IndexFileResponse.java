@@ -81,7 +81,7 @@ public final class IndexFileResponse {
                     }
                 }
 
-                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.twig");
+                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb");
 
                 JSONObject indexPageVars = new JSONObject();
                 indexPageVars.put("title", "List of files/dirs under " + targetPath);

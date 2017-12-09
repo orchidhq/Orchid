@@ -68,7 +68,7 @@ public final class AlertFilter implements JtwigFunction, Filter {
     }
 
     private String apply(Object input, String alertLevel) {
-        OrchidResource resource = context.getResourceEntry("templates/includes/alert.twig");
+        OrchidResource resource = context.getResourceEntry("templates/includes/alert.peb");
         if (resource != null) {
             Map<String, Object> data = new HashMap<>();
             data.put("content", input);

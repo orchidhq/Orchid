@@ -39,18 +39,18 @@ FutureImperfect:
       limit: 3
       category: programming
       templates:
-          - 'includes/postPreview_mini.twig'
+          - 'includes/postPreview_mini.peb'
     - type: recentPosts
       limit: 5
       category: personal
       templates:
-          - 'includes/postPreview_list.twig'
+          - 'includes/postPreview_list.peb'
 
 pages:
-  layout: layouts/single.twig
+  layout: layouts/single.peb
 
 posts:
-  layout: layouts/single.twig
+  layout: layouts/single.peb
   categories:
     - 'personal'
     - 'programming'

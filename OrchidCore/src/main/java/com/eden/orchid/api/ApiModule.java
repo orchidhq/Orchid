@@ -35,10 +35,12 @@ import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.validators.StringExistsValidator;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.api.render.DefaultTemplateResolutionStrategy;
 import com.eden.orchid.api.render.FileRenderer;
 import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.RenderServiceImpl;
+import com.eden.orchid.api.render.TemplateResolutionStrategy;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.server.OrchidFileController;
@@ -68,6 +70,7 @@ public final class ApiModule extends OrchidModule {
         bind(RenderService.class).to(RenderServiceImpl.class);
         bind(OrchidRenderer.class).to(FileRenderer.class);
         bind(OrchidFileController.class).to(FileController.class);
+        bind(TemplateResolutionStrategy.class).to(DefaultTemplateResolutionStrategy.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 
@@ -102,12 +105,26 @@ public final class ApiModule extends OrchidModule {
     }
 
     @Provides
-    OrchidSite provideOrchidSite(@Named("v") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment) {
+    OrchidSite provideOrchidSite
+            (@Named("v") String version,
+             @Named("baseUrl") String baseUrl,
+             @Named("environment") String environment,
+             @Named("defaultTemplateExtension") String defaultTemplateExtension) {
         try {
-            return new OrchidSiteImpl((String) Class.forName("com.eden.orchid.OrchidVersion").getMethod("getVersion").invoke(null), version, baseUrl, environment);
+            return new OrchidSiteImpl(
+                    (String) Class.forName("com.eden.orchid.OrchidVersion").getMethod("getVersion").invoke(null),
+                    version,
+                    baseUrl,
+                    environment,
+                    defaultTemplateExtension);
         }
         catch (Exception e) {
-            return new OrchidSiteImpl("", version, baseUrl, environment);
+            return new OrchidSiteImpl(
+                    "",
+                    version,
+                    baseUrl,
+                    environment,
+                    defaultTemplateExtension);
         }
     }
 

@@ -28,7 +28,7 @@ public final class HomepageGenerator extends OrchidGenerator {
         OrchidResource resource = context.getLocalResourceEntry("homepage.md");
         OrchidPage page;
         if(resource == null) {
-            resource = new StringResource(context, "index.twig", "");
+            resource = new StringResource(context, "index.peb", "");
             page = new OrchidPage(resource, "frontPage");
 
             JSONObject readmeComponent = new JSONObject();

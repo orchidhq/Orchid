@@ -1,0 +1,52 @@
+{% extends 'layouts/layoutBase.peb' %}
+
+{% block bodyClass %}
+    {{ 'index' }}
+{% endblock %}
+
+{% block body %}
+
+    <!-- Main -->
+    <div id="main">
+
+        {% embed 'includes/componentHolder.peb' with {componentHolder: page.components} %}
+            {% block componentWrapper %}
+                <article class="post single">
+                    <div class="component component-{{ component.key }}">
+                        {% include component | template('component') ignore missing %}
+                    </div>
+                </article>
+            {% endblock %}
+        {% endembed %}
+
+        {% include 'includes/pagination.peb' %}
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+        <!-- Intro -->
+        <section id="intro">
+            <a href="#" class="logo"><img src="{{ theme.about.avatar }}" alt=""/></a>
+            <header>
+                <h2>{{ theme.about.siteName }}</h2>
+                <p>{{ theme.about.tagline }}</p>
+            </header>
+        </section>
+
+        {% include 'includes/componentHolder.peb' with {componentHolder: theme.sidebar} %}
+
+        <!-- About -->
+        <section class="blurb">
+            <h2>About</h2>
+            <p>{{ theme.about.blurb }}</p>
+            <ul class="actions">
+                <li><a href="#" class="button">Learn More</a></li>
+            </ul>
+        </section>
+
+        {% include 'includes/footer.peb' %}
+
+    </section>
+
+{% endblock %}
