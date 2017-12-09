@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {% include 'includes/header.peb' %}
+    {% include 'includes/head.peb' %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
     {% include 'includes/styles.peb' %}
     <style>
         .container p > img {
-            width: 100%;
+            max-width: 100%;
         }
     </style>
 </head>
@@ -17,7 +19,7 @@
 <main>
     <div class="container">
         {% block jumbotron %}{% endblock %}
-        {% include 'includes/componentHolder.peb' with {componentHolder: page.components} %}
+        {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
     </div>
 </main>
 

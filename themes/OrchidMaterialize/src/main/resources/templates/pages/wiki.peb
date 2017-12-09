@@ -1,2 +1,2 @@
 
-{{ page.content }}
+{{ page.content | raw }}
