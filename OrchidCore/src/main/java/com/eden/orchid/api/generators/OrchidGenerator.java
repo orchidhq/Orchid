@@ -60,7 +60,7 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     public String layout;
 
     @Getter @Setter
-    @Option @BooleanDefault(true)
+    @Option @BooleanDefault(false)
     public boolean parallel;
 
     @Inject
