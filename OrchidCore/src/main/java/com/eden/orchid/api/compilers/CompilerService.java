@@ -193,4 +193,31 @@ public interface CompilerService extends OrchidService {
         return getService(CompilerService.class).isBinaryExtension(extension);
     }
 
+    /**
+     * Normally, a filename like `index.php.peb` would be read as being compiled with the `peb` extension, but instead
+     * of rendering to the normal `html` output extension, use `php`. However, for a filename file `index.min.js`, the
+     * `min` should be ignored from this process and kept in the filename, as it is a common convention to use `min.js`
+     * to denote a compiled/minified Javascript asset.
+     *
+     * This method returns a List of the current known ignored output extensions
+     *
+     * @return the current known ignored output file extensions
+     *
+     * @since v1.0.0
+     */
+    default List<String> getIgnoredOutputExtensions() {
+        return getService(CompilerService.class).getIgnoredOutputExtensions();
+    }
+
+    /**
+     * Determines if a given file extension should be ignored when considering 'intermediate' dots in a filename.
+     *
+     * @return true if the extension represents an ignored output file type, false otherwise
+     *
+     * @since v1.0.0
+     */
+    default boolean isIgnoredOutputExtension(String extension) {
+        return getService(CompilerService.class).isIgnoredOutputExtension(extension);
+    }
+
 }

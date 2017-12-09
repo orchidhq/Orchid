@@ -20,10 +20,13 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
 
     @Getter @Setter protected boolean hasRenderedAssets;
 
+    @Getter @Setter protected String preferredTemplateExtension;
+
     public AbstractTheme(OrchidContext context, String key, int priority) {
         super(context, priority);
         this.key = key;
         this.assetHolder = new ThemeAssetHolder(context, this);
+        this.preferredTemplateExtension = "peb";
     }
 
     public void clearCache() {

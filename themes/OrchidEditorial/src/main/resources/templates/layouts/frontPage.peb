@@ -1,0 +1,27 @@
+{% extends 'layouts/index.peb' %}
+
+{% block banner %}
+    <section id="banner">
+        <div class="content">
+            <header>
+                <h1>{{ theme.about.siteName }}</h1>
+                <p>{{ theme.about.siteDescription }}</p>
+            </header>
+            {% if ((theme.social is not empty) and (theme.social.github is not empty)) %}
+                <ul class="actions">
+                    <li>
+                        <a href="https://github.com/{{ theme.social.github }}" class="button big">View Source</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block pageContent %}
+    <section id="pageContent">
+        <article>
+            {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+        </article>
+    </section>
+{% endblock %}

@@ -1,8 +1,0 @@
-<!-- start:inject styles -->
-{% set styles = adminTheme.getStyles() %}
-{% if styles|length > 0 %}
-    {% for style in styles %}
-        <link rel="stylesheet" type="text/css" href="{{ style.link }}"/>
-    {% endfor %}
-{% endif %}
-<!-- end:inject styles -->

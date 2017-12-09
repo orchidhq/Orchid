@@ -1,0 +1,9 @@
+{% extends 'layouts/index.peb' %}
+
+{% block innerHeader %}
+
+{% endblock %}
+
+{% block pageContent %}
+    {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+{% endblock %}

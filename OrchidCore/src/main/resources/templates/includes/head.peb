@@ -1,0 +1,26 @@
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid {{ site.orchidVersion }}" />
+
+{% if page.title is not empty %}
+    <title>{{ page.title }}</title>
+{% else %}
+    <title>{{ theme.about.name }}</title>
+{% endif %}
+
+{% if page.description is not empty %}
+    <meta name="description" content="{{ page.description }}">
+{% else %}
+    <meta name="description" content="{{ theme.about.description }}">
+{% endif %}
+
+{% if page.previous is not empty %}
+    <link rel="prev" href="{{ page.previous.link }}">
+{% endif %}
+
+{% if page.next is not empty %}
+    <link rel="next" href="{{ page.next.link }}">
+{% endif %}

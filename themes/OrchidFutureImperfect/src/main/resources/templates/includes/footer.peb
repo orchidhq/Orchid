@@ -1,0 +1,15 @@
+<!-- Footer -->
+<section id="footer">
+    <ul class="icons">
+    {% if theme.social is not empty %}
+    {% for item in theme.social.items %}
+        <li><a href="{{ item.link }}" class="{{ item.icon }}"><span class="label">{{ item.label }}</span></a></li>
+    {% endfor %}
+    {% endif %}
+    </ul>
+    <p class="copyright">
+        &copy; {{ theme.about.siteName }}.
+        Design by <a href="http://html5up.net">HTML5 UP</a>.
+        Created with <a href="https://github.com/JavaEden/Orchid">Orchid</a>.
+    </p>
+</section>

@@ -1,0 +1,14 @@
+<header id="header">
+    <a href="{{ site.baseUrl }}" class="logo">{{ theme.about.siteName }}</a>
+    <ul class="icons">
+    {% if theme.social is not empty %}
+    {% for item in theme.social.items %}
+        <li>
+            <a href="{{ item.link }}" class="icon {{ item.icon }}">
+                <span class="label">{{ item.label }}</span>
+            </a>
+        </li>
+    {% endfor %}
+    {% endif %}
+    </ul>
+</header>

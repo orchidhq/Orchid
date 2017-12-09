@@ -17,12 +17,21 @@ public final class OrchidSiteImpl implements OrchidSite {
     @Getter private String baseUrl;
     @Getter @Setter private String environment;
 
+    @Getter @Setter private String defaultTemplateExtension;
+
     @Inject
-    public OrchidSiteImpl(String orchidVersion, @Named("v") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment) {
+    public OrchidSiteImpl(
+            String orchidVersion,
+            @Named("v") String version,
+            @Named("baseUrl") String baseUrl,
+            @Named("environment") String environment,
+            @Named("defaultTemplateExtension") String defaultTemplateExtension
+    ) {
         this.orchidVersion = orchidVersion;
         this.version = version;
         this.baseUrl = OrchidUtils.normalizePath(baseUrl);
         this.environment = environment;
+        this.defaultTemplateExtension = defaultTemplateExtension;
     }
 
     @Override

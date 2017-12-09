@@ -46,6 +46,16 @@ public final class CompilerServiceImpl implements CompilerService {
     @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a mapping with keys of the unrecognized extension and values of the known extension. These take precedence over the normally recognized extensions.")
     public JSONObject customCompilerExtensions;
 
+    private String[] ignoredOutputExtensions = new String[] {
+            "min",
+    };
+
+    @Option("ignoredOutputExtensions")
+    @Description("Add additional file extensions to exclude from counting as an 'output extension' An example would be " +
+            "'min' in a filename like 'index.min.js', which is commonly used to denote a minified asset and is not " +
+            "intended to make a file named 'index.min'.")
+    public String[] customIgnoredOutputExtensions;
+
     private OrchidContext context;
 
     private Set<OrchidCompiler> compilers;
@@ -181,20 +191,36 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     public List<String> getBinaryExtensions() {
-        List<String> allBinaryExtensions = new ArrayList<>();
-
-        Collections.addAll(allBinaryExtensions, binaryExtensions);
-
-        if (!EdenUtils.isEmpty(customBinaryExtensions)) {
-            Collections.addAll(allBinaryExtensions, customBinaryExtensions);
-        }
-
-        return allBinaryExtensions;
+        return getExtensionList(binaryExtensions, customBinaryExtensions);
     }
 
     public boolean isBinaryExtension(String extension) {
-        for (String binaryExtension : getBinaryExtensions()) {
-            if (extension.equalsIgnoreCase(binaryExtension)) {
+        return isExtensionInList(extension, binaryExtensions, customBinaryExtensions);
+    }
+
+    public List<String> getIgnoredOutputExtensions() {
+        return getExtensionList(ignoredOutputExtensions, customIgnoredOutputExtensions);
+    }
+
+    public boolean isIgnoredOutputExtension(String extension) {
+        return isExtensionInList(extension, ignoredOutputExtensions, customIgnoredOutputExtensions);
+    }
+
+    private List<String> getExtensionList(String[]... arrays) {
+        List<String> allExtensions = new ArrayList<>();
+
+        for(String[] array : arrays) {
+            if (!EdenUtils.isEmpty(array)) {
+                Collections.addAll(allExtensions, array);
+            }
+        }
+
+        return allExtensions;
+    }
+
+    private boolean isExtensionInList(String extension, String[]... arrays) {
+        for (String ignoredExtension : getExtensionList(arrays)) {
+            if (extension.equalsIgnoreCase(ignoredExtension)) {
                 return true;
             }
         }

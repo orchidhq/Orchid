@@ -1,0 +1,43 @@
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col s6">
+                {% if page.previous is not empty %}
+                    <a class="waves-effect waves-teal btn-flat left" href="{{ page.previous.link }}">
+                        <i class="material-icons left">arrow_back</i>
+                        <span>{{ page.previous.title }}</span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col s6">
+                {% if page.next is not empty %}
+                    <a class="waves-effect waves-teal btn-flat right" href="{{ page.next.link }}">
+                        <span>{{ page.next.title }}</span>
+                        <i class="material-icons right">arrow_forward</i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Help Orchid Grow</h5>
+                <p class="grey-text text-lighten-4">We hope you enjoy using Orchid as much as I have enjoyed creating it.
+                    Orchid is built around extensibility, so help the Orchid community grow by creating something cool
+                    with it or adding new plugins or themes!</p>
+            </div>
+            <div class="col l6 s12">
+
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; 2016-2017 Orchid, All rights reserved.
+            <a class="grey-text text-lighten-4 right" href="https://github.com/JavaEden/Orchid/blob/master/License.md">LGPL License</a>
+        </div>
+    </div>
+</footer>

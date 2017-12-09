@@ -19,7 +19,7 @@ public final class OrchidWebsocket extends NanoWSD {
         this.context = context;
 
         start(timeoutMinutes * 60 * 1000, true);
-        Clog.i("Websocket running! Point your browsers to http://localhost:" + getListeningPort() + "/");
+        Clog.i("Websocket running at http://localhost:" + getListeningPort() + "/");
     }
 
     @Override

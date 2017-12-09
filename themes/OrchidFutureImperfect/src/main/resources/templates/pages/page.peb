@@ -1,0 +1,12 @@
+<article class="post">
+    <header>
+        <div class="title">
+            <h2><a href="{{ page.link }}">{{ page.title }}</a></h2>
+        </div>
+        <div class="meta">
+            <a href="#" class="author"><span class="name">{{ theme.about.siteName }}</span><img src="{{ theme.about.avatar }}" alt=""/></a>
+        </div>
+    </header>
+    <span class="image featured"><img src="{{ page.featuredImage }}" alt=""/></span>
+    {{ page.content | raw }}
+</article>

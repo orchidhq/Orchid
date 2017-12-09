@@ -1,0 +1,20 @@
+{% extends 'layouts/layoutBase.peb' %}
+
+{% block bodyClass %}
+    {{ 'single' }}
+{% endblock %}
+
+{% block body %}
+
+    <!-- Main -->
+    <div id="main">
+        {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+
+        <div style="max-width: 960px; margin: 0 auto 3em auto;">
+            {% include 'includes/pagination.peb' %}
+        </div>
+    </div>
+
+    {% include 'includes/footer.peb' %}
+
+{% endblock %}

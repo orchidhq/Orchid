@@ -36,6 +36,11 @@ public final class OrchidReference {
     private String extension;
 
     /**
+     * The output extension of the file.
+     */
+    private String outputExtension;
+
+    /**
      * An id for linking to a spot on the page.
      */
     private String id;
@@ -64,12 +69,25 @@ public final class OrchidReference {
             fullFileName = fullFileName.trim();
         }
 
+        String partToTrim;
+
         if (fullFileName.contains(".")) {
             String[] parts = fullFileName.split("\\.");
-            this.extension = parts[parts.length - 1];
+
+            if(parts.length >= 3 && !context.isIgnoredOutputExtension(parts[parts.length - 2])) {
+                this.extension = parts[parts.length - 1];
+                this.outputExtension = parts[parts.length - 2];
+                partToTrim = this.outputExtension + "." + this.extension;
+            }
+            else {
+                this.extension = parts[parts.length - 1];
+                this.outputExtension = null;
+                partToTrim = this.extension;
+            }
         }
         else {
             this.extension = "";
+            partToTrim = "";
         }
 
         if (fullFileName.contains("/")) {
@@ -78,7 +96,7 @@ public final class OrchidReference {
             path = "";
             for (int i = 0; i < parts.length; i++) {
                 if (i == parts.length - 1) {
-                    fileName = parts[i].replace("." + extension, "");
+                    fileName = parts[i].replace("." + partToTrim, "");
                 }
                 else {
                     path += parts[i] + "/";
@@ -87,7 +105,7 @@ public final class OrchidReference {
         }
         else {
             path = "";
-            fileName = fullFileName.replace("." + extension, "");
+            fileName = fullFileName.replace("." + partToTrim, "");
         }
 
         path = OrchidUtils.normalizePath(path);
@@ -146,7 +164,7 @@ public final class OrchidReference {
     }
 
     public String getOutputExtension() {
-        return context.getOutputExtension(extension);
+        return (this.outputExtension != null) ? this.outputExtension : context.getOutputExtension(extension);
     }
 
     public String getTitle() {

@@ -2,15 +2,19 @@ package com.eden.orchid.languages.highlighter;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.mitchellbosecke.pebble.extension.Filter;
+import com.mitchellbosecke.pebble.extension.escaper.SafeString;
 import org.jtwig.functions.FunctionRequest;
 import org.jtwig.functions.JtwigFunction;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public class HighlightPrismFilter implements JtwigFunction {
+public class HighlightPrismFilter implements JtwigFunction, Filter {
 
     private final OrchidContext context;
 
@@ -56,7 +60,20 @@ public class HighlightPrismFilter implements JtwigFunction {
         }
     }
 
-    public Object apply(String input, String language, String markedUpLines) {
+    @Override
+    public Object apply(Object input, Map<String, Object> args) {
+        return new SafeString(apply(
+                input.toString(),
+                (String) args.getOrDefault("language", "text"),
+                (String) args.getOrDefault("lines", null)));
+    }
+
+    @Override
+    public List<String> getArgumentNames() {
+        return Arrays.asList("language", "lines");
+    }
+
+    public String apply(String input, String language, String markedUpLines) {
         if(language != null) {
             language = Clog.format("class=\"language-{} line-numbers\"", language);
         }

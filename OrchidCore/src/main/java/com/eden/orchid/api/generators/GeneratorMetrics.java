@@ -23,6 +23,10 @@ public class GeneratorMetrics {
 
     public GeneratorMetrics(String key) {
         this.key = key;
+        indexingStartTime = Long.MAX_VALUE;
+        indexingEndTime = Long.MIN_VALUE;
+        generatingStartTime = Long.MAX_VALUE;
+        generatingEndTime = Long.MIN_VALUE;
         pageGenerationTimes = new ArrayList<>();
     }
 
@@ -46,10 +50,6 @@ public class GeneratorMetrics {
         pageGenerationTimes.add(millis);
     }
 
-    void addAllGenerationTimes(List<Long> millis) {
-        pageGenerationTimes.addAll(millis);
-    }
-
 // Get formatted values
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -61,22 +61,25 @@ public class GeneratorMetrics {
 
         String sTime;
 
-        seconds = (int)(lMillis / 1000) % 60;
-        millis = (int)(lMillis % 1000);
+        seconds = (int) (lMillis / 1000) % 60;
+        millis = (int) (lMillis % 1000);
 
         if (seconds > 0) {
-            minutes = (int)(lMillis / 1000 / 60) % 60;
+            minutes = (int) (lMillis / 1000 / 60) % 60;
             if (minutes > 0) {
-                hours = (int)(lMillis / 1000 / 60 / 60) % 24;
+                hours = (int) (lMillis / 1000 / 60 / 60) % 24;
                 if (hours > 0) {
                     sTime = hours + "h " + minutes + "m " + seconds + "s " + millis + "ms";
-                } else {
+                }
+                else {
                     sTime = minutes + "m " + seconds + "s " + millis + "ms";
                 }
-            } else {
+            }
+            else {
                 sTime = seconds + "s " + millis + "ms";
             }
-        } else {
+        }
+        else {
             sTime = millis + "ms";
         }
 
@@ -91,8 +94,12 @@ public class GeneratorMetrics {
         return makeMillisReadable(generatingEndTime - generatingStartTime);
     }
 
+    String getTotalTime() {
+        return makeMillisReadable(generatingEndTime - indexingStartTime);
+    }
+
     String getMeanPageTime() {
-        if(pageGenerationTimes.size() > 0) {
+        if (pageGenerationTimes.size() > 0) {
             return makeMillisReadable(pageGenerationTimes
                     .stream()
                     .collect(Averager::new, Averager::accept, Averager::combine)
@@ -104,13 +111,26 @@ public class GeneratorMetrics {
     }
 
     String getMedianPageTime() {
-        if(pageGenerationTimes.size() > 0) {
+        if (pageGenerationTimes.size() > 0) {
             pageGenerationTimes.sort(Comparator.naturalOrder());
-            return makeMillisReadable(pageGenerationTimes.get((int) Math.floor(pageGenerationTimes.size()/2)));
+            return makeMillisReadable(pageGenerationTimes.get((int) Math.floor(pageGenerationTimes.size() / 2)));
         }
         else {
             return "N/A";
         }
+    }
+
+    void compose(GeneratorMetrics metric) {
+        indexingStartTime = Math.min(indexingStartTime, metric.indexingStartTime);
+        indexingEndTime = Math.max(indexingEndTime, metric.indexingEndTime);
+        generatingStartTime = Math.min(generatingStartTime, metric.generatingStartTime);
+        generatingEndTime = Math.max(generatingEndTime, metric.generatingEndTime);
+
+        pageGenerationTimes.addAll(metric.getPageGenerationTimes());
+    }
+
+    int getPageCount() {
+        return getPageGenerationTimes().size();
     }
 
     static class Averager implements LongConsumer {
@@ -118,14 +138,18 @@ public class GeneratorMetrics {
         private long count = 0;
 
         public double average() {
-            return count > 0 ? ((double) total)/count : 0;
+            return count > 0 ? ((double) total) / count : 0;
         }
-        public void accept(long i) { total += i; count++; }
+
+        public void accept(long i) {
+            total += i;
+            count++;
+        }
+
         public void combine(Averager other) {
             total += other.total;
             count += other.count;
         }
     }
-
 
 }

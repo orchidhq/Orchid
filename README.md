@@ -123,12 +123,12 @@ Editorial:
       limit: 3
       category: programming
       templates: # any Component or Page can specify a list of templates, the first matching template will be used
-          - 'includes/postPreview_mini.twig'
+          - 'includes/postPreview_mini.peb'
     - type: recentPosts
       limit: 5
       category: personal
       templates:
-          - 'includes/postPreview_list.twig'
+          - 'includes/postPreview_list.peb'
 
 # Set the options for the Assets, Pages, and posts generators. 
 assets: 
@@ -153,17 +153,17 @@ posts:
 
 ## Page Configuration
 
-While Orchid does not mandate any folder structure (leaving it up to plugins to define), plugins that use files on disk can add options to the page with FrontMatter. FrontMatter is a block of YAML between a pair of three dashes `---` on their own line. When FrontMatter is given (even if nothing is between the pairs of dashes) the FrontMatter block will be removed and the rest of the file preprocessed with Twig. A Page's typical FrontMatter may look like: 
+While Orchid does not mandate any folder structure (leaving it up to plugins to define), plugins that use files on disk can add options to the page with FrontMatter. FrontMatter is a block of YAML between a pair of three dashes `---` on their own line. When FrontMatter is given (even if nothing is between the pairs of dashes) the FrontMatter block will be removed and the rest of the file preprocessed with Pebble. A Page's typical FrontMatter may look like: 
 
 ```markdown
  ---
- layout: single # set the page's layout. Can be a full file name and path, such as 'layouts/single.twig' or just the filename for a file in the resource dir 'templates/layouts' folder
+ layout: single # set the page's layout. Can be a full file name and path, such as 'layouts/single.peb' or just the filename for a file in the resource dir 'templates/layouts' folder
  components: # All Pages have a Component area at 'components', but may define additional areas. The same goes for Menus
   - type: recentPosts
     limit: 3
     category: ':any'
     templates:
-        - 'includes/postPreview_large.twig'
+        - 'includes/postPreview_large.peb'
  ---
 
  Page Content Here
@@ -187,7 +187,7 @@ are equivalent.
 
 ## Components and Menus
 
-Pages and Themes may each, independently, define Menus and Component Areas. They are declared within the Java Class that defines the page or theme, and then rendered from within the Twig templates. Just because a menu or component area is defined doesn't mean it is actually used: the Theme base class has a menu at `menu` but an individual theme may choose to ignore it and use multiple menus with more semantic names. Likewise, the Page base class has a menu at `menu` and a component area at `components`. 
+Pages and Themes may each, independently, define Menus and Component Areas. They are declared within the Java Class that defines the page or theme, and then rendered from within the Pebble templates. Just because a menu or component area is defined doesn't mean it is actually used: the Theme base class has a menu at `menu` but an individual theme may choose to ignore it and use multiple menus with more semantic names. Likewise, the Page base class has a menu at `menu` and a component area at `components`. 
 
 Themes and menus are both set up with an array of objects, which are then lazily converted into Component and MenuItem objects. This ensures that the indexing process has completed by the time the menus and components are being created. Plugins may define their own components and menu item type, and several common ones are included in OrchidCore.
 

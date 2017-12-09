@@ -30,7 +30,7 @@
 
 ## Personalization
 
-* [Templating with Twig](personalization/twig.md)
+* [Templating with Pebble](personalization/pebble.md)
 * [Themes](personalization/themes.md)
 * [Overriding Theme Templates](personalization/theme-overrides.md)
 * [Layouts](personalization/layouts.md)

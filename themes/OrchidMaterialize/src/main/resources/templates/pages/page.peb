@@ -1,0 +1,4 @@
+
+<div class="flow-text">
+    {{ page.content | raw }}
+</div>

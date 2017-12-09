@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'includes/header.peb' %}
+    {% include 'includes/styles.peb' %}
+</head>
+<body>
+
+<a class="github-fork-ribbon {% block ribbonSide %}{{ 'left-top' }}{% endblock %}"
+   href="https://github.com/{{ theme.about.githubUsername }}/{{ theme.about.githubRepo }}"
+   title="Fork me on GitHub">Fork me on GitHub</a>
+
+{% include 'includes/navbar.peb' %}
+
+<div id="top"></div>
+
+{% block baseJumbotron %}
+
+{% endblock %}
+
+<div class="container bs-docs-container">
+    <div class="row">
+        <div class="col-md-9" role="main">
+            {% block pageContent %}
+
+            {% endblock %}
+            {% block remainingComponents %}
+                {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+            {% endblock %}
+        </div>
+
+        <!-- Page navigation
+        =========================================== -->
+        <div class="col-md-3" role="complementary">
+            {% include 'includes/sidenav.peb' %}
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+<hr>
+
+<div class="container bs-docs-container">
+    {% include 'includes/footer.peb' %}
+</div>
+
+{% block layoutScripts %}
+
+{% endblock %}
+
+{% include 'includes/scripts.peb' %}
+
+<script>
+    $(function () {
+        window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
+        {% block setupJumbotron %}
+
+        {% endblock %}
+        buildNav();
+    });
+</script>
+
+</body>
+</html>

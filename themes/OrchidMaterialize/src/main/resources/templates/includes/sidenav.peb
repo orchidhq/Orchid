@@ -1,0 +1,16 @@
+<ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
+    <li>
+        <div class="userView">
+            <div class="background">
+                <img src="{{ (options.navigation.headerBackground) ? options.navigation.headerBackground : 'https://fthmb.tqn.com/RRIWIP8SijJSBbtnhDpcU2JNx1I=/960x0/filters:no_upscale()/about/blooming-pink-orchid-on-a-green-branch-157480173-588b8b753df78caebc4665cb.jpg' }}"
+                     style="transform: scaleX(-1); filter: FlipH; object-fit: cover; width: 100%">
+            </div>
+            <a><span class="white-text name">{{ page.title }}</span></a>
+            <a><span class="white-text email">{{ options.about.name }}</span></a>
+        </div>
+    </li>
+
+    {% for menuItem in theme.menu.menuItems %}
+        {% include 'includes/menuItem.peb' %}
+    {% endfor %}
+</ul>

@@ -51,7 +51,7 @@ public class OrchidView implements OptionsHolder, AssetHolder {
         this.title = OrchidUtils.camelcaseToTitleCase(view);
 
         this.assets = new AssetHolderDelegate(context, this, "page");
-        this.layout = "templates/server/admin/base.twig";
+        this.layout = "templates/server/admin/base.peb";
 
         context.getInjector().injectMembers(this);
     }
@@ -104,7 +104,7 @@ public class OrchidView implements OptionsHolder, AssetHolder {
 //----------------------------------------------------------------------------------------------------------------------
 
     public final String renderView() {
-        OrchidResource resource = context.getResourceEntry(Clog.format("templates/server/admin/{}.twig", OrchidUtils.normalizePath(this.view)));
+        OrchidResource resource = context.getResourceEntry(Clog.format("templates/server/admin/{}.peb", OrchidUtils.normalizePath(this.view)));
         if(resource != null) {
 
             Map<String, Object> data = new HashMap<>();

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    {% include 'includes/head.peb' %}
+    {% include 'includes/styles.peb' with {"page": page} %}
+</head>
+<body class="is-loading">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            {% block innerHeader %}
+                {% include 'includes/header.peb' %}
+            {% endblock %}
+            {% block banner %}
+            {% endblock %}
+            {% block pageContent %}
+                <section id="pageContent">
+                    <header class="major"><h2>{{ page.title }}</h2></header>
+                    <article>
+                        {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+                    </article>
+                </section>
+            {% endblock %}
+        </div>
+        <hr>
+
+        <!-- Page Sidebar -->
+        {% include 'includes/footer.peb' %}
+    </div>
+
+    <!-- Sidebar -->
+    {% include 'includes/sidebar.peb' %}
+</div>
+
+{% include 'includes/scripts.peb' with {"page": page} %}
+
+</body>
+</html>

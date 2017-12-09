@@ -1,0 +1,24 @@
+{% for year in page.years %}
+    <h3>{{ year }}</h3>
+
+    {% for month in page.getMonths(year) %}
+        <b>{{ postArchive.getMonthName(month) }}</b>
+
+        <section>
+            <div class="mini-posts archive">
+                {% for post in page.postsInMonth(year, month) %}
+                    <article class="mini-post">
+                        <a href="{{ post.link }}" class="image">
+                            <img src="{{ post.featuredImage }}" alt="{{ post.featuredImageAlt }}">
+                        </a>
+                        <header>
+                            <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
+                            <time class="published" datetime="2015-10-20">{{ post.publishedDate() }}</time>
+                            <a href="#" class="author"><img src="{{ post.author.avatar }}" alt=""></a>
+                        </header>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endfor %}
+{% endfor %}
