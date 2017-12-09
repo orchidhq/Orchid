@@ -103,93 +103,125 @@ public class BuildMetrics {
 
     private void printMetrics() {
         GeneratorMetrics compositeMetrics = new GeneratorMetrics("total");
-        compositeMetrics.startIndexing();
-        compositeMetrics.stopIndexing();
-        compositeMetrics.startGenerating();
-        compositeMetrics.stopGenerating();
 
-        int titleColumnWidth = 0;
-        int pageCountColumnWidth = 0;
-        int indexingTimeColumnWidth = 0;
-        int generationTimeColumnWidth = 0;
-        int meanPageTimeColumnWidth = 0;
-        int medianPageTimeColumnWidth = 0;
+        rowFormat = "| #{$1} | #{$2} | #{$3} | #{$4} | #{$5} | #{$6} |\n";
+        titleColumnWidth          = "Generator".length();
+        pageCountColumnWidth      = "Page Count".length();
+        indexingTimeColumnWidth   = "Indexing Time".length();
+        generationTimeColumnWidth = "Generation Time".length();
+        meanPageTimeColumnWidth   = "Mean Page Generation Time".length();
+        medianPageTimeColumnWidth = "Median Page Generation Time".length();
 
-        for (GeneratorMetrics metric : generatorMetricsMap.values()) {
-            compositeMetrics.setIndexingStartTime(  Math.min(compositeMetrics.getIndexingStartTime(), metric.getIndexingStartTime()));
-            compositeMetrics.setIndexingEndTime(    Math.max(compositeMetrics.getIndexingEndTime(), metric.getIndexingEndTime()));
-            compositeMetrics.setGeneratingStartTime(Math.min(compositeMetrics.getGeneratingStartTime(), metric.getGeneratingStartTime()));
-            compositeMetrics.setGeneratingEndTime(  Math.max(compositeMetrics.getGeneratingEndTime(), metric.getGeneratingEndTime()));
-            compositeMetrics.addAllGenerationTimes( metric.getPageGenerationTimes());
+        generatorMetricsMap
+                .values()
+                .stream()
+                .peek(compositeMetrics::compose)
+                .forEach(this::setColumnWidths);
 
-            titleColumnWidth          = Math.max(titleColumnWidth,          metric.getKey().length());
-            pageCountColumnWidth      = Math.max(pageCountColumnWidth,      Integer.toString(metric.getPageGenerationTimes().size()).length());
-            indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   metric.getIndexingTime().length());
-            generationTimeColumnWidth = Math.max(generationTimeColumnWidth, metric.getGeneratingTime().length());
-            meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   metric.getMeanPageTime().length());
-            medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, metric.getMedianPageTime().length());
-        }
-
-        titleColumnWidth          = Math.max(titleColumnWidth,          compositeMetrics.getKey().length());
-        pageCountColumnWidth      = Math.max(pageCountColumnWidth,      Integer.toString(compositeMetrics.getPageGenerationTimes().size()).length());
-        indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   compositeMetrics.getIndexingTime().length());
-        generationTimeColumnWidth = Math.max(generationTimeColumnWidth, compositeMetrics.getGeneratingTime().length());
-        meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   compositeMetrics.getMeanPageTime().length());
-        medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, compositeMetrics.getMedianPageTime().length());
-
-        titleColumnWidth          = Math.max(titleColumnWidth,          "Generator".length());
-        pageCountColumnWidth      = Math.max(pageCountColumnWidth, "Page Count".length());
-        indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   "Indexing Time".length());
-        generationTimeColumnWidth = Math.max(generationTimeColumnWidth, "Generation Time".length());
-        meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   "Mean Page Generation Time".length());
-        medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, "Median Page Generation Time".length());
+        setColumnWidths(compositeMetrics);
 
         String table = "";
-
-        String rowFormat = "| #{$1} | #{$2} | #{$3} | #{$4} | #{$5} | #{$6} |\n";
-
-        table += Clog.format(rowFormat,
-                StringUtils.leftPad("Generator", titleColumnWidth),
-                StringUtils.leftPad("Page Count", pageCountColumnWidth),
-                StringUtils.leftPad("Indexing Time", indexingTimeColumnWidth),
-                StringUtils.leftPad("Generation Time", generationTimeColumnWidth),
-                StringUtils.leftPad("Mean Page Generation Time", meanPageTimeColumnWidth),
-                StringUtils.leftPad("Median Page Generation Time", medianPageTimeColumnWidth));
-
-        table += Clog.format(rowFormat,
-                StringUtils.leftPad("", titleColumnWidth, "-"),
-                StringUtils.leftPad("", pageCountColumnWidth, "-"),
-                StringUtils.leftPad("", indexingTimeColumnWidth, "-"),
-                StringUtils.leftPad("", generationTimeColumnWidth, "-"),
-                StringUtils.leftPad("", meanPageTimeColumnWidth, "-"),
-                StringUtils.leftPad("", medianPageTimeColumnWidth, "-"));
+        table += row(
+                "Generator",
+                "Page Count",
+                "Indexing Time",
+                "Generation Time",
+                "Mean Page Generation Time",
+                "Median Page Generation Time"
+        );
+        table += rowBreak();
 
         for (GeneratorMetrics metric : generatorMetricsMap.values()) {
-            table += Clog.format(rowFormat,
-                    StringUtils.leftPad(metric.getKey(), titleColumnWidth),
-                    StringUtils.leftPad(Integer.toString(metric.getPageGenerationTimes().size()), pageCountColumnWidth),
-                    StringUtils.leftPad(metric.getIndexingTime(), indexingTimeColumnWidth),
-                    StringUtils.leftPad(metric.getGeneratingTime(), generationTimeColumnWidth),
-                    StringUtils.leftPad(metric.getMeanPageTime(), meanPageTimeColumnWidth),
-                    StringUtils.leftPad(metric.getMedianPageTime(), medianPageTimeColumnWidth));
+            table += row(
+                    metric.getKey(),
+                    metric.getPageCount() + "",
+                    metric.getIndexingTime(),
+                    metric.getGeneratingTime(),
+                    metric.getMeanPageTime(),
+                    metric.getMedianPageTime()
+            );
         }
-        table += Clog.format(rowFormat,
-                StringUtils.leftPad("", titleColumnWidth, "-"),
-                StringUtils.leftPad("", pageCountColumnWidth, "-"),
-                StringUtils.leftPad("", indexingTimeColumnWidth, "-"),
-                StringUtils.leftPad("", generationTimeColumnWidth, "-"),
-                StringUtils.leftPad("", meanPageTimeColumnWidth, "-"),
-                StringUtils.leftPad("", medianPageTimeColumnWidth, "-"));
 
-        table += Clog.format(rowFormat,
-                StringUtils.leftPad(compositeMetrics.getKey(), titleColumnWidth),
-                StringUtils.leftPad(Integer.toString(compositeMetrics.getPageGenerationTimes().size()), pageCountColumnWidth),
-                StringUtils.leftPad(compositeMetrics.getIndexingTime(), indexingTimeColumnWidth),
-                StringUtils.leftPad(compositeMetrics.getGeneratingTime(), generationTimeColumnWidth),
-                StringUtils.leftPad(compositeMetrics.getMeanPageTime(), meanPageTimeColumnWidth),
-                StringUtils.leftPad(compositeMetrics.getMedianPageTime(), medianPageTimeColumnWidth));
+        table += rowBreak();
+        table += row(
+                compositeMetrics.getKey(),
+                compositeMetrics.getPageCount() + "",
+                compositeMetrics.getIndexingTime(),
+                compositeMetrics.getGeneratingTime(),
+                compositeMetrics.getMeanPageTime(),
+                compositeMetrics.getMedianPageTime()
+        );
+        table += rowSpanBreak();
+        table += rowSpan(Clog.format("Generated {} pages in {}", compositeMetrics.getPageCount() + "", compositeMetrics.getTotalTime()));
+        table += rowSpanBreak();
 
         Clog.i("Build Metrics:\n" + table);
     }
+
+    private String rowBreak() {
+        return Clog.format(rowFormat,
+                StringUtils.leftPad("", titleColumnWidth, "-"),
+                StringUtils.leftPad("", pageCountColumnWidth, "-"),
+                StringUtils.leftPad("", indexingTimeColumnWidth, "-"),
+                StringUtils.leftPad("", generationTimeColumnWidth, "-"),
+                StringUtils.leftPad("", meanPageTimeColumnWidth, "-"),
+                StringUtils.leftPad("", medianPageTimeColumnWidth, "-"));
+    }
+
+    private String row(String... cols) {
+        return Clog.format(rowFormat,
+                StringUtils.leftPad(cols[0], titleColumnWidth),
+                StringUtils.leftPad(cols[1], pageCountColumnWidth),
+                StringUtils.leftPad(cols[2], indexingTimeColumnWidth),
+                StringUtils.leftPad(cols[3], generationTimeColumnWidth),
+                StringUtils.leftPad(cols[4], meanPageTimeColumnWidth),
+                StringUtils.leftPad(cols[5], medianPageTimeColumnWidth));
+    }
+
+    private String rowSpan(String text) {
+        return Clog.format("| #{$1} |\n",
+                StringUtils.rightPad(text,
+                        15
+                                + titleColumnWidth
+                                + pageCountColumnWidth
+                                + indexingTimeColumnWidth
+                                + generationTimeColumnWidth
+                                + meanPageTimeColumnWidth
+                                + medianPageTimeColumnWidth
+                )
+        );
+    }
+
+    private String rowSpanBreak() {
+        return Clog.format("| #{$1} |\n",
+                StringUtils.rightPad("",
+                        15
+                                + titleColumnWidth
+                                + pageCountColumnWidth
+                                + indexingTimeColumnWidth
+                                + generationTimeColumnWidth
+                                + meanPageTimeColumnWidth
+                                + medianPageTimeColumnWidth,
+                        "-"
+                )
+        );
+    }
+
+    private void setColumnWidths(GeneratorMetrics metric) {
+        titleColumnWidth          = Math.max(titleColumnWidth,          metric.getKey().length());
+        pageCountColumnWidth      = Math.max(pageCountColumnWidth,      (metric.getPageCount() + "").length());
+        indexingTimeColumnWidth   = Math.max(indexingTimeColumnWidth,   metric.getIndexingTime().length());
+        generationTimeColumnWidth = Math.max(generationTimeColumnWidth, metric.getGeneratingTime().length());
+        meanPageTimeColumnWidth   = Math.max(meanPageTimeColumnWidth,   metric.getMeanPageTime().length());
+        medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, metric.getMedianPageTime().length());
+    }
+
+    private String rowFormat;
+    private int titleColumnWidth;
+    private int pageCountColumnWidth;
+    private int indexingTimeColumnWidth;
+    private int generationTimeColumnWidth;
+    private int meanPageTimeColumnWidth;
+    private int medianPageTimeColumnWidth;
 
 }
