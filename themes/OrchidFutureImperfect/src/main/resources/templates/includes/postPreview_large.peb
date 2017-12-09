@@ -11,7 +11,7 @@
             </div>
         </header>
         <a href="#" class="image featured"><img src="{{ post.featuredImage }}" alt=""/></a>
-        <p>{{ post.excerpt | striptags }}</p>
+        <p>{{ post.excerpt | raw }}</p>
         <footer>
             <ul class="actions">
                 <li><a href="{{ post.link }}" class="button big">Continue Reading</a></li>

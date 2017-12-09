@@ -3,15 +3,15 @@ theme:
   about:
     siteName: Orchid Materialize Theme
     siteDescription: A theme for Orchid using Materialize CSS.
-
   colors:
     primary: 'green'
     secondary: 'orange'
-
   shades:
     primary: 'lighten-2'
-
   github:
     username: 'JavaEden'
     repo: 'Orchid'
     branch: 'master'
+  menu:
+    - type: 'pages'
+    - type: 'wiki'

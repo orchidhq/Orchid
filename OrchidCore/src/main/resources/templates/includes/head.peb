@@ -24,3 +24,5 @@
 {% if page.next is not empty %}
     <link rel="next" href="{{ page.next.link }}">
 {% endif %}
+
+{% include '?meta.peb' %}

@@ -1,7 +1,7 @@
 <div id="styleguide">
     <p>{{ page.styleguideSection.description }}</p>
 
-    {% if page.parent %}
+    {% if page.parent is not empty %}
         <div>
             <div>Parent</div>
             <ul>

@@ -3,7 +3,7 @@
         {% for menuItem in page.menu.menuItems %}
             {% if menuItem.hasChildren() %}
                 <li class="has-children {% for childLink in menuItem.children %}{% if childLink.title|length > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">
-                    <a>{{ menuItem.title | replace({ '_': ' ', '-': ' ' }) | title }}</a>
+                    <a>{{ menuItem.title | title }}</a>
                     <ul class="nav">
                         {% for childLink in menuItem.children %}
                             {% if childLink.title|length > 0 %}
