@@ -1,22 +1,14 @@
 <header id="header">
     <a href="{{ site.baseUrl }}" class="logo">{{ theme.about.siteName }}</a>
     <ul class="icons">
-        {% if theme.social is not empty %}
-            {% if theme.social.github is not empty %}
-                <li><a href="https://github.com/{{ theme.social.github }}" class="icon fa-github"><span class="label">Github</span></a></li>
-            {% endif %}
-            {% if theme.social.twitter is not empty %}
-                <li><a href="{{ theme.social.twitter }}" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-            {% endif %}
-            {% if theme.social.facebook is not empty %}
-                <li><a href="{{ theme.social.facebook }}" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-            {% endif %}
-            {% if theme.social.instagram is not empty %}
-                <li><a href="{{ theme.social.instagram }}" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-            {% endif %}
-            {% if theme.social.googlePlus is not empty %}
-                <li><a href="{{ theme.social.googlePlus }}" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
-            {% endif %}
-        {% endif %}
+    {% if theme.social is not empty %}
+    {% for item in theme.social.items %}
+        <li>
+            <a href="{{ item.link }}" class="icon {{ item.icon }}">
+                <span class="label">{{ item.label }}</span>
+            </a>
+        </li>
+    {% endfor %}
+    {% endif %}
     </ul>
 </header>

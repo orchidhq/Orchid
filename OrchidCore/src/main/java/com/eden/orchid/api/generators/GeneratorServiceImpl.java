@@ -48,7 +48,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     private boolean parallelIndexing;
 
     @Getter @Setter
-    @Option @BooleanDefault(true)
+    @Option @BooleanDefault(false)
     private boolean parallelGeneration;
 
     @Inject
@@ -104,9 +104,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
                 page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
-                if (page.getResource() instanceof FreeableResource) {
-                    ((FreeableResource) page.getResource()).free();
-                }
+                freePage(page);
             }
             context.addChildIndex(generator.getKey(), index);
 
@@ -174,6 +172,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     public void onPageGenerated(OrchidPage page, long millis) {
         metrics.onPageGenerated(page, millis);
+        freePage(page);
     }
 
 // Utilities
@@ -193,6 +192,12 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
 
         return generatorStream;
+    }
+
+    private void freePage(OrchidPage page) {
+        if (page.getResource() instanceof FreeableResource) {
+            ((FreeableResource) page.getResource()).free();
+        }
     }
 
 }

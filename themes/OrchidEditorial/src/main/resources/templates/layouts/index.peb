@@ -43,7 +43,7 @@
     {% include 'includes/sidebar.peb' %}
 </div>
 
-{% include 'includes/scripts.peb' with {"page": page} only %}
+{% include 'includes/scripts.peb' with {"page": page} %}
 
 </body>
 </html>
