@@ -1,3 +1,5 @@
+{# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocClassPage" #}
+
 <div>
     <code>
         <span>
@@ -23,5 +25,5 @@
 <p><b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b></p>
 
 <div class="class-description">
-    {{ page.content }}
+    {{ page.content | raw }}
 </div>

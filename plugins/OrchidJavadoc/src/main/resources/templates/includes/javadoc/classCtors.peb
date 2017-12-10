@@ -1,32 +1,27 @@
-{% if page.classDoc.constructors|length > 0 %}
+{# @pebvariable name="classDoc" type="com.sun.javadoc.ClassDoc" #}
+{% set "classDoc" = page.classDoc %}
 
-    <h2 id="panels-list-group">Constructors</h2>
+{% if classDoc.constructors|length > 0 %}
+<h3>Constructors</h3>
 
-    {% for ctor in page.classDoc.constructors %}
+{% for ctor in classDoc.constructors %}
+{# @pebvariable name="ctor" type="com.sun.javadoc.ConstructorDoc" #}
+<div class="panel panel-default">
+    <div class="panel-heading"><code>{{ ctor.name }}{{ ctor.flatSignature }}</code></div>
+    <div class="panel-body">
+        <p>{{ ctor.commentText | raw }}</p>
+    </div>
 
-
-        <div class="panel panel-default">
-            <div class="panel-heading"><code>{{ ctor.name }}{{ ctor.flatSignature }}</code></div>
-            <div class="panel-body">
-                <p>{{ ctor.commentText }}</p>
-            </div>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Parameters</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for param in ctor.parameters %}
-                    <tr>
-                        <td><code>{{ param.type }} {{ param.name }}</code></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endfor %}
+    {% include 'includes/javadoc/typeParameterList' with {
+    "typeParameters": ctor.typeParameters,
+    "typeParameterTags": ctor.typeParamTags
+    } %}
+    {% include 'includes/javadoc/parameterList' with {
+    "parameters": ctor.parameters,
+    "parameterTags": ctor.paramTags
+    } %}
+</div>
+{% endfor %}
 {% else %}
-    <h3>No Constructors</h3>
+<h3>No Constructors</h3>
 {% endif %}

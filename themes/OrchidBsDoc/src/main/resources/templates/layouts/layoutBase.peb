@@ -44,18 +44,16 @@
 {% include 'includes/footer' %}
 </div>
 
+{% include 'includes/scripts' %}
+
 {% block layoutScripts %}
 
 {% endblock %}
 
-{% include 'includes/scripts' %}
-
 <script>
     $(function () {
         window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
-                  {% block setupJumbotron %}
-
-        {% endblock %}
+                  {% block setupJumbotron %}{% endblock %}
         buildNav();
     });
 </script>

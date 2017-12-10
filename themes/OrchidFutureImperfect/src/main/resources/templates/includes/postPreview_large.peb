@@ -17,7 +17,7 @@
                 <li><a href="{{ post.link }}" class="button big">Continue Reading</a></li>
             </ul>
             <ul class="stats">
-                {% if post.category %}
+                {% if post.category is not empty %}
                     <li><a href="#">{{ post.category }}</a></li>
                 {% else %}
                     <li><a href="#">Blog</a></li>

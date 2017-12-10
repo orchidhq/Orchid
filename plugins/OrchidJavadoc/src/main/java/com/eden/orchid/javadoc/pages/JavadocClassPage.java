@@ -1,14 +1,19 @@
 package com.eden.orchid.javadoc.pages;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.JavadocModel;
+import com.eden.orchid.javadoc.resources.ClassDocResource;
 import com.sun.javadoc.ClassDoc;
 
 public class JavadocClassPage extends OrchidPage {
 
     private JavadocPackagePage packagePage;
     private ClassDoc classDoc;
+
+    @Option
+    public String deprecated;
 
     public JavadocClassPage(OrchidContext context, ClassDoc classDoc) {
         super(new ClassDocResource(context, classDoc), "javadocClass", classDoc.typeName());

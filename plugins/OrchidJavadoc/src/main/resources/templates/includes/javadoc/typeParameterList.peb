@@ -1,0 +1,24 @@
+{# @pebvariable name="typeParameters" type="com.sun.javadoc.TypeVariable[]" #}
+{# @pebvariable name="typeParameterTags" type="com.sun.javadoc.ParamTag[]" #}
+
+{% if typeParameters|length > 0 %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Type Parameters</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for param in typeParameters %}
+    {% set "tag" = typeParameterTags[loop.index] %}
+    {# @pebvariable name="param" type="com.sun.javadoc.TypeVariable" #}
+    {# @pebvariable name="tag" type="com.sun.javadoc.ParamTag" #}
+    <tr>
+        <td><code>{{ tag.parameterName }}</code></td>
+        <td>{{ tag.parameterComment }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}

@@ -1,29 +1,21 @@
-{% if page.classDoc.fields|length > 0 %}
-    <h3>Fields</h3>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <td>
-                <span>Field</span>
-            </td>
-            <td>
-                <span>Description</span>
-            </td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for field in page.classDoc.fields %}
-            <tr>
-                <td>
-                    <span>{{ field.type.name }} <code>{{ field.name }}</code></span>
-                </td>
-                <td>
-                    <span>{{ field.comment }}</span>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{# @pebvariable name="classDoc" type="com.sun.javadoc.ClassDoc" #}
+{% set "classDoc" = page.classDoc %}
+
+{% if classDoc.fields|length > 0 %}
+<h3>Fields</h3>
+
+{% for field in classDoc.fields %}
+{# @pebvariable name="field" type="com.sun.javadoc.FieldDoc" #}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <code>{{ field.type.qualifiedTypeName }}</code>
+        <code>{{ field.name }}</code>
+    </div>
+    <div class="panel-body">
+        <p>{{ field.commentText | raw }}</p>
+    </div>
+</div>
+{% endfor %}
 {% else %}
-    <h3>No Fields</h3>
+<h3>No Fields</h3>
 {% endif %}
