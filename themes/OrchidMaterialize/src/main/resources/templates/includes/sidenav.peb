@@ -11,6 +11,6 @@
     </li>
 
     {% for menuItem in theme.menu.menuItems %}
-        {% include 'includes/menuItem.peb' %}
+        {% include 'includes/menuItem' %}
     {% endfor %}
 </ul>

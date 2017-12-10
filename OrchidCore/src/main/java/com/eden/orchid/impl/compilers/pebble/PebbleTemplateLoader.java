@@ -47,6 +47,10 @@ public class PebbleTemplateLoader implements Loader<String> {
             templateName = StringUtils.stripStart(templateName, "?");
         }
 
+        if(!templateName.contains(".")) {
+            templateName = templateName + "." + context.getTheme().getPreferredTemplateExtension();
+        }
+
         if(templateName.contains(",")) {
             String[] templates = templateName.split(",");
 
@@ -159,4 +163,5 @@ public class PebbleTemplateLoader implements Loader<String> {
 
         return reader;
     }
+
 }

@@ -3,7 +3,7 @@
         <span class="opener">{{ menuItem.title | title }}</span>
         <ul>
             {% for childLink in menuItem.children %}
-                {% include 'includes/menuItem.peb' with {"menuItem": childLink} %}
+                {% include 'includes/menuItem' with {"menuItem": childLink} %}
             {% endfor %}
         </ul>
     </li>

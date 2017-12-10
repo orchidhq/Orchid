@@ -1,4 +1,4 @@
-{% extends 'layouts/geopatternBase.peb' %}
+{% extends 'layouts/geopatternBase' %}
 
 {% block baseJumbotron %}
     <div class="bs-docs-masthead" id="jumbotron">

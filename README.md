@@ -123,12 +123,12 @@ Editorial:
       limit: 3
       category: programming
       templates: # any Component or Page can specify a list of templates, the first matching template will be used
-          - 'includes/postPreview_mini.peb'
+          - 'includes/postPreview_mini'
     - type: recentPosts
       limit: 5
       category: personal
       templates:
-          - 'includes/postPreview_list.peb'
+          - 'includes/postPreview_list'
 
 # Set the options for the Assets, Pages, and posts generators. 
 assets: 
@@ -163,7 +163,7 @@ While Orchid does not mandate any folder structure (leaving it up to plugins to 
     limit: 3
     category: ':any'
     templates:
-        - 'includes/postPreview_large.peb'
+        - 'includes/postPreview_large'
  ---
 
  Page Content Here

@@ -48,8 +48,8 @@ public abstract class FormField implements OptionsHolder {
             Collections.addAll(allTemplates, templates);
         }
 
-        allTemplates.add("fields/" + key + ".peb");
-        allTemplates.add("fields/" + type + ".peb");
+        allTemplates.add("fields/" + key);
+        allTemplates.add("fields/" + type);
 
         return allTemplates;
     }

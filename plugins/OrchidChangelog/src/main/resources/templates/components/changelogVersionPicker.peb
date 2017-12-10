@@ -1,1 +1,1 @@
-{% extends 'templates/components/changelogVersionPickerBase.peb' %}
+{% extends 'templates/components/changelogVersionPickerBase' %}

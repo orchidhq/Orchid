@@ -6,8 +6,8 @@
 -->
 <html>
 <head>
-    {% include 'includes/head.peb' %}
-    {% include 'includes/styles.peb' with {"page": page} %}
+    {% include 'includes/head' %}
+    {% include 'includes/styles' with {"page": page} %}
 </head>
 <body class="is-loading">
 
@@ -20,7 +20,7 @@
 
             <!-- Header -->
             {% block innerHeader %}
-                {% include 'includes/header.peb' %}
+                {% include 'includes/header' %}
             {% endblock %}
             {% block banner %}
             {% endblock %}
@@ -28,7 +28,7 @@
                 <section id="pageContent">
                     <header class="major"><h2>{{ page.title }}</h2></header>
                     <article>
-                        {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+                        {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
                     </article>
                 </section>
             {% endblock %}
@@ -36,14 +36,14 @@
         <hr>
 
         <!-- Page Sidebar -->
-        {% include 'includes/footer.peb' %}
+        {% include 'includes/footer' %}
     </div>
 
     <!-- Sidebar -->
-    {% include 'includes/sidebar.peb' %}
+    {% include 'includes/sidebar' %}
 </div>
 
-{% include 'includes/scripts.peb' with {"page": page} %}
+{% include 'includes/scripts' with {"page": page} %}
 
 </body>
 </html>

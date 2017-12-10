@@ -1,4 +1,4 @@
-{% extends 'layouts/trianglifyBase.peb' %}
+{% extends 'layouts/trianglifyBase' %}
 
 {% block baseJumbotron %}
     <div class="bs-docs-masthead" id="jumbotron">

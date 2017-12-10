@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'includes/header.peb' %}
-    {% include 'includes/styles.peb' %}
+    {% include 'includes/header' %}
+    {% include 'includes/styles' %}
 </head>
 <body>
 
@@ -10,7 +10,7 @@
    href="https://github.com/{{ theme.about.githubUsername }}/{{ theme.about.githubRepo }}"
    title="Fork me on GitHub">Fork me on GitHub</a>
 
-{% include 'includes/navbar.peb' %}
+{% include 'includes/navbar' %}
 
 <div id="top"></div>
 
@@ -25,14 +25,14 @@
 
             {% endblock %}
             {% block remainingComponents %}
-                {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+                {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
             {% endblock %}
         </div>
 
         <!-- Page navigation
         =========================================== -->
         <div class="col-md-3" role="complementary">
-            {% include 'includes/sidenav.peb' %}
+            {% include 'includes/sidenav' %}
         </div>
     </div>
 </div>
@@ -41,14 +41,14 @@
 <hr>
 
 <div class="container bs-docs-container">
-    {% include 'includes/footer.peb' %}
+    {% include 'includes/footer' %}
 </div>
 
 {% block layoutScripts %}
 
 {% endblock %}
 
-{% include 'includes/scripts.peb' %}
+{% include 'includes/scripts' %}
 
 <script>
     $(function () {

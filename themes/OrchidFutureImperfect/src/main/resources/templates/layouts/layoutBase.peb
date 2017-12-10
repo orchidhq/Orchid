@@ -10,7 +10,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    {% include 'includes/styles.peb' with {"page": page} %}
+    {% include 'includes/styles' with {"page": page} %}
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
 
@@ -79,6 +79,6 @@
 
 </div>
 
-{% include 'includes/scripts.peb' with {"page": page} %}
+{% include 'includes/scripts' with {"page": page} %}
 </body>
 </html>

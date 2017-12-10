@@ -39,12 +39,12 @@ FutureImperfect:
       limit: 3
       category: programming
       templates:
-          - 'includes/postPreview_mini.peb'
+          - 'includes/postPreview_mini'
     - type: recentPosts
       limit: 5
       category: personal
       templates:
-          - 'includes/postPreview_list.peb'
+          - 'includes/postPreview_list'
 
 pages:
   layout: layouts/single.peb

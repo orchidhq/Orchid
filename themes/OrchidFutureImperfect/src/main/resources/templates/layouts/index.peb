@@ -1,4 +1,4 @@
-{% extends 'layouts/layoutBase.peb' %}
+{% extends 'layouts/layoutBase' %}
 
 {% block bodyClass %}
     {{ 'index' }}
@@ -8,9 +8,9 @@
 
     <!-- Main -->
     <div id="main">
-        {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+        {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
 
-        {% include 'includes/pagination.peb' %}
+        {% include 'includes/pagination' %}
     </div>
 
     <!-- Sidebar -->
@@ -25,7 +25,7 @@
             </header>
         </section>
 
-        {% include 'includes/componentHolder.peb' with {"componentHolder": theme.sidebar} %}
+        {% include 'includes/componentHolder' with {"componentHolder": theme.sidebar} %}
 
         <!-- About -->
         <section class="blurb">
@@ -36,7 +36,7 @@
             </ul>
         </section>
 
-        {% include 'includes/footer.peb' %}
+        {% include 'includes/footer' %}
 
     </section>
 

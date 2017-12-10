@@ -1,9 +1,9 @@
-{% extends 'layouts/index.peb' %}
+{% extends 'layouts/index' %}
 
 {% block innerHeader %}
 
 {% endblock %}
 
 {% block pageContent %}
-    {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+    {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
 {% endblock %}

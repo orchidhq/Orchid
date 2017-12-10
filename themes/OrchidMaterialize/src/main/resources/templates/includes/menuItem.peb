@@ -6,7 +6,7 @@
                 <div class="collapsible-body">
                     <ul>
                         {% for childLink in menuItem.children %}
-                            {% include 'includes/menuItem.peb' with {"menuItem": childLink}%}
+                            {% include 'includes/menuItem' with {"menuItem": childLink}%}
                         {% endfor %}
                     </ul>
                 </div>

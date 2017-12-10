@@ -25,4 +25,4 @@
     <link rel="next" href="{{ page.next.link }}">
 {% endif %}
 
-{% include '?meta.peb' %}
+{% include '?meta' %}

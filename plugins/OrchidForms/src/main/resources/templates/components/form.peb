@@ -1,8 +1,8 @@
-{% if component.form %}
+{% if component.form is not empty %}
 
     <header>
         <h3>{{ component.form.title }}</h3>
     </header>
 
-    {% include 'includes/form.peb' with {form: component.form} %}
+    {% include 'includes/form' with {"form": component.form} %}
 {% endif %}

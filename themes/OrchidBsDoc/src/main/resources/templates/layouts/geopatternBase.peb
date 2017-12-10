@@ -1,4 +1,4 @@
-{% extends 'layouts/layoutBase.peb' %}
+{% extends 'layouts/layoutBase' %}
 
 {% block layoutScripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>

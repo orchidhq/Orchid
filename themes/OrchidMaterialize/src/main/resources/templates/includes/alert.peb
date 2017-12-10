@@ -1,0 +1,21 @@
+{% if alertLevel == 'info' %}
+{% set alertLevelColor = 'light-blue lighten-2' %}
+{% elseif alertLevel == 'success' %}
+{% set alertLevelColor = 'green lighten-1' %}
+{% elseif alertLevel == 'warning' %}
+{% set alertLevelColor = 'amber' %}
+{% elseif alertLevel == 'danger' %}
+{% set alertLevelColor = 'red darken-3' %}
+{% else %}
+{% set alertLevelColor = 'light-blue' %}
+{% endif %}
+
+<div class="row">
+    <div class="col s12 offset-m3 m6">
+        <div class="card-panel {{ alertLevelColor }}">
+          <span class="white-text">
+          {{ content | raw }}
+          </span>
+        </div>
+    </div>
+</div>

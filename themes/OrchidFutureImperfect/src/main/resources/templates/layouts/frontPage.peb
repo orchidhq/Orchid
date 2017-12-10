@@ -1,4 +1,4 @@
-{% extends 'layouts/index.peb' %}
+{% extends 'layouts/index' %}
 
 {% block bodyClass %}
     {{ 'front-page' }}

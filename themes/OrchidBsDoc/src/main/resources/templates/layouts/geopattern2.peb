@@ -1,4 +1,4 @@
-{% extends 'layouts/geopatternBase.peb' %}
+{% extends 'layouts/geopatternBase' %}
 
 {% block ribbonSide %}{{ 'right-top' }}{% endblock %}
 

@@ -5,7 +5,7 @@ components:
     limit: 3
     category: ':any'
     templates:
-      - 'includes/postPreview_large.peb'
+      - 'includes/postPreview_large'
     
 ---
 

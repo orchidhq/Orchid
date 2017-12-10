@@ -15,7 +15,7 @@
             </header>
             <ul class="top-level">
                 {% for menuItem in theme.menu.menuItems %}
-                    {% include 'includes/menuItem.peb' with {"menuItem": menuItem} %}
+                    {% include 'includes/menuItem' with {"menuItem": menuItem} %}
                 {% endfor %}
             </ul>
 
@@ -23,7 +23,7 @@
                 <hr>
                 <ul class="top-level">
                     {% for menuItem in page.menu.menuItems %}
-                        {% include 'includes/menuItem.peb' with {"menuItem": menuItem} %}
+                        {% include 'includes/menuItem' with {"menuItem": menuItem} %}
                     {% endfor %}
                 </ul>
             {% endif %}

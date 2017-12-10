@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pb-0">
-                        {% include concat('templates/server/admin/lists/', adminList.key, '-item.peb') %}
+                        {% include concat('templates/server/admin/lists/', adminList.key, '-item') %}
                     </div>
                 </div>
             </div>
