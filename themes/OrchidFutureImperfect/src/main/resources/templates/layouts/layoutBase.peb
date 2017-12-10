@@ -10,7 +10,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    {% include 'includes/styles' with {"page": page} %}
+    {% include 'includes/head' %}
+    {% include 'includes/styles' %}
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
 
@@ -79,6 +80,6 @@
 
 </div>
 
-{% include 'includes/scripts' with {"page": page} %}
+{% include 'includes/scripts' %}
 </body>
 </html>

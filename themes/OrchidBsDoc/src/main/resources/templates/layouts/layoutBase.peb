@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'includes/header' %}
-    {% include 'includes/styles' %}
+{% include 'includes/head' %}
+{% include 'includes/styles' %}
 </head>
 <body>
 
@@ -21,7 +21,7 @@
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-9" role="main">
-            {% block pageContent %}
+        {% block pageContent %}
 
             {% endblock %}
             {% block remainingComponents %}
@@ -32,7 +32,7 @@
         <!-- Page navigation
         =========================================== -->
         <div class="col-md-3" role="complementary">
-            {% include 'includes/sidenav' %}
+        {% include 'includes/sidenav' %}
         </div>
     </div>
 </div>
@@ -41,7 +41,7 @@
 <hr>
 
 <div class="container bs-docs-container">
-    {% include 'includes/footer' %}
+{% include 'includes/footer' %}
 </div>
 
 {% block layoutScripts %}
@@ -53,7 +53,7 @@
 <script>
     $(function () {
         window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
-        {% block setupJumbotron %}
+                  {% block setupJumbotron %}
 
         {% endblock %}
         buildNav();
