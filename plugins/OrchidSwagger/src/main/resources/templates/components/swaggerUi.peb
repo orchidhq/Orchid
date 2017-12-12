@@ -38,7 +38,7 @@
 
         ready(function () {
             // Build a system
-            {% if component.allSwaggerOptions %}
+            {% if component.allSwaggerOptions is not empty %}
             const ui = SwaggerUIBundle({{ component.allSwaggerOptions }});
             {% else %}
             const ui = SwaggerUIBundle({

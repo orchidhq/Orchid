@@ -18,7 +18,7 @@ apply plugin: 'org.ajoberstar.grgit'
 apply plugin: 'idea'
 apply plugin: 'com.github.ben-manes.versions'
 
-version = 'v0.5.1'
+version = 'v0.5.2'
 
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension
