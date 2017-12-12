@@ -138,7 +138,12 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 //----------------------------------------------------------------------------------------------------------------------
 
     public JSONObject toJSON() {
+        return toJSON(false, false);
+    }
+
+    public JSONObject toJSON(boolean includePageContent, boolean includePageData) {
         JSONObject pageJson = new JSONObject();
+        pageJson.put("title", this.getTitle());
         pageJson.put("reference", this.reference.toJSON());
         if (this.previous != null) {
             pageJson.put("previous", this.previous.getReference().toJSON());
@@ -149,9 +154,15 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
         pageJson.put("description", this.description);
 
-        JSONObject pageData = serializeData();
-        if (pageData != null) {
-            pageJson.put("data", pageData);
+        if (includePageContent) {
+            pageJson.put("content", this.getContent());
+        }
+
+        if (includePageData) {
+            JSONObject pageData = serializeData();
+            if (pageData != null) {
+                pageJson.put("data", pageData);
+            }
         }
 
         return pageJson;

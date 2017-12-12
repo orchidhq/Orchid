@@ -25,4 +25,8 @@
     <link rel="next" href="{{ page.next.link }}">
 {% endif %}
 
+<script>
+    window.site = {{ site | raw }};
+</script>
+
 {% include '?meta' %}

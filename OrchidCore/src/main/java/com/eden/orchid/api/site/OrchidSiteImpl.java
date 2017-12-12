@@ -5,6 +5,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -41,5 +42,20 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = OrchidUtils.normalizePath(baseUrl);
+    }
+
+    public JSONObject toJSON() {
+        JSONObject site = new JSONObject();
+        site.put("orchidVersion", orchidVersion);
+        site.put("version", version);
+        site.put("baseUrl", baseUrl);
+        site.put("environment", environment);
+
+        return site;
+    }
+
+    @Override
+    public String toString() {
+        return this.toJSON().toString();
     }
 }

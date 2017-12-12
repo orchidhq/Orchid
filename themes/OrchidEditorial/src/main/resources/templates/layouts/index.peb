@@ -6,10 +6,13 @@
 -->
 <html>
 <head>
+{% include '?trackingHeadStart' %}
 {% include 'includes/head' %}
 {% include 'includes/styles' %}
+    {% include '?trackingHeadEnd' %}
 </head>
 <body class="is-loading">
+{% include '?trackingBodyStart' %}
 
 <!-- Wrapper -->
 <div id="wrapper">
@@ -45,5 +48,6 @@
 
 {% include 'includes/scripts' %}
 
+{% include '?trackingBodyEnd' %}
 </body>
 </html>

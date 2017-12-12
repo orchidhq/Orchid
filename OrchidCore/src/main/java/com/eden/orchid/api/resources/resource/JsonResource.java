@@ -14,27 +14,24 @@ public final class JsonResource extends OrchidResource {
 
     public JsonResource(JSONElement element, OrchidReference reference) {
         super(reference);
+        this.embeddedData = null;
         if(element != null) {
             if(element.getElement() instanceof JSONObject) {
                 this.rawContent = ((JSONObject) element.getElement()).toString(2);
                 this.content = ((JSONObject) element.getElement()).toString(2);
-                this.embeddedData = element;
             }
             else if(element.getElement() instanceof JSONArray) {
                 this.rawContent = ((JSONArray) element.getElement()).toString(2);
                 this.content = ((JSONArray) element.getElement()).toString(2);
-                this.embeddedData = element;
             }
             else{
                 this.rawContent = element.toString();
                 this.content = element.toString();
-                this.embeddedData = element;
             }
         }
         else {
             this.rawContent = "";
             this.content = "";
-            this.embeddedData = null;
         }
     }
 }

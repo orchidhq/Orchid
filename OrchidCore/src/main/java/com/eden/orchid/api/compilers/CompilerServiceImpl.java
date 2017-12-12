@@ -48,6 +48,7 @@ public final class CompilerServiceImpl implements CompilerService {
 
     private String[] ignoredOutputExtensions = new String[] {
             "min",
+            "index",
     };
 
     @Option("ignoredOutputExtensions")

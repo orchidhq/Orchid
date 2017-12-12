@@ -145,12 +145,16 @@ public abstract class OrchidIndex {
     }
 
     public JSONObject toJSON() {
+        return toJSON(false, false);
+    }
+
+    public JSONObject toJSON(boolean includePageContent, boolean includePageData) {
         JSONObject indexJson = new JSONObject();
         indexJson.put("ownKey", ownKey);
         if(ownPages.size() > 0) {
             JSONArray ownPagesJson = new JSONArray();
             for (OrchidPage page : ownPages) {
-                ownPagesJson.put(page.toJSON());
+                ownPagesJson.put(page.toJSON(includePageContent, includePageData));
             }
             indexJson.put("ownPages", ownPagesJson);
         }
@@ -158,7 +162,7 @@ public abstract class OrchidIndex {
         if(childrenPages.keySet().size() > 0) {
             JSONObject childrenPagesJson = new JSONObject();
             for (Map.Entry<String, OrchidIndex> childIndex : childrenPages.entrySet()) {
-                childrenPagesJson.put(childIndex.getKey(), childIndex.getValue().toJSON());
+                childrenPagesJson.put(childIndex.getKey(), childIndex.getValue().toJSON(includePageContent, includePageData));
             }
             indexJson.put("childrenPages", childrenPagesJson);
         }

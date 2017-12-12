@@ -31,6 +31,9 @@ public class EditorialTheme extends Theme {
         addJs("assets/js/editorial_util.js");
         addJs("assets/js/editorial_main.js");
 
+        addJs("https://unpkg.com/lunr/lunr.js");
+        addJs("assets/js/lunrSearch.js");
+
         super.addAssets();
     }
 

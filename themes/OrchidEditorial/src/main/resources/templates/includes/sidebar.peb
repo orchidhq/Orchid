@@ -3,9 +3,17 @@
 
         <!-- Search -->
         <section id="search" class="alt">
-            <form method="post" action="#">
+            <form data-lunar-search>
                 <input type="text" name="query" id="query" placeholder="Search"/>
             </form>
+            <div class="box" id="search-results" style="display: none;">
+                <b>Search Results</b>
+                <hr>
+                <ul></ul>
+            </div>
+            <div class="box" id="search-progress" style="display: none;">
+                <div class="loader">Loading...</div>
+            </div>
         </section>
 
         <!-- Menu -->
