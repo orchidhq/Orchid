@@ -53,8 +53,8 @@
   overflow-y: scroll;
 }
 
-p img {
-  width: 100%;
+p > img, p > svg {
+  max-width: 100%;
 }
 
 p a img {
@@ -218,4 +218,8 @@ li > ul {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+#footer {
+  padding-bottom: 60px !important;
 }

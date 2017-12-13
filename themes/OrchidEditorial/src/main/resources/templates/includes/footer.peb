@@ -1,5 +1,5 @@
 <div class="inner">
-    <footer id="footer text-center">
+    <footer id="footer">
         <div class="clearfix">
             {% if page.previous is not empty %}
                 <div class="float-left">

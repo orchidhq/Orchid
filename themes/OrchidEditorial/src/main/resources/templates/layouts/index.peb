@@ -38,7 +38,7 @@
         </div>
         <hr>
 
-        <!-- Page Sidebar -->
+        <!-- Page Footer -->
         {% include 'includes/footer.peb' %}
     </div>
 
