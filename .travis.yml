@@ -6,7 +6,7 @@ matrix:
     - os: linux
       jdk: openjdk8
     - os: osx
-      osx_image: xcode8
+      osx_image: xcode8.3
 dist: trusty
 sudo: required
 
