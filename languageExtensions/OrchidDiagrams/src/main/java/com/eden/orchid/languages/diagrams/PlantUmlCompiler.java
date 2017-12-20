@@ -15,6 +15,15 @@ import java.util.Map;
 @Singleton
 public class PlantUmlCompiler extends OrchidCompiler {
 
+    private String[] tags = new String[] {
+            "uml",
+            "salt",
+            "math",
+            "latex",
+            "gantt"
+    };
+
+
     @Inject
     public PlantUmlCompiler() {
         super(800);
@@ -26,12 +35,7 @@ public class PlantUmlCompiler extends OrchidCompiler {
             try {
                 // ensure string is wrapped in @startuml...@enduml
                 source = source.trim();
-                if(!source.startsWith("@startuml")) {
-                    source = "@startuml\n" + source;
-                }
-                if(!source.endsWith("@enduml")) {
-                    source = source + "\n@enduml";
-                }
+                source = wrapDiagram(source);
 
                 // compile string to SVG
                 ByteArrayOutputStream os = new ByteArrayOutputStream(1024);
@@ -67,5 +71,29 @@ public class PlantUmlCompiler extends OrchidCompiler {
     @Override
     public String[] getSourceExtensions() {
         return new String[]{"uml"};
+    }
+
+    private String wrapDiagram(String input) {
+        boolean isWrapped = false;
+
+        String source = input;
+
+        for(String tag : tags) {
+            if(source.startsWith("@start" + tag)) {
+                isWrapped = true;
+                break;
+            }
+            if(source.endsWith("@end" + tag)) {
+                isWrapped = true;
+                break;
+            }
+        }
+
+        if(!isWrapped) {
+            source = "@startuml\n" + source;
+            source = source + "\n@enduml";
+        }
+
+        return source;
     }
 }
