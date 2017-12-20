@@ -90,7 +90,7 @@ public final class Orchid {
             flagLog += "\n--------------------\n";
             flagLog += yaml.dump(OrchidFlags.getInstance().getData().toMap());
             flagLog += "--------------------";
-            Clog.i(flagLog);
+            Clog.d(flagLog);
 
             context = injector.getInstance(OrchidContext.class);
             Clog.i("Running Orchid version {}, site version {} in {} environment", context.getOrchidVersion(), context.getVersion(), context.getEnvironment());

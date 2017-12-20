@@ -25,13 +25,8 @@ public class Social implements OptionsHolder {
     @Option public String email;
     @Option public String github;
 
-    /**
-     * No-arg Constructor to initialize empty object
-     *
-     * @param <T> the type parameter
-     */
-    public <T> Social() {
-
+    public Social() {
+        
     }
 
     /**
@@ -119,46 +114,6 @@ public class Social implements OptionsHolder {
         }
 
         return items;
-    }
-
-
-    /**
-     * This method is null and void
-     */
-    public void voidMethod() {
-
-    }
-
-    /**
-     * This method takes in 3 strings and returns nothing
-     *
-     * @param s1 param 1
-     * @param s2 param 2
-     * @param s3 param 3
-     */
-    public void methodWithStrings(String s1, String s2, String s3) {
-
-    }
-
-    /**
-     * This method takes a String, a template type, and another string.
-     *
-     * @param s1 param 1
-     * @param s2 param 2 of generic type
-     * @param s3 param 3
-     * @param <T> some generic type
-     */
-    public <T> void methodWithStrings(String s1, T s2, String s3) {
-
-    }
-
-    /**
-     * This method returns a String
-     *
-     * @return a String
-     */
-    public String methodReturnsString() {
-        return null;
     }
 
 }

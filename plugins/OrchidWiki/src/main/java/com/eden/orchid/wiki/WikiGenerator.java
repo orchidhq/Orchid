@@ -97,7 +97,10 @@ public class WikiGenerator extends OrchidGenerator implements OptionsHolder {
         OrchidResource summary = context.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md");
 
         if (summary == null) {
-            Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir);
+            if(sectionNames.length > 0 && section != null) {
+                Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir);
+            }
+
             return null;
         }
 
