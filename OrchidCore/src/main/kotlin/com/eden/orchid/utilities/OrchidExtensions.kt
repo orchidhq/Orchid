@@ -99,7 +99,7 @@ fun Array<String>.slug(): String {
 }
 
 // "with" mappers
-fun Array<String>.urlSafe(mapper: (Array<String>) -> Array<String>): Array<String> {
+fun Array<String>.urlSafe(): Array<String> {
     return this.map {
         it.replace("\\s+".toRegex(), "-").replace("[^\\w-_]".toRegex(), "")
     }.toTypedArray()
