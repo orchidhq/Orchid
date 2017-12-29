@@ -19,7 +19,6 @@ apply plugin: 'idea'
 apply plugin: 'com.github.ben-manes.versions'
 
 group   = 'io.github.javaeden.orchid'
-version = 'v0.5.3'
 
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension
@@ -43,10 +42,12 @@ task publishDocumentation {
 
 }
 
+tag {
+    message { "Bump version to ${version}" }
+}
+
 task deploy {
-
     dependsOn publishDocumentation
-
     onlyIf {
         if (project.hasProperty('env') && project.property('env') == 'prod') {
             return true
@@ -56,7 +57,6 @@ task deploy {
             return false
         }
     }
-
     doLast {
         // go to gh-pages branch, remove 'latest' folder, copy generated docs into root, then commit and push
         grgit.checkout(branch: 'gh-pages')
