@@ -47,7 +47,7 @@ tag {
 }
 
 task deploy {
-    dependsOn publishDocumentation
+    dependsOn publishDocumentation, 'tag'
     onlyIf {
         if (project.hasProperty('env') && project.property('env') == 'prod') {
             return true
@@ -74,8 +74,7 @@ task deploy {
 
         // go back to master branch, tag this release, then push the tag
         grgit.checkout(branch: 'master')
-//        grgit.tag.add(name: "${rootProject.version}", message: "Deployed Orchid ${rootProject.version}", force: true)
-//        grgit.push(tags: true)
+        grgit.push(tags: true)
     }
 }
 
