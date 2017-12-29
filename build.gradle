@@ -18,6 +18,7 @@ apply plugin: 'org.ajoberstar.grgit'
 apply plugin: 'idea'
 apply plugin: 'com.github.ben-manes.versions'
 
+group   = 'io.github.javaeden.orchid'
 version = 'v0.5.3'
 
 // Define the 'types' of projects Orchid is working with

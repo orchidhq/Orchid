@@ -13,7 +13,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
-project.group 'io.github.javaeden.orchid'
+project.group = rootProject.group
 project.version = rootProject.version
 
 ext {
