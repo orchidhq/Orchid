@@ -10,8 +10,8 @@ import java.util.List;
 @Getter @Setter
 public class PostTagArchivePage extends PostArchivePage {
 
-    public PostTagArchivePage(OrchidResource resource) {
-        super(resource, "postTagArchive");
+    public PostTagArchivePage(OrchidResource resource, int index, String permalink) {
+        super(resource, "postTagArchive", index, permalink);
         this.setTemplates(new String[]{"postTagArchive", "postArchive"});
     }
 

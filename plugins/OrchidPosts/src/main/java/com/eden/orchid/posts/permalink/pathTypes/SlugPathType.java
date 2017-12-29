@@ -1,8 +1,10 @@
 package com.eden.orchid.posts.permalink.pathTypes;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.PostsGenerator;
 import com.eden.orchid.posts.PostsUtils;
+import com.eden.orchid.posts.pages.PostArchivePage;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.permalink.PermalinkPathType;
 
@@ -17,31 +19,36 @@ public class SlugPathType extends PermalinkPathType {
     }
 
     @Override
-    public boolean acceptsKey(PostPage post, String key) {
+    public boolean acceptsKey(OrchidPage post, String key) {
         return key.equals("slug");
     }
 
     @Override
-    public String format(PostPage post, String key) {
-        String baseCategoryPath;
+    public String format(OrchidPage page, String key) {
+        if(page instanceof PostPage) {
+            PostPage post = (PostPage) page;
+            String baseCategoryPath;
 
-        if(EdenUtils.isEmpty(post.getCategory())) {
-            baseCategoryPath = "posts";
+            if(EdenUtils.isEmpty(post.getCategory())) {
+                baseCategoryPath = "posts";
+            }
+            else {
+                baseCategoryPath = "posts/" + post.getCategory();
+            }
+
+            String formattedFilename = PostsUtils.getPostFilename(post.getResource(), baseCategoryPath);
+
+            Matcher matcher = PostsGenerator.pageTitleRegex.matcher(formattedFilename);
+
+            if (matcher.matches()) {
+                return matcher.group(4);
+            }
         }
-        else {
-            baseCategoryPath = "posts/" + post.getCategory();
+        else if(page instanceof PostArchivePage) {
+            return ((PostArchivePage) page).getCategory();
         }
 
-        String formattedFilename = PostsUtils.getPostFilename(post.getResource(), baseCategoryPath);
-
-        Matcher matcher = PostsGenerator.pageTitleRegex.matcher(formattedFilename);
-
-        if (matcher.matches()) {
-            return matcher.group(4);
-        }
-        else {
-            return null;
-        }
+        return null;
     }
 
 }

@@ -2,8 +2,9 @@ package com.eden.orchid.posts.permalink;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.PostsModel;
-import com.eden.orchid.posts.pages.PostPage;
+import com.eden.orchid.posts.pages.PermalinkPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
@@ -23,21 +24,23 @@ public class PostsPermalinkStrategy {
         this.pathTypes = new TreeSet<>(pathTypes);
     }
 
-    public void applyPermalink(PostPage post) {
-        String permalink = getPermalinkTemplate(post);
-
-        String[] pieces = permalink.split("/");
-
-        String resultingUrl = applyPermalinkTemplate(permalink, post);
-        String title = applyPermalinkTemplatePiece(pieces[pieces.length - 1], post);
-
-        post.getReference().setPath(OrchidUtils.normalizePath(resultingUrl));
-        post.getReference().setFileName(title);
-
-        post.getReference().setUsePrettyUrl(true);
+    public void applyPermalink(PermalinkPage page) {
+        applyPermalink(page, getPermalinkTemplate(page));
     }
 
-    private String getPermalinkTemplate(PostPage post) {
+    public void applyPermalink(OrchidPage page, String permalink) {
+        String[] pieces = permalink.split("/");
+
+        String resultingUrl = applyPermalinkTemplate(page, pieces);
+        String title = applyPermalinkTemplatePiece(page, pieces[pieces.length - 1]);
+
+        page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl));
+        page.getReference().setFileName(title);
+
+        page.getReference().setUsePrettyUrl(true);
+    }
+
+    private String getPermalinkTemplate(PermalinkPage post) {
         if (!EdenUtils.isEmpty(post.getPermalink())) {
             return post.getPermalink();
         }
@@ -46,19 +49,17 @@ public class PostsPermalinkStrategy {
         }
     }
 
-    private String applyPermalinkTemplate(String permalink, PostPage post) {
-        String[] pieces = permalink.split("/");
-
+    private String applyPermalinkTemplate(OrchidPage page, String[] pieces) {
         String resultingUrl = "";
 
         for (int i = 0; i < pieces.length - 1; i++) {
-            resultingUrl += applyPermalinkTemplatePiece(pieces[i], post);
+            resultingUrl += applyPermalinkTemplatePiece(page, pieces[i]);
         }
 
         return resultingUrl;
     }
 
-    private String applyPermalinkTemplatePiece(String piece, PostPage post) {
+    private String applyPermalinkTemplatePiece(OrchidPage page, String piece) {
         String resultingPiece = null;
 
         String pieceKey = null;
@@ -72,8 +73,8 @@ public class PostsPermalinkStrategy {
 
         if(pieceKey != null) {
             for(PermalinkPathType pathType : pathTypes) {
-                if(pathType.acceptsKey(post, pieceKey)) {
-                    resultingPiece = pathType.format(post, pieceKey);
+                if(pathType.acceptsKey(page, pieceKey)) {
+                    resultingPiece = pathType.format(page, pieceKey);
                 }
             }
 
@@ -91,7 +92,7 @@ public class PostsPermalinkStrategy {
     private String sanitizePathPiece(String pathPiece) {
         String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
         s = s.replaceAll("[^\\w-_]", "");
-
         return s;
     }
+
 }

@@ -4,7 +4,6 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.Author;
 import com.eden.orchid.posts.PostsExcerptStrategy;
 import com.eden.orchid.posts.PostsModel;
@@ -17,7 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Getter @Setter
-public class PostPage extends OrchidPage {
+public class PostPage extends PermalinkPage {
 
     private PostsModel postsModel;
 

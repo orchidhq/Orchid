@@ -2,7 +2,6 @@ package com.eden.orchid.posts.pages;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,17 +13,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class PostArchivePage extends OrchidPage {
+public class PostArchivePage extends PermalinkPage {
 
     protected List<PostPage> postList;
     protected String category;
 
-    public PostArchivePage(OrchidResource resource) {
+    protected String permalink;
+    protected int index;
+
+    public PostArchivePage(OrchidResource resource, int index, String permalink) {
         super(resource, "postArchive");
+        this.permalink = permalink;
+        this.index = index;
     }
 
-    protected PostArchivePage(OrchidResource resource, String key) {
+    protected PostArchivePage(OrchidResource resource, String key, int index, String permalink) {
         super(resource, key);
+        this.permalink = permalink;
+        this.index = index;
     }
 
     public List<Integer> getYears() {
@@ -79,4 +85,5 @@ public class PostArchivePage extends OrchidPage {
 
         return templates;
     }
+
 }

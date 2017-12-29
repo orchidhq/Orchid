@@ -1,5 +1,6 @@
 package com.eden.orchid.posts.permalink.pathTypes;
 
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.posts.pages.PostPage;
 import com.eden.orchid.posts.permalink.PermalinkPathType;
 
@@ -13,13 +14,17 @@ public class DayPathType extends PermalinkPathType {
     }
 
     @Override
-    public boolean acceptsKey(PostPage post, String key) {
+    public boolean acceptsKey(OrchidPage page, String key) {
         return key.equals("day");
     }
 
     @Override
-    public String format(PostPage post, String key) {
-        return "" + post.getDay();
+    public String format(OrchidPage page, String key) {
+        if(page instanceof PostPage) {
+            return "" + ((PostPage) page).getDay();
+        }
+
+        return null;
     }
 
 }

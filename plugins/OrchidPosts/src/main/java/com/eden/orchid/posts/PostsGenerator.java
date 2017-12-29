@@ -41,8 +41,16 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     private PostsModel postsModel;
 
     @Option
-    @StringDefault(":year/:month/:day/:slug")
+    @StringDefault(":category/:year/:month/:day/:slug")
     public String permalink;
+
+    @Option
+    @StringDefault(":category/archive/:archiveIndex")
+    public String archivePermalink;
+
+    @Option
+    @StringDefault("tags/:tag/:archiveIndex")
+    public String tagArchivePermalink;
 
     @Option
     @StringDefault("<!--more-->")
@@ -55,11 +63,15 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
     @Option("categories")
     public String[] categoryNames;
 
-    @Option
-    public PostsPaginator pagination;
+    @Option("pagination")
+    public PostsPaginator defaultPagination;
 
     @Option
     public String disqusShortname;
+
+    @Option("baseDir")
+    @StringDefault("posts")
+    public String postsBaseDir;
 
     @Inject
     public PostsGenerator(OrchidContext context, PostsPermalinkStrategy permalinkStrategy, PostsModel postsModel) {
@@ -74,14 +86,14 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
         if(EdenUtils.isEmpty(categoryNames)) {
             List<PostPage> posts = getPostsList(null);
-            List<PostArchivePage> archive = buildArchive(null, posts);
+            List<PostArchivePage> archive = buildArchive(null, posts, defaultPagination);
             postsModel.getCategories().put(null, new EdenPair<>(posts, archive));
             tagPosts(posts);
         }
         else {
             for (String category : categoryNames) {
                 List<PostPage> posts = getPostsList(category);
-                List<PostArchivePage> archive = buildArchive(category, posts);
+                List<PostArchivePage> archive = buildArchive(category, posts, defaultPagination);
                 postsModel.getCategories().put(category, new EdenPair<>(posts, archive));
                 tagPosts(posts);
             }
@@ -89,7 +101,7 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
 
         for (String tag : postsModel.getTagNames()) {
             List<PostPage> posts = postsModel.getPostsTagged(tag);
-            List<PostTagArchivePage> archive = buildTagArchive(tag, posts);
+            List<PostTagArchivePage> archive = buildTagArchive(tag, posts, defaultPagination);
             postsModel.getTags().get(tag).second.addAll(archive);
         }
 
@@ -140,10 +152,10 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
         String baseCategoryPath;
 
         if(EdenUtils.isEmpty(category)) {
-            baseCategoryPath = "posts";
+            baseCategoryPath = postsBaseDir;
         }
         else {
-            baseCategoryPath = "posts/" + category;
+            baseCategoryPath = postsBaseDir + "/" + category;
         }
 
         resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true);
@@ -213,44 +225,47 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
         return posts;
     }
 
-    private List<PostArchivePage> buildArchive(String category, List<PostPage> posts) {
+    private List<PostArchivePage> buildArchive(String category, List<PostPage> posts, PostsPaginator paginator) {
         List<PostArchivePage> archivePages = new ArrayList<>();
 
-        int pages = (int) Math.ceil(posts.size() / pagination.pageSize);
+        int pages = (int) Math.ceil(posts.size() / paginator.pageSize);
 
         for (int i = 0; i <= pages; i++) {
-            String pageName = (!EdenUtils.isEmpty(category))
-                ? "archive/" + category + "/" + (i + 1) + ".html"
-                : "archive/" + (i + 1) + ".html";
+            List<PostPage> postPageList = posts.subList((i * paginator.pageSize), Math.min(((i+1) * paginator.pageSize), posts.size()));
 
-            OrchidReference pageRef = new OrchidReference(context, pageName);
+            if(postPageList.size() > 0) {
+                OrchidReference pageRef = new OrchidReference(context, "archive.html");
 
-            if(i == 0) {
-                if(!EdenUtils.isEmpty(category)) {
-                    pageRef.setTitle(StringUtils.capitalize(category));
+                if (i == 0) {
+                    if (!EdenUtils.isEmpty(category)) {
+                        pageRef.setTitle(StringUtils.capitalize(category));
+                    }
+                    else {
+                        pageRef.setTitle("Blog Archive");
+                    }
                 }
                 else {
-                    pageRef.setTitle("Blog Archive");
+                    if (!EdenUtils.isEmpty(category)) {
+                        pageRef.setTitle(StringUtils.capitalize(category) + " Archive (Page " + (i + 1) + ")");
+                    }
+                    else {
+                        pageRef.setTitle("Blog Archive (Page " + (i + 1) + ")");
+                    }
                 }
-            }
-            else {
-                if(!EdenUtils.isEmpty(category)) {
-                    pageRef.setTitle(StringUtils.capitalize(category) + " Archive (Page " + (i + 1) + ")");
+
+                String permalink = (!EdenUtils.isEmpty(paginator.permalink)) ? paginator.permalink : archivePermalink;
+
+                PostArchivePage page = new PostArchivePage(new StringResource("", pageRef), i + 1, permalink);
+                page.setPostList(postPageList);
+
+                if (!EdenUtils.isEmpty(category)) {
+                    page.setCategory(category);
                 }
-                else {
-                    pageRef.setTitle("Blog Archive (Page " + (i + 1) + ")");
-                }
+
+                permalinkStrategy.applyPermalink(page);
+
+                archivePages.add(page);
             }
-
-            PostArchivePage page = new PostArchivePage(new StringResource("", pageRef));
-
-            page.setPostList(posts.subList((i * pagination.pageSize), Math.min(((i+1) * pagination.pageSize), posts.size())));
-
-            if(!EdenUtils.isEmpty(category)) {
-                page.setCategory(category);
-            }
-
-            archivePages.add(page);
         }
 
         int i = 0;
@@ -263,26 +278,33 @@ public class PostsGenerator extends OrchidGenerator implements OptionsHolder {
         return archivePages;
     }
 
-    private List<PostTagArchivePage> buildTagArchive(String tag, List<PostPage> posts) {
+    private List<PostTagArchivePage> buildTagArchive(String tag, List<PostPage> posts, PostsPaginator paginator) {
         List<PostTagArchivePage> tagArchivePages = new ArrayList<>();
 
-        int pages = (int) Math.ceil(posts.size() / pagination.pageSize);
+        int pages = (int) Math.ceil(posts.size() / paginator.pageSize);
 
         for (int i = 0; i <= pages; i++) {
-            String pageName = "tags/" + tag + "/" + (i + 1) + ".html";
-            OrchidReference pageRef = new OrchidReference(context, pageName);
+            List<PostPage> postPageList = posts.subList((i * paginator.pageSize), Math.min(((i+1) * paginator.pageSize), posts.size()));
+            if(postPageList.size() > 0) {
+                OrchidReference pageRef = new OrchidReference(context, "tag.html");
 
-            if(i == 0) {
-                pageRef.setTitle(Clog.format("Posts tagged '#{$1}'", StringUtils.capitalize(tag)));
-            }
-            else {
-                pageRef.setTitle(Clog.format("Posts tagged '#{$1}' (Page #{$2})", StringUtils.capitalize(tag), (i + 1)));
-            }
+                if (i == 0) {
+                    pageRef.setTitle(Clog.format("Posts tagged '#{$1}'", StringUtils.capitalize(tag)));
+                }
+                else {
+                    pageRef.setTitle(Clog.format("Posts tagged '#{$1}' (Page #{$2})", StringUtils.capitalize(tag), (i + 1)));
+                }
 
-            PostTagArchivePage page = new PostTagArchivePage(new StringResource("", pageRef));
-            page.setPostList(posts.subList((i * pagination.pageSize), Math.min(((i+1) * pagination.pageSize), posts.size())));
-            page.setTag(tag);
-            tagArchivePages.add(page);
+                String permalink = (!EdenUtils.isEmpty(paginator.permalink)) ? paginator.permalink : tagArchivePermalink;
+
+                PostTagArchivePage page = new PostTagArchivePage(new StringResource("", pageRef), i + 1, permalink);
+                page.setPostList(postPageList);
+                page.setTag(tag);
+
+                permalinkStrategy.applyPermalink(page);
+
+                tagArchivePages.add(page);
+            }
         }
 
         int i = 0;
