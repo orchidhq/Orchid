@@ -41,12 +41,12 @@ jobs:
     - stage: release
       os: linux
       jdk: openjdk8
+      install: ./gradlew assemble -Penv=prod -Prelease
+      script: ./gradlew deploy -PdryDeploy -Prelease
       before_deploy:
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
         - ./gradlew tag -Prelease
-      install: ./gradlew assemble -Penv=prod
-      script: ./gradlew deploy -PdryDeploy
       deploy:
         - provider: releases
           skip_cleanup: true
