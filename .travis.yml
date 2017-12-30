@@ -11,30 +11,32 @@ cache:
     - $HOME/.gradle/wrapper/
 
 branches:
-  except:
-    - gh-pages
-    - pages
+  only:
+    - master
+    - dev
 
 jobs:
   include:
     - os: linux
       jdk: openjdk8
-      install: ./gradlew assemble
+      install: ./gradlew assemble -PnoJavadoc=true
       script: ./gradlew check
     - os: linux
       jdk: oraclejdk8
-      install: ./gradlew assemble
+      install: ./gradlew assemble -PnoJavadoc=true
       script: ./gradlew check
     - os: osx
       osx_image: xcode8.3
-      install: ./gradlew assemble
+      install: ./gradlew assemble -PnoJavadoc=true
       script: ./gradlew check
 
     - stage: upload test results
       os: linux
       jdk: openjdk8
-      install: ./gradlew build
-      script: bash <(curl -s https://codecov.io/bash)
+      install: ./gradlew assemble -PnoJavadoc=true
+      script: ./gradlew check
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
 
     - stage: release
       os: linux
@@ -61,4 +63,4 @@ stages:
   - test
   - upload test results
   - name: release
-    if: branch = master
+    if: branch = master AND tag IS blank
