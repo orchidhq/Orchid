@@ -38,33 +38,24 @@ ext.pluginProjects = ext.languageExtensionProjects + subprojects.findAll { retur
 ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
 ext.mainProjects   = coreProject + themeProjects + pluginProjects
 
-task prepareDocumentation {
-
-}
-
 tag {
     message { "Bump version to ${version}" }
 }
 
+task prepareDocumentation {
+
+}
+
 task archiveDocumentation(type: Zip) {
     mustRunAfter prepareDocumentation
-    from "$rootDir/docs/${project.version}"
+    from "${rootProject.buildDir}/orchid/docs/${project.version}"
     include '**/*'
-    archiveName "${project.version}.zip"
-    destinationDir(file("$buildDir/docs/archives"))
+    archiveName "docs-${project.version}.zip"
+    destinationDir(file("$buildDir/orchid/archives"))
 }
 
 task deploy {
     dependsOn prepareDocumentation, archiveDocumentation
-    onlyIf {
-        if (project.hasProperty('env') && project.property('env') == 'prod') {
-            return true
-        }
-        else {
-            println ':deploy task must be run in prod environment (-Penv=prod)'
-            return false
-        }
-    }
     doLast { }
 }
 

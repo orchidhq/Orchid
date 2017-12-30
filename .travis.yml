@@ -33,7 +33,7 @@ jobs:
     - stage: upload test results
       os: linux
       jdk: openjdk8
-      install: ./gradlew assemble -PnoJavadoc=true
+      install: ./gradlew assemble
       script: ./gradlew check
       after_success:
         - bash <(curl -s https://codecov.io/bash)
@@ -46,17 +46,17 @@ jobs:
         - git config --local user.email "deploy@travis-ci.org"
         - ./gradlew tag -Prelease
       install: ./gradlew assemble -Penv=prod
-      script: ./gradlew deploy -Penv=prod -PskipMavenCentralSync=true
+      script: ./gradlew deploy -PdryDeploy
       deploy:
         - provider: releases
           skip_cleanup: true
           api_key: $GITHUB_TOKEN
           file_glob: true
-          file: ${TRAVIS_BUILD_DIR}/build/docs/archives/*
+          file: ${TRAVIS_BUILD_DIR}/build/orchid/archives/*
         - provider: pages
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
-          local_dir: ${TRAVIS_BUILD_DIR}/docs
+          local_dir: ${TRAVIS_BUILD_DIR}/build/orchid/docs
           target_branch: pages
 
 stages:

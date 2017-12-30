@@ -49,8 +49,8 @@ afterEvaluate { project ->
         key = "${project.properties['bintray_apiKey']}"
         publications = ['OrchidPublication']
 
-        dryRun = false
-        publish = true
+        dryRun = project.hasProperty('dryDeploy')
+        publish = !project.hasProperty('dryDeploy')
         override = true
 
         pkg {
@@ -69,7 +69,7 @@ afterEvaluate { project ->
                     sign = true
                 }
                 mavenCentralSync {
-                    sync = !(project.hasProperty('skipMavenCentralSync') && project.property('skipMavenCentralSync'))
+                    sync = (project.hasProperty('includeMavenCentralSync'))
                     user = "${project.properties['mavenCentral_username']}"
                     password = "${project.properties['mavenCentral_password']}"
                 }
