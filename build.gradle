@@ -38,7 +38,7 @@ ext.pluginProjects = ext.languageExtensionProjects + subprojects.findAll { retur
 ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
 ext.mainProjects   = coreProject + themeProjects + pluginProjects
 
-task publishDocumentation {
+task prepareDocumentation {
 
 }
 
@@ -46,8 +46,16 @@ tag {
     message { "Bump version to ${version}" }
 }
 
+task archiveDocumentation(type: Zip) {
+    mustRunAfter prepareDocumentation
+    from "$rootDir/docs/${project.version}"
+    include '**/*'
+    archiveName "${project.version}.zip"
+    destinationDir(file("$buildDir/docs/archives"))
+}
+
 task deploy {
-    dependsOn publishDocumentation, 'tag'
+    dependsOn prepareDocumentation, archiveDocumentation
     onlyIf {
         if (project.hasProperty('env') && project.property('env') == 'prod') {
             return true
@@ -57,25 +65,7 @@ task deploy {
             return false
         }
     }
-    doLast {
-        // go to gh-pages branch, remove 'latest' folder, copy generated docs into root, then commit and push
-        grgit.checkout(branch: 'gh-pages')
-        delete "$rootDir/latest"
-        copy {
-            from "$rootDir/docs"
-            into "$rootDir"
-        }
-
-        grgit.add(patterns: ['latest', "${rootProject.version}"])
-        grgit.commit(message: "Updates docs to '${rootProject.version}'")
-        System.setProperty("org.ajoberstar.grgit.auth.username", project.properties['github_username'])
-        System.setProperty("org.ajoberstar.grgit.auth.password", project.properties['github_password'])
-        grgit.push()
-
-        // go back to master branch, tag this release, then push the tag
-        grgit.checkout(branch: 'master')
-        grgit.push(tags: true)
-    }
+    doLast { }
 }
 
 configure(ext.mainProjects)   { apply from: "$rootDir/gradle/mainProjects.gradle" }

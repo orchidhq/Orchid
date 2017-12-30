@@ -46,7 +46,7 @@ artifacts {
     archives javadocJar
 }
 
-task publishDocumentation {
+task prepareDocumentation {
     dependsOn 'javadoc'
 
     def source       = file("$buildDir/docs/javadoc")
@@ -69,5 +69,4 @@ task publishDocumentation {
     }
 }
 
-rootProject.tasks.publishDocumentation.dependsOn project.tasks.publishDocumentation
-project.tasks.javadoc.shouldRunAfter project.tasks.check
+rootProject.tasks.prepareDocumentation.dependsOn project.tasks.prepareDocumentation
