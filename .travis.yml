@@ -42,7 +42,7 @@ jobs:
       os: linux
       jdk: openjdk8
       install: ./gradlew assemble -Penv=prod -Prelease
-      script: ./gradlew deploy -PdryDeploy -Prelease
+      script: ./gradlew deploy -Penv=prod -Prelease
       after_success:
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
@@ -63,4 +63,4 @@ stages:
   - test
   - upload test results
   - name: release
-    if: branch = master AND tag IS blank
+    if: branch = master AND tag IS blank AND type IN (push)
