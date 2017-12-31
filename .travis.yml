@@ -63,4 +63,4 @@ stages:
   - test
   - upload test results
   - name: release
-    if: branch = master AND tag IS blank
+    if: branch = master AND tag IS blank AND type IN (push)
