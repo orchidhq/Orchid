@@ -42,7 +42,14 @@ public final class BooleanOptionExtractor extends OptionExtractor<Boolean> {
         if(options.has(key)) {
             return getValue(options.get(key));
         }
-        else if(field.isAnnotationPresent(BooleanDefault.class)) {
+        else {
+            return getDefaultValue(field);
+        }
+    }
+
+    @Override
+    public Boolean getDefaultValue(Field field) {
+        if(field.isAnnotationPresent(BooleanDefault.class)) {
             return field.getAnnotation(BooleanDefault.class).value();
         }
         else {

@@ -40,8 +40,13 @@ public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject>
             return options.getJSONObject(key);
         }
         else {
-            return null;
+            return getDefaultValue(field);
         }
+    }
+
+    @Override
+    public JSONObject getDefaultValue(Field field) {
+        return new JSONObject();
     }
 
     @Override public List<JSONObject> getList(Field field, JSONObject options, String key) {

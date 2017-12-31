@@ -42,8 +42,13 @@ public final class JSONArrayOptionExtractor extends OptionExtractor<JSONArray> {
             return options.getJSONArray(key);
         }
         else {
-            return null;
+            return getDefaultValue(field);
         }
+    }
+
+    @Override
+    public JSONArray getDefaultValue(Field field) {
+        return new JSONArray();
     }
 
     @Override public List<JSONArray> getList(Field field, JSONObject options, String key) {

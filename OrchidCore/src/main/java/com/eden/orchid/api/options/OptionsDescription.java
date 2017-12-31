@@ -7,4 +7,5 @@ public class OptionsDescription {
     private String key;
     private Class optionType;
     private String description;
+    private String defaultValue;
 }

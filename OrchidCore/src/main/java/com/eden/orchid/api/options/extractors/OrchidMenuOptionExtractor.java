@@ -40,7 +40,17 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
             return new OrchidMenu(contextProvider.get(), options.getJSONArray(key));
         }
 
+        return getDefaultValue(field);
+    }
+
+    @Override
+    public OrchidMenu getDefaultValue(Field field) {
         return new OrchidMenu(contextProvider.get(), new JSONArray());
+    }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        return "Empty OrchidMenu";
     }
 
     @Override

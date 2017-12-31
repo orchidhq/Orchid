@@ -1,0 +1,19 @@
+{# @pebvariable name="component" type="com.eden.orchid.pluginDocs.components.PluginDocsComponent" #}
+
+{% for classType in component.getClassList() %}
+    {# @pebvariable name="classType" type="java.lang.Class" #}
+
+    <h2>{{ classType.simpleName }}</h2>
+    <hr>
+
+    {% for option in component.getClassOptions(classType) %}
+        {# @pebvariable name="option" type="com.eden.orchid.api.options.OptionsDescription" #}
+        <div>
+            <h3 class="mb-0">{{ option.key }}</h3>
+            <p><b>Type:</b> <code>{{ option.optionType.simpleName }}</code></p>
+            <p><b>Default Value:</b> <i>{{ option.defaultValue }}</i></p>
+            <p><b>Description:</b> {{ option.description }}</p>
+        </div>
+        <br>
+    {% endfor %}
+{% endfor %}

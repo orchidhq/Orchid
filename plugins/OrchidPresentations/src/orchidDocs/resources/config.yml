@@ -1,0 +1,12 @@
+
+theme:
+  about:
+    siteName: Orchid Presentations
+    siteDescription: Embed slide presentations with deck.js
+  primaryColor: '#559999'
+  social:
+    github: 'JavaEden/Orchid'
+
+presentations:
+  presentations:
+    - demo

@@ -17,6 +17,9 @@ public interface OrchidSite extends OrchidService {
     default void setEnvironment(String environment) { getService(OrchidSite.class).setEnvironment(environment); }
     default String getEnvironment() { return getService(OrchidSite.class).getEnvironment(); }
 
+    default boolean isDebug() { return getService(OrchidSite.class).isDebug(); }
+    default boolean isProduction() { return getService(OrchidSite.class).isProduction(); }
+
     default void setDefaultTemplateExtension(String environment) { getService(OrchidSite.class).setDefaultTemplateExtension(environment); }
     default String getDefaultTemplateExtension() { return getService(OrchidSite.class).getDefaultTemplateExtension(); }
 

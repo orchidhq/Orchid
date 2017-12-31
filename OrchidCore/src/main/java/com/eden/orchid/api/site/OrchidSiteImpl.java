@@ -44,6 +44,9 @@ public final class OrchidSiteImpl implements OrchidSite {
         this.baseUrl = OrchidUtils.normalizePath(baseUrl);
     }
 
+    public boolean isDebug() { return !isProduction(); }
+    public boolean isProduction() { return this.getEnvironment().equalsIgnoreCase("prod") || this.getEnvironment().equalsIgnoreCase("production"); }
+
     public JSONObject toJSON() {
         JSONObject site = new JSONObject();
         site.put("orchidVersion", orchidVersion);

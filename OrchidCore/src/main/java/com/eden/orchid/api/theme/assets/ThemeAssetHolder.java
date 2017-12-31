@@ -141,4 +141,8 @@ public final class ThemeAssetHolder implements AssetHolder {
     private boolean validAsset(OrchidPage asset, String targetExtension) {
         return asset.getReference().getOutputExtension().equalsIgnoreCase(targetExtension);
     }
+
+    public boolean shouldDownloadExternalAssets() {
+        return context.isProduction();
+    }
 }

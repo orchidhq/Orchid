@@ -3,7 +3,7 @@
     <!-- Begin slides. Just make elements with a class of slide. -->
     {% for slide in component.presentation.slides %}
         <section class="slide">
-            {{ slide.content }}
+            {{ slide.content | raw }}
         </section>
     {% endfor %}
     <!-- End slides. -->

@@ -54,7 +54,14 @@ public final class IntOptionExtractor extends OptionExtractor<Integer> {
         if(options.has(key)) {
             return getValue(options.get(key));
         }
-        else if(field.isAnnotationPresent(IntDefault.class)) {
+        else {
+            return getDefaultValue(field);
+        }
+    }
+
+    @Override
+    public Integer getDefaultValue(Field field) {
+        if(field.isAnnotationPresent(IntDefault.class)) {
             return field.getAnnotation(IntDefault.class).value();
         }
         else {
