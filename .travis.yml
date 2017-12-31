@@ -53,6 +53,8 @@ jobs:
           api_key: $GITHUB_TOKEN
           file_glob: true
           file: ${TRAVIS_BUILD_DIR}/build/orchid/archives/*
+          prerelease: true
+          name: Release
         - provider: pages
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
