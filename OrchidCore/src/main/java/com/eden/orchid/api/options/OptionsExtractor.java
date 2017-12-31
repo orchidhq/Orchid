@@ -36,7 +36,7 @@ public class OptionsExtractor {
     }
 
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
-        Set<Field> fields = findOptionFields(optionsHolder);
+        Set<Field> fields = findOptionFields(optionsHolder.getClass());
 
         for (Field field : fields) {
             String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
@@ -55,8 +55,8 @@ public class OptionsExtractor {
         }
     }
 
-    public List<OptionsDescription> describeOptions(OptionsHolder optionsHolder) {
-        Set<Field> fields = findOptionFields(optionsHolder);
+    public List<OptionsDescription> describeOptions(Class<?> optionsHolderClass) {
+        Set<Field> fields = findOptionFields(optionsHolderClass);
 
         List<OptionsDescription> optionDescriptions = new ArrayList<>();
 
@@ -67,16 +67,22 @@ public class OptionsExtractor {
             String description = (field.getAnnotation(Description.class) != null && !EdenUtils.isEmpty(field.getAnnotation(Description.class).value()))
                     ? field.getAnnotation(Description.class).value()
                     : "";
+            String defaultValue = "N/A";
 
-            optionDescriptions.add(new OptionsDescription(key, field.getType(), description));
+            for (OptionExtractor extractor : extractors) {
+                if (extractor.acceptsClass(field.getType())) {
+                    defaultValue = extractor.describeDefaultValue(field);
+                    break;
+                }
+            }
+
+            optionDescriptions.add(new OptionsDescription(key, field.getType(), description, defaultValue));
         }
 
         return optionDescriptions;
     }
 
-    private Set<Field> findOptionFields(OptionsHolder optionsHolder) {
-        Class<?> optionsHolderClass = optionsHolder.getClass();
-
+    private Set<Field> findOptionFields(Class<?> optionsHolderClass) {
         Set<Field> fields = new HashSet<>();
 
         while (optionsHolderClass != null) {

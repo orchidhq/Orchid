@@ -54,7 +54,14 @@ public final class DoubleOptionExtractor extends OptionExtractor<Double> {
         if(options.has(key)) {
             return getValue(options.get(key));
         }
-        else if(field.isAnnotationPresent(DoubleDefault.class)) {
+        else {
+            return getDefaultValue(field);
+        }
+    }
+
+    @Override
+    public Double getDefaultValue(Field field) {
+        if(field.isAnnotationPresent(DoubleDefault.class)) {
             return field.getAnnotation(DoubleDefault.class).value();
         }
         else {

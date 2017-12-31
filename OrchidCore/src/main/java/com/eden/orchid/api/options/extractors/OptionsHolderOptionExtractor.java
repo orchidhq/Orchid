@@ -83,6 +83,11 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
     }
 
     @Override
+    public OptionsHolder getDefaultValue(Field field) {
+        return null;
+    }
+
+    @Override
     public List<OptionsHolder> getList(Field field, JSONObject options, String key) {
         JSONArray array = (options.has(key)) ? options.getJSONArray(key) : new JSONArray();
         List<OptionsHolder> list = new ArrayList<>();

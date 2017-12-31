@@ -57,11 +57,8 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
             }
         }
 
-        if(fieldValue == null && field.isAnnotationPresent(StringDefault.class)) {
-            EdenPair<Boolean, String> value = converter.convert(field.getAnnotation(StringDefault.class).value());
-            if(value.first) {
-                fieldValue = value.second;
-            }
+        if(fieldValue == null) {
+            fieldValue = getDefaultValue(field);
         }
 
         if(field.isAnnotationPresent(ApplyBaseUrl.class)) {
@@ -83,6 +80,17 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
         }
 
         return fieldValue;
+    }
+
+    @Override
+    public String getDefaultValue(Field field) {
+        if(field.isAnnotationPresent(StringDefault.class)) {
+            EdenPair<Boolean, String> value = converter.convert(field.getAnnotation(StringDefault.class).value());
+            if(value.first) {
+                return value.second;
+            }
+        }
+        return "";
     }
 
     @Override

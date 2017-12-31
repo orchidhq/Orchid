@@ -1,5 +1,7 @@
 package com.eden.orchid.api.options;
 
+import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.Prioritized;
 import org.json.JSONObject;
 
@@ -15,6 +17,27 @@ public abstract class OptionExtractor<T> extends Prioritized {
     public abstract boolean acceptsClass(Class clazz);
 
     public abstract T getOption(Field field, JSONObject options, String key);
+
+    public abstract T getDefaultValue(Field field);
+
+    public String describeDefaultValue(Field field) {
+        T value = getDefaultValue(field);
+
+        if(value == null) {
+            return "null";
+        }
+        else if(value instanceof String) {
+            if(EdenUtils.isEmpty(value.toString())) {
+                return "empty string";
+            }
+            else {
+                return Clog.format("\"{}\"", value);
+            }
+        }
+        else {
+            return value.toString();
+        }
+    }
 
     public List<T> getList(Field field, JSONObject options, String key) {
         return null;

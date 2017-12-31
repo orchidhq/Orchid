@@ -54,7 +54,14 @@ public final class FloatOptionExtractor extends OptionExtractor<Float> {
         if(options.has(key)) {
             return getValue(options.get(key));
         }
-        else if(field.isAnnotationPresent(FloatDefault.class)) {
+        else {
+            return getDefaultValue(field);
+        }
+    }
+
+    @Override
+    public Float getDefaultValue(Field field) {
+        if(field.isAnnotationPresent(FloatDefault.class)) {
             return field.getAnnotation(FloatDefault.class).value();
         }
         else {

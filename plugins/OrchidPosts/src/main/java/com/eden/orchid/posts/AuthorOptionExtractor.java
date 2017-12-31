@@ -59,6 +59,11 @@ public final class AuthorOptionExtractor extends OptionExtractor<Author> {
             }
         }
 
+        return getDefaultValue(field);
+    }
+
+    @Override
+    public Author getDefaultValue(Field field) {
         return null;
     }
 

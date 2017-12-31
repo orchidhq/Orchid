@@ -44,6 +44,11 @@ public final class FormOptionExtractor extends OptionExtractor<Form> {
             }
         }
 
+        return getDefaultValue(field);
+    }
+
+    @Override
+    public Form getDefaultValue(Field field) {
         return null;
     }
 

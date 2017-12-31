@@ -54,7 +54,14 @@ public final class LongOptionExtractor extends OptionExtractor<Long> {
         if(options.has(key)) {
             return getValue(options.get(key));
         }
-        else if(field.isAnnotationPresent(LongDefault.class)) {
+        else {
+            return getDefaultValue(field);
+        }
+    }
+
+    @Override
+    public Long getDefaultValue(Field field) {
+        if(field.isAnnotationPresent(LongDefault.class)) {
             return field.getAnnotation(LongDefault.class).value();
         }
         else {

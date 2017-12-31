@@ -3,6 +3,7 @@ package com.eden.orchid.api.generators;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -53,14 +54,22 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
+    @Description("Set a theme to be used only when rendering pages from this Generator.")
     private String theme;
 
     @Getter @Setter
     @Option
+    @Description("Set the default layout to be used for all Pages from this Generator. Pages can specify their own " +
+            "layouts, which take precedence over the Generator layout."
+    )
     public String layout;
 
     @Getter @Setter
     @Option @BooleanDefault(false)
+    @Description("Improve site generation performance by rendering the pages from this Generator in parallel. (There " +
+            "are currently thread-safety issues that may cause deadlocks, and this should be left false until " +
+            "these issues can be addressed.)"
+    )
     public boolean parallel;
 
     @Inject

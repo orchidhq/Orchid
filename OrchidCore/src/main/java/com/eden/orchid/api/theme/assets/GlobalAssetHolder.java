@@ -1,5 +1,8 @@
 package com.eden.orchid.api.theme.assets;
 
+import com.eden.orchid.api.OrchidContext;
+import com.google.inject.Provider;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -8,11 +11,14 @@ import java.util.List;
 @Singleton
 public class GlobalAssetHolder implements AssetHolder {
 
+    private final Provider<OrchidContext> context;
+
     private final List<AssetPage> js;
     private final List<AssetPage> css;
 
     @Inject
-    public GlobalAssetHolder() {
+    public GlobalAssetHolder(Provider<OrchidContext> context) {
+        this.context = context;
         this.js = new ArrayList<>();
         this.css = new ArrayList<>();
     }
@@ -63,5 +69,13 @@ public class GlobalAssetHolder implements AssetHolder {
     public void clearAssets() {
         flushJs();
         flushCss();
+    }
+
+    public void setShouldDownloadAssets(boolean shouldDownloadAssets) {
+
+    }
+
+    public boolean shouldDownloadExternalAssets() {
+        return context.get().isProduction();
     }
 }

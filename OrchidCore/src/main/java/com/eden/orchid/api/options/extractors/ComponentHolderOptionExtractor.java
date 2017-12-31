@@ -40,7 +40,17 @@ public final class ComponentHolderOptionExtractor extends OptionExtractor<Compon
             return new ComponentHolder(contextProvider.get(), options.getJSONArray(key));
         }
 
+        return getDefaultValue(field);
+    }
+
+    @Override
+    public ComponentHolder getDefaultValue(Field field) {
         return new ComponentHolder(contextProvider.get(), new JSONArray());
+    }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        return "Empty ComponentHolder";
     }
 
     @Override

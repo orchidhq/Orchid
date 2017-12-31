@@ -82,7 +82,10 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         var summary: OrchidResource? = context.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md")
 
         if (summary == null) {
-            Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
+            if(section != null) {
+                Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
+            }
+
             return null
         }
 
