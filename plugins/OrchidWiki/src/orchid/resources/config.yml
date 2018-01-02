@@ -1,23 +1,10 @@
 
-about:
-  name: Orchid Wiki
-  description: A Gitbook-like wiki for your Orchid site.
-
-#colors:
-#  primary: 'light-blue'
-#  secondary: 'orange'
-#
-colors:
-  primary: '#03A9F4'
-  secondary: '#000000'
-
-shades:
-  primary: 'lighten-1'
-
-navigation:
-  headerBackground: 'https://s-media-cache-ak0.pinimg.com/736x/a0/d5/29/a0d529fdfe67a8905e57d8c4967b0758.jpg'
-
-github:
-  username: 'JavaEden'
-  repo: 'Orchid'
-  branch: 'master'
+theme:
+  about:
+    siteName: Orchid Wiki
+    siteDescription: A Gitbook-like wiki for your Orchid site.
+  primaryColor: '#3A83FB'
+  social:
+    github: 'JavaEden/Orchid'
+  menu:
+    - type: wikiSections

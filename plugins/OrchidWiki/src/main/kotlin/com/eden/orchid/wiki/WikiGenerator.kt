@@ -30,8 +30,7 @@ import javax.inject.Singleton
 class WikiGenerator @Inject
 constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, "wiki", 700), OptionsHolder {
 
-    @Option("baseDir")
-    @StringDefault("wiki")
+    @Option("baseDir") @StringDefault("wiki")
     lateinit var wikiBaseDir: String
 
     @Option("sections")
@@ -142,7 +141,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             wikiPage.sectionSummary = summaryPage
         }
 
-        return WikiSection(section!!, summaryPage, wiki)
+        return WikiSection(section, summaryPage, wiki)
     }
 
 }
+
