@@ -1,6 +1,5 @@
 package com.eden.orchid.forms.model
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Option
@@ -36,7 +35,6 @@ class Form(protected val context: OrchidContext, val key: String, val formData: 
                 val tmpFieldOrder = ArrayList<Pair<String, Int>>()
 
                 for (fieldKey in formFields.keySet()) {
-                    Clog.v("$title - $fieldKey")
                     for (fieldType in fieldTypes) {
                         val fieldConfig = formFields.getJSONObject(fieldKey)
                         if (fieldType.acceptsType(fieldConfig.getString("type"))) {

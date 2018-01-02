@@ -4,6 +4,8 @@ components:
   - type: readme
   - type: form
     form: contact
+  - type: form
+    form: comment
   - type: pluginDocs
     classNames: 
       - com.eden.orchid.forms.FormsGenerator

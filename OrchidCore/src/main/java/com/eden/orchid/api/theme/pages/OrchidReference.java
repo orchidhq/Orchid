@@ -130,6 +130,10 @@ public final class OrchidReference {
         }
     }
 
+    public String getOriginalPath() {
+        return path;
+    }
+
     public String getPath() {
         String output = "";
 
@@ -152,6 +156,10 @@ public final class OrchidReference {
         }
 
         return output;
+    }
+
+    public String getOriginalFileName() {
+        return fileName;
     }
 
     public String getFileName() {
