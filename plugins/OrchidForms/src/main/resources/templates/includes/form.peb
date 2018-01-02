@@ -1,8 +1,9 @@
 <form name="{{ form.key }}" action="{{ form.action }}" class="orchid-form" {{ form.attributes }} method="{{ form.method }}">
     <div class="row">
-        {% for key, field in form.fields %}
+        {% for key in form.fields.keySet() %}
+            {% set field = form.fields.get(key) %}
             <div class="{{ field.span }}">
-                {% include field.templates ignore missing %}
+                {% include field.templates | join(',') %}
             </div>
         {% endfor %}
     </div>

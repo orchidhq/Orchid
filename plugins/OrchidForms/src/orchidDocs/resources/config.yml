@@ -1,0 +1,8 @@
+
+theme:
+  about:
+    siteName: Orchid Forms
+    siteDescription: Engage your users with embeddable, fully customizable forms
+  primaryColor: '#997647'
+  social:
+    github: 'JavaEden/Orchid'

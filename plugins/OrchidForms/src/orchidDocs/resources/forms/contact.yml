@@ -1,0 +1,34 @@
+
+title: 'Contact Me'
+action: 'thank-you'
+attributes:
+  data-netlify: true
+fields:
+  first_name:
+    label: 'First Name'
+    type: 'text'
+    required: true
+    span: 'auto'
+    order: 1
+  last_name:
+    label: 'Last Name'
+    type: 'text'
+    required: true
+    span: 'auto'
+    order: 2
+  occupation:
+    label: 'Occupation'
+    type: 'dropdown'
+    required: true
+    span: 'auto'
+    order: 3
+    options:
+      programmer: Programmer
+      teacher: Teacher
+      pastor: Pastor
+  comments:
+    label: 'Comments'
+    type: 'text'
+    required: true
+    span: 'full'
+    order: 4

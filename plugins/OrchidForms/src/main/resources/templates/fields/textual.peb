@@ -1,2 +1,6 @@
 <label for="{{ field.key }}">{{ field.label }}</label>
-<input type="{{ field.type }}" name="{{ field.key }}" placeholder="{{ field.placeholder }}">
+<input
+        type="{{ field.type }}"
+        name="{{ field.key }}"
+        placeholder="{{ field.placeholder }}"
+        {% if field.required %}required{% endif %}>
