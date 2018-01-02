@@ -130,8 +130,21 @@ public final class OrchidReference {
         }
     }
 
+    public void replacePathSegment(int segmentIndex, String replacement) {
+        String path = getOriginalPath();
+        String[] segments = path.split("/");
+        segments[segmentIndex] = OrchidUtils.normalizePath(replacement);
+        this.path = String.join("/", segments);
+    }
+
     public String getOriginalPath() {
         return path;
+    }
+
+    public String getOriginalPathSegment(int segmentIndex) {
+        String path = getOriginalPath();
+        String[] segments = path.split("/");
+        return segments[segmentIndex];
     }
 
     public String getPath() {
@@ -156,6 +169,12 @@ public final class OrchidReference {
         }
 
         return output;
+    }
+
+    public String getPathSegment(int segmentIndex) {
+        String path = getPath();
+        String[] segments = path.split("/");
+        return segments[segmentIndex];
     }
 
     public String getOriginalFileName() {
@@ -307,3 +326,4 @@ public final class OrchidReference {
         }
     }
 }
+

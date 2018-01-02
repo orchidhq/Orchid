@@ -1,8 +1,8 @@
-<div class="deck-container" style="height: 400px;">
+<div class="deck-container" style="height: 400px;" id="presentation-{{ component.presentation.key }}">
 
     <!-- Begin slides. Just make elements with a class of slide. -->
     {% for slide in component.presentation.slides %}
-        <section class="slide">
+        <section class="slide" id="presentation-{{ component.presentation.key }}-{{ slide.id }}">
             {{ slide.content | raw }}
         </section>
     {% endfor %}
@@ -33,3 +33,4 @@
 
     <!-- End extension snippets. -->
 </div>
+<br><br>

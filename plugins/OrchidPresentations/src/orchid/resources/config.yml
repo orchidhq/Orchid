@@ -6,7 +6,3 @@ theme:
   primaryColor: '#559999'
   social:
     github: 'JavaEden/Orchid'
-
-presentations:
-  presentations:
-    - demo
