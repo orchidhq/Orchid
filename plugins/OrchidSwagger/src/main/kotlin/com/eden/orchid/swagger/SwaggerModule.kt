@@ -1,9 +1,9 @@
-package com.eden.orchid.languages
+package com.eden.orchid.swagger
 
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.languages.components.SwaggerComponent
+import com.eden.orchid.swagger.components.SwaggerComponent
 
 class SwaggerModule : OrchidModule() {
 
@@ -16,3 +16,4 @@ class SwaggerModule : OrchidModule() {
     }
 
 }
+
