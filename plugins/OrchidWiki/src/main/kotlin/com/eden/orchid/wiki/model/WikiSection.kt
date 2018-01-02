@@ -4,7 +4,8 @@ import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 
 data class WikiSection(
-        val section: String,
+        val section: String?,
         val summaryPage: WikiSummaryPage,
         val wikiPages: List<WikiPage>
 )
+
