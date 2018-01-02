@@ -36,4 +36,4 @@ Orchid.ipr
 # Google Analytics
 /**/templates/meta.*
 
-OrchidCore/src/orchidDocs/resources/generatePosts\.py
+OrchidCore/src/orchid/resources/generatePosts\.py

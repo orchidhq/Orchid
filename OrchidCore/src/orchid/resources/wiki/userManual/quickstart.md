@@ -47,11 +47,11 @@ Add the following lines to your `dependencies` block:
 {% filter highlightPrism('groovy') %}
 dependencies {
     compile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
-    orchidDocsCompile "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
+    orchidCompile "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
 }
 {% endfilter %}
 
-The dependency in `orchidDocsCompile` adds all official Orchid core packages, themes, and plugins for ease of setup. You
+The dependency in `orchidCompile` adds all official Orchid core packages, themes, and plugins for ease of setup. You
 may instead choose which specific packages you want to install, which are listed on the [homepage]({{site.baseUrl}}). 
 
 The dependency in `compile` is optional, but is needed if you intend to create plugins specifically for this project.
@@ -70,12 +70,12 @@ orchid {
 
 **Step 4**
 
-Add the following folder in your project: `src/orchidDocs/resources`. This is where all your site configuration and 
+Add the following folder in your project: `src/orchid/resources`. This is where all your site configuration and 
 content lives.
 
 **Step 5**
 
-Add a `config.yml` file inside `src/orchidDocs/resources`.
+Add a `config.yml` file inside `src/orchid/resources`.
 
 
 And that's it! You can now run Orchid using any of the commands listed above. You should now refer to the documentation 

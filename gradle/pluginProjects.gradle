@@ -1,8 +1,8 @@
 dependencies {
     compile project(":OrchidCore") // core lib
 
-    orchidDocsCompile project(":themes:Orchid${project.ext.commonTheme}") // theme lib
-    orchidDocsCompile rootProject.ext.pluginProjects // all plugin libs
+    orchidCompile project(":themes:Orchid${project.ext.commonTheme}") // theme lib
+    orchidCompile rootProject.ext.pluginProjects // all plugin libs
 }
 
 tasks.jar {
