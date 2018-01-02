@@ -38,16 +38,21 @@ public class CategoriesMenuType extends OrchidMenuItem {
         List<OrchidMenuItemImpl> items = new ArrayList<>();
 
         if(!EdenUtils.isEmpty(category) && postsModel.getCategories().containsKey(category)) {
-            OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, postsModel.getCategories().get(category).second.get(0));
-            if(!EdenUtils.isEmpty(title)) {
-                menuItem.setTitle(title);
+            EdenPair<List<PostPage>, List<PostArchivePage>> categoryDef = postsModel.getCategories().get(category);
+            if(!EdenUtils.isEmpty(categoryDef.second)) {
+                OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, categoryDef.second.get(0));
+                if (!EdenUtils.isEmpty(title)) {
+                    menuItem.setTitle(title);
+                }
+                items.add(menuItem);
             }
-            items.add(menuItem);
         }
         else if(postsModel.getCategoryNames().size() > 1) {
             List<OrchidPage> pages = new ArrayList<>();
             for(Map.Entry<String, EdenPair<List<PostPage>, List<PostArchivePage>>> tag : postsModel.getCategories().entrySet()) {
-                pages.add(tag.getValue().second.get(0));
+                if(!EdenUtils.isEmpty(tag.getValue().second)) {
+                    pages.add(tag.getValue().second.get(0));
+                }
             }
 
             OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, "Categories", pages);
@@ -57,11 +62,14 @@ public class CategoriesMenuType extends OrchidMenuItem {
             items.add(menuItem);
         }
         else if(postsModel.getCategories().containsKey(null)) {
-            OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, postsModel.getCategories().get(null).second.get(0));
-            if(!EdenUtils.isEmpty(title)) {
-                menuItem.setTitle(title);
+            EdenPair<List<PostPage>, List<PostArchivePage>> categoryDef = postsModel.getCategories().get(null);
+            if(!EdenUtils.isEmpty(categoryDef.second)) {
+                OrchidMenuItemImpl menuItem = new OrchidMenuItemImpl(context, categoryDef.second.get(0));
+                if (!EdenUtils.isEmpty(title)) {
+                    menuItem.setTitle(title);
+                }
+                items.add(menuItem);
             }
-            items.add(menuItem);
         }
 
         return items;
