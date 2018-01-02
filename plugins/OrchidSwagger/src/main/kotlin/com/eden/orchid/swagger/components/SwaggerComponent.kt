@@ -1,4 +1,4 @@
-package com.eden.orchid.languages.components
+package com.eden.orchid.swagger.components
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Option
@@ -14,8 +14,7 @@ constructor(context: OrchidContext) : OrchidComponent(context, "swaggerUi", 100)
     @Option
     lateinit var openApiSource: String
 
-    @Option
-    @StringDefault("swagger-ui")
+    @Option @StringDefault("swagger-ui")
     lateinit var swaggerElementId: String
 
     @Option
@@ -35,3 +34,4 @@ constructor(context: OrchidContext) : OrchidComponent(context, "swaggerUi", 100)
     }
 
 }
+
