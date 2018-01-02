@@ -22,6 +22,7 @@ class FormsGenerator @Inject
 constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, "forms", 20) {
 
     @Option("baseDir") @StringDefault("forms")
+    @Description("The base directory to look for forms in.")
     lateinit var formsBaseDir: String
 
     override fun startIndexing(): List<OrchidPage>? {
@@ -39,7 +40,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
         pages.forEach { context.renderTemplate(it) }
     }
 
-    fun getFormsByDatafiles(forms: HashMap<String, Form>) {
+    private fun getFormsByDatafiles(forms: HashMap<String, Form>) {
         val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(formsBaseDir), context.parserExtensions.toTypedArray(), false)
         for (resource in formsPages) {
             resource.reference.isUsePrettyUrl = false
@@ -50,7 +51,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
         }
     }
 
-    fun getFormsWithSubmissionPages(forms: HashMap<String, Form>): List<OrchidPage> {
+    private fun getFormsWithSubmissionPages(forms: HashMap<String, Form>): List<OrchidPage> {
         val pages = ArrayList<OrchidPage>()
         val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(formsBaseDir), context.compilerExtensions.toTypedArray(), false)
 

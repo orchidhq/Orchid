@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import org.json.JSONObject
@@ -16,33 +17,54 @@ constructor(val context: OrchidContext) : OptionsHolder {
     lateinit var key: String
 
     @Option @StringDefault("text")
+    @Description("The field type, used to determine the template to render for the field and define additional " +
+            "options for that specific field type."
+    )
     lateinit var type: String
 
     @Option
+    @Description("Form fields are defined in maps which do not have a defined order, and so order in which fields " +
+            "are rendered are not necessarily the order they are declared. Set this property to manually define the " +
+            "ordering of each field."
+    )
     var order: Int = 0
 
     @Option
+    @Description("The user-facing label of this field.")
     var label: String = ""
         get() {
             return if (!EdenUtils.isEmpty(field)) field else key
         }
 
     @Option
+    @Description("The user-facing placeholder of this field.")
     var placeholder: String = ""
         get() {
             return if (!EdenUtils.isEmpty(field)) field else label
         }
 
     @Option
+    @Description("A list of templates to use for this field, which takes precedence over the normal template. The " +
+            "first template in this lit that exists will be chosen, otherwise falling back to the default if the " +
+            "list is empty or none of the templates are found."
+    )
     lateinit var templates: Array<String>
 
     @Option("span") @StringDefault("auto")
+    @Description("The number of columns this field should occupy on large screens, out of 12. Can also be 'left' (6" +
+            "columns, ordered from the left), 'right' (6 columns, ordered from the right), 'auto' (equivalent to " +
+            "'left'), or 'full' (12 columns) The default is 'auto'."
+    )
     lateinit var spanVal: String
 
     @Option("spanSm") @StringDefault("auto")
+    @Description("The number of columns this field should occupy on small screens, out of 12. Can also be 'left', " +
+            "'right', 'auto', or 'full', which are all 12 columns. The default is 'auto'."
+    )
     lateinit var spanSmVal: String
 
     @Option @BooleanDefault(false)
+    @Description("Whether this field is required for submission.")
     var required: Boolean = false
 
     fun initialize(key: String, fieldData: JSONObject) {
