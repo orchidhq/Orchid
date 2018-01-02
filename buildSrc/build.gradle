@@ -1,6 +1,6 @@
 plugins {
     id 'groovy'
-    id 'com.gradle.plugin-publish' version '0.9.7'
+    id 'com.gradle.plugin-publish' version '0.9.9'
 }
 
 repositories {
@@ -12,7 +12,7 @@ dependencies {
     compile localGroovy()
 }
 
-version = 'v0.3.0'
+version = 'v0.4.0'
 
 pluginBundle {
     website = 'http://www.gradle.org/'

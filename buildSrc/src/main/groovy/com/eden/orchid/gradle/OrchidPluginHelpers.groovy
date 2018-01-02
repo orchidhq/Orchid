@@ -19,8 +19,8 @@ class OrchidPluginHelpers {
     public static HashMap<String, String> getOrchidProjectArgsMap(Project project, String defaultTask, boolean forceTask) {
         def projectArgs = new HashMap<String, String>()
 
-        projectArgs.put "resourcesDir", getPropertyValue(project, 'srcDir', project.sourceSets.orchidDocs.resources.srcDirs[0].toString())
-        projectArgs.put "d",            getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/javadoc')
+        projectArgs.put "resourcesDir", getPropertyValue(project, 'srcDir', project.sourceSets.orchid.resources.srcDirs[0].toString())
+        projectArgs.put "d",            getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/orchid')
         projectArgs.put "v",            getPropertyValue(project, 'version', project.version)
         projectArgs.put "theme",        getPropertyValue(project, 'theme', 'Default')
         projectArgs.put "baseUrl",      getPropertyValue(project, 'baseUrl', '')

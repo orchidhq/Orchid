@@ -36,7 +36,7 @@ dependencies {
     api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
 
     // generate own documentation with Orchid
-    orchidDocsRuntime rootProject.ext.mainProjects
+    orchidRuntime rootProject.ext.mainProjects
 }
 
 static boolean otherProjectsTask(Task task, String taskName) {

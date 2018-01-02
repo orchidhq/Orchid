@@ -3,10 +3,10 @@ package com.eden.orchid.gradle
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.JavaExec
-import org.gradle.api.tasks.javadoc.Javadoc
 
 class OrchidPlugin implements Plugin<Project> {
-    public static String configurationName = 'orchidDocs'
+    public static String configurationName = 'orchid'
+    public static String mainClassName = 'com.eden.orchid.Orchid'
 
     void apply(Project project) {
         // create Orchid closure, configuration, and sourceSet
@@ -15,24 +15,24 @@ class OrchidPlugin implements Plugin<Project> {
         project.apply plugin: "java"
 
         project.sourceSets {
-            orchidDocs
+            orchid
         }
 
         project.tasks.create('orchidBuild', OrchidGenerateBuildTask) {
             dependsOn 'classes', "${configurationName}Classes"
-            main 'com.eden.orchid.Orchid'
+            main "${mainClassName}"
         }
         project.tasks.create('orchidWatch', OrchidGenerateWatchTask) {
             dependsOn 'classes', "${configurationName}Classes"
-            main 'com.eden.orchid.Orchid'
+            main "${mainClassName}"
         }
         project.tasks.create('orchidServe', OrchidGenerateServeTask) {
             dependsOn 'classes', "${configurationName}Classes"
-            main 'com.eden.orchid.Orchid'
+            main "${mainClassName}"
         }
         project.tasks.create('orchidRun', OrchidGenerateMainTask) {
             dependsOn 'classes', "${configurationName}Classes"
-            main 'com.eden.orchid.Orchid'
+            main "${mainClassName}"
         }
 
         project.tasks.replace("javadoc", OrchidGenerateJavadocTask)
@@ -44,7 +44,7 @@ class OrchidPlugin implements Plugin<Project> {
 
 class OrchidGenerateBuildTask extends JavaExec {
     void exec() {
-        classpath += project.sourceSets.orchidDocs.runtimeClasspath
+        classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'build', true))
         super.exec()
     }
@@ -52,7 +52,7 @@ class OrchidGenerateBuildTask extends JavaExec {
 
 class OrchidGenerateWatchTask extends JavaExec {
     void exec() {
-        classpath += project.sourceSets.orchidDocs.runtimeClasspath
+        classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'watch', true))
         super.exec()
     }
@@ -60,7 +60,7 @@ class OrchidGenerateWatchTask extends JavaExec {
 
 class OrchidGenerateServeTask extends JavaExec {
     void exec() {
-        classpath += project.sourceSets.orchidDocs.runtimeClasspath
+        classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'serve', true))
         super.exec()
     }
@@ -68,7 +68,7 @@ class OrchidGenerateServeTask extends JavaExec {
 
 class OrchidGenerateMainTask extends JavaExec {
     void exec() {
-        classpath += project.sourceSets.orchidDocs.runtimeClasspath
+        classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'build', false))
         super.exec()
     }

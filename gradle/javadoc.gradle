@@ -49,7 +49,7 @@ artifacts {
 task prepareDocumentation {
     dependsOn 'javadoc'
 
-    def source       = file("$buildDir/docs/javadoc")
+    def source       = file("$buildDir/docs/orchid")
     def dest_latest  = file("${rootProject.buildDir}/orchid/docs/latest/${project.name}")
     def dest_version = file("${rootProject.buildDir}/orchid/docs/${project.version}/${project.name}")
 

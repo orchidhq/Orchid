@@ -69,7 +69,7 @@ repositories {
 dependencies {
     // Add an Orchid Bundle. OrchidAll comes with all official themes included.
     // You must include a theme separately when using the OrchidBlog and OrchidProduct bundles 
-    orchidDocsRuntime 'io.github.javaeden.orchid:OrchidAll:{version}'
+    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{version}'
 }
 
 orchid {
@@ -80,8 +80,8 @@ orchid {
     // The following properties are optional
     
     baseUrl = "{baseUrl}"                         // a baseUrl appended to all generated links. Defaults to '/'
-    srcDir  = "path/to/new/source/directory"      // defaults to 'src/orchidDocs/resources'
-    destDir = "path/to/new/destination/directory" // defaults to 'build/docs/javadoc'
+    srcDir  = "path/to/new/source/directory"      // defaults to 'src/orchid/resources'
+    destDir = "path/to/new/destination/directory" // defaults to 'build/docs/orchid'
     runTask = "build"                             // specify a task to run with 'gradle orchidRun'
 }
 
@@ -90,16 +90,16 @@ orchid {
 You can now run Orchid in the following ways:
 
 1) `./gradlew orchidRun` - Runs an Orchid task. The `runTask` should be specified in `build.gradle` or passed as a Gradle project property (`-PorchidRunTask=build`). The task `listTasks` will show a list of all tasks that can be run given the plugins currently installed.
-2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in `build/docs/javadoc` unless the output directory has been changed. You can then view the site by starting any HTTP file server in the root of the output directory.
-3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in `build/docs/javadoc` unless the output directory has been changed.
+2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP file server in the root of the output directory.
+3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in `build/docs/orchid` unless the output directory has been changed.
 4) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` (or the closest available port).
 5) If you are developing a Java application, Orchid replaces the standard Javadoc task with its own `build` task. In addition to running the standard Orchid build, when Orchid is run from Javadoc it will be able to create pages for all your project's classes and packages, just like you'd expect from a normal Javadoc site, but embedded within your chosen Orchid theme. You must have the `OrchidJavadoc` plugin installed for this to work properly.
     
 _On windows, all the above commands need to be run with `gradlew` instead of `./gradlew`._
 
-The Orchid Gradle plugin adds a new configuration and content root to your project, in the `src/orchidDocs` directory 
-(you may have to create this folder yourself). All your site content sits in `src/orchidDocs/resources`, and any 
-additional classes you'd like to include as a private plugin can be placed in `src/orchidDocs/java`. 
+The Orchid Gradle plugin adds a new configuration and content root to your project, in the `src/orchid` directory 
+(you may have to create this folder yourself). All your site content sits in `src/orchid/resources`, and any 
+additional classes you'd like to include as a private plugin can be placed in `src/orchid/java`. 
 
 ## Site Configuration
 
