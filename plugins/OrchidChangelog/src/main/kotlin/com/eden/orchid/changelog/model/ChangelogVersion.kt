@@ -1,6 +1,5 @@
 package com.eden.orchid.changelog.model
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
@@ -27,12 +26,7 @@ class ChangelogVersion(
         }
 
     init {
-        val data = resource.embeddedData.element as JSONObject
-
-        Clog.v("Version $versionFilename data: ${data.toString(2)}")
-
-        extractOptions(context, data)
-
-        Clog.v("Final version: $version")
+        extractOptions(context, resource.embeddedData.element as JSONObject)
     }
 }
+

@@ -1,5 +1,6 @@
 
 * [Getting Started](getting-started.md)
+* [Changelog](changelog.md)
 
 ### Overview
 

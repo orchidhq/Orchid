@@ -27,6 +27,8 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
                 context.compilerExtensions.toTypedArray(),
                 false)
                 .map { ChangelogVersion(context, it.reference.originalFileName, it) }
+                .sortedBy { it.version }
+                .reversed()
 
         model.initialize(versions)
 
@@ -37,3 +39,4 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
 
     }
 }
+
