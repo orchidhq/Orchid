@@ -1,23 +1,12 @@
 
-about:
-  name: Orchid Posts
-  description: Add Jekyll-like blogging functionality to your Orchid site.
-
-#colors:
-#  primary: 'deep-orange'
-#  secondary: 'orange'
-#
-colors:
-  primary: '#FF5722'
-  secondary: '#000000'
-
-shades:
-  primary: 'lighten-2'
-
-navigation:
-  headerBackground: 'https://s-media-cache-ak0.pinimg.com/736x/a0/d5/29/a0d529fdfe67a8905e57d8c4967b0758.jpg'
-
-github:
-  username: 'JavaEden'
-  repo: 'Orchid'
-  branch: 'master'
+theme:
+  about:
+    siteName: Orchid Posts
+    siteDescription: Add Jekyll-like blogging functionality to your Orchid site.
+  primaryColor: '#6D0F11'
+  social:
+    github: 'JavaEden/Orchid'
+  menu:
+    - type: postCategories
+    - type: postTags
+    - type: latestPosts
