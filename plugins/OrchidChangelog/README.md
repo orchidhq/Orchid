@@ -2,4 +2,4 @@
 
 ***
 
-Adds a simple way to track and view changes across the various versions of your application or library.
+Track and discover changes across the various versions of your library or application.

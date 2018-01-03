@@ -1,0 +1,9 @@
+
+theme:
+  about:
+    siteName: Orchid Changelog
+    siteDescription: Track and discover changes across the various versions of your library or application.
+  primaryColor: '#4C376C'
+  social:
+    github: 'JavaEden/Orchid'
+
