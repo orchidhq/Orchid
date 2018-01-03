@@ -1,3 +1,7 @@
+
+// Normal module configuration
+//----------------------------------------------------------------------------------------------------------------------
+
 apply plugin: 'java-library'
 
 repositories {
@@ -39,6 +43,9 @@ dependencies {
     orchidRuntime rootProject.ext.mainProjects
 }
 
+// Make sure Core is compiled before plugins, but javadoc run after plugins
+//----------------------------------------------------------------------------------------------------------------------
+
 static boolean otherProjectsTask(Task task, String taskName) {
     return !task.path.startsWith(':OrchidCore') && task.path.endsWith(":${taskName}")
 }
@@ -46,11 +53,12 @@ static boolean otherProjectsTask(Task task, String taskName) {
 project.parent.subprojects.each { subproject ->
     project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
     project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
-
     project.tasks.javadoc.shouldRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'javadoc') }
 }
 
 // Generate a Class containing the current build version, so it can be injected into OrchidSite
+//----------------------------------------------------------------------------------------------------------------------
+
 task generateSources {
     def outputDir = file("$buildDir/generated-src")
     outputs.dir outputDir
@@ -67,3 +75,19 @@ public class OrchidVersion {
 }
 compileJava.dependsOn generateSources
 compileJava.source generateSources.outputs.files, sourceSets.main.java
+
+// Add check to make sure every release version has a Changelog file
+//----------------------------------------------------------------------------------------------------------------------
+
+task checkForChangelogFile {
+    doLast {
+        def versionFilename = project.version.toString().replaceAll("\\.", "_") + ".md"
+        def fullVersionFilename = "$projectDir/src/orchid/resources/changelog/$versionFilename"
+        def versionFile = file(fullVersionFilename)
+
+        if(project.hasProperty("release") && !versionFile.exists()) {
+            throw new FileNotFoundException("There is no changelog entry for this version, expected 'changelog/$versionFilename' to exist.")
+        }
+    }
+}
+check.dependsOn checkForChangelogFile
