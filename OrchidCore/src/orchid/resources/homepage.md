@@ -5,8 +5,3 @@ components:
   - type: readme
   - type: license
 ---
-
-
-{% filter compileAs('uml') %}
-alice->bob
-{% endfilter %}

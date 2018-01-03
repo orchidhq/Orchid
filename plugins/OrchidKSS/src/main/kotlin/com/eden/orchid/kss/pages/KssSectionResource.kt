@@ -1,6 +1,5 @@
 package com.eden.orchid.kss.pages
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.FreeableResource
@@ -14,7 +13,6 @@ class KssSectionResource(context: OrchidContext, val styleguideSection: Stylegui
 
     override fun loadContent() {
         if (rawContent == null) {
-            Clog.v("Loading KssSection content")
             rawContent = styleguideSection.description
             content = styleguideSection.description
             embeddedData = JSONElement(JSONObject(styleguideSection.tags))
@@ -22,4 +20,5 @@ class KssSectionResource(context: OrchidContext, val styleguideSection: Stylegui
     }
 
 }
+
 
