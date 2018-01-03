@@ -19,22 +19,22 @@ jobs:
   include:
     - os: linux
       jdk: openjdk8
-      install: ./gradlew assemble -PnoJavadoc=true
-      script: ./gradlew check
+      install: ./gradlew assemble -PnoJavadoc=true -Prelease
+      script: ./gradlew check -Prelease
     - os: linux
       jdk: oraclejdk8
-      install: ./gradlew assemble -PnoJavadoc=true
-      script: ./gradlew check
+      install: ./gradlew assemble -PnoJavadoc=true -Prelease
+      script: ./gradlew check -Prelease
     - os: osx
       osx_image: xcode8.3
-      install: ./gradlew assemble -PnoJavadoc=true
-      script: ./gradlew check
+      install: ./gradlew assemble -PnoJavadoc=true -Prelease
+      script: ./gradlew check -Prelease
 
     - stage: upload test results
       os: linux
       jdk: openjdk8
-      install: ./gradlew assemble
-      script: ./gradlew check
+      install: ./gradlew assemble -Prelease
+      script: ./gradlew check -Prelease
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -47,6 +47,8 @@ jobs:
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
         - ./gradlew tag -Prelease
+        - export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
+        - export GRADLE_PROJECT_RELEASE_NOTES=$(./gradlew getReleaseNotes --quiet)
       deploy:
         - provider: releases
           skip_cleanup: true
@@ -54,7 +56,8 @@ jobs:
           file_glob: true
           file: ${TRAVIS_BUILD_DIR}/build/orchid/archives/*
           prerelease: true
-          name: Release
+          name: v${GRADLE_PROJECT_RELEASE_NAME} Release
+          body: ${GRADLE_PROJECT_RELEASE_NOTES}
         - provider: pages
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
@@ -66,3 +69,5 @@ stages:
   - upload test results
   - name: release
     if: branch = master AND tag IS blank AND type IN (push)
+
+
