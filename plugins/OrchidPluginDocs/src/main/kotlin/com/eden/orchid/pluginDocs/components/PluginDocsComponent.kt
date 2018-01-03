@@ -14,22 +14,10 @@ class PluginDocsComponent
     : OrchidComponent(context, "pluginDocs", 25) {
 
     @Option
-    var className: String? = null
-
-    @Option
     var classNames: Array<String>? = null
 
     fun getClassList(): Set<Class<*>> {
         val classList = emptyList<Class<*>>().toMutableSet()
-
-        if(!EdenUtils.isEmpty(className)) {
-            try {
-                classList.add(Class.forName(className!!))
-            }
-            catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
 
         if(!EdenUtils.isEmpty(classNames)) {
             classNames!!.forEach {
@@ -55,5 +43,6 @@ class PluginDocsComponent
         return classOptions
     }
 }
+
 
 
