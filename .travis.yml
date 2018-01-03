@@ -57,7 +57,6 @@ jobs:
           file: ${TRAVIS_BUILD_DIR}/build/orchid/archives/*
           prerelease: true
           name: v${GRADLE_PROJECT_RELEASE_NAME} Release
-          body: ${GRADLE_PROJECT_RELEASE_NOTES}
         - provider: pages
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
@@ -69,8 +68,4 @@ stages:
   - upload test results
   - name: release
     if: branch = master AND tag IS blank AND type IN (push)
-
-
-
-
 
