@@ -20,21 +20,21 @@ jobs:
     - os: linux
       jdk: openjdk8
       install: ./gradlew assemble -PnoJavadoc=true
-      script: ./gradlew check -Prelease
+      script: ./gradlew check
     - os: linux
       jdk: oraclejdk8
       install: ./gradlew assemble -PnoJavadoc=true
-      script: ./gradlew check -Prelease
+      script: ./gradlew check
     - os: osx
       osx_image: xcode8.3
       install: ./gradlew assemble -PnoJavadoc=true
-      script: ./gradlew check -Prelease
+      script: ./gradlew check
 
     - stage: upload test results
       os: linux
       jdk: openjdk8
       install: ./gradlew assemble
-      script: ./gradlew check -Prelease
+      script: ./gradlew check
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -69,6 +69,7 @@ stages:
   - upload test results
   - name: release
     if: branch = master AND tag IS blank AND type IN (push)
+
 
 
 
