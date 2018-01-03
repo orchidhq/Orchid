@@ -45,6 +45,27 @@ tag {
     message { "Bump version to ${version}" }
 }
 
+task getReleaseName {
+    doLast {
+        println project.version.toString()
+    }
+}
+
+task getReleaseNotes {
+    doLast {
+        def versionFilename = project.version.toString().replaceAll("\\.", "_") + ".md"
+        def fullVersionFilename = "$projectDir/OrchidCore/src/orchid/resources/changelog/$versionFilename"
+        def versionFile = file(fullVersionFilename)
+
+        if(versionFile.exists()) {
+            println versionFile.text.split("---").last().trim()
+        }
+        else {
+            println "No release notes"
+        }
+    }
+}
+
 task prepareDocumentation {
 
 }
