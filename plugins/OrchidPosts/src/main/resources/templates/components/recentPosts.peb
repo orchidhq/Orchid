@@ -1,6 +1,8 @@
+{# @pebvariable name="component" type="com.eden.orchid.posts.components.RecentPostsComponent" #}
 {% for post in component.recentPosts %}
+    {# @pebvariable name="post" type="com.eden.orchid.posts.pages.PostPage" #}
     <div>
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.content }}</p>
+        <h1><a href="{{ post.link }}">{{ post.title }}</a></h1>
+        {{ post.excerpt | raw }}
     </div>
 {% endfor %}

@@ -1,1 +1,11 @@
-{{ page.content | raw }}
+<article>
+{{ post.content | raw }}
+</article>
+
+{% if post.tags is not empty %}
+<ul>
+{% for tag in post.tags %}
+    <li>{{ tag }}</li>
+{% endfor %}
+</ul>
+{% endif %}

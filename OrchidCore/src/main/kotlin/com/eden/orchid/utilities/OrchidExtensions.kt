@@ -44,68 +44,113 @@ fun JSONElement?.isString(): Boolean {
 
 
 // string conversions
-fun String.from(mapper: (String) -> Array<String>): Array<String> {
+fun String.from(mapper: String.() -> Array<String>): Array<String> {
     return mapper(this)
 }
 
-fun Array<String>.to(mapper: (Array<String>) -> String): String {
+fun Array<String>.to(mapper: Array<String>.() -> String): String {
     return mapper(this)
 }
 
-fun Array<String>.with(mapper: (Array<String>) -> Array<String>): Array<String> {
-    return mapper(this)
+fun Array<String>.with(mapper: String.() -> String): Array<String> {
+    return this.map { mapper(it) }.toTypedArray()
 }
 
 // "from" mappers
 fun String.camelCase(): Array<String> {
     return StringUtils.splitByCharacterTypeCamelCase(this)
 }
+fun String.camelCase(mapper: String.() -> String): Array<String> {
+    return camelCase().with(mapper)
+}
 
 fun String.words(): Array<String> {
     return StringUtils.splitByWholeSeparator(this, null)
+}
+fun String.words(mapper: String.() -> String): Array<String> {
+    return words().with(mapper)
 }
 
 fun String.snakeCase(): Array<String> {
     return StringUtils.splitByWholeSeparator(this, "_")
 }
+fun String.snakeCase(mapper: String.() -> String): Array<String> {
+    return snakeCase().with(mapper)
+}
 
 fun String.dashCase(): Array<String> {
     return StringUtils.splitByWholeSeparator(this, "-")
 }
+fun String.dashCase(mapper: String.() -> String): Array<String> {
+    return dashCase().with(mapper)
+}
 
 // "to" mappers
 fun Array<String>.pascalCase(): String {
-    return this.map { it.toLowerCase().capitalize() }.joinToString(separator = "")
+    return map { it.toLowerCase().capitalize() }.joinToString(separator = "")
+}
+fun List<String>.pascalCase(): String {
+    return toTypedArray().pascalCase()
+}
+fun Array<String>.pascalCase(mapper: String.() -> String): String {
+    return map(mapper).pascalCase()
 }
 
 fun Array<String>.camelCase(): String {
-    return this.pascalCase().decapitalize()
+    return pascalCase().decapitalize()
+}
+fun List<String>.camelCase(): String {
+    return toTypedArray().camelCase()
+}
+fun Array<String>.camelCase(mapper: String.() -> String): String {
+    return map(mapper).camelCase()
 }
 
 fun Array<String>.words(): String {
-    return this.joinToString(separator = " ")
+    return joinToString(separator = " ")
+}
+fun List<String>.words(): String {
+    return toTypedArray().words()
+}
+fun Array<String>.words(mapper: String.() -> String): String {
+    return map(mapper).words()
 }
 
 fun Array<String>.snakeCase(): String {
-    return this.map { it.toUpperCase() }.joinToString(separator = "_")
+    return map { it.toUpperCase() }.joinToString(separator = "_")
+}
+fun List<String>.snakeCase(): String {
+    return toTypedArray().snakeCase()
+}
+fun Array<String>.snakeCase(mapper: String.() -> String): String {
+    return map(mapper).snakeCase()
 }
 
 fun Array<String>.dashCase(): String {
-    return this.joinToString(separator = "-")
+    return joinToString(separator = "-")
+}
+fun List<String>.dashCase(): String {
+    return toTypedArray().dashCase()
+}
+fun Array<String>.dashCase(mapper: String.() -> String): String {
+    return map(mapper).dashCase()
 }
 
 fun Array<String>.slug(): String {
-    return this.dashCase().toLowerCase()
+    return dashCase().toLowerCase()
+}
+fun List<String>.slug(): String {
+    return toTypedArray().slug()
+}
+fun Array<String>.slug(mapper: String.() -> String): String {
+    return map(mapper).slug()
 }
 
 // "with" mappers
-fun Array<String>.urlSafe(): Array<String> {
-    return this.map {
-        it.replace("\\s+".toRegex(), "-").replace("[^\\w-_]".toRegex(), "")
-    }.toTypedArray()
+fun String.urlSafe(): String {
+    return replace("\\s+".toRegex(), "-").replace("[^\\w-_]".toRegex(), "")
 }
-
-
-
-
+fun String.urlSafe(mapper: String.() -> String): String {
+    return urlSafe().mapper()
+}
 
