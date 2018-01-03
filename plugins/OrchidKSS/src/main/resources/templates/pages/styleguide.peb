@@ -1,5 +1,9 @@
+{# @pebvariable name="page" type="com.eden.orchid.kss.pages.KssPage" #}
+{# @pebvariable name="section" type="com.eden.orchid.kss.parser.StyleguideSection" #}
+{% set section = page.styleguideSection %}
+
 <div id="styleguide">
-    <p>{{ page.styleguideSection.description }}</p>
+    {{ page.content | raw }}
 
     {% if page.parent is not empty %}
         <div>
@@ -25,7 +29,8 @@
         <h3>Markup: </h3>
 
         <div class="markup">
-            {% for modifier in page.styleguideSection.modifiers %}
+            {% for modifier in section.modifiers %}
+                {# @pebvariable name="modifier" type="com.eden.orchid.kss.parser.Modifier" #}
                 <div><b><i>{{ modifier.name }}</i></b></div><br>
                 <div>{{ modifier.description }}</div><br>
                 <div>{{ page.styleguideSection.formatMarkup(modifier) | raw }}</div><br>

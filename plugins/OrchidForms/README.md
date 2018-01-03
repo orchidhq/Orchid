@@ -2,4 +2,4 @@
 
 ***
 
-Orchid Presentations allows one to embed custom forms as Orchid Components.  
+Engage your users with embeddable, fully customizable forms.  

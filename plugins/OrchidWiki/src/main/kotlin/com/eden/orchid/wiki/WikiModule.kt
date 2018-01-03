@@ -9,10 +9,12 @@ import com.eden.orchid.wiki.menu.WikiSectionsMenuItemType
 class WikiModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(OrchidGenerator::class.java, WikiGenerator::class.java)
+        addToSet(OrchidGenerator::class.java,
+                WikiGenerator::class.java)
 
         addToSet(OrchidMenuItem::class.java,
                 WikiPagesMenuItemType::class.java,
                 WikiSectionsMenuItemType::class.java)
     }
 }
+
