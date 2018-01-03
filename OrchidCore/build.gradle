@@ -85,7 +85,7 @@ task checkForChangelogFile {
         def fullVersionFilename = "$projectDir/src/orchid/resources/changelog/$versionFilename"
         def versionFile = file(fullVersionFilename)
 
-        if(project.hasProperty("release") && !versionFile.exists()) {
+        if(project.hasProperty("release") && (project.property("release") != 'false') && !versionFile.exists()) {
             throw new FileNotFoundException("There is no changelog entry for this version, expected 'changelog/$versionFilename' to exist.")
         }
     }
