@@ -199,7 +199,7 @@ public class TestOptions {
 
         Set<OptionValidator> validators = new HashSet<>();
 
-        extractor = new OptionsExtractor(extractors, validators);
+        extractor = new OptionsExtractor(context, extractors, validators);
     }
 
     @Test
