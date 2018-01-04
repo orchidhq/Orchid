@@ -1,8 +1,11 @@
 package com.eden.orchid.posts.pages
 
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 
+@Archetype(value = ConfigArchetype::class, key = "postTagArchivePages")
 class PostTagArchivePage(resource: OrchidResource, index: Int, permalink: String) : PostArchivePage(resource, "postTagArchive", index, permalink) {
 
     var tag: String

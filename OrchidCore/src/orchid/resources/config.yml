@@ -58,3 +58,6 @@ services:
     disabled:
       - 'presentations'
       - 'styleguide'
+
+wikiPages:
+  layout: geopattern2

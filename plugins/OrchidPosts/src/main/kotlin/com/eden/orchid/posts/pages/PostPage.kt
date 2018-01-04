@@ -1,9 +1,10 @@
 package com.eden.orchid.posts.pages
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
@@ -11,6 +12,7 @@ import com.eden.orchid.posts.utils.PostsExcerptStrategy
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Archetype(value = ConfigArchetype::class, key = "postPages")
 class PostPage(resource: OrchidResource, var postsModel: PostsModel) : PermalinkPage(resource, "post") {
 
     var year: Int = 0

@@ -10,6 +10,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.forms.model.fields.HiddenField
+import com.eden.orchid.forms.pages.FormSubmissionPage
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONObject
 import java.util.*
@@ -59,7 +60,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
             for (resource in formsPages) {
                 val key = resource.reference.originalFileName
 
-                val formSubmissionPage = OrchidPage(resource, "form", null, null)
+                val formSubmissionPage = FormSubmissionPage(resource, "form", null, null)
                 formSubmissionPage.reference.stripFromPath(OrchidUtils.normalizePath(formsBaseDir))
                 formSubmissionPage.reference.path = OrchidUtils.normalizePath("submit/" + formSubmissionPage.reference.originalPath)
                 pages.add(formSubmissionPage)
