@@ -1,16 +1,15 @@
 package com.eden.orchid.posts.pages
 
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
-import lombok.Getter
-import lombok.Setter
 import java.time.Month
 import java.util.*
 import java.util.stream.Collectors
 
-@Getter
-@Setter
+@Archetype(value = ConfigArchetype::class, key = "postArchivePages")
 open class PostArchivePage : PermalinkPage {
 
     var postList: List<PostPage> = emptyList()

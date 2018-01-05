@@ -1,4 +1,4 @@
 
 dependencies {
-    compile 'org.jsoup:jsoup:1.11.1'
+    compile 'org.jsoup:jsoup:1.11.2'
 }
