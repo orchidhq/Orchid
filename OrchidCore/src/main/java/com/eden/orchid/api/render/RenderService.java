@@ -7,6 +7,10 @@ import java.io.InputStream;
 
 public interface RenderService extends OrchidService {
 
+    enum RenderMode {
+        TEMPLATE, RAW, BINARY
+    }
+
     @Override
     default String getKey() {
         return "renderer";
@@ -98,6 +102,54 @@ public interface RenderService extends OrchidService {
      */
     default InputStream getRenderedBinary(OrchidPage page) {
         return getService(RenderService.class).getRenderedBinary(page);
+    }
+
+    /**
+     * Dynamically use a RenderMode enum to determine which rendering operation to perform.
+     *
+     * @param page       the page to render
+     * @param renderMode the mode to render this page in
+     * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
+     * @since v1.0.0
+     */
+    default boolean render(final OrchidPage page, RenderMode renderMode) {
+        return getService(RenderService.class).render(page, renderMode);
+    }
+
+    /**
+     * Dynamically use a RenderMode enum to determine which rendering operation to perform.
+     *
+     * @param page       the page to render
+     * @param renderMode the mode to render this page in
+     * @return InputStream the stream used to create side-effects by the render operation
+     * @since v1.0.0
+     */
+    default InputStream getRendered(OrchidPage page, RenderMode renderMode) {
+        return getService(RenderService.class).getRendered(page, renderMode);
+    }
+
+    /**
+     * Dynamically convert a String to a RenderMode to determine which rendering operation to perform.
+     *
+     * @param page       the page to render
+     * @param renderMode the mode to render this page in
+     * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
+     * @since v1.0.0
+     */
+    default boolean render(final OrchidPage page, String renderMode) {
+        return getService(RenderService.class).render(page, renderMode);
+    }
+
+    /**
+     * Dynamically convert a String to a RenderMode to determine which rendering operation to perform.
+     *
+     * @param page       the page to render
+     * @param renderMode the mode to render this page in
+     * @return InputStream the stream used to create side-effects by the render operation
+     * @since v1.0.0
+     */
+    default InputStream getRendered(OrchidPage page, String renderMode) {
+        return getService(RenderService.class).getRendered(page, renderMode);
     }
 
     /**

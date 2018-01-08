@@ -37,6 +37,6 @@ constructor(context: OrchidContext) : OrchidGenerator(context, "pages", 700) {
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+        pages.forEach { if (it is StaticPage) { context.render(it, it.renderMode) } }
     }
 }

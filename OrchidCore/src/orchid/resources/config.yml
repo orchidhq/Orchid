@@ -21,11 +21,6 @@ theme:
       title: 'News'
     - type: 'javadocPackages'
     - type: 'javadocClasses'
-#  extraCss:
-#    - 'https://rawgit.com/PrismJS/prism-themes/master/themes/prism-darcula.css'
-  extraJs:
-    - 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js'
-#    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js'
 
 wiki:
   layout: 'wikiPage'
