@@ -59,7 +59,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     }
 
     public final void renderAssets() {
-        if (!hasRenderedAssets) {
+        if (!isHasRenderedAssets()) {
             getScripts()
                     .stream()
                     .forEach(context::renderRaw);
