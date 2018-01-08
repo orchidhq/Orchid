@@ -8,5 +8,6 @@ class OrchidPluginExtension {
     String version
     String theme
     String baseUrl
+    String environment
     List<String> args = new ArrayList<String>()
 }

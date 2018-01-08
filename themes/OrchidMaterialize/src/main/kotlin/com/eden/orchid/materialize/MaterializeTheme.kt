@@ -21,12 +21,10 @@ constructor(context: OrchidContext) : Theme(context, "Materialize", 100) {
     @Option
     var shades: MaterializeShades? = null
 
-    override fun addAssets() {
+    override fun loadAssets() {
         addCss("assets/css/appStyles.scss")
         addJs("assets/js/jquery-2.1.1.min.js")
         addJs("assets/js/materialize.min.js")
-
-        super.addAssets()
     }
 
     class MaterializeColors : OptionsHolder {

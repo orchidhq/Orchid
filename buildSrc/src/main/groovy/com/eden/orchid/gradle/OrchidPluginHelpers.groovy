@@ -24,6 +24,7 @@ class OrchidPluginHelpers {
         projectArgs.put "v",            getPropertyValue(project, 'version', project.version)
         projectArgs.put "theme",        getPropertyValue(project, 'theme', 'Default')
         projectArgs.put "baseUrl",      getPropertyValue(project, 'baseUrl', '')
+        projectArgs.put "environment",  getPropertyValue(project, 'environment', 'debug')
         projectArgs.put "task",         (forceTask) ? defaultTask : getPropertyValue(project, 'runTask', defaultTask)
 
         if(project.orchid.args != null && project.orchid.args.size() > 0) {

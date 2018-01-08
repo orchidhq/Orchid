@@ -5,10 +5,16 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.assets.ThemeAssetHolder;
+import com.eden.orchid.api.theme.components.ComponentHolder;
+import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractTheme extends PluginResourceSource implements OptionsHolder, AssetHolder {
 
@@ -18,7 +24,8 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     @Getter @Setter @Option protected String[] extraCss;
     @Getter @Setter @Option protected String[] extraJs;
 
-    @Getter @Setter protected boolean hasRenderedAssets;
+    private boolean hasAddedAssets;
+    @Getter @Setter private boolean hasRenderedAssets;
 
     @Getter @Setter protected String preferredTemplateExtension;
 
@@ -31,6 +38,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
 
     public void clearCache() {
         assetHolder.clearAssets();
+        hasAddedAssets = false;
         hasRenderedAssets = false;
     }
 
@@ -38,11 +46,19 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
 
     }
 
-    public void addAssets() {
-        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
+    public final void addAssets() {
+        if(!hasAddedAssets) {
+            loadAssets();
+            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
+            hasAddedAssets = true;
+        }
     }
 
-    public void renderAssets() {
+    protected void loadAssets() {
+
+    }
+
+    public final void renderAssets() {
         if (!hasRenderedAssets) {
             getScripts()
                     .stream()
@@ -52,6 +68,30 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
                     .forEach(context::renderRaw);
             hasRenderedAssets = true;
         }
+    }
+
+    @Override
+    public final List<AssetPage> getScripts() {
+        addAssets();
+        List<AssetPage> scripts = new ArrayList<>();
+        scripts.addAll(assetHolder.getScripts());
+        OrchidUtils.addComponentAssets(getComponentHolders(), scripts, OrchidComponent::getScripts);
+
+        return scripts;
+    }
+
+    @Override
+    public final List<AssetPage> getStyles() {
+        addAssets();
+        List<AssetPage> styles = new ArrayList<>();
+        styles.addAll(assetHolder.getStyles());
+        OrchidUtils.addComponentAssets(getComponentHolders(), styles, OrchidComponent::getStyles);
+
+        return styles;
+    }
+
+    protected ComponentHolder[] getComponentHolders() {
+        return new ComponentHolder[] { };
     }
 
 }

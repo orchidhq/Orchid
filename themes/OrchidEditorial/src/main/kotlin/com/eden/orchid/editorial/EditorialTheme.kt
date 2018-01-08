@@ -21,7 +21,7 @@ constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
     @Option
     var social: Social? = null
 
-    override fun addAssets() {
+    override fun loadAssets() {
         addCss("assets/css/editorial_main.scss")
         addCss("assets/css/editorial_orchidCustomizations.scss")
 
@@ -32,8 +32,6 @@ constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
 
         addJs("https://unpkg.com/lunr/lunr.js")
         addJs("assets/js/lunrSearch.js")
-
-        super.addAssets()
     }
 
 }

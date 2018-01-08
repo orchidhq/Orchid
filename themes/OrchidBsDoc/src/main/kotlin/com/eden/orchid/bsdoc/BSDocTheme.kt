@@ -16,19 +16,21 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
     @Option
     @StringDefault("#4C376C")
     var primaryColor: String? = null
+
     @Option
     @StringDefault("#000000")
     var secondaryColor: String? = null
 
     @Option
     var about: About? = null
+
     @Option
     var social: Social? = null
 
     @Option
-    var sidebar: ComponentHolder? = null
+    lateinit var sidebar: ComponentHolder
 
-    override fun addAssets() {
+    override fun loadAssets() {
         addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css")
         addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
         addCss("assets/css/bsdoc.scss")
@@ -37,8 +39,9 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
         addJs("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
         addJs("assets/js/bsdoc.js")
-
-        super.addAssets()
     }
 
+    override fun getComponentHolders(): Array<ComponentHolder> {
+        return arrayOf(sidebar)
+    }
 }

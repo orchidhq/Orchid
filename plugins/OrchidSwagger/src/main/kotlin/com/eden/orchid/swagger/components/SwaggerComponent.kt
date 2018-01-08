@@ -20,17 +20,10 @@ constructor(context: OrchidContext) : OrchidComponent(context, "swaggerUi", 100)
     @Option
     lateinit var allSwaggerOptions: JSONObject
 
-    protected var hasAddedAssets: Boolean = false
-
-    override fun addAssets() {
-        if (!hasAddedAssets) {
-            super.addAssets()
-
-            addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui.css")
-            addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui-bundle.js")
-            addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui-standalone-preset.js")
-            hasAddedAssets = true
-        }
+    override fun loadAssets() {
+        addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui.css")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui-bundle.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.5.0/swagger-ui-standalone-preset.js")
     }
 
 }

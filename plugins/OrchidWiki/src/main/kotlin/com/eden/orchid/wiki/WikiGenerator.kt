@@ -30,22 +30,22 @@ import javax.inject.Singleton
 class WikiGenerator @Inject
 constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, "wiki", 700), OptionsHolder {
 
-    @Option("baseDir") @StringDefault("wiki")
-    lateinit var wikiBaseDir: String
+    @Option @StringDefault("wiki")
+    lateinit var baseDir: String
 
-    @Option("sections")
-    lateinit var sectionNames: Array<String>
+    @Option
+    lateinit var sections: Array<String>
 
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
 
-        if (EdenUtils.isEmpty(sectionNames)) {
+        if (EdenUtils.isEmpty(sections)) {
             val wiki = getWikiPages(null)
             if (wiki != null) {
                 model.sections.put(null, wiki)
             }
         } else {
-            for (section in sectionNames) {
+            for (section in sections) {
                 val wiki = getWikiPages(section)
                 if (wiki != null) {
                     model.sections.put(section, wiki)
@@ -74,9 +74,9 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         val wiki = ArrayList<WikiPage>()
 
         val sectionBaseDir = if (!EdenUtils.isEmpty(section))
-            OrchidUtils.normalizePath(wikiBaseDir) + "/" + OrchidUtils.normalizePath(section) + "/"
+            OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(section) + "/"
         else
-            OrchidUtils.normalizePath(wikiBaseDir) + "/"
+            OrchidUtils.normalizePath(baseDir) + "/"
 
         var summary: OrchidResource? = context.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md")
 

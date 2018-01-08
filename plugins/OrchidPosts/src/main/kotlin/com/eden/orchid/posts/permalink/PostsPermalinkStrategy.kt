@@ -37,8 +37,8 @@ constructor(
     }
 
     private fun getPermalinkTemplate(post: PermalinkPage): String {
-        return if (!EdenUtils.isEmpty(post.getPermalink())) {
-            post.getPermalink()
+        return if (!EdenUtils.isEmpty(post.permalink)) {
+            post.permalink
         } else {
             postsModel.permalink
         }

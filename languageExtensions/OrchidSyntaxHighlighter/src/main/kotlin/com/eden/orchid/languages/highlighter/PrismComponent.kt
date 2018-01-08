@@ -30,46 +30,38 @@ constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
     @Option
     var isScriptsOnly: Boolean = false
 
-    var addedAssets: Boolean = false
+    override fun loadAssets() {
+        addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
 
-    override fun addAssets() {
-        if(!addedAssets) {
-            super.addAssets()
-
-            addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
-
-            if (!isScriptsOnly) {
-                if (!EdenUtils.isEmpty(theme)) {
-                    addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
-                } else if (!EdenUtils.isEmpty(githubTheme)) {
-                    addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
-                } else {
-                    addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
-                }
+        if (!isScriptsOnly) {
+            if (!EdenUtils.isEmpty(theme)) {
+                addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
+            } else if (!EdenUtils.isEmpty(githubTheme)) {
+                addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
+            } else {
+                addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
             }
+        }
 
-            if (!EdenUtils.isEmpty(languages)) {
-                for (lang in languages) {
-                    addJs("${OrchidUtils.normalizePath(prismSource)}/components/prism-$lang.min.js")
-                }
+        if (!EdenUtils.isEmpty(languages)) {
+            for (lang in languages) {
+                addJs("${OrchidUtils.normalizePath(prismSource)}/components/prism-$lang.min.js")
             }
+        }
 
-            if (!EdenUtils.isEmpty(plugins)) {
-                for (plugin in plugins) {
-                    if(plugin == "copy-to-clipboard") {
-                        addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
-                    }
-                    addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
+        if (!EdenUtils.isEmpty(plugins)) {
+            for (plugin in plugins) {
+                if(plugin == "copy-to-clipboard") {
+                    addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
+                }
+                addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
 
-                    if (!isScriptsOnly) {
-                        when (plugin) {
-                            "line-numbers", "line-highlight", "toolbar" -> addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
-                        }
+                if (!isScriptsOnly) {
+                    when (plugin) {
+                        "line-numbers", "line-highlight", "toolbar" -> addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
                     }
                 }
             }
-
-            addedAssets = true
         }
     }
 

@@ -2,7 +2,6 @@ package com.eden.orchid.posts.pages
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.Archetype
-import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import java.time.Month
@@ -15,13 +14,6 @@ open class PostArchivePage : PermalinkPage {
     var postList: List<PostPage> = emptyList()
     var category: String? = null
     var index: Int = 0
-
-    @Option("permalink")
-    var postPermalink: String
-
-    override fun getPermalink(): String {
-        return postPermalink
-    }
 
     val years: List<Int>
         get() {
@@ -38,12 +30,12 @@ open class PostArchivePage : PermalinkPage {
         }
 
     constructor(resource: OrchidResource, index: Int, permalink: String) : super(resource, "postArchive") {
-        this.postPermalink = permalink
+        this.permalink = permalink
         this.index = index
     }
 
     protected constructor(resource: OrchidResource, key: String, index: Int, permalink: String) : super(resource, key) {
-        this.postPermalink = permalink
+        this.permalink = permalink
         this.index = index
     }
 

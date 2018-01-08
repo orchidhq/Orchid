@@ -144,7 +144,6 @@ public final class ThemeServiceImpl implements ThemeService {
 
             theme.extractOptions(context, themeOptions);
 
-            theme.addAssets();
             themeStack.push(theme);
         }
 

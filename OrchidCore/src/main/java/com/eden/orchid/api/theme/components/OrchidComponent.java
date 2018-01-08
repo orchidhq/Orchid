@@ -11,11 +11,13 @@ import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder {
 
@@ -23,6 +25,7 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
 
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
+    private boolean hasAddedAssets;
 
     @Getter @Setter
     @Option
@@ -74,8 +77,28 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     }
 
     @Override
-    public void addAssets() {
-        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "component");
+    public final void addAssets() {
+        if(!hasAddedAssets) {
+            loadAssets();
+            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "component");
+            hasAddedAssets = true;
+        }
+    }
+
+    @Override
+    public final List<AssetPage> getScripts() {
+        addAssets();
+        return assetHolder.getScripts();
+    }
+
+    @Override
+    public final List<AssetPage> getStyles() {
+        addAssets();
+        return assetHolder.getStyles();
+    }
+
+    protected void loadAssets() {
+
     }
 
 }

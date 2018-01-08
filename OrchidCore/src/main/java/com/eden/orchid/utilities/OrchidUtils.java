@@ -5,6 +5,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.components.ComponentHolder;
+import com.eden.orchid.api.theme.components.OrchidComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -185,6 +187,25 @@ public final class OrchidUtils {
                   .filter(Objects::nonNull)
                   .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
                   .forEach(holder::addJs);
+        }
+    }
+
+    public static void addComponentAssets(ComponentHolder[] componentHolders, List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
+        if(!EdenUtils.isEmpty(componentHolders)) {
+            for (ComponentHolder componentHolder : componentHolders) {
+                try {
+                    List<OrchidComponent> componentsList = componentHolder.getComponents();
+                    if (!EdenUtils.isEmpty(componentsList)) {
+                        componentsList
+                                .stream()
+                                .map(getter)
+                                .forEach(assets::addAll);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

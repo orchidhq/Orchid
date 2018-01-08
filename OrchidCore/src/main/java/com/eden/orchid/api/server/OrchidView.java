@@ -31,6 +31,7 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     @Getter private final OrchidController controller;
 
     @Getter @Setter protected AssetHolder assets;
+    private boolean hasAddedAssets;
 
     @Getter private Provider<OrchidServer> server;
     @Getter private Provider<Set<AdminList>> adminLists;
@@ -77,13 +78,20 @@ public class OrchidView implements OptionsHolder, AssetHolder {
         return assets;
     }
 
-    @Override
-    public void addAssets() {
+    public final void addAssets() {
+        if(!hasAddedAssets) {
+            loadAssets();
+            hasAddedAssets = true;
+        }
+    }
+
+    protected void loadAssets() {
 
     }
 
     @Override
-    public List<AssetPage> getScripts() {
+    public final List<AssetPage> getScripts() {
+        addAssets();
         List<AssetPage> scripts = new ArrayList<>();
         scripts.addAll(context.getAdminTheme().getScripts());
         scripts.addAll(assets.getScripts());
@@ -92,7 +100,8 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public List<AssetPage> getStyles() {
+    public final List<AssetPage> getStyles() {
+        addAssets();
         List<AssetPage> styles = new ArrayList<>();
         styles.addAll(context.getAdminTheme().getStyles());
         styles.addAll(assets.getStyles());
