@@ -1,11 +1,13 @@
 package com.eden.orchid.api.theme.components;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -60,6 +62,8 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
             "by the theme, and it is up to the theme to ensure this is implemented properly."
     )
     protected boolean noWrapper;
+
+    @Getter @Setter @OptionsData private JSONElement allData;
 
     @Inject
     public OrchidComponent(OrchidContext context, String key, int priority) {

@@ -6,14 +6,6 @@ theme:
   social:
     github: 'JavaEden/Orchid'
   primaryColor: '#ffa033'
-  commonPageElements:
-    - type: prism
-      theme: 'twilight'
-      languages:
-        - 'yaml'
-        - 'java'
-        - 'groovy'
-        - 'markdown'
   menu:
     - type: 'link'
       title: 'Home'
@@ -29,23 +21,11 @@ theme:
       title: 'News'
     - type: 'javadocPackages'
     - type: 'javadocClasses'
-  extraCss:
-    - 'https://rawgit.com/PrismJS/prism-themes/master/themes/prism-darcula.css'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/line-numbers/prism-line-numbers.min.css'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/line-highlight/prism-line-highlight.min.css'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/toolbar/prism-toolbar.min.css'
+#  extraCss:
+#    - 'https://rawgit.com/PrismJS/prism-themes/master/themes/prism-darcula.css'
   extraJs:
     - 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/line-numbers/prism-line-numbers.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/line-highlight/prism-line-highlight.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/toolbar/prism-toolbar.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/show-language/prism-show-language.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-java.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-yaml.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-markdown.min.js'
-    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/components/prism-groovy.min.js'
+#    - 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js'
 
 wiki:
   layout: 'wikiPage'
@@ -58,6 +38,24 @@ services:
     disabled:
       - 'presentations'
       - 'styleguide'
+
+allPages:
+  components:
+    - type: pageContent
+      order: 10
+    - type: prism
+      githubTheme: 'darcula'
+      languages:
+        - 'yaml'
+        - 'java'
+        - 'groovy'
+        - 'markdown'
+      plugins:
+        - 'line-numbers'
+        - 'line-highlight'
+        - 'toolbar'
+        - 'show-language'
+        - 'copy-to-clipboard'
 
 wikiPages:
   layout: geopattern2
