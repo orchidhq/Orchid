@@ -18,13 +18,13 @@ class PresentationsGenerator
 @Inject constructor(context: OrchidContext, private val model: PresentationsModel)
     : OrchidGenerator(context, "presentations", 25) {
 
-    @Option("baseDir") @StringDefault("presentations")
+    @Option @StringDefault("presentations")
     @Description("The base directory to look for presentation slides in.")
-    lateinit var presentationsBaseDir: String
+    lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage>? {
         val presentations = HashMap<String, Presentation>()
-        val resourceMap = getPresentationResources(presentationsBaseDir)
+        val resourceMap = getPresentationResources(baseDir)
 
         resourceMap.forEach { key, resources ->
             val presentation = getPresentation(key, resources)

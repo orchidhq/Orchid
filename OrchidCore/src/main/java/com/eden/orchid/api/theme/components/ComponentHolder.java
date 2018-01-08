@@ -94,7 +94,6 @@ public final class ComponentHolder {
                     OrchidComponent component = context.getInjector().getInstance(componentTypesMap.get(componentType));
                     component.setOrder((i+1)*10);
                     component.extractOptions(context, componentJson);
-                    component.addAssets();
                     components.add(component);
                 }
             }

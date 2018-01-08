@@ -34,7 +34,7 @@ public final class AssetsGenerator extends OrchidGenerator {
 
         if (!EdenUtils.isEmpty(sourceDirs)) {
             for (String sourceDir : sourceDirs) {
-                List<OrchidResource> resourcesList = context.getResourceEntries(sourceDir, null, true);
+                List<OrchidResource> resourcesList = context.getLocalResourceEntries(sourceDir, null, true);
                 for (OrchidResource entry : resourcesList) {
                     OrchidPage page = new OrchidPage(entry, entry.getReference().getFileName());
                     page.getReference().setUsePrettyUrl(false);

@@ -28,9 +28,7 @@ class PresentationComponent
 
     var presentation: Presentation? = null
 
-    override fun addAssets() {
-        super.addAssets()
-
+    override fun loadAssets() {
         addCss("assets/core/deck_core.scss")
         addCss("assets/extensions/goto/deck_goto.scss")
         addCss("assets/extensions/menu/deck_menu.scss")

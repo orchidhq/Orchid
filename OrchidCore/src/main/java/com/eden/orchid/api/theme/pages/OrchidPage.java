@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {
@@ -61,6 +60,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter @Option protected String[] extraJs;
 
     @Getter @Setter protected AssetHolder assets;
+    private boolean hasAddedAssets;
 
     @Getter @Setter @Option protected OrchidMenu menu;
     @Getter @Setter @Option protected ComponentHolder components;
@@ -110,7 +110,6 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         }
 
         addComponents();
-        addAssets();
     }
 
     public String getLink() {
@@ -215,8 +214,16 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         }
     }
 
-    public void addAssets() {
-        OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
+    public final void addAssets() {
+        if(!hasAddedAssets) {
+            loadAssets();
+            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
+            hasAddedAssets = true;
+        }
+    }
+
+    public final void loadAssets() {
+
     }
 
     @Override
@@ -225,39 +232,29 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public List<AssetPage> getScripts() {
+    public final List<AssetPage> getScripts() {
+        addAssets();
         List<AssetPage> scripts = new ArrayList<>();
         scripts.addAll(context.getTheme().getScripts());
         scripts.addAll(assets.getScripts());
-        addComponentAssets(scripts, OrchidComponent::getScripts);
+        OrchidUtils.addComponentAssets(getComponentHolders(), scripts, OrchidComponent::getScripts);
 
         return scripts;
     }
 
     @Override
-    public List<AssetPage> getStyles() {
+    public final List<AssetPage> getStyles() {
+        addAssets();
         List<AssetPage> styles = new ArrayList<>();
         styles.addAll(context.getTheme().getStyles());
         styles.addAll(assets.getStyles());
-        addComponentAssets(styles, OrchidComponent::getStyles);
+        OrchidUtils.addComponentAssets(getComponentHolders(), styles, OrchidComponent::getStyles);
 
         return styles;
     }
 
-    private void addComponentAssets(List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
-        try {
-            List<OrchidComponent> componentsList = components.getComponents();
-            if (!EdenUtils.isEmpty(componentsList)) {
-                componentsList
-                        .stream()
-                        .peek(OrchidComponent::addAssets)
-                        .map(getter)
-                        .forEach(assets::addAll);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected ComponentHolder[] getComponentHolders() {
+        return new ComponentHolder[] { components };
     }
 
 }

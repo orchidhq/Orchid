@@ -20,15 +20,15 @@ import javax.inject.Singleton
 class PagesGenerator @Inject
 constructor(context: OrchidContext) : OrchidGenerator(context, "pages", 700) {
 
-    @Option("baseDir") @StringDefault("pages")
-    lateinit var pagesBaseDir: String
+    @Option @StringDefault("pages")
+    lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage> {
-        val resourcesList = context.getLocalResourceEntries(pagesBaseDir, null, true)
+        val resourcesList = context.getLocalResourceEntries(baseDir, null, true)
         val pages = ArrayList<StaticPage>()
 
         for (entry in resourcesList) {
-            entry.reference.stripFromPath(pagesBaseDir)
+            entry.reference.stripFromPath(baseDir)
             val page = StaticPage(entry)
             pages.add(page)
         }
@@ -37,6 +37,6 @@ constructor(context: OrchidContext) : OrchidGenerator(context, "pages", 700) {
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+        pages.forEach { if (it is StaticPage) { context.render(it, it.renderMode) } }
     }
 }

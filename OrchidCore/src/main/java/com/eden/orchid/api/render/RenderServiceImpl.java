@@ -106,6 +106,46 @@ public class RenderServiceImpl implements RenderService {
         return renderInternal(page, () -> getRenderedBinary(page));
     }
 
+    @Override
+    public boolean render(OrchidPage page, RenderMode renderMode) {
+        switch (renderMode) {
+            case TEMPLATE: return renderTemplate(page);
+            case RAW:      return renderRaw(page);
+            case BINARY:   return renderBinary(page);
+            default: throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
+        }
+    }
+
+    @Override
+    public InputStream getRendered(OrchidPage page, RenderMode renderMode) {
+        switch (renderMode) {
+            case TEMPLATE: return getRenderedTemplate(page);
+            case RAW:      return getRenderedRaw(page);
+            case BINARY:   return getRenderedBinary(page);
+            default: throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
+        }
+    }
+
+    @Override
+    public boolean render(OrchidPage page, String renderMode) {
+        switch (renderMode.toUpperCase()) {
+            case "TEMPLATE": return renderTemplate(page);
+            case "RAW":      return renderRaw(page);
+            case "BINARY":   return renderBinary(page);
+            default: throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
+        }
+    }
+
+    @Override
+    public InputStream getRendered(OrchidPage page, String renderMode) {
+        switch (renderMode.toUpperCase()) {
+            case "TEMPLATE": return getRenderedTemplate(page);
+            case "RAW":      return getRenderedRaw(page);
+            case "BINARY":   return getRenderedBinary(page);
+            default: throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
+        }
+    }
+
     InputStream toStream(String content) {
         try {
             return IOUtils.toInputStream(content, "UTF-8");

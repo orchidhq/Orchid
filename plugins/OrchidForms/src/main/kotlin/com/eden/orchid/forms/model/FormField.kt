@@ -119,6 +119,14 @@ constructor(val context: OrchidContext) : OptionsHolder {
         return wrapperClasses
     }
 
+    fun setSpan(span: String) {
+        this.spanVal = span
+    }
+
+    fun setSpanSm(span: String) {
+        this.spanSmVal = span
+    }
+
     abstract fun acceptsType(type: String): Boolean
 
 }

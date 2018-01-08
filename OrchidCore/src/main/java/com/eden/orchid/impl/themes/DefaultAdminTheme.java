@@ -13,7 +13,7 @@ public final class DefaultAdminTheme extends AdminTheme {
     }
 
     @Override
-    public void addAssets() {
+    public void loadAssets() {
         addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
         addCss("https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css");
 
@@ -28,8 +28,6 @@ public final class DefaultAdminTheme extends AdminTheme {
 
         addJs("assets/js/admin_app.js");
         addJs("assets/js/admin_orchid.js");
-
-        super.addAssets();
     }
 
 }

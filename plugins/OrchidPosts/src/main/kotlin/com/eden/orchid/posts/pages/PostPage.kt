@@ -33,13 +33,6 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel) : Permalink
     @Option
     lateinit var tagline: String
 
-    @Option("permalink")
-    lateinit var postPermalink: String
-
-    override fun getPermalink(): String {
-        return postPermalink
-    }
-
     val excerpt: String
         get() {
             val strategy = context.injector.getInstance(PostsExcerptStrategy::class.java)

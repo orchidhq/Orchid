@@ -18,12 +18,12 @@ import javax.inject.Singleton
 class ChangelogGenerator @Inject
 constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator(context, "changelog", 700) {
 
-    @Option("baseDir") @StringDefault("changelog")
-    lateinit var changelogBaseDir: String
+    @Option @StringDefault("changelog")
+    lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage> {
         val versions = context.getLocalResourceEntries(
-                OrchidUtils.normalizePath(changelogBaseDir),
+                OrchidUtils.normalizePath(baseDir),
                 context.compilerExtensions.toTypedArray(),
                 false)
                 .map { ChangelogVersion(context, it.reference.originalFileName, it) }

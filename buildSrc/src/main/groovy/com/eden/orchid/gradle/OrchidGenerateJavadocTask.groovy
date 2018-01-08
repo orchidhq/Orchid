@@ -28,6 +28,7 @@ class OrchidGenerateJavadocTask extends Javadoc {
         options.addStringOption "v",            OrchidPluginHelpers.getPropertyValue(project, 'version', project.version)
         options.addStringOption "theme",        OrchidPluginHelpers.getPropertyValue(project, 'theme', 'Default')
         options.addStringOption "baseUrl",      OrchidPluginHelpers.getPropertyValue(project, 'baseUrl', '')
+        options.addStringOption "environment",  OrchidPluginHelpers.getPropertyValue(project, 'environment', 'debug')
         options.addStringOption "task",         OrchidPluginHelpers.getPropertyValue(project, 'runTask', 'build')
 
         // set any additional arguments

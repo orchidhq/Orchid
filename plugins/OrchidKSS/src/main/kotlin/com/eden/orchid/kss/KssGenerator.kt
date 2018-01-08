@@ -21,12 +21,12 @@ import javax.inject.Inject
 class KssGenerator @Inject
 constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, "styleguide", 700) {
 
-    @Option("baseDir")
+    @Option
     @StringDefault("assets/css")
-    lateinit var styleguideBaseDir: String
+    lateinit var baseDir: String
 
-    @Option("sections")
-    var sectionNames: Array<String> = emptyArray()
+    @Option
+    var sections: Array<String> = emptyArray()
 
     @Option
     lateinit var stylesheet: String
@@ -34,10 +34,10 @@ constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(conte
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
 
-        if (EdenUtils.isEmpty(sectionNames)) {
+        if (EdenUtils.isEmpty(sections)) {
             model.sections.put(null, getStyleguidePages(null))
         } else {
-            for (section in sectionNames) {
+            for (section in sections) {
                 model.sections.put(section, getStyleguidePages(section))
             }
         }
@@ -47,9 +47,9 @@ constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(conte
 
     private fun getStyleguidePages(section: String?): List<KssPage> {
         val sectionBaseDir = if (!EdenUtils.isEmpty(section))
-            OrchidUtils.normalizePath(styleguideBaseDir) + "/" + OrchidUtils.normalizePath(section)
+            OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(section)
         else
-            OrchidUtils.normalizePath(styleguideBaseDir)
+            OrchidUtils.normalizePath(baseDir)
 
         val pages = ArrayList<KssPage>()
 

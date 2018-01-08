@@ -11,17 +11,17 @@ import javax.inject.Inject
 class PageMenuType @Inject
 constructor(context: OrchidContext) : OrchidMenuItem(context, "page", 100) {
 
-    @Option("page")
-    lateinit var pageName: String
+    @Option
+    lateinit var page: String
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
         val pages = context.internalIndex.getGeneratorPages("pages")
 
-        if (!EdenUtils.isEmpty(pageName)) {
+        if (!EdenUtils.isEmpty(this.page)) {
             for (page in pages) {
-                if (page.title == pageName) {
+                if (page.title == this.page) {
                     menuItems.add(OrchidMenuItemImpl(context, page))
                 }
             }

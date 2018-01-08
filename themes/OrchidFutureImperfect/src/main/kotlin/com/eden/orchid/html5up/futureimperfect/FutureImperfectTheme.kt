@@ -7,7 +7,6 @@ import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.About
 import com.eden.orchid.api.theme.models.Social
-
 import javax.inject.Inject
 
 class FutureImperfectTheme @Inject
@@ -15,18 +14,20 @@ constructor(context: OrchidContext) : Theme(context, "FutureImperfect", 100) {
 
     @Option
     var about: About? = null
+
     @Option
     var social: Social? = null
 
     @Option
     var topMenu: OrchidMenu? = null
+
     @Option
     var drawerMenu: OrchidMenu? = null
 
     @Option
-    var sidebar: ComponentHolder? = null
+    lateinit var sidebar: ComponentHolder
 
-    override fun addAssets() {
+    override fun loadAssets() {
         addCss("assets/css/futureImperfect_main.scss")
         addCss("assets/css/futureImperfect_orchidCustomizations.scss")
 
@@ -34,8 +35,10 @@ constructor(context: OrchidContext) : Theme(context, "FutureImperfect", 100) {
         addJs("assets/js/skel.min.js")
         addJs("assets/js/util.js")
         addJs("assets/js/main.js")
+    }
 
-        super.addAssets()
+    override fun getComponentHolders(): Array<ComponentHolder> {
+        return arrayOf(sidebar)
     }
 
 }

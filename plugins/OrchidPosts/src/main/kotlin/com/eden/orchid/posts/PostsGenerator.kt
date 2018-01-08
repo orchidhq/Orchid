@@ -1,11 +1,9 @@
 package com.eden.orchid.posts
 
 import com.caseyjbrooks.clog.Clog
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ListClass
 import com.eden.orchid.api.options.annotations.Option
@@ -22,7 +20,10 @@ import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.pages.PostTagArchivePage
 import com.eden.orchid.posts.permalink.PostsPermalinkStrategy
 import com.eden.orchid.posts.utils.PostsUtils
-import com.eden.orchid.utilities.*
+import com.eden.orchid.utilities.dashCase
+import com.eden.orchid.utilities.from
+import com.eden.orchid.utilities.to
+import com.eden.orchid.utilities.words
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONObject
 import java.util.*
@@ -34,7 +35,8 @@ import javax.inject.Singleton
 @Singleton
 @Description("Share your thoughts and interests with blog posts and archives.")
 class PostsGenerator @Inject
-constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalinkStrategy, private val postsModel: PostsModel) : OrchidGenerator(context, "posts", 700), OptionsHolder {
+constructor(context: OrchidContext, val permalinkStrategy: PostsPermalinkStrategy, val postsModel: PostsModel)
+    : OrchidGenerator(context, "posts", 700) {
 
     @Option
     @StringDefault(":category/:year/:month/:day/:slug")
@@ -56,34 +58,36 @@ constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalin
     @ListClass(Author::class)
     var authors: List<Author> = emptyList()
 
-    @Option("categories")
-    var categoryNames: Array<String> = emptyArray()
+    @Option
+    var categories: Array<String> = emptyArray()
 
-    @Option("pagination")
-    lateinit var defaultPagination: PostsPaginator
+    @Option
+    lateinit var pagination: PostsPaginator
 
-    @Option("baseDir")
+    @Option
+    lateinit var categoryPagination: JSONObject
+
+    @Option
     @StringDefault("posts")
-    lateinit var postsBaseDir: String
+    lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage> {
         postsModel.initialize(permalink, layout, excerptSeparator, authors)
 
-        if (EdenUtils.isEmpty(categoryNames)) {
+        if (EdenUtils.isEmpty(categories)) {
             val posts = getPostsList(null)
-            val archive = buildArchive(null, posts, defaultPagination)
+            val archive = buildArchive(null, posts, pagination)
             postsModel.categories.put(null, CategoryModel(null, posts, archive))
             tagPosts(posts)
         } else {
-            for (category in categoryNames) {
+            for (category in categories) {
                 val posts = getPostsList(category)
 
-                var categoryPaginator: PostsPaginator = defaultPagination
+                var categoryPaginator: PostsPaginator = pagination
 
-                val categoryPagination: JSONElement? = allData.query("categoryPagination.$category")
-                if(OrchidUtils.elementIsObject(categoryPagination)) {
+                if(categoryPagination.has(category) && categoryPagination.get(category) is JSONObject) {
                     categoryPaginator = PostsPaginator()
-                    categoryPaginator.extractOptions(context, categoryPagination!!.element as JSONObject)
+                    categoryPaginator.extractOptions(context, categoryPagination.getJSONObject(category))
                 }
 
                 val archive = buildArchive(category, posts, categoryPaginator)
@@ -94,7 +98,7 @@ constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalin
 
         for (tag in postsModel.tagNames) {
             val posts = postsModel.getPostsTagged(tag)
-            val archive = buildTagArchive(tag, posts, defaultPagination)
+            val archive = buildTagArchive(tag, posts, pagination)
             postsModel.tags[tag]!!.second.addAll(archive)
         }
 
@@ -135,7 +139,7 @@ constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalin
     }
 
     private fun getPostsList(category: String?): MutableList<PostPage> {
-        val baseCategoryPath = if (EdenUtils.isEmpty(category)) postsBaseDir else postsBaseDir + "/" + category
+        val baseCategoryPath = if (EdenUtils.isEmpty(category)) baseDir else baseDir + "/" + category
         val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
 
         val posts = ArrayList<PostPage>()

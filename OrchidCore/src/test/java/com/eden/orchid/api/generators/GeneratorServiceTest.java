@@ -68,6 +68,8 @@ public final class GeneratorServiceTest {
         when(injector.getInstance(OptionsExtractor.class)).thenReturn(extractor);
         when(context.findTheme(any())).thenReturn(theme);
 
+        when(theme.isHasRenderedAssets()).thenReturn(true);
+
         internalIndex = new OrchidRootInternalIndex();
         externalIndex = new OrchidRootExternalIndex();
 

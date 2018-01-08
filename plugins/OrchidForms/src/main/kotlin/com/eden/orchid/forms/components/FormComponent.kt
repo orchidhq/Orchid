@@ -18,8 +18,7 @@ class FormComponent
     )
     var form: Form? = null
 
-    override fun addAssets() {
-        super.addAssets()
+    override fun loadAssets() {
         addCss("assets/css/form.scss")
     }
 }

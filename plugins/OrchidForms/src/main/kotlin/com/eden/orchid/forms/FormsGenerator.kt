@@ -22,9 +22,9 @@ import kotlin.collections.ArrayList
 class FormsGenerator @Inject
 constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, "forms", 20) {
 
-    @Option("baseDir") @StringDefault("forms")
+    @Option @StringDefault("forms")
     @Description("The base directory to look for forms in.")
-    lateinit var formsBaseDir: String
+    lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage>? {
         val forms = HashMap<String, Form>()
@@ -42,7 +42,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
     }
 
     private fun getFormsByDatafiles(forms: HashMap<String, Form>) {
-        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(formsBaseDir), context.parserExtensions.toTypedArray(), false)
+        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.parserExtensions.toTypedArray(), false)
         for (resource in formsPages) {
             resource.reference.isUsePrettyUrl = false
             val fileData = context.parse(resource.reference.extension, resource.content)
@@ -54,14 +54,14 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
 
     private fun getFormsWithSubmissionPages(forms: HashMap<String, Form>): List<OrchidPage> {
         val pages = ArrayList<OrchidPage>()
-        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(formsBaseDir), context.compilerExtensions.toTypedArray(), false)
+        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.compilerExtensions.toTypedArray(), false)
 
         if(!EdenUtils.isEmpty(formsPages)) {
             for (resource in formsPages) {
                 val key = resource.reference.originalFileName
 
                 val formSubmissionPage = FormSubmissionPage(resource, "form", null, null)
-                formSubmissionPage.reference.stripFromPath(OrchidUtils.normalizePath(formsBaseDir))
+                formSubmissionPage.reference.stripFromPath(OrchidUtils.normalizePath(baseDir))
                 formSubmissionPage.reference.path = OrchidUtils.normalizePath("submit/" + formSubmissionPage.reference.originalPath)
                 pages.add(formSubmissionPage)
 
