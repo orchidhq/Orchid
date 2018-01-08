@@ -1,6 +1,7 @@
 package com.eden.orchid.posts
 
 import com.caseyjbrooks.clog.Clog
+import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -21,10 +22,7 @@ import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.pages.PostTagArchivePage
 import com.eden.orchid.posts.permalink.PostsPermalinkStrategy
 import com.eden.orchid.posts.utils.PostsUtils
-import com.eden.orchid.utilities.dashCase
-import com.eden.orchid.utilities.from
-import com.eden.orchid.utilities.to
-import com.eden.orchid.utilities.words
+import com.eden.orchid.utilities.*
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONObject
 import java.util.*
@@ -64,9 +62,6 @@ constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalin
     @Option("pagination")
     lateinit var defaultPagination: PostsPaginator
 
-    @Option
-    lateinit var disqusShortname: String
-
     @Option("baseDir")
     @StringDefault("posts")
     lateinit var postsBaseDir: String
@@ -82,7 +77,16 @@ constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalin
         } else {
             for (category in categoryNames) {
                 val posts = getPostsList(category)
-                val archive = buildArchive(category, posts, defaultPagination)
+
+                var categoryPaginator: PostsPaginator = defaultPagination
+
+                val categoryPagination: JSONElement? = allData.query("categoryPagination.$category")
+                if(OrchidUtils.elementIsObject(categoryPagination)) {
+                    categoryPaginator = PostsPaginator()
+                    categoryPaginator.extractOptions(context, categoryPagination!!.element as JSONObject)
+                }
+
+                val archive = buildArchive(category, posts, categoryPaginator)
                 postsModel.categories.put(category, CategoryModel(category, posts, archive))
                 tagPosts(posts)
             }
@@ -150,22 +154,6 @@ constructor(context: OrchidContext, private val permalinkStrategy: PostsPermalin
                 post.category = category
 
                 permalinkStrategy.applyPermalink(post)
-
-                if (!EdenUtils.isEmpty(disqusShortname)) {
-                    if (post.components.hasComponent("disqus")) {
-                        val disqusComponent = post.components.getComponentData("disqus")
-                        if (disqusComponent != null && !disqusComponent.has("shortname")) {
-                            disqusComponent.put("shortname", disqusShortname)
-                            post.components.invalidateComponents()
-                        }
-                    } else {
-                        val disqusComponent = JSONObject()
-                        disqusComponent.put("type", "disqus")
-                        disqusComponent.put("shortname", disqusShortname)
-                        post.components.addComponent(disqusComponent)
-                    }
-                }
-
                 posts.add(post)
             }
         }

@@ -87,6 +87,35 @@ public final class OrchidUtils {
         return (el != null) && (el.getElement() != null) && (el.getElement() instanceof String);
     }
 
+    public static JSONObject merge(JSONObject... sources) {
+        JSONObject dest = new JSONObject();
+
+        for(JSONObject tmpSource : sources) {
+            JSONObject source = new JSONObject(tmpSource.toMap());
+
+            for (String key : source.keySet()) {
+                if (dest.has(key)) {
+                    if (dest.get(key) instanceof JSONObject && source.get(key) instanceof JSONObject) {
+                        dest.put(key, merge(dest.getJSONObject(key), source.getJSONObject(key)));
+                    }
+                    else if (dest.get(key) instanceof JSONArray && source.get(key) instanceof JSONArray) {
+                        for (Object obj : source.getJSONArray(key)) {
+                            dest.getJSONArray(key).put(obj);
+                        }
+                    }
+                    else {
+                        dest.put(key, source.get(key));
+                    }
+                }
+                else {
+                    dest.put(key, source.get(key));
+                }
+            }
+        }
+
+        return dest;
+    }
+
     /**
      * Replaces a string's OS-dependant file path-separator characters (File.separator) with '/', and also strips
      * any slashes from the beginning and end of the string. This allows us to do path operations using the standard

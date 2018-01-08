@@ -1,14 +1,17 @@
 package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.annotations.Validate;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -43,22 +46,18 @@ public class OptionsExtractor {
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
         // setup initial options
         JSONObject initialOptions = new JSONObject(options.toMap());
-        JSONObject actualOptions = new JSONObject();
-
-        // add archetypal data
         JSONObject archetypalOptions = loadArchetypalData(optionsHolder.getClass(), initialOptions);
-        for(String key : archetypalOptions.keySet()) {
-            actualOptions.put(key, archetypalOptions.get(key));
-        }
 
-        // add original data
-        for(String key : initialOptions.keySet()) {
-            actualOptions.put(key, initialOptions.get(key));
-        }
+        JSONObject actualOptions = OrchidUtils.merge(archetypalOptions, initialOptions);
 
         // extract options fields
-        Set<Field> fields = findOptionFields(optionsHolder.getClass());
-        for (Field field : fields) {
+        EdenPair<Field, Set<Field>> fields = findOptionFields(optionsHolder.getClass());
+
+        if(fields.first != null) {
+            setOptionValue(optionsHolder, fields.first, fields.first.getName(), JSONElement.class, new JSONElement(actualOptions));
+        }
+
+        for (Field field : fields.second) {
             String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
                     ? field.getAnnotation(Option.class).value()
                     : field.getName();
@@ -76,11 +75,15 @@ public class OptionsExtractor {
     }
 
     public List<OptionsDescription> describeOptions(Class<?> optionsHolderClass) {
-        Set<Field> fields = findOptionFields(optionsHolderClass);
+        EdenPair<Field, Set<Field>> fields = findOptionFields(optionsHolderClass);
 
         List<OptionsDescription> optionDescriptions = new ArrayList<>();
 
-        for (Field field : fields) {
+        if(fields.first != null) {
+            optionDescriptions.add(new OptionsDescription(fields.first.getName(), JSONElement.class, "All options passed to this object.", "{}"));
+        }
+
+        for (Field field : fields.second) {
             String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
                     ? field.getAnnotation(Option.class).value()
                     : field.getName();
@@ -102,7 +105,8 @@ public class OptionsExtractor {
         return optionDescriptions;
     }
 
-    private Set<Field> findOptionFields(Class<?> optionsHolderClass) {
+    private EdenPair<Field, Set<Field>> findOptionFields(Class<?> optionsHolderClass) {
+        Field optionsDataField = null;
         Set<Field> fields = new HashSet<>();
 
         while (optionsHolderClass != null) {
@@ -112,13 +116,16 @@ public class OptionsExtractor {
                     if (field.isAnnotationPresent(Option.class)) {
                         fields.add(field);
                     }
+                    else if (field.isAnnotationPresent(OptionsData.class) && field.getType().equals(JSONElement.class)) {
+                        optionsDataField = field;
+                    }
                 }
             }
 
             optionsHolderClass = optionsHolderClass.getSuperclass();
         }
 
-        return fields;
+        return new EdenPair<>(optionsDataField, fields);
     }
 
     private JSONObject loadArchetypalData(Class<?> optionsHolderClass, JSONObject actualOptions) {
@@ -148,9 +155,7 @@ public class OptionsExtractor {
             JSONObject archetypalData = archetypeDataProvider.getOptions(archetype.key());
 
             if(archetypalData != null) {
-                for(String key : archetypalData.keySet()) {
-                    allAdditionalData.put(key, archetypalData.get(key));
-                }
+                allAdditionalData = OrchidUtils.merge(allAdditionalData, archetypalData);
             }
         }
 

@@ -2,16 +2,18 @@
     <!-- start:inject components -->
     {% if (componentHolder is not null) and (componentHolder.remainingComponents is not empty) %}
         {% for component in componentHolder.remainingComponents %}
-            {% if not (component.noWrapper) %}
-                {% block componentWrapper %}
-                    <div class="component component-{{ component.key }}">
+            {% if not component.hidden %}
+                {% if not (component.noWrapper) %}
+                    {% block componentWrapper %}
+                        <div class="component component-{{ component.key }} component-order-{{ component.order }}">
+                            {% include '?'~(component | template('component') | join(',')) %}
+                        </div>
+                    {% endblock %}
+                {% else %}
+                    {% block componentNoWrapper %}
                         {% include '?'~(component | template('component') | join(',')) %}
-                    </div>
-                {% endblock %}
-            {% else %}
-                {% block componentNoWrapper %}
-                    {% include '?'~(component | template('component') | join(',')) %}
-                {% endblock %}
+                    {% endblock %}
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% endif %}

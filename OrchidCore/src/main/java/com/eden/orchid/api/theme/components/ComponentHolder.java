@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,11 +92,14 @@ public final class ComponentHolder {
 
                 if(componentTypesMap.containsKey(componentType)) {
                     OrchidComponent component = context.getInjector().getInstance(componentTypesMap.get(componentType));
+                    component.setOrder((i+1)*10);
                     component.extractOptions(context, componentJson);
                     component.addAssets();
                     components.add(component);
                 }
             }
+
+            components.sort(Comparator.comparingInt(OrchidComponent::getOrder));
         }
 
         return components;

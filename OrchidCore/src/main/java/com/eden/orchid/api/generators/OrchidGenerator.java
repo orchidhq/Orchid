@@ -1,10 +1,12 @@
 package com.eden.orchid.api.generators;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -71,6 +73,8 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
             "these issues can be addressed.)"
     )
     public boolean parallel;
+
+    @Getter @Setter @OptionsData private JSONElement allData;
 
     @Inject
     public OrchidGenerator(OrchidContext context, String key, int priority) {

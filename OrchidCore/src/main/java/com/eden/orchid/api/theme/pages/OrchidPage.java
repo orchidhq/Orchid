@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.pages;
 
+import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
@@ -7,6 +8,7 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
@@ -62,6 +64,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     @Getter @Setter @Option protected OrchidMenu menu;
     @Getter @Setter @Option protected ComponentHolder components;
+
+    @Getter @Setter @OptionsData private JSONElement allData;
 
     public OrchidPage(OrchidResource resource, String key) {
         this(resource, key, null);
