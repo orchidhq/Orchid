@@ -29,3 +29,15 @@
 p img {
   max-width: 100%;
 }
+
+@media screen and (min-width: 1281px) {
+  .post-archive {
+    .mini-posts.archive {
+      display: flex;
+      flex-flow: wrap;
+      .mini-post {
+        flex: 0 0 calc(33% - 2em);
+      }
+    }
+  }
+}

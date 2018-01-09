@@ -56,6 +56,7 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel) : Permalink
             return tagArchivePages
         }
 
+    @JvmOverloads
     fun publishedDate(format: String = "MMMMM d, yyyy"): String {
         val date = Calendar.getInstance()
         date.set(Calendar.YEAR, year)

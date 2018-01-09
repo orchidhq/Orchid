@@ -27,11 +27,11 @@ public class Social implements OptionsHolder {
     @Option public String linkedin;
     @Option public String twitter;
 
+    @Option @ListClass(Item.class) private List<Item> other;
+
     public Social() {
         
     }
-
-    @Option @ListClass(Item.class) private List<Item> other;
 
     @AllArgsConstructor
     @NoArgsConstructor

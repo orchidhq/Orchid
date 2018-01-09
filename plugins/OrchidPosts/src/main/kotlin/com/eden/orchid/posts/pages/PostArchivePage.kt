@@ -15,20 +15,6 @@ open class PostArchivePage : PermalinkPage {
     var category: String? = null
     var index: Int = 0
 
-    val years: List<Int>
-        get() {
-            val years = ArrayList<Int>()
-
-            for (post in postList) {
-                if (!years.contains(post.year)) {
-                    years.add(post.year)
-                }
-            }
-
-            years.reverse()
-            return years
-        }
-
     constructor(resource: OrchidResource, index: Int, permalink: String) : super(resource, "postArchive") {
         this.permalink = permalink
         this.index = index
@@ -39,6 +25,19 @@ open class PostArchivePage : PermalinkPage {
         this.index = index
     }
 
+    val years: List<Int>
+        get() {
+            val years = ArrayList<Int>()
+
+            for (post in postList) {
+                if (!years.contains(post.year)) {
+                    years.add(post.year)
+                }
+            }
+
+            return years
+        }
+
     fun getMonths(year: Int): List<Int> {
         val months = ArrayList<Int>()
 
@@ -47,8 +46,6 @@ open class PostArchivePage : PermalinkPage {
                 months.add(post.month)
             }
         }
-
-        months.reverse()
 
         return months
     }
