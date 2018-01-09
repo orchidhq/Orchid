@@ -15,7 +15,7 @@
                         <header>
                             <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
                             <time class="published" datetime="2015-10-20">{{ post.publishedDate() }}</time>
-                            <a href="#" class="author"><img src="{{ post.author.avatar }}" alt=""></a>
+                            <a href="#" class="author"><img src="{{ post.author.avatarUrl }}" alt=""></a>
                         </header>
                     </article>
                 {% endfor %}

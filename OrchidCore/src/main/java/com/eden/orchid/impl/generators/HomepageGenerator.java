@@ -1,11 +1,13 @@
 package com.eden.orchid.impl.generators;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -42,6 +44,19 @@ public final class HomepageGenerator extends OrchidGenerator {
         else {
             page = new OrchidPage(resource, "frontPage");
             page.getReference().setFileName("index");
+            
+            if(page.getNext() == null && OrchidUtils.elementIsString(page.getAllData().query("next"))) {
+                List<OrchidPage> next = context.getIndex().find(page.getAllData().query("next").toString());
+                if(!EdenUtils.isEmpty(next)) {
+                    page.setNext(next.get(0));
+                }
+            }
+            if(page.getPrevious() == null && OrchidUtils.elementIsString(page.getAllData().query("previous"))) {
+                List<OrchidPage> previous = context.getIndex().find(page.getAllData().query("previous").toString());
+                if(!EdenUtils.isEmpty(previous)) {
+                    page.setPrevious(previous.get(0));
+                }
+            }
         }
 
         page.getReference().setTitle("Home");

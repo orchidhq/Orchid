@@ -18,7 +18,7 @@
 
         <!-- Intro -->
         <section id="intro">
-            <a href="#" class="logo"><img src="{{ theme.about.avatar }}" alt=""/></a>
+            <a href="#" class="logo"><img src="{{ theme.about.avatarUrl }}" alt=""/></a>
             <header>
                 <h2>{{ theme.about.siteName }}</h2>
                 <p>{{ theme.about.tagline }}</p>

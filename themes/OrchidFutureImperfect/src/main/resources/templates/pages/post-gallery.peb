@@ -7,7 +7,7 @@
             <p style="text-align: center">
                 <a href="#" class="author" style="justify-content: center;">
                     <span class="name">By {{ post.author.name }}</span>
-                    <img src="{{ post.author.avatar }}" alt=""/>
+                    <img src="{{ post.author.avatarUrl }}" alt=""/>
                 </a>
             </p>
             <time class="published" datetime="{{ post.publishedDate('yyyy-MM-dd') }}">
