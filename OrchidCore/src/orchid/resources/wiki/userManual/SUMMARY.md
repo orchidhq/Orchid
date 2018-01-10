@@ -26,7 +26,6 @@
 * [Directory Structure](configuration/directory-structure.md)
 * [Site Configuration](configuration/site-config.md)
 * [Page Configuration](configuration/page-config.md)
-* [Advanced Customization](configuration/advanced-customization.md)
 
 ## Personalization
 

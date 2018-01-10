@@ -5,13 +5,13 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Singleton
@@ -30,26 +30,25 @@ public final class AssetsGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        List<OrchidPage> assets = new ArrayList<>();
-
-        if (!EdenUtils.isEmpty(sourceDirs)) {
-            for (String sourceDir : sourceDirs) {
-                List<OrchidResource> resourcesList = context.getLocalResourceEntries(sourceDir, null, true);
-                for (OrchidResource entry : resourcesList) {
-                    OrchidPage page = new OrchidPage(entry, entry.getReference().getFileName());
-                    page.getReference().setUsePrettyUrl(false);
-                    assets.add(page);
-                }
-            }
+        if (EdenUtils.isEmpty(sourceDirs)) {
+            sourceDirs = new String[]{"assets"};
         }
 
-        return assets;
+        return Arrays
+                .stream(sourceDirs)
+                .flatMap(sourceDir -> context.getLocalResourceEntries(sourceDir, null, true).stream())
+                .map(orchidResource -> {
+                    OrchidPage page = new OrchidPage(orchidResource, orchidResource.getReference().getFileName());
+                    page.getReference().setUsePrettyUrl(false);
+                    return page;
+                }).collect(Collectors.toList());
+
     }
 
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(page -> {
-            if(context.isBinaryExtension(page.getReference().getOutputExtension())) {
+            if (context.isBinaryExtension(page.getReference().getOutputExtension())) {
                 context.renderBinary(page);
             }
             else {

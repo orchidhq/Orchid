@@ -6,7 +6,10 @@ may have lots of options set in a many-layered hierarchy, but does not sacrifice
 sites. To fully understand all that can be configured with the site config, you should refer to _the Options section of
 the developer guide_. A basic description follows.
 
+[TOC]
+
 ## The Basics
+***
 
 All Orchid sites must have a config file in the root of the resources directory, called `config.yml`, which serves as 
 the root of all site options. The entire site can be fully described in this one file, but if you have lots of options
@@ -22,42 +25,60 @@ in.
 > TOML rather than YAML, or `config.json` to parse as JSON. The same goes for all files in `data/`. You may also 
 > mix-and-match parser types as needed, or even add your own.
 
+{.alert .alert-info}
+
 Orchid parses options before every build when running `watch` or `serve` tasks, and so support rapid changes in 
 development and prototyping. In contrast, command-line flags are parsed once, before the main Orchid starts up, and 
 cannot be changed during the Orchid runtime. Command-line flags are typically the kind of options that are needed to 
 even parse `config.yml` or support other project-wide configuration, such as the input and output directories, or 
 setting the default theme.   
 
-## Example `config.yml`
+## Basic Site Config
+***
 
-{% filter highlightPrism('yaml') %}
-Editorial: # options passed to the Theme come from an object at that Theme's key
+```yaml
+Editorial: # (1)
   menu: 
     - type: 'readme' 
     - type: 'license' 
-wiki: # Each Generator receives options from the object at that Generators's key 
+wiki: # (2) 
   sections:
     - 'userManual'
     - 'developersGuide'
-services: # Services are all scoped under the `services` object, and are used to configure the larger Orchid behavior
+services: # (3)
   generators:
     disabled:
       - 'javadoc'
       - 'posts'
-      - 'pages'
-      - 'presentations'
-      - 'styleguide'
-{% endfilter %}
+      
+allPosts: # (4)
+  layout: single
+```
+{.line-numbers}
+
+1) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 
+    use individual theme keys to configure each theme independently, but `theme` is generally easier to quickly try out
+    different themes.
+2) Generator options come from an object at that Generators's key
+3) Services are all scoped under the `services` object, and are used to configure the behavior of the Orchid framework.
+4) In addition to the options defined in a page's FrontMatter, you may have a set of shared options that _all_ pages, or
+    specific sub-sets of pages should have in common. Each plugin declared these archetypal options in their own way, 
+    so consult each plugin's documentation for full site configuration.
 
 > NOTE: By convention, Themes' keys are in `PascalCase` while Generators' keys are in `camelCase`. Options passed to 
 > Services are all contained under the `services` object, each at their key within `services`. This all helps prevent 
-> collisions between theme, generator, and service configuration options. 
+> collisions between theme, generator, and service configuration options.
+
+{.alert .alert-warning} 
 
 > NOTE: Theme options may also be set at the 'theme' top-level object. If you are using multiple themes which are all
 > expected to use the same configuration (a common occurrence), this is preferred over the theme-specific object. 
-> However, if both the theme's key and `theme` are defined, the theme-specific object will take precedence.   
+> However, if both the theme's key and `theme` are defined, the theme-specific object will take precedence.
 
-## `data/` Structure 
+{.alert .alert-info}
+
+## Advanced Site Config
+***
 
 For larger and more complex sites, a single `config.yml` file will get messy very quickly. You may break up your 
 monolithic `config.yml` into as many smaller files as you need, simply by adding a file in the `data/` directory, whose
@@ -65,38 +86,55 @@ filename corresponds to its options key. This process is recursive, and you can 
 creating directories within `data/`, and so on. You may also specify a filename _and_ and folder, and the two will be 
 merged into one single options object, where the options in the file take precedence over the folder. 
 
-For example, the following directory structure and YAML config are equivalent:
+For example, the following YAML configs are equivalent:
 
 **Config in one single config.yml**
 
-{% filter highlightPrism('yaml') %}
+```yaml
+# config.yml
 theme:
-    siteName: 'My Site'
-    components:
-        - type: pageContent
-        - type: readme
-        - type: license
-    menu:
-        - type: page
-          page: 'home'
-        - type: link
-          title: 'Contact'
-          url: '/contact'
-{% endfilter %}
+  siteName: 'My Site'
+  components:
+    - type: pageContent
+    - type: readme
+    - type: license
+  menu:
+    - type: page
+      page: 'home'
+    - type: link
+      title: 'Contact'
+      url: '/contact'
+```
 
 **Config broken into several files**
 
-{% filter highlightPrism('text') %}
-/
-|-- config.yml # main site configuration (still necessary)
-|-- /data
-    |-- theme.yml # contains siteName key
-    |-- /theme
-        |-- components.yml # contains an array of components
-        |-- menu.yml # contains an array of menu items
-{% endfilter %}
+```yaml
+# config.yml
+```
+
+```yaml
+# data/theme.yml
+siteName: 'My Site'
+```
+
+```yaml
+# data/theme/components.yml
+- type: pageContent
+- type: readme
+- type: license
+```
+
+```yaml
+# data/theme/menu.yml
+- type: page
+  page: 'home'
+- type: link
+  title: 'Contact'
+  url: '/contact'
+```
 
 ## How these options get used
+***
 
 Now that all our options have been loaded, Orchid will start distributing them to any parts of the build that need them. 
 The basic process goes like this:
@@ -111,5 +149,5 @@ The basic process goes like this:
  render service, etc.). This is how the behavior of the full Orchid program is configured.
  5) Index each generator, passing appropriate options from the `config.{generator key}` (in camelCase)
  6) Generate pages each generator. If the Generator specified a theme as one of its options during the Indexing step, 
- switch to that theme, loading _that_ theme's options in the same manner as in step 3, before renering the pages from 
+ switch to that theme, loading _that_ theme's options in the same manner as in step 3, before rendering the pages from 
  that generator. 
