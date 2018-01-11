@@ -4,20 +4,27 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;
-
-    private String[] formats = new String[]{"config-#{$1}", "config"};
+    private Set<TemplateGlobal> globals;
 
     private JSONObject optionsData;
+
+    @Inject
+    public OptionsServiceImpl(Set<TemplateGlobal> globals) {
+        this.globals = globals;
+    }
 
     @Override
     public void initialize(OrchidContext context) {
@@ -42,45 +49,18 @@ public final class OptionsServiceImpl implements OptionsService {
         if (optionsData == null) {
             optionsData = new JSONObject();
 
-            JSONObject dataFiles = context.getDatafiles("data");
+            JSONObject dataFiles = loadDataFiles();
             if (dataFiles != null) {
-                optionsData.put("data", dataFiles);
-                for (String key : dataFiles.keySet()) {
-                    optionsData.put(key, dataFiles.get(key));
-                }
+                optionsData = OrchidUtils.merge(optionsData, dataFiles);
             }
 
             JSONObject configOptions = loadConfigFile();
             if (configOptions != null) {
-                optionsData.put("config", configOptions);
-                for (String key : configOptions.keySet()) {
-                    optionsData.put(key, configOptions.get(key));
-                }
+                optionsData = OrchidUtils.merge(optionsData, configOptions);
             }
         }
 
         return optionsData;
-    }
-
-    @Override
-    public JSONObject loadConfigFile() {
-        JSONObject allConfig = new JSONObject();
-
-        JSONObject config = context.getDatafile("config");
-        if(config != null) {
-            for(String key : config.keySet()) {
-                allConfig.put(key, config.get(key));
-            }
-        }
-
-        JSONObject envConfig = context.getDatafile("config-" + context.getEnvironment());
-        if(envConfig != null) {
-            for(String key : envConfig.keySet()) {
-                allConfig.put(key, envConfig.get(key));
-            }
-        }
-
-        return allConfig;
     }
 
     @Override
@@ -127,11 +107,30 @@ public final class OptionsServiceImpl implements OptionsService {
             }
         }
 
-        siteData.put("site", context.getSite());
-        siteData.put("index", context.getIndex());
-        siteData.put("options", context.getOptionsData().toMap());
-        siteData.put("theme", context.getTheme());
+        for(TemplateGlobal global : globals) {
+            siteData.put(global.key(), global.get(context));
+        }
 
         return siteData;
+    }
+
+    private JSONObject loadConfigFile() {
+        JSONObject allConfig = new JSONObject();
+
+        JSONObject config = context.getDatafile("config");
+        if(config != null) {
+            allConfig = OrchidUtils.merge(allConfig, config);
+        }
+
+        JSONObject envConfig = context.getDatafile("config-" + context.getEnvironment());
+        if(envConfig != null) {
+            allConfig = OrchidUtils.merge(allConfig, envConfig);
+        }
+
+        return allConfig;
+    }
+
+    private JSONObject loadDataFiles() {
+        return context.getDatafiles("data");
     }
 }

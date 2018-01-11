@@ -24,6 +24,7 @@ theme:
 
 wiki:
   layout: 'wikiPage'
+  includeIndexInPageTitle: true
   sections:
     - 'userManual'
     - 'developersGuide'

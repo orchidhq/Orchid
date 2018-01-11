@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -81,6 +82,8 @@ public final class RenderServiceTest {
 
         page = new OrchidPage(resource, "testContent");
         page = spy(page);
+        page.setPublishDate(LocalDate.now());
+        page.setExpiryDate(LocalDate.now());
         templateResolutionStrategy = mock(TemplateResolutionStrategy.class);
 
         when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
@@ -280,6 +283,35 @@ public final class RenderServiceTest {
         verify(renderer, times(1)).render(any(), any());
     }
 
+    @Test
+    public void testDraftVariableSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setDraft(true);
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+    @Test
+    public void testFuturePublishDateSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setPublishDate(LocalDate.now().plusDays(1));
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+    @Test
+    public void testPastExpiryDateSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setExpiryDate(LocalDate.now().minusDays(1));
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
 
 
 }

@@ -60,7 +60,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
         menuItems.add(OrchidMenuItemImpl(context, menuItemTitle, wikiPagesIndex))
 
         for (item in menuItems) {
-            item.setIndexComparator(menuItemComparator);
+            item.setIndexComparator(menuItemComparator)
         }
 
         if (topLevel) {
@@ -81,44 +81,24 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
     }
 
     private var menuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
-        var o1Order = 0
-        var o2Order = 0
+        var o1WikiPage = getWikiPageFromMenuItem(o1)
+        var o2WikiPage = getWikiPageFromMenuItem(o2)
 
-        if (o1.page != null) {
-            if (o1.page is WikiPage) {
-                o1Order = (o1.page as WikiPage).order
-            }
+        var o1Order = if(o1WikiPage != null) o1WikiPage.order else 0
+        var o2Order = if(o2WikiPage != null) o2WikiPage.order else 0
+
+        o1Order.compareTo(o2Order)
+    }
+
+    private fun getWikiPageFromMenuItem(item: OrchidMenuItemImpl): WikiPage? {
+        if(item.page != null && item.page is WikiPage) {
+            return item.page as WikiPage
         }
-        if (o2.page != null) {
-            if (o2.page is WikiPage) {
-                o2Order = (o2.page as WikiPage).order
-            }
+        else if(item.children.isNotEmpty() && item.children.first() != null && item.children.first().page is WikiPage){
+            return item.children.first().page as WikiPage
         }
-
-        if (o1Order > 0 && o2Order > 0) {
-            o1Order - o2Order
-        } else {
-            if (o1.isHasChildren) {
-                if (o1.children.size > 0 && o1.children[0] != null && o1.children[0].page != null) {
-                    if (o1.children[0].page is WikiPage) {
-                        o1Order = (o1.children[0].page as WikiPage).order
-                    }
-                }
-            }
-            if (o2.isHasChildren) {
-                if (o2.children.size > 0 && o2.children[0] != null && o2.children[0].page != null) {
-                    if (o2.children[0].page is WikiPage) {
-                        o2Order = (o2.children[0].page as WikiPage).order
-                    }
-                }
-            }
-
-            if (o1Order > 0 && o2Order > 0) {
-                o1Order - o2Order
-            }
-        }
-
-        0
+        
+        return null
     }
 
 

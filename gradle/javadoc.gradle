@@ -47,7 +47,7 @@ artifacts {
 }
 
 task prepareDocumentation {
-    dependsOn 'javadoc'
+    mustRunAfter 'javadoc', 'orchidBuild'
 
     def source       = file("$buildDir/docs/orchid")
     def dest_latest  = file("${rootProject.buildDir}/orchid/docs/latest/${project.name}")
@@ -70,3 +70,11 @@ task prepareDocumentation {
 }
 
 rootProject.tasks.prepareDocumentation.dependsOn project.tasks.prepareDocumentation
+
+if(project.sourceSets.main.allJava.files?.empty) {
+    project.tasks.assemble.dependsOn orchidBuild
+    project.tasks.orchidBuild.mustRunAfter javadoc
+    project.tasks.orchidBuild.onlyIf {
+        !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) && !project.orchid.noJavadoc
+    }
+}

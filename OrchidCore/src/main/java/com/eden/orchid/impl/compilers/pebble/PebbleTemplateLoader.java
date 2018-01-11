@@ -40,6 +40,8 @@ public class PebbleTemplateLoader implements Loader<String> {
 
     @Override
     public Reader getReader(String templateName) throws LoaderException {
+        templateName = templateName.replaceAll("::.*::", "");
+
         boolean ignoreMissing = false;
 
         if(templateName.startsWith("?")) {
@@ -85,7 +87,7 @@ public class PebbleTemplateLoader implements Loader<String> {
 
     @Override
     public String createCacheKey(String templateName) {
-        return templateName;
+        return "::" + context.getTheme().getKey() + "::" + templateName;
     }
 
     public String getPrefix() {

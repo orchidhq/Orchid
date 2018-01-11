@@ -24,6 +24,7 @@ import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,11 +51,14 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter @Option protected String layout;
     @Setter @Option protected String[] templates;
 
-    @Getter
-    @Setter
-    @Option
-    @BooleanDefault(false)
+    @Setter @Option @BooleanDefault(false)
     protected boolean draft;
+
+    @Setter @Option
+    protected LocalDate publishDate;
+
+    @Setter @Option
+    protected LocalDate expiryDate;
 
     @Getter @Setter @Option protected String[] extraCss;
     @Getter @Setter @Option protected String[] extraJs;
@@ -138,6 +142,10 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         Collections.addAll(templates, this.templates);
 
         return templates;
+    }
+
+    public boolean isDraft() {
+        return draft || publishDate.isAfter(LocalDate.now()) || expiryDate.isBefore(LocalDate.now());
     }
 
 // Serialize/deserialize from JSON

@@ -20,10 +20,6 @@ public interface OptionsService extends OrchidService {
         return getService(OptionsService.class).loadOptions();
     }
 
-    default JSONObject loadConfigFile() {
-        return getService(OptionsService.class).loadConfigFile();
-    }
-
     default JSONElement query(String pointer) {
         return getService(OptionsService.class).query(pointer);
     }

@@ -10,9 +10,14 @@
 * [Menus](building-blocks/menus.md)
 * [Components](building-blocks/components.md)
 
+## Configuration 
+
+* [Directory Structure](configuration/directory-structure.md)
+* [Site Configuration](configuration/site-config.md)
+* [Page Configuration](configuration/page-config.md)
+
 ## Writing Content
 
-* [Front Matter](content/front-matter.md)
 * [Writing Pages](content/writing-pages.md)
 * [Compiling Pages](content/compiling-pages.md)
 * [Drafts](content/drafts.md)
@@ -21,17 +26,10 @@
 * [Wikis](content/wikis.md)
 * [Assets](content/assets.md)
 
-## Configuration 
-
-* [Directory Structure](configuration/directory-structure.md)
-* [Site Configuration](configuration/site-config.md)
-* [Page Configuration](configuration/page-config.md)
-* [Advanced Customization](configuration/advanced-customization.md)
-
 ## Personalization
 
-* [Templating with Pebble](personalization/pebble.md)
 * [Themes](personalization/themes.md)
+* [Templating with Pebble](personalization/pebble.md)
 * [Overriding Theme Templates](personalization/theme-overrides.md)
 * [Layouts](personalization/layouts.md)
 * [Page Templates](personalization/page-templates.md)
