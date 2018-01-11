@@ -17,6 +17,7 @@ import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.generators.GeneratorServiceImpl;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
+import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionValidator;
 import com.eden.orchid.api.options.OptionsService;
@@ -35,6 +36,10 @@ import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
+import com.eden.orchid.api.options.globals.ConfigGlobal;
+import com.eden.orchid.api.options.globals.IndexGlobal;
+import com.eden.orchid.api.options.globals.SiteGlobal;
+import com.eden.orchid.api.options.globals.ThemeGlobal;
 import com.eden.orchid.api.options.validators.StringExistsValidator;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
@@ -108,6 +113,12 @@ public final class ApiModule extends OrchidModule {
         // OptionsValidators
         addToSet(OptionValidator.class,
                 StringExistsValidator.class);
+
+        addToSet(TemplateGlobal.class,
+                ConfigGlobal.class,
+                IndexGlobal.class,
+                SiteGlobal.class,
+                ThemeGlobal.class);
     }
 
     @Provides

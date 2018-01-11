@@ -8,15 +8,23 @@ import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;
+    private Set<TemplateGlobal> globals;
 
     private JSONObject optionsData;
+
+    @Inject
+    public OptionsServiceImpl(Set<TemplateGlobal> globals) {
+        this.globals = globals;
+    }
 
     @Override
     public void initialize(OrchidContext context) {
@@ -99,10 +107,9 @@ public final class OptionsServiceImpl implements OptionsService {
             }
         }
 
-        siteData.put("site", context.getSite());
-        siteData.put("theme", context.getTheme());
-        siteData.put("config", context.getOptionsData().toMap());
-        siteData.put("index", context.getIndex());
+        for(TemplateGlobal global : globals) {
+            siteData.put(global.key(), global.get(context));
+        }
 
         return siteData;
     }
