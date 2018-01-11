@@ -283,6 +283,35 @@ public final class RenderServiceTest {
         verify(renderer, times(1)).render(any(), any());
     }
 
+    @Test
+    public void testDraftVariableSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setDraft(true);
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+    @Test
+    public void testFuturePublishDateSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setPublishDate(LocalDate.now().plusDays(1));
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
+
+    @Test
+    public void testPastExpiryDateSkipped() throws Throwable {
+        assertThat(service.skipPage(page), is(false));
+        page.setExpiryDate(LocalDate.now().minusDays(1));
+        assertThat(service.skipPage(page), is(true));
+
+        assertThat(underTest.renderBinary(page), is(false));
+        verify(renderer, never()).render(any(), any());
+    }
 
 
 }
