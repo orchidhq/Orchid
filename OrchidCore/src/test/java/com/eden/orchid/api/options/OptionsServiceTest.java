@@ -7,6 +7,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.mockito.Mockito.*;
 
 @Test(groups={"services", "unit"}, dependsOnGroups = {"options"})
@@ -17,6 +20,7 @@ public final class OptionsServiceTest {
         Clog.setMinPriority(Clog.Priority.FATAL);
     }
 
+    private Set<TemplateGlobal> globals;
     private OrchidContext context;
     private OptionsService underTest;
     private OptionsServiceImpl service;
@@ -26,7 +30,8 @@ public final class OptionsServiceTest {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new OptionsServiceImpl();
+        globals = new HashSet<>();
+        service = new OptionsServiceImpl(globals);
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
