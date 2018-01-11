@@ -10,7 +10,6 @@ fashion.
 > following bundles:
 > 
 > * OrchidAll
-> * OrchidProduct
 
 {.alert .alert-info}
 
@@ -69,9 +68,6 @@ which produces the following output:
 }
 @endsalt
 {% endfilter %}
-
-
-
 
 The content of those wiki pages can be anything, and can be written in any language as long as there is a Compiler for 
 it (just like any other page). Orchid also creates a new menu item type which links to every page in the wiki and is 

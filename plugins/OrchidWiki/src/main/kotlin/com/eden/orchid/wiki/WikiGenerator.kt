@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -35,6 +36,9 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
 
     @Option
     lateinit var sections: Array<String>
+
+    @Option @BooleanDefault(true)
+    var includeIndexInPageTitle: Boolean = true
 
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
@@ -108,7 +112,9 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
                 resource = StringResource(context, path + File.separator + "index.md", a.text())
             }
 
-            val page = WikiPage(resource, a.text(), i)
+            val pageTitle = if(includeIndexInPageTitle) "${i+1}. " + a.text() else a.text()
+
+            val page = WikiPage(resource, pageTitle, i)
 
             page.menu.addMenuItem(pageMenuItem)
 

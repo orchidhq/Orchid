@@ -17,9 +17,9 @@ included from a plugin and code that is included locally, which removes the burd
 common for many frameworks, and allows you to create closed-source Orchid plugins for your private use. 
 
 > Note that Orchid is licensed under the GNU Lesser General Public License v3 (LGPL-3.0), so any modifications to the
-> core and any plugins intended for distribution must be open-sourced under the LGPL, but you are free to include Orchid
-> as a library in your private or proprietary projects or create closed-source Orchid plugins for private use without
-> having to disclose your source code.
+> core and any plugins intended for distribution must be open-sourced under the LGPL. However, you are free to include 
+> Orchid as a library in your private or proprietary projects or create closed-source Orchid plugins for private use 
+> without having to disclose your source code.
 
 {.alert .alert-info}
 
