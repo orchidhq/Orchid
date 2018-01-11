@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -81,6 +82,8 @@ public final class RenderServiceTest {
 
         page = new OrchidPage(resource, "testContent");
         page = spy(page);
+        page.setPublishDate(LocalDate.now());
+        page.setExpiryDate(LocalDate.now());
         templateResolutionStrategy = mock(TemplateResolutionStrategy.class);
 
         when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
