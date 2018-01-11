@@ -6,7 +6,7 @@
                      style="transform: scaleX(-1); filter: FlipH; object-fit: cover; width: 100%">
             </div>
             <a><span class="white-text name">{{ page.title }}</span></a>
-            <a><span class="white-text email">{{ options.about.name }}</span></a>
+            <a><span class="white-text email">{{ theme.about.name }}</span></a>
         </div>
     </li>
 
