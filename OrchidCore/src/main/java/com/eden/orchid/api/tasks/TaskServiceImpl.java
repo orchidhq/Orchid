@@ -6,9 +6,14 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.IntDefault;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
 import com.google.inject.name.Named;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,6 +33,14 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     private final String task;
     private final String resourcesDir;
 
+    private long lastBuild;
+    private boolean isBuilding;
+
+    @Getter @Setter
+    @Option @IntDefault(5)
+    @Description("The minimum time, in seconds, to wait in between builds.")
+    private int watchDebounceTimeout;
+
     @Inject
     public TaskServiceImpl(
             Set<OrchidTask> tasks,
@@ -42,6 +55,9 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
         this.task = task;
         this.resourcesDir = resourcesDir;
+
+        this.lastBuild = 0;
+        this.isBuilding = false;
     }
 
     @Override
@@ -76,22 +92,36 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void build() {
-        context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
-        Clog.i("Build Starting...");
+        if (!isBuilding) {
+            long secondsSinceLastBuild = (System.currentTimeMillis() - lastBuild)/1000;
 
-        context.clearOptions();
-        context.loadOptions();
+            if(secondsSinceLastBuild > watchDebounceTimeout) {
+                isBuilding = true;
+                context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
+                Clog.i("Build Starting...");
 
-        context.clearThemes();
-        context.pushTheme(context.getDefaultTheme());
+                context.clearOptions();
+                context.loadOptions();
 
-        context.extractServiceOptions();
+                context.clearThemes();
+                context.pushTheme(context.getDefaultTheme());
 
-        context.startIndexing();
-        context.startGeneration();
+                context.extractServiceOptions();
 
-        context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
-        Clog.i("Build Complete");
+                context.startIndexing();
+                context.startGeneration();
+
+                context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
+
+                lastBuild = System.currentTimeMillis();
+                isBuilding = false;
+
+                Clog.i("Build Complete");
+            }
+        }
+        else {
+            Clog.e("Build already in progress, skipping.");
+        }
     }
 
     @Override
