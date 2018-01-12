@@ -60,7 +60,7 @@ jobs:
         - provider: pages
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
-          local_dir: ${TRAVIS_BUILD_DIR}/build/orchid/docs
+          local_dir: build/orchid/docs
           target_branch: pages
 
 stages:
