@@ -53,11 +53,8 @@ task prepareDocumentation {
     def dest_latest  = file("${rootProject.buildDir}/orchid/docs/latest/${project.name}")
     def dest_version = file("${rootProject.buildDir}/orchid/docs/${project.version}/${project.name}")
 
-    inputs.dir(source)
-    outputs.dir(dest_latest)
-    outputs.dir(dest_version)
-
     doLast {
+        println source
         copy {
             from source
             into dest_latest

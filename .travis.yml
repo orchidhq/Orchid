@@ -17,26 +17,17 @@ branches:
 
 jobs:
   include:
-    - os: linux
-      jdk: openjdk8
+    - &test
       install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
       script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
-    - os: linux
-      jdk: oraclejdk8
-      install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
-      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
-    - os: osx
-      osx_image: xcode8.3
-      install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
-      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
-
-    - stage: upload test results
       os: linux
       jdk: openjdk8
-      install: ./gradlew assemble
-      script: ./gradlew check
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
+    - <<: *test
+      os: linux
+      jdk: oraclejdk8
+    - <<: *test
+      os: osx
+      osx_image: xcode8.3
 
     - stage: release
       os: linux
@@ -44,6 +35,7 @@ jobs:
       install: ./gradlew assemble -Penv=prod -Prelease
       script: ./gradlew deploy -Penv=prod -Prelease
       after_success:
+        - bash <(curl -s https://codecov.io/bash)
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
         - ./gradlew tag -Prelease
@@ -65,7 +57,6 @@ jobs:
 
 stages:
   - test
-  - upload test results
   - name: release
     if: branch = master AND tag IS blank AND type IN (push)
 
