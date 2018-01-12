@@ -4,7 +4,3 @@ dependencies {
     orchidCompile project(":themes:Orchid${project.ext.commonTheme}") // theme lib
     orchidCompile rootProject.ext.pluginProjects // all plugin libs
 }
-
-tasks.jar {
-    dependsOn ':OrchidCore:jar', ":themes:Orchid${project.ext.commonTheme}:jar"
-}

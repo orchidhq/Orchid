@@ -74,6 +74,14 @@ task prepareDocumentation {
 task archiveDocumentation(type: Zip) {
     mustRunAfter prepareDocumentation
     from "${rootProject.buildDir}/orchid/docs/${project.version}"
+
+    def versionFilename = project.version.toString().replaceAll("\\.", "_") + ".md"
+    def fullVersionFilename = "$projectDir/OrchidCore/src/orchid/resources/changelog/$versionFilename"
+    def versionFile = file(fullVersionFilename)
+    if(versionFile.exists()) {
+        from versionFile
+    }
+
     include '**/*'
     archiveName "docs-${project.version}.zip"
     destinationDir(file("$buildDir/orchid/archives"))
