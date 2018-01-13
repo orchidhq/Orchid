@@ -1,33 +1,26 @@
 package com.eden.orchid.impl.compilers.pebble;
 
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.extension.Extension;
-import com.mitchellbosecke.pebble.extension.Filter;
-import com.mitchellbosecke.pebble.extension.Function;
 import com.mitchellbosecke.pebble.extension.NodeVisitorFactory;
-import com.mitchellbosecke.pebble.extension.Test;
 import com.mitchellbosecke.pebble.lexer.LexerImpl;
 import com.mitchellbosecke.pebble.lexer.TokenStream;
 import com.mitchellbosecke.pebble.node.RootNode;
-import com.mitchellbosecke.pebble.operator.BinaryOperator;
-import com.mitchellbosecke.pebble.operator.UnaryOperator;
 import com.mitchellbosecke.pebble.parser.Parser;
 import com.mitchellbosecke.pebble.parser.ParserImpl;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
-import com.mitchellbosecke.pebble.tokenParser.TokenParser;
-import org.jtwig.functions.JtwigFunction;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -36,59 +29,23 @@ import java.util.concurrent.Executors;
 @Singleton
 public final class PebbleCompiler extends OrchidCompiler implements OrchidEventListener {
 
+    private Provider<OrchidContext> contextProvider;
     private ExecutorService executor;
     private PebbleEngine engine;
 
     @Inject
-    public PebbleCompiler(PebbleTemplateLoader loader, Set<JtwigFunction> filters) {
+    public PebbleCompiler(Provider<OrchidContext> contextProvider, PebbleTemplateLoader loader, Set<Extension> extensions) {
         super(10000);
 
-        executor = Executors.newFixedThreadPool(10);
+        Extension[] extensionArray = new Extension[extensions.size()];
+        extensions.toArray(extensionArray);
 
-        engine = new PebbleEngine.Builder()
+        this.contextProvider = contextProvider;
+        this.executor = Executors.newFixedThreadPool(10);
+        this.engine = new PebbleEngine.Builder()
                 .loader(loader)
                 .executorService(executor)
-                .extension(new Extension() {
-                    @Override public Map<String, Filter> getFilters() {
-                        Map<String, Filter> filterMap = new HashMap<>();
-
-                        for (JtwigFunction function : filters) {
-                            if (function instanceof Filter) {
-                                filterMap.put(function.name(), (Filter) function);
-                            }
-                        }
-
-                        return filterMap;
-                    }
-
-                    @Override public Map<String, Test> getTests() {
-                        return null;
-                    }
-
-                    @Override public Map<String, Function> getFunctions() {
-                        return null;
-                    }
-
-                    @Override public List<TokenParser> getTokenParsers() {
-                        return null;
-                    }
-
-                    @Override public List<BinaryOperator> getBinaryOperators() {
-                        return null;
-                    }
-
-                    @Override public List<UnaryOperator> getUnaryOperators() {
-                        return null;
-                    }
-
-                    @Override public Map<String, Object> getGlobalVariables() {
-                        return null;
-                    }
-
-                    @Override public List<NodeVisitorFactory> getNodeVisitors() {
-                        return null;
-                    }
-                })
+                .extension(extensionArray)
                 .build();
     }
 

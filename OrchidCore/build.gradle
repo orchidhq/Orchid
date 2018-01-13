@@ -24,15 +24,23 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:3.9.1'
     api 'commons-io:commons-io:2.6'
 
-    // Included parsers: JSON, YAML, TOML, CSV, Twig, Pebble, Markdown, Sass
+    // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api 'org.json:json:20171018'
     api 'org.yaml:snakeyaml:1.19'
     api 'com.moandjiezana.toml:toml4j:0.7.2'
     api 'com.mitchellbosecke:pebble:2.4.0'
-    api 'org.jtwig:jtwig-core:5.86.1.RELEASE'
-    api 'com.vladsch.flexmark:flexmark-all:0.28.26'
     api 'io.bit3:jsass:5.5.4'
     api 'com.univocity:univocity-parsers:2.5.9'
+
+    // Flexmark extensions
+    def flexmarkVersion = '0.28.26'
+    api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
+    implementation "com.vladsch.flexmark:flexmark-ext-aside:$flexmarkVersion"
+    implementation "com.vladsch.flexmark:flexmark-ext-attributes:$flexmarkVersion"
+    implementation "com.vladsch.flexmark:flexmark-ext-enumerated-reference:$flexmarkVersion"
+    implementation "com.vladsch.flexmark:flexmark-ext-gfm-tables:$flexmarkVersion"
+    implementation "com.vladsch.flexmark:flexmark-ext-gfm-tasklist:$flexmarkVersion"
+    implementation "com.vladsch.flexmark:flexmark-ext-toc:$flexmarkVersion"
 
     // server
     api 'org.nanohttpd:nanohttpd:2.3.1'

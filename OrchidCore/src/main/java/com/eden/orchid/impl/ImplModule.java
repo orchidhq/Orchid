@@ -80,6 +80,7 @@ public final class ImplModule extends OrchidModule {
                 SassCompiler.class,
                 TextCompiler.class);
 
+        // Parsers
         addToSet(OrchidParser.class,
                 CSVParser.class,
                 YamlParser.class,
