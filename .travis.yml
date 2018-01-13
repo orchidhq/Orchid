@@ -15,11 +15,13 @@ branches:
     - master
     - dev
 
+&test:
+  install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+  script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
+
 jobs:
   include:
-    - &test
-      install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
-      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
+    - <<: *test
       os: linux
       jdk: openjdk8
     - <<: *test
