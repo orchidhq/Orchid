@@ -15,19 +15,18 @@ branches:
     - master
     - dev
 
-&test:
-  install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
-  script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
-
 jobs:
   include:
-    - <<: *test
+    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: linux
       jdk: openjdk8
-    - <<: *test
+    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: linux
       jdk: oraclejdk8
-    - <<: *test
+    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: osx
       osx_image: xcode8.3
 
