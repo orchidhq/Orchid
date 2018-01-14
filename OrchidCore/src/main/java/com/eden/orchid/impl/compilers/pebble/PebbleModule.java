@@ -1,6 +1,8 @@
 package com.eden.orchid.impl.compilers.pebble;
 
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.compilers.TemplateTag;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.impl.compilers.templateFunctions.AlertFunction;
 import com.eden.orchid.impl.compilers.templateFunctions.CompileAsFunction;
@@ -17,8 +19,15 @@ public final class PebbleModule extends OrchidModule {
                 CompileAsFunction.class,
                 FindTemplateFunction.class);
 
+        // Template Tags
+        addToSet(TemplateTag.class);
+
         // Pebble Extensions
         addToSet(Extension.class,
-                PebbleFunctionsExtension.class);
+                PebbleFunctionsExtension.class,
+                PebbleTagsExtension.class);
+
+        addToSet(OrchidEventListener.class,
+                PebbleCompiler.class);
     }
 }

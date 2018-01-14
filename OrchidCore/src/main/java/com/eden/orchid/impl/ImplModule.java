@@ -49,14 +49,9 @@ import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.utilities.ClogSpells;
-import com.google.inject.multibindings.Multibinder;
 
 @IgnoreModule
 public final class ImplModule extends OrchidModule {
-
-    private static final Class[] optionalSets = new Class[]{
-            OrchidService.class
-    };
 
     @Override
     protected void configure() {
@@ -65,13 +60,15 @@ public final class ImplModule extends OrchidModule {
         addToSet(Theme.class, DefaultTheme.class);
         addToSet(AdminTheme.class, DefaultAdminTheme.class);
 
-        for (Class<?> defaultSet : optionalSets) {
-            Multibinder.newSetBinder(binder(), defaultSet);
-        }
+        // prepare empty sets for binding
+        addToSet(OrchidService.class);
 
         // Resource Sources
-        addToSet(FileResourceSource.class, LocalFileResourceSource.class);
-        addToSet(PluginResourceSource.class, CoreResourceSource.class);
+        addToSet(FileResourceSource.class,
+                LocalFileResourceSource.class);
+
+        addToSet(PluginResourceSource.class,
+                CoreResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,
@@ -119,8 +116,7 @@ public final class ImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
-                TaskServiceImpl.class,
-                PebbleCompiler.class);
+                TaskServiceImpl.class);
 
         addToSet(OrchidController.class,
                 AdminController.class);
