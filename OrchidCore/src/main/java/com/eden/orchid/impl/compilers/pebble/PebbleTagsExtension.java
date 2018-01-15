@@ -30,7 +30,7 @@ public final class PebbleTagsExtension extends AbstractPebbleExtension {
             tokenParsers.add(new PebbleWrapperTemplateTag(
                     contextProvider,
                     templateTag.getName(),
-                    templateTag.getDefaultParameter(),
+                    templateTag.parameters(),
                     templateTag.hasContent(),
                     templateTag.getClass()
             ));

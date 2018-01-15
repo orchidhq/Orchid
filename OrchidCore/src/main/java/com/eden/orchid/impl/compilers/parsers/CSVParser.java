@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.compilers.csv;
+package com.eden.orchid.impl.compilers.parsers;
 
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.univocity.parsers.csv.CsvParser;

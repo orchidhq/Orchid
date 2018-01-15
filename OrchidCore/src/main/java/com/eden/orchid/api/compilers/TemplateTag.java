@@ -11,18 +11,16 @@ public abstract class TemplateTag implements OptionsHolder {
     private final String name;
 
     @Getter
-    private final String defaultParameter;
-
-    @Getter
     @Accessors(fluent = true)
     private final boolean hasContent;
 
     @Getter @Setter
     private String content;
 
-    public TemplateTag(String name, String defaultParameter, boolean hasContent) {
+    public TemplateTag(String name, boolean hasContent) {
         this.name = name;
-        this.defaultParameter = defaultParameter;
         this.hasContent = hasContent;
     }
+
+    public abstract String[] parameters();
 }

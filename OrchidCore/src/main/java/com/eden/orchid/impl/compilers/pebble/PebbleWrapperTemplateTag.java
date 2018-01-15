@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.compilers.pebble;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.OptionsExtractor;
@@ -37,19 +38,19 @@ public class PebbleWrapperTemplateTag implements TokenParser {
 
     private final Provider<OrchidContext> contextProvider;
     private final String name;
-    private final String defaultParameter;
+    private final String[] parameters;
     private final boolean hasContent;
     private final Class<? extends TemplateTag> tagClass;
 
     public PebbleWrapperTemplateTag(
             Provider<OrchidContext> contextProvider,
             String name,
-            String defaultParameter,
+            String[] parameters,
             boolean hasContent,
             Class<? extends TemplateTag> tagClass) {
         this.contextProvider = contextProvider;
         this.name = name.toLowerCase();
-        this.defaultParameter = defaultParameter;
+        this.parameters = parameters;
         this.hasContent = hasContent;
         this.tagClass = tagClass;
     }
@@ -88,39 +89,42 @@ public class PebbleWrapperTemplateTag implements TokenParser {
 
         // parameter expressions will be added here
         Map<String, Expression<?>> paramExpressionMap = new HashMap<>();
+        if(!isParameterEnd(stream)) {
+            if (stream.current().test(Token.Type.NAME)) {
+                // parse parameters as map of key=value pairs
+                while (!isParameterEnd(stream)) {
+                    Token paramNameToken = stream.expect(Token.Type.NAME);
 
-        if(stream.current().test(Token.Type.EXECUTE_END)) {
-            // at end, just complete now
-        }
-        else if(stream.current().test(Token.Type.PUNCTUATION, ":")) {
-            // starting filter, end now
-        }
-        else if(stream.current().test(Token.Type.NAME)) {
-            // parse map of key=value pairs
-            while (!stream.current().test(Token.Type.EXECUTE_END) && !stream.current().test(Token.Type.PUNCTUATION, ":")) {
-                Token paramNameToken = stream.expect(Token.Type.NAME);
+                    Optional<String> foundKey = remainingParameters.stream().filter(key -> key.equalsIgnoreCase(paramNameToken.getValue())).findAny();
 
-                Optional<String> foundKey = remainingParameters.stream().filter(key -> key.equalsIgnoreCase(paramNameToken.getValue())).findAny();
-
-                if (foundKey.isPresent()) {
-                    String paramKey = foundKey.get();
-                    remainingParameters.remove(paramKey);
-                    stream.expect(Token.Type.PUNCTUATION, "=");
-                    Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
-                    paramExpressionMap.put(paramKey, parsedExpression);
+                    if (foundKey.isPresent()) {
+                        String paramKey = foundKey.get();
+                        remainingParameters.remove(paramKey);
+                        stream.expect(Token.Type.PUNCTUATION, "=");
+                        Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
+                        paramExpressionMap.put(paramKey, parsedExpression);
+                    }
+                    else {
+                        throw new ParserException(null, Clog.format("Could not parse parameter {}.", paramNameToken.getValue()), stream.current().getLineNumber(), "");
+                    }
                 }
-                else {
-                    throw new ParserException(null, Clog.format("Could not parse parameter {}.", paramNameToken.getValue()), stream.current().getLineNumber(), "");
+            }
+            else {
+                // parse the parameters sequentially
+                int i = 0;
+                while (i < parameters.length && !isParameterEnd(stream)) {
+                    Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
+                    paramExpressionMap.put(parameters[i], parsedExpression);
+                    i++;
                 }
             }
         }
-        else  {
-            // parse the default parameter
-            Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
-            paramExpressionMap.put(defaultParameter, parsedExpression);
-        }
 
         return paramExpressionMap;
+    }
+
+    private boolean isParameterEnd(TokenStream stream) {
+        return stream.current().test(Token.Type.EXECUTE_END) || stream.current().test(Token.Type.PUNCTUATION, ":");
     }
 
     private Expression<?> parseBody(TokenStream stream, Parser parser) throws ParserException {
@@ -181,8 +185,10 @@ public class PebbleWrapperTemplateTag implements TokenParser {
                 evaluatedParamExpressionMap.put(entry.getKey(), entry.getValue().evaluate(self, context));
             }
 
+            String bodyContent = null;
+
             if(tagBodyExpression != null) {
-                String bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context));
+                bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context));
                 freshTag.setContent(bodyContent);
                 evaluatedParamExpressionMap.put("content", bodyContent);
             }
@@ -193,7 +199,14 @@ public class PebbleWrapperTemplateTag implements TokenParser {
             Map<String, Object> templateArgs = new HashMap<>();
             templateArgs.put("tag", freshTag);
 
-            self.includeTemplate(writer, context, "tags/" + name, templateArgs);
+            try {
+                self.includeTemplate(writer, context, "tags/" + name, templateArgs);
+            }
+            catch (Exception e) {
+                if(!EdenUtils.isEmpty(bodyContent)) {
+                    writer.append(bodyContent);
+                }
+            }
         }
 
         @Override
