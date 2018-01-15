@@ -22,9 +22,9 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
+import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
@@ -50,9 +50,9 @@ import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
-import com.eden.orchid.impl.themes.templateFunctions.AlertFunction;
 import com.eden.orchid.impl.themes.templateFunctions.CompileAsFunction;
 import com.eden.orchid.impl.themes.templateFunctions.FindTemplateFunction;
+import com.eden.orchid.impl.themes.templateTags.AlertTag;
 import com.eden.orchid.utilities.ClogSpells;
 
 @IgnoreModule
@@ -132,12 +132,12 @@ public final class ImplModule extends OrchidModule {
 
         // Template Functions
         addToSet(TemplateFunction.class,
-                AlertFunction.class,
                 CompileAsFunction.class,
                 FindTemplateFunction.class);
 
         // Template Tags
-        addToSet(TemplateTag.class);
+        addToSet(TemplateTag.class,
+                AlertTag.class);
 
         ClogFormatter formatter = Clog.getFormatter();
         if (formatter instanceof Parseltongue) {

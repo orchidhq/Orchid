@@ -188,7 +188,7 @@ public class PebbleWrapperTemplateTag implements TokenParser {
             String bodyContent = null;
 
             if(tagBodyExpression != null) {
-                bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context));
+                bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context)).trim();
                 freshTag.setContent(bodyContent);
                 evaluatedParamExpressionMap.put("content", bodyContent);
             }
