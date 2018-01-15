@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.compilers.templateFunctions;
+package com.eden.orchid.impl.themes.templateFunctions;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;

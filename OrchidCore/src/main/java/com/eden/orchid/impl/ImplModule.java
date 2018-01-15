@@ -7,6 +7,8 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
+import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.registration.IgnoreModule;
@@ -48,6 +50,9 @@ import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.impl.themes.templateFunctions.AlertFunction;
+import com.eden.orchid.impl.themes.templateFunctions.CompileAsFunction;
+import com.eden.orchid.impl.themes.templateFunctions.FindTemplateFunction;
 import com.eden.orchid.utilities.ClogSpells;
 
 @IgnoreModule
@@ -57,11 +62,15 @@ public final class ImplModule extends OrchidModule {
     protected void configure() {
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
 
-        addToSet(Theme.class, DefaultTheme.class);
-        addToSet(AdminTheme.class, DefaultAdminTheme.class);
-
         // prepare empty sets for binding
         addToSet(OrchidService.class);
+
+        // Themes
+        addToSet(Theme.class,
+                DefaultTheme.class);
+
+        addToSet(AdminTheme.class,
+                DefaultAdminTheme.class);
 
         // Resource Sources
         addToSet(FileResourceSource.class,
@@ -120,6 +129,15 @@ public final class ImplModule extends OrchidModule {
 
         addToSet(OrchidController.class,
                 AdminController.class);
+
+        // Template Functions
+        addToSet(TemplateFunction.class,
+                AlertFunction.class,
+                CompileAsFunction.class,
+                FindTemplateFunction.class);
+
+        // Template Tags
+        addToSet(TemplateTag.class);
 
         ClogFormatter formatter = Clog.getFormatter();
         if (formatter instanceof Parseltongue) {

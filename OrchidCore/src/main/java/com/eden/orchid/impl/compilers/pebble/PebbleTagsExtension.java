@@ -31,6 +31,7 @@ public final class PebbleTagsExtension extends AbstractPebbleExtension {
                     contextProvider,
                     templateTag.getName(),
                     templateTag.getDefaultParameter(),
+                    templateTag.hasContent(),
                     templateTag.getClass()
             ));
         }

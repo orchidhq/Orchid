@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.compilers.templateFunctions;
+package com.eden.orchid.impl.themes.templateFunctions;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
