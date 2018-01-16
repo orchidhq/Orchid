@@ -17,15 +17,16 @@ branches:
 
 jobs:
   include:
-    - &test
-      install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
       script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: linux
       jdk: openjdk8
-    - <<: *test
+    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: linux
       jdk: oraclejdk8
-    - <<: *test
+    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: osx
       osx_image: xcode8.3
 
@@ -53,7 +54,7 @@ jobs:
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
           local_dir: build/orchid/docs
-          target_branch: pages
+          target_branch: gh-pages
 
 stages:
   - test

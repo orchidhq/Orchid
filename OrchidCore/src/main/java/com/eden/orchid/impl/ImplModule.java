@@ -7,6 +7,8 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
+import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.registration.IgnoreModule;
@@ -20,9 +22,9 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.impl.compilers.csv.CSVParser;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
+import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
 import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
@@ -48,30 +50,34 @@ import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.impl.themes.templateFunctions.CompileAsFunction;
+import com.eden.orchid.impl.themes.templateFunctions.FindTemplateFunction;
+import com.eden.orchid.impl.themes.templateTags.AlertTag;
 import com.eden.orchid.utilities.ClogSpells;
-import com.google.inject.multibindings.Multibinder;
 
 @IgnoreModule
 public final class ImplModule extends OrchidModule {
-
-    private static final Class[] optionalSets = new Class[]{
-            OrchidService.class
-    };
 
     @Override
     protected void configure() {
         bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
 
-        addToSet(Theme.class, DefaultTheme.class);
-        addToSet(AdminTheme.class, DefaultAdminTheme.class);
+        // prepare empty sets for binding
+        addToSet(OrchidService.class);
 
-        for (Class<?> defaultSet : optionalSets) {
-            Multibinder.newSetBinder(binder(), defaultSet);
-        }
+        // Themes
+        addToSet(Theme.class,
+                DefaultTheme.class);
+
+        addToSet(AdminTheme.class,
+                DefaultAdminTheme.class);
 
         // Resource Sources
-        addToSet(FileResourceSource.class, LocalFileResourceSource.class);
-        addToSet(PluginResourceSource.class, CoreResourceSource.class);
+        addToSet(FileResourceSource.class,
+                LocalFileResourceSource.class);
+
+        addToSet(PluginResourceSource.class,
+                CoreResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,
@@ -80,6 +86,7 @@ public final class ImplModule extends OrchidModule {
                 SassCompiler.class,
                 TextCompiler.class);
 
+        // Parsers
         addToSet(OrchidParser.class,
                 CSVParser.class,
                 YamlParser.class,
@@ -118,11 +125,19 @@ public final class ImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
-                TaskServiceImpl.class,
-                PebbleCompiler.class);
+                TaskServiceImpl.class);
 
         addToSet(OrchidController.class,
                 AdminController.class);
+
+        // Template Functions
+        addToSet(TemplateFunction.class,
+                CompileAsFunction.class,
+                FindTemplateFunction.class);
+
+        // Template Tags
+        addToSet(TemplateTag.class,
+                AlertTag.class);
 
         ClogFormatter formatter = Clog.getFormatter();
         if (formatter instanceof Parseltongue) {

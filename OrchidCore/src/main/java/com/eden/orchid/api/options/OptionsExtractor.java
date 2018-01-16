@@ -105,6 +105,22 @@ public class OptionsExtractor {
         return optionDescriptions;
     }
 
+    public List<String> getOptionNames(Class<?> optionsHolderClass) {
+        EdenPair<Field, Set<Field>> fields = findOptionFields(optionsHolderClass);
+
+        List<String> optionNames = new ArrayList<>();
+
+        for (Field field : fields.second) {
+            String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                    ? field.getAnnotation(Option.class).value()
+                    : field.getName();
+
+            optionNames.add(key);
+        }
+
+        return optionNames;
+    }
+
     private EdenPair<Field, Set<Field>> findOptionFields(Class<?> optionsHolderClass) {
         Field optionsDataField = null;
         Set<Field> fields = new HashSet<>();

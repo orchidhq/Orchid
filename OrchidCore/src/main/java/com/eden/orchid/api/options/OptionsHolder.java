@@ -22,4 +22,9 @@ public interface OptionsHolder {
         return extractor.describeOptions(this.getClass());
     }
 
+    default List<String> getOptionNames(OrchidContext context) {
+        OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
+        return extractor.getOptionNames(this.getClass());
+    }
+
 }

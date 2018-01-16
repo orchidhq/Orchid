@@ -28,6 +28,10 @@ public abstract class OrchidModule extends AbstractModule {
         };
     }
 
+    protected final <T> void addToSet(Class<T> setClass) {
+        Multibinder.newSetBinder(binder(), setClass);
+    }
+
     @SafeVarargs
     protected final <T> void addToSet(Class<T> setClass, Class<? extends T>... objectClasses) {
         Multibinder<T> binder = Multibinder.newSetBinder(binder(), setClass);
@@ -39,6 +43,7 @@ public abstract class OrchidModule extends AbstractModule {
         });
     }
 
+    @SafeVarargs
     protected final <T> void addToSet(Class<T> setClass, T... objects) {
         Multibinder<T> binder = Multibinder.newSetBinder(binder(), setClass);
 
