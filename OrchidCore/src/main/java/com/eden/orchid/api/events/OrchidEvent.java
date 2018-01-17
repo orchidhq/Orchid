@@ -14,6 +14,9 @@ public abstract class OrchidEvent<T> {
     @Getter
     private final T sender;
 
+    @Getter
+    private final String type;
+
     /**
      * Initialize this Event with the Object that is sending it out, typically `this`, but may be a dedicated Sender
      * class object.
@@ -22,7 +25,21 @@ public abstract class OrchidEvent<T> {
      *
      * @since v1.0.0
      */
+    public OrchidEvent(String type, T sender) {
+        this.type = type;
+        this.sender = sender;
+    }
+
+    /**
+     * Initialize this Event with the Object that is sending it out, typically `this`, but may be a dedicated Sender
+     * class object. The Event class's simple name is used for the type
+     *
+     * @param sender the sender
+     *
+     * @since v1.0.0
+     */
     public OrchidEvent(T sender) {
+        this.type = this.getClass().getSimpleName().toLowerCase().replaceAll("Event", "");
         this.sender = sender;
     }
 

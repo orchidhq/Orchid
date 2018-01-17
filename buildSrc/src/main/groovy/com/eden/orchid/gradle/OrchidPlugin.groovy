@@ -46,6 +46,7 @@ class OrchidGenerateBuildTask extends JavaExec {
     void exec() {
         classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'build', true))
+        setStandardInput(System.in)
         super.exec()
     }
 }
@@ -54,6 +55,7 @@ class OrchidGenerateWatchTask extends JavaExec {
     void exec() {
         classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'watch', true))
+        setStandardInput(System.in)
         super.exec()
     }
 }
@@ -62,6 +64,7 @@ class OrchidGenerateServeTask extends JavaExec {
     void exec() {
         classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'serve', true))
+        setStandardInput(System.in)
         super.exec()
     }
 }
@@ -70,6 +73,7 @@ class OrchidGenerateMainTask extends JavaExec {
     void exec() {
         classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'build', false))
+        setStandardInput(System.in)
         super.exec()
     }
 }

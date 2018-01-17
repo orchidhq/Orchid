@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @JvmSuppressWildcards
 class ComponentsList @Inject
-constructor(list: Set<OrchidComponent>) : AdminList<OrchidComponent> {
+constructor(list: Set<OrchidComponent>) : AdminList {
 
     private val list: Set<OrchidComponent>
 
@@ -19,15 +19,15 @@ constructor(list: Set<OrchidComponent>) : AdminList<OrchidComponent> {
         return "components"
     }
 
-    override fun getItems(): Collection<OrchidComponent> {
+    override fun getItems(): Collection<Any> {
         return list
     }
 
-    override fun getItemId(item: OrchidComponent): String {
+    override fun getItemId(item: Any): String {
         return item.javaClass.simpleName
     }
 
-    override fun getItem(id: String): OrchidComponent? {
+    override fun getItem(id: String): Any? {
         for (item in items) {
             if (id == item.javaClass.simpleName) {
                 return item

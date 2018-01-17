@@ -4,8 +4,12 @@ import com.eden.orchid.api.OrchidService;
 
 public interface TaskService extends OrchidService {
 
-    default boolean run(String taskName) {
-        return getService(TaskService.class).run(taskName);
+    default boolean runTask(String taskName) {
+        return getService(TaskService.class).runTask(taskName);
+    }
+
+    default boolean runCommand(String commandName, String parameters) {
+        return getService(TaskService.class).runCommand(commandName, parameters);
     }
 
     default void build() {

@@ -14,10 +14,13 @@ import com.eden.orchid.api.server.OrchidServer;
 import com.google.inject.name.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,6 +29,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     private OrchidContext context;
     private final Set<OrchidTask> tasks;
+    private final Set<OrchidCommand> commands;
 
     private final OrchidServer server;
     private final FileWatcher watcher;
@@ -44,11 +48,13 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Inject
     public TaskServiceImpl(
             Set<OrchidTask> tasks,
+            Set<OrchidCommand> commands,
             @Named("task") String task,
             @Named("resourcesDir") String resourcesDir,
             OrchidServer server,
             FileWatcher watcher) {
         this.tasks = new TreeSet<>(tasks);
+        this.commands = new TreeSet<>(commands);
 
         this.server = server;
         this.watcher = watcher;
@@ -67,10 +73,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void onPostStart() {
-        run(task);
+        runTask(task);
     }
 
-    public boolean run(String taskName) {
+    @Override
+    public boolean runTask(String taskName) {
         OrchidTask foundTask = tasks
                 .stream()
                 .sorted()
@@ -88,6 +95,48 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             Clog.e("Could not find task {} to run", taskName);
             return false;
         }
+    }
+
+    @Override
+    public boolean runCommand(String commandName, String parameters) {
+        OrchidCommand foundCommand = commands
+                .stream()
+                .sorted()
+                .filter(command -> command.matches(commandName))
+                .findFirst()
+                .orElse(null);
+
+        if (foundCommand != null) {
+            OrchidCommand freshCommand = context.getInjector().getInstance(foundCommand.getClass());
+
+            String[] pieces = parameters.split("\\s+");
+            String[] paramKeys = foundCommand.parameters();
+
+            Map<String, String> paramMap = new HashMap<>();
+
+            int i = 0;
+            while (i < paramKeys.length && i < pieces.length) {
+                paramMap.put(paramKeys[i], pieces[i]);
+                i++;
+            }
+
+            JSONObject paramsJSON = new JSONObject(paramMap);
+
+            freshCommand.extractOptions(context, paramsJSON);
+
+            try {
+                freshCommand.run(commandName);
+                return true;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            Clog.e("Could not find matching command for {}", commandName);
+        }
+
+        return false;
     }
 
     @Override
@@ -145,7 +194,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @On(Orchid.Lifecycle.FilesChanged.class)
     public void onFilesChanges(Orchid.Lifecycle.FilesChanged event) {
         if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage("Files Changed");
+            server.getWebsocket().sendMessage("Files Changed", "");
         }
         context.build();
     }
@@ -153,7 +202,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @On(Orchid.Lifecycle.EndSession.class)
     public void onEndSession(Orchid.Lifecycle.EndSession event) {
         if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage("Ending Session");
+            server.getWebsocket().sendMessage("Ending Session", "");
         }
         context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
         System.exit(0);
@@ -162,7 +211,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @On(value = OrchidEvent.class, subclasses = true)
     public void onAnyEvent(OrchidEvent event) {
         if (server != null && server.getWebsocket() != null) {
-            server.getWebsocket().sendMessage(event.toString());
+            server.getWebsocket().sendMessage(event.getType(), event.toString());
         }
     }
 }

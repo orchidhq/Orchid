@@ -16,6 +16,7 @@ import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
+import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
@@ -36,11 +37,12 @@ import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
-import com.eden.orchid.impl.server.admin.AdminController;
+import com.eden.orchid.impl.tasks.BuildCommand;
 import com.eden.orchid.impl.tasks.BuildTask;
+import com.eden.orchid.impl.tasks.HelpCommand;
+import com.eden.orchid.impl.tasks.InteractiveTask;
 import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.tasks.WatchTask;
-import com.eden.orchid.impl.themes.DefaultAdminTheme;
 import com.eden.orchid.impl.themes.DefaultTheme;
 import com.eden.orchid.impl.themes.components.LicenseComponent;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
@@ -69,8 +71,7 @@ public final class ImplModule extends OrchidModule {
         addToSet(Theme.class,
                 DefaultTheme.class);
 
-        addToSet(AdminTheme.class,
-                DefaultAdminTheme.class);
+        addToSet(AdminTheme.class);
 
         // Resource Sources
         addToSet(FileResourceSource.class,
@@ -103,11 +104,16 @@ public final class ImplModule extends OrchidModule {
                 HomepageGenerator.class,
                 IndexGenerator.class);
 
-        // Tasks
+        // Tasks and Commands
         addToSet(OrchidTask.class,
                 BuildTask.class,
                 WatchTask.class,
-                ServeTask.class);
+                ServeTask.class,
+                InteractiveTask.class);
+
+        addToSet(OrchidCommand.class,
+                HelpCommand.class,
+                BuildCommand.class);
 
         // Menu Items
         addToSet(OrchidMenuItem.class,
@@ -127,8 +133,7 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidEventListener.class,
                 TaskServiceImpl.class);
 
-        addToSet(OrchidController.class,
-                AdminController.class);
+        addToSet(OrchidController.class);
 
         // Template Functions
         addToSet(TemplateFunction.class,

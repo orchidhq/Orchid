@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import fi.iki.elonen.NanoWSD;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public final class OrchidWebsocket extends NanoWSD {
 
@@ -28,10 +29,10 @@ public final class OrchidWebsocket extends NanoWSD {
         return this.webSocket;
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(String type, String message) {
         try {
             if(webSocket != null && webSocket.isOpen()) {
-                webSocket.send(message);
+                webSocket.send("Event type=[" + type + "]: " + message);
             }
         }
         catch (IOException e) {
@@ -59,11 +60,15 @@ public final class OrchidWebsocket extends NanoWSD {
             try {
                 message.setUnmasked();
 
-                if(message.getTextPayload().equalsIgnoreCase("exit")) {
+                String[] inputPieces = message.getTextPayload().split("\\s+");
+                String command = inputPieces[0];
+                String params = String.join(" ", Arrays.copyOfRange(inputPieces, 1, inputPieces.length));
+
+                if(command.equalsIgnoreCase("quit")) {
                     context.broadcast(Orchid.Lifecycle.EndSession.fire(this));
                 }
-                else if(message.getTextPayload().equalsIgnoreCase("rebuild")) {
-                    context.build();
+                else {
+                    context.runCommand(command, params);
                 }
 
                 sendFrame(message);

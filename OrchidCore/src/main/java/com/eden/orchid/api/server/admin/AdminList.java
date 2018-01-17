@@ -2,22 +2,22 @@ package com.eden.orchid.api.server.admin;
 
 import java.util.Collection;
 
-public interface AdminList<T> {
+public interface AdminList {
 
     String getKey();
 
-    Collection<T> getItems();
+    Collection getItems();
 
     default String getRowTemplate() {
         return getKey();
     }
 
-    default String getItemId(T item) {
+    default String getItemId(Object item) {
         return item.getClass().getSimpleName();
     }
 
-    default T getItem(String id) {
-        for(T item : getItems()) {
+    default Object getItem(String id) {
+        for(Object item : getItems()) {
             if(id.equals(item.getClass().getSimpleName())) {
                 return item;
             }

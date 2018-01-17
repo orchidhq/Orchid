@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 @JvmSuppressWildcards
 class OptionsList @Inject
-constructor() : AdminList<OrchidFlag> {
+constructor() : AdminList {
 
     private val list: Collection<OrchidFlag>
 
@@ -20,15 +20,15 @@ constructor() : AdminList<OrchidFlag> {
         return "options"
     }
 
-    override fun getItems(): Collection<OrchidFlag> {
+    override fun getItems(): Collection<Any> {
         return list
     }
 
-    override fun getItemId(item: OrchidFlag): String {
+    override fun getItemId(item: Any): String {
         return item.javaClass.simpleName
     }
 
-    override fun getItem(id: String): OrchidFlag? {
+    override fun getItem(id: String): Any? {
         for (item in items) {
             if (id == item.javaClass.simpleName) {
                 return item
