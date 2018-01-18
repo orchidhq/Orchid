@@ -20,14 +20,14 @@ class AdminController @Inject
 constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : OrchidController(1000) {
 
     @Get(path = "/")
-    fun index(request: OrchidRequest): OrchidResponse {
+    fun index(@Suppress("UNUSED_PARAMETER") request: OrchidRequest): OrchidResponse {
         val view = OrchidView(context, this, "admin")
 
         return OrchidResponse(context).view(view)
     }
 
     @Get(path = "/lists/:name/:id")
-    fun renderListItem(request: OrchidRequest, name: String, id: String): OrchidResponse {
+    fun renderListItem(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, name: String, id: String): OrchidResponse {
         var foundList: AdminList? = null
         for (list in adminLists) {
             if (list.key.equals(name, ignoreCase = true)) {
@@ -55,7 +55,7 @@ constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : Orchid
     }
 
     @Get(path = "/withParams/:paramKey", params = AdminParams::class)
-    fun testWithParams(request: OrchidRequest, params: AdminParams, paramKey: String): OrchidResponse {
+    fun testWithParams(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, params: AdminParams, paramKey: String): OrchidResponse {
         val data = HashMap<String, Any>()
         data.put("params", params)
 
