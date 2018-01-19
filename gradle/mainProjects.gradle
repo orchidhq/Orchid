@@ -66,3 +66,23 @@ jacocoTestReport {
     }
 }
 check.dependsOn jacocoTestReport
+
+task checkForExtensionFile {
+    onlyIf {
+        project.name != "OrchidCore"
+    }
+    doLast {
+        def extensionName = project.name.toString()
+        def extensionType = project.parent.name.toString()
+        if(extensionType == 'languageExtensions') {
+            extensionType = 'plugins'
+        }
+        def fullExtensionFilename = "${rootProject.rootDir}/OrchidCore/src/orchid/resources/pages/${extensionType}/${extensionName}.md"
+        def extensionFile = file(fullExtensionFilename)
+
+        if(!extensionFile.exists()) {
+            throw new FileNotFoundException("There is no plugin entry for this plugin, expected 'pages/${extensionType}/${extensionName}.md' to exist in OrchidCore Orchid resources.")
+        }
+    }
+}
+check.dependsOn checkForExtensionFile
