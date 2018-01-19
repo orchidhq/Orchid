@@ -4,8 +4,8 @@
     <section id="banner">
         <div class="content">
             <header>
-                <h1>{{ theme.about.siteName }}</h1>
-                <p>{{ theme.about.siteDescription }}</p>
+                <h1>{{ site.about.siteName }}</h1>
+                <p>{{ site.about.siteDescription }}</p>
             </header>
             {% if ((theme.social is not empty) and (theme.social.github is not empty)) %}
                 <ul class="actions">

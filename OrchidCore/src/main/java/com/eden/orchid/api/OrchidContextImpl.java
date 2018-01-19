@@ -111,7 +111,7 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void extractServiceOptions() {
         services.values().forEach(service -> {
-            JSONElement el = query("services." + service.getKey());
+            JSONElement el = query(service.optionsQuery());
             if (OrchidUtils.elementIsObject(el)) {
                 service.extractOptions(this, (JSONObject) el.getElement());
             }

@@ -1,8 +1,9 @@
-
-theme:
+site:
   about:
     siteName: OrchidCore
     siteDescription: A beautiful and truly unique documentation engine and static site generator.
+
+theme:
   social:
     github: 'JavaEden/Orchid'
   primaryColor: '#ffa033'

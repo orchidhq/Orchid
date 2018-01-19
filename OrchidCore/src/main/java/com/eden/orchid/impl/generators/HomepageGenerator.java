@@ -59,7 +59,9 @@ public final class HomepageGenerator extends OrchidGenerator {
             }
         }
 
-        page.getReference().setTitle("Home");
+        if(page.getTitle().equals("homepage")) {
+            page.setTitle(context.getSite().getSiteInfo().getSiteName());
+        }
         page.getReference().setUsePrettyUrl(false);
 
         pages.add(page);

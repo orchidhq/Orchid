@@ -1,8 +1,9 @@
-
-theme:
+site:
   about:
     siteName: Orchid Posts
     siteDescription: Add Jekyll-like blogging functionality to your Orchid site.
+
+theme:
   primaryColor: '#6D0F11'
   social:
     github: 'JavaEden/Orchid'

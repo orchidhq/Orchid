@@ -8,13 +8,13 @@
 {% if page.title is not empty %}
     <title>{{ page.title }}</title>
 {% else %}
-    <title>{{ theme.about.name }}</title>
+    <title>{{ site.about.name }}</title>
 {% endif %}
 
 {% if page.description is not empty %}
     <meta name="description" content="{{ page.description }}">
 {% else %}
-    <meta name="description" content="{{ theme.about.description }}">
+    <meta name="description" content="{{ site.about.description }}">
 {% endif %}
 
 {% if page.previous is not empty %}

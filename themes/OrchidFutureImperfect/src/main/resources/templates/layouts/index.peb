@@ -18,10 +18,10 @@
 
         <!-- Intro -->
         <section id="intro">
-            <a href="#" class="logo"><img src="{{ theme.about.avatarUrl }}" alt=""/></a>
+            <a href="#" class="logo"><img src="{{ site.about.avatarUrl }}" alt=""/></a>
             <header>
-                <h2>{{ theme.about.siteName }}</h2>
-                <p>{{ theme.about.tagline }}</p>
+                <h2>{{ site.about.siteName }}</h2>
+                <p>{{ site.about.tagline }}</p>
             </header>
         </section>
 
@@ -30,7 +30,7 @@
         <!-- About -->
         <section class="blurb">
             <h2>About</h2>
-            <p>{{ theme.about.blurb }}</p>
+            <p>{{ site.about.blurb }}</p>
             <ul class="actions">
                 <li><a href="#" class="button">Learn More</a></li>
             </ul>

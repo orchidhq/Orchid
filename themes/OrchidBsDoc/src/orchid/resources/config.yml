@@ -1,9 +1,11 @@
-BsDoc:
+site:
   about:
     siteName: 'Bootstrap Docs'
     description: 'Detrius, caesium, et mineralis?'
     githubUsername: 'JavaEden'
     githubRepo: 'Orchid'
+
+theme:
   menu:
     - type: 'link'
       title: 'Home'

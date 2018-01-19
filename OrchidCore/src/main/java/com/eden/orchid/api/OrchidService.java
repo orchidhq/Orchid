@@ -15,6 +15,10 @@ public interface OrchidService extends OptionsHolder {
         return key;
     }
 
+    default String optionsQuery() {
+        return "services." + getKey();
+    }
+
     void initialize(OrchidContext context);
 
     default void onStart() { }

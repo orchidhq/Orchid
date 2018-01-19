@@ -8,7 +8,7 @@
     {% endif %}
     </ul>
     <p class="copyright">
-        &copy; {{ theme.about.siteName }}.
+        &copy; {{ site.about.siteName }}.
         Design by <a href="http://html5up.net">HTML5 UP</a>.
         Created with <a href="https://github.com/JavaEden/Orchid">Orchid</a>.
     </p>

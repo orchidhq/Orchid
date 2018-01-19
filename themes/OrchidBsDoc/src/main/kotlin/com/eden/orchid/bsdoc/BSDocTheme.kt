@@ -5,9 +5,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.components.ComponentHolder
-import com.eden.orchid.api.theme.models.About
 import com.eden.orchid.api.theme.models.Social
-
 import javax.inject.Inject
 
 class BSDocTheme @Inject
@@ -20,9 +18,6 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
     @Option
     @StringDefault("#000000")
     var secondaryColor: String? = null
-
-    @Option
-    var about: About? = null
 
     @Option
     var social: Social? = null

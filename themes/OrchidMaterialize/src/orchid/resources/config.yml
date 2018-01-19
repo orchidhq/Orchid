@@ -1,8 +1,9 @@
-
-theme:
+site:
   about:
     siteName: Orchid Materialize Theme
     siteDescription: A theme for Orchid using Materialize CSS.
+
+theme:
   colors:
     primary: 'green'
     secondary: 'orange'
