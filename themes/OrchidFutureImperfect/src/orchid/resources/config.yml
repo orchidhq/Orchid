@@ -1,9 +1,11 @@
-FutureImperfect:
+site:
   about:
     siteName: 'Future Imperfect'
     tagline: 'Detrius, caesium, et mineralis?'
     blurb: Ubi est castus burgus? Victrixs mori in dexter vierium! Prarere solite ducunt ad superbus imber. Neuter apolloniates vix imitaris glos est.
     avatar: 'assets/images/logo.jpg'
+
+theme:
   social:
     facebook: 'http://example.com/'
     twitter: 'http://example.com/'

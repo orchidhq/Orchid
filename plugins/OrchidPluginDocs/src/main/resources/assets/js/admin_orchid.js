@@ -9,42 +9,18 @@
             var websocketUrl = window.websocketUrl;
 
             window.socket = new WebSocket(websocketUrl);
-
-            window.socket.onopen = function (event) {
-            };
+            window.socket.onopen  = function (event) {};
+            window.socket.onclose = function (event) {};
             window.socket.onerror = function (error) {
                 console.log('WebSocket Error: ' + error);
             };
             window.socket.onmessage = function (event) {
+                var eventTypeRegex = /^Event type=\[(.*)]:([\s\S]*)/i;
                 var message = event.data;
-                if (message.startsWith("progress[index]")) {
-                    var progress = message.replace("progress[index]", '').trim().split("/");
-
-                    setProgress(progress[0], progress[1], 'warning');
-                    addMessage(false, 'Indexing Progress: ' + progress[0] + "/" + progress[1], 'warning');
+                if (eventTypeRegex.test(message)) {
+                    var matches = eventTypeRegex.exec(message);
+                    handleEvent(matches[1], matches[2]);
                 }
-                else if (message.startsWith("progress[build]")) {
-                    var progress = message.replace("progress[build]", '').trim().split("/");
-
-
-                    setProgress(progress[0], progress[1], 'info');
-
-                    var millis = progress[2];
-                    if (millis > 0) {
-                        addMessage(false, 'Building Progress: ' + progress[0] + "/" + progress[1] + ' (took ' + millis + 'ms)', 'info');
-                    }
-                    else {
-                        addMessage(false, 'Building Progress: ' + progress[0] + "/" + progress[1], 'info');
-                    }
-                }
-                else if (message.startsWith('Event: ')) {
-                    addMessage(false, message.substring(7));
-                }
-                else {
-                    addMessage(false, message);
-                }
-            };
-            window.socket.onclose = function (event) {
             };
         }
 
@@ -137,5 +113,39 @@
             $($selector).toggle();
 
         });
+
+        function handleEvent(eventType, message) {
+            switch (eventType) {
+                case 'describe': handleDescribeEvent(message); break;
+                case 'indexprogress': handleIndexProgressEvent(message); break;
+                case 'buildprogress': handleBuildProgressEvent(message); break;
+                default: addMessage(false, message); break;
+            }
+        }
+
+        function handleDescribeEvent(message) {
+            $("#description-container").show();
+            $("#description-container-content").html(message);
+        }
+
+        function handleIndexProgressEvent(message) {
+            var progress = message.split("/");
+
+            setProgress(progress[0].trim(), progress[1].trim(), 'warning');
+            addMessage(false, 'Indexing Progress: ' + progress[0].trim() + "/" + progress[1].trim(), 'warning');
+        }
+
+        function handleBuildProgressEvent(message) {
+            var progress = message.split("/");
+            setProgress(progress[0].trim(), progress[1].trim(), 'info');
+
+            var millis = progress[2].trim();
+            if (millis > 0) {
+                addMessage(false, 'Building Progress: ' + progress[0].trim() + "/" + progress[1].trim() + ' (took ' + millis + 'ms)', 'info');
+            }
+            else {
+                addMessage(false, 'Building Progress: ' + progress[0].trim() + "/" + progress[1].trim(), 'info');
+            }
+        }
     });
 })(jQuery);

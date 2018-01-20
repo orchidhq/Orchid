@@ -5,15 +5,10 @@ import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
-import com.eden.orchid.api.theme.models.About
-
 import javax.inject.Inject
 
 class MaterializeTheme @Inject
 constructor(context: OrchidContext) : Theme(context, "Materialize", 100) {
-
-    @Option
-    var about: About? = null
 
     @Option
     var colors: MaterializeColors? = null

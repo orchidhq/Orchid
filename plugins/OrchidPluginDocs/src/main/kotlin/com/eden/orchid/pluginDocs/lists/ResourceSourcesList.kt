@@ -4,13 +4,12 @@ import com.eden.orchid.api.resources.resourceSource.FileResourceSource
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.server.admin.AdminList
-
+import java.util.*
 import javax.inject.Inject
-import java.util.TreeSet
 
 @JvmSuppressWildcards
 class ResourceSourcesList @Inject
-constructor(fileResourceSources: Set<FileResourceSource>, pluginResourceSources: Set<PluginResourceSource>) : AdminList<OrchidResourceSource> {
+constructor(fileResourceSources: Set<FileResourceSource>, pluginResourceSources: Set<PluginResourceSource>) : AdminList {
 
     private val list: TreeSet<OrchidResourceSource>
 
@@ -24,15 +23,15 @@ constructor(fileResourceSources: Set<FileResourceSource>, pluginResourceSources:
         return "resourceSources"
     }
 
-    override fun getItems(): Collection<OrchidResourceSource> {
+    override fun getItems(): Collection<Any> {
         return list
     }
 
-    override fun getItemId(item: OrchidResourceSource): String {
+    override fun getItemId(item: Any): String {
         return item.javaClass.simpleName
     }
 
-    override fun getItem(id: String): OrchidResourceSource? {
+    override fun getItem(id: String): Any? {
         for (item in items) {
             if (id == item.javaClass.simpleName) {
                 return item

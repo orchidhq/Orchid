@@ -3,8 +3,8 @@
 {% block baseJumbotron %}
     <div class="bs-docs-masthead" id="jumbotron">
         <div class="container">
-            <h1 class="home-title">{{ theme.about.siteName }}</h1>
-            <p class="lead">{{ theme.about.siteDescription }}</p>
+            <h1 class="home-title">{{ site.about.siteName }}</h1>
+            <p class="lead">{{ site.about.siteDescription }}</p>
             {% if theme.social.github is not empty %}
                 <p class="lead">
                     <a href="https://github.com/{{ theme.social.github }}"

@@ -1,2 +1,2 @@
-<h1>{{ class(listItem).simpleName | capitalize }}</h1>
+<h1>{{ listItem.class.simpleName | capitalize }}</h1>
 <p><code>{{ listItem.priority }}</code></p>

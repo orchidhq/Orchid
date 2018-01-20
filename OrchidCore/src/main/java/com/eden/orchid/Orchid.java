@@ -4,9 +4,9 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.options.OrchidFlags;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import lombok.Getter;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -60,17 +60,17 @@ public final class Orchid {
         System.exit((success) ? 0 : 1);
     }
 
-    public boolean start(AbstractModule... modules) {
-        List<AbstractModule> modulesList = new ArrayList<>();
+    public boolean start(Module... modules) {
+        List<Module> modulesList = new ArrayList<>();
         Collections.addAll(modulesList, modules);
         return start(modulesList);
     }
 
-    public boolean start(List<AbstractModule> modules) {
+    public boolean start(List<Module> modules) {
         try {
             String moduleLog = "Using the following modules: ";
             moduleLog += "\n--------------------";
-            for (AbstractModule module : modules) {
+            for (Module module : modules) {
                 if (!module.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
                     moduleLog += "\n * " + module.getClass().getName();
                 }
@@ -151,7 +151,7 @@ public final class Orchid {
             protected int maxProgress;
 
             private ProgressEvent(Object sender, String progressType, int currentProgress, int maxProgress) {
-                super(sender);
+                super(progressType, sender);
                 this.progressType = progressType;
                 this.currentProgress = currentProgress;
                 this.maxProgress = maxProgress;
@@ -159,13 +159,13 @@ public final class Orchid {
 
             @Override
             public String toString() {
-                return Clog.format("progress[{}] {}/{}", progressType, currentProgress, maxProgress);
+                return Clog.format("{}/{}", currentProgress, maxProgress);
             }
         }
 
         public static class IndexProgress extends ProgressEvent {
             private IndexProgress(Object sender, int currentProgress, int maxProgress) {
-                super(sender, "index", currentProgress, maxProgress);
+                super(sender, "indexprogress", currentProgress, maxProgress);
             }
 
             public static IndexProgress fire(Object sender, int currentProgress, int maxProgress) { return new IndexProgress(sender, currentProgress, maxProgress); }
@@ -175,13 +175,13 @@ public final class Orchid {
             protected long millis;
 
             private BuildProgress(Object sender, int currentProgress, int maxProgress, long millis) {
-                super(sender, "build", currentProgress, maxProgress);
+                super(sender, "buildprogress", currentProgress, maxProgress);
                 this.millis = millis;
             }
 
             @Override
             public String toString() {
-                return Clog.format("progress[{}] {}/{}/{}", progressType, currentProgress, maxProgress, millis);
+                return Clog.format("{}/{}/{}", currentProgress, maxProgress, millis);
             }
 
             public static BuildProgress fire(Object sender, int currentProgress, int maxProgress, long millis) { return new BuildProgress(sender, currentProgress, maxProgress, millis); }

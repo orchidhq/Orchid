@@ -1,4 +1,4 @@
-package com.eden.orchid.api.theme.models;
+package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class About implements OptionsHolder {
+public class SiteInfo implements OptionsHolder {
 
     @ApplyBaseUrl
     @Option private String avatar;

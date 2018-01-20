@@ -95,6 +95,20 @@
         </div>
 
         <div class="container-fluid">
+            <div id="description-container" style="display: none">
+                <div class="animated fadeIn">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body pb-0" id="description-container-content">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {% block mainContent %}
 
             {% endblock %}
@@ -130,7 +144,7 @@
                         {% for item in adminList.getItems() %}
                             <a href="/admin/lists/{{ adminList.key }}/{{ adminList.getItemId(item) }}">
                                 <div class="callout callout-warning m-0 py-1">
-                                    <div><strong>{{ class(item).simpleName }}</strong></div>
+                                    <div><strong>{{ item.class.simpleName }}</strong></div>
                                 </div>
                             </a>
                             <hr class="mx-3 my-0">

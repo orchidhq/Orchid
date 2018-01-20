@@ -1,8 +1,9 @@
-
-theme:
+site:
   about:
     name: Orchid Editorial Theme
     description: A beautiful theme for Orchid created by HTML5 UP.
+
+theme:
   github:
     username: 'JavaEden'
     repo: 'Orchid'

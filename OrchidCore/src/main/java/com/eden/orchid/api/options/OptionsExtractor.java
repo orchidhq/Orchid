@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
+import com.eden.krow.KrowTable;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
@@ -102,7 +103,27 @@ public class OptionsExtractor {
             optionDescriptions.add(new OptionsDescription(key, field.getType(), description, defaultValue));
         }
 
+        optionDescriptions.sort(Comparator.comparing(OptionsDescription::getKey));
+
         return optionDescriptions;
+    }
+
+    public KrowTable getDescriptionTable(Class<?> optionsHolderClass) {
+        KrowTable table = new KrowTable();
+
+        List<OptionsDescription> options = describeOptions(optionsHolderClass);
+
+        options.forEach(option -> {
+            table.cell("Type", option.getKey(), cell -> {cell.setContent(option.getOptionType().getSimpleName()); return null;});
+            table.cell("Default Value", option.getKey(), cell -> {cell.setContent(option.getDefaultValue()); return null;});
+            table.cell("Description", option.getKey(), cell -> {cell.setContent(option.getDescription()); return null;});
+        });
+
+        table.column("Description", cell -> {cell.setWrapTextAt(45); return null;});
+        table.column("Type", cell -> {cell.setWrapTextAt(15); return null;});
+        table.column("Default Value", cell -> {cell.setWrapTextAt(15); return null;});
+
+        return table;
     }
 
     public List<String> getOptionNames(Class<?> optionsHolderClass) {

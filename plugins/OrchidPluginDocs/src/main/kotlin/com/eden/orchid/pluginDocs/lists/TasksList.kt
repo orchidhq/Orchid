@@ -8,21 +8,21 @@ import javax.inject.Inject
 
 @JvmSuppressWildcards
 class TasksList @Inject
-constructor(private val tasksSetProvider: Provider<Set<OrchidTask>>) : AdminList<OrchidTask> {
+constructor(private val tasksSetProvider: Provider<Set<OrchidTask>>) : AdminList {
 
     override fun getKey(): String {
         return "tasks"
     }
 
-    override fun getItems(): Collection<OrchidTask> {
+    override fun getItems(): Collection<Any> {
         return TreeSet(tasksSetProvider.get())
     }
 
-    override fun getItemId(item: OrchidTask): String {
+    override fun getItemId(item: Any): String {
         return item.javaClass.simpleName
     }
 
-    override fun getItem(id: String): OrchidTask? {
+    override fun getItem(id: String): Any? {
         for (item in items) {
             if (id == item.javaClass.simpleName) {
                 return item

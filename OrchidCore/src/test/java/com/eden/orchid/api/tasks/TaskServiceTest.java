@@ -39,12 +39,14 @@ public final class TaskServiceTest {
         when(task2.getName()).thenReturn("task2");
         tasks.add(task2);
 
+        Set<OrchidCommand> commands = new HashSet<>();
+
         OrchidServer server = mock(OrchidServer.class);
         FileWatcher fileWatcher = mock(FileWatcher.class);
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new TaskServiceImpl(tasks, "", "", server, fileWatcher);
+        service = new TaskServiceImpl(tasks, commands, "", "", server, fileWatcher);
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
@@ -56,9 +58,9 @@ public final class TaskServiceTest {
 
     @Test
     public void run() throws Throwable {
-        assertThat(underTest.run("task1"), is(true));
-        assertThat(underTest.run("task2"), is(true));
-        assertThat(underTest.run("task3"), is(false));
+        assertThat(underTest.runTask("task1"), is(true));
+        assertThat(underTest.runTask("task2"), is(true));
+        assertThat(underTest.runTask("task3"), is(false));
     }
 
     @Test
@@ -73,7 +75,7 @@ public final class TaskServiceTest {
 
     @Test
     public void serve() throws Throwable {
-        // test .build by testing server
+        // test .serve by testing server
     }
 
 }

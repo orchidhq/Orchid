@@ -5,15 +5,11 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.menus.OrchidMenu
-import com.eden.orchid.api.theme.models.About
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
 class FutureImperfectTheme @Inject
 constructor(context: OrchidContext) : Theme(context, "FutureImperfect", 100) {
-
-    @Option
-    var about: About? = null
 
     @Option
     var social: Social? = null

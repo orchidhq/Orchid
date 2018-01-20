@@ -1,8 +1,9 @@
-
-theme:
+site:
   about:
     siteName: Orchid KSS
     siteDescription: Generate a living styleguide from annotated CSS, Sass, Scss, or LESS
+
+theme:
   primaryColor: '#F62D3E'
   social:
     github: 'JavaEden/Orchid'

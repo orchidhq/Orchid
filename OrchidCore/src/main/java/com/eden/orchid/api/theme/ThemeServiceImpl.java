@@ -41,8 +41,11 @@ public final class ThemeServiceImpl implements ThemeService {
     public void initialize(OrchidContext context) {
         this.context = context;
 
-        themes = new ThemeHolder<>(context, defaultTheme, "theme", themesProvider.get());
-        adminThemes = new ThemeHolder<>(context, defaultAdminTheme, "adminTheme", adminThemesProvider.get());
+        Theme emptyTheme = new Theme(context, "Default", 1) { };
+        AdminTheme emptyAdminTheme = new AdminTheme(context, "Default", 1) { };
+
+        themes = new ThemeHolder<>(context, defaultTheme, "theme", themesProvider.get(), emptyTheme);
+        adminThemes = new ThemeHolder<>(context, defaultAdminTheme, "adminTheme", adminThemesProvider.get(), emptyAdminTheme);
     }
 
     @Override
@@ -88,13 +91,16 @@ public final class ThemeServiceImpl implements ThemeService {
         private Stack<T> themeStack;
         private Set<T> availableThemes;
 
-        ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes) {
+        ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes, T emptyTheme) {
             this.context = context;
             this.defaultThemeKey = defaultTheme;
             this.defaultOptionsKey = defaultOptionsKey;
             this.availableThemes = availableThemes;
             this.defaultTheme = findTheme(this.defaultThemeKey);
             this.themeStack = new Stack<>();
+            if(this.defaultTheme == null) {
+                this.defaultTheme = emptyTheme;
+            }
         }
 
         T getTheme() {
@@ -106,33 +112,35 @@ public final class ThemeServiceImpl implements ThemeService {
         }
 
         T findTheme(String themeKey) {
-            T foundTheme = availableThemes
-                    .stream()
-                    .sorted()
-                    .filter(theme -> theme.getKey().equals(themeKey))
-                    .findFirst()
-                    .orElse(null);
+            if(availableThemes.size() > 0) {
+                T foundTheme = availableThemes
+                        .stream()
+                        .sorted()
+                        .filter(theme -> theme.getKey().equals(themeKey))
+                        .findFirst()
+                        .orElse(null);
 
-            if (foundTheme != null) {
-                return foundTheme;
+                if (foundTheme != null) {
+                    return foundTheme;
+                }
+                else {
+                    Clog.e("Could not find theme [{}-{}]", defaultOptionsKey, themeKey);
+                    return null;
+                }
             }
             else {
-                Clog.e("Could not find theme [{}]", themeKey);
                 return null;
             }
         }
 
         void pushTheme(T theme) {
-            JSONObject themeOptions;
+            JSONObject themeOptions = new JSONObject();
 
+            if(OrchidUtils.elementIsObject(context.query(defaultOptionsKey))) {
+                themeOptions = OrchidUtils.merge(themeOptions,  (JSONObject) context.query(defaultOptionsKey).getElement());
+            }
             if(OrchidUtils.elementIsObject(context.query(theme.getKey()))) {
-                themeOptions = (JSONObject) context.query(theme.getKey()).getElement();
-            }
-            else if(OrchidUtils.elementIsObject(context.query(defaultOptionsKey))) {
-                themeOptions = (JSONObject) context.query(defaultOptionsKey).getElement();
-            }
-            else {
-                themeOptions = context.getOptionsData();
+                themeOptions = OrchidUtils.merge(themeOptions,  (JSONObject) context.query(theme.getKey()).getElement());
             }
 
             pushTheme(theme, themeOptions);

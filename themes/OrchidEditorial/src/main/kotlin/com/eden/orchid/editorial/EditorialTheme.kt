@@ -4,9 +4,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
-import com.eden.orchid.api.theme.models.About
 import com.eden.orchid.api.theme.models.Social
-
 import javax.inject.Inject
 
 class EditorialTheme @Inject
@@ -16,8 +14,6 @@ constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
     @StringDefault("#f56a6a")
     var primaryColor: String? = null
 
-    @Option
-    var about: About? = null
     @Option
     var social: Social? = null
 

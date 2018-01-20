@@ -1,8 +1,9 @@
-
-theme:
+site:
   about:
     siteName: Orchid Pages
     siteDescription: Add static pages with rich taxonomy to your Orchid site.
+
+theme:
   primaryColor: '#c15630'
   social:
     github: 'JavaEden/Orchid'

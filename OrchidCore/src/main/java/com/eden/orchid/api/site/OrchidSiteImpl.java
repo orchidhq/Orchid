@@ -1,6 +1,7 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import lombok.Getter;
@@ -19,6 +20,10 @@ public final class OrchidSiteImpl implements OrchidSite {
     @Getter @Setter private String environment;
 
     @Getter @Setter private String defaultTemplateExtension;
+
+    @Option
+    @Getter @Setter
+    private SiteInfo about;
 
     @Inject
     public OrchidSiteImpl(
@@ -40,12 +45,21 @@ public final class OrchidSiteImpl implements OrchidSite {
         this.context = context;
     }
 
+    @Override
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = OrchidUtils.normalizePath(baseUrl);
     }
 
+    @Override
     public boolean isDebug() { return !isProduction(); }
+
+    @Override
     public boolean isProduction() { return this.getEnvironment().equalsIgnoreCase("prod") || this.getEnvironment().equalsIgnoreCase("production"); }
+
+    @Override
+    public SiteInfo getSiteInfo() {
+        return about;
+    }
 
     public JSONObject toJSON() {
         JSONObject site = new JSONObject();
