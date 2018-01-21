@@ -2,6 +2,7 @@ package com.eden.orchid.javadoc;
 
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -78,5 +79,10 @@ public class JavadocGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderTemplate);
+    }
+
+    @Override
+    public List<OrchidCollection> getCollections() {
+        return null;
     }
 }

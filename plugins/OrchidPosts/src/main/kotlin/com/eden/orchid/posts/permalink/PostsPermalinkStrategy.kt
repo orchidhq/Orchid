@@ -79,13 +79,7 @@ constructor(
             resultingPiece = piece
         }
 
-        return sanitizePathPiece(resultingPiece) + "/"
-    }
-
-    private fun sanitizePathPiece(pathPiece: String): String {
-        var s = pathPiece.replace("\\s+".toRegex(), "-").toLowerCase()
-        s = s.replace("[^\\w-_]".toRegex(), "")
-        return s
+        return OrchidUtils.toSlug(resultingPiece) + "/"
     }
 
 }

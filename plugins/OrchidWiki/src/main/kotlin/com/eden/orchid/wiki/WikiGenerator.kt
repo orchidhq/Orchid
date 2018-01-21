@@ -3,6 +3,7 @@ package com.eden.orchid.wiki
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -21,7 +22,6 @@ import org.apache.commons.io.FilenameUtils
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.io.File
-import java.util.*
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -136,7 +136,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         }
 
         val safe = doc.toString()
-        summary = StringResource(context, sectionBaseDir + "summary.md", safe)
+        summary = StringResource(safe, summary.reference)
 
         val sectionTitle = if (!EdenUtils.isEmpty(section)) section else "Wiki"
         val summaryPage = WikiSummaryPage(summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
@@ -148,6 +148,21 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         }
 
         return WikiSection(section, summaryPage, wiki)
+    }
+
+    override fun getCollections(): MutableList<OrchidCollection> {
+        val collectionsList = ArrayList<OrchidCollection>()
+
+        model.sections.forEach {
+            var sectionPages = ArrayList<OrchidPage>()
+
+            sectionPages.add(it.value.summaryPage)
+            sectionPages.addAll(it.value.wikiPages)
+
+            collectionsList.add(OrchidCollection(this, "Wiki - ${it.key}", sectionPages))
+        }
+
+        return collectionsList
     }
 
 }

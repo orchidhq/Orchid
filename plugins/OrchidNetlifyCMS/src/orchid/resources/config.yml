@@ -1,0 +1,10 @@
+site:
+  about:
+    siteName: Orchid Netlify CMS
+    siteDescription: Adds the Netlify CMS to your Orchid site, generating the `config.yml` according to your installed plugins.
+
+theme:
+  primaryColor: '#4C376C'
+  social:
+    github: 'JavaEden/Orchid'
+
