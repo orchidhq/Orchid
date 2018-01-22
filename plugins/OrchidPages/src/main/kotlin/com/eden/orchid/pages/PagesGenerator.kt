@@ -2,6 +2,7 @@ package com.eden.orchid.pages
 
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -38,5 +39,9 @@ constructor(context: OrchidContext) : OrchidGenerator(context, "pages", 700) {
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         pages.forEach { if (it is StaticPage) { context.render(it, it.renderMode) } }
+    }
+
+    override fun getCollections(): List<OrchidCollection> {
+        return listOf(OrchidCollection(this, this.key, context.getGeneratorPages(this.key)))
     }
 }

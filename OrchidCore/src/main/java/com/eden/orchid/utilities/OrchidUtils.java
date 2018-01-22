@@ -212,4 +212,10 @@ public final class OrchidUtils {
     public static boolean isExternal(String fileName) {
         return (fileName.startsWith("http://") || fileName.startsWith("https://"));
     }
+
+    public static String toSlug(String pathPiece){
+        String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
+        s = s.replaceAll("[^\\w-_]", "");
+        return s;
+    }
 }

@@ -2,6 +2,7 @@ package com.eden.orchid.kss
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -85,6 +86,10 @@ constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(conte
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         pages.forEach { context.renderTemplate(it) }
+    }
+
+    override fun getCollections(): List<OrchidCollection>? {
+        return null
     }
 
 }

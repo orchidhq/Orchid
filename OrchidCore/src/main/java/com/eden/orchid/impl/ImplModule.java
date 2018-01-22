@@ -54,7 +54,6 @@ import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.templateFunctions.CompileAsFunction;
 import com.eden.orchid.impl.themes.templateFunctions.FindTemplateFunction;
-import com.eden.orchid.impl.themes.templateTags.AlertTag;
 import com.eden.orchid.utilities.ClogSpells;
 
 @IgnoreModule
@@ -141,8 +140,7 @@ public final class ImplModule extends OrchidModule {
                 FindTemplateFunction.class);
 
         // Template Tags
-        addToSet(TemplateTag.class,
-                AlertTag.class);
+        addToSet(TemplateTag.class);
 
         ClogFormatter formatter = Clog.getFormatter();
         if (formatter instanceof Parseltongue) {

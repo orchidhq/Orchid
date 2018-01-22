@@ -178,7 +178,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
 // Utilities
 //----------------------------------------------------------------------------------------------------------------------
 
-    Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
+    @Override
+    public Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
         Stream<OrchidGenerator> generatorStream = (parallel) ? generators.parallelStream() : generators.stream();
 
         if(!EdenUtils.isEmpty(disabled)) {

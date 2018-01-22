@@ -1,6 +1,7 @@
 package com.eden.orchid.api.generators;
 
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
@@ -13,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -97,5 +99,19 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
      * @param pages the pages to render
      */
     public abstract void startGeneration(Stream<? extends OrchidPage> pages);
+
+    /**
+     * Get a list of the file-based collections that are consumed by this generator.
+     *
+     * @return the list of OrchidCollections
+     */
+    public List<OrchidCollection> getCollections() {
+        List<OrchidPage> pages = context.getGeneratorPages(this.key);
+        if(!EdenUtils.isEmpty(pages)) {
+            return Collections.singletonList(new OrchidCollection(this, this.key, pages));
+        }
+
+        return null;
+    }
 
 }

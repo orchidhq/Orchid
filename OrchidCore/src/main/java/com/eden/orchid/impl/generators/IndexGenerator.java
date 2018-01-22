@@ -2,6 +2,7 @@ package com.eden.orchid.impl.generators;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.indexing.OrchidInternalIndex;
@@ -71,5 +72,10 @@ public final class IndexGenerator extends OrchidGenerator {
         OrchidPage indicesPage = new OrchidPage(indexResource, "index");
         indicesPage.getReference().setUsePrettyUrl(false);
         context.renderRaw(indicesPage);
+    }
+
+    @Override
+    public List<OrchidCollection> getCollections() {
+        return null;
     }
 }
