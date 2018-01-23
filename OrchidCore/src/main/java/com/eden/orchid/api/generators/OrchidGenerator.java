@@ -101,14 +101,14 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     public abstract void startGeneration(Stream<? extends OrchidPage> pages);
 
     /**
-     * Get a list of the file-based collections that are consumed by this generator.
+     * Get a list of the collections that are indexed by this Generator.
      *
      * @return the list of OrchidCollections
      */
-    public List<OrchidCollection> getCollections() {
-        List<OrchidPage> pages = context.getGeneratorPages(this.key);
+    public List<? extends OrchidCollection> getCollections() {
+        List<OrchidPage> pages = context.getGeneratorPages(key);
         if(!EdenUtils.isEmpty(pages)) {
-            return Collections.singletonList(new OrchidCollection(this, this.key, pages));
+            return Collections.singletonList(new FileCollection(this, this.getKey(), pages));
         }
 
         return null;

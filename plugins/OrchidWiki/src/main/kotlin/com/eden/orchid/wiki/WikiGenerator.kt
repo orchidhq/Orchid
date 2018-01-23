@@ -3,6 +3,7 @@ package com.eden.orchid.wiki
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsHolder
@@ -150,8 +151,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         return WikiSection(section, summaryPage, wiki)
     }
 
-    override fun getCollections(): MutableList<OrchidCollection> {
-        val collectionsList = ArrayList<OrchidCollection>()
+    override fun getCollections(): List<OrchidCollection<*>> {
+        val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
 
         model.sections.forEach {
             var sectionPages = ArrayList<OrchidPage>()
@@ -159,7 +160,10 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             sectionPages.add(it.value.summaryPage)
             sectionPages.addAll(it.value.wikiPages)
 
-            collectionsList.add(OrchidCollection(this, "Wiki - ${it.key}", sectionPages))
+            val collection = FileCollection(this, it.key, sectionPages)
+            collection.label = "Wiki - ${it.key}"
+
+            collectionsList.add(collection)
         }
 
         return collectionsList

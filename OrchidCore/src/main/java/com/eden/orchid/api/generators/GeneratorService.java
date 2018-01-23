@@ -3,8 +3,6 @@ package com.eden.orchid.api.generators;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
-import java.util.stream.Stream;
-
 public interface GeneratorService extends OrchidService {
 
     default void startIndexing() {
@@ -13,10 +11,6 @@ public interface GeneratorService extends OrchidService {
 
     default void startGeneration() {
         getService(GeneratorService.class).startGeneration();
-    }
-
-    default Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
-        return getService(GeneratorService.class).getFilteredGenerators(parallel);
     }
 
     default void onPageGenerated(OrchidPage page, long millis) {

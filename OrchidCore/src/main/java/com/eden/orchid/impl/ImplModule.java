@@ -53,7 +53,10 @@ import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.templateFunctions.CompileAsFunction;
+import com.eden.orchid.impl.themes.templateFunctions.FindAllFunction;
+import com.eden.orchid.impl.themes.templateFunctions.FindFunction;
 import com.eden.orchid.impl.themes.templateFunctions.FindTemplateFunction;
+import com.eden.orchid.impl.themes.templateFunctions.LinkFunction;
 import com.eden.orchid.utilities.ClogSpells;
 
 @IgnoreModule
@@ -137,7 +140,11 @@ public final class ImplModule extends OrchidModule {
         // Template Functions
         addToSet(TemplateFunction.class,
                 CompileAsFunction.class,
-                FindTemplateFunction.class);
+                FindTemplateFunction.class,
+                FindAllFunction.class,
+                FindFunction.class,
+                LinkFunction.class
+        );
 
         // Template Tags
         addToSet(TemplateTag.class);

@@ -82,7 +82,7 @@ public class JavadocGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<OrchidCollection> getCollections() {
+    public List<? extends OrchidCollection> getCollections() {
         return null;
     }
 }

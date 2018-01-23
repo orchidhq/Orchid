@@ -3,6 +3,7 @@ package com.eden.orchid.posts
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
@@ -284,12 +285,22 @@ constructor(context: OrchidContext, val permalinkStrategy: PostsPermalinkStrateg
         val pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)")
     }
 
-    override fun getCollections(): MutableList<OrchidCollection> {
-        val collectionsList = ArrayList<OrchidCollection>()
+    override fun getCollections(): List<OrchidCollection<*>> {
+        val collectionsList = ArrayList<OrchidCollection<*>>()
 
         categories.forEach {
             val baseCategoryPath = if (EdenUtils.isEmpty(it)) baseDir else baseDir + "/" + it
-            collectionsList.add(OrchidCollection(this, "Blog - $it", baseCategoryPath, PostPage::class.java))
+
+            val collection = FolderCollection(
+                    this,
+                    it,
+                    postsModel.categories[it]?.first,
+                    PostPage::class.java,
+                    baseCategoryPath
+            )
+            collection.label = "Blog - $it"
+
+            collectionsList.add(collection)
         }
 
         return collectionsList
