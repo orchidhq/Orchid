@@ -1,0 +1,5 @@
+{% if tag.file is not empty %}
+<script src="https://gist.github.com/{{ tag.user }}/{{ tag.id }}.js?file={{ tag.file }}"></script>
+{% else %}
+<script src="https://gist.github.com/{{ tag.user }}/{{ tag.id }}.js"></script>
+{% endif %}

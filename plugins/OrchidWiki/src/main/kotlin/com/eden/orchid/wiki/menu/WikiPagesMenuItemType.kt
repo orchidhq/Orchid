@@ -21,7 +21,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
     @Option
     var section: String? = null
 
-    @Option @BooleanDefault(true)
+    @Option @BooleanDefault(false)
     var topLevel: Boolean = false
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {

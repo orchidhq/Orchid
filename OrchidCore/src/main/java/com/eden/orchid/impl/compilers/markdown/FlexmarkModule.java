@@ -9,6 +9,7 @@ import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtensio
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.ext.toc.TocExtension;
+import com.vladsch.flexmark.util.options.MutableDataSet;
 
 public final class FlexmarkModule extends OrchidModule {
 
@@ -23,5 +24,7 @@ public final class FlexmarkModule extends OrchidModule {
                 TaskListExtension.create(),
                 TocExtension.create()
         );
+
+        addToSet(MutableDataSet.class);
     }
 }
