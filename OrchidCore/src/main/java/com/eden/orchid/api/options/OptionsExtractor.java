@@ -47,7 +47,7 @@ public class OptionsExtractor {
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
         // setup initial options
         JSONObject initialOptions = new JSONObject(options.toMap());
-        JSONObject archetypalOptions = loadArchetypalData(optionsHolder.getClass(), initialOptions);
+        JSONObject archetypalOptions = loadArchetypalData(optionsHolder, initialOptions);
 
         JSONObject actualOptions = OrchidUtils.merge(archetypalOptions, initialOptions);
 
@@ -165,7 +165,8 @@ public class OptionsExtractor {
         return new EdenPair<>(optionsDataField, fields);
     }
 
-    private JSONObject loadArchetypalData(Class<?> optionsHolderClass, JSONObject actualOptions) {
+    private JSONObject loadArchetypalData(Object target, JSONObject actualOptions) {
+        Class<?> optionsHolderClass = target.getClass();
         JSONObject allAdditionalData = new JSONObject();
 
         List<Archetype> archetypeAnnotations = new ArrayList<>();
@@ -189,7 +190,7 @@ public class OptionsExtractor {
             }
 
             archetypeDataProvider.extractOptions(context, archetypeConfiguration);
-            JSONObject archetypalData = archetypeDataProvider.getOptions(archetype.key());
+            JSONObject archetypalData = archetypeDataProvider.getOptions(target, archetype.key());
 
             if(archetypalData != null) {
                 allAdditionalData = OrchidUtils.merge(allAdditionalData, archetypalData);

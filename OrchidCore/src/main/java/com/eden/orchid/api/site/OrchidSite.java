@@ -1,6 +1,7 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidService;
+import org.json.JSONObject;
 
 public interface OrchidSite extends OrchidService {
 
@@ -24,6 +25,8 @@ public interface OrchidSite extends OrchidService {
     default String getDefaultTemplateExtension() { return getService(OrchidSite.class).getDefaultTemplateExtension(); }
 
     default SiteInfo getSiteInfo() { return getService(OrchidSite.class).getSiteInfo(); }
+
+    default JSONObject toJSON() { return getService(OrchidSite.class).toJSON(); }
 
     @Override
     default String getKey() {

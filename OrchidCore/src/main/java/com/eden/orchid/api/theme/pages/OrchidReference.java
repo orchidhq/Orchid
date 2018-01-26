@@ -185,6 +185,12 @@ public final class OrchidReference {
         return segments[segmentIndex];
     }
 
+    public String[] getPathSegments() {
+        String path = getPath();
+        String[] segments = path.split("/");
+        return segments;
+    }
+
     public String getOriginalFileName() {
         return fileName;
     }

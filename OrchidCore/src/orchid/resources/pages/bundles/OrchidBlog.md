@@ -1,6 +1,4 @@
 ---
-layout: bundle
-bundleName: Orchid Blog
 ---
 
 The Orchid Blog bundle provides just what you need to get started writing your blog, and nothing more. You won't get 

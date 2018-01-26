@@ -68,6 +68,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
     private fun getWikiPages(section: String?): WikiSection? {
         val pageMenuItem = JSONObject()
         pageMenuItem.put("type", "wiki")
+        pageMenuItem.put("topLevel", true)
 
         if (!EdenUtils.isEmpty(section)) {
             pageMenuItem.put("title", section!! + " Wiki")
@@ -115,12 +116,11 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
 
             val pageTitle = if(includeIndexInPageTitle) "${i+1}. " + a.text() else a.text()
 
-            val page = WikiPage(resource, pageTitle, i)
+            val page = WikiPage(resource, pageTitle, section, i+1)
 
             page.menu.addMenuItem(pageMenuItem)
 
             i++
-            page.order = i
 
             wiki.add(page)
 
@@ -140,7 +140,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         summary = StringResource(safe, summary.reference)
 
         val sectionTitle = if (!EdenUtils.isEmpty(section)) section else "Wiki"
-        val summaryPage = WikiSummaryPage(summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
+        val summaryPage = WikiSummaryPage(section, summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
         summaryPage.reference.isUsePrettyUrl = true
         summaryPage.menu.addMenuItem(pageMenuItem)
 

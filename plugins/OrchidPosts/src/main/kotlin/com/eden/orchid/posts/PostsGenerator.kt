@@ -151,13 +151,12 @@ constructor(context: OrchidContext, val permalinkStrategy: PostsPermalinkStrateg
             val matcher = pageTitleRegex.matcher(formattedFilename)
 
             if (matcher.matches()) {
-                val post = PostPage(entry, postsModel)
+                val post = PostPage(entry, postsModel, category)
 
                 post.year = Integer.parseInt(matcher.group(1))
                 post.month = Integer.parseInt(matcher.group(2))
                 post.day = Integer.parseInt(matcher.group(3))
                 post.title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
-                post.category = category
 
                 permalinkStrategy.applyPermalink(post)
                 posts.add(post)

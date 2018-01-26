@@ -3,23 +3,26 @@ package com.eden.orchid.posts.pages
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl
 import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.utils.PostsExcerptStrategy
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Archetype(value = ConfigArchetype::class, key = "postPages")
-class PostPage(resource: OrchidResource, var postsModel: PostsModel) : PermalinkPage(resource, "post") {
+@Archetypes(
+    Archetype(value = ConfigArchetype::class, key = "postPages"),
+    Archetype(value = PostCategoryArchetype::class, key = "postPages")
+)
+class PostPage(resource: OrchidResource, var postsModel: PostsModel, val category: String?) : PermalinkPage(resource, "post") {
 
     var year: Int = 0
     var month: Int = 0
     var day: Int = 0
-
-    var category: String? = null
 
     @Option
     var author: Author? = null
@@ -55,6 +58,15 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel) : Permalink
 
             return tagArchivePages
         }
+
+    init {
+        this.extractOptions(this.context, data)
+        postInitialize(title)
+    }
+
+    override fun initialize(title: String?) {
+
+    }
 
     @JvmOverloads
     fun publishedDate(format: String = "MMMMM d, yyyy"): String {

@@ -25,13 +25,6 @@ theme:
   extraCss:
     - 'assets/css/pygments.scss'
 
-wiki:
-  layout: 'wikiPage'
-  includeIndexInPageTitle: true
-  sections:
-    - 'userManual'
-    - 'developersGuide'
-
 services:
   generators:
     disabled:
@@ -56,5 +49,14 @@ allPages:
         - 'show-language'
         - 'copy-to-clipboard'
 
+wiki:
+  includeIndexInPageTitle: true
+  sections:
+    - 'userManual'
+    - 'developersGuide'
+
 wikiPages:
   layout: geopattern2
+
+staticPages:
+  layout: geopattern

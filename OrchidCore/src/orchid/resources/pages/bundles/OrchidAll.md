@@ -1,6 +1,4 @@
 ---
-layout: bundle
-bundleName: Orchid All
 ---
 
 An Orchid bundle containing every officially-developed Orchid plugin and theme. This offers the greatest flexibility to 

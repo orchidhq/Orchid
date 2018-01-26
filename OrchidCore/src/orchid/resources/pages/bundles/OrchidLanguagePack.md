@@ -1,6 +1,4 @@
 ---
-layout: bundle
-bundleName: Orchid Language Pack
 ---
 
 The Orchid Language Pack bundle is not a ready-to-use bundle, but does group together all the plugins designed to 
