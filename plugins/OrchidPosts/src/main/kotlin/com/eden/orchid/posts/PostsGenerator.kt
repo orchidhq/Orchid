@@ -38,7 +38,7 @@ import javax.inject.Singleton
 @Description("Share your thoughts and interests with blog posts and archives.")
 class PostsGenerator @Inject
 constructor(context: OrchidContext, val permalinkStrategy: PostsPermalinkStrategy, val postsModel: PostsModel)
-    : OrchidGenerator(context, "posts", 700) {
+    : OrchidGenerator(context, "posts", OrchidGenerator.PRIORITY_EARLY) {
 
     @Option
     @StringDefault(":category/:year/:month/:day/:slug")

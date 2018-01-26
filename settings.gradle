@@ -28,6 +28,7 @@ include 'plugins:OrchidPluginDocs'
 include 'plugins:OrchidPosts'
 include 'plugins:OrchidPresentations'
 include 'plugins:OrchidSwagger'
+include 'plugins:OrchidTaxonomies'
 include 'plugins:OrchidWiki'
 
 include 'languageExtensions:OrchidAsciidoc'

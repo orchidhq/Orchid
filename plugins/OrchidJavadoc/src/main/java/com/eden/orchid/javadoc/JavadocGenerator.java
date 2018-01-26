@@ -33,7 +33,7 @@ public class JavadocGenerator extends OrchidGenerator {
 
     @Inject
     public JavadocGenerator(OrchidContext context, RootDoc rootDoc, JavadocModel model) {
-        super(context, "javadoc", 800);
+        super(context, "javadoc", OrchidGenerator.PRIORITY_EARLY);
         this.rootDoc = rootDoc;
         this.model = model;
     }

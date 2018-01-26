@@ -51,6 +51,22 @@ import java.util.stream.Stream;
  */
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 
+    /**
+     * Typically used for Generators that produce content pages.
+     */
+    public static final int PRIORITY_EARLY = 1000;
+
+    /**
+     * Typically used for Generators that produce pages based on data contained in content pages or just index content
+     * for use in components, menus, or collections.
+     */
+    public static final int PRIORITY_DEFAULT = 100;
+
+    /**
+     * Typically used for Generators that produce assets or data files.
+     */
+    public static final int PRIORITY_LATE = 10;
+
     @Getter
     protected final String key;
 

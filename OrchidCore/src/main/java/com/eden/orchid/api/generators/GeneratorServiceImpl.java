@@ -85,7 +85,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void indexGenerator(OrchidGenerator generator) {
-        Clog.d("Indexing [{}]", generator.getKey());
+        Clog.d("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
         metrics.startIndexingGenerator(generator.getKey());
 
         JSONElement el = context.query(generator.getKey());
@@ -147,7 +147,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void useGenerator(OrchidGenerator generator) {
-        Clog.d("Generating [{}]", generator.getKey());
+        Clog.d("Generating [{}: {}]", generator.getPriority(), generator.getKey());
         metrics.startGeneratingGenerator(generator.getKey());
 
         List<? extends OrchidPage> generatorPages = null;

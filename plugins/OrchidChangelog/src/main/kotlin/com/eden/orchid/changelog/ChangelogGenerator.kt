@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Singleton
 @Description("Track changes and create references to all versions of your project.")
 class ChangelogGenerator @Inject
-constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator(context, "changelog", 700) {
+constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator(context, "changelog", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option @StringDefault("changelog")
     lateinit var baseDir: String

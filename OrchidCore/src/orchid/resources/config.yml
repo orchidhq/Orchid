@@ -60,3 +60,9 @@ wikiPages:
 
 staticPages:
   layout: geopattern
+
+taxonomies:
+  singleTypes:
+    - group
+  multiTypes:
+    - tags

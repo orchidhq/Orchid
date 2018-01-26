@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @Singleton
 @Description("Create a structured and navigable knowledge-base for your project.")
 class WikiGenerator @Inject
-constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, "wiki", 700), OptionsHolder {
+constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, "wiki", OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
 
     @Option @StringDefault("wiki")
     lateinit var baseDir: String
