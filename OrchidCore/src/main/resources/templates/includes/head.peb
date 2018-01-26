@@ -1,32 +1,41 @@
+{# @pebvariable name="page" type="com.eden.orchid.api.theme.pages.OrchidPage" #}
+{# @pebvariable name="site" type="com.eden.orchid.api.site.OrchidSite" #}
 
 <meta charset="utf-8"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="robots" content="index, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-<meta name="generator" content="Orchid {{ site.orchidVersion }}" />
+<meta name="generator" content="Orchid {{ site.orchidVersion }}"/>
 
-{% if page.title is not empty %}
-    <title>{{ page.title }}</title>
+{% if page.noIndex and page.noFollow %}
+<meta name="robots" content="noindex, nofollow">
+{% elseif page.noIndex and not page.noFollow %}
+<meta name="robots" content="noindex">
+{% elseif not page.noIndex and page.noFollow %}
+<meta name="robots" content="nofollow">
 {% else %}
-    <title>{{ site.about.name }}</title>
+<meta name="robots" content="index, follow">
 {% endif %}
 
-{% if page.description is not empty %}
-    <meta name="description" content="{{ page.description }}">
+{% if page.title is not empty %}
+<title>{{ page.title }}</title>
 {% else %}
-    <meta name="description" content="{{ site.about.description }}">
+<title>{{ site.getSiteInfo().siteName }}</title>
+{% endif %}
+{% if page.description is not empty %}
+<meta name="description" content="{{ page.description }}">
+{% else %}
+<meta name="description" content="{{ site.getSiteInfo().siteDescription}}">
 {% endif %}
 
 {% if page.previous is not empty %}
-    <link rel="prev" href="{{ page.previous.link }}">
+<link rel="prev" href="{{ page.previous.link }}">
 {% endif %}
-
 {% if page.next is not empty %}
-    <link rel="next" href="{{ page.next.link }}">
+<link rel="next" href="{{ page.next.link }}">
 {% endif %}
 
 <script>
-    window.site = {{ site | raw }};
+    window.site = {{ site.toJSON() | raw }};
 </script>
 
 {% include '?meta' %}

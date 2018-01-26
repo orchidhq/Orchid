@@ -61,6 +61,7 @@ public final class OrchidSiteImpl implements OrchidSite {
         return about;
     }
 
+    @Override
     public JSONObject toJSON() {
         JSONObject site = new JSONObject();
         site.put("orchidVersion", orchidVersion);

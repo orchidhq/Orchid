@@ -1,4 +1,4 @@
-package com.eden.orchid.languages.highlighter
+package com.eden.orchid.languages.highlighter.components
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext

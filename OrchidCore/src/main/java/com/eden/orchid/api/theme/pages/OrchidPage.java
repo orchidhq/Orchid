@@ -46,6 +46,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected boolean isCurrent;
     @Getter @Setter protected boolean isIndexed;
 
+    @Getter @Setter protected boolean noIndex;
+    @Getter @Setter protected boolean noFollow;
+
     @Getter @Setter @Option protected String title;
     @Getter @Setter @Option protected String description;
     @Getter @Setter @Option protected String layout;
@@ -102,8 +105,15 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             this.data = new JSONObject();
         }
 
-        this.extractOptions(this.context, this.data);
+        initialize(title);
+    }
 
+    protected void initialize(String title) {
+        this.extractOptions(this.context, this.data);
+        postInitialize(title);
+    }
+
+    protected void postInitialize(String title) {
         if (EdenUtils.isEmpty(this.title)) {
             if (!EdenUtils.isEmpty(title)) {
                 this.title = title;

@@ -96,9 +96,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
             generator.extractOptions(context, new JSONObject());
         }
 
+        // get the pages from a generator
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
-
-        if (!EdenUtils.isEmpty(generator.getKey()) && generatorPages != null && generatorPages.size() > 0) {
+        if (generatorPages != null && generatorPages.size() > 0) {
             OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
             for (OrchidPage page : generatorPages) {
                 page.setGenerator(generator);
@@ -107,7 +107,16 @@ public final class GeneratorServiceImpl implements GeneratorService {
                 freePage(page);
             }
             context.addChildIndex(generator.getKey(), index);
+        }
 
+        // get the collections from a generator
+        List<? extends OrchidCollection> generatorCollections = generator.getCollections();
+        if (generatorCollections != null && generatorCollections.size() > 0) {
+            context.addCollections(generatorCollections);
+        }
+
+        // notify the generator is finished indexing
+        if (generatorPages != null && generatorPages.size() > 0) {
             metrics.stopIndexingGenerator(generator.getKey(), generatorPages.size());
         }
         else {
@@ -178,8 +187,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 // Utilities
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
+    Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
         Stream<OrchidGenerator> generatorStream = (parallel) ? generators.parallelStream() : generators.stream();
 
         if(!EdenUtils.isEmpty(disabled)) {

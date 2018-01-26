@@ -4,6 +4,6 @@ import org.json.JSONObject;
 
 public interface OptionArchetype extends OptionsHolder {
 
-    JSONObject getOptions(String archetypeKey);
+    JSONObject getOptions(Object target, String archetypeKey);
 
 }

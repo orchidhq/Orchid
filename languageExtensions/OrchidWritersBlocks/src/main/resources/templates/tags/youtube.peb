@@ -1,0 +1,8 @@
+<iframe
+        width="{{ tag.width }}"
+        height="{{ tag.height }}"
+        src="https://www.youtube.com/embed/{{ tag.id }}{% if tag.start is not empty %}?start={{tag.getStartSeconds()}}{% endif %}"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+</iframe>

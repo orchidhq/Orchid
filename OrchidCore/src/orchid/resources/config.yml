@@ -22,13 +22,8 @@ theme:
       title: 'News'
     - type: 'javadocPackages'
     - type: 'javadocClasses'
-
-wiki:
-  layout: 'wikiPage'
-  includeIndexInPageTitle: true
-  sections:
-    - 'userManual'
-    - 'developersGuide'
+  extraCss:
+    - 'assets/css/pygments.scss'
 
 services:
   generators:
@@ -54,5 +49,14 @@ allPages:
         - 'show-language'
         - 'copy-to-clipboard'
 
+wiki:
+  includeIndexInPageTitle: true
+  sections:
+    - 'userManual'
+    - 'developersGuide'
+
 wikiPages:
   layout: geopattern2
+
+staticPages:
+  layout: geopattern

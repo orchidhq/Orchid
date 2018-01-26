@@ -3,6 +3,7 @@ package com.eden.orchid.wiki
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsHolder
@@ -67,6 +68,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
     private fun getWikiPages(section: String?): WikiSection? {
         val pageMenuItem = JSONObject()
         pageMenuItem.put("type", "wiki")
+        pageMenuItem.put("topLevel", true)
 
         if (!EdenUtils.isEmpty(section)) {
             pageMenuItem.put("title", section!! + " Wiki")
@@ -114,12 +116,11 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
 
             val pageTitle = if(includeIndexInPageTitle) "${i+1}. " + a.text() else a.text()
 
-            val page = WikiPage(resource, pageTitle, i)
+            val page = WikiPage(resource, pageTitle, section, i+1)
 
             page.menu.addMenuItem(pageMenuItem)
 
             i++
-            page.order = i
 
             wiki.add(page)
 
@@ -139,7 +140,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         summary = StringResource(safe, summary.reference)
 
         val sectionTitle = if (!EdenUtils.isEmpty(section)) section else "Wiki"
-        val summaryPage = WikiSummaryPage(summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
+        val summaryPage = WikiSummaryPage(section, summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
         summaryPage.reference.isUsePrettyUrl = true
         summaryPage.menu.addMenuItem(pageMenuItem)
 
@@ -150,8 +151,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         return WikiSection(section, summaryPage, wiki)
     }
 
-    override fun getCollections(): MutableList<OrchidCollection> {
-        val collectionsList = ArrayList<OrchidCollection>()
+    override fun getCollections(): List<OrchidCollection<*>> {
+        val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
 
         model.sections.forEach {
             var sectionPages = ArrayList<OrchidPage>()
@@ -159,7 +160,10 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             sectionPages.add(it.value.summaryPage)
             sectionPages.addAll(it.value.wikiPages)
 
-            collectionsList.add(OrchidCollection(this, "Wiki - ${it.key}", sectionPages))
+            val collection = FileCollection(this, it.key, sectionPages)
+            collection.label = "Wiki - ${it.key}"
+
+            collectionsList.add(collection)
         }
 
         return collectionsList

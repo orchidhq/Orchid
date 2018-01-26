@@ -18,7 +18,7 @@ public class ConfigArchetype implements OptionArchetype {
     }
 
     @Override
-    public JSONObject getOptions(String archetypeKey) {
+    public JSONObject getOptions(Object target, String archetypeKey) {
         if(!EdenUtils.isEmpty(archetypeKey)) {
             JSONElement contextOptions = context.query(archetypeKey);
             if(contextOptions != null && contextOptions.getElement() instanceof JSONObject) {

@@ -88,7 +88,7 @@ constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(conte
         pages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(): List<OrchidCollection>? {
+    override fun getCollections(): List<OrchidCollection<*>>? {
         return null
     }
 

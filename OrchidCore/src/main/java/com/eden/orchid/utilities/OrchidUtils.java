@@ -218,4 +218,13 @@ public final class OrchidUtils {
         s = s.replaceAll("[^\\w-_]", "");
         return s;
     }
+
+    public static <T> T first(List<T> items) {
+        if(items != null && items.size() > 0) {
+            return items.get(0);
+        }
+
+        return null;
+    }
+
 }
