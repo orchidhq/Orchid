@@ -3,7 +3,6 @@ package com.eden.orchid.posts.permalink.pathTypes
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.PostsGenerator
-import com.eden.orchid.posts.pages.PostArchivePage
 import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.permalink.PermalinkPathType
 import com.eden.orchid.posts.utils.PostsUtils
@@ -33,8 +32,6 @@ constructor() : PermalinkPathType(100) {
             if (matcher.matches()) {
                 return matcher.group(4)
             }
-        } else if (page is PostArchivePage) {
-            return page.category
         }
 
         return null

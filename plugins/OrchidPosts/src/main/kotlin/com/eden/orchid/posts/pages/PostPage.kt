@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
@@ -18,7 +19,7 @@ import java.util.*
     Archetype(value = ConfigArchetype::class, key = "postPages"),
     Archetype(value = PostCategoryArchetype::class, key = "postPages")
 )
-class PostPage(resource: OrchidResource, var postsModel: PostsModel, val category: String?) : PermalinkPage(resource, "post") {
+class PostPage(resource: OrchidResource, var postsModel: PostsModel, val category: String?) : OrchidPage(resource, "post") {
 
     var year: Int = 0
     var month: Int = 0
@@ -36,27 +37,13 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
     @Option
     lateinit var tagline: String
 
+    @Option
+    lateinit var permalink: String
+
     val excerpt: String
         get() {
             val strategy = context.injector.getInstance(PostsExcerptStrategy::class.java)
             return strategy.getExcerpt(this)
-        }
-
-    val categoryPage: PostArchivePage?
-        get() = postsModel.getCategoryLandingPage(this.category)
-
-    val tagPages: List<PostTagArchivePage>
-        get() {
-            val tagArchivePages = ArrayList<PostTagArchivePage>()
-
-            for (tag in tags) {
-                val tagArchivePage = getTagPage(tag)
-                if (tagArchivePage != null) {
-                    tagArchivePages.add(tagArchivePage)
-                }
-            }
-
-            return tagArchivePages
         }
 
     init {
@@ -76,10 +63,6 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
         date.set(Calendar.DAY_OF_MONTH, day)
 
         return SimpleDateFormat(format).format(date.time)
-    }
-
-    fun getTagPage(tag: String): PostTagArchivePage? {
-        return postsModel.getTagLandingPage(tag)
     }
 
     override fun getTemplates(): List<String> {

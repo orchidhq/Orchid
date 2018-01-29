@@ -1,0 +1,8 @@
+<div class="taxonomy-archive">
+{# @pebvariable name="page" type="com.eden.orchid.taxonomies.pages.TaxonomyArchivePage" #}
+{% for term in page.taxonomy.terms.values() %}
+    <ul>
+        <li><a href="{{term.link}}">{{term.title}}</a></li>
+    </ul>
+{% endfor %}
+</div>

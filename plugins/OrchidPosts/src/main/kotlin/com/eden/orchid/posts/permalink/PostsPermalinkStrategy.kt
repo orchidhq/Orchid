@@ -4,7 +4,6 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.model.PostsModel
-import com.eden.orchid.posts.pages.PermalinkPage
 import com.eden.orchid.utilities.OrchidUtils
 import java.util.*
 import javax.inject.Inject
@@ -17,12 +16,7 @@ constructor(
         val postsModel: PostsModel,
         val injectedPathTypes: Set<PermalinkPathType>
 ) {
-
     private val pathTypes: Set<PermalinkPathType> = TreeSet(injectedPathTypes)
-
-    fun applyPermalink(page: PermalinkPage) {
-        applyPermalink(page, getPermalinkTemplate(page))
-    }
 
     fun applyPermalink(page: OrchidPage, permalink: String) {
         val pieces = permalink.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -34,14 +28,6 @@ constructor(
         page.reference.fileName = title
 
         page.reference.isUsePrettyUrl = true
-    }
-
-    private fun getPermalinkTemplate(post: PermalinkPage): String {
-        return if (!EdenUtils.isEmpty(post.permalink)) {
-            post.permalink
-        } else {
-            postsModel.permalink
-        }
     }
 
     private fun applyPermalinkTemplate(page: OrchidPage, pieces: Array<String>): String {

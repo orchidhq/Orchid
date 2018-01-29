@@ -146,6 +146,16 @@ fun Array<String>.slug(mapper: String.() -> String): String {
     return map(mapper).slug()
 }
 
+fun Array<String>.titleCase(): String {
+    return joinToString(separator = " ", transform = {it.capitalize()})
+}
+fun List<String>.titleCase(): String {
+    return toTypedArray().titleCase()
+}
+fun Array<String>.titleCase(mapper: String.() -> String): String {
+    return map(mapper).titleCase()
+}
+
 // "with" mappers
 fun String.urlSafe(): String {
     return replace("\\s+".toRegex(), "-").replace("[^\\w-_]".toRegex(), "")

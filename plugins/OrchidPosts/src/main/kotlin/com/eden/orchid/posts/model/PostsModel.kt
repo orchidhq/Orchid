@@ -1,9 +1,7 @@
 package com.eden.orchid.posts.model
 
 import com.eden.common.util.EdenUtils
-import com.eden.orchid.posts.pages.PostArchivePage
 import com.eden.orchid.posts.pages.PostPage
-import com.eden.orchid.posts.pages.PostTagArchivePage
 import lombok.Getter
 import lombok.Setter
 import java.util.*
@@ -22,22 +20,17 @@ constructor() {
     lateinit var authors: List<Author>
 
     var categories: MutableMap<String?, CategoryModel>
-    var tags: MutableMap<String, TagModel>
 
     val categoryNames: Set<String?>
         get() = categories.keys
 
-    val tagNames: Set<String>
-        get() = tags.keys
 
     init {
         this.categories = LinkedHashMap()
-        this.tags = LinkedHashMap()
     }
 
     fun initialize(permalink: String, layout: String, excerptSeparator: String, authors: List<Author>) {
         this.categories = LinkedHashMap()
-        this.tags = LinkedHashMap()
 
         this.permalink = permalink
         this.layout = layout
@@ -55,15 +48,6 @@ constructor() {
         }
 
         return null
-    }
-
-    fun tagPost(tag: String, post: PostPage) {
-        tags.putIfAbsent(tag, TagModel(tag))
-        tags[tag]!!.first.add(post)
-    }
-
-    fun getPostsTagged(tag: String): List<PostPage> {
-        return tags[tag]?.first ?: emptyList()
     }
 
     fun getRecentPosts(category: String?, limitArg: Int): List<PostPage> {
@@ -95,18 +79,6 @@ constructor() {
         }
 
         return postPages
-    }
-
-    fun getCategoryLandingPage(category: String?): PostArchivePage? {
-        return if (categories.containsKey(category)) {
-            categories[category]!!.second[0]
-        } else null
-    }
-
-    fun getTagLandingPage(tag: String): PostTagArchivePage? {
-        return if (tags.containsKey(tag)) {
-            tags[tag]!!.second[0]
-        } else null
     }
 
     companion object {
