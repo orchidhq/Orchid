@@ -10,16 +10,18 @@ import com.eden.orchid.api.options.annotations.ListClass
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.pages.PostPage
-import com.eden.orchid.posts.permalink.PostsPermalinkStrategy
 import com.eden.orchid.posts.utils.PostsUtils
+import com.eden.orchid.posts.utils.isToday
 import com.eden.orchid.utilities.dashCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
+import java.time.LocalDate
 import java.util.*
 import java.util.regex.Pattern
 import java.util.stream.Stream
@@ -29,7 +31,7 @@ import javax.inject.Singleton
 @Singleton
 @Description("Share your thoughts and interests with blog posts and archives.")
 class PostsGenerator @Inject
-constructor(context: OrchidContext, val permalinkStrategy: PostsPermalinkStrategy, val postsModel: PostsModel)
+constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, val postsModel: PostsModel)
     : OrchidGenerator(context, "posts", OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
@@ -113,10 +115,15 @@ constructor(context: OrchidContext, val permalinkStrategy: PostsPermalinkStrateg
             if (matcher.matches()) {
                 val post = PostPage(entry, postsModel, category)
 
-                post.year = Integer.parseInt(matcher.group(1))
-                post.month = Integer.parseInt(matcher.group(2))
-                post.day = Integer.parseInt(matcher.group(3))
                 post.title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
+
+                if(post.publishDate.isToday()) {
+                    post.publishDate = LocalDate.of(
+                            Integer.parseInt(matcher.group(1)),
+                            Integer.parseInt(matcher.group(2)),
+                            Integer.parseInt(matcher.group(3))
+                    )
+                }
 
                 val permalink = if (!EdenUtils.isEmpty(post.permalink)) post.permalink else postsModel.permalink
                 permalinkStrategy.applyPermalink(post, permalink)

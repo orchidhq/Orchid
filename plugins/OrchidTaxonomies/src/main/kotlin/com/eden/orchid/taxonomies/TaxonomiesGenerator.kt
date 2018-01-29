@@ -11,7 +11,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
-import com.eden.orchid.taxonomies.models.TaxonomyPaginator
 import com.eden.orchid.taxonomies.models.Term
 import com.eden.orchid.taxonomies.pages.TaxonomyArchivePage
 import com.eden.orchid.taxonomies.pages.TermArchivePage
@@ -122,23 +121,23 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
 
         model.taxonomies.values.forEach { taxonomy ->
             taxonomy.terms.values.forEach { term ->
-                archivePages.addAll(buildTermArchivePages(taxonomy, term, getPaginator()))
+                archivePages.addAll(buildTermArchivePages(taxonomy, term))
             }
-            archivePages.addAll(buildTaxonomyLandingPages(taxonomy, getPaginator()))
+            archivePages.addAll(buildTaxonomyLandingPages(taxonomy))
         }
 
         return archivePages
     }
 
     // build a set of pages that display all the terms in a given taxonomy
-    private fun buildTaxonomyLandingPages(taxonomy: Taxonomy, paginator: TaxonomyPaginator): List<OrchidPage> {
+    private fun buildTaxonomyLandingPages(taxonomy: Taxonomy): List<OrchidPage> {
         val terms = taxonomy.terms.values.toList()
         val termPages = ArrayList<OrchidPage>()
 
-        val pages = Math.ceil((taxonomy.terms.size / paginator.pageSize).toDouble()).toInt()
+        val pages = Math.ceil((taxonomy.terms.size / taxonomy.pageSize).toDouble()).toInt()
 
         for (i in 0..pages) {
-            val termList = terms.subList(i * paginator.pageSize, Math.min((i + 1) * paginator.pageSize, terms.size))
+            val termList = terms.subList(i * taxonomy.pageSize, Math.min((i + 1) * taxonomy.pageSize, terms.size))
             if (termList.isNotEmpty()) {
                 val permalink = taxonomy.key + (if(i == 0) ".html" else "/${i + 1}.html")
                 var title = "Taxonomy ${taxonomy.key.capitalize()}"
@@ -159,14 +158,14 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
     }
 
     // build a set of pages that display all the items in a given term within a taxonomy
-    private fun buildTermArchivePages(taxonomy: Taxonomy, term: Term, paginator: TaxonomyPaginator): List<OrchidPage> {
+    private fun buildTermArchivePages(taxonomy: Taxonomy, term: Term): List<OrchidPage> {
         val pagesList = term.pages.toList()
         val termArchivePages = ArrayList<OrchidPage>()
 
-        val pages = Math.ceil((pagesList.size / paginator.pageSize).toDouble()).toInt()
+        val pages = Math.ceil((pagesList.size / term.pageSize).toDouble()).toInt()
 
         for (i in 0..pages) {
-            val termPageList = pagesList.subList(i * paginator.pageSize, Math.min((i + 1) * paginator.pageSize, pagesList.size))
+            val termPageList = pagesList.subList(i * term.pageSize, Math.min((i + 1) * term.pageSize, pagesList.size))
             if (termPageList.isNotEmpty()) {
                 val permalink = "${taxonomy.key}/${term.key}" + (if(i == 0) ".html" else "/${i + 1}.html")
                 var title = "Taxonomy ${taxonomy.key.capitalize()} - ${term.key.capitalize()}"
@@ -220,12 +219,6 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
         }
 
         return null
-    }
-
-    private fun getPaginator(): TaxonomyPaginator {
-        val paginator = TaxonomyPaginator()
-        paginator.extractOptions(context, JSONObject())
-        return paginator
     }
 
 }

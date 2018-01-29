@@ -1,8 +1,8 @@
 package com.eden.orchid.posts.permalink.pathTypes
 
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.pages.PostPage
-import com.eden.orchid.posts.permalink.PermalinkPathType
 import java.time.Month
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ constructor() : PermalinkPathType(100) {
     override fun format(page: OrchidPage, key: String): String? {
         return if (page is PostPage) {
             Month.of(page.month).toString()
-        } else null
+        } else page.publishDate.month.toString()
 
     }
 

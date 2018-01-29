@@ -12,18 +12,12 @@ import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.utils.PostsExcerptStrategy
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Archetypes(
     Archetype(value = ConfigArchetype::class, key = "postPages"),
     Archetype(value = PostCategoryArchetype::class, key = "postPages")
 )
 class PostPage(resource: OrchidResource, var postsModel: PostsModel, val category: String?) : OrchidPage(resource, "post") {
-
-    var year: Int = 0
-    var month: Int = 0
-    var day: Int = 0
 
     @Option
     var author: Author? = null
@@ -46,6 +40,11 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
             return strategy.getExcerpt(this)
         }
 
+    val year: Int         get() { return publishDate.year }
+    val month: Int        get() { return publishDate.monthValue }
+    val monthName: String get() { return publishDate.month.toString() }
+    val day: Int          get() { return publishDate.dayOfMonth }
+
     init {
         this.extractOptions(this.context, data)
         postInitialize(title)
@@ -53,16 +52,6 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
 
     override fun initialize(title: String?) {
 
-    }
-
-    @JvmOverloads
-    fun publishedDate(format: String = "MMMMM d, yyyy"): String {
-        val date = Calendar.getInstance()
-        date.set(Calendar.YEAR, year)
-        date.set(Calendar.MONTH, month - 1)
-        date.set(Calendar.DAY_OF_MONTH, day)
-
-        return SimpleDateFormat(format).format(date.time)
     }
 
     override fun getTemplates(): List<String> {

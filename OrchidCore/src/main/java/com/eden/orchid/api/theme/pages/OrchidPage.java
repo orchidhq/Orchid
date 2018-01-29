@@ -57,11 +57,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Setter @Option @BooleanDefault(false)
     protected boolean draft;
 
-    @Setter @Option
-    protected LocalDate publishDate;
+    @Getter @Setter @Option
+    private LocalDate publishDate;
 
-    @Setter @Option
-    protected LocalDate expiryDate;
+    @Getter @Setter @Option
+    private LocalDate expiryDate;
 
     @Getter @Setter @Option protected String[] extraCss;
     @Getter @Setter @Option protected String[] extraJs;

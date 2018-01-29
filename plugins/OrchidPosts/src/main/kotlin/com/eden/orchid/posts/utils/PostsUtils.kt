@@ -3,6 +3,7 @@ package com.eden.orchid.posts.utils
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.OrchidUtils
+import java.time.LocalDate
 
 object PostsUtils {
 
@@ -16,3 +17,6 @@ object PostsUtils {
     }
 }
 
+fun LocalDate.isToday(): Boolean {
+    return this == LocalDate.now()
+}

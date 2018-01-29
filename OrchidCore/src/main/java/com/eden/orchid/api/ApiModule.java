@@ -17,11 +17,11 @@ import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.generators.GeneratorServiceImpl;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
-import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionValidator;
 import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.options.OptionsServiceImpl;
+import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.ComponentHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
@@ -59,6 +59,11 @@ import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.ThemeService;
 import com.eden.orchid.api.theme.ThemeServiceImpl;
+import com.eden.orchid.api.theme.permalinks.DefaultPermalinkStrategy;
+import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
+import com.eden.orchid.api.theme.permalinks.PermalinkStrategy;
+import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
+import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
@@ -78,11 +83,13 @@ public final class ApiModule extends OrchidModule {
         bind(RenderService.class).to(RenderServiceImpl.class);
         bind(OrchidRenderer.class).to(FileRenderer.class);
         bind(OrchidFileController.class).to(FileController.class);
+
         bind(TemplateResolutionStrategy.class).to(DefaultTemplateResolutionStrategy.class);
+        bind(PermalinkStrategy.class).to(DefaultPermalinkStrategy.class);
 
         bind(OrchidContext.class).to(OrchidContextImpl.class);
 
-        // TypeConverters
+        // Type Converters
         bind(StringConverterHelper.class).to(ClogStringConverterHelper.class);
         addToSet(TypeConverter.class,
                 BooleanConverter.class,
@@ -92,7 +99,7 @@ public final class ApiModule extends OrchidModule {
                 IntegerConverter.class,
                 FloatConverter.class);
 
-        // OptionsExtractors
+        // Options Extractors
         addToSet(OptionExtractor.class,
                 BooleanOptionExtractor.class,
                 StringOptionExtractor.class,
@@ -110,15 +117,21 @@ public final class ApiModule extends OrchidModule {
                 DateTimeOptionExtractor.class
         );
 
-        // OptionsValidators
+        // Options Validators
         addToSet(OptionValidator.class,
                 StringExistsValidator.class);
 
+        // Template Globals
         addToSet(TemplateGlobal.class,
                 ConfigGlobal.class,
                 IndexGlobal.class,
                 SiteGlobal.class,
                 ThemeGlobal.class);
+
+        // Permalink Path Types
+        addToSet(PermalinkPathType.class,
+                TitlePathType.class,
+                DataPropertyPathType.class);
     }
 
     @Provides

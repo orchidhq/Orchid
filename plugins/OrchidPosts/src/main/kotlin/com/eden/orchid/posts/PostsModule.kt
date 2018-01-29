@@ -6,10 +6,10 @@ import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
+import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.components.DisqusComponent
 import com.eden.orchid.posts.components.RecentPostsComponent
 import com.eden.orchid.posts.menu.LatestPostsMenuType
-import com.eden.orchid.posts.permalink.PermalinkPathType
 import com.eden.orchid.posts.permalink.pathTypes.*
 import com.eden.orchid.posts.utils.AuthorOptionExtractor
 
@@ -30,12 +30,10 @@ class PostsModule : OrchidModule() {
 
         addToSet(PermalinkPathType::class.java,
                 CategoryPathType::class.java,
-                DataPropertyPathType::class.java,
                 DayPathType::class.java,
                 MonthNamePathType::class.java,
                 MonthPathType::class.java,
                 SlugPathType::class.java,
-                TitlePathType::class.java,
                 YearPathType::class.java)
 
         addToSet(OptionExtractor::class.java,
