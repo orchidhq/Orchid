@@ -9,11 +9,13 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ListClass
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
+import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.utils.PostsUtils
 import com.eden.orchid.posts.utils.isToday
@@ -57,20 +59,27 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     @StringDefault("posts")
     lateinit var baseDir: String
 
+    @Option
+    @StringDefault("posts/authors")
+    lateinit var authorsBaseDir: String
+
     override fun startIndexing(): List<OrchidPage> {
-        postsModel.initialize(permalink, layout, excerptSeparator, authors)
+        val authorPages = getAuthorPages()
+
+        postsModel.initialize(permalink, layout, excerptSeparator, authorPages)
 
         if (EdenUtils.isEmpty(categories)) {
-            val posts = getPostsList(null)
+            val posts = getPostsPages(null)
             postsModel.categories.put(null, CategoryModel(null, posts))
         } else {
             for (category in categories) {
-                val posts = getPostsList(category)
+                val posts = getPostsPages(category)
                 postsModel.categories.put(category, CategoryModel(category, posts))
             }
         }
 
         val allPages = ArrayList<OrchidPage>()
+        allPages.addAll(authorPages)
         for (key in postsModel.categories.keys) {
             allPages.addAll(postsModel.categories[key]!!.first)
         }
@@ -82,27 +91,30 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         posts.forEach({ context.renderTemplate(it) })
     }
 
-    private fun previous(posts: List<OrchidPage>, i: Int): OrchidPage? {
-        if (posts.size > 1) {
-            if (i != 0) {
-                return posts[i - 1]
-            }
+    private fun getAuthorPages(): List<AuthorPage> {
+        val resourcesList = context.getLocalResourceEntries(authorsBaseDir, null, false)
+
+        val authorPages = ArrayList<AuthorPage>()
+
+        for (entry in resourcesList) {
+            val authorPage = AuthorPage(entry, Author(), postsModel)
+            authorPage.initializeAuthorFromPageData()
+            authorPage.author.authorPage = authorPage
+            permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
+            authorPages.add(authorPage)
         }
 
-        return null
-    }
-
-    private fun next(posts: List<OrchidPage>, i: Int): OrchidPage? {
-        if (posts.size > 1) {
-            if (i < posts.size - 1) {
-                return posts[i + 1]
-            }
+        for (author in this.authors) {
+            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author, postsModel)
+            authorPage.author.authorPage = authorPage
+            permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
+            authorPages.add(authorPage)
         }
 
-        return null
+        return authorPages
     }
 
-    private fun getPostsList(category: String?): MutableList<PostPage> {
+    private fun getPostsPages(category: String?): MutableList<PostPage> {
         val baseCategoryPath = if (EdenUtils.isEmpty(category)) baseDir else baseDir + "/" + category
         val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
 
@@ -163,6 +175,26 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         }
 
         return collectionsList
+    }
+
+    private fun previous(posts: List<OrchidPage>, i: Int): OrchidPage? {
+        if (posts.size > 1) {
+            if (i != 0) {
+                return posts[i - 1]
+            }
+        }
+
+        return null
+    }
+
+    private fun next(posts: List<OrchidPage>, i: Int): OrchidPage? {
+        if (posts.size > 1) {
+            if (i < posts.size - 1) {
+                return posts[i + 1]
+            }
+        }
+
+        return null
     }
 }
 

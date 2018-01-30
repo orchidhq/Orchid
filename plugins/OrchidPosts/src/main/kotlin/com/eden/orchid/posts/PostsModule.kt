@@ -34,7 +34,8 @@ class PostsModule : OrchidModule() {
                 MonthNamePathType::class.java,
                 MonthPathType::class.java,
                 SlugPathType::class.java,
-                YearPathType::class.java)
+                YearPathType::class.java,
+                AuthorNamePathType::class.java)
 
         addToSet(OptionExtractor::class.java,
                 AuthorOptionExtractor::class.java)

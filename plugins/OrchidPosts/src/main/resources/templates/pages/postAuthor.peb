@@ -1,0 +1,5 @@
+<article>
+<h1>{{ page.author.name }}</h1>
+<hr>
+<p>{{ page.content | raw }}</p>
+</article>

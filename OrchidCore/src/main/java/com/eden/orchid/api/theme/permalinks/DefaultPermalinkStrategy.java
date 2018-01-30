@@ -6,6 +6,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -22,7 +23,7 @@ public class DefaultPermalinkStrategy implements PermalinkStrategy {
     public void applyPermalink(OrchidPage page, String permalink) {
         String[] pieces = permalink.split("/");
 
-        String resultingUrl = applyPermalinkTemplate(page, pieces);
+        String resultingUrl = applyPermalinkTemplate(page, Arrays.copyOfRange(pieces, 0, pieces.length - 1));
         String title = applyPermalinkTemplatePiece(page, pieces[pieces.length - 1]);
 
         page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl));

@@ -1,6 +1,7 @@
 package com.eden.orchid.posts.model
 
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
 import lombok.Getter
 import lombok.Setter
@@ -17,32 +18,31 @@ constructor() {
     lateinit var permalink: String
     lateinit var layout: String
     lateinit var excerptSeparator: String
-    lateinit var authors: List<Author>
+    lateinit var authorPages: List<AuthorPage>
 
     var categories: MutableMap<String?, CategoryModel>
 
     val categoryNames: Set<String?>
         get() = categories.keys
 
-
     init {
         this.categories = LinkedHashMap()
     }
 
-    fun initialize(permalink: String, layout: String, excerptSeparator: String, authors: List<Author>) {
+    fun initialize(permalink: String, layout: String, excerptSeparator: String, authorPages: List<AuthorPage>) {
         this.categories = LinkedHashMap()
 
         this.permalink = permalink
         this.layout = layout
         this.excerptSeparator = excerptSeparator
-        this.authors = authors
+        this.authorPages = authorPages
     }
 
     fun getAuthorByName(authorName: String): Author? {
-        if (!EdenUtils.isEmpty(authors)) {
-            for (author in authors) {
-                if (author.name.equals(authorName, ignoreCase = true)) {
-                    return author
+        if (!EdenUtils.isEmpty(authorPages)) {
+            for (authorPage in authorPages) {
+                if (authorPage.author.name.equals(authorName, ignoreCase = true)) {
+                    return authorPage.author
                 }
             }
         }
