@@ -32,47 +32,51 @@ import java.util.List;
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {
 
+    // global variables
     @Getter protected final OrchidContext context;
-
     @Getter @Setter protected OrchidGenerator generator;
+    @Getter @Setter @OptionsData private JSONElement allData;
 
+    // variables that give the page identity and
     @Getter @Setter protected OrchidResource resource;
     @Getter @Setter protected OrchidReference reference;
+    @Getter @Setter protected String key;
+    @Getter @Setter @Option protected String title;
+    @Getter @Setter @Option protected String description;
     @Getter @Setter protected OrchidPage next;
     @Getter @Setter protected OrchidPage previous;
     @Getter @Setter protected JSONObject data;
-    @Getter @Setter protected String key;
 
-    @Getter @Setter protected boolean isCurrent;
-    @Getter @Setter protected boolean isIndexed;
-
-    @Getter @Setter protected boolean noIndex;
-    @Getter @Setter protected boolean noFollow;
-
-    @Getter @Setter @Option protected String title;
-    @Getter @Setter @Option protected String description;
+    // templates
     @Getter @Setter @Option protected String layout;
     @Setter @Option protected String[] templates;
 
-    @Setter @Option @BooleanDefault(false)
-    protected boolean draft;
+    // bookkeeping variables
+    @Getter @Setter protected boolean isCurrent;
+    @Getter @Setter protected boolean isIndexed;
+    private boolean hasAddedAssets;
 
-    @Getter @Setter @Option
-    private LocalDate publishDate;
+    // SEO variables
+    @Getter @Setter @Option protected boolean noIndex;
+    @Getter @Setter @Option protected boolean noFollow;
+    @Getter @Setter @Option protected String changeFrequency;
+    @Getter @Setter @Option protected float relativePriority;
 
-    @Getter @Setter @Option
-    private LocalDate expiryDate;
+    // variables that control page publication
+    @Setter @Option @BooleanDefault(false) protected boolean draft;
+    @Getter @Setter @Option private LocalDate publishDate;
+    @Getter @Setter @Option private LocalDate expiryDate;
+    @Getter @Setter @Option private LocalDate lastModifiedDate;
 
+    // variables that attach other objects to this page
+    @Getter @Setter protected AssetHolder assets;
+    @Getter @Setter @Option protected OrchidMenu menu;
+    @Getter @Setter @Option protected ComponentHolder components;
     @Getter @Setter @Option protected String[] extraCss;
     @Getter @Setter @Option protected String[] extraJs;
 
-    @Getter @Setter protected AssetHolder assets;
-    private boolean hasAddedAssets;
-
-    @Getter @Setter @Option protected OrchidMenu menu;
-    @Getter @Setter @Option protected ComponentHolder components;
-
-    @Getter @Setter @OptionsData private JSONElement allData;
+// Constructors and initialization
+//----------------------------------------------------------------------------------------------------------------------
 
     public OrchidPage(OrchidResource resource, String key) {
         this(resource, key, null);
@@ -126,8 +130,15 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         addComponents();
     }
 
-    public String getLink() {
+// Get page info that has additional logic
+//----------------------------------------------------------------------------------------------------------------------
+
+    public final String getLink() {
         return reference.toString();
+    }
+
+    public final boolean isDraft() {
+        return draft || publishDate.isAfter(LocalDate.now()) || expiryDate.isBefore(LocalDate.now());
     }
 
     public String getContent() {
@@ -152,10 +163,6 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         Collections.addAll(templates, this.templates);
 
         return templates;
-    }
-
-    public boolean isDraft() {
-        return draft || publishDate.isAfter(LocalDate.now()) || expiryDate.isBefore(LocalDate.now());
     }
 
 // Serialize/deserialize from JSON
@@ -221,31 +228,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         return this.toJSON().toString(2);
     }
 
-// Assets
+// Assets and components
 //----------------------------------------------------------------------------------------------------------------------
 
-    public void addComponents() {
-        if (this.components.isEmpty()) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("type", "pageContent");
-            this.components.addComponent(jsonObject);
-        }
-    }
-
-    public final void addAssets() {
-        if(!hasAddedAssets) {
-            loadAssets();
-            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
-            hasAddedAssets = true;
-        }
-    }
-
-    public final void loadAssets() {
-
-    }
-
     @Override
-    public AssetHolder getAssetHolder() {
+    public final AssetHolder getAssetHolder() {
         return assets;
     }
 
@@ -271,8 +258,31 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         return styles;
     }
 
+    public final void addAssets() {
+        if(!hasAddedAssets) {
+            loadAssets();
+            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
+            hasAddedAssets = true;
+        }
+    }
+
+// Callbacks
+//----------------------------------------------------------------------------------------------------------------------
+
     protected ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { components };
+    }
+
+    public void addComponents() {
+        if (this.components.isEmpty()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "pageContent");
+            this.components.addComponent(jsonObject);
+        }
+    }
+
+    public void loadAssets() {
+
     }
 
 }
