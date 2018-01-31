@@ -16,7 +16,7 @@ import javax.inject.Inject
 @Description("Embed presentations and slide-decks in your pages.")
 class PresentationsGenerator
 @Inject constructor(context: OrchidContext, private val model: PresentationsModel)
-    : OrchidGenerator(context, "presentations", 25) {
+    : OrchidGenerator(context, "presentations", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option @StringDefault("presentations")
     @Description("The base directory to look for presentation slides in.")

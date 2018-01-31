@@ -20,7 +20,7 @@ public final class HomepageGenerator extends OrchidGenerator {
 
     @Inject
     public HomepageGenerator(OrchidContext context) {
-        super(context, "home", 3);
+        super(context, "home", OrchidGenerator.PRIORITY_EARLY);
     }
 
     @Override

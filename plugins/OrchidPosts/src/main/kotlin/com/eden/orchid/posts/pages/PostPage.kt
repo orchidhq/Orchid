@@ -7,22 +7,17 @@ import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.utils.PostsExcerptStrategy
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Archetypes(
     Archetype(value = ConfigArchetype::class, key = "postPages"),
     Archetype(value = PostCategoryArchetype::class, key = "postPages")
 )
-class PostPage(resource: OrchidResource, var postsModel: PostsModel, val category: String?) : PermalinkPage(resource, "post") {
-
-    var year: Int = 0
-    var month: Int = 0
-    var day: Int = 0
+class PostPage(resource: OrchidResource, var postsModel: PostsModel, val category: String?) : OrchidPage(resource, "post") {
 
     @Option
     var author: Author? = null
@@ -36,28 +31,19 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
     @Option
     lateinit var tagline: String
 
+    @Option
+    lateinit var permalink: String
+
     val excerpt: String
         get() {
             val strategy = context.injector.getInstance(PostsExcerptStrategy::class.java)
             return strategy.getExcerpt(this)
         }
 
-    val categoryPage: PostArchivePage?
-        get() = postsModel.getCategoryLandingPage(this.category)
-
-    val tagPages: List<PostTagArchivePage>
-        get() {
-            val tagArchivePages = ArrayList<PostTagArchivePage>()
-
-            for (tag in tags) {
-                val tagArchivePage = getTagPage(tag)
-                if (tagArchivePage != null) {
-                    tagArchivePages.add(tagArchivePage)
-                }
-            }
-
-            return tagArchivePages
-        }
+    val year: Int         get() { return publishDate.year }
+    val month: Int        get() { return publishDate.monthValue }
+    val monthName: String get() { return publishDate.month.toString() }
+    val day: Int          get() { return publishDate.dayOfMonth }
 
     init {
         this.extractOptions(this.context, data)
@@ -66,20 +52,6 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
 
     override fun initialize(title: String?) {
 
-    }
-
-    @JvmOverloads
-    fun publishedDate(format: String = "MMMMM d, yyyy"): String {
-        val date = Calendar.getInstance()
-        date.set(Calendar.YEAR, year)
-        date.set(Calendar.MONTH, month - 1)
-        date.set(Calendar.DAY_OF_MONTH, day)
-
-        return SimpleDateFormat(format).format(date.time)
-    }
-
-    fun getTagPage(tag: String): PostTagArchivePage? {
-        return postsModel.getTagLandingPage(tag)
     }
 
     override fun getTemplates(): List<String> {

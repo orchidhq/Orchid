@@ -1,0 +1,29 @@
+package com.eden.orchid.taxonomies.pages
+
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.taxonomies.models.TaxonomiesModel
+import com.eden.orchid.taxonomies.models.Taxonomy
+
+@Archetype(value = ConfigArchetype::class, key = "taxonomyArchivePages")
+open class TaxonomyArchivePage(
+        resource: OrchidResource,
+        val model: TaxonomiesModel,
+        val taxonomy: Taxonomy,
+        val index: Int
+) : OrchidPage(resource, "taxonomyArchive") {
+
+    override fun getTemplates(): List<String> {
+        val templates = mutableListOf(
+                "${this.key}-${taxonomy.key}",
+                this.key
+        )
+        templates.addAll(super.getTemplates())
+
+        return templates
+    }
+
+}
+

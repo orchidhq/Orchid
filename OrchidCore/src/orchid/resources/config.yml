@@ -60,3 +60,8 @@ wikiPages:
 
 staticPages:
   layout: geopattern
+
+taxonomies:
+  taxonomies:
+    - group:
+        single: true

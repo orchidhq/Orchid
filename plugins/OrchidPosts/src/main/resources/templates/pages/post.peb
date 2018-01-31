@@ -1,5 +1,14 @@
 <article>
-{{ post.content | raw }}
+    {{ post.content | raw }}
+    {% if post.author is not empty %}
+    <footer>
+        {% if post.author.link is not empty %}
+        <a href="{{ post.author.link }}">By {{ post.author.name }}</a>
+        {% else %}
+        <span>By {{ post.author.name }}</span>
+        {% endif %}
+    </footer>
+    {% endif %}
 </article>
 
 {% if post.tags is not empty %}

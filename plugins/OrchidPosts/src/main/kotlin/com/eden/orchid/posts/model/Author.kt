@@ -3,13 +3,10 @@ package com.eden.orchid.posts.model
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.posts.pages.AuthorPage
 import java.net.URLEncoder
 import java.security.MessageDigest
 import javax.xml.bind.DatatypeConverter
-
-
-
-
 
 class Author : OptionsHolder {
 
@@ -26,7 +23,9 @@ class Author : OptionsHolder {
     @Option
     lateinit var gravatarDefault: String
 
-    var avatarUrl = ""
+    var authorPage: AuthorPage? = null
+
+    val avatarUrl: String
         get() {
             if(email.isNotBlank()) {
                 val md5 = MessageDigest.getInstance("MD5")
@@ -47,6 +46,11 @@ class Author : OptionsHolder {
             else {
                 return avatar
             }
+        }
+
+    val link: String
+        get() {
+            return authorPage?.link ?: ""
         }
 
 }

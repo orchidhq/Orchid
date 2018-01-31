@@ -20,7 +20,7 @@ import javax.inject.Inject
 @Singleton
 @Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).")
 class KssGenerator @Inject
-constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, "styleguide", 700) {
+constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, "styleguide", OrchidGenerator.PRIORITY_EARLY) {
 
     @Option
     @StringDefault("assets/css")

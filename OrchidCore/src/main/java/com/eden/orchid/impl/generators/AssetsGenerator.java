@@ -26,7 +26,7 @@ public final class AssetsGenerator extends OrchidGenerator {
 
     @Inject
     public AssetsGenerator(OrchidContext context) {
-        super(context, "assets", 2);
+        super(context, "assets", OrchidGenerator.PRIORITY_LATE);
     }
 
     @Override

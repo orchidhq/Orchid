@@ -1,0 +1,10 @@
+User-agent: *
+{% if site.debug %}
+Disallow: /
+{% else %}
+Disallow: /meta/
+{% endif %}
+
+{% if page.sitemap is not empty %}
+Sitemap: {{ page.sitemap.link }}
+{% endif %}

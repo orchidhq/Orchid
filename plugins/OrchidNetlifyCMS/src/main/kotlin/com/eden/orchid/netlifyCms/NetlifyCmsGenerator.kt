@@ -24,7 +24,7 @@ constructor(
         context: OrchidContext,
         val templateTags: Set<TemplateTag>,
         val extractor: OptionsExtractor
-) : OrchidGenerator(context, "netlifyCms", 1) {
+) : OrchidGenerator(context, "netlifyCms", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option
     lateinit var backend: JSONObject

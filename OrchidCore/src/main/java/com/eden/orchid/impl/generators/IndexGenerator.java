@@ -24,7 +24,7 @@ public final class IndexGenerator extends OrchidGenerator {
 
     @Inject
     public IndexGenerator(OrchidContext context) {
-        super(context, "indices", 1);
+        super(context, "indices", OrchidGenerator.PRIORITY_LATE);
     }
 
     @Override

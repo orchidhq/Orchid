@@ -62,6 +62,13 @@ public final class GeneratorServiceImpl implements GeneratorService {
         this.context = context;
     }
 
+    @Override
+    public String[] getGeneratorKeys(String[] include, String[] exclude) {
+        return getFilteredGenerators(getFilteredGenerators(false), include, exclude)
+                .map(OrchidGenerator::getKey)
+                .toArray(String[]::new);
+    }
+
 // Indexing phase
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -85,7 +92,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void indexGenerator(OrchidGenerator generator) {
-        Clog.d("Indexing [{}]", generator.getKey());
+        Clog.d("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
         metrics.startIndexingGenerator(generator.getKey());
 
         JSONElement el = context.query(generator.getKey());
@@ -147,7 +154,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void useGenerator(OrchidGenerator generator) {
-        Clog.d("Generating [{}]", generator.getKey());
+        Clog.d("Generating [{}: {}]", generator.getPriority(), generator.getKey());
         metrics.startGeneratingGenerator(generator.getKey());
 
         List<? extends OrchidPage> generatorPages = null;
@@ -188,16 +195,25 @@ public final class GeneratorServiceImpl implements GeneratorService {
 //----------------------------------------------------------------------------------------------------------------------
 
     Stream<OrchidGenerator> getFilteredGenerators(boolean parallel) {
-        Stream<OrchidGenerator> generatorStream = (parallel) ? generators.parallelStream() : generators.stream();
+        return getFilteredGenerators(parallel, enabled, disabled);
+    }
 
-        if(!EdenUtils.isEmpty(disabled)) {
+    Stream<OrchidGenerator> getFilteredGenerators(boolean parallel, String[] include, String[] exclude) {
+        Stream<OrchidGenerator> generatorStream = (parallel) ? generators.parallelStream() : generators.stream();
+        return getFilteredGenerators(generatorStream, include, exclude);
+    }
+
+    Stream<OrchidGenerator> getFilteredGenerators(Stream<OrchidGenerator> generators, String[] include, String[] exclude) {
+        Stream<OrchidGenerator> generatorStream = generators;
+
+        if(!EdenUtils.isEmpty(exclude)) {
             generatorStream = generatorStream
-                    .filter(generator -> !OrchidUtils.inArray(generator, disabled, (generator1, s) -> generator1.getKey().equals(s)));
+                    .filter(generator -> !OrchidUtils.inArray(generator, exclude, (generator1, s) -> generator1.getKey().equals(s)));
         }
 
-        if(!EdenUtils.isEmpty(enabled)) {
+        if(!EdenUtils.isEmpty(include)) {
             generatorStream = generatorStream
-                    .filter(generator -> OrchidUtils.inArray(generator, enabled, (generator1, s) -> generator1.getKey().equals(s)));
+                    .filter(generator -> OrchidUtils.inArray(generator, include, (generator1, s) -> generator1.getKey().equals(s)));
         }
 
         return generatorStream;

@@ -35,6 +35,7 @@ import com.eden.orchid.impl.compilers.text.TextCompiler;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
+import com.eden.orchid.impl.generators.SitemapGenerator;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildCommand;
@@ -105,7 +106,8 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidGenerator.class,
                 AssetsGenerator.class,
                 HomepageGenerator.class,
-                IndexGenerator.class);
+                IndexGenerator.class,
+                SitemapGenerator.class);
 
         // Tasks and Commands
         addToSet(OrchidTask.class,

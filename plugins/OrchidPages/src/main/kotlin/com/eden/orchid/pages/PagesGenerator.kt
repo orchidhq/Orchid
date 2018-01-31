@@ -19,7 +19,7 @@ import javax.inject.Singleton
         "pages come from 'baseDir' option value, which defaults to 'pages'."
 )
 class PagesGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context, "pages", 700) {
+constructor(context: OrchidContext) : OrchidGenerator(context, "pages", OrchidGenerator.PRIORITY_EARLY) {
 
     @Option @StringDefault("pages")
     lateinit var baseDir: String

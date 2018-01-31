@@ -20,7 +20,7 @@ import kotlin.collections.ArrayList
 
 @Description("Indexes form definitions so they can be easily referenced from components on different pages.")
 class FormsGenerator @Inject
-constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, "forms", 20) {
+constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, "forms", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option @StringDefault("forms")
     @Description("The base directory to look for forms in.")
