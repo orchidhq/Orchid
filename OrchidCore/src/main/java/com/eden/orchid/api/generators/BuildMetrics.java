@@ -136,6 +136,8 @@ public class BuildMetrics {
         metricsList.add(compositeMetrics);
 
         for (GeneratorMetrics metric : metricsList) {
+            if(metric.getPageCount() == 0) continue;
+
             table.cell("Page Count",                  metric.getKey(), (cell) -> { cell.setContent("" + metric.getPageCount()); return null; });
             table.cell("Indexing Time",               metric.getKey(), (cell) -> { cell.setContent("" + metric.getIndexingTime()); return null; });
             table.cell("Generation Time",             metric.getKey(), (cell) -> { cell.setContent("" + metric.getGeneratingTime()); return null; });

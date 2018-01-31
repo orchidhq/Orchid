@@ -14,14 +14,14 @@ dependencies {
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.1.0'
     api 'com.google.inject.extensions:guice-multibindings:4.1.0'
-    api 'io.github.lukehutch:fast-classpath-scanner:2.9.4'
+    api 'io.github.lukehutch:fast-classpath-scanner:2.12.0'
 
     // core utilities
     api 'com.github.JavaEden:Common:v1.0.0'
     api 'com.github.JavaEden:Clog:v1.6.1'
     api 'com.github.JavaEden:Clog4j:v1.6.1'
     api 'com.github.JavaEden:Krow:0.1.1'
-    api 'org.projectlombok:lombok:1.16.18'
+    api 'org.projectlombok:lombok:1.16.20'
     api 'com.squareup.okhttp3:okhttp:3.9.1'
     api 'commons-io:commons-io:2.6'
 
@@ -31,11 +31,11 @@ dependencies {
     api 'com.moandjiezana.toml:toml4j:0.7.2'
 //    api 'com.mitchellbosecke:pebble:2.4.0'
     api 'com.github.PebbleTemplates:pebble:bd94a2b61b'
-    api 'io.bit3:jsass:5.5.4'
+    api 'io.bit3:jsass:5.5.5'
     api 'com.univocity:univocity-parsers:2.5.9'
 
     // Flexmark extensions
-    def flexmarkVersion = '0.28.26'
+    def flexmarkVersion = '0.28.34'
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
     implementation "com.vladsch.flexmark:flexmark-ext-aside:$flexmarkVersion"
     implementation "com.vladsch.flexmark:flexmark-ext-attributes:$flexmarkVersion"
