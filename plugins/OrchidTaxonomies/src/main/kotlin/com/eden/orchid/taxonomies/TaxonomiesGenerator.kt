@@ -1,7 +1,6 @@
 package com.eden.orchid.taxonomies
 
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
@@ -9,11 +8,14 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
 import com.eden.orchid.taxonomies.pages.TaxonomyArchivePage
 import com.eden.orchid.taxonomies.pages.TermArchivePage
+import com.eden.orchid.taxonomies.utils.getSingleTermValue
+import com.eden.orchid.taxonomies.utils.getTermValues
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.stream.Stream
@@ -25,35 +27,57 @@ import javax.inject.Singleton
         "pages come from 'baseDir' option value, which defaults to 'pages'."
 )
 class TaxonomiesGenerator @Inject
-constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerator(context, "taxonomies", OrchidGenerator.PRIORITY_DEFAULT) {
+constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStrategy: PermalinkStrategy) : OrchidGenerator(context, "taxonomies", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option
-    lateinit var singleTypes: Array<String>
-
-    @Option
-    lateinit var multiTypes: Array<String>
+    lateinit var taxonomies: JSONArray
 
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
 
-        if(!EdenUtils.isEmpty(singleTypes) || !EdenUtils.isEmpty(multiTypes)) {
-            context.internalIndex.allPages.forEach { page ->
-                if(!EdenUtils.isEmpty(singleTypes)) {
-                    singleTypes.forEach { taxonomy ->
-                        val term = getTermFromPage(taxonomy, page)
+        if (taxonomies.length() > 0) {
+            for (i in 0 until taxonomies.length()) {
+                val taxonomy = taxonomies.get(i)
+                val taxonomyKey: String
+                val taxonomyOptions: JSONObject?
 
-                        if(term != null) {
-                            model.addPage(taxonomy, term, page)
-                        }
+                if(taxonomy is String) {
+                    taxonomyKey = taxonomy
+                    taxonomyOptions = null
+                }
+                else if(taxonomy is JSONObject) {
+                    if (taxonomy.length() == 1) {
+                        taxonomyKey = taxonomy.keySet().first()
+                        taxonomyOptions = taxonomy.get(taxonomyKey) as? JSONObject
+                    }
+                    else {
+                        taxonomyKey = taxonomy.getString("key")
+                        taxonomyOptions = taxonomy
                     }
                 }
+                else {
+                    continue
+                }
 
-                if(!EdenUtils.isEmpty(multiTypes)) {
-                    multiTypes.forEach { taxonomy ->
-                        val terms = getTermsFromPage(taxonomy, page)
+                val taxonomyModel = model.getTaxonomy(taxonomyKey, taxonomyOptions ?: JSONObject())
+                val enabledGeneratorKeys = context.getGeneratorKeys(taxonomyModel.includeFrom, taxonomyModel.excludeFrom)
 
-                        terms.forEach { term ->
-                            model.addPage(taxonomy, term, page)
+                context.internalIndex.getGeneratorPages(enabledGeneratorKeys).forEach { page ->
+                    val pageTerms = HashSet<String?>()
+                    if(taxonomyModel.single) {
+                        pageTerms.add(page.getSingleTermValue(taxonomyKey))
+                    }
+                    else {
+                        if(taxonomyModel.singleKey.isNotBlank()) {
+                            pageTerms.add(page.getSingleTermValue(taxonomyModel.singleKey))
+                        }
+
+                        pageTerms.addAll(page.getTermValues(taxonomyKey))
+                    }
+
+                    pageTerms.forEach { term ->
+                        if(term != null) {
+                            model.addPage(taxonomyKey, term, page)
                         }
                     }
                 }
@@ -67,50 +91,6 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
         pages.forEach { context.renderTemplate(it) }
     }
 
-// Taxonomy Indexing Helpers
-//----------------------------------------------------------------------------------------------------------------------
-
-    private fun getTermFromPage(taxonomy: String, page: OrchidPage): String? {
-        try {
-            val method = page.javaClass.getMethod("get${taxonomy.capitalize()}")
-            return method.invoke(page) as String
-        }
-        catch (e: Exception) {
-            if(page.allData.element is JSONObject) {
-                val pageData = page.allData.element as JSONObject
-
-                if(pageData.has(taxonomy) && pageData.get(taxonomy) is String) {
-                    return pageData.getString(taxonomy)
-                }
-            }
-        }
-
-        return null
-    }
-
-    private fun getTermsFromPage(taxonomy: String, page: OrchidPage): List<String> {
-        try {
-            val method = page.javaClass.getMethod("get${taxonomy.capitalize()}")
-            return method.invoke(page) as List<String>
-        }
-        catch (e: Exception) {
-            if(page.allData.element is JSONObject) {
-                val pageData = page.allData.element as JSONObject
-
-                if(pageData.has(taxonomy) && pageData.get(taxonomy) is JSONArray) {
-                    val terms = ArrayList<String>()
-
-                    pageData.getJSONArray(taxonomy).forEach {
-                        terms.add(it.toString())
-                    }
-
-                    return terms
-                }
-            }
-        }
-
-        return emptyList()
-    }
 
 // Archive Page Helpers
 //----------------------------------------------------------------------------------------------------------------------
@@ -120,7 +100,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
         val archivePages = ArrayList<OrchidPage>()
 
         model.taxonomies.values.forEach { taxonomy ->
-            taxonomy.terms.values.forEach { term ->
+            taxonomy.allTerms.forEach { term ->
                 archivePages.addAll(buildTermArchivePages(taxonomy, term))
             }
             archivePages.addAll(buildTaxonomyLandingPages(taxonomy))
@@ -131,7 +111,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
 
     // build a set of pages that display all the terms in a given taxonomy
     private fun buildTaxonomyLandingPages(taxonomy: Taxonomy): List<OrchidPage> {
-        val terms = taxonomy.terms.values.toList()
+        val terms = taxonomy.allTerms
         val termPages = ArrayList<OrchidPage>()
 
         val pages = Math.ceil((taxonomy.terms.size / taxonomy.pageSize).toDouble()).toInt()
@@ -139,14 +119,16 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
         for (i in 0..pages) {
             val termList = terms.subList(i * taxonomy.pageSize, Math.min((i + 1) * taxonomy.pageSize, terms.size))
             if (termList.isNotEmpty()) {
-                val permalink = taxonomy.key + (if(i == 0) ".html" else "/${i + 1}.html")
                 var title = "Taxonomy ${taxonomy.key.capitalize()}"
-                if (i == 0) title += " (Page ${i+1})"
+                if (i != 0) title += " (Page ${i + 1})"
 
-                val pageRef = OrchidReference(context, permalink)
+                val pageRef = OrchidReference(context, "taxonomy.html")
                 pageRef.title = title
 
                 val page = TaxonomyArchivePage(StringResource("", pageRef), model, taxonomy, i + 1)
+
+                permalinkStrategy.applyPermalink(page, page.taxonomy.permalink)
+
                 termPages.add(page)
             }
         }
@@ -159,7 +141,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
 
     // build a set of pages that display all the items in a given term within a taxonomy
     private fun buildTermArchivePages(taxonomy: Taxonomy, term: Term): List<OrchidPage> {
-        val pagesList = term.pages.toList()
+        val pagesList = term.allPages
         val termArchivePages = ArrayList<OrchidPage>()
 
         val pages = Math.ceil((pagesList.size / term.pageSize).toDouble()).toInt()
@@ -167,14 +149,14 @@ constructor(context: OrchidContext, val model: TaxonomiesModel) : OrchidGenerato
         for (i in 0..pages) {
             val termPageList = pagesList.subList(i * term.pageSize, Math.min((i + 1) * term.pageSize, pagesList.size))
             if (termPageList.isNotEmpty()) {
-                val permalink = "${taxonomy.key}/${term.key}" + (if(i == 0) ".html" else "/${i + 1}.html")
                 var title = "Taxonomy ${taxonomy.key.capitalize()} - ${term.key.capitalize()}"
-                if (i == 0) title += " (Page ${i+1})"
+                if (i != 0) title += " (Page ${i + 1})"
 
-                val pageRef = OrchidReference(context, permalink)
+                val pageRef = OrchidReference(context, "term.html")
                 pageRef.title = title
 
                 val page = TermArchivePage(StringResource("", pageRef), model, termPageList, taxonomy, term, i + 1)
+                permalinkStrategy.applyPermalink(page, page.term.permalink)
                 termArchivePages.add(page)
             }
         }

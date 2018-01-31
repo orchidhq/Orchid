@@ -62,7 +62,6 @@ staticPages:
   layout: geopattern
 
 taxonomies:
-  singleTypes:
-    - group
-  multiTypes:
-    - tags
+  taxonomies:
+    - group:
+        single: true

@@ -38,6 +38,15 @@ public final class OrchidRootInternalIndex extends OrchidInternalIndex {
         }
     }
 
+    public List<OrchidPage> getGeneratorPages(String[] generators) {
+        List<OrchidPage> pages = new ArrayList<>();
+        for(String generator : generators) {
+            pages.addAll(getGeneratorPages(generator));
+        }
+
+        return pages;
+    }
+
     @Override
     public void addToIndex(String taxonomy, OrchidPage page) {
         super.addToIndex(this.ownKey + "/" + taxonomy, page);

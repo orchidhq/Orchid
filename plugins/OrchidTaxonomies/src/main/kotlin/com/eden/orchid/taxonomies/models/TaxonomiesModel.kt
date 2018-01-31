@@ -1,27 +1,38 @@
 package com.eden.orchid.taxonomies.models
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
+import org.json.JSONObject
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TaxonomiesModel {
+class TaxonomiesModel
 
-    lateinit var taxonomies: HashMap<String, Taxonomy>
+@Inject
+constructor(val context: OrchidContext) {
+
+    var taxonomies = HashMap<String, Taxonomy>()
 
     fun initialize() {
-        this.taxonomies = HashMap<String, Taxonomy>()
+        this.taxonomies = HashMap()
     }
 
-    public fun addPage(taxonomy: String, term: String, page: OrchidPage) {
-        val taxonomyModel = if(!taxonomies.containsKey(taxonomy)) {
-            val newTaxonomy = Taxonomy(taxonomy)
-            taxonomies.put(taxonomy, newTaxonomy)
-            newTaxonomy
-        }
-        else {
-            taxonomies[taxonomy]!!
+    fun getTaxonomy(taxonomy: String, taxonomyOptions: JSONObject) : Taxonomy {
+        if(!taxonomies.containsKey(taxonomy)) {
+            val newTaxonomy = Taxonomy(context, taxonomy)
+            newTaxonomy.extractOptions(context, taxonomyOptions)
+            taxonomies[taxonomy] = newTaxonomy
         }
 
-        taxonomyModel.addPage(term, page)
+        return taxonomies[taxonomy]!!
+    }
+
+    fun addPage(taxonomy: String, term: String, page: OrchidPage) {
+        val taxonomyModel = taxonomies[taxonomy]!!
+
+        val termOptions = taxonomyModel.allData.query(term)
+
+        taxonomyModel.addPage(term, page, termOptions?.element as? JSONObject ?: JSONObject())
     }
 }
