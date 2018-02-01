@@ -8,7 +8,15 @@ import com.eden.orchid.api.theme.AdminTheme
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.pluginDocs.components.PluginDocsComponent
 import com.eden.orchid.pluginDocs.controllers.AdminController
-import com.eden.orchid.pluginDocs.lists.*
+import com.eden.orchid.pluginDocs.lists.CompilersList
+import com.eden.orchid.pluginDocs.lists.ComponentsList
+import com.eden.orchid.pluginDocs.lists.GeneratorsList
+import com.eden.orchid.pluginDocs.lists.MenuItemsList
+import com.eden.orchid.pluginDocs.lists.OptionsList
+import com.eden.orchid.pluginDocs.lists.ParsersList
+import com.eden.orchid.pluginDocs.lists.ResourceSourcesList
+import com.eden.orchid.pluginDocs.lists.TasksList
+import com.eden.orchid.pluginDocs.lists.ThemesList
 
 class PluginDocsModule : OrchidModule() {
 

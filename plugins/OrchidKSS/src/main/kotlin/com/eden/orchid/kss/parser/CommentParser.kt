@@ -1,7 +1,6 @@
 package com.eden.orchid.kss.parser
 
 import org.apache.commons.lang3.StringUtils
-import java.util.*
 import java.util.regex.Pattern
 
 class CommentParser {

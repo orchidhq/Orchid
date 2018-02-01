@@ -6,7 +6,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import org.apache.commons.lang3.StringUtils
-import java.util.*
+import java.util.TreeSet
 import java.util.stream.Collectors
 import javax.inject.Inject
 

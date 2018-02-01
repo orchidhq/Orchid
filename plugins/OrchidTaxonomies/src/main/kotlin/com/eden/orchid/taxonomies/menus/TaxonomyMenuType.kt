@@ -6,7 +6,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
-import java.util.*
 import javax.inject.Inject
 
 class TaxonomyMenuType @Inject

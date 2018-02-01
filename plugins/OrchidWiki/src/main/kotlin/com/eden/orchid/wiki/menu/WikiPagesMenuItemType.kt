@@ -12,7 +12,6 @@ import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
-import java.util.*
 import javax.inject.Inject
 
 class WikiPagesMenuItemType @Inject

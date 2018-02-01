@@ -2,7 +2,7 @@ package com.eden.orchid.pluginDocs.lists
 
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.server.admin.AdminList
-import java.util.*
+import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
