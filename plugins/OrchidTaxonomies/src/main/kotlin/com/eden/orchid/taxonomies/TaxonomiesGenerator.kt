@@ -1,6 +1,5 @@
 package com.eden.orchid.taxonomies
 
-
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Option
