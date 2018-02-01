@@ -3,7 +3,6 @@ package com.eden.orchid.taxonomies
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -23,9 +22,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@Description("Generates static pages with the same output folder as their input, minus the base directory. Input " +
-        "pages come from 'baseDir' option value, which defaults to 'pages'."
-)
 class TaxonomiesGenerator @Inject
 constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStrategy: PermalinkStrategy) : OrchidGenerator(context, "taxonomies", OrchidGenerator.PRIORITY_DEFAULT) {
 
@@ -84,6 +80,8 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
             }
         }
 
+        model.onIndexingTermsFinished()
+
         return buildAllTaxonomiesPages()
     }
 
@@ -119,7 +117,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         for (i in 0..pages) {
             val termList = terms.subList(i * taxonomy.pageSize, Math.min((i + 1) * taxonomy.pageSize, terms.size))
             if (termList.isNotEmpty()) {
-                var title = "Taxonomy ${taxonomy.key.capitalize()}"
+                var title = taxonomy.title
                 if (i != 0) title += " (Page ${i + 1})"
 
                 val pageRef = OrchidReference(context, "taxonomy.html")
@@ -149,7 +147,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         for (i in 0..pages) {
             val termPageList = pagesList.subList(i * term.pageSize, Math.min((i + 1) * term.pageSize, pagesList.size))
             if (termPageList.isNotEmpty()) {
-                var title = "Taxonomy ${taxonomy.key.capitalize()} - ${term.key.capitalize()}"
+                var title = term.title
                 if (i != 0) title += " (Page ${i + 1})"
 
                 val pageRef = OrchidReference(context, "term.html")

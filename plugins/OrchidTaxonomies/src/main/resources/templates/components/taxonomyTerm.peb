@@ -1,0 +1,8 @@
+<div class="term-archive">
+{# @pebvariable name="component" type="com.eden.orchid.taxonomies.components.TaxonomyTermComponent" #}
+<p>
+    <a href="{{component.taxonomy.link}}">{{component.taxonomy.title}}</a> >
+    <a href="{{component.term.link}}">{{component.term.title}}</a>
+</p>
+{% include 'includes/basicTermArchive' with {'taxonomy': component.taxonomy, 'term': component.term, 'pages': component.term.allPages} %}
+</div>

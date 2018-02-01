@@ -18,6 +18,14 @@ constructor(val context: OrchidContext) {
         this.taxonomies = HashMap()
     }
 
+    fun onIndexingTermsFinished() {
+        for(key in taxonomies.keys) {
+            if(taxonomies[key]!!.terms.isEmpty()) {
+                taxonomies.remove(key)
+            }
+        }
+    }
+
     fun getTaxonomy(taxonomy: String, taxonomyOptions: JSONObject) : Taxonomy {
         if(!taxonomies.containsKey(taxonomy)) {
             val newTaxonomy = Taxonomy(context, taxonomy)
