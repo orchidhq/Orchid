@@ -1,8 +1,11 @@
 package com.eden.orchid.taxonomies.models
 
+import com.eden.common.json.JSONElement
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.OptionsData
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.taxonomies.utils.getSingleTermValue
@@ -15,6 +18,9 @@ class Term(val key: String) : OptionsHolder {
 
     public var pages = HashSet<OrchidPage>()
     lateinit var archivePages: List<OrchidPage>
+
+    @OptionsData
+    lateinit var allData: JSONElement
 
     @Option
     @IntDefault(100)
@@ -34,34 +40,38 @@ class Term(val key: String) : OptionsHolder {
             return archivePages.first().link
         }
 
-    val title: String
+    @Option
+    var title: String = ""
         get() {
-            return key.from { camelCase() }.to { titleCase() }
+            return if(!EdenUtils.isEmpty(field)) field else key.from { camelCase() }.to { titleCase() }
         }
 
-    val allPages: List<OrchidPage>
+    var allPages: List<OrchidPage> = ArrayList()
+        private set
         get() {
-            var sortedList = pages.toList()
+            if(field.isEmpty() && pages.isNotEmpty()) {
+                var sortedList = pages.toList()
 
-            var comparator: Comparator<OrchidPage>? = null
-            if(orderBy.size > 0) {
-                orderBy.forEach { prop ->
-                    comparator = if(comparator == null)
-                        compareBy { it.getSingleTermValue(prop) }
-                    else
-                        comparator!!.thenBy { it.getSingleTermValue(prop) }
+                var comparator: Comparator<OrchidPage>? = null
+                if (orderBy.size > 0) {
+                    orderBy.forEach { prop ->
+                        comparator = if (comparator == null)
+                            compareBy { it.getSingleTermValue(prop) }
+                        else
+                            comparator!!.thenBy { it.getSingleTermValue(prop) }
 
+                    }
+                } else {
+                    comparator = compareBy<OrchidPage> { it.publishDate }.thenBy { it.title }
                 }
-            }
-            else {
-                comparator = compareBy<OrchidPage> { it.publishDate }.thenBy { it.title }
-            }
 
-            if(orderByDirection.equals("desc", ignoreCase = true)) {
-                comparator = comparator!!.reversed()
-            }
+                if (orderByDirection.equals("desc", ignoreCase = true)) {
+                    comparator = comparator!!.reversed()
+                }
 
-            return sortedList.sortedWith(comparator!!)
+                field = sortedList.sortedWith(comparator!!)
+            }
+            return field
         }
 
 }

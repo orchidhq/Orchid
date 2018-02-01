@@ -1,6 +1,7 @@
 package com.eden.orchid.taxonomies.models
 
 import com.eden.common.json.JSONElement
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.IntDefault
@@ -67,22 +68,65 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
             return archivePages.first().link
         }
 
-    val title: String
+    @Option
+    var title: String = ""
         get() {
-            return key.from { camelCase() }.to { titleCase() }
+            return if(!EdenUtils.isEmpty(field)) field else key.from { camelCase() }.to { titleCase() }
         }
 
-    val allTerms: List<Term>
+    var allTerms: List<Term> = ArrayList()
+        private set
         get() {
-            var sortedList = terms.values.toList()
+            if(field.isEmpty() && terms.isNotEmpty()) {
+                var sortedList = terms.values.toList()
 
-            var comparator = compareBy<Term> { it.title }
+                var comparator: Comparator<Term>? = null
+                if (orderBy.size > 0) {
+                    orderBy.forEach { prop ->
+                        comparator = if (comparator == null)
+                            compareBy { getTermValue(it, prop) }
+                        else
+                            comparator!!.thenBy { getTermValue(it, prop) }
 
-            if(orderByDirection.equals("desc", ignoreCase = true)) {
-                comparator = comparator.reversed()
+                    }
+                } else {
+                    comparator = compareBy<Term> { it.title }
+                }
+
+                if (orderByDirection.equals("desc", ignoreCase = true)) {
+                    comparator = comparator!!.reversed()
+                }
+
+                field = sortedList.sortedWith(comparator!!)
             }
 
-            return sortedList.sortedWith(comparator)
+            return field
         }
+
+    private fun getTermValue(term: Term, key: String): Comparable<*> {
+        return when(key) {
+            "key" -> term.key
+            "title" -> term.title
+            "entryCount" -> term.pages.size
+            "newestEntry" -> term.pages.maxBy { it.publishDate }!!.publishDate
+            "oldestEntry" -> term.pages.minBy { it.publishDate }!!.publishDate
+            else -> {
+                if(term.allData.element is JSONObject && (term.allData.element as JSONObject).has(key)) {
+                    if ((term.allData.element as JSONObject).get(key) is String) {
+                        (term.allData.element as JSONObject).getString(key)
+                    }
+                    else if ((term.allData.element as JSONObject).get(key) is Number) {
+                        (term.allData.element as JSONObject).getNumber(key)
+                    }
+                    else if ((term.allData.element as JSONObject).get(key) is Boolean) {
+                        (term.allData.element as JSONObject).getBoolean(key)
+                    }
+                }
+
+                // else
+                term.title
+            }
+        }
+    }
 
 }

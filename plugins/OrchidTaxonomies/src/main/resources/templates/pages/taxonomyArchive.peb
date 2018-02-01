@@ -1,8 +1,4 @@
 <div class="taxonomy-archive">
 {# @pebvariable name="page" type="com.eden.orchid.taxonomies.pages.TaxonomyArchivePage" #}
-{% for term in page.taxonomy.allTerms %}
-    <ul>
-        <li><a href="{{term.link}}">{{term.title}}</a></li>
-    </ul>
-{% endfor %}
+{% include 'includes/basicTaxonomyArchive' with {'taxonomy': page.taxonomy} %}
 </div>

@@ -12,14 +12,10 @@ theme:
       title: 'Home'
       url: '/'
     - type: 'wikiSections'
-    - type: 'pages'
-      section: 'plugins'
-    - type: 'pages'
-      section: 'themes'
-    - type: 'pages'
-      section: 'bundles'
-    - type: 'postCategories'
-      title: 'News'
+    - type: 'taxonomy'
+      taxonomyType: 'group'
+      includeTerms: true
+      termsAtRoot: true
     - type: 'javadocPackages'
     - type: 'javadocClasses'
   extraCss:
@@ -65,3 +61,7 @@ taxonomies:
   taxonomies:
     - group:
         single: true
+    - tags:
+        single: false
+        orderBy:
+          - entryCount
