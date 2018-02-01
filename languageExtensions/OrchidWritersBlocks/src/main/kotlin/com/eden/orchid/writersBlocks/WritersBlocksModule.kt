@@ -8,6 +8,7 @@ import com.eden.orchid.writersBlocks.functions.Nl2brFunction
 import com.eden.orchid.writersBlocks.functions.PluralizeFunction
 import com.eden.orchid.writersBlocks.tags.AlertTag
 import com.eden.orchid.writersBlocks.tags.GistTag
+import com.eden.orchid.writersBlocks.tags.TwitterTag
 import com.eden.orchid.writersBlocks.tags.YoutubeTag
 
 class WritersBlocksModule : OrchidModule() {
@@ -24,7 +25,8 @@ class WritersBlocksModule : OrchidModule() {
         addToSet(TemplateTag::class.java,
                 AlertTag::class.java,
                 GistTag::class.java,
-                YoutubeTag::class.java
+                YoutubeTag::class.java,
+                TwitterTag::class.java
         )
     }
 }

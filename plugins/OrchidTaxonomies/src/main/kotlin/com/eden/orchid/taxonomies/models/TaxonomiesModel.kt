@@ -19,10 +19,15 @@ constructor(val context: OrchidContext) {
     }
 
     fun onIndexingTermsFinished() {
+        val keysToRemove = ArrayList<String>()
         for(key in taxonomies.keys) {
             if(taxonomies[key]!!.terms.isEmpty()) {
-                taxonomies.remove(key)
+                keysToRemove.add(key)
             }
+        }
+
+        for(key in keysToRemove) {
+            taxonomies.remove(key)
         }
     }
 
