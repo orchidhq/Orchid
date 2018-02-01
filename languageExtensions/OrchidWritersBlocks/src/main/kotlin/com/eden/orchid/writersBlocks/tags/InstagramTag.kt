@@ -9,40 +9,22 @@ import java.io.IOException
 import java.net.URLEncoder
 import javax.inject.Inject
 
-class TwitterTag @Inject
-constructor(val client: OkHttpClient) : TemplateTag("twitter", false) {
-
-    @Option
-    lateinit var user: String
+class InstagramTag @Inject
+constructor(val client: OkHttpClient) : TemplateTag("instagram", false) {
 
     @Option
     lateinit var id: String
 
-    @Option
-    lateinit var timelineType: String
-
-    @Option
-    lateinit var listId: String
-
-    @Option
-    lateinit var collectionId: String
-
-    @Option
-    lateinit var title: String
-
-    @Option
-    lateinit var momentId: String
-
     override fun parameters(): Array<String> {
-        return arrayOf("user", "id")
+        return arrayOf("id")
     }
 
-    var embeddedTweet: String? = null
+    var embeddedPost: String? = null
         private set(value) {}
         get() {
             if(field == null) {
-                val tweetUrl = "https://twitter.com/$user/status/$id"
-                val requestUrl = "https://publish.twitter.com/oembed?url=${URLEncoder.encode(tweetUrl, "UTF-8")}"
+                val postUrl = "http://instagr.am/p/$id"
+                val requestUrl = "https://api.instagram.com/oembed?url=${URLEncoder.encode(postUrl, "UTF-8")}"
 
                 val request = Request.Builder().url(requestUrl.trim()).build()
 
