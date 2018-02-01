@@ -9,7 +9,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
-import java.util.*
 import javax.inject.Inject
 
 class LatestPostsMenuType @Inject

@@ -8,7 +8,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import org.json.JSONObject
-import java.util.*
+import java.util.Collections
 import javax.inject.Inject
 
 abstract class FormField @Inject

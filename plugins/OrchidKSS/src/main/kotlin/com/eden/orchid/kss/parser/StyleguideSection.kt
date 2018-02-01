@@ -3,7 +3,6 @@ package com.eden.orchid.kss.parser
 import com.eden.common.util.EdenPair
 import com.eden.common.util.EdenUtils
 import org.apache.commons.lang3.StringUtils
-import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 

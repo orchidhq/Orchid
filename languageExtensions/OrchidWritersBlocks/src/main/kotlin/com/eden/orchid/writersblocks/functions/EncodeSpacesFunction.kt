@@ -1,12 +1,12 @@
-package com.eden.orchid.writersBlocks.functions
+package com.eden.orchid.writersblocks.functions
 
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.utilities.nl2br
+import com.eden.orchid.utilities.encodeSpaces
 import javax.inject.Inject
 
-class Nl2brFunction @Inject
+class EncodeSpacesFunction @Inject
 constructor(private val converter: StringConverter) : TemplateFunction("nl2br") {
 
     @Option
@@ -17,6 +17,6 @@ constructor(private val converter: StringConverter) : TemplateFunction("nl2br") 
     }
 
     override fun apply(input: Any?): Any {
-        return converter.convert(input ?: this.input).second.nl2br()
+        return converter.convert(input ?: this.input).second.encodeSpaces()
     }
 }

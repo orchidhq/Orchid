@@ -1,4 +1,4 @@
-package com.eden.orchid.pluginDocs.controllers
+package com.eden.orchid.plugindocs.controllers
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.krow.formatters.HtmlTableFormatter
@@ -12,7 +12,6 @@ import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
 import com.eden.orchid.api.server.admin.AdminList
 import com.eden.orchid.api.server.annotations.Get
-import java.util.*
 import javax.inject.Inject
 
 @JvmSuppressWildcards

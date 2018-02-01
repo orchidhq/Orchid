@@ -1,4 +1,4 @@
-package com.eden.orchid.writersBlocks.functions
+package com.eden.orchid.writersblocks.functions
 
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.converters.StringConverter

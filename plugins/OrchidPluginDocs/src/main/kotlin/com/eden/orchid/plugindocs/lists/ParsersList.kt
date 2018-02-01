@@ -1,22 +1,22 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
+import com.eden.orchid.api.compilers.OrchidParser
 import com.eden.orchid.api.server.admin.AdminList
-import com.eden.orchid.api.theme.components.OrchidComponent
-import java.util.*
+import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class ComponentsList @Inject
-constructor(list: Set<OrchidComponent>) : AdminList {
+class ParsersList @Inject
+constructor(list: Set<OrchidParser>) : AdminList {
 
-    private val list: Set<OrchidComponent>
+    private val list: Set<OrchidParser>
 
     init {
         this.list = TreeSet(list)
     }
 
     override fun getKey(): String {
-        return "components"
+        return "parsers"
     }
 
     override fun getItems(): Collection<Any> {

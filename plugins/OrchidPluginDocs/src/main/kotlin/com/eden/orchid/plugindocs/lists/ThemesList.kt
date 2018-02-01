@@ -1,22 +1,22 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
-import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.server.admin.AdminList
-import java.util.*
+import com.eden.orchid.api.theme.Theme
+import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class CompilersList @Inject
-constructor(list: Set<OrchidCompiler>) : AdminList {
+class ThemesList @Inject
+constructor(list: Set<Theme>) : AdminList {
 
-    private val list: Set<OrchidCompiler>
+    private val list: Set<Theme>
 
     init {
         this.list = TreeSet(list)
     }
 
     override fun getKey(): String {
-        return "compilers"
+        return "themes"
     }
 
     override fun getItems(): Collection<Any> {

@@ -1,10 +1,10 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.server.admin.AdminList
-import java.util.*
+import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards

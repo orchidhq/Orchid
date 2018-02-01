@@ -1,6 +1,10 @@
 package com.eden.orchid.pages.pages
 
-import com.eden.orchid.api.options.annotations.*
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Archetypes
+import com.eden.orchid.api.options.annotations.BooleanDefault
+import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -17,7 +21,8 @@ import com.eden.orchid.utilities.words
 class StaticPage(resource: OrchidResource)
     : OrchidPage(resource, "page", resource.reference.title.from { snakeCase { capitalize() } }.to { words() }) {
 
-    @Option @BooleanDefault(true)
+    @Option
+    @BooleanDefault(true)
     var usePrettyUrl: Boolean = true
 
     @Option @StringDefault("template")

@@ -1,4 +1,4 @@
-package com.eden.orchid.writersBlocks
+package com.eden.orchid.writersblocks
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource

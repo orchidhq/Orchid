@@ -6,7 +6,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.kss.model.KssModel
 import com.eden.orchid.kss.pages.KssPage
-import java.util.*
 import javax.inject.Inject
 
 class StyleguidePagesMenuItemType @Inject

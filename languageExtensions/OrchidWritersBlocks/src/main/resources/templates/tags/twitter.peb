@@ -1,0 +1,20 @@
+{% if tag.id is not empty %}
+{{ tag.embeddedTweet | raw }}
+{% else %}
+{% if tag.timelineType == 'likes' %}
+<a class="twitter-timeline" href="https://twitter.com/{{ tag.user }}/likes">Tweets Liked by @{{ tag.user }}</a>
+{% elseif tag.timelineType == 'lists' %}
+<a class="twitter-timeline" href="https://twitter.com/{{ tag.user }}/lists/{{ tag.listId }}">A Twitter List by {{ tag.user }}</a>
+{% elseif tag.timelineType == 'collection' %}
+<a class="twitter-timeline" href="https://twitter.com/{{ tag.user }}/timelines/{{ tag.collectionId }}">{{ tag.title }} - Curated tweets by {{ tag.user }}</a>
+{% elseif tag.timelineType == 'grid' %}
+<a class="twitter-grid"     href="https://twitter.com/{{ tag.user }}/timelines/{{ tag.collectionId }}">{{ tag.title }}</a>
+{% elseif tag.timelineType == 'moment' %}
+<a class="twitter-moment"   href="https://twitter.com/i/moments/{{ tag.momentId }}">{{ tag.title }}</a>
+{% elseif tag.timelineType == 'profile' %}
+<a class="twitter-timeline" href="https://twitter.com/{{ tag.user }}">Tweets by {{ tag.user }}</a>
+{% else %}
+<a class="twitter-timeline" href="https://twitter.com/{{ tag.user }}">Tweets by {{ tag.user }}</a>
+{% endif %}
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endif %}

@@ -1,7 +1,6 @@
 package com.eden.orchid.wiki.model
 
 import com.eden.orchid.api.theme.pages.OrchidPage
-import java.util.*
 import javax.inject.Singleton
 
 @Singleton

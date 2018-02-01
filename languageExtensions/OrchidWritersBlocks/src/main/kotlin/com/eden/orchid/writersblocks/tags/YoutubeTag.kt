@@ -1,4 +1,4 @@
-package com.eden.orchid.writersBlocks.tags
+package com.eden.orchid.writersblocks.tags
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.TemplateTag

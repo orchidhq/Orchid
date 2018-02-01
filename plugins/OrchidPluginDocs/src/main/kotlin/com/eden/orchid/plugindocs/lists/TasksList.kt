@@ -1,9 +1,9 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
 import com.eden.orchid.api.server.admin.AdminList
 import com.eden.orchid.api.tasks.OrchidTask
 import com.google.inject.Provider
-import java.util.*
+import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
