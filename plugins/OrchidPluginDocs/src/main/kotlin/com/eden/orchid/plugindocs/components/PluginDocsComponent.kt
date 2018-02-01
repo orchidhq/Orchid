@@ -1,4 +1,4 @@
-package com.eden.orchid.pluginDocs.components
+package com.eden.orchid.plugindocs.components
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils

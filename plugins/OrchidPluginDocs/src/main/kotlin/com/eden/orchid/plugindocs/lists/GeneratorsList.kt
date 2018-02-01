@@ -1,22 +1,22 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
+import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.server.admin.AdminList
-import com.eden.orchid.api.theme.Theme
 import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class ThemesList @Inject
-constructor(list: Set<Theme>) : AdminList {
+class GeneratorsList @Inject
+constructor(list: Set<OrchidGenerator>) : AdminList {
 
-    private val list: Set<Theme>
+    private val list: Set<OrchidGenerator>
 
     init {
         this.list = TreeSet(list)
     }
 
     override fun getKey(): String {
-        return "themes"
+        return "generators"
     }
 
     override fun getItems(): Collection<Any> {

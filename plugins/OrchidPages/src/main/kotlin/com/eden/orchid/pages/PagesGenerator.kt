@@ -1,6 +1,5 @@
 package com.eden.orchid.pages
 
-
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection

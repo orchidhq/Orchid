@@ -1,22 +1,22 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
 import com.eden.orchid.api.server.admin.AdminList
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
+import com.eden.orchid.api.theme.components.OrchidComponent
 import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class MenuItemsList @Inject
-constructor(list: Set<OrchidMenuItem>) : AdminList {
+class ComponentsList @Inject
+constructor(list: Set<OrchidComponent>) : AdminList {
 
-    private val list: Set<OrchidMenuItem>
+    private val list: Set<OrchidComponent>
 
     init {
         this.list = TreeSet(list)
     }
 
     override fun getKey(): String {
-        return "menuItems"
+        return "components"
     }
 
     override fun getItems(): Collection<Any> {

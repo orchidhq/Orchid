@@ -1,26 +1,21 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
-import com.eden.orchid.api.compilers.OrchidParser
 import com.eden.orchid.api.server.admin.AdminList
+import com.eden.orchid.api.tasks.OrchidTask
+import com.google.inject.Provider
 import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class ParsersList @Inject
-constructor(list: Set<OrchidParser>) : AdminList {
-
-    private val list: Set<OrchidParser>
-
-    init {
-        this.list = TreeSet(list)
-    }
+class TasksList @Inject
+constructor(private val tasksSetProvider: Provider<Set<OrchidTask>>) : AdminList {
 
     override fun getKey(): String {
-        return "parsers"
+        return "tasks"
     }
 
     override fun getItems(): Collection<Any> {
-        return list
+        return TreeSet(tasksSetProvider.get())
     }
 
     override fun getItemId(item: Any): String {

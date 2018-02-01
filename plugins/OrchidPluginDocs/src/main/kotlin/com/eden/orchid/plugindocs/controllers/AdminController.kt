@@ -1,4 +1,4 @@
-package com.eden.orchid.pluginDocs.controllers
+package com.eden.orchid.plugindocs.controllers
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.krow.formatters.HtmlTableFormatter

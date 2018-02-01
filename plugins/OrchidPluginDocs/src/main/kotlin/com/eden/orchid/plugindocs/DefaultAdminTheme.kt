@@ -1,4 +1,4 @@
-package com.eden.orchid.pluginDocs
+package com.eden.orchid.plugindocs
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.AdminTheme

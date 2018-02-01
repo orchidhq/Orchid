@@ -1,4 +1,4 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource

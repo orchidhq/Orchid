@@ -1,23 +1,22 @@
-package com.eden.orchid.pluginDocs.lists
+package com.eden.orchid.plugindocs.lists
 
-import com.eden.orchid.api.options.OrchidFlag
-import com.eden.orchid.api.options.OrchidFlags
+import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.server.admin.AdminList
-
+import java.util.TreeSet
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class OptionsList @Inject
-constructor() : AdminList {
+class CompilersList @Inject
+constructor(list: Set<OrchidCompiler>) : AdminList {
 
-    private val list: Collection<OrchidFlag>
+    private val list: Set<OrchidCompiler>
 
     init {
-        list = OrchidFlags.getInstance().flags
+        this.list = TreeSet(list)
     }
 
     override fun getKey(): String {
-        return "options"
+        return "compilers"
     }
 
     override fun getItems(): Collection<Any> {
