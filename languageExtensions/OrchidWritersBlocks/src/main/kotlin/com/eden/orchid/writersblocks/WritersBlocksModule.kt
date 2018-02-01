@@ -1,16 +1,16 @@
-package com.eden.orchid.writersBlocks
+package com.eden.orchid.writersblocks
 
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
-import com.eden.orchid.writersBlocks.functions.Nl2brFunction
-import com.eden.orchid.writersBlocks.functions.PluralizeFunction
-import com.eden.orchid.writersBlocks.tags.AlertTag
-import com.eden.orchid.writersBlocks.tags.GistTag
-import com.eden.orchid.writersBlocks.tags.InstagramTag
-import com.eden.orchid.writersBlocks.tags.TwitterTag
-import com.eden.orchid.writersBlocks.tags.YoutubeTag
+import com.eden.orchid.writersblocks.functions.Nl2brFunction
+import com.eden.orchid.writersblocks.functions.PluralizeFunction
+import com.eden.orchid.writersblocks.tags.AlertTag
+import com.eden.orchid.writersblocks.tags.GistTag
+import com.eden.orchid.writersblocks.tags.InstagramTag
+import com.eden.orchid.writersblocks.tags.TwitterTag
+import com.eden.orchid.writersblocks.tags.YoutubeTag
 
 class WritersBlocksModule : OrchidModule() {
 

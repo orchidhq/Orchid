@@ -1,4 +1,4 @@
-package com.eden.orchid.writersBlocks.tags
+package com.eden.orchid.writersblocks.tags
 
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Option
