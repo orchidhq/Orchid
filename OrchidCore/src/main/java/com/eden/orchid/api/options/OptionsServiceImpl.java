@@ -9,10 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class OptionsServiceImpl implements OptionsService {
 
@@ -80,30 +77,22 @@ public final class OptionsServiceImpl implements OptionsService {
                 OrchidPage page = (OrchidPage) data;
                 siteData.put("page", page);
                 siteData.put(page.getKey(), page);
+                addMap(siteData, page.getMap());
+            }
+            else if (data instanceof JSONElement) {
+                addJSONElement(siteData, (JSONElement) data);
             }
             else if (data instanceof JSONObject) {
-                JSONObject jsonObject = (JSONObject) data;
-                siteData.put("data", jsonObject);
-
-                for (String key : jsonObject.keySet()) {
-                    siteData.put(key, jsonObject.get(key));
-                }
+                addJSONObject(siteData, (JSONObject) data);
             }
             else if (data instanceof Map) {
-                Map<String, ?> map = (Map<String, ?>) data;
-                siteData.put("data", map);
-
-                for (String key : map.keySet()) {
-                    siteData.put(key, map.get(key));
-                }
+                addMap(siteData, (Map<String, ?>) data);
             }
             else if (data instanceof JSONArray) {
-                JSONArray jsonArray = (JSONArray) data;
-                siteData.put("data", jsonArray);
+                addJSONArray(siteData, (JSONArray) data);
             }
             else if (data instanceof Collection) {
-                Collection collection = (Collection) data;
-                siteData.put("data", collection);
+                addCollection(siteData, (Collection) data);
             }
         }
 
@@ -133,4 +122,36 @@ public final class OptionsServiceImpl implements OptionsService {
     private JSONObject loadDataFiles() {
         return context.getDatafiles("data");
     }
+
+// Helpers for getting data from object types
+//----------------------------------------------------------------------------------------------------------------------
+
+    private void addJSONElement(Map<String, Object> siteData, JSONElement data) {
+        if(OrchidUtils.elementIsObject(data)) {
+            addJSONObject(siteData, (JSONObject) data.getElement());
+        }
+        else if(OrchidUtils.elementIsArray(data)) {
+            addJSONArray(siteData, (JSONArray) data.getElement());
+        }
+    }
+
+    private void addJSONObject(Map<String, Object> siteData, JSONObject data) {
+        addMap(siteData, data.toMap());
+    }
+
+    private void addJSONArray(Map<String, Object> siteData, JSONArray data) {
+        addCollection(siteData, data.toList());
+    }
+
+    private void addMap(Map<String, Object> siteData, Map<String, ?> data) {
+        for(Map.Entry<String, ?> entry : data.entrySet()) {
+            siteData.put(entry.getKey(), entry.getValue());
+        }
+        siteData.put("data", data);
+    }
+
+    private void addCollection(Map<String, Object> siteData, Collection<?> data) {
+        siteData.put("data", data);
+    }
+
 }

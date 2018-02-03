@@ -1,4 +1,16 @@
 ---
+official: true
+included:
+  - pluginType: plugins
+    pluginName: OrchidPosts
+  - pluginType: plugins
+    pluginName: OrchidPages
+  - pluginType: plugins
+    pluginName: OrchidForms
+  - pluginType: plugins
+    pluginName: OrchidTaxonomies
+  - pluginType: bundles
+    pluginName: OrchidLanguagePack
 ---
 
 The Orchid Blog bundle provides just what you need to get started writing your blog, and nothing more. You won't get 

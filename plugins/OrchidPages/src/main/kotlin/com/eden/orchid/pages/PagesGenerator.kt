@@ -1,7 +1,6 @@
 package com.eden.orchid.pages
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
@@ -41,6 +40,24 @@ constructor(context: OrchidContext) : OrchidGenerator(context, "pages", OrchidGe
     }
 
     override fun getCollections(): List<OrchidCollection<*>> {
-        return listOf<OrchidCollection<*>>(FileCollection(this, "pages", context.getGeneratorPages(this.key)))
+        val ownPages = context.getGeneratorPages(this.key)
+        val pageGroupMap = HashMap<String?, MutableList<OrchidPage>>()
+        val collections = ArrayList<OrchidCollection<*>>()
+
+        for (page in ownPages) {
+            if(page is StaticPage) {
+                pageGroupMap.getOrPut(page.group, {ArrayList()}).add(page)
+            }
+        }
+
+        pageGroupMap.forEach { group, pages ->
+            if(group != null) {
+                collections.add(StaticPageGroupCollection(this, "staticPages-$group", pages))
+            }
+        }
+
+        collections.add(StaticPageGroupCollection(this, "staticPages", ownPages))
+
+        return collections
     }
 }

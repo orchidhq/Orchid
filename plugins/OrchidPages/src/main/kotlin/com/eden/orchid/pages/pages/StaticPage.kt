@@ -1,5 +1,6 @@
 package com.eden.orchid.pages.pages
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -19,7 +20,7 @@ import com.eden.orchid.utilities.words
         Archetype(value = PageGroupArchetype::class, key = "staticPages")
 )
 class StaticPage(resource: OrchidResource)
-    : OrchidPage(resource, "page", resource.reference.title.from { snakeCase { capitalize() } }.to { words() }) {
+    : OrchidPage(resource, "staticPage", resource.reference.title.from { snakeCase { capitalize() } }.to { words() }) {
 
     @Option
     @BooleanDefault(true)
@@ -40,5 +41,15 @@ class StaticPage(resource: OrchidResource)
 
             return null
         }
+
+    override fun getTemplates(): List<String> {
+        val templates = super.getTemplates()
+        if (!EdenUtils.isEmpty(group)) {
+            templates.add(0, group)
+            templates.add(0, "$key-${group!!}")
+        }
+
+        return templates
+    }
 }
 

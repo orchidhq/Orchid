@@ -28,6 +28,7 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
     override fun loadAssets() {
         addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css")
         addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
+        addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
         addCss("assets/css/bsdoc.scss")
 
         addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")

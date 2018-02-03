@@ -90,7 +90,7 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
 
                     }
                 } else {
-                    comparator = compareBy<Term> { it.title }
+                    comparator = compareBy { it.title }
                 }
 
                 if (orderByDirection.equals("desc", ignoreCase = true)) {
