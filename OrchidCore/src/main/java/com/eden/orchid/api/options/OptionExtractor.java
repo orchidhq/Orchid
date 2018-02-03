@@ -8,6 +8,13 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.List;
 
+/**
+ * Extract classes of a specific type from a JSON-like structure.
+ *
+ * @since v1.0.0
+ * @extensible classes
+ * @param <T> the type of object that this Extractor will return
+ */
 public abstract class OptionExtractor<T> extends Prioritized {
 
     public OptionExtractor(int priority) {

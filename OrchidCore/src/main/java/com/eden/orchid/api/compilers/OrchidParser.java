@@ -8,6 +8,7 @@ import org.json.JSONObject;
  * from configuration files or from blocks embedded within content files.
  *
  * @since v1.0.0
+ * @extensible classes
  */
 public abstract class OrchidParser extends Prioritized {
 

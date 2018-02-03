@@ -17,7 +17,7 @@ import java.util.List;
  * This is the description of the class.
  */
 @Getter @Setter
-public class Social implements OptionsHolder {
+public final class Social implements OptionsHolder {
 
     @Option public String email;
     @Option public String facebook;

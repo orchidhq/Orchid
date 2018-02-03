@@ -26,6 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *
+ * @since v1.0.0
+ * @extensible classes
+ */
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {
 

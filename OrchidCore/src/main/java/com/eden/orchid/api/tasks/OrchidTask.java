@@ -5,6 +5,9 @@ import com.eden.orchid.api.registration.Prioritized;
 /**
  * A Runnable tailored for executing some task in Orchid. The 'name' of this OrchidTask is used on the command-line for
  * non-Javadoc builds to execute an alternative OrchidTask. The default OrchidTask builds the site once.
+ *
+ * @since v1.0.0
+ * @extensible classes
  */
 public abstract class OrchidTask extends Prioritized implements Runnable {
 

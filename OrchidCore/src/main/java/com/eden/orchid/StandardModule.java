@@ -12,7 +12,7 @@ import java.util.Map;
 
 @IgnoreModule
 @Builder
-public class StandardModule extends AbstractModule {
+public final class StandardModule extends AbstractModule {
 
     private final Map<String, String[]> flags;
 

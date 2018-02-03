@@ -65,3 +65,7 @@ taxonomies:
         single: false
         orderBy:
           - entryCount
+    - extensible:
+        single: true
+        includeFrom:
+          - javadoc

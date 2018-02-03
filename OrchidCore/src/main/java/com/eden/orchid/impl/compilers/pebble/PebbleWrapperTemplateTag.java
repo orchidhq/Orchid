@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Getter
-public class PebbleWrapperTemplateTag implements TokenParser {
+public final class PebbleWrapperTemplateTag implements TokenParser {
 
     private final Provider<OrchidContext> contextProvider;
     private final String name;

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class SiteInfo implements OptionsHolder {
+public final class SiteInfo implements OptionsHolder {
 
     @ApplyBaseUrl
     @Option private String avatar;

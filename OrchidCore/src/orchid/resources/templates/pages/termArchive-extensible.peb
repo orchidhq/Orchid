@@ -1,0 +1,4 @@
+<div class="term-archive">
+<p>These are the main classes you will be working with when looking to extend Orchid.</p>
+{% include 'includes/basicTermArchive' with {'taxonomy': page.taxonomy, 'term': page.term, 'pages': page.pageList} %}
+</div>

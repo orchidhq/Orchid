@@ -5,7 +5,7 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
 
 import javax.inject.Inject;
 
-public class DataPropertyPathType extends PermalinkPathType {
+public final class DataPropertyPathType extends PermalinkPathType {
 
     @Inject
     public DataPropertyPathType() {

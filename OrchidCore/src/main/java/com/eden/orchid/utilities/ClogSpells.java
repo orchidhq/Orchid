@@ -6,7 +6,7 @@ import com.eden.orchid.Orchid;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ClogSpells {
+public final class ClogSpells {
 
     @Spell
     public static String baseUrl(Object object) {

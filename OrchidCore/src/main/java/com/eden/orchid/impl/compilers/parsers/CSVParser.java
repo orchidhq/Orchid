@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.List;
 
-public class CSVParser extends OrchidParser {
+public final class CSVParser extends OrchidParser {
 
     @Inject
     public CSVParser() {

@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class DefaultPermalinkStrategy implements PermalinkStrategy {
+public final class DefaultPermalinkStrategy implements PermalinkStrategy {
 
     private final Set<PermalinkPathType> injectedPathTypes;
 
