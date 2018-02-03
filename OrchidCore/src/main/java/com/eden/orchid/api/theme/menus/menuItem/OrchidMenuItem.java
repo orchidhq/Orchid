@@ -7,6 +7,11 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ *
+ * @since v1.0.0
+ * @extensible classes
+ */
 public abstract class OrchidMenuItem extends Prioritized implements OptionsHolder {
 
     protected final OrchidContext context;

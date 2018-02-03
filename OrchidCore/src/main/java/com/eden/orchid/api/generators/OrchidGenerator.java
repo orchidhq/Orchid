@@ -48,6 +48,8 @@ import java.util.stream.Stream;
  * using Pebble as the main template engine, can be injected into the site's content by extending one of the Theme's
  * layouts, which should typically be 'templates/layouts/index.peb'.
  *
+ * @since v1.0.0
+ * @extensible classes
  */
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 

@@ -5,7 +5,7 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
 
 import javax.inject.Inject;
 
-public class TitlePathType extends PermalinkPathType {
+public final class TitlePathType extends PermalinkPathType {
 
     @Inject
     public TitlePathType() {

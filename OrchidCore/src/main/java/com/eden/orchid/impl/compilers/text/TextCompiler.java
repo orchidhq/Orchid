@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import java.util.Map;
 
 @Singleton
-public class TextCompiler extends OrchidCompiler {
+public final class TextCompiler extends OrchidCompiler {
 
     @Inject
     public TextCompiler() {

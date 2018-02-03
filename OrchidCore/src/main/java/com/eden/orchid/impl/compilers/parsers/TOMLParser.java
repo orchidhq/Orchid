@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.regex.Pattern;
 
-public class TOMLParser extends OrchidParser {
+public final class TOMLParser extends OrchidParser {
 
     @Inject
     public TOMLParser() {

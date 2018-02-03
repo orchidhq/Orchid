@@ -1,0 +1,14 @@
+{% extends 'includes/termArchive-group-base' %}
+
+{% block cardBody %}
+<ul class="list-group" style="height: 200px; overflow-y: scroll;">
+    <li class="list-group-item"><b>Includes the following:</b></li>
+{% for pluginItem in page.get('included') %}
+{% set 'pageUrl' = link(pluginItem.pluginName, 'staticPages-'~plugin.pluginType) %}
+
+{% if pageUrl is not empty %}
+    <li class="list-group-item">{{ pluginItem.pluginName }}</li>
+{% endif %}
+{% endfor %}
+</ul>
+{% endblock %}

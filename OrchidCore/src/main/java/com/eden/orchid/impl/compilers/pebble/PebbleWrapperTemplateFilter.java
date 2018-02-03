@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class PebbleWrapperTemplateFilter implements Filter {
+public final class PebbleWrapperTemplateFilter implements Filter {
 
     private final Provider<OrchidContext> contextProvider;
     private final String name;

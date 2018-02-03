@@ -19,7 +19,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
-public class PebbleTemplateLoader implements Loader<String> {
+public final class PebbleTemplateLoader implements Loader<String> {
 
     private final OrchidContext context;
 

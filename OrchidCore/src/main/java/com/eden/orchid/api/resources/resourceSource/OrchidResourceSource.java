@@ -8,15 +8,17 @@ import javax.inject.Inject;
 import java.util.List;
 
 /**
- * OrchidResourcesImpl in Orchid are hierarchical, and trying to find a Resource from the OrchidResouces will return the first
- * one it finds in the following order:
+ * OrchidResourceSource define the resource lookup order. Resources are looked up in the following order:
  *
- * 1) A file in the directory specified by -resourcesDir
- * 2) An entry from a OrchidResourceSource, with higher priority given preference.
+ * 1) Local sources
+ * 2) The currently active theme
+ * 3) Plugin sources
  *
- * This is accomplished by finding the Jarfile in which a particular OrchidResourceSource is contained within, and then
- * looking for an entry in that jar matching a given path. Having a higher priority means the jar associated with this
- * OrchidResourceSource is searched before other Jars.
+ * This makes it so that any resource defined in a plugin or theme can always be overridden by your local resoure
+ * sources. Likewise, any resource defined in a plugin can be overridden by the theme.
+ *
+ * @since v1.0.0
+ * @extensible classes
  */
 public abstract class OrchidResourceSource extends Prioritized {
 

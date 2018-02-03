@@ -5,7 +5,10 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.options.annotations.*;
+import com.eden.orchid.api.options.annotations.Archetype;
+import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
@@ -22,10 +25,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+/**
+ *
+ * @since v1.0.0
+ * @extensible classes
+ */
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {
 
@@ -33,6 +39,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter protected final OrchidContext context;
     @Getter @Setter protected OrchidGenerator generator;
     @Getter @Setter @OptionsData private JSONElement allData;
+    @Getter @Setter private Map<String, Object> _map;
 
     // variables that give the page identity and
     @Getter @Setter protected OrchidResource resource;
@@ -140,7 +147,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public String getContent() {
         if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-            return resource.compileContent(data);
+            return resource.compileContent(allData);
         }
         else {
             return "";
@@ -280,6 +287,29 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public void loadAssets() {
 
+    }
+
+// Map Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    public Map<String, Object> getMap() {
+        if(_map == null) {
+            if(OrchidUtils.elementIsObject(allData)) {
+                _map = ((JSONObject) allData.getElement()).toMap();
+            }
+            else if(data != null) {
+                _map = data.toMap();
+            }
+            else {
+                _map = new HashMap<>();
+            }
+        }
+
+        return _map;
+    }
+
+    public Object get(String key) {
+        return getMap().get(key);
     }
 
 }

@@ -16,6 +16,9 @@ import java.util.Arrays;
  * constructor can be used with Orchid, allowing for maximum interoperability with other libraries. In addition, since
  * Guice is a complete implementation of the JSR-330 interface, even libraries that have been set up for Dependency
  * Injection apart from Guice can be used seamlessly simply by adding the necessary bindings within a Guice Module.
+ *
+ * @since v1.0.0
+ * @extensible classes
  */
 public abstract class OrchidModule extends AbstractModule {
 

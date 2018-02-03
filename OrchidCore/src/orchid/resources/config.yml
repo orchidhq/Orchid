@@ -6,7 +6,7 @@ site:
 theme:
   social:
     github: 'JavaEden/Orchid'
-  primaryColor: '#ffa033'
+  primaryColor: '#7E80CF'
   menu:
     - type: 'link'
       title: 'Home'
@@ -61,7 +61,14 @@ taxonomies:
   taxonomies:
     - group:
         single: true
+        orderByDirection: asc
+        orderBy:
+          - 'title'
     - tags:
         single: false
         orderBy:
           - entryCount
+    - extensible:
+        single: true
+        includeFrom:
+          - javadoc

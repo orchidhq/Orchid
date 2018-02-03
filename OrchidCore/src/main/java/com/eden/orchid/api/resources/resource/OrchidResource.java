@@ -13,6 +13,12 @@ import org.apache.commons.io.IOUtils;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+/**
+ * Resources provide the "intrinsic content" of a page.
+ *
+ * @since v1.0.0
+ * @extensible classes
+ */
 @Getter @Setter
 public abstract class OrchidResource {
 

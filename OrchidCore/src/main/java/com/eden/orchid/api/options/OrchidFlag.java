@@ -4,6 +4,9 @@ package com.eden.orchid.api.options;
  * Denotes a Javadoc-style command-line argument. It is important to note that Options are found by scanning the
  * classpath and are **not** created by Dependency Injection, and so are not able to have dependencies injected into
  * themselves.
+ *
+ * @since v1.0.0
+ * @extensible classes
  */
 public interface OrchidFlag {
     enum FlagType {

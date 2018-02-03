@@ -8,6 +8,11 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 
+/**
+ *
+ * @since v1.0.0
+ * @extensible classes
+ */
 public abstract class Theme extends AbstractTheme {
 
     @Getter @Setter @Option protected OrchidMenu menu;
