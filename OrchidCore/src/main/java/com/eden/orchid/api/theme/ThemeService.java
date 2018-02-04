@@ -4,6 +4,10 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import org.json.JSONObject;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface ThemeService extends OrchidService {
 
     default AssetHolder getGlobalAssetHolder() {

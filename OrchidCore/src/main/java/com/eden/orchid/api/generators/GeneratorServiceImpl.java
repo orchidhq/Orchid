@@ -24,6 +24,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 @Singleton
 public final class GeneratorServiceImpl implements GeneratorService {
 

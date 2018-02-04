@@ -1,14 +1,21 @@
 {% extends 'includes/termArchive-group-base' %}
 
 {% block cardBody %}
-<ul class="list-group" style="height: 200px; overflow-y: scroll;">
+<ul class="list-group" style="height: 200px;">
     <li class="list-group-item"><b>Includes the following:</b></li>
-{% for pluginItem in page.get('included') %}
-{% set 'pageUrl' = link(pluginItem.pluginName, 'staticPages-'~plugin.pluginType) %}
 
-{% if pageUrl is not empty %}
-    <li class="list-group-item">{{ pluginItem.pluginName }}</li>
-{% endif %}
-{% endfor %}
+    {% set 'includedPages' = page.get('included') %}
+
+    {% for pluginItem in includedPages | slice(0, 3) %}
+    {% set 'pageUrl' = link(pluginItem.pluginName, 'staticPages-'~plugin.pluginType) %}
+
+    {% if pageUrl is not empty %}
+        <li class="list-group-item">{{ pluginItem.pluginName }}</li>
+    {% endif %}
+    {% endfor %}
+
+    {% if includedPages|length > 3 %}
+        <li class="list-group-item">+{{ (includedPages|length) - 3 }} more</li>
+    {% endif %}
 </ul>
 {% endblock %}

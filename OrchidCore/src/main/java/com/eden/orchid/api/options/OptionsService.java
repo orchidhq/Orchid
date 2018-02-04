@@ -6,6 +6,10 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface OptionsService extends OrchidService {
 
     default void clearOptions() {

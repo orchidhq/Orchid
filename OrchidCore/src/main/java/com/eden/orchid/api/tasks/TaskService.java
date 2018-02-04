@@ -2,6 +2,10 @@ package com.eden.orchid.api.tasks;
 
 import com.eden.orchid.api.OrchidService;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface TaskService extends OrchidService {
 
     default boolean runTask(String taskName) {

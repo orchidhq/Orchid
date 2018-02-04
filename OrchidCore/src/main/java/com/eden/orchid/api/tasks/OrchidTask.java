@@ -7,7 +7,7 @@ import com.eden.orchid.api.registration.Prioritized;
  * non-Javadoc builds to execute an alternative OrchidTask. The default OrchidTask builds the site once.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidTask extends Prioritized implements Runnable {
 

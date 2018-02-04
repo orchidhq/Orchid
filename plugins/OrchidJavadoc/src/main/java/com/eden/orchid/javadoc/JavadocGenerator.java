@@ -14,12 +14,7 @@ import com.sun.javadoc.RootDoc;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Singleton
@@ -63,10 +58,20 @@ public class JavadocGenerator extends OrchidGenerator {
                 }
             }
 
+            classesInPackage.sort(Comparator.comparing(JavadocClassPage::getTitle));
+
             JavadocPackagePage packagePage = new JavadocPackagePage(context, packageDoc, classesInPackage);
 
             model.getAllPackages().add(packagePage);
             packagePageMap.put(packageDoc, packagePage);
+        }
+
+        for(JavadocPackagePage packagePage : packagePageMap.values()) {
+            for(JavadocPackagePage possibleInnerPackage : packagePageMap.values()) {
+                if(isInnerPackage(packagePage.getPackageDoc(), possibleInnerPackage.getPackageDoc())) {
+                    packagePage.getInnerPackages().add(possibleInnerPackage);
+                }
+            }
         }
 
         for (JavadocClassPage classDocPage : model.getAllClasses()) {
@@ -84,5 +89,27 @@ public class JavadocGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidCollection> getCollections() {
         return null;
+    }
+
+
+    private boolean isInnerPackage(PackageDoc parent, PackageDoc possibleChild) {
+
+        // packages start the same...
+        if(possibleChild.name().startsWith(parent.name())) {
+
+            // packages are not the same...
+            if(!possibleChild.name().equals(parent.name())) {
+
+                int parentSegmentCount = parent.name().split("\\.").length;
+                int possibleChildSegmentCount = possibleChild.name().split("\\.").length;
+
+                // child has one segment more than the parent, so is immediate child
+                if(possibleChildSegmentCount == (parentSegmentCount+1)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

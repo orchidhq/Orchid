@@ -26,6 +26,9 @@ import java.util.List;
  * |------------|--------------|--------------------------|
  * | long       | @LongDefault | Annotation value() or 0L |
  * | Long       | @LongDefault | Annotation value() or 0L |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class LongOptionExtractor extends OptionExtractor<Long> {
 

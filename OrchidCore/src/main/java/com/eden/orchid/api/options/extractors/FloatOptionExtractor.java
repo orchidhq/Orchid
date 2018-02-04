@@ -26,6 +26,9 @@ import java.util.List;
  * |------------|---------------|----------------------------|
  * | float      | @FloatDefault | Annotation value() or 0.0f |
  * | Float      | @FloatDefault | Annotation value() or 0.0f |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class FloatOptionExtractor extends OptionExtractor<Float> {
 

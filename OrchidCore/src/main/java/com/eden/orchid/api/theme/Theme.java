@@ -11,7 +11,7 @@ import javax.inject.Inject;
 /**
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class Theme extends AbstractTheme {
 

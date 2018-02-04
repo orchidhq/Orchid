@@ -6,7 +6,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 /**
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class PermalinkPathType extends Prioritized {
 

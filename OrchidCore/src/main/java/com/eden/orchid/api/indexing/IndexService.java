@@ -7,6 +7,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface IndexService extends OrchidService {
 
     default void clearIndex() {

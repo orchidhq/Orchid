@@ -3,6 +3,10 @@ package com.eden.orchid.api.generators;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface GeneratorService extends OrchidService {
 
     default void startIndexing() {

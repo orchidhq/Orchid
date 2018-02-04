@@ -1,1 +1,5 @@
-{% include 'includes/javadoc/packageSummary' %}
+{% include 'includes/javadoc/package/summary' %}
+{% include 'includes/javadoc/package/classes' %}
+{% if page.innerPackages|length > 0 %}
+    {% include 'includes/javadoc/package/childPackages' %}
+{% endif %}

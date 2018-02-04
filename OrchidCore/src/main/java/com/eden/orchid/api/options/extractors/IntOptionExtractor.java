@@ -26,6 +26,9 @@ import java.util.List;
  * |------------|-------------|-------------------------|
  * | int        | @IntDefault | Annotation value() or 0 |
  * | Integer    | @IntDefault | Annotation value() or 0 |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class IntOptionExtractor extends OptionExtractor<Integer> {
 

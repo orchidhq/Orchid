@@ -1,0 +1,44 @@
+{# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocPackagePage" #}
+
+{% if page.hasInterfaces %}
+    {{ classListPanel('interface', 'interface', page.getInterfaces()) }}
+{% endif %}
+{% if page.hasOrdinaryClasses %}
+    {{ classListPanel('class', 'classes', page.getOrdinaryClasses()) }}
+{% endif %}
+{% if page.hasEnums %}
+    {{ classListPanel('enum', 'enums', page.getEnums()) }}
+{% endif %}
+{% if page.hasExceptions() %}
+    {{ classListPanel('exception', 'exceptions', page.getExceptions()) }}
+{% endif %}
+{% if page.hasErrors %}
+    {{ classListPanel('error', 'errors', page.getErrors()) }}
+{% endif %}
+{% if page.hasAnnotations %}
+    {{ classListPanel('annotation', 'annotations', page.getAnnotations()) }}
+{% endif %}
+
+{% macro classListPanel(singularName, pluralName, classes) %}
+<div class="panel panel-default">
+    <div class="panel-heading">{{ singularName | capitalize }} Summary</div>
+
+    <ul class="list-group">
+    {% for classDocPage in classes %}
+    {# @pebvariable name="classDocPage" type="com.eden.orchid.javadoc.pages.JavadocClassPage" #}
+        <li class="list-group-item clearfix">
+            <code class="pull-left"><a href="{{ classDocPage.link }}">{{ classDocPage.title }}</a></code>
+            {% if classDocPage.classDoc.isAbstract() %}
+                <span class="label label-info pull-right">abstract</span>
+            {% elseif classDocPage.classDoc.isFinal() %}
+                <span class="label label-warning pull-right">final</span>
+            {% endif %}
+
+            {% if classDocPage.summary|length > 0 %}
+                <br><br><div>{{ classDocPage.summary|raw }}</div>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endmacro %}

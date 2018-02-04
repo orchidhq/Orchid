@@ -5,6 +5,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import java.io.InputStream;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface RenderService extends OrchidService {
 
     enum RenderMode {

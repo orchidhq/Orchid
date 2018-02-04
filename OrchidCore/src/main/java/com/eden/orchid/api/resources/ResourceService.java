@@ -6,6 +6,10 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public interface ResourceService extends OrchidService {
 
     default JSONObject getDatafile(final String fileName) {

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder {
 

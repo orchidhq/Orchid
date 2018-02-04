@@ -8,7 +8,7 @@ import lombok.Getter;
  * template language.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class TemplateFunction implements OptionsHolder {
 

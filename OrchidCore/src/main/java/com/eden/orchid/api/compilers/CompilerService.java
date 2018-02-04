@@ -13,6 +13,7 @@ import java.util.Set;
  * OrchidParsers can be added seamlessly by injecting into the appropriate set in your Module.
  *
  * @since v1.0.0
+ * @orchidApi services
  */
 public interface CompilerService extends OrchidService {
 

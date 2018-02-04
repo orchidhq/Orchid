@@ -10,7 +10,7 @@ import java.util.Map;
  * to compile the given file type.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidCompiler extends Prioritized {
 

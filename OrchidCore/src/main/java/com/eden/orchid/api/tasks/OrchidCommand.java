@@ -14,7 +14,7 @@ import com.eden.orchid.api.registration.Prioritized;
  * - A Task expects a regular String name, while Commands may be matched against a Regex pattern
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidCommand extends Prioritized implements OptionsHolder {
 

@@ -18,7 +18,7 @@ import java.util.List;
  * sources. Likewise, any resource defined in a plugin can be overridden by the theme.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidResourceSource extends Prioritized {
 

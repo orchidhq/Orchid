@@ -1,0 +1,29 @@
+{# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocPackagePage" #}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Inner Packages</div>
+
+    <ul class="list-group">
+    {% for packagePage in page.innerPackages %}
+        <li class="list-group-item clearfix">
+            <code class="pull-left">
+                <a href="{{ packagePage.link }}">{{ packagePage.title }}</a>
+            </code>
+            {% if packagePage.innerPackages|length == 1 %}
+                <span class="badge pull-right">{{ packagePage.innerPackages|length }} package</span>
+            {% elseif packagePage.innerPackages|length > 1 %}
+                <span class="badge pull-right">{{ packagePage.innerPackages|length }} packages</span>
+            {% endif %}
+            {% if packagePage.classes|length == 1 %}
+                <span class="badge pull-right">{{ packagePage.classes|length }} class</span>
+            {% elseif packagePage.classes|length > 1 %}
+                <span class="badge pull-right">{{ packagePage.classes|length }} classes</span>
+            {% endif %}
+
+            {% if packagePage.summary|length > 0 %}
+                <br><br><div>{{ packagePage.summary|raw }}</div>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>

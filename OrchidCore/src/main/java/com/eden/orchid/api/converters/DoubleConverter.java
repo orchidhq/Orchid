@@ -11,6 +11,7 @@ import javax.inject.Inject;
  * | string | parsed number as double | toString  |
  *
  * @since v1.0.0
+ * @orchidApi converters
  */
 public final class DoubleConverter implements TypeConverter<Double> {
 

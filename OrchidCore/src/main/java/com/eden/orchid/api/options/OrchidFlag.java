@@ -6,7 +6,7 @@ package com.eden.orchid.api.options;
  * themselves.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public interface OrchidFlag {
     enum FlagType {

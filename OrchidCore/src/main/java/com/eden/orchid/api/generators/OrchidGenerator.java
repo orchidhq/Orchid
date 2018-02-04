@@ -49,7 +49,7 @@ import java.util.stream.Stream;
  * layouts, which should typically be 'templates/layouts/index.peb'.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 

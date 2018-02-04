@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 @Singleton
 public final class IndexServiceImpl implements IndexService {
 

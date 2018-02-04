@@ -23,6 +23,9 @@ import java.util.List;
  * | Field Type | Annotation  | Default Value |
  * |------------|-------------|---------------|
  * | JSONArray  | none        | null          |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class JSONArrayOptionExtractor extends OptionExtractor<JSONArray> {
 

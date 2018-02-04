@@ -17,7 +17,7 @@ import com.eden.orchid.api.server.annotations.Delete;
  * specify that in the annotation and also have it passed as the last argument in the method parameters.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidController extends Prioritized {
 
