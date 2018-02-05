@@ -2,7 +2,6 @@ package com.eden.orchid.javadoc.pages
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.javadoc.JavadocModel
 import com.eden.orchid.javadoc.resources.ClassDocResource
 import com.sun.javadoc.ClassDoc
 
@@ -28,17 +27,4 @@ class JavadocClassPage(context: OrchidContext, var classDoc: ClassDoc) : OrchidP
             return context.compile("md", classDoc.firstSentenceTags().joinToString(" ", transform = {it.text()}))
         }
 
-    fun getClassPage(className: String?): OrchidPage? {
-        val javadocModel = context.injector.getInstance(JavadocModel::class.java)
-
-        for (classPage in javadocModel.allClasses) {
-            if (classPage.classDoc.qualifiedName() == className) {
-                return classPage
-            } else if (classPage.classDoc.name() == className) {
-                return classPage
-            }
-        }
-
-        return null
-    }
 }

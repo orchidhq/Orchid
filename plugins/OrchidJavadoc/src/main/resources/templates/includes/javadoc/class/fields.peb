@@ -8,7 +8,15 @@
 {# @pebvariable name="field" type="com.sun.javadoc.FieldDoc" #}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <code>{{ field.type.qualifiedTypeName }}</code>
+        <code>
+        {% if field.type.isPrimitive() %}
+            {{- field.type.qualifiedTypeName -}}
+        {% else %}
+            {{- javadocLink(field.type.qualifiedTypeName, field.type.typeName, true) -}}
+        {% endif %}
+            {{- field.type.dimension() -}}
+        </code>
+
         <code>{{ field.name }}</code>
     </div>
     <div class="panel-body">

@@ -1,13 +1,16 @@
-{# @pebvariable name="classDoc" type="com.sun.javadoc.ClassDoc" #}
-{% set "classDoc" = page.classDoc %}
-
-{% if classDoc.methods|length > 0 %}
+{% if page.classDoc.methods|length > 0 %}
 <h3>Methods</h3>
 
-{% for method in classDoc.methods %}
+{% for method in page.classDoc.methods %}
 {# @pebvariable name="method" type="com.sun.javadoc.MethodDoc" #}
 <div class="panel panel-default">
-    <div class="panel-heading"><code>{{ method.name }}{{ method.flatSignature }}</code></div>
+    <div class="panel-heading"><code>
+    {% if method.returnType().asClassDoc() is not empty %}
+    {{ javadocLink(method.returnType().asClassDoc().qualifiedTypeName, method.returnType().asClassDoc().name, true) }}
+    {% else %}
+        void
+    {% endif %}
+    {{ method.name }}{{ method.flatSignature }}</code></div>
     <div class="panel-body">
         <p>{{ method.commentText | raw }}</p>
     </div>
@@ -16,12 +19,21 @@
     "typeParameters": method.typeParameters,
     "typeParameterTags": method.typeParamTags
     } %}
+
+    <p><b>Parameters: </b></p>
     {% include 'includes/javadoc/parameterList' with {
     "parameters": method.parameters,
     "parameterTags": method.paramTags
     } %}
+
+    {% if method.returnType().asClassDoc() is not empty %}
+        <div class="panel-footer">
+            <div><b>Returns: </b></div>
+            <div>
+                <code>{{ javadocLink(method.returnType().asClassDoc().qualifiedTypeName, method.returnType().asClassDoc().name, true) }}</code>
+            </div>
+        </div>
+    {% endif %}
 </div>
 {% endfor %}
-{% else %}
-<h3>No Methods</h3>
 {% endif %}

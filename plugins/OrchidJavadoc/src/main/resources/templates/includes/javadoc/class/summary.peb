@@ -3,20 +3,27 @@
 <div>
     <code>
         <span>
-            {% for annotation in page.classDoc.annotations %}
-                <span>@{{annotation.annotationType.name}}</span>
-            {% endfor %}
+        {% for annotation in page.classDoc.annotations %}
+            <span>@{{ javadocLink(annotation.annotationType.qualifiedName, annotation.annotationType.name, true) -}}{%- if not loop.last -%}, {% endif %}</span>
+        {% endfor %}
         </span>
         <span>
             <b>{{ page.classDoc.modifiers }} {{ page.classType }} <a href="{{ page.link }}">{{ page.classDoc.name }}</a></b>
         </span>
 
-        {% set parentClassPage = page.getClassPage(page.classDoc.superclass.qualifiedName) %}
+        {% if page.classDoc.superclass is not empty %}
+            <span>extends {{ javadocLink(page.classDoc.superclass.qualifiedName, page.classDoc.superclass.name, true) }}</span>
+        {% endif %}
 
-        {% if parentClassPage is not null %}
-            <span>extends <a href="{{ parentClassPage.link }}">{{parentClassPage.title}}</a></span>
+        {% if page.classDoc.interfaces|length > 0 %}
+        {% if page.classDoc.isInterface() %}
+            extends
         {% else %}
-            <span>extends <b>{{ page.classDoc.superclass.name }}</b></span>
+            implements
+        {% endif %}
+        {% for interface in page.classDoc.interfaces %}
+            {{ javadocLink(interface.qualifiedName, interface.name, true) -}}{%- if not loop.last -%}, {% endif %}
+        {% endfor %}
         {% endif %}
     </code>
 </div>
@@ -25,5 +32,5 @@
 <p><b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b></p>
 
 <div class="class-description">
-    {{ page.content | raw }}
+{{ page.content | raw }}
 </div>
