@@ -30,7 +30,7 @@ import java.util.*;
 /**
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {

@@ -68,7 +68,7 @@ taxonomies:
         single: false
         orderBy:
           - entryCount
-    - extensible:
+    - orchidApi:
         single: true
         includeFrom:
           - javadoc

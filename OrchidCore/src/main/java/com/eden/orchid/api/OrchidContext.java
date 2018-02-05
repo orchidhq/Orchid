@@ -10,10 +10,12 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
+import com.google.inject.ImplementedBy;
 import com.google.inject.Injector;
 
 import java.util.Set;
 
+@ImplementedBy(OrchidContextImpl.class)
 public interface OrchidContext extends
         OrchidSite,
         CompilerService,

@@ -6,7 +6,7 @@ import com.eden.orchid.api.OrchidContext;
  * An object that is globally available to all Pages when they are rendered.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  * @param <T> the object type that is added globally
  */
 public interface TemplateGlobal<T> {

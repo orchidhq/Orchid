@@ -16,6 +16,9 @@ import java.util.List;
  * |------------|-----------------|-----------------------------|
  * | boolean    | @BooleanDefault | Annotation value() or false |
  * | Boolean    | @BooleanDefault | Annotation value() or false |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class BooleanOptionExtractor extends OptionExtractor<Boolean> {
 

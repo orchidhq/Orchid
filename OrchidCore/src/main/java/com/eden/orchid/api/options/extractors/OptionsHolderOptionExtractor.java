@@ -38,6 +38,9 @@ import java.util.List;
  * This can deserialize any JSONObject into any class that implements OptionsHolder, and can also handle any generic
  * List of OptionsHolders of the same Class. The class to deserialize by in that List should be set with @ListClass on
  * the field.
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsHolder> {
 

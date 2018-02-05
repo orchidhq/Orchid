@@ -1,0 +1,36 @@
+{# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocClassPage" #}
+
+<div>
+    <code>
+        <span>
+        {% for annotation in page.classDoc.annotations %}
+            <span>@{{ javadocLink(annotation.annotationType.qualifiedName, annotation.annotationType.name, true) -}}{%- if not loop.last -%}, {% endif %}</span>
+        {% endfor %}
+        </span>
+        <span>
+            <b>{{ page.classDoc.modifiers }} {{ page.classType }} <a href="{{ page.link }}">{{ page.classDoc.name }}</a></b>
+        </span>
+
+        {% if page.classDoc.superclass is not empty %}
+            <span>extends {{ javadocLink(page.classDoc.superclass.qualifiedName, page.classDoc.superclass.name, true) }}</span>
+        {% endif %}
+
+        {% if page.classDoc.interfaces|length > 0 %}
+        {% if page.classDoc.isInterface() %}
+            extends
+        {% else %}
+            implements
+        {% endif %}
+        {% for interface in page.classDoc.interfaces %}
+            {{ javadocLink(interface.qualifiedName, interface.name, true) -}}{%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+        {% endif %}
+    </code>
+</div>
+
+<h3>Class {{ page.classDoc.name }}</h3>
+<p><b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b></p>
+
+<div class="class-description">
+{{ page.content | raw }}
+</div>

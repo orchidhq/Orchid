@@ -1,0 +1,21 @@
+<div class="row">
+{% for page in page.pageList %}
+    <div class="col col-md-6">
+        <a href="{{page.link}}">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h4 class="panel-title pull-left">
+                    {{page.title}}
+                    </h4>
+                    {% if page.get("official") %}
+                        <span class="label label-primary pull-right">officially-supported</span>
+                    {% endif %}
+                </div>
+                {% block cardBody %}
+
+                {% endblock %}
+            </div>
+        </a>
+    </div>
+{% endfor %}
+</div>

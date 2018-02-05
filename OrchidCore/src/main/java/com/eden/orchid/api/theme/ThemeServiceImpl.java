@@ -13,6 +13,10 @@ import javax.inject.Inject;
 import java.util.Set;
 import java.util.Stack;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public final class ThemeServiceImpl implements ThemeService {
 
     private OrchidContext context;

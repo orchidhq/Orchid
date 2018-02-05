@@ -10,6 +10,9 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
+/**
+ *
+ */
 public final class OrchidSiteImpl implements OrchidSite {
 
     private OrchidContext context;

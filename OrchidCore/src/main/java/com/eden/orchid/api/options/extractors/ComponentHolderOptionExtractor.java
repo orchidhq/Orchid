@@ -18,6 +18,9 @@ import java.util.List;
  * |--------------|----------------|----------------------------|
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class ComponentHolderOptionExtractor extends OptionExtractor<ComponentHolder> {
 

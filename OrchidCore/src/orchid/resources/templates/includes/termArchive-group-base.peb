@@ -3,9 +3,9 @@
     <div class="col col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
-                <span class="pull-left">
+                <h4 class="panel-title pull-left">
                     <a href="{{page.link}}" style="color: black;">{{page.title}}</a>
-                </span>
+                </h4>
                 {% if page.get("official") %}
                     <span class="label label-primary pull-right">officially-supported</span>
                 {% endif %}

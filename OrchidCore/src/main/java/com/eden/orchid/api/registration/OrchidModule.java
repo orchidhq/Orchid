@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Injection apart from Guice can be used seamlessly simply by adding the necessary bindings within a Guice Module.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidModule extends AbstractModule {
 

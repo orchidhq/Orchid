@@ -33,6 +33,7 @@ public class BaseJavadocResource extends FreeableResource {
                         .stream(doc.inlineTags())
                         .map(Tag::text)
                         .collect(Collectors.joining(" "));
+                content = rawContent;
 
                 Map<String, List<String>> tagMap = new HashMap<>();
                 for (Tag tag : doc.tags()) {

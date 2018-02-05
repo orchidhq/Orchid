@@ -2,10 +2,16 @@ package com.eden.orchid.api.resources;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.google.inject.ImplementedBy;
 import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
+@ImplementedBy(ResourceServiceImpl.class)
 public interface ResourceService extends OrchidService {
 
     default JSONObject getDatafile(final String fileName) {

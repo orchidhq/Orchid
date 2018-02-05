@@ -2,10 +2,16 @@ package com.eden.orchid.api.options;
 
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidService;
+import com.google.inject.ImplementedBy;
 import org.json.JSONObject;
 
 import java.util.Map;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
+@ImplementedBy(OptionsServiceImpl.class)
 public interface OptionsService extends OrchidService {
 
     default void clearOptions() {

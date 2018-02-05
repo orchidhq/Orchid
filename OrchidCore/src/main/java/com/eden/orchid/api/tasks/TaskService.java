@@ -1,7 +1,13 @@
 package com.eden.orchid.api.tasks;
 
 import com.eden.orchid.api.OrchidService;
+import com.google.inject.ImplementedBy;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
+@ImplementedBy(TaskServiceImpl.class)
 public interface TaskService extends OrchidService {
 
     default boolean runTask(String taskName) {

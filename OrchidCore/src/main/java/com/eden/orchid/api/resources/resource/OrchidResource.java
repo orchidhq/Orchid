@@ -17,7 +17,7 @@ import java.nio.charset.Charset;
  * Resources provide the "intrinsic content" of a page.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 @Getter @Setter
 public abstract class OrchidResource {

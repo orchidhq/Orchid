@@ -11,6 +11,10 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.*;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public final class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;

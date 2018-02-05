@@ -4,6 +4,10 @@ import com.eden.orchid.api.OrchidContext;
 
 import javax.inject.Inject;
 
+/**
+ * @since v1.0.0
+ * @orchidApi extensible
+ */
 public abstract class AdminTheme extends AbstractTheme {
 
     @Inject

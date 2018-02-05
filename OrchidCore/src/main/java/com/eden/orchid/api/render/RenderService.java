@@ -2,9 +2,15 @@ package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.google.inject.ImplementedBy;
 
 import java.io.InputStream;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
+@ImplementedBy(RenderServiceImpl.class)
 public interface RenderService extends OrchidService {
 
     enum RenderMode {

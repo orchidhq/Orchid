@@ -24,6 +24,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 @Singleton
 public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 

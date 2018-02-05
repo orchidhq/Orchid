@@ -1,0 +1,57 @@
+{% if page.classDoc.methods|length > 0 %}
+<h3>Methods</h3>
+
+{% for method in page.classDoc.methods %}
+{# @pebvariable name="method" type="com.sun.javadoc.MethodDoc" #}
+<div class="panel {% if method.isStatic() %}panel-info{% else %}panel-default{% endif %}">
+    <div class="panel-heading clearfix">
+        <code>
+        {{ method | javadocVisibility }}
+        {% if field.isStatic() %}static{% endif %}
+        {% if method.returnType().asClassDoc() is not empty %}
+        {{ javadocLink(method.returnType().asClassDoc().qualifiedTypeName, method.returnType().asClassDoc().name, true) }}
+        {% else %}
+            void
+        {% endif %}
+        {{ method.name }}{{ method.flatSignature }}
+        </code>
+
+        {% if method.isSynchronized() %}<span class="label label-danger pull-right">synchronized</span>{% endif %}
+        {% if method.isAbstract() %}<span class="label label-info pull-right">abstract</span>{% endif %}
+        {% if method.isFinal() %}<span class="label label-warning pull-right">final</span>{% endif %}
+    </div>
+    <div class="panel-body">
+        <p>{{ method.commentText | raw }}</p>
+    </div>
+
+    {% if method.typeParameters|length > 0 %}
+        <div class="panel-body">
+            <b>Type Parameters: </b>
+        </div>
+    {% include 'includes/javadoc/class/typeParameterList' with {
+    "typeParameters": method.typeParameters,
+    "typeParameterTags": method.typeParamTags
+    } %}
+    {% endif %}
+
+    {% if method.parameters|length > 0 %}
+        <div class="panel-body">
+            <b>Parameters: </b>
+        </div>
+    {% include 'includes/javadoc/class/parameterList' with {
+    "parameters": method.parameters,
+    "parameterTags": method.paramTags
+    } %}
+    {% endif %}
+
+    {% if method.returnType().asClassDoc() is not empty %}
+        <div class="panel-footer">
+            <div><b>Returns: </b></div>
+            <div>
+                <code>{{ javadocLink(method.returnType().asClassDoc().qualifiedTypeName, method.returnType().asClassDoc().name, true) }}</code>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endfor %}
+{% endif %}

@@ -7,7 +7,7 @@ import java.util.Collection;
  * discovery.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public interface AdminList {
 

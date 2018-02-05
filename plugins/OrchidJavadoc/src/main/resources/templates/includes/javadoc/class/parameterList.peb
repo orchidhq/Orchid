@@ -1,0 +1,20 @@
+{# @pebvariable name="parameters" type="com.sun.javadoc.Parameter[]" #}
+{# @pebvariable name="parameterTags" type="com.sun.javadoc.ParamTag[]" #}
+<ul class="list-group">
+{% if parameters|length > 0 %}
+{% for param in parameters %}
+    <li class="list-group-item clearfix">
+    {% set "tag" = parameterTags[loop.index] %}
+    {# @pebvariable name="param" type="com.sun.javadoc.Parameter" #}
+    {# @pebvariable name="tag" type="com.sun.javadoc.ParamTag" #}
+        <code class="pull-left">{{ javadocLink(param.type.asClassDoc().qualifiedTypeName, param.type.asClassDoc().name, true) }} {{ param.name() }}</code>
+    {% if tag.parameterComment|length > 0 %}
+        <br><br>
+        <div>{{ tag.parameterComment | raw }}</div>
+    {% endif %}
+    </li>
+{% endfor %}
+{% else %}
+    <li class="list-group-item">No parameters</li>
+{% endif %}
+</ul>

@@ -51,7 +51,7 @@ public final class OrchidContextImpl implements OrchidContext {
             GeneratorService generatorService,
             RenderService renderService,
 
-            Set<OrchidService>additionalServices
+            Set<OrchidService> additionalServices
     ) {
         this.injector = injector;
         this.site = site;

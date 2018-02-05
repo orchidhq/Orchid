@@ -12,6 +12,10 @@ import javax.inject.Inject;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
 public class RenderServiceImpl implements RenderService {
 
     protected OrchidContext context;

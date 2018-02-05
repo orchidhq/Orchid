@@ -2,8 +2,14 @@ package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.google.inject.ImplementedBy;
 import org.json.JSONObject;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
+@ImplementedBy(ThemeServiceImpl.class)
 public interface ThemeService extends OrchidService {
 
     default AssetHolder getGlobalAssetHolder() {

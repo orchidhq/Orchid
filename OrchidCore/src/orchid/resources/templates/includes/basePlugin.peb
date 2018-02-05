@@ -1,8 +1,8 @@
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
-        <span class="pull-left">
+        <h3 class="panel-title pull-left">
         {{page.title}}
-        </span>
+        </h3>
         {% if official %}
             <span class="label label-primary pull-right">officially-supported</span>
         {% endif %}

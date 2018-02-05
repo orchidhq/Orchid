@@ -21,6 +21,9 @@ import java.util.List;
  * | Field Type | Annotation  | Default Value |
  * |------------|-------------|---------------|
  * | JSONObject | none        | null          |
+ *
+ * @since v1.0.0
+ * @orchidApi optionTypes
  */
 public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject> {
 

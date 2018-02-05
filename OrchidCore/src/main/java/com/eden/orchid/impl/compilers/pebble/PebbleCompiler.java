@@ -46,6 +46,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 .loader(loader)
                 .executorService(executor)
                 .extension(extensionArray)
+                .cacheActive(false)
                 .build();
     }
 

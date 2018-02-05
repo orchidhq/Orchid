@@ -10,7 +10,7 @@ import java.util.List;
  * Netlify CMS, Collections can also be used for other descriptive purposes, and are an opt-in feature of Generators.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class OrchidCollection<T> {
 

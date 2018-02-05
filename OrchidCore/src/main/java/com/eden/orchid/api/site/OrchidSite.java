@@ -1,8 +1,14 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidService;
+import com.google.inject.ImplementedBy;
 import org.json.JSONObject;
 
+/**
+ * @since v1.0.0
+ * @orchidApi services
+ */
+@ImplementedBy(OrchidSiteImpl.class)
 public interface OrchidSite extends OrchidService {
 
     default String getOrchidVersion() {

@@ -11,6 +11,7 @@ import javax.inject.Inject;
  * | null     | empty string      |           |
  *
  * @since v1.0.0
+ * @orchidApi converters
  */
 public final class StringConverter implements TypeConverter<String> {
 

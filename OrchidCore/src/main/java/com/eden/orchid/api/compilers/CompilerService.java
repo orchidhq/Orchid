@@ -3,6 +3,7 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidService;
+import com.google.inject.ImplementedBy;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.Set;
  * OrchidParsers can be added seamlessly by injecting into the appropriate set in your Module.
  *
  * @since v1.0.0
+ * @orchidApi services
  */
+@ImplementedBy(CompilerServiceImpl.class)
 public interface CompilerService extends OrchidService {
 
     /**

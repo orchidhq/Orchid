@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * parameters, you may pass the name of those parameters in the `parameters()` method.
  *
  * @since v1.0.0
- * @extensible classes
+ * @orchidApi extensible
  */
 public abstract class TemplateTag implements OptionsHolder {
 

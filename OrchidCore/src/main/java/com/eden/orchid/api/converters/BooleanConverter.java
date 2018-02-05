@@ -14,6 +14,7 @@ import javax.inject.Inject;
  * | number non-0   | true   | NumberConverter |
  *
  * @since v1.0.0
+ * @orchidApi converters
  */
 public final class BooleanConverter implements TypeConverter<Boolean> {
 
