@@ -3,6 +3,7 @@ package com.eden.orchid.api.indexing;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.google.inject.ImplementedBy;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @since v1.0.0
  * @orchidApi services
  */
+@ImplementedBy(IndexServiceImpl.class)
 public interface IndexService extends OrchidService {
 
     default void clearIndex() {

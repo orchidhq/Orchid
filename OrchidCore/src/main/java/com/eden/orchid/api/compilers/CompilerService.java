@@ -3,6 +3,7 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidService;
+import com.google.inject.ImplementedBy;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @since v1.0.0
  * @orchidApi services
  */
+@ImplementedBy(CompilerServiceImpl.class)
 public interface CompilerService extends OrchidService {
 
     /**

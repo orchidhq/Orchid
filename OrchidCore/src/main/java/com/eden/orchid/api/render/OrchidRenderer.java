@@ -1,9 +1,11 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.google.inject.ImplementedBy;
 
 import java.io.InputStream;
 
+@ImplementedBy(FileRenderer.class)
 public interface OrchidRenderer {
 
     /**

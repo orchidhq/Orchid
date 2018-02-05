@@ -3,6 +3,8 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
+import com.google.inject.ImplementedBy;
 
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import java.util.Map;
  *
  * @since v1.0.0
  */
+@ImplementedBy(FrontMatterPrecompiler.class)
 public abstract class OrchidPrecompiler extends Prioritized {
 
     /**

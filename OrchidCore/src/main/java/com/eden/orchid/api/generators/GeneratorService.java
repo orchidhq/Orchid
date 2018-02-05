@@ -2,11 +2,13 @@ package com.eden.orchid.api.generators;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.google.inject.ImplementedBy;
 
 /**
  * @since v1.0.0
  * @orchidApi services
  */
+@ImplementedBy(GeneratorServiceImpl.class)
 public interface GeneratorService extends OrchidService {
 
     default void startIndexing() {

@@ -66,8 +66,6 @@ public final class ImplModule extends OrchidModule {
 
     @Override
     protected void configure() {
-        bind(OrchidPrecompiler.class).to(FrontMatterPrecompiler.class);
-
         // prepare empty sets for binding
         addToSet(OrchidService.class);
 

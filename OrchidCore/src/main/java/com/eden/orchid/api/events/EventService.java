@@ -1,6 +1,7 @@
 package com.eden.orchid.api.events;
 
 import com.eden.orchid.api.OrchidService;
+import com.google.inject.ImplementedBy;
 
 /**
  * The EventService handles cross-application communication and allows disparate parts of the application to communicate
@@ -64,6 +65,7 @@ import com.eden.orchid.api.OrchidService;
  *
  * @since v1.0.0
  */
+@ImplementedBy(EventServiceImpl.class)
 public interface EventService extends OrchidService {
 
     /**
