@@ -12,16 +12,25 @@
         <p>{{ ctor.commentText | raw }}</p>
     </div>
 
-    {% include 'includes/javadoc/typeParameterList' with {
+    {% if ctor.typeParameters|length > 0 %}
+        <div class="panel-body">
+            <b>Type Parameters: </b>
+        </div>
+    {% include 'includes/javadoc/class/typeParameterList' with {
     "typeParameters": ctor.typeParameters,
     "typeParameterTags": ctor.typeParamTags
     } %}
-    {% include 'includes/javadoc/parameterList' with {
+    {% endif %}
+
+    {% if ctor.parameters|length > 0 %}
+        <div class="panel-body">
+            <b>Parameters: </b>
+        </div>
+    {% include 'includes/javadoc/class/parameterList' with {
     "parameters": ctor.parameters,
     "parameterTags": ctor.paramTags
     } %}
+    {% endif %}
 </div>
 {% endfor %}
-{% else %}
-<h3>No Constructors</h3>
 {% endif %}

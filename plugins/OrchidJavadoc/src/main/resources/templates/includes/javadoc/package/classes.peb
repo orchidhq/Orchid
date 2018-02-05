@@ -21,24 +21,21 @@
 
 {% macro classListPanel(singularName, pluralName, classes) %}
 <div class="panel panel-default">
-    <div class="panel-heading">{{ singularName | capitalize }} Summary</div>
-
-    <ul class="list-group">
+    <div class="panel-heading"><h3 class="panel-title">{{ singularName | capitalize }} Summary</h3></div>
+    <div class="list-group">
     {% for classDocPage in classes %}
     {# @pebvariable name="classDocPage" type="com.eden.orchid.javadoc.pages.JavadocClassPage" #}
-        <li class="list-group-item clearfix">
-            <code class="pull-left"><a href="{{ classDocPage.link }}">{{ classDocPage.title }}</a></code>
-            {% if classDocPage.classDoc.isAbstract() %}
-                <span class="label label-info pull-right">abstract</span>
-            {% elseif classDocPage.classDoc.isFinal() %}
-                <span class="label label-warning pull-right">final</span>
-            {% endif %}
+        <a class="list-group-item clearfix" href="{{ classDocPage.link }}">
+            <code class="pull-left">{{ classDocPage.title }}</code>
+            {% if classDocPage.classDoc.isSynchronized() %}<span class="label label-danger pull-right">synchronized</span>{% endif %}
+            {% if classDocPage.classDoc.isAbstract() %}<span class="label label-info pull-right">abstract</span>{% endif %}
+            {% if classDocPage.classDoc.isFinal() %}<span class="label label-warning pull-right">final</span>{% endif %}
 
             {% if classDocPage.summary|length > 0 %}
                 <br><br><div>{{ classDocPage.summary|raw }}</div>
             {% endif %}
-        </li>
+        </a>
     {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endmacro %}

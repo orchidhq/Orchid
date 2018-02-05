@@ -1,14 +1,12 @@
 {# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocPackagePage" #}
 
 <div class="panel panel-default">
-    <div class="panel-heading">Inner Packages</div>
+    <div class="panel-heading"><h3 class="panel-title">Inner Packages</h3></div>
 
-    <ul class="list-group">
+    <div class="list-group">
     {% for packagePage in page.innerPackages %}
-        <li class="list-group-item clearfix">
-            <code class="pull-left">
-                <a href="{{ packagePage.link }}">{{ packagePage.title }}</a>
-            </code>
+        <a class="list-group-item clearfix" href="{{ packagePage.link }}">
+            <code class="pull-left">{{ packagePage.title }}</code>
             {% if packagePage.innerPackages|length == 1 %}
                 <span class="badge pull-right">{{ packagePage.innerPackages|length }} package</span>
             {% elseif packagePage.innerPackages|length > 1 %}
@@ -23,7 +21,7 @@
             {% if packagePage.summary|length > 0 %}
                 <br><br><div>{{ packagePage.summary|raw }}</div>
             {% endif %}
-        </li>
+        </a>
     {% endfor %}
-    </ul>
+    </div>
 </div>

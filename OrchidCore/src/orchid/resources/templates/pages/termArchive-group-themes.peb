@@ -1,6 +1,8 @@
-{% extends 'includes/termArchive-group-base' %}
+{% extends 'includes/termArchive-group-baseLinked' %}
 
 {% block cardBody %}
 {% set 'previewImage' = page.get('images')|first %}
-<img class="img-responsive" style="width: 100%; height: 200px; object-fit: cover;" src="{{ previewImage.src }}&blur" alt="{{ previewImage.alt }}">
+<img class="img-responsive"
+     style="width: 100%; height: 200px; object-fit: cover;" src="{{ previewImage.src }}&blur"
+     alt="{{ previewImage.alt }}">
 {% endblock %}
