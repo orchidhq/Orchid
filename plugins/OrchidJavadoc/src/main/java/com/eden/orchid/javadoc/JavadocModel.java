@@ -1,6 +1,5 @@
 package com.eden.orchid.javadoc;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.pages.JavadocClassPage;
@@ -64,10 +63,12 @@ public class JavadocModel {
     }
 
     public OrchidPage getClassPage(String className) {
+        // we've already identified the page for the class, return it now. It may be null.
         if (classPageCache.containsKey(className)) {
             return classPageCache.get(className);
         }
 
+        // Find the page in one of our own Javadoc pages. Here, we may use just the simple class name for simplicity
         for (JavadocClassPage classPage : getAllClasses()) {
             if (classPage.getClassDoc().qualifiedName().equals(className)) {
                 classPageCache.put(className, classPage);
@@ -79,12 +80,15 @@ public class JavadocModel {
             }
         }
 
+        // Find the page in an external page that has been loaded to Orchid's external index
         OrchidPage page = context.getExternalIndex().findPage(className.replaceAll("\\.", "/"));
         if(page != null) {
             classPageCache.put(className, page);
             return page;
         }
 
+        // The page cannot be found, cache the fact that it wasn't found.
+        classPageCache.put(className, null);
         return null;
     }
 
