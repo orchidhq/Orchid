@@ -1,5 +1,7 @@
 package com.eden.orchid.javadoc;
 
+import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.javadoc.pages.JavadocClassPage;
 import com.eden.orchid.javadoc.pages.JavadocPackagePage;
@@ -17,6 +19,8 @@ import java.util.Map;
 @Singleton
 public class JavadocModel {
 
+    private final OrchidContext context;
+
     public List<JavadocClassPage> allClasses;
     public List<JavadocPackagePage> allPackages;
 
@@ -24,8 +28,8 @@ public class JavadocModel {
     private Map<String, OrchidPage> packagePageCache;
 
     @Inject
-    public JavadocModel() {
-
+    public JavadocModel(OrchidContext context) {
+        this.context = context;
     }
 
     void initialize(List<JavadocClassPage> allClasses, List<JavadocPackagePage> allPackages) {
@@ -63,17 +67,22 @@ public class JavadocModel {
         if (classPageCache.containsKey(className)) {
             return classPageCache.get(className);
         }
-        else {
-            for (JavadocClassPage classPage : getAllClasses()) {
-                if (classPage.getClassDoc().qualifiedName().equals(className)) {
-                    classPageCache.put(className, classPage);
-                    return classPage;
-                }
-                else if (classPage.getClassDoc().name().equals(className)) {
-                    classPageCache.put(className, classPage);
-                    return classPage;
-                }
+
+        for (JavadocClassPage classPage : getAllClasses()) {
+            if (classPage.getClassDoc().qualifiedName().equals(className)) {
+                classPageCache.put(className, classPage);
+                return classPage;
             }
+            else if (classPage.getClassDoc().name().equals(className)) {
+                classPageCache.put(className, classPage);
+                return classPage;
+            }
+        }
+
+        OrchidPage page = context.getExternalIndex().findPage(className.replaceAll("\\.", "/"));
+        if(page != null) {
+            classPageCache.put(className, page);
+            return page;
         }
 
         return null;

@@ -88,6 +88,37 @@ public abstract class OrchidIndex {
         return foundPages;
     }
 
+    public OrchidPage findPage(String taxonomy) {
+        OrchidPage page = null;
+        String[] pathPieces = taxonomy.split("/");
+        if(pathPieces.length > 0) {
+            page = findPage(pathPieces);
+        }
+
+        return page;
+    }
+
+    public OrchidPage findPage(String[] pathPieces) {
+        if(pathPieces[0].length() > 0) {
+            if(pathPieces.length == 1) {
+                if(pathPieces[0].equals(ownKey)) {
+                    for(OrchidPage ownPage : ownPages) {
+                        if(ownPage.getReference().getOriginalFileName().equals(pathPieces[0])) {
+                            return ownPage;
+                        }
+                    }
+                }
+            }
+            else {
+                if(childrenPages.containsKey(pathPieces[1])) {
+                    return childrenPages.get(pathPieces[1]).findPage(Arrays.copyOfRange(pathPieces, 1, pathPieces.length));
+                }
+            }
+        }
+
+        return null;
+    }
+
     public OrchidIndex findIndex(String taxonomy) {
         if(!taxonomy.contains("/")) {
             if(taxonomy.equals(ownKey)) {

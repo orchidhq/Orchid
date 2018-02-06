@@ -26,6 +26,8 @@ services:
     disabled:
       - 'presentations'
       - 'styleguide'
+    externalIndices:
+      - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
 
 allPages:
   components:
