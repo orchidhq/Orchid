@@ -1,17 +1,13 @@
 package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.annotations.Description;
 
-public final class VersionOption implements OrchidFlag {
+@Description("the version of your library")
+public final class VersionOption extends OrchidFlag {
 
-    @Override
-    public String getFlag() {
-        return "v";
-    }
-
-    @Override
-    public String getDescription() {
-        return "the version of your library";
+    public VersionOption() {
+        super("v", false, null);
     }
 
 }

@@ -1,21 +1,13 @@
 package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.annotations.Description;
 
-public final class ResourcesDirectoryOption implements OrchidFlag {
+@Description("the directory containing your content files")
+public final class ResourcesDirectoryOption extends OrchidFlag {
 
-    @Override
-    public String getFlag() {
-        return "resourcesDir";
+    public ResourcesDirectoryOption() {
+        super("resourcesDir", true, null);
     }
 
-    @Override
-    public String getDescription() {
-        return "the directory containing your content files";
-    }
-
-    @Override
-    public boolean isRequired() {
-        return true;
-    }
 }
