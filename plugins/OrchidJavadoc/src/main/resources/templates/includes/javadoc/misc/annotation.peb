@@ -1,0 +1,12 @@
+{# @pebvariable name="annotation" type="com.sun.javadoc.AnnotationDesc" #}
+
+@{{ javadocLink(annotation.annotationType.qualifiedName, annotation.annotationType.name, true) -}}
+
+{%- if (annotation.elementValues()|length) > 0 -%}
+(
+{%- for val in annotation.elementValues() -%}
+{# @pebvariable name="val" type="com.sun.javadoc.AnnotationDesc.ElementValuePair" #}
+    {{- javadocLink(val.element.qualifiedName, val.element.name, true) -}}={{- val.value() -}}{%- if not loop.last -%}, {% endif %}
+{%- endfor -%}
+)
+{%- endif -%}

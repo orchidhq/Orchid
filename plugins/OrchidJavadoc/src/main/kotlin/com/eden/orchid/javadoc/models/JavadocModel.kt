@@ -1,5 +1,6 @@
 package com.eden.orchid.javadoc.models
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.pages.JavadocClassPage
@@ -87,6 +88,24 @@ constructor(val context: OrchidContext) {
         // The page cannot be found, cache the fact that it wasn't found.
         classPageCache[className] = null
         return null
+    }
+
+    fun linkClassPage(className: String, linkText: String, anchor: Boolean): String {
+        val page = getClassPage(className)
+        if(page != null) {
+            if(!EdenUtils.isEmpty(linkText)) {
+                if (anchor) {
+                    return "<a href=\"${page.link}\">$linkText</a>"
+                } else {
+                    return "<span>$linkText</span>"
+                }
+            }
+            else {
+                return page.link
+            }
+        }
+
+        return linkText
     }
 
 }

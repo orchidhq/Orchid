@@ -1,0 +1,3 @@
+{% for annotation in annotations %}
+<div>{% include 'includes/javadoc/misc/annotation' %}{%- if not loop.last -%}, {% endif %}</div>
+{% endfor %}

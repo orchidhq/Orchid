@@ -4,6 +4,7 @@
 {% if parameters|length > 0 %}
 {% for param in parameters %}
     <li class="list-group-item clearfix">
+    {% include 'includes/javadoc/misc/annotations' with {"annotations": param.annotations} %}
     {% set "tag" = parameterTags[loop.index] %}
     {# @pebvariable name="param" type="com.sun.javadoc.Parameter" #}
     {# @pebvariable name="tag" type="com.sun.javadoc.ParamTag" #}

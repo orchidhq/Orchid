@@ -2,11 +2,7 @@
 
 <div>
     <code>
-        <span>
-        {% for annotation in page.classDoc.annotations %}
-            <span>@{{ javadocLink(annotation.annotationType.qualifiedName, annotation.annotationType.name, true) -}}{%- if not loop.last -%}, {% endif %}</span>
-        {% endfor %}
-        </span>
+        {% include 'includes/javadoc/misc/annotations' with {"annotations": page.classDoc.annotations} %}
         <span>
             <b>{{ page.classDoc.modifiers }} {{ page.classType }} <a href="{{ page.link }}">{{ page.classDoc.name }}</a></b>
         </span>

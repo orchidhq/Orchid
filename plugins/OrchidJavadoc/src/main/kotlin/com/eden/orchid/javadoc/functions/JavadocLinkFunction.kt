@@ -1,6 +1,5 @@
 package com.eden.orchid.javadoc.functions
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Option
@@ -29,20 +28,6 @@ constructor(val model: JavadocModel) : TemplateFunction("javadocLink") {
     }
 
     override fun apply(input: Any?): Any {
-        val page = model.getClassPage(input?.toString() ?: className)
-        if(page != null) {
-            if(!EdenUtils.isEmpty(linkText)) {
-                if (anchor) {
-                    return "<a href=\"${page.link}\">$linkText</a>"
-                } else {
-                    return "<span>$linkText</span>"
-                }
-            }
-            else {
-                return page.link
-            }
-        }
-
-        return linkText
+        return model.linkClassPage(input?.toString() ?: className, linkText, anchor)
     }
 }
