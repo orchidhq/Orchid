@@ -4,7 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.javadoc.JavadocModel
+import com.eden.orchid.javadoc.models.JavadocModel
 import javax.inject.Inject
 
 class JavadocLinkFunction

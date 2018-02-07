@@ -21,6 +21,7 @@ fun OrchidPage.getSingleTermValue(taxonomy: String): String? {
     return null
 }
 
+@Suppress("UNCHECKED_CAST")
 fun OrchidPage.getTermValues(taxonomy: String): List<String> {
     try {
         val method = this.javaClass.getMethod("get${taxonomy.capitalize()}")

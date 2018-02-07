@@ -1,7 +1,7 @@
 package com.eden.orchid.javadoc.functions
 
 import com.eden.orchid.api.compilers.TemplateFunction
-import com.eden.orchid.javadoc.JavadocModel
+import com.eden.orchid.javadoc.models.JavadocModel
 import com.sun.javadoc.ProgramElementDoc
 import javax.inject.Inject
 
