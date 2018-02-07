@@ -88,50 +88,10 @@ public class TestFlags {
         flagsMap.put("-five",  new String[] {"-five",  "17"});
 
         flagParsers = new ArrayList<>();
-        flagParsers.add(new OrchidFlag() {
-            @Override
-            public String getFlag() {
-                return "one";
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-        });
-        flagParsers.add(new OrchidFlag() {
-            @Override
-            public String getFlag() {
-                return "two";
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-        });
-        flagParsers.add(new OrchidFlag() {
-            @Override
-            public String getFlag() {
-                return "three";
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-        });
-        flagParsers.add(new OrchidFlag() {
-            @Override
-            public String getFlag() {
-                return "five";
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-
+        flagParsers.add(new OrchidFlag("one", false, null) {});
+        flagParsers.add(new OrchidFlag("two", false, null) {});
+        flagParsers.add(new OrchidFlag("three", false, null) {});
+        flagParsers.add(new OrchidFlag("five", false, null) {
             @Override
             public Object parseFlag(String[] options) {
                 return Integer.parseInt(options[1]);
@@ -142,48 +102,8 @@ public class TestFlags {
                 return FlagType.INTEGER;
             }
         });
-        flagParsers.add(new OrchidFlag() {
-            @Override
-            public String getFlag() {
-                return "six";
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-
-            @Override
-            public Object getDefaultValue() {
-                return "valueSix";
-            }
-
-            @Override
-            public boolean isRequired() {
-                return true;
-            }
-        });
-        flagParsers.add(new OrchidFlag() {
-            @Override
-            public String getFlag() {
-                return "seven";
-            }
-
-            @Override
-            public String getDescription() {
-                return null;
-            }
-
-            @Override
-            public Object getDefaultValue() {
-                return 14;
-            }
-
-            @Override
-            public boolean isRequired() {
-                return true;
-            }
-
+        flagParsers.add(new OrchidFlag("six", true, "valueSix") {});
+        flagParsers.add(new OrchidFlag("seven", true, 14) {
             @Override
             public Object parseFlag(String[] options) {
                 return Integer.parseInt(options[1]);

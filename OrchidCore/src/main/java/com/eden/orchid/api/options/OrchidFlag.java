@@ -78,7 +78,7 @@ public abstract class OrchidFlag {
      *
      * @return this option's description
      */
-    public String getDescription() {
+    public final String getDescription() {
         if(getClass().isAnnotationPresent(Description.class)) {
             return getClass().getAnnotation(Description.class).value();
         }
