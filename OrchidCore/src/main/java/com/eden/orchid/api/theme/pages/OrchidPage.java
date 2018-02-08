@@ -25,7 +25,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -46,7 +50,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected OrchidReference reference;
     @Getter @Setter protected String key;
     @Getter @Setter @Option protected String title;
-    @Getter @Setter @Option protected String description;
+    @Getter @Setter @Option("desc") protected String description;
     @Getter @Setter protected OrchidPage next;
     @Getter @Setter protected OrchidPage previous;
     @Getter @Setter protected JSONObject data;

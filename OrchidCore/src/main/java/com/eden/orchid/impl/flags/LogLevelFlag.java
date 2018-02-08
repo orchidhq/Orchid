@@ -2,17 +2,13 @@ package com.eden.orchid.impl.flags;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.annotations.Description;
 
-public final class LogLevelFlag implements OrchidFlag {
+@Description("The level of logging statements to show. One of: [VERBOSE, DEBUG, INFO, DEFAULT, WARNING, ERROR, FATAL]")
+public final class LogLevelFlag extends OrchidFlag {
 
-    @Override
-    public String getFlag() {
-        return "logLevel";
-    }
-
-    @Override
-    public String getDescription() {
-        return "The level of logging statements to show. One of: [VERBOSE, DEBUG, INFO, DEFAULT, WARNING, ERROR, FATAL]";
+    public LogLevelFlag() {
+        super("logLevel", false, null);
     }
 
     @Override
@@ -20,4 +16,5 @@ public final class LogLevelFlag implements OrchidFlag {
         Clog.setMinPriority(Clog.Priority.getByKey(options[1]));
         return options[1];
     }
+
 }

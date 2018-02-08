@@ -1,26 +1,13 @@
 package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.annotations.Description;
 
-public final class TaskOption implements OrchidFlag {
+@Description("the task to run")
+public final class TaskOption extends OrchidFlag {
 
-    @Override
-    public String getFlag() {
-        return "task";
+    public TaskOption() {
+        super("task", true, "build");
     }
 
-    @Override
-    public String getDescription() {
-        return "the task to run";
-    }
-
-    @Override
-    public Object getDefaultValue() {
-        return "build";
-    }
-
-    @Override
-    public boolean isRequired() {
-        return true;
-    }
 }

@@ -27,6 +27,12 @@
         {% if field.isVolatile() %}<span class="label label-info pull-right" style="margin-right: 4px;">volatile</span>{% endif %}
         {% if field.isStatic() %}<span class="label label-danger pull-right" style="margin-right: 4px;">static</span>{% endif %}
     </div>
+    {% if field.annotations|length > 0 %}
+        <div class="panel-body">
+            <div><b>Field Annotations:</b></div>
+            <code>{% include 'includes/javadoc/misc/annotations' with {"annotations": field.annotations} %}</code>
+        </div>
+    {% endif %}
     <div class="panel-body">
         <p>{{ field.commentText | raw }}</p>
     </div>

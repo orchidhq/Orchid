@@ -25,7 +25,7 @@ public final class OrchidFlags {
             List<OrchidFlag> orchidFlags = new ArrayList<>();
 
             FastClasspathScanner scanner = new FastClasspathScanner();
-            scanner.matchClassesImplementing(OrchidFlag.class, (matchingClass) -> {
+            scanner.matchSubclassesOf(OrchidFlag.class, (matchingClass) -> {
                 try {
                     OrchidFlag option = matchingClass.newInstance();
                     if (option != null) {

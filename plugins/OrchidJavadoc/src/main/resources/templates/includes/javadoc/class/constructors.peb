@@ -8,6 +8,12 @@
 {# @pebvariable name="ctor" type="com.sun.javadoc.ConstructorDoc" #}
 <div class="panel panel-default">
     <div class="panel-heading"><code>{{ ctor.name }}{{ ctor.flatSignature }}</code></div>
+    {% if ctor.annotations|length > 0 %}
+        <div class="panel-body">
+            <div><b>Constructor Annotations:</b></div>
+            <code>{% include 'includes/javadoc/misc/annotations' with {"annotations": ctor.annotations} %}</code>
+        </div>
+    {% endif %}
     <div class="panel-body">
         <p>{{ ctor.commentText | raw }}</p>
     </div>
@@ -16,7 +22,7 @@
         <div class="panel-body">
             <b>Type Parameters: </b>
         </div>
-    {% include 'includes/javadoc/class/typeParameterList' with {
+    {% include 'includes/javadoc/misc/typeParameterList' with {
     "typeParameters": ctor.typeParameters,
     "typeParameterTags": ctor.typeParamTags
     } %}
@@ -26,7 +32,7 @@
         <div class="panel-body">
             <b>Parameters: </b>
         </div>
-    {% include 'includes/javadoc/class/parameterList' with {
+    {% include 'includes/javadoc/misc/parameterList' with {
     "parameters": ctor.parameters,
     "parameterTags": ctor.paramTags
     } %}

@@ -1,26 +1,13 @@
 package com.eden.orchid.impl.flags;
 
 import com.eden.orchid.api.options.OrchidFlag;
+import com.eden.orchid.api.options.annotations.Description;
 
-public final class BaseUrlFlag implements OrchidFlag {
+@Description("the base URL to append to generated URLs.")
+public final class BaseUrlFlag extends OrchidFlag {
 
-    @Override
-    public String getFlag() {
-        return "baseUrl";
+    public BaseUrlFlag() {
+        super("baseUrl", true, "/");
     }
 
-    @Override
-    public String getDescription() {
-        return "the base URL to append to generated URLs.";
-    }
-
-    @Override
-    public Object getDefaultValue() {
-        return "/";
-    }
-
-    @Override
-    public boolean isRequired() {
-        return true;
-    }
 }

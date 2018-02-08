@@ -34,6 +34,11 @@ public final class OrchidRootExternalIndex extends OrchidExternalIndex {
     }
 
     @Override
+    public OrchidPage findPage(String taxonomy) {
+        return super.findPage(this.ownKey + "/" + taxonomy);
+    }
+
+    @Override
     public String toString() {
         return this.toJSON().toString(2);
     }

@@ -7,7 +7,7 @@
     <div class="panel-heading clearfix">
         <code>
         {{ method | javadocVisibility }}
-        {% if field.isStatic() %}static{% endif %}
+        {% if method.isStatic() %}static{% endif %}
         {% if method.returnType().asClassDoc() is not empty %}
         {{ javadocLink(method.returnType().asClassDoc().qualifiedTypeName, method.returnType().asClassDoc().name, true) }}
         {% else %}
@@ -20,6 +20,12 @@
         {% if method.isAbstract() %}<span class="label label-info pull-right">abstract</span>{% endif %}
         {% if method.isFinal() %}<span class="label label-warning pull-right">final</span>{% endif %}
     </div>
+    {% if method.annotations|length > 0 %}
+        <div class="panel-body">
+            <div><b>Method Annotations:</b></div>
+            <code>{% include 'includes/javadoc/misc/annotations' with {"annotations": method.annotations} %}</code>
+        </div>
+    {% endif %}
     <div class="panel-body">
         <p>{{ method.commentText | raw }}</p>
     </div>
@@ -28,7 +34,7 @@
         <div class="panel-body">
             <b>Type Parameters: </b>
         </div>
-    {% include 'includes/javadoc/class/typeParameterList' with {
+    {% include 'includes/javadoc/misc/typeParameterList' with {
     "typeParameters": method.typeParameters,
     "typeParameterTags": method.typeParamTags
     } %}
@@ -38,7 +44,7 @@
         <div class="panel-body">
             <b>Parameters: </b>
         </div>
-    {% include 'includes/javadoc/class/parameterList' with {
+    {% include 'includes/javadoc/misc/parameterList' with {
     "parameters": method.parameters,
     "parameterTags": method.paramTags
     } %}

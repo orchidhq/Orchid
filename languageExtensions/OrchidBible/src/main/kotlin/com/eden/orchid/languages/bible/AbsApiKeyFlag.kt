@@ -2,16 +2,10 @@ package com.eden.orchid.languages.bible
 
 import com.eden.Eden
 import com.eden.orchid.api.options.OrchidFlag
+import com.eden.orchid.api.options.annotations.Description
 
-class AbsApiKeyFlag : OrchidFlag {
-
-    override fun getFlag(): String {
-        return "absApiKey"
-    }
-
-    override fun getDescription(): String {
-        return "Bible verses can only be looked up when an API key from Bibles.org. Get you key at http://bibles.org/pages/api/signup"
-    }
+@Description("Bible verses can only be looked up when an API key from Bibles.org. Get you key at http://bibles.org/pages/api/signup")
+class AbsApiKeyFlag : OrchidFlag("absApiKey", false, null) {
 
     override fun parseFlag(options: Array<String>): Any {
         val eden = Eden.getInstance()
@@ -19,4 +13,5 @@ class AbsApiKeyFlag : OrchidFlag {
         eden.config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", "eng-NASB")
         return options[1]
     }
+
 }

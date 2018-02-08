@@ -1,4 +1,6 @@
+<div class="orchid-javadoc">
 {% include 'includes/javadoc/class/summary' %}
 {% include 'includes/javadoc/class/fields' %}
 {% include 'includes/javadoc/class/constructors' %}
 {% include 'includes/javadoc/class/methods' %}
+</div>
