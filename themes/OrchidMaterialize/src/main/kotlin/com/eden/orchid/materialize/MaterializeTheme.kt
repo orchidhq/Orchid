@@ -26,23 +26,23 @@ constructor(context: OrchidContext) : Theme(context, "Materialize", 100) {
 
         @Option
         @StringDefault("cyan")
-        var primary: String? = null
+        lateinit var primary: String
 
         @Option
         @StringDefault("orange")
-        var secondary: String? = null
+        lateinit var secondary: String
 
         @Option
         @StringDefault("green")
-        var success: String? = null
+        lateinit var success: String
 
         @Option
         @StringDefault("red")
-        var error: String? = null
+        lateinit var error: String
 
         @Option
         @StringDefault("light-blue")
-        var link: String? = null
+        lateinit var link: String
 
     }
 
@@ -50,23 +50,23 @@ constructor(context: OrchidContext) : Theme(context, "Materialize", 100) {
 
         @Option
         @StringDefault("lighten-2")
-        var primary: String? = null
+        lateinit var primary: String
 
         @Option
         @StringDefault("lighten-1")
-        var secondary: String? = null
+        lateinit var secondary: String
 
         @Option
         @StringDefault("base")
-        var success: String? = null
+        lateinit var success: String
 
         @Option
         @StringDefault("base")
-        var error: String? = null
+        lateinit var error: String
 
         @Option
         @StringDefault("darken-1")
-        var link: String? = null
+        lateinit var link: String
 
     }
 

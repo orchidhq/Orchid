@@ -83,16 +83,16 @@ constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : Orchid
     class AdminParams : OptionsHolder {
 
         @Option
-        var param1: String? = null
+        lateinit var param1: String
 
         @Option
         var param2: Int = 0
 
         @Option
-        var param3: String? = null
+        lateinit var param3: String
 
         @Option
-        var paramKey: String? = null
+        lateinit var paramKey: String
 
     }
 }
