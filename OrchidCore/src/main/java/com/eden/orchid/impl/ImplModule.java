@@ -49,16 +49,17 @@ import com.eden.orchid.impl.themes.components.LicenseComponent;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
+import com.eden.orchid.impl.themes.functions.CompileAsFunction;
+import com.eden.orchid.impl.themes.functions.FindAllFunction;
+import com.eden.orchid.impl.themes.functions.FindFunction;
+import com.eden.orchid.impl.themes.functions.FindTemplateFunction;
+import com.eden.orchid.impl.themes.functions.LinkFunction;
+import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
-import com.eden.orchid.impl.themes.templateFunctions.CompileAsFunction;
-import com.eden.orchid.impl.themes.templateFunctions.FindAllFunction;
-import com.eden.orchid.impl.themes.templateFunctions.FindFunction;
-import com.eden.orchid.impl.themes.templateFunctions.FindTemplateFunction;
-import com.eden.orchid.impl.themes.templateFunctions.LinkFunction;
-import com.eden.orchid.impl.themes.templateFunctions.LoadFunction;
+import com.eden.orchid.impl.themes.tags.LogTag;
 import com.eden.orchid.utilities.ClogSpells;
 
 @IgnoreModule
@@ -149,7 +150,8 @@ public final class ImplModule extends OrchidModule {
         );
 
         // Template Tags
-        addToSet(TemplateTag.class);
+        addToSet(TemplateTag.class,
+                LogTag.class);
 
         ClogFormatter formatter = Clog.getFormatter();
         if (formatter instanceof Parseltongue) {

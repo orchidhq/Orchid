@@ -12,7 +12,7 @@ constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
 
     @Option
     @StringDefault("#f56a6a")
-    var primaryColor: String? = null
+    lateinit var primaryColor: String
 
     @Option
     var social: Social? = null

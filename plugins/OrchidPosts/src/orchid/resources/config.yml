@@ -8,6 +8,4 @@ theme:
   social:
     github: 'JavaEden/Orchid'
   menu:
-    - type: postCategories
-    - type: postTags
     - type: latestPosts

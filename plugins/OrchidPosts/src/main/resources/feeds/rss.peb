@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <id>{{ site.baseUrl }}</id>
+        <title>{{- site.about.siteName -}}</title>
+        <link>{{- site.baseUrl -}}</link>
+        <atom:link href="{{- site.baseUrl -}}/rss.xml" rel="self" type="application/rss+xml"/>
+        <description>{{- site.about.siteDescription -}}</description>
+        {% for item in page.items -%}
+        <item>
+            <title>{{- item.title -}}</title>
+            <guid>{{- item.link -}}</guid>
+            <link>{{- item.link -}}</link>
+            <description>{{- item.description -}}</description>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>

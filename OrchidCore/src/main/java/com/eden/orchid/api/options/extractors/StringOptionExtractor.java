@@ -88,12 +88,22 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
     @Override
     public String getDefaultValue(Field field) {
         if(field.isAnnotationPresent(StringDefault.class)) {
-            EdenPair<Boolean, String> value = converter.convert(field.getAnnotation(StringDefault.class).value());
-            if(value.first) {
-                return value.second;
+            String[] defaultValue = field.getAnnotation(StringDefault.class).value();
+            if(defaultValue.length > 0) {
+                EdenPair<Boolean, String> value = converter.convert(defaultValue[0]);
+                if(value.first) {
+                    return value.second;
+                }
             }
         }
         return "";
+    }
+
+    public String[] getArrayDefaultValue(Field field) {
+        if(field.isAnnotationPresent(StringDefault.class)) {
+            return field.getAnnotation(StringDefault.class).value();
+        }
+        return new String[0];
     }
 
     @Override
@@ -106,6 +116,13 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
         else if((options.has(key) && options.get(key) instanceof String[])) {
             String[] strings = (String[]) options.get(key);
             for(String s : strings) {
+                array.put(s);
+            }
+        }
+
+        if(array.length() == 0) {
+            String[] defaultValue = getArrayDefaultValue(field);
+            for(String s : defaultValue) {
                 array.put(s);
             }
         }

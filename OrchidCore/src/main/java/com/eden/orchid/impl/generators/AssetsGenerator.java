@@ -6,6 +6,7 @@ import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 public final class AssetsGenerator extends OrchidGenerator {
 
     @Option
+    @StringDefault({"assets"})
     @Description("Set which local resource directories you want to copy static assets from.")
     public String[] sourceDirs;
 

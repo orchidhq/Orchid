@@ -1,4 +1,4 @@
-package com.eden.orchid.impl.themes.templateFunctions;
+package com.eden.orchid.impl.themes.functions;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 @Singleton
 @Getter @Setter
-public final class FindAllFunction extends TemplateFunction {
+public final class FindFunction extends TemplateFunction {
 
     private final OrchidContext context;
 
@@ -28,8 +28,8 @@ public final class FindAllFunction extends TemplateFunction {
     private String collectionId;
 
     @Inject
-    public FindAllFunction(OrchidContext context) {
-        super("findAll");
+    public FindFunction(OrchidContext context) {
+        super("find");
         this.context = context;
     }
 

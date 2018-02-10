@@ -13,11 +13,11 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
 
     @Option
     @StringDefault("#4C376C")
-    var primaryColor: String? = null
+    lateinit var primaryColor: String
 
     @Option
     @StringDefault("#000000")
-    var secondaryColor: String? = null
+    lateinit var secondaryColor: String
 
     @Option
     var social: Social? = null

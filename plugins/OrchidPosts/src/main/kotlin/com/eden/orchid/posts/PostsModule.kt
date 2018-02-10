@@ -10,13 +10,21 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.components.DisqusComponent
 import com.eden.orchid.posts.components.RecentPostsComponent
 import com.eden.orchid.posts.menu.LatestPostsMenuType
-import com.eden.orchid.posts.permalink.pathTypes.*
+import com.eden.orchid.posts.permalink.pathTypes.AuthorNamePathType
+import com.eden.orchid.posts.permalink.pathTypes.CategoryPathType
+import com.eden.orchid.posts.permalink.pathTypes.DayPathType
+import com.eden.orchid.posts.permalink.pathTypes.MonthNamePathType
+import com.eden.orchid.posts.permalink.pathTypes.MonthPathType
+import com.eden.orchid.posts.permalink.pathTypes.SlugPathType
+import com.eden.orchid.posts.permalink.pathTypes.YearPathType
 import com.eden.orchid.posts.utils.AuthorOptionExtractor
 
 class PostsModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(OrchidGenerator::class.java, PostsGenerator::class.java)
+        addToSet(OrchidGenerator::class.java,
+                PostsGenerator::class.java,
+                FeedsGenerator::class.java)
 
         addToSet(OrchidMenuItem::class.java,
                 LatestPostsMenuType::class.java)
