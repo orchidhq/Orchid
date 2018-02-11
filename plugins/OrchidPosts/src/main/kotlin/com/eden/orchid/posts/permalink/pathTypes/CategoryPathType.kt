@@ -14,8 +14,7 @@ constructor() : PermalinkPathType(100) {
 
     override fun format(page: OrchidPage, key: String): String? {
         if (page is PostPage) {
-            val category = page.category
-            return category ?: ""
+            return if(page.categoryModel.key != null) page.categoryModel.path else ""
         }
 
         return null

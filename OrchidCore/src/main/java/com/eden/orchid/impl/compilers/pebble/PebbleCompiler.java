@@ -100,4 +100,10 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
         executor.shutdown();
     }
 
+    @On(Orchid.Lifecycle.ClearCache.class)
+    public void onClearCache(Orchid.Lifecycle.ClearCache event) {
+        engine.getTagCache().invalidateAll();
+        engine.getTemplateCache().invalidateAll();
+    }
+
 }

@@ -88,7 +88,6 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         pages.forEach { context.renderTemplate(it) }
     }
 
-
 // Archive Page Helpers
 //----------------------------------------------------------------------------------------------------------------------
 

@@ -22,6 +22,9 @@ constructor(context: OrchidContext, var model: TaxonomiesModel) : OrchidMenuItem
     @Option
     var includePages = false
 
+    @Option
+    var pagesAtRoot = false
+
     @Option @IntDefault(4)
     var pageCount: Int = 4
 
@@ -40,11 +43,16 @@ constructor(context: OrchidContext, var model: TaxonomiesModel) : OrchidMenuItem
         val term = this.term
         if(term != null) {
             if(includePages) {
-                items.add(OrchidMenuItemImpl(
-                        context,
-                        term.title,
-                        term.allPages.subList(0, pageCount)
-                ))
+                val pageList = if(term.allPages.size > pageCount) term.allPages.subList(0, pageCount) else term.allPages
+
+                if(pagesAtRoot) {
+                    pageList.forEach {
+                        items.add(OrchidMenuItemImpl(context, it))
+                    }
+                }
+                else {
+                    items.add(OrchidMenuItemImpl(context, term.title, pageList))
+                }
             }
             else {
                 items.add(OrchidMenuItemImpl(

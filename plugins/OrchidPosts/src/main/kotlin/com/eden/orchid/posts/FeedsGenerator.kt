@@ -47,13 +47,15 @@ constructor(
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
         var feedItems = context.internalIndex.getGeneratorPages(enabledGeneratorKeys)
 
-        var sortedFeedItems = feedItems
-                .sortedWith(compareBy({ it.lastModifiedDate }, { it.publishDate }))
-                .reversed()
-                .take(size)
+        if(feedItems.isNotEmpty()) {
+            var sortedFeedItems = feedItems
+                    .sortedWith(compareBy({ it.lastModifiedDate }, { it.publishDate }))
+                    .reversed()
+                    .take(size)
 
-        feedTypes.forEach { feedType ->
-            context.renderRaw(FeedPage(context, feedType, sortedFeedItems))
+            feedTypes.forEach { feedType ->
+                context.renderRaw(FeedPage(context, feedType, sortedFeedItems))
+            }
         }
     }
 

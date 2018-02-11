@@ -26,6 +26,8 @@ public final class AssetsGenerator extends OrchidGenerator {
     @Description("Set which local resource directories you want to copy static assets from.")
     public String[] sourceDirs;
 
+    private List<? extends OrchidPage> assetPages;
+
     @Inject
     public AssetsGenerator(OrchidContext context) {
         super(context, "assets", OrchidGenerator.PRIORITY_LATE);
@@ -37,7 +39,7 @@ public final class AssetsGenerator extends OrchidGenerator {
             sourceDirs = new String[]{"assets"};
         }
 
-        return Arrays
+        assetPages = Arrays
                 .stream(sourceDirs)
                 .flatMap(sourceDir -> context.getLocalResourceEntries(sourceDir, null, true).stream())
                 .map(orchidResource -> {
@@ -46,11 +48,12 @@ public final class AssetsGenerator extends OrchidGenerator {
                     return page;
                 }).collect(Collectors.toList());
 
+        return null;
     }
 
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
-        pages.forEach(page -> {
+        assetPages.stream().forEach(page -> {
             if (context.isBinaryExtension(page.getReference().getOutputExtension())) {
                 context.renderBinary(page);
             }

@@ -154,6 +154,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 Clog.i("Build Starting...");
 
                 context.clearOptions();
+                context.broadcast(Orchid.Lifecycle.ClearCache.fire(this));
                 context.loadOptions();
 
                 context.clearThemes();

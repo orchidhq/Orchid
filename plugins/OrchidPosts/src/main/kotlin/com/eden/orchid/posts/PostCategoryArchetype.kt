@@ -16,8 +16,8 @@ constructor(val context: OrchidContext) : OptionArchetype {
     override fun getOptions(target: Any, archetypeKey: String): JSONObject? {
         if(target !is PostPage) return null
 
-        if(!EdenUtils.isEmpty(target.category)) {
-            val contextOptions = context.query("$archetypeKey.${target.category}")
+        if(!EdenUtils.isEmpty(target.categoryModel.key)) {
+            val contextOptions = context.query("$archetypeKey.${target.categoryModel.key}")
             if (OrchidUtils.elementIsObject(contextOptions)) {
                 return contextOptions!!.element as JSONObject
             }
