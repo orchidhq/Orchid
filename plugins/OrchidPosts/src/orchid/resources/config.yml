@@ -9,3 +9,9 @@ theme:
     github: 'JavaEden/Orchid'
   menu:
     - type: latestPosts
+
+posts:
+  categories:
+    - 'category1'
+    - 'category2'
+    - 'category1/category1-1'

@@ -19,10 +19,10 @@ constructor() : PermalinkPathType(100) {
         if (page is PostPage) {
             val baseCategoryPath: String
 
-            if (EdenUtils.isEmpty(page.category)) {
+            if (EdenUtils.isEmpty(page.categoryModel.key)) {
                 baseCategoryPath = "posts"
             } else {
-                baseCategoryPath = "posts/" + page.category!!
+                baseCategoryPath = "posts/" + page.categoryModel.path
             }
 
             val formattedFilename = PostsUtils.getPostFilename(page.resource, baseCategoryPath)

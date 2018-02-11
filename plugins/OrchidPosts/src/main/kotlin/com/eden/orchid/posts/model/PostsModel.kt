@@ -1,24 +1,23 @@
 package com.eden.orchid.posts.model
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
-import lombok.Getter
-import lombok.Setter
+import com.eden.orchid.utilities.OrchidUtils
+import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Getter
-@Setter
 @Singleton
-class PostsModel @Inject
-constructor() {
+class PostsModel
+@Inject
+constructor(val context: OrchidContext) {
 
-    lateinit var permalink: String
-    lateinit var layout: String
     lateinit var excerptSeparator: String
-    lateinit var authorPages: List<AuthorPage>
 
+    var authorPages: MutableList<AuthorPage> = ArrayList()
     var categories: MutableMap<String?, CategoryModel>
 
     val categoryNames: Set<String?>
@@ -28,13 +27,52 @@ constructor() {
         this.categories = LinkedHashMap()
     }
 
-    fun initialize(permalink: String, layout: String, excerptSeparator: String, authorPages: List<AuthorPage>) {
-        this.categories = LinkedHashMap()
-
-        this.permalink = permalink
-        this.layout = layout
+    fun initialize(excerptSeparator: String) {
         this.excerptSeparator = excerptSeparator
-        this.authorPages = authorPages
+        this.authorPages = ArrayList()
+        this.categories = LinkedHashMap()
+    }
+
+    fun getCategory(category: String?, categoryOptions: JSONObject) : CategoryModel {
+        var key: String?
+        var path: String
+
+        if(!EdenUtils.isEmpty(category)) {
+            val categoryPath = category!!.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            key = categoryPath.last()
+            path = OrchidUtils.normalizePath(categoryPath.joinToString("/"))
+        }
+        else {
+            key = null
+            path = ""
+        }
+
+        if(!categories.containsKey(category)) {
+            val newCategory = CategoryModel(context, key, path)
+            newCategory.extractOptions(context, categoryOptions)
+            categories[category] = newCategory
+        }
+
+        return categories[category]!!
+    }
+
+    fun validateCategories(): Boolean {
+        var isValid = true
+
+        categories.values.forEach { category ->
+            val categoryKeys = category.allCategories
+
+            if(!EdenUtils.isEmpty(categoryKeys)) {
+                categoryKeys.forEach { categoryKey ->
+                    if(!EdenUtils.isEmpty(categoryKey) && categoryKey != category.key && !categories.containsKey(categoryKey)) {
+                        Clog.w("Category ${category.path} is a child of a non-existant parent category $categoryKey")
+                        isValid = false
+                    }
+                }
+            }
+        }
+
+        return isValid
     }
 
     fun getAuthorByName(authorName: String): Author? {
@@ -50,18 +88,17 @@ constructor() {
     }
 
     fun getRecentPosts(category: String?, limitArg: Int): List<PostPage> {
-        var limit = limitArg
+        var limit = if (limitArg > 0) limitArg else 10
         var chosenCategory: MutableList<PostPage> = ArrayList()
 
-        if (category.equals(":any", ignoreCase = true)) {
+        if (categories.containsKey(category)) {
+            chosenCategory.addAll(categories[category]!!.first)
+        }
+        else {
             chosenCategory = ArrayList()
 
             for (categoryPosts in categories.values) {
                 chosenCategory.addAll(categoryPosts.first)
-            }
-        } else {
-            if (categories.containsKey(category)) {
-                chosenCategory.addAll(categories[category]!!.first)
             }
         }
 

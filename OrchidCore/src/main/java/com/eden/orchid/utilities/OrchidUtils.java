@@ -215,7 +215,7 @@ public final class OrchidUtils {
 
     public static String toSlug(String pathPiece){
         String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
-        s = s.replaceAll("[^\\w-_]", "");
+        s = s.replaceAll("[^\\w-_/]", "");
         return s;
     }
 

@@ -1,5 +1,6 @@
 package com.eden.orchid.posts
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FolderCollection
@@ -19,10 +20,13 @@ import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.utils.PostsUtils
 import com.eden.orchid.posts.utils.isToday
+import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.dashCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.LocalDate
 import java.util.regex.Pattern
 import java.util.stream.Stream
@@ -40,10 +44,6 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     }
 
     @Option
-    @StringDefault(":category/:year/:month/:day/:slug")
-    lateinit var permalink: String
-
-    @Option
     @StringDefault("<!--more-->")
     lateinit var excerptSeparator: String
 
@@ -52,7 +52,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     var authors: List<Author> = emptyList()
 
     @Option
-    var categories: Array<String> = emptyArray()
+    lateinit var categories: JSONArray
 
     @Option
     @StringDefault("posts")
@@ -62,25 +62,53 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     @StringDefault("posts/authors")
     lateinit var authorsBaseDir: String
 
+    @Option
+    lateinit var config: JSONObject
+
     override fun startIndexing(): List<OrchidPage> {
         val authorPages = getAuthorPages()
 
-        postsModel.initialize(permalink, layout, excerptSeparator, authorPages)
+        postsModel.initialize(excerptSeparator)
 
-        if (EdenUtils.isEmpty(categories)) {
-            val posts = getPostsPages(null)
-            postsModel.categories.put(null, CategoryModel(null, posts))
-        } else {
-            for (category in categories) {
-                val posts = getPostsPages(category)
-                postsModel.categories.put(category, CategoryModel(category, posts))
+        if (categories.length() > 0) {
+            for (i in 0 until categories.length()) {
+                val category = categories.get(i)
+                val categoryKey: String
+                val categoryOptions: JSONObject?
+
+                if (category is String) {
+                    categoryKey = category
+                    categoryOptions = null
+                } else if (category is JSONObject) {
+                    if (category.length() == 1) {
+                        categoryKey = category.keySet().first()
+                        categoryOptions = category.get(categoryKey) as? JSONObject
+                    } else {
+                        categoryKey = category.getString("key")
+                        categoryOptions = category
+                    }
+                } else {
+                    continue
+                }
+
+                val categoryModel = postsModel.getCategory(OrchidUtils.normalizePath(categoryKey), categoryOptions ?: JSONObject())
             }
+        }
+        else {
+            val categoryModel = postsModel.getCategory(null, config)
         }
 
         val allPages = ArrayList<OrchidPage>()
-        allPages.addAll(authorPages)
-        for (key in postsModel.categories.keys) {
-            allPages.addAll(postsModel.categories[key]!!.first)
+
+        if(postsModel.validateCategories()) {
+            allPages.addAll(authorPages)
+            postsModel.categories.values.forEach { categoryModel ->
+                categoryModel.first = getPostsPages(categoryModel)
+                allPages.addAll(categoryModel.first)
+            }
+        }
+        else {
+            Clog.e("Categories are not hierarchical, cannot continue generating posts.")
         }
 
         return allPages
@@ -113,8 +141,8 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         return authorPages
     }
 
-    private fun getPostsPages(category: String?): MutableList<PostPage> {
-        val baseCategoryPath = if (EdenUtils.isEmpty(category)) baseDir else baseDir + "/" + category
+    private fun getPostsPages(categoryModel: CategoryModel): MutableList<PostPage> {
+        val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
         val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
 
         val posts = ArrayList<PostPage>()
@@ -124,9 +152,8 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
             val matcher = pageTitleRegex.matcher(formattedFilename)
 
             if (matcher.matches()) {
-                val post = PostPage(entry, postsModel, category)
-
-                post.title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
+                val title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
+                val post = PostPage(entry, postsModel, categoryModel, title)
 
                 if(post.publishDate.isToday()) {
                     post.publishDate = LocalDate.of(
@@ -136,7 +163,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                     )
                 }
 
-                val permalink = if (!EdenUtils.isEmpty(post.permalink)) post.permalink else postsModel.permalink
+                val permalink = if (!EdenUtils.isEmpty(post.permalink)) post.permalink else categoryModel.permalink
                 permalinkStrategy.applyPermalink(post, permalink)
                 posts.add(post)
             }
@@ -158,17 +185,17 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     override fun getCollections(): List<OrchidCollection<*>> {
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
-        categories.forEach {
-            val baseCategoryPath = if (EdenUtils.isEmpty(it)) baseDir else baseDir + "/" + it
+        postsModel.categories.values.forEach {
+            val baseCategoryPath = if (EdenUtils.isEmpty(it.key)) baseDir else baseDir + "/" + it
 
             val collection = FolderCollection(
                     this,
-                    it,
-                    postsModel.categories[it]?.first,
+                    it.key,
+                    it.first as List<OrchidPage>,
                     PostPage::class.java,
                     baseCategoryPath
             )
-            collection.label = "Blog - $it"
+            collection.label = "Blog - ${it.title}"
 
             collectionsList.add(collection)
         }
