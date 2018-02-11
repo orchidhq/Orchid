@@ -205,6 +205,12 @@ public final class Orchid {
             public static FilesChanged fire(Object sender) { return new FilesChanged(sender); }
         }
 
+        public static class ClearCache extends OrchidEvent {
+            private ClearCache(Object sender) { super(sender); }
+
+            public static ClearCache fire(Object sender) { return new ClearCache(sender); }
+        }
+
         public static class EndSession extends OrchidEvent {
             private EndSession(Object sender) { super(sender); }
 
