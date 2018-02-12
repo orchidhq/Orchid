@@ -25,7 +25,13 @@ fun OrchidPage.getSingleTermValue(taxonomy: String): String? {
 fun OrchidPage.getTermValues(taxonomy: String): List<String> {
     try {
         val method = this.javaClass.getMethod("get${taxonomy.capitalize()}")
-        return method.invoke(this) as List<String>
+        val result = method.invoke(this)
+        if(result is List<*>) {
+            return result as List<String>
+        }
+        else if(result is Array<*>) {
+            return (result as Array<String>).toList()
+        }
     } catch (e: Exception) {
         if (this.allData.element is JSONObject) {
             val pageData = this.allData.element as JSONObject
