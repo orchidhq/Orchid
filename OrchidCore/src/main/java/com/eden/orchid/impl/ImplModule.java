@@ -32,6 +32,7 @@ import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
+import com.eden.orchid.impl.events.ClogSetupListener;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.IndexGenerator;
@@ -135,7 +136,8 @@ public final class ImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
-                TaskServiceImpl.class);
+                TaskServiceImpl.class,
+                ClogSetupListener.class);
 
         addToSet(OrchidController.class);
 
