@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.nio.file.Paths;
 
 /**
  *
@@ -18,6 +19,7 @@ public final class OrchidSiteImpl implements OrchidSite {
     private OrchidContext context;
 
     @Getter private final String orchidVersion;
+    @Getter private final String currentWorkingDirectory;
     @Getter @Setter private String version;
     @Getter private String baseUrl;
     @Getter @Setter private String environment;
@@ -37,6 +39,7 @@ public final class OrchidSiteImpl implements OrchidSite {
             @Named("defaultTemplateExtension") String defaultTemplateExtension
     ) {
         this.orchidVersion = orchidVersion;
+        this.currentWorkingDirectory = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         this.version = version;
         this.baseUrl = OrchidUtils.normalizePath(baseUrl);
         this.environment = environment;

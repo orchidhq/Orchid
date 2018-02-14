@@ -2,6 +2,7 @@ package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.OrchidSecurityManager;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.google.inject.Guice;
@@ -93,6 +94,15 @@ public final class Orchid {
             Clog.d(flagLog);
 
             context = injector.getInstance(OrchidContext.class);
+
+            try {
+                OrchidSecurityManager manager = injector.getInstance(OrchidSecurityManager.class);
+                System.setSecurityManager(manager);
+            }
+            catch (Exception e) {
+
+            }
+
             Clog.i("Running Orchid version {}, site version {} in {} environment", context.getOrchidVersion(), context.getVersion(), context.getEnvironment());
             context.start();
             context.finish();

@@ -30,6 +30,8 @@ public interface OrchidSite extends OrchidService {
     default void setDefaultTemplateExtension(String environment) { getService(OrchidSite.class).setDefaultTemplateExtension(environment); }
     default String getDefaultTemplateExtension() { return getService(OrchidSite.class).getDefaultTemplateExtension(); }
 
+    default String getCurrentWorkingDirectory() { return getService(OrchidSite.class).getCurrentWorkingDirectory(); }
+
     default SiteInfo getSiteInfo() { return getService(OrchidSite.class).getSiteInfo(); }
 
     default JSONObject toJSON() { return getService(OrchidSite.class).toJSON(); }
