@@ -35,9 +35,14 @@ class Term(val key: String) : OptionsHolder {
     @Option @StringDefault("desc")
     lateinit var orderByDirection: String
 
+    val landingPage: OrchidPage
+        get() {
+            return archivePages.first()
+        }
+
     val link: String
         get() {
-            return archivePages.first().link
+            return landingPage.link
         }
 
     @Option

@@ -337,7 +337,7 @@ public final class ResourceServiceImpl implements ResourceService {
             }
 
             // set the folder to its own parent and search again
-            if (folder.getParentFile() != null && maxIterations > 0) {
+            if (folder.getParentFile() != null && maxIterations > 0 && !OrchidUtils.normalizePath(folder.getPath()).equals(context.getSite().getCurrentWorkingDirectory())) {
                 folder = folder.getParentFile();
                 maxIterations--;
             }
