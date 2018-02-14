@@ -53,7 +53,7 @@ jobs:
         - provider: pages
           skip_cleanup: true
           github_token: $GITHUB_TOKEN
-          local_dir: build/orchid/docs
+          local_dir: build/docs/orchid
           target_branch: gh-pages
 
 stages:
