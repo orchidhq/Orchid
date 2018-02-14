@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -72,9 +74,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     // variables that control page publication
     @Setter @Option @BooleanDefault(false) protected boolean draft;
-    @Getter @Setter @Option private LocalDate publishDate;
-    @Getter @Setter @Option private LocalDate expiryDate;
-    @Getter @Setter @Option private LocalDate lastModifiedDate;
+    @Getter @Setter @Option private LocalDateTime publishDate;
+    @Getter @Setter @Option private LocalDateTime expiryDate;
+    @Getter @Setter @Option private LocalDateTime lastModifiedDate;
 
     // variables that attach other objects to this page
     @Getter @Setter protected AssetHolder assets;
@@ -146,7 +148,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public final boolean isDraft() {
-        return draft || publishDate.isAfter(LocalDate.now()) || expiryDate.isBefore(LocalDate.now());
+        return draft || publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX)) || expiryDate.isBefore(LocalDate.now().atStartOfDay());
     }
 
     public String getContent() {

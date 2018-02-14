@@ -50,12 +50,14 @@ import com.eden.orchid.impl.themes.components.LicenseComponent;
 import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
+import com.eden.orchid.impl.themes.functions.AnchorFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
 import com.eden.orchid.impl.themes.functions.FindTemplateFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
+import com.eden.orchid.impl.themes.functions.LocalDateFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
@@ -143,12 +145,14 @@ public final class ImplModule extends OrchidModule {
 
         // Template Functions
         addToSet(TemplateFunction.class,
+                AnchorFunction.class,
                 CompileAsFunction.class,
                 FindTemplateFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
                 LinkFunction.class,
-                LoadFunction.class
+                LoadFunction.class,
+                LocalDateFunction.class
         );
 
         // Template Tags

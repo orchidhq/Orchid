@@ -15,3 +15,20 @@ posts:
     - 'category1'
     - 'category2'
     - 'category1/category1-1'
+
+
+taxonomies:
+  taxonomies:
+    - categories:
+        single: false
+        orderBy:
+          - year
+          - month
+          - day
+          - title
+        includeFrom:
+          - posts
+    - tags:
+        single: false
+        orderBy:
+          - entryCount

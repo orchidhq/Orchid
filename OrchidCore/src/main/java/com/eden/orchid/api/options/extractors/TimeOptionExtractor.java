@@ -1,8 +1,8 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.converters.StringConverter;
+import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.google.inject.Provider;
 import org.json.JSONObject;
@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -27,10 +26,10 @@ import java.util.List;
 public final class TimeOptionExtractor extends OptionExtractor<LocalTime> {
 
     private final Provider<OrchidContext> contextProvider;
-    private final StringConverter converter;
+    private final TimeConverter converter;
 
     @Inject
-    public TimeOptionExtractor(Provider<OrchidContext> contextProvider, StringConverter converter) {
+    public TimeOptionExtractor(Provider<OrchidContext> contextProvider, TimeConverter converter) {
         super(10);
         this.contextProvider = contextProvider;
         this.converter = converter;
@@ -42,13 +41,10 @@ public final class TimeOptionExtractor extends OptionExtractor<LocalTime> {
     }
 
     public LocalTime getValue(Object object) {
-        String timeString = converter.convert(object).second;
+        EdenPair<Boolean, LocalTime> dateTime = converter.convert(object);
 
-        try {
-            return LocalTime.parse(timeString);
-        }
-        catch (DateTimeParseException e) {
-            Clog.e(e.getMessage(), e);
+        if(dateTime.first) {
+            return dateTime.second;
         }
 
         return null;

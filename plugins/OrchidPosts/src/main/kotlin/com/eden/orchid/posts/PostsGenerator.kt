@@ -155,12 +155,12 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                 val title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
                 val post = PostPage(entry, postsModel, categoryModel, title)
 
-                if(post.publishDate.isToday()) {
+                if(post.publishDate.toLocalDate().isToday()) {
                     post.publishDate = LocalDate.of(
                             Integer.parseInt(matcher.group(1)),
                             Integer.parseInt(matcher.group(2)),
                             Integer.parseInt(matcher.group(3))
-                    )
+                    ).atStartOfDay()
                 }
 
                 val permalink = if (!EdenUtils.isEmpty(post.permalink)) post.permalink else categoryModel.permalink

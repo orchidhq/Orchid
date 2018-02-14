@@ -1,3 +1,5 @@
+
+{% if (page.previous is not empty) or (page.next is not empty) %}
 <!-- Pagination -->
 <ul class="actions pagination">
     {% if page.previous is not empty %}
@@ -12,3 +14,4 @@
         <li><a href="" class="disabled button big next">Next Page</a></li>
     {% endif %}
 </ul>
+{% endif %}

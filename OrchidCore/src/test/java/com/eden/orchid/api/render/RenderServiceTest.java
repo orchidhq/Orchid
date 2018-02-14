@@ -20,9 +20,10 @@ import org.testng.annotations.Test;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
@@ -82,8 +83,8 @@ public final class RenderServiceTest {
 
         page = new OrchidPage(resource, "testContent");
         page = spy(page);
-        page.setPublishDate(LocalDate.now());
-        page.setExpiryDate(LocalDate.now());
+        page.setPublishDate(LocalDate.now().atStartOfDay());
+        page.setExpiryDate(LocalDate.now().atTime(LocalTime.MAX));
         templateResolutionStrategy = mock(TemplateResolutionStrategy.class);
 
         when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
@@ -296,7 +297,7 @@ public final class RenderServiceTest {
     @Test
     public void testFuturePublishDateSkipped() throws Throwable {
         assertThat(service.skipPage(page), is(false));
-        page.setPublishDate(LocalDate.now().plusDays(1));
+        page.setPublishDate(LocalDate.now().plusDays(1).atTime(LocalTime.MAX));
         assertThat(service.skipPage(page), is(true));
 
         assertThat(underTest.renderBinary(page), is(false));
@@ -306,7 +307,7 @@ public final class RenderServiceTest {
     @Test
     public void testPastExpiryDateSkipped() throws Throwable {
         assertThat(service.skipPage(page), is(false));
-        page.setExpiryDate(LocalDate.now().minusDays(1));
+        page.setExpiryDate(LocalDate.now().minusDays(1).atStartOfDay());
         assertThat(service.skipPage(page), is(true));
 
         assertThat(underTest.renderBinary(page), is(false));
