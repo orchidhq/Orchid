@@ -4,18 +4,13 @@ orchid {
     version = "${project.version}"
     theme   = "${project.ext.commonTheme}"
 
-    if(System.getenv('JITPACK')) {
-        def jitpackBaseUrl = 'https://jitpack.io/com/github/JavaEden/Orchid'
-        def commitHash = System.getenv('VERSION')
-        baseUrl = "${jitpackBaseUrl}/${project.name}/${commitHash}/javadoc"
-    }
-    else if(project.hasProperty('env')) {
+    if(project.hasProperty('env')) {
         switch(project.property('env')) {
             case 'prod':
-                baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
+                baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
                 break
             case 'staging':
-                baseUrl = "${project.ext.commonBaseUrl}/${project.version}/${project.name}"
+                baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
                 break
             case 'dev':
                 baseUrl = "${project.ext.commonBaseUrl}"
@@ -47,19 +42,10 @@ artifacts {
 }
 
 task prepareDocumentation {
-    def source       = file("$buildDir/docs/orchid")
-    def dest_latest  = file("${rootProject.buildDir}/orchid/docs/latest/${project.name}")
-    def dest_version = file("${rootProject.buildDir}/orchid/docs/${project.version}/${project.name}")
-
     doLast {
-        println source
         copy {
-            from source
-            into dest_latest
-        }
-        copy {
-            from source
-            into dest_version
+            from file("$buildDir/docs/orchid")
+            into file("${rootProject.buildDir}/docs/orchid/${project.name}")
         }
     }
 }
