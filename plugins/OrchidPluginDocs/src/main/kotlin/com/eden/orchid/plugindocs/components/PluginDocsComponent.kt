@@ -1,46 +1,28 @@
 package com.eden.orchid.plugindocs.components
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.OptionsDescription
-import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
 import javax.inject.Inject
 
 class PluginDocsComponent
-@Inject constructor(context: OrchidContext, val extractor: OptionsExtractor)
+@Inject constructor(context: OrchidContext)
     : OrchidComponent(context, "pluginDocs", 25) {
 
     @Option
     var classNames: Array<String>? = null
 
-    fun getClassList(): Set<Class<*>> {
-        val classList = emptyList<Class<*>>().toMutableSet()
+    fun getClassList(): Set<String> {
+        val classList = emptyList<String>().toMutableSet()
 
-        if(!EdenUtils.isEmpty(classNames)) {
+        if (!EdenUtils.isEmpty(classNames)) {
             classNames!!.forEach {
-                try {
-                    classList.add(Class.forName(it))
-                }
-                catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                classList.add(it)
             }
         }
 
         return classList
-    }
-
-    fun getClassOptions(itemClass: Class<*>): List<OptionsDescription> {
-        val classOptions = extractor.describeOptions(itemClass)
-
-        classOptions.filter { EdenUtils.isEmpty(it.description) }.forEach {
-            Clog.w("Option has no description: ${it.key} in ${itemClass.name}")
-        }
-
-        return classOptions
     }
 }
 
