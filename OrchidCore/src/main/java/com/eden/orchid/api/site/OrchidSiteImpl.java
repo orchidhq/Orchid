@@ -1,6 +1,7 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
@@ -11,9 +12,6 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.nio.file.Paths;
 
-/**
- *
- */
 public final class OrchidSiteImpl implements OrchidSite {
 
     private OrchidContext context;
@@ -26,8 +24,9 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     @Getter @Setter private String defaultTemplateExtension;
 
-    @Option
     @Getter @Setter
+    @Option
+    @Description("Basic, common information about your site, mostly for display and SEO purposes.")
     private SiteInfo about;
 
     @Inject

@@ -88,13 +88,16 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option @BooleanDefault(false)
-    @Description("Improve site generation performance by rendering the pages from this Generator in parallel. (There " +
-            "are currently thread-safety issues that may cause deadlocks, and this should be left false until " +
-            "these issues can be addressed.)"
+    @Description("Improve site generation performance dramatically by rendering the pages from this Generator in " +
+            "parallel. There are currently thread-safety issues that may cause deadlocks, especially when in `serve` " +
+            "mode when build cycles may be executed multiple times. As such this feature should be considered highly " +
+            "experimental and used with caution."
     )
     public boolean parallel;
 
-    @Getter @Setter @OptionsData private JSONElement allData;
+    @Getter @Setter
+    @OptionsData
+    private JSONElement allData;
 
     @Inject
     public OrchidGenerator(OrchidContext context, String key, int priority) {

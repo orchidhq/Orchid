@@ -1,10 +1,13 @@
 package com.eden.orchid.javadoc.pages
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.resources.PackageDocResource
 import com.sun.javadoc.PackageDoc
 
+@Archetype(value = ConfigArchetype::class, key = "javadoc.packagePages")
 class JavadocPackagePage(
         context: OrchidContext,
         val packageDoc: PackageDoc,

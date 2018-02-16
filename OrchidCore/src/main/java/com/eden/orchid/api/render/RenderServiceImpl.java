@@ -2,6 +2,7 @@ package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -22,12 +23,14 @@ public class RenderServiceImpl implements RenderService {
     protected TemplateResolutionStrategy strategy;
     protected OrchidRenderer renderer;
 
-    @Option
-    @BooleanDefault(false)
+    @Option @BooleanDefault(false)
+    @Description("On a dry run, pages are indexed but not rendered.")
     public boolean dry;
 
-    @Option
-    @BooleanDefault(false)
+    @Option @BooleanDefault(false)
+    @Description("Normally, draft pages are not rendered along with the rest of the site, but this behavior can be " +
+            "turned off by setting this value to `true`."
+    )
     public boolean renderDrafts;
 
     @Inject

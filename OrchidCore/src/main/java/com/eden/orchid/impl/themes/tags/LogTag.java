@@ -3,6 +3,7 @@ package com.eden.orchid.impl.themes.tags;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.compilers.TemplateTag;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 
@@ -13,9 +14,11 @@ import javax.inject.Singleton;
 public final class LogTag extends TemplateTag {
 
     @Option @StringDefault("verbose")
+    @Description("The priority with which to log the message.")
     public String level;
 
     @Option
+    @Description("An options tag to display with the message.")
     public String tag;
 
     @Inject

@@ -44,11 +44,16 @@ public final class CompilerServiceImpl implements CompilerService {
     };
 
     @Option("binaryExtensions")
-    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
+    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly " +
+            "without further processing."
+    )
     public String[] customBinaryExtensions;
 
     @Option("compilerExtensions")
-    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a mapping with keys of the unrecognized extension and values of the known extension. These take precedence over the normally recognized extensions.")
+    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a " +
+            "mapping with keys of the unrecognized extension and values of the known extension. These take " +
+            "precedence over the normally recognized extensions."
+    )
     public JSONObject customCompilerExtensions;
 
     private String[] ignoredOutputExtensions = new String[] {
@@ -57,9 +62,10 @@ public final class CompilerServiceImpl implements CompilerService {
     };
 
     @Option("ignoredOutputExtensions")
-    @Description("Add additional file extensions to exclude from counting as an 'output extension' An example would be " +
-            "'min' in a filename like 'index.min.js', which is commonly used to denote a minified asset and is not " +
-            "intended to make a file named 'index.min'.")
+    @Description("Add additional file extensions to exclude from counting as an 'output extension' An example would " +
+            "be 'min' in a filename like 'index.min.js', which is commonly used to denote a minified asset and is " +
+            "not intended to make a file named 'index.min'."
+    )
     public String[] customIgnoredOutputExtensions;
 
     private OrchidContext context;

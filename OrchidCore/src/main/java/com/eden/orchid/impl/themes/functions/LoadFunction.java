@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import lombok.Getter;
@@ -18,17 +19,21 @@ public final class LoadFunction extends TemplateFunction {
     private final OrchidContext context;
     private final StringConverter converter;
 
-    @Option
     @Getter @Setter
+    @Option
+    @Description("The resource to lookup and render in-place.")
     private String resource;
 
-    @Option @BooleanDefault(true)
     @Getter @Setter
+    @Option @BooleanDefault(true)
+    @Description("When true, only resources from local sources are considered, otherwise resources from all plugins " +
+            "and from the current theme will also be considered."
+    )
     private boolean localResourcesOnly;
 
     @Inject
     public LoadFunction(OrchidContext context, StringConverter converter) {
-        super("load");
+        super("load", true);
         this.context = context;
         this.converter = converter;
     }

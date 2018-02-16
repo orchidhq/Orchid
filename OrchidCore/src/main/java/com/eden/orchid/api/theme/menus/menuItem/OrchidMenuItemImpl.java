@@ -24,7 +24,6 @@ public class OrchidMenuItemImpl {
     protected OrchidPage page;
 
     protected String title;
-    protected String subtitle;
     protected boolean hasChildren;
 
     protected boolean isSeparator;

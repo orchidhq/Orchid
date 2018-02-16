@@ -7,7 +7,7 @@ import com.eden.orchid.utilities.nl2br
 import javax.inject.Inject
 
 class Nl2brFunction @Inject
-constructor(private val converter: StringConverter) : TemplateFunction("nl2br") {
+constructor(private val converter: StringConverter) : TemplateFunction("nl2br", true) {
 
     @Option
     lateinit var input: String

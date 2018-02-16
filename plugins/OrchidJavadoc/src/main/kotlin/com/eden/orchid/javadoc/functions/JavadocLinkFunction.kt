@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class JavadocLinkFunction
 @Inject
-constructor(val model: JavadocModel) : TemplateFunction("javadocLink") {
+constructor(val model: JavadocModel) : TemplateFunction("javadocLink", true) {
 
     @Option
     lateinit var className: String
@@ -21,10 +21,6 @@ constructor(val model: JavadocModel) : TemplateFunction("javadocLink") {
 
     override fun parameters(): Array<String> {
         return arrayOf("className", "linkText", "anchor")
-    }
-
-    override fun isSafe(): Boolean {
-        return true
     }
 
     override fun apply(input: Any?): Any {

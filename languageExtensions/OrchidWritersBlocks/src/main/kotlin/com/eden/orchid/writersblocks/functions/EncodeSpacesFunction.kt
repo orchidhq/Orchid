@@ -7,7 +7,7 @@ import com.eden.orchid.utilities.encodeSpaces
 import javax.inject.Inject
 
 class EncodeSpacesFunction @Inject
-constructor(private val converter: StringConverter) : TemplateFunction("nl2br") {
+constructor(private val converter: StringConverter) : TemplateFunction("encodeSpaces", true) {
 
     @Option
     lateinit var input: String

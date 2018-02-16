@@ -8,7 +8,7 @@ import org.atteo.evo.inflector.English
 import javax.inject.Inject
 
 class PluralizeFunction @Inject
-constructor(private val converter: StringConverter) : TemplateFunction("pluralize") {
+constructor(private val converter: StringConverter) : TemplateFunction("pluralize", true) {
 
     @Option
     lateinit var input: String

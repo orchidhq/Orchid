@@ -58,7 +58,6 @@
                 <li>
                     <a href="{{ menuItem.link }}">
                         <h3>{{menuItem.title}}</h3>
-                        <p>{{menuItem.subtitle}}</p>
                     </a>
                 </li>
             {% endfor %}

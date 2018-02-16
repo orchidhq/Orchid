@@ -2,6 +2,7 @@ package com.eden.orchid.impl.themes.menus;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
@@ -16,12 +17,11 @@ import java.util.List;
 public final class LinkMenuItem extends OrchidMenuItem {
 
     @Option
+    @Description("The title of this menu item")
     public String title;
 
     @Option
-    public String subtitle;
-
-    @Option
+    @Description("The URL of this menu item")
     public String url;
 
     @Inject
@@ -42,10 +42,6 @@ public final class LinkMenuItem extends OrchidMenuItem {
             }
 
             OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url)));
-
-            if(!EdenUtils.isEmpty(subtitle)) {
-                item.setSubtitle(subtitle);
-            }
 
             menuItems.add(item);
         }

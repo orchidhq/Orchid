@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class JavadocVisibilityFunction
 @Inject
-constructor(val model: JavadocModel) : TemplateFunction("javadocVisibility") {
+constructor(val model: JavadocModel) : TemplateFunction("javadocVisibility", false) {
 
 
     override fun parameters(): Array<String> {

@@ -2,6 +2,7 @@ package com.eden.orchid.api.theme.models;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.annotations.Option;
 import lombok.AllArgsConstructor;
@@ -19,15 +20,40 @@ import java.util.List;
 @Getter @Setter
 public final class Social implements OptionsHolder {
 
-    @Option public String email;
-    @Option public String facebook;
-    @Option public String github;
-    @Option public String googlePlus;
-    @Option public String instagram;
-    @Option public String linkedin;
-    @Option public String twitter;
+    @Option
+    @Description("Your email address.")
+    public String email;
 
-    @Option @ListClass(Item.class) private List<Item> other;
+    @Option
+    @Description("Your Facebook profile username.")
+    public String facebook;
+
+    @Option
+    @Description("Your GitHub username.")
+    public String github;
+
+    @Option
+    @Description("Your Google+ username.")
+    public String googlePlus;
+
+    @Option
+    @Description("Your Instagram handle, without the @.")
+    public String instagram;
+
+    @Option
+    @Description("Your Linked username.")
+    public String linkedin;
+
+    @Option
+    @Description("Your twitter handle, without the @.")
+    public String twitter;
+
+    @Option @ListClass(Item.class)
+    @Description("For social platforms not included by default, you can fully specify the info yourself. You may " +
+            "also choose to create an `other` item instead of using the default to fully customize the title, " +
+            "link, order, or icon."
+    )
+    private List<Item> other;
 
     public Social() {
         
@@ -37,10 +63,21 @@ public final class Social implements OptionsHolder {
     @NoArgsConstructor
     public static class Item implements OptionsHolder {
 
-        @Option public String label;
-        @Option public String link;
-        @Option public String icon;
-        @Option public int order;
+        @Option
+        @Description("The text to display with this social item.")
+        public String label;
+
+        @Option
+        @Description("The full URL to link to.")
+        public String link;
+
+        @Option
+        @Description("The icon to use for this item.")
+        public String icon;
+
+        @Option
+        @Description("The order in which this item is rendered.")
+        public int order;
 
     }
 

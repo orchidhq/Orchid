@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import lombok.Getter;
@@ -15,7 +16,10 @@ import javax.inject.Inject;
  */
 public abstract class Theme extends AbstractTheme {
 
-    @Getter @Setter @Option protected OrchidMenu menu;
+    @Getter @Setter
+    @Option
+    @Description("The primary menu for your site. Different themes may specify additional menus.")
+    protected OrchidMenu menu;
 
     @Inject
     public Theme(OrchidContext context, String key, int priority) {

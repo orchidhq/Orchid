@@ -49,18 +49,22 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
-    @Description("An array of CSS Resources to add along with this Component.")
+    @Description("Add extra CSS files to the page containing this Component, which will be compiled just like the " +
+            "rest of the site's assets."
+    )
     protected String[] extraCss;
 
     @Getter @Setter
     @Option
-    @Description("An array of JS Resources to add along with this Component.")
+    @Description("Add extra Javascript files to the page containing this Component, which will be compiled just like " +
+            "the rest of the site's assets."
+    )
     protected String[] extraJs;
 
     @Getter @Setter
     @Option @BooleanDefault(false)
-    @Description("When true, this component will not have a template rendered on the page. Useful for Components that only " +
-            "add extra CSS or JS, or for temporarily removing a component from the page."
+    @Description("When true, this component will not have a template rendered on the page. Useful for Components that" +
+            " only add extra CSS or JS, or for temporarily removing a component from the page."
     )
     protected boolean hidden;
 
@@ -71,7 +75,9 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     )
     protected boolean noWrapper;
 
-    @Getter @Setter @OptionsData private JSONElement allData;
+    @Getter @Setter
+    @OptionsData
+    private JSONElement allData;
 
     @Inject
     public OrchidComponent(OrchidContext context, String key, int priority) {

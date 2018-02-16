@@ -6,6 +6,7 @@ import com.eden.krow.formatters.HtmlTableFormatter;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.api.tasks.OrchidCommand;
@@ -20,8 +21,11 @@ public final class HelpCommand extends OrchidCommand {
     private final Provider<OrchidContext> contextProvider;
     private final OrchidServer server;
 
-    @Option
     @Getter @Setter
+    @Option
+    @Description("The fully-qualified name of a class to describe. This will show a table will all the available " +
+            "options, along with other relevant data about that class."
+    )
     private String className;
 
     @Inject
