@@ -5,7 +5,6 @@ components:
   - type: presentation
     presentationKey: demo2
   - type: pluginDocs
-    classNames: 
-      - com.eden.orchid.presentations.PresentationsGenerator
-      - com.eden.orchid.presentations.components.PresentationComponent
+    packageNames: 
+      - com.eden.orchid.presentations
 ---

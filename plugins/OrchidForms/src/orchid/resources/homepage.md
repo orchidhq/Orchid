@@ -7,10 +7,6 @@ components:
   - type: form
     form: comment
   - type: pluginDocs
-    classNames: 
-      - com.eden.orchid.forms.FormsGenerator
-      - com.eden.orchid.forms.components.FormComponent
-      - com.eden.orchid.forms.pages.FormSubmissionPage
-      - com.eden.orchid.forms.model.Form
-      - com.eden.orchid.forms.model.fields.TextField
+    packageNames: 
+      - com.eden.orchid.forms
 ---
