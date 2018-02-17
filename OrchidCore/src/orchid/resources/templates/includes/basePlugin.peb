@@ -9,6 +9,7 @@
     </div>
     <div class="panel-body">
     {{ page.content | raw }}
+    {% block additionalContent %}{% endblock %}
     </div>
     <div class="panel-body">
         <b>Include with:</b>

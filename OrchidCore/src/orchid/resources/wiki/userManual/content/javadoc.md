@@ -1,6 +1,6 @@
 ---
-pluginName: OrchidWiki
-contentTypeTitle: wiki
+pluginName: OrchidJavadoc
+contentTypeTitle: javadoc
 bundles:
   - OrchidAll
 ---

@@ -50,7 +50,7 @@ public final class LoadFunction extends TemplateFunction {
         OrchidResource resource = localResourcesOnly ? context.getLocalResourceEntry(resourceName) : context.getResourceEntry(resourceName);
 
         if(resource != null) {
-            return resource.getContent();
+            return resource.compileContent(null);
         }
 
         return "";

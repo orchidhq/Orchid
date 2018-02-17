@@ -18,22 +18,23 @@
 * [Site Configuration](configuration/site-config.md)
 * [Page Configuration](configuration/page-config.md)
 
-## Writing Content
+## Content
 
-* [Writing Pages](content/writing-pages.md)
-* [Compiling Pages](content/compiling-pages.md)
+* [Writing Content](content/writing-content.md)
 * [Drafts](content/drafts.md)
+* [Assets](content/assets.md)
 * [Static Pages](content/static-pages.md)
 * [Blog Posts](content/blogs.md)
 * [Wikis](content/wikis.md)
-* [Assets](content/assets.md)
+* [Taxonomies](content/taxonomies.md)
+* [Javadoc](content/javadoc.md)
 
-## Personalization
+## Templates and Themes
 
-* [Themes](personalization/themes.md)
-* [Templating with Pebble](personalization/pebble.md)
-* [Overriding Theme Templates](personalization/theme-overrides.md)
-* [Layouts](personalization/layouts.md)
-* [Page Templates](personalization/page-templates.md)
-* [Component Templates](personalization/component-templates.md)
-* [Menus](personalization/menus.md)
+* [Themes](themes/themes.md)
+* [Templating with Pebble](themes/pebble.md)
+* [Template Lookup Order](themes/template-lookup.md)
+* [Layouts](themes/layouts.md)
+* [Page Templates](themes/page-templates.md)
+* [Component Templates](themes/component-templates.md)
+

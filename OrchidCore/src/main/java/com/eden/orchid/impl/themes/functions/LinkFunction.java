@@ -38,7 +38,7 @@ public final class LinkFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"itemId", "collectionKey", "collectionClass"};
+        return new String[] {"itemId", "collectionId", "collectionType"};
     }
 
     @Override
@@ -48,7 +48,7 @@ public final class LinkFunction extends TemplateFunction {
         if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
             page = context.findInCollection(collectionType, collectionId, itemId);
         }
-        if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
+        else if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
             page = context.findInCollection(collectionType, itemId);
         }
         else if(!EdenUtils.isEmpty(itemId)) {

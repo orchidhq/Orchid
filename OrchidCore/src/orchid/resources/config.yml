@@ -48,7 +48,7 @@ allPages:
         - 'copy-to-clipboard'
 
 wiki:
-  includeIndexInPageTitle: true
+  includeIndexInPageTitle: false
   sections:
     - 'userManual'
     - 'developersGuide'

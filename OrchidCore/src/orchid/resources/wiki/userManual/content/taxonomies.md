@@ -1,6 +1,6 @@
 ---
-pluginName: OrchidPosts
-contentTypeTitle: blog
+pluginName: OrchidTaxonomies
+contentTypeTitle: taxonomy
 bundles:
   - OrchidBlog
   - OrchidAll
