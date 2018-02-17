@@ -3,6 +3,7 @@ package com.eden.orchid.api.theme.menus;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
@@ -50,7 +51,7 @@ public final class OrchidMenu {
         return true;
     }
 
-    public List<OrchidMenuItemImpl> getMenuItems() {
+    public List<OrchidMenuItemImpl> getMenuItems(OrchidPage containingPage) {
         try {
             if (menuItemsChildren == null) {
                 List<OrchidMenuItem> menuItems = new ArrayList<>();
@@ -61,8 +62,12 @@ public final class OrchidMenu {
 
                     if (menuItemTypesMap.containsKey(menuItemType)) {
                         OrchidMenuItem menuitem = context.getInjector().getInstance(menuItemTypesMap.get(menuItemType));
-                        menuitem.extractOptions(context, menuItemJson);
-                        menuItems.add(menuitem);
+
+                        if(menuitem.canBeUsedOnPage(containingPage, this, menuJson, menuItems)) {
+                            menuitem.setPage(containingPage);
+                            menuitem.extractOptions(context, menuItemJson);
+                            menuItems.add(menuitem);
+                        }
                     }
                 }
 

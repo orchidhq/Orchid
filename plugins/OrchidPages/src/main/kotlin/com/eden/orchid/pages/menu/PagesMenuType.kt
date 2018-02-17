@@ -6,7 +6,6 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import org.apache.commons.lang3.StringUtils
-import java.util.TreeSet
 import java.util.stream.Collectors
 import javax.inject.Inject
 
@@ -22,7 +21,7 @@ constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
     @Option
     lateinit var title: String
 
-    internal var menuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
+    private var menuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
         var o1Title = ""
         var o2Title = ""
 

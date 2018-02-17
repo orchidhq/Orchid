@@ -12,9 +12,11 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONArray;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -31,6 +33,8 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
     private boolean hasAddedAssets;
+
+    @Setter protected OrchidPage page;
 
     @Getter @Setter
     @Option
@@ -85,6 +89,14 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.key = key;
         this.context = context;
         this.assetHolder = new AssetHolderDelegate(context, this, "component");
+    }
+
+    public boolean canBeUsedOnPage(
+            OrchidPage containingPage,
+            ComponentHolder componentHolder,
+            JSONArray possibleComponents,
+            List<OrchidComponent> currentComponents) {
+        return true;
     }
 
     @Override

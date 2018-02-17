@@ -22,7 +22,7 @@
                 <h2>{{ page.title }}</h2>
             </header>
             <ul class="top-level">
-                {% for menuItem in theme.menu.menuItems %}
+                {% for menuItem in theme.menu.getMenuItems(page) %}
                     {% include 'includes/menuItem' with {"menuItem": menuItem} %}
                 {% endfor %}
             </ul>
@@ -30,7 +30,7 @@
             {% if not page.menu.isEmpty() %}
                 <hr>
                 <ul class="top-level">
-                    {% for menuItem in page.menu.menuItems %}
+                    {% for menuItem in page.menu.getMenuItems(page) %}
                         {% include 'includes/menuItem' with {"menuItem": menuItem} %}
                     {% endfor %}
                 </ul>

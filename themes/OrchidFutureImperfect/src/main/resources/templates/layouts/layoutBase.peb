@@ -21,7 +21,7 @@
         <h1><a href="{{ site.baseUrl }}">{{ site.about.siteName }}</a></h1>
         <nav class="links">
             <ul>
-            {% for menuItem in theme.topMenu.menuItems %}
+            {% for menuItem in theme.topMenu.getMenuItems(page) %}
                 <li><a href="{{ menuItem.link }}">{{menuItem.title}}</a></li>
             {% endfor %}
             </ul>
@@ -54,7 +54,7 @@
         <!-- Links -->
         <section>
             <ul class="links">
-            {% for menuItem in theme.drawerMenu.menuItems %}
+            {% for menuItem in theme.drawerMenu.getMenuItems(page) %}
                 <li>
                     <a href="{{ menuItem.link }}">
                         <h3>{{menuItem.title}}</h3>

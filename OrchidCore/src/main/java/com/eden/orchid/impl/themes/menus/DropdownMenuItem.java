@@ -33,7 +33,7 @@ public final class DropdownMenuItem extends OrchidMenuItem {
 
         if (!EdenUtils.isEmpty(title) && menu != null) {
 
-            List<OrchidMenuItemImpl> dropdownItems = menu.getMenuItems();
+            List<OrchidMenuItemImpl> dropdownItems = menu.getMenuItems(this.page);
 
             OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, dropdownItems, title);
 

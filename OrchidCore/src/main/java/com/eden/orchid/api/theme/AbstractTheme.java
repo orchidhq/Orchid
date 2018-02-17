@@ -10,12 +10,14 @@ import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.assets.ThemeAssetHolder;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractTheme extends PluginResourceSource implements OptionsHolder, AssetHolder {
 
@@ -41,6 +43,9 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     @Getter @Setter private boolean hasRenderedAssets;
 
     @Getter @Setter protected String preferredTemplateExtension;
+
+    private boolean isUsingCurrentPage;
+    private OrchidPage currentPage;
 
     public AbstractTheme(OrchidContext context, String key, int priority) {
         super(context, priority);
@@ -88,7 +93,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
         addAssets();
         List<AssetPage> scripts = new ArrayList<>();
         scripts.addAll(assetHolder.getScripts());
-        OrchidUtils.addComponentAssets(getComponentHolders(), scripts, OrchidComponent::getScripts);
+        OrchidUtils.addComponentAssets(currentPage, getComponentHolders(), scripts, OrchidComponent::getScripts);
 
         return scripts;
     }
@@ -98,7 +103,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
         addAssets();
         List<AssetPage> styles = new ArrayList<>();
         styles.addAll(assetHolder.getStyles());
-        OrchidUtils.addComponentAssets(getComponentHolders(), styles, OrchidComponent::getStyles);
+        OrchidUtils.addComponentAssets(currentPage, getComponentHolders(), styles, OrchidComponent::getStyles);
 
         return styles;
     }
@@ -107,4 +112,9 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
         return new ComponentHolder[] { };
     }
 
+    public final void doWithCurrentPage(OrchidPage currentPage, Consumer<AbstractTheme> callback) {
+        this.currentPage = currentPage;
+        callback.accept(this);
+        this.currentPage = null;
+    }
 }

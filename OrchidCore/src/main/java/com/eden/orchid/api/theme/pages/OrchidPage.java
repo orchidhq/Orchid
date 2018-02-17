@@ -343,9 +343,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     public final List<AssetPage> getScripts() {
         addAssets();
         List<AssetPage> scripts = new ArrayList<>();
-        scripts.addAll(context.getTheme().getScripts());
+        context.getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(context.getTheme().getScripts()));
         scripts.addAll(assets.getScripts());
-        OrchidUtils.addComponentAssets(getComponentHolders(), scripts, OrchidComponent::getScripts);
+        OrchidUtils.addComponentAssets(this, getComponentHolders(), scripts, OrchidComponent::getScripts);
 
         return scripts;
     }
@@ -354,9 +354,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     public final List<AssetPage> getStyles() {
         addAssets();
         List<AssetPage> styles = new ArrayList<>();
-        styles.addAll(context.getTheme().getStyles());
+        context.getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(context.getTheme().getStyles()));
         styles.addAll(assets.getStyles());
-        OrchidUtils.addComponentAssets(getComponentHolders(), styles, OrchidComponent::getStyles);
+        OrchidUtils.addComponentAssets(this, getComponentHolders(), styles, OrchidComponent::getStyles);
 
         return styles;
     }

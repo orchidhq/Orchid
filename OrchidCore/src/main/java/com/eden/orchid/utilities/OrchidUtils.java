@@ -7,6 +7,7 @@ import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -190,11 +191,11 @@ public final class OrchidUtils {
         }
     }
 
-    public static void addComponentAssets(ComponentHolder[] componentHolders, List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
+    public static void addComponentAssets(OrchidPage containingPage, ComponentHolder[] componentHolders, List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
         if(!EdenUtils.isEmpty(componentHolders)) {
             for (ComponentHolder componentHolder : componentHolders) {
                 try {
-                    List<OrchidComponent> componentsList = componentHolder.getComponents();
+                    List<OrchidComponent> componentsList = componentHolder.getComponents(containingPage);
                     if (!EdenUtils.isEmpty(componentsList)) {
                         componentsList
                                 .stream()
