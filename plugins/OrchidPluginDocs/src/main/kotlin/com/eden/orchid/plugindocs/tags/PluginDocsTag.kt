@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import javax.inject.Inject
 
@@ -13,6 +14,7 @@ class PluginDocsTag
     : TemplateTag("docs", false) {
 
     @Option
+    @Description("A fully-qualified class name to render options for.")
     lateinit var className: String
 
     override fun parameters(): Array<String> {

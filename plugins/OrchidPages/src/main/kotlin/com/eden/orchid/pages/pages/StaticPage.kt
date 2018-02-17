@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.BooleanDefault
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
@@ -22,11 +23,12 @@ import com.eden.orchid.utilities.words
 class StaticPage(resource: OrchidResource)
     : OrchidPage(resource, "staticPage", resource.reference.title.from { snakeCase { capitalize() } }.to { words() }) {
 
-    @Option
-    @BooleanDefault(true)
+    @Option @BooleanDefault(true)
+    @Description("Whether to use the 'pretty' URL version when linking to this page or not.")
     var usePrettyUrl: Boolean = true
 
     @Option @StringDefault("template")
+    @Description("How should this page be rendered? One of [TEMPLATE, RAW, or BINARY].")
     lateinit var renderMode: String
 
     override fun onPostExtraction() {

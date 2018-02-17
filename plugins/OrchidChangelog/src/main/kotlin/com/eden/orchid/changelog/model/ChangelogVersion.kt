@@ -3,6 +3,7 @@ package com.eden.orchid.changelog.model
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
 import org.json.JSONObject
@@ -15,6 +16,7 @@ class ChangelogVersion(
 {
 
     @Option
+    @Description("The name of the version")
     var version: String = versionFilename
         get() {
             return if(!EdenUtils.isEmpty(field)) field else versionFilename

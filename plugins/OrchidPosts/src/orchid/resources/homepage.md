@@ -11,6 +11,5 @@ components:
       - com.eden.orchid.posts.components.DisqusComponent
       - com.eden.orchid.posts.components.RecentPostsComponent
       - com.eden.orchid.posts.model.Author
-      - com.eden.orchid.posts.model.PostsPaginator
 ---
 

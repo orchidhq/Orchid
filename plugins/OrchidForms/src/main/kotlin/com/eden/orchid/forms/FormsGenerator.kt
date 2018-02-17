@@ -15,14 +15,13 @@ import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @Description("Indexes form definitions so they can be easily referenced from components on different pages.")
 class FormsGenerator @Inject
 constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, "forms", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option @StringDefault("forms")
-    @Description("The base directory to look for forms in.")
+    @Description("The base directory in local resources to look for forms in.")
     lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage>? {

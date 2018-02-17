@@ -9,6 +9,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.ResourceCollection
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
@@ -31,10 +32,11 @@ constructor(
 ) : OrchidGenerator(context, "netlifyCms", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option
+    @Description("A config object to pass to the Netlify CMS to configure the backend.")
     lateinit var backend: JSONObject
 
-    @Option
-    @StringDefault("src/orchid/resources")
+    @Option @StringDefault("src/orchid/resources")
+    @Description("The resource directory, relative to the git repo root, where 'media' resources are located.")
     lateinit var resourceRoot: String
 
     override fun startIndexing(): List<OrchidPage>? {

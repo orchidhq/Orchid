@@ -33,6 +33,7 @@ class WikiGenerator @Inject
 constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, "wiki", OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
 
     @Option @StringDefault("wiki")
+    @Description("The base directory in local resources to look for wikis in.")
     lateinit var baseDir: String
 
     @Option

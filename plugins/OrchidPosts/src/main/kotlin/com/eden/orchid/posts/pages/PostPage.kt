@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -22,18 +23,25 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
     : OrchidPage(resource, "post", title) {
 
     @Option
+    @Description("The posts author. May be the `name` of a known author, or an anonymous Author config, only " +
+            "used for this post, which is considered as a guest author."
+    )
     var author: Author? = null
 
     @Option
+    @Description("A list of tags for this post, for basic taxonomic purposes. More complex taxonomic relationships " +
+            "may be managed by other plugins, which may take post tags into consideration."
+    )
     lateinit var tags: Array<String>
 
     @Option @ApplyBaseUrl
+    @Description("A fully-specified URL to a post's featured image, or a relative path to an Orchid image.")
     lateinit var featuredImage: String
 
     @Option
-    lateinit var tagline: String
-
-    @Option
+    @Description("The permalink structure to use only for this blog post. This overrides the permalink structure set " +
+            "in the category configuration."
+    )
     lateinit var permalink: String
 
     val excerpt: String

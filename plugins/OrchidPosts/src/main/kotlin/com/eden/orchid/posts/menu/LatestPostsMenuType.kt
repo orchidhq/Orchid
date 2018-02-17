@@ -2,6 +2,7 @@ package com.eden.orchid.posts.menu
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
@@ -14,12 +15,15 @@ class LatestPostsMenuType @Inject
 constructor(context: OrchidContext, private val postsModel: PostsModel) : OrchidMenuItem(context, "latestPosts", 100) {
 
     @Option @IntDefault(10)
-    var count: Int = 0
+    @Description("The maximum number of posts to include in this menu item.")
+    var limit: Int = 10
 
     @Option
+    @Description("Only add latest posts from a specific category.")
     lateinit var category: String
 
     @Option
+    @Description("The title for the root menu item.")
     lateinit var title: String
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
@@ -33,7 +37,7 @@ constructor(context: OrchidContext, private val postsModel: PostsModel) : Orchid
             categoryModel = postsModel.categories[null]
         }
 
-        val latestPosts = postsModel.getRecentPosts(category, count)
+        val latestPosts = postsModel.getRecentPosts(category, limit)
         if(!EdenUtils.isEmpty(latestPosts)) {
             val title = if(!EdenUtils.isEmpty(this.title)) {
                 this.title
