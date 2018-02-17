@@ -2,6 +2,7 @@ package com.eden.orchid.writersblocks.functions
 
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.converters.StringConverter
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import org.atteo.evo.inflector.English
@@ -11,9 +12,11 @@ class PluralizeFunction @Inject
 constructor(private val converter: StringConverter) : TemplateFunction("pluralize", true) {
 
     @Option
+    @Description("The input String to pluralize.")
     lateinit var input: String
 
     @Option @IntDefault(Int.MIN_VALUE)
+    @Description("How many of the item is present.")
     var count: Int = 0
 
     override fun parameters(): Array<String> {

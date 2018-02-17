@@ -12,7 +12,7 @@ theme:
     instagram: 'http://example.com/'
     rss: 'http://example.com/'
     email: 'http://example.com/'
-  topMenu:
+  menu:
     - type: 'link'
       title: 'Home'
       url: '/'

@@ -1,6 +1,7 @@
 package com.eden.orchid.html5up.futureimperfect
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.components.ComponentHolder
@@ -12,15 +13,15 @@ class FutureImperfectTheme @Inject
 constructor(context: OrchidContext) : Theme(context, "FutureImperfect", 100) {
 
     @Option
+    @Description("Your social media links.")
     var social: Social? = null
 
     @Option
-    var topMenu: OrchidMenu? = null
-
-    @Option
+    @Description("An additional menu to show in the side drawer.")
     var drawerMenu: OrchidMenu? = null
 
     @Option
+    @Description("Components to include in the sidebar on pages with non-single layouts.")
     lateinit var sidebar: ComponentHolder
 
     override fun loadAssets() {
