@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pb-0">
-                        {% include 'templates/server/admin/lists/' + adminList.key + '-item' %}
+                        {% include 'templates/server/admin/lists/' + adminList.key + '-item,templates/server/admin/lists/index.peb' %}
                     </div>
                 </div>
             </div>
