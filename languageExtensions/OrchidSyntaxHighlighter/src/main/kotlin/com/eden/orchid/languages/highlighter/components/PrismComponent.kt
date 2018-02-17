@@ -2,6 +2,7 @@ package com.eden.orchid.languages.highlighter.components
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.components.OrchidComponent
@@ -11,23 +12,30 @@ import javax.inject.Inject
 class PrismComponent @Inject
 constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
 
-    @Option
-    @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")
+    @Option @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")
+    @Description("The base URL to load Prism CSS and JS files from.")
     lateinit var prismSource: String
 
     @Option
+    @Description("The Prism language definitions to be included.")
     lateinit var languages: Array<String>
 
     @Option
+    @Description("The Prism plugins to be included.")
     lateinit var plugins: Array<String>
 
     @Option
+    @Description("The official Prism theme to be used. Alternatively, you may use a `githubTheme` to use one of the " +
+            "themes provided from the 'PrismJS/prism-themes' github repo."
+    )
     lateinit var theme: String
 
     @Option
+    @Description("The unofficial Prism theme to be used, from the 'PrismJS/prism-themes' github repo.")
     lateinit var githubTheme: String
 
     @Option
+    @Description("If true, only include the Prism Javascript files, opting to build the styles yourself.")
     var isScriptsOnly: Boolean = false
 
     override fun loadAssets() {

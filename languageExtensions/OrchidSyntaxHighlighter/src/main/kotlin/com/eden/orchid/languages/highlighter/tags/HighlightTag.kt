@@ -2,6 +2,7 @@ package com.eden.orchid.languages.highlighter.tags
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -14,6 +15,7 @@ class HighlightTag @Inject
     : TemplateTag("highlight", true) {
 
     @Option @StringDefault("java")
+    @Description("Your language to use for the syntax highlighting format.")
     lateinit var language: String
 
     override fun parameters(): Array<String> {

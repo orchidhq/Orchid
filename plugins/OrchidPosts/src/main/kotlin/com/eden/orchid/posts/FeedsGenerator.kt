@@ -29,7 +29,7 @@ constructor(
     var feedTypes: Array<String> = emptyArray()
 
     @Option @StringDefault("posts")
-    @Description("A list of generator keys whose pages are included in this feed..")
+    @Description("A list of generator keys whose pages are included in this feed.")
     lateinit var includeFrom: Array<String>
 
     @Option @IntDefault(25)

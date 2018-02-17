@@ -1,6 +1,7 @@
 package com.eden.orchid.writersblocks.tags
 
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -13,6 +14,7 @@ class InstagramTag @Inject
 constructor(val client: OkHttpClient) : TemplateTag("instagram", false) {
 
     @Option
+    @Description("The Id of an Instagram post to link to.")
     lateinit var id: String
 
     override fun parameters(): Array<String> {

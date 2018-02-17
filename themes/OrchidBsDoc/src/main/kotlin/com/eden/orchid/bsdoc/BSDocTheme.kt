@@ -1,6 +1,7 @@
 package com.eden.orchid.bsdoc
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
@@ -11,18 +12,20 @@ import javax.inject.Inject
 class BSDocTheme @Inject
 constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
 
-    @Option
-    @StringDefault("#4C376C")
+    @Option @StringDefault("#4C376C")
+    @Description("The CSS HEX value for the site's primary color.")
     lateinit var primaryColor: String
 
-    @Option
-    @StringDefault("#000000")
+    @Option @StringDefault("#000000")
+    @Description("The CSS HEX value for the site's secondary color.")
     lateinit var secondaryColor: String
 
     @Option
+    @Description("Your social media links.")
     var social: Social? = null
 
     @Option
+    @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
     override fun loadAssets() {
