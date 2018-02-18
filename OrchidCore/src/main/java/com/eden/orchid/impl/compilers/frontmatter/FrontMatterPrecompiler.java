@@ -23,8 +23,6 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     private final OrchidContext context;
 
-    private static final String precompilerExtension = "peb";
-
     private final List<EdenPair<String, OrchidParser>> delimiters;
 
     @Inject
@@ -54,8 +52,8 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
     }
 
     @Override
-    public String precompile(String input, Map<String, Object> data) {
-        return context.compile(precompilerExtension, input, data);
+    public String precompile(String extension, String input, Map<String, Object> data) {
+        return context.compile(extension, input, data);
     }
 
     public boolean shouldPrecompile(String input) {

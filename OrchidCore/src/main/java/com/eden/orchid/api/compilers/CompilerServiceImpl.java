@@ -6,6 +6,9 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -67,6 +70,14 @@ public final class CompilerServiceImpl implements CompilerService {
             "not intended to make a file named 'index.min'."
     )
     public String[] customIgnoredOutputExtensions;
+
+    @Getter @Setter
+    @Option @StringDefault("peb")
+    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a " +
+            "mapping with keys of the unrecognized extension and values of the known extension. These take " +
+            "precedence over the normally recognized extensions."
+    )
+    public String defaultPrecompilerExtension;
 
     private OrchidContext context;
 
@@ -189,12 +200,12 @@ public final class CompilerServiceImpl implements CompilerService {
         return precompiler.getEmbeddedData(input);
     }
 
-    public String precompile(String input) {
-        return this.precompile(input, null);
+    public String precompile(String extension, String input) {
+        return this.precompile(extension, input, null);
     }
 
-    public String precompile(String input, Object data) {
-        return precompiler.precompile(input, context.getSiteData(data));
+    public String precompile(String extension, String input, Object data) {
+        return precompiler.precompile(extension, input, context.getSiteData(data));
     }
 
     public String getOutputExtension(String extension) {

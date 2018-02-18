@@ -154,7 +154,10 @@ public abstract class OrchidIndex {
     }
 
     public List<OrchidPage> getOwnPages() {
-        return ownPages.stream().filter(OrchidUtils.not(OrchidPage::isDraft)).collect(Collectors.toList());
+        return ownPages
+                .stream()
+                .filter((page) -> page.getContext().includeDrafts() || !page.isDraft())
+                .collect(Collectors.toList());
     }
 
     public List<OrchidPage> getAllPages() {

@@ -63,6 +63,6 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract String precompile(String input, Map<String, Object> data);
+    public abstract String precompile(String extension, String input, Map<String, Object> data);
 
 }

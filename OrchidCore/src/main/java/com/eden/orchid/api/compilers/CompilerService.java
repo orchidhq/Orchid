@@ -20,6 +20,18 @@ import java.util.Set;
 public interface CompilerService extends OrchidService {
 
     /**
+     * Get the file extension that is used by default by the Precompiler.
+     *
+     * @return the file extensions used by by the precompiler by default
+     *
+     * @since v1.0.0
+     * @see OrchidCompiler
+     */
+    default String getDefaultPrecompilerExtension() {
+        return getService(CompilerService.class).getDefaultPrecompilerExtension();
+    }
+
+    /**
      * Get the file extensions that can be converted using the registered OrchidCompilers.
      *
      * @return the file extensions that can be processed
@@ -151,8 +163,8 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidPrecompiler
      */
-    default String precompile(String input) {
-        return getService(CompilerService.class).precompile(input);
+    default String precompile(String extension, String input) {
+        return getService(CompilerService.class).precompile(extension, input);
     }
 
     /**
@@ -167,8 +179,8 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidPrecompiler
      */
-    default String precompile(String input, Object data) {
-        return getService(CompilerService.class).precompile(input, data);
+    default String precompile(String extension, String input, Object data) {
+        return getService(CompilerService.class).precompile(extension, input, data);
     }
 
     /**

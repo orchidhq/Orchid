@@ -9,7 +9,7 @@
 
 > A beautiful and truly unique documentation engine and static site generator.
 
-![Example Orchid site](http://i.imgur.com/Fs3YFyY.png)
+![Example Orchid site](https://i.imgur.com/Fs3YFyY.png)
 
 Orchid is a general-purpose static site generator with a focus on extensibility, and aimed at developers looking to 
 improve their technical documentation. Orchid was born out of a desire for better-looking Javadocs and frustration with 

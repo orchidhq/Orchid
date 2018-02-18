@@ -6,6 +6,8 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -27,11 +29,12 @@ public class RenderServiceImpl implements RenderService {
     @Description("On a dry run, pages are indexed but not rendered.")
     public boolean dry;
 
+    @Getter @Accessors(fluent = true)
     @Option @BooleanDefault(false)
     @Description("Normally, draft pages are not rendered along with the rest of the site, but this behavior can be " +
             "turned off by setting this value to `true`."
     )
-    public boolean renderDrafts;
+    public boolean includeDrafts;
 
     @Inject
     public RenderServiceImpl(OrchidContext context, TemplateResolutionStrategy strategy, OrchidRenderer renderer) {
@@ -88,7 +91,7 @@ public class RenderServiceImpl implements RenderService {
         page.setCurrent(true);
         String content = page.getResource().getContent();
         if (page.getResource().shouldPrecompile()) {
-            content = context.precompile(content, page.getData());
+            content = context.precompile(page.getResource().getPrecompilerExtension(), content, page.getData());
         }
         content = "" + context.compile(page.getResource().getReference().getExtension(), content, page);
         page.setCurrent(false);
@@ -163,7 +166,7 @@ public class RenderServiceImpl implements RenderService {
     }
 
     boolean skipPage(OrchidPage page) {
-        return dry || (page.isDraft() && !renderDrafts) || !page.shouldRender();
+        return dry || (page.isDraft() && !includeDrafts) || !page.shouldRender();
     }
 
     boolean renderInternal(OrchidPage page, Supplier<InputStream> factory) {

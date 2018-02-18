@@ -5,10 +5,12 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.OrchidUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -53,6 +55,11 @@ public abstract class OrchidResource {
     }
 
     public boolean shouldPrecompile() {
+        JSONElement data = getEmbeddedData();
+        if(OrchidUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompile")) {
+            return ((JSONObject) data.getElement()).getBoolean("precompile");
+        }
+
         return context.getInjector().getInstance(OrchidPrecompiler.class).shouldPrecompile(getRawContent());
     }
 
@@ -73,7 +80,7 @@ public abstract class OrchidResource {
             String compiledContent = getContent();
 
             if (shouldPrecompile()) {
-                compiledContent = context.precompile(compiledContent, data);
+                compiledContent = context.precompile(getPrecompilerExtension(), compiledContent, data);
             }
 
             return context.compile(
@@ -85,6 +92,15 @@ public abstract class OrchidResource {
         else {
             return "";
         }
+    }
+
+    public String getPrecompilerExtension() {
+        JSONElement data = getEmbeddedData();
+        if(OrchidUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompileAs")) {
+            return ((JSONObject) data.getElement()).getString("precompileAs");
+        }
+
+        return context.getDefaultPrecompilerExtension();
     }
 
     @Override public String toString() {
