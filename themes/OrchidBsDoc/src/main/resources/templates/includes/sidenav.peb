@@ -1,6 +1,6 @@
 <div class="bs-docs-sidebar hidden-print">
     <ul class="nav bs-docs-sidenav">
-        {% for menuItem in page.menu.menuItems %}
+        {% for menuItem in page.menu.getMenuItems(page) %}
             {% if menuItem.hasChildren() %}
                 <li class="has-children {% for childLink in menuItem.children %}{% if childLink.title|length > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">
                     <a>{{ menuItem.title | title }}</a>

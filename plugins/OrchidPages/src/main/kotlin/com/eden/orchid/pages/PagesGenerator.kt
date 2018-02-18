@@ -20,6 +20,7 @@ class PagesGenerator @Inject
 constructor(context: OrchidContext) : OrchidGenerator(context, "pages", OrchidGenerator.PRIORITY_EARLY) {
 
     @Option @StringDefault("pages")
+    @Description("The base directory in local resources to look for static pages in.")
     lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage> {

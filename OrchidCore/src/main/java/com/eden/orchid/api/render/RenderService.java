@@ -23,6 +23,15 @@ public interface RenderService extends OrchidService {
     }
 
     /**
+     * Whether to exclude drafts, which is the default behavior, or whether to include them. 
+     *
+     * @since v1.0.0
+     */
+    default boolean includeDrafts() {
+        return getService(RenderService.class).includeDrafts();
+    }
+
+    /**
      * Render the given page with the default template determined by the page, returning an InputStream representing the
      * final contents. The layout chosen for the page is determined by {@link TemplateResolutionStrategy}.
      *

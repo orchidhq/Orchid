@@ -1,0 +1,1 @@
+<h1>{{ listItem.class.simpleName | capitalize }}</h1>

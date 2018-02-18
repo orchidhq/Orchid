@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
@@ -90,8 +91,8 @@ public final class RenderServiceTest {
         when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
         when(context.compile("html", layoutContent, page)).thenReturn(layoutContent);
         when(context.compile("html", resourceContent, page)).thenReturn(resourceContent);
-        when(context.precompile(layoutContent, page.getData())).thenReturn(layoutContent);
-        when(context.precompile(resourceContent, page.getData())).thenReturn(resourceContent);
+        when(context.precompile("peb", layoutContent, page.getData())).thenReturn(layoutContent);
+        when(context.precompile("peb", resourceContent, page.getData())).thenReturn(resourceContent);
 
         service = new RenderServiceImpl(context, templateResolutionStrategy, renderer);
         service.initialize(context);
@@ -112,7 +113,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedTemplate(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream);
+        String content = IOUtils.toString(stream, Charset.defaultCharset());
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -143,7 +144,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedString(page, "html", layoutContent);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream);
+        String content = IOUtils.toString(stream, Charset.defaultCharset());
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -174,7 +175,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedRaw(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream);
+        String content = IOUtils.toString(stream, Charset.defaultCharset());
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);
@@ -205,7 +206,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedBinary(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream);
+        String content = IOUtils.toString(stream, Charset.defaultCharset());
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);
@@ -248,7 +249,7 @@ public final class RenderServiceTest {
         page.setDraft(true);
         assertThat(service.skipPage(page), is(true));
 
-        service.renderDrafts = true;
+        service.includeDrafts = true;
         assertThat(service.skipPage(page), is(false));
     }
 
@@ -277,7 +278,7 @@ public final class RenderServiceTest {
         assertThat(service.skipPage(page), is(false));
         page.setDraft(true);
         assertThat(service.skipPage(page), is(true));
-        service.renderDrafts = true;
+        service.includeDrafts = true;
         assertThat(service.skipPage(page), is(false));
 
         assertThat(underTest.renderBinary(page), is(true));

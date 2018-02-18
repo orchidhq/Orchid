@@ -1,6 +1,7 @@
 package com.eden.orchid.writersblocks.tags
 
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -13,25 +14,34 @@ class TwitterTag @Inject
 constructor(val client: OkHttpClient) : TemplateTag("twitter", false) {
 
     @Option
+    @Description("The Twitter handle to use, without the @.")
     lateinit var user: String
 
     @Option
+    @Description("The Id of a single tweet to embed.")
     lateinit var id: String
 
     @Option
+    @Description("The type of Twitter timeline to display. One of [likes, lists, collection, grid, moment, or " +
+            "profile]."
+    )
     lateinit var timelineType: String
 
     @Option
+    @Description("Only used with `lists` timeline type. The Timeline List Id.")
     lateinit var listId: String
 
     @Option
+    @Description("Only used with `collection` or `grid` timeline types. The Timeline Collection Id.")
     lateinit var collectionId: String
 
     @Option
-    lateinit var title: String
+    @Description("Only used with `moment` timeline type. The Timeline Moment Id.")
+    lateinit var momentId: String
 
     @Option
-    lateinit var momentId: String
+    @Description("Only used with `collection`, `grid`, and `moment` timeline types. The Timeline title.")
+    lateinit var title: String
 
     override fun parameters(): Array<String> {
         return arrayOf("user", "id")

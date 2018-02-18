@@ -3,8 +3,8 @@ package com.eden.orchid.impl.themes.functions;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.StringDefault;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,18 +18,21 @@ public final class FindAllFunction extends TemplateFunction {
 
     private final OrchidContext context;
 
-    @Option @StringDefault("")
+    @Option
+    @Description("The Id of the items to link to.")
     private String itemId;
 
-    @Option @StringDefault("")
+    @Option
+    @Description("The type of collection the items are expected to come from.")
     private String collectionType;
 
-    @Option @StringDefault("")
+    @Option
+    @Description("The specific Id of the given collection type where the items are expected to come from.")
     private String collectionId;
 
     @Inject
     public FindAllFunction(OrchidContext context) {
-        super("findAll");
+        super("findAll", false);
         this.context = context;
     }
 

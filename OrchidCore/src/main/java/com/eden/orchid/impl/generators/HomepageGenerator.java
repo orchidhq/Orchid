@@ -72,5 +72,6 @@ public final class HomepageGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderTemplate);
+//        throw new IllegalStateException("Stopping after generating any homepage pages.");
     }
 }

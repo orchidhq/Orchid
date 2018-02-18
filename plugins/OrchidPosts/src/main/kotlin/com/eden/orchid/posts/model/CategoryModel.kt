@@ -3,6 +3,7 @@ package com.eden.orchid.posts.model
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.posts.pages.PostPage
@@ -19,11 +20,14 @@ class CategoryModel(
 
     var first: MutableList<PostPage> = ArrayList()
 
-    @Option
-    @StringDefault(":category/:year/:month/:day/:slug")
+    @Option @StringDefault(":category/:year/:month/:day/:slug")
+    @Description("The permalink structure to use for the blog posts in this category. Permalinks may be " +
+            "overridden on any individual post."
+    )
     lateinit var permalink: String
 
     @Option
+    @Description("The display title of the category. Defaults to the un-camelCased category key.")
     var title: String = ""
         get() {
             return if(!EdenUtils.isEmpty(field)) {

@@ -3,6 +3,7 @@ package com.eden.orchid.taxonomies
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -27,6 +28,7 @@ class TaxonomiesGenerator @Inject
 constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStrategy: PermalinkStrategy) : OrchidGenerator(context, "taxonomies", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option
+    @Description("An array of Taxonomy configurations.")
     lateinit var taxonomies: JSONArray
 
     override fun startIndexing(): List<OrchidPage> {

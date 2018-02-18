@@ -6,6 +6,9 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -44,11 +47,16 @@ public final class CompilerServiceImpl implements CompilerService {
     };
 
     @Option("binaryExtensions")
-    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
+    @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly " +
+            "without further processing."
+    )
     public String[] customBinaryExtensions;
 
     @Option("compilerExtensions")
-    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a mapping with keys of the unrecognized extension and values of the known extension. These take precedence over the normally recognized extensions.")
+    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a " +
+            "mapping with keys of the unrecognized extension and values of the known extension. These take " +
+            "precedence over the normally recognized extensions."
+    )
     public JSONObject customCompilerExtensions;
 
     private String[] ignoredOutputExtensions = new String[] {
@@ -57,10 +65,19 @@ public final class CompilerServiceImpl implements CompilerService {
     };
 
     @Option("ignoredOutputExtensions")
-    @Description("Add additional file extensions to exclude from counting as an 'output extension' An example would be " +
-            "'min' in a filename like 'index.min.js', which is commonly used to denote a minified asset and is not " +
-            "intended to make a file named 'index.min'.")
+    @Description("Add additional file extensions to exclude from counting as an 'output extension' An example would " +
+            "be 'min' in a filename like 'index.min.js', which is commonly used to denote a minified asset and is " +
+            "not intended to make a file named 'index.min'."
+    )
     public String[] customIgnoredOutputExtensions;
+
+    @Getter @Setter
+    @Option @StringDefault("peb")
+    @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a " +
+            "mapping with keys of the unrecognized extension and values of the known extension. These take " +
+            "precedence over the normally recognized extensions."
+    )
+    public String defaultPrecompilerExtension;
 
     private OrchidContext context;
 
@@ -183,12 +200,12 @@ public final class CompilerServiceImpl implements CompilerService {
         return precompiler.getEmbeddedData(input);
     }
 
-    public String precompile(String input) {
-        return this.precompile(input, null);
+    public String precompile(String extension, String input) {
+        return this.precompile(extension, input, null);
     }
 
-    public String precompile(String input, Object data) {
-        return precompiler.precompile(input, context.getSiteData(data));
+    public String precompile(String extension, String input, Object data) {
+        return precompiler.precompile(extension, input, context.getSiteData(data));
     }
 
     public String getOutputExtension(String extension) {

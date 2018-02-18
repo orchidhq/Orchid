@@ -19,6 +19,7 @@ class ChangelogGenerator @Inject
 constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator(context, "changelog", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option @StringDefault("changelog")
+    @Description("The base directory in local resources to look for changelog entries in.")
     lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage> {

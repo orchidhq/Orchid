@@ -29,26 +29,26 @@ services:
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
 
-allPages:
-  components:
-    - type: pageContent
-      order: 10
-    - type: prism
-      githubTheme: 'darcula'
-      languages:
-        - 'yaml'
-        - 'java'
-        - 'groovy'
-        - 'markdown'
-      plugins:
-        - 'line-numbers'
-        - 'line-highlight'
-        - 'toolbar'
-        - 'show-language'
-        - 'copy-to-clipboard'
+#allPages:
+#  components:
+#    - type: pageContent
+#      order: 10
+#    - type: prism
+#      githubTheme: 'darcula'
+#      languages:
+#        - 'yaml'
+#        - 'java'
+#        - 'groovy'
+#        - 'markdown'
+#      plugins:
+#        - 'line-numbers'
+#        - 'line-highlight'
+#        - 'toolbar'
+#        - 'show-language'
+#        - 'copy-to-clipboard'
 
 wiki:
-  includeIndexInPageTitle: true
+  includeIndexInPageTitle: false
   sections:
     - 'userManual'
     - 'developersGuide'

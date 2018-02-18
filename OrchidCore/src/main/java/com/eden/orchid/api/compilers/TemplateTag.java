@@ -21,8 +21,7 @@ public abstract class TemplateTag implements OptionsHolder {
     @Getter
     private final String name;
 
-    @Getter
-    @Accessors(fluent = true)
+    @Getter @Accessors(fluent = true)
     private final boolean hasContent;
 
     @Getter @Setter

@@ -5,6 +5,7 @@ import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.OrchidInternalIndex;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -18,10 +19,14 @@ import java.util.stream.Stream;
 
 public final class SitemapGenerator extends OrchidGenerator {
 
-    @Getter @Setter @Option @BooleanDefault(true)
+    @Getter @Setter
+    @Option @BooleanDefault(true)
+    @Description("Whether to generate sitemaps.")
     private boolean useSitemaps;
 
-    @Getter @Setter @Option @BooleanDefault(true)
+    @Getter @Setter
+    @Option @BooleanDefault(true)
+    @Description("Whether to generate a robots.txt, which includes a link to the sitemap.")
     private boolean useRobots;
 
     @Inject

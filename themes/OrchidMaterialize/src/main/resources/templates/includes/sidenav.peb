@@ -10,7 +10,7 @@
         </div>
     </li>
 
-    {% for menuItem in theme.menu.menuItems %}
+    {% for menuItem in theme.menu.getMenuItems(page) %}
         {% include 'includes/menuItem' %}
     {% endfor %}
 </ul>

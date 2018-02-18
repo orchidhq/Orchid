@@ -21,7 +21,7 @@
             <a href="#" class="logo"><img src="{{ site.about.avatarUrl }}" alt=""/></a>
             <header>
                 <h2>{{ site.about.siteName }}</h2>
-                <p>{{ site.about.tagline }}</p>
+                <p>{{ site.about.subtitle }}</p>
             </header>
         </section>
 
@@ -30,7 +30,7 @@
         <!-- About -->
         <section class="blurb">
             <h2>About</h2>
-            <p>{{ site.about.blurb }}</p>
+            <p>{{ site.about.description }}</p>
             <ul class="actions">
                 <li><a href="#" class="button">Learn More</a></li>
             </ul>

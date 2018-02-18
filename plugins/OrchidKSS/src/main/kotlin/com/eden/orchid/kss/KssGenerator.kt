@@ -21,14 +21,18 @@ import javax.inject.Inject
 class KssGenerator @Inject
 constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, "styleguide", OrchidGenerator.PRIORITY_EARLY) {
 
-    @Option
-    @StringDefault("assets/css")
+    @Option @StringDefault("assets/css")
+    @Description("The base directory in local resources to look for KSS blocks in.")
     lateinit var baseDir: String
 
     @Option
+    @Description("The sections within the baseDir to make Styleguides out of.")
     var sections: Array<String> = emptyArray()
 
     @Option
+    @Description("The stylesheet URL that you are documenting. This is included in the example markup within a Shadow" +
+            "element (if the brower supports it)."
+    )
     lateinit var stylesheet: String
 
     override fun startIndexing(): List<OrchidPage> {

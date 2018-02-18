@@ -57,19 +57,19 @@ public final class ApiModule extends OrchidModule {
         // Options Extractors
         addToSet(OptionExtractor.class,
                 BooleanOptionExtractor.class,
-                StringOptionExtractor.class,
-                IntOptionExtractor.class,
-                LongOptionExtractor.class,
-                FloatOptionExtractor.class,
-                DoubleOptionExtractor.class,
-                OptionsHolderOptionExtractor.class,
-                JSONObjectOptionExtractor.class,
-                JSONArrayOptionExtractor.class,
-                OrchidMenuOptionExtractor.class,
                 ComponentHolderOptionExtractor.class,
                 DateOptionExtractor.class,
-                TimeOptionExtractor.class,
-                DateTimeOptionExtractor.class
+                DateTimeOptionExtractor.class,
+                DoubleOptionExtractor.class,
+                FloatOptionExtractor.class,
+                IntOptionExtractor.class,
+                JSONArrayOptionExtractor.class,
+                JSONObjectOptionExtractor.class,
+                LongOptionExtractor.class,
+                OptionsHolderOptionExtractor.class,
+                OrchidMenuOptionExtractor.class,
+                StringOptionExtractor.class,
+                TimeOptionExtractor.class
         );
 
         // Options Validators

@@ -19,7 +19,7 @@ class PresentationsGenerator
     : OrchidGenerator(context, "presentations", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option @StringDefault("presentations")
-    @Description("The base directory to look for presentation slides in.")
+    @Description("The base directory in local resources to look for presentation slides in.")
     lateinit var baseDir: String
 
     override fun startIndexing(): List<OrchidPage>? {

@@ -2,6 +2,7 @@ package com.eden.orchid.impl.themes.menus;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
@@ -13,6 +14,7 @@ import java.util.List;
 public final class DividerMenuItem extends OrchidMenuItem {
 
     @Option
+    @Description("An optional title for this divider, to create a contextual section within the menu.")
     public String title;
 
     @Inject

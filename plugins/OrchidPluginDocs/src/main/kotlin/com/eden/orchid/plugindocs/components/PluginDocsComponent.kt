@@ -1,47 +1,75 @@
 package com.eden.orchid.plugindocs.components
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.OptionsDescription
-import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
 import javax.inject.Inject
 
 class PluginDocsComponent
-@Inject constructor(context: OrchidContext, val extractor: OptionsExtractor)
+@Inject constructor(context: OrchidContext)
     : OrchidComponent(context, "pluginDocs", 25) {
 
     @Option
-    var classNames: Array<String>? = null
+    @Description("A list of fully-qualified class names to render options for.")
+    var classNames = emptyArray<String>()
 
-    fun getClassList(): Set<Class<*>> {
-        val classList = emptyList<Class<*>>().toMutableSet()
+    @Option
+    @Description("A list of fully-qualified package names. All OptionsHolder classes in these packages will have their " +
+            "options displayed."
+    )
+    var packageNames = emptyArray<String>()
 
-        if(!EdenUtils.isEmpty(classNames)) {
-            classNames!!.forEach {
-                try {
-                    classList.add(Class.forName(it))
-                }
-                catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
+    fun getClassList(): Set<String> {
+        val classList = emptyList<String>().toMutableSet()
+
+        if (!EdenUtils.isEmpty(classNames)) {
+            addClassNames(classList)
+        }
+
+        if (!EdenUtils.isEmpty(packageNames)) {
+            addPackageClasses(classList)
         }
 
         return classList
     }
 
-    fun getClassOptions(itemClass: Class<*>): List<OptionsDescription> {
-        val classOptions = extractor.describeOptions(itemClass)
+    private fun addClassNames(classList: MutableSet<String>) {
+        classNames.forEach {
+            if (isOptionsHolderClass(it)) {
+                classList.add(it)
+            }
+        }
+    }
 
-        classOptions.filter { EdenUtils.isEmpty(it.description) }.forEach {
-            Clog.w("Option has no description: ${it.key} in ${itemClass.name}")
+    private fun addPackageClasses(classList: MutableSet<String>) {
+        val scanner = FastClasspathScanner(*packageNames)
+        scanner.strictWhitelist().matchAllStandardClasses { matchingClass ->
+            if(isOptionsHolderClass(matchingClass)) {
+                classList.add(matchingClass.name)
+            }
+        }
+        scanner.scan()
+    }
+
+    private fun isOptionsHolderClass(clazz: Class<*>): Boolean {
+        return OptionsHolder::class.java.isAssignableFrom(clazz)
+    }
+
+    private fun isOptionsHolderClass(clazz: String): Boolean {
+        try {
+            return OptionsHolder::class.java.isAssignableFrom(Class.forName(clazz))
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
         }
 
-        return classOptions
+        return false
     }
+
 }
 
 

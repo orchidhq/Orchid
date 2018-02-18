@@ -2,6 +2,7 @@ package com.eden.orchid.posts.pages
 
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
@@ -19,6 +20,7 @@ import org.json.JSONObject
 class AuthorPage(resource: OrchidResource, val author: Author, val postsModel: PostsModel) : OrchidPage(resource, "postAuthor") {
 
     @Option @StringDefault("authors/:authorName")
+    @Description("The permalink structure to use only for this author bio page.")
     lateinit var permalink: String
 
     init {

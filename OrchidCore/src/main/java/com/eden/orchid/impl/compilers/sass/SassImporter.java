@@ -49,7 +49,7 @@ public final class SassImporter implements Importer {
                 String content = importedResource.getContent();
 
                 if (importedResource.shouldPrecompile()) {
-                    content = context.precompile(content, importedResource.getEmbeddedData());
+                    content = context.precompile(importedResource.getPrecompilerExtension(), content, importedResource.getEmbeddedData());
                 }
 
                 try {

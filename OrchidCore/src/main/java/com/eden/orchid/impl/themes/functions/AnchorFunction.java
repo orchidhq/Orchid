@@ -4,8 +4,8 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,24 +19,33 @@ public final class AnchorFunction extends TemplateFunction {
 
     private final OrchidContext context;
 
-    @Option @StringDefault("")
+    @Option
+    @Description("The title to display in an anchor tag for the given item if found. Otherwise, the title is " +
+            "returned directly."
+    )
     private String title;
 
-    @Option @StringDefault("")
-    private String collectionType;
-
-    @Option @StringDefault("")
-    private String collectionId;
-
-    @Option @StringDefault("")
+    @Option
+    @Description("The Id of an item to link to.")
     private String itemId;
 
-    @Option @StringDefault("")
+    @Option
+    @Description("The type of collection the item is expected to come from.")
+    private String collectionType;
+
+    @Option
+    @Description("The specific Id of the given collection type where the item is expected to come from.")
+    private String collectionId;
+
+    @Option
+    @Description("Custom classes to add to the resulting anchor tag. If no matching item is found, these classes are " +
+            "not used."
+    )
     private String customClasses;
 
     @Inject
     public AnchorFunction(OrchidContext context) {
-        super("anchor");
+        super("anchor", true);
         this.context = context;
     }
 

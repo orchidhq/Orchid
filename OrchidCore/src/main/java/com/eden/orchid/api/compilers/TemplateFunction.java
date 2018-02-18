@@ -13,25 +13,22 @@ import lombok.Getter;
 public abstract class TemplateFunction implements OptionsHolder {
 
     @Getter
-    private final String name;
+    protected final String name;
+
+    @Getter
+    protected final boolean isSafe;
 
     /**
-     * Initialize the Function with the name which it should be called with in the template. The actual implementation
-     * of a Function should have a single constructor annotated with {@link javax.inject.Inject }.
+     * Initialize the Function with the name which it should be called with in the template., and whether Whether this
+     * Function returns "safe" HTML that should not be escaped by default. For filters that return anything other than a
+     * String, `isSafe` should always be false. The actual implementation of a Function should have a single constructor
+     * annotated with {@link javax.inject.Inject }.
      *
      * @param name the name which to call this Function
      */
-    public TemplateFunction(String name) {
+    public TemplateFunction(String name, boolean isSafe) {
         this.name = name;
-    }
-
-    /**
-     * Whether this Function returns "safe" HTML that should not be escaped by default.
-     *
-     * @return whether this Function returns safe text
-     */
-    public boolean isSafe() {
-        return false;
+        this.isSafe = isSafe;
     }
 
     /**

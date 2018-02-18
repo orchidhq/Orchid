@@ -12,9 +12,11 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONArray;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -31,6 +33,8 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
     private boolean hasAddedAssets;
+
+    @Setter protected OrchidPage page;
 
     @Getter @Setter
     @Option
@@ -49,18 +53,22 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
-    @Description("An array of CSS Resources to add along with this Component.")
+    @Description("Add extra CSS files to the page containing this Component, which will be compiled just like the " +
+            "rest of the site's assets."
+    )
     protected String[] extraCss;
 
     @Getter @Setter
     @Option
-    @Description("An array of JS Resources to add along with this Component.")
+    @Description("Add extra Javascript files to the page containing this Component, which will be compiled just like " +
+            "the rest of the site's assets."
+    )
     protected String[] extraJs;
 
     @Getter @Setter
     @Option @BooleanDefault(false)
-    @Description("When true, this component will not have a template rendered on the page. Useful for Components that only " +
-            "add extra CSS or JS, or for temporarily removing a component from the page."
+    @Description("When true, this component will not have a template rendered on the page. Useful for Components that" +
+            " only add extra CSS or JS, or for temporarily removing a component from the page."
     )
     protected boolean hidden;
 
@@ -71,7 +79,9 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     )
     protected boolean noWrapper;
 
-    @Getter @Setter @OptionsData private JSONElement allData;
+    @Getter @Setter
+    @OptionsData
+    private JSONElement allData;
 
     @Inject
     public OrchidComponent(OrchidContext context, String key, int priority) {
@@ -79,6 +89,14 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.key = key;
         this.context = context;
         this.assetHolder = new AssetHolderDelegate(context, this, "component");
+    }
+
+    public boolean canBeUsedOnPage(
+            OrchidPage containingPage,
+            ComponentHolder componentHolder,
+            JSONArray possibleComponents,
+            List<OrchidComponent> currentComponents) {
+        return true;
     }
 
     @Override

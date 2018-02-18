@@ -43,27 +43,39 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         val pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)")
     }
 
-    @Option
-    @StringDefault("<!--more-->")
+    @Option @StringDefault("<!--more-->")
+    @Description("The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
+            "first 240 characters of the post."
+    )
     lateinit var excerptSeparator: String
 
-    @Option
-    @ListClass(Author::class)
+    @Option @ListClass(Author::class)
+    @Description("A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
+            "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
+            "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
+            "configuration, but they will not have their own pages."
+    )
     var authors: List<Author> = emptyList()
 
     @Option
+    @Description("An array of Category configurations, which may be just the path of the category or a full " +
+            "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
+            "category does not have an entry for its parent category, an error is thrown and Posts generation " +
+            "will not continue."
+    )
     lateinit var categories: JSONArray
 
-    @Option
-    @StringDefault("posts")
+    @Option @StringDefault("posts")
+    @Description("The base directory in local resources to look for blog post entries in.")
     lateinit var baseDir: String
 
-    @Option
-    @StringDefault("posts/authors")
+    @Option @StringDefault("posts/authors")
+    @Description("The base directory in local resources to look for author configs/bios in.")
     lateinit var authorsBaseDir: String
 
     @Option
-    lateinit var config: JSONObject
+    @Description("The configuration for the default category, when no other categories are set up.")
+    lateinit var defaultConfig: JSONObject
 
     override fun startIndexing(): List<OrchidPage> {
         val authorPages = getAuthorPages()
@@ -91,11 +103,11 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                     continue
                 }
 
-                val categoryModel = postsModel.getCategory(OrchidUtils.normalizePath(categoryKey), categoryOptions ?: JSONObject())
+                postsModel.getCategory(OrchidUtils.normalizePath(categoryKey), categoryOptions ?: JSONObject())
             }
         }
         else {
-            val categoryModel = postsModel.getCategory(null, config)
+            postsModel.getCategory(null, defaultConfig)
         }
 
         val allPages = ArrayList<OrchidPage>()

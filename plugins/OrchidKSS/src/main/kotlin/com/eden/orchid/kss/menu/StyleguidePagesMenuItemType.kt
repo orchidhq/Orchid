@@ -1,6 +1,7 @@
 package com.eden.orchid.kss.menu
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
@@ -12,6 +13,7 @@ class StyleguidePagesMenuItemType @Inject
 constructor(context: OrchidContext, private val model: KssModel) : OrchidMenuItem(context, "styleguide", 100) {
 
     @Option
+    @Description("The Styleguide section to get pages for.")
     lateinit var section: String
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {

@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public abstract class OrchidIndex {
@@ -102,7 +103,7 @@ public abstract class OrchidIndex {
         if(pathPieces[0].length() > 0) {
             if(pathPieces.length == 1) {
                 if(pathPieces[0].equals(ownKey)) {
-                    for(OrchidPage ownPage : ownPages) {
+                    for(OrchidPage ownPage : getOwnPages()) {
                         if(ownPage.getReference().getOriginalFileName().equals(pathPieces[0])) {
                             return ownPage;
                         }
@@ -152,9 +153,16 @@ public abstract class OrchidIndex {
         return foundIndex;
     }
 
+    public List<OrchidPage> getOwnPages() {
+        return ownPages
+                .stream()
+                .filter((page) -> page.getContext().includeDrafts() || !page.isDraft())
+                .collect(Collectors.toList());
+    }
+
     public List<OrchidPage> getAllPages() {
         List<OrchidPage> allPages = new ArrayList<>();
-        allPages.addAll(ownPages);
+        allPages.addAll(getOwnPages());
 
         for(Map.Entry<String, OrchidIndex> entry : childrenPages.entrySet()) {
             allPages.addAll(entry.getValue().getAllPages());
@@ -182,6 +190,7 @@ public abstract class OrchidIndex {
     public JSONObject toJSON(boolean includePageContent, boolean includePageData) {
         JSONObject indexJson = new JSONObject();
         indexJson.put("ownKey", ownKey);
+        List<OrchidPage> ownPages = getOwnPages();
         if(ownPages.size() > 0) {
             JSONArray ownPagesJson = new JSONArray();
             for (OrchidPage page : ownPages) {

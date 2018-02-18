@@ -1,4 +1,9 @@
 ---
+pluginName: OrchidPages
+contentTypeTitle: static page
+bundles:
+  - OrchidBlog
+  - OrchidAll
 ---
 
-Front Matter
+{% extends '_contentWikiBase' %}

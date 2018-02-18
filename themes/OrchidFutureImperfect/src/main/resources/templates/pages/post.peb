@@ -9,8 +9,6 @@
             {% if not loop.last -%} > {% endif %}
             {% endfor %}
             {% endif %}
-
-            <p>{{ post.tagline }}</p>
         </div>
         <div class="meta">
             <time class="published" datetime="{{ post.publishDate | localDate('yyyy-MM-dd') }}">

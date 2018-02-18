@@ -18,7 +18,7 @@ public class FileCollection extends OrchidCollection<OrchidPage> {
     public List<OrchidPage> find(String id) {
         return items
                 .stream()
-                .filter(page -> page.getReference().getRelativePath().equals(id))
+                .filter(page -> page.getTitle().equals(id))
                 .collect(Collectors.toList());
     }
 

@@ -23,12 +23,17 @@ constructor(
     : OrchidGenerator(context, "feeds", OrchidGenerator.PRIORITY_LATE + 1) {
 
     @Option @StringDefault("rss", "atom")
+    @Description("A list of different feed types to render. Each feed type is rendered as `/{feedType}.xml` from the " +
+            "`feeds/{feedType}.peb` resource."
+    )
     var feedTypes: Array<String> = emptyArray()
 
     @Option @StringDefault("posts")
+    @Description("A list of generator keys whose pages are included in this feed.")
     lateinit var includeFrom: Array<String>
 
     @Option @IntDefault(25)
+    @Description("The maximum number of entries to include in this feed.")
     var size = 25
 
     override fun startIndexing(): List<OrchidPage>? {

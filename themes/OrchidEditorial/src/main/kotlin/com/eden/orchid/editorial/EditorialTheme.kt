@@ -1,6 +1,7 @@
 package com.eden.orchid.editorial
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
@@ -10,11 +11,12 @@ import javax.inject.Inject
 class EditorialTheme @Inject
 constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
 
-    @Option
-    @StringDefault("#f56a6a")
+    @Option @StringDefault("#f56a6a")
+    @Description("The CSS HEX value for the site's primary color.")
     lateinit var primaryColor: String
 
     @Option
+    @Description("Your social media links.")
     var social: Social? = null
 
     override fun loadAssets() {

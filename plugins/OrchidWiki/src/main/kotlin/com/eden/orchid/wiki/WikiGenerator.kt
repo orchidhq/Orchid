@@ -33,12 +33,15 @@ class WikiGenerator @Inject
 constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, "wiki", OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
 
     @Option @StringDefault("wiki")
+    @Description("The base directory in local resources to look for wikis in.")
     lateinit var baseDir: String
 
     @Option
+    @Description("The sections within the baseDir to make wikis out of.")
     lateinit var sections: Array<String>
 
     @Option @BooleanDefault(true)
+    @Description("If true, the title of each page in the wiki will be prepended with its numerical order in the wiki.")
     var includeIndexInPageTitle: Boolean = true
 
     override fun startIndexing(): List<OrchidPage> {

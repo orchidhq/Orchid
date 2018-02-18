@@ -21,8 +21,7 @@ import java.util.stream.Stream;
         "been registered to an AssetHolder, and all files in the directories specified in config.sourceDirs.")
 public final class AssetsGenerator extends OrchidGenerator {
 
-    @Option
-    @StringDefault({"assets"})
+    @Option @StringDefault({"assets"})
     @Description("Set which local resource directories you want to copy static assets from.")
     public String[] sourceDirs;
 

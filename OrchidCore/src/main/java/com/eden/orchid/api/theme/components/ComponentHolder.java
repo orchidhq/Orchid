@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme.components;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -82,7 +83,7 @@ public final class ComponentHolder {
         return null;
     }
 
-    public List<OrchidComponent> getComponents() {
+    public List<OrchidComponent> getComponents(OrchidPage containingPage) {
         if (components == null) {
             components = new ArrayList<>();
 
@@ -93,8 +94,12 @@ public final class ComponentHolder {
                 if(componentTypesMap.containsKey(componentType)) {
                     OrchidComponent component = context.getInjector().getInstance(componentTypesMap.get(componentType));
                     component.setOrder((i+1)*10);
-                    component.extractOptions(context, componentJson);
-                    components.add(component);
+
+                    if(component.canBeUsedOnPage(containingPage, this, componentsJson, components)) {
+                        component.setPage(containingPage);
+                        component.extractOptions(context, componentJson);
+                        components.add(component);
+                    }
                 }
             }
 
@@ -104,8 +109,8 @@ public final class ComponentHolder {
         return components;
     }
 
-    public List<OrchidComponent> getRemainingComponents() {
-        return getComponents();
+    public List<OrchidComponent> getRemainingComponents(OrchidPage containingPage) {
+        return getComponents(containingPage);
     }
 
     public void addComponent(JSONObject menuItemJson) {
@@ -123,4 +128,5 @@ public final class ComponentHolder {
     public void invalidateComponents() {
         components = null;
     }
+
 }

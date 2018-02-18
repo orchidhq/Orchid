@@ -1,4 +1,9 @@
 ---
+pluginName: OrchidPosts
+contentTypeTitle: blog
+bundles:
+  - OrchidBlog
+  - OrchidAll
 ---
 
-Front Matter
+{% extends '_contentWikiBase' %}

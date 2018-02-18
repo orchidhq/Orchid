@@ -10,13 +10,13 @@ specific circumstances, outlined below:
 If you wish to copy images, just give the Assets Generator the paths you want copied over. This is done with the 
 following snippet in your `config.yml`:
 
-```yaml
+{% highlight 'yaml' %}
 assets:
   sourceDirs: 
     - 'assets/css'
     - 'assets/js'
-```
-{.line-numbers}
+{% endhighlight %}
+
 
 The `sourceDirs` key of the `assets` generator configuration block defines a list of directories to copy assets from 
 into the output site. These directories are copyied recursively, and the assets are compiled against their file 
@@ -28,13 +28,13 @@ be compiled before being copied to the output. Many binary file types are suppor
 asset is being corrupted in the process, you can add its extension to the following configuration snippet in 
 `config.yml`:
 
-```yaml
+{% highlight 'yaml' %}
 services:
   compilers: 
     binaryExtensions: 
       - 'jpeg'
-```
-{.line-numbers}
+{% endhighlight %}
+
 
 `binaryExtensions` should be an array with each item being the file extension which should be recognized as binary.
 
@@ -48,13 +48,13 @@ looked up, compiled, and copied to the output site, in addition to being injecte
 For the following snippet can be included in a Page's front matter or within a component configuration, and will have 
 the same effect, which is to find and compile the referenced assets and add it the containing page:
 
-```yaml
+{% highlight 'yaml' %}
 extraCss:
   - 'assets/css/custom.scss'
 extraJs:
   - 'assets/js/custom.js'
-```
-{.line-numbers}
+{% endhighlight %}
+
 
 Extra CSS and JS may also be added to the Theme configuration, with the effect of being added to all pages using that 
 theme.

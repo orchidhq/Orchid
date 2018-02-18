@@ -1,11 +1,9 @@
 package com.eden.orchid.plugindocs.controllers
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.krow.formatters.HtmlTableFormatter
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.OptionsHolder
-import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
@@ -53,18 +51,6 @@ constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : Orchid
         return OrchidResponse(context).status(404).content("List item not found")
     }
 
-    @Get(path = "/withParams/:paramKey", params = AdminParams::class)
-    fun testWithParams(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, params: AdminParams, paramKey: String): OrchidResponse {
-        val data = HashMap<String, Any>()
-        data.put("params", params)
-
-        val view = OrchidView(context, this, "adminParams", data)
-        view.title = paramKey
-        view.breadcrumbs = arrayOf("paramKey")
-
-        return OrchidResponse(context).view(view)
-    }
-
     public fun hasOptions(o: Any): Boolean {
         return o is OptionsHolder
     }
@@ -75,24 +61,7 @@ constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : Orchid
 
         var htmlTable = table.print(HtmlTableFormatter())
         htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"table\">")
-        Clog.v(htmlTable)
 
         return htmlTable
-    }
-
-    class AdminParams : OptionsHolder {
-
-        @Option
-        lateinit var param1: String
-
-        @Option
-        var param2: Int = 0
-
-        @Option
-        lateinit var param3: String
-
-        @Option
-        lateinit var paramKey: String
-
     }
 }

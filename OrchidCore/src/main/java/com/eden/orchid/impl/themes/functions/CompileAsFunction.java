@@ -2,6 +2,7 @@ package com.eden.orchid.impl.themes.functions;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import lombok.Getter;
@@ -15,19 +16,20 @@ public final class CompileAsFunction extends TemplateFunction {
 
     private final OrchidContext context;
 
-    @Option @StringDefault("txt")
     @Getter @Setter
+    @Option
+    @Description("The content to compile.")
+    private String input;
+
+    @Getter @Setter
+    @Option @StringDefault("txt")
+    @Description("The extension to compile the inner content against.")
     private String ext;
 
     @Inject
     public CompileAsFunction(OrchidContext context) {
-        super("compileAs");
+        super("compileAs", true);
         this.context = context;
-    }
-
-    @Override
-    public boolean isSafe() {
-        return true;
     }
 
     @Override
