@@ -2,6 +2,7 @@ package com.eden.orchid.api.server;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -14,11 +15,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class OrchidView implements OptionsHolder, AssetHolder {
 
@@ -34,22 +39,22 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     private boolean hasAddedAssets;
 
     @Getter private Provider<OrchidServer> server;
-    @Getter private Provider<Set<AdminList>> adminLists;
+    private Provider<Set<AdminList>> adminLists;
 
-    @Getter private String view;
+    @Getter private String[] views;
     @Getter @Setter private Map<String, ?> data;
 
-    public OrchidView(OrchidContext context, OrchidController controller, String view) {
-        this(context, controller, view, null);
+    public OrchidView(OrchidContext context, OrchidController controller, String... views) {
+        this(context, controller, null, views);
     }
 
-    public OrchidView(OrchidContext context, OrchidController controller, String view, Map<String, ?> data) {
+    public OrchidView(OrchidContext context, OrchidController controller, Map<String, ?> data, String... views) {
         this.context = context;
         this.controller = controller;
-        this.view = view;
+        this.views = views;
         this.data = data;
 
-        this.title = OrchidUtils.camelcaseToTitleCase(view);
+        this.title = "Admin";
 
         this.assets = new AssetHolderDelegate(context, this, "page");
         this.layout = "templates/server/admin/base.peb";
@@ -113,18 +118,21 @@ public class OrchidView implements OptionsHolder, AssetHolder {
 //----------------------------------------------------------------------------------------------------------------------
 
     public final String renderView() {
-        OrchidResource resource = context.getResourceEntry(Clog.format("templates/server/admin/{}.peb", OrchidUtils.normalizePath(this.view)));
-        if(resource != null) {
+        List<String> viewList = Arrays.stream(this.views)
+                .map(s -> Clog.format("templates/server/admin/{}.peb", OrchidUtils.normalizePath(s)))
+                .collect(Collectors.toList());
 
+        OrchidResource resource = context.locateTemplate(viewList);
+        if(resource != null) {
             Map<String, Object> data = new HashMap<>();
             data.put("view", this);
             data.put("controller", controller);
             data.put("cxt", context);
-            data.put("adminLists", adminLists.get());
             data.put("httpServerPort", server.get().getHttpServerPort());
             data.put("websocketPort", server.get().getWebsocketPort());
             data.put("adminTheme", context.getAdminTheme());
             data.put("site", context.getSite());
+            data.put("optionsExtractor", context.getInjector().getInstance(OptionsExtractor.class));
 
             if (this.data != null) {
                 data.putAll(this.data);
@@ -133,7 +141,46 @@ public class OrchidView implements OptionsHolder, AssetHolder {
             return context.compile(resource.getReference().getExtension(), resource.getContent(), data);
         }
 
-        return Clog.format("View '{}' not found", this.view);
+        return Clog.format("View '{}' not found", viewList);
+    }
+
+// Other
+//----------------------------------------------------------------------------------------------------------------------
+
+    public List<AdminList> getAdminLists() {
+        return this.adminLists.get()
+                .stream()
+                .sorted(Comparator.comparing(AdminList::getKey))
+                .collect(Collectors.toList());
+    }
+
+    public List<AdminList> getImportantAdminLists() {
+        return this.adminLists.get()
+                .stream()
+                .filter(adminList -> adminList.isImportantType())
+                .collect(Collectors.toList());
+    }
+
+    public AdminList getGenerators() {
+        for(AdminList list : adminLists.get()) {
+            if(list.getKey().equals("OrchidGenerator")) {
+                return list;
+            }
+        }
+
+        return null;
+    }
+
+    public String getDescriptionLink(Object o) {
+        Class className = (o instanceof Class) ? (Class) o : o.getClass();
+
+        try {
+            return context.getBaseUrl() + "/admin/describe?className=" + URLEncoder.encode(className.getName(), "UTF-8");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }

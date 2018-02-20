@@ -127,6 +127,8 @@ The following tables list all official Orchid packages:
 | Orchid Core          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion) |
 | Orchid Gradle Plugin | [ ![Download](https://img.shields.io/badge/Gradle%20Plugin-v0.4.1-blue.svg)                    ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)  |
 
+{class="table table-striped"}
+
 #### Themes
 
 | Name                  | Version |
@@ -135,6 +137,8 @@ The following tables list all official Orchid packages:
 | OrchidEditorial       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidEditorial/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion) |
 | OrchidFutureImperfect | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidFutureImperfect/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidFutureImperfect/_latestVersion) |
 | OrchidMaterialize     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidMaterialize/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidMaterialize/_latestVersion) |
+
+{class="table table-striped"}
 
 #### Plugins
 
@@ -153,6 +157,8 @@ The following tables list all official Orchid packages:
 | OrchidTaxonomies    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidTaxonomies/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidTaxonomies/_latestVersion) |
 | OrchidWiki          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
 
+{class="table table-striped"}
+
 #### Language Extensions
 
 | Name                    | Version |
@@ -163,6 +169,8 @@ The following tables list all official Orchid packages:
 | OrchidSyntaxHighlighter | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSyntaxHighlighter/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion) |
 | OrchidWritersBlocks     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWritersBlocks/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidWritersBlocks/_latestVersion) |
 
+{class="table table-striped"}
+
 #### Bundles
 
 | Name               | Version |
@@ -170,6 +178,8 @@ The following tables list all official Orchid packages:
 | OrchidAll          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidAll/images/download.svg)               ](https://bintray.com/javaeden/Orchid/OrchidAll/_latestVersion) |
 | OrchidBlog         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBlog/images/download.svg)              ](https://bintray.com/javaeden/Orchid/OrchidBlog/_latestVersion) |
 | OrchidLanguagePack | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSyntaxHighlighter/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion) |
+
+{class="table table-striped"}
 
 ## License
 

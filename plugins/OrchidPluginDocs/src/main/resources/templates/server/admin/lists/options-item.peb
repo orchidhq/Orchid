@@ -1,4 +1,0 @@
-<h1>{{ listItem.class.simpleName | capitalize }}</h1>
-<p><code>{{ listItem.priority }}: [{{ listItem.flag }}]</code></p>
-<p>{{ listItem.itemLength }}</p>
-<p>{{ listItem.required }}</p>

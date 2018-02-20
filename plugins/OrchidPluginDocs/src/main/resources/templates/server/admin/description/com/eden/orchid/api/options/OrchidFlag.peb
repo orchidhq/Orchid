@@ -1,0 +1,6 @@
+{% set 'flag' = controller.provide(classType) %}
+{# @pebvariable name="flag" type="com.eden.orchid.api.options.OrchidFlag" #}
+
+<p><code>{{ flag.priority }}: [{{ flag.flag }}]</code></p>
+<p>{{ flag.itemLength }}</p>
+<p>{{ flag.required }}</p>

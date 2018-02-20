@@ -1,0 +1,19 @@
+{% set 'menuItem' = controller.provide(classType) %}
+{# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem" #}
+
+<p><code>{{ menuItem.priority }}: [{{ menuItem.key }}]</code></p>
+
+<b>Basic Usage</b>
+
+{% highlight 'yaml' %}
+# theme's config, or in any option of type OrchidMenu
+...
+menu:
+  - type: "{{ menuItem.key }}"
+{% if optionsExtractor.hasOptions(classType, true, false) %}
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+    {{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+{% endif %}
+{% endhighlight %}

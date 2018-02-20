@@ -2,7 +2,9 @@ package com.eden.orchid.impl.tasks;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.tasks.TaskService;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
@@ -10,25 +12,17 @@ import java.util.Arrays;
 import java.util.EventListener;
 import java.util.Scanner;
 
+@Description("Makes it easier to create content for your Orchid site by watching your resources for changes and " +
+        "rebuilding the site on any changes."
+)
 public final class InteractiveTask extends OrchidTask implements EventListener {
 
     private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public InteractiveTask(Provider<OrchidContext> contextProvider) {
-        super(100);
+        super(100, "i", TaskService.TaskType.OTHER);
         this.contextProvider = contextProvider;
-    }
-
-    @Override
-    public String getName() {
-        return "i";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Makes it easier to create content for your Orchid site by watching your resources for changes and " +
-                "rebuilding the site on any changes.";
     }
 
     @Override

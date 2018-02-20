@@ -17,9 +17,9 @@ public interface OptionsHolder {
 
     }
 
-    default List<OptionsDescription> describeOptions(OrchidContext context) {
+    default OptionHolderDescription describeOptions(OrchidContext context) {
         OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
-        return extractor.describeOptions(this.getClass());
+        return extractor.describeAllOptions(this.getClass());
     }
 
     default List<String> getOptionNames(OrchidContext context) {

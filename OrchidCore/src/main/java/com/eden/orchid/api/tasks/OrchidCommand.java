@@ -2,6 +2,7 @@ package com.eden.orchid.api.tasks;
 
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
+import lombok.Getter;
 
 /**
  * A Command represents something that can be executed via user-input in an interactive session (such as the
@@ -18,16 +19,12 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidCommand extends Prioritized implements OptionsHolder {
 
-    public OrchidCommand(int priority) {
-        super(priority);
-    }
+    @Getter private final String key;
 
-    /**
-     * Return a pattern to match this command on
-     *
-     * @return the pattern for this command
-     */
-    public abstract boolean matches(String commandName);
+    public OrchidCommand(int priority, String key) {
+        super(priority);
+        this.key = key;
+    }
 
     public abstract String[] parameters();
 

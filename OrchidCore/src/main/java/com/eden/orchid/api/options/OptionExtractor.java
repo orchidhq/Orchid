@@ -27,6 +27,10 @@ public abstract class OptionExtractor<T> extends Prioritized {
 
     public abstract T getDefaultValue(Field field);
 
+    public T[] getArrayDefaultValue(Field field) {
+        return null;
+    }
+
     public String describeDefaultValue(Field field) {
         T value = getDefaultValue(field);
 

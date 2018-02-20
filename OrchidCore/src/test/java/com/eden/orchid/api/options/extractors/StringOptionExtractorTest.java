@@ -23,7 +23,8 @@ public class StringOptionExtractorTest {
 
     private OrchidContext context;
     private StringConverter stringConverter;
-    private StringOptionExtractor underTest;
+    private StringOptionExtractor underTestScalar;
+    private StringArrayOptionExtractor underTestArray;
     private String optionKey;
     private JSONObject optionsObject;
 
@@ -34,7 +35,8 @@ public class StringOptionExtractorTest {
         Clog.setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
         stringConverter = new StringConverter(new ClogStringConverterHelper());
-        underTest = new StringOptionExtractor(() -> context, stringConverter);
+        underTestScalar = new StringOptionExtractor(() -> context, stringConverter);
+        underTestArray = new StringArrayOptionExtractor(() -> context, stringConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();
@@ -47,19 +49,19 @@ public class StringOptionExtractorTest {
     public void testCanHandleValueClass() throws Throwable {
         field = ClassTestClass.class.getField("emptyDefaultField");
 
-        assertThat(underTest.acceptsClass(String.class), is(true));
+        assertThat(underTestScalar.acceptsClass(String.class), is(true));
 
         optionsObject.put(optionKey, "11");
-        assertThat(underTest.getOption(field, optionsObject, optionKey), is(equalTo("11")));
+        assertThat(underTestScalar.getOption(field, optionsObject, optionKey), is(equalTo("11")));
 
         optionsObject.remove(optionKey);
         assertThat(optionsObject.has(optionKey), is(false));
 
         field = ClassTestClass.class.getField("emptyDefaultField");
-        assertThat(underTest.getOption(field, optionsObject, optionKey), is(equalTo("")));
+        assertThat(underTestScalar.getOption(field, optionsObject, optionKey), is(equalTo("")));
 
         field = ClassTestClass.class.getField("filledDefaultField");
-        assertThat(underTest.getOption(field, optionsObject, optionKey), is(equalTo("11")));
+        assertThat(underTestScalar.getOption(field, optionsObject, optionKey), is(equalTo("11")));
     }
 
     @Test
@@ -68,32 +70,32 @@ public class StringOptionExtractorTest {
 
         field = ArrayTestClass.class.getField("emptyDefaultField");
 
-        assertThat(underTest.acceptsClass(String[].class), is(true));
+        assertThat(underTestArray.acceptsClass(String[].class), is(true));
 
         optionsObject.put(optionKey, new String[] {"11", "12", "13"});
-        assertThat(underTest.getArray(field, optionsObject, optionKey), IsArrayContainingInAnyOrder.arrayContainingInAnyOrder("11", "12", "13"));
+        assertThat(underTestArray.getArray(field, optionsObject, optionKey), IsArrayContainingInAnyOrder.arrayContainingInAnyOrder("11", "12", "13"));
 
         optionsObject.remove(optionKey);
         assertThat(optionsObject.has(optionKey), is(false));
 
         field = ArrayTestClass.class.getField("emptyDefaultField");
-        assertThat(underTest.getArray(field, optionsObject, optionKey), is(emptyArray()));
+        assertThat(underTestArray.getArray(field, optionsObject, optionKey), is(emptyArray()));
     }
 
     @Test
     public void testCanHandleList() throws Throwable {
         field = ListTestClass.class.getField("emptyDefaultField");
 
-        assertThat(underTest.acceptsClass(String[].class), is(true));
+        assertThat(underTestArray.acceptsClass(String[].class), is(true));
 
         optionsObject.put(optionKey, Collections.singletonList("11"));
-        assertThat(underTest.getList(field, optionsObject, optionKey), containsInAnyOrder("11"));
+        assertThat(underTestArray.getList(field, optionsObject, optionKey), containsInAnyOrder("11"));
 
         optionsObject.remove(optionKey);
         assertThat(optionsObject.has(optionKey), is(false));
 
         field = ListTestClass.class.getField("emptyDefaultField");
-        assertThat(underTest.getList(field, optionsObject, optionKey), hasSize(equalTo(0)));
+        assertThat(underTestArray.getList(field, optionsObject, optionKey), hasSize(equalTo(0)));
     }
 
 // testing classes

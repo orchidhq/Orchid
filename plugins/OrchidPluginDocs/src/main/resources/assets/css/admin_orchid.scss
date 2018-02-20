@@ -2,3 +2,11 @@
     max-width: 350px; /* set this to your maximum fitting width */
     width: inherit; /* will take up least amount of space */
 }
+
+.tab-pane .table {
+    margin-bottom: 0 !important;
+}
+
+.tab-pane .table thead td {
+    border-top: none !important;
+}

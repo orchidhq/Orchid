@@ -15,7 +15,7 @@ class NetlifyCmsAdminPage(
     public fun getTemplateFields(tag: TemplateTag): JSONArray {
         val fields = JSONArray()
 
-        tag.describeOptions(context).forEach {
+        tag.describeOptions(context).optionsDescriptions.forEach {
             fields.put(it.toNetlifyCmsField())
         }
 
@@ -35,7 +35,7 @@ class NetlifyCmsAdminPage(
 
         var params = ""
 
-        tag.describeOptions(context).forEach {
+        tag.describeOptions(context).optionsDescriptions.forEach {
             params += "${it.key}=\"(.*)\" "
         }
 
@@ -52,12 +52,12 @@ class NetlifyCmsAdminPage(
     public fun parseTagPattern(tag: TemplateTag): String {
         var data = JSONObject()
 
-        tag.describeOptions(context).forEachIndexed { index, optionsDescription ->
+        tag.describeOptions(context).optionsDescriptions.forEachIndexed { index, optionsDescription ->
             data.put(optionsDescription.key, "match[${index+1}]")
         }
 
         if(tag.hasContent()) {
-            data.put("body", "match[${tag.describeOptions(context).size+1}]")
+            data.put("body", "match[${tag.describeOptions(context).optionsDescriptions.size+1}]")
         }
 
         return data.toString().replace(Regex("\"match\\[(\\d+)]\""), "match[$1]")
@@ -68,7 +68,7 @@ class NetlifyCmsAdminPage(
 
         var params = ""
 
-        tag.describeOptions(context).forEach { optionsDescription ->
+        tag.describeOptions(context).optionsDescriptions.forEach { optionsDescription ->
             params += "${optionsDescription.key}=\"\${obj.${optionsDescription.key}}\" "
         }
 

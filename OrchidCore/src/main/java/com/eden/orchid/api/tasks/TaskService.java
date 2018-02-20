@@ -10,6 +10,10 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(TaskServiceImpl.class)
 public interface TaskService extends OrchidService {
 
+    public enum TaskType {
+        BUILD, WATCH, SERVE, OTHER
+    }
+
     default boolean runTask(String taskName) {
         return getService(TaskService.class).runTask(taskName);
     }
@@ -28,5 +32,9 @@ public interface TaskService extends OrchidService {
 
     default void serve() {
         getService(TaskService.class).serve();
+    }
+
+    default TaskType getTaskType() {
+        return getService(TaskService.class).getTaskType();
     }
 }

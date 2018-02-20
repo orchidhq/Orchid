@@ -88,7 +88,7 @@ constructor(
         collectionData.put("folder", "${OrchidUtils.normalizePath(resourceRoot)}/${collection.resourceRoot}")
         collectionData.put("create", collection.isCanCreate)
         collectionData.put("fields", JSONArray())
-        extractor.describeOptions(collection.pageClass).forEach {
+        extractor.describeAllOptions(collection.pageClass).optionsDescriptions.forEach {
             collectionData.getJSONArray("fields").put(it.toNetlifyCmsField())
         }
         collectionData.getJSONArray("fields").put(getBodyField())
@@ -104,7 +104,7 @@ constructor(
             pageData.put("file", "${OrchidUtils.normalizePath(resourceRoot)}/${page.resource.reference.originalFullFileName}")
 
             pageData.put("fields", JSONArray())
-            page.describeOptions(context).forEach {
+            page.describeOptions(context).optionsDescriptions.forEach {
                 pageData.getJSONArray("fields").put(it.toNetlifyCmsField())
             }
             pageData.getJSONArray("fields").put(getBodyField())
@@ -123,7 +123,7 @@ constructor(
             pageData.put("file", "${OrchidUtils.normalizePath(resourceRoot)}/${res.reference.originalFullFileName}")
 
             pageData.put("fields", JSONArray())
-            extractor.describeOptions(collection.itemClass).forEach {
+            extractor.describeAllOptions(collection.itemClass).optionsDescriptions.forEach {
                 pageData.getJSONArray("fields").put(it.toNetlifyCmsField())
             }
             pageData.getJSONArray("fields").put(getBodyField())

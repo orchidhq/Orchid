@@ -58,12 +58,27 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/innerpage">
-                        <i class="icon-home"></i>
-                        <span>inner page</span>
-                    </a>
-                </li>
+
+                {% for adminList in view.importantAdminLists %}
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="icon-organization"></i>
+                            <b>{{ adminList.key | capitalize }}</b>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                        {# @pebvariable name="view" type="com.eden.orchid.api.server.OrchidView" #}
+                        {% for item in adminList.getItems() %}
+                        {# @pebvariable name="generator" type="com.eden.orchid.api.generators.OrchidGenerator" #}
+                            <li class="nav-item">
+                                <a class="nav-link pl-4" href="{{ view.getDescriptionLink(item.class) }}">
+                                    <i class="icon-organization"></i>
+                                    <span>{{ item.class.simpleName | capitalize }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
             </ul>
         </nav>
     </div>
@@ -78,7 +93,7 @@
 
             <li class="breadcrumb-menu">
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn" href="https://javaeden.github.io/Orchid/latest/OrchidCore/">
+                    <a class="btn" href="https://orchid.netlify.com">
                         <i class="fa fa-book"></i>&nbsp;<span>Documentation</span>
                     </a>
                 </div>
@@ -116,7 +131,7 @@
     </main>
 
     <aside class="aside-menu">
-        {# TODO: Setup structure to registering aside tabs/panes #}
+    {# TODO: Setup structure to registering aside tabs/panes #}
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#availableOptions" role="tab">
@@ -134,23 +149,23 @@
         <div class="tab-content">
             <div class="tab-pane active" id="availableOptions" role="tabpanel">
 
-                {% for adminList in adminLists %}
-                    <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase admin-list-header"
-                         data-list-key="{{ adminList.key }}">
-                        <small><b>{{ adminList.key | capitalize }}</b></small>
-                    </div>
+            {% for adminList in view.adminLists %}
+                <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase admin-list-header"
+                     data-list-key="{{ adminList.key }}">
+                    <small><b>{{ adminList.key | capitalize }}</b></small>
+                </div>
+                <hr class="mx-3 my-0">
+                <div class="admin-list-body" data-list-key="{{ adminList.key }}" style="display: none">
+                {% for item in adminList.getItems() %}
+                    <a href="{{ view.getDescriptionLink(item) }}">
+                        <div class="callout callout-warning m-0 py-1">
+                            <div><strong>{{ item.class.simpleName }}</strong></div>
+                        </div>
+                    </a>
                     <hr class="mx-3 my-0">
-                    <div class="admin-list-body" data-list-key="{{ adminList.key }}" style="display: none">
-                        {% for item in adminList.getItems() %}
-                            <a href="/admin/lists/{{ adminList.key }}/{{ adminList.getItemId(item) }}">
-                                <div class="callout callout-warning m-0 py-1">
-                                    <div><strong>{{ item.class.simpleName }}</strong></div>
-                                </div>
-                            </a>
-                            <hr class="mx-3 my-0">
-                        {% endfor %}
-                    </div>
                 {% endfor %}
+                </div>
+            {% endfor %}
             </div>
 
             <div class="tab-pane" id="timeline" role="tabpanel">
@@ -173,7 +188,9 @@
             <span class="input-group-btn form-control-lg p-0">
                 <button class="btn btn-secondary" type="button" style="height: 50px;">Submit</button>
             </span>
-            <input id="message" type="text" class="form-control form-control-lg" placeholder="Enter Command...">
+            <input id="message" list="command-history" type="text" class="form-control form-control-lg"
+                   placeholder="Enter Command...">
+            <datalist id="command-history"></datalist>
         </div>
     </form>
 </footer>

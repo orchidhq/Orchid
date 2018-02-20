@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -106,6 +107,11 @@ public final class OrchidContextImpl implements OrchidContext {
     @SuppressWarnings("unchecked")
     public <T extends OrchidService> T getService(Class<T> serviceClass) {
         return (T) services.get(serviceClass);
+    }
+
+    @Override
+    public Collection<OrchidService> getServices() {
+        return services.values();
     }
 
     @Override

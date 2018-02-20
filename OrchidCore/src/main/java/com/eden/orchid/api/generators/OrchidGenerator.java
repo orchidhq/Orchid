@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +52,7 @@ import java.util.stream.Stream;
  * @since v1.0.0
  * @orchidApi extensible
  */
+@Extensible
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 
     /**

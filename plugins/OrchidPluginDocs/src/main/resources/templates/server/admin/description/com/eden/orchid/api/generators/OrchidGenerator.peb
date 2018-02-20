@@ -1,0 +1,24 @@
+{% set 'generator' = controller.provide(classType) %}
+{# @pebvariable name="generator" type="com.eden.orchid.api.generators.OrchidGenerator" #}
+
+{% if optionsExtractor.hasOptions(classType, true, false) %}
+<b>Default Config</b>
+
+{% highlight 'yaml' %}
+# config.yml
+...
+{{ generator.key }}:
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+  {{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+{% endhighlight %}
+<i>or</i>
+{% highlight 'yaml' %}
+# data/{{ generator.key }}.yml
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+{% endhighlight %}
+{% endif %}

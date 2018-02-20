@@ -18,6 +18,7 @@ import okhttp3.Response;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -68,6 +70,9 @@ public final class ResourceServiceImpl implements ResourceService {
     public void initialize(OrchidContext context) {
         this.context = context;
     }
+
+// Load many datafiles into a single JSONObject
+//----------------------------------------------------------------------------------------------------------------------
 
     @Override
     public JSONObject getDatafile(final String fileName) {
@@ -138,6 +143,9 @@ public final class ResourceServiceImpl implements ResourceService {
         }
     }
 
+// Get a single resource from an exact filename
+//----------------------------------------------------------------------------------------------------------------------
+
     @Override
     public OrchidResource getLocalResourceEntry(final String fileName) {
         return fileResourceSources
@@ -186,6 +194,9 @@ public final class ResourceServiceImpl implements ResourceService {
         // return the resource if found, otherwise null
         return resource;
     }
+
+// Get all matching resources
+//----------------------------------------------------------------------------------------------------------------------
 
     @Override
     public List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
@@ -259,6 +270,9 @@ public final class ResourceServiceImpl implements ResourceService {
                 });
     }
 
+// Load a file from a local or remote URL
+//----------------------------------------------------------------------------------------------------------------------
+
     @Override
     public JSONObject loadAdditionalFile(String url) {
         if (!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
@@ -303,6 +317,9 @@ public final class ResourceServiceImpl implements ResourceService {
 
         return null;
     }
+
+// Find closest file
+//----------------------------------------------------------------------------------------------------------------------
 
     @Override
     public OrchidResource findClosestFile(String filename) {
@@ -349,6 +366,73 @@ public final class ResourceServiceImpl implements ResourceService {
         }
 
         return null;
+    }
+
+
+// Find first matching resource
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public OrchidResource locateTemplate(String fileNames) {
+        if(fileNames.startsWith("?")) {
+            return locateTemplate(StringUtils.stripStart(fileNames, "?"), true);
+        }
+        else {
+            return locateTemplate(fileNames, false);
+        }
+    }
+
+    @Override
+    public OrchidResource locateTemplate(final String[] fileNames) {
+        return locateTemplate(fileNames, true);
+    }
+
+    @Override
+    public OrchidResource locateTemplate(List<String> fileNames) {
+        return locateTemplate(fileNames, true);
+    }
+
+    @Override
+    public OrchidResource locateTemplate(String fileNames, boolean ignoreMissing) {
+        return locateTemplate(fileNames.split(","), ignoreMissing);
+    }
+
+    @Override
+    public OrchidResource locateTemplate(final String[] fileNames, boolean ignoreMissing) {
+        List<String> fileNamesList = new ArrayList<>();
+        Collections.addAll(fileNamesList, fileNames);
+        return locateTemplate(fileNamesList, ignoreMissing);
+    }
+
+    @Override
+    public OrchidResource locateTemplate(final List<String> fileNames, boolean ignoreMissing) {
+        for(String template : fileNames) {
+            OrchidResource resource = locateSingleTemplate(template);
+            if(resource != null) {
+                return resource;
+            }
+        }
+
+        if(ignoreMissing) {
+            return null;
+        }
+        else {
+            throw new IllegalArgumentException("Could not find template in list \"" + fileNames + "\"");
+        }
+    }
+
+
+    private OrchidResource locateSingleTemplate(String templateName) {
+        String fullFileName = OrchidUtils.normalizePath(OrchidUtils.normalizePath(templateName));
+
+        if(!fullFileName.startsWith("templates/")) {
+            fullFileName = "templates/" + fullFileName;
+        }
+        if(!fullFileName.contains(".")) {
+            fullFileName = fullFileName + "." + context.getTheme().getPreferredTemplateExtension();
+        }
+
+        return context.getResourceEntry(fullFileName);
     }
 
 }

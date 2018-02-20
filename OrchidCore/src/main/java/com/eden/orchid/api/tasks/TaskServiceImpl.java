@@ -41,6 +41,8 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     private final String task;
     private final String resourcesDir;
 
+    @Getter private TaskType taskType;
+
     private long lastBuild;
     private boolean isBuilding;
 
@@ -90,6 +92,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 .orElse(null);
 
         if (foundTask != null) {
+            taskType = foundTask.getTaskType();
             context.broadcast(Orchid.Lifecycle.TaskStart.fire(this));
             foundTask.run();
             context.broadcast(Orchid.Lifecycle.TaskFinish.fire(this));
@@ -106,7 +109,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         OrchidCommand foundCommand = commands
                 .stream()
                 .sorted()
-                .filter(command -> command.matches(commandName))
+                .filter(command -> command.getKey().equalsIgnoreCase(commandName))
                 .findFirst()
                 .orElse(null);
 
@@ -159,6 +162,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
                 context.clearThemes();
                 context.pushTheme(context.getDefaultTheme());
+
+                if(taskType == TaskType.SERVE) {
+                    context.clearAdminThemes();
+                    context.pushAdminTheme(context.getDefaultAdminTheme());
+                }
 
                 context.extractServiceOptions();
 

@@ -1,2 +1,0 @@
-<h1>{{ listItem.class.simpleName | capitalize }}</h1>
-<p><code>{{ listItem.priority }}: [{{ listItem.key }}]</code></p>
