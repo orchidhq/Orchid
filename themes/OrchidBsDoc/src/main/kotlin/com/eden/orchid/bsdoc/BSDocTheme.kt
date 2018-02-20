@@ -1,12 +1,14 @@
 package com.eden.orchid.bsdoc
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.models.Social
+import org.json.JSONObject
 import javax.inject.Inject
 
 class BSDocTheme @Inject
@@ -23,6 +25,14 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
     @Option
     @Description("Your social media links.")
     var social: Social? = null
+
+    @Option
+    @Description("Custom options for Trianglify.")
+    lateinit var trianglifyOptions: JSONObject
+
+    @Option @BooleanDefault(true)
+    @Description("Whether to show the current verision in the header and footer..")
+    var showVersion: Boolean = true
 
     @Option
     @Description("Components to include in the sidebar, below the page menu.")

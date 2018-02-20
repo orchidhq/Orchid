@@ -1,22 +1,21 @@
-<div class="bs-docs-sidebar hidden-print">
+<div class="bs-docs-sidebar hidden-print" id="bs-docs-sidebar">
     <ul class="nav bs-docs-sidenav">
         {% for menuItem in page.menu.getMenuItems(page) %}
             {% if menuItem.hasChildren() %}
-                <li class="has-children {% for childLink in menuItem.children %}{% if childLink.title|length > 0 %}{{ (page == childLink.page) ? 'active' : '' }}{% endif %}{% endfor %}">
+                <li class="has-children {{ menuItem.activeClass(page) }}">
                     <a>{{ menuItem.title | title }}</a>
                     <ul class="nav">
                         {% for childLink in menuItem.children %}
                             {% if childLink.title|length > 0 %}
-                                <li class="{{ (page == childLink.page) ? 'active' : '' }}"><a
-                                            href="{{ childLink.link }}">{{ childLink.title }}</a></li>
+                                <li class="{{ childLink.activeClass(page) }}">
+                                    <a href="{{ childLink.link }}">{{ childLink.title }}</a>
+                                </li>
                             {% endif %}
                         {% endfor %}
                     </ul>
                 </li>
             {% elseif menuItem.isSeparator() %}
-                <li>
-                    <div class="divider"></div>
-                </li>
+                <li><div class="divider"></div></li>
                 {% if menuItem.title|length > 0 %}
                     <li><a class="subheader">{{ menuItem.title }}</a></li>
                 {% endif %}

@@ -1,15 +1,26 @@
-function trianglify() {
+function trianglify(allOptions) {
     var header = $('#jumbotron');
 
-    var t = new Trianglify({
-        cellsize: 90,
-        noiseIntensity: 0,
-        x_gradient: [window.colors[1], window.colors[0]]
+    $(window).resize(function() {
+        trianglify(reverseColors, allOptions);
     });
 
-    var pattern = t.generate(window.screen.width | header.outerWidth(), header.outerHeight() * 1.2);
+    var defaultOptions = {
+        cell_size: 90,
+        x_colors: [window.colors[1], window.colors[0]],
+        y_colors: 'match_x',
+        height: header.outerHeight(),
+        width: header.outerWidth()
+    };
+    if (allOptions) {
+        for (var key in allOptions) {
+            defaultOptions[key] = allOptions[key];
+        }
+    }
+    var trianglifyOptions = defaultOptions;
 
-    header.css('background-image', pattern.dataUrl);
+    var pattern = Trianglify(trianglifyOptions);
+    header.css('background-image', 'url(' + pattern.png() + ')');
 }
 
 function geopattern(title, selectedPattern) {
@@ -25,7 +36,13 @@ function geopattern(title, selectedPattern) {
 }
 
 function buildNav() {
-    var $root = $('html, body');
+    setupSidenavClick();
+    setupSmoothScroll();
+    setupScrollspy();
+    setupTooltips();
+}
+
+function setupSmoothScroll() {
     $('a').click(function () {
         var href = $.attr(this, 'href');
 
@@ -34,7 +51,7 @@ function buildNav() {
                 var target = $(href);
 
                 if (target.length != 0) {
-                    $root.animate({
+                    $('html, body').animate({
                         scrollTop: target.offset().top - 72
                     }, 500, function () {
                         window.location.hash = href;
@@ -47,10 +64,30 @@ function buildNav() {
 
         return true;
     });
+}
 
-    $('.nav.bs-docs-sidenav li.has-children').click(function () {
-        $(this).toggleClass('active');
+function setupSidenavClick() {
+    $('.nav.bs-docs-sidenav li.has-children > a').click(function () {
+        $(this).parent().toggleClass('active');
     });
+}
 
+function setupScrollspy() {
+    var sidebar = $('#bs-docs-sidebar');
+    if(sidebar.length > 0) {
+        console.log("scrolling spy");
+        $('body').scrollspy({
+            target: '#bs-docs-sidebar'
+        });
+        sidebar.affix({
+            offset: {
+                top: function() {return $('#jumbotron').outerHeight();},
+                bottom: function() {return $('#footer').outerHeight();}
+            }
+        })
+    }
+}
+
+function setupTooltips() {
     $('[data-toggle="tooltip"]').tooltip();
 }

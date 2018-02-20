@@ -148,4 +148,33 @@ public class OrchidMenuItemImpl {
     public boolean isSeparator() {
         return isSeparator;
     }
+
+    public boolean isActivePage(OrchidPage page) {
+        return !hasChildren && this.page == page;
+    }
+
+    public boolean isActive(OrchidPage page) {
+        return isActivePage(page) || hasActivePage(page);
+    }
+
+    public boolean hasActivePage(OrchidPage page) {
+        if(hasChildren) {
+            for(OrchidMenuItemImpl child : children) {
+                if(child.isActivePage(page) || child.hasActivePage(page)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public String activeClass(OrchidPage page) {
+        return activeClass(page, "active");
+    }
+
+    public String activeClass(OrchidPage page, String className) {
+        return (isActivePage(page)) ? className : "";
+    }
+
 }
