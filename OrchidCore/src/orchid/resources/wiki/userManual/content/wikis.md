@@ -5,4 +5,4 @@ bundles:
   - OrchidAll
 ---
 
-{% extends '_contentWikiBase' %}
+{% extends '_wikiBase_contentTypes' %}

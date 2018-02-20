@@ -174,7 +174,7 @@ public class OrchidMenuItemImpl {
     }
 
     public String activeClass(OrchidPage page, String className) {
-        return (isActivePage(page)) ? className : "";
+        return (isActive(page)) ? className : "";
     }
 
 }

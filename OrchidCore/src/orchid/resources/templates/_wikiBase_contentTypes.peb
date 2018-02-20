@@ -1,3 +1,6 @@
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
 {% block pluginNotice %}
 > The [{{ pluginName  }}]({{ link(pluginName, 'staticPages-plugins') }}) plugin must be installed in order to use
 > {{ contentTypeTitle | pluralize }}. It can be included on its own, or added as part of the following bundles:
@@ -9,7 +12,9 @@
 
 {.alert .alert-info}
 {% endblock %}
+{% endblock %}
 
+{% block sectionBody %}
 {% block pluginNotes %}
 
 {% endblock %}
@@ -19,5 +24,5 @@
 {% endblock %}
 
 {% block pluginFooter %}
-
+{% endblock %}
 {% endblock %}

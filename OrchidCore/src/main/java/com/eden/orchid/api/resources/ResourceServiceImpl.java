@@ -373,6 +373,47 @@ public final class ResourceServiceImpl implements ResourceService {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
+    public OrchidResource locateLocalResourceEntry(final String fileName) {
+        return locateLocalResourceEntry(fileName, new ArrayList<>(context.getCompilerExtensions()));
+    }
+
+    @Override
+    public OrchidResource locateLocalResourceEntry(final String fileName, String[] fileExtensions) {
+        List<String> extensions = new ArrayList<>();
+        Collections.addAll(extensions, fileExtensions);
+        return locateLocalResourceEntry(fileName, extensions);
+    }
+
+    @Override
+    public OrchidResource locateLocalResourceEntry(final String fileName, List<String> fileExtensions) {
+        String fullFileName = OrchidUtils.normalizePath(fileName);
+        if(!fullFileName.contains(".")) {
+            for(String extension : fileExtensions) {
+                String testFileName = fullFileName + "." + extension;
+                OrchidResource resource = getLocalResourceEntry(testFileName);
+                if(resource != null) {
+                    return resource;
+                }
+            }
+        }
+
+        return getLocalResourceEntry(fullFileName);
+    }
+
+    private OrchidResource locateSinglePage(String templateName, String extension) {
+        String fullFileName = OrchidUtils.normalizePath(templateName);
+
+        if(!fullFileName.contains(".")) {
+            fullFileName = fullFileName + "." + extension;
+        }
+
+        return context.getResourceEntry(fullFileName);
+    }
+
+
+
+
+    @Override
     public OrchidResource locateTemplate(String fileNames) {
         if(fileNames.startsWith("?")) {
             return locateTemplate(StringUtils.stripStart(fileNames, "?"), true);
@@ -420,7 +461,6 @@ public final class ResourceServiceImpl implements ResourceService {
             throw new IllegalArgumentException("Could not find template in list \"" + fileNames + "\"");
         }
     }
-
 
     private OrchidResource locateSingleTemplate(String templateName) {
         String fullFileName = OrchidUtils.normalizePath(OrchidUtils.normalizePath(templateName));
