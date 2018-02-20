@@ -1,6 +1,7 @@
 package com.eden.orchid.api.tasks;
 
 import com.eden.orchid.api.registration.Prioritized;
+import lombok.Getter;
 
 /**
  * A Runnable tailored for executing some task in Orchid. The 'name' of this OrchidTask is used on the command-line for
@@ -11,21 +12,13 @@ import com.eden.orchid.api.registration.Prioritized;
  */
 public abstract class OrchidTask extends Prioritized implements Runnable {
 
-    public OrchidTask(int priority) {
+    @Getter private final String name;
+    @Getter private final TaskService.TaskType taskType;
+
+    public OrchidTask(int priority, String name, TaskService.TaskType taskType) {
         super(priority);
+        this.name = name;
+        this.taskType = taskType;
     }
 
-    /**
-     * Return the name of this OrchidTask
-     *
-     * @return the name of this task
-     */
-    public abstract String getName();
-
-    /**
-     * Return a description of what this OrchidTask does, which is displayed when listing available Tasks.
-     *
-     * @return the description of this OrchidTask
-     */
-    public abstract String getDescription();
 }

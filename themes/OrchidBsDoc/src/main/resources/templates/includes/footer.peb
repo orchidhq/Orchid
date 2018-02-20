@@ -4,28 +4,36 @@
             <nav aria-label="navigateClasses">
                 <ul class="pager">
                     {% if page.previous is not empty %}
-                        <li class="previous"><a href="{{ page.previous.link }}"><span
-                                        aria-hidden="true">&larr;</span> {{ page.previous.title }}</a></li>
+                        <li class="previous">
+                            <a href="{{ page.previous.link }}">
+                                <span aria-hidden="true">&larr;</span>
+                                <span>{{ page.previous.title }}</span>
+                            </a>
+                        </li>
                     {% endif %}
 
                     {% if page.next is not empty %}
-                        <li class="next"><a href="{{ page.next.link }}">{{ page.next.title }} <span
-                                        aria-hidden="true">&rarr;</span></a></li>
+                        <li class="next">
+                            <a href="{{ page.next.link }}">
+                                <span>{{ page.next.title }}</span>
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
     </div>
     <br>
-
     <p>
         Documentation template based on the
         <a href="https://github.com/mistic100/jekyll-bootstrap-doc">Jekyll Bootstrap Doc</a>
         Jekyll theme by the <a href="http://getbootstrap.com">Bootstrap team</a>. Site created with
-        <a href="https://github.com/JavaEden/Orchid">Orchid</a>
+        <a href="https://orchid.netlify.com">Orchid</a>.
     </p>
-
-    <ul class="bs-docs-footer-links muted">
-        <li>Currently {{ site.version }}</li>
-    </ul>
+    {% if theme.showVersion %}
+        <ul class="bs-docs-footer-links muted">
+            <li>Currently {{ site.version }}</li>
+        </ul>
+    {% endif %}
 </footer>

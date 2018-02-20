@@ -6,7 +6,6 @@
 @import "github_ribbon";
 @import "jumbotron";
 
-
 .bs-docs-container {
   img {
     max-width: 100%;
@@ -15,4 +14,57 @@
 
 .bs-docs-masthead, .bs-docs-header {
   padding-top: 112px;
+}
+
+.nav.bs-docs-sidenav a {
+  cursor: pointer;
+}
+
+#footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+@media screen and (min-width: 43.26em) {
+  #jumbotron.bs-docs-masthead.full-size {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .home-title img {
+      width: 60%;
+    }
+  }
+}
+
+@media screen and (max-width: 43.25em) {
+  #jumbotron.bs-docs-masthead.full-size {
+    height: initial;
+    img {
+      width: 80%;
+    }
+  }
+}
+
+.strobe {
+  animation: strobe 2s infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes strobe {
+  from, to {
+    filter: drop-shadow(-4px 4px 8px #EFEFEF);
+  }
+  50% {
+    filter: drop-shadow(-4px 4px 10px #F4F4F4);
+  }
 }

@@ -1,4 +1,0 @@
-
-<h1>{{ listItem.class.simpleName | capitalize }}</h1>
-<p><code>{{ listItem.priority }}: [{{ listItem.sourceExtensions | join('</code>, <code>') | raw }}]</code></p>
-<p><code>{{ listItem.outputExtension }}</code></p>

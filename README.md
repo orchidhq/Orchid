@@ -27,17 +27,14 @@ private plugins and a rich API so you can make your site as beautiful and unique
 - Admin interface to manage your content and gain deep insights into your build
 - Link to other Orchid sites
 - Powerful and flexible indexing, unique to Orchid
-- Fully replaces Jekyll, Gitbook, Javadocs, and more!
+- Fully replaces Jekyll, Hugo, Gitbook, Javadocs, and more!
 
-[View the full documentation](http://javaeden.github.io/orchid/latest/OrchidCore) or see the quick-start below.
+[View the full documentation](https://orchid.netlify.com) or see the quick-start below.
 
 ## Table of Contents
 
-1. [Installation](#installation)
-1. [Site Configuration](#site-configuration)
-1. [Page Configuration](#page-configuration)
-1. [Components and menus](#components-and-menus)
-1. [Theming](#theming)
+1. [Quick Start](#quick-start)
+1. [Example Orchid Sites](#example-orchid-sites)
 1. [Development Progress](#development-progress)
     1. [Core Packages](#core-packages)
     1. [Themes](#themes)
@@ -46,14 +43,23 @@ private plugins and a rich API so you can make your site as beautiful and unique
 1. [Contributing](#contributing)
 1. [Contact](#contact)
 
-## Installation
+## Quick Start
 
-Orchid integrates with any new or existing Gradle project. To get started, pick a Bundle (OrchidAll, OrchidBlog, or 
-OrchidProduct) or manually choose your desired Orchid plugins. You may pick a bundle to start with and add any number of 
-plugins afterward, both official and unofficial. Then, setup your project's `build.gradle` file like so:
+Orchid integrates with any new or existing Gradle project. The simplest way to get started is to deploy the 
+[starter repo](https://github.com/JavaEden/OrchidStarter) directly to Netlify. Just click the button below to 
+automatically clone this repo and deploy it to Netlify. The starter repo includes the 
+[Netlify CMS](https://www.netlifycms.org/), so you will be up and publishing content as soon as possible. You will need 
+to set the Github user/repo in `src/orchid/resources/config.yml`, but the rest of the CMS config is automatically 
+generated based on your current Orchid plugins and configurations. 
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JavaEden/OrchidStarter)
+
+To run Orchid locally, the only system dependency necessary is a valid Java 8 JDK. Orchid is run via Gradle, and can 
+integrate with any new or existing Gradle project. To get started, pick a Bundle (OrchidAll or OrchidBlog) or manually 
+choose your desired Orchid plugins. You may pick a bundle to start with and add any number of plugins afterward, both 
+official and unofficial. Then, setup your project's build.gradle file like so:
 
 ```groovy
-
 plugins {
     // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL   
     id "com.eden.orchidPlugin" version "{version}"
@@ -68,23 +74,22 @@ repositories {
 
 dependencies {
     // Add an Orchid Bundle. OrchidAll comes with all official themes included.
-    // You must include a theme separately when using the OrchidBlog and OrchidProduct bundles 
+    // You must include a theme separately when using the OrchidBlog bundle.
+    // Any additional plugins may be added as dependencies here as well.
     orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{version}'
 }
 
 orchid {
-    // Version, theme, and baseUrl are required
-    version = "${project.version}"
+    // Theme is required
     theme   = "{theme}"
     
     // The following properties are optional
-    
+    version = "${project.version}"
     baseUrl = "{baseUrl}"                         // a baseUrl appended to all generated links. Defaults to '/'
     srcDir  = "path/to/new/source/directory"      // defaults to 'src/orchid/resources'
     destDir = "path/to/new/destination/directory" // defaults to 'build/docs/orchid'
     runTask = "build"                             // specify a task to run with 'gradle orchidRun'
 }
-
 ```
 
 You can now run Orchid in the following ways:
@@ -101,103 +106,12 @@ The Orchid Gradle plugin adds a new configuration and content root to your proje
 (you may have to create this folder yourself). All your site content sits in `src/orchid/resources`, and any 
 additional classes you'd like to include as a private plugin can be placed in `src/orchid/java`. 
 
-## Site Configuration
+## Example Orchid Sites
 
-You should create a `config.yml` file in your resources directory to customize your theme or configure your build. These values are then "injected" into various classes throughout the build, including themes, services, generators, pages, components, and menu items, and then are available for use simply as properties of the object they were injected into. A sample `config.yml` looks like:
-
-```yaml
-# options for the Theme
-Editorial:
-  extraCss: ['assets/css/customCss.scss'] # extra CSS or JS can be added to any Theme, Page, or Component
-  menu: # the theme defined at menu at `menu`. Each object is injected into the menu item it creates. Pages may also define their own menus or component areas
-    - type: 'link'
-      title: 'Home'
-      url: '/'
-    - type: 'postCategories'
-      category: 'personal'
-      title: 'blog'
-    - type: 'page'
-      page: 'Contact'
-  sidebar: # Similar to menus, the theme defined at sidebare to hold Components. Each object is injected into the object it creates.
-    - type: recentPosts
-      limit: 3
-      category: programming
-      templates: # any Component or Page can specify a list of templates, the first matching template will be used
-          - 'includes/postPreview_mini'
-    - type: recentPosts
-      limit: 5
-      category: personal
-      templates:
-          - 'includes/postPreview_list'
-
-# Set the options for the Assets, Pages, and posts generators. 
-assets: 
-  sourceDirs: # set directories to copy all assets from
-    - 'assets/images'
-
-pages:
-  layout: single # Generators can specify a default layout for the pages they generate, otherwise it is decided by the Page or falls back to 'index'
-
-# Some plugins can be quite highly configurable, such as OrchidPosts
-posts:
-  layout: single
-  permalink: ':category/:year/:month/:slug'
-  disqusShortname: 'shortname'
-  categories:
-    - 'personal'
-    - 'programming'
-  authors:
-    - name: 'Author'
-      avatar: 'assets/images/avatar.jpg'
-```
-
-## Page Configuration
-
-While Orchid does not mandate any folder structure (leaving it up to plugins to define), plugins that use files on disk can add options to the page with FrontMatter. FrontMatter is a block of YAML between a pair of three dashes `---` on their own line. When FrontMatter is given (even if nothing is between the pairs of dashes) the FrontMatter block will be removed and the rest of the file preprocessed with Pebble. A Page's typical FrontMatter may look like: 
-
-```markdown
- ---
- layout: single # set the page's layout. Can be a full file name and path, such as 'layouts/single.peb' or just the filename for a file in the resource dir 'templates/layouts' folder
- components: # All Pages have a Component area at 'components', but may define additional areas. The same goes for Menus
-  - type: recentPosts
-    limit: 3
-    category: ':any'
-    templates:
-        - 'includes/postPreview_large'
- ---
-
- Page Content Here
-```
-
-In addition to YAML, Orchid supports JSON for FrontMatter, by using `;;;` delimiters rather than `---`, or TOML (when OrchidLanguagePage plugin in use) with `+++`, or by adding the desired format extension directly after the opening delimiter:
-
-```markdown
----toml
----
-```
-
-and
-
-```markdown
-+++
-+++
-```
-
-are equivalent.
-
-## Components and Menus
-
-Pages and Themes may each, independently, define Menus and Component Areas. They are declared within the Java Class that defines the page or theme, and then rendered from within the Pebble templates. Just because a menu or component area is defined doesn't mean it is actually used: the Theme base class has a menu at `menu` but an individual theme may choose to ignore it and use multiple menus with more semantic names. Likewise, the Page base class has a menu at `menu` and a component area at `components`. 
-
-Themes and menus are both set up with an array of objects, which are then lazily converted into Component and MenuItem objects. This ensures that the indexing process has completed by the time the menus and components are being created. Plugins may define their own components and menu item type, and several common ones are included in OrchidCore.
-
-When Components are created, they are rendered with a template (typically from `templates/components` from top-to-bottom in the order defined in the array data creation, however, it is common for specific Page types or generators to add components themselves, which get added after the FrontMatter or config.yml-defined components. 
-
-When Menus are created, rather than having a one-to-one correspondance of menu item config to menu item in the theme, Menus Items return a list of individual items. These items may be arranged in a recursive tree, but always wrap a Page object and generate a link with an absolute URL. 
-
-## Theming
-
-Orchid supports multiple themes in one build seamlessly. By default, Orchid will use the Theme specified on the command line or through the Gradle config, but themes may be applied to Generators, which will then be used for all pages rendered by that Generator.
+* [Official Orchid documentation](https://javaeden.github.io/Orchid/latest/OrchidCore/)
+* [Clog documentation](https://javaeden.github.io/Clog/)
+* [Krow documentation](https://javaeden.github.io/Krow/)
+* [caseyjbrooks.com](https://www.caseyjbrooks.com/)
 
 ## Development Progress
 
@@ -211,7 +125,9 @@ The following tables list all official Orchid packages:
 | Name                 | Version |
 | -------------------- | ------- |
 | Orchid Core          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion) |
-| Orchid Gradle Plugin | [ ![Download](https://img.shields.io/badge/Gradle%20Plugin-v0.4.0-blue.svg)                    ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)  |
+| Orchid Gradle Plugin | [ ![Download](https://img.shields.io/badge/Gradle%20Plugin-v0.4.1-blue.svg)                    ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)  |
+
+{class="table table-striped"}
 
 #### Themes
 
@@ -222,6 +138,8 @@ The following tables list all official Orchid packages:
 | OrchidFutureImperfect | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidFutureImperfect/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidFutureImperfect/_latestVersion) |
 | OrchidMaterialize     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidMaterialize/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidMaterialize/_latestVersion) |
 
+{class="table table-striped"}
+
 #### Plugins
 
 | Name                | Version |
@@ -230,12 +148,16 @@ The following tables list all official Orchid packages:
 | OrchidForms         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidForms/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidForms/_latestVersion) |
 | OrchidJavadoc       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidJavadoc/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidJavadoc/_latestVersion) |
 | OrchidKSS           | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidKSS/images/download.svg)           ](https://bintray.com/javaeden/Orchid/OrchidKSS/_latestVersion) |
+| OrchidNetlifyCMS    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidNetlifyCMS/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidNetlifyCMS/_latestVersion) |
 | OrchidPages         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPages/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidPages/_latestVersion) |
 | OrchidPluginDocs    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPluginDocs/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidPluginDocs/_latestVersion) |
 | OrchidPosts         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPosts/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion) |
 | OrchidPresentations | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPresentations/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPresentations/_latestVersion) |
 | OrchidSwagger       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSwagger/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidSwagger/_latestVersion) |
+| OrchidTaxonomies    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidTaxonomies/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidTaxonomies/_latestVersion) |
 | OrchidWiki          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
+
+{class="table table-striped"}
 
 #### Language Extensions
 
@@ -245,6 +167,9 @@ The following tables list all official Orchid packages:
 | OrchidBible             | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBible/images/download.svg)             ](https://bintray.com/javaeden/Orchid/OrchidBible/_latestVersion) |
 | OrchidDiagrams          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidDiagrams/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidDiagrams/_latestVersion) |
 | OrchidSyntaxHighlighter | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSyntaxHighlighter/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion) |
+| OrchidWritersBlocks     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWritersBlocks/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidWritersBlocks/_latestVersion) |
+
+{class="table table-striped"}
 
 #### Bundles
 
@@ -253,6 +178,8 @@ The following tables list all official Orchid packages:
 | OrchidAll          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidAll/images/download.svg)               ](https://bintray.com/javaeden/Orchid/OrchidAll/_latestVersion) |
 | OrchidBlog         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBlog/images/download.svg)              ](https://bintray.com/javaeden/Orchid/OrchidBlog/_latestVersion) |
 | OrchidLanguagePack | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSyntaxHighlighter/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion) |
+
+{class="table table-striped"}
 
 ## License
 
@@ -269,6 +196,9 @@ please indent using 4 spaces and keep braces on the same lines.
 Orchid releases are deployed continuously. With any push to the `master` branch, the patch version is incremented, then
 the compiled sources are uploaded to Bintray, Github Pages, and a git tag created and uploaded to Github Releases. All
 code should be deployed via pull request. 
+
+Documentation updates and submissions for new themes or plugins should be made as PRs to the `docs` branch. 
+Documentation is hosted on Netlify, and a deploy preview will be made for your PR before it is merged into `docs`.
 
 Orchid uses the [Gradle Semantic Versioning](https://github.com/vivin/gradle-semantic-build-versioning) plugin to set
 the package version and create the git tag. The major and minor versions can be incremented by including `[major]` or

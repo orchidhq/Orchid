@@ -7,10 +7,13 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.api.tasks.TaskService;
+import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,24 +64,23 @@ public final class AssetsGenerator extends OrchidGenerator {
             }
         });
 
-        context.getGlobalAssetHolder()
-               .getScripts()
-               .forEach(context::renderRaw);
-        context.getGlobalAssetHolder()
-               .getStyles()
-               .forEach(context::renderRaw);
+        List<AssetHolder> assetHoldersToRender = new ArrayList<>();
+        assetHoldersToRender.add(context.getGlobalAssetHolder());
+        assetHoldersToRender.add(context.getDefaultTheme());
+        if (context.getTaskType() == TaskService.TaskType.SERVE) {
+            assetHoldersToRender.add(context.getDefaultAdminTheme());
+        }
 
-        context.getDefaultTheme()
-               .getScripts()
-               .forEach(context::renderRaw);
-        context.getDefaultTheme()
-               .getStyles()
-               .forEach(context::renderRaw);
+        for(AssetHolder holder : assetHoldersToRender) {
+            holder.getScripts().forEach(context::renderRaw);
+            holder.getStyles().forEach(context::renderRaw);
+        }
     }
 
     @Override
     public List<OrchidCollection> getCollections() {
         return null;
     }
+
 }
 

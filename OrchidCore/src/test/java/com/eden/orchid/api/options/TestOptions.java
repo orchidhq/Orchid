@@ -3,6 +3,7 @@ package com.eden.orchid.api.options;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.BooleanConverter;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.api.converters.DoubleConverter;
 import com.eden.orchid.api.converters.FloatConverter;
 import com.eden.orchid.api.converters.IntegerConverter;
@@ -17,8 +18,8 @@ import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
+import com.eden.orchid.api.options.extractors.StringArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
-import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.google.inject.Injector;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
@@ -29,9 +30,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @Test(groups={"options", "unit"})
 public class TestOptions {
@@ -190,6 +192,7 @@ public class TestOptions {
 
         Set<OptionExtractor> extractors = new HashSet<>();
 
+        extractors.add(new StringArrayOptionExtractor(() -> context, stringConverter));
         extractors.add(new StringOptionExtractor(() -> context, stringConverter));
         extractors.add(new IntOptionExtractor(integerConverter));
         extractors.add(new LongOptionExtractor(longConverter));
@@ -197,9 +200,7 @@ public class TestOptions {
         extractors.add(new DoubleOptionExtractor(doubleConverter));
         extractors.add(new OptionsHolderOptionExtractor(() -> extractor, () -> context));
 
-        Set<OptionValidator> validators = new HashSet<>();
-
-        extractor = new OptionsExtractor(context, extractors, validators);
+        extractor = new OptionsExtractor(context, extractors);
     }
 
     @Test

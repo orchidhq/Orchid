@@ -12,13 +12,8 @@ public final class BuildCommand extends OrchidCommand {
 
     @Inject
     public BuildCommand(Provider<OrchidContext> contextProvider) {
-        super(100);
+        super(100, "build");
         this.contextProvider = contextProvider;
-    }
-
-    @Override
-    public boolean matches(String commandName) {
-        return commandName.equalsIgnoreCase("build");
     }
 
     @Override

@@ -11,7 +11,9 @@
                        class="btn btn-outline-inverse btn-lg">Download</a>
                 </p>
             {% endif %}
-            <p class="version">Currently {{ site.version }}</p>
+            {% if theme.showVersion %}
+                <p class="version">Currently {{ site.version }}</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

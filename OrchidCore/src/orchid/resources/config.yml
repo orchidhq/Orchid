@@ -1,12 +1,15 @@
 site:
   about:
-    siteName: OrchidCore
+    siteName: Orchid
     siteDescription: A beautiful and truly unique documentation engine and static site generator.
 
 theme:
   social:
     github: 'JavaEden/Orchid'
   primaryColor: '#7E80CF'
+  trianglifyOptions:
+    x_colors: 'BuPu'
+    cell_size: 55
   menu:
     - type: 'link'
       title: 'Home'
@@ -28,24 +31,6 @@ services:
       - 'styleguide'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
-
-#allPages:
-#  components:
-#    - type: pageContent
-#      order: 10
-#    - type: prism
-#      githubTheme: 'darcula'
-#      languages:
-#        - 'yaml'
-#        - 'java'
-#        - 'groovy'
-#        - 'markdown'
-#      plugins:
-#        - 'line-numbers'
-#        - 'line-highlight'
-#        - 'toolbar'
-#        - 'show-language'
-#        - 'copy-to-clipboard'
 
 wiki:
   includeIndexInPageTitle: false

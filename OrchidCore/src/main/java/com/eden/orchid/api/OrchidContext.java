@@ -13,6 +13,7 @@ import com.eden.orchid.api.theme.ThemeService;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Injector;
 
+import java.util.Collection;
 import java.util.Set;
 
 @ImplementedBy(OrchidContextImpl.class)
@@ -37,6 +38,8 @@ public interface OrchidContext extends
     OrchidSite getSite();
 
     <T> Set<T> resolveSet(Class<T> clazz);
+
+    Collection<OrchidService> getServices();
 
     void start();
     void finish();

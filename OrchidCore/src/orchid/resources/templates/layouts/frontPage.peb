@@ -1,0 +1,18 @@
+{% extends 'layouts/trianglifyBase' %}
+
+{% block baseJumbotron %}
+    <div class="bs-docs-masthead full-size" id="jumbotron">
+        <div class="container">
+            <h1 class="home-title">
+                <img src="{{ site.baseUrl }}/assets/media/orchid.png" class="strobe" alt="Orchid Logo" title="Orchid Logo">
+            </h1>
+            <p class="lead">{{ site.about.siteDescription }}</p>
+            {% if theme.social.github is not empty %}
+                <p class="lead">
+                    <a href="{{ link(collectionType="wiki", itemId="Quick-Start") }}" class="btn btn-outline-inverse btn-lg">Get Started</a>
+                </p>
+            {% endif %}
+            <p class="version">Currently {{ site.version }}</p>
+        </div>
+    </div>
+{% endblock %}

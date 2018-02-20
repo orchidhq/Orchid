@@ -1,0 +1,23 @@
+{% set 'theme' = controller.provide(classType) %}
+{# @pebvariable name="theme" type="com.eden.orchid.api.theme.Theme" #}
+
+{% if optionsExtractor.hasOptions(classType, true, false) %}
+<b>Default Config</b>
+
+{% highlight 'yaml' %}
+# config.yml
+...
+{{ theme.key }}: # to configure this theme only. Use `adminTheme:` to configure all admin themes with these options
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+  {{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+{% endhighlight %}
+{% highlight 'yaml' %}
+# data/{{ theme.key }}.yml or # data/adminTheme.yml
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+{% endhighlight %}
+{% endif %}

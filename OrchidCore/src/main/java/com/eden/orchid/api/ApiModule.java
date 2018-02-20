@@ -8,7 +8,6 @@ import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.converters.NumberConverter;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.OptionValidator;
 import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.ComponentHolderOptionExtractor;
@@ -22,13 +21,13 @@ import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
+import com.eden.orchid.api.options.extractors.StringArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
 import com.eden.orchid.api.options.globals.ConfigGlobal;
 import com.eden.orchid.api.options.globals.IndexGlobal;
 import com.eden.orchid.api.options.globals.SiteGlobal;
 import com.eden.orchid.api.options.globals.ThemeGlobal;
-import com.eden.orchid.api.options.validators.StringExistsValidator;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.site.OrchidSite;
@@ -69,12 +68,9 @@ public final class ApiModule extends OrchidModule {
                 OptionsHolderOptionExtractor.class,
                 OrchidMenuOptionExtractor.class,
                 StringOptionExtractor.class,
+                StringArrayOptionExtractor.class,
                 TimeOptionExtractor.class
         );
-
-        // Options Validators
-        addToSet(OptionValidator.class,
-                StringExistsValidator.class);
 
         // Template Globals
         addToSet(TemplateGlobal.class,

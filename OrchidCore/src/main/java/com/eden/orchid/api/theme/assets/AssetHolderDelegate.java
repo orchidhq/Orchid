@@ -51,8 +51,8 @@ public final class AssetHolderDelegate implements AssetHolder {
             context.getGlobalAssetHolder().addJs(jsAsset);
         }
         else {
-            Clog.w("#{$1}.#{$2} is not a valid JS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
-                    jsAsset.getReference().getFileName(),
+            Clog.w("#{$1} is not a valid JS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
+                    jsAsset.getReference().getOriginalFullFileName(),
                     jsAsset.getReference().getOutputExtension(),
                     JS_EXT);
         }
@@ -80,8 +80,8 @@ public final class AssetHolderDelegate implements AssetHolder {
             context.getGlobalAssetHolder().addCss(cssAsset);
         }
         else {
-            Clog.w("#{$1}.#{$2} is not a valid CSS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
-                    cssAsset.getReference().getFileName(),
+            Clog.w("#{$1} is not a valid CSS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
+                    cssAsset.getReference().getOriginalFullFileName(),
                     cssAsset.getReference().getOutputExtension(),
                     CSS_EXT);
         }

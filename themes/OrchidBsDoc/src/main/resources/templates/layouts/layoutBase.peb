@@ -4,6 +4,7 @@
 {% include '?trackingHeadStart' %}
 {% include 'includes/head' %}
 {% include 'includes/styles' %}
+{% block layoutStyles %}{% endblock %}
 {% include '?trackingHeadEnd' %}
 </head>
 <body>
@@ -42,23 +43,19 @@
     </div>
 </div>
 
-<br><br><br>
-<hr>
-
-<div class="container bs-docs-container">
-{% include 'includes/footer' %}
+<div id="footer">
+    <div class="container bs-docs-container">
+    {% include 'includes/footer' %}
+    </div>
 </div>
 
 {% include 'includes/scripts' %}
-
-{% block layoutScripts %}
-
-{% endblock %}
+{% block layoutScripts %}{% endblock %}
 
 <script>
     $(function () {
         window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
-                  {% block setupJumbotron %}{% endblock %}
+        {% block setupJumbotron %}{% endblock %}
         buildNav();
     });
 </script>

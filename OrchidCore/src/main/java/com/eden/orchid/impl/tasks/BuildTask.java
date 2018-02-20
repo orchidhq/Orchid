@@ -1,18 +1,23 @@
 package com.eden.orchid.impl.tasks;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.tasks.TaskService;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
 
+@Description("Run the main Orchid build process. This is the default OrchidTask for Javadoc and if no other valid " +
+        "task is specified."
+)
 public final class BuildTask extends OrchidTask {
 
     private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public BuildTask(Provider<OrchidContext> contextProvider) {
-        super(100);
+        super(100, "build", TaskService.TaskType.BUILD);
         this.contextProvider = contextProvider;
     }
 
@@ -22,12 +27,8 @@ public final class BuildTask extends OrchidTask {
     }
 
     @Override
-    public String getDescription() {
-        return "Run the main Orchid build process. This is the default OrchidTask for Javadoc and if no other valid task is specified.";
-    }
-
-    @Override
     public void run() {
         contextProvider.get().build();
     }
+
 }

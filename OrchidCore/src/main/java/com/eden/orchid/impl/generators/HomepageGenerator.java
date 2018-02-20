@@ -26,12 +26,30 @@ public final class HomepageGenerator extends OrchidGenerator {
     @Override
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
+        pages.add(getHomepage());
+        return pages;
+    }
 
-        OrchidResource resource = context.getLocalResourceEntry("homepage.md");
+    @Override
+    public void startGeneration(Stream<? extends OrchidPage> pages) {
+        pages.forEach(context::renderTemplate);
+        OrchidPage _404 = get404();
+        if(_404 != null) {
+            context.renderTemplate(_404);
+        }
+
+        OrchidPage favicon = getFavicon();
+        if(favicon != null) {
+            context.renderBinary(favicon);
+        }
+    }
+
+    private OrchidPage getHomepage() {
+        OrchidResource resource = context.locateLocalResourceEntry("homepage");
         OrchidPage page;
         if(resource == null) {
             resource = new StringResource(context, "index.peb", "");
-            page = new OrchidPage(resource, "frontPage");
+            page = new OrchidPage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
 
             JSONObject readmeComponent = new JSONObject();
             readmeComponent.put("type", "readme");
@@ -42,9 +60,9 @@ public final class HomepageGenerator extends OrchidGenerator {
             page.getComponents().addComponent(licenseComponent);
         }
         else {
-            page = new OrchidPage(resource, "frontPage");
+            page = new OrchidPage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
             page.getReference().setFileName("index");
-            
+
             if(page.getNext() == null && OrchidUtils.elementIsString(page.getAllData().query("next"))) {
                 List<OrchidPage> next = context.getIndex().find(page.getAllData().query("next").toString());
                 if(!EdenUtils.isEmpty(next)) {
@@ -59,19 +77,33 @@ public final class HomepageGenerator extends OrchidGenerator {
             }
         }
 
-        if(page.getTitle().equals("homepage")) {
-            page.setTitle(context.getSite().getSiteInfo().getSiteName());
-        }
         page.getReference().setUsePrettyUrl(false);
 
-        pages.add(page);
-
-        return pages;
+        return page;
     }
 
-    @Override
-    public void startGeneration(Stream<? extends OrchidPage> pages) {
-        pages.forEach(context::renderTemplate);
-//        throw new IllegalStateException("Stopping after generating any homepage pages.");
+    private OrchidPage get404() {
+        OrchidResource resource = context.locateLocalResourceEntry("404");
+        OrchidPage page = null;
+        if(resource != null) {
+            page = new OrchidPage(resource, "404", context.getSite().getSiteInfo().getSiteName());
+            page.getReference().setFileName("404");
+            page.getReference().setUsePrettyUrl(false);
+        }
+
+        return page;
+    }
+
+    private OrchidPage getFavicon() {
+        OrchidResource resource = context.getResourceEntry("favicon.ico");
+        OrchidPage page = null;
+        if(resource != null) {
+            page = new OrchidPage(resource, "favicon", context.getSite().getSiteInfo().getSiteName());
+            page.getReference().setFileName("favicon");
+            page.getReference().setOutputExtension("ico");
+            page.getReference().setUsePrettyUrl(false);
+        }
+
+        return page;
     }
 }

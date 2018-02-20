@@ -1,0 +1,7 @@
+{% block sectionIntro %}
+{% endblock %}
+
+[TOC]
+
+{% block sectionBody %}
+{% endblock %}

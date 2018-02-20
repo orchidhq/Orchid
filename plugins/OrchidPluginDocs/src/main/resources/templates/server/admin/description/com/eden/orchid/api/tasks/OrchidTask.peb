@@ -1,0 +1,4 @@
+{% set 'task' = controller.provide(classType) %}
+{# @pebvariable name="task" type="com.eden.orchid.api.tasks.OrchidTask" #}
+
+<p><code>{{ task.getPriority }}: [{{ task.name }}]</code></p>

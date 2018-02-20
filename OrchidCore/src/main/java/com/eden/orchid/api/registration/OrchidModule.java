@@ -2,6 +2,7 @@ package com.eden.orchid.api.registration;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.server.admin.AdminList;
+import com.eden.orchid.api.server.annotations.Extensible;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.multibindings.Multibinder;
@@ -42,6 +43,12 @@ public abstract class OrchidModule extends AbstractModule {
         if(!knownSets.contains(setClass)) {
             Multibinder<AdminList> binder = Multibinder.newSetBinder(binder(), AdminList.class);
             binder.addBinding().toInstance(new AdminList() {
+
+                @Override
+                public Class<?> getListClass() {
+                    return setClass;
+                }
+
                 @Override
                 public String getKey() {
                     return setClass.getSimpleName();
@@ -50,6 +57,11 @@ public abstract class OrchidModule extends AbstractModule {
                 @Override
                 public Collection getItems() {
                     return Orchid.getInstance().getContext().resolveSet(setClass);
+                }
+
+                @Override
+                public boolean isImportantType() {
+                    return setClass.isAnnotationPresent(Extensible.class);
                 }
             });
 

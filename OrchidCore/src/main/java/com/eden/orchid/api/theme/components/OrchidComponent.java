@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -26,6 +27,7 @@ import java.util.List;
  * @since v1.0.0
  * @orchidApi extensible
  */
+@Extensible
 public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder {
 
     protected final OrchidContext context;

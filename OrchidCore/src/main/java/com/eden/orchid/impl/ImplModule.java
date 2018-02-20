@@ -3,6 +3,7 @@ package com.eden.orchid.impl;
 import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogFormatter;
 import com.caseyjbrooks.clog.parseltongue.Parseltongue;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
@@ -16,6 +17,7 @@ import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
+import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
@@ -64,6 +66,8 @@ import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.tags.LogTag;
 import com.eden.orchid.utilities.ClogSpells;
+
+import java.util.Collection;
 
 @IgnoreModule
 public final class ImplModule extends OrchidModule {
@@ -163,5 +167,27 @@ public final class ImplModule extends OrchidModule {
         if (formatter instanceof Parseltongue) {
             ((Parseltongue) formatter).findSpells(ClogSpells.class);
         }
+
+        addToSet(AdminList.class, new AdminList() {
+            @Override
+            public String getKey() {
+                return "services";
+            }
+
+            @Override
+            public Class<?> getListClass() {
+                return OrchidService.class;
+            }
+
+            @Override
+            public Collection getItems() {
+                return Orchid.getInstance().getContext().getServices();
+            }
+
+            @Override
+            public boolean isImportantType() {
+                return true;
+            }
+        });
     }
 }

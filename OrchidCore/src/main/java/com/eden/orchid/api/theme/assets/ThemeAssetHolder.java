@@ -50,8 +50,8 @@ public final class ThemeAssetHolder implements AssetHolder {
             js.add(jsAsset);
         }
         else {
-            Clog.w("#{$1}.#{$2} is not a valid JS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
-                    jsAsset.getReference().getFileName(),
+            Clog.w("#{$1} is not a valid JS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
+                    jsAsset.getReference().getOriginalFullFileName(),
                     jsAsset.getReference().getOutputExtension(),
                     JS_EXT);
         }
@@ -60,12 +60,7 @@ public final class ThemeAssetHolder implements AssetHolder {
     @Override
     public void addJs(String jsAsset) {
         OrchidResource resource;
-        if(OrchidUtils.isExternal(jsAsset)) {
-            resource = context.getResourceEntry(jsAsset);
-        }
-        else {
-            resource = theme.getResourceEntry(jsAsset);
-        }
+        resource = context.getResourceEntry(jsAsset);
 
         if(resource != null) {
             if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
@@ -85,8 +80,8 @@ public final class ThemeAssetHolder implements AssetHolder {
             css.add(cssAsset);
         }
         else {
-            Clog.w("#{$1}.#{$2} is not a valid CSS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
-                    cssAsset.getReference().getFileName(),
+            Clog.w("#{$1} is not a valid CSS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
+                    cssAsset.getReference().getOriginalFullFileName(),
                     cssAsset.getReference().getOutputExtension(),
                     CSS_EXT);
         }
@@ -99,7 +94,7 @@ public final class ThemeAssetHolder implements AssetHolder {
             resource = context.getResourceEntry(cssAsset);
         }
         else {
-            resource = theme.getResourceEntry(cssAsset);
+            resource = context.getResourceEntry(cssAsset);
         }
         if(resource != null) {
             if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {

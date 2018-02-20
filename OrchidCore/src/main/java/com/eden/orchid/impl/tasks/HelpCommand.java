@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.krow.KrowTable;
 import com.eden.krow.formatters.HtmlTableFormatter;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OptionHolderDescription;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
@@ -30,14 +31,9 @@ public final class HelpCommand extends OrchidCommand {
 
     @Inject
     public HelpCommand(Provider<OrchidContext> contextProvider, OrchidServer server) {
-        super(100);
+        super(100, "describe");
         this.contextProvider = contextProvider;
         this.server = server;
-    }
-
-    @Override
-    public boolean matches(String commandName) {
-        return commandName.equalsIgnoreCase("describe");
     }
 
     @Override
@@ -50,7 +46,8 @@ public final class HelpCommand extends OrchidCommand {
         Class parsedClass = Class.forName(className);
         if(OptionsHolder.class.isAssignableFrom(parsedClass)) {
             OptionsExtractor extractor = contextProvider.get().getInjector().getInstance(OptionsExtractor.class);
-            KrowTable table = extractor.getDescriptionTable(parsedClass);
+            OptionHolderDescription description = extractor.describeAllOptions(parsedClass);
+            KrowTable table = extractor.getDescriptionTable(description);
 
             String asciiTable = table.print();
             String htmlTable = table.print(new HtmlTableFormatter());

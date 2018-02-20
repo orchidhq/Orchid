@@ -1,0 +1,68 @@
+{% extends view.layout %}
+
+{% block mainContent %}
+{# @pebvariable name="view" type="com.eden.orchid.api.server.OrchidView" #}
+{# @pebvariable name="controller" type="com.eden.orchid.plugindocs.controllers.AdminController" #}
+{# @pebvariable name="classType" type="java.lang.Class" #}
+
+<div class="card card-accent-primary">
+    <div class="card-header">
+        Class Description
+    </div>
+    <div class="card-body">
+        <h1 class="pb-0">{{ classType.simpleName }}</h1>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active show"
+           data-toggle="tab"
+           href="#overview"
+           role="tab"
+           aria-controls="home"
+           aria-selected="true">Overview</a>
+    </li>
+
+    {% if optionsExtractor.hasOptions(classType, true, false) %}
+        <li class="nav-item">
+            <a class="nav-link"
+               data-toggle="tab"
+               href="#own-options"
+               role="tab"
+               aria-controls="own-options"
+               aria-selected="false">Own Options</a>
+        </li>
+    {% endif %}
+    {% if optionsExtractor.hasOptions(classType, false, true) %}
+        <li class="nav-item">
+            <a class="nav-link"
+               data-toggle="tab"
+               href="#inherited-options"
+               role="tab"
+               aria-controls="inherited-options"
+               aria-selected="false">Inherited Options</a>
+        </li>
+    {% endif %}
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active show" id="overview" role="tabpanel">
+        <h3 class="mb-4 mt-2">{{ classType.simpleName }} Overview</h3>
+        <p>{{ optionsExtractor.describeOptions(classType, false, false).classDescription }}</p>
+        {% include controller.getClassTypeOverviewTemplate(classType) %}
+    </div>
+    {% if optionsExtractor.hasOptions(classType, true, false) %}
+        <div class="tab-pane" id="own-options" role="tabpanel">
+            <h3 class="mb-4 mt-2">Options defined in {{ classType.simpleName }}</h3>
+            {{ controller.getOptions(classType, true, false) | raw }}
+        </div>
+    {% endif %}
+    {% if optionsExtractor.hasOptions(classType, false, true) %}
+        <div class="tab-pane" id="inherited-options" role="tabpanel">
+            <h3 class="mb-4 mt-2">Options defined in superclasses of {{ classType.simpleName }}</h3>
+            {{ controller.getOptions(classType, false, true) | raw }}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

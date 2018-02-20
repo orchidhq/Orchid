@@ -1,0 +1,19 @@
+{% set 'component' = controller.provide(classType) %}
+{# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
+
+<p><code>{{ component.priority }}: [{{ component.key }}]</code></p>
+
+<b>Basic Usage</b>
+
+{% highlight 'yaml' %}
+# a page's Front Matter, or in any option of type ComponentHolder
+...
+components:
+  - type: "{{ component.key }}"
+{% if optionsExtractor.hasOptions(classType, true, false) %}
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+    {{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+{% endif %}
+{% endhighlight %}

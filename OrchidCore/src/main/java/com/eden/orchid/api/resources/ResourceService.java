@@ -70,4 +70,40 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).findClosestFile(filename, strict, maxIterations);
     }
 
+    default OrchidResource locateLocalResourceEntry(final String fileName) {
+        return getService(ResourceService.class).locateLocalResourceEntry(fileName);
+    }
+
+    default OrchidResource locateLocalResourceEntry(final String fileName, String[] fileExtensions) {
+        return getService(ResourceService.class).locateLocalResourceEntry(fileName, fileExtensions);
+    }
+
+    default OrchidResource locateLocalResourceEntry(final String fileName, List<String> fileExtensions) {
+        return getService(ResourceService.class).locateLocalResourceEntry(fileName, fileExtensions);
+    }
+
+    default OrchidResource locateTemplate(final String fileNames) {
+        return getService(ResourceService.class).locateTemplate(fileNames);
+    }
+
+    default OrchidResource locateTemplate(final String fileNames, boolean ignoreMissing) {
+        return getService(ResourceService.class).locateTemplate(fileNames, ignoreMissing);
+    }
+
+    default OrchidResource locateTemplate(final String[] fileNames) {
+        return getService(ResourceService.class).locateTemplate(fileNames);
+    }
+
+    default OrchidResource locateTemplate(final List<String> fileNames) {
+        return getService(ResourceService.class).locateTemplate(fileNames);
+    }
+
+    default OrchidResource locateTemplate(final String[] fileNames, boolean ignoreMissing) {
+        return getService(ResourceService.class).locateTemplate(fileNames, ignoreMissing);
+    }
+
+    default OrchidResource locateTemplate(final List<String> fileNames, boolean ignoreMissing) {
+        return getService(ResourceService.class).locateTemplate(fileNames, ignoreMissing);
+    }
+
 }
