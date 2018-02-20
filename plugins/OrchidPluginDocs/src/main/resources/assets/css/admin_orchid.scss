@@ -10,3 +10,26 @@
 .tab-pane .table thead td {
     border-top: none !important;
 }
+
+.app-header.navbar .navbar-brand {
+    background-image: url(/assets/img/logo.png);
+}
+
+main.main {
+    position: relative;
+}
+
+.empty-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    img {
+        width: 60%;
+    }
+}

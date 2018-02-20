@@ -125,7 +125,9 @@
             </div>
 
             {% block mainContent %}
-
+            <div class="empty-content">
+                <img src="/assets/img/orchid.png" alt="Orchid Logo">
+            </div>
             {% endblock %}
         </div>
     </main>
