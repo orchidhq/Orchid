@@ -23,7 +23,7 @@ public final class LogTag extends TemplateTag {
 
     @Inject
     public LogTag() {
-        super("log", true);
+        super("log", true, false);
     }
 
     @Override
@@ -44,6 +44,7 @@ public final class LogTag extends TemplateTag {
             case "warning": Clog.w(getContent()); break;
             case "error": Clog.e(getContent()); break;
             case "fatal": Clog.wtf(getContent()); break;
+            default: Clog.v(getContent()); break;
         }
 
         if(!EdenUtils.isEmpty(tag)) {

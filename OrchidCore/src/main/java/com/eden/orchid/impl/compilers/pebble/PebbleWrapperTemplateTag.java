@@ -196,15 +196,17 @@ public final class PebbleWrapperTemplateTag implements TokenParser {
             JSONObject object = new JSONObject(evaluatedParamExpressionMap);
             freshTag.extractOptions(contextProvider.get(), object);
 
-            Map<String, Object> templateArgs = new HashMap<>();
-            templateArgs.put("tag", freshTag);
+            if(freshTag.rendersContent()) {
+                Map<String, Object> templateArgs = new HashMap<>();
+                templateArgs.put("tag", freshTag);
 
-            try {
-                self.includeTemplate(writer, context, "tags/" + name, templateArgs);
-            }
-            catch (Exception e) {
-                if(!EdenUtils.isEmpty(bodyContent)) {
-                    writer.append(bodyContent);
+                try {
+                    self.includeTemplate(writer, context, "tags/" + name, templateArgs);
+                }
+                catch (Exception e) {
+                    if (!EdenUtils.isEmpty(bodyContent)) {
+                        writer.append(bodyContent);
+                    }
                 }
             }
         }

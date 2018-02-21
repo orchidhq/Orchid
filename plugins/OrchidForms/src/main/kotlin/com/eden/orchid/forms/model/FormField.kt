@@ -7,10 +7,12 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.server.annotations.Extensible
 import org.json.JSONObject
 import java.util.Collections
 import javax.inject.Inject
 
+@Extensible
 abstract class FormField @Inject
 constructor(
         val context: OrchidContext,
