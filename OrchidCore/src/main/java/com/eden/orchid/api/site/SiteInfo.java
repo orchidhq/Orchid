@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,10 @@ public final class SiteInfo implements OptionsHolder {
     @Option @ApplyBaseUrl
     @Description("A fully-specified URL to an avatar image, or a relative path to an Orchid image.")
     private String avatar;
+
+    @Option @ApplyBaseUrl @StringDefault("favicon.ico")
+    @Description("A fully-specified URL to a favicon image, or a relative path to an Orchid image.")
+    private String favicon;
 
     @Option
     @Description("The proper name of the site. May be used for display, or as a fallback to a page's title tag if " +
