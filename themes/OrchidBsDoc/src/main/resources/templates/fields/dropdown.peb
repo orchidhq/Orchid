@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label for="{{ field.key }}">{{ field.label }}</label>
+    <select
+            class="form-control input-lg"
+            type="{{ field.type }}"
+            name="{{ field.key }}"
+            placeholder="{{ field.placeholder }}"
+            {% if field.required %}required{% endif %}
+            {% if field.multiple %}multiple{% endif %}>
+        {% for key in field.options.keySet() %}
+        {% set option = field.options.getString(key) %}
+            <option value="{{ key }}">{{ option }}</option>
+        {% endfor %}
+    </select>
+</div>

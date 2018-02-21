@@ -12,7 +12,9 @@ import java.util.Collections
 import javax.inject.Inject
 
 abstract class FormField @Inject
-constructor(val context: OrchidContext) : OptionsHolder {
+constructor(
+        val context: OrchidContext,
+        val inputTypes: Array<String>) : OptionsHolder {
 
     lateinit var key: String
 
@@ -78,8 +80,9 @@ constructor(val context: OrchidContext) : OptionsHolder {
             Collections.addAll(allTemplates, *templates)
         }
 
-        allTemplates.add("fields/" + key)
-        allTemplates.add("fields/" + type)
+        allTemplates.add("fields/$type-$key")
+        allTemplates.add("fields/$key")
+        allTemplates.add("fields/$type")
 
         return allTemplates
     }
@@ -127,6 +130,8 @@ constructor(val context: OrchidContext) : OptionsHolder {
         this.spanSmVal = span
     }
 
-    abstract fun acceptsType(type: String): Boolean
+    fun acceptsType(type: String): Boolean {
+        return inputTypes.contains(type)
+    }
 
 }

@@ -7,23 +7,10 @@ import com.eden.orchid.forms.model.FormField
 import javax.inject.Inject
 
 class HiddenField @Inject
-constructor(context: OrchidContext) : FormField(context) {
+constructor(context: OrchidContext) : FormField(context, arrayOf("hidden")) {
 
     @Option
     @Description("The value of this hidden field.")
     lateinit var value: String
-
-    override fun getTemplates(): List<String> {
-        val allTemplates = super.getTemplates().toMutableList()
-        allTemplates.add("fields/hidden")
-        return allTemplates
-    }
-
-    override fun acceptsType(type: String): Boolean {
-        when (type) {
-            "hidden" -> return true
-            else -> return false
-        }
-    }
 
 }
