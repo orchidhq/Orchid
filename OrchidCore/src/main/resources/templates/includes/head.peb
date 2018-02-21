@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 <meta name="generator" content="Orchid {{ site.orchidVersion }}"/>
+<link rel="icon" href="{{ site.about.favicon }}">
 
 {% if page.noIndex and page.noFollow %}
 <meta name="robots" content="noindex, nofollow">
