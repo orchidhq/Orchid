@@ -8,7 +8,7 @@
 [build]
   base    = ""
   publish = "build/docs/orchid"
-  command = "./gradlew assemble prepareDocumentation -Penv=prod -Prelease"
+  command = "./gradlew assemble prepareDocumentation -Penv=prod"
 
 [[redirects]]
   from = "/"
