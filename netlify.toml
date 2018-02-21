@@ -15,3 +15,9 @@
   to = "/OrchidCore"
   status = 301
   force = false
+
+[[redirects]]
+  from = "/*"
+  to = "/OrchidCore/404.html"
+  status = 404
+  force = false
