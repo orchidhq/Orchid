@@ -2,7 +2,7 @@ function trianglify(allOptions) {
     var header = $('#jumbotron');
 
     $(window).resize(function() {
-        trianglify(reverseColors, allOptions);
+        trianglify(allOptions);
     });
 
     var defaultOptions = {
