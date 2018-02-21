@@ -1,6 +1,5 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
@@ -311,8 +310,6 @@ public class OptionsExtractor {
                 ? optionsHolderClass.getAnnotation(Description.class).value()
                 : "";
 
-
-        Clog.v("Class {} description: {}", optionsHolderClass.getSimpleName(), classDescription);
 
         return new OptionHolderDescription(classDescription, optionDescriptions);
     }

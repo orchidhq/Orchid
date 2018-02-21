@@ -26,7 +26,7 @@ class Form(protected val context: OrchidContext, val key: String, val formData: 
 
     @Option
     @Description("A map of arbitrary attributes to add to the form element.")
-    lateinit var attributesMap: JSONObject
+    lateinit var attributes: JSONObject
 
     var fields: MutableMap<String, FormField> = LinkedHashMap()
 
@@ -44,7 +44,8 @@ class Form(protected val context: OrchidContext, val key: String, val formData: 
                 for (fieldKey in formFields.keySet()) {
                     for (fieldType in fieldTypes) {
                         val fieldConfig = formFields.getJSONObject(fieldKey)
-                        if (fieldType.acceptsType(fieldConfig.getString("type"))) {
+                        val type = if(fieldConfig.has("type")) fieldConfig.getString("type") else "text"
+                        if (fieldType.acceptsType(type)) {
                             val formField = context.injector.getInstance(fieldType.javaClass)
                             formField.initialize(fieldKey, fieldConfig)
                             tmpFields.put(fieldKey, formField)
@@ -63,14 +64,9 @@ class Form(protected val context: OrchidContext, val key: String, val formData: 
         }
     }
 
-    fun getAttributes(): String {
-        var attrs = ""
-
-        for (key in attributesMap.keySet()) {
-            attrs += key + "=\"" + attributesMap.get(key).toString() + "\" "
-        }
-
-        return attrs
+    val attrs: Map<String, Any>
+    get() {
+        return attributes.toMap()
     }
 
 }

@@ -4,17 +4,28 @@ form:
   attributes:
     data-netlify: true
   fields:
-    email:
-      label: 'Email (optional)'
-      type: 'email'
+    name:
+      label: 'Name (optional)'
       span: 'auto'
       order: 1
+    occupation:
+      label: 'Occupation'
+      type: 'dropdown'
+      required: true
+      span: 'auto'
+      order: 3
+      options:
+        student: Student
+        programmer: Programmer
+        teacher: Teacher
+        pastor: Pastor
+        other: Other
     comments:
       label: 'Comments'
-      type: 'text'
+      type: 'textarea'
       required: true
       span: 'full'
-      order: 2
+      order: 4
 ---
 
 Comment final page

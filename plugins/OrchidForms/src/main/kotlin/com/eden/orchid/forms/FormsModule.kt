@@ -10,6 +10,7 @@ import com.eden.orchid.forms.model.FormField
 import com.eden.orchid.forms.model.fields.DropdownField
 import com.eden.orchid.forms.model.fields.HiddenField
 import com.eden.orchid.forms.model.fields.TextField
+import com.eden.orchid.forms.model.fields.TextareaField
 
 class FormsModule : OrchidModule() {
 
@@ -28,6 +29,7 @@ class FormsModule : OrchidModule() {
 
         addToSet(FormField::class.java,
                 TextField::class.java,
+                TextareaField::class.java,
                 DropdownField::class.java,
                 HiddenField::class.java)
     }

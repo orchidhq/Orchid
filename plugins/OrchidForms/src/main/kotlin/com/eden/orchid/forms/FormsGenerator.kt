@@ -71,7 +71,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
                 }
 
                 val onSubmitField = HiddenField(context)
-                onSubmitField.initialize("__onSubmit", JSONObject())
+                onSubmitField.initialize("__onSubmit", JSONObject(mapOf("type" to "hidden")))
                 onSubmitField.value = formSubmissionPage.reference.toString()
 
                 form.fields.put("__onSubmit", onSubmitField)

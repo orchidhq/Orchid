@@ -5,19 +5,27 @@ import com.eden.orchid.forms.model.FormField
 import javax.inject.Inject
 
 class TextField @Inject
-constructor(context: OrchidContext) : FormField(context) {
+constructor(context: OrchidContext) : FormField(context, arrayOf(
+        "text",
+        "password",
+        "datetime",
+        "datetime-local",
+        "date",
+        "month",
+        "time",
+        "week",
+        "number",
+        "email",
+        "url",
+        "search",
+        "tel",
+        "color"
+)) {
 
     override fun getTemplates(): List<String> {
         val allTemplates = super.getTemplates().toMutableList()
         allTemplates.add("fields/textual")
         return allTemplates
-    }
-
-    override fun acceptsType(type: String): Boolean {
-        when (type) {
-            "text", "number", "email" -> return true
-            else -> return false
-        }
     }
 
 }
