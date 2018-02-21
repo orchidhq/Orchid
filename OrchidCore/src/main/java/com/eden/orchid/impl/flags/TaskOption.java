@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class TaskOption extends OrchidFlag {
 
     public TaskOption() {
-        super("task", true, "build");
+        super("task", true, true, "build");
     }
 
 }

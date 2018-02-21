@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class EnvironmentFlag extends OrchidFlag {
 
     public EnvironmentFlag() {
-        super("environment", true, "debug");
+        super("environment", true, true, "debug");
     }
 
 }

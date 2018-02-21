@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class ResourcesDirectoryOption extends OrchidFlag {
 
     public ResourcesDirectoryOption() {
-        super("resourcesDir", true, null);
+        super("resourcesDir", true, true, null);
     }
 
 }

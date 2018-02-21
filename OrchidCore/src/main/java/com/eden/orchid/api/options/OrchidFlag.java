@@ -23,6 +23,8 @@ public abstract class OrchidFlag {
 
     private final boolean isRequired;
 
+    private final boolean printValue;
+
     private final Object defaultValue;
 
     /**
@@ -37,8 +39,24 @@ public abstract class OrchidFlag {
      * @param defaultValue
      */
     public OrchidFlag(String flag, boolean isRequired, Object defaultValue) {
+        this(flag, isRequired, false, defaultValue);
+    }
+
+    /**
+     * Initialize this Flag with its flag key, whether it is required, and if it is required its optional default value.
+     *
+     * @see OrchidFlag#getFlag()
+     * @see OrchidFlag#isRequired()
+     * @see OrchidFlag#getDefaultValue()
+     *
+     * @param flag
+     * @param isRequired
+     * @param defaultValue
+     */
+    public OrchidFlag(String flag, boolean isRequired, boolean printValue, Object defaultValue) {
         this.flag = flag;
         this.isRequired = isRequired;
+        this.printValue = printValue;
         this.defaultValue = defaultValue;
     }
 
@@ -61,6 +79,16 @@ public abstract class OrchidFlag {
      */
     public final boolean isRequired() {
         return this.isRequired;
+    }
+
+    /**
+     * Return true if this OrchidOption must be set before continuing with the Orchid build. If the flag is required and
+     * is not set, you may pass a default value to be used. If the default value is null, the Orchid build will fail.
+     *
+     * @return true if this option is required, false otherwise.
+     */
+    public final boolean shouldPrintValue() {
+        return this.printValue;
     }
 
     /**

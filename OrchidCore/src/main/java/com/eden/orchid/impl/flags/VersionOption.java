@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class VersionOption extends OrchidFlag {
 
     public VersionOption() {
-        super("v", false, null);
+        super("v", false, true, null);
     }
 
 }

@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class DestinationDirectoryFlag extends OrchidFlag {
 
     public DestinationDirectoryFlag() {
-        super("d", true, null);
+        super("d", true, true, null);
     }
 
 }

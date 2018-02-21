@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class BaseUrlFlag extends OrchidFlag {
 
     public BaseUrlFlag() {
-        super("baseUrl", true, "/");
+        super("baseUrl", true, true, "/");
     }
 
 }
