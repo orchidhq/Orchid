@@ -37,7 +37,7 @@ public class ClasspathModuleInstaller extends AbstractModule {
         scanner.scan();
 
         moduleLog.append("\n--------------------");
-        Clog.i(moduleLog.toString());
+        Clog.d(moduleLog.toString());
     }
 
     private boolean isInstantiable(Class<?> matchingClass) {

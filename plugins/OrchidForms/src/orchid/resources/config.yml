@@ -7,3 +7,6 @@ theme:
   primaryColor: '#997647'
   social:
     github: 'JavaEden/Orchid'
+  menu:
+    - type: pages
+      atRoot: true

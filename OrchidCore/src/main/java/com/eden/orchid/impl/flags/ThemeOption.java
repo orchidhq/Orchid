@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class ThemeOption extends OrchidFlag {
 
     public ThemeOption() {
-        super("theme", true, "DefaultTheme");
+        super("theme", true, true, "DefaultTheme");
     }
 
 }

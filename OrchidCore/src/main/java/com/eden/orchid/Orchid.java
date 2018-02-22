@@ -9,8 +9,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import lombok.Getter;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,19 +75,13 @@ public final class Orchid {
                 }
             }
             moduleLog += "\n--------------------";
-            Clog.i(moduleLog);
+            Clog.d(moduleLog);
 
             injector = Guice.createInjector(modules);
 
-            DumperOptions options = new DumperOptions();
-            options.setIndent(4);
-            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-
-            Yaml yaml = new Yaml(options);
-
             String flagLog = "Flag values: ";
             flagLog += "\n--------------------\n";
-            flagLog += yaml.dump(OrchidFlags.getInstance().getData().toMap());
+            flagLog += OrchidFlags.getInstance().printFlags();
             flagLog += "--------------------";
             Clog.d(flagLog);
 

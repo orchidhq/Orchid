@@ -59,26 +59,34 @@
                     </a>
                 </li>
 
-                {% for adminList in view.importantAdminLists %}
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="icon-organization"></i>
-                            <b>{{ adminList.key | capitalize }}</b>
-                        </a>
-                        <ul class="nav-dropdown-items">
-                        {# @pebvariable name="view" type="com.eden.orchid.api.server.OrchidView" #}
-                        {% for item in adminList.getItems() %}
-                        {# @pebvariable name="generator" type="com.eden.orchid.api.generators.OrchidGenerator" #}
-                            <li class="nav-item">
-                                <a class="nav-link pl-4" href="{{ view.getDescriptionLink(item.class) }}">
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="icon-organization"></i>
+                        <b>Configuration</b>
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        {% for adminList in view.importantAdminLists %}
+                            <li class="nav-item nav-dropdown">
+                                <a class="nav-link nav-dropdown-toggle" href="#">
                                     <i class="icon-organization"></i>
-                                    <span>{{ item.class.simpleName | capitalize }}</span>
+                                    <b>{{ adminList.key | capitalize }}</b>
                                 </a>
+                                <ul class="nav-dropdown-items">
+                                {# @pebvariable name="view" type="com.eden.orchid.api.server.OrchidView" #}
+                                {% for item in adminList.getItems() %}
+                                {# @pebvariable name="generator" type="com.eden.orchid.api.generators.OrchidGenerator" #}
+                                    <li class="nav-item">
+                                        <a class="nav-link pl-4" href="{{ view.getDescriptionLink(item.class) }}">
+                                            <i class="icon-organization"></i>
+                                            <span>{{ item.class.simpleName | capitalize }}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                </ul>
                             </li>
                         {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

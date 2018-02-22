@@ -24,6 +24,9 @@ public abstract class TemplateTag implements OptionsHolder {
     @Getter @Accessors(fluent = true)
     private final boolean hasContent;
 
+    @Getter @Accessors(fluent = true)
+    private final boolean rendersContent;
+
     @Getter @Setter
     private String content;
 
@@ -35,8 +38,20 @@ public abstract class TemplateTag implements OptionsHolder {
      * @param hasContent true if this tag wraps arbitrary content, false otherwise
      */
     public TemplateTag(String name, boolean hasContent) {
+        this(name, hasContent, true);
+    }
+
+    /**
+     * Initialize the Tag with the name which it should be called with in the template. The actual implementation of a
+     * Tag should have a single constructor annotated with {@link javax.inject.Inject }.
+     *
+     * @param name the name which to call this Tag
+     * @param hasContent true if this tag wraps arbitrary content, false otherwise
+     */
+    public TemplateTag(String name, boolean hasContent, boolean rendersContent) {
         this.name = name;
         this.hasContent = hasContent;
+        this.rendersContent = rendersContent;
     }
 
     /**

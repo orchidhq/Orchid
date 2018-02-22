@@ -13,4 +13,8 @@ constructor(context: OrchidContext) : FormField(context, arrayOf("hidden")) {
     @Description("The value of this hidden field.")
     lateinit var value: String
 
+    override fun getTemplates(): List<String> {
+        return super.getTemplates().toMutableList()
+    }
+
 }

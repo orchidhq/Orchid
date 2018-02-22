@@ -19,4 +19,8 @@ constructor(context: OrchidContext) : FormField(context, arrayOf("dropdown")) {
     @Description("Whether to allow multi-select of options.")
     var multiple: Boolean = false
 
+    override fun getTemplates(): List<String> {
+        return super.getTemplates().toMutableList()
+    }
+
 }

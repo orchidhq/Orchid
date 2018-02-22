@@ -205,4 +205,17 @@ public final class OrchidFlags {
     public JSONObject getData() {
         return parsedFlagsData;
     }
+
+    public String printFlags() {
+        String msg = "";
+
+        for(OrchidFlag flag : flags) {
+            if(flag.shouldPrintValue()) {
+                msg += Clog.format("-{}: {}\n", flag.getFlag(), parsedFlagsData.get(flag.getFlag()));
+            }
+        }
+
+        return msg;
+    }
+
 }

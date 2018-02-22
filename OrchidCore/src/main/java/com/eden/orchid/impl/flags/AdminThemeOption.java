@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 public final class AdminThemeOption extends OrchidFlag {
 
     public AdminThemeOption() {
-        super("adminTheme", true, "Default");
+        super("adminTheme", true, true, "Default");
     }
 
 }
