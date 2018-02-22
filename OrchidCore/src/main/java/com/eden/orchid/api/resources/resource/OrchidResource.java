@@ -80,7 +80,7 @@ public abstract class OrchidResource {
             String compiledContent = getContent();
 
             if (shouldPrecompile()) {
-                compiledContent = context.precompile(getPrecompilerExtension(), compiledContent, data);
+                compiledContent = context.compile(getPrecompilerExtension(), compiledContent, data);
             }
 
             return context.compile(

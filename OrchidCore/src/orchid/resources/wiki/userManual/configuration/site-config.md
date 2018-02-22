@@ -1,12 +1,16 @@
 ---
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
 Orchid provides a powerful, yet simple and intuitive way to configure your site. It expects that large and complex sites
 may have lots of options set in a many-layered hierarchy, but does not sacrifice simplicity for power with smaller 
 sites. To fully understand all that can be configured with the site config, you should refer to _the Options section of
 the developer guide_. A basic description follows.
+{% endblock %}
 
-[TOC]
+{% block sectionBody %}
 
 ## The Basics
 ***
@@ -151,3 +155,5 @@ The basic process goes like this:
  6) Generate pages each generator. If the Generator specified a theme as one of its options during the Indexing step, 
  switch to that theme, loading _that_ theme's options in the same manner as in step 3, before rendering the pages from 
  that generator. 
+ 
+ {% endblock %}

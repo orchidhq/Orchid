@@ -246,7 +246,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public String getContent() {
         if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-            return resource.compileContent(allData);
+            return resource.compileContent(this);
         }
         else {
             return "";

@@ -1,6 +1,12 @@
 ---
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+{% endblock %}
+
+{% block sectionBody %}
 Most content in Orchid comes from a file in your local filesystem. While each plugin is free to do whatever they want to
 generate their pages, it is common for plugins to base their internal content models around the filesystem, and as such, 
 the content from most plugins is written in a very similar way because the content for each entry works the same.
@@ -117,3 +123,4 @@ content to come from other sources as well. For example, the Javadoc plugin cons
 be the page content, and the block-level tags are the page's configuration. In this situation, there is no "Front 
 Matter" in the sense of a block of YAML at the start of the content, but the content and configuration work in the exact
 same way. 
+{% endblock %}

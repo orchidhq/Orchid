@@ -1,6 +1,12 @@
 ---
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+{% endblock %}
+
+{% block sectionBody %}
 Components are single, logical blocks of content within a Page. They typically represent the main content area of a 
 Page, with many components being rendered sequentially into that one area. In fact, the Page Content you are currently 
 reading is not a static part of the page layout, but is just a Component which renders the page content.
@@ -25,3 +31,4 @@ This even allows plugins to create simple, yet semantic, HTML page templates tha
 Themes can then override to make much more custom or bring more fully in-line with its own styling. These page templates
 then always look the same for a given page type, regardless of the layout chosen, which aids in maintainability of a 
 theme.  
+{% endblock %}

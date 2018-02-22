@@ -1,7 +1,13 @@
 ---
 ---
 
-# Themes Overview
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+{% endblock %}
+
+{% block sectionBody %}
+## Themes Overview
 
 Themes in Orchid serve many functions. They provide layouts, define menus, pick the primary CSS and Javascript used on
 a page, and in general provide a full webpage to hold Page content. 
@@ -12,3 +18,4 @@ each Generator, allowing you to pick the best theme for each type of content.
 
 Unlike many other static site generators, Orchid themes are not contained within your Orchid project, so at no point are 
 you locked into using one theme forever, or requiring a ton of work to change themes. 
+{% endblock %}

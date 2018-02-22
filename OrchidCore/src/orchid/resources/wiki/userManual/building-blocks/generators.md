@@ -1,7 +1,13 @@
 ---
 ---
 
-# Generators Overview
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+{% endblock %}
+
+{% block sectionBody %}
+## Generators Overview
 
 Generators are the work-horses of Orchid. They have two jobs: to decide what Pages should exist for a particular section
 of the site, and how we need to process content to create that page. Generators work in two phases: the Indexing phase, 
@@ -58,3 +64,4 @@ a concern of the Generator. The Generator should simply render all pages passed 
 
 Generators can also set a new theme to be used just for its own pages, which completely changes the layouts, CSS/JS, 
 menus, etc. that are loaded for these pages.
+{% endblock %}

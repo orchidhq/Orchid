@@ -91,7 +91,7 @@ public class RenderServiceImpl implements RenderService {
         page.setCurrent(true);
         String content = page.getResource().getContent();
         if (page.getResource().shouldPrecompile()) {
-            content = context.precompile(page.getResource().getPrecompilerExtension(), content, page.getData());
+            content = context.compile(page.getResource().getPrecompilerExtension(), content, page);
         }
         content = "" + context.compile(page.getResource().getReference().getExtension(), content, page);
         page.setCurrent(false);

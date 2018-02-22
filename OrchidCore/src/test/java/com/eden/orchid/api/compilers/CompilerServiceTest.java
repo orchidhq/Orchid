@@ -70,7 +70,6 @@ public final class CompilerServiceTest {
         when(mockParser.parse("yaml", "input")).thenReturn(parsedOutput);
 
         mockPrecompiler = mock(OrchidPrecompiler.class);
-        when(mockPrecompiler.precompile("peb", mockInput, null)).thenReturn(precompilerOutput);
         when(mockPrecompiler.getEmbeddedData(mockInput)).thenReturn(precompilerEmbeddedData);
 
         // test the service directly
@@ -134,11 +133,6 @@ public final class CompilerServiceTest {
     @Test
     public void getEmbeddedData() throws Throwable {
         assertThat(underTest.getEmbeddedData(mockInput), is(precompilerEmbeddedData));
-    }
-
-    @Test
-    public void precompile() throws Throwable {
-        assertThat(underTest.precompile("peb", mockInput), is(precompilerOutput));
     }
 
     @Test

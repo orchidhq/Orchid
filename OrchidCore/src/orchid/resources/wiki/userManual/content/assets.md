@@ -1,13 +1,14 @@
 ---
 ---
 
-
 {% extends '_wikiBase' %}
+
 {% block sectionIntro %}
 Assets are the CSS, Javascript, and images needed for your site. By default, only the assets declared by your themes, 
 pages, or components are compiled into the final site. But there are several ways to add additional assets needed for 
 specific circumstances, outlined below: Asset Directories, and Extra CSS and JS
 {% endblock %}
+
 {% block sectionBody %}
 ## Asset Directories
 

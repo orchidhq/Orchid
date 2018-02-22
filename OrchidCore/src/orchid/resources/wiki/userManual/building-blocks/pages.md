@@ -1,7 +1,13 @@
 ---
 ---
 
-# Pages Overview
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+{% endblock %}
+
+{% block sectionBody %}
+## Pages Overview
 
 Pages are the most fundamental unit of content in an Orchid site. A Page represents a single HTML file in the output of 
 your site, and the rest of Orchid revolves around the Page. The following outlines the key players in an Orchid site
@@ -19,3 +25,4 @@ Indexed, either as a requirement or for simplified usage.
 As an object in Orchid, the page is quite small, with not much to say about it. Conceptually, however, the Page is the 
 largest and most important player in Orchid, and the following pages in this section of the Wiki will go through each of
 the remaining players one-by-one, to show how they all interact. 
+{% endblock %}

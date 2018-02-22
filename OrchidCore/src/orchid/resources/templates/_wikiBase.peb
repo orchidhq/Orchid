@@ -1,7 +1,16 @@
 {% block sectionIntro %}
 {% endblock %}
 
+**In this article:**
+
 [TOC]
+
+{% if page.previous is not empty %}
+- [Previous: {{ page.previous.title }}]({{ page.previous.link }})
+{% endif %}
+{% if page.next is not empty %}
+- [Next: {{ page.next.title }}]({{ page.next.link }})
+{% endif %}
 
 {% block sectionBody %}
 {% endblock %}

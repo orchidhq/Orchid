@@ -153,37 +153,6 @@ public interface CompilerService extends OrchidService {
     }
 
     /**
-     * When processing the input content, it is common to "inject" values into its contents which are made available
-     * to the main compiler that can't normally handle such operations. An example would be to render the site version
-     * or build timestamp into a plain-text content that does not have an associated OrchidCompiler.
-     *
-     * @param input the input content to precompile
-     * @return the resulting content, which may then be passed to its associated OrchidCompiler
-     *
-     * @since v1.0.0
-     * @see OrchidPrecompiler
-     */
-    default String precompile(String extension, String input) {
-        return getService(CompilerService.class).precompile(extension, input);
-    }
-
-    /**
-     * When processing the input content, it is common to "inject" values into its contents which are made available
-     * to the main compiler that can't normally handle such operations. An example would be to render the site version
-     * or build timestamp into a plain-text content that does not have an associated OrchidCompiler.
-     *
-     * @param input the input content to precompile
-     * @param data the data to render into the input content
-     * @return the resulting content, which may then be passed to its associated OrchidCompiler
-     *
-     * @since v1.0.0
-     * @see OrchidPrecompiler
-     */
-    default String precompile(String extension, String input, Object data) {
-        return getService(CompilerService.class).precompile(extension, input, data);
-    }
-
-    /**
      * Many file types need to be processed and rendered as a binary stream rather than being decoded into a String.
      * This method returns a List of the current known binary file extensions, so it can be determined how to process
      * a given file type.
