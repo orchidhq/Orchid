@@ -177,7 +177,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void useGenerator(OrchidGenerator generator) {
-        Clog.d("Generating [{}: {}]", generator.getPriority(), generator.getKey());
+        Clog.d("Generating [{}: {}]{}", generator.getPriority(), generator.getKey(), (generator.isParallel()) ? " in parallel" : "");
+
         metrics.startGeneratingGenerator(generator.getKey());
 
         List<? extends OrchidPage> generatorPages = null;

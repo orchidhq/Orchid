@@ -12,7 +12,7 @@ with one page linking directly to the next so a user can read the entire content
 navigating the page links. Orchid Wikis also create Menu items which display the full wiki tree in an easily navigable
 fashion.
 
-Wikis in Orchid are inspired by GitBook and are set up in a similar manner. To start, add a file named `SUMMARY.md` to
+Wikis in Orchid are inspired by GitBook and are set up in a similar manner. To start, add a file named `summary.md` to
 `wiki/`. This file becomes the landing page for the wiki and can contain any kind of content, which gets displayed 
 exactly as written. But it also gets converted to HTML and all links in this file become a page in the wiki. 
 

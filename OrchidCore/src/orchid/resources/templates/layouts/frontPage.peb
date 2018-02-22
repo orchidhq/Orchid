@@ -1,18 +1,38 @@
 {% extends 'layouts/trianglifyBase' %}
 
+{% block layoutStyles %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+{% endblock %}
+
 {% block baseJumbotron %}
-    <div class="bs-docs-masthead full-size" id="jumbotron">
-        <div class="container">
-            <h1 class="home-title">
-                <img src="{{ site.baseUrl }}/assets/media/orchid.png" class="strobe" alt="Orchid Logo" title="Orchid Logo">
-            </h1>
-            <p class="lead">{{ site.about.siteDescription }}</p>
-            {% if theme.social.github is not empty %}
-                <p class="lead">
-                    <a href="{{ link(collectionType="wiki", itemId="Quick-Start") }}" class="btn btn-outline-inverse btn-lg">Get Started</a>
-                </p>
-            {% endif %}
-            <p class="version">Currently {{ site.version }}</p>
-        </div>
+<div class="bs-docs-masthead full-size" id="jumbotron">
+{% if banner is not empty %}
+    <div class="banner">{{ banner }}</div>
+{% endif %}
+
+    <div class="container">
+        <h1 class="home-title">
+            <img src="{{ site.baseUrl }}/assets/media/orchid.png" class="strobe" alt="Orchid Logo" title="Orchid Logo">
+        </h1>
+        <p class="lead">{{ site.about.siteDescription }}</p>
+        {% if theme.social.github is not empty %}
+            <p class="lead">
+                {#<a href="{{ link(collectionType="wiki", itemId="Quick-Start") }}"#}
+                <a href="#get-started" class="btn btn-outline-inverse btn-lg">Get Started</a>
+            </p>
+        {% endif %}
+        <p class="version">Currently {{ site.version }}</p>
     </div>
+</div>
+{% endblock %}
+
+{% block baseBody %}
+<div class="container bs-docs-container homepage">
+{% block pageContent %}
+
+    {% endblock %}
+    {% block remainingComponents %}
+        {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+    {% endblock %}
+</div>
 {% endblock %}

@@ -10,6 +10,7 @@ theme:
   trianglifyOptions:
     x_colors: 'BuPu'
     cell_size: 55
+    seed: 1
   menu:
     - type: 'link'
       title: 'Home'

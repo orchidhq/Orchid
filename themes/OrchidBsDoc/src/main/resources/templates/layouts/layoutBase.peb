@@ -10,6 +10,7 @@
 <body>
 {% include '?trackingBodyStart' %}
 
+{% block baseNavbar %}
 {% if theme.social.github is not empty %}
 <a class="github-fork-ribbon {% block ribbonSide %}{{ 'left-top' }}{% endblock %}"
    href="https://github.com/{{ theme.social.github }}"
@@ -17,13 +18,13 @@
 {% endif %}
 
 {% include 'includes/navbar' %}
+{% endblock %}
 
 <div id="top"></div>
 
 {% block baseJumbotron %}
-
 {% endblock %}
-
+{% block baseBody %}
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-9" role="main">
@@ -42,24 +43,24 @@
         </div>
     </div>
 </div>
-
+{% endblock %}
+{% block baseFooter %}
 <div id="footer">
     <div class="container bs-docs-container">
     {% include 'includes/footer' %}
     </div>
 </div>
+{% endblock %}
 
 {% include 'includes/scripts' %}
 {% block layoutScripts %}{% endblock %}
-
 <script>
     $(function () {
         window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
-        {% block setupJumbotron %}{% endblock %}
+                  {% block setupJumbotron %}{% endblock %}
         buildNav();
     });
 </script>
-
 {% include '?trackingBodyEnd' %}
 </body>
 </html>
