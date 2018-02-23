@@ -4,6 +4,7 @@ site:
     siteDescription: A beautiful and truly unique documentation engine and static site generator.
 
 theme:
+  useSidebarSearch: true
   social:
     github: 'JavaEden/Orchid'
   primaryColor: '#7E80CF'
@@ -60,3 +61,4 @@ taxonomies:
         single: true
         includeFrom:
           - javadoc
+

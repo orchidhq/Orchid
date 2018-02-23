@@ -38,6 +38,12 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
     @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
+    @Option @BooleanDefault(false)
+    @Description("If true, extra CSS and Javascript will be included to support static searching with Lunr.js, and a " +
+            "searchbar added above the sidenav menu."
+    )
+    var useSidebarSearch: Boolean = false
+
     override fun loadAssets() {
         addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css")
         addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
@@ -48,6 +54,12 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
         addJs("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
         addJs("assets/js/bsdoc.js")
+
+        if(useSidebarSearch) {
+            addCss("assets/css/lunrSearch.scss")
+            addJs("https://unpkg.com/lunr/lunr.js")
+            addJs("assets/js/lunrSearch.js")
+        }
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
