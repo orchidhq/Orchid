@@ -1,10 +1,12 @@
 package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
@@ -23,6 +25,8 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     private Object source;
     private String sourceKey;
+
+    private String prefix;
 
     @Inject
     public AssetHolderDelegate(OrchidContext context, Object source, String sourceKey) {
@@ -62,10 +66,20 @@ public final class AssetHolderDelegate implements AssetHolder {
     public void addJs(String jsAsset) {
         OrchidResource resource = context.getResourceEntry(jsAsset);
         if(resource != null) {
-            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
-                ((ExternalResource) resource).setDownload(true);
+            boolean setPrefix = !EdenUtils.isEmpty(prefix);
+            if(resource instanceof ExternalResource) {
+                if(shouldDownloadExternalAssets()) {
+                    ((ExternalResource) resource).setDownload(true);
+                }
+                else {
+                    setPrefix = false;
+                }
             }
-            addJs(new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset)));
+            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset));
+            if(setPrefix) {
+                page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
+            }
+            addJs(page);
         }
         else {
             Clog.w("Could not find JS asset: {}", jsAsset);
@@ -91,10 +105,20 @@ public final class AssetHolderDelegate implements AssetHolder {
     public void addCss(String cssAsset) {
         OrchidResource resource = context.getResourceEntry(cssAsset);
         if(resource != null) {
-            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
-                ((ExternalResource) resource).setDownload(true);
+            boolean setPrefix = !EdenUtils.isEmpty(prefix);
+            if(resource instanceof ExternalResource) {
+                if(shouldDownloadExternalAssets()) {
+                    ((ExternalResource) resource).setDownload(true);
+                }
+                else {
+                    setPrefix = false;
+                }
             }
-            addCss(new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset)));
+            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset));
+            if(setPrefix) {
+                page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
+            }
+            addCss(page);
         }
         else {
             Clog.w("Could not find CSS asset: {}", cssAsset);
@@ -133,5 +157,11 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     public boolean shouldDownloadExternalAssets() {
         return context.isProduction();
+    }
+
+    public void withNamespace(String namespace, Runnable cb) {
+        prefix = OrchidUtils.normalizePath(namespace);
+        cb.run();
+        prefix = null;
     }
 }

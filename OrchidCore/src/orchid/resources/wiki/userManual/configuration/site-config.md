@@ -40,8 +40,8 @@ setting the default theme.
 ## Basic Site Config
 ***
 
-```yaml
-Editorial: # (1)
+{% highlight 'yaml' %}
+theme: # (1)
   menu: 
     - type: 'readme' 
     - type: 'license' 
@@ -54,11 +54,11 @@ services: # (3)
     disabled:
       - 'javadoc'
       - 'posts'
-      
-allPosts: # (4)
+  
+allPages: # (4)
   layout: single
-```
-{.line-numbers}
+{% endhighlight %}
+
 
 1) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 
     use individual theme keys to configure each theme independently, but `theme` is generally easier to quickly try out
@@ -94,7 +94,7 @@ For example, the following YAML configs are equivalent:
 
 **Config in one single config.yml**
 
-```yaml
+{% highlight 'yaml' %}
 # config.yml
 theme:
   siteName: 'My Site'
@@ -108,34 +108,36 @@ theme:
     - type: link
       title: 'Contact'
       url: '/contact'
-```
+{% endhighlight %}
+
 
 **Config broken into several files**
 
-```yaml
+{% highlight 'yaml' %}
 # config.yml
-```
+{% endhighlight %}
 
-```yaml
+{% highlight 'yaml' %}
 # data/theme.yml
 siteName: 'My Site'
-```
+{% endhighlight %}
 
-```yaml
+{% highlight 'yaml' %}
 # data/theme/components.yml
 - type: pageContent
 - type: readme
 - type: license
-```
+{% endhighlight %}
 
-```yaml
+{% highlight 'yaml' %}
 # data/theme/menu.yml
 - type: page
   page: 'home'
 - type: link
   title: 'Contact'
   url: '/contact'
-```
+{% endhighlight %}
+
 
 ## How these options get used
 ***

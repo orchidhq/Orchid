@@ -36,6 +36,10 @@ public interface ThemeService extends OrchidService {
         getService(ThemeService.class).pushTheme(theme, themeOptions);
     }
 
+    default Theme doWithTheme(Object theme, Runnable cb) {
+        return getService(ThemeService.class).doWithTheme(theme, cb);
+    }
+
     default void popTheme() {
         getService(ThemeService.class).popTheme();
     }

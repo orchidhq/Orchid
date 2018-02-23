@@ -81,8 +81,11 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
-    @Description("Set a theme to be used only when rendering pages from this Generator.")
-    private String theme;
+    @Description("Set a theme to be used only when rendering pages from this Generator. This can be a String to use " +
+            "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
+            "specific options for the theme."
+    )
+    private Object theme;
 
     @Getter @Setter
     @Option

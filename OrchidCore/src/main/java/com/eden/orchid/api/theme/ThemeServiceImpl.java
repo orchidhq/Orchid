@@ -73,6 +73,7 @@ public final class ThemeServiceImpl implements ThemeService {
     @Override public void  pushTheme(Theme theme, JSONObject themeOptions) { themes.pushTheme(theme, themeOptions); }
     @Override public void  popTheme()                                      { themes.popTheme(); }
     @Override public void  clearThemes()                                   { themes.clearThemes(); }
+    @Override public Theme doWithTheme(Object theme, Runnable cb)          { return themes.doWithTheme(theme, cb); }
 
     @Override public AdminTheme getAdminTheme()                                           { return adminThemes.getTheme(); }
     @Override public AdminTheme getDefaultAdminTheme()                                    { return adminThemes.getDefaultTheme(); }
@@ -125,7 +126,7 @@ public final class ThemeServiceImpl implements ThemeService {
                         .orElse(null);
 
                 if (foundTheme != null) {
-                    return foundTheme;
+                    return (T) context.getInjector().getInstance(foundTheme.getClass());
                 }
                 else {
                     Clog.e("Could not find theme [{}-{}]", defaultOptionsKey, themeKey);
@@ -166,6 +167,39 @@ public final class ThemeServiceImpl implements ThemeService {
         void clearThemes() {
             themeStack.clear();
             pushTheme(this.defaultTheme);
+        }
+
+        T doWithTheme(Object themeObject, Runnable cb) {
+            T theme = null;
+            JSONObject themeOptions = null;
+
+            if(themeObject != null) {
+                if(themeObject instanceof String) {
+                    themeOptions = null;
+                    theme = findTheme((String) themeObject);
+                }
+                else if(themeObject instanceof JSONObject) {
+                    themeOptions = (JSONObject) themeObject;
+                    theme = findTheme(((JSONObject) themeObject).getString("key"));
+                }
+            }
+
+            if (theme != null) {
+                if(themeOptions != null) {
+                    pushTheme(theme, themeOptions);
+                }
+                else {
+                    pushTheme(theme);
+                }
+                cb.run();
+                theme.renderAssets();
+                popTheme();
+                return theme;
+            }
+            else {
+                cb.run();
+                return null;
+            }
         }
     }
 }

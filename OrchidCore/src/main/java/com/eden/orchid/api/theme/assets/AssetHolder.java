@@ -8,6 +8,10 @@ public interface AssetHolder {
 
     void addAssets();
 
+    default void withNamespace(String namespace, Runnable cb) {
+        getAssetHolder().withNamespace(namespace, cb);
+    }
+
     default void addJs(AssetPage jsAsset) {
         getAssetHolder().addJs(jsAsset);
     }

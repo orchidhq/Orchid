@@ -3,20 +3,14 @@
 
 * [Introduction](intro.md)
 * [Quick-Start](quickstart.md)
-
-## Building Blocks
-
-* [Pages](building-blocks/pages.md)
-* [Themes](building-blocks/themes.md)
-* [Generators](building-blocks/generators.md)
-* [Menus](building-blocks/menus.md)
-* [Components](building-blocks/components.md)
+* [Building Blocks](building-blocks.md)
 
 ## Configuration 
 
 * [Directory Structure](configuration/directory-structure.md)
 * [Site Configuration](configuration/site-config.md)
 * [Page Configuration](configuration/page-config.md)
+* [Admin Panel](configuration/admin-panel.md)
 
 ## Content
 
