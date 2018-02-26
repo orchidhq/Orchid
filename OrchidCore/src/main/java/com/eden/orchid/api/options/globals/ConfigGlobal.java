@@ -9,7 +9,7 @@ public class ConfigGlobal implements TemplateGlobal<Map<String, Object>> {
 
     @Override
     public String key() {
-        return "theme";
+        return "config";
     }
 
     @Override

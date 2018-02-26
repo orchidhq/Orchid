@@ -1,10 +1,11 @@
 ---
+pebbleUrl: 'http://www.mitchellbosecke.com/pebble/documentation'
 ---
 
 {% extends '_wikiBase' %}
 
 {% block sectionIntro %}
-[Pebble](http://www.mitchellbosecke.com/pebble/documentation) is the main template language used by Orchid. It has a 
+[Pebble]({{pebbleUrl}}) is the main template language used by Orchid. It has a 
 syntax very similar to other modern template languages like Liquid, Twig, or Jinja2, and supports template inheritance. 
 It also happens to be [one of the fastest](https://github.com/mbosecke/template-benchmark) Java template engines, 
 period. This all makes Pebble an ideal choice for building themes and helping you manage your content in Orchid.  
@@ -16,11 +17,14 @@ period. This all makes Pebble an ideal choice for building themes and helping yo
 
 Pebble is a general-purpose template language, meaning it is designed to work with any text-based input and is not 
 limited to HTML, unlike some other engines such as JSP and Thymeleaf. For this reason, Pebble is not only the language
-of choice for theme's, but is also extremely useful to be used as the Precompiler language, as it can help add structure
+of choice for themes, but is also extremely useful to be used as the Precompiler language, as it can help add structure
 and consistency to your content, while also making it easy to change later on if needed.
 
 ## Template Inheritance
 ---
+
+[Pebble Source Documentation (`extends`)]({{pebbleUrl}}/tag/extends)
+[Pebble Source Documentation (`block`)]({{pebbleUrl}}/tag/block)
 
 Template Inheritance is one of the most powerful features of Pebble. It allows you to treat your entire template not 
 simply as a template with a lot of includes for each site component, but rather as a tree comprised of individual 
@@ -139,21 +143,174 @@ template, but is embedded within the base template itself.
 
 In all, template inheritance offers a much cleaner and easier-to-maintain solution for building themes. The snippets 
 shown above are all valid Pebble markup, so you can use those as your base, or you can learn more at the  
-[Official Pebble documentation](http://www.mitchellbosecke.com/pebble/documentation).
+[Official Pebble documentation]({{pebbleUrl}}).
 
 ## Variables
 ---
 
+[Pebble Source Documentation]({{pebbleUrl}}/guide/basic-usage#variables)
+
+When rendering a template or precompiling page content, Orchid passes a number of variables that can be used for logic
+or for printing directly to the screen. Generally speaking, everytime you render with Pebble, you will have the 
+following variables available to work with:
+
+| Variable Name | Description | 
+| ------------- | ----------- | 
+| `page`        | The current page | 
+| `site`        | General data for your entire site | 
+| `index`       | Your site's entire index, allowing you to find specific groups of pages from it. It is usually better to create a TemplateTag or Component that accesses the index, but you can use it directly if you want. | 
+| `config`      | The map of all options set in your `config.yml` and `data/` files. | 
+
+{.table .table-striped}
+
+In addition to the above "template globals", some plugins may add their own global variables. Also, all the variables 
+from the Page's Front Matter are added directly to the template as well for easy access.
+
+These variables typically have many other properties that can be accessed from them, check out their Javadocs to find 
+out all that you can do with them. They can then be used for iteration or control flow, which is explained later in this
+article, or they can be printed directly to the page. 
+
+To evaluate the value of a variable and output it to the page, use the variable's name within pairs of double curly-
+braces, like so:
+
+{% highlight 'jinja' %}
+{% verbatim %}{{ site.about.siteName }}{% endverbatim %} 
+Result: {{ site.about.siteName }} 
+{% endhighlight %}
+
+Before being printed out, you may pass the variable expression through a series of `filters`, which change the output
+before being passed to the next filter:
+
+{% highlight 'jinja' %}
+{% verbatim %}{{ ['Hello', 'World'] | join(' ') | upper }}{% endverbatim %} 
+Result: {{ ['Hello', 'World'] | join(' ') | upper }} 
+{% endhighlight %}
+
+Note that all content is HTML-escaped before being printed, by default, making it safe to print raw HTML strings out 
+without affecting your page structure, and also protects you against certain security vulnerabilities like Cross-Site
+Scripting (if you're rendering user-generated content). You may prevent this if you need to with the `raw` filter. In 
+addition, literal strings as the only input to an expression are not escaped, as they are assumed to be safe.
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% set danger = "<b>Bold Content</b>" %}
+{{ danger }}
+{{ danger | raw }}
+{{ "<b>Bold Content</b>" }}
+{% endverbatim %} 
+{% endhighlight %}
+
+{% set danger = "<b>Bold Content</b>" %}
+
+- Result (escaped): {{ danger }}
+
+- Result (raw): {{ danger | raw }}
+
+- Result (literal string): {{ "<b>Bold Content</b>" }}
+
 ## Control Flow
 ---
+
+[Pebble Source Documentation]({{pebbleUrl}}/tag/if)
+
+You can use any variable on the page as part of a conditional block of content. 
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% if users is empty %}
+    There are no users.
+{% elseif users.length == 1 %}
+    There is only one user.
+{% else %}
+    There are many users.
+{% endif %} 
+{% endverbatim %} 
+{% endhighlight %}
 
 ## Iteration
 ---
 
-## Functions and Filters
----
+[Pebble Source Documentation]({{pebbleUrl}}/tag/for)
+
+Any `java.lang.Iterable` object (such as `Sets`, `Lists`) can be iterated across, in addition to `Map` entries. And 
+unlike traditional iteration in Java, you may include an `else` block within the loop, which is used in the case that 
+the input is empty, so you don't have to manually check the input's size first.
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% for user in users %}
+    {{ loop.index }} - {{ user.id }}
+{% else %}
+    There are no users to display.
+{% endfor %}
+{% endverbatim %} 
+{% endhighlight %}
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% for entry in map %}
+    {{ entry.key }} - {{ entry.value }}
+{% endfor %}
+{% endverbatim %} 
+{% endhighlight %}
+
+As a helper within the `for` block, you may access the `loop` variable, which has the following properties:
+
+- `loop.index` - The current iteration within the block (zero-indexed)
+- `loop.revindex` - How many iterations remain in the loop, after the current iteration
+- `loop.length` - The total size of the object we are iterating over
+- `loop.first` - `true` if this is the first iteration of the loop, `false` otherwise
+- `loop.last` - `true` if this is the last iteration of the loop, `false` otherwise
 
 ## Custom Functions and Tags
 ---
+
+Pebble ships with a number of tags and filters that are appropriate for most basic usage of a template engine, but 
+Orchid extends this with a number of its own tags and filters. Plugins can also contribute new filters or tags, which
+means you can also add these as a local plugin, which can be very powerful for your personal workflow. You can learn 
+more about how to add your own tags and filters in the Developers's Guide, but here is a list of some that are added by
+Orchid:
+
+### Filters
+
+### Tags
+
+Tags added by Orchid generally come in two flavors: ones that have a closing tag, and ones that do not. Tags that have
+a closing tag consider everything within the opening and closing tags to be arbitrary content, and can be filtered if 
+desired, by adding the desired filters after `::` at the end of the opening tag. All custom Orchid tags may have a 
+number of possible arguments available, which may be passed sequentially or as named parameters. See the examples below:
+
+**Highlight tag available in the {{ anchor('OrchidSyntaxHighlighter', 'OrchidSyntaxHighlighter') }} plugin**
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% highlight 'java' %}
+public static void main(String... args) {}
+{% endhighlight %}
+
+{% highlight language='java' %}
+public static void main(String... args) {}
+{% endhighlight %}
+
+{% highlight 'java' :: upper %}
+public static void main(String... args) {}
+{% endhighlight %}
+{% endverbatim %} 
+{% endhighlight %}
+
+**Twitter tag available in the {{ anchor('OrchidWritersBlocks', 'OrchidWritersBlocks') }} plugin**
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% twitter "BigBendNPS" "957346111303376897" %}
+
+{% twitter user="BigBendNPS" id="957346111303376897" %}
+{% endverbatim %} 
+{% endhighlight %}
+
+> To make it easier to find and use these custom Tags, the {{ anchor('OrchidNetlifyCMS', 'OrchidNetlifyCMS') }} plugin
+> adds all these tags as custom fields within its WYSIWYG editor.
+
+{.alert .alert-info}
 
 {% endblock %}

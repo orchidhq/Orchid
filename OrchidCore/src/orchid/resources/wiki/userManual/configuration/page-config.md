@@ -34,6 +34,7 @@ customItems:
 ---
 {% endhighlight %}
 
+
 Front Matter can use different languages in two ways: by specifying the language's extension after the first set of 
 dashes, or by using "fences" for that languages. As an example, TOML uses `+++` instead of `---`, and JSON uses `;;;`. 
 The following blocks of TOML front Matter are equivalent to the YAML Front Matter block above:
@@ -59,6 +60,7 @@ customItems = [
 ]
 +++
 {% endhighlight %}
+
 
 The data defined in Front Matter is then included into the page, and can be accessed as template variables anywhere on 
 the page, including components, layouts, included templates, or pre-rendered into the page content. As an example, the 

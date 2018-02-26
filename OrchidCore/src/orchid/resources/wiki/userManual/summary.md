@@ -26,9 +26,7 @@
 ## Templates and Themes
 
 * [Themes](themes/themes.md)
-* [Templating with Pebble](themes/pebble.md)
+* [Templates](themes/templates.md)
 * [Template Lookup Order](themes/template-lookup.md)
-* [Layouts](themes/layouts.md)
-* [Page Templates](themes/page-templates.md)
-* [Component Templates](themes/component-templates.md)
+* [Pebble](themes/pebble.md)
 
