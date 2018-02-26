@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme.assets;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -24,6 +25,8 @@ public final class ThemeAssetHolder implements AssetHolder {
     private final List<AssetPage> css;
 
     private final AbstractTheme theme;
+
+    private String prefix;
 
     @Inject
     public ThemeAssetHolder(OrchidContext context, AbstractTheme theme) {
@@ -63,10 +66,20 @@ public final class ThemeAssetHolder implements AssetHolder {
         resource = context.getResourceEntry(jsAsset);
 
         if(resource != null) {
-            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
-                ((ExternalResource) resource).setDownload(true);
+            boolean setPrefix = !EdenUtils.isEmpty(prefix);
+            if(resource instanceof ExternalResource) {
+                if(shouldDownloadExternalAssets()) {
+                    ((ExternalResource) resource).setDownload(true);
+                }
+                else {
+                    setPrefix = false;
+                }
             }
-            addJs(new AssetPage(theme, "theme", resource, FilenameUtils.getBaseName(jsAsset)));
+            AssetPage page = new AssetPage(theme, "theme", resource, FilenameUtils.getBaseName(jsAsset));
+            if(setPrefix) {
+                page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
+            }
+            addJs(page);
         }
         else {
             Clog.w("Could not find JS asset: {}", jsAsset);
@@ -97,10 +110,20 @@ public final class ThemeAssetHolder implements AssetHolder {
             resource = context.getResourceEntry(cssAsset);
         }
         if(resource != null) {
-            if(resource instanceof ExternalResource && shouldDownloadExternalAssets()) {
-                ((ExternalResource) resource).setDownload(true);
+            boolean setPrefix = !EdenUtils.isEmpty(prefix);
+            if(resource instanceof ExternalResource) {
+                if(shouldDownloadExternalAssets()) {
+                    ((ExternalResource) resource).setDownload(true);
+                }
+                else {
+                    setPrefix = false;
+                }
             }
-            addCss(new AssetPage(theme, "theme", resource, FilenameUtils.getBaseName(cssAsset)));
+            AssetPage page = new AssetPage(theme, "theme", resource, FilenameUtils.getBaseName(cssAsset));
+            if(setPrefix) {
+                page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
+            }
+            addCss(page);
         }
         else {
             Clog.w("Could not find CSS asset: {}", cssAsset);
@@ -139,5 +162,11 @@ public final class ThemeAssetHolder implements AssetHolder {
 
     public boolean shouldDownloadExternalAssets() {
         return context.isProduction();
+    }
+
+    public void withNamespace(String namespace, Runnable cb) {
+        prefix = OrchidUtils.normalizePath(namespace);
+        cb.run();
+        prefix = null;
     }
 }

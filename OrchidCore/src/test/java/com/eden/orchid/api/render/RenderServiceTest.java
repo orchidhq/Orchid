@@ -91,8 +91,8 @@ public final class RenderServiceTest {
         when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
         when(context.compile("html", layoutContent, page)).thenReturn(layoutContent);
         when(context.compile("html", resourceContent, page)).thenReturn(resourceContent);
-        when(context.precompile("peb", layoutContent, page.getData())).thenReturn(layoutContent);
-        when(context.precompile("peb", resourceContent, page.getData())).thenReturn(resourceContent);
+        when(context.compile("peb", layoutContent, page)).thenReturn(layoutContent);
+        when(context.compile("peb", resourceContent, page)).thenReturn(resourceContent);
 
         service = new RenderServiceImpl(context, templateResolutionStrategy, renderer);
         service.initialize(context);

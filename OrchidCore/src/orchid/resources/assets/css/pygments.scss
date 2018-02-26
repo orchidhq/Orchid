@@ -70,3 +70,12 @@
 .highlight .vg  { color: #003333                                        } /* Name.Variable.Global */
 .highlight .vi  { color: #003333                                        } /* Name.Variable.Instance */
 .highlight .il  { color: #FF6600                                        } /* Literal.Number.Integer.Long */
+
+.highlight .lineno {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}

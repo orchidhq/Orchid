@@ -1,14 +1,21 @@
 (function ($, lunr) {
 
     function initializeSearchField() {
-        $('form[data-lunar-search]').submit(function (e) {
+        $('form[data-orchid-search]').submit(function (e) {
             event.preventDefault();
 
             var $queryEl = $(this).find("input[name=query]");
             var $query = $queryEl.val();
+            var $orchidIndicesAllowed = $(this).attr('data-orchid-search');
+            if($orchidIndicesAllowed && $orchidIndicesAllowed.length > 0) {
+                $orchidIndicesAllowed = $orchidIndicesAllowed.split(",");
+            }
+            else {
+                $orchidIndicesAllowed = null;
+            }
 
             setSearchWorking(true);
-            loadOrchidIndex(function () {
+            loadOrchidIndex($orchidIndicesAllowed, function () {
                 searchOrchidIndex($query, function (results) {
                     displaySearchResults(results, function () {
                         setSearchWorking(false);
@@ -29,9 +36,9 @@
         }
     }
 
-    function getOrchidDocuments(cb) {
+    function getOrchidDocuments($orchidIndicesAllowed, cb) {
         if (!window.orchidDocuments) {
-            loadRootIndex(function (documents) {
+            loadRootIndex($orchidIndicesAllowed, function (documents) {
                 window.orchidDocuments = documents;
                 window.orchidDocumentsMap = {};
 
@@ -47,11 +54,9 @@
         }
     }
 
-    function loadOrchidIndex(cb) {
+    function loadOrchidIndex($orchidIndicesAllowed, cb) {
         if (!window.orchidIdx) {
-            getOrchidDocuments(function (docs) {
-                console.log("all docs");
-                console.log(docs);
+            getOrchidDocuments($orchidIndicesAllowed, function (docs) {
                 window.orchidIdx = lunr(function () {
                     this.ref('link');
                     this.field('title');
@@ -80,8 +85,8 @@
     }
 
     function displaySearchResults(results, cb) {
-        console.log("displaying results");
-        console.log(results);
+        // console.log("displaying results");
+        // console.log(results);
 
         var items = [];
 
@@ -111,6 +116,11 @@
     function getSearchSummary(result, document) {
         var matches = 0;
 
+        var startContextLength = 12;
+        var endContextLength = 12;
+
+        var snippets = [];
+
         // for every matching word
         for (var word in result.matchData.metadata) {
 
@@ -118,34 +128,101 @@
             for (var field in result.matchData.metadata[word]) {
                 if (field && result.matchData.metadata[word][field].position) {
                     matches += result.matchData.metadata[word][field].position.length;
+
+                    for(var i_pos = 0; i_pos < result.matchData.metadata[word][field].position.length; i_pos++) {
+                        if(i_pos === 3) break;
+
+                        var snippetBounds = result.matchData.metadata[word][field].position[i_pos];
+                        var pos_start = snippetBounds[0];
+                        var pos_end = snippetBounds[0] + snippetBounds[1] + 1;
+
+                        var match_start = snippetBounds[0];
+                        var match_end = snippetBounds[0] + snippetBounds[1] + 1;
+
+                        var leadingEllipses = false;
+                        var trailingEllipses = false;
+
+                        // add context to the beginning
+                        if(pos_start > startContextLength) {
+                            pos_start -= startContextLength;
+                            leadingEllipses = true;
+                        }
+                        else {
+                            pos_start = 0;
+                        }
+
+                        // add context to the end
+                        if(pos_end < document[field].length - endContextLength) {
+                            pos_end += endContextLength;
+                            trailingEllipses = true;
+                        }
+                        else {
+                            pos_end = document[field].length;
+                        }
+
+                        var snippet =
+                            document[field].substring(pos_start, match_start) +
+                            "<b>" + document[field].substring(match_start, match_end) + "</b>" +
+                            document[field].substring(match_end, pos_end)
+                        ;
+                        snippet = snippet.trim();
+                        if(leadingEllipses) {
+                            snippet = "..." + snippet;
+                        }
+                        if(trailingEllipses) {
+                            snippet = snippet + "...";
+                        }
+                        snippets.push(snippet);
+                    }
                 }
             }
         }
 
-        return "Relevance: " + parseFloat(Math.round(result.score * 100) / 100).toFixed(2) + ", " + matches + ' Matches';
+        return "<b><i>" + matches + " matches:</i></b><br>" + snippets.join("<br>");
     }
 
 // Load indices via AJAX and build a map of documents that can be passed to Lunr
 //----------------------------------------------------------------------------------------------------------------------
 
-    function loadRootIndex(done) {
+    function loadRootIndex($orchidIndicesAllowed, done) {
         var allDocs = [];
         $.getJSON(window.site.baseUrl + "/meta/index.json", function (data) {
             var childIndices = data.childrenPages.meta.ownPages;
             var childIndicesFinishedCount = 0;
 
             childIndices.map(function (indexPage) {
-                loadIndexPage(indexPage.reference.link,
-                    function (document) {
-                        allDocs.push(document);
-                    },
-                    function () {
-                        childIndicesFinishedCount++;
-
-                        if (childIndicesFinishedCount === childIndices.length) {
-                            done(allDocs);
+                var shouldLoad = true;
+                if($orchidIndicesAllowed) {
+                    var isIndexAllowed = false;
+                    for(var i = 0; i < $orchidIndicesAllowed.length; i++) {
+                        if(indexPage.reference.fileName === $orchidIndicesAllowed[i].trim() + ".index") {
+                            isIndexAllowed = true;
+                            break;
                         }
-                    });
+                    }
+                    shouldLoad = isIndexAllowed;
+                }
+
+                if (shouldLoad) {
+                    loadIndexPage(indexPage.reference.link,
+                        function (document) {
+                            allDocs.push(document);
+                        },
+                        function () {
+                            childIndicesFinishedCount++;
+
+                            if (childIndicesFinishedCount === childIndices.length) {
+                                done(allDocs);
+                            }
+                        });
+                }
+                else {
+                    childIndicesFinishedCount++;
+
+                    if (childIndicesFinishedCount === childIndices.length) {
+                        done(allDocs);
+                    }
+                }
             });
         });
     }

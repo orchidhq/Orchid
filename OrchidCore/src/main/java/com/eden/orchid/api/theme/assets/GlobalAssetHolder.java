@@ -78,4 +78,8 @@ public class GlobalAssetHolder implements AssetHolder {
     public boolean shouldDownloadExternalAssets() {
         return context.get().isProduction();
     }
+
+    public void withNamespace(String namespace, Runnable cb) {
+        throw new UnsupportedOperationException("Cannot set the namespace on the GlobalAssetHolder");
+    }
 }

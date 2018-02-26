@@ -38,7 +38,7 @@ class AuthorPage(resource: OrchidResource, val author: Author, val postsModel: P
 
     override fun getTemplates(): List<String> {
         val templates = super.getTemplates()
-        templates.add(0, "postAuthor-${OrchidUtils.toSlug(author.name)}")
+        templates.add(0, "$key-${OrchidUtils.toSlug(author.name)}")
         return templates
     }
 

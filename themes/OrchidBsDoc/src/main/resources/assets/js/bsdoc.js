@@ -1,25 +1,24 @@
 function trianglify(allOptions) {
     var header = $('#jumbotron');
 
-    $(window).resize(function() {
-        trianglify(allOptions);
-    });
-
-    var defaultOptions = {
-        cell_size: 90,
-        x_colors: [window.colors[1], window.colors[0]],
-        y_colors: 'match_x',
-        height: header.outerHeight(),
-        width: header.outerWidth()
-    };
-    if (allOptions) {
-        for (var key in allOptions) {
-            defaultOptions[key] = allOptions[key];
+    if(!window.trianglifyOptions && allOptions) {
+        var defaultOptions = {
+            cell_size: 90,
+            x_colors: [window.colors[1], window.colors[0]],
+            y_colors: 'match_x'
+        };
+        if (allOptions) {
+            for (var key in allOptions) {
+                defaultOptions[key] = allOptions[key];
+            }
         }
+        window.trianglifyOptions = defaultOptions;
     }
-    var trianglifyOptions = defaultOptions;
 
-    var pattern = Trianglify(trianglifyOptions);
+    window.trianglifyOptions.height = header.outerHeight();
+    window.trianglifyOptions.width = header.outerWidth();
+
+    var pattern = Trianglify(window.trianglifyOptions);
     header.css('background-image', 'url(' + pattern.png() + ')');
 }
 
@@ -75,7 +74,6 @@ function setupSidenavClick() {
 function setupScrollspy() {
     var sidebar = $('#bs-docs-sidebar');
     if(sidebar.length > 0) {
-        console.log("scrolling spy");
         $('body').scrollspy({
             target: '#bs-docs-sidebar'
         });
@@ -91,3 +89,10 @@ function setupScrollspy() {
 function setupTooltips() {
     $('[data-toggle="tooltip"]').tooltip();
 }
+
+//
+//----------------------------------------------------------------------------------------------------------------------
+
+$(window).resize(function() {
+    trianglify();
+});

@@ -1,6 +1,13 @@
 ---
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+{% endblock %}
+
+{% block sectionBody %}
+
 Orchid is designed to be used with Gradle, and it works best when integrated directly in your existing Java projects. 
 The standard Orchid directory structure is just a normal Maven project, where the Orchid source content is in 
 `src/orchid` instead of `src/main`. 
@@ -147,3 +154,5 @@ users of older versions become aware of newer versions.
 One helpful trick to ensuring all release versions are accounted for (used for the Orchid release notes), is to include 
 a check in your CI process to ensure the existence of this file at the current release tag. If you force this file to 
 exist before releasing any update, you can be sure that all releases have notes available immediately.
+
+{% endblock %}

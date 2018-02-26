@@ -4,12 +4,14 @@ site:
     siteDescription: A beautiful and truly unique documentation engine and static site generator.
 
 theme:
+  useSidebarSearch: true
   social:
     github: 'JavaEden/Orchid'
   primaryColor: '#7E80CF'
   trianglifyOptions:
     x_colors: 'BuPu'
     cell_size: 55
+    seed: 1
   menu:
     - type: 'link'
       title: 'Home'
@@ -40,9 +42,13 @@ wiki:
 
 wikiPages:
   layout: geopattern2
+  searchIndices:
+    - 'wiki'
 
 staticPages:
   layout: geopattern
+  searchIndices:
+    - 'pages'
 
 taxonomies:
   taxonomies:
@@ -59,3 +65,19 @@ taxonomies:
         single: true
         includeFrom:
           - javadoc
+taxonomyArchivePages:
+  searchIndices:
+    - 'pages'
+termArchivePages:
+  searchIndices:
+    - 'pages'
+
+javadoc:
+  classPages:
+    searchIndices:
+      - 'wiki'
+      - 'javadoc'
+  packagePages:
+    searchIndices:
+      - 'wiki'
+      - 'javadoc'

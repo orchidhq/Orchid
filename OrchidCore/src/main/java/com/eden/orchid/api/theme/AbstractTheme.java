@@ -1,9 +1,11 @@
 package com.eden.orchid.api.theme;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -17,12 +19,16 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public abstract class AbstractTheme extends PluginResourceSource implements OptionsHolder, AssetHolder {
 
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
+
+    @Getter @Setter @OptionsData
+    private JSONElement allData;
 
     @Getter @Setter
     @Option
@@ -66,8 +72,10 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
 
     public final void addAssets() {
         if(!hasAddedAssets) {
-            loadAssets();
-            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
+            withNamespace(getKey() + "-" + Integer.toHexString(this.hashCode()), () -> {
+                loadAssets();
+                OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
+            });
             hasAddedAssets = true;
         }
     }
@@ -116,5 +124,30 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
         this.currentPage = currentPage;
         callback.accept(this);
         this.currentPage = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractTheme)) return false;
+        if (!super.equals(o)) return false;
+        AbstractTheme that = (AbstractTheme) o;
+        if(getAllData() != null) {
+            return Objects.equals(getKey(), that.getKey()) &&
+                Objects.equals(getAllData().getElement(), that.getAllData().getElement());
+        }
+        else {
+            return Objects.equals(getKey(), that.getKey());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        if(getAllData() != null) {
+            return Objects.hash(super.hashCode(), getKey(), getAllData().getElement());
+        }
+        else {
+            return Objects.hash(super.hashCode(), getKey());
+        }
     }
 }

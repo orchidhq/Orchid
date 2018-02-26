@@ -205,7 +205,7 @@ public final class PebbleWrapperTemplateTag implements TokenParser {
                 }
                 catch (Exception e) {
                     if (!EdenUtils.isEmpty(bodyContent)) {
-                        writer.append(bodyContent);
+                        writer.append(bodyContent.trim());
                     }
                 }
             }

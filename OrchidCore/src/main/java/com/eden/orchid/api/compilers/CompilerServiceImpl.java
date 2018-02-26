@@ -200,14 +200,6 @@ public final class CompilerServiceImpl implements CompilerService {
         return precompiler.getEmbeddedData(input);
     }
 
-    public String precompile(String extension, String input) {
-        return this.precompile(extension, input, null);
-    }
-
-    public String precompile(String extension, String input, Object data) {
-        return precompiler.precompile(extension, input, context.getSiteData(data));
-    }
-
     public String getOutputExtension(String extension) {
         OrchidCompiler compiler = compilerFor(extension);
         return (compiler != null) ? compiler.getOutputExtension() : extension;

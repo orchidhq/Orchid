@@ -4,10 +4,12 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.OptionsData;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -53,6 +55,7 @@ import java.util.stream.Stream;
  * @orchidApi extensible
  */
 @Extensible
+@Archetype(value = ConfigArchetype.class, key = "allGenerators")
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 
     /**
@@ -78,8 +81,11 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
-    @Description("Set a theme to be used only when rendering pages from this Generator.")
-    private String theme;
+    @Description("Set a theme to be used only when rendering pages from this Generator. This can be a String to use " +
+            "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
+            "specific options for the theme."
+    )
+    private Object theme;
 
     @Getter @Setter
     @Option

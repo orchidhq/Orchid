@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
 @Test(groups = {"services", "unit"})
@@ -126,29 +126,16 @@ public final class GeneratorServiceTest {
 
         verify(generator1).extractOptions(any(), any());
         verify(generator1).startIndexing();
-        verify(generator1).startGeneration(any());
         assertThat(generator1.mockPages.size(), is(1));
         assertThat(generator1.mockPages.size(), is(1));
-        assertThat(generator1.generatedPages, is(notNullValue()));
-        assertThat(generator1.generatedPages.size(), is(1));
-        assertThat(generator1.generatedPages, contains(mockPage1));
-        assertThat(generator1.generatedPages, not(contains(mockPage2)));
 
         verify(generator2).extractOptions(any(), any());
         verify(generator2).startIndexing();
-        verify(generator2).startGeneration(any());
         assertThat(generator2.mockPages.size(), is(1));
-        assertThat(generator2.generatedPages, is(notNullValue()));
-        assertThat(generator2.generatedPages.size(), is(1));
-        assertThat(generator2.generatedPages, contains(mockPage2));
-        assertThat(generator2.generatedPages, not(contains(mockPage1)));
 
         verify(generator3).extractOptions(any(), any());
         verify(generator3).startIndexing();
-        verify(generator3).startGeneration(any());
         assertThat(generator3.mockPages, is(nullValue()));
-        assertThat(generator3.generatedPages, is(notNullValue()));
-        assertThat(generator3.generatedPages.size(), is(0));
     }
 
     @Test
@@ -190,19 +177,19 @@ public final class GeneratorServiceTest {
         generator1.setTheme("theme1");
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(1)).pushTheme(any());
+        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
         generator2.setTheme("theme1");
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(2)).pushTheme(any());
+        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
         generator3.setTheme("theme1");
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).pushTheme(any());
+        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
     }
 

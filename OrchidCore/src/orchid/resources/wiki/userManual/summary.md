@@ -3,20 +3,14 @@
 
 * [Introduction](intro.md)
 * [Quick-Start](quickstart.md)
-
-## Building Blocks
-
-* [Pages](building-blocks/pages.md)
-* [Themes](building-blocks/themes.md)
-* [Generators](building-blocks/generators.md)
-* [Menus](building-blocks/menus.md)
-* [Components](building-blocks/components.md)
+* [Building Blocks](building-blocks.md)
 
 ## Configuration 
 
 * [Directory Structure](configuration/directory-structure.md)
 * [Site Configuration](configuration/site-config.md)
 * [Page Configuration](configuration/page-config.md)
+* [Admin Panel](configuration/admin-panel.md)
 
 ## Content
 
@@ -32,9 +26,7 @@
 ## Templates and Themes
 
 * [Themes](themes/themes.md)
-* [Templating with Pebble](themes/pebble.md)
+* [Templates](themes/templates.md)
 * [Template Lookup Order](themes/template-lookup.md)
-* [Layouts](themes/layouts.md)
-* [Page Templates](themes/page-templates.md)
-* [Component Templates](themes/component-templates.md)
+* [Pebble](themes/pebble.md)
 

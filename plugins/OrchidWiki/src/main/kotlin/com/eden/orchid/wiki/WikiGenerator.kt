@@ -87,7 +87,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         else
             OrchidUtils.normalizePath(baseDir) + "/"
 
-        var summary: OrchidResource? = context.getLocalResourceEntry(sectionBaseDir + "SUMMARY.md")
+        var summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
 
         if (summary == null) {
             if(section != null) {

@@ -177,7 +177,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void useGenerator(OrchidGenerator generator) {
-        Clog.d("Generating [{}: {}]", generator.getPriority(), generator.getKey());
+        Clog.d("Generating [{}: {}]{}", generator.getPriority(), generator.getKey(), (generator.isParallel()) ? " in parallel" : "");
+
         metrics.startGeneratingGenerator(generator.getKey());
 
         List<? extends OrchidPage> generatorPages = null;
@@ -190,20 +191,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         Stream<? extends OrchidPage> generatorPagesStream = generator.isParallel() ? generatorPages.parallelStream() : generatorPages.stream();
 
-        Theme generatorTheme = null;
-        if (!EdenUtils.isEmpty(generator.getTheme())) {
-            generatorTheme = context.findTheme(generator.getTheme());
-        }
-
-        if (generatorTheme != null) {
-            Clog.d("Applying [{}] theme to [{}] generator", generatorTheme.getClass().getSimpleName(), generator.getKey());
-            context.pushTheme(generatorTheme);
-            generator.startGeneration(generatorPagesStream);
-            generatorTheme.renderAssets();
-            context.popTheme();
-        }
-        else {
-            generator.startGeneration(generatorPagesStream);
+        Theme customTheme = context.doWithTheme(generator.getTheme(), () -> generator.startGeneration(generatorPagesStream));
+        if(customTheme != null) {
+            Clog.i("[{}] Generator pages rendered with [{}] Theme.", generator.getKey(), customTheme.getKey());
         }
 
         metrics.stopGeneratingGenerator(generator.getKey());

@@ -8,7 +8,7 @@ public class IndexGlobal implements TemplateGlobal<OrchidIndex> {
 
     @Override
     public String key() {
-        return "theme";
+        return "index";
     }
 
     @Override

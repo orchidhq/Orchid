@@ -1,12 +1,16 @@
 ---
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
 Orchid provides a powerful, yet simple and intuitive way to configure your site. It expects that large and complex sites
 may have lots of options set in a many-layered hierarchy, but does not sacrifice simplicity for power with smaller 
 sites. To fully understand all that can be configured with the site config, you should refer to _the Options section of
 the developer guide_. A basic description follows.
+{% endblock %}
 
-[TOC]
+{% block sectionBody %}
 
 ## The Basics
 ***
@@ -36,8 +40,8 @@ setting the default theme.
 ## Basic Site Config
 ***
 
-```yaml
-Editorial: # (1)
+{% highlight 'yaml' %}
+theme: # (1)
   menu: 
     - type: 'readme' 
     - type: 'license' 
@@ -50,11 +54,11 @@ services: # (3)
     disabled:
       - 'javadoc'
       - 'posts'
-      
-allPosts: # (4)
+  
+allPages: # (4)
   layout: single
-```
-{.line-numbers}
+{% endhighlight %}
+
 
 1) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 
     use individual theme keys to configure each theme independently, but `theme` is generally easier to quickly try out
@@ -90,7 +94,7 @@ For example, the following YAML configs are equivalent:
 
 **Config in one single config.yml**
 
-```yaml
+{% highlight 'yaml' %}
 # config.yml
 theme:
   siteName: 'My Site'
@@ -104,34 +108,36 @@ theme:
     - type: link
       title: 'Contact'
       url: '/contact'
-```
+{% endhighlight %}
+
 
 **Config broken into several files**
 
-```yaml
+{% highlight 'yaml' %}
 # config.yml
-```
+{% endhighlight %}
 
-```yaml
+{% highlight 'yaml' %}
 # data/theme.yml
 siteName: 'My Site'
-```
+{% endhighlight %}
 
-```yaml
+{% highlight 'yaml' %}
 # data/theme/components.yml
 - type: pageContent
 - type: readme
 - type: license
-```
+{% endhighlight %}
 
-```yaml
+{% highlight 'yaml' %}
 # data/theme/menu.yml
 - type: page
   page: 'home'
 - type: link
   title: 'Contact'
   url: '/contact'
-```
+{% endhighlight %}
+
 
 ## How these options get used
 ***
@@ -151,3 +157,5 @@ The basic process goes like this:
  6) Generate pages each generator. If the Generator specified a theme as one of its options during the Indexing step, 
  switch to that theme, loading _that_ theme's options in the same manner as in step 3, before rendering the pages from 
  that generator. 
+ 
+ {% endblock %}

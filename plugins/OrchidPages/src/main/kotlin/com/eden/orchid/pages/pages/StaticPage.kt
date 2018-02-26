@@ -47,7 +47,6 @@ class StaticPage(resource: OrchidResource)
     override fun getTemplates(): List<String> {
         val templates = super.getTemplates()
         if (!EdenUtils.isEmpty(group)) {
-            templates.add(0, group)
             templates.add(0, "$key-${group!!}")
         }
 

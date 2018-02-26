@@ -9,6 +9,7 @@ import com.eden.orchid.api.converters.NumberConverter;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.TemplateGlobal;
+import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.ComponentHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
@@ -55,6 +56,7 @@ public final class ApiModule extends OrchidModule {
 
         // Options Extractors
         addToSet(OptionExtractor.class,
+                AnyOptionExtractor.class,
                 BooleanOptionExtractor.class,
                 ComponentHolderOptionExtractor.class,
                 DateOptionExtractor.class,

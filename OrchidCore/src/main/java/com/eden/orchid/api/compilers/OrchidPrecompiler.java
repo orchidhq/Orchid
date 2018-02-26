@@ -6,8 +6,6 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.ImplementedBy;
 
-import java.util.Map;
-
 /**
  * The precompiler is a compiler to be run against files before they are sent to their appropriate OrchidCompiler.
  * Generally, this is used to extract data embedded within the file, returning the extracted data and the content after
@@ -51,18 +49,5 @@ public abstract class OrchidPrecompiler extends Prioritized {
      * @since v1.0.0
      */
     public abstract EdenPair<String, JSONElement> getEmbeddedData(String input);
-
-    /**
-     * When processing the input content, it is common to "inject" values into its contents which are made available
-     * to the main compiler that can't normally handle such operations. An example would be to render the site version
-     * or build timestamp into a plain-text content that does not have an associated OrchidCompiler.
-     *
-     * @param input the input content to precompile
-     * @param data the data to render into the input content
-     * @return the resulting content, which may then be passed to its associated OrchidCompiler
-     *
-     * @since v1.0.0
-     */
-    public abstract String precompile(String extension, String input, Map<String, Object> data);
 
 }

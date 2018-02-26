@@ -22,6 +22,7 @@ constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
     override fun loadAssets() {
         addCss("assets/css/editorial_main.scss")
         addCss("assets/css/editorial_orchidCustomizations.scss")
+        addCss("assets/css/orchidSearch.scss")
 
         addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
@@ -29,7 +30,7 @@ constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
         addJs("assets/js/editorial_main.js")
 
         addJs("https://unpkg.com/lunr/lunr.js")
-        addJs("assets/js/lunrSearch.js")
+        addJs("assets/js/orchidSearch.js")
     }
 
 }

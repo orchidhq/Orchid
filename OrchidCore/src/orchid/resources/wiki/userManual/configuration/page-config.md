@@ -1,18 +1,20 @@
 ---
-#title: Page Config
 customItems:
     - 'Item One'
     - 'Item Two'
     - 'Item Three'
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
 Pages in Orchid are configured in a similar way to most other Static Site Generators, using Front Matter. Front Matter
 is typically as a block of YAML between pairs of triple-dashed lines, but other configuration formats are also supported 
 (described below). Orchid also extends page configuration with Archetypes, which allow common configurations for pages 
 to be shared and controlled from a centralized location.
+{% endblock %}
 
-[TOC]
-
+{% block sectionBody %}
 ## Front Matter
 ***
 
@@ -22,7 +24,7 @@ be the first thing in the file. Front Matter can use any of Orchid's parser lang
 comes between pairs of triple dashed lines, which is removed from the actual page output. Here's an example, which is 
 the actual Front Matter of this current page:
 
-```yaml
+{% highlight 'yaml' %}
 ---
 title: Page Config
 customItems:
@@ -30,13 +32,14 @@ customItems:
     - 'Item Two'
     - 'Item Three'
 ---
-```
+{% endhighlight %}
+
 
 Front Matter can use different languages in two ways: by specifying the language's extension after the first set of 
 dashes, or by using "fences" for that languages. As an example, TOML uses `+++` instead of `---`, and JSON uses `;;;`. 
 The following blocks of TOML front Matter are equivalent to the YAML Front Matter block above:
 
-```toml
+{% highlight 'yaml' %}
 ---toml
 title = "Page Config"
 customItems = [
@@ -45,9 +48,9 @@ customItems = [
   "Item Three"
 ]
 ---
-```
+{% endhighlight %}
 
-```toml
+{% highlight 'yaml' %}
 +++
 title = "Page Config"
 customItems = [
@@ -56,13 +59,14 @@ customItems = [
   "Item Three"
 ]
 +++
-```
+{% endhighlight %}
+
 
 The data defined in Front Matter is then included into the page, and can be accessed as template variables anywhere on 
 the page, including components, layouts, included templates, or pre-rendered into the page content. As an example, the 
 following are all rendered dynamically based on this page's Front Matter, shown above:
 
-**title**: `{{title}}`
+**title**: `{{page.title}}`
 
 **customItems**:
 {% for item in customItems %}
@@ -92,15 +96,13 @@ giving you hierarchical control over your page configuration.
 
 As an example, I have the following snippet in this site's `config.yml`:
 
-```yaml
-
+{% highlight 'yaml' %}
 allPages:
   layout: single
 
 wikiPages:
   layout: geopattern2
-
-```
+{% endhighlight %}
 
 The resulting layout for this page is `{{layout}}`.
 
@@ -116,3 +118,5 @@ since I only have to change it once to see it reflected everywhere.
 It is worth noting that there is fundamentally no difference with whether the data came from Front Matter or from the 
 Archetype. When options are loaded into the Page, it is completely transparent from which source it came, so you can 
 simply work with the data without worrying that you've missed the Archetypes. 
+
+{% endblock %}
