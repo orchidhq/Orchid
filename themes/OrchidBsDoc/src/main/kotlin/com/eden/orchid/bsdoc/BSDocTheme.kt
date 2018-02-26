@@ -56,9 +56,9 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
         addJs("assets/js/bsdoc.js")
 
         if(useSidebarSearch) {
-            addCss("assets/css/lunrSearch.scss")
+            addCss("assets/css/orchidSearch.scss")
             addJs("https://unpkg.com/lunr/lunr.js")
-            addJs("assets/js/lunrSearch.js")
+            addJs("assets/js/orchidSearch.js")
         }
     }
 

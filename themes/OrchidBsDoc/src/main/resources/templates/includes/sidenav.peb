@@ -1,10 +1,10 @@
 <div class="bs-docs-sidebar hidden-print" id="bs-docs-sidebar">
     {% if theme.useSidebarSearch %}
         <section id="search" >
-            <form data-lunar-search>
+            <form data-orchid-search="{{ (searchIndices is not empty) ? searchIndices|join(',') : '' }}">
                 <div class="input-group">
                     <input type="text" name="query" id="query" class="form-control" placeholder="Search&hellip;">
-                    <span class="input-group-btn"><button type="button" class="btn btn-default">Go</button></span>
+                    <span class="input-group-btn"><button type="submit" class="btn btn-default">Go</button></span>
                 </div>
             </form>
             <div id="search-results" style="display: none;">

@@ -21,8 +21,7 @@ open class TermArchivePage(
     override fun getTemplates(): List<String> {
         val templates = mutableListOf(
                 "${this.key}-${taxonomy.key}-${term.key}",
-                "${this.key}-${taxonomy.key}",
-                this.key
+                "${this.key}-${taxonomy.key}"
         )
         templates.addAll(super.getTemplates())
 

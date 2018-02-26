@@ -77,8 +77,8 @@ As an example, the Posts plugin specifies a custom list of templates. These are 
 Orchid will automatically add the value of the page's `key` (or its "type") and the fallback value of `page` to the end
 of this list. The full list of "patterns" for a Post page then becomes:
 
+- `post-type-{postType}`
 - `post-{category}`
-- `{category}`
 - `post`
 - `page`
 
@@ -86,18 +86,18 @@ These get expanded into the same list as with Layouts, except using the `pages` 
 `layouts`, and the patterns injected one-at-a-time as `{template}`, resulting in the following list of possible 
 templates:
 
+- `templates/post-type-{postType}`
+- `templates/post-type-{postType}.{themePreferredExtension}`
+- `templates/post-type-{postType}.{defaultExtension}`
+- `templates/pages/post-type-{postType}`
+- `templates/pages/post-type-{postType}.{themePreferredExtension}`
+- `templates/pages/post-type-{postType}.{defaultExtension}`
 - `templates/post-{category}`
 - `templates/post-{category}.{themePreferredExtension}`
 - `templates/post-{category}.{defaultExtension}`
 - `templates/pages/post-{category}`
 - `templates/pages/post-{category}.{themePreferredExtension}`
 - `templates/pages/post-{category}.{defaultExtension}`
-- `templates/{category}`
-- `templates/{category}.{themePreferredExtension}`
-- `templates/{category}.{defaultExtension}`
-- `templates/pages/{category}`
-- `templates/pages/{category}.{themePreferredExtension}`
-- `templates/pages/{category}.{defaultExtension}`
 - `templates/post`
 - `templates/post.{themePreferredExtension}`
 - `templates/post.{defaultExtension}`

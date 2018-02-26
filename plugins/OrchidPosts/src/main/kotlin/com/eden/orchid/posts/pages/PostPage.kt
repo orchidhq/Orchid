@@ -34,6 +34,12 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
     )
     lateinit var tags: Array<String>
 
+    @Option
+    @Description("A 'type' of post, such as 'gallery', 'video', or 'blog', which is used to determine the specific" +
+            "post template to use for the Page Content."
+    )
+    lateinit var postType: String
+
     @Option @ApplyBaseUrl
     @Description("A fully-specified URL to a post's featured image, or a relative path to an Orchid image.")
     lateinit var featuredImage: String
@@ -76,9 +82,11 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
 
     override fun getTemplates(): List<String> {
         val templates = super.getTemplates()
-        if (!EdenUtils.isEmpty(categoryModel.key)) {
-            templates.add(0, categoryModel.key)
-            templates.add(0, "post-" + categoryModel.key!!)
+        if(!EdenUtils.isEmpty(postType)) {
+            templates.add(0, "$key-type-" + postType)
+        }
+        if(!EdenUtils.isEmpty(categoryModel.key)) {
+            templates.add(0, "$key-" + categoryModel.key!!)
         }
 
         return templates

@@ -74,7 +74,6 @@ function setupSidenavClick() {
 function setupScrollspy() {
     var sidebar = $('#bs-docs-sidebar');
     if(sidebar.length > 0) {
-        console.log("scrolling spy");
         $('body').scrollspy({
             target: '#bs-docs-sidebar'
         });

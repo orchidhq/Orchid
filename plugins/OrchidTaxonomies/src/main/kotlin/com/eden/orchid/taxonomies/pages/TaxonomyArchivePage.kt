@@ -17,8 +17,7 @@ open class TaxonomyArchivePage(
 
     override fun getTemplates(): List<String> {
         val templates = mutableListOf(
-                "${this.key}-${taxonomy.key}",
-                this.key
+                "${this.key}-${taxonomy.key}"
         )
         templates.addAll(super.getTemplates())
 

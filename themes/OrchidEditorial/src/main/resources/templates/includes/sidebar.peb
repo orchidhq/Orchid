@@ -3,7 +3,7 @@
 
         <!-- Search -->
         <section id="search" class="alt">
-            <form data-lunar-search>
+            <form data-orchid-search="{{ (searchIndices is not empty) ? searchIndices|join(',') : '' }}">
                 <input type="text" name="query" id="query" placeholder="Search"/>
             </form>
             <div class="box" id="search-results" style="display: none;">

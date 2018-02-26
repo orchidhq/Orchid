@@ -42,9 +42,13 @@ wiki:
 
 wikiPages:
   layout: geopattern2
+  searchIndices:
+    - 'wiki'
 
 staticPages:
   layout: geopattern
+  searchIndices:
+    - 'pages'
 
 taxonomies:
   taxonomies:
@@ -61,4 +65,19 @@ taxonomies:
         single: true
         includeFrom:
           - javadoc
+taxonomyArchivePages:
+  searchIndices:
+    - 'pages'
+termArchivePages:
+  searchIndices:
+    - 'pages'
 
+javadoc:
+  classPages:
+    searchIndices:
+      - 'wiki'
+      - 'javadoc'
+  packagePages:
+    searchIndices:
+      - 'wiki'
+      - 'javadoc'
