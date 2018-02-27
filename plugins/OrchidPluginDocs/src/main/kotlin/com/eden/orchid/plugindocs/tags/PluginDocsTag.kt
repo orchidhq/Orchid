@@ -2,6 +2,7 @@ package com.eden.orchid.plugindocs.tags
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
+import com.eden.krow.formatters.HtmlTableFormatter
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
@@ -50,6 +51,16 @@ class PluginDocsTag
 
             return emptyList()
         }
+
+    public fun getOptions(includeOwnOptions: Boolean, includeInheritedOptions: Boolean): String {
+        val description = extractor.describeOptions(findClass(), includeOwnOptions, includeInheritedOptions)
+        val table = extractor.getDescriptionTable(description)
+
+        var htmlTable = table.print(HtmlTableFormatter())
+        htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"table\">")
+
+        return htmlTable
+    }
 }
 
 

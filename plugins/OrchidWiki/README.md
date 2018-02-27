@@ -1,11 +1,7 @@
----
----
-
 ## Orchid Wiki
+---
 
-### A Gitbook-like wiki for your Orchid site.
-
-***
+A Gitbook-like wiki for your Orchid site. 
 
 An Orchid Wiki a collection of pages structured in a freeform hierarchy. Pages in a wiki are all related and ordered, 
 with one page linking directly to the next so a user can read the entire contents of the wiki from front-end simply by 
@@ -25,7 +21,6 @@ For example:
 [Basic Setup](setup/basic.md)
 [Advanced Setup](setup/advanced.md)
 ```
-{.line-numbers}
 
 corresponds to the following directory structure:
 
@@ -81,7 +76,6 @@ own `SUMMARY.md`, pages, and menu items. The following snippet should go in your
     - 'userManual'  # (2)
     - 'developerGuide'  # (3)
 ```
-{.line-numbers line-highlight="1,3,4"}
 
 1) Looks for the Wiki in /help instead of /wiki
 2) Creates a wiki based on {baseDir}/userManual/SUMMARY.md

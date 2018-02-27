@@ -1,4 +1,4 @@
-package com.eden.orchid.netlifyCms.util
+package com.eden.orchid.netlifycms.util
 
 import com.eden.orchid.api.options.OptionsDescription
 import org.json.JSONObject

@@ -1,10 +1,9 @@
 site:
   about:
     siteName: Orchid Plugin Docs
-    siteDescription: Let Orchid auto-generate your plugin's documentation.
+    siteDescription: Let Orchid auto-generate your plugins' documentation.
 
 theme:
-  primaryColor: '#8942f4'
+  primaryColor: '#508A4C'
   social:
     github: 'JavaEden/Orchid'
-

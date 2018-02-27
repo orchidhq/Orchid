@@ -4,7 +4,7 @@ site:
     siteDescription: Engage your users with embeddable, fully customizable forms
 
 theme:
-  primaryColor: '#997647'
+  primaryColor: '#D96A31'
   social:
     github: 'JavaEden/Orchid'
   menu:

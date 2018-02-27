@@ -1,4 +1,4 @@
-package com.eden.orchid.netlifyCms
+package com.eden.orchid.netlifycms
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
@@ -14,8 +14,8 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.netlifyCms.pages.NetlifyCmsAdminPage
-import com.eden.orchid.netlifyCms.util.toNetlifyCmsField
+import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
+import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject

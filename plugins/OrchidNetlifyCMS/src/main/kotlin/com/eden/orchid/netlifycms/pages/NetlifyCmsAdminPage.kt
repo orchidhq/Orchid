@@ -1,9 +1,9 @@
-package com.eden.orchid.netlifyCms.pages
+package com.eden.orchid.netlifycms.pages
 
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.netlifyCms.util.toNetlifyCmsField
+import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import org.json.JSONArray
 import org.json.JSONObject
 
