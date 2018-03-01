@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -101,6 +102,22 @@ public abstract class OrchidResource {
         }
 
         return context.getDefaultPrecompilerExtension();
+    }
+
+    public boolean canUpdate() {
+        return false;
+    }
+
+    public boolean canDelete() {
+        return false;
+    }
+
+    public void update(InputStream newContent) throws IOException {
+
+    }
+
+    public void delete() throws IOException {
+
     }
 
     @Override public String toString() {

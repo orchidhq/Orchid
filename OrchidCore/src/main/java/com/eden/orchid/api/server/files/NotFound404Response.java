@@ -62,6 +62,6 @@ public final class NotFound404Response {
             content = "";
         }
 
-        return new OrchidResponse(context).content(content);
+        return new OrchidResponse(context).content(content).status(404);
     }
 }

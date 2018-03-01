@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 /**
  * A Resource type that provides a content to a template from a resource file on disk. When used with
@@ -68,6 +69,30 @@ public final class FileResource extends FreeableResource  {
         catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public boolean canUpdate() {
+        return true;
+    }
+
+    @Override
+    public boolean canDelete() {
+        return true;
+    }
+
+    @Override
+    public void update(InputStream newContent) throws IOException {
+        if(file != null && newContent != null) {
+            Files.write(file.toPath(), IOUtils.toByteArray(newContent));
+        }
+    }
+
+    @Override
+    public void delete() throws IOException {
+        if(file != null) {
+            file.delete();
         }
     }
 }

@@ -4,27 +4,30 @@
 {# @pebvariable name="page" type="com.eden.orchid.netlifyCms.pages.NetlifyCmsAdminPage" #}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
+    <title>Orchid Content Manager</title>
+    {% include 'includes/styles' %}
     <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.css" />
 </head>
 <body>
 <script src="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.js"></script>
-<!-- start:register templateTags -->
+{% include 'includes/netlifyCms/tagEditorComponents' with {"templateTags": page.templateTags} %}
+{% include 'includes/netlifyCms/componentWidgets' with {"components": page.components} %}
+{% include 'includes/netlifyCms/menuItemWidgets' with {"menuItems": page.menuItems} %}
+
 <script>
-{% for tag in page.templateTags %}
-    {# @pebvariable name="tag" type="com.eden.orchid.api.compilers.TemplateTag" #}
-    CMS.registerEditorComponent({
-        id:        "{{- tag.name -}}",
-        label:     "{{- tag.name -}}",
-        fields:     {{- page.getTemplateFields(tag) | raw -}},
-        pattern:   /{{- page.getTagPattern(tag)     | raw -}}/,
-        fromBlock: function(match) { return   {{- page.parseTagPattern(tag) | raw -}}    },
-        toBlock:   function(obj)   { return  `{{- page.getTagBlock(tag)     | raw -}}`;  },
-        toPreview: function(obj)   { return (`{{- page.getTagPreview(tag)   | raw -}}`); }
-    });
-{% endfor %}
+    CMS.registerWidget('componentHolder', 'list');
+    CMS.registerWidget('orchidMenu', 'list');
 </script>
-<!-- end:register templateTags -->
+
+{% include 'includes/scripts' %}
+{% if page.isLocal() %}
+<!-- start:register backend -->
+<script>
+    CMS.registerBackend("orchid-server", FileSystemBackendClass)
+</script>
+<!-- end:register backend -->
+{% endif %}
+
 </body>
 </html>
 
