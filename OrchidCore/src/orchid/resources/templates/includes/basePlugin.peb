@@ -13,9 +13,11 @@
     </div>
     <div class="panel-body">
         <b>Include with:</b>
-        <pre>dependencies {
+{% highlight 'groovy' %}
+dependencies {
     orchidRuntime '{%- block dependency -%}{%- endblock -%}:{version}'
-}</pre>
+}
+{% endhighlight %}
     </div>
 
     <div class="panel-footer">

@@ -14,9 +14,9 @@ public final class LicenseComponent extends OrchidComponent {
     }
 
     public String getContent() {
-        OrchidResource readmeResource = context.findClosestFile("license");
-        if (readmeResource != null) {
-            return context.compile(readmeResource.getReference().getExtension(), readmeResource.getContent(), this);
+        OrchidResource licenseResource = context.findClosestFile("license");
+        if (licenseResource != null) {
+            return licenseResource.compileContent(this);
         }
         return null;
     }
