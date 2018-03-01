@@ -1,5 +1,6 @@
 package com.eden.orchid.forms.model
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
@@ -8,7 +9,7 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import org.json.JSONObject
 
 
-class Form(protected val context: OrchidContext, val key: String, val formData: JSONObject) : OptionsHolder {
+class Form(protected val context: OrchidContext, var key: String, val formData: JSONObject) : OptionsHolder {
 
     @Option
     @Description("The user-facing title of the form.")
@@ -33,6 +34,14 @@ class Form(protected val context: OrchidContext, val key: String, val formData: 
     init {
         try {
             extractOptions(context, formData)
+
+            if(EdenUtils.isEmpty(key) && !EdenUtils.isEmpty(title)) {
+                key = title
+            }
+
+            if(EdenUtils.isEmpty(key)) {
+                throw IllegalArgumentException("The form must define a 'key' or a 'title'.")
+            }
 
             if (formData.has("fields")) {
                 val formFields = formData.getJSONObject("fields")
