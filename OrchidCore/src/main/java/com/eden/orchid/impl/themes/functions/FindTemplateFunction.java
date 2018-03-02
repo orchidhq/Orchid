@@ -45,7 +45,7 @@ public final class FindTemplateFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"type"};
+        return new String[] {"input", "type"};
     }
 
     @Override
