@@ -16,7 +16,7 @@ public final class ReadmeComponent extends OrchidComponent {
     public String getContent() {
         OrchidResource readmeResource = context.findClosestFile("readme");
         if (readmeResource != null) {
-            return context.compile(readmeResource.getReference().getExtension(), readmeResource.getContent(), this);
+            return readmeResource.compileContent(this);
         }
         return null;
     }

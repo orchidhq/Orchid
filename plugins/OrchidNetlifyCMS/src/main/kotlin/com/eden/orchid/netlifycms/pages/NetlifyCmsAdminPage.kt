@@ -1,15 +1,20 @@
-package com.eden.orchid.netlifyCms.pages
+package com.eden.orchid.netlifycms.pages
 
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.tasks.TaskService
+import com.eden.orchid.api.theme.components.OrchidComponent
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.netlifyCms.util.toNetlifyCmsField
+import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import org.json.JSONArray
 import org.json.JSONObject
 
 class NetlifyCmsAdminPage(
         resource: OrchidResource,
-        val templateTags: Set<TemplateTag>
+        val templateTags: Set<TemplateTag>,
+        val components: Set<OrchidComponent>,
+        val menuItems: Set<OrchidMenuItem>
 ) : OrchidPage(resource, "contentManager") {
 
     public fun getTemplateFields(tag: TemplateTag): JSONArray {
@@ -25,6 +30,26 @@ class NetlifyCmsAdminPage(
             bodyField.put("name", "body")
             bodyField.put("widget", "markdown")
             fields.put(bodyField)
+        }
+
+        return fields
+    }
+
+    public fun getTemplateFields(tag: OrchidComponent): JSONArray {
+        val fields = JSONArray()
+
+        tag.describeOptions(context).optionsDescriptions.forEach {
+            fields.put(it.toNetlifyCmsField())
+        }
+
+        return fields
+    }
+
+    public fun getTemplateFields(tag: OrchidMenuItem): JSONArray {
+        val fields = JSONArray()
+
+        tag.describeOptions(context).optionsDescriptions.forEach {
+            fields.put(it.toNetlifyCmsField())
         }
 
         return fields
@@ -86,4 +111,16 @@ class NetlifyCmsAdminPage(
         return getTagBlock(tag)
     }
 
+    public fun isLocal(): Boolean {
+        return context.taskType == TaskService.TaskType.SERVE
+    }
+
+    override fun loadAssets() {
+        super.loadAssets()
+
+        if(isLocal()) {
+            addCss("assets/css/fs-backend.css")
+            addJs("assets/js/fs-backend.js")
+        }
+    }
 }

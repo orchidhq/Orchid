@@ -34,7 +34,7 @@ public final class CompileAsFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"ext"};
+        return new String[] {"input", "ext"};
     }
 
     @Override

@@ -22,6 +22,18 @@ class ChangelogVersion(
             return if(!EdenUtils.isEmpty(field)) field else versionFilename
         }
 
+    @Option
+    @Description("Whether this is a major version.")
+    var major: Boolean = false
+
+    @Option
+    @Description("Whether this is a minor version.")
+    var minor: Boolean = false
+
+    @Option
+    @Description("The URL that hosts the documentation for this specific version")
+    lateinit var url: String
+
     var content: String = ""
         get() {
             return resource.compileContent(null)
@@ -30,5 +42,16 @@ class ChangelogVersion(
     init {
         extractOptions(context, resource.embeddedData.element as JSONObject)
     }
+
+    fun toJSON(): JSONObject {
+        val json = JSONObject()
+        json.put("version", this.version)
+        json.put("major", this.major)
+        json.put("minor", this.minor)
+        json.put("url", this.url)
+
+        return json
+    }
+
 }
 

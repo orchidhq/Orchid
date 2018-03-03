@@ -33,8 +33,8 @@ public final class FileRenderer implements OrchidRenderer {
         }
 
         try {
-            Path classesFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
-            Files.write(classesFile, IOUtils.toByteArray(content));
+            Path destinationFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
+            Files.write(destinationFile, IOUtils.toByteArray(content));
             success = true;
         }
         catch (Exception e) {

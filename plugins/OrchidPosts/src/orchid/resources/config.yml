@@ -4,7 +4,7 @@ site:
     siteDescription: Add Jekyll-like blogging functionality to your Orchid site.
 
 theme:
-  primaryColor: '#6D0F11'
+  primaryColor: '#9B281A'
   social:
     github: 'JavaEden/Orchid'
   menu:
@@ -15,7 +15,6 @@ posts:
     - 'category1'
     - 'category2'
     - 'category1/category1-1'
-
 
 taxonomies:
   taxonomies:

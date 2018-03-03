@@ -22,7 +22,12 @@ public final class PebbleWrapperTemplateFilter implements Filter {
     public PebbleWrapperTemplateFilter(Provider<OrchidContext> contextProvider, String name, List<String> params, Class<? extends TemplateFunction> functionClass) {
         this.contextProvider = contextProvider;
         this.name = name;
-        this.params = params;
+        if(params.size() > 0) {
+            this.params = params.subList(1, params.size());
+        }
+        else {
+            this.params = params;
+        }
         this.functionClass = functionClass;
     }
 

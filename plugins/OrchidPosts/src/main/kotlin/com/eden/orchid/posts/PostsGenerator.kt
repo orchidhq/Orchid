@@ -175,6 +175,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                     ).atStartOfDay()
                 }
 
+                // TODO: when setting the permalink, check all categories in the hierarchy until you find one
                 val permalink = if (!EdenUtils.isEmpty(post.permalink)) post.permalink else categoryModel.permalink
                 permalinkStrategy.applyPermalink(post, permalink)
                 posts.add(post)
@@ -198,18 +199,32 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
         postsModel.categories.values.forEach {
-            val baseCategoryPath = if (EdenUtils.isEmpty(it.key)) baseDir else baseDir + "/" + it
-
-            val collection = FolderCollection(
-                    this,
-                    it.key,
-                    it.first as List<OrchidPage>,
-                    PostPage::class.java,
-                    baseCategoryPath
-            )
-            collection.label = "Blog - ${it.title}"
-
-            collectionsList.add(collection)
+            if(EdenUtils.isEmpty(it.key)) {
+                val collection = FolderCollection(
+                        this,
+                        "blog",
+                        it.first as List<OrchidPage>,
+                        PostPage::class.java,
+                        baseDir
+                )
+                collection.label = "Blog"
+                collection.isCanCreate = true
+                collection.isCanDelete = true
+                collectionsList.add(collection)
+            }
+            else {
+                val collection = FolderCollection(
+                        this,
+                        it.key,
+                        it.first as List<OrchidPage>,
+                        PostPage::class.java,
+                        baseDir + "/" + it
+                )
+                collection.label = "Blog - ${it.title}"
+                collection.isCanCreate = true
+                collection.isCanDelete = true
+                collectionsList.add(collection)
+            }
         }
 
         return collectionsList

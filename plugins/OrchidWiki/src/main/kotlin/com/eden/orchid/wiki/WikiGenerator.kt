@@ -14,6 +14,7 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
@@ -140,7 +141,12 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         }
 
         val safe = doc.toString()
-        summary = StringResource(safe, summary.reference)
+        val summaryReference = OrchidReference(summary.reference)
+
+        val segments = summaryReference.originalPath.split("/")
+        summaryReference.fileName = segments.last()
+        summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
+        summary = StringResource(safe, summaryReference)
 
         val sectionTitle = if (!EdenUtils.isEmpty(section)) section else "Wiki"
         val summaryPage = WikiSummaryPage(section, summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))

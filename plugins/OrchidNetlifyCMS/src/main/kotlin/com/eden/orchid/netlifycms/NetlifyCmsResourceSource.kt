@@ -1,4 +1,4 @@
-package com.eden.orchid.netlifyCms
+package com.eden.orchid.netlifycms
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource

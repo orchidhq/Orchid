@@ -1,5 +1,6 @@
 ---
 layout: frontPage
+relativePriority: 1.0
 components:
   - {type: 'template', templates: ['homepage-grid']}
   - {type: 'template', templates: ['homepage-setup']}

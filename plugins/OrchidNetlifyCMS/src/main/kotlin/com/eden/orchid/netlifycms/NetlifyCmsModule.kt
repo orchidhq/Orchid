@@ -1,8 +1,10 @@
-package com.eden.orchid.netlifyCms
+package com.eden.orchid.netlifycms
 
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
+import com.eden.orchid.api.server.OrchidController
+import com.eden.orchid.netlifycms.api.NetlifyCmsApiController
 
 class NetlifyCmsModule : OrchidModule() {
 
@@ -12,6 +14,9 @@ class NetlifyCmsModule : OrchidModule() {
 
         addToSet(OrchidGenerator::class.java,
                 NetlifyCmsGenerator::class.java)
+
+        addToSet(OrchidController::class.java,
+                NetlifyCmsApiController::class.java)
     }
 }
 

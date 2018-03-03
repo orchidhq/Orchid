@@ -1,6 +1,7 @@
 package com.eden.orchid.presentations
 
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.theme.components.OrchidComponent
@@ -17,6 +18,9 @@ class PresentationsModule : OrchidModule() {
 
         addToSet(OrchidComponent::class.java,
                 PresentationComponent::class.java)
+
+        addToSet(OptionExtractor::class.java,
+                PresentationOptionExtractor::class.java)
     }
 
 }

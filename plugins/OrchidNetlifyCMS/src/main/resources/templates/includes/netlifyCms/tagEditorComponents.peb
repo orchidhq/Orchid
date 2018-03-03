@@ -1,0 +1,16 @@
+<!-- start:register templateTags -->
+<script>
+{% for tag in templateTags %}
+{# @pebvariable name="tag" type="com.eden.orchid.api.compilers.TemplateTag" #}
+CMS.registerEditorComponent({
+    id:        "{{- tag.name -}}",
+    label:     "{{- tag.name -}}",
+    fields:     {{- page.getTemplateFields(tag) | raw -}},
+    pattern:   /{{- page.getTagPattern(tag)     | raw -}}/,
+    fromBlock: function(match) { return   {{- page.parseTagPattern(tag) | raw -}}    },
+    toBlock:   function(obj)   { return  `{{- page.getTagBlock(tag)     | raw -}}`;  },
+    toPreview: function(obj)   { return (`{{- page.getTagPreview(tag)   | raw -}}`); }
+});
+{% endfor %}
+</script>
+<!-- end:register templateTags -->

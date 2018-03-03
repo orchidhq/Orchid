@@ -8,9 +8,8 @@ import com.eden.orchid.api.options.annotations.Description
 class AbsApiKeyFlag : OrchidFlag("absApiKey", false, null) {
 
     override fun parseFlag(options: Array<String>): Any {
-        val eden = Eden.getInstance()
-        eden.config().putString("ABS_ApiKey", options[1])
-        eden.config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", "eng-NASB")
+        Eden.getInstance().config().putString("ABS_ApiKey", options[1])
+        Eden.getInstance().config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", "eng-NASB")
         return options[1]
     }
 

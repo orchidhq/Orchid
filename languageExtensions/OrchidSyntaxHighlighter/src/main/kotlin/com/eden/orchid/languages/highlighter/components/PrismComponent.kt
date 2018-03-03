@@ -36,12 +36,12 @@ constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
 
     @Option
     @Description("If true, only include the Prism Javascript files, opting to build the styles yourself.")
-    var isScriptsOnly: Boolean = false
+    var scriptsOnly: Boolean = false
 
     override fun loadAssets() {
         addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
 
-        if (!isScriptsOnly) {
+        if (!scriptsOnly) {
             if (!EdenUtils.isEmpty(theme)) {
                 addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
             } else if (!EdenUtils.isEmpty(githubTheme)) {
@@ -64,7 +64,7 @@ constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
                 }
                 addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
 
-                if (!isScriptsOnly) {
+                if (!scriptsOnly) {
                     when (plugin) {
                         "line-numbers", "line-highlight", "toolbar" -> addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
                     }

@@ -1,3 +1,4 @@
 ---
 official: true
+languageExtension: true
 ---

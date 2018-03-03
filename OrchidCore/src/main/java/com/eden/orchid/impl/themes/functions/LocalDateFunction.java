@@ -35,7 +35,7 @@ public final class LocalDateFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"format"};
+        return new String[] {"input", "format"};
     }
 
     @Override

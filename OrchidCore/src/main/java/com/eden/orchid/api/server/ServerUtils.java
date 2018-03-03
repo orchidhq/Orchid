@@ -6,6 +6,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,10 @@ public final class ServerUtils {
             else if((pathPiece.startsWith("{") && pathPiece.endsWith("}"))) {
                 pathParams.add(pathPiece.substring(1, pathPiece.length() - 2));
             }
+            else if(pathPiece.startsWith("**")) {
+                pathParams.add(pathPiece.substring(2));
+                break;
+            }
         }
 
         return pathParams;
@@ -56,6 +61,10 @@ public final class ServerUtils {
             else if((pathPiece.startsWith("{") && pathPiece.endsWith("}"))) {
                 regex += "/\\w+";
             }
+            else if(pathPiece.startsWith("**")) {
+                regex += "/.*";
+                break;
+            }
             else {
                 regex += "/" + pathPiece;
             }
@@ -67,7 +76,7 @@ public final class ServerUtils {
     public static Map<String, String> parsePathParams(String routePath, String calledPath) {
         String[] routePathPieces = routePath.split("/");
         String[] calledPathPieces = calledPath.split("/");
-        if(routePathPieces.length != calledPathPieces.length) {
+        if(routePathPieces.length != calledPathPieces.length && !routePath.contains("**")) {
             throw new IllegalArgumentException("Route path and called path do not match");
         }
 
@@ -83,6 +92,12 @@ public final class ServerUtils {
                 String key = routePathPieces[i].substring(1, routePathPieces[i].length() - 2);
                 String value = calledPathPieces[i];
                 pathParams.put(key, value);
+            }
+            else if(routePathPieces[i].startsWith("**")) {
+                String key = routePathPieces[i].substring(2);
+                String value = String.join("/", Arrays.copyOfRange(calledPathPieces, i, calledPathPieces.length));
+                pathParams.put(key, value);
+                break;
             }
         }
 

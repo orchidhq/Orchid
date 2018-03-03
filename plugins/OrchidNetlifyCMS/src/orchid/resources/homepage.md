@@ -4,5 +4,5 @@ components:
   - type: readme
   - type: pluginDocs
     packageNames: 
-      - com.eden.orchid.netlifyCms
+      - com.eden.orchid.netlifycms
 ---

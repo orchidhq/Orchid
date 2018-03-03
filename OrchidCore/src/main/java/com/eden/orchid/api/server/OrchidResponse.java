@@ -41,25 +41,25 @@ public final class OrchidResponse {
 //----------------------------------------------------------------------------------------------------------------------
 
     public OrchidResponse json(JSONObject json) {
-        this.json = json.toString();
+        this.json = json.toString(2);
 
         return this;
     }
 
     public OrchidResponse json(Map<String, ?> json) {
-        this.json = new JSONObject(json).toString();
+        this.json = new JSONObject(json).toString(2);
 
         return this;
     }
 
     public OrchidResponse json(JSONArray json) {
-        this.json = json.toString();
+        this.json = json.toString(2);
 
         return this;
     }
 
     public OrchidResponse json(Collection<?> json) {
-        this.json = new JSONArray(json).toString();
+        this.json = new JSONArray(json).toString(2);
 
         return this;
     }

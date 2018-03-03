@@ -18,8 +18,8 @@ constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
     var atRoot: Boolean = false
 
     @Option
-    @Description("Include only pages in a specific page section, otherwise include all pages.")
-    lateinit var section: String
+    @Description("Include only pages in a specific page group, otherwise include all pages.")
+    lateinit var group: String
 
     @Option
     @Description("The title of the root menu item.")
@@ -48,12 +48,12 @@ constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
 
         val allPages = context.internalIndex.getGeneratorPages("pages")
 
-        val pages = if (EdenUtils.isEmpty(section))
+        val pages = if (EdenUtils.isEmpty(group))
             allPages
         else
             allPages
                     .stream()
-                    .filter { page -> page.reference.path.startsWith(section) }
+                    .filter { page -> page.reference.path.startsWith(group) }
                     .collect(Collectors.toList())
 
         if (atRoot) {
@@ -62,8 +62,8 @@ constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
             }
         } else {
             if (EdenUtils.isEmpty(title)) {
-                if (!EdenUtils.isEmpty(section)) {
-                    title = StringUtils.capitalize(section)
+                if (!EdenUtils.isEmpty(group)) {
+                    title = StringUtils.capitalize(group)
                 } else {
                     title = "Pages"
                 }
