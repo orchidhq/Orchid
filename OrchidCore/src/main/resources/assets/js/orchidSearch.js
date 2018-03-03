@@ -34,6 +34,7 @@
             $('#search-progress').hide();
             $('#search-results').show();
         }
+        $(window).trigger('orchid.search.working');
     }
 
     function getOrchidDocuments($orchidIndicesAllowed, cb) {

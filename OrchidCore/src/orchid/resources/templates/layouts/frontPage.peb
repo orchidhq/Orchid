@@ -30,9 +30,9 @@
 <div class="container bs-docs-container homepage">
 {% block pageContent %}
 
-    {% endblock %}
-    {% block remainingComponents %}
-        {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
-    {% endblock %}
+{% endblock %}
+{% block remainingComponents %}
+    {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+{% endblock %}
 </div>
 {% endblock %}

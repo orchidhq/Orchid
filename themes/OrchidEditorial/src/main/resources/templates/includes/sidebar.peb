@@ -18,23 +18,26 @@
         <!-- Menu -->
         <nav id="siteNav" class="menu">
             <header class="major">
-                <h2>{{ page.title }}</h2>
+                <h2>{{ site.about.siteName }}</h2>
             </header>
             <ul class="top-level">
                 {% for menuItem in theme.menu.getMenuItems(page) %}
                     {% include 'includes/menuItem' with {"menuItem": menuItem} %}
                 {% endfor %}
             </ul>
-
-            {% if not page.menu.isEmpty() %}
-                <hr>
-                <ul class="top-level">
-                    {% for menuItem in page.menu.getMenuItems(page) %}
-                        {% include 'includes/menuItem' with {"menuItem": menuItem} %}
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </nav>
+        {% if not page.menu.isEmpty() %}
+        <nav class="menu">
+            <header class="major">
+                <h2>{{ page.title }}</h2>
+            </header>
+            <ul class="top-level">
+                {% for menuItem in page.menu.getMenuItems(page) %}
+                    {% include 'includes/menuItem' with {"menuItem": menuItem} %}
+                {% endfor %}
+            </ul>
+        </nav>
+        {% endif %}
 
         <!-- Section -->
         <section>

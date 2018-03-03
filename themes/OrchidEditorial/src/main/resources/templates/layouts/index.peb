@@ -9,7 +9,7 @@
 {% include '?trackingHeadStart' %}
 {% include 'includes/head' %}
 {% include 'includes/styles' %}
-    {% include '?trackingHeadEnd' %}
+{% include '?trackingHeadEnd' %}
 </head>
 <body class="is-loading">
 {% include '?trackingBodyStart' %}
@@ -47,7 +47,6 @@
 </div>
 
 {% include 'includes/scripts' %}
-
 {% include '?trackingBodyEnd' %}
 </body>
 </html>
