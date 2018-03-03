@@ -1,3 +1,4 @@
+{% if component.presentation is not empty %}
 <div class="deck-container" style="height: 400px;" id="presentation-{{ component.presentation.key }}">
 
     <!-- Begin slides. Just make elements with a class of slide. -->
@@ -34,3 +35,4 @@
     <!-- End extension snippets. -->
 </div>
 <br><br>
+{% endif %}

@@ -3,7 +3,7 @@ layout: frontPage
 components:
   - type: readme
   - type: presentation
-    presentationKey: demo
+    presentation: demo
   - type: pluginDocs
     packageNames: 
       - com.eden.orchid.presentations
