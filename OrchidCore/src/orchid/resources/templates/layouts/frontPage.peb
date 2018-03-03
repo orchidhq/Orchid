@@ -1,4 +1,4 @@
-{% extends 'layouts/trianglifyBase' %}
+{% extends 'layouts/trianglifyBase,layouts/index' %}
 
 {% block layoutStyles %}
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
