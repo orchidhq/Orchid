@@ -7,11 +7,11 @@
                     <span class="input-group-btn"><button type="submit" class="btn btn-default">Go</button></span>
                 </div>
             </form>
-            <div id="search-results" style="display: none;">
+            <div id="search-results" data-orchid-search-results style="display: none;">
                 <b>Search Results</b>
                 <ul></ul>
             </div>
-            <div id="search-progress" style="display: none;">
+            <div id="search-progress" data-orchid-search-progress style="display: none;">
                 <div class="loader">Loading...</div>
             </div>
         </section>
