@@ -1,9 +1,9 @@
 site:
   about:
     siteName: 'Future Imperfect'
-    subtitle: 'Detrius, caesium, et mineralis?'
-    description: Ubi est castus burgus? Victrixs mori in dexter vierium! Prarere solite ducunt ad superbus imber. Neuter apolloniates vix imitaris glos est.
-    avatar: 'assets/images/logo.jpg'
+    subtitle: 'Another Fine Responsive Site Template by HTML5 Up'
+    siteDescription: Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.
+    avatar: 'assets/images/avatar.jpg'
 
 theme:
   social:
@@ -16,55 +16,57 @@ theme:
     - type: 'link'
       title: 'Home'
       url: '/'
-    - type: 'postCategories'
-      category: 'personal'
-      title: 'blog'
-    - type: 'page'
-      page: 'Resume'
-    - type: 'page'
-      page: 'Projects'
-    - type: 'page'
-      page: 'Bio'
-    - type: 'page'
-      page: 'Contact'
-  drawerMenu:
-    - type: 'page'
-      page: 'Resume'
-    - type: 'page'
-      page: 'Projects'
-    - type: 'page'
-      page: 'Bio'
-    - type: 'page'
-      page: 'Contact'
+    - type: "taxonomy"
+      includeTerms: true
+      taxonomyType: "categories"
+      termsAtRoot: true
+    - type: "pages"
+      atRoot: true
   sidebar:
     - type: recentPosts
       limit: 3
       category: programming
+      noWrapper: true
       templates:
           - 'includes/postPreview_mini'
     - type: recentPosts
       limit: 5
       category: personal
+      noWrapper: true
       templates:
           - 'includes/postPreview_list'
 
 pages:
-  layout: layouts/single.peb
+  layout: layouts/single
 
 posts:
-  layout: layouts/single.peb
+  layout: layouts/single
   categories:
     - 'personal'
     - 'programming'
   permalink: ':category/:year/:monthName/:slug'
   authors:
     - name: 'Casey Brooks'
-      avatar: 'assets/images/avatar.jpg'
+      email: 'cjbrooks12@gmail.com'
 
-generators:
-  disabled:
-    - 'WikiGenerator'
-    - 'IndexGenerator'
-    - 'JavadocGenerator'
-    - 'ChangelogGenerator'
-    - 'KssGenerator'
+taxonomies:
+  taxonomies:
+    - tags:
+        single: false
+        orderBy:
+          - entryCount
+    - categories:
+        single: false
+        orderBy:
+          - year
+          - month
+          - day
+          - title
+taxonomyArchivePages:
+  searchIndices:
+    - 'pages'
+    - 'posts'
+termArchivePages:
+  searchIndices:
+    - 'pages'
+    - 'posts'

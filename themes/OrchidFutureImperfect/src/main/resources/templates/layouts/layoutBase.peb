@@ -66,7 +66,7 @@
         <!-- Links -->
         <section>
             <ul class="links">
-            {% for menuItem in theme.drawerMenu.getMenuItems(page) %}
+            {% for menuItem in theme.menu.getMenuItems(page) %}
                 <li>
                     <a href="{{ menuItem.link }}">
                         <h3>{{menuItem.title}}</h3>

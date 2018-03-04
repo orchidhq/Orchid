@@ -1,7 +1,7 @@
 ---
 title: 'Programming Post Four'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic002.jpg'
+featuredImage: '/assets/images/pic09.jpg'
 tags: 
     - Four
     - Programming

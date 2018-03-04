@@ -1,7 +1,7 @@
 ---
 title: 'Programming Post One'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic001.jpg'
+featuredImage: '/assets/images/pic06.jpg'
 tags: 
     - One
     - Programming

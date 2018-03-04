@@ -1,7 +1,7 @@
 ---
 title: 'Personal Post Two'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic002.jpg'
+featuredImage: '/assets/images/pic02.jpg'
 tags: 
     - Two
     - Personal

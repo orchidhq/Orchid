@@ -5,30 +5,40 @@
 
             {% if post.categories is not empty %}
             {% for category in post.categories %}
-            {{ anchor(title=category, itemId=category, collectionType="taxonomy", collectionId="categories") | raw }}
+            {{ anchor(title=(category|title), itemId=category, collectionType="taxonomy", collectionId="categories") | raw }}
             {% if not loop.last -%} > {% endif %}
             {% endfor %}
             {% endif %}
         </div>
         <div class="meta">
-            <time class="published" datetime="{{ post.publishDate | localDate('yyyy-MM-dd') }}">
-            {{ post.publishDate | localDate('yyyy-MM-dd') }}
+            <time class="published" datetime="{{ post.publishDate|localDate('yyyy-MM-dd') }}">
+            {{ post.publishDate|localDate('MMMM dd, yyyy') }}
             </time>
-            <a href="#" class="author">
-                <span class="name">{{ post.author.name }}</span>
-                <img src="{{ post.author.avatarUrl }}" alt=""/>
-            </a>
+            {% if post.author.link is not empty %}
+                <a href="{{ post.author.link }}" class="author">
+                    <span class="name">{{ post.author.name }}</span>
+                    <img src="{{ post.author.avatar }}" alt="{{ post.author.name }}"/>
+                </a>
+            {% else %}
+                <span class="author">
+                    <span class="name">{{ post.author.name }}</span>
+                    <img src="{{ post.author.avatar }}" alt="{{ post.author.name }}"/>
+                </span>
+            {% endif %}
         </div>
     </header>
-    <a href="{{ post.link }}" class="image featured">
-        <img src="{{ post.featuredImage }}" alt="{{ post.featuredImageAlt }}"/>
-    </a>
+    {% block postBody %}
+    <span class="image featured">
+        <img src="{{ post.featuredImage }}" alt="{{ post.title }}"/>
+    </span>
     {{ post.content | raw }}
+    {% endblock %}
+
+    <div><b>Tags: </b></div>
     <footer>
-        <span><b>Tags: </b></span>
         <ul class="stats">
         {% for tag in post.tags %}
-            <li>{{ anchor(title=tag, itemId=tag, collectionType="taxonomy", collectionId="tags") | raw }}</li>
+            <li><i class="fa fa-tag icon" aria-hidden="true"></i> {{ anchor(title=tag, itemId=tag, collectionType="taxonomy", collectionId="tags") | raw }}</li>
         {% endfor %}
         </ul>
     </footer>

@@ -57,6 +57,7 @@ import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
 import com.eden.orchid.impl.themes.functions.FindTemplateFunction;
+import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
@@ -151,9 +152,10 @@ public final class ImplModule extends OrchidModule {
         addToSet(TemplateFunction.class,
                 AnchorFunction.class,
                 CompileAsFunction.class,
-                FindTemplateFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
+                FindTemplateFunction.class,
+                LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,
                 LocalDateFunction.class

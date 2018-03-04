@@ -1,7 +1,7 @@
 ---
 title: 'Personal Post One'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic001.jpg'
+featuredImage: '/assets/images/pic01.jpg'
 tags: 
     - One
     - Personal

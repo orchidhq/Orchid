@@ -1,7 +1,7 @@
 ---
 title: 'Personal Post Three'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic003.jpg'
+featuredImage: '/assets/images/pic03.jpg'
 tags: 
     - Three
     - Personal

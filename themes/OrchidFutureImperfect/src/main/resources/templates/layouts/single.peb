@@ -10,7 +10,7 @@
     <div id="main">
         {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
 
-        <div style="max-width: 960px; margin: 0 auto 3em auto;">
+        <div class="pagination-single">
             {% include 'includes/pagination' %}
         </div>
     </div>

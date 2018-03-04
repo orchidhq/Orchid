@@ -1,5 +1,0 @@
-{% extends 'layouts/index' %}
-
-{% block bodyClass %}
-    {{ 'front-page' }}
-{% endblock %}

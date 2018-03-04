@@ -1,7 +1,7 @@
 ---
 title: 'Personal Post Five'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic006.jpg'
+featuredImage: '/assets/images/pic05.jpg'
 tags: 
     - Five
     - Personal

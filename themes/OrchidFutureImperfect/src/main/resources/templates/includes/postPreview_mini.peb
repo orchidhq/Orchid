@@ -1,16 +1,26 @@
 <section>
     <div class="mini-posts">
-        {% for post in component.recentPosts %}
+    {% for post in component.recentPosts %}
 
-            <article class="mini-post">
-                <header>
-                    <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
-                    <time class="published" datetime="{{ post.publishedDate('yyyy-MM-dd') }}">{{ post.publishedDate() }}</time>
-                    <a href="#" class="author"><span class="name">{{ post.author.name }}</span><img src="{{ post.author.avatarUrl }}" alt=""/></a>
-                </header>
-                <a href="#" class="image"><img src="{{ post.featuredImage }}" alt=""/></a>
-            </article>
+        <article class="mini-post">
+            <header>
+                <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
+                <time class="published" datetime="{{ post.publishDate|localDate('yyyy-MM-dd') }}">
+                {{ post.publishDate|localDate('MMMM dd, yyyy') }}
+                </time>
+                {% if post.author.link is not empty %}
+                    <a href="{{ post.author.link }}" class="author">
+                        <img src="{{ post.author.avatar }}" alt="{{ post.author.name }}"/>
+                    </a>
+                {% else %}
+                    <span class="author">
+                        <img src="{{ post.author.avatar }}" alt="{{ post.author.name }}"/>
+                    </span>
+                {% endif %}
+            </header>
+            <a href="{{ post.link }}" class="image"><img src="{{ post.featuredImage }}" alt="{{ post.title }}"/></a>
+        </article>
 
-        {% endfor %}
+    {% endfor %}
     </div>
 </section>

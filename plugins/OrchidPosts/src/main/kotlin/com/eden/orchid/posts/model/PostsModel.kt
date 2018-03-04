@@ -17,7 +17,7 @@ constructor(val context: OrchidContext) {
 
     lateinit var excerptSeparator: String
 
-    var authorPages: MutableList<AuthorPage> = ArrayList()
+    var authorPages: List<AuthorPage> = ArrayList()
     var categories: MutableMap<String?, CategoryModel>
 
     val categoryNames: Set<String?>
@@ -27,9 +27,9 @@ constructor(val context: OrchidContext) {
         this.categories = LinkedHashMap()
     }
 
-    fun initialize(excerptSeparator: String) {
+    fun initialize(excerptSeparator: String, authorPages: List<AuthorPage>) {
         this.excerptSeparator = excerptSeparator
-        this.authorPages = ArrayList()
+        this.authorPages = authorPages
         this.categories = LinkedHashMap()
     }
 

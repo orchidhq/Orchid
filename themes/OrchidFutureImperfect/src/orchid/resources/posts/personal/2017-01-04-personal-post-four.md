@@ -1,7 +1,7 @@
 ---
 title: 'Personal Post Four'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic005.jpg'
+featuredImage: '/assets/images/pic04.jpg'
 tags: 
     - Four
     - Personal
