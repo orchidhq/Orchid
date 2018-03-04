@@ -42,7 +42,7 @@
         <!-- Section -->
         <section>
             <p class="text-center">
-                Currently {{ site.version }}. Created with <a href="https://github.com/JavaEden/Orchid">Orchid </a> and <b>Orchid Editorial Theme</b>.
+                Currently {{ site.version }}. Created with <a href="https://orchid.netlify.com">Orchid </a> and <b>Orchid Editorial Theme</b>.
             </p>
         </section>
 

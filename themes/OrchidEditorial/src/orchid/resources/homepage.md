@@ -1,5 +1,5 @@
 ---
-layout: 'frontPage'
 components:
   - type: readme
+next: 'programming'
 ---

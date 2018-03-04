@@ -1,43 +1,50 @@
 site:
   about:
     siteName: 'Bootstrap Docs'
-    description: 'Detrius, caesium, et mineralis?'
-    githubUsername: 'JavaEden'
-    githubRepo: 'Orchid'
-
+    subtitle: 'A theme for Orchid based on the Bootstrap Documentation.'
+    siteDescription: Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.
 theme:
+  social:
+    github: 'JavaEden/Orchid'
   menu:
     - type: 'link'
       title: 'Home'
       url: '/'
-    - type: 'postCategories'
-      title: 'Blog'
-    - type: 'page'
-      page: 'Resume'
-    - type: 'page'
-      page: 'Projects'
-    - type: 'page'
-      page: 'Bio'
-    - type: 'page'
-      page: 'Contact'
-
-pages:
-  layout: layouts/geopattern2.peb
-
+    - type: "taxonomy"
+      includeTerms: true
+      taxonomyType: "categories"
+      termsAtRoot: true
+    - type: 'pages'
+    - type: 'wikiSections'
 posts:
-  layout: layouts/index2.peb
+  layout: layouts/geopattern2.peb
   categories:
     - 'personal'
     - 'programming'
   permalink: ':category/:year/:monthName/:slug'
   authors:
     - name: 'Casey Brooks'
-      avatar: 'assets/images/avatar.jpg'
-
-generators:
-  disabled:
-    - 'WikiGenerator'
-    - 'IndexGenerator'
-    - 'JavadocGenerator'
-    - 'ChangelogGenerator'
-    - 'KssGenerator'
+      email: 'cjbrooks12@gmail.com'
+pages:
+  layout: layouts/geopattern2.peb
+taxonomies:
+  taxonomies:
+    - tags:
+        single: false
+        orderBy:
+          - entryCount
+    - categories:
+        single: false
+        orderBy:
+          - year
+          - month
+          - day
+          - title
+taxonomyArchivePages:
+  searchIndices:
+    - 'pages'
+    - 'posts'
+termArchivePages:
+  searchIndices:
+    - 'pages'
+    - 'posts'
