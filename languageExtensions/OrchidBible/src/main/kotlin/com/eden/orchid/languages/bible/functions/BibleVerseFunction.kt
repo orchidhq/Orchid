@@ -3,6 +3,7 @@ package com.eden.orchid.languages.bible.functions
 import com.eden.Eden
 import com.eden.americanbiblesociety.ABSRepository
 import com.eden.bible.AbstractVerse
+import com.eden.common.util.EdenUtils
 import com.eden.interfaces.VerseFormatter
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
@@ -26,32 +27,33 @@ constructor() : TemplateFunction("bible", true), VerseFormatter {
     }
 
     override fun apply(input: Any?): Any {
+        val verseReference = if (input != null) input.toString() else this.input
         try {
-            val verseReference = if(input != null) input.toString() else this.input
-
-            val eden = Eden.getInstance()
-            eden.config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", version)
-            var repo: EdenRepository? = eden.getRepository(ABSRepository::class.java)
-            if (repo == null) {
-                try {
-                    eden.registerRepository(ABSRepository())
-                    repo = eden.getRepository(ABSRepository::class.java)
-                } catch (e: Exception) {
-                    e.printStackTrace()
+            if(!EdenUtils.isEmpty(Eden.getInstance().config().getString("ABS_ApiKey"))) {
+                val eden = Eden.getInstance()
+                eden.config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", version)
+                var repo: EdenRepository? = eden.getRepository(ABSRepository::class.java)
+                if (repo == null) {
+                    try {
+                        eden.registerRepository(ABSRepository())
+                        repo = eden.getRepository(ABSRepository::class.java)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
-            }
 
-            if (repo != null) {
-                val passage = repo.lookupVerse(verseReference)
-                passage.verseFormatter = this
-                return passage.text.split("<br/><i>")[0] + " ~ " + passage.reference.toString()
+                if (repo != null) {
+                    val passage = repo.lookupVerse(verseReference)
+                    passage.verseFormatter = this
+                    return passage.text.split("<br/><i>")[0] + " ~ " + passage.reference.toString()
+                }
             }
         }
         catch (e: Exception) {
             e.printStackTrace()
         }
 
-        return ""
+        return verseReference
     }
 
     override fun onFormatText(p0: String?): String {
