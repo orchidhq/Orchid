@@ -21,7 +21,6 @@ ext {
     commonTheme = 'BsDoc'
 //    commonTheme = 'Editorial'
 //    commonTheme = 'FutureImperfect'
-//    commonTheme = 'Materialize'
 
     commonRunTask = "build"
 
