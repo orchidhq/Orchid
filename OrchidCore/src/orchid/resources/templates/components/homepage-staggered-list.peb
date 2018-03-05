@@ -11,7 +11,7 @@
                 location, so you are never locked into a single theme or configuration, no matter how large your site
                 is. With performance that rivals the best tools on the market and flexibility that simply cannot be
                 matched by anything else out there, Orchid will not only replace your current static site generator, but
-                do it faster and better, while being an absolute joy to work with.
+                do it better and faster, while being an absolute joy to work with.
             </p>
         </div>
     </div>
@@ -27,9 +27,10 @@
                 <a href="https://sass-lang.com/guide">SCSS</a>, and
                 <a href="http://www.mitchellbosecke.com/pebble/documentation">Pebble</a> compilers built-in, which make
                 designing your site and managing your content a breeze, with additional languages like
-                <a href="https://asciidoctor.org/">Asciidoctor</a> available as plugins. Orchid also supports
-                integration with the <a href="https://www.netlifycms.org/">Netlify CMS</a> and sites are easily deployed
-                to <a href="https://www.netlify.com/">Netlify</a>, <a href="https://aws.amazon.com/s3/">Amazon S3</a>,
+                <a href="https://asciidoctor.org/">Asciidoctor</a> available as plugins. Orchid also has features like
+                full-text static search, a modular architecture with component-based design system, integration with the
+                <a href="https://www.netlifycms.org/">Netlify CMS</a>, and sites are easily deployed to
+                <a href="https://www.netlify.com/">Netlify</a>, <a href="https://aws.amazon.com/s3/">Amazon S3</a>,
                 <a href="https://pages.github.com/">Github Pages</a>, or any other static web host.
             </p>
         </div>
