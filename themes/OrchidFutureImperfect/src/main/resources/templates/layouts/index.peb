@@ -18,7 +18,7 @@
 
         <!-- Intro -->
         <section id="intro">
-            <a href="#" class="logo"><img src="{{ site.about.avatarUrl }}" alt=""/></a>
+            <a href="{{ site.baseUrl }}" class="logo"><img src="{{ site.about.avatar }}" alt="{{ site.about.siteName }}"/></a>
             <header>
                 <h2>{{ site.about.siteName }}</h2>
                 <p>{{ site.about.subtitle }}</p>
@@ -30,10 +30,7 @@
         <!-- About -->
         <section class="blurb">
             <h2>About</h2>
-            <p>{{ site.about.description }}</p>
-            <ul class="actions">
-                <li><a href="#" class="button">Learn More</a></li>
-            </ul>
+            <p>{{ site.about.siteDescription }}</p>
         </section>
 
         {% include 'includes/footer' %}

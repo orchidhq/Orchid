@@ -3,11 +3,15 @@
 
 #sidebar {
   #search {
+    form {
+      margin: 0;
+    }
     #search-results {
       max-height: 320px;
       overflow-y: scroll;
-      margin: 0;
+      margin: 2em 0 0 0;
       padding: 1.2em 0 0 0;
+
 
       & > b {
         margin-left: 1.5em;
@@ -43,7 +47,7 @@
       }
     }
     #search-progress {
-      margin-bottom: 0;
+      margin: 2em 0 0 0;
     }
   }
 }

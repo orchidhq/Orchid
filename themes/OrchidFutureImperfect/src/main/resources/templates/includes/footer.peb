@@ -10,6 +10,6 @@
     <p class="copyright">
         &copy; {{ site.about.siteName }}.
         Design by <a href="http://html5up.net">HTML5 UP</a>.
-        Created with <a href="https://github.com/JavaEden/Orchid">Orchid</a>.
+        Created with <a href="https://orchid.netlify.com">Orchid</a>.
     </p>
 </section>

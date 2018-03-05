@@ -1,10 +1,7 @@
-<article class="post">
+<article class="post single">
     <header>
         <div class="title">
             <h2><a href="{{ page.link }}">{{ page.title }}</a></h2>
-        </div>
-        <div class="meta">
-            <a href="#" class="author"><span class="name">{{ site.about.siteName }}</span><img src="{{ site.about.avatarUrl }}" alt=""/></a>
         </div>
     </header>
     {{ page.content | raw }}

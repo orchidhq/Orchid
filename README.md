@@ -134,7 +134,6 @@ The following tables list all official Orchid packages:
 | OrchidBsDoc           | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBsDoc/images/download.svg)           ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion) |
 | OrchidEditorial       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidEditorial/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion) |
 | OrchidFutureImperfect | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidFutureImperfect/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidFutureImperfect/_latestVersion) |
-| OrchidMaterialize     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidMaterialize/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidMaterialize/_latestVersion) |
 
 #### Plugins
 

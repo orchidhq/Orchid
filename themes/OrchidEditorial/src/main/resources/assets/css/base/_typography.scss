@@ -139,6 +139,40 @@
 		padding: (_size(element-margin) / 4) 0 (_size(element-margin) / 4) _size(element-margin);
 	}
 
+	code {
+		background: _palette(border-bg);
+		border-radius: _size(border-radius);
+		border: solid 1px _palette(border);
+		font-family: _font(family-fixed);
+		font-size: 0.9em;
+		margin: 0 0.25em;
+		padding: 0.25em 0.65em;
+	}
+
+	pre {
+		-webkit-overflow-scrolling: touch;
+		font-family: _font(family-fixed);
+		font-size: 0.9em;
+		margin: 0 0 _size(element-margin) 0;
+
+		code {
+			display: block;
+			line-height: 1.75;
+			padding: 1em 1.5em;
+			overflow-x: auto;
+		}
+	}
+
+	.highlight {
+		background: _palette(border-bg) !important;
+		border-radius: _size(border-radius) !important;
+		border: solid 1px _palette(border) !important;
+		font-family: _font(family-fixed);
+		font-size: 0.9em !important;
+		margin: 0 0.25em !important;
+		padding: 0.25em 0.65em !important;
+	}
+
 	hr {
 		border: 0;
 		border-bottom: solid 1px _palette(border);

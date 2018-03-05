@@ -1,5 +1,6 @@
 package com.eden.orchid.posts
 
+import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.registration.OrchidModule
@@ -9,6 +10,7 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.components.DisqusComponent
 import com.eden.orchid.posts.components.RecentPostsComponent
+import com.eden.orchid.posts.functions.ExcerptFunction
 import com.eden.orchid.posts.menu.LatestPostsMenuType
 import com.eden.orchid.posts.permalink.pathTypes.AuthorNamePathType
 import com.eden.orchid.posts.permalink.pathTypes.CategoryPathType
@@ -47,6 +49,9 @@ class PostsModule : OrchidModule() {
 
         addToSet(OptionExtractor::class.java,
                 AuthorOptionExtractor::class.java)
+
+        addToSet(TemplateFunction::class.java,
+                ExcerptFunction::class.java)
     }
 }
 

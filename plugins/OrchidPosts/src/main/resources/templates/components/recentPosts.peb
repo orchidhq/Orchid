@@ -3,6 +3,6 @@
     {# @pebvariable name="post" type="com.eden.orchid.posts.pages.PostPage" #}
     <div>
         <h1><a href="{{ post.link }}">{{ post.title }}</a></h1>
-        {{ post.excerpt | raw }}
+        {{ post | excerpt | raw }}
     </div>
 {% endfor %}

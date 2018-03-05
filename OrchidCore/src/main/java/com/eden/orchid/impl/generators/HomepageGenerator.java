@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.generators;
 
-import com.eden.common.util.EdenUtils;
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
@@ -32,7 +32,21 @@ public final class HomepageGenerator extends OrchidGenerator {
 
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
-        pages.forEach(context::renderTemplate);
+        pages.forEach(page -> {
+            if(page.getNext() == null && OrchidUtils.elementIsString(page.getAllData().query("next"))) {
+                Object next = context.findInCollection(page.getAllData().query("next").toString());
+                if(next != null && next instanceof OrchidPage) {
+                    page.setNext((OrchidPage) next);
+                }
+            }
+            if(page.getPrevious() == null && OrchidUtils.elementIsString(page.getAllData().query("previous"))) {
+                Object previous = context.findInCollection(page.getAllData().query("previous").toString());
+                if(previous != null && previous instanceof OrchidPage) {
+                    page.setPrevious((OrchidPage) previous);
+                }
+            }
+            context.renderTemplate(page);
+        });
         OrchidPage _404 = get404();
         if(_404 != null) {
             context.renderTemplate(_404);
@@ -62,19 +76,6 @@ public final class HomepageGenerator extends OrchidGenerator {
         else {
             page = new OrchidPage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
             page.getReference().setFileName("index");
-
-            if(page.getNext() == null && OrchidUtils.elementIsString(page.getAllData().query("next"))) {
-                List<OrchidPage> next = context.getIndex().find(page.getAllData().query("next").toString());
-                if(!EdenUtils.isEmpty(next)) {
-                    page.setNext(next.get(0));
-                }
-            }
-            if(page.getPrevious() == null && OrchidUtils.elementIsString(page.getAllData().query("previous"))) {
-                List<OrchidPage> previous = context.getIndex().find(page.getAllData().query("previous").toString());
-                if(!EdenUtils.isEmpty(previous)) {
-                    page.setPrevious(previous.get(0));
-                }
-            }
         }
 
         page.getReference().setUsePrettyUrl(false);

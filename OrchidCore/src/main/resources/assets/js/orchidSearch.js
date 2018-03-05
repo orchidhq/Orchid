@@ -27,13 +27,14 @@
 
     function setSearchWorking(isWorking) {
         if (isWorking) {
-            $('#search-progress').show();
-            $('#search-results').hide();
+            $('[data-orchid-search-progress]').show();
+            $('[data-orchid-search-results]').hide();
         }
         else {
-            $('#search-progress').hide();
-            $('#search-results').show();
+            $('[data-orchid-search-progress]').hide();
+            $('[data-orchid-search-results]').show();
         }
+        $(window).trigger('orchid.search.working');
     }
 
     function getOrchidDocuments($orchidIndicesAllowed, cb) {
@@ -105,7 +106,7 @@
             items.push($item);
         });
 
-        var $searchResults = $('#search-results ul');
+        var $searchResults = $('[data-orchid-search-results] ul');
 
         $searchResults.empty();
         $searchResults.html(items.join(''));

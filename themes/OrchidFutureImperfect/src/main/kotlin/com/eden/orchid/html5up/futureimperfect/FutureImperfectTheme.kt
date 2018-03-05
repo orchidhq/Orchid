@@ -27,11 +27,15 @@ constructor(context: OrchidContext) : Theme(context, "FutureImperfect", 100) {
     override fun loadAssets() {
         addCss("assets/css/futureImperfect_main.scss")
         addCss("assets/css/futureImperfect_orchidCustomizations.scss")
+        addCss("assets/css/orchidSearch.scss")
 
-        addJs("assets/js/jquery.min.js")
-        addJs("assets/js/skel.min.js")
-        addJs("assets/js/util.js")
-        addJs("assets/js/main.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
+        addJs("assets/js/futureImperfect_util.js")
+        addJs("assets/js/futureImperfect_main.js")
+
+        addJs("https://unpkg.com/lunr/lunr.js")
+        addJs("assets/js/orchidSearch.js")
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {

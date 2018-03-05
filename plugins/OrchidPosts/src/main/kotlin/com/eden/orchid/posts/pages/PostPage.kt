@@ -12,14 +12,12 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
-import com.eden.orchid.posts.model.PostsModel
-import com.eden.orchid.posts.utils.PostsExcerptStrategy
 
 @Archetypes(
     Archetype(value = ConfigArchetype::class, key = "postPages"),
     Archetype(value = PostCategoryArchetype::class, key = "postPages")
 )
-class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categoryModel: CategoryModel, title: String)
+class PostPage(resource: OrchidResource, val categoryModel: CategoryModel, title: String)
     : OrchidPage(resource, "post", title) {
 
     @Option
@@ -50,12 +48,6 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
     )
     lateinit var permalink: String
 
-    val excerpt: String
-        get() {
-            val strategy = context.injector.getInstance(PostsExcerptStrategy::class.java)
-            return strategy.getExcerpt(this)
-        }
-
     val category: String?
         get() {
             return categoryModel.key
@@ -83,10 +75,10 @@ class PostPage(resource: OrchidResource, var postsModel: PostsModel, val categor
     override fun getTemplates(): List<String> {
         val templates = super.getTemplates()
         if(!EdenUtils.isEmpty(postType)) {
-            templates.add(0, "$key-type-" + postType)
+            templates.add(0, "$key-type-$postType")
         }
         if(!EdenUtils.isEmpty(categoryModel.key)) {
-            templates.add(0, "$key-" + categoryModel.key!!)
+            templates.add(0, "$key-${categoryModel.key!!}")
         }
 
         return templates

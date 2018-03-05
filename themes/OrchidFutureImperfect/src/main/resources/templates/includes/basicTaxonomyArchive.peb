@@ -3,10 +3,23 @@
     <div class="mini-posts archive">
     {% for term in taxonomy.allTerms %}
         {# @pebvariable name="term" type="com.eden.orchid.taxonomies.models.Term" #}
-        <article class="mini-post">
+        <article class="post">
             <header>
-                <h3><a href="{{ term.link }}">{{ term.title }}</a></h3>
+                <div class="title">
+                    <h2><a href="{{ term.link }}">{{ term.title }}</a></h2>
+                </div>
             </header>
+            {% set 'termPages' = ((term.pages|length) > 3) ? (term.pages | limitTo(3)) : (term.pages) %}
+            {% for page in termPages %}
+                <ul>
+                    <li><a href="{{ page.link }}">{{ page.title }}</a></li>
+                </ul>
+            {% endfor %}
+            <footer>
+                <ul class="actions">
+                    <li><a href="{{ term.link }}" class="button big">See More</a></li>
+                </ul>
+            </footer>
         </article>
     {% endfor %}
     </div>

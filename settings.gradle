@@ -16,7 +16,6 @@ include 'OrchidCore'
 include 'themes:OrchidBsDoc'
 include 'themes:OrchidEditorial'
 include 'themes:OrchidFutureImperfect'
-include 'themes:OrchidMaterialize'
 
 include 'plugins:OrchidChangelog'
 include 'plugins:OrchidForms'

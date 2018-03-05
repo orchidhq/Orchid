@@ -1,13 +1,5 @@
 ---
 ---
-.menu ul {
-  display: none;
-}
-
-.menu ul.top-level {
-  display: block;
-}
-
 .text-left {
   text-align: left;
 }
@@ -44,47 +36,12 @@
   border-radius: 16px;
 }
 
-.noncaps {
-  text-transform: initial;
-}
-
-#sidebar .inner {
-  height: 100%;
-  overflow-y: scroll;
-}
-
 p > img, p > svg {
   max-width: 100%;
 }
 
 p a img {
   width: initial;
-}
-
-pre {
-  max-width: 40rem;
-  margin: 0 0 2em 0;
-}
-
-blockquote {
-  margin: 0 0 2em 0;
-  max-width: 40rem;
-}
-
-//pre[class*=language-] {
-//  padding-top: 0 !important;
-//  padding-bottom: 0 !important;
-//  border-radius: 0.25rem;
-//}
-//
-//code[class*=language-] {
-//  background: initial;
-//  border: initial;
-//  padding: 0;
-//}
-
-li > ul {
-  margin: 0;
 }
 
 #footer {

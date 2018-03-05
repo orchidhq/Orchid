@@ -1,15 +1,17 @@
 <section>
     <ul class="posts">
-        {% for post in component.recentPosts %}
-            <li>
-                <article>
-                    <header>
-                        <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
-                        <time class="published" datetime="{{ post.publishedDate('yyyy-MM-dd') }}">{{ post.publishedDate() }}</time>
-                    </header>
-                    <a href="#" class="image"><img src="{{ post.featuredImage }}" alt=""/></a>
-                </article>
-            </li>
-        {% endfor %}
+    {% for post in component.recentPosts %}
+        <li>
+            <article>
+                <header>
+                    <h3><a href="{{ post.link }}">{{ post.title }}</a></h3>
+                    <time class="published" datetime="{{ post.publishDate|localDate('yyyy-MM-dd') }}">
+                    {{ post.publishDate|localDate('MMMM dd, yyyy') }}
+                    </time>
+                </header>
+                <a href="{{ post.link }}" class="image"><img src="{{ post.featuredImage }}" alt="{{ post.title }}"/></a>
+            </article>
+        </li>
+    {% endfor %}
     </ul>
 </section>

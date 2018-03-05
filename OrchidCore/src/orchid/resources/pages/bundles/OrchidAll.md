@@ -7,8 +7,6 @@ included:
     pluginName: OrchidEditorial
   - pluginType: themes
     pluginName: OrchidFutureImperfect
-  - pluginType: themes
-    pluginName: OrchidMaterialize
     
   - pluginType: plugins
     pluginName: OrchidAsciidoc    

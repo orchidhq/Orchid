@@ -1,7 +1,5 @@
 ---
-layout: 'geopattern'
-pattern: 'octogons'
-title: 'Orchid BsDoc'
+layout: 'frontPage'
 components:
   - type: readme
 ---

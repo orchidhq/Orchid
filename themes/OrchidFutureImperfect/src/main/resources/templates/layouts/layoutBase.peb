@@ -13,6 +13,12 @@
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
 {% include '?trackingBodyStart' %}
+
+<div id="search-results" data-orchid-search-results style="display: none;">
+    <header>Search Results</header>
+    <ul></ul>
+</div>
+
 <!-- Wrapper -->
 <div id="wrapper">
 
@@ -30,9 +36,12 @@
             <ul>
                 <li class="search">
                     <a class="fa-search" href="#search">Search</a>
-                    <form id="search" method="get" action="#">
-                        <input type="text" name="query" placeholder="Search"/>
+                    <form id="search" data-orchid-search="{{ (searchIndices is not empty) ? searchIndices|join(',') : '' }}">
+                        <input type="text" name="query" id="query" placeholder="Search"/>
                     </form>
+                    <div id="search-progress" data-orchid-search-progress style="display: none;">
+                        <div class="loader">Loading...</div>
+                    </div>
                 </li>
                 <li class="menu">
                     <a class="fa-bars" href="#menu">Menu</a>
@@ -46,28 +55,24 @@
 
         <!-- Search -->
         <section>
-            <form class="search" method="get" action="#">
+            <form class="search" id="search" data-orchid-search="{{ (searchIndices is not empty) ? searchIndices|join(',') : '' }}">
                 <input type="text" name="query" placeholder="Search"/>
             </form>
+            <div id="search-progress" data-orchid-search-progress style="display: none;">
+                <div class="loader">Loading...</div>
+            </div>
         </section>
 
         <!-- Links -->
         <section>
             <ul class="links">
-            {% for menuItem in theme.drawerMenu.getMenuItems(page) %}
+            {% for menuItem in theme.menu.getMenuItems(page) %}
                 <li>
                     <a href="{{ menuItem.link }}">
                         <h3>{{menuItem.title}}</h3>
                     </a>
                 </li>
             {% endfor %}
-            </ul>
-        </section>
-
-        <!-- Actions -->
-        <section>
-            <ul class="actions vertical">
-                <li><a href="#" class="button big fit">Log In</a></li>
             </ul>
         </section>
 

@@ -80,7 +80,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     override fun startIndexing(): List<OrchidPage> {
         val authorPages = getAuthorPages()
 
-        postsModel.initialize(excerptSeparator)
+        postsModel.initialize(excerptSeparator, authorPages)
 
         if (categories.length() > 0) {
             for (i in 0 until categories.length()) {
@@ -165,7 +165,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
 
             if (matcher.matches()) {
                 val title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
-                val post = PostPage(entry, postsModel, categoryModel, title)
+                val post = PostPage(entry, categoryModel, title)
 
                 if(post.publishDate.toLocalDate().isToday()) {
                     post.publishDate = LocalDate.of(
