@@ -1,8 +1,0 @@
-
-dependencies {
-
-}
-
-orchid {
-    theme = 'Materialize'
-}
