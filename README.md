@@ -22,11 +22,13 @@ private plugins and a rich API so you can make your site as beautiful and unique
 
 ### Features
 
-- Plugin-driven Architecture
+- Plugin-driven architecture
 - Multi-theme support
 - Admin interface to manage your content and gain deep insights into your build
 - Link to other Orchid sites
 - Powerful and flexible indexing, unique to Orchid
+- Full-text static search 
+- Component-based content management
 - Fully replaces Jekyll, Hugo, Gitbook, Javadocs, and more!
 
 [View the full documentation](https://orchid.netlify.com) or see the quick-start below.
@@ -115,8 +117,8 @@ additional classes you'd like to include as a private plugin can be placed in `s
 
 ## Development Progress
 
-Orchid is nearing the end of the initial development phase. While much of the public API is solid and not likely to 
-change, I make no guarantees that any particular API will not change or be removed.
+Orchid is nearing its first public release. While much of the public API is solid and not likely to change, it is still 
+in development and I make no guarantees that any particular API will not change or be removed.
  
 The following tables list all official Orchid packages:
 
@@ -148,6 +150,7 @@ The following tables list all official Orchid packages:
 | OrchidPluginDocs    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPluginDocs/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidPluginDocs/_latestVersion) |
 | OrchidPosts         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPosts/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion) |
 | OrchidPresentations | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPresentations/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPresentations/_latestVersion) |
+| OrchidSearch        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSearch/images/download.svg)        ](https://bintray.com/javaeden/Orchid/OrchidSearch/_latestVersion) |
 | OrchidSwagger       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSwagger/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidSwagger/_latestVersion) |
 | OrchidTaxonomies    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidTaxonomies/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidTaxonomies/_latestVersion) |
 | OrchidWiki          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
