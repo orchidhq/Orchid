@@ -9,4 +9,15 @@ components:
   - {type: 'template', templates: ['homepage-call-to-action']}
 extraCss:
   - 'assets/css/homepage.scss'
+keywordPages:
+  - ['Blog', 'OrchidPosts']
+  - ['Javadocs', 'OrchidJavadoc']
+  - ['Landing Pages', 'OrchidPages']
+  - ['Wiki', 'OrchidWiki']
+  - ['Documentation', 'OrchidWiki']
+  - ['Portfolio', 'OrchidBlog']
+  - ['CMS', 'OrchidNetlifyCMS']
+  - ['Forms', 'OrchidForms']
+  - ['Styleguide', 'OrchidKSS']
+  - ['API Docs', 'OrchidSwagger']
 ---

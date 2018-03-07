@@ -4,10 +4,11 @@ import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.taxonomies.TaxonomiesGenerator
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 
-@Archetype(value = ConfigArchetype::class, key = "taxonomyArchivePages")
+@Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.generatorKey}.taxonomyArchivePages")
 open class TaxonomyArchivePage(
         resource: OrchidResource,
         val model: TaxonomiesModel,

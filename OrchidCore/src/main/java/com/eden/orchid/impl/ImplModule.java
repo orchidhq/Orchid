@@ -65,6 +65,7 @@ import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.impl.themes.menus.PageMenuItem;
 import com.eden.orchid.impl.themes.tags.LogTag;
 import com.eden.orchid.utilities.ClogSpells;
 
@@ -132,7 +133,8 @@ public final class ImplModule extends OrchidModule {
                 DividerMenuItem.class,
                 DropdownMenuItem.class,
                 LinkMenuItem.class,
-                IndexMenuItem.class);
+                IndexMenuItem.class,
+                PageMenuItem.class);
 
         // Component Types
         addToSet(OrchidComponent.class,

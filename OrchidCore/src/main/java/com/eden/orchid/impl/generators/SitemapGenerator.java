@@ -19,6 +19,8 @@ import java.util.stream.Stream;
 
 public final class SitemapGenerator extends OrchidGenerator {
 
+    public static final String generatorKey = "sitemap";
+
     @Getter @Setter
     @Option @BooleanDefault(true)
     @Description("Whether to generate sitemaps.")
@@ -31,7 +33,7 @@ public final class SitemapGenerator extends OrchidGenerator {
 
     @Inject
     public SitemapGenerator(OrchidContext context) {
-        super(context, "sitemap", OrchidGenerator.PRIORITY_LATE + 1);
+        super(context, generatorKey, OrchidGenerator.PRIORITY_LATE + 1);
     }
 
     @Override

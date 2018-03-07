@@ -67,8 +67,18 @@ task getReleaseNotes {
     }
 }
 
-task prepareDocumentation {
+task copyFilesToRoot {
+    doLast {
+        // Copy OrchidCore robots.txt to root
+        copy {
+            from file("${project(':OrchidCore').buildDir}/docs/orchid/robots.txt")
+            into file("${rootProject.buildDir}/docs/orchid")
+        }
+    }
+}
 
+task prepareDocumentation {
+    dependsOn copyFilesToRoot
 }
 
 task archiveDocumentation(type: Zip) {

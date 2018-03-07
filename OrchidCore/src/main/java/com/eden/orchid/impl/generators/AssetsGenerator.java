@@ -24,6 +24,8 @@ import java.util.stream.Stream;
         "been registered to an AssetHolder, and all files in the directories specified in config.sourceDirs.")
 public final class AssetsGenerator extends OrchidGenerator {
 
+    public static final String generatorKey = "assets";
+
     @Option @StringDefault({"assets"})
     @Description("Set which local resource directories you want to copy static assets from.")
     public String[] sourceDirs;
@@ -32,7 +34,7 @@ public final class AssetsGenerator extends OrchidGenerator {
 
     @Inject
     public AssetsGenerator(OrchidContext context) {
-        super(context, "assets", OrchidGenerator.PRIORITY_LATE);
+        super(context, generatorKey, OrchidGenerator.PRIORITY_LATE);
     }
 
     @Override

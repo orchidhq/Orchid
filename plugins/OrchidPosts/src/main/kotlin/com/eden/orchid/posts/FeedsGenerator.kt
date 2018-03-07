@@ -20,7 +20,11 @@ class FeedsGenerator
 constructor(
         context: OrchidContext,
         val postsModel: PostsModel)
-    : OrchidGenerator(context, "feeds", OrchidGenerator.PRIORITY_LATE + 1) {
+    : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_LATE + 1) {
+
+    companion object {
+        const val generatorKey = "feeds"
+    }
 
     @Option @StringDefault("rss", "atom")
     @Description("A list of different feed types to render. Each feed type is rendered as `/{feedType}.xml` from the " +

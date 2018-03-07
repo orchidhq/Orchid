@@ -22,9 +22,11 @@ import java.util.stream.Stream;
 @Description("Generates index files to connect your site to others.")
 public final class IndexGenerator extends OrchidGenerator {
 
+    public static final String generatorKey = "indices";
+
     @Inject
     public IndexGenerator(OrchidContext context) {
-        super(context, "indices", OrchidGenerator.PRIORITY_LATE);
+        super(context, generatorKey, OrchidGenerator.PRIORITY_LATE);
     }
 
     @Override

@@ -25,7 +25,11 @@ import javax.inject.Singleton
 
 @Singleton
 class TaxonomiesGenerator @Inject
-constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStrategy: PermalinkStrategy) : OrchidGenerator(context, "taxonomies", OrchidGenerator.PRIORITY_DEFAULT) {
+constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStrategy: PermalinkStrategy) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_DEFAULT) {
+
+    companion object {
+        const val generatorKey = "taxonomies"
+    }
 
     @Option
     @Description("An array of Taxonomy configurations.")

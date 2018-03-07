@@ -37,9 +37,10 @@ import javax.inject.Singleton
 @Description("Share your thoughts and interests with blog posts and archives.")
 class PostsGenerator @Inject
 constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, val postsModel: PostsModel)
-    : OrchidGenerator(context, "posts", OrchidGenerator.PRIORITY_EARLY) {
+    : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
+        const val generatorKey = "posts"
         val pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)")
     }
 

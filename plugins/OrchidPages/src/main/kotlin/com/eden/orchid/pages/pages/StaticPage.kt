@@ -11,14 +11,15 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.pages.PageGroupArchetype
+import com.eden.orchid.pages.PagesGenerator
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.snakeCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "staticPages"),
-        Archetype(value = PageGroupArchetype::class, key = "staticPages")
+        Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.generatorKey}.staticPages"),
+        Archetype(value = PageGroupArchetype::class, key = "${PagesGenerator.generatorKey}.staticPages")
 )
 class StaticPage(resource: OrchidResource)
     : OrchidPage(resource, "staticPage", resource.reference.title.from { snakeCase { capitalize() } }.to { words() }) {

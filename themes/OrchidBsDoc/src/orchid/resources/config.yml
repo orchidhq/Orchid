@@ -40,11 +40,11 @@ taxonomies:
           - month
           - day
           - title
-taxonomyArchivePages:
-  searchIndices:
-    - 'pages'
-    - 'posts'
-termArchivePages:
-  searchIndices:
-    - 'pages'
-    - 'posts'
+  taxonomyArchivePages:
+    searchIndices:
+      - 'pages'
+      - 'posts'
+  termArchivePages:
+    searchIndices:
+      - 'pages'
+      - 'posts'

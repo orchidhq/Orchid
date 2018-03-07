@@ -1,0 +1,8 @@
+includeIndexInPageTitle: false
+sections:
+  - 'userManual'
+  - 'developersGuide'
+wikiPages:
+  layout: geopattern2
+  searchIndices:
+    - 'wiki'

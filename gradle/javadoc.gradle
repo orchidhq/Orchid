@@ -8,9 +8,11 @@ orchid {
         switch(project.property('env')) {
             case 'prod':
                 baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
+                environment = 'prod'
                 break
             case 'staging':
                 baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
+                environment = 'prod'
                 break
             case 'dev':
                 baseUrl = "${project.ext.commonBaseUrl}"
