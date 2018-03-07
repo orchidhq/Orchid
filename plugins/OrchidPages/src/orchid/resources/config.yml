@@ -9,5 +9,5 @@ theme:
     github: 'JavaEden/Orchid'
   menu:
     - type: page
-      page: Page One
+      itemId: Page One
     - type: pages

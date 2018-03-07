@@ -104,7 +104,7 @@ theme:
     - type: license
   menu:
     - type: page
-      page: 'home'
+      itemId: 'About'
     - type: link
       title: 'Contact'
       url: '/contact'
@@ -132,7 +132,7 @@ siteName: 'My Site'
 {% highlight 'yaml' %}
 # data/theme/menu.yml
 - type: page
-  page: 'home'
+  itemId: 'About'
 - type: link
   title: 'Contact'
   url: '/contact'
