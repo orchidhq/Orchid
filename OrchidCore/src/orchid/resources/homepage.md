@@ -13,6 +13,7 @@ keywordPages:
   - ['Blog', 'OrchidPosts']
   - ['Javadocs', 'OrchidJavadoc']
   - ['Landing Pages', 'OrchidPages']
+  - ['Search', 'OrchidSearch']
   - ['Wiki', 'OrchidWiki']
   - ['Documentation', 'OrchidWiki']
   - ['Portfolio', 'OrchidBlog']
