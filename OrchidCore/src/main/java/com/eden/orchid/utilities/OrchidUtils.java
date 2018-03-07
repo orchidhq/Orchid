@@ -94,6 +94,7 @@ public final class OrchidUtils {
         JSONObject dest = new JSONObject();
 
         for(JSONObject tmpSource : sources) {
+            if(tmpSource == null) continue;
             JSONObject source = new JSONObject(tmpSource.toMap());
 
             for (String key : source.keySet()) {

@@ -2,8 +2,10 @@ package com.eden.orchid.api.options.archetypes;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionArchetype;
+import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -19,14 +21,21 @@ public class ConfigArchetype implements OptionArchetype {
 
     @Override
     public JSONObject getOptions(Object target, String archetypeKey) {
+        JSONObject configOptions = null;
+        JSONObject eventOptions = null;
+
         if(!EdenUtils.isEmpty(archetypeKey)) {
             JSONElement contextOptions = context.query(archetypeKey);
             if(contextOptions != null && contextOptions.getElement() instanceof JSONObject) {
-                return (JSONObject) contextOptions.getElement();
+                configOptions = (JSONObject) contextOptions.getElement();
             }
         }
 
-        return null;
+        Orchid.Lifecycle.ArchetypeOptions options = new Orchid.Lifecycle.ArchetypeOptions(archetypeKey, target);
+        context.broadcast(options);
+        eventOptions = options.getConfig();
+
+        return OrchidUtils.merge(configOptions, eventOptions);
     }
 
 }
