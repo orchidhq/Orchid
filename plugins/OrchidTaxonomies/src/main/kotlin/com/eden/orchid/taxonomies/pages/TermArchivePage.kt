@@ -4,11 +4,12 @@ import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.taxonomies.TaxonomiesGenerator
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
 
-@Archetype(value = ConfigArchetype::class, key = "termArchivePages")
+@Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.generatorKey}.termArchivePages")
 open class TermArchivePage(
         resource: OrchidResource,
         val model: TaxonomiesModel,

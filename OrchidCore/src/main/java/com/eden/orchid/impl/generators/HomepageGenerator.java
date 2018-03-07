@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.generators;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
@@ -18,9 +17,11 @@ import java.util.stream.Stream;
 @Description("Generates the root homepage for your site.")
 public final class HomepageGenerator extends OrchidGenerator {
 
+    public static final String generatorKey = "home";
+
     @Inject
     public HomepageGenerator(OrchidContext context) {
-        super(context, "home", OrchidGenerator.PRIORITY_EARLY);
+        super(context, generatorKey, OrchidGenerator.PRIORITY_EARLY);
     }
 
     @Override

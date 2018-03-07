@@ -21,7 +21,11 @@ import javax.inject.Singleton
 @Singleton
 @Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " + "of methods, fields, etc. but in your site's theme.")
 class JavadocGenerator @Inject
-constructor(context: OrchidContext, private val rootDoc: RootDoc, private val model: JavadocModel) : OrchidGenerator(context, "javadoc", OrchidGenerator.PRIORITY_EARLY) {
+constructor(context: OrchidContext, private val rootDoc: RootDoc, private val model: JavadocModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY) {
+
+    companion object {
+        const val generatorKey = "forms"
+    }
 
     override fun startIndexing(): List<OrchidPage> {
         val classes = HashSet<ClassDoc>()

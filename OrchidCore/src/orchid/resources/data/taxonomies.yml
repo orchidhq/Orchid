@@ -1,0 +1,20 @@
+taxonomies:
+  - group:
+      single: true
+      orderByDirection: asc
+      orderBy:
+        - 'title'
+  - tags:
+      single: false
+      orderBy:
+        - entryCount
+  - orchidApi:
+      single: true
+      includeFrom:
+        - javadoc
+taxonomyArchivePages:
+  searchIndices:
+    - 'pages'
+termArchivePages:
+  searchIndices:
+    - 'pages'

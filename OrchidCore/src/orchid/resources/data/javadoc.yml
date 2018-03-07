@@ -1,0 +1,8 @@
+classPages:
+  searchIndices:
+    - 'wiki'
+    - 'javadoc'
+packagePages:
+  searchIndices:
+    - 'wiki'
+    - 'javadoc'

@@ -17,7 +17,11 @@ import javax.inject.Singleton
         "pages come from 'baseDir' option value, which defaults to 'pages'."
 )
 class PagesGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context, "pages", OrchidGenerator.PRIORITY_EARLY) {
+constructor(context: OrchidContext) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY) {
+
+    companion object {
+        const val generatorKey = "pages"
+    }
 
     @Option @StringDefault("pages")
     @Description("The base directory in local resources to look for static pages in.")

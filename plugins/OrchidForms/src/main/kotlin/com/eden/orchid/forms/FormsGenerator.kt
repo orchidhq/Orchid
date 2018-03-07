@@ -18,7 +18,11 @@ import javax.inject.Inject
 
 @Description("Indexes form definitions so they can be easily referenced from components on different pages.")
 class FormsGenerator @Inject
-constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, "forms", OrchidGenerator.PRIORITY_DEFAULT) {
+constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_DEFAULT) {
+
+    companion object {
+        const val generatorKey = "forms"
+    }
 
     @Option @StringDefault("forms")
     @Description("The base directory in local resources to look for forms in.")

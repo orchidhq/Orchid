@@ -1,0 +1,4 @@
+staticPages:
+  layout: geopattern
+  searchIndices:
+    - 'pages'

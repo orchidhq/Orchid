@@ -5,10 +5,12 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidSecurityManager;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.options.OrchidFlags;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import lombok.Getter;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -217,6 +219,24 @@ public final class Orchid {
             private EndSession(Object sender) { super(sender); }
 
             public static EndSession fire(Object sender) { return new EndSession(sender); }
+        }
+
+        public static class ArchetypeOptions extends OrchidEvent {
+            private JSONObject config;
+            public ArchetypeOptions(String archetypeKey, Object sender) {
+                super(archetypeKey, sender);
+                config = new JSONObject();
+            }
+
+            public JSONObject getConfig() {
+                return config;
+            }
+
+            public void addConfig(JSONObject config) {
+                if(config != null) {
+                    this.config = OrchidUtils.merge(this.config, config);
+                }
+            }
         }
     }
 

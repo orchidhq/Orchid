@@ -19,7 +19,11 @@ import javax.inject.Inject
 @Singleton
 @Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).")
 class KssGenerator @Inject
-constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, "styleguide", OrchidGenerator.PRIORITY_EARLY) {
+constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY) {
+
+    companion object {
+        const val generatorKey = "styleguide"
+    }
 
     @Option @StringDefault("assets/css")
     @Description("The base directory in local resources to look for KSS blocks in.")

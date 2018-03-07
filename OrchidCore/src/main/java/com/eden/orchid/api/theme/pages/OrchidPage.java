@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.options.archetypes.EventArchetype;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -40,6 +41,7 @@ import java.util.Map;
  * @orchidApi extensible
  */
 @Archetype(value = ConfigArchetype.class, key = "allPages")
+@Archetype(value = EventArchetype.class,  key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {
 
     // global variables

@@ -4,10 +4,11 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.javadoc.JavadocGenerator
 import com.eden.orchid.javadoc.resources.ClassDocResource
 import com.sun.javadoc.ClassDoc
 
-@Archetype(value = ConfigArchetype::class, key = "javadoc.classPages")
+@Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.generatorKey}.classPages")
 class JavadocClassPage(context: OrchidContext, var classDoc: ClassDoc) : OrchidPage(ClassDocResource(context, classDoc), "javadocClass", classDoc.typeName()) {
 
     var packagePage: JavadocPackagePage? = null

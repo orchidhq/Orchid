@@ -10,12 +10,14 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.PostCategoryArchetype
+import com.eden.orchid.posts.PostsGenerator
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
 
 @Archetypes(
-    Archetype(value = ConfigArchetype::class, key = "postPages"),
-    Archetype(value = PostCategoryArchetype::class, key = "postPages")
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.generatorKey}.allPages"),
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.generatorKey}.postPages"),
+    Archetype(value = PostCategoryArchetype::class, key = "${PostsGenerator.generatorKey}.postPages")
 )
 class PostPage(resource: OrchidResource, val categoryModel: CategoryModel, title: String)
     : OrchidPage(resource, "post", title) {
