@@ -228,6 +228,18 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
             }
         }
 
+        val collection = FolderCollection(
+                this,
+                "authors",
+                postsModel.authorPages,
+                AuthorPage::class.java,
+                "$baseDir/$authorsBaseDir"
+        )
+        collection.label = "Authors"
+        collection.isCanCreate = true
+        collection.isCanDelete = true
+        collectionsList.add(collection)
+
         return collectionsList
     }
 
