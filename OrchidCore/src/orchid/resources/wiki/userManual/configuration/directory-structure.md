@@ -4,10 +4,6 @@
 {% extends '_wikiBase' %}
 
 {% block sectionIntro %}
-{% endblock %}
-
-{% block sectionBody %}
-
 Orchid is designed to be used with Gradle, and it works best when integrated directly in your existing Java projects. 
 The standard Orchid directory structure is just a normal Maven project, where the Orchid source content is in 
 `src/orchid` instead of `src/main`. 
@@ -23,15 +19,17 @@ numerous extension points to include your custom code. There is fundamentally no
 included from a plugin and code that is included locally, which removes the burden of requiring packaged plugins that is 
 common for many frameworks, and allows you to create closed-source Orchid plugins for your private use. 
 
-> Note that Orchid is licensed under the GNU Lesser General Public License v3 (LGPL-3.0), so any modifications to the
-> core must be open-sourced under the LGPL. However, you are free to include Orchid as a library in your private or 
-> proprietary projects or create closed-source Orchid plugins for private use or sale without having to disclose your 
-> source code. Just don't do anything malicious with it, and please provide a link back to the Orchid source so your 
-> team knows about it, and so Orchid is attributed appropriately.
+{% alert 'info' :: compileAs('md') %}
+Note that Orchid is licensed under the GNU Lesser General Public License v3 (LGPL-3.0), so any modifications to the
+core must be open-sourced under the LGPL. However, you are free to include Orchid as a library in your private or 
+proprietary projects or create closed-source Orchid plugins for private use or sale without having to disclose your 
+source code. Just don't do anything malicious with it, and please provide a link back to the Orchid source so your 
+team knows about it, and so Orchid is attributed appropriately.
+{% endalert %}
 
-{.alert .alert-info}
+{% endblock %}
 
-[TOC]
+{% block sectionBody %}
 
 ## Directory Overview
 ***

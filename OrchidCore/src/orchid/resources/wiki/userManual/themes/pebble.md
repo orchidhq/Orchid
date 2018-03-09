@@ -129,7 +129,7 @@ Now let's look at the same theme structure, built using blocks and template inhe
 {% endhighlight %}
 
 
-You'll notice that this setup includes a fourth template, `bast.html`. This template is the only one that needs to know
+You'll notice that this setup includes a fourth template, `base.html`. This template is the only one that needs to know
 anything about the page's header, sidebar, and footer. The rest of the pages don't care about those page elements, and 
 it shows because their templates literally don't even need to know that they exist. They are only concerned with what is
 in the `content` block on the page, and when it is their turn to customize the content, they only need to override that
@@ -151,7 +151,7 @@ shown above are all valid Pebble markup, so you can use those as your base, or y
 [Pebble Source Documentation]({{pebbleUrl}}/guide/basic-usage#variables)
 
 When rendering a template or precompiling page content, Orchid passes a number of variables that can be used for logic
-or for printing directly to the screen. Generally speaking, everytime you render with Pebble, you will have the 
+or for printing directly to the screen. Generally speaking, every time you render with Pebble, you will have the 
 following variables available to work with:
 
 | Variable Name | Description | 
@@ -273,6 +273,28 @@ Orchid:
 
 ### Filters
 
+Orchid allows for custom functions and filters to be registered. While Pebble makes a distinction between filters and 
+functions (filters designed to mutate data, while functions produce data), Orchid treats them the same. Custom Filters 
+simply move the first parameter from inside the function arguments to being the variable that is filtered. So the 
+following two snippets are the same. 
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{{ link('itemId') }}
+{{ anchor('title', 'itemId') }}
+{% endverbatim %} 
+{% endhighlight %}
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{{ 'itemId' | link }}
+{{ 'title' | anchor('itemId') }}
+{% endverbatim %} 
+{% endhighlight %}
+
+An Orchid function, once registered, can be wrapped and enabled for any template language, not just Pebble, allowing you
+to use the same set of tools across many languages if the language is set up to handle it.
+
 ### Tags
 
 Tags added by Orchid generally come in two flavors: ones that have a closing tag, and ones that do not. Tags that have
@@ -308,9 +330,9 @@ public static void main(String... args) {}
 {% endverbatim %} 
 {% endhighlight %}
 
-> To make it easier to find and use these custom Tags, the {{ anchor('OrchidNetlifyCMS', 'OrchidNetlifyCMS') }} plugin
-> adds all these tags as custom fields within its WYSIWYG editor.
-
-{.alert .alert-info}
+{% alert 'info' 'Tip' :: compileAs('md') %}
+To make it easier to find and use these custom Tags, the {{ anchor('OrchidNetlifyCMS', 'OrchidNetlifyCMS') }} plugin
+adds all these tags as custom fields within its WYSIWYG editor.
+{% endalert %}
 
 {% endblock %}

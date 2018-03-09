@@ -11,7 +11,7 @@ Most content in Orchid comes from a file in your local filesystem. While each pl
 generate their pages, it is common for plugins to base their internal content models around the filesystem, and as such, 
 the content from most plugins is written in a very similar way because the content for each entry works the same.
 
-Page content in Orchid usually consists to two major sections: Front Matter, and Page Content.
+Page content in Orchid usually consists of two major sections: Front Matter, and Page Content.
 
 ## Front Matter
 

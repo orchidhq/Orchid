@@ -4,6 +4,9 @@
 {% extends '_wikiBase' %}
 
 {% block sectionIntro %}
+This page describes the basic pieces that make up an Orchid site. Orchid is a powerful tool with lots that you can do 
+with it, but it all boils down to just a few important pieces, described briefly here. The rest of this User Manual 
+assumes a basic familiarity with these concepts, and will build on them more fully in later pages.
 {% endblock %}
 
 {% block sectionBody %}
@@ -20,27 +23,36 @@ and how they all interact:
 - Orchid passes these pages back to their respective Generators to be rendered.
 - During rendering, a Page asks the Theme how the final output should look. This involves the creation and display of 
 Menus and Components. Pages, Themes, Generators, or anything else can request Menus or Components be displayed.
-- Menus use the Index to decide which items end up in the menu, which is displayed within the Page.
+- Menus use indexed content to decide which items end up in the menu, which is displayed within the Page.
 - Components are small sections of the Page which are relatively isolated in scope, but may request data that has been 
-Indexed, either as a requirement or for simplified usage. 
+indexed. Components can also contribute CSS or JS assets to the page they are added to. 
 
-As an object in Orchid, the page is quite small, with not much to say about it. Conceptually, however, the Page is the 
-largest and most important player in Orchid, and the following pages in this section of the Wiki will go through each of
-the remaining players one-by-one, to show how they all interact.
+As an object in Orchid, the page is quite small, with not much to say about it, mostly just holding data. Conceptually, 
+however, the Page is the largest and most important player in Orchid as everything else works together to build the 
+complete page and provide it with all that data.
 
 ## Themes
 ---
 
 Themes in Orchid serve many functions. They provide layouts, define menus, pick the primary CSS and Javascript used on
-a page, and in general provide a full webpage to hold Page content. 
+a page, and in general provide a full webpage to display Page content. 
 
-Orchid themes are designed to be swapped out seamlessly, so that, in many cases, you don't need to change any 
+Orchid themes are designed to be swapped out nearly seamlessly, so that, in many cases, you don't need to change any 
 configuration at all to give your site a completely different design. You can even use multiple themes, a new one for 
-each Generator, allowing you to pick the best theme for each type of content.
+each Generator, allowing you to pick the best theme for each type of content, or use the same theme with different
+options.
 
-Unlike many other static site generators, Orchid themes are not contained within your Orchid project, so at no point are 
-you locked into using one theme forever, or requiring a ton of work to change themes.
+Unlike many other static site generators, Orchid themes are not contained within your Orchid project, they are included
+as a dependency in your Gradle build. The dependency contains all templates, assets, or anything else the theme needs
+to work, and keeping you local site up-to-date with theme changes becomes trivial, since it is maintained separately 
+from your site and your content. 
 
+But you are also able to customize any theme you choose, providing your own templates and assets to make it exactly what 
+you need.
+
+Themes are designed to be swapped out seamlessly, with much of your setup with menus, components, and custom templates 
+still working just as before without any changes. This means that at no point are you ever locked into using one theme 
+forever, or requiring a ton of work to change themes. 
 
 ## Generators
 ---

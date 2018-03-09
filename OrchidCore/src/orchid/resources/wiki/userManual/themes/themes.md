@@ -40,10 +40,10 @@ There are a number of {{anchor('officially-supported Orchid themes', 'themes')}}
 services like [Jitpack](https://jitpack.io/) make it exceedingly simple for theme designers to publish new themes just 
 by hosting the theme on Github, which makes it easier for you to get set up with community-developed themes.
 
-> Note: If you have developed a theme that you'd like to feature in our showcase, you can submit a pull request to the 
-> `docs` branch of the Orchid repository and it will be featured on this site.
-
-{.alert .alert-info}
+{% alert 'info' :: compileAs('md') %}
+Note: If you have developed a theme that you'd like to feature in our showcase, you can submit a pull request to the 
+`docs` branch of the Orchid repository and it will be featured on this site.
+{% endalert %}
 
 ## Configuring your Theme
 ---
