@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.pages.OrchidExternalPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -41,9 +41,10 @@ public final class LinkMenuItem extends OrchidMenuItem {
                 url = OrchidUtils.applyBaseUrl(context, url);
             }
 
-            OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, new OrchidExternalPage(OrchidReference.fromUrl(context, title, url)));
-
-            menuItems.add(item);
+            OrchidReference reference = OrchidReference.fromUrl(context, title, url);
+            if(reference != null) {
+                menuItems.add(new OrchidMenuItemImpl(context, new OrchidExternalPage(reference)));
+            }
         }
 
         return menuItems;
