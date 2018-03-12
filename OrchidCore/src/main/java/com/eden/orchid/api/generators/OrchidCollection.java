@@ -32,13 +32,18 @@ public abstract class OrchidCollection<T> {
     }
 
     public String getTitle() {
+        String collectionTypeTitle = null;
+        String collectionIdTitle = null;
+
         String[] collectionTypeWords = OrchidExtensionsKt.from(collectionType, OrchidExtensionsKt::camelCase);
         collectionTypeWords = OrchidExtensionsKt.with(collectionTypeWords, StringUtils::capitalize);
-        String collectionTypeTitle = OrchidExtensionsKt.to(collectionTypeWords, OrchidExtensionsKt::titleCase).trim();
+        collectionTypeTitle = OrchidExtensionsKt.to(collectionTypeWords, OrchidExtensionsKt::titleCase).trim();
 
-        String[] collectionIdWords = OrchidExtensionsKt.from(collectionId, OrchidExtensionsKt::camelCase);
-        collectionIdWords = OrchidExtensionsKt.with(collectionIdWords, StringUtils::capitalize);
-        String collectionIdTitle = OrchidExtensionsKt.to(collectionIdWords, OrchidExtensionsKt::titleCase).trim();
+        if(collectionId != null) {
+            String[] collectionIdWords = OrchidExtensionsKt.from(collectionId, OrchidExtensionsKt::camelCase);
+            collectionIdWords = OrchidExtensionsKt.with(collectionIdWords, StringUtils::capitalize);
+            collectionIdTitle = OrchidExtensionsKt.to(collectionIdWords, OrchidExtensionsKt::titleCase).trim();
+        }
 
         if(!EdenUtils.isEmpty(collectionIdTitle) && !collectionTypeTitle.equals(collectionIdTitle)) {
             return collectionTypeTitle + " - " + collectionIdTitle;

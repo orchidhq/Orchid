@@ -36,6 +36,10 @@ ext {
     else {
         commonBaseUrl = 'http://localhost:8080'
     }
+
+    if(commonBaseUrl == null || commonBaseUrl == "") {
+        commonBaseUrl = 'http://orchid.netlify.com'
+    }
 }
 
 apply from: "$rootDir/gradle/test.gradle"
