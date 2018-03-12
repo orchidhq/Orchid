@@ -13,6 +13,7 @@ public class FolderCollection extends OrchidCollection<OrchidPage> {
     @Getter private final Class<? extends OrchidPage> pageClass;
     @Getter @Setter private boolean canCreate = true;
     @Getter @Setter private boolean canDelete = true;
+    @Getter @Setter private String slugFormat = "{slug}";
 
     public FolderCollection(OrchidGenerator generator, String collectionId, List<OrchidPage> items, Class<? extends OrchidPage> pageClass, String resourceRoot) {
         this(generator, generator.getKey(), collectionId, items, pageClass, resourceRoot);

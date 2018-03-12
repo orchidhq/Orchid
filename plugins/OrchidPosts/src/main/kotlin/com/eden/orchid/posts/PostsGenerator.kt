@@ -208,6 +208,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                         PostPage::class.java,
                         baseDir
                 )
+                collection.slugFormat = "{year}-{month}-{day}-{slug}"
                 collectionsList.add(collection)
             }
             else {
@@ -218,6 +219,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                         PostPage::class.java,
                         baseDir + "/" + it.key
                 )
+                collection.slugFormat = "{year}-{month}-{day}-{slug}"
                 collectionsList.add(collection)
             }
         }

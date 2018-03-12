@@ -8,6 +8,7 @@ import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
+import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
@@ -42,6 +43,7 @@ fun OptionsDescription.toNetlifyCmsField(): JSONObject {
             LocalDateTime::class.java -> "datetime"
             ComponentHolder::class.java -> "list"
             OrchidMenu::class.java -> "list"
+            AssetRelation::class.java -> "image"
             String::class.java -> "string"
             else -> "string"
         }
@@ -103,6 +105,10 @@ fun OptionHolderDescription.getNetlifyCmsFields(): JSONArray {
     }
 
     return fields
+}
+
+fun String.toNetlifyCmsSlug(): String {
+    return this.replace("\\{(.*?)\\}".toRegex(), "{{$1}}")
 }
 
 private fun getRequiredField(fieldName: String): JSONObject {

@@ -120,6 +120,15 @@ public abstract class OrchidResource {
 
     }
 
+    public String getTitle() {
+        JSONElement data = getEmbeddedData();
+        if(OrchidUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("title")) {
+            return ((JSONObject) data.getElement()).getString("title");
+        }
+
+        return reference.getTitle();
+    }
+
     @Override public String toString() {
         return "OrchidResource[" + this.getClass().getSimpleName() + "]{" +
                 "reference=" + reference.getRelativePath() +

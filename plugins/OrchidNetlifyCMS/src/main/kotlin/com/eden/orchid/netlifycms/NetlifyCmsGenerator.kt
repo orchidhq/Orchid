@@ -19,6 +19,7 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
 import com.eden.orchid.netlifycms.util.getNetlifyCmsFields
+import com.eden.orchid.netlifycms.util.toNetlifyCmsSlug
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject
@@ -47,8 +48,8 @@ constructor(
     }
 
     @Option
-    @Description("A config object to pass to the Netlify CMS to configure the backend.")
-    lateinit var backend: JSONObject
+    @Description("Arbitrary config options to add to the main CMS config file.")
+    lateinit var config: JSONObject
 
     @Option @StringDefault("src/orchid/resources")
     @Description("The resource directory, relative to the git repo root, where all resources are located.")
@@ -74,12 +75,13 @@ constructor(
         val includeCms: Boolean
 
         if(context.taskType == TaskService.TaskType.SERVE) {
-            backend.put("name", "orchid-server")
+            config.put("backend", JSONObject())
+            config.getJSONObject("backend").put("name", "orchid-server")
             resourceRoot = ""
             includeCms = true
         }
         else {
-            includeCms = backend.length() > 0
+            includeCms = config.has("backend")
         }
 
         if(includeCms) {
@@ -95,17 +97,15 @@ constructor(
     }
 
     private fun getYamlConfig(): String {
-        val jsonConfig = JSONObject()
+        var jsonConfig = JSONObject()
 
-        jsonConfig.put("backend", backend)
-//        jsonConfig.put("publish_mode", "editorial_workflow")
-        jsonConfig.put("media_folder", OrchidUtils.normalizePath("$resourceRoot/${mediaFolder}"))
-        jsonConfig.put("public_folder",  "${context.baseUrl}/${OrchidUtils.normalizePath("$resourceRoot/${mediaFolder}")}")
+        jsonConfig.put("media_folder", OrchidUtils.normalizePath("$resourceRoot/$mediaFolder"))
+        jsonConfig.put("public_folder", "/" + OrchidUtils.normalizePath(mediaFolder))
         jsonConfig.put("collections", JSONArray())
 
         context.collections
                 .forEach { collection ->
-                    val collectionData = JSONObject()
+                    var collectionData = JSONObject()
                     val shouldContinue: Boolean = when (collection) {
                         is FolderCollection -> setupFolderCollection(collectionData, collection)
                         is FileCollection -> setupFileCollection(collectionData, collection)
@@ -115,9 +115,26 @@ constructor(
                     if(shouldContinue) {
                         collectionData.put("label", collection.title)
                         collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
+
+                        // merge in collection-specific options
+                        var queryStrings = arrayOf(
+                                "${collection.collectionType}.collections",
+                                "${collection.collectionType}.collections.${collection.collectionId}"
+                        )
+
+                        queryStrings.forEach { queryString ->
+                            var configOptions = context.query(queryString)
+                            if (OrchidUtils.elementIsObject(configOptions)) {
+                                val queryResult = configOptions.element as JSONObject
+                                collectionData = OrchidUtils.merge(collectionData, queryResult)
+                            }
+                        }
+
                         jsonConfig.getJSONArray("collections").put(collectionData)
                     }
                 }
+
+        jsonConfig = OrchidUtils.merge(jsonConfig, config)
 
         val yaml = Yaml()
         return yaml.dump(jsonConfig.toMap())
@@ -126,7 +143,10 @@ constructor(
     private fun setupFolderCollection(collectionData: JSONObject, collection: FolderCollection): Boolean {
         collectionData.put("folder", OrchidUtils.normalizePath("$resourceRoot/${collection.resourceRoot}"))
         collectionData.put("create", collection.isCanCreate)
+        collectionData.put("delete", collection.isCanDelete)
+        collectionData.put("slug", collection.slugFormat.toNetlifyCmsSlug())
         collectionData.put("fields", extractor.describeOptions(collection.pageClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
+
         return true
     }
 

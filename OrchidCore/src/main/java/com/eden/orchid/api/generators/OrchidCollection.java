@@ -46,7 +46,7 @@ public abstract class OrchidCollection<T> {
         }
 
         if(!EdenUtils.isEmpty(collectionIdTitle) && !collectionTypeTitle.equals(collectionIdTitle)) {
-            return collectionTypeTitle + " - " + collectionIdTitle;
+            return collectionTypeTitle + " > " + collectionIdTitle;
         }
         else {
             return collectionTypeTitle;

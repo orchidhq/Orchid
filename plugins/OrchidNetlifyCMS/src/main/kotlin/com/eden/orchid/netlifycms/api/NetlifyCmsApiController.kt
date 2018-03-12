@@ -38,9 +38,9 @@ constructor(val context: OrchidContext, @Named("resourcesDir") val resourcesDir:
             resources.forEach {
                 val localResource = JSONObject()
                 localResource.put("name", "${it.reference.originalFileName}.${it.reference.extension}")
-                localResource.put("label", "${it.reference.originalFileName}.${it.reference.extension}")
-                localResource.put("title", "${it.reference.originalFileName}.${it.reference.extension}")
                 localResource.put("path", it.reference.originalFullFileName)
+                localResource.put("label", it.title)
+                localResource.put("title", it.title)
                 localResource.put("sha", "")
                 localResource.put("size", 0)
                 localResource.put("stats", JSONObject())
@@ -104,7 +104,7 @@ constructor(val context: OrchidContext, @Named("resourcesDir") val resourcesDir:
             }
         }
         else {
-            return OrchidResponse(context).content("Not found").status(404)
+            return createFile(request, localFilename)
         }
     }
 
