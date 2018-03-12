@@ -1,6 +1,5 @@
 package com.eden.orchid.netlifycms
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.FileCollection
@@ -9,6 +8,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.ResourceCollection
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -58,6 +58,14 @@ constructor(
     @Description("The resource directory, relative to the resourceRoot, where 'media' resources are located.")
     lateinit var mediaFolder: String
 
+    @Option @BooleanDefault(false)
+    @Description("Whether options of parent classes are included.")
+    var includeInheritedOptions: Boolean = false
+
+    @Option @BooleanDefault(true)
+    @Description("Whether options of its own class are included.")
+    var includeOwnOptions: Boolean = true
+
     override fun startIndexing(): List<OrchidPage>? {
         return null
     }
@@ -92,36 +100,37 @@ constructor(
         jsonConfig.put("backend", backend)
 //        jsonConfig.put("publish_mode", "editorial_workflow")
         jsonConfig.put("media_folder", OrchidUtils.normalizePath("$resourceRoot/${mediaFolder}"))
-        jsonConfig.put("public_folder", OrchidUtils.normalizePath("$resourceRoot/${mediaFolder}"))
+        jsonConfig.put("public_folder",  "${context.baseUrl}/${OrchidUtils.normalizePath("$resourceRoot/${mediaFolder}")}")
         jsonConfig.put("collections", JSONArray())
 
         context.collections
                 .forEach { collection ->
                     val collectionData = JSONObject()
-                    collectionData.put("label", if (!EdenUtils.isEmpty(collection.label)) {collection.label} else { collection.collectionId.capitalize() })
-                    collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
-
-                    when (collection) {
+                    val shouldContinue: Boolean = when (collection) {
                         is FolderCollection -> setupFolderCollection(collectionData, collection)
                         is FileCollection -> setupFileCollection(collectionData, collection)
                         is ResourceCollection -> setupResourceCollection(collectionData, collection)
+                        else -> false
                     }
-
-                    jsonConfig.getJSONArray("collections").put(collectionData)
+                    if(shouldContinue) {
+                        collectionData.put("label", collection.title)
+                        collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
+                        jsonConfig.getJSONArray("collections").put(collectionData)
+                    }
                 }
 
         val yaml = Yaml()
         return yaml.dump(jsonConfig.toMap())
     }
 
-    private fun setupFolderCollection(collectionData: JSONObject, collection: FolderCollection) {
+    private fun setupFolderCollection(collectionData: JSONObject, collection: FolderCollection): Boolean {
         collectionData.put("folder", OrchidUtils.normalizePath("$resourceRoot/${collection.resourceRoot}"))
         collectionData.put("create", collection.isCanCreate)
-        collectionData.put("fields", extractor.describeAllOptions(collection.pageClass).getNetlifyCmsFields())
-        collectionData.getJSONArray("fields").put(getBodyField())
+        collectionData.put("fields", extractor.describeOptions(collection.pageClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
+        return true
     }
 
-    private fun setupFileCollection(collectionData: JSONObject, collection: FileCollection) {
+    private fun setupFileCollection(collectionData: JSONObject, collection: FileCollection): Boolean {
         collectionData.put("files", JSONArray())
 
         collection.items.forEach { page ->
@@ -129,14 +138,14 @@ constructor(
             pageData.put("label", page.title)
             pageData.put("name", page.resource.reference.originalFileName)
             pageData.put("file", OrchidUtils.normalizePath("$resourceRoot/${page.resource.reference.originalFullFileName}"))
-            pageData.put("fields", extractor.describeAllOptions(page.javaClass).getNetlifyCmsFields())
-            pageData.getJSONArray("fields").put(getBodyField())
+            pageData.put("fields", extractor.describeOptions(page.javaClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
 
             collectionData.getJSONArray("files").put(pageData)
         }
+        return true
     }
 
-    private fun setupResourceCollection(collectionData: JSONObject, collection: ResourceCollection<Any>) {
+    private fun setupResourceCollection(collectionData: JSONObject, collection: ResourceCollection<Any>): Boolean {
         collectionData.put("files", JSONArray())
 
         collection.resources.forEach { res ->
@@ -144,19 +153,11 @@ constructor(
             pageData.put("label", res.reference.originalFileName)
             pageData.put("name", res.reference.originalFileName)
             pageData.put("file", OrchidUtils.normalizePath("$resourceRoot/${res.reference.originalFullFileName}"))
-            pageData.put("fields", extractor.describeAllOptions(collection.itemClass).getNetlifyCmsFields())
-            pageData.getJSONArray("fields").put(getBodyField())
+            pageData.put("fields", extractor.describeOptions(collection.itemClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
 
             collectionData.getJSONArray("files").put(pageData)
         }
-    }
-
-    private fun getBodyField(): JSONObject {
-        val bodyField = JSONObject()
-        bodyField.put("label", "Page Content")
-        bodyField.put("name", "body")
-        bodyField.put("widget", "markdown")
-        return bodyField
+        return true
     }
 
     override fun getCollections(): List<OrchidCollection<*>>? {

@@ -12,7 +12,7 @@ specific circumstances, outlined below: Asset Directories, and Extra CSS and JS
 {% block sectionBody %}
 ## Asset Directories
 
-If you wish to copy images, just give the Assets Generator the paths you want copied over. This is done with the 
+If you wish to copy assets, just give the Assets Generator the paths you want copied over. This is done with the 
 following snippet in your `config.yml`:
 
 {% highlight 'yaml' %}
@@ -50,8 +50,8 @@ quite often the case that we want custom CSS or Javascript to be included on spe
 you can add "extra CSS" and "extra JS" to any Page or Component definition. Any extra files added in this way will be 
 looked up, compiled, and copied to the output site, in addition to being injected into the rendered page. 
 
-For the following snippet can be included in a Page's front matter or within a component configuration, and will have 
-the same effect, which is to find and compile the referenced assets and add it the containing page:
+The following snippet can be included in a Page's front matter or within a component configuration and will have the 
+same effect in each, which is to find and compile the referenced assets and add it the containing page:
 
 {% highlight 'yaml' %}
 extraCss:

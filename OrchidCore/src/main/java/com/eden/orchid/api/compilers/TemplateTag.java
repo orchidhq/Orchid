@@ -1,6 +1,7 @@
 package com.eden.orchid.api.compilers;
 
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.server.annotations.Extensible;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,6 +17,7 @@ import lombok.experimental.Accessors;
  * @since v1.0.0
  * @orchidApi extensible
  */
+@Extensible
 public abstract class TemplateTag implements OptionsHolder {
 
     @Getter

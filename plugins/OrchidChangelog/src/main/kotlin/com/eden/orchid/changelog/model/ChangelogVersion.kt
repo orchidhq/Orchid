@@ -10,6 +10,7 @@ import org.json.JSONObject
 
 class ChangelogVersion(
         context: OrchidContext,
+        val versionFormat: String,
         val versionFilename: String,
         val resource: OrchidResource
 ) : OptionsHolder
@@ -39,8 +40,25 @@ class ChangelogVersion(
             return resource.compileContent(null)
         }
 
+    val versionComponents = HashMap<String, String>()
+
     init {
         extractOptions(context, resource.embeddedData.element as JSONObject)
+
+        val versionFormatRegex = versionFormat.replace(".", "\\.").replace("\\{\\w+?\\}".toRegex(), "(\\\\w+)").toRegex()
+        val match = versionFormatRegex.find(version)
+        if(match != null) {
+            val componentKeys = ArrayList<String>()
+            "\\{(.*?)\\}".toRegex().findAll(versionFormat).forEach {
+                componentKeys.add(it.groupValues[1])
+            }
+
+            match.groupValues.forEachIndexed { index, value ->
+                if(index > 0) {
+                    versionComponents[componentKeys[index-1]] = value
+                }
+            }
+        }
     }
 
     fun toJSON(): JSONObject {
@@ -49,6 +67,7 @@ class ChangelogVersion(
         json.put("major", this.major)
         json.put("minor", this.minor)
         json.put("url", this.url)
+        json.put("components", JSONObject(versionComponents))
 
         return json
     }

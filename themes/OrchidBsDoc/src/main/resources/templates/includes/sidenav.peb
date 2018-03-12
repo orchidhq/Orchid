@@ -39,7 +39,7 @@
                 {% endif %}
             {% else %}
                 {% if menuItem.title|length > 0 %}
-                    <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
+                    <li class="{{ menuItem.activeClass(page) }}"><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% endif %}
         {% endfor %}

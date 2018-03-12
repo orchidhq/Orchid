@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.themes.functions;
 
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.options.annotations.Description;
@@ -43,23 +42,9 @@ public final class LinkFunction extends TemplateFunction {
 
     @Override
     public Object apply(Object input) {
-        Object page;
-
-        if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(collectionType, collectionId, itemId);
-        }
-        else if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(collectionType, itemId);
-        }
-        else if(!EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(itemId);
-        }
-        else {
-            page = null;
-        }
-
-        if(page != null && page instanceof OrchidPage) {
-            return ((OrchidPage) page).getLink();
+        OrchidPage page = context.findPage(collectionType, collectionId, itemId);
+        if(page != null) {
+            return page.getLink();
         }
 
         return "";

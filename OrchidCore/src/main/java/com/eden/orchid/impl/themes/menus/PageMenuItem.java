@@ -43,23 +43,10 @@ public final class PageMenuItem extends OrchidMenuItem {
     public List<OrchidMenuItemImpl> getMenuItems() {
         List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
-        Object page;
+        OrchidPage page = context.findPage(collectionType, collectionId, itemId);
 
-        if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(collectionType, collectionId, itemId);
-        }
-        else if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(collectionType, itemId);
-        }
-        else if(!EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(itemId);
-        }
-        else {
-            page = null;
-        }
-
-        if(page != null && page instanceof OrchidPage) {
-            OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, (OrchidPage) page);
+        if(page != null) {
+            OrchidMenuItemImpl item = new OrchidMenuItemImpl(context, page);
             if(!EdenUtils.isEmpty(title)) {
                 item.setTitle(title);
             }

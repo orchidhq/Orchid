@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
@@ -130,12 +131,12 @@ public final class GeneratorServiceImpl implements GeneratorService {
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
         if (generatorPages != null && generatorPages.size() > 0) {
             OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
-            for (OrchidPage page : generatorPages) {
+            generatorPages.stream().filter(Objects::nonNull).forEach(page -> {
                 page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
                 freePage(page);
-            }
+            });
             context.addChildIndex(generator.getKey(), index);
         }
 

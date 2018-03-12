@@ -10,12 +10,28 @@
   publish = "build/docs/orchid"
   command = "./gradlew assemble prepareDocumentation -Penv=prod"
 
+# Redirect all traffic to HTTPS
+[[redirects]]
+  from = "http://orchid.netlify.com/*"
+  to = "https://orchid.netlify.com/:splat"
+  status = 301
+  force = true
+
+# Rewrite robots.txt to OrchidCore's robots.txt
+[[redirects]]
+  from = "/robots.txt"
+  to = "/OrchidCore/robots.txt"
+  status = 200
+  force = false
+
+# Redirect root to OrchidCore
 [[redirects]]
   from = "/"
   to = "/OrchidCore"
   status = 301
   force = false
 
+# Redirect all 404s to OrchidCore's 404
 [[redirects]]
   from = "/*"
   to = "/OrchidCore/404.html"

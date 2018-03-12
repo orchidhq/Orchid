@@ -6,8 +6,9 @@
 {% block sectionIntro %}
 Orchid provides a powerful, yet simple and intuitive way to configure your site. It expects that large and complex sites
 may have lots of options set in a many-layered hierarchy, but does not sacrifice simplicity for power with smaller 
-sites. To fully understand all that can be configured with the site config, you should refer to _the Options section of
-the developer guide_. A basic description follows.
+sites. To fully understand all that can be configured with the site config, you should refer to the Options section of
+the developer guide, refer to your plugins' documentation, or visit your admin panel. A basic description of site 
+configuration and how to set it up follows.
 {% endblock %}
 
 {% block sectionBody %}
@@ -25,11 +26,11 @@ In addition to `config` and `data` files, Orchid also supports setup via command
 options that must be in place before we can load the `config` and `data` files, such as the directory these files reside
 in. 
 
-> NOTE: Orchid supports many data languages, including TOML. You may name your config file `config.tml` to parse it as
-> TOML rather than YAML, or `config.json` to parse as JSON. The same goes for all files in `data/`. You may also 
-> mix-and-match parser types as needed, or even add your own.
-
-{.alert .alert-info}
+{% alert 'info' :: compileAs('md') %}
+Note: Orchid supports many data languages, including TOML. You may name your config file `config.tml` to parse it as
+TOML rather than YAML, or `config.json` to parse as JSON. The same goes for all files in `data/`. You may also 
+mix-and-match parser types as needed, or even add your own.
+{% endalert %}
 
 Orchid parses options before every build when running `watch` or `serve` tasks, and so support rapid changes in 
 development and prototyping. In contrast, command-line flags are parsed once, before the main Orchid starts up, and 
@@ -69,17 +70,19 @@ allPages: # (4)
     specific sub-sets of pages should have in common. Each plugin declared these archetypal options in their own way, 
     so consult each plugin's documentation for full site configuration.
 
-> NOTE: By convention, Themes' keys are in `PascalCase` while Generators' keys are in `camelCase`. Options passed to 
-> Services are all contained under the `services` object, each at their key within `services`. This all helps prevent 
-> collisions between theme, generator, and service configuration options.
-
-{.alert .alert-warning} 
-
-> NOTE: Theme options may also be set at the 'theme' top-level object. If you are using multiple themes which are all
-> expected to use the same configuration (a common occurrence), this is preferred over the theme-specific object. 
-> However, if both the theme's key and `theme` are defined, the theme-specific object will take precedence.
-
-{.alert .alert-info}
+{% alert 'warning' :: compileAs('md') %}
+NOTE: By convention, Themes' keys are in `PascalCase` while Generators' keys are in `camelCase`. Options passed to 
+Services are all contained under the `services` object, each at their key within `services`. This all helps prevent 
+collisions between theme, generator, and service configuration options.
+{% endalert %}
+ 
+{% alert 'info' :: compileAs('md') %}
+NOTE: Theme options may be set at the 'theme' top-level object, or at its own key. If you are using multiple themes 
+which are all expected to use the same configuration (a common occurrence), the `theme` property is preferred over the 
+theme-specific object. However, if both the theme's key and `theme` are defined, the theme-specific object will take 
+precedence. You may also set the options for a theme directly on the Generator using that theme, to completely override 
+all theme options for those pages only, so you could use different options for the same theme.
+{% endalert %}
 
 ## Advanced Site Config
 ***
@@ -114,7 +117,7 @@ theme:
 **Config broken into several files**
 
 {% highlight 'yaml' %}
-# config.yml
+# config.yml (you could even omit config.yml if desired)
 {% endhighlight %}
 
 {% highlight 'yaml' %}
@@ -145,17 +148,17 @@ siteName: 'My Site'
 Now that all our options have been loaded, Orchid will start distributing them to any parts of the build that need them. 
 The basic process goes like this:
 
- 1) Build starts
- 2) Load all options
- 3) Pass appropriate options to the Theme in the following order, falling to the next if that object doesn't exist:
+1) Build starts
+2) Load all options
+3) Pass appropriate options to the Theme in the following order, falling to the next if that object doesn't exist:
     * `config.{theme key}` (in PascalCase)
     * `config.theme` 
     * `config` 
- 4) Pass appropriate options from the `config.services.{service key}` object to internal services (compiler service, 
- render service, etc.). This is how the behavior of the full Orchid program is configured.
- 5) Index each generator, passing appropriate options from the `config.{generator key}` (in camelCase)
- 6) Generate pages each generator. If the Generator specified a theme as one of its options during the Indexing step, 
- switch to that theme, loading _that_ theme's options in the same manner as in step 3, before rendering the pages from 
- that generator. 
+4) Pass appropriate options from the `config.services.{service key}` object to internal services (compiler service, 
+    render service, etc.). This is how the behavior of the full Orchid program is configured.
+5) Index each generator, passing appropriate options from the `config.{generator key}` (in camelCase)
+6) Generate pages each generator. If the Generator specified a theme as one of its options during the Indexing step, 
+    switch to that theme, loading _that_ theme's options in the same manner as in step 3, before rendering the pages 
+    from that generator. 
  
- {% endblock %}
+{% endblock %}

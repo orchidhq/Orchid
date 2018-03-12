@@ -3,10 +3,11 @@ package com.eden.orchid.impl.generators;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.impl.relations.PageRelation;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -28,30 +29,13 @@ public final class HomepageGenerator extends OrchidGenerator {
     public List<? extends OrchidPage> startIndexing() {
         List<OrchidPage> pages = new ArrayList<>();
         pages.add(getHomepage());
+        pages.add(get404());
         return pages;
     }
 
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
-        pages.forEach(page -> {
-            if(page.getNext() == null && OrchidUtils.elementIsString(page.getAllData().query("next"))) {
-                Object next = context.findInCollection(page.getAllData().query("next").toString());
-                if(next != null && next instanceof OrchidPage) {
-                    page.setNext((OrchidPage) next);
-                }
-            }
-            if(page.getPrevious() == null && OrchidUtils.elementIsString(page.getAllData().query("previous"))) {
-                Object previous = context.findInCollection(page.getAllData().query("previous").toString());
-                if(previous != null && previous instanceof OrchidPage) {
-                    page.setPrevious((OrchidPage) previous);
-                }
-            }
-            context.renderTemplate(page);
-        });
-        OrchidPage _404 = get404();
-        if(_404 != null) {
-            context.renderTemplate(_404);
-        }
+        pages.forEach(context::renderTemplate);
 
         OrchidPage favicon = getFavicon();
         if(favicon != null) {
@@ -61,10 +45,10 @@ public final class HomepageGenerator extends OrchidGenerator {
 
     private OrchidPage getHomepage() {
         OrchidResource resource = context.locateLocalResourceEntry("homepage");
-        OrchidPage page;
+        Homepage page;
         if(resource == null) {
             resource = new StringResource(context, "index.peb", "");
-            page = new OrchidPage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
+            page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
 
             JSONObject readmeComponent = new JSONObject();
             readmeComponent.put("type", "readme");
@@ -75,7 +59,7 @@ public final class HomepageGenerator extends OrchidGenerator {
             page.getComponents().addComponent(licenseComponent);
         }
         else {
-            page = new OrchidPage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
+            page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
             page.getReference().setFileName("index");
         }
 
@@ -107,5 +91,38 @@ public final class HomepageGenerator extends OrchidGenerator {
         }
 
         return page;
+    }
+
+    public static class Homepage extends OrchidPage {
+
+        @Option("next")
+        @Description("The reference to the next page to link to.")
+        public PageRelation nextPage;
+
+        @Option("previous")
+        @Description("The reference to the previous page to link to.")
+        public PageRelation previousPage;
+
+        public Homepage(OrchidResource resource, String key, String title) {
+            super(resource, key, title);
+        }
+
+        @Override
+        public OrchidPage getNext() {
+            if(nextPage != null && nextPage.get() != null) {
+                return nextPage.get();
+            }
+
+            return super.getNext();
+        }
+
+        @Override
+        public OrchidPage getPrevious() {
+            if(previousPage != null && previousPage.get() != null) {
+                return previousPage.get();
+            }
+
+            return super.getPrevious();
+        }
     }
 }

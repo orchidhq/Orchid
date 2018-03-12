@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
@@ -251,12 +252,15 @@ public class OptionsExtractor {
 
         try {
             field.set(optionsHolder, value);
+            return;
         }
         catch (IllegalAccessException e) {
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        Clog.e("Options field {} in class {} is inaccessible. Make sure the field is public or has a bean-style setter method", key, objectClass.getSimpleName());
     }
 
 // Describe Options

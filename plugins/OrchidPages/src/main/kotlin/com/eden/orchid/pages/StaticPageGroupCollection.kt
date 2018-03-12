@@ -1,11 +1,11 @@
 package com.eden.orchid.pages
 
-import com.eden.orchid.api.generators.FileCollection
-import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.pages.pages.StaticPage
 
-class StaticPageGroupCollection(generator: OrchidGenerator, collectionId: String, items: List<OrchidPage>)
-    : FileCollection(generator, collectionId, items) {
+class StaticPageGroupCollection(generator: PagesGenerator, collectionId: String, items: List<OrchidPage>)
+    : FolderCollection(generator, collectionId, items, StaticPage::class.java, "${generator.baseDir}/$collectionId") {
 
     override fun find(id: String): List<OrchidPage> {
         return items
