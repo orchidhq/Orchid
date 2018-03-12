@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -12,6 +13,9 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 @Getter @Setter
@@ -51,28 +55,21 @@ public final class AnchorFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"title", "itemId", "collectionId", "collectionType", "customClasses"};
+        List<String> params = new ArrayList<>();
+        params.add("title");
+        Collections.addAll(params, IndexService.locateParams);
+        params.add("customClasses");
+        String[] paramsArray = new String[params.size()];
+        params.toArray(paramsArray);
+        return paramsArray;
     }
 
     @Override
     public Object apply(Object input) {
-        Object page;
+        OrchidPage page = context.findPage(collectionType, collectionId, itemId);
 
-        if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(collectionType, collectionId, itemId);
-        }
-        else if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(collectionType, itemId);
-        }
-        else if(!EdenUtils.isEmpty(itemId)) {
-            page = context.findInCollection(itemId);
-        }
-        else {
-            page = null;
-        }
-
-        if(page != null && page instanceof OrchidPage) {
-            String link = ((OrchidPage) page).getLink();
+        if(page != null) {
+            String link = page.getLink();
 
             if(!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
                 return Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses);

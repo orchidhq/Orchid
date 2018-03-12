@@ -15,6 +15,8 @@ import java.util.List;
 @ImplementedBy(IndexServiceImpl.class)
 public interface IndexService extends OrchidService {
 
+    String[] locateParams = new String[] {"itemId", "collectionId", "collectionType"};
+
     default void clearIndex() {
         getService(IndexService.class).clearIndex();
     }
@@ -61,44 +63,16 @@ public interface IndexService extends OrchidService {
 
     default List<? extends OrchidCollection> getCollections() { return getService(IndexService.class).getCollections(); }
 
-    default List<?> findAllInCollection(String itemId) {
-        return getService(IndexService.class).findAllInCollection(itemId);
+    default Object find(String collectionType, String collectionId, String itemId) {
+        return getService(IndexService.class).find(collectionType, collectionId, itemId);
     }
 
-    default List<?> findAllInCollection(String collectionType, String itemId) {
-        return getService(IndexService.class).findAllInCollection(collectionType, itemId);
+    default List<?> findAll(String collectionType, String collectionId, String itemId) {
+        return getService(IndexService.class).findAll(collectionType, collectionId, itemId);
     }
 
-    default List<?> findAllInCollection(String collectionType, String collectionId, String itemId) {
-        return getService(IndexService.class).findAllInCollection(collectionType, collectionId, itemId);
-    }
-
-    default <T> List<T> findAllInCollection(Class<? extends OrchidCollection<T>> collectionType, String itemId) {
-        return getService(IndexService.class).findAllInCollection(collectionType, itemId);
-    }
-
-    default <T> List<T> findAllInCollection(Class<? extends OrchidCollection<T>> collectionType, String collectionId, String itemId) {
-        return getService(IndexService.class).findAllInCollection(collectionType, collectionId, itemId);
-    }
-
-    default Object findInCollection(String itemId) {
-        return getService(IndexService.class).findInCollection(itemId);
-    }
-
-    default Object findInCollection(String collectionType, String itemId) {
-        return getService(IndexService.class).findInCollection(collectionType, itemId);
-    }
-
-    default Object findInCollection(String collectionType, String collectionId, String itemId) {
-        return getService(IndexService.class).findInCollection(collectionType, collectionId, itemId);
-    }
-
-    default <T> T findInCollection(Class<? extends OrchidCollection<T>> collectionType, String itemId) {
-        return getService(IndexService.class).findInCollection(collectionType, itemId);
-    }
-
-    default <T> T findInCollection(Class<? extends OrchidCollection<T>> collectionType, String collectionId, String itemId) {
-        return getService(IndexService.class).findInCollection(collectionType, collectionId, itemId);
+    default OrchidPage findPage(String collectionType, String collectionId, String itemId) {
+        return getService(IndexService.class).findPage(collectionType, collectionId, itemId);
     }
 
 }

@@ -7,5 +7,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ApplyBaseUrl {
+public @interface RelationConfig {
+    String collectionType() default "";
+    String collectionId() default "";
+    String itemId() default "";
 }

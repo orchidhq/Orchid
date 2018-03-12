@@ -1,21 +1,17 @@
-package com.eden.orchid.impl.themes.functions;
+package com.eden.orchid.impl.relations;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.compilers.TemplateFunction;
-import com.eden.orchid.api.indexing.IndexService;
+import com.eden.orchid.api.options.Relation;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Getter @Setter
-public final class FindFunction extends TemplateFunction {
-
-    private final OrchidContext context;
+public class PageRelation extends Relation<OrchidPage> {
 
     @Option
     @Description("The Id of an item to look up.")
@@ -30,19 +26,13 @@ public final class FindFunction extends TemplateFunction {
     private String collectionId;
 
     @Inject
-    public FindFunction(OrchidContext context) {
-        super("find", false);
-        this.context = context;
+    public PageRelation(OrchidContext context) {
+        super(context);
     }
 
     @Override
-    public String[] parameters() {
-        return IndexService.locateParams;
-    }
-
-    @Override
-    public Object apply(Object input) {
-        return context.find(collectionType, collectionId, itemId);
+    public OrchidPage load() {
+        return context.findPage(collectionType, collectionId, itemId);
     }
 
 }

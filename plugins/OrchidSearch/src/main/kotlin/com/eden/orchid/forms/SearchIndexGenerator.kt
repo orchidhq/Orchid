@@ -83,10 +83,10 @@ constructor(context: OrchidContext) : OrchidGenerator(context, generatorKey, Orc
             val jsonElement = JSONElement(page.toJSON(true, true))
             val reference = OrchidReference(page.reference)
             val resource = JsonResource(jsonElement, reference)
-            val page = OrchidPage(resource, "pageIndex")
-            page.reference.isUsePrettyUrl = true
-            page.reference.outputExtension = "json"
-            context.renderRaw(page)
+            val pageIndex = OrchidPage(resource, "pageIndex")
+            pageIndex.reference.isUsePrettyUrl = true
+            pageIndex.reference.outputExtension = "json"
+            context.renderRaw(pageIndex)
         }
     }
 

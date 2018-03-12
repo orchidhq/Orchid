@@ -43,7 +43,7 @@ fun OptionsDescription.toNetlifyCmsField(): JSONObject {
             ComponentHolder::class.java -> "list"
             OrchidMenu::class.java -> "list"
             String::class.java -> "string"
-            else -> "text"
+            else -> "string"
         }
     }
 
@@ -86,5 +86,36 @@ fun OptionHolderDescription.getNetlifyCmsFields(): JSONArray {
         fields.put(it.toNetlifyCmsField())
     }
 
+    val requiredFields = arrayOf("title", "body")
+
+    requiredFields.forEach { fieldName ->
+        var hasRequiredField = false
+        for(i in 0 until fields.length()) {
+            if(fields.getJSONObject(i).getString("name") == fieldName) {
+                hasRequiredField = true
+                break
+            }
+        }
+
+        if(!hasRequiredField) {
+            fields.put(getRequiredField(fieldName))
+        }
+    }
+
     return fields
+}
+
+private fun getRequiredField(fieldName: String): JSONObject {
+    val field = JSONObject()
+    field.put("name", fieldName)
+    field.put("widget", "string")
+    if(fieldName == "body") {
+        field.put("label", "Page Content")
+        field.put("widget", "markdown")
+    }
+    else if(fieldName == "title") {
+        field.put("label", "Title")
+        field.put("widget", "string")
+    }
+    return field;
 }

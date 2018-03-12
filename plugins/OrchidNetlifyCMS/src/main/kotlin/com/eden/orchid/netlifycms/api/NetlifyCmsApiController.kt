@@ -41,6 +41,9 @@ constructor(val context: OrchidContext, @Named("resourcesDir") val resourcesDir:
                 localResource.put("label", "${it.reference.originalFileName}.${it.reference.extension}")
                 localResource.put("title", "${it.reference.originalFileName}.${it.reference.extension}")
                 localResource.put("path", it.reference.originalFullFileName)
+                localResource.put("sha", "")
+                localResource.put("size", 0)
+                localResource.put("stats", JSONObject())
                 localResource.put("type", "file")
 
                 locatedResources.put(localResource)

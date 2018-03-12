@@ -174,8 +174,6 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             sectionPages.addAll(it.value.wikiPages)
 
             val collection = FileCollection(this, it.key, sectionPages)
-            collection.label = "Wiki - ${it.key}"
-
             collectionsList.add(collection)
         }
 

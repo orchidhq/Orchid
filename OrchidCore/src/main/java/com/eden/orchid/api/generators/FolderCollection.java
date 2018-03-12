@@ -11,8 +11,8 @@ public class FolderCollection extends OrchidCollection<OrchidPage> {
 
     @Getter private final String resourceRoot;
     @Getter private final Class<? extends OrchidPage> pageClass;
-    @Getter @Setter private boolean canCreate;
-    @Getter @Setter private boolean canDelete;
+    @Getter @Setter private boolean canCreate = true;
+    @Getter @Setter private boolean canDelete = true;
 
     public FolderCollection(OrchidGenerator generator, String collectionId, List<OrchidPage> items, Class<? extends OrchidPage> pageClass, String resourceRoot) {
         this(generator, generator.getKey(), collectionId, items, pageClass, resourceRoot);

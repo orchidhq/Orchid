@@ -1,13 +1,10 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.common.util.EdenPair;
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.annotations.ApplyBaseUrl;
 import com.eden.orchid.api.options.annotations.StringDefault;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import org.json.JSONObject;
 
@@ -59,20 +56,6 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
 
         if(fieldValue == null) {
             fieldValue = getDefaultValue(field);
-        }
-
-        if(field.isAnnotationPresent(ApplyBaseUrl.class)) {
-            boolean shouldApplybaseUrl = true;
-
-            if(!EdenUtils.isEmpty(fieldValue)) {
-                if(OrchidUtils.isExternal(fieldValue)) {
-                    shouldApplybaseUrl = false;
-                }
-            }
-
-            if(shouldApplybaseUrl) {
-                fieldValue = OrchidUtils.applyBaseUrl(contextProvider.get(), fieldValue);
-            }
         }
 
         if(fieldValue == null) {

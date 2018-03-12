@@ -208,9 +208,6 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                         PostPage::class.java,
                         baseDir
                 )
-                collection.label = "Blog"
-                collection.isCanCreate = true
-                collection.isCanDelete = true
                 collectionsList.add(collection)
             }
             else {
@@ -221,9 +218,6 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                         PostPage::class.java,
                         baseDir + "/" + it
                 )
-                collection.label = "Blog - ${it.title}"
-                collection.isCanCreate = true
-                collection.isCanDelete = true
                 collectionsList.add(collection)
             }
         }
@@ -235,9 +229,6 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                 AuthorPage::class.java,
                 "$baseDir/$authorsBaseDir"
         )
-        collection.label = "Authors"
-        collection.isCanCreate = true
-        collection.isCanDelete = true
         collectionsList.add(collection)
 
         return collectionsList

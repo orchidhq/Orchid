@@ -1,7 +1,6 @@
 package com.eden.orchid.posts.pages
 
 import com.eden.common.util.EdenUtils
-import com.eden.orchid.api.options.annotations.ApplyBaseUrl
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Description
@@ -9,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.PostsGenerator
 import com.eden.orchid.posts.model.Author
@@ -40,9 +40,9 @@ class PostPage(resource: OrchidResource, val categoryModel: CategoryModel, title
     )
     lateinit var postType: String
 
-    @Option @ApplyBaseUrl
+    @Option
     @Description("A fully-specified URL to a post's featured image, or a relative path to an Orchid image.")
-    lateinit var featuredImage: String
+    lateinit var featuredImage: AssetRelation
 
     @Option
     @Description("The permalink structure to use only for this blog post. This overrides the permalink structure set " +

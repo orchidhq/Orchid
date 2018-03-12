@@ -66,8 +66,12 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
 
         model.initialize(versions)
 
+        return emptyList()
+    }
+
+    override fun startGeneration(pages: Stream<out OrchidPage>) {
         val versionsJson = JSONArray()
-        versions.forEach {
+        model.versions.forEach {
             if(it.major) {
                 versionsJson.put(it.toJSON())
             }
@@ -82,11 +86,7 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
         val page = OrchidPage(resource, "changelogVersions")
         page.reference.isUsePrettyUrl = false
 
-        return listOf(page)
-    }
-
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderRaw(it) }
+        context.renderRaw(page)
     }
 
     fun getChangelogComponent(version: ChangelogVersion, key: String): Comparable<*>? {

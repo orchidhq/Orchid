@@ -1,8 +1,11 @@
 package com.eden.orchid.api.generators;
 
+import com.eden.common.util.EdenUtils;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import lombok.Getter;
-import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,14 +22,29 @@ public abstract class OrchidCollection<T> {
     @Getter protected final String collectionId;
     @Getter protected final List<T> items;
 
-    @Getter @Setter protected String label;
-
     public abstract List<T> find(String id);
 
     public OrchidCollection(OrchidGenerator generator, String collectionType, String collectionId, List<T> items) {
         this.generator = generator;
         this.collectionType = collectionType;
         this.collectionId = collectionId;
-        this.items = items;
+        this.items = Collections.unmodifiableList(items);
+    }
+
+    public String getTitle() {
+        String[] collectionTypeWords = OrchidExtensionsKt.from(collectionType, OrchidExtensionsKt::camelCase);
+        collectionTypeWords = OrchidExtensionsKt.with(collectionTypeWords, StringUtils::capitalize);
+        String collectionTypeTitle = OrchidExtensionsKt.to(collectionTypeWords, OrchidExtensionsKt::titleCase).trim();
+
+        String[] collectionIdWords = OrchidExtensionsKt.from(collectionId, OrchidExtensionsKt::camelCase);
+        collectionIdWords = OrchidExtensionsKt.with(collectionIdWords, StringUtils::capitalize);
+        String collectionIdTitle = OrchidExtensionsKt.to(collectionIdWords, OrchidExtensionsKt::titleCase).trim();
+
+        if(!EdenUtils.isEmpty(collectionIdTitle) && !collectionTypeTitle.equals(collectionIdTitle)) {
+            return collectionTypeTitle + " - " + collectionIdTitle;
+        }
+        else {
+            return collectionTypeTitle;
+        }
     }
 }
