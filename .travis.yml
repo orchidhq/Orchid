@@ -50,11 +50,6 @@ jobs:
           file: ${TRAVIS_BUILD_DIR}/build/orchid/archives/*
           prerelease: true
           name: v${GRADLE_PROJECT_RELEASE_NAME} Release
-        - provider: pages
-          skip_cleanup: true
-          github_token: $GITHUB_TOKEN
-          local_dir: build/docs/orchid
-          target_branch: gh-pages
 
 stages:
   - test
