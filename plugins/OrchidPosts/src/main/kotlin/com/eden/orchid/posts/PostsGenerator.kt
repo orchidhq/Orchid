@@ -216,7 +216,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                         it.key,
                         it.first as List<OrchidPage>,
                         PostPage::class.java,
-                        baseDir + "/" + it
+                        baseDir + "/" + it.key
                 )
                 collectionsList.add(collection)
             }
@@ -227,7 +227,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                 "authors",
                 postsModel.authorPages,
                 AuthorPage::class.java,
-                "$baseDir/$authorsBaseDir"
+                authorsBaseDir
         )
         collectionsList.add(collection)
 
