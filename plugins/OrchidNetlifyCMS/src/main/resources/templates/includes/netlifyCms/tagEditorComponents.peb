@@ -1,16 +1,112 @@
 <!-- start:register templateTags -->
 <script>
-{% for tag in templateTags %}
-{# @pebvariable name="tag" type="com.eden.orchid.api.compilers.TemplateTag" #}
-CMS.registerEditorComponent({
-    id:        "{{- tag.name -}}",
-    label:     "{{- tag.name -}}",
-    fields:     {{- page.getTemplateFields(tag) | raw -}},
-    pattern:   /{{- page.getTagPattern(tag)     | raw -}}/,
-    fromBlock: function(match) { return   {{- page.parseTagPattern(tag) | raw -}}    },
-    toBlock:   function(obj)   { return  `{{- page.getTagBlock(tag)     | raw -}}`;  },
-    toPreview: function(obj)   { return (`{{- page.getTagPreview(tag)   | raw -}}`); }
-});
-{% endfor %}
+    {% for tag in templateTags %}
+    {# @pebvariable name="tag" type="com.eden.orchid.api.compilers.TemplateTag" #}
+    CMS.registerEditorComponent({
+        id:        "{{- tag.name -}}",
+        label:     "{{- tag.name -}}",
+        fields:     {{- page.getTemplateFields(tag) | raw -}},
+        pattern:   getTagPatternRegex('{{ tag.name }}', {{ tag.hasContent() }}),
+        fromBlock: function(match) { return   parseTagPatternRegex(match, '{{ tag.name }}', {{ tag.hasContent() }}); },
+        toBlock:   function(obj)   { return   tagBlock(obj, '{{ tag.name }}', {{ page.getTagProps(tag)|raw }}, {{ tag.hasContent() }}); },
+        toPreview: function(obj)   { return tagPreview(obj, '{{ tag.name }}', {{ page.getTagProps(tag)|raw }}, {{ tag.hasContent() }}); }
+    });
+    {% endfor %}
+
+    function getTagPatternRegex(tagName, hasContent) {
+        var pattern = "";
+        if(hasContent) {
+            pattern = '\{\%\\s*' + tagName + '\\s*([\\s\\S]*)\\s*\%\}([\\s\\S]*?)\{\%\\s*end' + tagName + '\\s*\%\}';
+        }
+        else {
+            pattern = '\{\%\\s*' + tagName + '\\s*([\\s\\S]*)\\s*\%\}';
+        }
+
+        return new RegExp(pattern);
+    }
+
+    function parseTagPatternRegex(match, tagName, hasContent) {
+        var parsedParams = {};
+        var params = match[1];
+        var body = "";
+        var filters = "";
+        if(hasContent) {
+            params = match[1];
+            body = match[2];
+            if(params.includes("::")) {
+                var paramsPieces = params.split("::");
+                params = paramsPieces[0].trim();
+                filters = paramsPieces[1].trim();
+            }
+        }
+        else {
+            params = match[1];
+            body = "";
+            filters = "";
+        }
+
+        parsedParams.filters = filters;
+        parsedParams.body = body;
+
+        const regex = /((\w+)="(.+?)")*/g;
+        let m;
+
+        while ((m = regex.exec(params)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+            if(m[2] && m[3]) {
+                parsedParams[m[2]] = m[3];
+            }
+        }
+
+        return parsedParams;
+    }
+
+    function tagBlock(obj, tagName, tagProps, hasContent) {
+        var block = "";
+        var params = "";
+        var filters = "";
+
+        tagProps.forEach(function(key){
+            params += `${key}="${obj[key]}" `
+        });
+
+        if(obj.filters && obj.filters.trim().length > 0) {
+            filters = ":: " + obj.filters.trim();
+        }
+
+        if(hasContent) {
+            block += '{'+'%'+` ${tagName} ${params} ${filters} %}`+obj.body+'{'+'%'+` end${tagName} %}`;
+        }
+        else {
+            block += '{'+'%'+` ${tagName} ${params} %}`;
+        }
+
+        return block
+    }
+
+    function tagPreview(obj, tagName, tagProps, hasContent) {
+        var tableRows = "";
+
+        tagProps.forEach(function(key, i) {
+            tableRows += `<tr><td style="width: 20%; min-width: 40px;"><b>${key}</b></td><td>${obj[key]}</td></tr>`;
+        });
+
+        if(hasContent) {
+            tableRows += `<tr style="border-top: 2px solid #dfdfe3;"><td style="width: 20%; min-width: 40px;padding-top: 16px;"><b>Content Filters</b></td><td>${obj.filters}</td></tr>`;
+            tableRows += `<tr><td style="width: 20%; min-width: 40px;"><b>Content</b></td><td>${obj.body}</td></tr>`;
+        }
+
+        return (`
+<div style="margin-top: 16px;">
+    <label style="background-color: #dfdfe3;border: 0;border-radius: 3px 3px 0 0;color: #7a8291;display: inline-block;font-size: 12px;font-weight: 600;margin: 0;padding: 3px 6px 2px;position: relative;text-transform: uppercase;">${tagName} Tag</label>
+    <div style="background-color: #fff;border: 2px solid #dfdfe3;border-radius: 5px;border-top-left-radius: 0;box-shadow: none;color: #444a57;display: block;font-size: 15px;line-height: 1.5;margin: 0;outline: 0;padding: 16px 20px;position: relative;">
+        <table style="width: 100%;border-collapse: collapse;">${tableRows}</table>
+    </div>
+</div>`);
+    }
+
 </script>
 <!-- end:register templateTags -->
