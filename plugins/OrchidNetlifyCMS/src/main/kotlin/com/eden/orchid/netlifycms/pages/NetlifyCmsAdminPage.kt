@@ -25,6 +25,12 @@ class NetlifyCmsAdminPage(
         }
 
         if (tag.hasContent()) {
+            val filtersField = JSONObject()
+            filtersField.put("label", "Content Filters")
+            filtersField.put("name", "filters")
+            filtersField.put("widget", "string")
+            fields.put(filtersField)
+
             val bodyField = JSONObject()
             bodyField.put("label", "Tag Body")
             bodyField.put("name", "body")
@@ -55,60 +61,12 @@ class NetlifyCmsAdminPage(
         return fields
     }
 
-    public fun getTagPattern(tag: TemplateTag): String {
-        var pattern = ""
-
-        var params = ""
-
-        tag.describeOptions(context).optionsDescriptions.forEach {
-            params += "${it.key}=\"(.*)\" "
-        }
-
-        if(!tag.hasContent()) {
-            pattern += "{% ${tag.name} $params %}"
-        }
-        else {
-            pattern += "{% ${tag.name} $params:: md %}(.*){% end${tag.name} %}"
-        }
-
-        return pattern
-    }
-
-    public fun parseTagPattern(tag: TemplateTag): String {
-        var data = JSONObject()
-
-        tag.describeOptions(context).optionsDescriptions.forEachIndexed { index, optionsDescription ->
-            data.put(optionsDescription.key, "match[${index+1}]")
-        }
-
-        if(tag.hasContent()) {
-            data.put("body", "match[${tag.describeOptions(context).optionsDescriptions.size+1}]")
-        }
-
-        return data.toString().replace(Regex("\"match\\[(\\d+)]\""), "match[$1]")
-    }
-
-    public fun getTagBlock(tag: TemplateTag): String {
-        var pattern = ""
-
-        var params = ""
-
+    public fun getTagProps(tag: TemplateTag): String {
+        var json = JSONArray()
         tag.describeOptions(context).optionsDescriptions.forEach { optionsDescription ->
-            params += "${optionsDescription.key}=\"\${obj.${optionsDescription.key}}\" "
+            json.put(optionsDescription.key)
         }
-
-        if(!tag.hasContent()) {
-            pattern += "{% ${tag.name} $params %}"
-        }
-        else {
-            pattern += "{% ${tag.name} $params:: md %}\${obj.body}{% end${tag.name} %}"
-        }
-
-        return pattern
-    }
-
-    public fun getTagPreview(tag: TemplateTag): String {
-        return getTagBlock(tag)
+        return json.toString()
     }
 
     public fun isLocal(): Boolean {

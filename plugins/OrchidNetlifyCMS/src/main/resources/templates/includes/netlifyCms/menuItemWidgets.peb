@@ -1,12 +1,12 @@
 <!-- start:register menuItems -->
 <script>
-{% for menuItem in menuItems %}
-{# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
-CMS.registerWidget({
-    id:        "{{- menuItem.key -}}Menu",
-    label:     "{{- menuItem.key -}}",
-    fields:     {{- page.getTemplateFields(menuItem) | raw -}}
-});
-{% endfor %}
+    {% for menuItem in menuItems %}
+    {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
+    CMS.registerWidget({
+        id:        "{{- menuItem.key -}}Menu",
+        label:     "{{- menuItem.key -}}",
+        fields:     {{- page.getTemplateFields(menuItem) | raw -}}
+    });
+    {% endfor %}
 </script>
 <!-- end:register menuItems -->

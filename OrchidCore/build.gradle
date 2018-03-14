@@ -12,8 +12,7 @@ repositories {
 dependencies {
 
     // Dynamic Component Registration
-    api 'com.google.inject:guice:4.1.0'
-    api 'com.google.inject.extensions:guice-multibindings:4.1.0'
+    api 'com.google.inject:guice:4.2.0'
     api 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
 
     // core utilities
@@ -22,20 +21,19 @@ dependencies {
     api 'com.github.JavaEden:Clog4j:v1.6.1'
     api 'com.github.JavaEden:Krow:0.1.1'
     api 'org.projectlombok:lombok:1.16.20'
-    api 'com.squareup.okhttp3:okhttp:3.9.1'
+    api 'com.squareup.okhttp3:okhttp:3.10.0'
     api 'commons-io:commons-io:2.6'
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
-    api 'org.json:json:20171018'
-    api 'org.yaml:snakeyaml:1.19'
+    api 'org.json:json:20180130'
+    api 'org.yaml:snakeyaml:1.20'
     api 'com.moandjiezana.toml:toml4j:0.7.2'
-//    api 'com.mitchellbosecke:pebble:2.4.0'
     api 'com.github.PebbleTemplates:pebble:bd94a2b61b'
     api 'io.bit3:jsass:5.5.6'
-    api 'com.univocity:univocity-parsers:2.5.9'
+    api 'com.univocity:univocity-parsers:2.6.0'
 
     // Flexmark extensions
-    def flexmarkVersion = '0.32.4'
+    def flexmarkVersion = '0.32.14'
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
     implementation "com.vladsch.flexmark:flexmark-ext-aside:$flexmarkVersion"
     implementation "com.vladsch.flexmark:flexmark-ext-attributes:$flexmarkVersion"
