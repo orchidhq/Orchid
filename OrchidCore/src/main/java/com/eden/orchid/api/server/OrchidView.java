@@ -6,6 +6,8 @@ import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.admin.AdminList;
+import com.eden.orchid.api.tasks.OrchidCommand;
+import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -181,6 +183,20 @@ public class OrchidView implements OptionsHolder, AssetHolder {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public List<OrchidTask> getTasks() {
+        return this.context.resolveSet(OrchidTask.class)
+                .stream()
+                .sorted(Comparator.comparing(OrchidTask::getName))
+                .collect(Collectors.toList());
+    }
+
+    public List<OrchidCommand> getCommands() {
+        return this.context.resolveSet(OrchidCommand.class)
+                .stream()
+                .sorted(Comparator.comparing(OrchidCommand::getKey))
+                .collect(Collectors.toList());
     }
 
 }

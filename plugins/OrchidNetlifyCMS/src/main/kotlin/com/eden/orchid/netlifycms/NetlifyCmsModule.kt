@@ -5,6 +5,7 @@ import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.netlifycms.api.NetlifyCmsApiController
+import com.eden.orchid.netlifycms.api.NetlifyCmsManageController
 
 class NetlifyCmsModule : OrchidModule() {
 
@@ -16,7 +17,8 @@ class NetlifyCmsModule : OrchidModule() {
                 NetlifyCmsGenerator::class.java)
 
         addToSet(OrchidController::class.java,
-                NetlifyCmsApiController::class.java)
+                NetlifyCmsApiController::class.java,
+                NetlifyCmsManageController::class.java)
     }
 }
 

@@ -8,8 +8,7 @@ import com.google.inject.Provider;
 
 import javax.inject.Inject;
 
-@Description("Run the main Orchid build process. This is the default OrchidTask for Javadoc and if no other valid " +
-        "task is specified."
+@Description("Run the main Orchid build process, then exit. This is the default task."
 )
 public final class BuildTask extends OrchidTask {
 

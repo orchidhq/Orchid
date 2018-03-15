@@ -47,7 +47,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     private boolean isBuilding;
 
     @Getter @Setter
-    @Option @IntDefault(5)
+    @Option @IntDefault(1)
     @Description("The minimum time, in seconds, to wait in between builds.")
     private int watchDebounceTimeout;
 
