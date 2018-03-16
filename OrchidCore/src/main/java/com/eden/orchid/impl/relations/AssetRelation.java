@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.relations;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.Relation;
 import com.eden.orchid.api.options.annotations.Description;
@@ -25,7 +26,21 @@ public class AssetRelation extends Relation<String> {
 
     @Override
     public String load() {
-        return OrchidUtils.applyBaseUrl(context, name);
+        String fieldValue = name;
+
+        boolean shouldApplybaseUrl = true;
+
+        if(!EdenUtils.isEmpty(fieldValue)) {
+            if(OrchidUtils.isExternal(fieldValue)) {
+                shouldApplybaseUrl = false;
+            }
+        }
+
+        if(shouldApplybaseUrl) {
+            fieldValue = OrchidUtils.applyBaseUrl(context, fieldValue);
+        }
+
+        return fieldValue;
     }
 
     @Override

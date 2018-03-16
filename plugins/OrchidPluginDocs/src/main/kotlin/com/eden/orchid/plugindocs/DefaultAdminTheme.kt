@@ -1,6 +1,5 @@
 package com.eden.orchid.plugindocs
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.AdminTheme
 import javax.inject.Inject
@@ -14,7 +13,6 @@ constructor(context: OrchidContext) : AdminTheme(context, "Default", 100) {
         addJs("https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.15/vue.min.js")
         context.getResourceEntries("assets/js/server", null, true)
                 .filter  { it.reference.outputExtension.equals("js", ignoreCase = true) }
-                .map     { Clog.v("${it.reference.originalPath}/${it.reference.originalFileName}.${it.reference.extension}"); it }
                 .map     { "${it.reference.originalPath}/${it.reference.originalFileName}.${it.reference.extension}" }
                 .forEach { addJs(it) }
 
