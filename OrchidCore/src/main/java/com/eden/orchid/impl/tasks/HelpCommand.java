@@ -17,6 +17,7 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 
+@Description("Pass the name of a class to show help information for.")
 public final class HelpCommand extends OrchidCommand {
 
     private final Provider<OrchidContext> contextProvider;
@@ -31,7 +32,7 @@ public final class HelpCommand extends OrchidCommand {
 
     @Inject
     public HelpCommand(Provider<OrchidContext> contextProvider, OrchidServer server) {
-        super(100, "describe");
+        super(100, "help");
         this.contextProvider = contextProvider;
         this.server = server;
     }

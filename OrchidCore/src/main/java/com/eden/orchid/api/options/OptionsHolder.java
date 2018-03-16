@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface OptionsHolder {
+public interface OptionsHolder extends Descriptive {
 
     default void extractOptions(OrchidContext context, JSONObject options) {
         OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);

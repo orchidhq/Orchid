@@ -60,7 +60,7 @@ constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : Orchid
         val table = extractor.getDescriptionTable(description)
 
         var htmlTable = table.print(HtmlTableFormatter())
-        htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"table\">")
+        htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"uk-table uk-table-divider\">")
 
         return htmlTable
     }

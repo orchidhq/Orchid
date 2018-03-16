@@ -4,21 +4,19 @@
 {% if optionsExtractor.hasOptions(classType, true, false) %}
 <b>Default Config</b>
 
-{% highlight 'yaml' %}
-# config.yml
+<pre><code class="lang-yaml"># config.yml
 ...
 {{ generator.key }}:
 {% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
   {{ option.key }}: {{ option.defaultValue }}
 
 {% endfor %}
-{% endhighlight %}
+</code></pre>
 <i>or</i>
-{% highlight 'yaml' %}
-# data/{{ generator.key }}.yml
+<pre><code class="lang-yaml"># data/{{ generator.key }}.yml
 {% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
 {{ option.key }}: {{ option.defaultValue }}
 
 {% endfor %}
-{% endhighlight %}
+</code></pre>
 {% endif %}

@@ -12,16 +12,14 @@ import java.util.Arrays;
 import java.util.EventListener;
 import java.util.Scanner;
 
-@Description("Makes it easier to create content for your Orchid site by watching your resources for changes and " +
-        "rebuilding the site on any changes."
-)
+@Description("Starts an interactive shell to run Orchid commands. Exit the interactive session with `quit`.")
 public final class InteractiveTask extends OrchidTask implements EventListener {
 
     private final Provider<OrchidContext> contextProvider;
 
     @Inject
     public InteractiveTask(Provider<OrchidContext> contextProvider) {
-        super(100, "i", TaskService.TaskType.OTHER);
+        super(100, "interactive", TaskService.TaskType.OTHER);
         this.contextProvider = contextProvider;
     }
 

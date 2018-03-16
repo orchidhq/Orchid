@@ -1,5 +1,6 @@
 package com.eden.orchid.api.tasks;
 
+import com.eden.orchid.api.options.Descriptive;
 import com.eden.orchid.api.registration.Prioritized;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ import lombok.Getter;
  * @since v1.0.0
  * @orchidApi extensible
  */
-public abstract class OrchidTask extends Prioritized implements Runnable {
+public abstract class OrchidTask extends Prioritized implements Runnable, Descriptive {
 
     @Getter private final String name;
     @Getter private final TaskService.TaskType taskType;

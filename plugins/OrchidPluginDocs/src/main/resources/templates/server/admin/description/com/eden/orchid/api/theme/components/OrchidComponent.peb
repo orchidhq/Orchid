@@ -5,8 +5,7 @@
 
 <b>Basic Usage</b>
 
-{% highlight 'yaml' %}
-# a page's Front Matter, or in any option of type ComponentHolder
+<pre><code class="lang-yaml"># a page's Front Matter, or in any option of type ComponentHolder
 ...
 components:
   - type: "{{ component.key }}"
@@ -16,4 +15,4 @@ components:
 
 {% endfor %}
 {% endif %}
-{% endhighlight %}
+</code></pre>
