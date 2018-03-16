@@ -5,8 +5,7 @@
 
 <b>Basic Usage</b>
 
-{% highlight 'yaml' %}
-# theme's config, or in any option of type OrchidMenu
+<pre><code class="lang-yaml"># theme's config, or in any option of type OrchidMenu
 ...
 menu:
   - type: "{{ menuItem.key }}"
@@ -16,4 +15,4 @@ menu:
 
 {% endfor %}
 {% endif %}
-{% endhighlight %}
+</code></pre>

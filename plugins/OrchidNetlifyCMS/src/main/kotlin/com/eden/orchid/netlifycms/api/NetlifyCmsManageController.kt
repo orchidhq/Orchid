@@ -23,6 +23,8 @@ constructor(val context: OrchidContext) : OrchidController(10000) {
 
     @Get(path = "/manage")
     fun manage(@Suppress("UNUSED_PARAMETER") request: OrchidRequest): OrchidResponse {
-        return OrchidResponse(context).view(OrchidView(context, this, "manage"))
+        val view = OrchidView(context, this, "manage")
+        view.title = "Content Manager"
+        return OrchidResponse(context).view(view)
     }
 }
