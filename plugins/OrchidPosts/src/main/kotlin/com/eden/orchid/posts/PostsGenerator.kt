@@ -154,7 +154,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         return authorPages
     }
 
-    private fun getPostsPages(categoryModel: CategoryModel): MutableList<PostPage> {
+    private fun getPostsPages(categoryModel: CategoryModel): List<PostPage> {
         val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
         val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
 
@@ -193,7 +193,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
             }
         }
 
-        return posts
+        return posts.filter { !it.isDraft }
     }
 
     override fun getCollections(): List<OrchidCollection<*>> {

@@ -89,7 +89,7 @@ constructor(val context: OrchidContext) {
 
     fun getRecentPosts(category: String?, limitArg: Int): List<PostPage> {
         var limit = if (limitArg > 0) limitArg else 10
-        var chosenCategory: MutableList<PostPage> = ArrayList()
+        var chosenCategory = ArrayList<PostPage>()
 
         if (categories.containsKey(category)) {
             chosenCategory.addAll(categories[category]!!.first)
