@@ -18,7 +18,7 @@ class CategoryModel(
         val path: String
 ) : OptionsHolder {
 
-    var first: MutableList<PostPage> = ArrayList()
+    var first: List<PostPage> = ArrayList()
 
     @Option @StringDefault(":category/:year/:month/:day/:slug")
     @Description("The permalink structure to use for the blog posts in this category. Permalinks may be " +

@@ -50,7 +50,7 @@ fun OptionsDescription.toNetlifyCmsField(): JSONObject {
     }
 
     if(this.optionType.isArray) {
-        field.put("field", "string")
+        val typeField = JSONObject()
     }
     else if(this.optionType == ComponentHolder::class.java) {
         val extractor = Orchid.getInstance().context.injector.getInstance(OptionsExtractor::class.java)
