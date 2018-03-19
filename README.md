@@ -119,8 +119,9 @@ additional classes you'd like to include as a private plugin can be placed in `s
 
 ## Development Progress
 
-Orchid is nearing its first public release. While much of the public API is solid and not likely to change, it is still 
-in development and I make no guarantees that any particular API will not change or be removed.
+As of v0.7.35, Orchid is now stable and ready for general use, but is still under constant development. Features and 
+APIs are mostly stable and are not expected to change significantly, but bugs will be fixed and new features added 
+rapidly.
  
 The following tables list all official Orchid packages:
 
