@@ -1,8 +1,8 @@
 @import "vars";
 
 #jumbotron {
-  background: $color2;
-  background: linear-gradient(135deg, $color2, $color1);
+  background: $secondaryColor;
+  background: linear-gradient(135deg, $secondaryColor, $primaryColor);
   position: relative;
 
   &:after {
@@ -26,6 +26,6 @@
   margin-bottom: 20px;
 
   .version {
-    color: lighten($color1, 25%);
+    color: lighten($primaryColor, 25%);
   }
 }

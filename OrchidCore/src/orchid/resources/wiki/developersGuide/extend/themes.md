@@ -1,7 +1,8 @@
 ---
 classnames:
-  - OptionsExtractor
-  - OptionExtractor
+  - AbstractTheme
+  - AdminTheme
+  - Theme
 ---
 
 {% extends '_developersGuideBase' %}

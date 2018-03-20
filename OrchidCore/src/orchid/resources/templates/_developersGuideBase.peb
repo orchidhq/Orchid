@@ -1,0 +1,18 @@
+{% extends '_wikiBase' %}
+
+{% block sectionIntro %}
+
+{% if classnames is not empty %}
+**Relevant classes:**
+
+{% for classname in classnames %}
+- {{ anchor(classname, classname) }}
+
+{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block sectionBody %}
+Full documentation coming soon...
+{% endblock %}

@@ -40,7 +40,7 @@ public class OptionsExtractor {
 
     public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
         // setup initial options
-        JSONObject initialOptions = new JSONObject(options.toMap());
+        JSONObject initialOptions = (options != null) ? new JSONObject(options.toMap()) : new JSONObject();
         JSONObject archetypalOptions = loadArchetypalData(optionsHolder, initialOptions);
 
         JSONObject actualOptions = OrchidUtils.merge(archetypalOptions, initialOptions);

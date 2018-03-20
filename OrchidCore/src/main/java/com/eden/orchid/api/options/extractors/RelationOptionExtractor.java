@@ -72,9 +72,7 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
 
     @Override
     public Relation getDefaultValue(Field field) {
-        Relation relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
-        relation.setRef(new JSONObject());
-        return relation;
+        return (Relation) contextProvider.get().getInjector().getInstance(field.getType());
     }
 
     @Override public List<Relation> getList(Field field, JSONObject options, String key) {

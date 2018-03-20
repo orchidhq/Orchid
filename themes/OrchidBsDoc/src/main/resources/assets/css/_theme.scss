@@ -6,31 +6,31 @@ code {
 }
 
 a {
-  color: lighten($color1, 20%);
+  color: $linkColor;
 }
 
 a:hover {
-  color: lighten($color1, 10%);
+  color: lighten($linkColor, 10%);
 }
 
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
-  color: $color1;
+  color: $primaryColor;
 }
 
 .btn-outline-inverse {
-  border-color: lighten($color1, 25%);
+  border-color: lighten($primaryColor, 25%);
 }
 
 blockquote {
-  border-left: 5px solid $color2;
+  border-left: 5px solid $secondaryColor;
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-  background-color: lighten($color1, 25%);
+  background-color: lighten($primaryColor, 25%);
 }
 
 .panel-heading {
-  overflow-x: scroll;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 

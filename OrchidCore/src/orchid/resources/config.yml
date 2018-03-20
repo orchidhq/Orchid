@@ -8,6 +8,8 @@ theme:
   social:
     github: 'JavaEden/Orchid'
   primaryColor: '#7E80CF'
+  bannerColor: '#444444'
+  linkColor: '#7E80CF'
   trianglifyOptions:
     x_colors: 'BuPu'
     cell_size: 55

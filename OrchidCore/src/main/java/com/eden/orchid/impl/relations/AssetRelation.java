@@ -17,7 +17,7 @@ public class AssetRelation extends Relation<String> {
 
     @Option
     @Description("The filename and path of an asset to look up.")
-    private String name;
+    private String itemId;
 
     @Inject
     public AssetRelation(OrchidContext context) {
@@ -26,7 +26,7 @@ public class AssetRelation extends Relation<String> {
 
     @Override
     public String load() {
-        String fieldValue = name;
+        String fieldValue = itemId;
 
         boolean shouldApplybaseUrl = true;
 
@@ -51,7 +51,7 @@ public class AssetRelation extends Relation<String> {
     public JSONObject parseStringRef(String ref) {
         JSONObject objectRef = new JSONObject();
 
-        objectRef.put("name", ref);
+        objectRef.put("itemId", ref);
 
         return objectRef;
     }

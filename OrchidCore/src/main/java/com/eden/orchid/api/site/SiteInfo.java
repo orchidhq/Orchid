@@ -3,7 +3,7 @@ package com.eden.orchid.api.site;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.api.options.annotations.RelationConfig;
 import com.eden.orchid.impl.relations.AssetRelation;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ public final class SiteInfo implements OptionsHolder {
     @Description("A fully-specified URL to an avatar image, or a relative path to an Orchid image.")
     private AssetRelation avatar;
 
-    @Option @StringDefault("favicon.ico")
+    @Option @RelationConfig(itemId = "favicon.ico")
     @Description("A fully-specified URL to a favicon image, or a relative path to an Orchid image.")
     private AssetRelation favicon;
 

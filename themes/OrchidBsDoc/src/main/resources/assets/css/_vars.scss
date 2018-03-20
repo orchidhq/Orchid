@@ -1,5 +1,7 @@
 ---
 ---
 
-$color1: {{ theme.primaryColor }};
-$color2: {{ theme.secondaryColor }};
+$primaryColor: {{ theme.primaryColor }};
+$secondaryColor: {{ theme.secondaryColor }};
+$linkColor: {{ theme.linkColor }};
+$bannerColor: {{ theme.bannerColor }};

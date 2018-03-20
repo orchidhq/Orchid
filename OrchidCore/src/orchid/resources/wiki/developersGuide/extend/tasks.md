@@ -1,7 +1,7 @@
 ---
 classnames:
-  - OptionsExtractor
-  - OptionExtractor
+  - OrchidTask
+  - OrchidCommand
 ---
 
 {% extends '_developersGuideBase' %}
