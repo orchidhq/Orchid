@@ -21,4 +21,5 @@ keywordPages:
   - ['Forms', 'OrchidForms']
   - ['Styleguide', 'OrchidKSS']
   - ['API Docs', 'OrchidSwagger']
+banner: 'Orchid is now ready for general use,&nbsp;<a target="_blank" href="https://www.caseyjbrooks.com/blog/programming/2018/3/19/say-hello-to-orchid/">read the announcement here!</a>'
 ---

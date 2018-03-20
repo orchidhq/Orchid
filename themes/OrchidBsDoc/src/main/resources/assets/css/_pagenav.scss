@@ -4,19 +4,19 @@
   .nav.bs-docs-sidenav {
     li {
       white-space: nowrap;
-      overflow-x: scroll;
+      overflow-x: hidden;
     }
   }
 
   .nav > .active > a, .nav > .active:hover > a, .nav > .active:focus > a {
-    color: $color1;
+    color: $primaryColor;
 
-    border-left: 2px solid $color1;
+    border-left: 2px solid $primaryColor;
   }
 
   .nav > li > a:hover, .nav > li > a:focus {
-    color: $color1;
-    border-left: 1px solid $color1;
+    color: $primaryColor;
+    border-left: 1px solid $primaryColor;
   }
 
   &.affix {
@@ -36,6 +36,6 @@
   font-size: 13px;
 
   &:hover {
-    color: $color1;
+    color: $primaryColor;
   }
 }

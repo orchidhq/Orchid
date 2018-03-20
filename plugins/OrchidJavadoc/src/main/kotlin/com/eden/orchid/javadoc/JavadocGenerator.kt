@@ -24,7 +24,7 @@ class JavadocGenerator @Inject
 constructor(context: OrchidContext, private val rootDoc: RootDoc, private val model: JavadocModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
-        const val generatorKey = "forms"
+        const val generatorKey = "javadoc"
     }
 
     override fun startIndexing(): List<OrchidPage> {
@@ -79,7 +79,13 @@ constructor(context: OrchidContext, private val rootDoc: RootDoc, private val mo
     }
 
     override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
+        val collections = ArrayList<OrchidCollection<*>>()
+
+        collections.add(JavadocCollection(this, "classes", model.allClasses))
+        collections.add(JavadocCollection(this, "packages", model.allPackages))
+        collections.add(ExternalJavadocCollection(context, this))
+
+        return collections
     }
 
     private fun isInnerPackage(parent: PackageDoc, possibleChild: PackageDoc): Boolean {

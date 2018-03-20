@@ -48,7 +48,6 @@ jobs:
           api_key: $GITHUB_TOKEN
           file_glob: true
           file: ${TRAVIS_BUILD_DIR}/build/orchid/archives/*
-          prerelease: true
           name: v${GRADLE_PROJECT_RELEASE_NAME} Release
 
 stages:

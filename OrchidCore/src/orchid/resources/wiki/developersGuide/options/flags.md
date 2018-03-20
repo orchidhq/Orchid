@@ -1,7 +1,6 @@
 ---
 classnames:
-  - OptionsExtractor
-  - OptionExtractor
+  - OrchidFlag
 ---
 
 {% extends '_developersGuideBase' %}

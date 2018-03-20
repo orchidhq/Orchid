@@ -17,25 +17,25 @@ body {
 }
 
 .btn-outline {
-  color: $color1;
+  color: $primaryColor;
   background-color: transparent;
-  border-color: $color1
+  border-color: $primaryColor
 }
 
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active {
   color: #fff;
-  background-color: $color1;
-  border-color: $color1
+  background-color: $primaryColor;
+  border-color: $primaryColor
 }
 
 .btn-outline-inverse {
   color: #fff;
   background-color: transparent;
-  border-color: lighten($color1, 50%)
+  border-color: lighten($primaryColor, 50%)
 }
 
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
-  color: $color1;
+  color: $primaryColor;
   text-shadow: none;
   background-color: #fff;
   border-color: #fff
@@ -45,7 +45,7 @@ body {
   display: block;
   font-weight: 500;
   color: #fff;
-  background-color: $color1;
+  background-color: $primaryColor;
   border-radius: 15%;
   cursor: default;
   text-align: center
@@ -66,13 +66,13 @@ body {
 }
 
 .bs-docs-booticon-inverse {
-  color: $color1;
+  color: $primaryColor;
   background-color: #fff
 }
 
 .bs-docs-booticon-outline {
   background-color: transparent;
-  border: 1px solid lighten($color1, 50%)
+  border: 1px solid lighten($primaryColor, 50%)
 }
 
 .bs-docs-nav {
@@ -86,17 +86,17 @@ body {
 }
 
 .bs-docs-nav .navbar-brand, .bs-docs-nav .navbar-nav > li > a {
-  color: $color1;
+  color: $primaryColor;
   font-weight: 500
 }
 
 .bs-docs-nav .navbar-nav > li > a:hover, .bs-docs-nav .navbar-nav > .active > a, .bs-docs-nav .navbar-nav > .active > a:hover {
-  color: darken($color1, 10%);
+  color: darken($primaryColor, 10%);
   background-color: #f9f9f9
 }
 
 .bs-docs-nav .navbar-toggle .icon-bar {
-  background-color: $color1
+  background-color: $primaryColor
 }
 
 .bs-docs-nav .navbar-header .navbar-toggle {
@@ -170,14 +170,14 @@ body {
 .bs-docs-masthead, .bs-docs-header {
   position: relative;
   padding: 30px 15px;
-  color: lighten($color1, 50%);
+  color: lighten($primaryColor, 50%);
   text-align: center;
   text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
-  background-color: lighten($color1, 10%);
-  background-image: -webkit-linear-gradient(top, $color1 0, lighten($color1, 10%) 100%);
-  background-image: linear-gradient(to bottom, $color1 0, lighten($color1, 10%) 100%);
+  background-color: lighten($primaryColor, 10%);
+  background-image: -webkit-linear-gradient(top, $primaryColor 0, lighten($primaryColor, 10%) 100%);
+  background-image: linear-gradient(to bottom, $primaryColor 0, lighten($primaryColor, 10%) 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='lighten($color1, 10%)', GradientType=0)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$primaryColor', endColorstr='lighten($primaryColor, 10%)', GradientType=0)
 }
 
 .bs-docs-masthead .bs-docs-booticon {
@@ -199,7 +199,7 @@ body {
 .bs-docs-masthead .version {
   margin-top: -15px;
   margin-bottom: 30px;
-  color: lighten($color1, 25%)
+  color: lighten($primaryColor, 25%)
 }
 
 .bs-docs-masthead .btn {
@@ -290,7 +290,7 @@ body {
   line-height: 16px !important;
   text-align: left;
   background: transparent !important;
-  border: solid lighten($color1, 20%) !important;
+  border: solid lighten($primaryColor, 20%) !important;
   border-width: 1px 0 !important
 }
 
@@ -487,18 +487,18 @@ body {
 
 .bs-docs-sidebar .nav > li > a:hover, .bs-docs-sidebar .nav > li > a:focus {
   padding-left: 19px;
-  color: $color1;
+  color: $primaryColor;
   text-decoration: none;
   background-color: transparent;
-  border-left: 1px solid $color1
+  border-left: 1px solid $primaryColor
 }
 
 .bs-docs-sidebar .nav > .active > a, .bs-docs-sidebar .nav > .active:hover > a, .bs-docs-sidebar .nav > .active:focus > a {
   padding-left: 18px;
   font-weight: 700;
-  color: $color1;
+  color: $primaryColor;
   background-color: transparent;
-  border-left: 2px solid $color1
+  border-left: 2px solid $primaryColor
 }
 
 .bs-docs-sidebar .nav .nav {
@@ -535,7 +535,7 @@ body {
 
 .back-to-top:hover {
   text-decoration: none;
-  color: $color1
+  color: $primaryColor
 }
 
 @media (min-width: 768px) {
@@ -699,7 +699,7 @@ h1[id] {
 }
 
 .color-swatches .bs-purple {
-  background-color: $color1
+  background-color: $primaryColor
 }
 
 .color-swatches .bs-purple-light {
@@ -1121,7 +1121,7 @@ h1[id] {
 
 .bs-glyphicons li:hover {
   color: #fff;
-  background-color: $color1
+  background-color: $primaryColor
 }
 
 @media (min-width: 768px) {
@@ -1232,7 +1232,7 @@ h1[id] {
   width: 100%;
   margin-bottom: 15px;
   overflow: hidden;
-  color: $color1;
+  color: $primaryColor;
   background-color: #f9f9f9;
   border-radius: 4px
 }
@@ -1248,7 +1248,7 @@ h1[id] {
 
 .bs-brand-logos .inverse {
   color: #fff;
-  background-color: $color1
+  background-color: $primaryColor
 }
 
 .bs-brand-item h1, .bs-brand-item h3 {

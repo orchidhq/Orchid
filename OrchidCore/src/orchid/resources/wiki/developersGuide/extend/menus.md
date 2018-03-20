@@ -1,7 +1,6 @@
 ---
 classnames:
-  - OptionsExtractor
-  - OptionExtractor
+  - OrchidMenuItem
 ---
 
 {% extends '_developersGuideBase' %}

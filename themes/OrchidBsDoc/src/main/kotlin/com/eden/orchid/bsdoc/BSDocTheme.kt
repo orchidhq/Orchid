@@ -1,5 +1,6 @@
 package com.eden.orchid.bsdoc
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -21,6 +22,14 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
     @Option @StringDefault("#000000")
     @Description("The CSS HEX value for the site's secondary color.")
     lateinit var secondaryColor: String
+
+    @Option @StringDefault("")
+    @Description("The CSS HEX value for the site's link color.")
+    lateinit var linkColor: String
+
+    @Option @StringDefault("")
+    @Description("The CSS HEX value for the site's GitHub banner background color.")
+    lateinit var bannerColor: String
 
     @Option
     @Description("Your social media links.")
@@ -59,6 +68,18 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
             addCss("assets/css/orchidSearch.scss")
             addJs("https://unpkg.com/lunr/lunr.js")
             addJs("assets/js/orchidSearch.js")
+        }
+    }
+
+    override fun onPostExtraction() {
+        super.onPostExtraction()
+
+        if(EdenUtils.isEmpty(linkColor)) {
+            linkColor = primaryColor
+        }
+
+        if(EdenUtils.isEmpty(bannerColor)) {
+            bannerColor = secondaryColor
         }
     }
 
