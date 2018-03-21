@@ -58,20 +58,37 @@ public final class OrchidReference {
      */
     private boolean usePrettyUrl = true;
 
-    public OrchidReference(OrchidContext context) {
+    public OrchidReference(OrchidContext context, String fullFileName, boolean shouldParse) {
         this.context = context;
         baseUrl = context.getBaseUrl();
-        originalFullFileName = null;
-    }
-
-    public OrchidReference(OrchidContext context, String fullFileName) {
-        this.context = context;
-
-        baseUrl = context.getBaseUrl();
-
+        if(fullFileName == null) {
+            fullFileName = "";
+        }
         fullFileName = fullFileName.trim();
         originalFullFileName = OrchidUtils.normalizePath(fullFileName);
 
+        if(shouldParse) {
+            parseFullFilename(fullFileName);
+        }
+    }
+
+    public OrchidReference(OrchidContext context, String fullFileName) {
+        this(context, fullFileName, true);
+    }
+
+    public OrchidReference(OrchidReference source) {
+        this.context = source.context;
+        this.baseUrl = source.baseUrl;
+        this.originalFullFileName = source.originalFullFileName;
+        this.path = source.path;
+        this.fileName = source.fileName;
+        this.extension = source.extension;
+        this.id = source.id;
+        this.title = source.title;
+        this.usePrettyUrl = source.usePrettyUrl;
+    }
+
+    private void parseFullFilename(String fullFileName) {
         String partToTrim;
 
         if (fullFileName.contains(".")) {
@@ -114,17 +131,6 @@ public final class OrchidReference {
         path = OrchidUtils.normalizePath(path);
     }
 
-    public OrchidReference(OrchidReference source) {
-        this.context = source.context;
-        this.baseUrl = source.baseUrl;
-        this.originalFullFileName = source.originalFullFileName;
-        this.path = source.path;
-        this.fileName = source.fileName;
-        this.extension = source.extension;
-        this.id = source.id;
-        this.title = source.title;
-        this.usePrettyUrl = source.usePrettyUrl;
-    }
 
     public void stripFromPath(String pathToStrip) {
         pathToStrip = OrchidUtils.normalizePath(pathToStrip);
@@ -305,7 +311,7 @@ public final class OrchidReference {
     }
 
     public static OrchidReference fromJSON(OrchidContext context, JSONObject source) {
-        OrchidReference newReference = new OrchidReference(context);
+        OrchidReference newReference = new OrchidReference(context, null, false);
         newReference.baseUrl = source.optString("baseUrl");
         newReference.path = source.optString("path");
         newReference.fileName = source.optString("fileName");
@@ -319,7 +325,7 @@ public final class OrchidReference {
     public static OrchidReference fromUrl(OrchidContext context, String title, String url) {
         try {
             URL parsedUrl = new URL(url);
-            OrchidReference newReference = new OrchidReference(context);
+            OrchidReference newReference = new OrchidReference(context, url, false);
 
             if(parsedUrl.getPort() != -1) {
                 newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() + ":" + parsedUrl.getPort();

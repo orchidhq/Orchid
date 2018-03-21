@@ -72,7 +72,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
 
     public final void addAssets() {
         if(!hasAddedAssets) {
-            withNamespace(getKey() + "-" + Integer.toHexString(this.hashCode()), () -> {
+            withNamespace(getKey() + "/" + Integer.toHexString(this.hashCode()), () -> {
                 loadAssets();
                 OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
             });

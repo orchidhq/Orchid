@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources.resource;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import lombok.Getter;
@@ -58,12 +59,22 @@ public final class ExternalResource extends FreeableResource {
 
     @Override
     public boolean shouldPrecompile() {
-        return download;
+        if(download) {
+            loadContent();
+            return super.shouldPrecompile();
+        }
+
+        return false;
     }
 
     @Override
     public boolean shouldRender() {
-        return download;
+        if(download) {
+            loadContent();
+            return super.shouldRender();
+        }
+
+        return false;
     }
 
     @Override
@@ -78,6 +89,7 @@ public final class ExternalResource extends FreeableResource {
 
     private ResponseBody getContentBody() throws IOException {
         if (download) {
+            Clog.v("Downloading external resource {}", originalExternalReference.toString());
             OkHttpClient client = context.getInjector().getInstance(OkHttpClient.class);
             Request request = new Request.Builder().url(originalExternalReference.toString()).build();
             Response response = client.newCall(request).execute();
@@ -122,15 +134,6 @@ public final class ExternalResource extends FreeableResource {
 
         return null;
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public String getContent() {
