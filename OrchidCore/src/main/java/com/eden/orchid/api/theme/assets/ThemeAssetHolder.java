@@ -47,10 +47,11 @@ public final class ThemeAssetHolder implements AssetHolder {
     }
 
     @Override
-    public void addJs(AssetPage jsAsset) {
+    public AssetPage addJs(AssetPage jsAsset) {
         if(validAsset(jsAsset, JS_EXT)) {
             jsAsset.getReference().setUsePrettyUrl(false);
             js.add(jsAsset);
+            return jsAsset;
         }
         else {
             Clog.w("#{$1} is not a valid JS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
@@ -58,10 +59,12 @@ public final class ThemeAssetHolder implements AssetHolder {
                     jsAsset.getReference().getOutputExtension(),
                     JS_EXT);
         }
+
+        return null;
     }
 
     @Override
-    public void addJs(String jsAsset) {
+    public AssetPage addJs(String jsAsset) {
         OrchidResource resource;
         resource = context.getResourceEntry(jsAsset);
 
@@ -80,17 +83,21 @@ public final class ThemeAssetHolder implements AssetHolder {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
             addJs(page);
+            return page;
         }
         else {
             Clog.w("Could not find JS asset: {}", jsAsset);
         }
+
+        return null;
     }
 
     @Override
-    public void addCss(AssetPage cssAsset) {
+    public AssetPage addCss(AssetPage cssAsset) {
         if(validAsset(cssAsset, CSS_EXT)) {
             cssAsset.getReference().setUsePrettyUrl(false);
             css.add(cssAsset);
+            return cssAsset;
         }
         else {
             Clog.w("#{$1} is not a valid CSS asset, perhaps you are missing a #{$2}->#{$3} Compiler extension?",
@@ -98,10 +105,12 @@ public final class ThemeAssetHolder implements AssetHolder {
                     cssAsset.getReference().getOutputExtension(),
                     CSS_EXT);
         }
+
+        return null;
     }
 
     @Override
-    public void addCss(String cssAsset) {
+    public AssetPage addCss(String cssAsset) {
         OrchidResource resource;
         if(OrchidUtils.isExternal(cssAsset)) {
             resource = context.getResourceEntry(cssAsset);
@@ -124,10 +133,13 @@ public final class ThemeAssetHolder implements AssetHolder {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
             addCss(page);
+            return page;
         }
         else {
             Clog.w("Could not find CSS asset: {}", cssAsset);
         }
+
+        return null;
     }
 
     @Override

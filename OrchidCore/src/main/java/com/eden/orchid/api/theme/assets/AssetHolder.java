@@ -12,20 +12,20 @@ public interface AssetHolder {
         getAssetHolder().withNamespace(namespace, cb);
     }
 
-    default void addJs(AssetPage jsAsset) {
-        getAssetHolder().addJs(jsAsset);
+    default AssetPage addJs(AssetPage jsAsset) {
+        return getAssetHolder().addJs(jsAsset);
     }
 
-    default void addJs(String jsAsset) {
-        getAssetHolder().addJs(jsAsset);
+    default AssetPage addJs(String jsAsset) {
+        return getAssetHolder().addJs(jsAsset);
     }
 
-    default void addCss(AssetPage cssAsset) {
-        getAssetHolder().addCss(cssAsset);
+    default AssetPage addCss(AssetPage cssAsset) {
+        return getAssetHolder().addCss(cssAsset);
     }
 
-    default void addCss(String cssAsset) {
-        getAssetHolder().addCss(cssAsset);
+    default AssetPage addCss(String cssAsset) {
+        return getAssetHolder().addCss(cssAsset);
     }
 
     default List<AssetPage> getScripts() {
