@@ -112,7 +112,7 @@ additional classes you'd like to include as a private plugin can be placed in `s
 
 ## Example Orchid Sites
 
-* [Official Orchid documentation](https://javaeden.github.io/Orchid/latest/OrchidCore/)
+* [Official Orchid documentation](https://orchid.netlify.com)
 * [Clog documentation](https://javaeden.github.io/Clog/)
 * [Krow documentation](https://javaeden.github.io/Krow/)
 * [caseyjbrooks.com](https://www.caseyjbrooks.com/)
