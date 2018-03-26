@@ -1,0 +1,44 @@
+// Configure build
+//----------------------------------------------------------------------------------------------------------------------
+apply plugin: "java"
+apply plugin: 'kotlin'
+apply plugin: "jacoco"
+apply plugin: "idea"
+
+// Configure Project
+//----------------------------------------------------------------------------------------------------------------------
+
+group rootProject.group
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile 'com.github.JavaEden:Common:v1.1.0'
+    compile 'com.github.JavaEden:Clog:v1.6.1'
+    compile 'com.github.JavaEden:Krow:0.1.1'
+    compile 'org.json:json:20180130'
+}
+
+// Jacoco Code Coverage
+//----------------------------------------------------------------------------------------------------------------------
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+check.dependsOn jacocoTestReport

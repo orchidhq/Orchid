@@ -1,18 +1,21 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.api.converters.FloatConverter;
 import com.eden.orchid.api.converters.StringConverter;
+import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.options.annotations.FloatDefault;
-import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @Test(groups = {"unit"})
 public class FloatOptionExtractorTest {
@@ -28,7 +31,9 @@ public class FloatOptionExtractorTest {
     @BeforeMethod
     public void testSetup() throws Throwable {
         Clog.setMinPriority(Clog.Priority.FATAL);
-        stringConverter = new StringConverter(new ClogStringConverterHelper());
+        Set<StringConverterHelper> helpers = new HashSet<>();
+        helpers.add(new ClogStringConverterHelper());
+        stringConverter = new StringConverter(helpers);
         floatConverter = new FloatConverter(stringConverter);
         underTest = new FloatOptionExtractor(floatConverter);
         optionKey = "optionKey";

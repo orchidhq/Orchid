@@ -6,9 +6,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.any;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 @Test(groups={"services", "unit"})
@@ -33,7 +36,9 @@ public final class ConvertersTest {
     @BeforeMethod
     public void testSetup() {
         stringConverterHelper = spy(new ClogStringConverterHelper());
-        stringConverter = new StringConverter(stringConverterHelper);
+        Set<StringConverterHelper> helpers = new HashSet<>();
+        helpers.add(stringConverterHelper);
+        stringConverter = new StringConverter(helpers);
         floatConverter = new FloatConverter(stringConverter);
         integerConverter = new IntegerConverter(stringConverter);
         doubleConverter = new DoubleConverter(stringConverter);

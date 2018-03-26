@@ -1,10 +1,8 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.google.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -25,13 +23,11 @@ import java.util.List;
  */
 public final class TimeOptionExtractor extends OptionExtractor<LocalTime> {
 
-    private final Provider<OrchidContext> contextProvider;
     private final TimeConverter converter;
 
     @Inject
-    public TimeOptionExtractor(Provider<OrchidContext> contextProvider, TimeConverter converter) {
+    public TimeOptionExtractor(TimeConverter converter) {
         super(10);
-        this.contextProvider = contextProvider;
         this.converter = converter;
     }
 

@@ -2,7 +2,7 @@ package com.eden.orchid.api.options;
 
 import org.json.JSONObject;
 
-public interface OptionArchetype extends OptionsHolder {
+public interface OptionArchetype {
 
     JSONObject getOptions(Object target, String archetypeKey);
 

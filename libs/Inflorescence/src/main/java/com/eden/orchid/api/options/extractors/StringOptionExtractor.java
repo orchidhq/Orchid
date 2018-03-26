@@ -1,11 +1,9 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.StringDefault;
-import com.google.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -25,13 +23,11 @@ import java.util.List;
  */
 public final class StringOptionExtractor extends OptionExtractor<String> {
 
-    private final Provider<OrchidContext> contextProvider;
     private final StringConverter converter;
 
     @Inject
-    public StringOptionExtractor(Provider<OrchidContext> contextProvider, StringConverter converter) {
+    public StringOptionExtractor(StringConverter converter) {
         super(10);
-        this.contextProvider = contextProvider;
         this.converter = converter;
     }
 

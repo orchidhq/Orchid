@@ -1,13 +1,10 @@
 package com.eden.orchid.api;
 
-import com.eden.orchid.api.converters.BooleanConverter;
-import com.eden.orchid.api.converters.DoubleConverter;
-import com.eden.orchid.api.converters.FloatConverter;
-import com.eden.orchid.api.converters.IntegerConverter;
-import com.eden.orchid.api.converters.LongConverter;
-import com.eden.orchid.api.converters.NumberConverter;
-import com.eden.orchid.api.converters.TypeConverter;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
+import com.eden.orchid.api.converters.StringConverterHelper;
+import com.eden.orchid.api.options.Extractor;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
@@ -45,15 +42,11 @@ public final class ApiModule extends OrchidModule {
 
     @Override
     protected void configure() {
+        bind(Extractor.class).to(OptionsExtractor.class);
 
         // Type Converters
-        addToSet(TypeConverter.class,
-                BooleanConverter.class,
-                NumberConverter.class,
-                LongConverter.class,
-                DoubleConverter.class,
-                IntegerConverter.class,
-                FloatConverter.class);
+        addToSet(StringConverterHelper.class,
+                ClogStringConverterHelper.class);
 
         // Options Extractors
         addToSet(OptionExtractor.class,

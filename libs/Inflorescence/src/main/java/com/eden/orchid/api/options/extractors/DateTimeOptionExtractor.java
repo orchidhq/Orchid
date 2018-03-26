@@ -1,15 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.common.util.EdenPair;
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.DateTimeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.google.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,38 +21,36 @@ import java.util.List;
  * @since v1.0.0
  * @orchidApi optionTypes
  */
-public final class DateOptionExtractor extends OptionExtractor<LocalDate> {
+public final class DateTimeOptionExtractor extends OptionExtractor<LocalDateTime> {
 
-    private final Provider<OrchidContext> contextProvider;
     private final DateTimeConverter converter;
 
     @Inject
-    public DateOptionExtractor(Provider<OrchidContext> contextProvider, DateTimeConverter converter) {
+    public DateTimeOptionExtractor(DateTimeConverter converter) {
         super(10);
-        this.contextProvider = contextProvider;
         this.converter = converter;
     }
 
     @Override
     public boolean acceptsClass(Class clazz) {
-        return clazz.equals(LocalDate.class);
+        return clazz.equals(LocalDateTime.class);
     }
 
-    public LocalDate getValue(Object object) {
+    public LocalDateTime getValue(Object object) {
         EdenPair<Boolean, LocalDateTime> dateTime = converter.convert(object);
 
         if(dateTime.first) {
-            return dateTime.second.toLocalDate();
+            return dateTime.second;
         }
 
         return null;
     }
 
     @Override
-    public LocalDate getOption(Field field, JSONObject options, String key) {
-        LocalDate fieldValue = null;
+    public LocalDateTime getOption(Field field, JSONObject options, String key) {
+        LocalDateTime fieldValue = null;
         if(options.has(key)) {
-            LocalDate value = getValue(options.get(key));
+            LocalDateTime value = getValue(options.get(key));
             if(value != null) {
                 fieldValue = value;
             }
@@ -69,17 +64,17 @@ public final class DateOptionExtractor extends OptionExtractor<LocalDate> {
     }
 
     @Override
-    public LocalDate getDefaultValue(Field field) {
-        return LocalDate.now();
+    public LocalDateTime getDefaultValue(Field field) {
+        return LocalDateTime.now();
     }
 
     @Override
-    public List<LocalDate> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<LocalDate> not supported");
+    public List<LocalDateTime> getList(Field field, JSONObject options, String key) {
+        throw new UnsupportedOperationException("Extracting List<LocalDateTime> not supported");
     }
 
     @Override
     public Object[] getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting LocalDate[] not supported");
+        throw new UnsupportedOperationException("Extracting LocalDateTime[] not supported");
     }
 }
