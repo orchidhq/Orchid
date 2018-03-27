@@ -165,7 +165,7 @@ public final class ImplModule extends OrchidModule {
         addToSet(TemplateTag.class,
                 LogTag.class);
 
-        ClogFormatter formatter = Clog.getFormatter();
+        ClogFormatter formatter = Clog.getInstance().getFormatter();
         if (formatter instanceof Parseltongue) {
             ((Parseltongue) formatter).findSpells(ClogSpells.class);
         }

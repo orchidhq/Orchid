@@ -28,7 +28,7 @@ public class OptionsHolderOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
 
         context = mock(OrchidContext.class);
         extractor = mock(OptionsExtractor.class);

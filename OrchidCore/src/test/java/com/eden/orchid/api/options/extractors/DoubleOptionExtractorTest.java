@@ -30,7 +30,7 @@ public class DoubleOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         Set<StringConverterHelper> helpers = new HashSet<>();
         helpers.add(new ClogStringConverterHelper());
         stringConverter = new StringConverter(helpers);

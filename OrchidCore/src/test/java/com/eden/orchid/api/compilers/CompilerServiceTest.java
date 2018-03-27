@@ -25,7 +25,7 @@ public final class CompilerServiceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.VERBOSE);
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
     }
 
     private OrchidContext context;

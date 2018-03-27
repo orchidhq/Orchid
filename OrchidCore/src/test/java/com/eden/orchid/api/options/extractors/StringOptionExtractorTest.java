@@ -35,7 +35,7 @@ public class StringOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
         Set<StringConverterHelper> helpers = new HashSet<>();
         helpers.add(new ClogStringConverterHelper());
@@ -71,7 +71,7 @@ public class StringOptionExtractorTest {
 
     @Test
     public void testCanHandleArray() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.VERBOSE);
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
 
         field = ArrayTestClass.class.getField("emptyDefaultField");
 

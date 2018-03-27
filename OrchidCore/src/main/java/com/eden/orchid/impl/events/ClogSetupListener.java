@@ -22,9 +22,9 @@ public class ClogSetupListener implements OrchidEventListener {
 
     @On(Orchid.Lifecycle.OnStart.class)
     public void onStart(Orchid.Lifecycle.OnStart event) {
-        Clog.addLogger(Clog.KEY_W, warningLogger);
-        Clog.addLogger(Clog.KEY_E, errorLogger);
-        Clog.addLogger(Clog.KEY_WTF, fatalLogger);
+        Clog.getInstance().addLogger(Clog.KEY_W, warningLogger);
+        Clog.getInstance().addLogger(Clog.KEY_E, errorLogger);
+        Clog.getInstance().addLogger(Clog.KEY_WTF, fatalLogger);
     }
 
     @On(Orchid.Lifecycle.BuildFinish.class)

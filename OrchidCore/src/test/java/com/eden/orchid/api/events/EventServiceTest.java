@@ -49,7 +49,7 @@ public final class EventServiceTest {
 
     @BeforeMethod
     public void testSetup() {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         sender = new Object();
         baseEvent = new TestEvent2(sender);
         specificEvent = new TestEvent(sender);

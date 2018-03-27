@@ -43,6 +43,13 @@ ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles"
 ext.libraryProjects = subprojects.findAll { return (it.path.startsWith(":libs")) && (it.name != "libs") }
 ext.mainProjects   = coreProject + themeProjects + pluginProjects
 
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 tag {
     message { "Bump version to ${version}" }
 }

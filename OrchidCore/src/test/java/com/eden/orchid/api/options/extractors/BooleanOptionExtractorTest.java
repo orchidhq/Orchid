@@ -41,7 +41,7 @@ public class BooleanOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
 
         Set<StringConverterHelper> helpers = new HashSet<>();

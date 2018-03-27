@@ -41,7 +41,7 @@ public class TestOptions {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
     }
 
     public static class ParentTestOptionsClass implements OptionsHolder {

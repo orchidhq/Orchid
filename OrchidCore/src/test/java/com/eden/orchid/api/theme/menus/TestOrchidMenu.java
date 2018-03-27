@@ -9,7 +9,7 @@ public class TestOrchidMenu {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
     }
 
     @Test

@@ -20,7 +20,7 @@ public final class ResourceServiceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
     }
 
     private OrchidContext context;

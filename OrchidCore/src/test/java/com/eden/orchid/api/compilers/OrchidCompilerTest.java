@@ -16,7 +16,7 @@ public final class OrchidCompilerTest {
 
     @BeforeMethod
     public void testSetup() {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidCompiler(100) {
             @Override public String compile(String extension, String input, Map<String, Object> data) { return ""; }
             @Override public String getOutputExtension() { return ""; }
