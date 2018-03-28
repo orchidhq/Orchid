@@ -35,14 +35,28 @@ public class GlobalAssetHolder implements AssetHolder {
 
     // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check again
     @Override
-    public void addJs(AssetPage jsAsset) {
+    public AssetPage addJs(AssetPage jsAsset) {
         js.add(jsAsset);
+        return jsAsset;
+    }
+
+    @Override
+    public AssetPage addJs(String jsAsset) {
+        throw new UnsupportedOperationException("Assets should not be added directly to the GlobalAssetHolder, add them " +
+                "to a Theme, Page, or Component instead.");
     }
 
     // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check again
     @Override
-    public void addCss(AssetPage cssAsset) {
+    public AssetPage addCss(AssetPage cssAsset) {
         css.add(cssAsset);
+        return cssAsset;
+    }
+
+    @Override
+    public AssetPage addCss(String cssAsset) {
+        throw new UnsupportedOperationException("Assets should not be added directly to the GlobalAssetHolder, add them " +
+                "to a Theme, Page, or Component instead.");
     }
 
     @Override

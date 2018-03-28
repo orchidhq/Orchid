@@ -13,6 +13,15 @@
     text-align: center;
     height: 64px;
     width: 100%;
+
+    a {
+      color: white;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      &:hover {
+        color: #dddddd;
+      }
+    }
   }
 }
 

@@ -1,18 +1,21 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.api.converters.IntegerConverter;
 import com.eden.orchid.api.converters.StringConverter;
+import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.options.annotations.IntDefault;
-import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @Test(groups = {"unit"})
 public class IntOptionExtractorTest {
@@ -27,8 +30,10 @@ public class IntOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
-        stringConverter = new StringConverter(new ClogStringConverterHelper());
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
+        Set<StringConverterHelper> helpers = new HashSet<>();
+        helpers.add(new ClogStringConverterHelper());
+        stringConverter = new StringConverter(helpers);
         integerConverter = new IntegerConverter(stringConverter);
         underTest = new IntOptionExtractor(integerConverter);
         optionKey = "optionKey";

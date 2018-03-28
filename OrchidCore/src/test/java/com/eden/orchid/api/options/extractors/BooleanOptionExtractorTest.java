@@ -3,21 +3,25 @@ package com.eden.orchid.api.options.extractors;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.BooleanConverter;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.api.converters.DoubleConverter;
 import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.converters.NumberConverter;
 import com.eden.orchid.api.converters.StringConverter;
+import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
-import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.mock;
 
 @Test(groups = {"unit"})
 public class BooleanOptionExtractorTest {
@@ -37,10 +41,12 @@ public class BooleanOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
 
-        stringConverter = new StringConverter(new ClogStringConverterHelper());
+        Set<StringConverterHelper> helpers = new HashSet<>();
+        helpers.add(new ClogStringConverterHelper());
+        stringConverter = new StringConverter(helpers);
         longConverter = new LongConverter(stringConverter);
         doubleConverter = new DoubleConverter(stringConverter);
         numberConverter = new NumberConverter(longConverter, doubleConverter);

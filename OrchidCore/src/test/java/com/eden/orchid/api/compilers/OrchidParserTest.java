@@ -15,7 +15,7 @@ public final class OrchidParserTest {
 
     @BeforeMethod
     public void testSetup() {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidParser(100) {
             @Override public String[] getSourceExtensions() { return new String[] { "" }; }
             @Override public JSONObject parse(String extension, String input) { return new JSONObject(); }

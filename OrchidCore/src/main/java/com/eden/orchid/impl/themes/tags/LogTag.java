@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.themes.tags;
 
 import com.caseyjbrooks.clog.Clog;
+import com.caseyjbrooks.clog.IClog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
@@ -33,22 +34,16 @@ public final class LogTag extends TemplateTag {
 
     @Override
     public void onPostExtraction() {
-        if(!EdenUtils.isEmpty(tag)) {
-            Clog.pushTag(tag);
-        }
+        IClog clog = (!EdenUtils.isEmpty(tag)) ? Clog.tag(tag) : Clog.getInstance();
 
         switch (level.toLowerCase()) {
-            case "verbose": Clog.v(getContent()); break;
-            case "debug": Clog.d(getContent()); break;
-            case "info": Clog.i(getContent()); break;
-            case "warning": Clog.w(getContent()); break;
-            case "error": Clog.e(getContent()); break;
-            case "fatal": Clog.wtf(getContent()); break;
-            default: Clog.v(getContent()); break;
-        }
-
-        if(!EdenUtils.isEmpty(tag)) {
-            Clog.popTag();
+            case "verbose": clog.v(getContent()); break;
+            case "debug": clog.d(getContent()); break;
+            case "info": clog.i(getContent()); break;
+            case "warning": clog.w(getContent()); break;
+            case "error": clog.e(getContent()); break;
+            case "fatal": clog.wtf(getContent()); break;
+            default: clog.v(getContent()); break;
         }
     }
 }

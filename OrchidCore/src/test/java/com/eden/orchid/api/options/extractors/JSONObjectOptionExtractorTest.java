@@ -21,7 +21,7 @@ public class JSONObjectOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new JSONObjectOptionExtractor();
         optionKey = "optionKey";
 

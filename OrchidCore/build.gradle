@@ -4,11 +4,6 @@
 
 apply plugin: 'java-library'
 
-repositories {
-    jcenter()
-    maven { url 'https://jitpack.io' }
-}
-
 dependencies {
 
     // Dynamic Component Registration
@@ -16,9 +11,8 @@ dependencies {
     api 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
 
     // core utilities
-    api 'com.github.JavaEden:Common:v1.0.0'
-    api 'com.github.JavaEden:Clog:v1.6.1'
-    api 'com.github.JavaEden:Clog4j:v1.6.1'
+    api 'com.github.JavaEden:Common:1.2.0'
+    api 'com.eden:Clog4j:2.0.0'
     api 'com.github.JavaEden:Krow:0.1.1'
     api 'org.projectlombok:lombok:1.16.20'
     api 'com.squareup.okhttp3:okhttp:3.10.0'
@@ -45,6 +39,8 @@ dependencies {
     // server
     api 'org.nanohttpd:nanohttpd:2.3.1'
     api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
+
+    api rootProject.ext.libraryProjects
 
     // generate own documentation with Orchid
     orchidRuntime rootProject.ext.mainProjects

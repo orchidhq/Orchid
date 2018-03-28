@@ -13,7 +13,7 @@ public final class LogLevelFlag extends OrchidFlag {
 
     @Override
     public Object parseFlag(String[] options) {
-        Clog.setMinPriority(Clog.Priority.getByKey(options[1]));
+        Clog.getInstance().setMinPriority(Clog.Priority.getByKey(options[1]));
         return options[1];
     }
 

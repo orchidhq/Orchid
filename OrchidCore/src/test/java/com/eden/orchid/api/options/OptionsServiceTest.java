@@ -17,7 +17,7 @@ public final class OptionsServiceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
     }
 
     private Set<TemplateGlobal> globals;

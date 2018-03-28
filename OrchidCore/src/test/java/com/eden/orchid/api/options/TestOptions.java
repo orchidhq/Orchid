@@ -10,6 +10,7 @@ import com.eden.orchid.api.converters.IntegerConverter;
 import com.eden.orchid.api.converters.LongConverter;
 import com.eden.orchid.api.converters.NumberConverter;
 import com.eden.orchid.api.converters.StringConverter;
+import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.annotations.Option;
@@ -40,7 +41,7 @@ public class TestOptions {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
     }
 
     public static class ParentTestOptionsClass implements OptionsHolder {
@@ -182,7 +183,9 @@ public class TestOptions {
             e.printStackTrace();
         }
 
-        stringConverter = new StringConverter(new ClogStringConverterHelper());
+        Set<StringConverterHelper> helpers = new HashSet<>();
+        helpers.add(new ClogStringConverterHelper());
+        stringConverter = new StringConverter(helpers);
         integerConverter = new IntegerConverter(stringConverter);
         longConverter = new LongConverter(stringConverter);
         floatConverter = new FloatConverter(stringConverter);
@@ -192,8 +195,8 @@ public class TestOptions {
 
         Set<OptionExtractor> extractors = new HashSet<>();
 
-        extractors.add(new StringArrayOptionExtractor(() -> context, stringConverter));
-        extractors.add(new StringOptionExtractor(() -> context, stringConverter));
+        extractors.add(new StringArrayOptionExtractor(stringConverter));
+        extractors.add(new StringOptionExtractor(stringConverter));
         extractors.add(new IntOptionExtractor(integerConverter));
         extractors.add(new LongOptionExtractor(longConverter));
         extractors.add(new FloatOptionExtractor(floatConverter));

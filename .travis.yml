@@ -42,6 +42,8 @@ jobs:
         - ./gradlew tag -Prelease
         - export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
         - export GRADLE_PROJECT_RELEASE_NOTES=$(./gradlew getReleaseNotes --quiet)
+        - cd buildSrc
+        - ./gradlew publishPlugins
       deploy:
         - provider: releases
           skip_cleanup: true

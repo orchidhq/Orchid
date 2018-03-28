@@ -2,9 +2,10 @@ package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.converters.StringConverter;
-import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.converters.ClogStringConverterHelper;
+import com.eden.orchid.api.converters.StringConverter;
+import com.eden.orchid.api.converters.StringConverterHelper;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import org.hamcrest.collection.IsArrayContainingInAnyOrder;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -12,9 +13,11 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
 
@@ -32,11 +35,13 @@ public class StringOptionExtractorTest {
 
     @BeforeMethod
     public void testSetup() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
-        stringConverter = new StringConverter(new ClogStringConverterHelper());
-        underTestScalar = new StringOptionExtractor(() -> context, stringConverter);
-        underTestArray = new StringArrayOptionExtractor(() -> context, stringConverter);
+        Set<StringConverterHelper> helpers = new HashSet<>();
+        helpers.add(new ClogStringConverterHelper());
+        stringConverter = new StringConverter(helpers);
+        underTestScalar = new StringOptionExtractor(stringConverter);
+        underTestArray = new StringArrayOptionExtractor(stringConverter);
         optionKey = "optionKey";
 
         optionsObject = new JSONObject();
@@ -66,7 +71,7 @@ public class StringOptionExtractorTest {
 
     @Test
     public void testCanHandleArray() throws Throwable {
-        Clog.setMinPriority(Clog.Priority.VERBOSE);
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
 
         field = ArrayTestClass.class.getField("emptyDefaultField");
 

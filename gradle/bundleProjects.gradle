@@ -4,11 +4,6 @@ apply plugin: 'idea'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
-repositories {
-    jcenter()
-    maven { url 'https://jitpack.io' }
-}
-
 project.group 'io.github.javaeden.orchid'
 project.version = rootProject.version
 

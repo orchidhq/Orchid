@@ -58,7 +58,7 @@ public final class GeneratorServiceTest {
 
     @BeforeMethod
     public void testSetup() {
-        Clog.setMinPriority(Clog.Priority.FATAL);
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
         injector = mock(Injector.class);
         extractor = mock(OptionsExtractor.class);

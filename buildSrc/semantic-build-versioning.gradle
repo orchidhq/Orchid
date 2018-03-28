@@ -1,0 +1,8 @@
+tagPrefix = 'v'
+autobump {
+    majorPattern            = ~/^\[major\]/
+    minorPattern            = ~/^\[minor\]/
+    patchPattern            = ~/^\[patch\]/
+    newPreReleasePattern    = ~/^\[pre-release\]/
+    promoteToReleasePattern = ~/^\[release\]/
+}
