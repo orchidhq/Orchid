@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
-apply plugin: 'com.eden.orchidPlugin'
+apply plugin: 'com.eden.orchidJavadocPlugin'
 apply plugin: "com.dorongold.task-tree"
 apply plugin: "org.ajoberstar.grgit"
 apply plugin: "kotlin"

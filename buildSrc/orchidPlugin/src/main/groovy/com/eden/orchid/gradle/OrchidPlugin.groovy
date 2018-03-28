@@ -12,7 +12,7 @@ class OrchidPlugin implements Plugin<Project> {
         // create Orchid closure, configuration, and sourceSet
         project.extensions.create('orchid', OrchidPluginExtension)
         project.configurations.create(configurationName)
-        project.apply plugin: "java-base"
+        project.apply plugin: "java"
 
         project.sourceSets {
             orchid
@@ -34,8 +34,6 @@ class OrchidPlugin implements Plugin<Project> {
             dependsOn 'classes', "${configurationName}Classes"
             main "${mainClassName}"
         }
-
-        project.tasks.replace("javadoc", OrchidGenerateJavadocTask)
     }
 }
 
