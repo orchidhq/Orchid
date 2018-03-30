@@ -8,10 +8,11 @@ import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 
 import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 @Singleton
 public class ClogSetupListener implements OrchidEventListener {
@@ -83,7 +84,7 @@ public class ClogSetupListener implements OrchidEventListener {
     }
 
     private static abstract class AbstractLogCollector implements ClogLogger {
-        static class LogMessage {
+        static final class LogMessage {
             final String message;
             final Throwable throwable;
 
@@ -91,9 +92,23 @@ public class ClogSetupListener implements OrchidEventListener {
                 this.message = message;
                 this.throwable = throwable;
             }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                LogMessage that = (LogMessage) o;
+                return Objects.equals(message, that.message) &&
+                        Objects.equals(throwable, that.throwable);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(message, throwable);
+            }
         }
 
-        final Map<String, List<LogMessage>> messages = new HashMap<>();
+        final Map<String, Set<LogMessage>> messages = new HashMap<>();
 
         @Override
         public boolean isActive() {
@@ -102,7 +117,7 @@ public class ClogSetupListener implements OrchidEventListener {
 
         @Override
         public int log(String tag, String message) {
-            messages.computeIfAbsent(tag, s -> new ArrayList<>());
+            messages.computeIfAbsent(tag, s -> new HashSet<>());
             messages.get(tag).add(new LogMessage(message, null));
 
             return 0;
@@ -110,7 +125,7 @@ public class ClogSetupListener implements OrchidEventListener {
 
         @Override
         public int log(String tag, String message, Throwable throwable) {
-            messages.computeIfAbsent(tag, s -> new ArrayList<>());
+            messages.computeIfAbsent(tag, s -> new HashSet<>());
             messages.get(tag).add(new LogMessage(message, throwable));
 
             return 0;

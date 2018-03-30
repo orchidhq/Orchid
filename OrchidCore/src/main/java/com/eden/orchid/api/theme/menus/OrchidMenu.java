@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.menus;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
@@ -70,6 +71,9 @@ public final class OrchidMenu {
                             menuitem.extractOptions(context, menuItemJson);
                             menuItems.add(menuitem);
                         }
+                    }
+                    else {
+                        Clog.w("Menu item type {} (on page {} at {}) could not be found", menuItemType, containingPage.getTitle(), containingPage.getLink());
                     }
                 }
 

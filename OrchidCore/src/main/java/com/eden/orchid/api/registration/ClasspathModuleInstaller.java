@@ -14,7 +14,6 @@ public class ClasspathModuleInstaller extends AbstractModule {
     @Override
     protected void configure() {
         final StringBuilder moduleLog = new StringBuilder();
-        moduleLog.append("Auto-loading modules: ");
         moduleLog.append("\n--------------------");
 
         FastClasspathScanner scanner = new FastClasspathScanner();
@@ -36,8 +35,8 @@ public class ClasspathModuleInstaller extends AbstractModule {
         });
         scanner.scan();
 
-        moduleLog.append("\n--------------------");
-        Clog.d(moduleLog.toString());
+        moduleLog.append("\n");
+        Clog.tag("Auto-loaded modules").log(moduleLog.toString());
     }
 
     private boolean isInstantiable(Class<?> matchingClass) {
