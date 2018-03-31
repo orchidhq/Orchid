@@ -49,11 +49,17 @@ public final class FloatOptionExtractor extends OptionExtractor<Float> {
     @Override
     public Float getDefaultValue(Field field) {
         if(field.isAnnotationPresent(FloatDefault.class)) {
-            return field.getAnnotation(FloatDefault.class).value();
+            float[] defaultValue = field.getAnnotation(FloatDefault.class).value();
+            if(defaultValue.length > 0) {
+                return defaultValue[0];
+            }
         }
-        else {
-            return 0.0f;
-        }
+        return 0.0f;
+    }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        return Float.toString(getDefaultValue(field));
     }
 
 }

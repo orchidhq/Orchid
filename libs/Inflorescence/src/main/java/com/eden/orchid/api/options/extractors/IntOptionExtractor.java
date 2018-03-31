@@ -49,10 +49,17 @@ public final class IntOptionExtractor extends OptionExtractor<Integer> {
     @Override
     public Integer getDefaultValue(Field field) {
         if(field.isAnnotationPresent(IntDefault.class)) {
-            return field.getAnnotation(IntDefault.class).value();
+            int[] defaultValue = field.getAnnotation(IntDefault.class).value();
+            if(defaultValue.length > 0) {
+                return defaultValue[0];
+            }
         }
-        else {
-            return 0;
-        }
+        return 0;
     }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        return Integer.toString(getDefaultValue(field));
+    }
+
 }

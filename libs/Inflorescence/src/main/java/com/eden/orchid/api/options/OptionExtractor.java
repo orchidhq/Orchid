@@ -1,7 +1,5 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.Prioritized;
 
 import java.lang.reflect.Field;
@@ -36,14 +34,6 @@ public abstract class OptionExtractor<T> extends Prioritized {
 
         if(value == null) {
             return "null";
-        }
-        else if(value instanceof String) {
-            if(EdenUtils.isEmpty(value.toString())) {
-                return "empty string";
-            }
-            else {
-                return Clog.format("\"{}\"", value);
-            }
         }
         else {
             return value.toString();

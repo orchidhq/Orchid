@@ -42,7 +42,7 @@ public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject>
 
     @Override
     public JSONObject getOption(Field field, Object sourceObject, String key) {
-        return new JSONObject(converter.convert(sourceObject));
+        return new JSONObject(converter.convert(sourceObject).second);
     }
 
     @Override

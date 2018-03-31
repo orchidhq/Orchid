@@ -41,11 +41,17 @@ public final class BooleanOptionExtractor extends OptionExtractor<Boolean> {
     @Override
     public Boolean getDefaultValue(Field field) {
         if(field.isAnnotationPresent(BooleanDefault.class)) {
-            return field.getAnnotation(BooleanDefault.class).value();
+            boolean[] defaultValue = field.getAnnotation(BooleanDefault.class).value();
+            if(defaultValue.length > 0) {
+                return defaultValue[0];
+            }
         }
-        else {
-            return false;
-        }
+        return false;
+    }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        return Boolean.toString(getDefaultValue(field));
     }
 
 }

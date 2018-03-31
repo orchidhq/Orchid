@@ -49,11 +49,17 @@ public final class DoubleOptionExtractor extends OptionExtractor<Double> {
     @Override
     public Double getDefaultValue(Field field) {
         if(field.isAnnotationPresent(DoubleDefault.class)) {
-            return field.getAnnotation(DoubleDefault.class).value();
+            double[] defaultValue = field.getAnnotation(DoubleDefault.class).value();
+            if(defaultValue.length > 0) {
+                return defaultValue[0];
+            }
         }
-        else {
-            return 0.0;
-        }
+        return 0.0;
+    }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        return Double.toString(getDefaultValue(field));
     }
 
 }

@@ -201,6 +201,33 @@ public abstract class Extractor {
         Clog.e("Options field {} in class {} is inaccessible. Make sure the field is public or has a bean-style setter method", key, objectClass.getSimpleName());
     }
 
+// Description
+//----------------------------------------------------------------------------------------------------------------------
+
+    public String describeOption(Class<?> optionsHolderClass, String optionKey) {
+        EdenPair<Field, Set<Field>> fields = findOptionFields(optionsHolderClass, true, true);
+
+        List<String> optionNames = new ArrayList<>();
+
+        Field optionField = null;
+        for (Field field : fields.second) {
+            if(field.getName().equals(optionKey)) {
+                optionField = field;
+                break;
+            }
+        }
+
+        if(optionField != null) {
+            for (OptionExtractor extractor : extractors) {
+                if (extractor.acceptsClass(optionField.getType())) {
+                    return extractor.describeDefaultValue(optionField);
+                }
+            }
+        }
+
+        return "";
+    }
+
 // Utils
 //----------------------------------------------------------------------------------------------------------------------
 

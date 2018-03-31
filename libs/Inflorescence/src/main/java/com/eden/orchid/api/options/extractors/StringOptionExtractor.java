@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -47,6 +48,18 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
             }
         }
         return "";
+    }
+
+    @Override
+    public String describeDefaultValue(Field field) {
+        String value = getDefaultValue(field);
+
+        if(!EdenUtils.isEmpty(value)) {
+            return value;
+        }
+        else {
+            return "empty string";
+        }
     }
 
 }

@@ -4,14 +4,14 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.converters.TypeConverter;
 
 import javax.inject.Inject;
-import java.util.Set;
+import java.util.Collection;
 
 public class Converters {
 
-    private final Set<TypeConverter> converters;
+    private final Collection<TypeConverter> converters;
 
     @Inject
-    public Converters(Set<TypeConverter> converters) {
+    public Converters(Collection<TypeConverter> converters) {
         this.converters = converters;
     }
 

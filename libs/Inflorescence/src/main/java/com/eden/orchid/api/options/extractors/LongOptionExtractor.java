@@ -49,40 +49,17 @@ public final class LongOptionExtractor extends OptionExtractor<Long> {
     @Override
     public Long getDefaultValue(Field field) {
         if(field.isAnnotationPresent(LongDefault.class)) {
-            return field.getAnnotation(LongDefault.class).value();
+            long[] defaultValue = field.getAnnotation(LongDefault.class).value();
+            if(defaultValue.length > 0) {
+                return defaultValue[0];
+            }
         }
-        else {
-            return 0L;
-        }
+        return 0L;
     }
 
-//    @Override
-//    public List<Long> getList(Field field, JSONObject options, String key) {
-//        JSONArray array = (options.has(key)) ? options.getJSONArray(key) : new JSONArray();
-//        List<Long> list = new ArrayList<>();
-//        for (int i = 0; i < array.length(); i++) {
-//            list.add(array.getLong(i));
-//        }
-//        return list;
-//    }
-//
-//    @Override
-//    public Object getArray(Field field, JSONObject options, String key) {
-//        List<Long> list = this.getList(field, options, key);
-//
-//        if (field.getType().equals(long[].class)) {
-//            long[] array = new long[list.size()];
-//            for (int i = 0; i < list.size(); i++) {
-//                array[i] = list.get(i);
-//            }
-//            return array;
-//        }
-//        else if (field.getType().equals(Long[].class)) {
-//            Long[] array = new Long[list.size()];
-//            list.toArray(array);
-//            return array;
-//        }
-//
-//        return null;
-//    }
+    @Override
+    public String describeDefaultValue(Field field) {
+        return Long.toString(getDefaultValue(field));
+    }
+
 }
