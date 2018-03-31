@@ -3,12 +3,10 @@ package com.eden.orchid.api.options.extractors;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.time.LocalTime;
-import java.util.List;
 
 /**
  * ### Destination Types
@@ -36,8 +34,10 @@ public final class TimeOptionExtractor extends OptionExtractor<LocalTime> {
         return clazz.equals(LocalTime.class);
     }
 
-    public LocalTime getValue(Object object) {
-        EdenPair<Boolean, LocalTime> dateTime = converter.convert(object);
+
+    @Override
+    public LocalTime getOption(Field field, Object sourceObject, String key) {
+        EdenPair<Boolean, LocalTime> dateTime = converter.convert(sourceObject);
 
         if(dateTime.first) {
             return dateTime.second;
@@ -47,34 +47,8 @@ public final class TimeOptionExtractor extends OptionExtractor<LocalTime> {
     }
 
     @Override
-    public LocalTime getOption(Field field, JSONObject options, String key) {
-        LocalTime fieldValue = null;
-        if(options.has(key)) {
-            LocalTime value = getValue(options.get(key));
-            if(value != null) {
-                fieldValue = value;
-            }
-        }
-
-        if(fieldValue == null) {
-            fieldValue = getDefaultValue(field);
-        }
-
-        return fieldValue;
-    }
-
-    @Override
     public LocalTime getDefaultValue(Field field) {
         return LocalTime.now();
     }
 
-    @Override
-    public List<LocalTime> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<LocalTime> not supported");
-    }
-
-    @Override
-    public Object[] getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting LocalTime[] not supported");
-    }
 }

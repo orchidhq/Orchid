@@ -3,10 +3,8 @@ package com.eden.orchid.api.options;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.Prioritized;
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * Extract classes of a specific type from a JSON-like structure.
@@ -23,11 +21,13 @@ public abstract class OptionExtractor<T> extends Prioritized {
 
     public abstract boolean acceptsClass(Class clazz);
 
-    public abstract T getOption(Field field, JSONObject options, String key);
+    public abstract T getOption(Field field, Object sourceObject, String key);
 
-    public abstract T getDefaultValue(Field field);
+    public boolean isEmptyValue(T value) {
+        return value == null;
+    }
 
-    public T[] getArrayDefaultValue(Field field) {
+    public T getDefaultValue(Field field) {
         return null;
     }
 
@@ -48,14 +48,6 @@ public abstract class OptionExtractor<T> extends Prioritized {
         else {
             return value.toString();
         }
-    }
-
-    public List<T> getList(Field field, JSONObject options, String key) {
-        return null;
-    }
-
-    public Object getArray(Field field, JSONObject options, String key) {
-        return null;
     }
 
 }

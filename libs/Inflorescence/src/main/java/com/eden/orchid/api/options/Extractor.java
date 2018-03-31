@@ -23,10 +23,12 @@ import java.util.Set;
 public abstract class Extractor {
 
     protected final List<OptionExtractor> extractors;
+    private final OptionsValidator validator;
 
-    public Extractor(Collection<OptionExtractor> extractors) {
+    public Extractor(Collection<OptionExtractor> extractors, OptionsValidator validator) {
         this.extractors = new ArrayList<>(extractors);
         this.extractors.sort(Comparator.comparing(Prioritized::getPriority).reversed());
+        this.validator = validator;
     }
 
     public final void extractOptions(Object optionsHolder, JSONObject options) {
@@ -44,18 +46,17 @@ public abstract class Extractor {
         }
 
         for (Field field : fields.second) {
-            String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
-                    ? field.getAnnotation(Option.class).value()
-                    : field.getName();
+            String key = field.getName();
+            setOption(optionsHolder, field, actualOptions, key);
+        }
 
-            if (field.getType().isArray()) {
-                setOptionArray(optionsHolder, field, actualOptions, key);
+        if(validator != null) {
+            try {
+                validator.validate(optionsHolder);
             }
-            else if (List.class.isAssignableFrom(field.getType())) {
-                setOptionArray(optionsHolder, field, actualOptions, key);
-            }
-            else {
-                setOption(optionsHolder, field, actualOptions, key);
+            catch (Exception e) {
+                Clog.e("{} did not pass validation", optionsHolder, e);
+                throw new IllegalStateException(Clog.format("{} did not pass validation", optionsHolder, e));
             }
         }
     }
@@ -147,26 +148,22 @@ public abstract class Extractor {
 // Set option values
 //----------------------------------------------------------------------------------------------------------------------
 
-    protected final void setOptionArray(Object optionsHolder, Field field, JSONObject options, String key) {
-        boolean foundExtractor = false;
-        for (OptionExtractor extractor : extractors) {
-            if (extractor.acceptsClass(field.getType())) {
-                setOptionValue(optionsHolder, field, key, field.getType(), extractor.getArray(field, options, key));
-                foundExtractor = true;
-                break;
-            }
-        }
-
-        if (!foundExtractor) {
-            setOptionValue(optionsHolder, field, key, field.getType(), null);
-        }
-    }
-
     protected final void setOption(Object optionsHolder, Field field, JSONObject options, String key) {
         boolean foundExtractor = false;
         for (OptionExtractor extractor : extractors) {
             if (extractor.acceptsClass(field.getType())) {
-                Object object = extractor.getOption(field, options, key);
+
+                Object sourceObject = null;
+
+                if(options.has(key)) {
+                    sourceObject = options.get(key);
+                }
+
+                if(extractor.isEmptyValue(sourceObject)) {
+                    sourceObject = extractor.getDefaultValue(field);
+                }
+
+                Object object = extractor.getOption(field, sourceObject, key);
                 setOptionValue(optionsHolder, field, key, field.getType(), object);
                 foundExtractor = true;
                 break;

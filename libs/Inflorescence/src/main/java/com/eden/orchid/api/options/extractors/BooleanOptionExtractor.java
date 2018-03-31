@@ -3,11 +3,9 @@ package com.eden.orchid.api.options.extractors;
 import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ### Destination Types
@@ -32,22 +30,12 @@ public final class BooleanOptionExtractor extends OptionExtractor<Boolean> {
 
     @Override
     public boolean acceptsClass(Class clazz) {
-        return clazz.equals(boolean.class)
-                || clazz.equals(Boolean.class);
-    }
-
-    public boolean getValue(Object object) {
-        return converter.convert(object).second;
+        return clazz.equals(boolean.class) || clazz.equals(Boolean.class);
     }
 
     @Override
-    public Boolean getOption(Field field, JSONObject options, String key) {
-        if(options.has(key)) {
-            return getValue(options.get(key));
-        }
-        else {
-            return getDefaultValue(field);
-        }
+    public Boolean getOption(Field field, Object sourceObject, String key) {
+        return converter.convert(sourceObject).second;
     }
 
     @Override
@@ -60,13 +48,4 @@ public final class BooleanOptionExtractor extends OptionExtractor<Boolean> {
         }
     }
 
-    @Override
-    public List<Boolean> getList(Field field, JSONObject options, String key) {
-        return null;
-    }
-
-    @Override
-    public Object getArray(Field field, JSONObject options, String key) {
-        return null;
-    }
 }
