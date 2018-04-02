@@ -26,11 +26,11 @@ public class FloatOptionExtractorTest extends BaseConverterTest {
 
     public static class TestListClass1 {
         @Option @FloatDefault({1.1f, 2.2f})
-        public List<Float> testValues;
+        public List<Float> testValue;
     }
     public static class TestListClass2 {
         @Option
-        public List<Float> testValues;
+        public List<Float> testValue;
     }
 
 // Test Setup
@@ -53,13 +53,11 @@ public class FloatOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsArguments")
     public void testExtractOption(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object expectedOriginalValue,
             final Object expectedExtractedValue) throws Throwable {
         super.testExtractOption(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedOriginalValue,
                 expectedExtractedValue
@@ -68,23 +66,23 @@ public class FloatOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(), "testValue", 45,           0.0f, 45.0f),
-                Arguments.of(new TestClass1(), "testValue", 45.1,         0.0f, 45.1f),
-                Arguments.of(new TestClass1(), "testValue", "45.1",       0.0f, 45.1f),
-                Arguments.of(new TestClass1(), "testValue", null,         0.0f, 10.0f),
-                Arguments.of(new TestClass1(), "testValue", "_nullValue", 0.0f, 10.0f),
+                Arguments.of(new TestClass1(), 45,           0.0f, 45.0f),
+                Arguments.of(new TestClass1(), 45.1,         0.0f, 45.1f),
+                Arguments.of(new TestClass1(), "45.1",       0.0f, 45.1f),
+                Arguments.of(new TestClass1(), null,         0.0f, 10.0f),
+                Arguments.of(new TestClass1(), "_nullValue", 0.0f, 10.0f),
 
-                Arguments.of(new TestClass2(), "testValue", 45,           null, 45.0f),
-                Arguments.of(new TestClass2(), "testValue", 45.1,         null, 45.1f),
-                Arguments.of(new TestClass2(), "testValue", "45.1",       null, 45.1f),
-                Arguments.of(new TestClass2(), "testValue", null,         null, 10.0f),
-                Arguments.of(new TestClass2(), "testValue", "_nullValue", null, 10.0f),
+                Arguments.of(new TestClass2(), 45,           null, 45.0f),
+                Arguments.of(new TestClass2(), 45.1,         null, 45.1f),
+                Arguments.of(new TestClass2(), "45.1",       null, 45.1f),
+                Arguments.of(new TestClass2(), null,         null, 10.0f),
+                Arguments.of(new TestClass2(), "_nullValue", null, 10.0f),
 
-                Arguments.of(new TestClass3(), "testValue", 45,           0.0f, 45.0f),
-                Arguments.of(new TestClass3(), "testValue", 45.1,         0.0f, 45.1f),
-                Arguments.of(new TestClass3(), "testValue", "45.1",       0.0f, 45.1f),
-                Arguments.of(new TestClass3(), "testValue", null,         0.0f, 0.0f),
-                Arguments.of(new TestClass3(), "testValue", "_nullValue", 0.0f, 0.0f)
+                Arguments.of(new TestClass3(), 45,           0.0f, 45.0f),
+                Arguments.of(new TestClass3(), 45.1,         0.0f, 45.1f),
+                Arguments.of(new TestClass3(), "45.1",       0.0f, 45.1f),
+                Arguments.of(new TestClass3(), null,         0.0f, 0.0f),
+                Arguments.of(new TestClass3(), "_nullValue", 0.0f, 0.0f)
         );
     }
 
@@ -92,12 +90,10 @@ public class FloatOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsListArguments")
     public void testExtractOptionList(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object[] expectedExtractedValue) throws Throwable {
         super.testExtractOptionList(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedExtractedValue
         );
@@ -105,17 +101,17 @@ public class FloatOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsListArguments() {
         return Stream.of(
-                Arguments.of(new TestListClass1(), "testValues", 1.1,                             new Float[] {1.1f}),
-                Arguments.of(new TestListClass1(), "testValues", new Object[] {1, 0, 1.1, "3.3"}, new Float[] {1.0f, 0.0f, 1.1f, 3.3f}),
-                Arguments.of(new TestListClass1(), "testValues", null,                            new Float[] {1.1f, 2.2f}),
-                Arguments.of(new TestListClass1(), "testValues", "_nullValue",                    new Float[] {1.1f, 2.2f}),
-                Arguments.of(new TestListClass1(), "testValues", new String[0],                   new Float[] {}),
+                Arguments.of(new TestListClass1(), 1.1,                             new Float[] {1.1f}),
+                Arguments.of(new TestListClass1(), new Object[] {1, 0, 1.1, "3.3"}, new Float[] {1.0f, 0.0f, 1.1f, 3.3f}),
+                Arguments.of(new TestListClass1(), null,                            new Float[] {1.1f, 2.2f}),
+                Arguments.of(new TestListClass1(), "_nullValue",                    new Float[] {1.1f, 2.2f}),
+                Arguments.of(new TestListClass1(), new String[0],                   new Float[] {}),
 
-                Arguments.of(new TestListClass2(), "testValues", 1.1,                             new Float[] {1.1f}),
-                Arguments.of(new TestListClass2(), "testValues", new Object[] {1, 0, 1.1, "3.3"}, new Float[] {1.0f, 0.0f, 1.1f, 3.3f}),
-                Arguments.of(new TestListClass2(), "testValues", null,                            new Float[] {}),
-                Arguments.of(new TestListClass2(), "testValues", "_nullValue",                    new Float[] {}),
-                Arguments.of(new TestListClass2(), "testValues", new String[0],                   new Float[] {})
+                Arguments.of(new TestListClass2(), 1.1,                             new Float[] {1.1f}),
+                Arguments.of(new TestListClass2(), new Object[] {1, 0, 1.1, "3.3"}, new Float[] {1.0f, 0.0f, 1.1f, 3.3f}),
+                Arguments.of(new TestListClass2(), null,                            new Float[] {}),
+                Arguments.of(new TestListClass2(), "_nullValue",                    new Float[] {}),
+                Arguments.of(new TestListClass2(), new String[0],                   new Float[] {})
         );
     }
 
@@ -123,22 +119,20 @@ public class FloatOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsDescriptionArguments")
     public void testOptionsDescription(
             final Object underTest,
-            final String optionName,
             final String expectedDescription) throws Throwable {
         super.testOptionDescription(
                 underTest,
-                optionName,
                 expectedDescription
         );
     }
 
     static Stream<Arguments> getOptionsDescriptionArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(),     "testValue",  "10.0"),
-                Arguments.of(new TestClass2(),     "testValue",  "10.0"),
-                Arguments.of(new TestClass3(),     "testValue",  "0.0"),
-                Arguments.of(new TestListClass1(), "testValues", "[1.1, 2.2]"),
-                Arguments.of(new TestListClass2(), "testValues", "empty list")
+                Arguments.of(new TestClass1(),     "10.0"),
+                Arguments.of(new TestClass2(),     "10.0"),
+                Arguments.of(new TestClass3(),     "0.0"),
+                Arguments.of(new TestListClass1(), "[1.1, 2.2]"),
+                Arguments.of(new TestListClass2(), "empty list")
         );
     }
 

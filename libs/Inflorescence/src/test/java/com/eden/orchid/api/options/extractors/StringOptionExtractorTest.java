@@ -24,11 +24,11 @@ public class StringOptionExtractorTest extends BaseConverterTest {
 
     public static class TestListClass1 {
         @Option @StringDefault({"defaultValue1", "defaultValue2"})
-        public List<String> testValues;
+        public List<String> testValue;
     }
     public static class TestListClass2 {
         @Option
-        public List<String> testValues;
+        public List<String> testValue;
     }
 
 // Test Setup
@@ -48,13 +48,11 @@ public class StringOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsArguments")
     public void testExtractOption(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object expectedOriginalValue,
             final Object expectedExtractedValue) throws Throwable {
         super.testExtractOption(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedOriginalValue,
                 expectedExtractedValue
@@ -63,21 +61,21 @@ public class StringOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(), "testValue", 45,               null, "45"),
-                Arguments.of(new TestClass1(), "testValue", true,             null, "true"),
-                Arguments.of(new TestClass1(), "testValue", false,            null, "false"),
-                Arguments.of(new TestClass1(), "testValue", "45",             null, "45"),
-                Arguments.of(new TestClass1(), "testValue", new JSONObject(), null, "{}"),
-                Arguments.of(new TestClass1(), "testValue", null,             null, "defaultValue"),
-                Arguments.of(new TestClass1(), "testValue", "_nullValue",     null, "defaultValue"),
+                Arguments.of(new TestClass1(), 45,               null, "45"),
+                Arguments.of(new TestClass1(), true,             null, "true"),
+                Arguments.of(new TestClass1(), false,            null, "false"),
+                Arguments.of(new TestClass1(), "45",             null, "45"),
+                Arguments.of(new TestClass1(), new JSONObject(), null, "{}"),
+                Arguments.of(new TestClass1(), null,             null, "defaultValue"),
+                Arguments.of(new TestClass1(), "_nullValue",     null, "defaultValue"),
 
-                Arguments.of(new TestClass2(), "testValue", 45,               null, "45"),
-                Arguments.of(new TestClass2(), "testValue", true,             null, "true"),
-                Arguments.of(new TestClass2(), "testValue", false,            null, "false"),
-                Arguments.of(new TestClass2(), "testValue", "45",             null, "45"),
-                Arguments.of(new TestClass2(), "testValue", new JSONObject(), null, "{}"),
-                Arguments.of(new TestClass2(), "testValue", null,             null, ""),
-                Arguments.of(new TestClass2(), "testValue", "_nullValue",     null, "")
+                Arguments.of(new TestClass2(), 45,               null, "45"),
+                Arguments.of(new TestClass2(), true,             null, "true"),
+                Arguments.of(new TestClass2(), false,            null, "false"),
+                Arguments.of(new TestClass2(), "45",             null, "45"),
+                Arguments.of(new TestClass2(), new JSONObject(), null, "{}"),
+                Arguments.of(new TestClass2(), null,             null, ""),
+                Arguments.of(new TestClass2(), "_nullValue",     null, "")
         );
     }
 
@@ -85,12 +83,10 @@ public class StringOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsListArguments")
     public void testExtractOptionList(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object[] expectedExtractedValue) throws Throwable {
         super.testExtractOptionList(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedExtractedValue
         );
@@ -98,21 +94,21 @@ public class StringOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsListArguments() {
         return Stream.of(
-                Arguments.of(new TestListClass1(), "testValues", 45,                              new String[] {"45"}),
-                Arguments.of(new TestListClass1(), "testValues", new int[] {44, 45, 46},          new String[] {"44", "45", "46"}),
-                Arguments.of(new TestListClass1(), "testValues", "45",                            new String[] {"45"}),
-                Arguments.of(new TestListClass1(), "testValues", new String[] {"44", "45", "46"}, new String[] {"44", "45", "46"}),
-                Arguments.of(new TestListClass1(), "testValues", null,                            new String[] {"defaultValue1", "defaultValue2"}),
-                Arguments.of(new TestListClass1(), "testValues", "_nullValue",                    new String[] {"defaultValue1", "defaultValue2"}),
-                Arguments.of(new TestListClass1(), "testValues", new String[0],                   new String[] {}),
+                Arguments.of(new TestListClass1(), 45,                              new String[] {"45"}),
+                Arguments.of(new TestListClass1(), new int[] {44, 45, 46},          new String[] {"44", "45", "46"}),
+                Arguments.of(new TestListClass1(), "45",                            new String[] {"45"}),
+                Arguments.of(new TestListClass1(), new String[] {"44", "45", "46"}, new String[] {"44", "45", "46"}),
+                Arguments.of(new TestListClass1(), null,                            new String[] {"defaultValue1", "defaultValue2"}),
+                Arguments.of(new TestListClass1(), "_nullValue",                    new String[] {"defaultValue1", "defaultValue2"}),
+                Arguments.of(new TestListClass1(), new String[0],                   new String[] {}),
 
-                Arguments.of(new TestListClass2(), "testValues", 45,                              new String[] {"45"}),
-                Arguments.of(new TestListClass2(), "testValues", new int[] {44, 45, 46},          new String[] {"44", "45", "46"}),
-                Arguments.of(new TestListClass2(), "testValues", "45",                            new String[] {"45"}),
-                Arguments.of(new TestListClass2(), "testValues", new String[] {"44", "45", "46"}, new String[] {"44", "45", "46"}),
-                Arguments.of(new TestListClass2(), "testValues", null,                            new String[] {}),
-                Arguments.of(new TestListClass2(), "testValues", "_nullValue",                    new String[] {}),
-                Arguments.of(new TestListClass2(), "testValues", new String[0],                   new String[] {})
+                Arguments.of(new TestListClass2(), 45,                              new String[] {"45"}),
+                Arguments.of(new TestListClass2(), new int[] {44, 45, 46},          new String[] {"44", "45", "46"}),
+                Arguments.of(new TestListClass2(), "45",                            new String[] {"45"}),
+                Arguments.of(new TestListClass2(), new String[] {"44", "45", "46"}, new String[] {"44", "45", "46"}),
+                Arguments.of(new TestListClass2(), null,                            new String[] {}),
+                Arguments.of(new TestListClass2(), "_nullValue",                    new String[] {}),
+                Arguments.of(new TestListClass2(), new String[0],                   new String[] {})
         );
     }
 
@@ -120,21 +116,19 @@ public class StringOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsDescriptionArguments")
     public void testOptionsDescription(
             final Object underTest,
-            final String optionName,
             final String expectedDescription) throws Throwable {
         super.testOptionDescription(
                 underTest,
-                optionName,
                 expectedDescription
         );
     }
 
     static Stream<Arguments> getOptionsDescriptionArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(),     "testValue",  "defaultValue"),
-                Arguments.of(new TestClass2(),     "testValue",  "empty string"),
-                Arguments.of(new TestListClass1(), "testValues", "[defaultValue1, defaultValue2]"),
-                Arguments.of(new TestListClass2(), "testValues", "empty list")
+                Arguments.of(new TestClass1(),     "defaultValue"),
+                Arguments.of(new TestClass2(),     "empty string"),
+                Arguments.of(new TestListClass1(), "[defaultValue1, defaultValue2]"),
+                Arguments.of(new TestListClass2(), "empty list")
         );
     }
 

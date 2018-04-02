@@ -29,11 +29,11 @@ public class BooleanOptionExtractorTest extends BaseConverterTest {
 
     public static class TestListClass1 {
         @Option @BooleanDefault({true, false})
-        public List<Boolean> testValues;
+        public List<Boolean> testValue;
     }
     public static class TestListClass2 {
         @Option
-        public List<Boolean> testValues;
+        public List<Boolean> testValue;
     }
 
 // Test Setup
@@ -57,13 +57,11 @@ public class BooleanOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsArguments")
     public void testExtractOption(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object expectedOriginalValue,
             final Object expectedExtractedValue) throws Throwable {
         super.testExtractOption(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedOriginalValue,
                 expectedExtractedValue
@@ -72,41 +70,41 @@ public class BooleanOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(), "testValue", 0,                false, false),
-                Arguments.of(new TestClass1(), "testValue", 1,                false, true),
-                Arguments.of(new TestClass1(), "testValue", 1.1,              false, true),
-                Arguments.of(new TestClass1(), "testValue", true,             false, true),
-                Arguments.of(new TestClass1(), "testValue", false,            false, false),
-                Arguments.of(new TestClass1(), "testValue", "true",           false, true),
-                Arguments.of(new TestClass1(), "testValue", "false",          false, false),
-                Arguments.of(new TestClass1(), "testValue", new JSONObject(), false, false),
-                Arguments.of(new TestClass1(), "testValue", "null",           false, false),
-                Arguments.of(new TestClass1(), "testValue", null,             false, true),
-                Arguments.of(new TestClass1(), "testValue", "_nullValue",     false, true),
+                Arguments.of(new TestClass1(), 0,                false, false),
+                Arguments.of(new TestClass1(), 1,                false, true),
+                Arguments.of(new TestClass1(), 1.1,              false, true),
+                Arguments.of(new TestClass1(), true,             false, true),
+                Arguments.of(new TestClass1(), false,            false, false),
+                Arguments.of(new TestClass1(), "true",           false, true),
+                Arguments.of(new TestClass1(), "false",          false, false),
+                Arguments.of(new TestClass1(), new JSONObject(), false, false),
+                Arguments.of(new TestClass1(), "null",           false, false),
+                Arguments.of(new TestClass1(), null,             false, true),
+                Arguments.of(new TestClass1(), "_nullValue",     false, true),
 
-                Arguments.of(new TestClass2(), "testValue", 0,                null, false),
-                Arguments.of(new TestClass2(), "testValue", 1,                null, true),
-                Arguments.of(new TestClass2(), "testValue", 1.1,              null, true),
-                Arguments.of(new TestClass2(), "testValue", true,             null, true),
-                Arguments.of(new TestClass2(), "testValue", false,            null, false),
-                Arguments.of(new TestClass2(), "testValue", "true",           null, true),
-                Arguments.of(new TestClass2(), "testValue", "false",          null, false),
-                Arguments.of(new TestClass2(), "testValue", new JSONObject(), null, false),
-                Arguments.of(new TestClass2(), "testValue", "null",           null, false),
-                Arguments.of(new TestClass2(), "testValue", null,             null, true),
-                Arguments.of(new TestClass2(), "testValue", "_nullValue",     null, true),
+                Arguments.of(new TestClass2(), 0,                null, false),
+                Arguments.of(new TestClass2(), 1,                null, true),
+                Arguments.of(new TestClass2(), 1.1,              null, true),
+                Arguments.of(new TestClass2(), true,             null, true),
+                Arguments.of(new TestClass2(), false,            null, false),
+                Arguments.of(new TestClass2(), "true",           null, true),
+                Arguments.of(new TestClass2(), "false",          null, false),
+                Arguments.of(new TestClass2(), new JSONObject(), null, false),
+                Arguments.of(new TestClass2(), "null",           null, false),
+                Arguments.of(new TestClass2(), null,             null, true),
+                Arguments.of(new TestClass2(), "_nullValue",     null, true),
 
-                Arguments.of(new TestClass3(), "testValue", 0,                false, false),
-                Arguments.of(new TestClass3(), "testValue", 1,                false, true),
-                Arguments.of(new TestClass3(), "testValue", 1.1,              false, true),
-                Arguments.of(new TestClass3(), "testValue", true,             false, true),
-                Arguments.of(new TestClass3(), "testValue", false,            false, false),
-                Arguments.of(new TestClass3(), "testValue", "true",           false, true),
-                Arguments.of(new TestClass3(), "testValue", "false",          false, false),
-                Arguments.of(new TestClass3(), "testValue", new JSONObject(), false, false),
-                Arguments.of(new TestClass3(), "testValue", "null",           false, false),
-                Arguments.of(new TestClass3(), "testValue", null,             false, false),
-                Arguments.of(new TestClass3(), "testValue", "_nullValue",     false, false)
+                Arguments.of(new TestClass3(), 0,                false, false),
+                Arguments.of(new TestClass3(), 1,                false, true),
+                Arguments.of(new TestClass3(), 1.1,              false, true),
+                Arguments.of(new TestClass3(), true,             false, true),
+                Arguments.of(new TestClass3(), false,            false, false),
+                Arguments.of(new TestClass3(), "true",           false, true),
+                Arguments.of(new TestClass3(), "false",          false, false),
+                Arguments.of(new TestClass3(), new JSONObject(), false, false),
+                Arguments.of(new TestClass3(), "null",           false, false),
+                Arguments.of(new TestClass3(), null,             false, false),
+                Arguments.of(new TestClass3(), "_nullValue",     false, false)
         );
     }
 
@@ -114,12 +112,10 @@ public class BooleanOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsListArguments")
     public void testExtractOptionList(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object[] expectedExtractedValue) throws Throwable {
         super.testExtractOptionList(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedExtractedValue
         );
@@ -127,17 +123,17 @@ public class BooleanOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsListArguments() {
         return Stream.of(
-                Arguments.of(new TestListClass1(), "testValues", true,                              new Boolean[] {true}),
-                Arguments.of(new TestListClass1(), "testValues", new Object[] {1, 0, 1.1, "false"}, new Boolean[] {true, false, true, false}),
-                Arguments.of(new TestListClass1(), "testValues", null,                              new Boolean[] {true, false}),
-                Arguments.of(new TestListClass1(), "testValues", "_nullValue",                      new Boolean[] {true, false}),
-                Arguments.of(new TestListClass1(), "testValues", new String[0],                     new Boolean[] {}),
+                Arguments.of(new TestListClass1(), true,                              new Boolean[] {true}),
+                Arguments.of(new TestListClass1(), new Object[] {1, 0, 1.1, "false"}, new Boolean[] {true, false, true, false}),
+                Arguments.of(new TestListClass1(), null,                              new Boolean[] {true, false}),
+                Arguments.of(new TestListClass1(), "_nullValue",                      new Boolean[] {true, false}),
+                Arguments.of(new TestListClass1(), new String[0],                     new Boolean[] {}),
 
-                Arguments.of(new TestListClass2(), "testValues", true,                              new Boolean[] {true}),
-                Arguments.of(new TestListClass2(), "testValues", new Object[] {1, 0, 1.1, "false"}, new Boolean[] {true, false, true, false}),
-                Arguments.of(new TestListClass2(), "testValues", null,                              new Boolean[] {}),
-                Arguments.of(new TestListClass2(), "testValues", "_nullValue",                      new Boolean[] {}),
-                Arguments.of(new TestListClass2(), "testValues", new String[0],                     new Boolean[] {})
+                Arguments.of(new TestListClass2(), true,                              new Boolean[] {true}),
+                Arguments.of(new TestListClass2(), new Object[] {1, 0, 1.1, "false"}, new Boolean[] {true, false, true, false}),
+                Arguments.of(new TestListClass2(), null,                              new Boolean[] {}),
+                Arguments.of(new TestListClass2(), "_nullValue",                      new Boolean[] {}),
+                Arguments.of(new TestListClass2(), new String[0],                     new Boolean[] {})
         );
     }
 
@@ -145,22 +141,20 @@ public class BooleanOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsDescriptionArguments")
     public void testOptionsDescription(
             final Object underTest,
-            final String optionName,
             final String expectedDescription) throws Throwable {
         super.testOptionDescription(
                 underTest,
-                optionName,
                 expectedDescription
         );
     }
 
     static Stream<Arguments> getOptionsDescriptionArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(),     "testValue",  "true"),
-                Arguments.of(new TestClass2(),     "testValue",  "true"),
-                Arguments.of(new TestClass3(),     "testValue",  "false"),
-                Arguments.of(new TestListClass1(), "testValues", "[true, false]"),
-                Arguments.of(new TestListClass2(), "testValues", "empty list")
+                Arguments.of(new TestClass1(),     "true"),
+                Arguments.of(new TestClass2(),     "true"),
+                Arguments.of(new TestClass3(),     "false"),
+                Arguments.of(new TestListClass1(), "[true, false]"),
+                Arguments.of(new TestListClass2(), "empty list")
         );
     }
 

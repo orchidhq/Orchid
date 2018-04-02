@@ -25,11 +25,11 @@ public class DoubleOptionExtractorTest extends BaseConverterTest {
 
     public static class TestListClass1 {
         @Option @DoubleDefault({1.1, 2.2})
-        public List<Double> testValues;
+        public List<Double> testValue;
     }
     public static class TestListClass2 {
         @Option
-        public List<Double> testValues;
+        public List<Double> testValue;
     }
 
 // Test Setup
@@ -50,13 +50,11 @@ public class DoubleOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsArguments")
     public void testExtractOption(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object expectedOriginalValue,
             final Object expectedExtractedValue) throws Throwable {
         super.testExtractOption(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedOriginalValue,
                 expectedExtractedValue
@@ -65,23 +63,23 @@ public class DoubleOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(), "testValue", 45,           0.0, 45.0),
-                Arguments.of(new TestClass1(), "testValue", 45.1,         0.0, 45.1),
-                Arguments.of(new TestClass1(), "testValue", "45.1",       0.0, 45.1),
-                Arguments.of(new TestClass1(), "testValue", null,         0.0, 10.0),
-                Arguments.of(new TestClass1(), "testValue", "_nullValue", 0.0, 10.0),
+                Arguments.of(new TestClass1(), 45,           0.0, 45.0),
+                Arguments.of(new TestClass1(), 45.1,         0.0, 45.1),
+                Arguments.of(new TestClass1(), "45.1",       0.0, 45.1),
+                Arguments.of(new TestClass1(), null,         0.0, 10.0),
+                Arguments.of(new TestClass1(), "_nullValue", 0.0, 10.0),
 
-                Arguments.of(new TestClass2(), "testValue", 45,           null, 45.0),
-                Arguments.of(new TestClass2(), "testValue", 45.1,         null, 45.1),
-                Arguments.of(new TestClass2(), "testValue", "45.1",       null, 45.1),
-                Arguments.of(new TestClass2(), "testValue", null,         null, 10.0),
-                Arguments.of(new TestClass2(), "testValue", "_nullValue", null, 10.0),
+                Arguments.of(new TestClass2(), 45,           null, 45.0),
+                Arguments.of(new TestClass2(), 45.1,         null, 45.1),
+                Arguments.of(new TestClass2(), "45.1",       null, 45.1),
+                Arguments.of(new TestClass2(), null,         null, 10.0),
+                Arguments.of(new TestClass2(), "_nullValue", null, 10.0),
 
-                Arguments.of(new TestClass3(), "testValue", 45,           0.0, 45.0),
-                Arguments.of(new TestClass3(), "testValue", 45.1,         0.0, 45.1),
-                Arguments.of(new TestClass3(), "testValue", "45.1",       0.0, 45.1),
-                Arguments.of(new TestClass3(), "testValue", null,         0.0, 0.0),
-                Arguments.of(new TestClass3(), "testValue", "_nullValue", 0.0, 0.0)
+                Arguments.of(new TestClass3(), 45,           0.0, 45.0),
+                Arguments.of(new TestClass3(), 45.1,         0.0, 45.1),
+                Arguments.of(new TestClass3(), "45.1",       0.0, 45.1),
+                Arguments.of(new TestClass3(), null,         0.0, 0.0),
+                Arguments.of(new TestClass3(), "_nullValue", 0.0, 0.0)
         );
     }
 
@@ -89,12 +87,10 @@ public class DoubleOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsListArguments")
     public void testExtractOptionList(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object[] expectedExtractedValue) throws Throwable {
         super.testExtractOptionList(
                 underTest,
-                optionName,
                 sourceValue,
                 expectedExtractedValue
         );
@@ -102,17 +98,17 @@ public class DoubleOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsListArguments() {
         return Stream.of(
-                Arguments.of(new TestListClass1(), "testValues", 1.1,                             new Double[] {1.1}),
-                Arguments.of(new TestListClass1(), "testValues", new Object[] {1, 0, 1.1, "3.3"}, new Double[] {1.0, 0.0, 1.1, 3.3}),
-                Arguments.of(new TestListClass1(), "testValues", null,                            new Double[] {1.1, 2.2}),
-                Arguments.of(new TestListClass1(), "testValues", "_nullValue",                    new Double[] {1.1, 2.2}),
-                Arguments.of(new TestListClass1(), "testValues", new String[0],                   new Double[] {}),
+                Arguments.of(new TestListClass1(), 1.1,                             new Double[] {1.1}),
+                Arguments.of(new TestListClass1(), new Object[] {1, 0, 1.1, "3.3"}, new Double[] {1.0, 0.0, 1.1, 3.3}),
+                Arguments.of(new TestListClass1(), null,                            new Double[] {1.1, 2.2}),
+                Arguments.of(new TestListClass1(), "_nullValue",                    new Double[] {1.1, 2.2}),
+                Arguments.of(new TestListClass1(), new String[0],                   new Double[] {}),
 
-                Arguments.of(new TestListClass2(), "testValues", 1.1,                             new Double[] {1.1}),
-                Arguments.of(new TestListClass2(), "testValues", new Object[] {1, 0, 1.1, "3.3"}, new Double[] {1.0, 0.0, 1.1, 3.3}),
-                Arguments.of(new TestListClass2(), "testValues", null,                            new Double[] {}),
-                Arguments.of(new TestListClass2(), "testValues", "_nullValue",                    new Double[] {}),
-                Arguments.of(new TestListClass2(), "testValues", new String[0],                   new Double[] {})
+                Arguments.of(new TestListClass2(), 1.1,                             new Double[] {1.1}),
+                Arguments.of(new TestListClass2(), new Object[] {1, 0, 1.1, "3.3"}, new Double[] {1.0, 0.0, 1.1, 3.3}),
+                Arguments.of(new TestListClass2(), null,                            new Double[] {}),
+                Arguments.of(new TestListClass2(), "_nullValue",                    new Double[] {}),
+                Arguments.of(new TestListClass2(), new String[0],                   new Double[] {})
         );
     }
 
@@ -120,22 +116,20 @@ public class DoubleOptionExtractorTest extends BaseConverterTest {
     @MethodSource("getOptionsDescriptionArguments")
     public void testOptionsDescription(
             final Object underTest,
-            final String optionName,
             final String expectedDescription) throws Throwable {
         super.testOptionDescription(
                 underTest,
-                optionName,
                 expectedDescription
         );
     }
 
     static Stream<Arguments> getOptionsDescriptionArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(),     "testValue",  "10.0"),
-                Arguments.of(new TestClass2(),     "testValue",  "10.0"),
-                Arguments.of(new TestClass3(),     "testValue",  "0.0"),
-                Arguments.of(new TestListClass1(), "testValues", "[1.1, 2.2]"),
-                Arguments.of(new TestListClass2(), "testValues", "empty list")
+                Arguments.of(new TestClass1(),     "10.0"),
+                Arguments.of(new TestClass2(),     "10.0"),
+                Arguments.of(new TestClass3(),     "0.0"),
+                Arguments.of(new TestListClass1(), "[1.1, 2.2]"),
+                Arguments.of(new TestListClass2(), "empty list")
         );
     }
 

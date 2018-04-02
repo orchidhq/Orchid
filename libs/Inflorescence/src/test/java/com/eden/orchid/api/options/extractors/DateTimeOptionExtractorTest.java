@@ -1,28 +1,29 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.orchid.api.converters.DateTimeConverter;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.converters.BaseConverterTest;
-import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-public class JSONObjectOptionExtractorTest extends BaseConverterTest {
+public class DateTimeOptionExtractorTest extends BaseConverterTest {
 
 // Test Classes
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static class TestClass { @Option public JSONObject testValue; }
+    public static class TestClass { @Option public LocalDateTime testValue; }
 
 // Test Setup
 //----------------------------------------------------------------------------------------------------------------------
@@ -30,9 +31,9 @@ public class JSONObjectOptionExtractorTest extends BaseConverterTest {
     @BeforeEach
     public void setupTest() {
         StringConverter stringConverter = new StringConverter(new HashSet<>());
-        FlexibleMapConverter mapConverter = new FlexibleMapConverter();
+        DateTimeConverter dateTimeConverter = new DateTimeConverter(stringConverter);
 
-        setupTest(new JSONObjectOptionExtractor(mapConverter), stringConverter);
+        setupTest(new DateTimeOptionExtractor(dateTimeConverter), stringConverter, dateTimeConverter);
     }
 
 // Tests
@@ -44,8 +45,7 @@ public class JSONObjectOptionExtractorTest extends BaseConverterTest {
             final Object underTest,
             final Object sourceValue,
             final Object expectedOriginalValue,
-            final JSONObject expectedExtractedValue) throws Throwable {
-
+            final LocalDateTime expectedExtractedValue) throws Throwable {
         String optionName = "testValue";
 
         final JSONObject options = new JSONObject();
@@ -58,19 +58,24 @@ public class JSONObjectOptionExtractorTest extends BaseConverterTest {
             }
         }
 
-        assertThat(underTest.getClass().getField(optionName).get(underTest), is(equalTo(expectedOriginalValue)));
+        LocalDateTime dateTime = (LocalDateTime) underTest.getClass().getField(optionName).get(underTest);
+
+        assertThat(dateTime, is(equalTo(expectedOriginalValue)));
         extractor.extractOptions(underTest, options);
-        assertThat(expectedExtractedValue.similar(underTest.getClass().getField(optionName).get(underTest)), is(equalTo(true)));
+
+        dateTime = ((LocalDateTime) underTest.getClass().getField(optionName).get(underTest)).withNano(0).withSecond(0);
+        assertThat(dateTime, is(equalTo(expectedExtractedValue.withNano(0).withSecond(0))));
     }
 
-    static Stream<Arguments> getOptionsArguments() {
+    static Stream<Arguments> getOptionsArguments() throws Throwable {
         return Stream.of(
-                Arguments.of(new TestClass(), new JSONObject("{}"),                           null, new JSONObject("{}")),
-                Arguments.of(new TestClass(), new JSONObject("{\"a\": 1, \"b\": 2}"),         null, new JSONObject("{\"a\": 1, \"b\": 2}")),
-                Arguments.of(new TestClass(), new HashMap<>(),                                null, new JSONObject("{}")),
-                Arguments.of(new TestClass(), new JSONObject("{\"a\": 1, \"b\": 2}").toMap(), null, new JSONObject("{\"a\": 1, \"b\": 2}")),
-                Arguments.of(new TestClass(), null,                                           null, new JSONObject()),
-                Arguments.of(new TestClass(), "_nullValue",                                   null, new JSONObject())
+                Arguments.of(new TestClass(), "2018-01-01",                           null, LocalDateTime.of(2018, 1, 1, 0, 0,  0)),
+                Arguments.of(new TestClass(), "2018-01-01T08:30:00",                  null, LocalDateTime.of(2018, 1, 1, 8, 30, 0)),
+                Arguments.of(new TestClass(), LocalDate.of(2018, 1, 1),               null, LocalDateTime.of(2018, 1, 1, 0, 0,  0)),
+                Arguments.of(new TestClass(), LocalDateTime.of(2018, 1, 1, 8, 30, 0), null, LocalDateTime.of(2018, 1, 1, 8, 30, 0)),
+                Arguments.of(new TestClass(), "now",                                  null, LocalDate.now().atStartOfDay()),
+                Arguments.of(new TestClass(), null,                                   null, LocalDateTime.now()),
+                Arguments.of(new TestClass(), "_nullValue",                           null, LocalDateTime.now())
         );
     }
 
@@ -87,7 +92,7 @@ public class JSONObjectOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsDescriptionArguments() {
         return Stream.of(
-                Arguments.of(new TestClass(), "{}")
+                Arguments.of(new TestClass(), "now (yyyy-mm-dd HH:MM:SS)")
         );
     }
 

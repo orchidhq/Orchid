@@ -1,13 +1,11 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.converters.DateTimeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * ### Destination Types
@@ -37,13 +35,7 @@ public final class DateOptionExtractor extends OptionExtractor<LocalDate> {
 
     @Override
     public LocalDate getOption(Field field, Object sourceObject, String key) {
-        EdenPair<Boolean, LocalDateTime> dateTime = converter.convert(sourceObject);
-
-        if(dateTime.first) {
-            return dateTime.second.toLocalDate();
-        }
-
-        return null;
+        return converter.convert(sourceObject).second.toLocalDate();
     }
 
     @Override
@@ -51,4 +43,8 @@ public final class DateOptionExtractor extends OptionExtractor<LocalDate> {
         return LocalDate.now();
     }
 
+    @Override
+    public String describeDefaultValue(Field field) {
+        return "now (yyyy-mm-dd)";
+    }
 }

@@ -35,10 +35,11 @@ public class BaseConverterTest {
 
     public void testExtractOption(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object expectedOriginalValue,
             final Object expectedExtractedValue) throws Throwable {
+
+        String optionName = "testValue";
 
         final JSONObject options = new JSONObject();
         if(sourceValue != null) {
@@ -57,9 +58,10 @@ public class BaseConverterTest {
 
     public void testExtractOptionList(
             final Object underTest,
-            final String optionName,
             final Object sourceValue,
             final Object[] expectedExtractedValue) throws Throwable {
+
+        String optionName = "testValue";
 
         final JSONObject options = new JSONObject();
         if(sourceValue != null) {
@@ -78,8 +80,9 @@ public class BaseConverterTest {
 
     public void testOptionDescription(
             final Object underTest,
-            final String optionName,
             final String expectedDescription) throws Throwable {
+
+        String optionName = "testValue";
 
         String description = extractor.describeOption(underTest.getClass(), optionName);
         assertThat(description, is(equalTo(expectedDescription)));
