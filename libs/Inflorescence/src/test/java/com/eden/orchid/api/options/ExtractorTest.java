@@ -44,6 +44,17 @@ public class ExtractorTest {
         @Option @IntDefault(5)
         public int intOption;
 
+        @Option("beanSetter")
+        private String beanSetterValue;
+
+        public void setBeanSetter(String value) {
+            this.beanSetterValue = "setter value";
+        }
+
+        public String getBeanSetter() {
+            return this.beanSetterValue;
+        }
+
     }
 
     private Extractor extractor;
@@ -110,7 +121,8 @@ public class ExtractorTest {
                 Arguments.of("parentStringOption", false, null,             null, "default string"),
                 Arguments.of("parentStringOption", false, "'string value'", null, "string value"),
                 Arguments.of("parentIntOption",    false, null,             0,    5),
-                Arguments.of("parentIntOption",    false, 10,               0,    10)
+                Arguments.of("parentIntOption",    false, 10,               0,    10),
+                Arguments.of("beanSetter",         true,  "passed value",   null, "setter value")
         );
     }
 

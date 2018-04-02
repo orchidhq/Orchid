@@ -46,8 +46,11 @@ public abstract class Extractor {
         }
 
         for (Field field : fields.second) {
-            String key = field.getName();
-            setOption(optionsHolder, field, actualOptions, key);
+            String fieldOptionKey = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                    ? field.getAnnotation(Option.class).value()
+                    : field.getName();
+
+            setOption(optionsHolder, field, actualOptions, fieldOptionKey);
         }
 
         if(validator != null) {
@@ -154,17 +157,20 @@ public abstract class Extractor {
             if (extractor.acceptsClass(field.getType())) {
 
                 Object sourceObject = null;
+                Object resultObject = null;
 
                 if(options.has(key)) {
                     sourceObject = options.get(key);
+                    resultObject = extractor.getOption(field, sourceObject, key);
+                    if(extractor.isEmptyValue(resultObject)) {
+                        resultObject = extractor.getDefaultValue(field);
+                    }
+                }
+                else {
+                    resultObject = extractor.getDefaultValue(field);
                 }
 
-                if(extractor.isEmptyValue(sourceObject)) {
-                    sourceObject = extractor.getDefaultValue(field);
-                }
-
-                Object object = extractor.getOption(field, sourceObject, key);
-                setOptionValue(optionsHolder, field, key, field.getType(), object);
+                setOptionValue(optionsHolder, field, key, field.getType(), resultObject);
                 foundExtractor = true;
                 break;
             }
@@ -198,7 +204,7 @@ public abstract class Extractor {
             e.printStackTrace();
         }
 
-        Clog.e("Options field {} in class {} is inaccessible. Make sure the field is public or has a bean-style setter method", key, objectClass.getSimpleName());
+        Clog.e("Options field {} in class {} is inaccessible. Make sure the field is public or has a bean-style setter method", key, optionsHolder.getClass().getSimpleName());
     }
 
 // Description
@@ -207,11 +213,13 @@ public abstract class Extractor {
     public String describeOption(Class<?> optionsHolderClass, String optionKey) {
         EdenPair<Field, Set<Field>> fields = findOptionFields(optionsHolderClass, true, true);
 
-        List<String> optionNames = new ArrayList<>();
-
         Field optionField = null;
         for (Field field : fields.second) {
-            if(field.getName().equals(optionKey)) {
+            String fieldOptionKey = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                    ? field.getAnnotation(Option.class).value()
+                    : field.getName();
+
+            if(fieldOptionKey.equals(optionKey)) {
                 optionField = field;
                 break;
             }

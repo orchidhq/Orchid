@@ -45,7 +45,7 @@ public final class ListOptionExtractor extends OptionExtractor<List> {
 
     @Inject
     public ListOptionExtractor(FlexibleIterableConverter converter, Converters converters) {
-        super(10);
+        super(2);
         this.converter = converter;
         this.converters = converters;
     }

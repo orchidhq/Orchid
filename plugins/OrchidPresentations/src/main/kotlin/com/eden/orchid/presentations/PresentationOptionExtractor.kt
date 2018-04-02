@@ -7,7 +7,6 @@ import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.presentations.model.Presentation
 import com.eden.orchid.presentations.model.PresentationsModel
 import com.google.inject.Provider
-import org.json.JSONObject
 import java.lang.reflect.Field
 import javax.inject.Inject
 
@@ -18,14 +17,12 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
         return clazz == Presentation::class.java
     }
 
-    override fun getOption(field: Field, options: JSONObject, key: String): Presentation? {
+    override fun getOption(field: Field, sourceObject: Any, key: String): Presentation? {
         var toReturn: Presentation? = null
-        if (options.has(key)) {
 
-            val value = converter.convert(options.get(key))
-            if (value.first) {
-                toReturn = model.presentations.getOrDefault(value.second, null)
-            }
+        val value = converter.convert(sourceObject)
+        if (value.first) {
+            toReturn = model.presentations.getOrDefault(value.second, null)
         }
 
         if(toReturn == null) {
@@ -33,7 +30,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
         }
 
         if(toReturn == null) {
-            Clog.w("Presentation with key '${options.get(key)}' does not exist")
+            Clog.w("Presentation with key '${value.second}' does not exist")
         }
 
         return toReturn
@@ -43,11 +40,4 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
         return null
     }
 
-    override fun getList(field: Field, options: JSONObject, key: String): List<Presentation>? {
-        return null
-    }
-
-    override fun getArray(field: Field, options: JSONObject, key: String): Array<Any>? {
-        return null
-    }
 }

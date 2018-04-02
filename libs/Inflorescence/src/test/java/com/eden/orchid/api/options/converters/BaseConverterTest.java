@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -23,7 +24,7 @@ public class BaseConverterTest {
 
         List<OptionExtractor> extractors = new ArrayList<>();
         extractors.add(extractorUnderTest);
-        extractors.add(new ListOptionExtractor(iterableConverter, new Converters(Arrays.asList(converters))));
+        extractors.add(new ListOptionExtractor(iterableConverter, new Converters(new HashSet<>(Arrays.asList(converters)))));
 
         extractor = new Extractor(extractors, null) {
             @Override

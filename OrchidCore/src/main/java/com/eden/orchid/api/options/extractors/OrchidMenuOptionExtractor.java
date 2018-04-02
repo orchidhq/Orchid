@@ -2,14 +2,13 @@ package com.eden.orchid.api.options.extractors;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.google.inject.Provider;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ### Destination Types
@@ -25,11 +24,13 @@ import java.util.List;
 public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu> {
 
     private final Provider<OrchidContext> contextProvider;
+    private final FlexibleIterableConverter iterableConverter;
 
     @Inject
-    public OrchidMenuOptionExtractor(Provider<OrchidContext> contextProvider) {
+    public OrchidMenuOptionExtractor(Provider<OrchidContext> contextProvider, FlexibleIterableConverter iterableConverter) {
         super(100);
         this.contextProvider = contextProvider;
+        this.iterableConverter = iterableConverter;
     }
 
     @Override
@@ -38,12 +39,21 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
     }
 
     @Override
-    public OrchidMenu getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof JSONArray) {
-            return new OrchidMenu(contextProvider.get(), options.getJSONArray(key));
+    public OrchidMenu getOption(Field field, Object sourceObject, String key) {
+//        Iterable iterableSource = iterableConverter.convert(sourceObject).second;
+//        ArrayList<Object> collection = new ArrayList<>();
+//
+//        for(Object o : iterableSource) {
+//            collection.add(o);
+//        }
+//
+//        return new OrchidMenu(contextProvider.get(), new JSONArray(collection));
+
+        if(sourceObject instanceof JSONArray) {
+            return new OrchidMenu(contextProvider.get(), (JSONArray) sourceObject);
         }
 
-        return getDefaultValue(field);
+        return null;
     }
 
     @Override
@@ -56,13 +66,4 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
         return "Empty OrchidMenu";
     }
 
-    @Override
-    public List<OrchidMenu> getList(Field field, JSONObject options, String key) {
-        return null;
-    }
-
-    @Override
-    public Object[] getArray(Field field, JSONObject options, String key) {
-        return null;
-    }
 }

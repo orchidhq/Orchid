@@ -3,7 +3,6 @@ package com.eden.orchid.api.theme.models;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.options.annotations.ListClass;
 import com.eden.orchid.api.options.annotations.Option;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +47,7 @@ public final class Social implements OptionsHolder {
     @Description("Your twitter handle, without the @.")
     public String twitter;
 
-    @Option @ListClass(Item.class)
+    @Option
     @Description("For social platforms not included by default, you can fully specify the info yourself. You may " +
             "also choose to create an `other` item instead of using the default to fully customize the title, " +
             "link, order, or icon."

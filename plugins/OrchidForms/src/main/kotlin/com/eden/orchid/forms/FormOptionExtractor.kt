@@ -17,30 +17,21 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
         return clazz == Form::class.java
     }
 
-    override fun getOption(field: Field, options: JSONObject, key: String): Form? {
-        if (options.has(key)) {
-            if (options.get(key) is JSONObject) {
-                return Form(contextProvider.get(), "", options.getJSONObject(key))
-            } else {
-                val value = converter.convert(options.get(key))
-                if (value.first) {
-                    return formsModel.forms.getOrDefault(value.second, null)
-                }
+    override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
+        if (sourceObject is JSONObject) {
+            return Form(contextProvider.get(), "", sourceObject)
+        } else {
+            val value = converter.convert(sourceObject)
+            if (value.first) {
+                return formsModel.forms.getOrDefault(value.second, null)
             }
         }
 
-        return getDefaultValue(field)
+        return null
     }
 
     override fun getDefaultValue(field: Field): Form? {
         return null
     }
 
-    override fun getList(field: Field, options: JSONObject, key: String): List<Form>? {
-        return null
-    }
-
-    override fun getArray(field: Field, options: JSONObject, key: String): Array<Any>? {
-        return null
-    }
 }
