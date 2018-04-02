@@ -3,9 +3,10 @@
 
 [![Build Status](https://travis-ci.org/JavaEden/Orchid.svg?branch=master)](https://travis-ci.org/JavaEden/Orchid) (Linux and Mac)
 [![Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/master?svg=true)](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/master) (Windows)
+[![Current Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](http://www.gnu.org/licenses/lgpl-3.0)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1)](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JavaEden/Orchid&amp;utm_campaign=Badge_Grade)
-[![codecov](https://codecov.io/gh/JavaEden/Orchid/branch/master/graph/badge.svg)](https://codecov.io/gh/JavaEden/Orchid)
+[![Codacy Grade](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1)](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JavaEden/Orchid&amp;utm_campaign=Badge_Grade)
+[![Codacy Coverage](https://api.codacy.com/project/badge/Coverage/8bca7e84b6094c03ae1316278cf63ae1)](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&utm_medium=referral&utm_content=JavaEden/Orchid&utm_campaign=Badge_Coverage)
 [![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/JavaEden/Orchid)
 
 
@@ -98,11 +99,22 @@ orchid {
 
 You can now run Orchid in the following ways:
 
-1) `./gradlew orchidRun` - Runs an Orchid task. The `runTask` should be specified in `build.gradle` or passed as a Gradle project property (`-PorchidRunTask=build`). The task `listTasks` will show a list of all tasks that can be run given the plugins currently installed.
-2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP file server in the root of the output directory.
-3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in `build/docs/orchid` unless the output directory has been changed.
-4) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` (or the closest available port).
-5) If you are developing a Java application, Orchid replaces the standard Javadoc task with its own `build` task. In addition to running the standard Orchid build, when Orchid is run from Javadoc it will be able to create pages for all your project's classes and packages, just like you'd expect from a normal Javadoc site, but embedded within your chosen Orchid theme. You must have the `OrchidJavadoc` plugin installed for this to work properly.
+1) `./gradlew orchidRun` - Runs an Orchid task. The `runTask` should be specified in `build.gradle` or passed as a 
+    Gradle project property (`-PorchidRunTask=build`). The task `listTasks` will show a list of all tasks that can be 
+    run given the plugins currently installed.
+2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP 
+    file server in the root of the output directory.
+3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for 
+    changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed.
+4) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at 
+    `localhost:8080` (or the closest available port).
+5) If you are developing a Java application, Orchid replaces the standard Javadoc task with its own `build` task. In 
+    addition to running the standard Orchid build, when Orchid is run from Javadoc it will be able to create pages for 
+    all your project's classes and packages, just like you'd expect from a normal Javadoc site, but embedded within your 
+    chosen Orchid theme. You must have the `OrchidJavadoc` Orchid plugin and the `com.eden.orchidJavadocPlugin` Gradle
+     plugin installed for this to work properly.
     
 _On windows, all the above commands need to be run with `gradlew` instead of `./gradlew`._
 
@@ -121,60 +133,44 @@ additional classes you'd like to include as a private plugin can be placed in `s
 
 As of v0.7.35, Orchid is now stable and ready for general use, but is still under constant development. Features and 
 APIs are mostly stable and are not expected to change significantly, but bugs will be fixed and new features added 
-rapidly.
+rapidly. All plugins, themes, bundles, and Gradle plugins should use the same version, the most recent is shown here.
  
-The following tables list all official Orchid packages:
+![Latest Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg)
 
-#### Core Packages
+The following lists all official Orchid packages:
 
-| Name                 | Version |
-| -------------------- | ------- |
-| Orchid Core          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion) |
-| Orchid Gradle Plugin | [ ![Download](https://img.shields.io/badge/Gradle%20Plugin-v0.4.1-blue.svg)                    ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)  |
-
-#### Themes
-
-| Name                  | Version |
-| --------------------- | ------- |
-| OrchidBsDoc           | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBsDoc/images/download.svg)           ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion) |
-| OrchidEditorial       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidEditorial/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion) |
-| OrchidFutureImperfect | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidFutureImperfect/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidFutureImperfect/_latestVersion) |
-
-#### Plugins
-
-| Name                | Version |
-| ------------------- | ------- |
-| OrchidChangelog     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidChangelog/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidChangelog/_latestVersion) |
-| OrchidForms         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidForms/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidForms/_latestVersion) |
-| OrchidJavadoc       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidJavadoc/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidJavadoc/_latestVersion) |
-| OrchidKSS           | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidKSS/images/download.svg)           ](https://bintray.com/javaeden/Orchid/OrchidKSS/_latestVersion) |
-| OrchidNetlifyCMS    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidNetlifyCMS/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidNetlifyCMS/_latestVersion) |
-| OrchidPages         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPages/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidPages/_latestVersion) |
-| OrchidPluginDocs    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPluginDocs/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidPluginDocs/_latestVersion) |
-| OrchidPosts         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPosts/images/download.svg)         ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion) |
-| OrchidPresentations | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidPresentations/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidPresentations/_latestVersion) |
-| OrchidSearch        | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSearch/images/download.svg)        ](https://bintray.com/javaeden/Orchid/OrchidSearch/_latestVersion) |
-| OrchidSwagger       | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSwagger/images/download.svg)       ](https://bintray.com/javaeden/Orchid/OrchidSwagger/_latestVersion) |
-| OrchidTaxonomies    | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidTaxonomies/images/download.svg)    ](https://bintray.com/javaeden/Orchid/OrchidTaxonomies/_latestVersion) |
-| OrchidWiki          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWiki/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion) |
-
-#### Language Extensions
-
-| Name                    | Version |
-| ----------------------- | ------- |
-| OrchidAsciidoc          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidAsciidoc/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidAsciidoc/_latestVersion) |
-| OrchidBible             | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBible/images/download.svg)             ](https://bintray.com/javaeden/Orchid/OrchidBible/_latestVersion) |
-| OrchidDiagrams          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidDiagrams/images/download.svg)          ](https://bintray.com/javaeden/Orchid/OrchidDiagrams/_latestVersion) |
-| OrchidSyntaxHighlighter | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSyntaxHighlighter/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion) |
-| OrchidWritersBlocks     | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidWritersBlocks/images/download.svg)     ](https://bintray.com/javaeden/Orchid/OrchidWritersBlocks/_latestVersion) |
-
-#### Bundles
-
-| Name               | Version |
-| ------------------ | ------- |
-| OrchidAll          | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidAll/images/download.svg)               ](https://bintray.com/javaeden/Orchid/OrchidAll/_latestVersion) |
-| OrchidBlog         | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidBlog/images/download.svg)              ](https://bintray.com/javaeden/Orchid/OrchidBlog/_latestVersion) |
-| OrchidLanguagePack | [ ![Download](https://api.bintray.com/packages/javaeden/Orchid/OrchidSyntaxHighlighter/images/download.svg) ](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion) |
+- #### Core Packages
+  - [Orchid Core                 ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
+  - [Orchid Gradle Plugin        ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)
+  - [Orchid Gradle Javadoc Plugin](https://plugins.gradle.org/plugin/com.eden.orchidJavadocPlugin)
+- #### Themes
+  - [OrchidBsDoc          ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion)
+  - [OrchidEditorial      ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion)
+  - [OrchidFutureImperfect](https://bintray.com/javaeden/Orchid/OrchidFutureImperfect/_latestVersion)
+- #### Plugins
+  - [OrchidChangelog    ](https://bintray.com/javaeden/Orchid/OrchidChangelog/_latestVersion)
+  - [OrchidForms        ](https://bintray.com/javaeden/Orchid/OrchidForms/_latestVersion)
+  - [OrchidJavadoc      ](https://bintray.com/javaeden/Orchid/OrchidJavadoc/_latestVersion)
+  - [OrchidKSS          ](https://bintray.com/javaeden/Orchid/OrchidKSS/_latestVersion)
+  - [OrchidNetlifyCMS   ](https://bintray.com/javaeden/Orchid/OrchidNetlifyCMS/_latestVersion)
+  - [OrchidPages        ](https://bintray.com/javaeden/Orchid/OrchidPages/_latestVersion)
+  - [OrchidPluginDocs   ](https://bintray.com/javaeden/Orchid/OrchidPluginDocs/_latestVersion)
+  - [OrchidPosts        ](https://bintray.com/javaeden/Orchid/OrchidPosts/_latestVersion)
+  - [OrchidPresentations](https://bintray.com/javaeden/Orchid/OrchidPresentations/_latestVersion)
+  - [OrchidSearch       ](https://bintray.com/javaeden/Orchid/OrchidSearch/_latestVersion)
+  - [OrchidSwagger      ](https://bintray.com/javaeden/Orchid/OrchidSwagger/_latestVersion)
+  - [OrchidTaxonomies   ](https://bintray.com/javaeden/Orchid/OrchidTaxonomies/_latestVersion)
+  - [OrchidWiki         ](https://bintray.com/javaeden/Orchid/OrchidWiki/_latestVersion)
+- #### Language Extensions
+  - [OrchidAsciidoc         ](https://bintray.com/javaeden/Orchid/OrchidAsciidoc/_latestVersion)
+  - [OrchidBible            ](https://bintray.com/javaeden/Orchid/OrchidBible/_latestVersion)
+  - [OrchidDiagrams         ](https://bintray.com/javaeden/Orchid/OrchidDiagrams/_latestVersion)
+  - [OrchidSyntaxHighlighter](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion)
+  - [OrchidWritersBlocks    ](https://bintray.com/javaeden/Orchid/OrchidWritersBlocks/_latestVersion)
+- #### Bundles
+  - [OrchidAll         ](https://bintray.com/javaeden/Orchid/OrchidAll/_latestVersion)
+  - [OrchidBlog        ](https://bintray.com/javaeden/Orchid/OrchidBlog/_latestVersion)
+  - [OrchidLanguagePack](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion)
 
 ## License
 
@@ -190,21 +186,15 @@ please indent using 4 spaces and keep braces on the same lines.
 
 Orchid releases are deployed continuously. With any push to the `master` branch, the patch version is incremented, then
 the compiled sources are uploaded to Bintray, Github Pages, and a git tag created and uploaded to Github Releases. All
-code should be deployed via pull request. 
+code should be deployed via pull request. All Orchid plugins, themes, bundles, core, and Gradle plugins are released at 
+the same version with every release.
 
 Documentation updates and submissions for new themes or plugins should be made as PRs to the `docs` branch. 
 Documentation is hosted on Netlify, and a deploy preview will be made for your PR before it is merged into `docs`.
 
 Orchid uses the [Gradle Semantic Versioning](https://github.com/vivin/gradle-semantic-build-versioning) plugin to set
 the package version and create the git tag. The major and minor versions can be incremented by including `[major]` or
-`[minor]` anywhere in any commit message since the previous released version. 
-
-The Orchid Gradle Plugin tracks a different version than the git tag, and it's deploy process is handled manually:
- 
-- Start with clean Git index
-- `cd buildSrc` (buildSrc is not recognized as a normal part of the Gradle project, but its is a project in its own local directory)
-- Increment `version` in `buildSrc/build.gradle`, according to [Semantic Versioning](http://semver.org/) and prefixed with `v`
-- `gradle publishPlugins`
+`[minor]` at the start of any commit message since the previous released version. 
 
 ## Contact
 
