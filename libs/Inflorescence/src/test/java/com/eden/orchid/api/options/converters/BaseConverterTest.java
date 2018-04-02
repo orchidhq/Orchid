@@ -3,6 +3,7 @@ package com.eden.orchid.api.options.converters;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.Extractor;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.ListOptionExtractor;
 import org.json.JSONObject;
 
@@ -24,7 +25,11 @@ public class BaseConverterTest {
 
         List<OptionExtractor> extractors = new ArrayList<>();
         extractors.add(extractorUnderTest);
-        extractors.add(new ListOptionExtractor(iterableConverter, new Converters(new HashSet<>(Arrays.asList(converters)))));
+
+        Converters converters1 = new Converters(new HashSet<>(Arrays.asList(converters)));
+
+        extractors.add(new ListOptionExtractor(iterableConverter, converters1));
+        extractors.add(new ArrayOptionExtractor(iterableConverter, converters1));
 
         extractor = new Extractor(extractors, null) {
             @Override
@@ -77,6 +82,28 @@ public class BaseConverterTest {
         assertThat(underTest.getClass().getField(optionName).get(underTest), is(equalTo(null)));
         extractor.extractOptions(underTest, options);
         assertThat((Iterable<Object>) underTest.getClass().getField(optionName).get(underTest), containsInAnyOrder(expectedExtractedValue));
+    }
+
+    public void testExtractOptionArray(
+            final Object underTest,
+            final Object sourceValue,
+            final Object[] expectedExtractedValue) throws Throwable {
+
+        String optionName = "testValue";
+
+        final JSONObject options = new JSONObject();
+        if(sourceValue != null) {
+            if(sourceValue.toString().equals("_nullValue")) {
+                options.put(optionName, (String) null);
+            }
+            else {
+                options.put(optionName, sourceValue);
+            }
+        }
+
+        assertThat(underTest.getClass().getField(optionName).get(underTest), is(equalTo(null)));
+        extractor.extractOptions(underTest, options);
+        assertThat((Object[]) underTest.getClass().getField(optionName).get(underTest), arrayContainingInAnyOrder(expectedExtractedValue));
     }
 
     public void testOptionDescription(

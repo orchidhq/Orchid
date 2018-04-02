@@ -31,6 +31,15 @@ public class StringOptionExtractorTest extends BaseConverterTest {
         public List<String> testValue;
     }
 
+    public static class TestArrayClass1 {
+        @Option @StringDefault({"defaultValue1", "defaultValue2"})
+        public String[] testValue;
+    }
+    public static class TestArrayClass2 {
+        @Option
+        public String[] testValue;
+    }
+
 // Test Setup
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -113,6 +122,39 @@ public class StringOptionExtractorTest extends BaseConverterTest {
     }
 
     @ParameterizedTest
+    @MethodSource("getOptionsArrayArguments")
+    public void testExtractOptionArray(
+            final Object underTest,
+            final Object sourceValue,
+            final Object[] expectedExtractedValue) throws Throwable {
+        super.testExtractOptionArray(
+                underTest,
+                sourceValue,
+                expectedExtractedValue
+        );
+    }
+
+    static Stream<Arguments> getOptionsArrayArguments() {
+        return Stream.of(
+                Arguments.of(new TestArrayClass1(), 45,                              new String[] {"45"}),
+                Arguments.of(new TestArrayClass1(), new int[] {44, 45, 46},          new String[] {"44", "45", "46"}),
+                Arguments.of(new TestArrayClass1(), "45",                            new String[] {"45"}),
+                Arguments.of(new TestArrayClass1(), new String[] {"44", "45", "46"}, new String[] {"44", "45", "46"}),
+                Arguments.of(new TestArrayClass1(), null,                            new String[] {"defaultValue1", "defaultValue2"}),
+                Arguments.of(new TestArrayClass1(), "_nullValue",                    new String[] {"defaultValue1", "defaultValue2"}),
+                Arguments.of(new TestArrayClass1(), new String[0],                   new String[] {}),
+
+                Arguments.of(new TestArrayClass2(), 45,                              new String[] {"45"}),
+                Arguments.of(new TestArrayClass2(), new int[] {44, 45, 46},          new String[] {"44", "45", "46"}),
+                Arguments.of(new TestArrayClass2(), "45",                            new String[] {"45"}),
+                Arguments.of(new TestArrayClass2(), new String[] {"44", "45", "46"}, new String[] {"44", "45", "46"}),
+                Arguments.of(new TestArrayClass2(), null,                            new String[] {}),
+                Arguments.of(new TestArrayClass2(), "_nullValue",                    new String[] {}),
+                Arguments.of(new TestArrayClass2(), new String[0],                   new String[] {})
+        );
+    }
+
+    @ParameterizedTest
     @MethodSource("getOptionsDescriptionArguments")
     public void testOptionsDescription(
             final Object underTest,
@@ -125,10 +167,12 @@ public class StringOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsDescriptionArguments() {
         return Stream.of(
-                Arguments.of(new TestClass1(),     "defaultValue"),
-                Arguments.of(new TestClass2(),     "empty string"),
-                Arguments.of(new TestListClass1(), "[defaultValue1, defaultValue2]"),
-                Arguments.of(new TestListClass2(), "empty list")
+                Arguments.of(new TestClass1(),      "defaultValue"),
+                Arguments.of(new TestClass2(),      "empty string"),
+                Arguments.of(new TestListClass1(),  "[defaultValue1, defaultValue2]"),
+                Arguments.of(new TestListClass2(),  "empty list"),
+                Arguments.of(new TestArrayClass1(), "[defaultValue1, defaultValue2]"),
+                Arguments.of(new TestArrayClass2(), "empty array")
         );
     }
 

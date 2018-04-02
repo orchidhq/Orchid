@@ -53,80 +53,30 @@ public final class ArrayOptionExtractor extends OptionExtractor<String[]> {
     public String[] getOption(Field field, Object sourceObject, String key) {
         EdenPair<Boolean, Iterable> value = converter.convert(sourceObject);
 
-        List<String> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
 
-//        ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
-//        Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+        Class<?> arrayClass = field.getType().getComponentType();
 
         for(Object item : value.second) {
-            EdenPair<Boolean, String> converted = converters.convert(item, String.class);
+            EdenPair<Boolean, ?> converted = converters.convert(item, arrayClass);
 
             if(converted.first) {
                 list.add(converted.second);
             }
         }
 
+
         String[] array = new String[list.size()];
         list.toArray(array);
-
         return array;
+
     }
 
     @Override
     public String[] getDefaultValue(Field field) {
-//        ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
-//        Class<?> listClass = (Class<?>) stringListType.getActualTypeArguments()[0];
-//
-//        if(listClass.equals(Boolean.class)) {
-//            if(field.isAnnotationPresent(BooleanDefault.class)) {
-//                List<Boolean> list = new ArrayList<>();
-//                for(boolean val : field.getAnnotation(BooleanDefault.class).value()) {
-//                    list.add(val);
-//                }
-//                return list;
-//            }
-//        }
-//        else if(listClass.equals(Double.class)) {
-//            if(field.isAnnotationPresent(DoubleDefault.class)) {
-//                List<Double> list = new ArrayList<>();
-//                for(double val : field.getAnnotation(DoubleDefault.class).value()) {
-//                    list.add(val);
-//                }
-//                return list;
-//            }
-//        }
-//        else if(listClass.equals(Float.class)) {
-//            if(field.isAnnotationPresent(FloatDefault.class)) {
-//                List<Float> list = new ArrayList<>();
-//                for(float val : field.getAnnotation(FloatDefault.class).value()) {
-//                    list.add(val);
-//                }
-//                return list;
-//            }
-//        }
-//        else if(listClass.equals(Integer.class)) {
-//            if(field.isAnnotationPresent(IntDefault.class)) {
-//                List<Integer> list = new ArrayList<>();
-//                for(int val : field.getAnnotation(IntDefault.class).value()) {
-//                    list.add(val);
-//                }
-//                return list;
-//            }
-//        }
-//        else if(listClass.equals(Long.class)) {
-//            if(field.isAnnotationPresent(LongDefault.class)) {
-//                List<Long> list = new ArrayList<>();
-//                for(long val : field.getAnnotation(LongDefault.class).value()) {
-//                    list.add(val);
-//                }
-//                return list;
-//            }
-//        }
-//        else if(listClass.equals(String.class)) {
-            if(field.isAnnotationPresent(StringDefault.class)) {
-                return field.getAnnotation(StringDefault.class).value();
-            }
-//        }
+        if(field.isAnnotationPresent(StringDefault.class)) {
+            return field.getAnnotation(StringDefault.class).value();
+        }
 
         return new String[0];
     }
@@ -141,7 +91,7 @@ public final class ArrayOptionExtractor extends OptionExtractor<String[]> {
                     .collect(Collectors.joining(", ")) + "]";
         }
 
-        return "empty list";
+        return "empty array";
     }
 
 }
