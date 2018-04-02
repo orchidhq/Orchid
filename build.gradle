@@ -21,6 +21,7 @@ apply plugin: 'idea'
 apply plugin: 'org.ajoberstar.grgit'
 apply plugin: "com.dorongold.task-tree"
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'jacoco'
 
 group   = 'io.github.javaeden.orchid'
 
@@ -42,14 +43,19 @@ ext.pluginProjects = ext.languageExtensionProjects + subprojects.findAll { retur
 ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
 ext.libraryProjects = subprojects.findAll { return (it.path.startsWith(":libs")) && (it.name != "libs") }
 ext.mainProjects   = coreProject + themeProjects + pluginProjects
+ext.mainProjectsWithLibs = mainProjects + libraryProjects
 
 allprojects {
     repositories {
         jcenter()
         maven { url 'https://dl.bintray.com/javaeden/Eden/' }
         maven { url 'https://jitpack.io' }
+        maven { url "http://dl.bintray.com/typesafe/maven-releases" }
     }
 }
+
+// Deploy
+//----------------------------------------------------------------------------------------------------------------------
 
 tag {
     message { "Bump version to ${version}" }
@@ -106,7 +112,50 @@ task deploy {
     doLast { }
 }
 
+// Configure
+//----------------------------------------------------------------------------------------------------------------------
+
 configure(ext.mainProjects)   { apply from: "$rootDir/gradle/mainProjects.gradle" }
 configure(ext.themeProjects)  { apply from: "$rootDir/gradle/themeProjects.gradle" }
 configure(ext.pluginProjects) { apply from: "$rootDir/gradle/pluginProjects.gradle" }
 configure(ext.bundleProjects) { apply from: "$rootDir/gradle/bundleProjects.gradle" }
+configure(ext.libraryProjects) { apply from: "$rootDir/gradle/libraryProjects.gradle" }
+
+// Code Coverage Reports
+//----------------------------------------------------------------------------------------------------------------------
+task codeCoverageReport(type: JacocoReport) {
+    dependsOn {
+        rootProject.ext.mainProjectsWithLibs*.test
+    }
+
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    rootProject.ext.mainProjectsWithLibs.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+configurations { codacy }
+dependencies {
+    codacy 'com.github.codacy:codacy-coverage-reporter:-SNAPSHOT'
+}
+task sendCoverageToCodacy(type: JavaExec) {
+    dependsOn codeCoverageReport
+
+    main = "com.codacy.CodacyCoverageReporter"
+    classpath = configurations.codacy
+    args = [
+            "report",
+            "-l",
+            "Java",
+            "-r",
+            "${buildDir}/reports/jacoco/report.xml"
+    ]
+}

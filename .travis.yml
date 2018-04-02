@@ -36,7 +36,7 @@ jobs:
       install: ./gradlew assemble -Penv=prod -Prelease
       script: ./gradlew deploy -Penv=prod -Prelease
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - ./gradlew codeCoverageReport sendCoverageToCodacy
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
         - ./gradlew tag -Prelease
