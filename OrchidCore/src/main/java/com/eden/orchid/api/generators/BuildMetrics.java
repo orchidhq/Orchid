@@ -156,9 +156,15 @@ public class BuildMetrics {
 
         String tableDisplay = table.print();
 
-        tableDisplay += Clog.format("\nGenerated {} pages in {}\n\n", compositeMetrics.getPageCount() + "", compositeMetrics.getTotalTime());
+        if(compositeMetrics.getPageCount() == 1) {
+            tableDisplay += Clog.format("\nGenerated {} page in {}\n\n", compositeMetrics.getPageCount() + "", compositeMetrics.getTotalTime());
+        }
+        else {
+            tableDisplay += Clog.format("\nGenerated {} pages in {}\n\n", compositeMetrics.getPageCount() + "", compositeMetrics.getTotalTime());
+        }
 
-        Clog.i("Build Metrics:\n" + tableDisplay);
+
+        Clog.tag("\nBuild Metrics").log("\n" + tableDisplay);
     }
 
     private void setColumnWidths(GeneratorMetrics metric) {

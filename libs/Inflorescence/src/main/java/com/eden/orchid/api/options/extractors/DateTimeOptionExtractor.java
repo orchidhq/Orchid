@@ -1,14 +1,11 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.converters.DateTimeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * ### Destination Types
@@ -36,31 +33,9 @@ public final class DateTimeOptionExtractor extends OptionExtractor<LocalDateTime
         return clazz.equals(LocalDateTime.class);
     }
 
-    public LocalDateTime getValue(Object object) {
-        EdenPair<Boolean, LocalDateTime> dateTime = converter.convert(object);
-
-        if(dateTime.first) {
-            return dateTime.second;
-        }
-
-        return null;
-    }
-
     @Override
-    public LocalDateTime getOption(Field field, JSONObject options, String key) {
-        LocalDateTime fieldValue = null;
-        if(options.has(key)) {
-            LocalDateTime value = getValue(options.get(key));
-            if(value != null) {
-                fieldValue = value;
-            }
-        }
-
-        if(fieldValue == null) {
-            fieldValue = getDefaultValue(field);
-        }
-
-        return fieldValue;
+    public LocalDateTime getOption(Field field, Object sourceObject, String key) {
+        return converter.convert(sourceObject).second;
     }
 
     @Override
@@ -69,12 +44,8 @@ public final class DateTimeOptionExtractor extends OptionExtractor<LocalDateTime
     }
 
     @Override
-    public List<LocalDateTime> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<LocalDateTime> not supported");
+    public String describeDefaultValue(Field field) {
+        return "now (yyyy-mm-dd HH:MM:SS)";
     }
 
-    @Override
-    public Object[] getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting LocalDateTime[] not supported");
-    }
 }

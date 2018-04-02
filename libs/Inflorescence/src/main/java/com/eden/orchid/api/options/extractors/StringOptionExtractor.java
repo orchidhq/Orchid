@@ -1,14 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.eden.common.util.EdenPair;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.StringDefault;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ### Destination Types
@@ -36,29 +34,9 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
         return clazz.equals(String.class);
     }
 
-    public String getValue(Object object) {
-        return converter.convert(object).second;
-    }
-
     @Override
-    public String getOption(Field field, JSONObject options, String key) {
-        String fieldValue = null;
-        if(options.has(key)) {
-            EdenPair<Boolean, String> value = converter.convert(options.get(key));
-            if(value.first) {
-                fieldValue = value.second;
-            }
-        }
-
-        if(fieldValue == null) {
-            fieldValue = getDefaultValue(field);
-        }
-
-        if(fieldValue == null) {
-            fieldValue = "";
-        }
-
-        return fieldValue;
+    public String getOption(Field field, Object sourceObject, String key) {
+        return converter.convert(sourceObject).second;
     }
 
     @Override
@@ -66,26 +44,22 @@ public final class StringOptionExtractor extends OptionExtractor<String> {
         if(field.isAnnotationPresent(StringDefault.class)) {
             String[] defaultValue = field.getAnnotation(StringDefault.class).value();
             if(defaultValue.length > 0) {
-                EdenPair<Boolean, String> value = converter.convert(defaultValue[0]);
-                if(value.first) {
-                    return value.second;
-                }
+                return defaultValue[0];
             }
         }
         return "";
     }
 
-    public String[] getArrayDefaultValue(Field field) {
-        return new String[0];
+    @Override
+    public String describeDefaultValue(Field field) {
+        String value = getDefaultValue(field);
+
+        if(!EdenUtils.isEmpty(value)) {
+            return value;
+        }
+        else {
+            return "empty string";
+        }
     }
 
-    @Override
-    public List<String> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<String> not supported, try String[] instead");
-    }
-
-    @Override
-    public Object[] getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting String[] not supported from this extractor, try StringArrayOptionExtractor instead");
-    }
 }

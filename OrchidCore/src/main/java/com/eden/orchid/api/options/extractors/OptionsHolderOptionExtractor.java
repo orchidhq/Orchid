@@ -4,15 +4,12 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.options.annotations.ListClass;
+import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import com.google.inject.Provider;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ### Source Types
@@ -36,8 +33,7 @@ import java.util.List;
  * ### _Notes_
  *
  * This can deserialize any JSONObject into any class that implements OptionsHolder, and can also handle any generic
- * List of OptionsHolders of the same Class. The class to deserialize by in that List should be set with @ListClass on
- * the field.
+ * List of OptionsHolders of the same Class.
  *
  * @since v1.0.0
  * @orchidApi optionTypes
@@ -46,40 +42,39 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
 
     private final Provider<OptionsExtractor> extractorProvider;
     private final Provider<OrchidContext> contextProvider;
+    private final FlexibleMapConverter mapConverter;
 
     @Inject
-    public OptionsHolderOptionExtractor(Provider<OptionsExtractor> extractorProvider, Provider<OrchidContext> contextProvider) {
+    public OptionsHolderOptionExtractor(Provider<OptionsExtractor> extractorProvider, Provider<OrchidContext> contextProvider, FlexibleMapConverter mapConverter) {
         super(25);
         this.extractorProvider = extractorProvider;
         this.contextProvider = contextProvider;
+        this.mapConverter = mapConverter;
     }
 
     @Override
     public boolean acceptsClass(Class clazz) {
-        if(OptionsHolder.class.isAssignableFrom(clazz)) {
-            return true;
-        }
-        if(List.class.isAssignableFrom(clazz)) {
-            return true;
-        }
-
-        return false;
+        return OptionsHolder.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public OptionsHolder getOption(Field field, JSONObject options, String key) {
-        try {
+    public OptionsHolder getOption(Field field, Object sourceObject, String key) {
+//        try {
+//            OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
+//            JSONObject sourceJson = new JSONObject(mapConverter.convert(sourceObject).second);
+//            extractorProvider.get().extractOptions(holder, sourceJson);
+//
+//            return holder;
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        if(sourceObject instanceof JSONObject) {
             OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-            if(options.has(key)) {
-                extractorProvider.get().extractOptions(holder, options.getJSONObject(key));
-            }
-            else {
-                extractorProvider.get().extractOptions(holder, new JSONObject());
-            }
+            extractorProvider.get().extractOptions(holder, (JSONObject) sourceObject);
+
             return holder;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
         }
 
         return null;
@@ -90,25 +85,4 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
         return null;
     }
 
-    @Override
-    public List<OptionsHolder> getList(Field field, JSONObject options, String key) {
-        JSONArray array = (options.has(key)) ? options.getJSONArray(key) : new JSONArray();
-        List<OptionsHolder> list = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                OptionsHolder holder = (OptionsHolder) field.getAnnotation(ListClass.class).value().newInstance();
-                extractorProvider.get().extractOptions(holder, array.getJSONObject(i));
-                list.add(holder);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public Object getArray(Field field, JSONObject options, String key) {
-        return this.getList(field, options, key);
-    }
 }

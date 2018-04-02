@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.components;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
@@ -100,6 +101,9 @@ public final class ComponentHolder {
                         component.extractOptions(context, componentJson);
                         components.add(component);
                     }
+                }
+                else {
+                    Clog.w("Component {} (on page {} at {}) could not be found", componentType, containingPage.getTitle(), containingPage.getLink());
                 }
             }
 

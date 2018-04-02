@@ -69,23 +69,22 @@ public final class Orchid {
 
     public boolean start(List<Module> modules) {
         try {
-            String moduleLog = "Using the following modules: ";
-            moduleLog += "\n--------------------";
+            String moduleLog = "\n--------------------";
             for (Module module : modules) {
                 if (!module.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
                     moduleLog += "\n * " + module.getClass().getName();
                 }
             }
-            moduleLog += "\n--------------------";
-            Clog.d(moduleLog);
+            moduleLog += "\n";
+            Clog.tag("Using the following modules").log(moduleLog);
 
             injector = Guice.createInjector(modules);
 
-            String flagLog = "Flag values: ";
+            String flagLog = "";
             flagLog += "\n--------------------\n";
             flagLog += OrchidFlags.getInstance().printFlags();
-            flagLog += "--------------------";
-            Clog.d(flagLog);
+            flagLog += "\n";
+            Clog.tag("Flag values").log(flagLog);
 
             context = injector.getInstance(OrchidContext.class);
 

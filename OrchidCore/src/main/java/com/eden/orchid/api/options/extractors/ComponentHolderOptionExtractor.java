@@ -2,14 +2,13 @@ package com.eden.orchid.api.options.extractors;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.google.inject.Provider;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ### Destination Types
@@ -25,11 +24,13 @@ import java.util.List;
 public final class ComponentHolderOptionExtractor extends OptionExtractor<ComponentHolder> {
 
     private final Provider<OrchidContext> contextProvider;
+    private final FlexibleIterableConverter iterableConverter;
 
     @Inject
-    public ComponentHolderOptionExtractor(Provider<OrchidContext> contextProvider) {
+    public ComponentHolderOptionExtractor(Provider<OrchidContext> contextProvider, FlexibleIterableConverter iterableConverter) {
         super(100);
         this.contextProvider = contextProvider;
+        this.iterableConverter = iterableConverter;
     }
 
     @Override
@@ -38,12 +39,12 @@ public final class ComponentHolderOptionExtractor extends OptionExtractor<Compon
     }
 
     @Override
-    public ComponentHolder getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof JSONArray) {
-            return new ComponentHolder(contextProvider.get(), options.getJSONArray(key));
+    public ComponentHolder getOption(Field field, Object sourceObject, String key) {
+        if(sourceObject instanceof JSONArray) {
+            return new ComponentHolder(contextProvider.get(), (JSONArray) sourceObject);
         }
 
-        return getDefaultValue(field);
+        return null;
     }
 
     @Override
@@ -56,13 +57,4 @@ public final class ComponentHolderOptionExtractor extends OptionExtractor<Compon
         return "Empty ComponentHolder";
     }
 
-    @Override
-    public List<ComponentHolder> getList(Field field, JSONObject options, String key) {
-        return null;
-    }
-
-    @Override
-    public Object[] getArray(Field field, JSONObject options, String key) {
-        return null;
-    }
 }

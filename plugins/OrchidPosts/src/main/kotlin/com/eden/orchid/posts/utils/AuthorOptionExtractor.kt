@@ -29,34 +29,24 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
         return converter.convert(`object`).second
     }
 
-    override fun getOption(field: Field, options: JSONObject, key: String): Author? {
-        if (options.has(key)) {
-
-            if (options.get(key) is JSONObject) {
-                val author = Author()
-                author.extractOptions(contextProvider.get(), options.getJSONObject(key))
-                return author
-            } else {
-                val value = converter.convert(options.get(key))
-                if (value.first) {
-                    return postsModel.getAuthorByName(value.second)
-                }
+    override fun getOption(field: Field, sourceObject: Any, key: String): Author? {
+        if (sourceObject is JSONObject) {
+            val author = Author()
+            author.extractOptions(contextProvider.get(), sourceObject)
+            return author
+        } else {
+            val value = converter.convert(sourceObject)
+            if (value.first) {
+                return postsModel.getAuthorByName(value.second)
             }
         }
 
-        return getDefaultValue(field)
+        return null
     }
 
     override fun getDefaultValue(field: Field): Author? {
         return null
     }
 
-    override fun getList(field: Field, options: JSONObject, key: String): List<Author>? {
-        return null
-    }
-
-    override fun getArray(field: Field, options: JSONObject, key: String): Array<Any>? {
-        return null
-    }
 }
 

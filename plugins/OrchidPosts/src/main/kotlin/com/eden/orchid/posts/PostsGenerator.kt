@@ -7,7 +7,6 @@ import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
-import com.eden.orchid.api.options.annotations.ListClass
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
@@ -50,7 +49,6 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     )
     lateinit var excerptSeparator: String
 
-    @Option @ListClass(Author::class)
     @Description("A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
             "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
             "and will be linked to the pages they author. Guest authors may be set up directly in the post " +

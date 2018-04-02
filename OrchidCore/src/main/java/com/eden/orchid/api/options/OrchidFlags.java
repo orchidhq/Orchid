@@ -215,7 +215,7 @@ public final class OrchidFlags {
             }
         }
 
-        return msg;
+        return msg.trim();
     }
 
 }

@@ -1,11 +1,11 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ### Source Types
@@ -27,9 +27,12 @@ import java.util.List;
  */
 public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject> {
 
+    private final FlexibleMapConverter converter;
+
     @Inject
-    public JSONObjectOptionExtractor() {
+    public JSONObjectOptionExtractor(FlexibleMapConverter converter) {
         super(10);
+        this.converter = converter;
     }
 
     @Override
@@ -38,13 +41,8 @@ public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject>
     }
 
     @Override
-    public JSONObject getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof JSONObject) {
-            return options.getJSONObject(key);
-        }
-        else {
-            return getDefaultValue(field);
-        }
+    public JSONObject getOption(Field field, Object sourceObject, String key) {
+        return new JSONObject(converter.convert(sourceObject).second);
     }
 
     @Override
@@ -52,11 +50,4 @@ public final class JSONObjectOptionExtractor extends OptionExtractor<JSONObject>
         return new JSONObject();
     }
 
-    @Override public List<JSONObject> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<JSONObject> not supported, try JSONArray instead");
-    }
-
-    @Override public Object getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting JSONObject[] not supported, try JSONArray instead");
-    }
 }

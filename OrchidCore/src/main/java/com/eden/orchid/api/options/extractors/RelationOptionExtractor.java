@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * @since v1.0.0
@@ -33,7 +32,7 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
     }
 
     @Override
-    public Relation getOption(Field field, JSONObject options, String key) {
+    public Relation getOption(Field field, Object sourceObject, String key) {
         Relation relation = null;
         JSONObject relationConfig = new JSONObject();
 
@@ -50,15 +49,13 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
             }
         }
 
-        if(options.has(key)) {
-            if(options.get(key) instanceof String) {
-                relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
-                relationConfig = OrchidUtils.merge(relationConfig, relation.parseStringRef(options.getString(key)));
-            }
-            else if(options.get(key) instanceof JSONObject) {
-                relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
-                relationConfig = OrchidUtils.merge(relationConfig, options.getJSONObject(key));
-            }
+        if(sourceObject instanceof String) {
+            relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
+            relationConfig = OrchidUtils.merge(relationConfig, relation.parseStringRef((String) sourceObject));
+        }
+        else if(sourceObject instanceof JSONObject) {
+            relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
+            relationConfig = OrchidUtils.merge(relationConfig, (JSONObject) sourceObject);
         }
 
         if(relation == null) {
@@ -75,11 +72,4 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
         return (Relation) contextProvider.get().getInjector().getInstance(field.getType());
     }
 
-    @Override public List<Relation> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<Relation> not supported");
-    }
-
-    @Override public Relation getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting Relation[] not supported");
-    }
 }

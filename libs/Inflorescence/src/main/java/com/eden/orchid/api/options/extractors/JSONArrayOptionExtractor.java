@@ -1,12 +1,12 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ### Source Types
@@ -29,9 +29,12 @@ import java.util.List;
  */
 public final class JSONArrayOptionExtractor extends OptionExtractor<JSONArray> {
 
+    private final FlexibleIterableConverter converter;
+
     @Inject
-    public JSONArrayOptionExtractor() {
+    public JSONArrayOptionExtractor(FlexibleIterableConverter converter) {
         super(10);
+        this.converter = converter;
     }
 
     @Override
@@ -40,13 +43,16 @@ public final class JSONArrayOptionExtractor extends OptionExtractor<JSONArray> {
     }
 
     @Override
-    public JSONArray getOption(Field field, JSONObject options, String key) {
-        if(options.has(key) && options.get(key) instanceof JSONArray) {
-            return options.getJSONArray(key);
+    public JSONArray getOption(Field field, Object sourceObject, String key) {
+        EdenPair<Boolean, Iterable> value = converter.convert(sourceObject);
+
+        JSONArray jsonArray = new JSONArray();
+
+        for(Object item : value.second) {
+            jsonArray.put(item);
         }
-        else {
-            return getDefaultValue(field);
-        }
+
+        return jsonArray;
     }
 
     @Override
@@ -54,11 +60,4 @@ public final class JSONArrayOptionExtractor extends OptionExtractor<JSONArray> {
         return new JSONArray();
     }
 
-    @Override public List<JSONArray> getList(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting List<JSONArray> not supported");
-    }
-
-    @Override public Object getArray(Field field, JSONObject options, String key) {
-        throw new UnsupportedOperationException("Extracting JSONArray[] not supported");
-    }
 }
