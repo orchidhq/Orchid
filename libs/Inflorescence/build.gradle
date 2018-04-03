@@ -5,7 +5,7 @@ targetCompatibility = '1.8'
 def junit_version = '5.1.0'
 
 dependencies {
-    compile 'com.github.JavaEden:Common:v1.1.0'
+    compile 'com.github.JavaEden:Common:1.3.0'
     compile 'com.eden:Clog:2.0.0'
     compile 'org.json:json:20180130'
 

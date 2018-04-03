@@ -58,7 +58,12 @@ public class DateOptionExtractorTest extends BaseConverterTest {
                 Arguments.of(new TestClass(), LocalDateTime.of(2018, 1, 1, 0, 30, 0), null, LocalDate.of(2018, 1, 1)),
                 Arguments.of(new TestClass(), "now",                                  null, LocalDate.now()),
                 Arguments.of(new TestClass(), null,                                   null, LocalDate.now()),
-                Arguments.of(new TestClass(), "_nullValue",                           null, LocalDate.now())
+                Arguments.of(new TestClass(), "_nullValue",                           null, LocalDate.now()),
+
+                Arguments.of(new TestClass(), "now",                                  null, LocalDate.now()),
+                Arguments.of(new TestClass(), "today",                                null, LocalDate.now()),
+                Arguments.of(new TestClass(), "tomorrow",                             null, LocalDate.now().plusDays(1)),
+                Arguments.of(new TestClass(), "yesterday",                            null, LocalDate.now().minusDays(1))
         );
     }
 

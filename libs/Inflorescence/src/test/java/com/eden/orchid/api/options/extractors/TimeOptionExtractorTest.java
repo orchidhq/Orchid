@@ -78,11 +78,16 @@ public class TimeOptionExtractorTest extends BaseConverterTest {
     static Stream<Arguments> getOptionsArguments() throws Throwable {
         return Stream.of(
                 Arguments.of(new TestClass(), "2018-01-01T08:30:00",                  null, LocalTime.of(8, 30, 0)),
-                Arguments.of(new TestClass(), LocalDate.of(2018, 1, 1),               null, LocalTime.of(0, 0,  0)),
+                Arguments.of(new TestClass(), LocalDate.of(2018, 1, 1),               null, LocalTime.now()),
                 Arguments.of(new TestClass(), LocalDateTime.of(2018, 1, 1, 8, 30, 0), null, LocalTime.of(8, 30, 0)),
-                Arguments.of(new TestClass(), "now",                                  null, LocalDate.now().atStartOfDay().toLocalTime()),
+                Arguments.of(new TestClass(), "now",                                  null, LocalTime.now()),
                 Arguments.of(new TestClass(), null,                                   null, LocalTime.now()),
-                Arguments.of(new TestClass(), "_nullValue",                           null, LocalTime.now())
+                Arguments.of(new TestClass(), "_nullValue",                           null, LocalTime.now()),
+
+                Arguments.of(new TestClass(), "now",                                  null, LocalTime.now()),
+                Arguments.of(new TestClass(), "today",                                null, LocalTime.of(0, 0, 0)),
+                Arguments.of(new TestClass(), "tomorrow",                             null, LocalTime.of(0, 0, 0)),
+                Arguments.of(new TestClass(), "yesterday",                            null, LocalTime.of(0, 0, 0))
         );
     }
 

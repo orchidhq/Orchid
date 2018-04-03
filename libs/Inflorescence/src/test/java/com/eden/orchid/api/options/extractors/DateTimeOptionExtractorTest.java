@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
@@ -69,13 +70,18 @@ public class DateTimeOptionExtractorTest extends BaseConverterTest {
 
     static Stream<Arguments> getOptionsArguments() throws Throwable {
         return Stream.of(
-                Arguments.of(new TestClass(), "2018-01-01",                           null, LocalDateTime.of(2018, 1, 1, 0, 0,  0)),
+                Arguments.of(new TestClass(), "2018-01-01",                           null, LocalDateTime.of(LocalDate.of(2018, 1, 1), LocalTime.now())),
                 Arguments.of(new TestClass(), "2018-01-01T08:30:00",                  null, LocalDateTime.of(2018, 1, 1, 8, 30, 0)),
-                Arguments.of(new TestClass(), LocalDate.of(2018, 1, 1),               null, LocalDateTime.of(2018, 1, 1, 0, 0,  0)),
+                Arguments.of(new TestClass(), LocalDate.of(2018, 1, 1),               null, LocalDateTime.of(LocalDate.of(2018, 1, 1), LocalTime.now())),
                 Arguments.of(new TestClass(), LocalDateTime.of(2018, 1, 1, 8, 30, 0), null, LocalDateTime.of(2018, 1, 1, 8, 30, 0)),
-                Arguments.of(new TestClass(), "now",                                  null, LocalDate.now().atStartOfDay()),
+                Arguments.of(new TestClass(), "now",                                  null, LocalDateTime.now()),
                 Arguments.of(new TestClass(), null,                                   null, LocalDateTime.now()),
-                Arguments.of(new TestClass(), "_nullValue",                           null, LocalDateTime.now())
+                Arguments.of(new TestClass(), "_nullValue",                           null, LocalDateTime.now()),
+
+                Arguments.of(new TestClass(), "now",                                  null, LocalDateTime.now()),
+                Arguments.of(new TestClass(), "today",                                null, LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0))),
+                Arguments.of(new TestClass(), "tomorrow",                             null, LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(0, 0, 0))),
+                Arguments.of(new TestClass(), "yesterday",                            null, LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(0, 0, 0)))
         );
     }
 
