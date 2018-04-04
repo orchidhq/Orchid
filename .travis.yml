@@ -30,13 +30,18 @@ jobs:
       os: osx
       osx_image: xcode8.3
 
+    - stage: afterTests
+      install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      script: ./gradlew codeCoverageReport sendCoverageToCodacy
+      os: linux
+      jdk: openjdk8
+
     - stage: release
       os: linux
       jdk: openjdk8
       install: ./gradlew assemble -Penv=prod -Prelease
       script: ./gradlew deploy -Penv=prod -Prelease
       after_success:
-        - ./gradlew codeCoverageReport sendCoverageToCodacy
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
         - ./gradlew tag -Prelease
@@ -54,6 +59,7 @@ jobs:
 
 stages:
   - test
+  - afterTests
   - name: release
     if: branch = master AND tag IS blank AND type IN (push)
 
