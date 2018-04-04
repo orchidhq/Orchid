@@ -12,13 +12,13 @@ import com.eden.orchid.posts.components.DisqusComponent
 import com.eden.orchid.posts.components.RecentPostsComponent
 import com.eden.orchid.posts.functions.ExcerptFunction
 import com.eden.orchid.posts.menu.LatestPostsMenuType
-import com.eden.orchid.posts.permalink.pathTypes.AuthorNamePathType
-import com.eden.orchid.posts.permalink.pathTypes.CategoryPathType
-import com.eden.orchid.posts.permalink.pathTypes.DayPathType
-import com.eden.orchid.posts.permalink.pathTypes.MonthNamePathType
-import com.eden.orchid.posts.permalink.pathTypes.MonthPathType
-import com.eden.orchid.posts.permalink.pathTypes.SlugPathType
-import com.eden.orchid.posts.permalink.pathTypes.YearPathType
+import com.eden.orchid.posts.permalink.pathtypes.AuthorNamePathType
+import com.eden.orchid.posts.permalink.pathtypes.CategoryPathType
+import com.eden.orchid.posts.permalink.pathtypes.DayPathType
+import com.eden.orchid.posts.permalink.pathtypes.MonthNamePathType
+import com.eden.orchid.posts.permalink.pathtypes.MonthPathType
+import com.eden.orchid.posts.permalink.pathtypes.SlugPathType
+import com.eden.orchid.posts.permalink.pathtypes.YearPathType
 import com.eden.orchid.posts.utils.AuthorOptionExtractor
 
 class PostsModule : OrchidModule() {

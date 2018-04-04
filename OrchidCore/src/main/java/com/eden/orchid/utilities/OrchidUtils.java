@@ -196,7 +196,7 @@ public final class OrchidUtils {
         if(!EdenUtils.isEmpty(componentHolders)) {
             for (ComponentHolder componentHolder : componentHolders) {
                 try {
-                    List<OrchidComponent> componentsList = componentHolder.getComponents(containingPage);
+                    List<OrchidComponent> componentsList = componentHolder.get(containingPage);
                     if (!EdenUtils.isEmpty(componentsList)) {
                         componentsList
                                 .stream()

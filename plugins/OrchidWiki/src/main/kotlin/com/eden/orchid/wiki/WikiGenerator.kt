@@ -31,10 +31,10 @@ import javax.inject.Singleton
 @Singleton
 @Description("Create a structured and navigable knowledge-base for your project.")
 class WikiGenerator @Inject
-constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
+constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
 
     companion object {
-        const val generatorKey = "wiki"
+        const val GENERATOR_KEY = "wiki"
     }
 
     @Option @StringDefault("wiki")
@@ -126,7 +126,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
 
             val page = WikiPage(resource, pageTitle, section, i+1)
 
-            page.menu.addMenuItem(pageMenuItem)
+            page.menu.add(pageMenuItem)
 
             i++
 
@@ -155,7 +155,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         val sectionTitle = if (!EdenUtils.isEmpty(section)) section else "Wiki"
         val summaryPage = WikiSummaryPage(section, summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
         summaryPage.reference.isUsePrettyUrl = true
-        summaryPage.menu.addMenuItem(pageMenuItem)
+        summaryPage.menu.add(pageMenuItem)
 
         for (wikiPage in wiki) {
             wikiPage.sectionSummary = summaryPage

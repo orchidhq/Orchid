@@ -1,10 +1,10 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import com.google.inject.Provider;
 import org.json.JSONObject;
 

@@ -6,6 +6,7 @@ form:
   fields:
     name:
       label: 'Name (optional)'
+      type: text
       span: 'auto'
       order: 1
     occupation:

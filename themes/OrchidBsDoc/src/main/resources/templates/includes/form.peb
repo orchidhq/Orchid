@@ -5,8 +5,7 @@
     method="{{ form.method }}"
     {% for entry in form.attrs %}{{ entry.key }}="{{ entry.value | escape(strategy="html_attr") }}"{% endfor %}>
     <div class="row">
-        {% for key in form.fields.keySet() %}
-            {% set field = form.fields.get(key) %}
+        {% for field in form.fields.get(page) %}
             <div class="{{ field.span }}">
                 {% include field.templates | join(',') %}
             </div>

@@ -8,7 +8,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kss.KssGenerator
 import com.eden.orchid.kss.parser.StyleguideSection
 
-@Archetype(value = ConfigArchetype::class, key = "${KssGenerator.generatorKey}.styleguidePages")
+@Archetype(value = ConfigArchetype::class, key = "${KssGenerator.GENERATOR_KEY}.styleguidePages")
 class KssPage(
         context: OrchidContext, val styleguideSection: StyleguideSection)
     : OrchidPage(KssSectionResource(context, styleguideSection), "styleguide") {
@@ -31,13 +31,7 @@ class KssPage(
     }
 
     fun hasStylesheet(): Boolean {
-        if (!EdenUtils.isEmpty(styleguideSection.stylesheet)) {
-            return true
-        } else if (!EdenUtils.isEmpty(stylesheet)) {
-            return true
-        }
-
-        return false
+        return !EdenUtils.isEmpty(styleguideSection.stylesheet) || !EdenUtils.isEmpty(stylesheet)
     }
 
 }

@@ -1,15 +1,17 @@
 package com.eden.orchid.forms.model
 
+import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ModularListConfig
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.OptionsData
 import com.eden.orchid.api.options.annotations.StringDefault
 import org.json.JSONObject
 
-
-class Form(protected val context: OrchidContext, var key: String, val formData: JSONObject) : OptionsHolder {
+class Form(val context: OrchidContext, var key: String, formData: JSONObject) : OptionsHolder {
 
     @Option
     @Description("The user-facing title of the form.")
@@ -29,7 +31,12 @@ class Form(protected val context: OrchidContext, var key: String, val formData: 
     @Description("A map of arbitrary attributes to add to the form element.")
     lateinit var attributes: JSONObject
 
-    var fields: MutableMap<String, FormField> = LinkedHashMap()
+    @Option @ModularListConfig(objectKeyName = "key")
+    @Description("The fields in this form.")
+    lateinit var fields: FormFieldList
+
+    @OptionsData
+    lateinit var allData: JSONElement
 
     init {
         try {
@@ -41,32 +48,6 @@ class Form(protected val context: OrchidContext, var key: String, val formData: 
 
             if(EdenUtils.isEmpty(key)) {
                 throw IllegalArgumentException("The form must define a 'key' or a 'title'.")
-            }
-
-            if (formData.has("fields")) {
-                val formFields = formData.getJSONObject("fields")
-
-                val fieldTypes = context.resolveSet(FormField::class.java)
-                val tmpFields = HashMap<String, FormField>()
-                val tmpFieldOrder = ArrayList<Pair<String, Int>>()
-
-                for (fieldKey in formFields.keySet()) {
-                    for (fieldType in fieldTypes) {
-                        val fieldConfig = formFields.getJSONObject(fieldKey)
-                        val type = if(fieldConfig.has("type")) fieldConfig.getString("type") else "text"
-                        if (fieldType.acceptsType(type)) {
-                            val formField = context.injector.getInstance(fieldType.javaClass)
-                            formField.initialize(fieldKey, fieldConfig)
-                            tmpFields.put(fieldKey, formField)
-                            tmpFieldOrder.add(fieldKey to formField.order)
-                        }
-                    }
-                }
-
-                tmpFieldOrder.sortBy { it.second }
-                tmpFieldOrder.forEach {
-                    fields.put(it.first, tmpFields[it.first]!!)
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()

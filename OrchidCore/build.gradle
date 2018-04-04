@@ -11,12 +11,12 @@ dependencies {
     api 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
 
     // core utilities
-    api 'com.github.JavaEden:Common:1.2.0'
-    api 'com.eden:Clog4j:2.0.0'
-    api 'com.github.JavaEden:Krow:0.1.1'
-    api 'org.projectlombok:lombok:1.16.20'
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
-    api 'commons-io:commons-io:2.6'
+    api "com.github.JavaEden:Common:${JavaEden.Common}"
+    api "com.eden:Clog4j:${JavaEden.Clog}"
+    api "com.github.JavaEden:Krow:${JavaEden.Krow}"
+    api "org.projectlombok:lombok:1.16.20"
+    api "com.squareup.okhttp3:okhttp:3.10.0"
+    api "commons-io:commons-io:2.6"
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api 'org.json:json:20180130'
@@ -24,10 +24,9 @@ dependencies {
     api 'com.moandjiezana.toml:toml4j:0.7.2'
     api 'com.github.PebbleTemplates:pebble:bd94a2b61b'
     api 'io.bit3:jsass:5.5.6'
-    api 'com.univocity:univocity-parsers:2.6.0'
+    api 'com.univocity:univocity-parsers:2.6.1'
 
     // Flexmark extensions
-    def flexmarkVersion = '0.32.14'
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
     implementation "com.vladsch.flexmark:flexmark-ext-aside:$flexmarkVersion"
     implementation "com.vladsch.flexmark:flexmark-ext-attributes:$flexmarkVersion"
@@ -39,8 +38,6 @@ dependencies {
     // server
     api 'org.nanohttpd:nanohttpd:2.3.1'
     api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
-
-    api rootProject.ext.libraryProjects
 
     // generate own documentation with Orchid
     orchidRuntime rootProject.ext.mainProjects

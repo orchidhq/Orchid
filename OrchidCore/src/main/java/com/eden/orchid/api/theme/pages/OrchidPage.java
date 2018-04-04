@@ -22,7 +22,6 @@ import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -192,7 +191,6 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
-        this.components = new ComponentHolder(context, new JSONArray());
 
         this.key = key;
         this.templates = new String[]{"page"};
@@ -377,10 +375,10 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public void addComponents() {
-        if (this.components.isEmpty()) {
+        if (this.components != null && this.components.isEmpty()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "pageContent");
-            this.components.addComponent(jsonObject);
+            this.components.add(jsonObject);
         }
     }
 

@@ -1,0 +1,13 @@
+ext {
+    JavaEden = [
+        Common: "1.4.0",
+        Clog: "2.0.0",
+        Krow: "0.1.1",
+        Eden: "0.2.0",
+    ]
+    flexmarkVersion = '0.32.18'
+    hamcrestVersion = '1.3'
+    testNgVersion = '6.14.3'
+    mockitoVersion = '2.+'
+    kotlin_version = '1.2.31'
+}

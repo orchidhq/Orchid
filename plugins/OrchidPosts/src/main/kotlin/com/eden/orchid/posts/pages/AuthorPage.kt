@@ -15,8 +15,8 @@ import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONObject
 
 @Archetypes(
-    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.generatorKey}.allPages"),
-    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.generatorKey}.authorPages")
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.authorPages")
 )
 class AuthorPage(resource: OrchidResource, val author: Author, val postsModel: PostsModel) : OrchidPage(resource, "postAuthor") {
 

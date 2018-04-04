@@ -1,9 +1,12 @@
 package com.eden.orchid.api.theme.menus.menuItem;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.IntDefault;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.theme.components.ModularListItem;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -18,17 +21,26 @@ import java.util.List;
  * @orchidApi extensible
  */
 @Extensible
-public abstract class OrchidMenuItem extends Prioritized implements OptionsHolder {
+public abstract class OrchidMenuItem extends Prioritized implements ModularListItem<OrchidMenu, OrchidMenuItem> {
 
     protected final OrchidContext context;
 
-    @Getter protected final String key;
+    @Getter protected final String type;
 
     @Setter protected OrchidPage page;
 
-    public OrchidMenuItem(OrchidContext context, String key, int priority) {
+    @Getter @Setter
+    @Option
+    @IntDefault(0)
+    @Description("By default, menu items are rendered in the order in which they are declared, but the ordering can " +
+            "be changed by setting the order on any individual menu item. A higher value for order will render that " +
+            "menu item earlier in the list."
+    )
+    protected int order;
+
+    public OrchidMenuItem(OrchidContext context, String type, int priority) {
         super(priority);
-        this.key = key;
+        this.type = type;
         this.context = context;
     }
 

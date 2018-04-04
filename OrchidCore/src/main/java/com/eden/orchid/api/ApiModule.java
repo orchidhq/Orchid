@@ -4,6 +4,8 @@ import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.api.converters.DateTimeConverter;
 import com.eden.orchid.api.converters.DoubleConverter;
+import com.eden.orchid.api.converters.FlexibleIterableConverter;
+import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.converters.FloatConverter;
 import com.eden.orchid.api.converters.IntegerConverter;
 import com.eden.orchid.api.converters.LongConverter;
@@ -16,12 +18,9 @@ import com.eden.orchid.api.options.Extractor;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.TemplateGlobal;
-import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
-import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
-import com.eden.orchid.api.options.extractors.ComponentHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateTimeOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
@@ -31,8 +30,8 @@ import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
 import com.eden.orchid.api.options.extractors.ListOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
+import com.eden.orchid.api.options.extractors.ModularListOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
-import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
@@ -62,12 +61,11 @@ public final class ApiModule extends OrchidModule {
                 ClogStringConverterHelper.class);
 
         addToSet(TypeConverter.class,
-                FlexibleIterableConverter.class,
-                FlexibleMapConverter.class,
-
                 BooleanConverter.class,
                 DateTimeConverter.class,
                 DoubleConverter.class,
+                FlexibleIterableConverter.class,
+                FlexibleMapConverter.class,
                 FloatConverter.class,
                 IntegerConverter.class,
                 LongConverter.class,
@@ -78,9 +76,8 @@ public final class ApiModule extends OrchidModule {
 
         // Options Extractors
         addToSet(OptionExtractor.class,
-                ComponentHolderOptionExtractor.class,
+                ModularListOptionExtractor.class,
                 OptionsHolderOptionExtractor.class,
-                OrchidMenuOptionExtractor.class,
                 RelationOptionExtractor.class,
 
                 AnyOptionExtractor.class,

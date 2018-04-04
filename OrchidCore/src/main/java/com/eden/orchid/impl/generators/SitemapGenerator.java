@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 public final class SitemapGenerator extends OrchidGenerator {
 
-    public static final String generatorKey = "sitemap";
+    public static final String GENERATOR_KEY = "sitemap";
 
     @Getter @Setter
     @Option @BooleanDefault(true)
@@ -33,7 +33,7 @@ public final class SitemapGenerator extends OrchidGenerator {
 
     @Inject
     public SitemapGenerator(OrchidContext context) {
-        super(context, generatorKey, OrchidGenerator.PRIORITY_LATE + 1);
+        super(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE + 1);
     }
 
     @Override

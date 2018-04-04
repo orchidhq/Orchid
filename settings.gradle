@@ -37,8 +37,6 @@ include 'languageExtensions:OrchidDiagrams'
 include 'languageExtensions:OrchidSyntaxHighlighter'
 include 'languageExtensions:OrchidWritersBlocks'
 
-include 'libs:Inflorescence'
-
 include 'bundles:OrchidAll'
 include 'bundles:OrchidBlog'
 include 'bundles:OrchidLanguagePack'

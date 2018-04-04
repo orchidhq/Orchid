@@ -1,5 +1,3 @@
 test {
-    useTestNG() {
-//        includeGroups("services", "context", "api")
-    }
+    useTestNG()
 }

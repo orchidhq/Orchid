@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
-import com.eden.orchid.forms.model.fields.HiddenField
 import com.eden.orchid.forms.pages.FormSubmissionPage
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONObject
@@ -18,10 +17,10 @@ import javax.inject.Inject
 
 @Description("Indexes form definitions so they can be easily referenced from components on different pages.")
 class FormsGenerator @Inject
-constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_DEFAULT) {
+constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
 
     companion object {
-        const val generatorKey = "forms"
+        const val GENERATOR_KEY = "forms"
     }
 
     @Option @StringDefault("forms")
@@ -74,11 +73,12 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
                     form.action = formSubmissionPage.reference.toString()
                 }
 
-                val onSubmitField = HiddenField(context)
-                onSubmitField.initialize("__onSubmit", JSONObject(mapOf("type" to "hidden")))
-                onSubmitField.value = formSubmissionPage.reference.toString()
-
-                form.fields.put("__onSubmit", onSubmitField)
+                form.fields.add(JSONObject(mapOf(
+                        "type" to "hidden",
+                        "key" to "__onSubmit",
+                        "value" to formSubmissionPage.reference.toString(),
+                        "order" to Integer.MAX_VALUE
+                )))
 
                 forms.put(key, form)
             }

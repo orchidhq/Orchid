@@ -14,9 +14,6 @@ project.version = rootProject.version
 
 ext {
     commonTheme = 'BsDoc'
-//    commonTheme = 'Editorial'
-//    commonTheme = 'FutureImperfect'
-
     commonRunTask = "build"
 
     if (project.hasProperty('env') && project.property('env') == 'prod') {
@@ -42,9 +39,9 @@ apply from: "$rootDir/gradle/javadoc.gradle"
 apply from: "$rootDir/gradle/publish.gradle"
 
 dependencies {
-    testCompile 'org.testng:testng:6.14.3'
-    testCompile 'org.hamcrest:hamcrest-library:1.3'
-    testCompile 'org.mockito:mockito-core:2.+'
+    testCompile "org.testng:testng:$testNgVersion"
+    testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 

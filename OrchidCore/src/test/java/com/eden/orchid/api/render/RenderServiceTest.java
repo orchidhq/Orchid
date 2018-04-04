@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
