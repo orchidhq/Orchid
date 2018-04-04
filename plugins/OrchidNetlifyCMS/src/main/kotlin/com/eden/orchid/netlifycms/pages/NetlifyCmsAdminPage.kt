@@ -77,8 +77,8 @@ class NetlifyCmsAdminPage(
         super.loadAssets()
 
         if(isLocal()) {
-            addCss("assets/css/fs-backend.css")
-            addJs("assets/js/fs-backend.js")
+            addCss("assets/css/fs-backend.min.css")
+            addJs("assets/js/fs-backend.min.js")
         }
     }
 }
