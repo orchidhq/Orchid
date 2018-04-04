@@ -31,10 +31,10 @@ import javax.inject.Singleton
 @Singleton
 @Description("Create a structured and navigable knowledge-base for your project.")
 class WikiGenerator @Inject
-constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
+constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
 
     companion object {
-        const val generatorKey = "wiki"
+        const val GENERATOR_KEY = "wiki"
     }
 
     @Option @StringDefault("wiki")

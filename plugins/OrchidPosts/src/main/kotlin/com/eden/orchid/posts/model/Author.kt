@@ -9,7 +9,6 @@ import java.net.URLEncoder
 import java.security.MessageDigest
 import javax.xml.bind.DatatypeConverter
 
-
 class Author : OptionsHolder {
 
     @Option

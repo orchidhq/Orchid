@@ -18,8 +18,8 @@ import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.generatorKey}.staticPages"),
-        Archetype(value = PageGroupArchetype::class, key = "${PagesGenerator.generatorKey}.staticPages")
+        Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages"),
+        Archetype(value = PageGroupArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
 )
 class StaticPage(resource: OrchidResource)
     : OrchidPage(resource, "staticPage", resource.reference.title.from { snakeCase { capitalize() } }.to { words() }) {

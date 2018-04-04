@@ -8,7 +8,7 @@ import com.eden.orchid.javadoc.JavadocGenerator
 import com.eden.orchid.javadoc.resources.PackageDocResource
 import com.sun.javadoc.PackageDoc
 
-@Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.generatorKey}.packagePages")
+@Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.GENERATOR_KEY}.packagePages")
 class JavadocPackagePage(
         context: OrchidContext,
         val packageDoc: PackageDoc,

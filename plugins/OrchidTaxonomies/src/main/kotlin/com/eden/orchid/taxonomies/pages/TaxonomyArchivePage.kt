@@ -8,7 +8,7 @@ import com.eden.orchid.taxonomies.TaxonomiesGenerator
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 
-@Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.generatorKey}.taxonomyArchivePages")
+@Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.GENERATOR_KEY}.taxonomyArchivePages")
 open class TaxonomyArchivePage(
         resource: OrchidResource,
         val model: TaxonomiesModel,

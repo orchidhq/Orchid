@@ -9,7 +9,7 @@ import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
 
-@Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.generatorKey}.termArchivePages")
+@Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.GENERATOR_KEY}.termArchivePages")
 open class TermArchivePage(
         resource: OrchidResource,
         val model: TaxonomiesModel,

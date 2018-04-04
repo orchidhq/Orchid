@@ -20,10 +20,10 @@ class FeedsGenerator
 constructor(
         context: OrchidContext,
         val postsModel: PostsModel)
-    : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_LATE + 1) {
+    : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE + 1) {
 
     companion object {
-        const val generatorKey = "feeds"
+        const val GENERATOR_KEY = "feeds"
     }
 
     @Option @StringDefault("rss", "atom")

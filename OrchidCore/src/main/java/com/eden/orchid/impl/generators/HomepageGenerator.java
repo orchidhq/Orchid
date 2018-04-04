@@ -18,11 +18,11 @@ import java.util.stream.Stream;
 @Description("Generates the root homepage for your site.")
 public final class HomepageGenerator extends OrchidGenerator {
 
-    public static final String generatorKey = "home";
+    public static final String GENERATOR_KEY = "home";
 
     @Inject
     public HomepageGenerator(OrchidContext context) {
-        super(context, generatorKey, OrchidGenerator.PRIORITY_EARLY);
+        super(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY);
     }
 
     @Override

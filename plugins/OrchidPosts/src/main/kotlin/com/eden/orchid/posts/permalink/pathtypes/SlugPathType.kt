@@ -1,4 +1,4 @@
-package com.eden.orchid.posts.permalink.pathTypes
+package com.eden.orchid.posts.permalink.pathtypes
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.theme.pages.OrchidPage

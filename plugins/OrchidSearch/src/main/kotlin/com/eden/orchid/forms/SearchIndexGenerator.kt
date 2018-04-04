@@ -17,10 +17,10 @@ import javax.inject.Inject
 
 @Description("Generates index files to connect your site to others.")
 class SearchIndexGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context, generatorKey, OrchidGenerator.PRIORITY_LATE) {
+constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE) {
 
     companion object {
-        const val generatorKey = "indices"
+        const val GENERATOR_KEY = "indices"
     }
 
     @Option
