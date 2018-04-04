@@ -1,5 +1,6 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
+apply from: 'gradle/dependencies.gradle'
 
 buildscript {
     ext.kotlin_version = '1.2.30'
@@ -41,9 +42,7 @@ ext.themeProjects  = subprojects.findAll { return (it.path.startsWith(":themes")
 ext.languageExtensionProjects = subprojects.findAll { return (it.path.startsWith(":languageExtensions")) && (it.name != "languageExtensions") }
 ext.pluginProjects = ext.languageExtensionProjects + subprojects.findAll { return (it.path.startsWith(":plugins")) && (it.name != "plugins")}
 ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
-ext.libraryProjects = subprojects.findAll { return (it.path.startsWith(":libs")) && (it.name != "libs") }
 ext.mainProjects   = coreProject + themeProjects + pluginProjects
-ext.mainProjectsWithLibs = mainProjects + libraryProjects
 
 allprojects {
     repositories {
@@ -119,18 +118,17 @@ configure(ext.mainProjects)   { apply from: "$rootDir/gradle/mainProjects.gradle
 configure(ext.themeProjects)  { apply from: "$rootDir/gradle/themeProjects.gradle" }
 configure(ext.pluginProjects) { apply from: "$rootDir/gradle/pluginProjects.gradle" }
 configure(ext.bundleProjects) { apply from: "$rootDir/gradle/bundleProjects.gradle" }
-configure(ext.libraryProjects) { apply from: "$rootDir/gradle/libraryProjects.gradle" }
 
 // Code Coverage Reports
 //----------------------------------------------------------------------------------------------------------------------
 task codeCoverageReport(type: JacocoReport) {
     dependsOn {
-        rootProject.ext.mainProjectsWithLibs*.test
+        rootProject.ext.mainProjects*.test
     }
 
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 
-    rootProject.ext.mainProjectsWithLibs.each {
+    rootProject.ext.mainProjects.each {
         sourceSets it.sourceSets.main
     }
 

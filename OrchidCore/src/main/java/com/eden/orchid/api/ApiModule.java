@@ -4,6 +4,8 @@ import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.converters.ClogStringConverterHelper;
 import com.eden.orchid.api.converters.DateTimeConverter;
 import com.eden.orchid.api.converters.DoubleConverter;
+import com.eden.orchid.api.converters.FlexibleIterableConverter;
+import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.converters.FloatConverter;
 import com.eden.orchid.api.converters.IntegerConverter;
 import com.eden.orchid.api.converters.LongConverter;
@@ -16,8 +18,6 @@ import com.eden.orchid.api.options.Extractor;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.TemplateGlobal;
-import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
-import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
@@ -61,12 +61,11 @@ public final class ApiModule extends OrchidModule {
                 ClogStringConverterHelper.class);
 
         addToSet(TypeConverter.class,
-                FlexibleIterableConverter.class,
-                FlexibleMapConverter.class,
-
                 BooleanConverter.class,
                 DateTimeConverter.class,
                 DoubleConverter.class,
+                FlexibleIterableConverter.class,
+                FlexibleMapConverter.class,
                 FloatConverter.class,
                 IntegerConverter.class,
                 LongConverter.class,

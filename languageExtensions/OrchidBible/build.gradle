@@ -1,5 +1,5 @@
 
 dependencies {
-    implementation 'com.github.JavaEden:Eden:0.2.0'
-    implementation 'com.github.JavaEden:American-Bible-Society-Client:0.2.0'
+    implementation "com.github.JavaEden:Eden:${JavaEden.Eden}"
+    implementation "com.github.JavaEden:American-Bible-Society-Client:${JavaEden.Eden}"
 }
