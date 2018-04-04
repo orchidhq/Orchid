@@ -8,8 +8,8 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +17,14 @@ import java.util.List;
 @Getter @Setter
 public final class OrchidMenu extends ModularList<OrchidMenu, OrchidMenuItem> {
 
-    public OrchidMenu(OrchidContext context, JSONArray menuItems) {
-        super(context, OrchidMenuItem.class, menuItems);
+    @Inject
+    public OrchidMenu(OrchidContext context) {
+        super(context);
+    }
+
+    @Override
+    protected Class<OrchidMenuItem> getItemClass() {
+        return OrchidMenuItem.class;
     }
 
     public List<OrchidMenuItemImpl> getMenuItems(OrchidPage containingPage) {

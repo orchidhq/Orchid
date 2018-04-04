@@ -21,7 +21,6 @@ import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
-import com.eden.orchid.api.options.extractors.ComponentHolderOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateTimeOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
@@ -31,8 +30,8 @@ import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
 import com.eden.orchid.api.options.extractors.ListOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
+import com.eden.orchid.api.options.extractors.ModularListOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
-import com.eden.orchid.api.options.extractors.OrchidMenuOptionExtractor;
 import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
@@ -78,9 +77,8 @@ public final class ApiModule extends OrchidModule {
 
         // Options Extractors
         addToSet(OptionExtractor.class,
-                ComponentHolderOptionExtractor.class,
+                ModularListOptionExtractor.class,
                 OptionsHolderOptionExtractor.class,
-                OrchidMenuOptionExtractor.class,
                 RelationOptionExtractor.class,
 
                 AnyOptionExtractor.class,

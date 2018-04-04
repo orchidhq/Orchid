@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ModularListConfig
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import org.json.JSONObject
@@ -29,7 +30,7 @@ class Form(protected val context: OrchidContext, var key: String, val formData: 
     @Description("A map of arbitrary attributes to add to the form element.")
     lateinit var attributes: JSONObject
 
-    @Option
+    @Option @ModularListConfig(objectKeyName = "key")
     @Description("The fields in this form.")
     lateinit var fields: FormFieldList
 

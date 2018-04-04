@@ -4,9 +4,11 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.google.inject.Provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,33 +16,45 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ModularList<L extends ModularList<L, I>, I extends ModularListItem<L, I>> {
+public abstract class ModularList<L extends ModularList<L, I>, I extends ModularListItem<L, I>> {
 
     protected final OrchidContext context;
-    protected final Class<I> itemClass;
-    protected final JSONArray itemsJson;
-    protected final Map<String, Class<I>> itemTypes;
+    protected final Provider<Map<String, Class<I>>> itemTypesProvider;
 
+    protected Map<String, Class<I>> itemTypes;
+
+    protected JSONArray itemsJson;
     protected List<I> loadedItems;
 
-    public ModularList(OrchidContext context, Class<I> itemClass, JSONArray itemsJson) {
+    private boolean initialized = false;
+
+    @Inject
+    public ModularList(OrchidContext context) {
         this.context = context;
-        this.itemClass = itemClass;
-        this.itemsJson = itemsJson;
+        this.itemTypesProvider = () -> {
+            Set<I> itemTypes = context.resolveSet(getItemClass());
+            HashMap<String, Class<I>> itemTypesMap = new HashMap<>();
+            for (I itemType : itemTypes) {
+                itemTypesMap.put(itemType.getType(), (Class<I>) itemType.getClass());
+            }
 
-        Set<I> itemTypes = context.resolveSet(itemClass);
-        this.itemTypes = new HashMap<>();
-
-        for (I itemType : itemTypes) {
-            this.itemTypes.put(itemType.getType(), (Class<I>) itemType.getClass());
-        }
+            return itemTypesMap;
+        };
     }
 
-    public ModularList(OrchidContext context, Class<I> itemClass, Map<String, Class<I>> itemTypesMap, JSONArray itemsJson) {
+    public ModularList(OrchidContext context, Provider<Map<String, Class<I>>> itemTypesProvider) {
         this.context = context;
-        this.itemClass = itemClass;
-        this.itemsJson = itemsJson;
-        this.itemTypes = itemTypesMap;
+        this.itemTypesProvider = itemTypesProvider;
+    }
+
+    protected abstract Class<I> getItemClass();
+
+    public void initialize(JSONArray itemsJson) {
+        if(!initialized) {
+            this.itemTypes = itemTypesProvider.get();
+            this.itemsJson = itemsJson;
+            initialized = true;
+        }
     }
 
     public boolean isEmpty() {
@@ -78,11 +92,11 @@ public class ModularList<L extends ModularList<L, I>, I extends ModularListItem<
                         }
                     }
                     else {
-                        Clog.w("{} type {} could not be found (on page {} at {})", itemClass.getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
+                        Clog.w("{} type {} could not be found (on page {} at {})", getItemClass().getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
                     }
                 }
                 else {
-                    Clog.w("{} type not given (on page {} at {})", itemClass.getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
+                    Clog.w("{} type not given (on page {} at {})", getItemClass().getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
                 }
             }
 

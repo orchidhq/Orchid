@@ -2,9 +2,10 @@ package com.eden.orchid.api.options.extractors;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
+import com.eden.orchid.api.options.annotations.ModularListConfig;
 import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
 import com.eden.orchid.api.options.converters.FlexibleMapConverter;
-import com.eden.orchid.api.theme.menus.OrchidMenu;
+import com.eden.orchid.api.theme.components.ModularList;
 import com.google.inject.Provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,15 +25,15 @@ import java.util.Map;
  * @since v1.0.0
  * @orchidApi optionTypes
  */
-public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu> {
+public final class ModularListOptionExtractor extends OptionExtractor<ModularList> {
 
     private final Provider<OrchidContext> contextProvider;
     private final FlexibleIterableConverter iterableConverter;
     private final FlexibleMapConverter mapConverter;
 
     @Inject
-    public OrchidMenuOptionExtractor(Provider<OrchidContext> contextProvider, FlexibleIterableConverter iterableConverter, FlexibleMapConverter mapConverter) {
-        super(100);
+    public ModularListOptionExtractor(Provider<OrchidContext> contextProvider, FlexibleIterableConverter iterableConverter, FlexibleMapConverter mapConverter) {
+        super(50);
         this.contextProvider = contextProvider;
         this.iterableConverter = iterableConverter;
         this.mapConverter = mapConverter;
@@ -40,12 +41,16 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
 
     @Override
     public boolean acceptsClass(Class clazz) {
-        return clazz.equals(OrchidMenu.class);
+        return ModularList.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public OrchidMenu getOption(Field field, Object sourceObject, String key) {
-        Iterable iterable = iterableConverter.convert(sourceObject, "type").second;
+    public ModularList getOption(Field field, Object sourceObject, String key) {
+        String objectKeyName = (field.isAnnotationPresent(ModularListConfig.class))
+                ? field.getAnnotation(ModularListConfig.class).objectKeyName()
+                : "type";
+
+        Iterable iterable = iterableConverter.convert(sourceObject, objectKeyName).second;
 
         JSONArray jsonArray = new JSONArray();
         for(Object o : iterable) {
@@ -54,20 +59,24 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
         }
 
         if(jsonArray.length() > 0) {
-            return new OrchidMenu(contextProvider.get(), jsonArray);
+            ModularList modularList = (ModularList) contextProvider.get().getInjector().getInstance(field.getType());
+            modularList.initialize(jsonArray);
+            return modularList;
         }
 
         return null;
     }
 
     @Override
-    public OrchidMenu getDefaultValue(Field field) {
-        return new OrchidMenu(contextProvider.get(), new JSONArray());
+    public ModularList getDefaultValue(Field field) {
+        ModularList modularList = (ModularList) contextProvider.get().getInjector().getInstance(field.getType());
+        modularList.initialize(new JSONArray());
+        return modularList;
     }
 
     @Override
     public String describeDefaultValue(Field field) {
-        return "Empty OrchidMenu";
+        return "Empty " + field.getType().getSimpleName();
     }
 
 }
