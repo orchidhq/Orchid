@@ -54,7 +54,7 @@ public final class DefaultTemplateResolutionStrategy extends TemplateResolutionS
         if(!EdenUtils.isEmpty(component.getTemplates())) {
             Collections.addAll(templateNames, component.getTemplates());
         }
-        templateNames.add(component.getKey());
+        templateNames.add(component.getType());
 
         return expandTemplateList(templateNames, "components");
     }

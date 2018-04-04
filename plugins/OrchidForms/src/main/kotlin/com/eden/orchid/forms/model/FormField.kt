@@ -2,13 +2,14 @@ package com.eden.orchid.forms.model
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.server.annotations.Extensible
-import org.json.JSONObject
+import com.eden.orchid.api.theme.components.ModularListItem
+import com.eden.orchid.api.theme.pages.OrchidPage
+import org.json.JSONArray
 import java.util.Collections
 import javax.inject.Inject
 
@@ -16,22 +17,24 @@ import javax.inject.Inject
 abstract class FormField @Inject
 constructor(
         val context: OrchidContext,
-        val inputTypes: Array<String>) : OptionsHolder {
+        val inputTypes: Array<String>) : ModularListItem<FormFieldList, FormField> {
 
-    lateinit var key: String
-
-    @Option @StringDefault("text")
-    @Description("The field type, used to determine the template to render for the field and define additional " +
-            "options for that specific field type."
-    )
-    lateinit var type: String
+    lateinit var containingPage: OrchidPage
 
     @Option
+    @Description("The key the field maps to in the resulting form")
+    lateinit var key: String
+
+    @Option("type")
+    @Description("The field type.")
+    lateinit var fieldType: String
+
+    @Option("order")
     @Description("Form fields are defined in maps which do not have a defined order, and so order in which fields " +
             "are rendered are not necessarily the order they are declared. Set this property to manually define the " +
             "ordering of each field."
     )
-    var order: Int = 0
+    var orderNum: Int = 0
 
     @Option
     @Description("The user-facing label of this field.")
@@ -70,11 +73,6 @@ constructor(
     @Option @BooleanDefault(false)
     @Description("Whether this field is required for submission.")
     var required: Boolean = false
-
-    fun initialize(key: String, fieldData: JSONObject) {
-        this.key = key
-        extractOptions(context, fieldData)
-    }
 
     open fun getTemplates(): List<String> {
         val allTemplates = ArrayList<String>()
@@ -136,4 +134,27 @@ constructor(
         return inputTypes.contains(type)
     }
 
+    override fun setOrder(order: Int) {
+        orderNum = order
+    }
+
+    override fun getOrder(): Int {
+        return orderNum
+    }
+
+    override fun getType(): String {
+        return fieldType
+    }
+
+    fun setType(type: String) {
+        this.fieldType = type
+    }
+
+    override fun canBeUsedOnPage(containingPage: OrchidPage, modularList: FormFieldList, possibleItems: JSONArray, currentItems: MutableList<FormField>): Boolean {
+        return true
+    }
+
+    override fun setPage(containingPage: OrchidPage) {
+        this.containingPage = containingPage
+    }
 }

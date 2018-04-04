@@ -380,7 +380,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         if (this.components.isEmpty()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "pageContent");
-            this.components.addComponent(jsonObject);
+            this.components.add(jsonObject);
         }
     }
 

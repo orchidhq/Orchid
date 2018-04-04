@@ -1,7 +1,7 @@
 {% block allComponents %}
     <!-- start:inject components -->
-    {% if (componentHolder is not null) and (componentHolder.getRemainingComponents(page) is not empty) %}
-        {% for component in componentHolder.getRemainingComponents(page) %}
+    {% if (componentHolder is not null) and (componentHolder.get(page) is not empty) %}
+        {% for component in componentHolder.get(page) %}
             {% if not component.hidden %}
                 {% if not (component.noWrapper) %}
                     {% block componentWrapper %}

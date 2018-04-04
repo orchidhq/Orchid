@@ -25,7 +25,8 @@ class FormsModule : OrchidModule() {
                 FormComponent::class.java)
 
         addToSet(OptionExtractor::class.java,
-                FormOptionExtractor::class.java)
+                FormOptionExtractor::class.java,
+                FormFieldListOptionExtractor::class.java)
 
         addToSet(FormField::class.java,
                 TextField::class.java,

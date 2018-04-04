@@ -1,105 +1,33 @@
 package com.eden.orchid.api.theme.menus;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.theme.components.ModularList;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Extensible
 @Getter @Setter
-public final class OrchidMenu {
-
-    private final OrchidContext context;
-    private final JSONArray menuJson;
-    private final Map<String, Class<? extends OrchidMenuItem>> menuItemTypesMap;
-
-    private List<OrchidMenuItemImpl> menuItemsChildren;
+public final class OrchidMenu extends ModularList<OrchidMenu, OrchidMenuItem> {
 
     public OrchidMenu(OrchidContext context, JSONArray menuItems) {
-        this.context = context;
-        this.menuJson = menuItems;
-
-        Set<OrchidMenuItem> menuItemTypes = context.resolveSet(OrchidMenuItem.class);
-        menuItemTypesMap = new HashMap<>();
-
-        for (OrchidMenuItem factory : menuItemTypes) {
-            menuItemTypesMap.put(factory.getKey(), factory.getClass());
-        }
-    }
-
-    public boolean isEmpty() {
-        if (menuItemsChildren != null) {
-            if (menuItemsChildren.size() > 0) {
-                return false;
-            }
-        }
-        else if (menuJson != null) {
-            if (menuJson.length() > 0) {
-                return false;
-            }
-        }
-
-        return true;
+        super(context, OrchidMenuItem.class, menuItems);
     }
 
     public List<OrchidMenuItemImpl> getMenuItems(OrchidPage containingPage) {
-        try {
-            if (menuItemsChildren == null) {
-                List<OrchidMenuItem> menuItems = new ArrayList<>();
-
-                for (int i = 0; i < menuJson.length(); i++) {
-                    JSONObject menuItemJson = menuJson.getJSONObject(i);
-                    String menuItemType = menuItemJson.getString("type");
-
-                    if (menuItemTypesMap.containsKey(menuItemType)) {
-                        OrchidMenuItem menuitem = context.getInjector().getInstance(menuItemTypesMap.get(menuItemType));
-
-                        if(menuitem.canBeUsedOnPage(containingPage, this, menuJson, menuItems)) {
-                            menuitem.setPage(containingPage);
-                            menuitem.extractOptions(context, menuItemJson);
-                            menuItems.add(menuitem);
-                        }
-                    }
-                    else {
-                        Clog.w("Menu item type {} (on page {} at {}) could not be found", menuItemType, containingPage.getTitle(), containingPage.getLink());
-                    }
-                }
-
-                menuItemsChildren = new ArrayList<>();
-                for (OrchidMenuItem menuItem : menuItems) {
-                    menuItemsChildren.addAll(menuItem.getMenuItems());
-                }
-            }
-
-            return menuItemsChildren;
+        ArrayList<OrchidMenuItemImpl> menuItemsChildren = new ArrayList<>();
+        for (OrchidMenuItem menuItem : get(containingPage)) {
+            menuItemsChildren.addAll(menuItem.getMenuItems());
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+
+        return menuItemsChildren;
     }
 
-    public void addMenuItem(JSONObject menuItemJson) {
-        menuItemsChildren = null;
-        menuJson.put(menuItemJson);
-    }
-
-    public void addMenuItems(JSONArray menuItemsJson) {
-        menuItemsChildren = null;
-        for (int i = 0; i < menuItemsJson.length(); i++) {
-            menuJson.put(menuItemsJson.get(i));
-        }
-    }
 }

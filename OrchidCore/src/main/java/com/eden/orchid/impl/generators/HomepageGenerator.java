@@ -52,11 +52,11 @@ public final class HomepageGenerator extends OrchidGenerator {
 
             JSONObject readmeComponent = new JSONObject();
             readmeComponent.put("type", "readme");
-            page.getComponents().addComponent(readmeComponent);
+            page.getComponents().add(readmeComponent);
 
             JSONObject licenseComponent = new JSONObject();
             licenseComponent.put("type", "license");
-            page.getComponents().addComponent(licenseComponent);
+            page.getComponents().add(licenseComponent);
         }
         else {
             page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());

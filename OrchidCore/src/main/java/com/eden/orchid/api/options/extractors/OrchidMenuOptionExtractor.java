@@ -3,12 +3,15 @@ package com.eden.orchid.api.options.extractors;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.converters.FlexibleIterableConverter;
+import com.eden.orchid.api.options.converters.FlexibleMapConverter;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.google.inject.Provider;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 /**
  * ### Destination Types
@@ -25,12 +28,14 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
 
     private final Provider<OrchidContext> contextProvider;
     private final FlexibleIterableConverter iterableConverter;
+    private final FlexibleMapConverter mapConverter;
 
     @Inject
-    public OrchidMenuOptionExtractor(Provider<OrchidContext> contextProvider, FlexibleIterableConverter iterableConverter) {
+    public OrchidMenuOptionExtractor(Provider<OrchidContext> contextProvider, FlexibleIterableConverter iterableConverter, FlexibleMapConverter mapConverter) {
         super(100);
         this.contextProvider = contextProvider;
         this.iterableConverter = iterableConverter;
+        this.mapConverter = mapConverter;
     }
 
     @Override
@@ -40,17 +45,16 @@ public final class OrchidMenuOptionExtractor extends OptionExtractor<OrchidMenu>
 
     @Override
     public OrchidMenu getOption(Field field, Object sourceObject, String key) {
-//        Iterable iterableSource = iterableConverter.convert(sourceObject).second;
-//        ArrayList<Object> collection = new ArrayList<>();
-//
-//        for(Object o : iterableSource) {
-//            collection.add(o);
-//        }
-//
-//        return new OrchidMenu(contextProvider.get(), new JSONArray(collection));
+        Iterable iterable = iterableConverter.convert(sourceObject, "type").second;
 
-        if(sourceObject instanceof JSONArray) {
-            return new OrchidMenu(contextProvider.get(), (JSONArray) sourceObject);
+        JSONArray jsonArray = new JSONArray();
+        for(Object o : iterable) {
+            Map map = mapConverter.convert(o).second;
+            jsonArray.put(new JSONObject(map));
+        }
+
+        if(jsonArray.length() > 0) {
+            return new OrchidMenu(contextProvider.get(), jsonArray);
         }
 
         return null;

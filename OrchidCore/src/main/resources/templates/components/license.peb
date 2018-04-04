@@ -1,1 +1,2 @@
+<pre>{{ component.allData }}</pre>
 <pre>{{ component.content | raw }}</pre>

@@ -1,5 +1,12 @@
 ---
 title: Orchid License
 components:
-    - type: 'license'
+    license: {}
+menu:
+    link: 
+        title: 'Home'
+        url: '/'
+        order: 10
+    wikiSections: 
+        order: 1
 ---

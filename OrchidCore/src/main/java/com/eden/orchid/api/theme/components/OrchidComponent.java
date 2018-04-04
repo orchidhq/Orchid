@@ -28,11 +28,11 @@ import java.util.List;
  * @orchidApi extensible
  */
 @Extensible
-public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder {
+public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder, ModularListItem<ComponentHolder, OrchidComponent> {
 
     protected final OrchidContext context;
 
-    @Getter protected final String key;
+    @Getter protected final String type;
     @Getter protected final AssetHolder assetHolder;
     private boolean hasAddedAssets;
 
@@ -86,13 +86,14 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     private JSONElement allData;
 
     @Inject
-    public OrchidComponent(OrchidContext context, String key, int priority) {
+    public OrchidComponent(OrchidContext context, String type, int priority) {
         super(priority);
-        this.key = key;
+        this.type = type;
         this.context = context;
         this.assetHolder = new AssetHolderDelegate(context, this, "component");
     }
 
+    @Override
     public boolean canBeUsedOnPage(
             OrchidPage containingPage,
             ComponentHolder componentHolder,
@@ -125,5 +126,4 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     protected void loadAssets() {
 
     }
-
 }
