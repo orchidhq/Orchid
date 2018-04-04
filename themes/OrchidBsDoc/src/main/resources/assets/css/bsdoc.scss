@@ -27,6 +27,13 @@
   border-top: 1px solid #eee;
 }
 
+.bs-docs-footer .icons {
+  font-size: 48px;
+  a {
+    padding: 0 12px;
+  }
+}
+
 @media screen and (min-width: 43.26em) {
   #jumbotron.bs-docs-masthead.full-size {
     height: 100vh;
@@ -68,3 +75,4 @@
     filter: drop-shadow(-4px 4px 10px #F4F4F4);
   }
 }
+
