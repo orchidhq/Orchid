@@ -1,8 +1,8 @@
 ext {
     JavaEden = [
-        Common: "1.4.0",
+        Common: "1.4.1",
         Clog: "2.0.0",
-        Krow: "0.1.1",
+        Krow: "0.1.2",
         Eden: "0.2.0",
     ]
     flexmarkVersion = '0.32.18'
