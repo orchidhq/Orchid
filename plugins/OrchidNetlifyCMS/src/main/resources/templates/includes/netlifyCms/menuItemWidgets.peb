@@ -3,8 +3,8 @@
     {% for menuItem in menuItems %}
     {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
     CMS.registerWidget({
-        id:        "{{- menuItem.key -}}Menu",
-        label:     "{{- menuItem.key -}}",
+        id:        "{{- menuItem.type -}}Menu",
+        label:     "{{- menuItem.type -}}",
         fields:     {{- page.getTemplateFields(menuItem) | raw -}}
     });
     {% endfor %}

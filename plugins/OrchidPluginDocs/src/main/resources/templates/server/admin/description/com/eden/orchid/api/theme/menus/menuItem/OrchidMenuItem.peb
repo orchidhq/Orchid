@@ -1,14 +1,14 @@
 {% set 'menuItem' = controller.provide(classType) %}
 {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem" #}
 
-<p><code>{{ menuItem.priority }}: [{{ menuItem.key }}]</code></p>
+<p><code>{{ menuItem.priority }}: [{{ menuItem.type }}]</code></p>
 
 <b>Basic Usage</b>
 
 <pre><code class="lang-yaml"># theme's config, or in any option of type OrchidMenu
 ...
 menu:
-  - type: "{{ menuItem.key }}"
+  - type: "{{ menuItem.type }}"
 {% if optionsExtractor.hasOptions(classType, true, false) %}
 {% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
     {{ option.key }}: {{ option.defaultValue }}

@@ -3,8 +3,8 @@
     {% for component in components %}
     {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
     CMS.registerWidget({
-        id:        "{{- component.key -}}Component",
-        label:     "{{- component.key -}}",
+        id:        "{{- component.type -}}Component",
+        label:     "{{- component.type -}}",
         fields:     {{- page.getTemplateFields(component) | raw -}}
     });
     {% endfor %}

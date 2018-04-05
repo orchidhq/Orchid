@@ -24,6 +24,13 @@
             </nav>
         </div>
     </div>
+    <div class="icons">
+    {% if theme.social is not empty %}
+    {% for item in theme.social.items %}
+        <a href="{{ item.link }}" class="fa {{ item.icon }}"></a>
+    {% endfor %}
+    {% endif %}
+    </div>
     <br>
     {% include 'includes/copyright' %}
 </footer>
