@@ -5,7 +5,7 @@
             {% if not component.hidden %}
                 {% if not (component.noWrapper) %}
                     {% block componentWrapper %}
-                        <div class="component component-{{ component.key }} component-order-{{ component.order }}">
+                        <div class="component component-{{ component.type }} component-order-{{ component.order }}">
                             {% include '?'~(component | template('component') | join(',')) %}
                         </div>
                     {% endblock %}

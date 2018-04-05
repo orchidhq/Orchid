@@ -1,14 +1,14 @@
 {% set 'component' = controller.provide(classType) %}
 {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
 
-<p><code>{{ component.priority }}: [{{ component.key }}]</code></p>
+<p><code>{{ component.priority }}: [{{ component.type }}]</code></p>
 
 <b>Basic Usage</b>
 
 <pre><code class="lang-yaml"># a page's Front Matter, or in any option of type ComponentHolder
 ...
 components:
-  - type: "{{ component.key }}"
+  - type: "{{ component.type }}"
 {% if optionsExtractor.hasOptions(classType, true, false) %}
 {% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
     {{ option.key }}: {{ option.defaultValue }}

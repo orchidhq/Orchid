@@ -4,6 +4,8 @@ allprojects {
     }
 }
 
+group = 'com.eden'
+
 task publishPlugins {
     doLast {}
 }
@@ -11,5 +13,5 @@ task publishPlugins {
 apply plugin: "java"
 dependencies {
     runtime project(':orchidPlugin')
-    runtime project(':orchidJavadoc')
+    runtime project(':orchidJavadocPlugin')
 }
