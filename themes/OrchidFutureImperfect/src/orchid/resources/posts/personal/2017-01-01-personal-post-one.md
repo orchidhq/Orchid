@@ -1,7 +1,10 @@
 ---
 title: 'Personal Post One'
 author: 'Casey Brooks'
-featuredImage: '/assets/images/pic01.jpg'
+featuredImage: 
+    itemId: '/assets/images/pic01.jpg'
+    alt: 'Example Alt Text'
+    title: 'Example Title'
 tags: 
     - One
     - Personal

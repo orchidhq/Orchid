@@ -29,7 +29,7 @@
     </header>
     {% block postBody %}
     <span class="image featured">
-        <img src="{{ post.featuredImage }}" alt="{{ post.title }}"/>
+        <img src="{{ post.featuredImage }}" alt="{{ post.featuredImage.alt }}" title="{{ post.featuredImage.title }}"/>
     </span>
     {{ post.content | raw }}
     {% endblock %}
