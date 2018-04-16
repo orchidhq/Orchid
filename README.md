@@ -174,27 +174,12 @@ The following lists all official Orchid packages:
 
 ## License
 
-Orchid is open-source software licensed under the GNU Lesser General Public License (LGPL). See License.md for more 
-information.
+Orchid is open-source software licensed under the GNU Lesser General Public License (LGPL). Please see
+[License.md](https://github.com/JavaEden/Orchid/blob/dev/License.md)
 
 ## Contributing
 
-This repository is comprised of many individual projects, which are all listed above. You can build and run any project
-with Gradle from the project root, such as `gradle :OrchidCore:assemble` or `gradle :plugins:OrchidWiki:assemble`, or 
-you may navigate to a particular project's subdirectory to run the Gradle commands directly. When contributing code, 
-please indent using 4 spaces and keep braces on the same lines.
-
-Orchid releases are deployed continuously. With any push to the `master` branch, the patch version is incremented, then
-the compiled sources are uploaded to Bintray, Github Pages, and a git tag created and uploaded to Github Releases. All
-code should be deployed via pull request. All Orchid plugins, themes, bundles, core, and Gradle plugins are released at 
-the same version with every release.
-
-Documentation updates and submissions for new themes or plugins should be made as PRs to the `docs` branch. 
-Documentation is hosted on Netlify, and a deploy preview will be made for your PR before it is merged into `docs`.
-
-Orchid uses the [Gradle Semantic Versioning](https://github.com/vivin/gradle-semantic-build-versioning) plugin to set
-the package version and create the git tag. The major and minor versions can be incremented by including `[major]` or
-`[minor]` at the start of any commit message since the previous released version. 
+Please see [CONTRIBUTING.md](https://github.com/JavaEden/Orchid/blob/dev/.github/CONTRIBUTING.md)
 
 ## Contact
 
