@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class DefaultPermalinkStrategy implements PermalinkStrategy {
 
@@ -23,51 +25,56 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
     public void applyPermalink(OrchidPage page, String permalink) {
         String[] pieces = permalink.split("/");
 
-        String resultingUrl = applyPermalinkTemplate(page, Arrays.copyOfRange(pieces, 0, pieces.length - 1));
-        String title = applyPermalinkTemplatePiece(page, pieces[pieces.length - 1]);
+        StringBuffer resultingUrl = new StringBuffer();
+        StringBuffer title = new StringBuffer();
 
-        page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl));
-        page.getReference().setFileName(title);
+        applyPermalinkTemplate(resultingUrl, page, Arrays.copyOfRange(pieces, 0, pieces.length - 1));
+        applyPermalinkTemplatePiece(title, page, pieces[pieces.length - 1]);
+
+        page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl.toString()));
+        page.getReference().setFileName(title.toString());
         page.getReference().setUsePrettyUrl(true);
     }
 
-    private String applyPermalinkTemplate(OrchidPage page, String[] pieces) {
-        StringBuilder resultingUrl = new StringBuilder("");
-
+    private void applyPermalinkTemplate(StringBuffer resultingUrl, OrchidPage page, String[] pieces) {
         for (String piece : pieces) {
-            resultingUrl.append(applyPermalinkTemplatePiece(page, piece));
+            applyPermalinkTemplatePiece(resultingUrl, page, piece);
         }
-
-        return resultingUrl.toString();
     }
 
-    private String applyPermalinkTemplatePiece(OrchidPage page, String piece) {
-        String resultingPiece = null;
-        String pieceKey = null;
-
+    private void applyPermalinkTemplatePiece(StringBuffer resultingUrl, OrchidPage page, String piece) {
         if (!EdenUtils.isEmpty(piece) && piece.startsWith(":")) {
-            pieceKey = piece.substring(1);
+            getReplacement(resultingUrl, page, piece.substring(1));
         }
-        else if (!EdenUtils.isEmpty(piece) && piece.startsWith("{") && piece.endsWith("}")) {
-            pieceKey = piece.substring(1, piece.length() - 1);
-        }
+        else if (!EdenUtils.isEmpty(piece)) {
+            Matcher matcher = Pattern.compile("\\{(.+?)}").matcher(piece);
 
-        if (pieceKey != null) {
-            for (PermalinkPathType pathType : injectedPathTypes) {
-                if (pathType.acceptsKey(page, pieceKey)) {
-                    resultingPiece = pathType.format(page, pieceKey);
-                }
+            while (matcher.find()) {
+                matcher.appendReplacement(resultingUrl, "");
+                getReplacement(resultingUrl, page, matcher.group(1));
             }
+            matcher.appendTail(resultingUrl);
+        }
 
-            if (resultingPiece == null) {
-                throw new IllegalArgumentException(Clog.format("'{}' is not a valid permalink key", piece));
+        resultingUrl.append("/");
+    }
+
+    private void getReplacement(StringBuffer resultingUrl, OrchidPage page, String pieceKey) {
+        if (EdenUtils.isEmpty(pieceKey)) {
+            throw new IllegalArgumentException(Clog.format("Permalink key cannot be empty (on page {})", page.getTitle()));
+        }
+
+        String resultingPiece = null;
+        for (PermalinkPathType pathType : injectedPathTypes) {
+            if (pathType.acceptsKey(page, pieceKey)) {
+                resultingPiece = pathType.format(page, pieceKey);
             }
         }
-        else {
-            resultingPiece = piece;
+        if (resultingPiece == null) {
+            throw new IllegalArgumentException(Clog.format("'{}' is not a valid permalink key", pieceKey));
         }
 
-        return OrchidUtils.toSlug(resultingPiece) + "/";
+        resultingUrl.append(resultingPiece);
     }
 
 }
