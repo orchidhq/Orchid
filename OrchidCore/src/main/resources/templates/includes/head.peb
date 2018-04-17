@@ -39,4 +39,8 @@
     window.site = {{ site.toJSON() | raw }};
 </script>
 
+{% if site.debug %}
+{% include 'includes/debug' %}
+{% endif %}
+
 {% include '?meta' %}

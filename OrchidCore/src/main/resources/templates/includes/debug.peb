@@ -1,0 +1,21 @@
+{# @pebvariable name="page" type="com.eden.orchid.api.theme.pages.OrchidPage" #}
+{# @pebvariable name="site" type="com.eden.orchid.api.site.OrchidSite" #}
+
+<!-- start:debug info -->
+
+<!-- PAGE -->
+<!-- Type: {{ page.key }} -->
+<!-- Class: {{ page.class.name }} -->
+<!-- Layout: {{ page | template('layout') | join(', ') }} -->
+<!-- Page Template: {{ page | template('page') | join(', ') }} -->
+
+<!-- RESOURCE -->
+<!-- Class: {{ page.resource.class.name }} -->
+<!-- Source Filename: {{ page.resource.reference.originalFullFilename }} -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {{ page.allData.element | raw }};
+</script>
+
+<!-- end:debug info -->

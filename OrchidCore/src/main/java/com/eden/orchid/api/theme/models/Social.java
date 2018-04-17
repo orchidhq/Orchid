@@ -185,14 +185,7 @@ public final class Social implements OptionsHolder {
                 ));
             }
 
-            if (other == null) {
-                Clog.v("Social Other - null");
-            } else {
-                Clog.v("Social Other - size = {}", other.size());
-            }
-
             if (!EdenUtils.isEmpty(other)) {
-                Clog.v("Social Other");
                 items.addAll(other);
             }
 
