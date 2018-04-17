@@ -47,7 +47,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
             getReplacement(resultingUrl, page, piece.substring(1));
         }
         else if (!EdenUtils.isEmpty(piece)) {
-            Matcher matcher = Pattern.compile("\\{(.+?)}").matcher(piece);
+            Matcher matcher = Pattern.compile("\\{(.*?)}").matcher(piece);
 
             while (matcher.find()) {
                 matcher.appendReplacement(resultingUrl, "");
@@ -74,7 +74,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
             throw new IllegalArgumentException(Clog.format("'{}' is not a valid permalink key", pieceKey));
         }
 
-        resultingUrl.append(resultingPiece);
+        resultingUrl.append(OrchidUtils.toSlug(resultingPiece));
     }
 
 }

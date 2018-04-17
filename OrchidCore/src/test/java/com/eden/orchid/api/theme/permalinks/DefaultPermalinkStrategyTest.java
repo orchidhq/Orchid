@@ -1,8 +1,14 @@
 package com.eden.orchid.api.theme.permalinks;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
+import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.HashSet;
@@ -22,8 +28,8 @@ public class DefaultPermalinkStrategyTest {
     private OrchidReference reference;
     private OrchidPage page;
 
-    @Test
-    public void testApplyPermalink() {
+    @BeforeTest
+    public void setup() {
         pathTypes = new HashSet<>();
         pathTypes.add(new TestPathType(100, "one", "two"));
         pathTypes.add(new TestPathType(150, "two", "four"));
@@ -36,7 +42,10 @@ public class DefaultPermalinkStrategyTest {
         reference = new OrchidReference(context, "");
         page = mock(OrchidPage.class);
         when(page.getReference()).thenReturn(reference);
+    }
 
+    @Test
+    public void testApplyPermalink() {
         underTest.applyPermalink(page, "/{one}/{two}/three/{four}");
         assertThat(page.getReference().toString(), is(equalTo("two/four/three/eight")));
 
@@ -48,6 +57,67 @@ public class DefaultPermalinkStrategyTest {
 
         underTest.applyPermalink(page, "/{one}-{two}-three-{four}");
         assertThat(page.getReference().toString(), is(equalTo("two-four-three-eight")));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInvalidPermalinkKey() {
+        underTest.applyPermalink(page, "/{one}/{two}/{three}/{four}");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testEmptyPermalinkColons() {
+        underTest.applyPermalink(page, "/:one/:two/:/four");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testEmptyPermalinkGroups() {
+        underTest.applyPermalink(page, "/{one}/{two}/{}/{four}");
+    }
+
+    @Test
+    public void testDataPropertyPathType() {
+        StringConverter converter = new StringConverter(new HashSet<>());
+
+        JSONObject jsonData = new JSONObject();
+        jsonData.put("pageValue", 2);
+
+        JSONElement data = new JSONElement(jsonData);
+        pathTypes.add(new DataPropertyPathType(converter));
+        when(page.getAllData()).thenReturn(data);
+
+        underTest = new DefaultPermalinkStrategy(pathTypes);
+
+        underTest.applyPermalink(page, "/{pageValue}/{two}/three/{four}");
+        assertThat(page.getReference().toString(), is(equalTo("2/four/three/eight")));
+    }
+
+    @Test
+    public void testDataPropertyPathTypeQuery() {
+        StringConverter converter = new StringConverter(new HashSet<>());
+
+        JSONObject jsonData = new JSONObject();
+        jsonData.put("pageObj", new JSONObject());
+        jsonData.getJSONObject("pageObj").put("pageValue", 2);
+
+        JSONElement data = new JSONElement(jsonData);
+        pathTypes.add(new DataPropertyPathType(converter));
+        when(page.getAllData()).thenReturn(data);
+
+        underTest = new DefaultPermalinkStrategy(pathTypes);
+
+        underTest.applyPermalink(page, "/{pageObj.pageValue}/{two}/three/{four}");
+        assertThat(page.getReference().toString(), is(equalTo("2/four/three/eight")));
+    }
+
+    @Test
+    public void testPageTitlePathType() {
+        pathTypes.add(new TitlePathType());
+        when(page.getTitle()).thenReturn("2 For Me");
+
+        underTest = new DefaultPermalinkStrategy(pathTypes);
+
+        underTest.applyPermalink(page, "/:title/:two/three/:four");
+        assertThat(page.getReference().toString(), is(equalTo("2-for-me/four/three/eight")));
     }
 
 // Test Path Types
