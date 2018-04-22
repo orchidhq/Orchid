@@ -26,7 +26,6 @@ public class GlobalAssetHolder {
     // again. Go ahead and render it now so we can free its resources, and eventually implement an asset pipeline from
     // this point
     public AssetPage addAsset(AssetPage asset) {
-        Clog.v("Asset added: {}", asset.getLink());
         assets.add(asset);
         if(context.get().isBinaryExtension(asset.getReference().getOutputExtension())) {
             context.get().renderBinary(asset);
