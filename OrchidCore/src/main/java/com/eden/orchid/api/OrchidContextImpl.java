@@ -54,6 +54,7 @@ public final class OrchidContextImpl implements OrchidContext {
 
             Set<OrchidService> additionalServices
     ) {
+        Orchid.getInstance().setState(Orchid.State.BOOTSTRAP);
         this.injector = injector;
         this.site = site;
 

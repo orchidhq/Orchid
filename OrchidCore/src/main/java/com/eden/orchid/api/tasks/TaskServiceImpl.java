@@ -44,7 +44,6 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Getter private TaskType taskType;
 
     private long lastBuild;
-    private boolean isBuilding;
 
     @Getter @Setter
     @Option @IntDefault(1)
@@ -69,7 +68,6 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         this.resourcesDir = resourcesDir;
 
         this.lastBuild = 0;
-        this.isBuilding = false;
     }
 
     @Override
@@ -148,11 +146,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void build() {
-        if (!isBuilding) {
+        if(!Orchid.getInstance().getState().isBuildState()) {
             long secondsSinceLastBuild = (System.currentTimeMillis() - lastBuild)/1000;
 
             if(secondsSinceLastBuild > watchDebounceTimeout) {
-                isBuilding = true;
+                Orchid.getInstance().setState(Orchid.State.BUILD_PREP);
                 context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
                 Clog.i("Build Starting...");
 
@@ -170,15 +168,17 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
                 context.extractServiceOptions();
 
+                Orchid.getInstance().setState(Orchid.State.INDEXING);
                 context.startIndexing();
+                Orchid.getInstance().setState(Orchid.State.BUILDING);
                 context.startGeneration();
 
                 context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
 
                 lastBuild = System.currentTimeMillis();
-                isBuilding = false;
 
                 Clog.i("Build Complete");
+                Orchid.getInstance().setState(Orchid.State.IDLE);
             }
         }
         else {
