@@ -149,7 +149,7 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     @Override
     public AssetPage addAsset(String asset) {
-        OrchidResource resource = context.getResourceEntry(theme, asset);
+        OrchidResource resource = context.getResourceEntry(asset);
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
             if(resource instanceof ExternalResource) {

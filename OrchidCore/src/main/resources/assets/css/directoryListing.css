@@ -59,3 +59,10 @@
 .directoryListing .fof .inner p:first-child {
   margin-top: 0;
 }
+
+.directoryListing table.dirs tbody tr:hover, .directoryListing table.files tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.directoryListing table.dirs tbody tr, .directoryListing table.files tbody tr {
+    cursor: pointer;
+}

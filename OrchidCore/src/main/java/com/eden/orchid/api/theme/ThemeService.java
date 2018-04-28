@@ -71,4 +71,9 @@ public interface ThemeService extends OrchidService {
     default void popAdminTheme() {
         getService(ThemeService.class).popAdminTheme();
     }
+
+    default void clearAdminThemes() {
+        getService(ThemeService.class).clearAdminThemes();
+    }
+
 }
