@@ -4,8 +4,7 @@
 ## Orchid Plugin Docs
 ---
 
-Let Orchid auto-generate your plugins' documentation. Also includes an admin panel for local development, which brings
-you plugins' documentation to you.
+Auto-generate your plugin's documentation, plus a handy admin panel to bring your plugins documentation to you.
 
 ### Documenting your Orchid Plugin
 

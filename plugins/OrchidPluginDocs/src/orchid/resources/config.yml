@@ -1,7 +1,7 @@
 site:
   about:
     siteName: Orchid Plugin Docs
-    siteDescription: Let Orchid auto-generate your plugins' documentation.
+    siteDescription: Auto-generate your plugin's documentation, plus a handy admin panel to bring your plugins documentation to you.
 
 theme:
   primaryColor: '#508A4C'
