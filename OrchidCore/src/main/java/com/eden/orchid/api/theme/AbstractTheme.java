@@ -8,8 +8,8 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
-import com.eden.orchid.api.theme.assets.ThemeAssetHolder;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -56,7 +56,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     public AbstractTheme(OrchidContext context, String key, int priority) {
         super(context, priority);
         this.key = key;
-        this.assetHolder = new ThemeAssetHolder(context, this);
+        this.assetHolder = new AssetHolderDelegate(context, this, "theme");
         this.preferredTemplateExtension = "peb";
     }
 

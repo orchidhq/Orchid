@@ -5,6 +5,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
+import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -26,25 +28,26 @@ import java.util.Map;
 public final class IndexFileResponse {
 
     private final OrchidContext context;
+    private final AssetHolder assetHolder;
     private final Map<String, String> iconMap;
 
     @Inject
     public IndexFileResponse(OrchidContext context) {
         this.context = context;
+        assetHolder = new AssetHolderDelegate(context, null, null);
 
         this.iconMap = new HashMap<>();
 
-        iconMap.put("css", "/assets/svg/css.svg");
-        iconMap.put("csv", "/assets/svg/csv.svg");
-        iconMap.put("html", "/assets/svg/html.svg");
-        iconMap.put("jpg", "/assets/svg/jpg.svg");
-        iconMap.put("js", "/assets/svg/js.svg");
-        iconMap.put("json", "/assets/svg/json.svg");
-        iconMap.put("png", "/assets/svg/png.svg");
-        iconMap.put("xml", "/assets/svg/xml.svg");
-
-        iconMap.put("file", "/assets/svg/folder.svg");
-        iconMap.put("folder", "/assets/svg/folder.svg");
+        iconMap.put("css",    "assets/svg/css.svg");
+        iconMap.put("csv",    "assets/svg/csv.svg");
+        iconMap.put("html",   "assets/svg/html.svg");
+        iconMap.put("jpg",    "assets/svg/jpg.svg");
+        iconMap.put("js",     "assets/svg/js.svg");
+        iconMap.put("json",   "assets/svg/json.svg");
+        iconMap.put("png",    "assets/svg/png.svg");
+        iconMap.put("xml",    "assets/svg/xml.svg");
+        iconMap.put("file",   "assets/svg/folder.svg");
+        iconMap.put("folder", "assets/svg/folder.svg");
     }
 
     public OrchidResponse getResponse(File targetFile, String targetPath) {
@@ -66,19 +69,21 @@ public final class IndexFileResponse {
                     newFile.put("name", file.getName());
                     newFile.put("size", file.length());
                     newFile.put("date", formatter.format(new Date(file.lastModified())));
+                    
+                    String icon;
 
                     if (file.isDirectory()) {
-                        newFile.put("icon", iconMap.get("folder"));
+                        icon = iconMap.get("folder");
                         jsonDirs.put(newFile);
                     }
                     else {
-                        newFile.put("icon",
-                                iconMap.containsKey(FilenameUtils.getExtension(file.getName()))
-                                        ? iconMap.get(FilenameUtils.getExtension(file.getName()))
-                                        : iconMap.get("file")
-                        );
+                        icon = iconMap.containsKey(FilenameUtils.getExtension(file.getName()))
+                                ? iconMap.get(FilenameUtils.getExtension(file.getName()))
+                                : iconMap.get("file");
                         jsonFiles.put(newFile);
                     }
+                    newFile.put("icon", icon);
+                    assetHolder.addAsset(icon);
                 }
 
                 OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb");
@@ -103,6 +108,7 @@ public final class IndexFileResponse {
 
                 OrchidPage page = new OrchidPage(new StringResource(context, "directoryListing.txt", directoryListingContent), "directoryListing");
                 page.addJs("assets/js/shadowComponents.js");
+                assetHolder.addCss("assets/css/directoryListing.css");
 
                 InputStream is = context.getRenderedTemplate(page);
                 try {

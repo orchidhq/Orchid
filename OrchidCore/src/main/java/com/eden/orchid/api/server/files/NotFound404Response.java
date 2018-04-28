@@ -5,6 +5,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
+import com.eden.orchid.api.theme.assets.AssetHolder;
+import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -16,10 +18,12 @@ import java.nio.charset.Charset;
 public final class NotFound404Response {
 
     private final OrchidContext context;
+    private final AssetHolder assetHolder;
 
     @Inject
     public NotFound404Response(OrchidContext context) {
         this.context = context;
+        assetHolder = new AssetHolderDelegate(context, null, null);
     }
 
     public OrchidResponse getResponse(String targetPath) {
@@ -52,6 +56,7 @@ public final class NotFound404Response {
 
             page = new OrchidPage(new StringResource(context, "404.txt", notFoundIndexContent), "404");
             page.addJs("assets/js/shadowComponents.js");
+            assetHolder.addCss("assets/css/directoryListing.css");
         }
 
         InputStream is = context.getRenderedTemplate(page);

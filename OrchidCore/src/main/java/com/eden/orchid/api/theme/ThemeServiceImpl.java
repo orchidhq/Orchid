@@ -2,7 +2,6 @@ package com.eden.orchid.api.theme;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
@@ -20,7 +19,7 @@ import java.util.Stack;
 public final class ThemeServiceImpl implements ThemeService {
 
     private OrchidContext context;
-    private AssetHolder assetHolder;
+    private final GlobalAssetHolder globalAssetHolder;
 
     private ThemeHolder<Theme> themes;
     private ThemeHolder<AdminTheme> adminThemes;
@@ -32,8 +31,13 @@ public final class ThemeServiceImpl implements ThemeService {
     private Provider<Set<AdminTheme>> adminThemesProvider;
 
     @Inject
-    public ThemeServiceImpl(GlobalAssetHolder assetHolder, Provider<Set<Theme>> themesProvider, @Named("theme") String defaultTheme, Provider<Set<AdminTheme>> adminThemesProvider, @Named("adminTheme") String defaultAdminTheme) {
-        this.assetHolder = assetHolder;
+    public ThemeServiceImpl(
+            GlobalAssetHolder globalAssetHolder,
+            Provider<Set<Theme>> themesProvider,
+            @Named("theme") String defaultTheme,
+            Provider<Set<AdminTheme>> adminThemesProvider,
+            @Named("adminTheme") String defaultAdminTheme) {
+        this.globalAssetHolder = globalAssetHolder;
         this.defaultTheme = defaultTheme;
         this.themesProvider = themesProvider;
 
@@ -59,8 +63,8 @@ public final class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public AssetHolder getGlobalAssetHolder() {
-        return assetHolder;
+    public GlobalAssetHolder getGlobalAssetHolder() {
+        return globalAssetHolder;
     }
 
 // Interface Implementation

@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.assets;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.google.inject.Provider;
 
@@ -9,91 +10,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class GlobalAssetHolder implements AssetHolder {
+public class GlobalAssetHolder {
 
     private final Provider<OrchidContext> context;
 
-    private final List<AssetPage> js;
-    private final List<AssetPage> css;
+    private final List<AssetPage> assets;
 
     @Inject
     public GlobalAssetHolder(Provider<OrchidContext> context) {
         this.context = context;
-        this.js = new ArrayList<>();
-        this.css = new ArrayList<>();
+        this.assets = new ArrayList<>();
     }
 
-    @Override
-    public void addAssets() {
-        throw new UnsupportedOperationException("GlobalAssetHolder cannot add its own assets");
+    // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check
+    // again. Go ahead and render it now so we can free its resources, and eventually implement an asset pipeline from
+    // this point
+    public AssetPage addAsset(AssetPage asset) {
+        Clog.v("Asset added: {}", asset.getLink());
+        assets.add(asset);
+        if(context.get().isBinaryExtension(asset.getReference().getOutputExtension())) {
+            context.get().renderBinary(asset);
+        }
+        else {
+            context.get().renderRaw(asset);
+        }
+
+        return asset;
     }
 
-    @Override
-    public AssetHolder getAssetHolder() {
-        return this;
-    }
-
-    // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check again
-    @Override
-    public AssetPage addJs(AssetPage jsAsset) {
-        js.add(jsAsset);
-        return jsAsset;
-    }
-
-    @Override
-    public AssetPage addJs(String jsAsset) {
-        throw new UnsupportedOperationException("Assets should not be added directly to the GlobalAssetHolder, add them " +
-                "to a Theme, Page, or Component instead.");
-    }
-
-    // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check again
-    @Override
-    public AssetPage addCss(AssetPage cssAsset) {
-        css.add(cssAsset);
-        return cssAsset;
-    }
-
-    @Override
-    public AssetPage addCss(String cssAsset) {
-        throw new UnsupportedOperationException("Assets should not be added directly to the GlobalAssetHolder, add them " +
-                "to a Theme, Page, or Component instead.");
-    }
-
-    @Override
-    public List<AssetPage> getScripts() {
-        return js;
-    }
-
-    @Override
-    public List<AssetPage> getStyles() {
-        return css;
-    }
-
-    @Override
-    public void flushJs() {
-        js.clear();
-    }
-
-    @Override
-    public void flushCss() {
-        css.clear();
-    }
-
-    @Override
     public void clearAssets() {
-        flushJs();
-        flushCss();
+        assets.clear();
     }
 
-    public void setShouldDownloadAssets(boolean shouldDownloadAssets) {
-
-    }
-
-    public boolean shouldDownloadExternalAssets() {
-        return context.get().isProduction();
-    }
-
-    public void withNamespace(String namespace, Runnable cb) {
-        throw new UnsupportedOperationException("Cannot set the namespace on the GlobalAssetHolder");
-    }
 }
