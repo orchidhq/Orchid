@@ -3,7 +3,7 @@
         <h3 class="panel-title pull-left">
         {{page.title}}
         </h3>
-        <span class="label label-primary pull-right">officially-supported</span>
+        <span class="label label-primary pull-right">official</span>
     </div>
     <div class="panel-body">
     {{ page.content | raw }}

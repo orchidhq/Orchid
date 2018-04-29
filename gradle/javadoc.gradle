@@ -1,7 +1,24 @@
 
 orchid {
     runTask = "${project.ext.commonRunTask}"
-    version = "${project.version}"
+
+    def v = project.version.toString()
+    if(v.endsWith("-SNAPSHOT")) {
+        v = v.replaceAll("-SNAPSHOT", "")
+        def vs = v.split("\\.")
+        def major = (vs[0] as int)
+        def minor = (vs[1] as int)
+        def patch = (vs[2] as int) - 1
+        version = "$major.$minor.$patch"
+    }
+    else {
+        def vs = v.split("\\.")
+        def major = (vs[0] as int)
+        def minor = (vs[1] as int)
+        def patch = (vs[2] as int)
+        version = "$major.$minor.$patch"
+    }
+
     theme   = "${project.ext.commonTheme}"
 
     if(project.hasProperty('env')) {

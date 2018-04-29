@@ -19,6 +19,14 @@ public class AssetRelation extends Relation<String> {
     @Description("The filename and path of an asset to look up.")
     private String itemId;
 
+    @Option
+    @Description("The asset title.")
+    private String title;
+
+    @Option
+    @Description("The asset alt text.")
+    private String alt;
+
     @Inject
     public AssetRelation(OrchidContext context) {
         super(context);

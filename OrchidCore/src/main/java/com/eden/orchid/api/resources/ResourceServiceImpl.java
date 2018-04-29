@@ -11,6 +11,7 @@ import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.google.common.collect.Lists;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -304,18 +305,18 @@ public final class ResourceServiceImpl implements ResourceService {
     public JSONObject loadRemoteFile(String url) {
         Request request = new Request.Builder().url(url).build();
 
-        try {
-            Response response = client.newCall(request).execute();
+        JSONObject object = null;
 
+        try(Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                return new JSONObject(response.body().string());
+                object = new JSONObject(response.body().string());
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return object;
     }
 
 // Find closest file

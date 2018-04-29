@@ -10,6 +10,7 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.compilers.TemplateTag;
+import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.registration.IgnoreModule;
@@ -77,6 +78,9 @@ public final class ImplModule extends OrchidModule {
     protected void configure() {
         // prepare empty sets for binding
         addToSet(OrchidService.class);
+
+        addToSet(TypeConverter.class,
+                AssetsGenerator.AssetDirectory.Converter.class);
 
         // Themes
         addToSet(Theme.class,

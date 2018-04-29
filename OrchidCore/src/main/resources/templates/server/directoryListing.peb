@@ -36,12 +36,18 @@
                                 <tbody>
 
                                 {% for file in page.dirs %}
-                                    <tr>
-                                        <td class="fileTypeIcon"><img src="{{ file.icon }}" alt="file icon"></td>
+                                    <tr onclick="window.location='{{ file.url }}';">
+                                        <td class="fileTypeIcon"><img src="{{ file.icon.link }}" alt="file icon"></td>
                                         <td>
-                                            <a href="{{ file.url }}">{{ file.name }}</a>
-                                            <br>
-                                            {{ page.title }}/{{ file.name }}
+                                            {% if loop.first %}
+                                                <a href="{{ file.url }}">{{ file.name }}</a>
+                                                <br>
+                                                Go up
+                                            {% else %}
+                                                <a href="{{ file.url }}">{{ file.name }}</a>
+                                                <br>
+                                                {{ file.path }}
+                                            {% endif %}
                                         </td>
                                         <td>{{ file.size }}</td>
                                         <td>{{ file.date }}</td>
@@ -82,8 +88,8 @@
                                 <tbody>
 
                                 {% for file in page.files %}
-                                    <tr>
-                                        <td class="fileTypeIcon"><img src="{{ file.icon }}" alt="file icon"></td>
+                                    <tr onclick="window.location='{{ file.url }}';">
+                                        <td class="fileTypeIcon"><img src="{{ file.icon.link }}" alt="file icon"></td>
                                         <td><a href="{{ file.url }}">{{ file.name }}</a></td>
                                         <td>{{ file.size }}</td>
                                         <td>{{ file.date }}</td>
@@ -100,5 +106,6 @@
             </div>
         </div>
         <!-- <div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
     </div>
 </div>

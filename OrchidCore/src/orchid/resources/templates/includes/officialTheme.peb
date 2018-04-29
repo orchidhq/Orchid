@@ -2,7 +2,7 @@
 
 {%- block homepageUrl -%}{{- site.baseUrl.replaceAll('OrchidCore', page.reference.originalFileName) -}}{%- endblock %}
 {%- block homepageText -%}{{- site.baseUrl.replaceAll('OrchidCore', page.reference.originalFileName) -}}{%- endblock -%}
-{%- block dependency -%}io.github.javaeden.orchid:{{- page.reference.originalFileName -}}{%- endblock -%}
+{%- block dependency -%}io.github.javaeden.orchid:{{- page.reference.originalFileName -}}:{{ site.version }}{%- endblock -%}
 {%- block vcsUrl -%}https://github.com/JavaEden/Orchid{%- endblock -%}
 {%- block vcsIcon -%}github{%- endblock -%}
 {%- block vcsRepo -%}JavaEden/Orchid{%- endblock -%}

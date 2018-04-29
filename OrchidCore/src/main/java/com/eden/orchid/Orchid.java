@@ -10,6 +10,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public final class Orchid {
 
     @Getter private OrchidContext context;
     @Getter private Injector injector;
+
+    @Getter @Setter
+    private Orchid.State state = State.BOOTSTRAP;
 
     public static Orchid getInstance() {
         if (instance == null) {
@@ -236,6 +240,22 @@ public final class Orchid {
                     this.config = OrchidUtils.merge(this.config, config);
                 }
             }
+        }
+    }
+
+    public enum State {
+        BOOTSTRAP(false),
+        SHUTDOWN(false),
+        BUILD_PREP(true),
+        INDEXING(true),
+        BUILDING(true),
+        IDLE(false)
+        ;
+
+        @Getter private final boolean isBuildState;
+
+        State(boolean isBuildState) {
+            this.isBuildState = isBuildState;
         }
     }
 

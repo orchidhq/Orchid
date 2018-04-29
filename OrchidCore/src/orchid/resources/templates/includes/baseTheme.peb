@@ -4,7 +4,7 @@
         {{page.title}}
         </h3>
         {% if official %}
-            <span class="label label-primary pull-right">officially-supported</span>
+            <span class="label label-primary pull-right">official</span>
         {% endif %}
     </div>
     <div class="theme-carousel">
@@ -44,7 +44,7 @@
         <b>Include with:</b>
 {% highlight 'groovy' %}
 dependencies {
-    orchidRuntime '{%- block dependency -%}{%- endblock -%}:{version}'
+    orchidRuntime '{%- block dependency -%}{%- endblock -%}'
 }
 {% endhighlight %}
     </div>

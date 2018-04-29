@@ -11,9 +11,9 @@ dependencies {
     api 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
 
     // core utilities
-    api "com.github.JavaEden:Common:${JavaEden.Common}"
+    api "com.eden:Common:${JavaEden.Common}"
     api "com.eden:Clog4j:${JavaEden.Clog}"
-    api "com.github.JavaEden:Krow:${JavaEden.Krow}"
+    api "com.eden:Krow:${JavaEden.Krow}"
     api "org.projectlombok:lombok:1.16.20"
     api "com.squareup.okhttp3:okhttp:3.10.0"
     api "commons-io:commons-io:2.6"

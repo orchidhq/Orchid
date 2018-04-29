@@ -43,6 +43,7 @@ import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.site.OrchidSiteImpl;
+import com.eden.orchid.api.theme.models.Social;
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
@@ -70,6 +71,7 @@ public final class ApiModule extends OrchidModule {
                 IntegerConverter.class,
                 LongConverter.class,
                 NumberConverter.class,
+                Social.Item.Converter.class,
                 StringConverter.class,
                 TimeConverter.class
         );

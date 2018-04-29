@@ -28,20 +28,20 @@ public interface AssetHolder {
         return getAssetHolder().addCss(cssAsset);
     }
 
+    default AssetPage addAsset(AssetPage asset) {
+        return getAssetHolder().addAsset(asset);
+    }
+
+    default AssetPage addAsset(String asset) {
+        return getAssetHolder().addAsset(asset);
+    }
+
     default List<AssetPage> getScripts() {
         return getAssetHolder().getScripts();
     }
 
     default List<AssetPage> getStyles() {
         return getAssetHolder().getStyles();
-    }
-
-    default void flushJs() {
-        getAssetHolder().flushJs();
-    }
-
-    default void flushCss() {
-        getAssetHolder().flushCss();
     }
     
     default void clearAssets() {

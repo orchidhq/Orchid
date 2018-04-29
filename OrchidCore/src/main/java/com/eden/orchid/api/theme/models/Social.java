@@ -1,23 +1,37 @@
 package com.eden.orchid.api.theme.models;
 
+import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.converters.FlexibleMapConverter;
+import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.OptionsData;
+import com.google.inject.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is the description of the class.
  */
 @Getter @Setter
 public final class Social implements OptionsHolder {
+
+    @OptionsData
+    public JSONElement allOptions;
 
     @Option
     @Description("Your email address.")
@@ -54,6 +68,8 @@ public final class Social implements OptionsHolder {
     )
     private List<Item> other;
 
+    private List<Item> allItems;
+
     public Social() {
         
     }
@@ -78,75 +94,107 @@ public final class Social implements OptionsHolder {
         @Description("The order in which this item is rendered.")
         public int order;
 
+        public static class Converter implements TypeConverter<Item> {
+            private final OrchidContext context;
+            private final Provider<FlexibleMapConverter> mapConverter;
+
+            @Inject
+            public Converter(OrchidContext context, Provider<FlexibleMapConverter> mapConverter) {
+                this.context = context;
+                this.mapConverter = mapConverter;
+            }
+
+            @Override
+            public Class<Item> resultClass() {
+                return Item.class;
+            }
+
+            @Override
+            public EdenPair<Boolean, Item> convert(Object o) {
+                Map<String, ?> itemSource = (Map<String, ?>) mapConverter.get().convert(o).second;
+                JSONObject itemSourceJson = new JSONObject(itemSource);
+
+                Item item = new Item();
+                item.extractOptions(context, itemSourceJson);
+
+                return new EdenPair<>(true, item);
+            }
+        }
+
     }
 
     public List<Item> getItems() {
-        List<Item> items = new ArrayList<>();
+        if(allItems == null) {
 
-        if (!EdenUtils.isEmpty(email)) {
-            items.add(new Item(
-                    "email",
-                    "mailto:" + email,
-                    "fa-email",
-                    10
-            ));
-        }
-        if (!EdenUtils.isEmpty(facebook)) {
-            items.add(new Item(
-                    "facebook",
-                    "https://www.facebook.com/" + facebook,
-                    "fa-facebook",
-                    20
-            ));
-        }
-        if (!EdenUtils.isEmpty(github)) {
-            items.add(new Item(
-                    "github",
-                    "https://github.com/" + github,
-                    "fa-github",
-                    30
-            ));
-        }
-        if (!EdenUtils.isEmpty(googlePlus)) {
-            items.add(new Item(
-                    "googlePlus",
-                    "" + googlePlus,
-                    "fa-google-Plus",
-                    40
-            ));
-        }
-        if (!EdenUtils.isEmpty(instagram)) {
-            items.add(new Item(
-                    "instagram",
-                    "https://www.instagram.com/" + instagram,
-                    "fa-instagram",
-                    50
-            ));
-        }
-        if (!EdenUtils.isEmpty(linkedin)) {
-            items.add(new Item(
-                    "linkedin",
-                    "https://www.linkedin.com/in/" + instagram,
-                    "fa-linkedin-square",
-                    60
-            ));
-        }
-        if (!EdenUtils.isEmpty(twitter)) {
-            items.add(new Item(
-                    "twitter",
-                    "https://twitter.com/" + twitter,
-                    "fa-twitter",
-                    70
-            ));
+            List<Item> items = new ArrayList<>();
+
+            if (!EdenUtils.isEmpty(email)) {
+                items.add(new Item(
+                        "email",
+                        "mailto:" + email,
+                        "fa-email",
+                        10
+                ));
+            }
+            if (!EdenUtils.isEmpty(facebook)) {
+                items.add(new Item(
+                        "facebook",
+                        "https://www.facebook.com/" + facebook,
+                        "fa-facebook",
+                        20
+                ));
+            }
+            if (!EdenUtils.isEmpty(github)) {
+                items.add(new Item(
+                        "github",
+                        "https://github.com/" + github,
+                        "fa-github",
+                        30
+                ));
+            }
+            if (!EdenUtils.isEmpty(googlePlus)) {
+                items.add(new Item(
+                        "googlePlus",
+                        "" + googlePlus,
+                        "fa-google-Plus",
+                        40
+                ));
+            }
+            if (!EdenUtils.isEmpty(instagram)) {
+                items.add(new Item(
+                        "instagram",
+                        "https://www.instagram.com/" + instagram,
+                        "fa-instagram",
+                        50
+                ));
+            }
+            if (!EdenUtils.isEmpty(linkedin)) {
+                items.add(new Item(
+                        "linkedin",
+                        "https://www.linkedin.com/in/" + linkedin,
+                        "fa-linkedin-square",
+                        60
+                ));
+            }
+            if (!EdenUtils.isEmpty(twitter)) {
+                items.add(new Item(
+                        "twitter",
+                        "https://twitter.com/" + twitter,
+                        "fa-twitter",
+                        70
+                ));
+            }
+
+            if (!EdenUtils.isEmpty(other)) {
+                items.addAll(other);
+            }
+
+            items.sort(Comparator.comparingInt(value -> value.order));
+
+            allItems = items;
         }
 
-        if (!EdenUtils.isEmpty(other)) {
-            items.addAll(other);
-        }
-
-        items.sort(Comparator.comparingInt(value -> value.order));
-
-        return items;
+        return allItems;
     }
 
 }

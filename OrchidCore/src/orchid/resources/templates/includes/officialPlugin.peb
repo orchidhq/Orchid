@@ -14,7 +14,7 @@
 {% endif %}
 {%- endblock -%}
 {%- block dependency -%}
-    io.github.javaeden.orchid:{{- page.reference.originalFileName -}}
+    io.github.javaeden.orchid:{{- page.reference.originalFileName -}}:{{ site.version }}
 {%- endblock -%}
 {%- block vcsUrl -%}
     https://github.com/JavaEden/Orchid

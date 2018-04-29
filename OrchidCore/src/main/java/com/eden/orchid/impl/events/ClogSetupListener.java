@@ -119,6 +119,9 @@ public class ClogSetupListener implements OrchidEventListener {
         public int log(String tag, String message) {
             messages.computeIfAbsent(tag, s -> new HashSet<>());
             messages.get(tag).add(new LogMessage(message, null));
+            if(!Orchid.getInstance().getState().isBuildState()) {
+                printAllMessages();
+            }
 
             return 0;
         }
@@ -127,6 +130,9 @@ public class ClogSetupListener implements OrchidEventListener {
         public int log(String tag, String message, Throwable throwable) {
             messages.computeIfAbsent(tag, s -> new HashSet<>());
             messages.get(tag).add(new LogMessage(message, throwable));
+            if(!Orchid.getInstance().getState().isBuildState()) {
+                printAllMessages();
+            }
 
             return 0;
         }

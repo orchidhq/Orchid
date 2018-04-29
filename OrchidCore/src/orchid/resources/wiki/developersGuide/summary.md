@@ -12,8 +12,6 @@ crucial to building plugins that are self-documenting, easy for users to interac
 to maintain. 
 
 * [Understanding Options](options/overview.md)
-* [Extracting Custom Objects](options/extracting.md)
-* [Type Coercion in Extraction](options/type-coercion.md)
 * [String Formatting](options/string-formatting.md)
 * [Command Line Flags](options/flags.md)
 

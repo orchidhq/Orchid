@@ -7,7 +7,7 @@
                     <a href="{{page.link}}" style="color: black;">{{page.title}}</a>
                 </h4>
                 {% if page.get("official") %}
-                    <span class="label label-primary pull-right">officially-supported</span>
+                    <span class="label label-primary pull-right">official</span>
                 {% endif %}
             </div>
             {% block cardBody %}
