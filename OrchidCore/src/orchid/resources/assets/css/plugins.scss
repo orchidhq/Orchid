@@ -26,12 +26,13 @@
       margin-top: 16px;
     }
     .description {
-      font-size: 16px;
       position: absolute;
+      background-color: rgba(0, 0, 0, 0.35);
       width: 100%;
-      color: #444444;
+      color: white;
       text-align: left;
       padding: 8px 8px;
+      font-size: 16px;
       bottom: 0;
     }
   }

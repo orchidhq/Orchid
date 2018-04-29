@@ -44,7 +44,7 @@
         <b>Include with:</b>
 {% highlight 'groovy' %}
 dependencies {
-    orchidRuntime '{%- block dependency -%}{%- endblock -%}:{version}'
+    orchidRuntime '{%- block dependency -%}{%- endblock -%}'
 }
 {% endhighlight %}
     </div>
