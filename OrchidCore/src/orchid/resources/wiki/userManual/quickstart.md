@@ -34,7 +34,8 @@ ridiculously good-looking Javadocs, wikis, and more.
 
 **Step 1**
 
-Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`
+Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`. If you 
+are generating Javadoc, you'll also need the [Orchid Gradle Javadoc Plugin](https://plugins.gradle.org/plugin/com.eden.orchidJavadocPlugin).
 
 The plugin adds several new tasks to run Orchid in various modes, along with replacing the Javadoc task with Orchid. It
 also opens up a configuration block where you can set options such as the theme and input/output directories of Orchid. 
@@ -54,7 +55,9 @@ dependencies {
 The dependency in `orchidCompile` adds all official Orchid core packages, themes, and plugins for ease of setup. You
 may instead choose which specific packages you want to install, which are listed on the [homepage]({{site.baseUrl}}). 
 
-The dependency in `compile` is optional, but is needed if you intend to create plugins specifically for this project.
+The dependency in `compile` is optional, but is needed if you intend to create plugins to share with the community, or
+if you just want to keep your private plugins in the `main` configuration while keeping only content in your `orchid`
+configuration.
 
 **Step 3**
 
@@ -64,7 +67,7 @@ Add the following block to the top-level of your `build.gradle`:
 orchid {
     version = "${project.version}" 
     theme = "FutureImperfect" // or whatever theme you choose
-    baseUrl = "http://localhost:8080" // you may want to change this when deploying to production
+    baseUrl = "http://localhost:8080" // you may want to change this when deploying to production, typically from an environment variable in your CI build
 }
 {% endhighlight %}
 

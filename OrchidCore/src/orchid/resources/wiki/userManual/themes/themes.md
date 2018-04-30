@@ -21,7 +21,7 @@ unless you set the `theme` property in `build.gradle` or set it as the theme for
 {% highlight 'groovy' %}
 // build.gradle
 dependencies {
-    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{ site.orchidVersion }}'
+    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{ site.version }}'
 }
 orchid {
     theme   = "BsDoc"
