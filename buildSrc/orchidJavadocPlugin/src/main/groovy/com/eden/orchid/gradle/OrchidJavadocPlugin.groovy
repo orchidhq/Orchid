@@ -9,6 +9,7 @@ class OrchidJavadocPlugin implements Plugin<Project> {
 
     void apply(Project project) {
         project.apply plugin: "com.eden.orchidPlugin"
+        project.extensions.create('orchidJavadoc', OrchidJavadocPluginExtension)
 
         project.tasks.replace("javadoc", OrchidGenerateJavadocTask)
     }

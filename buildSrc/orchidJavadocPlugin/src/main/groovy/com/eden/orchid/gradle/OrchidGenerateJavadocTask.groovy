@@ -1,18 +1,46 @@
 package com.eden.orchid.gradle
 
 import org.gradle.api.Project
+import org.gradle.api.file.FileTree
+import org.gradle.api.file.FileVisitDetails
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.javadoc.Javadoc
 
 class OrchidGenerateJavadocTask extends Javadoc {
 
     OrchidGenerateJavadocTask() {
-        source = [project.sourceSets.main.allJava.getSrcDirs()]
         dependsOn 'classes', "${OrchidJavadocPlugin.configurationName}Classes"
         onlyIf {
             !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) && !project.orchid.noJavadoc
         }
 
         destinationDir = project.file(getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/orchid'))
+    }
+
+    @InputFiles
+    @SkipWhenEmpty
+    public FileTree getSource() {
+        def setSources = []
+        if(project.orchidJavadoc.sources != null && project.orchidJavadoc.sources.size() > 0) {
+            setSources = project.orchidJavadoc.sources
+        }
+        else {
+            setSources = project.sourceSets.main.allJava.getSrcDirs()
+        }
+
+        def allFiles = []
+        for(String source : setSources) {
+            project.fileTree(source).visit { FileVisitDetails details ->
+                if(details.file.path.endsWith(".java")) {
+                    allFiles << details.file.path
+                }
+            }
+        }
+
+        source = [allFiles]
+
+        return super.getSource()
     }
 
     @Override
