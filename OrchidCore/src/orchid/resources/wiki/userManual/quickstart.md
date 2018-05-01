@@ -71,6 +71,23 @@ orchid {
 }
 {% endhighlight %}
 
+**Step 3.5 (Optional, but necessary to document Android projects)**
+
+The Gradle Android plugin does not extend the `java` plugin, so Android modules cannot directly use Orchid. However, you
+can create a _separate_ module in your Gradle build just for Orchid and point it at your Android java sources to 
+generate Javadoc for them.
+
+{% highlight 'groovy' %}
+// in your Orchid module's build.gradle
+orchidJavadoc {
+    sources = [file("${project('app')}}/src/main/java")]
+}
+{% endhighlight %}
+
+This does not change the resouce dir, but just tells Javadoc where to look for Java sources, and this information gets 
+passed back to Orchid. You can also use this technique to include Javadoc documentation from multiple Gradle modules in
+one Orchid build, if desired.
+
 **Step 4**
 
 Add the following folder in your project: `src/orchid/resources`. This is where all your site configuration and 
