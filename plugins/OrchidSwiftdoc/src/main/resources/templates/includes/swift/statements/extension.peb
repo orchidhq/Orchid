@@ -1,0 +1,8 @@
+{# @pebvariable name="extension" type="com.nrg.orchid.ios.swift.statements.SwiftExtension" #}
+
+{% if extension.members is not empty %}
+    <p><b>From source <a href="{{ extension.origin.toString() }}">{{ extension.origin.path }}</a></b></p>
+    {% for member in extension.members %}
+        {% include 'includes/swift/members/'~member.kind %}
+    {% endfor %}
+{% endif %}

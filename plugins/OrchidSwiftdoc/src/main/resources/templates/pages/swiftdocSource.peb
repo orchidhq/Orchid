@@ -1,0 +1,15 @@
+{# @pebvariable name="page" type="com.nrg.orchid.ios.page.SwiftdocPage" #}
+{# @pebvariable name="statement" type="com.nrg.orchid.ios.swift.SwiftStatement" #}
+
+<div class="orchid-sourcedoc">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Statements</h3></div>
+        <div class="list-group">
+        {% for statement in page.statements %}
+            <a class="list-group-item clearfix" href="{{link(statement.name)}}">
+                <code class="pull-left">{{ statement.kind }} {{ statement.name }}</code>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+</div>

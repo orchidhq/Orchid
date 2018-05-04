@@ -1,4 +1,4 @@
-<div class="orchid-javadoc">
+<div class="orchid-sourcedoc">
 {% include 'includes/javadoc/package/summary' %}
 {% include 'includes/javadoc/package/classes' %}
 {% if page.innerPackages|length > 0 %}
