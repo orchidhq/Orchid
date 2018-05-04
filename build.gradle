@@ -3,7 +3,7 @@
 apply from: 'gradle/dependencies.gradle'
 
 buildscript {
-    def kotlin_version = '1.2.31'
+    def kotlin_version = '1.2.41'
     repositories {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }

@@ -8,7 +8,7 @@ dependencies {
 
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.2.0'
-    api 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
+    api 'io.github.lukehutch:fast-classpath-scanner:2.18.2'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
@@ -20,11 +20,11 @@ dependencies {
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api 'org.json:json:20180130'
-    api 'org.yaml:snakeyaml:1.20'
+    api 'org.yaml:snakeyaml:1.21'
     api 'com.moandjiezana.toml:toml4j:0.7.2'
     api 'com.github.PebbleTemplates:pebble:bd94a2b61b'
-    api 'io.bit3:jsass:5.5.6'
-    api 'com.univocity:univocity-parsers:2.6.1'
+    api 'io.bit3:jsass:5.7.0'
+    api 'com.univocity:univocity-parsers:2.6.3'
 
     // Flexmark extensions
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
