@@ -92,7 +92,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
                         }
                     }
                     else {
-                        Clog.w("{} type {} could not be found (on page {} at {})", getItemClass().getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
+                        Clog.w("{} type [{}] could not be found (on page '{}' at {})", getItemClass().getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
                     }
                 }
                 else {
