@@ -16,10 +16,10 @@ classnames:
 Here is a description of the pieces involved in creating and setting up a custom Generator. Code samples, in both Java
 and Kotlin, are also shown below.
 
-1) Create a class that extends `{{ anchor('OrchidGenerator') }}`
+1) Create a class that extends {{ anchor('OrchidGenerator') }}
     1) Override the constructor with the properties listed below. Orchid loads all Generators via dependency-injection, 
         so you may specify any dependency in your constructor, but it must be annotated `@Inject`. 
-        1) `{{ anchor('OrchidContext context', 'OrchidContext') }}` - Should be injected into your generator's 
+        1) {{ anchor('OrchidContext context', 'OrchidContext') }} - Should be injected into your generator's 
             constructor and passed to the superclass.
         2) `String key` - The unique key representing this generator. Options are loaded at this key, and this generator
             may be enabled or disabled also by this key.
@@ -35,7 +35,7 @@ and Kotlin, are also shown below.
         such as only rendering the pages that have changed during `serve` mode.
     4) (optional) Override the `getCollections()` method to return custom collections of the pages indexed by this 
         generator. You can learn more about collections {{ anchor('in the Collections page', 'collections') }}. The 
-        default implementation returns a `{{ anchor('FileCollection') }}` representing all the pages returned from 
+        default implementation returns a {{ anchor('FileCollection') }} representing all the pages returned from 
         `startIndexing()`. 
 2) Register your generator with your plugin's module. 
 3) (optional) Create a class that is your generator's `Model`, and add all content to be indexed to that Model. Your 
@@ -179,11 +179,11 @@ override fun startIndexing(): List<OrchidPage>? {
 In this example, `context.getLocalResourceEntries("public", arrayOf("md"), true)` returns a list of 
 {{ anchor('OrchidResource') }} from the `public/` directory in your _local_ resource that have the `.md` extension, and 
 it searches for these resources recursively. There are many methods on the `context` object which can be used to locate 
-resources in different ways, see `{{ anchor('ResourceService') }}` for all possible methods.
+resources in different ways, see {{ anchor('ResourceService') }} for all possible methods.
 
-After we have our list of resource, we then map it directly to a list of `{{ anchor('OrchidPage') }}` by passing the 
-resource to the page in its constructor, and giving it a type. This type is used for loading options via Archetype, as
-well as for determining the page template to use. 
+After we have our list of resource, we then map it directly to a list of {{ anchor('OrchidPage') }} by passing 
+the resource to the page in its constructor, and giving it a type. This type is used for loading options via Archetype, 
+as well as for determining the page template to use. 
 
 There are several other constructors for the `OrchidPage` that may be of interest:
 
@@ -214,13 +214,13 @@ from the Javadoc tool. You might have your own model you wish to wrap, or you mi
 headless CMS.
 
 You may also wish to do some transformations on the resource before passing it to the OrchidPage. Each `OrchidResource`
-has an `{{ anchor('OrchidReference') }}` which is passed to the page when it is created, and you are free to many any
-adjustments to the reference on either the resource or the page. 
+has an {{ anchor('OrchidReference') }} which is passed to the page when it is created, and you are free to many 
+any adjustments to the reference on either the resource or the page. 
 
 In many cases, you may wish for the end-user to customize the resulting URL. For these cases, you can inject the 
-`{{ anchor('PermalinkStrategy') }}` and call `permalinkStrategy.applyPermalink(OrchidPage page, String permalink)`. The
-permalink should be a formatting string which will be evaluated and set as the page's output URL. This format string 
-should be customizable by the user, typically as an `Option` on your custom `OrchidPage` class or in your generator.
+{{ anchor('PermalinkStrategy') }} and call `permalinkStrategy.applyPermalink(page, permalink)`. The permalink 
+should be a formatting string which will be evaluated and set as the page's output URL. This format string should be 
+customizable by the user, typically as an `Option` on your custom `OrchidPage` class or in your generator.
 
 ### Creating Collections
 
@@ -228,13 +228,13 @@ Once you've let Orchid know what pages you intend to render, you may also wish t
 behind those pages. This is entirely optional, as the base `OrchidGenerator` class will provide a basic implementation
 for you, but you may override this method to provide your own collections. The purpose of a Collection is to allow 
 Orchid to locate specific resources when requested, such as with the `anchor()` or `link()` 
-`{{anchor('TemplateFunction')}}s`, which may not even be `OrchidPages`.
+{{ anchor('Template Functions', 'TemplateFunction') }}, which may not even be `OrchidPages`.
 
-An `{{anchor('OrchidCollection')}}` gets passed a List of arbitrary objects to its constructor, and it implements a 
-callback `find(id: String): List<T>`. This callback just searches its own contents and matches any items to the id 
-passed to it. These collections are grouped by a `collectionId` and `collectionType` (which is typically the generator
-key). The end-user can then search for Pages (or any other object in a collection) and optionally add filters for the
-`collectionId` and `collectionType` to refine the searches if necessary. 
+An {{ anchor('OrchidCollection') }} gets passed a List of arbitrary objects to its constructor, and it 
+implements a callback `find(id: String): List<T>`. This callback just searches its own contents and matches any items to 
+the id passed to it. These collections are grouped by a `collectionId` and `collectionType` (which is typically the 
+generator key). The end-user can then search for Pages (or any other object in a collection) and optionally add filters 
+for the `collectionId` and `collectionType` to refine the searches if necessary. 
 
 A user can call any of the following methods to search within these collections indexed by all generators. These methods
 all accept the same parameters of `itemId`, `collectionId`, and `collectionType` which correspond directly to the 
@@ -255,11 +255,11 @@ together.
 
 There are several `OrchidCollection` implementations that you are free to use, or you may create your own.
 
-- `{{ anchor('FileCollection') }}` - Search all the `OrchidPages` passed to it, matching the pages by their title
-- `{{ anchor('FolderCollection') }}` - The same as as `FileCollection`, but also contains additional metadata related to 
-    the specific folder that all its containing pages came from. While not used directly by the search function, this
+- {{ anchor('FileCollection') }} - Search all the `OrchidPages` passed to it, matching the pages by their title
+- {{ anchor('FolderCollection') }} - The same as as `FileCollection`, but also contains additional metadata 
+    related to the specific folder that all its containing pages came from. While not used directly by the search function, this
     metadata is useful for generating admin/CMS UIs which can add new pages to this specific collection. An example of 
-    this is the `{{ anchor('Orchid Netlify CMS') }}` plugin, which is actually the inspiration for this feature. 
+    this is the {{ anchor('Orchid Netlify CMS') }} plugin, which is actually the inspiration for this feature. 
 
 ### Indexing Custom Content
 
