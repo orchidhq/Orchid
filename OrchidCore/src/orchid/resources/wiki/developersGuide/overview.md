@@ -149,4 +149,44 @@ and it manually adds the `JavadocModule` itself.
 For these cases, you can add the `@IgnoreModule` annotation to the module class to have it skipped during 
 auto-registration. 
 
+# Understanding the Orchid Content Model
+
+Generators are at the very core of how Orchid is so flexible. While most static site generators define rules and models 
+around how content is discovered and rendered, Orchid offloads this entire process to plugins, and instead build a 
+powerful framework for making it _incredibly easy_ to define these rules yourself. Some existing tools are pretty rigid, 
+like Jekyll's strong base of blogging content, while others are very flexible, like Hugo's custom taxonomies, but they 
+are all limited to that _one_ way of doing things. Orchid, on the other hand, is able to capture the essence of all 
+these tools and bring all their content models into one site, even opening the content for one plugin to build off the 
+content of another, giving you unlimited possibilities.
+
+Orchid uses a unique way to create content that makes it easy to work with, but also gives a guarantee that the data you
+need is available when you need it. To do this, it uses **Generators**, and employs a separate _indexing_ and 
+_generating_ phase for each generator, which will be described in the next couple pages. But the big idea here is that 
+Orchid allows plugins to load their data before any pages are rendered, so each rendered page can contain data from 
+any other generator, knowing that it will always be there when you need it. 
+
+This allows us to do some really cool things like building pages out of smaller Components, creating custom menus with 
+menu items dynamically populated from the pages that Orchid has indexed, and creating strong links among pages that 
+adapt to changing URL structures, even between different plugins. In addition, this allows us to build powerful content 
+models that each work in isolation, but work together really well when combined in the rendered templates.
+
+## Available Content Models
+
+Orchid was created to take the best parts of many popular static site generators and similar tools, and bring them into
+one place. Below is a list of some well-known tools whose content model has inspired some official Orchid plugins, along
+with the Orchid plugins that came from this inspiration.
+
+- [**Hugo**](https://gohugo.io/)
+    - {{ anchor('Orchid Pages') }}
+    - {{ anchor('Orchid Taxonomies') }}
+- [**Jekyll**](https://jekyllrb.com/)
+    - {{ anchor('Orchid Posts') }}
+- [**Gitbook**](https://toolchain.gitbook.com/)
+    - {{ anchor('Orchid Wiki') }}
+- [**Javadoc**](http://www.oracle.com/technetwork/java/javase/tech/index-jsp-135444.html)
+    - {{ anchor('Orchid Javadoc') }}
+    - {{ anchor('Orchid Swiftdoc') }}
+- [**SC5 Styleguide**](http://styleguide.sc5.io/)
+    - {{ anchor('Orchid KSS') }}
+
 {% endblock %}
