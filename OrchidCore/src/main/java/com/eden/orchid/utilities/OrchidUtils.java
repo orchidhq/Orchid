@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -227,6 +228,15 @@ public final class OrchidUtils {
         }
 
         return null;
+    }
+
+    public static <T> T transform(T input, List<Function<T, T>> transformations) {
+        return transformations
+                .stream()
+                .reduce(
+                        UnaryOperator.identity(),
+                        (a, b) -> ((T o) -> b.apply(a.apply(o)))
+                ).apply(input);
     }
 
 }
