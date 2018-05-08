@@ -59,6 +59,7 @@ class OrchidGenerateJavadocTask extends Javadoc {
         options.addStringOption "baseUrl",      getPropertyValue(project, 'baseUrl', '')
         options.addStringOption "environment",  getPropertyValue(project, 'environment', 'debug')
         options.addStringOption "task",         getPropertyValue(project, 'runTask', 'build')
+        options.addStringOption "dryDeploy",    getPropertyValue(project, 'dryDeploy', 'false')
 
         // set any additional arguments
         if(project.orchid.args != null && project.orchid.args.size() > 0) {

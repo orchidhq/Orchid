@@ -33,6 +33,11 @@ public class ClogSetupListener implements OrchidEventListener {
         printPendingMessages();
     }
 
+    @On(Orchid.Lifecycle.DeployFinish.class)
+    public void onBuildFinish(Orchid.Lifecycle.DeployFinish deployFinish) {
+        printPendingMessages();
+    }
+
     @On(Orchid.Lifecycle.Shutdown.class)
     public void onShutdown(Orchid.Lifecycle.Shutdown event) {
         printPendingMessages();
@@ -119,7 +124,7 @@ public class ClogSetupListener implements OrchidEventListener {
         public int log(String tag, String message) {
             messages.computeIfAbsent(tag, s -> new HashSet<>());
             messages.get(tag).add(new LogMessage(message, null));
-            if(!Orchid.getInstance().getState().isBuildState()) {
+            if(!Orchid.getInstance().getState().isWorkingState()) {
                 printAllMessages();
             }
 
@@ -130,7 +135,7 @@ public class ClogSetupListener implements OrchidEventListener {
         public int log(String tag, String message, Throwable throwable) {
             messages.computeIfAbsent(tag, s -> new HashSet<>());
             messages.get(tag).add(new LogMessage(message, throwable));
-            if(!Orchid.getInstance().getState().isBuildState()) {
+            if(!Orchid.getInstance().getState().isWorkingState()) {
                 printAllMessages();
             }
 

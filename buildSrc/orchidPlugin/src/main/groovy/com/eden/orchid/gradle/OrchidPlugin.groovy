@@ -30,6 +30,10 @@ class OrchidPlugin implements Plugin<Project> {
             dependsOn 'classes', "${configurationName}Classes"
             main "${mainClassName}"
         }
+        project.tasks.create('orchidDeploy', OrchidGenerateDeployTask) {
+            dependsOn 'classes', "${configurationName}Classes"
+            main "${mainClassName}"
+        }
         project.tasks.create('orchidRun', OrchidGenerateMainTask) {
             dependsOn 'classes', "${configurationName}Classes"
             main "${mainClassName}"
@@ -62,6 +66,15 @@ class OrchidGenerateServeTask extends JavaExec {
     void exec() {
         classpath += project.sourceSets.orchid.runtimeClasspath
         args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'serve', true))
+        setStandardInput(System.in)
+        super.exec()
+    }
+}
+
+class OrchidGenerateDeployTask extends JavaExec {
+    void exec() {
+        classpath += project.sourceSets.orchid.runtimeClasspath
+        args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'deploy', true))
         setStandardInput(System.in)
         super.exec()
     }

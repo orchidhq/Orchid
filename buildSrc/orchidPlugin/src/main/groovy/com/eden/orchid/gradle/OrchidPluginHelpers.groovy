@@ -26,6 +26,7 @@ class OrchidPluginHelpers {
         projectArgs.put "baseUrl",      getPropertyValue(project, 'baseUrl', '')
         projectArgs.put "environment",  getPropertyValue(project, 'environment', 'debug')
         projectArgs.put "task",         (forceTask) ? defaultTask : getPropertyValue(project, 'runTask', defaultTask)
+        projectArgs.put "dryDeploy",    getPropertyValue(project, 'dryDeploy', 'false')
 
         if(project.orchid.args != null && project.orchid.args.size() > 0) {
             for(String arg : project.orchid.args) {

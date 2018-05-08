@@ -104,41 +104,46 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public boolean runCommand(String commandName, String parameters) {
-        OrchidCommand foundCommand = commands
-                .stream()
-                .sorted()
-                .filter(command -> command.getKey().equalsIgnoreCase(commandName))
-                .findFirst()
-                .orElse(null);
+        if(!Orchid.getInstance().getState().isWorkingState()) {
+            OrchidCommand foundCommand = commands
+                    .stream()
+                    .sorted()
+                    .filter(command -> command.getKey().equalsIgnoreCase(commandName))
+                    .findFirst()
+                    .orElse(null);
 
-        if (foundCommand != null) {
-            OrchidCommand freshCommand = context.getInjector().getInstance(foundCommand.getClass());
+            if (foundCommand != null) {
+                OrchidCommand freshCommand = context.getInjector().getInstance(foundCommand.getClass());
 
-            String[] pieces = parameters.split("\\s+");
-            String[] paramKeys = foundCommand.parameters();
+                String[] pieces = parameters.split("\\s+");
+                String[] paramKeys = foundCommand.parameters();
 
-            Map<String, String> paramMap = new HashMap<>();
+                Map<String, String> paramMap = new HashMap<>();
 
-            int i = 0;
-            while (i < paramKeys.length && i < pieces.length) {
-                paramMap.put(paramKeys[i], pieces[i]);
-                i++;
+                int i = 0;
+                while (i < paramKeys.length && i < pieces.length) {
+                    paramMap.put(paramKeys[i], pieces[i]);
+                    i++;
+                }
+
+                JSONObject paramsJSON = new JSONObject(paramMap);
+
+                freshCommand.extractOptions(context, paramsJSON);
+
+                try {
+                    freshCommand.run(commandName);
+                    return true;
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-            JSONObject paramsJSON = new JSONObject(paramMap);
-
-            freshCommand.extractOptions(context, paramsJSON);
-
-            try {
-                freshCommand.run(commandName);
-                return true;
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+            else {
+                Clog.e("Could not find matching command for {}", commandName);
             }
         }
         else {
-            Clog.e("Could not find matching command for {}", commandName);
+            Clog.i("Orchid is currently busy, please wait for the current job to finish then try again.");
         }
 
         return false;
@@ -201,6 +206,23 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         }
     }
 
+    @Override
+    public void deploy(boolean dryDeploy) {
+        Orchid.getInstance().setState(Orchid.State.DEPLOYING);
+        Clog.i("Deploy Starting...");
+        context.broadcast(Orchid.Lifecycle.DeployStart.fire(this));
+        boolean success = context.publishAll(dryDeploy);
+        context.broadcast(Orchid.Lifecycle.DeployFinish.fire(this));
+        Orchid.getInstance().setState(Orchid.State.IDLE);
+
+        if(success) {
+            Clog.i("Deployment completed successfully");
+        }
+        else {
+            Clog.w("Deployment failed");
+        }
+    }
+
 // Build Events
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -227,4 +249,5 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             server.getWebsocket().sendMessage(event.getType(), event.toString());
         }
     }
+
 }

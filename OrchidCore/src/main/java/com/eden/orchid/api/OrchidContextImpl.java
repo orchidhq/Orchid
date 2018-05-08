@@ -3,6 +3,7 @@ package com.eden.orchid.api;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
+import com.eden.orchid.api.publication.PublicationService;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.indexing.IndexService;
@@ -51,6 +52,7 @@ public final class OrchidContextImpl implements OrchidContext {
             OptionsService optionsService,
             GeneratorService generatorService,
             RenderService renderService,
+            PublicationService publicationService,
 
             Set<OrchidService> additionalServices
     ) {
@@ -69,6 +71,7 @@ public final class OrchidContextImpl implements OrchidContext {
         initializeService(OptionsService.class, optionsService);
         initializeService(GeneratorService.class, generatorService);
         initializeService(RenderService.class, renderService);
+        initializeService(PublicationService.class, publicationService);
 
         for(OrchidService service : additionalServices) {
             services.put(service.getClass(), service);

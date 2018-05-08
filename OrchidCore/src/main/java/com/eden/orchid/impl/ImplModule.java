@@ -13,6 +13,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
@@ -43,6 +44,8 @@ import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildCommand;
 import com.eden.orchid.impl.tasks.BuildTask;
+import com.eden.orchid.impl.tasks.DeployCommand;
+import com.eden.orchid.impl.tasks.DeployTask;
 import com.eden.orchid.impl.tasks.HelpCommand;
 import com.eden.orchid.impl.tasks.InteractiveTask;
 import com.eden.orchid.impl.tasks.ServeTask;
@@ -78,6 +81,7 @@ public final class ImplModule extends OrchidModule {
     protected void configure() {
         // prepare empty sets for binding
         addToSet(OrchidService.class);
+        addToSet(OrchidPublisher.class);
 
         addToSet(TypeConverter.class,
                 AssetsGenerator.AssetDirectory.Converter.class);
@@ -124,11 +128,13 @@ public final class ImplModule extends OrchidModule {
                 BuildTask.class,
                 WatchTask.class,
                 ServeTask.class,
+                DeployTask.class,
                 InteractiveTask.class);
 
         addToSet(OrchidCommand.class,
                 HelpCommand.class,
-                BuildCommand.class);
+                BuildCommand.class,
+                DeployCommand.class);
 
         // Menu Items
         addToSet(OrchidMenuItem.class,

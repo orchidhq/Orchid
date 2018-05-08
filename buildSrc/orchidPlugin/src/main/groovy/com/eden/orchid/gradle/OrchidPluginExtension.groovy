@@ -9,5 +9,6 @@ class OrchidPluginExtension {
     String theme
     String baseUrl
     String environment
+    String dryDeploy
     List<String> args = new ArrayList<String>()
 }

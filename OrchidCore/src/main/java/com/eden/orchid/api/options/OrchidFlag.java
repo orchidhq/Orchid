@@ -11,7 +11,7 @@ import com.eden.orchid.api.options.annotations.Description;
  * @orchidApi extensible
  */
 public abstract class OrchidFlag {
-    enum FlagType {
+    protected enum FlagType {
         STRING,
         STRING_ARRAY,
         INTEGER,

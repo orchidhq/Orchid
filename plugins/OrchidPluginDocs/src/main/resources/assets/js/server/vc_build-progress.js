@@ -23,10 +23,17 @@ Vue.component('build-progress', {
             this.progress = parseInt(progressMessage[0].trim());
             this.maxProgress = parseInt(progressMessage[1].trim());
         });
+        this.$bus.$on('deployprogress', message => {
+            let progressMessage = message.split("/");
+            this.progressType = 'Deploying';
+            this.progress = parseInt(progressMessage[0].trim());
+            this.maxProgress = parseInt(progressMessage[1].trim());
+        });
     },
     beforeDestroy() {
         this.$bus.$off('indexprogress');
         this.$bus.$off('buildprogress');
+        this.$bus.$off('deployprogress');
     },
 });
 

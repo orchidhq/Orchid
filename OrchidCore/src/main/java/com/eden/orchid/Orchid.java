@@ -200,6 +200,32 @@ public final class Orchid {
             public static BuildFinish fire(Object sender) { return new BuildFinish(sender); }
         }
 
+        public static class DeployStart extends OrchidEvent {
+            private DeployStart(Object sender) { super(sender); }
+
+            public static DeployStart fire(Object sender) { return new DeployStart(sender); }
+        }
+
+        public static class DeployProgress extends ProgressEvent {
+
+            private DeployProgress(Object sender, int currentProgress, int maxProgress) {
+                super(sender, "deployprogress", currentProgress, maxProgress);
+            }
+
+            @Override
+            public String toString() {
+                return Clog.format("{}/{}", currentProgress, maxProgress);
+            }
+
+            public static DeployProgress fire(Object sender, int currentProgress, int maxProgress) { return new DeployProgress(sender, currentProgress, maxProgress); }
+        }
+
+        public static class DeployFinish extends OrchidEvent {
+            private DeployFinish(Object sender) { super(sender); }
+
+            public static DeployFinish fire(Object sender) { return new DeployFinish(sender); }
+        }
+
         public static class TaskFinish extends OrchidEvent {
             private TaskFinish(Object sender) { super(sender); }
 
@@ -244,18 +270,23 @@ public final class Orchid {
     }
 
     public enum State {
-        BOOTSTRAP(false),
-        SHUTDOWN(false),
-        BUILD_PREP(true),
-        INDEXING(true),
-        BUILDING(true),
-        IDLE(false)
+        BOOTSTRAP (false, false),
+        SHUTDOWN  (false, false),
+        BUILD_PREP(true, false),
+        INDEXING  (true, false),
+        BUILDING  (true, false),
+        DEPLOYING (false, true),
+        IDLE      (false, false)
         ;
 
         @Getter private final boolean isBuildState;
+        @Getter private final boolean isDeployState;
+        @Getter private final boolean isWorkingState;
 
-        State(boolean isBuildState) {
+        State(boolean isBuildState, boolean isDeployState) {
             this.isBuildState = isBuildState;
+            this.isDeployState = isDeployState;
+            this.isWorkingState = isDeployState || isBuildState;
         }
     }
 
