@@ -1,15 +1,13 @@
 package com.eden.orchid.api.theme;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
 import com.google.inject.Injector;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,13 +16,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"}, dependsOnGroups = {"theme"})
 public final class ThemeServiceTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private Injector injector;
     private OrchidContext context;
@@ -44,7 +36,7 @@ public final class ThemeServiceTest {
     private AdminTheme adminTheme1;
     private Set<AdminTheme> adminThemes;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         themes = new HashSet<>();
         theme1 = mock(Theme.class);
@@ -125,12 +117,6 @@ public final class ThemeServiceTest {
         assertThat(underTest.getTheme(), is(theme1));
     }
 
-    @Test(enabled = false)
-    public void pushThemeInitialization() throws Throwable {
-        // these tests need to be rewritten, as the theme options now get merged instead of overwritten. We should now
-        // check for specific properties set in the theme after extracting options
-    }
-
     @Test
     public void getDefaultAdminTheme() throws Throwable {
         assertThat(underTest.getDefaultAdminTheme(), is(adminTheme1));
@@ -162,12 +148,6 @@ public final class ThemeServiceTest {
         assertThat(underTest.getAdminTheme(), is(adminTheme2));
         underTest.clearAdminThemes();
         assertThat(underTest.getAdminTheme(), is(adminTheme1));
-    }
-
-    @Test(enabled = false)
-    public void pushAdminThemeInitialization() throws Throwable {
-        // these tests need to be rewritten, as the theme options now get merged instead of overwritten. We should now
-        // check for specific properties set in the theme after extracting options
     }
 
 }

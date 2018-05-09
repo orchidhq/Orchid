@@ -4,8 +4,8 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-@Test(groups = {"services", "unit"})
 public final class EventServiceTest {
 
     private OrchidContext context;
@@ -47,7 +46,7 @@ public final class EventServiceTest {
             "callbackThirteen"
     };
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         sender = new Object();

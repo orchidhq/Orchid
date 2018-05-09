@@ -1,13 +1,11 @@
 package com.eden.orchid.api.tasks;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,19 +14,13 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"})
 public final class TaskServiceTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private OrchidContext context;
     private TaskService underTest;
     private TaskServiceImpl service;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         Set<OrchidTask> tasks = new HashSet<>();
         OrchidTask task1 = mock(OrchidTask.class);

@@ -3,19 +3,17 @@ package com.eden.orchid.api.compilers;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-@Test(groups={"unit"})
 public final class OrchidPrecompilerTest {
 
     private OrchidPrecompiler underTest;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidPrecompiler(100) {

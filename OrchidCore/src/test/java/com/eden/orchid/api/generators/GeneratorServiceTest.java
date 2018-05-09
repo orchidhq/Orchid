@@ -11,8 +11,8 @@ import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.google.inject.Injector;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,12 +20,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-@Test(groups = {"services", "unit"})
 public final class GeneratorServiceTest {
 
     private OrchidContext context;
@@ -56,7 +55,7 @@ public final class GeneratorServiceTest {
     private MockGenerator generator3;
     private List<OrchidPage> pages3;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);

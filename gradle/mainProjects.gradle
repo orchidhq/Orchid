@@ -34,15 +34,23 @@ ext {
     }
 }
 
-apply from: "$rootDir/gradle/test.gradle"
 apply from: "$rootDir/gradle/javadoc.gradle"
 apply from: "$rootDir/gradle/publish.gradle"
 
 dependencies {
-    testCompile "org.testng:testng:$testNgVersion"
     testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = project.hasProperty("showTestLogs")
+    }
 }
 
 compileKotlin {
