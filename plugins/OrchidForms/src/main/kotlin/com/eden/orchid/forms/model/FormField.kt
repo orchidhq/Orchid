@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.server.annotations.Extensible
 import com.eden.orchid.api.theme.components.ModularListItem
+import com.eden.orchid.api.theme.components.ModularPageListItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import org.json.JSONArray
 import java.util.Collections
@@ -17,7 +18,7 @@ import javax.inject.Inject
 abstract class FormField @Inject
 constructor(
         val context: OrchidContext,
-        val inputTypes: Array<String>) : ModularListItem<FormFieldList, FormField> {
+        val inputTypes: Array<String>) : ModularPageListItem<FormFieldList, FormField> {
 
     lateinit var containingPage: OrchidPage
 

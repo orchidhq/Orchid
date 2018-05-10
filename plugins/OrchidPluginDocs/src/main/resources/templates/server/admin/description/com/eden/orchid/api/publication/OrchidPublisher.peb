@@ -1,0 +1,22 @@
+{% set 'service' = controller.provide(classType) %}
+{# @pebvariable name="service" type="com.eden.orchid.api.OrchidService" #}
+
+{% if optionsExtractor.hasOptions(classType, true, false) %}
+<b>Default Config</b>
+
+<pre><code class="lang-yaml"># config.yml
+...
+{{ service.optionsQuery }}:
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+  {{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+</code></pre>
+<i>or</i>
+<pre><code class="lang-yaml"># data/{{ service.optionsQuery.replaceAll("\.", "/") }}.yml
+{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{{ option.key }}: {{ option.defaultValue }}
+
+{% endfor %}
+</code></pre>
+{% endif %}

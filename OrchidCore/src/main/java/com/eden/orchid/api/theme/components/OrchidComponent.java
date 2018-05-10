@@ -28,7 +28,7 @@ import java.util.List;
  * @orchidApi extensible
  */
 @Extensible
-public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder, ModularListItem<ComponentHolder, OrchidComponent> {
+public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder, ModularPageListItem<ComponentHolder, OrchidComponent> {
 
     protected final OrchidContext context;
 

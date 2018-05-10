@@ -5,6 +5,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
+import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
@@ -12,6 +14,7 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.theme.components.ModularListItem;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,10 +42,9 @@ import javax.inject.Inject;
  */
 @Extensible
 @Archetype(value = ConfigArchetype.class, key = "allPublishers")
-public abstract class OrchidPublisher extends Prioritized implements OptionsHolder {
+public abstract class OrchidPublisher extends Prioritized implements OptionsHolder, ModularListItem<PublicationPipeline, OrchidPublisher> {
 
-    @Getter
-    protected final String key;
+    @Getter protected final String type;
 
     protected final OrchidContext context;
 
@@ -51,13 +53,18 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
     private boolean dry;
 
     @Getter @Setter
+    @Option @IntDefault(0)
+    @Description("Manually set the order in which this publisher executes")
+    protected int order;
+
+    @Getter @Setter
     @OptionsData
     private JSONElement allData;
 
     @Inject
-    public OrchidPublisher(OrchidContext context, String key, int priority) {
+    public OrchidPublisher(OrchidContext context, String type, int priority) {
         super(priority);
-        this.key = key;
+        this.type = type;
         this.context = context;
     }
 

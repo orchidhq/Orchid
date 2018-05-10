@@ -3,7 +3,6 @@ package com.eden.orchid.api.theme.components;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.Provider;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,9 +18,9 @@ import java.util.Set;
 public abstract class ModularList<L extends ModularList<L, I>, I extends ModularListItem<L, I>> {
 
     protected final OrchidContext context;
-    protected final Provider<Map<String, Class<I>>> itemTypesProvider;
+    private final Provider<Map<String, Class<I>>> itemTypesProvider;
 
-    protected Map<String, Class<I>> itemTypes;
+    private Map<String, Class<I>> itemTypes;
 
     protected JSONArray itemsJson;
     protected List<I> loadedItems;
@@ -72,7 +71,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         return true;
     }
 
-    public List<I> get(OrchidPage containingPage) {
+    public List<I> get() {
         if (loadedItems == null) {
             loadedItems = new ArrayList<>();
 
@@ -84,19 +83,15 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
                     if (itemTypes.containsKey(itemType)) {
                         I item = context.getInjector().getInstance(itemTypes.get(itemType));
                         item.setOrder((i + 1) * 10);
-
-                        if (item.canBeUsedOnPage(containingPage, (L) this, itemsJson, loadedItems)) {
-                            item.setPage(containingPage);
-                            item.extractOptions(context, itemJson);
-                            loadedItems.add(item);
-                        }
+                        item.extractOptions(context, itemJson);
+                        addItem(item, itemJson);
                     }
                     else {
-                        Clog.w("{} type [{}] could not be found (on page '{}' at {})", getItemClass().getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
+                        Clog.w("{} type [{}] could not be found {}", getItemClass().getSimpleName(), itemType, getLogMessage());
                     }
                 }
                 else {
-                    Clog.w("{} type not given (on page {} at {})", getItemClass().getSimpleName(), itemType, containingPage.getTitle(), containingPage.getLink());
+                    Clog.w("{} type not given {}", getItemClass().getSimpleName(), itemType, getLogMessage());
                 }
             }
 
@@ -104,6 +99,14 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         }
 
         return loadedItems;
+    }
+
+    protected void addItem(I item, JSONObject itemJson) {
+        loadedItems.add(item);
+    }
+
+    protected String getLogMessage() {
+        return "";
     }
 
     public void invalidate() {

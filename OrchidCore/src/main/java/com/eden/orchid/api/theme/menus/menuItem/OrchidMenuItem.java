@@ -6,7 +6,7 @@ import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
-import com.eden.orchid.api.theme.components.ModularListItem;
+import com.eden.orchid.api.theme.components.ModularPageListItem;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
@@ -21,7 +21,7 @@ import java.util.List;
  * @orchidApi extensible
  */
 @Extensible
-public abstract class OrchidMenuItem extends Prioritized implements ModularListItem<OrchidMenu, OrchidMenuItem> {
+public abstract class OrchidMenuItem extends Prioritized implements ModularPageListItem<OrchidMenu, OrchidMenuItem> {
 
     protected final OrchidContext context;
 
