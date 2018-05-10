@@ -40,6 +40,7 @@ import com.eden.orchid.impl.events.ClogSetupListener;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.SitemapGenerator;
+import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildCommand;
@@ -81,7 +82,6 @@ public final class ImplModule extends OrchidModule {
     protected void configure() {
         // prepare empty sets for binding
         addToSet(OrchidService.class);
-        addToSet(OrchidPublisher.class);
 
         addToSet(TypeConverter.class,
                 AssetsGenerator.AssetDirectory.Converter.class);
@@ -170,6 +170,10 @@ public final class ImplModule extends OrchidModule {
                 LoadFunction.class,
                 LocalDateFunction.class
         );
+
+        // Publication Methods
+        addToSet(OrchidPublisher.class,
+                ScriptPublisher.class);
 
         // Template Tags
         addToSet(TemplateTag.class,

@@ -7,7 +7,6 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.server.annotations.Extensible
-import com.eden.orchid.api.theme.components.ModularListItem
 import com.eden.orchid.api.theme.components.ModularPageListItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import org.json.JSONArray

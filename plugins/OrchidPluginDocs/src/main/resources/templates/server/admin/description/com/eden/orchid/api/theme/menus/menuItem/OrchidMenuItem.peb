@@ -9,10 +9,8 @@
 ...
 menu:
   - type: "{{ menuItem.type }}"
-{% if optionsExtractor.hasOptions(classType, true, false) %}
-{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
-    {{ option.key }}: {{ option.defaultValue }}
-
-{% endfor %}
+{%- if optionsExtractor.hasOptions(classType, true, false) %}
+{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+    {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 {% endif %}
 </code></pre>

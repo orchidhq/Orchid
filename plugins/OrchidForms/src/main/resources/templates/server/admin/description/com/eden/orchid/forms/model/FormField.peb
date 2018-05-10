@@ -10,9 +10,6 @@
 ...
 fields:
   - type: {{ field.inputTypes|first }} {% if field.inputTypes|length > 1 %}# or one of [{{ field.inputTypes|join(', ') }}]{% endif %}
-
-{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
-    {{ option.key }}: {{ option.defaultValue }}
-
-{% endfor %}
+{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+    {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>

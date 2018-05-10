@@ -6,17 +6,12 @@
 
 <pre><code class="lang-yaml"># config.yml
 ...
-{{ generator.key }}:
-{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
-  {{ option.key }}: {{ option.defaultValue }}
-
-{% endfor %}
+{{ generator.key }}:{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+  {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 <i>or</i>
 <pre><code class="lang-yaml"># data/{{ generator.key }}.yml
-{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
-{{ option.key }}: {{ option.defaultValue }}
-
-{% endfor %}
+{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 {% endif %}
