@@ -1,6 +1,5 @@
 package com.eden.orchid.api.publication;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
@@ -28,9 +27,6 @@ public final class PublicationServiceImpl implements PublicationService {
     @Description("The publication pipeline stages")
     private PublicationPipeline stages;
 
-    private int progress;
-    private int maxProgress;
-
     @Inject
     public PublicationServiceImpl(Set<OrchidPublisher> publishers) {
         this.allPublishers = new TreeSet<>(publishers);
@@ -46,48 +42,7 @@ public final class PublicationServiceImpl implements PublicationService {
 
     @Override
     public boolean publishAll(boolean dryDeploy) {
-        boolean success = true;
-        progress = 0;
-        maxProgress = stages.get().size();
-        context.broadcast(Orchid.Lifecycle.DeployProgress.fire(this, progress, maxProgress));
-
-        for(OrchidPublisher publisher : stages.get()) {
-            boolean publisherIsDry = dryDeploy || publisher.isDry();
-            Clog.d("{}Publishing [{}: {}]", (publisherIsDry) ? "Dry " : "", publisher.getPriority(), publisher.getType());
-
-            boolean publisherSuccess = true;
-
-            if(publisher.validate()) {
-                if(!publisherIsDry) {
-                    try {
-                        publisher.publish();
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                        Clog.e("Something went wrong publishing [{}]", e, publisher.getType());
-                        publisherSuccess = false;
-                    }
-                }
-            }
-            else {
-                Clog.e("Publisher validation failed for [{}]", publisher.getType());
-                publisherSuccess = false;
-            }
-
-            progress++;
-            context.broadcast(Orchid.Lifecycle.DeployProgress.fire(this, progress, maxProgress));
-
-            if(!publisherSuccess) {
-                success = false;
-                break;
-            }
-        }
-
-        if(!success) {
-            context.broadcast(Orchid.Lifecycle.DeployProgress.fire(this, maxProgress, maxProgress));
-        }
-
-        return success;
+        return stages.publishAll(dryDeploy, (progress, maxProgress) -> context.broadcast(Orchid.Lifecycle.DeployProgress.fire(this, progress, maxProgress)));
     }
 
 }
