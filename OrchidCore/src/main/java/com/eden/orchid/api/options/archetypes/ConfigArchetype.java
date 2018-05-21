@@ -35,7 +35,7 @@ public class ConfigArchetype implements OptionArchetype {
         context.broadcast(options);
         eventOptions = options.getConfig();
 
-        return OrchidUtils.merge(configOptions, eventOptions);
+        return EdenUtils.merge(configOptions, eventOptions);
     }
 
 }

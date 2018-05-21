@@ -391,7 +391,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public Map<String, Object> getMap() {
         if(_map == null) {
-            if(OrchidUtils.elementIsObject(allData)) {
+            if(EdenUtils.elementIsObject(allData)) {
                 _map = ((JSONObject) allData.getElement()).toMap();
             }
             else if(data != null) {

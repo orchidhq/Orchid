@@ -49,6 +49,7 @@ import com.eden.orchid.impl.tasks.DeployCommand;
 import com.eden.orchid.impl.tasks.DeployTask;
 import com.eden.orchid.impl.tasks.HelpCommand;
 import com.eden.orchid.impl.tasks.InteractiveTask;
+import com.eden.orchid.impl.tasks.QuitCommand;
 import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.tasks.WatchTask;
 import com.eden.orchid.impl.themes.DefaultTheme;
@@ -134,7 +135,8 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidCommand.class,
                 HelpCommand.class,
                 BuildCommand.class,
-                DeployCommand.class);
+                DeployCommand.class,
+                QuitCommand.class);
 
         // Menu Items
         addToSet(OrchidMenuItem.class,

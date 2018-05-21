@@ -18,7 +18,7 @@ constructor(val context: OrchidContext) : OptionArchetype {
 
         if(!EdenUtils.isEmpty(target.categoryModel.key)) {
             val contextOptions = context.query("$archetypeKey.${target.categoryModel.key}")
-            if (OrchidUtils.elementIsObject(contextOptions)) {
+            if (EdenUtils.elementIsObject(contextOptions)) {
                 return contextOptions!!.element as JSONObject
             }
         }

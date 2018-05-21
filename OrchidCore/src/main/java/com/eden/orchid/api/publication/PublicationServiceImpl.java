@@ -42,7 +42,9 @@ public final class PublicationServiceImpl implements PublicationService {
 
     @Override
     public boolean publishAll(boolean dryDeploy) {
-        return stages.publishAll(dryDeploy, (progress, maxProgress) -> context.broadcast(Orchid.Lifecycle.DeployProgress.fire(this, progress, maxProgress)));
+        return stages.publishAll(dryDeploy,
+                (progress, maxProgress) ->
+                        context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "deploying", progress, maxProgress)));
     }
 
 }

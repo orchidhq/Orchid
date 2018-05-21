@@ -9,54 +9,42 @@ import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
+import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
+
 public final class OrchidUtils {
+
+// Tested and documented methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    static boolean isWindows = File.separator.equals("\\");
+
     public static String applyBaseUrl(OrchidContext context, String url) {
         return context.getBaseUrl() + "/" + OrchidUtils.normalizePath(url);
     }
 
-    public static List<String> wrapString(String content, int width) {
-        List<String> matchList = new ArrayList<>();
-
-        if (!EdenUtils.isEmpty(content)) {
-            Pattern regex = Pattern.compile("(.{1," + width + "}(?:\\s|$))|(.{0," + width + "})", Pattern.DOTALL);
-            Matcher regexMatcher = regex.matcher(content);
-            while (regexMatcher.find()) {
-                String line = regexMatcher.group().trim();
-                if (!EdenUtils.isEmpty(line)) {
-                    matchList.add(line);
-                }
-            }
-        }
-
-        return matchList;
-    }
-
-    public static class DefaultComparator<T> implements Comparator<T> {
-        @Override
-        public int compare(T o1, T o2) {
-            return o1.getClass().getName().compareTo(o2.getClass().getName());
-        }
-    }
-
+    /**
+     * Removes the base directory from a file path. Leading slashes are also removed from the resulting file path.
+     *
+     * @param sourcePath The original file path
+     * @param baseDir the base directory that should be removed from the original file path
+     * @return the file path relative to the base directory
+     */
     public static String getRelativeFilename(String sourcePath, String baseDir) {
         if (sourcePath.contains(baseDir)) {
             int indexOf = sourcePath.indexOf(baseDir);
@@ -67,58 +55,15 @@ public final class OrchidUtils {
                 if (relative.startsWith("/")) {
                     relative = relative.substring(1);
                 }
+                else if (relative.startsWith("\\")) {
+                    relative = relative.substring(1);
+                }
 
                 return relative;
             }
         }
 
         return sourcePath;
-    }
-
-    public static <T> Predicate<T> not(Predicate<T> t) {
-        return t.negate();
-    }
-
-    public static boolean elementIsObject(JSONElement el) {
-        return (el != null) && (el.getElement() != null) && (el.getElement() instanceof JSONObject);
-    }
-
-    public static boolean elementIsArray(JSONElement el) {
-        return (el != null) && (el.getElement() != null) && (el.getElement() instanceof JSONArray);
-    }
-
-    public static boolean elementIsString(JSONElement el) {
-        return (el != null) && (el.getElement() != null) && (el.getElement() instanceof String);
-    }
-
-    public static JSONObject merge(JSONObject... sources) {
-        JSONObject dest = new JSONObject();
-
-        for(JSONObject tmpSource : sources) {
-            if(tmpSource == null) continue;
-            JSONObject source = new JSONObject(tmpSource.toMap());
-
-            for (String key : source.keySet()) {
-                if (dest.has(key)) {
-                    if (dest.get(key) instanceof JSONObject && source.get(key) instanceof JSONObject) {
-                        dest.put(key, merge(dest.getJSONObject(key), source.getJSONObject(key)));
-                    }
-                    else if (dest.get(key) instanceof JSONArray && source.get(key) instanceof JSONArray) {
-                        for (Object obj : source.getJSONArray(key)) {
-                            dest.getJSONArray(key).put(obj);
-                        }
-                    }
-                    else {
-                        dest.put(key, source.get(key));
-                    }
-                }
-                else {
-                    dest.put(key, source.get(key));
-                }
-            }
-        }
-
-        return dest;
     }
 
     /**
@@ -133,7 +78,7 @@ public final class OrchidUtils {
     public static String normalizePath(String path) {
         String normalizedPath = path;
         if (normalizedPath != null) {
-            if (File.separator.equals("\\")) {
+            if (isWindows) {
                 normalizedPath = normalizedPath.replaceAll("\\\\", "/");
             }
 
@@ -143,11 +88,153 @@ public final class OrchidUtils {
         return normalizedPath;
     }
 
-    public static String camelcaseToTitleCase(String camelcase) {
+    /**
+     * Parse input in the forms of an array of key-arg mappings, such as `['-key1 val1', '-key2 val1 val2 val3']`, and
+     * converts it to its mapped form, like {'-key1': ['-key1', 'val1'], '-key2': ['-key2', 'val1', 'val2', 'val3']}.
+     * The keys are retained as the first item in the value arrays, and the key retains the dash at its start.
+     *
+     * @param args
+     * @return
+     */
+    public static Map<String, String[]> parseCommandLineArgs(String[] args) {
         return Arrays
-                .stream(StringUtils.splitByCharacterTypeCamelCase(camelcase))
-                .map(StringUtils::capitalize)
-                .collect(Collectors.joining(" "));
+                .stream(args)
+                .filter(s -> s.startsWith("-"))
+                .map(s -> s.split("\\s+"))
+                .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
+    }
+
+    /**
+     * Parse input as entered on the command palette or in the Orchid interactive shell. The command input consists of
+     * two parts: the first is an ordered input, and the keys for the ordered values are given by `paramKeys`. The
+     * second consists of named key-arg mappings in the same format as used for the command-line flags. The resulting
+     * values for the named args do not retain the key in the value array, and the dash is stripped from the key. In
+     * addition, single values are lifted out an the array into single values. The two sections are separated by `--`.
+     * As as example: `val1 -- -key2 val1 val2 val3`, when parsed with paramKeys as `['key1']`, results in a mapped form
+     * like `{'key1': 'val1', 'key2': ['val1', 'val2', 'val3']}`.
+     *
+     * @param args the raw input text
+     * @param paramKeys the key names used for the ordered parameters
+     * @return a mapping of values extracted from the input text
+     */
+    public static JSONObject parseCommandArgs(String args, String[] paramKeys) {
+        JSONObject paramMap = new JSONObject();
+
+        String[] argsPieces = args.split("\\s*--\\s*");
+        String orderedInput = argsPieces[0].trim();
+        String namedInput = (argsPieces.length > 1) ? argsPieces[1].trim() : "";
+
+        if(!EdenUtils.isEmpty(orderedInput)) {
+            String[] orderedInputPieces = orderedInput.split("\\s+");
+            int i = 0;
+            while (i < paramKeys.length && i < orderedInputPieces.length) {
+                paramMap.put(paramKeys[i], orderedInputPieces[i]);
+                i++;
+            }
+        }
+
+        if(!EdenUtils.isEmpty(namedInput)) {
+            String[] namedInputPieces = namedInput.split("\\s*-\\s*");
+
+            for (int i = 0; i < namedInputPieces.length; i++) {
+                namedInputPieces[i] = "-" + namedInputPieces[i];
+            }
+
+            parseCommandLineArgs(namedInputPieces).forEach((key, vals) -> {
+                String keyName = StringUtils.stripStart(key, "-");
+                if(!EdenUtils.isEmpty(keyName)) {
+                    if(vals.length == 2) {
+                        paramMap.put(StringUtils.stripStart(key, "-"), vals[1]);
+                    }
+                    else {
+                        paramMap.put(StringUtils.stripStart(key, "-"), Arrays.copyOfRange(vals, 1, vals.length));
+                    }
+                }
+            });
+        }
+
+        return paramMap;
+    }
+
+    /**
+     * Converts a String to a URL-safe, or 'slug' version. This converts the input to lowercase and replaces all
+     * characters with dashes (-) except for alphaneumerics, dashes (-), underscores (_), and forward slashes (/).
+     *
+     * @param pathPiece the input to 'slugify'
+     * @return the URL-safe slug
+     */
+    public static String toSlug(String pathPiece){
+        String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
+        s = s.replaceAll("[^\\w-_/]", "");
+        return s;
+    }
+
+    /**
+     * Returns true if the input filename represents an external resource. Currently supports http:// and https://
+     *
+     * @param fileName the input to check if external
+     * @return whether the input represents an external resource
+     */
+    public static boolean isExternal(String fileName) {
+        return (fileName.startsWith("http://") || fileName.startsWith("https://"));
+    }
+
+    /**
+     * Returns the first item in a list if possible, returning null otherwise.
+     *
+     * @param items the list
+     * @param <T> the type of items in the list
+     * @return the first item in the list if the list is not null and not empty, null otherwise
+     */
+    public static <T> T first(List<T> items) {
+        if(items != null && items.size() > 0) {
+            return items.get(0);
+        }
+
+        return null;
+    }
+
+// Untested or undocumented methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder, Object source, String sourceKey) {
+        if(!EdenUtils.isEmpty(extraCss)) {
+            Arrays.stream(extraCss)
+                    .map(context::getResourceEntry)
+                    .filter(Objects::nonNull)
+                    .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
+                    .forEach(holder::addCss);
+        }
+        if(!EdenUtils.isEmpty(extraJs)) {
+            Arrays.stream(extraJs)
+                    .map(context::getResourceEntry)
+                    .filter(Objects::nonNull)
+                    .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
+                    .forEach(holder::addJs);
+        }
+    }
+
+    public static void addComponentAssets(OrchidPage containingPage, ComponentHolder[] componentHolders, List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
+        if(!EdenUtils.isEmpty(componentHolders)) {
+            for (ComponentHolder componentHolder : componentHolders) {
+                try {
+                    List<OrchidComponent> componentsList = componentHolder.get(containingPage);
+                    if (!EdenUtils.isEmpty(componentsList)) {
+                        componentsList
+                                .stream()
+                                .map(getter)
+                                .forEach(assets::addAll);
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static <T> Predicate<T> not(Predicate<T> t) {
+        return t.negate();
     }
 
     public static <T, R> R firstBy(Stream<T> stream, Function<? super T, ? extends R> mapper) {
@@ -176,60 +263,6 @@ public final class OrchidUtils {
         return false;
     }
 
-    public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder, Object source, String sourceKey) {
-        if(!EdenUtils.isEmpty(extraCss)) {
-            Arrays.stream(extraCss)
-                  .map(context::getResourceEntry)
-                  .filter(Objects::nonNull)
-                  .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
-                  .forEach(holder::addCss);
-        }
-        if(!EdenUtils.isEmpty(extraJs)) {
-            Arrays.stream(extraJs)
-                  .map(context::getResourceEntry)
-                  .filter(Objects::nonNull)
-                  .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
-                  .forEach(holder::addJs);
-        }
-    }
-
-    public static void addComponentAssets(OrchidPage containingPage, ComponentHolder[] componentHolders, List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
-        if(!EdenUtils.isEmpty(componentHolders)) {
-            for (ComponentHolder componentHolder : componentHolders) {
-                try {
-                    List<OrchidComponent> componentsList = componentHolder.get(containingPage);
-                    if (!EdenUtils.isEmpty(componentsList)) {
-                        componentsList
-                                .stream()
-                                .map(getter)
-                                .forEach(assets::addAll);
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static boolean isExternal(String fileName) {
-        return (fileName.startsWith("http://") || fileName.startsWith("https://"));
-    }
-
-    public static String toSlug(String pathPiece){
-        String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
-        s = s.replaceAll("[^\\w-_/]", "");
-        return s;
-    }
-
-    public static <T> T first(List<T> items) {
-        if(items != null && items.size() > 0) {
-            return items.get(0);
-        }
-
-        return null;
-    }
-
     public static <T> T transform(T input, List<Function<T, T>> transformations) {
         return transformations
                 .stream()
@@ -237,6 +270,46 @@ public final class OrchidUtils {
                         UnaryOperator.identity(),
                         (a, b) -> ((T o) -> b.apply(a.apply(o)))
                 ).apply(input);
+    }
+
+// Deprecated Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @deprecated This method has been moved to EdenUtils.
+     */
+    public static boolean elementIsObject(JSONElement el) {
+        return EdenUtils.elementIsObject(el);
+    }
+
+    /**
+     * @deprecated This method has been moved to EdenUtils.
+     */
+    public static boolean elementIsArray(JSONElement el) {
+        return EdenUtils.elementIsArray(el);
+    }
+
+    /**
+     * @deprecated This method has been moved to EdenUtils.
+     */
+    public static boolean elementIsString(JSONElement el) {
+        return EdenUtils.elementIsString(el);
+    }
+
+    /**
+     * @deprecated This method has been moved to EdenUtils.
+     */
+    public static JSONObject merge(JSONObject... sources) {
+        return EdenUtils.merge(sources);
+    }
+
+    /**
+     * @deprecated This method has been replaced by more flexible Kotlin APIs. These new APIs are available in Java
+     * as static methods in OrchidExtensionsKt, although they don't look nearly as nice in Java as they do in Kotlin.
+     */
+    public static String camelcaseToTitleCase(String camelcase) {
+        String[] from = from(camelcase, OrchidExtensionsKt::camelCase);
+        return to(from, OrchidExtensionsKt::titleCase);
     }
 
 }

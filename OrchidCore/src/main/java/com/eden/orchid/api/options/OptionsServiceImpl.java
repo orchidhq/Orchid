@@ -52,12 +52,12 @@ public final class OptionsServiceImpl implements OptionsService {
 
             JSONObject dataFiles = loadDataFiles();
             if (dataFiles != null) {
-                optionsData = OrchidUtils.merge(optionsData, dataFiles);
+                optionsData = EdenUtils.merge(optionsData, dataFiles);
             }
 
             JSONObject configOptions = loadConfigFile();
             if (configOptions != null) {
-                optionsData = OrchidUtils.merge(optionsData, configOptions);
+                optionsData = EdenUtils.merge(optionsData, configOptions);
             }
         }
 
@@ -112,12 +112,12 @@ public final class OptionsServiceImpl implements OptionsService {
 
         JSONObject config = context.getDatafile("config");
         if(config != null) {
-            allConfig = OrchidUtils.merge(allConfig, config);
+            allConfig = EdenUtils.merge(allConfig, config);
         }
 
         JSONObject envConfig = context.getDatafile("config-" + context.getEnvironment());
         if(envConfig != null) {
-            allConfig = OrchidUtils.merge(allConfig, envConfig);
+            allConfig = EdenUtils.merge(allConfig, envConfig);
         }
 
         return allConfig;
@@ -131,10 +131,10 @@ public final class OptionsServiceImpl implements OptionsService {
 //----------------------------------------------------------------------------------------------------------------------
 
     private void addJSONElement(Map<String, Object> siteData, JSONElement data) {
-        if(OrchidUtils.elementIsObject(data)) {
+        if(EdenUtils.elementIsObject(data)) {
             addJSONObject(siteData, (JSONObject) data.getElement());
         }
-        else if(OrchidUtils.elementIsArray(data)) {
+        else if(EdenUtils.elementIsArray(data)) {
             addJSONArray(siteData, (JSONArray) data.getElement());
         }
     }

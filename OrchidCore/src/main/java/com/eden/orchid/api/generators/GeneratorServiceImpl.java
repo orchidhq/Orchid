@@ -118,7 +118,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.startIndexingGenerator(generator.getKey());
 
         JSONElement el = context.query(generator.getKey());
-        if (OrchidUtils.elementIsObject(el)) {
+        if (EdenUtils.elementIsObject(el)) {
             generator.extractOptions(context, (JSONObject) el.getElement());
         }
         else {

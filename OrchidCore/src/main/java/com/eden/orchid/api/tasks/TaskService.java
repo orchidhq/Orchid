@@ -18,8 +18,8 @@ public interface TaskService extends OrchidService {
         return getService(TaskService.class).runTask(taskName);
     }
 
-    default boolean runCommand(String commandName, String parameters) {
-        return getService(TaskService.class).runCommand(commandName, parameters);
+    default boolean runCommand(String input) {
+        return getService(TaskService.class).runCommand(input);
     }
 
     default void build() {

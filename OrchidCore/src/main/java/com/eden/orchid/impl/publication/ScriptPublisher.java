@@ -36,6 +36,12 @@ public class ScriptPublisher extends OrchidPublisher {
     @Override
     public void publish() {
         Clog.v("> [{}] [{}]", command, String.join(" ", args));
+        try {
+            Thread.sleep(1000);
+        }
+        catch (Exception e) {
+
+        }
     }
 
 }

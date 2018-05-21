@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +20,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -103,7 +103,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     }
 
     @Override
-    public boolean runCommand(String commandName, String parameters) {
+    public boolean runCommand(String input) {
+        String[] inputPieces = input.split("\\s+");
+        String commandName = inputPieces[0];
+        String commandArgs = String.join(" ", Arrays.copyOfRange(inputPieces, 1, inputPieces.length));
+
         if(!Orchid.getInstance().getState().isWorkingState()) {
             OrchidCommand foundCommand = commands
                     .stream()
@@ -115,18 +119,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             if (foundCommand != null) {
                 OrchidCommand freshCommand = context.getInjector().getInstance(foundCommand.getClass());
 
-                String[] pieces = parameters.split("\\s+");
-                String[] paramKeys = foundCommand.parameters();
-
-                Map<String, String> paramMap = new HashMap<>();
-
-                int i = 0;
-                while (i < paramKeys.length && i < pieces.length) {
-                    paramMap.put(paramKeys[i], pieces[i]);
-                    i++;
-                }
-
-                JSONObject paramsJSON = new JSONObject(paramMap);
+                JSONObject paramsJSON = OrchidUtils.parseCommandArgs(commandArgs, freshCommand.parameters());
 
                 freshCommand.extractOptions(context, paramsJSON);
 
