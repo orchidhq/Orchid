@@ -40,7 +40,6 @@ import com.eden.orchid.impl.events.ClogSetupListener;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.SitemapGenerator;
-import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildCommand;
@@ -174,8 +173,7 @@ public final class ImplModule extends OrchidModule {
         );
 
         // Publication Methods
-        addToSet(OrchidPublisher.class,
-                ScriptPublisher.class);
+        addToSet(OrchidPublisher.class);
 
         // Template Tags
         addToSet(TemplateTag.class,
