@@ -1,27 +1,18 @@
 package com.eden.orchid.api.resources;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import okhttp3.OkHttpClient;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"})
 public final class ResourceServiceTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private OrchidContext context;
     private ResourceService underTest;
@@ -34,7 +25,7 @@ public final class ResourceServiceTest {
     private Set<PluginResourceSource> pluginResourceSources;
     private PluginResourceSource mockPluginResourceSource;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         resourcesDir = "mockResourcesDir";
         fileResourceSources = new HashSet<>();

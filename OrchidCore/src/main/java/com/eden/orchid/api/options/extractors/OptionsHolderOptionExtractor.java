@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
@@ -59,22 +60,16 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
 
     @Override
     public OptionsHolder getOption(Field field, Object sourceObject, String key) {
-//        try {
-//            OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-//            JSONObject sourceJson = new JSONObject(mapConverter.convert(sourceObject).second);
-//            extractorProvider.get().extractOptions(holder, sourceJson);
-//
-//            return holder;
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        if(sourceObject instanceof JSONObject) {
+        try {
             OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-            extractorProvider.get().extractOptions(holder, (JSONObject) sourceObject);
+
+            JSONObject sourceJson = (sourceObject instanceof JSONObject) ? (JSONObject) sourceObject : new JSONObject();
+            extractorProvider.get().extractOptions(holder, sourceJson);
 
             return holder;
+        }
+        catch (Exception e) {
+
         }
 
         return null;
@@ -82,6 +77,16 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
 
     @Override
     public OptionsHolder getDefaultValue(Field field) {
+        try {
+            OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
+            extractorProvider.get().extractOptions(holder, new JSONObject());
+            return holder;
+        }
+        catch (Exception e) {
+
+        }
+
+        Clog.e("Could not create instance of [{}] to extract into class [{}]", field.getType().getName(), field.getDeclaringClass().getName());
         return null;
     }
 

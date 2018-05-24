@@ -1,8 +1,7 @@
 package com.eden.orchid.api.theme;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
-@Test(groups={"theme", "unit"}, dependsOnGroups = {"assets", "components", "menus", "pages"})
 public class ThemeTests {
 
     @Test

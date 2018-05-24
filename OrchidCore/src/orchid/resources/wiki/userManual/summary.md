@@ -30,3 +30,6 @@
 * [Template Lookup Order](themes/template-lookup.md)
 * [Pebble](themes/pebble.md)
 
+## Deployment
+
+* [Publication Pipeline](deployment/publication-pipeline.md)

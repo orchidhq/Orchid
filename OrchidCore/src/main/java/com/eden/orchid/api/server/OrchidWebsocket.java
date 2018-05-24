@@ -1,12 +1,10 @@
 package com.eden.orchid.api.server;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import fi.iki.elonen.NanoWSD;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public final class OrchidWebsocket extends NanoWSD {
 
@@ -59,18 +57,7 @@ public final class OrchidWebsocket extends NanoWSD {
         protected void onMessage(WebSocketFrame message) {
             try {
                 message.setUnmasked();
-
-                String[] inputPieces = message.getTextPayload().split("\\s+");
-                String command = inputPieces[0];
-                String params = String.join(" ", Arrays.copyOfRange(inputPieces, 1, inputPieces.length));
-
-                if(command.equalsIgnoreCase("quit")) {
-                    context.broadcast(Orchid.Lifecycle.EndSession.fire(this));
-                }
-                else {
-                    context.runCommand(command, params);
-                }
-
+                context.runCommand(message.getTextPayload());
                 sendFrame(message);
             } catch (IOException e) {
                 throw new RuntimeException(e);

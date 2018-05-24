@@ -43,14 +43,16 @@ cd OrchidStarter
         <div class="col-md-10 col-md-offset-1">
 {% highlight 'groovy' %}
 plugins {
-    id "com.eden.orchidPlugin" version "v0.4.1"
+    id "com.eden.orchidPlugin" version "{{ site.version }}"
+    id "com.eden.orchidJavadocPlugin" version "{{ site.version }}" // if using Orchid for Javadocs
 }
 repositories {
     jcenter()
+    maven { url 'https://dl.bintray.com/javaeden/Orchid/' }
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{ site.orchidVersion }}'
+    orchidCompile 'io.github.javaeden.orchid:OrchidAll:{{ site.version }}'
 }
 orchid {
     theme   = "{{ theme.key }}"

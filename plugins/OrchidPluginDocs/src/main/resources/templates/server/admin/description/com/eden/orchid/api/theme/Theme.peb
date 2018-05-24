@@ -7,15 +7,11 @@
 <pre><code class="lang-yaml"># config.yml
 ...
 {{ theme.key }}: # to configure this theme only. Use `theme:` to configure all themes with these options
-{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
-  {{ option.key }}: {{ option.defaultValue }}
-
-{% endfor %}
+{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+  {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 <pre><code class="lang-yaml"># data/{{ theme.key }}.yml or # data/theme.yml
-{% for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
-{{ option.key }}: {{ option.defaultValue }}
-
-{% endfor %}
+{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 {% endif %}

@@ -6,9 +6,7 @@
 **Relevant classes:**
 
 {% for classname in classnames %}
-- {{ anchor(classname, classname) }}
-
-{% endfor %}
+- {{ anchor(classname) }}{% endfor %}
 {% endif %}
 
 {% endblock %}

@@ -1,5 +1,6 @@
 package com.eden.orchid.netlifycms
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.FileCollection
@@ -124,9 +125,9 @@ constructor(
 
                         queryStrings.forEach { queryString ->
                             var configOptions = context.query(queryString)
-                            if (OrchidUtils.elementIsObject(configOptions)) {
+                            if (EdenUtils.elementIsObject(configOptions)) {
                                 val queryResult = configOptions.element as JSONObject
-                                collectionData = OrchidUtils.merge(collectionData, queryResult)
+                                collectionData = EdenUtils.merge(collectionData, queryResult)
                             }
                         }
 
@@ -134,7 +135,7 @@ constructor(
                     }
                 }
 
-        jsonConfig = OrchidUtils.merge(jsonConfig, config)
+        jsonConfig = EdenUtils.merge(jsonConfig, config)
 
         val yaml = Yaml()
         return yaml.dump(jsonConfig.toMap())

@@ -66,6 +66,10 @@ public final class AnchorFunction extends TemplateFunction {
 
     @Override
     public Object apply(Object input) {
+        if(EdenUtils.isEmpty(itemId) && !EdenUtils.isEmpty(title)) {
+            itemId = title;
+        }
+
         OrchidPage page = context.findPage(collectionType, collectionId, itemId);
 
         if(page != null) {

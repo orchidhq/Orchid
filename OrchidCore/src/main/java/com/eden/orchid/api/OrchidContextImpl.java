@@ -1,18 +1,19 @@
 package com.eden.orchid.api;
 
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.options.OptionsService;
+import com.eden.orchid.api.publication.PublicationService;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -51,6 +52,7 @@ public final class OrchidContextImpl implements OrchidContext {
             OptionsService optionsService,
             GeneratorService generatorService,
             RenderService renderService,
+            PublicationService publicationService,
 
             Set<OrchidService> additionalServices
     ) {
@@ -59,22 +61,25 @@ public final class OrchidContextImpl implements OrchidContext {
         this.site = site;
 
         services = new HashMap<>();
-        initializeService(OrchidSite.class, site);
-        initializeService(CompilerService.class, compilerService);
-        initializeService(ThemeService.class, themeService);
-        initializeService(EventService.class, eventService);
-        initializeService(IndexService.class, indexService);
-        initializeService(ResourceService.class, resourceService);
-        initializeService(TaskService.class, taskService);
-        initializeService(OptionsService.class, optionsService);
-        initializeService(GeneratorService.class, generatorService);
-        initializeService(RenderService.class, renderService);
+        initializeService(OrchidSite.class,         site);
+        initializeService(CompilerService.class,    compilerService);
+        initializeService(ThemeService.class,       themeService);
+        initializeService(EventService.class,       eventService);
+        initializeService(IndexService.class,       indexService);
+        initializeService(ResourceService.class,    resourceService);
+        initializeService(TaskService.class,        taskService);
+        initializeService(OptionsService.class,     optionsService);
+        initializeService(GeneratorService.class,   generatorService);
+        initializeService(RenderService.class,      renderService);
+        initializeService(PublicationService.class, publicationService);
 
         for(OrchidService service : additionalServices) {
             services.put(service.getClass(), service);
         }
 
         initialize(this);
+
+        Orchid.getInstance().setState(Orchid.State.IDLE);
     }
 
 // Service Delegation
@@ -119,7 +124,7 @@ public final class OrchidContextImpl implements OrchidContext {
     public void extractServiceOptions() {
         services.values().forEach(service -> {
             JSONElement el = query(service.optionsQuery());
-            if (OrchidUtils.elementIsObject(el)) {
+            if (EdenUtils.elementIsObject(el)) {
                 service.extractOptions(this, (JSONObject) el.getElement());
             }
             else {

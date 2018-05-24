@@ -1,6 +1,9 @@
 dependencies {
     compile project(":OrchidCore") // core lib
 
-    orchidRuntime rootProject.ext.themeProjects // all theme libs
-    orchidRuntime rootProject.ext.pluginProjects // all plugin libs
+    orchidRuntime project(":themes:Orchid${project.ext.commonTheme}") // current theme lib
+    orchidRuntime project // plugin lib
+    orchidRuntime project(":plugins:OrchidPages")
+    orchidRuntime project(":plugins:OrchidPluginDocs")
+    orchidRuntime project(":languageExtensions:OrchidSyntaxHighlighter")
 }

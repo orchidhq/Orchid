@@ -1,4 +1,0 @@
----
----
-
-{% extends '_developersGuideBase' %}

@@ -2,13 +2,13 @@ package com.eden.orchid.impl.tasks;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskService;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.EventListener;
 import java.util.Scanner;
 
@@ -16,6 +16,8 @@ import java.util.Scanner;
 public final class InteractiveTask extends OrchidTask implements EventListener {
 
     private final Provider<OrchidContext> contextProvider;
+
+    Scanner sn;
 
     @Inject
     public InteractiveTask(Provider<OrchidContext> contextProvider) {
@@ -25,24 +27,21 @@ public final class InteractiveTask extends OrchidTask implements EventListener {
 
     @Override
     public void run() {
-        Scanner sn = new Scanner(System.in);
+        contextProvider.get().build();
+
+        sn = new Scanner(System.in);
         while(true) {
             System.out.print("Enter a command: \n");
             System.out.print("> ");
             String input = sn.nextLine();
-            String[] inputPieces = input.split("\\s+");
-            String command = inputPieces[0];
-            String params = String.join(" ", Arrays.copyOfRange(inputPieces, 1, inputPieces.length));
-
-            if(command.equalsIgnoreCase("quit")) {
-                contextProvider.get().broadcast(Orchid.Lifecycle.EndSession.fire(this));
-                break;
-            }
-            else {
-                contextProvider.get().runCommand(command, params);
-            }
+            contextProvider.get().runCommand(input);
         }
+    }
+
+    @On(Orchid.Lifecycle.EndSession.class)
+    public void onEndSession(Orchid.Lifecycle.EndSession event) {
         sn.close();
     }
+
 }
 

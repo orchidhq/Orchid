@@ -1,6 +1,6 @@
 <div class="alert alert-{{tag.level}}" role="alert">
 {% if tag.headline is not empty %}
-    <h4 class="alert-heading">{{ tag.headline }}</h4>
+<h4 class="alert-heading">{{ tag.headline }}</h4>
 {% endif %}
 {{ tag.content | raw }}
 </div>

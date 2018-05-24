@@ -5,9 +5,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,13 +19,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-@Test(groups={"options", "unit"})
 public class TestFlags {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
 // Test Setup
 //----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +72,7 @@ public class TestFlags {
         }
     }
 
-    @BeforeMethod
+    @BeforeEach
     public void setupTest() {
         flagsMap = new HashMap<>();
         flagsMap.put("-one",   new String[] {"-one",   "valueOne"});

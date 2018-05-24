@@ -1,13 +1,13 @@
 package com.eden.orchid.forms.model
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.theme.components.ModularList
+import com.eden.orchid.api.theme.components.ModularPageList
 import com.google.inject.Provider
 import javax.inject.Inject
 
 class FormFieldList @Inject
 constructor(context: OrchidContext)
-    : ModularList<FormFieldList, FormField>(context, Provider { getFieldInputTypes(context) }) {
+    : ModularPageList<FormFieldList, FormField>(context, Provider { getFieldInputTypes(context) }) {
 
     override fun getItemClass(): Class<FormField> {
         return FormField::class.java

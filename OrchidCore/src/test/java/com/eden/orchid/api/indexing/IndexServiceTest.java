@@ -1,27 +1,18 @@
 package com.eden.orchid.api.indexing;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"})
 public final class IndexServiceTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private OrchidContext context;
     private IndexService underTest;
     private IndexServiceImpl service;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
 
         // test the service directly

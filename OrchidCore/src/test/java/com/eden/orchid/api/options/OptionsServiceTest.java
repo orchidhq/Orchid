@@ -1,31 +1,22 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"}, dependsOnGroups = {"options"})
 public final class OptionsServiceTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private Set<TemplateGlobal> globals;
     private OrchidContext context;
     private OptionsService underTest;
     private OptionsServiceImpl service;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
 
         // test the service directly

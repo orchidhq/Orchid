@@ -1,26 +1,18 @@
 package com.eden.orchid.api.converters;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"})
 public final class ConvertersTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private OrchidContext context;
 
@@ -33,7 +25,7 @@ public final class ConvertersTest {
     private IntegerConverter integerConverter;
     private FloatConverter floatConverter;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         stringConverterHelper = spy(new ClogStringConverterHelper());
         Set<StringConverterHelper> helpers = new HashSet<>();

@@ -3,6 +3,7 @@ package com.eden.orchid.api.theme;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
  * @since v1.0.0
  * @orchidApi extensible
  */
+@Extensible
 public abstract class Theme extends AbstractTheme {
 
     @Getter @Setter

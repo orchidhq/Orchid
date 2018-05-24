@@ -8,8 +8,8 @@ import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,6 +17,7 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class DefaultPermalinkStrategyTest {
@@ -28,7 +29,7 @@ public class DefaultPermalinkStrategyTest {
     private OrchidReference reference;
     private OrchidPage page;
 
-    @BeforeTest
+    @BeforeEach
     public void setup() {
         pathTypes = new HashSet<>();
         pathTypes.add(new TestPathType(100, "one", "two"));
@@ -59,19 +60,19 @@ public class DefaultPermalinkStrategyTest {
         assertThat(page.getReference().toString(), is(equalTo("two-four-three-eight")));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testInvalidPermalinkKey() {
-        underTest.applyPermalink(page, "/{one}/{two}/{three}/{four}");
+        assertThrows(IllegalArgumentException.class , () -> underTest.applyPermalink(page, "/{one}/{two}/{three}/{four}"));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testEmptyPermalinkColons() {
-        underTest.applyPermalink(page, "/:one/:two/:/four");
+        assertThrows(IllegalArgumentException.class , () -> underTest.applyPermalink(page, "/:one/:two/:/four"));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testEmptyPermalinkGroups() {
-        underTest.applyPermalink(page, "/{one}/{two}/{}/{four}");
+        assertThrows(IllegalArgumentException.class , () -> underTest.applyPermalink(page, "/{one}/{two}/{}/{four}"));
     }
 
     @Test

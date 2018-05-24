@@ -34,17 +34,23 @@ ridiculously good-looking Javadocs, wikis, and more.
 
 **Step 1**
 
-Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`
+Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`. If you 
+are generating Javadoc, you'll also need the [Orchid Gradle Javadoc Plugin](https://plugins.gradle.org/plugin/com.eden.orchidJavadocPlugin).
 
 The plugin adds several new tasks to run Orchid in various modes, along with replacing the Javadoc task with Orchid. It
 also opens up a configuration block where you can set options such as the theme and input/output directories of Orchid. 
-The plugin is explained in more detail in the [Advanced Configuration](#) section.
+The plugin is explained in more detail in the {{anchor('Advanced Configuration')}} section.
 
 **Step 2**
 
-Add the following lines to your `dependencies` block:
+Add the following to your `dependencies` and `repositories` blocks:
 
 {% highlight 'groovy' %}
+repositories {
+    jcenter()
+    maven { url 'https://dl.bintray.com/javaeden/Orchid/' }
+    maven { url 'https://jitpack.io' }
+}
 dependencies {
     compile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
     orchidCompile "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
@@ -54,7 +60,19 @@ dependencies {
 The dependency in `orchidCompile` adds all official Orchid core packages, themes, and plugins for ease of setup. You
 may instead choose which specific packages you want to install, which are listed on the [homepage]({{site.baseUrl}}). 
 
-The dependency in `compile` is optional, but is needed if you intend to create plugins specifically for this project.
+The dependency in `compile` is optional, but is needed if you intend to create plugins to share with the community, or
+if you just want to keep your private plugins in the `main` configuration while keeping only content in your `orchid`
+configuration.
+
+{% alert 'info' 'Note on repositories' :: compileAs('md') %}
+Orchid currently hosts its own artifacts on Bintray, but I am having issues getting them synced to JCenter properly. 
+Using a `maven` repository at `https://dl.bintray.com/javaeden/Orchid/` will ensure Gradle will always be able to 
+resolve all artifacts, and will also be available immediately after a new version is released (it usually takes them a 
+bit longer to sync to JCenter).
+
+In addition, Orchid has transitive dependencies hosted on Jitpack, though eventually Orchid will only depend on  
+artifacts that can be resolved through JCenter.
+{% endalert %}
 
 **Step 3**
 
@@ -64,9 +82,26 @@ Add the following block to the top-level of your `build.gradle`:
 orchid {
     version = "${project.version}" 
     theme = "FutureImperfect" // or whatever theme you choose
-    baseUrl = "http://localhost:8080" // you may want to change this when deploying to production
+    baseUrl = "http://localhost:8080" // you may want to change this when deploying to production, typically from an environment variable in your CI build
 }
 {% endhighlight %}
+
+**Step 3.5 (Optional, but necessary to document Android projects)**
+
+The Gradle Android plugin does not extend the `java` plugin, so Android modules cannot directly use Orchid. However, you
+can create a _separate_ module in your Gradle build just for Orchid and point it at your Android java sources to 
+generate Javadoc for them.
+
+{% highlight 'groovy' %}
+// in your Orchid module's build.gradle
+orchidJavadoc {
+    sources = [file("${project('app')}}/src/main/java")]
+}
+{% endhighlight %}
+
+This does not change the resouce dir, but just tells Javadoc where to look for Java sources, and this information gets 
+passed back to Orchid. You can also use this technique to include Javadoc documentation from multiple Gradle modules in
+one Orchid build, if desired.
 
 **Step 4**
 

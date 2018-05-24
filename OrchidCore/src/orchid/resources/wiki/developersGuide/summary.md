@@ -26,15 +26,6 @@ Learn the most common ways you can extend Orchid.
 * [Tasks](extend/tasks.md)
 * [Menu Items](extend/menus.md)
 
-### Generators
-
-Learn all about working with custom Generators to extend your sitemap. 
-
-* [Overview](generators/overview.md)
-* [Indexing](generators/indexing.md)
-* [Generating](generators/generating.md)
-* [Collections](generators/collections.md)
-
 ### Changelog
 
 * [Changelog](changelog.md)

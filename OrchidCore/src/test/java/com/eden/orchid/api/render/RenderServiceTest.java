@@ -14,9 +14,8 @@ import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.google.inject.Injector;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -29,13 +28,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-@Test(groups={"services", "unit"})
 public final class RenderServiceTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     private Injector injector;
     private OptionsExtractor extractor;
@@ -55,8 +48,10 @@ public final class RenderServiceTest {
     private OrchidReference layoutReference;
     private OrchidResource layout;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
+
         // test the service directly
         context = mock(OrchidContext.class);
         injector = mock(Injector.class);
@@ -72,7 +67,6 @@ public final class RenderServiceTest {
         when(context.getEmbeddedData(layoutContent)).thenReturn(new EdenPair<>(layoutContent, new JSONElement(new JSONObject())));
         when(context.getEmbeddedData(resourceContent)).thenReturn(new EdenPair<>(resourceContent, new JSONElement(new JSONObject())));
         when(context.getOutputExtension(any())).thenReturn("html");
-        when(context.getResourceEntry("one.html")).thenReturn(layout);
         when(context.getInjector()).thenReturn(injector);
         when(injector.getInstance(OrchidPrecompiler.class)).thenReturn(precompiler);
 
@@ -88,6 +82,7 @@ public final class RenderServiceTest {
         page.setExpiryDate(LocalDate.now().atTime(LocalTime.MAX));
         templateResolutionStrategy = mock(TemplateResolutionStrategy.class);
 
+        when(context.getResourceEntry("one.html")).thenReturn(layout);
         when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
         when(context.compile("html", layoutContent, page)).thenReturn(layoutContent);
         when(context.compile("html", resourceContent, page)).thenReturn(resourceContent);

@@ -2,18 +2,17 @@ package com.eden.orchid.api.compilers;
 
 import com.caseyjbrooks.clog.Clog;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-@Test(groups={"unit"})
 public final class OrchidParserTest {
 
     private OrchidParser underTest;
 
-    @BeforeMethod
+    @BeforeEach
     public void testSetup() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidParser(100) {

@@ -21,11 +21,6 @@ public final class BuildTask extends OrchidTask {
     }
 
     @Override
-    public String getName() {
-        return "build";
-    }
-
-    @Override
     public void run() {
         contextProvider.get().build();
     }

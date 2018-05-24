@@ -57,7 +57,7 @@ public abstract class OrchidResource {
 
     public boolean shouldPrecompile() {
         JSONElement data = getEmbeddedData();
-        if(OrchidUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompile")) {
+        if(EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompile")) {
             return ((JSONObject) data.getElement()).getBoolean("precompile");
         }
 
@@ -97,7 +97,7 @@ public abstract class OrchidResource {
 
     public String getPrecompilerExtension() {
         JSONElement data = getEmbeddedData();
-        if(OrchidUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompileAs")) {
+        if(EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompileAs")) {
             return ((JSONObject) data.getElement()).getString("precompileAs");
         }
 
@@ -122,7 +122,7 @@ public abstract class OrchidResource {
 
     public String getTitle() {
         JSONElement data = getEmbeddedData();
-        if(OrchidUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("title")) {
+        if(EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("title")) {
             return ((JSONObject) data.getElement()).getString("title");
         }
 

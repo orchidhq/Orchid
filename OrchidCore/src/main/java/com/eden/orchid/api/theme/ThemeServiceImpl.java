@@ -1,9 +1,9 @@
 package com.eden.orchid.api.theme;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import org.json.JSONObject;
@@ -145,11 +145,11 @@ public final class ThemeServiceImpl implements ThemeService {
         void pushTheme(T theme) {
             JSONObject themeOptions = new JSONObject();
 
-            if(OrchidUtils.elementIsObject(context.query(defaultOptionsKey))) {
-                themeOptions = OrchidUtils.merge(themeOptions,  (JSONObject) context.query(defaultOptionsKey).getElement());
+            if(EdenUtils.elementIsObject(context.query(defaultOptionsKey))) {
+                themeOptions = EdenUtils.merge(themeOptions,  (JSONObject) context.query(defaultOptionsKey).getElement());
             }
-            if(OrchidUtils.elementIsObject(context.query(theme.getKey()))) {
-                themeOptions = OrchidUtils.merge(themeOptions,  (JSONObject) context.query(theme.getKey()).getElement());
+            if(EdenUtils.elementIsObject(context.query(theme.getKey()))) {
+                themeOptions = EdenUtils.merge(themeOptions,  (JSONObject) context.query(theme.getKey()).getElement());
             }
 
             pushTheme(theme, themeOptions);

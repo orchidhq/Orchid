@@ -34,7 +34,6 @@ import java.util.stream.Stream;
 public final class GeneratorServiceImpl implements GeneratorService {
 
     private final Set<OrchidGenerator> allGenerators;
-    private Set<OrchidGenerator> generators;
     private OrchidContext context;
 
     @Getter
@@ -98,8 +97,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startIndexing() {
-        generators = this.allGenerators;
-        metrics.startIndexing(generators);
+        metrics.startIndexing(allGenerators);
 
         context.clearIndex();
 
@@ -120,7 +118,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.startIndexingGenerator(generator.getKey());
 
         JSONElement el = context.query(generator.getKey());
-        if (OrchidUtils.elementIsObject(el)) {
+        if (EdenUtils.elementIsObject(el)) {
             generator.extractOptions(context, (JSONObject) el.getElement());
         }
         else {
@@ -213,7 +211,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     Stream<OrchidGenerator> getFilteredGenerators(boolean parallel, String[] include, String[] exclude) {
-        Stream<OrchidGenerator> generatorStream = (parallel) ? generators.parallelStream() : generators.stream();
+        Stream<OrchidGenerator> generatorStream = (parallel) ? allGenerators.parallelStream() : allGenerators.stream();
         return getFilteredGenerators(generatorStream, include, exclude);
     }
 

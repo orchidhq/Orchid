@@ -37,3 +37,23 @@ services:
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
+  publications:
+    stages:
+      - type: script
+        command: 'deploy-code-1'
+        args:
+          - 'one'
+          - 'two'
+          - 'three'
+      - type: script
+        command: 'deploy-code-2'
+        args:
+          - 'one'
+          - 'two'
+          - 'three'
+      - type: script
+        command: 'deploy-code-3'
+        args:
+          - 'one'
+          - 'two'
+          - 'three'

@@ -51,11 +51,11 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
 
         if(sourceObject instanceof String) {
             relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
-            relationConfig = OrchidUtils.merge(relationConfig, relation.parseStringRef((String) sourceObject));
+            relationConfig = EdenUtils.merge(relationConfig, relation.parseStringRef((String) sourceObject));
         }
         else if(sourceObject instanceof JSONObject) {
             relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
-            relationConfig = OrchidUtils.merge(relationConfig, (JSONObject) sourceObject);
+            relationConfig = EdenUtils.merge(relationConfig, (JSONObject) sourceObject);
         }
 
         if(relation == null) {

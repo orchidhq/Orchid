@@ -46,7 +46,7 @@ public class BuildMetrics {
     public void startIndexingGenerator(String generator) {
         ensureMetricsExist(generator);
         generatorMetricsMap.get(generator).startIndexing();
-        context.broadcast(Orchid.Lifecycle.IndexProgress.fire(this, progress, maxProgress));
+        context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "indexing", progress, maxProgress));
     }
 
     public void stopIndexingGenerator(String generator, int numberOfPages) {
@@ -57,7 +57,7 @@ public class BuildMetrics {
     }
 
     public void stopIndexing() {
-        context.broadcast(Orchid.Lifecycle.IndexProgress.fire(this, maxProgress, maxProgress));
+        context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "indexing", maxProgress, maxProgress));
     }
 
 // Measure Generation Phase
@@ -81,7 +81,7 @@ public class BuildMetrics {
     public void onPageGenerated(OrchidPage page, long millis) {
         if (page.isIndexed()) {
             progress++;
-            context.broadcast(Orchid.Lifecycle.BuildProgress.fire(this, progress, maxProgress, millis));
+            context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "building", progress, maxProgress, millis));
 
             if (page.getGenerator() != null) {
                 ensureMetricsExist(page.getGenerator().getKey());
@@ -92,7 +92,7 @@ public class BuildMetrics {
 
     public void stopGeneration() {
         printMetrics();
-        context.broadcast(Orchid.Lifecycle.BuildProgress.fire(this, maxProgress, maxProgress, 0));
+        context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "building", maxProgress, maxProgress, 0));
     }
 
 // Print Metrics

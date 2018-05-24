@@ -1,16 +1,8 @@
 package com.eden.orchid.api.theme.components;
 
-import com.caseyjbrooks.clog.Clog;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
-@Test(groups={"components", "unit"})
 public class TestOrchidComponent {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
 
     @Test
     public void testMethod() throws Throwable {

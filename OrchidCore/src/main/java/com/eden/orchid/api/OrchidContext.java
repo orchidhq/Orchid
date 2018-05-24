@@ -1,6 +1,7 @@
 package com.eden.orchid.api;
 
 import com.eden.orchid.api.compilers.CompilerService;
+import com.eden.orchid.api.publication.PublicationService;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.indexing.IndexService;
@@ -27,7 +28,8 @@ public interface OrchidContext extends
         TaskService,
         OptionsService,
         GeneratorService,
-        RenderService
+        RenderService,
+        PublicationService
 {
 
     default String getKey() { return "context"; }

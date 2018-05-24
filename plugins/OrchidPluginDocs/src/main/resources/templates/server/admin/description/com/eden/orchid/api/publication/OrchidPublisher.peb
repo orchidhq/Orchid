@@ -1,0 +1,16 @@
+{% set 'publisher' = controller.provide(classType) %}
+{# @pebvariable name="publisher" type="com.eden.orchid.api.publication.OrchidPublisher" #}
+
+{% if optionsExtractor.hasOptions(classType, true, false) %}
+<b>Default Config</b>
+
+<pre><code class="lang-yaml"># config.yml
+...
+services:
+  publication:
+    stages:
+      {{ publisher.type }}:
+      {%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+        {{ option.key }}: {{ option.defaultValue }}{% endfor %}
+</code></pre>
+{% endif %}

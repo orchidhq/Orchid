@@ -4,7 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 
 import javax.inject.Inject;
 
-public final class ComponentHolder extends ModularList<ComponentHolder, OrchidComponent> {
+public final class ComponentHolder extends ModularPageList<ComponentHolder, OrchidComponent> {
 
     @Inject
     public ComponentHolder(OrchidContext context) {
