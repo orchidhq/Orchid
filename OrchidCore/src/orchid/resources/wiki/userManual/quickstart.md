@@ -1,6 +1,9 @@
 ---
 ---
 
+{% extends '_wikiBase' %}
+
+{% block sectionBody %}
 ## Start a new Orchid project
 
 The simplest way to get started with Orchid is to use the Orchid Starter repo as a base. 
@@ -14,9 +17,10 @@ The simplest way to get started with Orchid is to use the Orchid Starter repo as
     required. As long as you have a Java JDK installed, Orchid works right out-of-the-box without any configuration or
     system packages to install.
     * All available commands:
-        - `gradle orchidBuild` - Build Orchid once then exit
+        - `gradle orchidBuild` - Build Orchid once then exit.
         - `gradle orchidWatch` - Watch Orchid for changes, rebuilding whenever a file changes. 
         - `gradle orchidServe` - Start a local development server to view your output site. Also watches Orchid for changes, rebuilding whenever a file changes.
+        - `gradle orchidDeploy` - Build Orchid once, deploy the built site through the publication pipeline, then exit.
         - `gradle assemble` - Not strictly an Orchid command, but if you are set up with the OrchidJavadoc plugin, this will run Orchid from the Javadoc tool instead of generating the standard Javadocs. 
 
 ## Deploy to Netlify
@@ -116,3 +120,5 @@ Add a `config.yml` file inside `src/orchid/resources`.
 And that's it! You can now run Orchid using any of the commands listed above. You should now refer to the documentation 
 for your theme, all your plugins, and the OrchidCore to see what you can configure with your specific build, and how to 
 add content to your plugins. 
+
+{% endblock %}
