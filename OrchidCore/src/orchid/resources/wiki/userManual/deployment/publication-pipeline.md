@@ -107,7 +107,6 @@ services:
 ## Available Publishers
 
 No publishers are currently available, but publishing to S3, Github Pages, and Netlify will eventually be officially 
-supported via plugins. A simple `script` publisher to run arbitrary shell commands will eventually be available in core.
-They will be listed here as they become available.
+supported via plugins. They will be listed in this wiki as they become available.
 
 {% endblock %}

@@ -33,3 +33,5 @@
 ## Deployment
 
 * [Publication Pipeline](deployment/publication-pipeline.md)
+* [Script](deployment/script.md)
+* [Netlify](deployment/netlify.md)

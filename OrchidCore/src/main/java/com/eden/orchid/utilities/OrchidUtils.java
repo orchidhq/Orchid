@@ -11,9 +11,17 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -270,6 +278,33 @@ public final class OrchidUtils {
                         UnaryOperator.identity(),
                         (a, b) -> ((T o) -> b.apply(a.apply(o)))
                 ).apply(input);
+    }
+
+    public static String sha1(final File file) throws NoSuchAlgorithmException, IOException {
+        return sha1(new BufferedInputStream(new FileInputStream(file)));
+    }
+
+    public static String sha1(final String text) throws NoSuchAlgorithmException, IOException {
+        return sha1(new ByteArrayInputStream(text.getBytes()));
+    }
+
+    public static String sha1(final InputStream stream) throws NoSuchAlgorithmException, IOException {
+        final MessageDigest messageDigest = MessageDigest.getInstance("SHA1");
+
+        try (InputStream is = stream) {
+            final byte[] buffer = new byte[1024];
+            for (int read = 0; (read = is.read(buffer)) != -1;) {
+                messageDigest.update(buffer, 0, read);
+            }
+        }
+
+        // Convert the byte to hex format
+        try (Formatter formatter = new Formatter()) {
+            for (final byte b : messageDigest.digest()) {
+                formatter.format("%02x", b);
+            }
+            return formatter.toString();
+        }
     }
 
 // Deprecated Methods
