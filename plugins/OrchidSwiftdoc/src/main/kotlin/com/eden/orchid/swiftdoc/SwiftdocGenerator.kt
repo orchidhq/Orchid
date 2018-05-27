@@ -149,7 +149,7 @@ class SwiftdocGenerator
 
     private fun parseSwiftFile(name: String): JSONObject {
         try {
-        val process = ProcessBuilder()
+            val process = ProcessBuilder()
                 .command("sourcekitten", "doc", "--single-file", "./$name")
                 .directory(File(resourcesDir))
                 .start()
