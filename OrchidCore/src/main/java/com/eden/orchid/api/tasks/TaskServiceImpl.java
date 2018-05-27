@@ -76,6 +76,15 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     }
 
     @Override
+    public void initOptions() {
+        context.clearOptions();
+        context.broadcast(Orchid.Lifecycle.ClearCache.fire(this));
+        context.loadOptions();
+
+        context.extractServiceOptions();
+    }
+
+    @Override
     public void onPostStart() {
         runTask(task);
     }
@@ -150,11 +159,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             if(secondsSinceLastBuild > watchDebounceTimeout) {
                 Orchid.getInstance().setState(Orchid.State.BUILD_PREP);
                 context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
-                Clog.i("Build Starting...");
-
-                context.clearOptions();
-                context.broadcast(Orchid.Lifecycle.ClearCache.fire(this));
-                context.loadOptions();
+                initOptions();
 
                 context.clearThemes();
                 context.pushTheme(context.getDefaultTheme());
@@ -164,8 +169,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                     context.pushAdminTheme(context.getDefaultAdminTheme());
                 }
 
-                context.extractServiceOptions();
-
+                Clog.i("Build Starting...");
                 Orchid.getInstance().setState(Orchid.State.INDEXING);
                 context.startIndexing();
                 Orchid.getInstance().setState(Orchid.State.BUILDING);
@@ -201,6 +205,8 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void deploy(boolean dryDeploy) {
+        initOptions();
+
         Orchid.getInstance().setState(Orchid.State.DEPLOYING);
         Clog.i("Deploy Starting...");
         context.broadcast(Orchid.Lifecycle.DeployStart.fire(this));
