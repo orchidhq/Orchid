@@ -18,73 +18,70 @@ class OrchidPlugin implements Plugin<Project> {
             orchid
         }
 
-        project.tasks.create('orchidBuild', OrchidGenerateBuildTask) {
-            dependsOn 'classes', "${configurationName}Classes"
-            main "${mainClassName}"
-        }
-        project.tasks.create('orchidWatch', OrchidGenerateWatchTask) {
-            dependsOn 'classes', "${configurationName}Classes"
-            main "${mainClassName}"
-        }
-        project.tasks.create('orchidServe', OrchidGenerateServeTask) {
-            dependsOn 'classes', "${configurationName}Classes"
-            main "${mainClassName}"
-        }
-        project.tasks.create('orchidDeploy', OrchidGenerateDeployTask) {
-            dependsOn 'classes', "${configurationName}Classes"
-            main "${mainClassName}"
-        }
-        project.tasks.create('orchidRun', OrchidGenerateMainTask) {
-            dependsOn 'classes', "${configurationName}Classes"
-            main "${mainClassName}"
-        }
+        project.tasks.create('orchidBuild',  OrchidGenerateBuildTask)
+        project.tasks.create('orchidWatch',  OrchidGenerateWatchTask)
+        project.tasks.create('orchidServe',  OrchidGenerateServeTask)
+        project.tasks.create('orchidDeploy', OrchidGenerateDeployTask)
+        project.tasks.create('orchidShell',  OrchidGenerateShellTask)
+        project.tasks.create('orchidRun',    OrchidGenerateMainTask)
     }
 }
 
 // Task Implementations
 //----------------------------------------------------------------------------------------------------------------------
 
-class OrchidGenerateBuildTask extends JavaExec {
-    void exec() {
-        classpath += project.sourceSets.orchid.runtimeClasspath
-        args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'build', true))
-        setStandardInput(System.in)
-        super.exec()
+class OrchidGenerateBuildTask extends OrchidGenerateMainTask {
+    OrchidGenerateBuildTask() {
+        super("build", true)
     }
 }
 
-class OrchidGenerateWatchTask extends JavaExec {
-    void exec() {
-        classpath += project.sourceSets.orchid.runtimeClasspath
-        args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'watch', true))
-        setStandardInput(System.in)
-        super.exec()
+class OrchidGenerateWatchTask extends OrchidGenerateMainTask {
+    OrchidGenerateWatchTask() {
+        super("watch", true)
     }
 }
 
-class OrchidGenerateServeTask extends JavaExec {
-    void exec() {
-        classpath += project.sourceSets.orchid.runtimeClasspath
-        args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'serve', true))
-        setStandardInput(System.in)
-        super.exec()
+class OrchidGenerateServeTask extends OrchidGenerateMainTask {
+    OrchidGenerateServeTask() {
+        super("serve", true)
     }
 }
 
-class OrchidGenerateDeployTask extends JavaExec {
-    void exec() {
-        classpath += project.sourceSets.orchid.runtimeClasspath
-        args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'deploy', true))
-        setStandardInput(System.in)
-        super.exec()
+class OrchidGenerateDeployTask extends OrchidGenerateMainTask {
+    OrchidGenerateDeployTask() {
+        super("deploy", true)
+    }
+}
+
+class OrchidGenerateShellTask extends OrchidGenerateMainTask {
+    OrchidGenerateShellTask() {
+        super("interactive", true)
     }
 }
 
 class OrchidGenerateMainTask extends JavaExec {
+
+    private final String command
+    private final boolean force
+
+    OrchidGenerateMainTask() {
+        this('build', false)
+    }
+
+    protected OrchidGenerateMainTask(String command, boolean force) {
+        this.command = command
+        this.force = force
+
+        dependsOn 'classes', "${OrchidPlugin.configurationName}Classes"
+        main "${OrchidPlugin.mainClassName}"
+    }
+
     void exec() {
         classpath += project.sourceSets.orchid.runtimeClasspath
-        args(OrchidPluginHelpers.getOrchidProjectArgs(project, 'build', false))
+        args(OrchidPluginHelpers.getOrchidProjectArgs(project, command, force))
         setStandardInput(System.in)
+        setStandardOutput(System.out)
         super.exec()
     }
 }

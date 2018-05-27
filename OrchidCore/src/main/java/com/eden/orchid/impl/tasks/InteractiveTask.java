@@ -17,7 +17,7 @@ public final class InteractiveTask extends OrchidTask implements EventListener {
 
     private final Provider<OrchidContext> contextProvider;
 
-    Scanner sn;
+    private Scanner sn;
 
     @Inject
     public InteractiveTask(Provider<OrchidContext> contextProvider) {
@@ -27,14 +27,13 @@ public final class InteractiveTask extends OrchidTask implements EventListener {
 
     @Override
     public void run() {
-        contextProvider.get().build();
+        contextProvider.get().initOptions();
 
         sn = new Scanner(System.in);
         while(true) {
-            System.out.print("Enter a command: \n");
+            System.out.println("Enter a command:");
             System.out.print("> ");
-            String input = sn.nextLine();
-            contextProvider.get().runCommand(input);
+            contextProvider.get().runCommand(sn.nextLine());
         }
     }
 
