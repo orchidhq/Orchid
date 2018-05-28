@@ -77,11 +77,11 @@ task checkForExtensionFile {
         if(extensionType == 'languageExtensions') {
             extensionType = 'plugins'
         }
-        def fullExtensionFilename = "${rootProject.rootDir}/OrchidCore/src/orchid/resources/pages/${extensionType}/${extensionName}.md"
+        def fullExtensionFilename = "${rootProject.rootDir}/OrchidCore/src/orchid/resources/pages/${extensionType}/${extensionName}/index.md"
         def extensionFile = file(fullExtensionFilename)
 
         if(!extensionFile.exists()) {
-            throw new FileNotFoundException("There is no plugin entry for this plugin, expected 'pages/${extensionType}/${extensionName}.md' to exist in OrchidCore Orchid resources.")
+            throw new FileNotFoundException("There is no plugin entry for this plugin, expected 'pages/${extensionType}/${extensionName}/index.md' to exist in OrchidCore Orchid resources.")
         }
     }
 }

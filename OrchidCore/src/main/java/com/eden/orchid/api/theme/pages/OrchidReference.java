@@ -6,6 +6,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -131,7 +132,6 @@ public final class OrchidReference {
         path = OrchidUtils.normalizePath(path);
     }
 
-
     public void stripFromPath(String pathToStrip) {
         pathToStrip = OrchidUtils.normalizePath(pathToStrip);
 
@@ -141,10 +141,13 @@ public final class OrchidReference {
     }
 
     public void replacePathSegment(int segmentIndex, String replacement) {
-        String path = getOriginalPath();
-        String[] segments = path.split("/");
+        String[] segments = getOriginalPath().split("/");
         segments[segmentIndex] = OrchidUtils.normalizePath(replacement);
         this.path = String.join("/", segments);
+    }
+
+    public void removePathSegment(int segmentIndex) {
+        this.path = String.join("/", ArrayUtils.remove(getOriginalPath().split("/"), segmentIndex));
     }
 
     public String getOriginalPath() {
@@ -192,9 +195,11 @@ public final class OrchidReference {
     }
 
     public String[] getPathSegments() {
-        String path = getPath();
-        String[] segments = path.split("/");
-        return segments;
+        return getPath().split("/");
+    }
+
+    public String[] getOriginalPathSegments() {
+        return getOriginalPath().split("/");
     }
 
     public String getOriginalFileName() {

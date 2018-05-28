@@ -114,7 +114,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void indexGenerator(OrchidGenerator generator) {
-        Clog.d("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
+        Clog.i("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
         metrics.startIndexingGenerator(generator.getKey());
 
         JSONElement el = context.query(generator.getKey());
@@ -176,7 +176,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     private void useGenerator(OrchidGenerator generator) {
-        Clog.d("Generating [{}: {}]{}", generator.getPriority(), generator.getKey(), (generator.isParallel()) ? " in parallel" : "");
+        Clog.i("Generating [{}: {}]{}", generator.getPriority(), generator.getKey(), (generator.isParallel()) ? " in parallel" : "");
 
         metrics.startGeneratingGenerator(generator.getKey());
 
@@ -192,7 +192,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         Theme customTheme = context.doWithTheme(generator.getTheme(), () -> generator.startGeneration(generatorPagesStream));
         if(customTheme != null) {
-            Clog.i("[{}] Generator pages rendered with [{}] Theme.", generator.getKey(), customTheme.getKey());
+            Clog.d("[{}] Generator pages rendered with [{}] Theme.", generator.getKey(), customTheme.getKey());
         }
 
         metrics.stopGeneratingGenerator(generator.getKey());

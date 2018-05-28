@@ -7,13 +7,13 @@ import org.json.JSONObject
 fun OrchidPage.getSingleTermValue(taxonomy: String): String? {
     try {
         val method = this.javaClass.getMethod("get${taxonomy.capitalize()}")
-        return method.invoke(this) as String
+        return method.invoke(this)?.toString()
     } catch (e: Exception) {
         if (this.allData.element is JSONObject) {
             val pageData = this.allData.element as JSONObject
 
-            if (pageData.has(taxonomy) && pageData.get(taxonomy) is String) {
-                return pageData.getString(taxonomy)
+            if (pageData.has(taxonomy)) {
+                return pageData.get(taxonomy)?.toString()
             }
         }
     }
