@@ -14,6 +14,10 @@ public interface TaskService extends OrchidService {
         BUILD, WATCH, SERVE, DEPLOY, OTHER
     }
 
+    default void initOptions() {
+        getService(TaskService.class).initOptions();
+    }
+
     default boolean runTask(String taskName) {
         return getService(TaskService.class).runTask(taskName);
     }

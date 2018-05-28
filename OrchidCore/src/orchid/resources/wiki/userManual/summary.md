@@ -35,3 +35,4 @@
 * [Publication Pipeline](deployment/publication-pipeline.md)
 * [Script](deployment/script.md)
 * [Netlify](deployment/netlify.md)
+* [GitHub Pages](deployment/githubPages.md)

@@ -106,7 +106,11 @@ services:
 
 ## Available Publishers
 
-No publishers are currently available, but publishing to S3, Github Pages, and Netlify will eventually be officially 
-supported via plugins. They will be listed in this wiki as they become available.
+There are several publishers available in `OrchidCore`, but more may be available in plugins, or you may 
+{{anchor('create your own', 'OrchidPublisher')}}.
+
+- {{anchor('Script')}} - Execute arbitrary shell scripts
+- {{anchor('Netlify')}} - Upload your site to Netlify
+- {{anchor('GitHub Pages')}} - Push your site to GitHub Pages 
 
 {% endblock %}
