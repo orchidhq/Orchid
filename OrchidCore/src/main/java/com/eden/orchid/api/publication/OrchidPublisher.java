@@ -1,6 +1,8 @@
 package com.eden.orchid.api.publication;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Archetype;
@@ -80,5 +82,13 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
      * A callback to run the publication step.
      */
     public abstract void publish();
+
+    protected boolean exists(String value, String message) {
+        if(EdenUtils.isEmpty(value)) {
+            Clog.e(message);
+            return false;
+        }
+        return true;
+    }
 
 }

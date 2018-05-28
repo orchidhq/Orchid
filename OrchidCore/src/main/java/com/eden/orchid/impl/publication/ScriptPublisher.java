@@ -75,7 +75,7 @@ public class ScriptPublisher extends OrchidPublisher {
     }
 
     @AllArgsConstructor
-    private static class InputStreamPrinter implements Runnable {
+    static class InputStreamPrinter implements Runnable {
 
         private final InputStream inputStream;
 

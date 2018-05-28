@@ -7,7 +7,7 @@
 <pre><code class="lang-yaml"># config.yml
 ...
 services:
-  publication:
+  publications:
     stages:
       {{ publisher.type }}:
       {%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}

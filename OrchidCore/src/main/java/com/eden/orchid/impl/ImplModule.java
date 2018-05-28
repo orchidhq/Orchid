@@ -40,6 +40,7 @@ import com.eden.orchid.impl.events.ClogSetupListener;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.SitemapGenerator;
+import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
@@ -177,7 +178,8 @@ public final class ImplModule extends OrchidModule {
         // Publication Methods
         addToSet(OrchidPublisher.class,
                 ScriptPublisher.class,
-                NetlifyPublisher.class
+                NetlifyPublisher.class,
+                GithubPagesPublisher.class
         );
 
         // Template Tags

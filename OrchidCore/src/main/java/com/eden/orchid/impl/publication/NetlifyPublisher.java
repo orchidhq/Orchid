@@ -58,24 +58,19 @@ public class NetlifyPublisher extends OrchidPublisher {
 
     @Override
     public boolean validate() {
-        // ensure we have the data we need
-        if(EdenUtils.isEmpty(netlifyToken)) {
-            Clog.e("A Netlify Personal Access Token is required for deploys, set as 'apiToken' flag.");
-            return false;
-        }
-        if(EdenUtils.isEmpty(siteId)) {
-            Clog.e("A Netlify site domain must be provided.");
-            return false;
-        }
+        boolean valid = true;
+
+        valid = valid && exists(netlifyToken, "A Netlify Personal Access Token is required for deploys, set as 'netlifyToken' flag.");
+        valid = valid && exists(siteId,       "A Netlify site domain must be provided.");
 
         // make sure the site exists
         EdenPair<Boolean, String> site = netlifyGet("sites/" + siteId);
         if(!site.first) {
             Clog.e("A Netlify site at {} does not exist or it cannot be accessed.", siteId);
-            return false;
+            valid = false;
         }
 
-        return true;
+        return valid;
     }
 
     @Override
