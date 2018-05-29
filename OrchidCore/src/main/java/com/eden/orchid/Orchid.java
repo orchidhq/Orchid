@@ -197,6 +197,42 @@ public final class Orchid {
         }
 
         /**
+         * The indexing step of the build phase has begun.
+         */
+        public static class IndexingStart extends OrchidEvent {
+            private IndexingStart(Object sender) { super(sender); }
+
+            public static IndexingStart fire(Object sender) { return new IndexingStart(sender); }
+        }
+
+        /**
+         * The indexing step of the build phase has completed.
+         */
+        public static class IndexingFinish extends OrchidEvent {
+            private IndexingFinish(Object sender) { super(sender); }
+
+            public static IndexingFinish fire(Object sender) { return new IndexingFinish(sender); }
+        }
+
+        /**
+         * The generating step of the build phase has begun.
+         */
+        public static class GeneratingStart extends OrchidEvent {
+            private GeneratingStart(Object sender) { super(sender); }
+
+            public static GeneratingStart fire(Object sender) { return new GeneratingStart(sender); }
+        }
+
+        /**
+         * The generating step of the build phase has completed.
+         */
+        public static class GeneratingFinish extends OrchidEvent {
+            private GeneratingFinish(Object sender) { super(sender); }
+
+            public static GeneratingFinish fire(Object sender) { return new GeneratingFinish(sender); }
+        }
+
+        /**
          * A deployment phase has begun, and we are now in the {@link Orchid.State#DEPLOYING } state.
          */
         public static class DeployStart extends OrchidEvent {

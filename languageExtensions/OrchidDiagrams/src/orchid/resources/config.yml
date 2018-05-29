@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Diagrams
-    siteDescription: Create flow charts and sequence diagrams using PlantUML markup.
-
-theme:
-  primaryColor: '#A60839'
-  social:
-    github: 'JavaEden/Orchid'

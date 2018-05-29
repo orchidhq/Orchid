@@ -1,8 +1,9 @@
 ---
-layout: frontPage
+title: Changelog API
+templates: page
+skipTaxonomy: true
 components:
-  - type: readme
-  - type: changelog
+  - type: pageContent
   - type: pluginDocs
     packageNames: 
       - com.eden.orchid.changelog

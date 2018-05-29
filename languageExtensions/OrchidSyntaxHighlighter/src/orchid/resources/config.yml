@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Bible
-    siteDescription: Highlight code with either Pygments or PrismJS
-
-theme:
-  primaryColor: '#69B461'
-  social:
-    github: 'JavaEden/Orchid'

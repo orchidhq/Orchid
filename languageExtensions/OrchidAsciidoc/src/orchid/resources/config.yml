@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Javadoc
-    siteDescription: Embed Javadoc directly within your Orchid site.
-
-theme:
-  primaryColor: '#FEC93E'
-  social:
-    github: 'JavaEden/Orchid'

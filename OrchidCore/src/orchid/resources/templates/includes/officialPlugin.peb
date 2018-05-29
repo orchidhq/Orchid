@@ -1,6 +1,6 @@
 {% extends 'includes/basePlugin' %}
 
-{%- block homepageUrl  -%}{{- page.link~'/docs' -}}                                                           {%- endblock %}
+{%- block homepageUrl  -%}{{- page.link~'/docs' -}}                                                           {%- endblock -%}
 {%- block homepageText -%}Full Documentation                                                                  {%- endblock -%}
 {%- block dependency   -%}io.github.javaeden.orchid:{{- page.reference.originalFileName -}}:{{ site.version }}{%- endblock -%}
 {%- block vcsUrl       -%}https://github.com/JavaEden/Orchid                                                  {%- endblock -%}

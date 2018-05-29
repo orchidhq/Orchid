@@ -1,0 +1,8 @@
+
+tasks.javadoc.onlyIf      {false}
+tasks.orchidBuild.onlyIf  {false}
+tasks.orchidWatch.onlyIf  {false}
+tasks.orchidServe.onlyIf  {false}
+tasks.orchidDeploy.onlyIf {false}
+tasks.orchidShell.onlyIf  {false}
+tasks.orchidRun.onlyIf    {false}
