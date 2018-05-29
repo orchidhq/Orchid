@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Netlify CMS
-    siteDescription: No configuration, fully-featured Netlify CMS for Orchid.
-
-theme:
-  primaryColor: '#CAF859'
-  social:
-    github: 'JavaEden/Orchid'

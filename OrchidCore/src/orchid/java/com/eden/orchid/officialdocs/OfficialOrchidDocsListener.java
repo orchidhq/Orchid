@@ -68,6 +68,7 @@ public class OfficialOrchidDocsListener implements OrchidEventListener {
                     return orderValue;
                 });
 
+                JSONArray existingMenuItemsJson = page.getMenu().getItemsJson();
                 JSONArray menuItemsJson = new JSONArray();
 
                 JSONObject rootPluginMenuItemJson = new JSONObject();
@@ -79,27 +80,38 @@ public class OfficialOrchidDocsListener implements OrchidEventListener {
                 menuItemsJson.put(rootPluginMenuItemJson);
 
                 for(OrchidPage docPage : pluginDocsPages) {
-                    JSONObject menuItemJson = new JSONObject();
-                    menuItemJson.put("type", "page");
-                    menuItemJson.put("itemId", docPage.getTitle());
-                    menuItemJson.put("collectionType", PagesGenerator.GENERATOR_KEY);
-                    menuItemJson.put("collectionId", ((StaticPage) docPage).getGroup());
-
                     if(docPage.getReference().getPathSegments().length == 3 && docPage.getReference().getPathSegment(2).equals("docs")) {
+                        JSONObject menuItemJson = new JSONObject();
+                        menuItemJson.put("type", "page");
+                        menuItemJson.put("itemId", docPage.getTitle());
+                        menuItemJson.put("collectionType", PagesGenerator.GENERATOR_KEY);
+                        menuItemJson.put("collectionId", ((StaticPage) docPage).getGroup());
                         if(((StaticPage) docPage).getGroup().equals("themes")) {
                             menuItemJson.put("title", "Demo");
                         }
                         else {
                             menuItemJson.put("title", "Documentation");
                         }
-                        menuItemsJson.put(1, menuItemJson);
-                    }
-                    else {
                         menuItemsJson.put(menuItemJson);
                     }
                 }
 
-                page.getMenu().add(menuItemsJson);
+                for(OrchidPage docPage : pluginDocsPages) {
+                    if(!(docPage.getReference().getPathSegments().length == 3 && docPage.getReference().getPathSegment(2).equals("docs"))) {
+                        JSONObject menuItemJson = new JSONObject();
+                        menuItemJson.put("type", "page");
+                        menuItemJson.put("itemId", docPage.getTitle());
+                        menuItemJson.put("collectionType", PagesGenerator.GENERATOR_KEY);
+                        menuItemJson.put("collectionId", ((StaticPage) docPage).getGroup());
+                        menuItemsJson.put(menuItemJson);
+                    }
+                }
+
+                for (int i = 0; i < existingMenuItemsJson.length(); i++) {
+                    menuItemsJson.put(existingMenuItemsJson.get(i));
+                }
+
+                page.getMenu().set(menuItemsJson);
             }
         });
 

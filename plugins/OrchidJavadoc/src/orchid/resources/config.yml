@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Javadoc
-    siteDescription: Create beautiful Javadocs for your project within your Orchid site.
-
-theme:
-  primaryColor: '#4E7A96'
-  social:
-    github: 'JavaEden/Orchid'
