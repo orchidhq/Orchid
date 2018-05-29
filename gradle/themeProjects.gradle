@@ -9,3 +9,4 @@ dependencies {
     orchidRuntime project(":plugins:OrchidWiki")
     orchidRuntime project(":languageExtensions:OrchidSyntaxHighlighter")
 }
+apply from: "$rootDir/gradle/skipOrchid.gradle"

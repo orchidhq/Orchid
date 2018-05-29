@@ -3,4 +3,3 @@ dependencies {
     implementation 'org.python:jython-standalone:2.7.1'
     implementation 'org.pygments:pygments:2.2.0'
 }
-apply from: "$rootDir/gradle/skipOrchid.gradle"

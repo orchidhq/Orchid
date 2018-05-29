@@ -2,4 +2,3 @@
 dependencies {
     implementation 'org.atteo:evo-inflector:1.2.2'
 }
-apply from: "$rootDir/gradle/skipOrchid.gradle"

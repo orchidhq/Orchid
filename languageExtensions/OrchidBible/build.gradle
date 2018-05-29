@@ -3,4 +3,3 @@ dependencies {
     implementation "com.github.JavaEden:Eden:${JavaEden.Eden}"
     implementation "com.github.JavaEden:American-Bible-Society-Client:${JavaEden.Eden}"
 }
-apply from: "$rootDir/gradle/skipOrchid.gradle"

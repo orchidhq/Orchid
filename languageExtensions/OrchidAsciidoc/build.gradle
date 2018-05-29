@@ -2,5 +2,3 @@
 dependencies {
     implementation 'org.asciidoctor:asciidoctorj:1.5.6'
 }
-
-apply from: "$rootDir/gradle/skipOrchid.gradle"

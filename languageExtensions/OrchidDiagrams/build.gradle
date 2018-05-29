@@ -2,4 +2,3 @@
 dependencies {
     implementation 'net.sourceforge.plantuml:plantuml:1.2018.2'
 }
-apply from: "$rootDir/gradle/skipOrchid.gradle"
