@@ -1,9 +1,18 @@
 taxonomies:
   - group:
       single: true
-      orderByDirection: asc
-      orderBy:
-        - 'title'
+      plugins:
+        orderByDirection: asc
+        orderBy:
+          - 'title'
+      themes:
+        orderByDirection: asc
+        orderBy:
+          - 'title'
+      bundles:
+        orderByDirection: asc
+        orderBy:
+          - 'title'
   - tags:
       single: false
       orderBy:

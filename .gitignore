@@ -13,7 +13,7 @@ out/
 .gradle/
 build/
 /classes/
-docs/
+
 
 # Local configuration file (sdk path, etc)
 local.properties

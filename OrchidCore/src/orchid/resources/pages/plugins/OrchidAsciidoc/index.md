@@ -1,6 +1,6 @@
 ---
 official: true
-languageExtension: true
+noDocs: true
 title: Orchid Asciidoc
 description: Compile your content using Asciidoctor.
 images:
@@ -8,3 +8,8 @@ images:
     alt: Asciidoc
     caption: Photo by Markus Spiske on Unsplash
 ---
+
+### Using Asciidoctor with Orchid
+
+Simply include this plugin and you're all set. Orchid will now recognize files with file extensions of `ad`, `adoc`, 
+`asciidoc`, or `asciidoctor`, and compile them as Asciidoc instead of Markdown, no further configuration necessary.

@@ -1,6 +1,5 @@
 package com.eden.orchid.taxonomies
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -67,7 +66,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomyModel.includeFrom, taxonomyModel.excludeFrom)
 
                 context.internalIndex.getGeneratorPages(enabledGeneratorKeys).forEach { page ->
-                    if(page.getSingleTermValue("skipTaxonomy") == "true") { Clog.v("Skipping taxonomy for ${page.link}"); return@forEach}
+                    if(page.getSingleTermValue("skipTaxonomy") == "true") {return@forEach}
 
                     val pageTerms = HashSet<String?>()
                     if(taxonomyModel.single) {
