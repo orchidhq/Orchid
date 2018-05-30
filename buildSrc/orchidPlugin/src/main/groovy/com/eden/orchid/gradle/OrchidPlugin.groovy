@@ -10,9 +10,9 @@ class OrchidPlugin implements Plugin<Project> {
 
     void apply(Project project) {
         // create Orchid closure, configuration, and sourceSet
+        project.apply plugin: "java"
         project.extensions.create('orchid', OrchidPluginExtension)
         project.configurations.create(configurationName)
-        project.apply plugin: "java"
 
         project.sourceSets {
             orchid
@@ -31,33 +31,23 @@ class OrchidPlugin implements Plugin<Project> {
 //----------------------------------------------------------------------------------------------------------------------
 
 class OrchidGenerateBuildTask extends OrchidGenerateMainTask {
-    OrchidGenerateBuildTask() {
-        super("build", true)
-    }
+    OrchidGenerateBuildTask() { super("build", true) }
 }
 
 class OrchidGenerateWatchTask extends OrchidGenerateMainTask {
-    OrchidGenerateWatchTask() {
-        super("watch", true)
-    }
+    OrchidGenerateWatchTask() { super("watch", true) }
 }
 
 class OrchidGenerateServeTask extends OrchidGenerateMainTask {
-    OrchidGenerateServeTask() {
-        super("serve", true)
-    }
+    OrchidGenerateServeTask() { super("serve", true) }
 }
 
 class OrchidGenerateDeployTask extends OrchidGenerateMainTask {
-    OrchidGenerateDeployTask() {
-        super("deploy", true)
-    }
+    OrchidGenerateDeployTask() { super("deploy", true) }
 }
 
 class OrchidGenerateShellTask extends OrchidGenerateMainTask {
-    OrchidGenerateShellTask() {
-        super("interactive", true)
-    }
+    OrchidGenerateShellTask() { super("interactive", true) }
 }
 
 class OrchidGenerateMainTask extends JavaExec {
@@ -74,7 +64,7 @@ class OrchidGenerateMainTask extends JavaExec {
         this.force = force
 
         dependsOn 'classes', "${OrchidPlugin.configurationName}Classes"
-        main "${OrchidPlugin.mainClassName}"
+        main = "${OrchidPlugin.mainClassName}"
     }
 
     void exec() {

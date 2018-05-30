@@ -44,6 +44,12 @@ ext.getEnvName = { Project project ->
     }
 }
 
+ext.getChangelogFile = {
+    def versionFilename = rootProject.version.toString().replaceAll("\\.", "_") + ".md"
+    def fullVersionFilename = "${project(':OrchidCore').rootDir}/src/orchid/resources/changelog/$versionFilename"
+    return rootProject.file(fullVersionFilename)
+}
+
 // Helper Properties
 //----------------------------------------------------------------------------------------------------------------------
 

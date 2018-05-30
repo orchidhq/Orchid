@@ -12,7 +12,7 @@ class OrchidGenerateJavadocTask extends Javadoc {
     OrchidGenerateJavadocTask() {
         dependsOn 'classes', "${OrchidJavadocPlugin.configurationName}Classes"
         onlyIf {
-            !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) && !project.orchid.noJavadoc
+            !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) && !project.orchidJavadoc.noJavadoc
         }
 
         destinationDir = project.file(getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/orchid'))

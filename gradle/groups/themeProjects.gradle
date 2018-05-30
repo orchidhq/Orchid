@@ -1,5 +1,3 @@
-apply from: "$actionsScript/skipOrchid.gradle"
-
 dependencies {
     compile project(":OrchidCore")
 }
