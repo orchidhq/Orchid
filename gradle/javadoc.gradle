@@ -1,49 +1,6 @@
 
-orchid {
-    runTask = "${project.ext.commonRunTask}"
-
-    def v = project.version.toString()
-    if(v.endsWith("-SNAPSHOT")) {
-        v = v.replaceAll("-SNAPSHOT", "")
-        def vs = v.split("\\.")
-        def major = (vs[0] as int)
-        def minor = (vs[1] as int)
-        def patch = (vs[2] as int) - 1
-        version = "$major.$minor.$patch"
-    }
-    else {
-        def vs = v.split("\\.")
-        def major = (vs[0] as int)
-        def minor = (vs[1] as int)
-        def patch = (vs[2] as int)
-        version = "$major.$minor.$patch"
-    }
-
-    theme   = "${project.ext.commonTheme}"
-
-    if(project.hasProperty('env')) {
-        switch(project.property('env')) {
-            case 'prod':
-                baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
-                environment = 'prod'
-                break
-            case 'staging':
-                baseUrl = "${project.ext.commonBaseUrl}/${project.name}"
-                environment = 'prod'
-                break
-            case 'dev':
-                baseUrl = "${project.ext.commonBaseUrl}"
-                break
-        }
-    }
-    else {
-        baseUrl = "${project.ext.commonBaseUrl}"
-    }
-
-    args = [
-        "absApiKey ${project.properties['ABS_ApiKey']}"
-    ]
-}
+// Setup output JARs
+//----------------------------------------------------------------------------------------------------------------------
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -58,23 +15,4 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
-}
-
-task prepareDocumentation {
-    doLast {
-        copy {
-            from file("$buildDir/docs/orchid")
-            into file("${rootProject.buildDir}/docs/orchid/${project.name}")
-        }
-    }
-}
-
-rootProject.tasks.prepareDocumentation.dependsOn project.tasks.prepareDocumentation
-
-if(project.sourceSets.main.allJava.files?.empty) {
-    project.tasks.assemble.dependsOn orchidBuild
-    project.tasks.orchidBuild.mustRunAfter javadoc
-    project.tasks.orchidBuild.onlyIf {
-        !(project.hasProperty('noJavadoc') && project.property('noJavadoc')) && !project.orchid.noJavadoc
-    }
 }

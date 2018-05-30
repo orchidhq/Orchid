@@ -79,5 +79,4 @@ afterEvaluate { project ->
 }
 
 project.tasks.publish.dependsOn bintrayUpload
-
 rootProject.tasks.deploy.dependsOn project.tasks.publish

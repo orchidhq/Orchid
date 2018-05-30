@@ -1,10 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'jacoco'
-apply plugin: 'com.eden.orchidJavadocPlugin'
 apply plugin: "com.dorongold.task-tree"
-apply plugin: "org.ajoberstar.grgit"
-apply plugin: "kotlin"
+apply plugin: 'com.eden.orchidJavadocPlugin'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -12,28 +9,7 @@ targetCompatibility = '1.8'
 project.group = rootProject.group
 project.version = rootProject.version
 
-ext {
-    commonTheme = 'BsDoc'
-    commonRunTask = "build"
-
-    if (project.hasProperty('env') && project.property('env') == 'prod') {
-        String isPullRequest = System.getenv('PULL_REQUEST')
-        if(isPullRequest == "true") {
-            commonBaseUrl = System.getenv('DEPLOY_URL')
-        }
-        else {
-            commonBaseUrl = System.getenv('URL')
-        }
-    }
-    else {
-        commonBaseUrl = 'http://localhost:8080'
-    }
-
-    if(commonBaseUrl == null || commonBaseUrl == "") {
-        commonBaseUrl = 'http://orchid.netlify.com'
-    }
-}
-
+apply from: "$rootDir/gradle/orchid.gradle"
 apply from: "$rootDir/gradle/javadoc.gradle"
 apply from: "$rootDir/gradle/publish.gradle"
 
@@ -46,16 +22,26 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-test {
-    useJUnitPlatform()
-    testLogging {
-        showStandardStreams = project.hasProperty("showTestLogs")
-    }
-}
+// Kotlin
+//----------------------------------------------------------------------------------------------------------------------
+
+apply plugin: "kotlin"
 
 compileKotlin {
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+}
+
+// Testing
+//----------------------------------------------------------------------------------------------------------------------
+
+apply plugin: 'jacoco'
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = project.hasProperty("showTestLogs")
     }
 }
 
