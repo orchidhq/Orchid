@@ -1,0 +1,7 @@
+apply plugin: "kotlin"
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}

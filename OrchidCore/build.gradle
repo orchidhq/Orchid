@@ -40,8 +40,7 @@ dependencies {
     api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
 
     // generate own documentation with Orchid
-    orchidCompile rootProject.ext.mainProjects
-    orchidRuntime rootProject.ext.mainProjects
+    orchidCompile mainProjects
 }
 
 // Make sure Core is compiled before plugins, but javadoc run after plugins

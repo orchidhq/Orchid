@@ -102,7 +102,7 @@ public final class OrchidUtils {
      * The keys are retained as the first item in the value arrays, and the key retains the dash at its start.
      *
      * @param args
-     * @return
+     * @return parsed args
      */
     public static Map<String, String[]> parseCommandLineArgs(String[] args) {
         return Arrays

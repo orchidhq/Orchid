@@ -1,5 +1,5 @@
+apply from: "$actionsScript/skipOrchid.gradle"
 
 dependencies {
     compile project(":OrchidCore")
 }
-apply from: "$rootDir/gradle/skipOrchid.gradle"

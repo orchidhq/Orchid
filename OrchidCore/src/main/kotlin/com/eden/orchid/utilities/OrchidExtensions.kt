@@ -44,15 +44,15 @@ fun JSONElement?.isString(): Boolean {
 
 
 // string conversions
-fun String.from(mapper: String.() -> Array<String>): Array<String> {
+infix fun String.from(mapper: String.() -> Array<String>): Array<String> {
     return mapper(this)
 }
 
-fun Array<String>.to(mapper: Array<String>.() -> String): String {
+infix fun Array<String>.to(mapper: Array<String>.() -> String): String {
     return mapper(this)
 }
 
-fun Array<String>.with(mapper: String.() -> String): Array<String> {
+infix fun Array<String>.with(mapper: String.() -> String): Array<String> {
     return this.map { mapper(it) }.toTypedArray()
 }
 

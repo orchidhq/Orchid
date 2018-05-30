@@ -9,7 +9,10 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
-import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.camelCase
+import com.eden.orchid.utilities.from
+import com.eden.orchid.utilities.titleCase
+import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
@@ -38,7 +41,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
 
         if (wikiSection != null) {
             sections.put(section, wikiSection)
-            menuItemTitle = OrchidUtils.camelcaseToTitleCase(section) + " Wiki"
+            menuItemTitle = (section!! from String::camelCase to Array<String>::titleCase) + " Wiki"
             menuSection = section ?: ""
         } else {
             sections.putAll(model.sections)

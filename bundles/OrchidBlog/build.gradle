@@ -4,5 +4,5 @@ dependencies {
     compile project(':plugins:OrchidPages')
     compile project(':plugins:OrchidForms')
     compile project(':plugins:OrchidTaxonomies')
-    compile rootProject.ext.languageExtensionProjects
+    compile languageExtensionProjects
 }

@@ -16,6 +16,10 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.camelCase
+import com.eden.orchid.utilities.from
+import com.eden.orchid.utilities.titleCase
+import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
@@ -152,8 +156,9 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
         summary = StringResource(safe, summaryReference)
 
-        val sectionTitle = if (!EdenUtils.isEmpty(section)) section else "Wiki"
-        val summaryPage = WikiSummaryPage(section, summary, OrchidUtils.camelcaseToTitleCase(sectionTitle))
+        val sectionTitle = if (!EdenUtils.isEmpty(section)) section!! else "Wiki"
+
+        val summaryPage = WikiSummaryPage(section, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
         summaryPage.reference.isUsePrettyUrl = true
         summaryPage.menu.add(pageMenuItem)
 
