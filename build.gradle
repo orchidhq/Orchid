@@ -81,7 +81,7 @@ task checkForChangelogFile {
         def versionFile = getChangelogFile()
 
         if(project.hasProperty("release") && (project.property("release") != 'false') && !versionFile.exists()) {
-            throw new FileNotFoundException("There is no changelog entry for this version, expected 'changelog/$versionFilename' to exist.")
+            throw new FileNotFoundException("There is no changelog entry for this version, expected 'changelog/${versionFile.name}' to exist.")
         }
     }
 }
