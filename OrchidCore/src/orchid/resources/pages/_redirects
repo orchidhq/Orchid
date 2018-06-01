@@ -1,0 +1,40 @@
+---
+renderMode: raw
+usePrettyUrl: false
+---
+
+{% set siteBaseUrl = site.baseUrl.replace('http://', '').replace('https://', '') %}
+
+# Force SSL
+http://{{siteBaseUrl}}/*   https://{{siteBaseUrl}}/:splat   301!
+
+# Redirect all previous sub-sites to their corresponding pages in the one main site
+/OrchidCore                         /                                        301
+
+/OrchidAsciidoc/*                   /plugins/OrchidAsciidoc                  301
+/OrchidBible/*                      /plugins/OrchidBible                     301
+/OrchidDiagrams/*                   /plugins/OrchidDiagrams                  301
+/OrchidSyntaxHighlighter/*          /plugins/OrchidSyntaxHighlighter         301
+/OrchidWritersBlocks/*              /plugins/OrchidWritersBlocks             301
+
+/OrchidChangelog/*                  /plugins/OrchidChangelog                 301
+/OrchidForms/*                      /plugins/OrchidForms                     301
+/OrchidJavadoc/*                    /plugins/OrchidJavadoc                   301
+/OrchidKSS/*                        /plugins/OrchidKSS                       301
+/OrchidNetlifyCMS/*                 /plugins/OrchidNetlifyCMS                301
+/OrchidPages/*                      /plugins/OrchidPages                     301
+/OrchidPluginDocs/*                 /plugins/OrchidPluginDocs                301
+/OrchidPosts/*                      /plugins/OrchidPosts                     301
+/OrchidPresentations/*              /plugins/OrchidPresentations             301
+/OrchidSearch/*                     /plugins/OrchidSearch                    301
+/OrchidSwagger/*                    /plugins/OrchidSwagger                   301
+/OrchidSwiftdoc/*                   /plugins/OrchidSwiftdoc                  301
+/OrchidTaxonomies/*                 /plugins/OrchidTaxonomies                301
+/OrchidWiki/*                       /plugins/OrchidWiki                      301
+
+/OrchidBsDoc/*                      /themes/OrchidBsDoc                      301
+/OrchidEditorial/*                  /themes/OrchidBsDoc                      301
+/OrchidFutureImperfect/*            /themes/OrchidBsDoc                      301
+
+# Custom 404 page
+/*                                  /404.html                                404

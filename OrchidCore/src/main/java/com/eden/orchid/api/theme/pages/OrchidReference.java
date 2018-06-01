@@ -251,7 +251,7 @@ public final class OrchidReference {
         if (!EdenUtils.isEmpty(fileName)) {
             output += fileName;
 
-            if (!usePrettyUrl) {
+            if (!usePrettyUrl && !EdenUtils.isEmpty(getOutputExtension())) {
                 output += ".";
                 if (!EdenUtils.isEmpty(extension)) {
                     output += extension;
@@ -280,7 +280,7 @@ public final class OrchidReference {
         if (!EdenUtils.isEmpty(fileName)) {
             output += fileName;
 
-            if (!usePrettyUrl) {
+            if (!usePrettyUrl && !EdenUtils.isEmpty(getOutputExtension())) {
                 output += ".";
                 if (!EdenUtils.isEmpty(extension)) {
                     output += extension;

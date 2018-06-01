@@ -3,6 +3,7 @@ package com.eden.orchid.api.generators;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.indexing.OrchidInternalIndex;
@@ -115,6 +116,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     private void indexGenerator(OrchidGenerator generator) {
         Clog.i("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
+        context.broadcast(Orchid.Lifecycle.IndexGeneratorStart.fire(generator));
         metrics.startIndexingGenerator(generator.getKey());
 
         JSONElement el = context.query(generator.getKey());
@@ -127,7 +129,11 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         // get the pages from a generator
         List<? extends OrchidPage> generatorPages = generator.startIndexing();
-        if (generatorPages != null && generatorPages.size() > 0) {
+        Orchid.Lifecycle.IndexGeneratorExtend extend = Orchid.Lifecycle.IndexGeneratorExtend.fire(generator, generatorPages);
+        context.broadcast(extend);
+        generatorPages = extend.getGeneratorPages();
+
+        if (!EdenUtils.isEmpty(generatorPages)) {
             OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
             generatorPages.stream().filter(Objects::nonNull).forEach(page -> {
                 page.setGenerator(generator);
@@ -151,6 +157,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
         else {
             metrics.stopIndexingGenerator(generator.getKey(), 0);
         }
+        context.broadcast(Orchid.Lifecycle.IndexGeneratorFinish.fire(generator));
     }
 
     private void buildExternalIndex() {

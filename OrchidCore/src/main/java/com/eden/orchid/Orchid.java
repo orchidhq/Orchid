@@ -6,8 +6,10 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidSecurityManager;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.events.OrchidEvent;
+import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -212,6 +214,47 @@ public final class Orchid {
             private IndexingFinish(Object sender) { super(sender); }
 
             public static IndexingFinish fire(Object sender) { return new IndexingFinish(sender); }
+        }
+
+        /**
+         * The indexing step for a single Generator has begun.
+         */
+        public static class IndexGeneratorStart extends OrchidEvent {
+            private IndexGeneratorStart(OrchidGenerator sender) { super(sender); }
+
+            public static IndexGeneratorStart fire(OrchidGenerator sender) { return new IndexGeneratorStart(sender); }
+        }
+
+        /**
+         * The indexing step for a single Generator has completed. The list of pages indexed by this generator are
+         * passed with the event, and listeners are free to add, remove, or changes the pages as needed. The result of
+         * firing this event is what is actually stored as this generator's pages, so this builds extensibility into
+         * the indexing phase of each Generator.
+         */
+        public static class IndexGeneratorExtend extends OrchidEvent<OrchidGenerator> {
+            @Getter private final List<? extends OrchidPage> generatorPages;
+
+            private IndexGeneratorExtend(OrchidGenerator sender, List<? extends OrchidPage> generatorPages) {
+                super(sender);
+                this.generatorPages = (generatorPages != null) ? generatorPages : new ArrayList<>();
+            }
+
+            public static IndexGeneratorExtend fire(OrchidGenerator sender, List<? extends OrchidPage> generatorPages) {
+                return new IndexGeneratorExtend(sender, generatorPages);
+            }
+        }
+
+        /**
+         * The indexing step for a single Generator has completed, its pages and collections have been indexed.
+         */
+        public static class IndexGeneratorFinish extends OrchidEvent<OrchidGenerator> {
+            private IndexGeneratorFinish(OrchidGenerator sender) {
+                super(sender);
+            }
+
+            public static IndexGeneratorFinish fire(OrchidGenerator sender) {
+                return new IndexGeneratorFinish(sender);
+            }
         }
 
         /**

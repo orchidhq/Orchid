@@ -26,9 +26,11 @@ public class OfficialOrchidDocsListener implements OrchidEventListener {
         this.context = context;
     }
 
-    @On(Orchid.Lifecycle.IndexingFinish.class)
-    public void onIndexingFinish(Orchid.Lifecycle.IndexingFinish ev) {
-        List<OrchidPage> staticPages = context.getGeneratorPages(PagesGenerator.GENERATOR_KEY);
+    @On(Orchid.Lifecycle.IndexGeneratorExtend.class)
+    public void onIndexingFinish(Orchid.Lifecycle.IndexGeneratorExtend ev) {
+        if(!(ev.getSender() instanceof PagesGenerator)) return; // only run this event for the Pages generator
+
+        List<? extends OrchidPage> staticPages = ev.getGeneratorPages();
 
         final Map<String, List<OrchidPage>> pluginDocsMap = new HashMap<>();
         final Map<String, OrchidPage> pluginRootMap = new HashMap<>();
@@ -38,7 +40,6 @@ public class OfficialOrchidDocsListener implements OrchidEventListener {
             if(referenceCopy.getPathSegments().length > 1) {
                 String pluginName = referenceCopy.getPathSegment(1);
                 pluginDocsMap.computeIfAbsent(pluginName, s -> new ArrayList<>());
-
 
                 if(referenceCopy.getPathSegments().length >= 3 && referenceCopy.getPathSegment(2).equals("docs")) {
                     pluginDocsMap.get(pluginName).add(page);

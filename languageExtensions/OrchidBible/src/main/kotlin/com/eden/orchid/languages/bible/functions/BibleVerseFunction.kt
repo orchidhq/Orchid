@@ -1,6 +1,5 @@
 package com.eden.orchid.languages.bible.functions
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.Eden
 import com.eden.americanbiblesociety.ABSRepository
 import com.eden.bible.AbstractVerse
@@ -29,8 +28,6 @@ constructor() : TemplateFunction("bible", true), VerseFormatter {
 
     override fun apply(input: Any?): Any {
         val verseReference = if (input != null) input.toString() else this.input
-
-        Clog.v("input={}, version={}", input, version)
 
         try {
             if(!EdenUtils.isEmpty(Eden.getInstance().config().getString("ABS_ApiKey"))) {

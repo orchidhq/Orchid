@@ -217,10 +217,9 @@ public class NetlifyPublisher extends OrchidPublisher {
             Instant current = Instant.now();
             Duration d = Duration.between(RateLimit_Reset, current);
 
-            // if we are nearing the rate limit, slow down a bit until it resets
+            // if we are nearing the rate limit, pause down a bit until it resets
             if((RateLimit_Remaining*1.0/RateLimit_Limit*1.0) < 0.1) {
-                long timeToWait = Math.abs(d.toMillis()) / RateLimit_Remaining;
-                Thread.sleep(timeToWait);
+                Thread.sleep(Math.abs(d.toMillis()));
             }
         }
         catch (Exception e) {
