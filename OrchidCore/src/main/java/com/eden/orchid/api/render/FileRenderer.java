@@ -1,5 +1,6 @@
 package com.eden.orchid.api.render;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
@@ -25,7 +26,13 @@ public final class FileRenderer implements OrchidRenderer {
         boolean success;
 
         String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
-        String outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
+        String outputName;
+        if(EdenUtils.isEmpty(OrchidUtils.normalizePath(page.getReference().getOutputExtension()))) {
+            outputName = OrchidUtils.normalizePath(page.getReference().getFileName());
+        }
+        else {
+            outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
+        }
 
         File outputFile = new File(this.destination + "/" + outputPath);
         if (!outputFile.exists()) {

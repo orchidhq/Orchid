@@ -44,7 +44,6 @@ class SwiftdocModel {
                 .filter { it is SwiftExtension }
                 .map { it as SwiftExtension }
                 .filter { it.name == statement.name }
-                .filterNotNull() ?: emptyList()
     }
 
     fun aliasesFor(statement: SwiftStatement): List<SwiftTypealias> {
@@ -52,7 +51,6 @@ class SwiftdocModel {
                 .filter { it is SwiftTypealias }
                 .map { it as SwiftTypealias }
                 .filter { it.target == statement.name }
-                .filterNotNull() ?: emptyList()
     }
 
 }

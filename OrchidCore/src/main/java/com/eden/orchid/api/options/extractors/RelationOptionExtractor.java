@@ -1,11 +1,11 @@
 package com.eden.orchid.api.options.extractors;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.Relation;
 import com.eden.orchid.api.options.annotations.RelationConfig;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import org.json.JSONObject;
 
@@ -33,7 +33,16 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
 
     @Override
     public Relation getOption(Field field, Object sourceObject, String key) {
-        Relation relation = null;
+        return loadRelation(field, sourceObject);
+    }
+
+    @Override
+    public Relation getDefaultValue(Field field) {
+        return loadRelation(field, null);
+    }
+
+    private Relation loadRelation(Field field, Object sourceObject) {
+        Relation relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
         JSONObject relationConfig = new JSONObject();
 
         RelationConfig configAnnotation = field.getAnnotation(RelationConfig.class);
@@ -50,26 +59,15 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
         }
 
         if(sourceObject instanceof String) {
-            relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
             relationConfig = EdenUtils.merge(relationConfig, relation.parseStringRef((String) sourceObject));
         }
         else if(sourceObject instanceof JSONObject) {
-            relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
             relationConfig = EdenUtils.merge(relationConfig, (JSONObject) sourceObject);
-        }
-
-        if(relation == null) {
-            relation = getDefaultValue(field);
         }
 
         relation.setRef(relationConfig);
 
         return relation;
-    }
-
-    @Override
-    public Relation getDefaultValue(Field field) {
-        return (Relation) contextProvider.get().getInjector().getInstance(field.getType());
     }
 
 }

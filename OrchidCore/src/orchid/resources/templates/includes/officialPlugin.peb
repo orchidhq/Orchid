@@ -1,27 +1,8 @@
 {% extends 'includes/basePlugin' %}
 
-{%- block homepageUrl -%}
-    {{- site.baseUrl.replaceAll('OrchidCore', page.reference.originalFileName) -}}
-{%- endblock %}
-{%- block homepageText -%}
-    {{- site.baseUrl.replaceAll('OrchidCore', page.reference.originalFileName) -}}
-{%- endblock -%}
-{%- block additionalContent -%}
-{% if languageExtension is not empty and languageExtension %}
-    {{ load('../../../../languageExtensions/'~page.reference.originalFileName~'/README.md') | raw }}
-{% else %}
-    {{ load('../../../../plugins/'~page.reference.originalFileName~'/README.md') | raw }}
-{% endif %}
-{%- endblock -%}
-{%- block dependency -%}
-    io.github.javaeden.orchid:{{- page.reference.originalFileName -}}:{{ site.version }}
-{%- endblock -%}
-{%- block vcsUrl -%}
-    https://github.com/JavaEden/Orchid
-{%- endblock -%}
-{%- block vcsIcon -%}
-    github
-{%- endblock -%}
-{%- block vcsRepo -%}
-    JavaEden/Orchid
-{%- endblock -%}
+{%- block homepageUrl  -%}{{- page.link~'/docs' -}}                                                           {%- endblock -%}
+{%- block homepageText -%}Full Documentation                                                                  {%- endblock -%}
+{%- block dependency   -%}io.github.javaeden.orchid:{{- page.reference.originalFileName -}}:{{ site.version }}{%- endblock -%}
+{%- block vcsUrl       -%}https://github.com/JavaEden/Orchid                                                  {%- endblock -%}
+{%- block vcsIcon      -%}github                                                                              {%- endblock -%}
+{%- block vcsRepo      -%}JavaEden/Orchid                                                                     {%- endblock -%}

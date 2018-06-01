@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.google.inject.Provider;
+import lombok.Getter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,6 +23,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
     private Map<String, Class<I>> itemTypes;
 
+    @Getter
     protected JSONArray itemsJson;
     protected List<I> loadedItems;
 
@@ -123,5 +125,10 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         for (int i = 0; i < menuItemsJson.length(); i++) {
             itemsJson.put(menuItemsJson.get(i));
         }
+    }
+
+    public void set(JSONArray menuItemsJson) {
+        invalidate();
+        itemsJson = menuItemsJson;
     }
 }

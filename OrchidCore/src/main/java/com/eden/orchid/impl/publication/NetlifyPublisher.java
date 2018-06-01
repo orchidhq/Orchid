@@ -22,6 +22,9 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -110,19 +113,25 @@ public class NetlifyPublisher extends OrchidPublisher {
         }
         JSONObject requiredFiles = new JSONObject(requiredFilesResponse.second);
 
-        // upload all required files
-        String deployId = requiredFiles.getString("id");
-        requiredFiles
-                .getJSONArray("required")
-                .toList()
-                .parallelStream()
-                .filter(Objects::nonNull)
-                .map(o -> (String) o)
-                .flatMap(sha1ToUpload -> fileMap.getOrDefault(sha1ToUpload, new ArrayList<>()).parallelStream())
-                .forEach(fileToUpload-> {
-                    String path = OrchidUtils.getRelativeFilename(fileToUpload.getAbsolutePath(), destinationDir);
-                    netlifyUpload(deployId, path, fileToUpload);
-                });
+        if(requiredFiles.getJSONArray("required").length() == 0) {
+            Clog.i("All files up-to-date on Netlify.");
+        }
+        else {
+            Clog.i("Uploading {} files to Netlify.", requiredFiles.getJSONArray("required").length());
+            // upload all required files
+            String deployId = requiredFiles.getString("id");
+            requiredFiles
+                    .getJSONArray("required")
+                    .toList()
+                    .parallelStream()
+                    .filter(Objects::nonNull)
+                    .map(o -> (String) o)
+                    .flatMap(sha1ToUpload -> fileMap.getOrDefault(sha1ToUpload, new ArrayList<>()).parallelStream())
+                    .forEach(fileToUpload -> {
+                        String path = OrchidUtils.getRelativeFilename(fileToUpload.getAbsolutePath(), destinationDir);
+                        netlifyUpload(deployId, path, fileToUpload);
+                    });
+        }
     }
 
     private EdenPair<Boolean, String> netlifyGet(String url) {
@@ -135,8 +144,15 @@ public class NetlifyPublisher extends OrchidPublisher {
                     .get()
                     .build();
             Response response = client.newCall(request).execute();
+            timeoutRateLimit(response);
 
-            return new EdenPair<>(response.isSuccessful(), response.body().string());
+            String bodyString = response.body().string();
+
+            if(!response.isSuccessful()) {
+                Clog.e("{}", bodyString);
+            }
+
+            return new EdenPair<>(response.isSuccessful(), bodyString);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -155,8 +171,15 @@ public class NetlifyPublisher extends OrchidPublisher {
                     .post(RequestBody.create(JSON, body.toString()))
                     .build();
             Response response = client.newCall(request).execute();
+            timeoutRateLimit(response);
 
-            return new EdenPair<>(response.isSuccessful(), response.body().string());
+            String bodyString = response.body().string();
+
+            if(!response.isSuccessful()) {
+                Clog.e("{}", bodyString);
+            }
+
+            return new EdenPair<>(response.isSuccessful(), bodyString);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -175,6 +198,7 @@ public class NetlifyPublisher extends OrchidPublisher {
                     .put(RequestBody.create(BINARY, toUpload))
                     .build();
             Response response = client.newCall(request).execute();
+            timeoutRateLimit(response);
 
             return new EdenPair<>(response.isSuccessful(), response.body().string());
         }
@@ -183,6 +207,24 @@ public class NetlifyPublisher extends OrchidPublisher {
         }
 
         return new EdenPair<>(false, null);
+    }
+
+    private void timeoutRateLimit(Response response) {
+        try {
+            int RateLimit_Limit = Integer.parseInt(response.header("X-RateLimit-Limit"));
+            int RateLimit_Remaining = Integer.parseInt(response.header("X-RateLimit-Remaining"));
+            Instant RateLimit_Reset = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(response.header("X-RateLimit-Reset")).toInstant();
+            Instant current = Instant.now();
+            Duration d = Duration.between(RateLimit_Reset, current);
+
+            // if we are nearing the rate limit, pause down a bit until it resets
+            if((RateLimit_Remaining*1.0/RateLimit_Limit*1.0) < 0.1) {
+                Thread.sleep(Math.abs(d.toMillis()));
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

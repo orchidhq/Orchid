@@ -1,0 +1,17 @@
+apply from: "$actionsScript/java.gradle"
+apply from: "$actionsScript/kotlin.gradle"
+if(project.path == ':OrchidCore') {
+    apply from: "$actionsScript/orchid.gradle"
+}
+apply from: "$actionsScript/javadoc.gradle"
+apply from: "$actionsScript/publish.gradle"
+apply from: "$actionsScript/testing.gradle"
+
+dependencies {
+    testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}

@@ -1,0 +1,82 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+afterEvaluate { project ->
+    def pomConfig = {
+        scm {
+            url 'https://github.com/JavaEden/Orchid.git'
+            connection 'https://github.com/JavaEden/Orchid.git'
+            developerConnection 'https://github.com/JavaEden/Orchid.git'
+        }
+        licenses {
+            license {
+                name 'LGPL-3.0'
+                url 'https://opensource.org/licenses/LGPL-3.0'
+                distribution 'repo'
+            }
+        }
+        developers {
+            developer {
+                id 'JavaEden'
+                name 'Casey Brooks'
+                email 'cjbrooks12@gmail.com'
+            }
+        }
+    }
+
+    project.publishing {
+        publications {
+            OrchidPublication(MavenPublication) {
+                from project.components.java
+                artifact project.sourcesJar
+                artifact project.javadocJar
+                groupId "${project.group}"
+                artifactId "${project.name}"
+                version "${project.version}"
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', 'A modern, extensible, theme-ready Javadoc site generator')
+                    root.appendNode('name', 'Orchid')
+                    root.appendNode('url', 'https://javaeden.github.io/Orchid/latest/core/')
+                    root.children().last() + pomConfig
+                }
+            }
+        }
+    }
+
+    bintray {
+        user = "${project.properties['bintray_username']}"
+        key = "${project.properties['bintray_apiKey']}"
+        publications = ['OrchidPublication']
+
+        dryRun = project.hasProperty('dryDeploy')
+        publish = !project.hasProperty('dryDeploy')
+        override = true
+
+        pkg {
+            repo = "${rootProject.name}"
+            name = "${project.name}"
+            userOrg = 'javaeden'
+            licenses = ['LGPL-3.0']
+            vcsUrl = 'https://github.com/JavaEden/Orchid.git'
+
+            version {
+                name = "${project.version}"
+                desc = "Orchid ${project.name} ${project.version}"
+                released = new Date()
+
+                gpg {
+                    sign = true
+                }
+                mavenCentralSync {
+                    sync = (project.hasProperty('includeMavenCentralSync'))
+                    user = "${project.properties['mavenCentral_username']}"
+                    password = "${project.properties['mavenCentral_password']}"
+                }
+            }
+        }
+    }
+}
+
+project.tasks.publish.dependsOn bintrayUpload
+rootProject.tasks.deploy.dependsOn project.tasks.publish

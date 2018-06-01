@@ -1,6 +1,7 @@
 // Configure build, dependencies, output jar, and Java compatibility
 //------------------------------------------------------------------------------
 apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/utils.gradle'
 
 buildscript {
     def kotlin_version = '1.2.41'
@@ -18,13 +19,11 @@ buildscript {
 }
 
 apply plugin: 'base'
-apply plugin: 'idea'
 apply plugin: 'org.ajoberstar.grgit'
-apply plugin: "com.dorongold.task-tree"
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'jacoco'
 
-group   = 'io.github.javaeden.orchid'
+group = 'io.github.javaeden.orchid'
 
 // Define the 'types' of projects Orchid is working with
 //      coreProject - the main core module required by every other Orchid extension
@@ -37,14 +36,16 @@ group   = 'io.github.javaeden.orchid'
 //              Orchid environment with a single dependency artifact.
 //      mainProjects - The aggregate of core, theme, and plugin groups. Includes all packages which contain sources.
 //              Excludes 'empty projects' like ':themes' and ':plugins', as well as the root project and 'buildSrc'
-ext.coreProject    = subprojects.findAll { return (it.name == "OrchidCore") }
-ext.themeProjects  = subprojects.findAll { return (it.path.startsWith(":themes"))  && (it.name != "themes") }
+ext.coreProject               = [project(':OrchidCore')]
+ext.themeProjects             = subprojects.findAll { return (it.path.startsWith(":themes"))  && (it.name != "themes") }
 ext.languageExtensionProjects = subprojects.findAll { return (it.path.startsWith(":languageExtensions")) && (it.name != "languageExtensions") }
-ext.pluginProjects = ext.languageExtensionProjects + subprojects.findAll { return (it.path.startsWith(":plugins")) && (it.name != "plugins")}
-ext.bundleProjects = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
-ext.mainProjects   = coreProject + themeProjects + pluginProjects
+ext.pluginProjects            = languageExtensionProjects + subprojects.findAll { return (it.path.startsWith(":plugins")) && (it.name != "plugins")}
+ext.bundleProjects            = subprojects.findAll { return (it.path.startsWith(":bundles")) && (it.name != "bundles") }
+ext.mainProjects              = coreProject + themeProjects + pluginProjects
 
 allprojects {
+    apply plugin: 'idea'
+    apply plugin: "com.dorongold.task-tree"
     repositories {
         jcenter()
         maven { url 'https://dl.bintray.com/javaeden/Eden/' }
@@ -68,38 +69,27 @@ task getReleaseName {
 
 task getReleaseNotes {
     doLast {
-        def versionFilename = project.version.toString().replaceAll("\\.", "_") + ".md"
-        def fullVersionFilename = "$projectDir/OrchidCore/src/orchid/resources/changelog/$versionFilename"
-        def versionFile = file(fullVersionFilename)
-
-        if(versionFile.exists()) {
-            println versionFile.text.split("---").last().trim()
-        }
-        else {
-            println "No release notes"
-        }
+        println getChangelogFile().text.split("---").last().trim()
     }
 }
 
-task copyFilesToRoot {
+// Add check to make sure every release version has a Changelog file
+//----------------------------------------------------------------------------------------------------------------------
+
+task checkForChangelogFile {
     doLast {
+        def versionFile = getChangelogFile()
+
+        if(project.hasProperty("release") && (project.property("release") != 'false') && !versionFile.exists()) {
+            throw new FileNotFoundException("There is no changelog entry for this version, expected 'changelog/${versionFile.name}' to exist.")
+        }
     }
 }
-
-task prepareDocumentation {
-    dependsOn copyFilesToRoot
-}
+check.dependsOn checkForChangelogFile
 
 task archiveDocumentation(type: Zip) {
-    mustRunAfter prepareDocumentation
-    from "${rootProject.buildDir}/orchid/docs/${project.version}"
-
-    def versionFilename = project.version.toString().replaceAll("\\.", "_") + ".md"
-    def fullVersionFilename = "$projectDir/OrchidCore/src/orchid/resources/changelog/$versionFilename"
-    def versionFile = file(fullVersionFilename)
-    if(versionFile.exists()) {
-        from versionFile
-    }
+    from "${project(':OrchidCore').buildDir}/docs/orchid"
+    from getChangelogFile()
 
     include '**/*'
     archiveName "docs-${project.version}.zip"
@@ -107,28 +97,28 @@ task archiveDocumentation(type: Zip) {
 }
 
 task deploy {
-    dependsOn prepareDocumentation, archiveDocumentation
+    dependsOn archiveDocumentation
     doLast { }
 }
 
 // Configure
 //----------------------------------------------------------------------------------------------------------------------
 
-configure(ext.mainProjects)   { apply from: "$rootDir/gradle/mainProjects.gradle" }
-configure(ext.themeProjects)  { apply from: "$rootDir/gradle/themeProjects.gradle" }
-configure(ext.pluginProjects) { apply from: "$rootDir/gradle/pluginProjects.gradle" }
-configure(ext.bundleProjects) { apply from: "$rootDir/gradle/bundleProjects.gradle" }
+configure(mainProjects)   { apply from: "$groupsScript/mainProjects.gradle" }
+configure(themeProjects)  { apply from: "$groupsScript/themeProjects.gradle" }
+configure(pluginProjects) { apply from: "$groupsScript/pluginProjects.gradle" }
+configure(bundleProjects) { apply from: "$groupsScript/bundleProjects.gradle" }
 
 // Code Coverage Reports
 //----------------------------------------------------------------------------------------------------------------------
 task codeCoverageReport(type: JacocoReport) {
     dependsOn {
-        rootProject.ext.mainProjects*.test
+        mainProjects*.test
     }
 
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 
-    rootProject.ext.mainProjects.each {
+    mainProjects.each {
         sourceSets it.sourceSets.main
     }
 

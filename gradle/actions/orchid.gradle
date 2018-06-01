@@ -1,0 +1,14 @@
+apply plugin: 'com.eden.orchidJavadocPlugin'
+
+orchid {
+    runTask     = 'build'
+    theme       = 'BsDoc'
+    version     = getActualVersion(project)
+    baseUrl     = getBaseUrl(project)
+    environment = getEnvName(project)
+
+    // additional command-line args
+    args = [
+        "absApiKey ${project.properties['ABS_ApiKey']}"
+    ]
+}

@@ -12,6 +12,7 @@ import com.eden.orchid.pages.pages.StaticPage
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.streams.toList
 
 @Singleton
 @Description("Generates static pages with the same output folder as their input, minus the base directory. Input " +
@@ -34,6 +35,11 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
 
         for (entry in resourcesList) {
             entry.reference.stripFromPath(baseDir)
+            if(entry.reference.originalFileName.equals("index", true)) {
+                entry.reference.fileName = entry.reference.originalPathSegments.last()
+                entry.reference.removePathSegment(entry.reference.originalPathSegments.lastIndex)
+            }
+
             val page = StaticPage(entry)
             pages.add(page)
         }
@@ -42,7 +48,15 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { if (it is StaticPage) { context.render(it, it.renderMode) } }
+        val pagesList = pages.toList()
+
+        val usesCustomThemes = pagesList.stream().anyMatch { it is StaticPage && it.theme != null }
+
+        val stream = if(usesCustomThemes) { pagesList.stream().sequential() } else { pagesList.stream() }
+
+        stream.forEach { page -> if (page is StaticPage) {
+            context.doWithTheme(page.theme) { context.render(page, page.renderMode) }
+        } }
     }
 
     override fun getCollections(): List<OrchidCollection<*>> {

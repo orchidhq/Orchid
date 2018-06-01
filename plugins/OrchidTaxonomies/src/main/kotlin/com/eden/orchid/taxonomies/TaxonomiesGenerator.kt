@@ -66,6 +66,8 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomyModel.includeFrom, taxonomyModel.excludeFrom)
 
                 context.internalIndex.getGeneratorPages(enabledGeneratorKeys).forEach { page ->
+                    if(page.getSingleTermValue("skipTaxonomy") == "true") {return@forEach}
+
                     val pageTerms = HashSet<String?>()
                     if(taxonomyModel.single) {
                         pageTerms.add(page.getSingleTermValue(taxonomyKey))

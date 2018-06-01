@@ -1,0 +1,57 @@
+
+// Helper Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+ext.getActualVersion = { Project project ->
+    def v = project.version.toString()
+    if(v.endsWith("-SNAPSHOT")) {
+        v = v.replaceAll("-SNAPSHOT", "")
+        def vs = v.split("\\.")
+        def major = (vs[0] as int)
+        def minor = (vs[1] as int)
+        def patch = (vs[2] as int) - 1
+        return "$major.$minor.$patch"
+    }
+    else {
+        def vs = v.split("\\.")
+        def major = (vs[0] as int)
+        def minor = (vs[1] as int)
+        def patch = (vs[2] as int)
+        return "$major.$minor.$patch"
+    }
+}
+
+ext.getBaseUrl = { Project project ->
+    if (project.hasProperty('env') && project.property('env') == 'prod') {
+        if(Boolean.parseBoolean(System.getenv('PULL_REQUEST'))) {
+            return System.getenv('DEPLOY_URL') // Netlify deploy preview URL
+        }
+        else {
+            return System.getenv('URL') // Netlify production URL
+        }
+    }
+    else {
+        return 'http://localhost:8080' // local development URL
+    }
+}
+
+ext.getEnvName = { Project project ->
+    if (project.hasProperty('env') && project.property('env') == 'prod') {
+        return 'prod'
+    }
+    else {
+        return 'debug'
+    }
+}
+
+ext.getChangelogFile = {
+    def versionFilename = rootProject.version.toString().replaceAll("\\.", "_") + ".md"
+    def fullVersionFilename = "${project(':OrchidCore').projectDir}/src/orchid/resources/changelog/$versionFilename"
+    return rootProject.file(fullVersionFilename)
+}
+
+// Helper Properties
+//----------------------------------------------------------------------------------------------------------------------
+
+ext.groupsScript = "$rootDir/gradle/groups"
+ext.actionsScript = "$rootDir/gradle/actions"

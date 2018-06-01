@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Swagger
-    siteDescription: Embed the Swagger UI within any Orchid page.
-
-theme:
-  primaryColor: '#9BC437'
-  social:
-    github: 'JavaEden/Orchid'

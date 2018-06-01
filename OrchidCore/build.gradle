@@ -40,7 +40,7 @@ dependencies {
     api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
 
     // generate own documentation with Orchid
-    orchidRuntime rootProject.ext.mainProjects
+    orchidCompile mainProjects
 }
 
 // Make sure Core is compiled before plugins, but javadoc run after plugins
@@ -59,6 +59,7 @@ project.parent.subprojects.each { subproject ->
 // Generate a Class containing the current build version, so it can be injected into OrchidSite
 //----------------------------------------------------------------------------------------------------------------------
 
+// TODO: Change this to have the runtime read from a .properties file rather than reflectively find this class
 task generateSources {
     def outputDir = file("$buildDir/generated-src")
     outputs.dir outputDir
@@ -75,19 +76,3 @@ public class OrchidVersion {
 }
 compileJava.dependsOn generateSources
 compileJava.source generateSources.outputs.files, sourceSets.main.java
-
-// Add check to make sure every release version has a Changelog file
-//----------------------------------------------------------------------------------------------------------------------
-
-task checkForChangelogFile {
-    doLast {
-        def versionFilename = project.version.toString().replaceAll("\\.", "_") + ".md"
-        def fullVersionFilename = "$projectDir/src/orchid/resources/changelog/$versionFilename"
-        def versionFile = file(fullVersionFilename)
-
-        if(project.hasProperty("release") && (project.property("release") != 'false') && !versionFile.exists()) {
-            throw new FileNotFoundException("There is no changelog entry for this version, expected 'changelog/$versionFilename' to exist.")
-        }
-    }
-}
-check.dependsOn checkForChangelogFile

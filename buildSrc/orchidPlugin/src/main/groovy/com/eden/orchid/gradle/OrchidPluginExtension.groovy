@@ -1,7 +1,6 @@
 package com.eden.orchid.gradle
 
 class OrchidPluginExtension {
-    boolean noJavadoc
     String srcDir
     String destDir
     String runTask

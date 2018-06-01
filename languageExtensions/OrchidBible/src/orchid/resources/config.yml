@@ -1,9 +1,0 @@
-site:
-  about:
-    siteName: Orchid Bible
-    siteDescription: Include Bible verses in your site just by the reference.
-
-theme:
-  primaryColor: '#A8593A'
-  social:
-    github: 'JavaEden/Orchid'

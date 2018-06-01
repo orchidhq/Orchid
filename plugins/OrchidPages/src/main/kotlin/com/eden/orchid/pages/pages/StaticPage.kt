@@ -32,6 +32,13 @@ class StaticPage(resource: OrchidResource)
     @Description("How should this page be rendered? One of [TEMPLATE, RAW, or BINARY].")
     lateinit var renderMode: String
 
+    @Option
+    @Description("Set a theme to be used only when rendering pages this Static Page. This can be a String to use " +
+            "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
+            "specific options for the theme."
+    )
+    var theme: Any? = null
+
     override fun onPostExtraction() {
         reference.isUsePrettyUrl = usePrettyUrl
     }
@@ -48,7 +55,7 @@ class StaticPage(resource: OrchidResource)
     override fun getTemplates(): List<String> {
         val templates = super.getTemplates()
         if (!EdenUtils.isEmpty(group)) {
-            templates.add(0, "$key-${group!!}")
+            templates.add("$key-${group!!}")
         }
 
         return templates

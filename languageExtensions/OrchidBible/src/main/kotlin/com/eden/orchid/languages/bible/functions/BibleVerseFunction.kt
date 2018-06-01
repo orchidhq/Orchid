@@ -28,6 +28,7 @@ constructor() : TemplateFunction("bible", true), VerseFormatter {
 
     override fun apply(input: Any?): Any {
         val verseReference = if (input != null) input.toString() else this.input
+
         try {
             if(!EdenUtils.isEmpty(Eden.getInstance().config().getString("ABS_ApiKey"))) {
                 val eden = Eden.getInstance()
