@@ -13,6 +13,7 @@ wikiPages:
         order: 100
       - type: 'pageIds'
         order: 110
+        structure: nested
       - type: 'separator'
         title: 'User Manual'
         order: 1000
@@ -23,6 +24,7 @@ wikiPages:
         order: 100
       - type: 'pageIds'
         order: 110
+        structure: nested
       - type: 'separator'
         title: 'Developers Guide'
         order: 1000
