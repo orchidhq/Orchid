@@ -33,15 +33,24 @@ public final class LinkMenuItem extends OrchidMenuItem {
     public List<OrchidMenuItemImpl> getMenuItems() {
         List<OrchidMenuItemImpl> menuItems = new ArrayList<>();
 
+        url = url.trim();
+
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(url)) {
-            if(url.trim().equals("/")) {
+            OrchidReference reference = null;
+            if(url.equals("/")) {
                 url = context.getBaseUrl();
             }
             else if (!(OrchidUtils.isExternal(url))) {
                 url = OrchidUtils.applyBaseUrl(context, url);
             }
+            else if (url.startsWith("#")) {
+                reference = new OrchidReference(page.getReference());
+                reference.setId(url.substring(1));
+            }
 
-            OrchidReference reference = OrchidReference.fromUrl(context, title, url);
+            if(reference == null) {
+                reference = OrchidReference.fromUrl(context, title, url);
+            }
             if(reference != null) {
                 menuItems.add(new OrchidMenuItemImpl(context, new OrchidExternalPage(reference)));
             }

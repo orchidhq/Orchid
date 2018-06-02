@@ -1,5 +1,6 @@
 package com.eden.orchid.wiki.menu
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidInternalIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -16,6 +17,7 @@ import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
+import com.eden.orchid.wiki.pages.WikiSummaryPage
 import javax.inject.Inject
 
 class WikiPagesMenuItemType @Inject
@@ -36,6 +38,15 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
 
         val menuItemTitle: String
         val menuSection: String
+
+        if(EdenUtils.isEmpty(section)) {
+            if(page is WikiPage) {
+                section = (page as WikiPage).section
+            }
+            else if(page is WikiSummaryPage) {
+                section = (page as WikiSummaryPage).section
+            }
+        }
 
         val wikiSection = model.getSection(section)
 

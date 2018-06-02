@@ -3,7 +3,14 @@
 
 * [Introduction](intro.md)
 * [Quick-Start](quickstart.md)
-* [Building Blocks](building-blocks.md)
+
+## Building Blocks
+
+* [Generators](building-blocks/generators.md)
+* [Pages](building-blocks/pages.md)
+* [Components](building-blocks/components.md)
+* [Menus](building-blocks/menus.md)
+* [Collections](building-blocks/collections.md)
 
 ## Configuration 
 

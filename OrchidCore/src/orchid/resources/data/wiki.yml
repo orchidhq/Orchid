@@ -6,3 +6,27 @@ wikiPages:
   layout: geopattern2
   searchIndices:
     - 'wiki'
+  userManual:
+    menu:
+      - type: 'separator'
+        title: 'In This Page'
+        order: 100
+      - type: 'pageIds'
+        order: 110
+      - type: 'separator'
+        title: 'User Manual'
+        order: 1000
+  developersGuide:
+    menu:
+      - type: 'separator'
+        title: 'In This Page'
+        order: 100
+      - type: 'pageIds'
+        order: 110
+      - type: 'separator'
+        title: 'Developers Guide'
+        order: 1000
+  menu:
+    - type: 'wiki'
+      topLevel: true
+      order: 1010

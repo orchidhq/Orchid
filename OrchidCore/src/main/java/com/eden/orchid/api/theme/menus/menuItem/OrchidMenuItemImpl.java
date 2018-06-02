@@ -22,6 +22,7 @@ public class OrchidMenuItemImpl {
 
     protected List<OrchidMenuItemImpl> children;
     protected OrchidPage page;
+    protected String anchor;
 
     protected String title;
     protected boolean hasChildren;
@@ -127,7 +128,11 @@ public class OrchidMenuItemImpl {
     }
 
     public String getLink() {
-        return (page != null) ? page.getLink() : null;
+        return (page != null)
+                ? page.getLink()
+                : (!EdenUtils.isEmpty(anchor))
+                    ? "#" + anchor
+                    : null;
     }
 
     public List<OrchidMenuItemImpl> getChildren() {

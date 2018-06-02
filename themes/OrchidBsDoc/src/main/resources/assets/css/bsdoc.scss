@@ -16,8 +16,21 @@
   padding-top: 112px;
 }
 
-.nav.bs-docs-sidenav a {
-  cursor: pointer;
+.nav.bs-docs-sidenav {
+  a {
+    cursor: pointer;
+  }
+  .divider {
+    border-bottom: thin solid #999999;
+    margin: 20px 0 20px 20px;
+  }
+  .divider-subheader {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #cccccc;
+    border: none;
+    margin-top: 20px;
+  }
 }
 
 #footer {
