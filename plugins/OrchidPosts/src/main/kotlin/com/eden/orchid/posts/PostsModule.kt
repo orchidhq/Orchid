@@ -20,38 +20,29 @@ import com.eden.orchid.posts.permalink.pathtypes.MonthPathType
 import com.eden.orchid.posts.permalink.pathtypes.SlugPathType
 import com.eden.orchid.posts.permalink.pathtypes.YearPathType
 import com.eden.orchid.posts.utils.AuthorOptionExtractor
+import com.eden.orchid.utilities.addToSet
 
 class PostsModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(OrchidGenerator::class.java,
-                PostsGenerator::class.java,
-                FeedsGenerator::class.java)
-
-        addToSet(OrchidMenuItem::class.java,
-                LatestPostsMenuType::class.java)
-
-        addToSet(OrchidComponent::class.java,
-                RecentPostsComponent::class.java,
-                DisqusComponent::class.java)
-
-        addToSet(PluginResourceSource::class.java,
-                PostsResourceSource::class.java)
-
-        addToSet(PermalinkPathType::class.java,
-                CategoryPathType::class.java,
-                DayPathType::class.java,
-                MonthNamePathType::class.java,
-                MonthPathType::class.java,
-                SlugPathType::class.java,
-                YearPathType::class.java,
-                AuthorNamePathType::class.java)
-
-        addToSet(OptionExtractor::class.java,
-                AuthorOptionExtractor::class.java)
-
-        addToSet(TemplateFunction::class.java,
-                ExcerptFunction::class.java)
+        addToSet<PluginResourceSource, PostsResourceSource>()
+        addToSet<OrchidMenuItem, LatestPostsMenuType>()
+        addToSet<OptionExtractor<*>, AuthorOptionExtractor>()
+        addToSet<TemplateFunction, ExcerptFunction>()
+        addToSet<OrchidGenerator>(
+                PostsGenerator::class,
+                FeedsGenerator::class)
+        addToSet<OrchidComponent>(
+                RecentPostsComponent::class,
+                DisqusComponent::class)
+        addToSet<PermalinkPathType>(
+                CategoryPathType::class,
+                DayPathType::class,
+                MonthNamePathType::class,
+                MonthPathType::class,
+                SlugPathType::class,
+                YearPathType::class,
+                AuthorNamePathType::class)
     }
 }
 

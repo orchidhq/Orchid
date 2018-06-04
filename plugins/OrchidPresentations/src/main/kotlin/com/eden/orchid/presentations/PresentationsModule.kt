@@ -6,21 +6,15 @@ import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.presentations.components.PresentationComponent
+import com.eden.orchid.utilities.addToSet
 
 class PresentationsModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(PluginResourceSource::class.java,
-                PresentationsResourceSource::class.java)
-
-        addToSet(OrchidGenerator::class.java,
-                PresentationsGenerator::class.java)
-
-        addToSet(OrchidComponent::class.java,
-                PresentationComponent::class.java)
-
-        addToSet(OptionExtractor::class.java,
-                PresentationOptionExtractor::class.java)
+        addToSet<PluginResourceSource, PresentationsResourceSource>()
+        addToSet<OrchidGenerator, PresentationsGenerator>()
+        addToSet<OrchidComponent, PresentationComponent>()
+        addToSet<OptionExtractor<*>, PresentationOptionExtractor>()
     }
 
 }

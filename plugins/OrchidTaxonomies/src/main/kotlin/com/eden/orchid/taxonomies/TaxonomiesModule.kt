@@ -14,29 +14,24 @@ import com.eden.orchid.taxonomies.menus.TaxonomyTermMenuType
 import com.eden.orchid.taxonomies.permalink.pathtype.ArchiveIndexPathType
 import com.eden.orchid.taxonomies.permalink.pathtype.TaxonomyPathType
 import com.eden.orchid.taxonomies.permalink.pathtype.TermPathType
+import com.eden.orchid.utilities.addToSet
 
 class TaxonomiesModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(OrchidGenerator::class.java,
-                TaxonomiesGenerator::class.java)
-
-        addToSet(PluginResourceSource::class.java,
-                TaxonomiesResourceSource::class.java)
-
-        addToSet(PermalinkPathType::class.java,
-                TaxonomyPathType::class.java,
-                TermPathType::class.java,
-                ArchiveIndexPathType::class.java)
-
-        addToSet(OrchidComponent::class.java,
-                TaxonomyComponent::class.java,
-                TaxonomyTermComponent::class.java)
-
-        addToSet(OrchidMenuItem::class.java,
-                TaxonomiesMenuType::class.java,
-                TaxonomyMenuType::class.java,
-                TaxonomyTermMenuType::class.java)
+        addToSet<OrchidGenerator, TaxonomiesGenerator>()
+        addToSet<PluginResourceSource, TaxonomiesResourceSource>()
+        addToSet<PermalinkPathType>(
+                TaxonomyPathType::class,
+                TermPathType::class,
+                ArchiveIndexPathType::class)
+        addToSet<OrchidComponent>(
+                TaxonomyComponent::class,
+                TaxonomyTermComponent::class)
+        addToSet<OrchidMenuItem>(
+                TaxonomiesMenuType::class,
+                TaxonomyMenuType::class,
+                TaxonomyTermMenuType::class)
     }
 }
 

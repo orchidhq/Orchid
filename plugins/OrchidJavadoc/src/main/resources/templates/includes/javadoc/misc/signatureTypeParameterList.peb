@@ -1,0 +1,16 @@
+{#- @pebvariable name="typeParameters" type="com.sun.javadoc.TypeVariable[]" -#}
+{%- if typeParameters|length > 0 -%}
+&lt;
+    {%- for param in typeParameters -%}
+    {#- @pebvariable name="param" type="com.sun.javadoc.TypeVariable" -#}
+    {{ param.name() -}}
+    {% if param.bounds()|length > 0 and showBounds is not empty and showBounds%}
+        extends
+        {% for bound in param.bounds() -%}
+            {%- include 'includes/javadoc/misc/type' with {"type": bound} -%}{%- if not loop.last -%}, {% endif %}
+        {%- endfor -%}
+    {%- endif -%}
+    {%- if not loop.last -%}, {% endif %}
+    {%- endfor -%}
+&gt;
+{%- endif -%}

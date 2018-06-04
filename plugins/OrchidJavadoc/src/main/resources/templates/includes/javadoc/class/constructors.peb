@@ -2,12 +2,17 @@
 {% set "classDoc" = page.classDoc %}
 
 {% if classDoc.constructors|length > 0 %}
-<h3>Constructors</h3>
+<h2 id="constructors">Constructors</h2>
 
 {% for ctor in classDoc.constructors %}
 {# @pebvariable name="ctor" type="com.sun.javadoc.ConstructorDoc" #}
 <div class="panel panel-default">
-    <div class="panel-heading"><code>{{ ctor.name }}{{ ctor.flatSignature }}</code></div>
+    <div class="panel-heading" id="{{ page.model.idFor(ctor) }}">
+        <code>
+        {{ ctor.name -}}{%- include 'includes/javadoc/misc/signatureParameterList' with {"parameters": ctor.parameters,"parameterTags": ctor.paramTags} -%}
+        </code>
+        {% include 'includes/javadoc/misc/modifiers' with {"el": ctor} %}
+    </div>
     {% if ctor.annotations|length > 0 %}
         <div class="panel-body">
             <div><b>Constructor Annotations:</b></div>

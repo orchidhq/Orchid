@@ -6,19 +6,16 @@ import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.netlifycms.api.NetlifyCmsApiController
 import com.eden.orchid.netlifycms.api.NetlifyCmsManageController
+import com.eden.orchid.utilities.addToSet
 
 class NetlifyCmsModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(PluginResourceSource::class.java,
-                NetlifyCmsResourceSource::class.java)
-
-        addToSet(OrchidGenerator::class.java,
-                NetlifyCmsGenerator::class.java)
-
-        addToSet(OrchidController::class.java,
-                NetlifyCmsApiController::class.java,
-                NetlifyCmsManageController::class.java)
+        addToSet<PluginResourceSource, NetlifyCmsResourceSource>()
+        addToSet<OrchidGenerator, NetlifyCmsGenerator>()
+        addToSet<OrchidController>(
+                NetlifyCmsApiController::class,
+                NetlifyCmsManageController::class)
     }
 }
 

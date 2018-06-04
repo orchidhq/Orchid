@@ -1,12 +1,15 @@
 {# @pebvariable name="annotation" type="com.sun.javadoc.AnnotationDesc" #}
 
-@{{ javadocLink(annotation.annotationType.qualifiedName, annotation.annotationType.name, true) -}}
+{{- anchor('@'~annotation.annotationType.name, annotation.annotationType.qualifiedName) -}}
 
 {%- if (annotation.elementValues()|length) > 0 -%}
 (
-{%- for val in annotation.elementValues() -%}
-{# @pebvariable name="val" type="com.sun.javadoc.AnnotationDesc.ElementValuePair" #}
-    {{- javadocLink(val.element.qualifiedName, val.element.name, true) -}}={{- val.value() -}}{%- if not loop.last -%}, {% endif %}
-{%- endfor -%}
+    {%- if inline is empty or not inline -%}<br>{%- endif -%}
+    {%- for val in annotation.elementValues() -%}
+        {%- if inline is empty or not inline -%}&emsp;&emsp;&emsp;&emsp;{%- endif -%}
+        {{- anchor(val.element.name, val.element.qualifiedName) -}}
+        =
+        {{- (page.isClassType(val.value().value())) ? anchor(val.value().value().simpleTypeName(), val.value().value().qualifiedTypeName()) : val.value() -}}{%- if not loop.last -%},<br> {% endif %}
+    {%- endfor -%}
 )
 {%- endif -%}

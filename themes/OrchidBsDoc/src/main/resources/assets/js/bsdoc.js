@@ -46,14 +46,19 @@ function setupSmoothScroll() {
         var href = $.attr(this, 'href');
 
         if(href) {
-            if (href.startsWith('#')) {
+            if (href.startsWith('#') && href.trim().length > 1) {
                 var target = $(href);
 
-                if (target.length != 0) {
+                if (target.length !== 0) {
                     $('html, body').animate({
-                        scrollTop: target.offset().top - 72
+                        scrollTop: target.offset().top - 95
                     }, 500, function () {
-                        window.location.hash = href;
+                        if(history.pushState) {
+                            history.pushState(null, null, href);
+                        }
+                        else {
+                            location.hash = href;
+                        }
                     });
 
                     return false;
@@ -75,7 +80,8 @@ function setupScrollspy() {
     var sidebar = $('#bs-docs-sidebar');
     if(sidebar.length > 0) {
         $('body').scrollspy({
-            target: '#bs-docs-sidebar'
+            target: '#bs-docs-sidebar',
+            offset: 100
         });
         sidebar.affix({
             offset: {

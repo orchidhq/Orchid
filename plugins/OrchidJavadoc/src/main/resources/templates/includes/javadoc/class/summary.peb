@@ -1,14 +1,19 @@
 {# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocClassPage" #}
 
-<div>
-    <code>
+<p id="summary">
+    <b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b>
+</p>
+<p>
+    <code style="padding: 0;">
         {% include 'includes/javadoc/misc/annotations' with {"annotations": page.classDoc.annotations} %}
-        <span>
-            <b>{{ page.classDoc.modifiers }} {{ page.classType }} <a href="{{ page.link }}">{{ page.classDoc.name }}</a></b>
-        </span>
+        <b>{{- page.classDoc.modifiers -}}</b>
+        <b>{{ page.classType -}}</b>
+        <b>{%- include 'includes/javadoc/misc/type' with {"type": page.classDoc, "showBounds": true} -%}</b>
 
         {% if page.classDoc.superclass is not empty %}
-            <span>extends {{ javadocLink(page.classDoc.superclass.qualifiedName, page.classDoc.superclass.name, true) }}</span>
+            <span>
+                extends {% include 'includes/javadoc/misc/type' with {"type": page.classDoc.superclass, "showBounds": true} -%}
+            </span>
         {% endif %}
 
         {% if page.classDoc.interfaces|length > 0 %}
@@ -18,15 +23,14 @@
             implements
         {% endif %}
         {% for interface in page.classDoc.interfaces %}
-            {{ javadocLink(interface.qualifiedName, interface.name, true) -}}{%- if not loop.last -%}, {% endif %}
+            {%- include 'includes/javadoc/misc/type' with {"type": interface} -%}{%- if not loop.last -%}, {% endif %}
         {% endfor %}
         {% endif %}
     </code>
-</div>
-
-<h3>Class {{ page.classDoc.name }}</h3>
-<p><b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b></p>
-
-<div class="class-description">
+</p>
+<p class="clearfix">
+{% include 'includes/javadoc/misc/modifiers' with {"el": page.classDoc, "float": "left"} %}
+</p>
+<div class="class-description" id="description">
 {{ page.content | raw }}
 </div>

@@ -8,7 +8,7 @@
     {% set "tag" = parameterTags[loop.index] %}
     {# @pebvariable name="param" type="com.sun.javadoc.Parameter" #}
     {# @pebvariable name="tag" type="com.sun.javadoc.ParamTag" #}
-        <code class="pull-left">{{ javadocLink(param.type.asClassDoc().qualifiedTypeName, param.type.asClassDoc().name, true) }} {{ param.name() }}</code>
+        <code class="pull-left">{{ anchor(param.type.asClassDoc().name, param.type.asClassDoc().qualifiedTypeName) }} {{ param.name() }}</code>
     {% if tag.parameterComment|length > 0 %}
         <br><br>
         <div>{{ tag.parameterComment | raw }}</div>
