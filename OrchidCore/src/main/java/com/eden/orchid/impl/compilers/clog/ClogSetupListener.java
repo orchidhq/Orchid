@@ -1,31 +1,71 @@
-package com.eden.orchid.impl.events;
+package com.eden.orchid.impl.compilers.clog;
 
 import com.caseyjbrooks.clog.Clog;
+import com.caseyjbrooks.clog.ClogFormatter;
 import com.caseyjbrooks.clog.ClogLogger;
 import com.caseyjbrooks.clog.DefaultLogger;
+import com.caseyjbrooks.clog.parseltongue.Incantation;
+import com.caseyjbrooks.clog.parseltongue.Parseltongue;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.google.inject.Provider;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
-public class ClogSetupListener implements OrchidEventListener {
+public final class ClogSetupListener implements OrchidEventListener {
+
+    private final Provider<OrchidContext> contextProvider;
+    private final Provider<Set<TemplateFunction>> templateTagsProvider ;
 
     private final WarningLogCollector warningLogger = new WarningLogCollector();
     private final ErrorLogCollector errorLogger = new ErrorLogCollector();
     private final FatalLogCollector fatalLogger = new FatalLogCollector();
 
-    @On(Orchid.Lifecycle.OnStart.class)
-    public void onStart(Orchid.Lifecycle.OnStart event) {
+    @Inject
+    public ClogSetupListener(Provider<OrchidContext> contextProvider, Provider<Set<TemplateFunction>> templateTagsProvider) {
+        this.contextProvider = contextProvider;
+        this.templateTagsProvider = templateTagsProvider;
+    }
+
+    @On(Orchid.Lifecycle.InitComplete.class)
+    public void onStart(Orchid.Lifecycle.InitComplete event) {
         Clog.getInstance().addLogger(Clog.KEY_W, warningLogger);
         Clog.getInstance().addLogger(Clog.KEY_E, errorLogger);
         Clog.getInstance().addLogger(Clog.KEY_WTF, fatalLogger);
+
+        ClogFormatter formatter = Clog.getInstance().getFormatter();
+        if (formatter instanceof Parseltongue) {
+            Parseltongue pt = (Parseltongue) formatter;
+            pt.findSpells(ClogSpells.class);
+
+            List<Incantation> incantations = templateTagsProvider.get()
+                    .stream()
+                    .map((templateTag) -> new ClogIncantationWrapper(
+                            contextProvider,
+                            templateTag.getName(),
+                            Arrays.asList(templateTag.parameters()),
+                            templateTag.getClass()
+                    ))
+                    .collect(Collectors.toList());
+
+            Incantation[] incantationsArray = new Incantation[incantations.size()];
+            incantations.toArray(incantationsArray);
+
+            pt.addSpells(incantationsArray);
+        }
     }
 
     @On(Orchid.Lifecycle.BuildFinish.class)

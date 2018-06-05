@@ -1,4 +1,4 @@
-package com.eden.orchid.utilities;
+package com.eden.orchid.impl.compilers.clog;
 
 import com.caseyjbrooks.clog.parseltongue.Spell;
 import com.eden.orchid.Orchid;

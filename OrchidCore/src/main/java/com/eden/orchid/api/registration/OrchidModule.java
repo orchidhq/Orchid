@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Orchid is built on top of the Guice Dependency Injection framework by Google. This framework allows for runtime
@@ -56,8 +57,14 @@ public abstract class OrchidModule extends AbstractModule {
                 }
 
                 @Override
-                public Collection getItems() {
-                    return Orchid.getInstance().getContext().resolveSet(setClass);
+                public Collection<Class<?>> getItems() {
+                    return Orchid
+                            .getInstance()
+                            .getContext()
+                            .resolveSet(setClass)
+                            .stream()
+                            .map(Object::getClass)
+                            .collect(Collectors.toList());
                 }
 
                 @Override

@@ -15,7 +15,7 @@ public interface AdminList {
 
     Class<?> getListClass();
 
-    Collection getItems();
+    Collection<Class<?>> getItems();
 
     boolean isImportantType();
 }

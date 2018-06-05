@@ -152,14 +152,14 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     public List<AdminList> getAdminLists() {
         return this.adminLists.get()
                 .stream()
-                .sorted(Comparator.comparing(AdminList::getKey))
+                .sorted(Comparator.comparing(o -> o.getListClass().getSimpleName()))
                 .collect(Collectors.toList());
     }
 
     public List<AdminList> getImportantAdminLists() {
-        return this.adminLists.get()
+        return getAdminLists()
                 .stream()
-                .filter(adminList -> adminList.isImportantType())
+                .filter(AdminList::isImportantType)
                 .collect(Collectors.toList());
     }
 

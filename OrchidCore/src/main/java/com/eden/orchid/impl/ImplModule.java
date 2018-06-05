@@ -1,8 +1,5 @@
 package com.eden.orchid.impl;
 
-import com.caseyjbrooks.clog.Clog;
-import com.caseyjbrooks.clog.ClogFormatter;
-import com.caseyjbrooks.clog.parseltongue.Parseltongue;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
@@ -27,6 +24,8 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.impl.compilers.clog.ClogSetupListener;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.CSVParser;
@@ -36,7 +35,6 @@ import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
-import com.eden.orchid.impl.events.ClogSetupListener;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.SitemapGenerator;
@@ -74,9 +72,11 @@ import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
 import com.eden.orchid.impl.themes.tags.LogTag;
-import com.eden.orchid.utilities.ClogSpells;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @IgnoreModule
 public final class ImplModule extends OrchidModule {
@@ -186,11 +186,6 @@ public final class ImplModule extends OrchidModule {
         addToSet(TemplateTag.class,
                 LogTag.class);
 
-        ClogFormatter formatter = Clog.getInstance().getFormatter();
-        if (formatter instanceof Parseltongue) {
-            ((Parseltongue) formatter).findSpells(ClogSpells.class);
-        }
-
         addToSet(AdminList.class, new AdminList() {
             @Override
             public String getKey() {
@@ -203,8 +198,44 @@ public final class ImplModule extends OrchidModule {
             }
 
             @Override
-            public Collection getItems() {
-                return Orchid.getInstance().getContext().getServices();
+            public Collection<Class<?>> getItems() {
+                return Orchid
+                        .getInstance()
+                        .getContext()
+                        .getServices()
+                        .stream()
+                        .map(Object::getClass)
+                        .collect(Collectors.toList());
+            }
+
+            @Override
+            public boolean isImportantType() {
+                return true;
+            }
+        });
+
+        addToSet(AdminList.class, new AdminList() {
+
+            private Collection<Class<?>> pages;
+
+            @Override
+            public String getKey() {
+                return "pages";
+            }
+
+            @Override
+            public Class<?> getListClass() {
+                return OrchidPage.class;
+            }
+
+            @Override
+            public Collection<Class<?>> getItems() {
+                if(pages == null) {
+                    pages = new ArrayList<>();
+                    new FastClasspathScanner().matchSubclassesOf(OrchidPage.class, pages::add).scan();
+                }
+
+                return pages;
             }
 
             @Override
