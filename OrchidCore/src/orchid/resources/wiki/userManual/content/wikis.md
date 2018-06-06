@@ -1,8 +1,8 @@
 ---
-pluginName: OrchidWiki
+pluginName: Orchid Wiki
 contentTypeTitle: wiki
 bundles:
-  - OrchidAll
+  - Orchid All
 ---
 
 {% extends '_wikiBase_contentTypes' %}

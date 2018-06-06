@@ -1,9 +1,9 @@
 ---
-pluginName: OrchidTaxonomies
+pluginName: Orchid Taxonomies
 contentTypeTitle: taxonomy
 bundles:
-  - OrchidBlog
-  - OrchidAll
+  - Orchid Blog
+  - Orchid All
 ---
 
 {% extends '_wikiBase_contentTypes' %}

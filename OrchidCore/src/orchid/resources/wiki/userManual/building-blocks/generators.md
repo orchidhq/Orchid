@@ -28,7 +28,7 @@ generator can inspect all the blog posts being created by the Posts generator, a
 pages. Because both the Posts and Taxonomies generators are small and focused, they can be easily composed or used with
 other plugins as well, or completely omitted if you find you don't want a blog or need full archives. 
 
-Most plugins are centered around building a single generator, along with {{anchor('components')}} and 
+Most plugins are centered around building a single generator, along with {{anchor('Components')}} and 
 {{anchor('menus')}} and other features that expand upon the content from that generator..
 
 ### Indexing Phase

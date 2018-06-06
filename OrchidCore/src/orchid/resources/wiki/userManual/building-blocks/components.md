@@ -84,9 +84,9 @@ components:
 ### Component Wrappers
 
 Some themes will choose to wrap each component in additional markup, such as the "boxes" for the page content in the 
-{{anchor('Future Imperfect')}} theme. But in some cases, you may wish that the doesn't doesn't apply these wrappers 
-to a particular component, like if it provides its own container markup. For these situations, you may set 
-`noWrapper: true` to render the component without a wrapper.
+{{anchor('Future Imperfect', 'Orchid Future Imperfect')}} theme. But in some cases, you may wish that the doesn't 
+doesn't apply these wrappers to a particular component, like if it provides its own container markup. For these 
+situations, you may set `noWrapper: true` to render the component without a wrapper.
 
 {% highlight 'yaml' %}
 ...

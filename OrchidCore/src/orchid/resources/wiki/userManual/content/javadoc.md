@@ -1,8 +1,8 @@
 ---
-pluginName: OrchidJavadoc
+pluginName: Orchid Javadoc
 contentTypeTitle: javadoc
 bundles:
-  - OrchidAll
+  - Orchid All
 ---
 
 {% extends '_wikiBase_contentTypes' %}

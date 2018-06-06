@@ -142,7 +142,7 @@ Some common examples of classes that are bound through sets are:
 ## Ignoring Modules
 
 In some cases, you may wish for a particular module to not be auto-registered, even though it is on the classpath. A 
-good example is the `JavadocModule` from the {{ anchor('OrchidJavadoc', 'OrchidJavadoc') }} plugin. This plugin should 
+good example is the `JavadocModule` from the {{ anchor('Orchid Javadoc') }} plugin. This plugin should 
 only register its bindings when Orchid has been started from the Javadoc tool, rather than Orchid's normal main class,
 and it manually adds the `JavadocModule` itself.
 

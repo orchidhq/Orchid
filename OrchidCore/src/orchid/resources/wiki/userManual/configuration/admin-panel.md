@@ -1,8 +1,8 @@
 ---
-pluginName: OrchidPluginDocs
+pluginName: Orchid Plugin Docs
 contentTypeTitle: admin panel
 bundles:
-  - OrchidAll
+  - Orchid All
 ---
 
 {% extends '_wikiBase_contentTypes' %}
@@ -45,7 +45,7 @@ The admin panel is currently designed to be a generated reference manual for you
 site. It is certainly possible that plugins may eventually turn the Admin Panel into a full control center for managing
 all your content and all site options, but for now it is best left as a generated reference. If you want to write 
 content with a WYSIWYG interface, you should check out the 
-[Netlify CMS plugin]({{ link('OrchidNetlifyCMS', 'staticPages-plugins') }}).
+[Netlify CMS plugin]({{ link('Orchid Netlify CMS') }}).
 
 The classes that have options that can be set in your `config.yml` or a page's Front Matter will show a code snippet on
 their Admin Panel page, demonstrating their unique usage. There will also be tabs showing the full description of all 

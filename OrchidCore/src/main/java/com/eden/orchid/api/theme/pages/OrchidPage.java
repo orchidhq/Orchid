@@ -19,6 +19,7 @@ import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
+import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
 /**
  *
@@ -224,7 +228,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
                 this.title = title;
             }
             else {
-                this.title = resource.getReference().getTitle();
+                this.title = to(from(resource.getReference().getTitle(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
             }
         }
 

@@ -7,9 +7,9 @@
             {{ anchor(title="themes", itemId='themes', collectionType="taxonomy", collectionId="group") }} or
             {{ anchor(title="plugins", itemId='plugins', collectionType="taxonomy", collectionId="group") }}, or create
             your own. Plugins are
-            {{ anchor(title="really easy to make", itemId='Developers Guide', collectionType="wiki") }}, even if you
+            {{ anchor("really easy to make", "Developers Guide") }}, even if you
             want to keep them
-            {{ anchor(title="private", itemId='Orchid License', collectionType="pages") }}, and they are what unlock the full
+            {{ anchor("private", 'Orchid License') }}, and they are what unlock the full
             potential of Orchid. Check out the <a href="https://github.com/JavaEden/Orchid">source code</a> to see just
             how simple it is to make something truly unique.
         </div>

@@ -50,7 +50,7 @@ Note: If you have developed a theme that you'd like to feature in our showcase, 
 
 Your themes are configured in your `config.yml`. Options can be set for all themes at the `theme` key, or for a specific 
 theme at the key corresponding to its key. You can also break the theme options out into their own `data/` files, as 
-described [here]({{ link('Site Configuration') }}). For example, this current theme is `BsDoc`, and can be configured 
+described {{ anchor('here', 'Site Configuration') }}. For example, this current theme is `BsDoc`, and can be configured 
 any of the following ways:
 
 {% highlight 'yaml' %}

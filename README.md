@@ -170,7 +170,7 @@ The following lists all official Orchid packages:
 - #### Bundles
   - [OrchidAll         ](https://bintray.com/javaeden/Orchid/OrchidAll/_latestVersion)
   - [OrchidBlog        ](https://bintray.com/javaeden/Orchid/OrchidBlog/_latestVersion)
-  - [OrchidLanguagePack](https://bintray.com/javaeden/Orchid/OrchidSyntaxHighlighter/_latestVersion)
+  - [OrchidLanguagePack](https://bintray.com/javaeden/Orchid/OrchidLanguagePack/_latestVersion)
 
 ## License
 

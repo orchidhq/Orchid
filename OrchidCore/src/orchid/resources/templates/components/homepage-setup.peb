@@ -6,7 +6,7 @@
             With one click, you can get Orchid deployed to Netlify, complete with the
             <a href="https://www.netlifycms.org/">Netlify CMS</a> already configured. Plus, the NetlifyCMS automatically
             adapts to your Orchid plugins and configurations, all you have to do is
-            <a href="{{ link(itemId='User Manual', collectionType="wiki") }}"><i>write</i></a>.
+            <i>{{ anchor('write', 'User Manual') }}</i>.
         </div>
     </div>
     <br>

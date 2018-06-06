@@ -26,7 +26,7 @@ wikiPages:
         order: 110
         structure: nested
       - type: 'separator'
-        title: 'Developers Guide'
+        title: "Developer's Guide"
         order: 1000
   menu:
     - type: 'wiki'

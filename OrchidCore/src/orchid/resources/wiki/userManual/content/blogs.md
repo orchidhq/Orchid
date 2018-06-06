@@ -1,9 +1,9 @@
 ---
-pluginName: OrchidPosts
+pluginName: Orchid Posts
 contentTypeTitle: blog
 bundles:
-  - OrchidBlog
-  - OrchidAll
+  - Orchid Blog
+  - Orchid All
 ---
 
 {% extends '_wikiBase_contentTypes' %}

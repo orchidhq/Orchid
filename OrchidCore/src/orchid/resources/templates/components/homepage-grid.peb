@@ -11,7 +11,7 @@
         <div class="icon"><i class="material-icons">chrome_reader_mode</i></div>
         <h2 class="headline lead">Simple yet Robust</h2>
         <p class="description">
-            Just <a href="{{ link(itemId='User Manual', collectionType="wiki") }}">write your content</a>, no coding
+            Just {{ anchor('write your content', 'User Manual') }}, no coding
             required. Orchid's robust set of tools are approachable for content writers and editors, but won't limit the
             creativity of developers and designers.
         </p>
@@ -23,7 +23,7 @@
             Orchid's unique indexing and plugin system allows the most complex ideas to be expressed in a way that works
             well with the entire ecosystem. Chose from one of the many plugins in
             {{ anchor(title="our catalog", itemId='plugins', collectionType="taxonomy", collectionId="group") }} or
-            {{ anchor(title="make your own", itemId='Developers Guide', collectionType="wiki") }}.
+            {{ anchor("make your own", "Developers Guide") }}.
         </p>
     </div>
     <div class="col-sm-6 tile">
