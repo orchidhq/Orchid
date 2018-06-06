@@ -14,9 +14,9 @@
 
 ![Example Orchid site](https://orchid.netlify.com/OrchidCore/assets/media/sample.jpg)
 
-Orchid is a general-purpose static site generator with a focus on extensibility, and aimed at developers looking to 
-improve their technical documentation. Orchid was born out of a desire for better-looking Javadocs and frustration with 
-how difficult is it to manage large Jekyll sites and keep it up-to-date with your code. 
+Orchid is a brand-new, general-purpose static site generator for Java and Kotlin, with a focus on extensibility and 
+aimed at developers looking to improve their technical documentation. Orchid was born out of a desire for better-looking 
+Javadocs and frustration with how difficult is it to manage large Jekyll sites and keep it up-to-date with your code.
 
 Orchid supports a variety of plugins, including a wiki, static pages, blogs, and much more. It aims to have high 
 compatibility with many of the existing static site generators, such as Jekyll, Gitbook, and Hugo, so that migration to 
@@ -30,8 +30,9 @@ private plugins and a rich API so you can make your site as beautiful and unique
 - Admin interface to manage your content and gain deep insights into your build
 - Link to other Orchid sites
 - Powerful and flexible indexing, unique to Orchid
-- Full-text static search 
+- Full-text static search
 - Component-based content management
+- Integrated deployment pipeline
 - Fully replaces Jekyll, Hugo, Gitbook, Javadocs, and more!
 
 [View the full documentation](https://orchid.netlify.com) or see the quick-start below.

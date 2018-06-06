@@ -114,4 +114,20 @@
     text-align: center;
     margin-top: 60px;
   }
+
+  .main-description {
+    p {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    ul {
+      line-height: 1.6;
+      list-style: none;
+      padding: 0;
+      font-size: 20px;
+      font-weight: 400;
+    }
+  }
 }
