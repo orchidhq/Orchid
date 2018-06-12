@@ -83,7 +83,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
                 if(!EdenUtils.isEmpty(itemType)) {
                     if (itemTypes.containsKey(itemType)) {
-                        I item = context.getInjector().getInstance(itemTypes.get(itemType));
+                        I item = context.resolve(itemTypes.get(itemType));
                         item.setOrder((i + 1) * 10);
                         item.extractOptions(context, itemJson);
                         addItem(item, itemJson);

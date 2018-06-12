@@ -126,7 +126,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                     .orElse(null);
 
             if (foundCommand != null) {
-                OrchidCommand freshCommand = context.getInjector().getInstance(foundCommand.getClass());
+                OrchidCommand freshCommand = context.resolve(foundCommand.getClass());
 
                 JSONObject paramsJSON = OrchidUtils.parseCommandArgs(commandArgs, freshCommand.parameters());
 

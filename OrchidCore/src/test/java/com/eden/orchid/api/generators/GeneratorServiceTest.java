@@ -10,7 +10,6 @@ import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,6 @@ import static org.mockito.Mockito.*;
 public final class GeneratorServiceTest {
 
     private OrchidContext context;
-    private Injector injector;
     private OptionsExtractor extractor;
     private Theme theme;
     private BuildMetrics buildMetrics;
@@ -59,12 +57,10 @@ public final class GeneratorServiceTest {
     public void testSetup() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
-        injector = mock(Injector.class);
         extractor = mock(OptionsExtractor.class);
         theme = mock(Theme.class);
         buildMetrics = mock(BuildMetrics.class);
-        when(context.getInjector()).thenReturn(injector);
-        when(injector.getInstance(OptionsExtractor.class)).thenReturn(extractor);
+        when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
         when(context.findTheme(any())).thenReturn(theme);
 
         when(theme.isHasRenderedAssets()).thenReturn(true);

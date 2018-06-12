@@ -8,7 +8,7 @@ import java.util.List;
 public interface OptionsHolder extends Descriptive {
 
     default void extractOptions(OrchidContext context, JSONObject options) {
-        OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
+        OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
         extractor.extractOptions(this, options);
         onPostExtraction();
     }
@@ -18,12 +18,12 @@ public interface OptionsHolder extends Descriptive {
     }
 
     default OptionHolderDescription describeOptions(OrchidContext context) {
-        OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
+        OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
         return extractor.describeAllOptions(this.getClass());
     }
 
     default List<String> getOptionNames(OrchidContext context) {
-        OptionsExtractor extractor = context.getInjector().getInstance(OptionsExtractor.class);
+        OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
         return extractor.getOptionNames(this.getClass());
     }
 

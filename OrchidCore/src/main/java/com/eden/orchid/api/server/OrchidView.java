@@ -134,7 +134,7 @@ public class OrchidView implements OptionsHolder, AssetHolder {
             data.put("websocketPort", server.get().getWebsocketPort());
             data.put("adminTheme", context.getAdminTheme());
             data.put("site", context.getSite());
-            data.put("optionsExtractor", context.getInjector().getInstance(OptionsExtractor.class));
+            data.put("optionsExtractor", context.resolve(OptionsExtractor.class));
 
             if (this.data != null) {
                 data.putAll(this.data);

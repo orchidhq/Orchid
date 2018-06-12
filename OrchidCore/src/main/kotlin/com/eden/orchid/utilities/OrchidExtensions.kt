@@ -2,6 +2,7 @@ package com.eden.orchid.utilities
 
 import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
@@ -171,7 +172,6 @@ fun String.urlSafe(mapper: String.() -> String): String {
 //----------------------------------------------------------------------------------------------------------------------
 
 // bind
-
 inline fun <reified T: Any> OrchidModule.bind(): LinkedBindingBuilder<T> {
     return this._bind(T::class.java)
 }
@@ -187,4 +187,15 @@ inline fun <reified T: Any, reified IMPL: T> OrchidModule.addToSet() {
 
 inline fun <reified T: Any> OrchidModule.addToSet(vararg objects: T) {
     this.addToSet(T::class.java, *objects)
+}
+
+// Better dynamic object resolution
+//----------------------------------------------------------------------------------------------------------------------
+
+inline fun <reified T: Any> OrchidContext.resolve(): T {
+    return this.resolve(T::class.java)
+}
+
+inline fun <reified T: Any> OrchidContext.resolveSet(): Set<T> {
+    return this.resolveSet(T::class.java)
 }

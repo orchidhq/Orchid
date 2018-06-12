@@ -9,15 +9,12 @@ import com.eden.orchid.api.generators.GeneratorService;
 import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.options.OptionsService;
 import com.eden.orchid.api.publication.PublicationService;
+import com.eden.orchid.api.registration.InjectionService;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
-import com.google.inject.util.Types;
 import lombok.Getter;
 import org.json.JSONObject;
 
@@ -27,21 +24,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 @Getter
 public final class OrchidContextImpl implements OrchidContext {
 
-    private Injector injector;
     private OrchidSite site;
 
     private Map<Class<? extends OrchidService>, OrchidService> services;
 
     @Inject
     public OrchidContextImpl(
-            Injector injector,
-
             OrchidSite site,
             CompilerService compilerService,
             ThemeService themeService,
@@ -53,11 +46,11 @@ public final class OrchidContextImpl implements OrchidContext {
             GeneratorService generatorService,
             RenderService renderService,
             PublicationService publicationService,
+            InjectionService injectionService,
 
             Set<OrchidService> additionalServices
     ) {
         Orchid.getInstance().setState(Orchid.State.BOOTSTRAP);
-        this.injector = injector;
         this.site = site;
 
         services = new HashMap<>();
@@ -72,6 +65,7 @@ public final class OrchidContextImpl implements OrchidContext {
         initializeService(GeneratorService.class,   generatorService);
         initializeService(RenderService.class,      renderService);
         initializeService(PublicationService.class, publicationService);
+        initializeService(InjectionService.class,   injectionService);
 
         for(OrchidService service : additionalServices) {
             services.put(service.getClass(), service);
@@ -131,28 +125,6 @@ public final class OrchidContextImpl implements OrchidContext {
                 service.extractOptions(this, new JSONObject());
             }
         });
-    }
-
-
-// Other
-//----------------------------------------------------------------------------------------------------------------------
-
-    public <T> Set<T> resolveSet(Class<T> clazz) {
-        Injector injector = getInjector();
-        try {
-            TypeLiteral<Set<T>> lit = (TypeLiteral<Set<T>>) TypeLiteral.get(Types.setOf(clazz));
-            Key<Set<T>> key = Key.get(lit);
-            Set<T> bindings = injector.getInstance(key);
-
-            if (bindings != null) {
-                return bindings;
-            }
-        }
-        catch (Exception e) {
-
-        }
-
-        return new TreeSet<>();
     }
 
 }
