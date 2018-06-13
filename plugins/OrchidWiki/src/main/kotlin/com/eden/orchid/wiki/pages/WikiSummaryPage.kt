@@ -13,4 +13,7 @@ import com.eden.orchid.wiki.WikiSectionArchetype
         Archetype(value = WikiSectionArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
 )
 class WikiSummaryPage(val section: String?, resource: OrchidResource, title: String)
-    : OrchidPage(resource, "wikiSummary", title)
+    : OrchidPage(resource, "wikiSummary", title) {
+
+    var sectionsPage: WikiSectionsPage? = null
+}

@@ -1,0 +1,11 @@
+{% if page.breadcrumbs is not empty %}
+<ul class="breadcrumb">
+{% for crumb in page.breadcrumbs %}
+{% if crumb.isActive(page) %}
+    <li class="active">{{ crumb.title }}</li>
+{% else %}
+    <li><a href="{{ crumb.link }}">{{ crumb.title }}</a></li>
+{% endif %}
+{% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,5 @@
+<ul>
+{% for sectionPage in page.sectionPages %}
+    <li><a href="{{ sectionPage.link }}">{{ sectionPage.title }}</a></li>
+{% endfor %}
+</ul>

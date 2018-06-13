@@ -23,6 +23,7 @@ import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
+import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 import org.apache.commons.io.FilenameUtils
 import org.jsoup.Jsoup
@@ -67,6 +68,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
                     model.sections.put(section, wiki)
                 }
             }
+
+            model.sectionsPage = getSectionsIndex()
         }
 
         return model.allPages
@@ -149,9 +152,23 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
 
         for (wikiPage in wiki) {
             wikiPage.sectionSummary = summaryPage
+            wikiPage.parent = summaryPage
         }
 
         return WikiSection(section, summaryPage, wiki)
+    }
+
+    private fun getSectionsIndex(): WikiSectionsPage {
+        val resource = StringResource(context, OrchidUtils.normalizePath(baseDir) + ".md", "")
+
+        val sectionsPage = WikiSectionsPage(model, resource, "Wiki")
+
+        for(summaryPage in model.sections.values) {
+            summaryPage.summaryPage.sectionsPage = sectionsPage
+            summaryPage.summaryPage.parent = sectionsPage
+        }
+
+        return sectionsPage
     }
 
     override fun getCollections(): List<OrchidCollection<*>> {

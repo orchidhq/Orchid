@@ -71,6 +71,7 @@ import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
+import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
 import com.eden.orchid.impl.themes.tags.LogTag;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
@@ -184,7 +185,9 @@ public final class ImplModule extends OrchidModule {
 
         // Template Tags
         addToSet(TemplateTag.class,
-                LogTag.class);
+                LogTag.class,
+                BreadcrumbsTag.class
+        );
 
         addToSet(AdminList.class, new AdminList() {
             @Override
