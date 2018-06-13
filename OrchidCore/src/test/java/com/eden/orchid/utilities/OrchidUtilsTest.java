@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -187,7 +188,7 @@ public final class OrchidUtilsTest {
             output = OrchidUtils.first(Arrays.asList(input));
         }
         else {
-            output = OrchidUtils.first(null);
+            output = OrchidUtils.first((List<Object>) null);
         }
 
         if (expected == null) {

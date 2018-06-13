@@ -434,6 +434,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public Object get(String key) {
+        // TODO: make this method also return values by reflection, so that anything that needs to dynamically get a property by name can get it from this one method
         return getMap().get(key);
     }
 

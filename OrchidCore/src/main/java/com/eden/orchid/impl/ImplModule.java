@@ -9,6 +9,7 @@ import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
@@ -38,6 +39,7 @@ import com.eden.orchid.impl.compilers.text.TextCompiler;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.SitemapGenerator;
+import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
@@ -86,6 +88,9 @@ public final class ImplModule extends OrchidModule {
     protected void configure() {
         // prepare empty sets for binding
         addToSet(OrchidService.class);
+
+        addToSet(GlobalCollection.class,
+                FrontMatterCollection.class);
 
         addToSet(TypeConverter.class,
                 AssetsGenerator.AssetDirectory.Converter.class);

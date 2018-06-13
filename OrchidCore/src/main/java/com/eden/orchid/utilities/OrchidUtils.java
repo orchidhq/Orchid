@@ -202,6 +202,10 @@ public final class OrchidUtils {
         return null;
     }
 
+    public static <T> T first(Stream<T> items) {
+        return items.findFirst().orElse(null);
+    }
+
 // Untested or undocumented methods
 //----------------------------------------------------------------------------------------------------------------------
 
