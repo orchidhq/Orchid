@@ -68,7 +68,7 @@ public abstract class OrchidResource {
     }
 
     public InputStream getContentStream() {
-        return IOUtils.toInputStream(getRawContent(), Charset.defaultCharset());
+        return IOUtils.toInputStream(getRawContent(), Charset.forName("UTF-8"));
     }
 
     public String getRawContent() {

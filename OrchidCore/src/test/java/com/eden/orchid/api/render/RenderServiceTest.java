@@ -104,7 +104,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedTemplate(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -135,7 +135,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedString(page, "html", layoutContent);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -166,7 +166,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedRaw(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);
@@ -197,7 +197,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedBinary(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);

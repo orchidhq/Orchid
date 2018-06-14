@@ -30,7 +30,7 @@ constructor() : OrchidCompiler(800) {
                 val fileFormat = FileFormatOption(FileFormat.SVG)
                 fileFormat.hideMetadata()
 
-                val reader = SourceStringReader(result)
+                val reader = SourceStringReader(result, "UTF-8")
                 reader.outputImage(os, fileFormat)
                 os.close()
 

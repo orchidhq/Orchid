@@ -61,7 +61,7 @@ public final class NotFound404Response {
 
         InputStream is = context.getRenderedTemplate(page);
         try {
-            content = IOUtils.toString(is, Charset.defaultCharset());
+            content = IOUtils.toString(is, Charset.forName("UTF-8"));
         }
         catch (Exception e) {
             content = "";

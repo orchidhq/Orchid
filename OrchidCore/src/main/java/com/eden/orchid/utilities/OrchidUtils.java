@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -289,7 +290,7 @@ public final class OrchidUtils {
     }
 
     public static String sha1(final String text) throws NoSuchAlgorithmException, IOException {
-        return sha1(new ByteArrayInputStream(text.getBytes()));
+        return sha1(new ByteArrayInputStream(text.getBytes(Charset.forName("UTF-8"))));
     }
 
     public static String sha1(final InputStream stream) throws NoSuchAlgorithmException, IOException {

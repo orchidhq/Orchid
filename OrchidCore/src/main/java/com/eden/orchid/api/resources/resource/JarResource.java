@@ -39,7 +39,7 @@ public final class JarResource extends FreeableResource {
         if(rawContent == null) {
             try {
                 if(jarFile != null && jarEntry != null) {
-                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry), Charset.defaultCharset());
+                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry), Charset.forName("UTF-8"));
                 }
             }
             catch (IOException e) {

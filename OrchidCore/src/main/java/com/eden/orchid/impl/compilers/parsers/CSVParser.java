@@ -34,14 +34,14 @@ public final class CSVParser extends OrchidParser {
             settings.getFormat().setLineSeparator("\n");
             CsvParser parser = new CsvParser(settings);
 
-            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.defaultCharset()));
+            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.forName("UTF-8")));
         }
         else {
             TsvParserSettings settings = new TsvParserSettings();
             settings.getFormat().setLineSeparator("\n");
             TsvParser parser = new TsvParser(settings);
 
-            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.defaultCharset()));
+            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.forName("UTF-8")));
         }
 
         JSONArray array = new JSONArray();
