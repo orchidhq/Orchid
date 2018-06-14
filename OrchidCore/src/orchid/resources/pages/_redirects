@@ -36,5 +36,9 @@ http://{{siteBaseUrl}}/*   https://{{siteBaseUrl}}/:splat   301!
 /OrchidEditorial/*                  /themes/OrchidBsDoc                      301
 /OrchidFutureImperfect/*            /themes/OrchidBsDoc                      301
 
+# Renamed wiki section paths
+/wiki/userManual/*                  /wiki/user-manual/:splat                 301!
+/wiki/developersGuide/*             /wiki/developers-guide/:splat            301!
+
 # Custom 404 page
 /*                                  /404.html                                404

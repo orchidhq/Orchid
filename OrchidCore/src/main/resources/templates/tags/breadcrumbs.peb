@@ -1,11 +1,13 @@
 {% if page.breadcrumbs is not empty %}
-<ul class="breadcrumb">
-{% for crumb in page.breadcrumbs %}
-{% if crumb.isActive(page) %}
-    <li class="active">{{ crumb.title }}</li>
-{% else %}
-    <li><a href="{{ crumb.link }}">{{ crumb.title }}</a></li>
-{% endif %}
-{% endfor %}
-</ul>
+<nav aria-label="breadcrumb">
+    <ul class="breadcrumb">
+    {% for crumb in page.breadcrumbs %}
+    {% if crumb.isActive(page) %}
+        <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{{ crumb.link }}">{{ crumb.title }}</a></li>
+    {% endif %}
+    {% endfor %}
+    </ul>
+</nav>
 {% endif %}

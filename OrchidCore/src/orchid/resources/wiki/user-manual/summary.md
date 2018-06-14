@@ -10,7 +10,7 @@
 * [Pages](building-blocks/pages.md)
 * [Components](building-blocks/components.md)
 * [Menus](building-blocks/menus.md)
-* [Collections](building-blocks/collections.md)
+* [Linking to Pages](building-blocks/linking-to-pages.md)
 
 ## Configuration 
 
@@ -24,6 +24,7 @@
 * [Writing Content](content/writing-content.md)
 * [Drafts](content/drafts.md)
 * [Assets](content/assets.md)
+* [Breadcrumbs](content/breadcrumbs.md)
 * [Static Pages](content/static-pages.md)
 * [Blog Posts](content/blogs.md)
 * [Wikis](content/wikis.md)

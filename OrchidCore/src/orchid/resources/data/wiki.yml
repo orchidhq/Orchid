@@ -1,12 +1,12 @@
 includeIndexInPageTitle: false
 sections:
-  - 'userManual'
-  - 'developersGuide'
+  - 'user-manual'
+  - 'developers-guide'
 wikiPages:
   layout: geopattern2
   searchIndices:
     - 'wiki'
-  userManual:
+  'user-manual':
     menu:
       - type: 'separator'
         title: 'In This Page'
@@ -17,7 +17,7 @@ wikiPages:
       - type: 'separator'
         title: 'User Manual'
         order: 1000
-  developersGuide:
+  'developers-guide':
     menu:
       - type: 'separator'
         title: 'In This Page'

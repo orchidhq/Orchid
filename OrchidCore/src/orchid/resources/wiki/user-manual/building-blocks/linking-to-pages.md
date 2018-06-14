@@ -5,7 +5,7 @@
 
 {% block sectionBody %}
 
-## About Collections
+## Locating Pages with Collections
 ---
 
 Collections take groups of pages or other indexed content and make it accessible. Whenever you want to create a link 
@@ -35,6 +35,21 @@ to uniquely identify the page of interest, but in the case that this is not spec
 The `itemId` is most commonly the Title of a page, and as such you can usually get the page you want just by linking to
 a page title. Ultimately, plugins define which pages match a given `itemId` and are free to use whatever they need to 
 match a page to your query, so be sure to check the plugins' documentation to know exactly how to format your `itemId`. 
+
+In addition to using a page's title as the itemId, you can use a `key=value` reference, which will find pages based on 
+a property in its Front Matter. 
+
+{% highlight 'yaml' %}
+---
+pageId: 'page-one'
+---
+{% endhighlight %}
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{{ link('pageId=page-one') }}
+{% endverbatim %}
+{% endhighlight %}
 
 **Collection Id**
 
