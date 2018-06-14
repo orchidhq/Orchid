@@ -137,6 +137,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             a.attr("href", page.reference.toString())
         }
 
+        val definedSectionTitle = summary.queryEmbeddedData("title")?.element as? String? ?: ""
+
         val safe = doc.toString()
         val summaryReference = OrchidReference(summary.reference)
 
@@ -145,7 +147,10 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
         summary = StringResource(safe, summaryReference)
 
-        val sectionTitle = if (!EdenUtils.isEmpty(section)) section!! else "Wiki"
+        val sectionTitle =
+                if(!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
+                else if (!EdenUtils.isEmpty(section)) section!!
+                else "Wiki"
 
         val summaryPage = WikiSummaryPage(section, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
         summaryPage.reference.isUsePrettyUrl = true

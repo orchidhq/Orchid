@@ -1,4 +1,5 @@
 ---
+title: 'User Manual'
 ---
 
 * [Introduction](intro.md)
