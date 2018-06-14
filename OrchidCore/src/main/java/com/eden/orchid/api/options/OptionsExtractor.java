@@ -34,7 +34,7 @@ public class OptionsExtractor extends Extractor {
 
     @Override
     protected <T> T getInstance(Class<T> clazz) {
-        return context.getInjector().getInstance(clazz);
+        return context.resolve(clazz);
     }
 
     public boolean hasOptions(Object possibleObjectHolder) {

@@ -3,7 +3,6 @@ package com.eden.orchid.api.publication;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
-import com.google.inject.Injector;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +19,6 @@ import static org.mockito.Mockito.*;
 public class PublicationPipelineTest {
 
     private OrchidContext context;
-    private Injector injector;
     private OptionsExtractor extractor;
 
     private PublicationPipeline underTest;
@@ -51,10 +49,8 @@ public class PublicationPipelineTest {
         };
 
         context = mock(OrchidContext.class);
-        injector = mock(Injector.class);
         extractor = mock(OptionsExtractor.class);
-        when(context.getInjector()).thenReturn(injector);
-        when(injector.getInstance(OptionsExtractor.class)).thenReturn(extractor);
+        when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
 
         publishers = new HashSet<>();
 
@@ -72,9 +68,9 @@ public class PublicationPipelineTest {
         invalidPublisher = spy(invalidPublisher);
         validPublisher = spy(validPublisher);
 
-        when(injector.getInstance(MockPublisher.CrashingPublisher.class)).thenReturn(crashingPublisher);
-        when(injector.getInstance(MockPublisher.InvalidPublisher.class)).thenReturn(invalidPublisher);
-        when(injector.getInstance(MockPublisher.ValidPublisher.class)).thenReturn(validPublisher);
+        when(context.resolve(MockPublisher.CrashingPublisher.class)).thenReturn(crashingPublisher);
+        when(context.resolve(MockPublisher.InvalidPublisher.class)).thenReturn(invalidPublisher);
+        when(context.resolve(MockPublisher.ValidPublisher.class)).thenReturn(validPublisher);
 
         underTest = new PublicationPipeline(context);
     }

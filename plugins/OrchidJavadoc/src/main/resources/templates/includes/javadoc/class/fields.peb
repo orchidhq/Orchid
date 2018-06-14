@@ -2,19 +2,19 @@
 {% set "classDoc" = page.classDoc %}
 
 {% if classDoc.fields|length > 0 %}
-<h3>Fields</h3>
+<h2 id="fields">Fields</h2>
 
 {% for field in classDoc.fields %}
 {# @pebvariable name="field" type="com.sun.javadoc.FieldDoc" #}
 <div class="panel {% if field.isStatic() %}panel-info{% else %}panel-default{% endif %}">
-    <div class="panel-heading">
+    <div class="panel-heading" id="{{ page.model.idFor(field) }}">
         <code>
-        {{ field | javadocVisibility }}
+        {{ page.javadocVisibility(field) }}
         {% if field.isStatic() %}static{% endif %}
         {% if field.type.isPrimitive() %}
             {{- field.type.qualifiedTypeName -}}
         {% else %}
-            {{- javadocLink(field.type.qualifiedTypeName, field.type.typeName, true) -}}
+            {{- anchor(field.type.typeName, field.type.qualifiedTypeName) -}}
         {% endif %}
         {{- field.type.dimension() }} {{ field.name }}
         {% if field.constantValueExpression|length > 0 %}

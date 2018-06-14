@@ -5,7 +5,6 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.utilities.OrchidUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,7 +60,7 @@ public abstract class OrchidResource {
             return ((JSONObject) data.getElement()).getBoolean("precompile");
         }
 
-        return context.getInjector().getInstance(OrchidPrecompiler.class).shouldPrecompile(getRawContent());
+        return context.resolve(OrchidPrecompiler.class).shouldPrecompile(getRawContent());
     }
 
     public boolean shouldRender() {
@@ -69,7 +68,7 @@ public abstract class OrchidResource {
     }
 
     public InputStream getContentStream() {
-        return IOUtils.toInputStream(getRawContent(), Charset.defaultCharset());
+        return IOUtils.toInputStream(getRawContent(), Charset.forName("UTF-8"));
     }
 
     public String getRawContent() {

@@ -23,9 +23,9 @@ import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
+import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 import org.apache.commons.io.FilenameUtils
-import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.io.File
 import java.util.stream.Stream
@@ -68,6 +68,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
                     model.sections.put(section, wiki)
                 }
             }
+
+            model.sectionsPage = getSectionsIndex()
         }
 
         return model.allPages
@@ -78,17 +80,6 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
     }
 
     private fun getWikiPages(section: String?): WikiSection? {
-        val pageMenuItem = JSONObject()
-        pageMenuItem.put("type", "wiki")
-        pageMenuItem.put("topLevel", true)
-
-        if (!EdenUtils.isEmpty(section)) {
-            pageMenuItem.put("title", section!! + " Wiki")
-            pageMenuItem.put("section", section)
-        } else {
-            pageMenuItem.put("title", "Wiki")
-        }
-
         val wiki = ArrayList<WikiPage>()
 
         val sectionBaseDir = if (!EdenUtils.isEmpty(section))
@@ -130,8 +121,6 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
 
             val page = WikiPage(resource, pageTitle, section, i+1)
 
-            page.menu.add(pageMenuItem)
-
             i++
 
             wiki.add(page)
@@ -148,6 +137,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             a.attr("href", page.reference.toString())
         }
 
+        val definedSectionTitle = summary.queryEmbeddedData("title")?.element as? String? ?: ""
+
         val safe = doc.toString()
         val summaryReference = OrchidReference(summary.reference)
 
@@ -156,17 +147,33 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
         summary = StringResource(safe, summaryReference)
 
-        val sectionTitle = if (!EdenUtils.isEmpty(section)) section!! else "Wiki"
+        val sectionTitle =
+                if(!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
+                else if (!EdenUtils.isEmpty(section)) section!!
+                else "Wiki"
 
         val summaryPage = WikiSummaryPage(section, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
         summaryPage.reference.isUsePrettyUrl = true
-        summaryPage.menu.add(pageMenuItem)
 
         for (wikiPage in wiki) {
             wikiPage.sectionSummary = summaryPage
+            wikiPage.parent = summaryPage
         }
 
         return WikiSection(section, summaryPage, wiki)
+    }
+
+    private fun getSectionsIndex(): WikiSectionsPage {
+        val resource = StringResource(context, OrchidUtils.normalizePath(baseDir) + ".md", "")
+
+        val sectionsPage = WikiSectionsPage(model, resource, "Wiki")
+
+        for(summaryPage in model.sections.values) {
+            summaryPage.summaryPage.sectionsPage = sectionsPage
+            summaryPage.summaryPage.parent = sectionsPage
+        }
+
+        return sectionsPage
     }
 
     override fun getCollections(): List<OrchidCollection<*>> {

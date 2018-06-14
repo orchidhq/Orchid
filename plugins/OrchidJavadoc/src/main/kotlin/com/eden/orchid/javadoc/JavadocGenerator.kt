@@ -39,7 +39,7 @@ constructor(context: OrchidContext, private val rootDoc: RootDoc, private val mo
         model.initialize(ArrayList(), ArrayList())
 
         for (classDoc in classes) {
-            model.allClasses.add(JavadocClassPage(context, classDoc))
+            model.allClasses.add(JavadocClassPage(context, classDoc, model))
         }
 
         val packagePageMap = HashMap<PackageDoc, JavadocPackagePage>()

@@ -1,10 +1,12 @@
 package com.eden.orchid.javadoc.models
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.pages.JavadocClassPage
 import com.eden.orchid.javadoc.pages.JavadocPackagePage
+import com.sun.javadoc.ConstructorDoc
+import com.sun.javadoc.FieldDoc
+import com.sun.javadoc.MethodDoc
 import java.util.ArrayList
 import java.util.HashMap
 import javax.inject.Inject
@@ -37,75 +39,48 @@ constructor(val context: OrchidContext) {
         this.packagePageCache = HashMap()
     }
 
-    fun getPackagePage(packageName: String): OrchidPage? {
-        if (packagePageCache.containsKey(packageName)) {
-            return packagePageCache[packageName]
-        } else {
-            for (packagePage in allPackages) {
-                if (packagePage.packageDoc.name() == packageName) {
-                    packagePageCache[packageName] = packagePage
-                    return packagePage
-                }
-            }
-        }
-
-        // Find the page in an external page that has been loaded to Orchid's external index
-        val page = context.externalIndex.findPage(packageName.replace("\\.".toRegex(), "/"))
-        if (page != null) {
-            classPageCache[packageName] = page
-            return page
-        }
-
-        // The page cannot be found, cache the fact that it wasn't found.
-        classPageCache[packageName] = null
-        return null
+    fun idFor(doc: FieldDoc): String {
+        return "field__${doc.name()}"
     }
 
-    fun getClassPage(className: String): OrchidPage? {
-        // we've already identified the page for the class, return it now. It may be null.
-        if (classPageCache.containsKey(className)) {
-            return classPageCache[className]
-        }
+    fun idFor(doc: ConstructorDoc): String {
+        val paramNames = doc
+                .parameters()
+                .map { it.typeName().replace('.', '-').replace("\\[.*?]".toRegex(), "").replace("<.*?>".toRegex(), "") }
+                .joinToString(separator = "_")
 
-        // Find the page in one of our own Javadoc pages. Here, we may use just the simple class name for simplicity
-        for (classPage in allClasses) {
-            if (classPage.classDoc.qualifiedName() == className) {
-                classPageCache[className] = classPage
-                return classPage
-            } else if (classPage.classDoc.name() == className) {
-                classPageCache[className] = classPage
-                return classPage
-            }
-        }
-
-        // Find the page in an external page that has been loaded to Orchid's external index
-        val page = context.externalIndex.findPage(className.replace("\\.".toRegex(), "/"))
-        if (page != null) {
-            classPageCache[className] = page
-            return page
-        }
-
-        // The page cannot be found, cache the fact that it wasn't found.
-        classPageCache[className] = null
-        return null
+        return "constructor__$paramNames"
     }
 
-    fun linkClassPage(className: String, linkText: String, anchor: Boolean): String {
-        val page = getClassPage(className)
-        if(page != null) {
-            if(!EdenUtils.isEmpty(linkText)) {
-                if (anchor) {
-                    return "<a href=\"${page.link}\">$linkText</a>"
-                } else {
-                    return "<span>$linkText</span>"
-                }
-            }
-            else {
-                return page.link
-            }
-        }
+    fun idFor(doc: MethodDoc): String {
+        val methodName = doc.name()
+        val paramNames = doc
+                .parameters()
+                .map { it.typeName().replace('.', '-').replace("\\[.*?]".toRegex(), "").replace("<.*?>".toRegex(), "") }
+                .joinToString(separator = "_")
 
-        return linkText
+        return "method__${methodName}__$paramNames"
+    }
+
+    fun nameFor(doc: FieldDoc): String {
+        return doc.name()
+    }
+
+    fun nameFor(doc: ConstructorDoc): String {
+        return doc
+                .parameters()
+                .map { it.type().simpleTypeName() }
+                .joinToString(separator = ", ")
+    }
+
+    fun nameFor(doc: MethodDoc): String {
+        val methodName = doc.name()
+        val paramNames = doc
+                .parameters()
+                .map { it.type().simpleTypeName() }
+                .joinToString(separator = ", ")
+
+        return "${methodName}($paramNames)"
     }
 
 }

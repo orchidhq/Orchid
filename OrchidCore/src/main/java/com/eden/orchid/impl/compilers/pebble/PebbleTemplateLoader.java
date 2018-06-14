@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 public final class PebbleTemplateLoader implements Loader<String> {
 
@@ -58,10 +58,8 @@ public final class PebbleTemplateLoader implements Loader<String> {
         }
 
         if(is != null) {
-            try {
-                isr = new InputStreamReader(is, charset);
-                reader = new BufferedReader(isr);
-            } catch (UnsupportedEncodingException e) { }
+            isr = new InputStreamReader(is, Charset.forName("UTF-8"));
+            reader = new BufferedReader(isr);
         }
 
         return reader;

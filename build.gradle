@@ -11,9 +11,9 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.com.dorongold.plugins:task-tree:1.3"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.1'
         classpath "org.ajoberstar:gradle-git:1.7.2"
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.18.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
     }
 }
@@ -132,7 +132,7 @@ task codeCoverageReport(type: JacocoReport) {
 
 configurations { codacy }
 dependencies {
-    codacy 'com.github.codacy:codacy-coverage-reporter:4.0.0'
+    codacy 'com.github.codacy:codacy-coverage-reporter:4.0.1'
 }
 task sendCoverageToCodacy(type: JavaExec) {
     dependsOn codeCoverageReport

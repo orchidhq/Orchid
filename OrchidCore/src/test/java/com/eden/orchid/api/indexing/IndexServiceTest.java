@@ -4,6 +4,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.HashSet;
+
 import static org.mockito.Mockito.*;
 
 public final class IndexServiceTest {
@@ -17,7 +19,7 @@ public final class IndexServiceTest {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new IndexServiceImpl();
+        service = new IndexServiceImpl(new HashSet<>());
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation

@@ -1,0 +1,17 @@
+<span class="type">
+{#- @pebvariable name="type" type="com.sun.javadoc.Type" -#}
+{#- @pebvariable name="classDoc" type="com.sun.javadoc.ClassDoc" -#}
+{%- if depth is empty -%}
+    {%- set depth = 2 -%}
+{%- endif -%}
+{%- if type is not empty -%}
+    {%- if depth > 0 -%}
+        {%- set depth = depth-1 -%}
+        {%- set classDoc = type.asClassDoc() -%}
+        {{- anchor(classDoc.name, classDoc.qualifiedName) -}}
+        {%- include 'includes/javadoc/misc/signatureTypeParameterList' with {"typeParameters": classDoc.typeParameters} -%}
+    {%- else -%}
+        ...
+    {%- endif -%}
+{%- endif -%}
+</span>

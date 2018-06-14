@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FolderCollection extends OrchidCollection<OrchidPage> {
 
@@ -16,20 +16,19 @@ public class FolderCollection extends OrchidCollection<OrchidPage> {
     @Getter @Setter private String slugFormat = "{slug}";
 
     public FolderCollection(OrchidGenerator generator, String collectionId, List<OrchidPage> items, Class<? extends OrchidPage> pageClass, String resourceRoot) {
-        this(generator, generator.getKey(), collectionId, items, pageClass, resourceRoot);
+        this(generator.getKey(), collectionId, items, pageClass, resourceRoot);
     }
 
-    public FolderCollection(OrchidGenerator generator, String collectionType, String collectionId, List<OrchidPage> items, Class<? extends OrchidPage> pageClass, String resourceRoot) {
-        super(generator, collectionType, collectionId, items);
+    public FolderCollection(String collectionType, String collectionId, List<OrchidPage> items, Class<? extends OrchidPage> pageClass, String resourceRoot) {
+        super(collectionType, collectionId, items);
         this.resourceRoot = resourceRoot;
         this.pageClass = pageClass;
     }
 
-    public List<OrchidPage> find(String id) {
-        return items
+    public Stream<OrchidPage> find(String id) {
+        return getItems()
                 .stream()
-                .filter(page -> page.getTitle().equals(id))
-                .collect(Collectors.toList());
+                .filter(page -> page.getTitle().equals(id));
     }
 
 }

@@ -43,7 +43,7 @@ public final class OrchidRequest {
             File file = new File(files.get("content"));
             if(file.exists()) {
                 try {
-                    String fileContent = IOUtils.toString(new FileInputStream(file), Charset.defaultCharset());
+                    String fileContent = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
 
                     if(contentType.equalsIgnoreCase("application/json")) {
                         JSONObject body = new JSONObject(fileContent);

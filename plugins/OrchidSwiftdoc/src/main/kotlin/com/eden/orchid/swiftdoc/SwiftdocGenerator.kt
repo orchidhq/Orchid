@@ -32,6 +32,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.nio.charset.Charset
 import java.util.concurrent.Executors
 import java.util.stream.Stream
 import javax.inject.Inject
@@ -174,7 +175,7 @@ class SwiftdocGenerator
 
         override fun run() {
             output = StringBuffer()
-            BufferedReader(InputStreamReader(inputStream)).lines().forEach({output.append(it)})
+            BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8"))).lines().forEach({output.append(it)})
         }
 
         override fun toString(): String {

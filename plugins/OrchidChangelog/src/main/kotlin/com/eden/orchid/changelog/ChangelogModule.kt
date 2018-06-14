@@ -6,19 +6,16 @@ import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.changelog.components.ChangelogComponent
 import com.eden.orchid.changelog.components.ChangelogVersionPicker
+import com.eden.orchid.utilities.addToSet
 
 class ChangelogModule : OrchidModule() {
 
     override fun configure() {
-        addToSet(PluginResourceSource::class.java,
-                ChangelogResourceSource::class.java)
-
-        addToSet(OrchidGenerator::class.java,
-                ChangelogGenerator::class.java)
-
-        addToSet(OrchidComponent::class.java,
-                ChangelogComponent::class.java,
-                ChangelogVersionPicker::class.java)
+        addToSet<PluginResourceSource, ChangelogResourceSource>()
+        addToSet<OrchidGenerator, ChangelogGenerator>()
+        addToSet<OrchidComponent>(
+                ChangelogComponent::class,
+                ChangelogVersionPicker::class)
     }
 }
 

@@ -11,7 +11,7 @@
                 <a href="#">{{ adminList.key | capitalize }}</a>
                 <ul class="uk-nav-sub">
                 {% for item in adminList.getItems() %}
-                    <li><a href="{{ view.getDescriptionLink(item.class) }}">{{ item.class.simpleName | capitalize }}</a></li>
+                    <li><a href="{{ view.getDescriptionLink(item) }}">{{ item.simpleName | capitalize }}</a></li>
                 {% endfor %}
                 </ul>
             </li>
@@ -25,7 +25,7 @@
                 <a href="#">{{ adminList.key | capitalize }}</a>
                 <ul class="uk-nav-sub">
                 {% for item in adminList.getItems() %}
-                    <li><a href="{{ view.getDescriptionLink(item.class) }}">{{ item.class.simpleName | capitalize }}</a></li>
+                    <li><a href="{{ view.getDescriptionLink(item) }}">{{ item.simpleName | capitalize }}</a></li>
                 {% endfor %}
                 </ul>
             </li>

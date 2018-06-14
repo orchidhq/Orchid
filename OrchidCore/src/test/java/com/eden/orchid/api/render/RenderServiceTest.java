@@ -11,7 +11,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.google.inject.Injector;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +29,6 @@ import static org.mockito.Mockito.*;
 
 public final class RenderServiceTest {
 
-    private Injector injector;
     private OptionsExtractor extractor;
     private OrchidContext context;
     private RenderService underTest;
@@ -54,11 +52,10 @@ public final class RenderServiceTest {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        injector = mock(Injector.class);
         extractor = mock(OptionsExtractor.class);
         precompiler = mock(OrchidPrecompiler.class);
         renderer = mock(OrchidRenderer.class);
-        when(injector.getInstance(OptionsExtractor.class)).thenReturn(extractor);
+        when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
         when(renderer.render(any(), any())).thenReturn(true);
 
         resourceContent = "test content";
@@ -67,8 +64,7 @@ public final class RenderServiceTest {
         when(context.getEmbeddedData(layoutContent)).thenReturn(new EdenPair<>(layoutContent, new JSONElement(new JSONObject())));
         when(context.getEmbeddedData(resourceContent)).thenReturn(new EdenPair<>(resourceContent, new JSONElement(new JSONObject())));
         when(context.getOutputExtension(any())).thenReturn("html");
-        when(context.getInjector()).thenReturn(injector);
-        when(injector.getInstance(OrchidPrecompiler.class)).thenReturn(precompiler);
+        when(context.resolve(OrchidPrecompiler.class)).thenReturn(precompiler);
 
         layoutReference = new OrchidReference(context, "one.html");
         layout = new StringResource(layoutContent, layoutReference);
@@ -108,7 +104,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedTemplate(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -139,7 +135,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedString(page, "html", layoutContent);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -170,7 +166,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedRaw(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);
@@ -201,7 +197,7 @@ public final class RenderServiceTest {
         InputStream stream = underTest.getRenderedBinary(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.defaultCharset());
+        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);

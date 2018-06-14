@@ -16,9 +16,13 @@ import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.breadcrumbs.Breadcrumb;
+import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolder;
+import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolderDelegate;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +36,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
+import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
 /**
  *
@@ -47,12 +54,13 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter @OptionsData private JSONElement allData;
     @Getter @Setter private Map<String, Object> _map;
 
-    // variables that give the page identity and
+    // variables that give the page identity
     @Getter @Setter protected OrchidResource resource;
     @Getter @Setter protected OrchidReference reference;
     @Getter @Setter protected String key;
     @Getter @Setter protected OrchidPage next;
     @Getter @Setter protected OrchidPage previous;
+    @Getter @Setter protected OrchidPage parent;
     @Getter @Setter protected JSONObject data;
 
     @Getter @Setter
@@ -145,6 +153,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     // variables that attach other objects to this page
     @Getter @Setter protected AssetHolder assets;
+    @Setter protected BreadcrumbHolder breadcrumbs;
 
     @Getter @Setter
     @Option
@@ -177,6 +186,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     )
     protected String[] extraJs;
 
+    @Getter @Setter
+    @Option
+    @Description("The default breadcrumbs to display for this page.")
+    protected String defaultBreadcrumbs;
+
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -191,6 +205,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
+        this.breadcrumbs = new BreadcrumbHolderDelegate(context);
 
         this.key = key;
         this.templates = new String[]{"page"};
@@ -224,7 +239,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
                 this.title = title;
             }
             else {
-                this.title = resource.getReference().getTitle();
+                this.title = to(from(resource.getReference().getTitle(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
             }
         }
 
@@ -329,7 +344,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         return this.toJSON().toString(2);
     }
 
-// Assets and components
+// Assets, Components, Breadcrumbs
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
@@ -365,6 +380,19 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
             hasAddedAssets = true;
         }
+    }
+
+    public final BreadcrumbHolder getBreadcrumbHolder() {
+        return breadcrumbs;
+    }
+
+    public final List<Breadcrumb> getBreadCrumbs() {
+        breadcrumbs.setDefaultBreadcrumbs(defaultBreadcrumbs);
+        return breadcrumbs.getBreadCrumbs().get(this);
+    }
+
+    public final List<Breadcrumb> getBreadCrumbs(String key) {
+        return breadcrumbs.getBreadCrumbs(key).get(this);
     }
 
 // Callbacks
@@ -406,6 +434,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public Object get(String key) {
+        // TODO: make this method also return values by reflection, so that anything that needs to dynamically get a property by name can get it from this one method
         return getMap().get(key);
     }
 

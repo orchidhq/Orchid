@@ -19,6 +19,7 @@
 
     <ul class="nav bs-docs-sidenav">
         {% for menuItem in page.menu.getMenuItems(page) %}
+            {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl" #}
             {% if menuItem.hasChildren() %}
                 <li class="has-children {{ menuItem.activeClass(page) }}">
                     <a>{{ menuItem.title | title }}</a>
@@ -33,9 +34,10 @@
                     </ul>
                 </li>
             {% elseif menuItem.isSeparator() %}
-                <li><div class="divider"></div></li>
                 {% if menuItem.title|length > 0 %}
-                    <li><a class="subheader">{{ menuItem.title }}</a></li>
+                    <li><a class="divider-subheader">{{- menuItem.title -}}</a></li>
+                {% else %}
+                    <li><div class="divider"></div></li>
                 {% endif %}
             {% else %}
                 {% if menuItem.title|length > 0 %}

@@ -8,13 +8,13 @@ dependencies {
 
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.2.0'
-    api 'io.github.lukehutch:fast-classpath-scanner:2.18.2'
+    api 'io.github.lukehutch:fast-classpath-scanner:2.21'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
     api "com.eden:Clog4j:${JavaEden.Clog}"
     api "com.eden:Krow:${JavaEden.Krow}"
-    api "org.projectlombok:lombok:1.16.20"
+    api "org.projectlombok:lombok:1.18.0"
     api "com.squareup.okhttp3:okhttp:3.10.0"
     api "commons-io:commons-io:2.6"
 
@@ -23,7 +23,7 @@ dependencies {
     api 'org.yaml:snakeyaml:1.21'
     api 'com.moandjiezana.toml:toml4j:0.7.2'
     api 'io.pebbletemplates:pebble:2.5.1'
-    api 'io.bit3:jsass:5.7.0'
+    api 'io.bit3:jsass:5.7.3'
     api 'com.univocity:univocity-parsers:2.6.3'
 
     // Flexmark extensions

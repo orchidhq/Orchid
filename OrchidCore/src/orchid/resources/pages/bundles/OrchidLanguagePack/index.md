@@ -2,15 +2,15 @@
 official: true
 included:
   - pluginType: plugins
-    pluginName: OrchidAsciidoc
+    pluginName: Orchid Asciidoc
   - pluginType: plugins
-    pluginName: OrchidBible
+    pluginName: Orchid Bible
   - pluginType: plugins
-    pluginName: OrchidDiagrams
+    pluginName: Orchid Diagrams
   - pluginType: plugins
-    pluginName: OrchidSyntaxHighlighter
+    pluginName: Orchid Syntax Highlighter
   - pluginType: plugins
-    pluginName: OrchidWritersBlocks
+    pluginName: Orchid Writers Blocks
 ---
 
 The Orchid Language Pack bundle is not a ready-to-use bundle, but does group together all the plugins designed to 

@@ -43,7 +43,7 @@ public final class OrchidRoute {
             methodParameters.add(request);
 
             if(hasParamsClass()) {
-                OptionsHolder params = context.getInjector().getInstance(this.paramsClass);
+                OptionsHolder params = context.resolve(this.paramsClass);
                 params.extractOptions(context, request.all());
                 methodParameters.add(params);
             }

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * A Collection represents a set of local resources which are consumed by a generator. Inspired by (and used for) the
@@ -17,18 +18,26 @@ import java.util.List;
  */
 public abstract class OrchidCollection<T> {
 
-    @Getter protected final OrchidGenerator generator;
     @Getter protected final String collectionType;
     @Getter protected final String collectionId;
-    @Getter protected final List<T> items;
 
-    public abstract List<T> find(String id);
+    @Getter
+    private List<T> items;
 
-    public OrchidCollection(OrchidGenerator generator, String collectionType, String collectionId, List<T> items) {
-        this.generator = generator;
+    public OrchidCollection(String collectionType, String collectionId, List<T> items) {
         this.collectionType = collectionType;
         this.collectionId = collectionId;
-        this.items = Collections.unmodifiableList(items);
+        setItems(items);
+    }
+
+    public OrchidCollection(OrchidGenerator generator, String collectionId, List<T> items) {
+        this(generator.getKey(), collectionId, items);
+    }
+
+    protected abstract Stream<T> find(String id);
+
+    public Stream<T> findMatches(String id) {
+        return find(id);
     }
 
     public String getTitle() {
@@ -51,5 +60,13 @@ public abstract class OrchidCollection<T> {
         else {
             return collectionTypeTitle;
         }
+    }
+
+    public void setItems(List<T> items) {
+        this.items = (items != null) ? Collections.unmodifiableList(items) : null;
+    }
+
+    public void clear() {
+        this.items = null;
     }
 }

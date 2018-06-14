@@ -22,9 +22,9 @@ public class OrchidMenuItemImpl {
 
     protected List<OrchidMenuItemImpl> children;
     protected OrchidPage page;
+    protected String anchor;
 
     protected String title;
-    protected boolean hasChildren;
 
     protected boolean isSeparator;
 
@@ -32,7 +32,6 @@ public class OrchidMenuItemImpl {
 
     public OrchidMenuItemImpl(OrchidContext context, String title, OrchidIndex index) {
         this.context = context;
-        this.hasChildren = true;
         this.title = title;
         this.page = null;
         this.isSeparator = false;
@@ -64,10 +63,7 @@ public class OrchidMenuItemImpl {
 
     public OrchidMenuItemImpl(OrchidContext context, @NonNull String title, @NonNull List<OrchidPage> pages) {
         this.context = context;
-        this.hasChildren = true;
-
         this.title = title;
-
         this.children = new ArrayList<>();
         this.page = null;
 
@@ -78,17 +74,13 @@ public class OrchidMenuItemImpl {
 
     public OrchidMenuItemImpl(OrchidContext context, @NonNull List<OrchidMenuItemImpl> menuItems, @NonNull String title) {
         this.context = context;
-        this.hasChildren = true;
-
         this.title = title;
-
         this.children = new ArrayList<>(menuItems);
         this.page = null;
     }
 
     public OrchidMenuItemImpl(OrchidContext context, String title, @NonNull OrchidPage page) {
         this.context = context;
-        this.hasChildren = false;
         this.title = title;
         this.children = null;
         this.page = page;
@@ -100,7 +92,6 @@ public class OrchidMenuItemImpl {
 
     public OrchidMenuItemImpl(OrchidContext context, String dividerTitle) {
         this.context = context;
-        this.hasChildren = false;
 
         this.title = dividerTitle;
 
@@ -112,7 +103,6 @@ public class OrchidMenuItemImpl {
 
     public OrchidMenuItemImpl(OrchidContext context) {
         this.context = context;
-        this.hasChildren = false;
 
         this.title = null;
 
@@ -127,7 +117,11 @@ public class OrchidMenuItemImpl {
     }
 
     public String getLink() {
-        return (page != null) ? page.getLink() : null;
+        return (page != null)
+                ? page.getLink()
+                : (!EdenUtils.isEmpty(anchor))
+                    ? "#" + anchor
+                    : null;
     }
 
     public List<OrchidMenuItemImpl> getChildren() {
@@ -150,7 +144,7 @@ public class OrchidMenuItemImpl {
     }
 
     public boolean isActivePage(OrchidPage page) {
-        return !hasChildren && this.page == page;
+        return !isHasChildren() && this.page == page;
     }
 
     public boolean isActive(OrchidPage page) {
@@ -158,7 +152,7 @@ public class OrchidMenuItemImpl {
     }
 
     public boolean hasActivePage(OrchidPage page) {
-        if(hasChildren) {
+        if(isHasChildren()) {
             for(OrchidMenuItemImpl child : children) {
                 if(child.isActivePage(page) || child.hasActivePage(page)) {
                     return true;
@@ -175,6 +169,14 @@ public class OrchidMenuItemImpl {
 
     public String activeClass(OrchidPage page, String className) {
         return (isActive(page)) ? className : "";
+    }
+
+    public boolean isHasChildren() {
+        return hasChildren();
+    }
+
+    public boolean hasChildren() {
+        return !EdenUtils.isEmpty(children);
     }
 
 }

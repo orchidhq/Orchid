@@ -2,6 +2,13 @@ classPages:
   searchIndices:
     - 'wiki'
     - 'javadoc'
+  menu:
+    - type: 'separator'
+      title: 'Class Info'
+      order: 100
+    - type: 'javadocClassLinks'
+      includeItems: true
+      order: 110
 packagePages:
   searchIndices:
     - 'wiki'

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 @Singleton
@@ -45,6 +46,15 @@ public final class OrchidRootInternalIndex extends OrchidInternalIndex {
         }
 
         return pages;
+    }
+
+    @Override
+    public List<OrchidPage> getAllPages() {
+        return allIndexedPages
+                .values()
+                .stream()
+                .flatMap(it -> it.getAllPages().stream())
+                .collect(Collectors.toList());
     }
 
     @Override

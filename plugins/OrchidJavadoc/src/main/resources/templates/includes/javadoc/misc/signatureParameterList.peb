@@ -1,0 +1,10 @@
+{#- @pebvariable name="parameters" type="com.sun.javadoc.Parameter[]" -#}
+({%- for param in parameters -%}
+    {%- if param.type.isPrimitive() -%}
+        {{- param.type }}
+    {%- else -%}
+        {%- include 'includes/javadoc/misc/type' with {"type": param.type} -%}
+    {%- endif %}
+    {{ param.name() -}}
+    {%- if not loop.last -%}, {% endif %}
+{%- endfor -%})

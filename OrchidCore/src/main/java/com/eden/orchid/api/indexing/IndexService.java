@@ -7,6 +7,7 @@ import com.google.inject.ImplementedBy;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @since v1.0.0
@@ -67,7 +68,7 @@ public interface IndexService extends OrchidService {
         return getService(IndexService.class).find(collectionType, collectionId, itemId);
     }
 
-    default List<?> findAll(String collectionType, String collectionId, String itemId) {
+    default Stream<?> findAll(String collectionType, String collectionId, String itemId) {
         return getService(IndexService.class).findAll(collectionType, collectionId, itemId);
     }
 

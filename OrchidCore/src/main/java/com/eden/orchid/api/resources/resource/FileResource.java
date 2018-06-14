@@ -37,7 +37,7 @@ public final class FileResource extends FreeableResource  {
         if(rawContent == null) {
             try {
                 if (file != null) {
-                    rawContent = IOUtils.toString(new FileInputStream(file), Charset.defaultCharset());
+                    rawContent = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
                 }
             }
             catch (IOException e) {

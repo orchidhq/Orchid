@@ -2,17 +2,21 @@ package com.eden.orchid.api.indexing;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * @since v1.0.0
@@ -27,7 +31,14 @@ public final class IndexServiceImpl implements IndexService {
     private OrchidRootExternalIndex externalIndex;
     private OrchidCompositeIndex compositeIndex;
 
+    private Set<GlobalCollection> globalCollections;
+
     private List<OrchidCollection> collections;
+
+    @Inject
+    public IndexServiceImpl(Set<GlobalCollection> globalCollections) {
+        this.globalCollections = Collections.unmodifiableSet(globalCollections);
+    }
 
     @Override
     public void initialize(OrchidContext context) {
@@ -36,9 +47,10 @@ public final class IndexServiceImpl implements IndexService {
 
     @Override
     public void clearIndex() {
-        this.internalIndex = new OrchidRootInternalIndex();
-        this.externalIndex = new OrchidRootExternalIndex();
-        this.collections = new ArrayList<>();
+        internalIndex = new OrchidRootInternalIndex();
+        externalIndex = new OrchidRootExternalIndex();
+        globalCollections.forEach(GlobalCollection::clear);
+        collections = new ArrayList<>(globalCollections);
     }
 
     @Override
@@ -128,8 +140,8 @@ public final class IndexServiceImpl implements IndexService {
     }
 
     @Override
-    public List<?> findAll(String collectionType, String collectionId, String itemId) {
-        List<?> objects;
+    public Stream<?> findAll(String collectionType, String collectionId, String itemId) {
+        Stream<?> objects;
         if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
             objects = findAllInCollection(collectionType, collectionId, itemId);
         }
@@ -159,22 +171,20 @@ public final class IndexServiceImpl implements IndexService {
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    private List<?> findAllInCollection(String itemId) {
+    private Stream<?> findAllInCollection(String itemId) {
         return collections
                 .stream()
-                .flatMap(o -> ((List<?>) o.find(itemId)).stream())
-                .collect(Collectors.toList());
+                .flatMap(o -> (o.findMatches(itemId)));
     }
 
-    private List<?> findAllInCollection(String collectionType, String itemId) {
+    private Stream<?> findAllInCollection(String collectionType, String itemId) {
         return collections
                 .stream()
                 .filter(collection -> collection.getCollectionType().equals(collectionType))
-                .flatMap(o -> ((List<?>) o.find(itemId)).stream())
-                .collect(Collectors.toList());
+                .flatMap(o -> (o.findMatches(itemId)));
     }
 
-    private List<?> findAllInCollection(String collectionType, String collectionId, String itemId) {
+    private Stream<?> findAllInCollection(String collectionType, String collectionId, String itemId) {
         Optional<? extends OrchidCollection> foundCollection = collections
                 .stream()
                 .filter(collection -> collection.getCollectionType().equals(collectionType))
@@ -182,10 +192,10 @@ public final class IndexServiceImpl implements IndexService {
                 .findFirst();
 
         if (foundCollection.isPresent()) {
-            return foundCollection.get().find(itemId);
+            return foundCollection.get().findMatches(itemId);
         }
 
-        return new ArrayList<>();
+        return new ArrayList<>().stream();
     }
 
     private Object findInCollection(String itemId) {

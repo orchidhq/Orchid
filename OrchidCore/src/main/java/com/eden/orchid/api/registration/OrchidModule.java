@@ -5,12 +5,14 @@ import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Orchid is built on top of the Guice Dependency Injection framework by Google. This framework allows for runtime
@@ -55,8 +57,14 @@ public abstract class OrchidModule extends AbstractModule {
                 }
 
                 @Override
-                public Collection getItems() {
-                    return Orchid.getInstance().getContext().resolveSet(setClass);
+                public Collection<Class<?>> getItems() {
+                    return Orchid
+                            .getInstance()
+                            .getContext()
+                            .resolveSet(setClass)
+                            .stream()
+                            .map(Object::getClass)
+                            .collect(Collectors.toList());
                 }
 
                 @Override
@@ -69,12 +77,12 @@ public abstract class OrchidModule extends AbstractModule {
         }
     }
 
-    protected final <T> void addToSet(Class<T> setClass) {
+    public final <T> void addToSet(Class<T> setClass) {
         Multibinder.newSetBinder(binder(), setClass);
     }
 
     @SafeVarargs
-    protected final <T> void addToSet(Class<T> setClass, Class<? extends T>... objectClasses) {
+    public final <T> void addToSet(Class<T> setClass, Class<? extends T>... objectClasses) {
         if(objectClasses.length > 0) {
             bindKnownSet(setClass);
         }
@@ -88,7 +96,7 @@ public abstract class OrchidModule extends AbstractModule {
     }
 
     @SafeVarargs
-    protected final <T> void addToSet(Class<T> setClass, T... objects) {
+    public final <T> void addToSet(Class<T> setClass, T... objects) {
         if(objects.length > 0) {
             bindKnownSet(setClass);
         }
@@ -101,4 +109,7 @@ public abstract class OrchidModule extends AbstractModule {
         });
     }
 
+    public <T> AnnotatedBindingBuilder<T> _bind(Class<T> clazz) {
+        return super.bind(clazz);
+    }
 }

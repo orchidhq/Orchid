@@ -2,11 +2,15 @@ package com.eden.orchid.utilities
 
 import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.registration.OrchidModule
+import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.ArrayList
 import java.util.regex.Pattern
+import kotlin.reflect.KClass
 
 fun String?.empty(): Boolean {
     return EdenUtils.isEmpty(this)
@@ -164,3 +168,34 @@ fun String.urlSafe(mapper: String.() -> String): String {
     return urlSafe().mapper()
 }
 
+// Better Kotlin Module registration
+//----------------------------------------------------------------------------------------------------------------------
+
+// bind
+inline fun <reified T: Any> OrchidModule.bind(): LinkedBindingBuilder<T> {
+    return this._bind(T::class.java)
+}
+
+// addToSet
+inline fun <reified T: Any> OrchidModule.addToSet(vararg objectClasses: KClass<out T>) {
+    this.addToSet(T::class.java, *(objectClasses.map { it.java }.toTypedArray()))
+}
+
+inline fun <reified T: Any, reified IMPL: T> OrchidModule.addToSet() {
+    this.addToSet(T::class.java, IMPL::class.java)
+}
+
+inline fun <reified T: Any> OrchidModule.addToSet(vararg objects: T) {
+    this.addToSet(T::class.java, *objects)
+}
+
+// Better dynamic object resolution
+//----------------------------------------------------------------------------------------------------------------------
+
+inline fun <reified T: Any> OrchidContext.resolve(): T {
+    return this.resolve(T::class.java)
+}
+
+inline fun <reified T: Any> OrchidContext.resolveSet(): Set<T> {
+    return this.resolveSet(T::class.java)
+}

@@ -11,7 +11,6 @@ import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.google.common.collect.Lists;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -288,7 +287,7 @@ public final class ResourceServiceImpl implements ResourceService {
     public JSONObject loadLocalFile(String url) {
         try {
             File file = new File(url);
-            String s = IOUtils.toString(new FileInputStream(file), Charset.defaultCharset());
+            String s = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
             return context.parse("json", s);
         }
         catch (FileNotFoundException e) {
