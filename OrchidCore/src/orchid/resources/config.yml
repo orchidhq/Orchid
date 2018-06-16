@@ -20,6 +20,7 @@ theme:
       title: 'Home'
       url: '/'
     - type: 'wikiSections'
+      topLevel: false
     - type: 'taxonomy'
       taxonomyType: 'group'
       includeTerms: true
