@@ -1,21 +1,20 @@
 ---
-tutorialId: '01'
 ---
 
 ## Introduction
 
-So you've decided to give Orchid a try? Great! Follow along with this guide to get your first Orchid site set up, and
-learn the basics of what you can do with Orchid.
+So you've decided to give [Orchid](https://orchid.netlify.com/) a try? Great! Follow along with this guide to get your 
+first Orchid site set up, and learn the basics of what you can do with Orchid.
 
 You can follow along with this tutorial on your own, or find the source for this in the 
-[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/{{tutorialId}}). 
+[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/01). 
 
 ## First Steps
 
-Orchid is a tool build in Java and Kotlin, and is designed to be run from Gradle. Gradle is a build tool that uses 
-Groovy scripts to configure your build. While it is a super-powerful tool, it can be pretty complex to use and configure
-on its own, which is why Orchid has an official Gradle plugin, which makes it easy for you to get up an running with 
-Orchid, even if you aren't familiar with Gradle. 
+Orchid is a tool built in Java and Kotlin, and is designed to be run from Gradle. Gradle is a build tool that uses 
+Groovy scripts to configure your build. While it is a super-powerful tool, it can be pretty complex to use and configure 
+on its own, which is why Orchid has an official Gradle plugin that makes it easy for you to get up an running with 
+Orchid even if you aren't familiar with Gradle. 
 
 ### Install Gradle
 
@@ -40,7 +39,7 @@ Now that you've got Gradle installed, let's go to an empty directory where you w
 cd ~/Documents/personal/orchid
 {% endhighlight %}
 
-In this empty folder, run the following command, which will initialize a Gradle project for you and set up all the files 
+In this empty folder, run the following command, which will initialize a Gradle project for you and set up all the files
 and folders it needs.
 
 {% highlight 'bash' %}
@@ -63,7 +62,7 @@ This will make your project look like:
 
 ### Add Orchid to your Gradle project
 
-Now that we've got our Gradle project set up, let configure it to be able to run Orchid. First, we'll need to open up
+Now that we've got our Gradle project set up, let's configure it to be able to run Orchid. First, we'll need to open up 
 `build.gradle` and find the `plugins` section. 
 
 {% highlight 'groovy' %}
@@ -79,15 +78,15 @@ Let's add the `com.eden.orchidPlugin` plugin to this block.
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
-    id 'com.eden.orchidPlugin' version '{{site.version}}'
+    id 'com.eden.orchidPlugin' version '0.8.10'
 }
 {% endhighlight %}
 
 By itself, the Orchid Gradle Plugin isn't quite enough to get Orchid running. We'll also need to tell Gradle:
 
-1) The Orchid plugins and themes we want to include in our site
-2) Where it can find those plugins and themes
-3) Some basic configuration values so Orchid can run properly
+1. The Orchid plugins and themes we want to include in our site
+2. Where it can find those plugins and themes
+3. Some basic configuration values so Orchid can run properly
 
 To do this, add the following lines to at the end of `build.gradle`.
 
@@ -118,143 +117,180 @@ to start Orchid and have it host your site with its local HTTP server so you can
 
 {% highlight 'bash' %}
 gradle orchidServe
-{% endhighlight %} 
+{% endhighlight %}
 
 After a few seconds, you should be able to visit [http://localhost:8080](http://localhost:8080) in your browser to see 
 your very first Orchid site!
 
-## Your Homepage
+## What's Really Going On?
 
-You'll notice that your first site is a bit plain. It's just an empty page with no menus, no content, nothing 
-interesting at all. But let's change that!
-
-Every Orchid site includes a Homepage. This is first page that visitors will see when they go to your website, and is
-always created even if you don't include any other plugins in your Orchid build. Let's start by adding a new file in 
-your project at `src/orchid/resources/homepage.md` and adding the following content to it. 
+After starting Orchid, you'll see a lot of stuff get logged to the console. Let's step briefly through the output so you
+can understand what's going on.
 
 {% highlight 'text' %}
-## Hello, Orchid
+Using the following modules: 
+--------------------
+ * com.eden.orchid.StandardModule
 
-> You are beautiful, and so is your website.
-
-Let's build something _beautiful and unique_, **together**.
+Auto-loaded modules: 
+--------------------
+ * com.eden.orchid.bsdoc.BsDocModule
+ * com.eden.orchid.changelog.ChangelogModule
+ * com.eden.orchid.editorial.EditorialModule
+ * com.eden.orchid.forms.FormsModule
+ * com.eden.orchid.forms.SearchModule
+ * com.eden.orchid.html5up.futureimperfect.FutureImperfectModule
+ * com.eden.orchid.impl.compilers.markdown.FlexmarkModule
+ * com.eden.orchid.impl.compilers.pebble.PebbleModule
+ * com.eden.orchid.kss.KssModule
+ * com.eden.orchid.languages.asciidoc.AsciidocModule
+ * com.eden.orchid.languages.bible.BibleModule
+ * com.eden.orchid.languages.diagrams.DiagramsModule
+ * com.eden.orchid.languages.highlighter.SyntaxHighlighterModule
+ * com.eden.orchid.netlifycms.NetlifyCmsModule
+ * com.eden.orchid.pages.PagesModule
+ * com.eden.orchid.plugindocs.PluginDocsModule
+ * com.eden.orchid.posts.PostsModule
+ * com.eden.orchid.presentations.PresentationsModule
+ * com.eden.orchid.swagger.SwaggerModule
+ * com.eden.orchid.swiftdoc.SwiftdocModule
+ * com.eden.orchid.taxonomies.TaxonomiesModule
+ * com.eden.orchid.wiki.WikiModule
+ * com.eden.orchid.writersblocks.WritersBlocksModule
 {% endhighlight %}
 
-There we go, that's looking a bit better. We now have a Markdown file, and whatever you write in that file will be 
-automatically converted to HTML and embedded inside your theme. 
-
-But this file doesn't have to be Markdown. Orchid knows a lot of different languages, and you are free to use something
-else if you wish, such as Asciidoc. By changing the file extension from `.md` to `.ad`, you will instruct Orchid to 
-process this file as Asciidoc rather than Markdown. 
-
-Let's do that now. Rename `src/orchid/resources/homepage.md` to `src/orchid/resources/homepage.ad` and change its 
-contents to the equivalent in Asciidoc.
+This lets you know which plugins are currently being used. Orchid will auto-load any plugin included in your Gradle 
+`dependencies` block, which themselves may include other plugins, and this will let you know exactly what's being used 
+in your Orchid site.
 
 {% highlight 'text' %}
-== Hello, Orchid
-
-____
-You are beautiful, and so is your website.
-____
-
-Let's build something _beautiful and unique_, *together*.
+Flag values: 
+--------------------
+-adminTheme: Default
+-baseUrl: http://localhost:8080
+-d: /path/to/your/site/build/docs/orchid
+-dryDeploy: false
+-environment: debug
+-resourcesDir: /path/to/your/site/src/orchid/resources
+-task: serve
+-theme: BsDoc
+-v: 1
 {% endhighlight %}
 
-## Adding Static Pages
-
-### Example: Small Business
-
-Having a homepage on your site is great and all, but you've probably got a lot more content that you want to show. There
-are many ways you can add additional pages to your Orchid site, but the easiest way is with the Static Pages plugin. 
-
-Let's say you are running a small business which has multiple locations throughout Texas, one in Houston, one in Dallas, 
-and one in Austin. Each location should have its own page which lists its address, phone number, and business hours. You 
-want these pages to be in your website at `/locations/{locationName}`, and also to have an "index" page showing all 
-locations so each one can be easily located. So you want your site to have the following pages:
-
-- `/`
-- `/locations`
-- `/locations/houston`
-- `/locations/dallas`
-- `/locations/austin`
-
-Let's see how we can use the Static Pages plugin to make this site.
-
-### Adding Location Pages
-
-We already have our Homepage set up at `/`, so lets go ahead and set up our Houston location page first. Let's start by
-making a new file at `src/orchid/resources/pages/locations/houston.md`. This file works just the same as your Homepage's
-file. You can write whatever content you want inside it, and it will be converted to HTML and embedded inside your theme
-for you. Also, just like the Homepage, you can change its file extension to have Orchid process it as another language, 
-if desired.
-
-So let's add the following content to `src/orchid/resources/pages/locations/houston.md`.
+This shows the command-line flags passed to Orchid from Gradle. This may be helpful for debugging your build, 
+especially if it has been run in a CI environment.
 
 {% highlight 'text' %}
-## Location
-
-Houston, TX
-
-## Address
- 
-1234, Example Dr.
-Houston, TX, 12345
-
-## Phone
-
-(123) 456-7890
+[INFO] Orchid: Running Orchid version 0.8.10, site version 1 in debug environment
+[INFO] OrchidWebserver: Webserver Running at http://localhost:8080
+[INFO] OrchidWebsocket: Websocket running at http://localhost:8081/
 {% endhighlight %}
 
-While we're at it, lets go ahead and do similar things for our Dallas and Austin locations as well. Copy the `houston.md`
-file to `dallas.md` and `austin.md`, change the content inside these files, and in just a moment Orchid will have 
-rebuilt your site and included these new pages for us. 
-
-You can now view the pages for each business location at 
-[http://localhost:8080/locations/houston](http://localhost:8080/locations/houston), 
-[http://localhost:8080/locations/dallas](http://localhost:8080/locations/dallas), and 
-[http://localhost:8080/locations/austin](http://localhost:8080/locations/austin)!
-
-### Adding Location Index Page
-
-Now that we have a unique page for each of our locations, lets go ahead and create an index page which lists all of our
-individual locations. As you may have already guessed, we need to create a new file at 
-`src/orchid/resources/pages/locations.md`, and add the content in there. This is because the Static Pages plugin works
-by taking _all_ files in your `src/orchid/resources/pages/` directory, and copies them into your final site at that same
-path. 
-
-However, if we were to build a really large site with static pages, it might get a bit confusing having the locations
-index page in a different folder from the rest of the locations pages. So lets actually move 
-`src/orchid/resources/pages/locations.md` to `src/orchid/resources/pages/locations/index.md`. The Static Pages plugin
-will copy any file over directly, but for files named `index`, it will keep them at the root of that folder, rather than
-making a sub-page in that folder. So `src/orchid/resources/pages/locations/index.md` will become `/locations` instead of
-`/locations/index` like the other-named pages would.
-
-We need to get this site out fast so we can start getting people visiting all locations, so let's just hardcode links to
-each page for now. Add the following to `locations/index.md`:
+This lets you know which version of Orchid you are using, as well as the version of your site. In addition, it will let 
+you know which URL your site is currently being served at. By default, this will be `localhost:8080`, but if that port 
+is being used by another process, the port will be changed to the nearest free port.
 
 {% highlight 'text' %}
-## Our Locations
-
-- [Houston](http://localhost:8080/locations/houston)
-- [Dallas](http://localhost:8080/locations/dallas)
-- [Austin](http://localhost:8080/locations/austin)
+[INFO] TaskServiceImpl: Build Starting...
+[INFO] GeneratorServiceImpl: Indexing [10000: assets]
+[INFO] GeneratorServiceImpl: Indexing [1000: home]
+[INFO] GeneratorServiceImpl: Indexing [1000: styleguide]
+[INFO] GeneratorServiceImpl: Indexing [1000: pages]
+[INFO] GeneratorServiceImpl: Indexing [1000: posts]
+[INFO] GeneratorServiceImpl: Indexing [1000: wiki]
+[INFO] GeneratorServiceImpl: Indexing [100: changelog]
+[INFO] GeneratorServiceImpl: Indexing [100: forms]
+[INFO] GeneratorServiceImpl: Indexing [100: netlifyCms]
+[INFO] GeneratorServiceImpl: Indexing [100: presentations]
+[INFO] GeneratorServiceImpl: Indexing [100: swiftdoc]
+[INFO] GeneratorServiceImpl: Indexing [100: taxonomies]
+[INFO] GeneratorServiceImpl: Indexing [11: sitemap]
+[INFO] GeneratorServiceImpl: Indexing [11: feeds]
+[INFO] GeneratorServiceImpl: Indexing [10: indices]
+[INFO] GeneratorServiceImpl: Generating [10000: assets]
+[INFO] GeneratorServiceImpl: Generating [1000: home]
+[INFO] GeneratorServiceImpl: Generating [1000: styleguide]
+[INFO] GeneratorServiceImpl: Generating [1000: pages]
+[INFO] GeneratorServiceImpl: Generating [1000: posts]
+[INFO] GeneratorServiceImpl: Generating [1000: wiki]
+[INFO] GeneratorServiceImpl: Generating [100: changelog]
+[INFO] GeneratorServiceImpl: Generating [100: forms]
+[INFO] GeneratorServiceImpl: Generating [100: netlifyCms]
+[DEBUG] GeneratorServiceImpl: [netlifyCms] Generator pages rendered with [Default] Theme.
+[INFO] GeneratorServiceImpl: Generating [100: presentations]
+[INFO] GeneratorServiceImpl: Generating [100: swiftdoc]
+[INFO] GeneratorServiceImpl: Generating [100: taxonomies]
+[INFO] GeneratorServiceImpl: Generating [11: sitemap]
+[INFO] GeneratorServiceImpl: Generating [11: feeds]
+[INFO] GeneratorServiceImpl: Generating [10: indices]
 {% endhighlight %}
+
+Orchid works in two distinct phases: the _indexing_ phase and the _generation_ phase. During the indexing phase, Orchid 
+will let all plugins work together to build a model of what your final site will look like. During the generating phase, 
+Orchid returns control to plugins to render all of their pages. This section of output shows you which plugins are being 
+indexed and generated in which order. 
+
+By keeping two distinct phases, Orchid can give all plugins a great way to work together to build up your site, but also 
+gives everything a guarantee that all the data it needs is there before any pages are rendered. This may not make much 
+sense right now, but as you get more familiar with Orchid you will start to see the power that this really gives that no
+other static site generator can match. 
+
+The result of all this is that Orchid takes data from many different places (many different plugins), and generates an 
+entire website in your destination directory (the `-d` flag) as static HTML, Javascript, CSS, and other related static 
+assets. 
+
+{% highlight 'text' %}
+Build Metrics: 
+┌───────┬────────────┬───────────────┬─────────────────┬───────────────────────────┬─────────────────────────────┐
+│       │ Page Count │ Indexing Time │ Generation Time │ Mean Page Generation Time │ Median Page Generation Time │
+├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
+│  home │     1      │     64ms      │      362ms      │           354ms           │            354ms            │
+├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
+│ pages │     4      │     23ms      │      220ms      │           54ms            │            45ms             │
+├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
+│ TOTAL │          5 │         201ms │           773ms │                     114ms │                        45ms │
+└───────┴────────────┴───────────────┴─────────────────┴───────────────────────────┴─────────────────────────────┘
+
+Generated 5 pages in 977ms
+
+
+[INFO] TaskServiceImpl: Build Complete
+{% endhighlight %}
+
+Orchid is a very fast static site generator, with build speed on par with the best tools on the market, despite being so
+much more powerful and flexible. Generation time is primarily limited by the raw speed of the template engine rendering 
+your pages, but this table may help you debug slow builds. Here you can see how many pages Orchid generated, and also
+the total time taken indexing and rendering for each plugin. 
+
+The `home` plugin is typically the slowest just because it includes the first page rendered and so the template cache 
+warm-up time is included in its generation time. For all plugins, you should expect a mean and median generation time to
+be pretty similar, and if they are vastly different you may need to see if any of the pages from that plugin are causing
+issues. This can also help you identify entire plugins that are running very slowly. 
+
+The larger sites get, the longer the total build time is, but the mean page generation time tends to drop. This is in 
+contrast to most other tools which per-page generation times tend to _increase significantly_ for really large sites. It
+is common for the mean generation time to be closer to 20ms or less for individual pages, which means a site of 
+thousands of pages could easily be built in just a couple minutes, while other tools could easily take 10 minutes or
+more (if they can even handle sites of that scale!).
 
 ## Conclusion
 
+So now that we have a bit of an idea of how to start running Orchid, let's open up 
+[http://localhost:8080](http://localhost:8080) in our browser. Orchid has built your site into the `build/docs/orchid/`
+directory and is serving these pages directly with its own lightweight embedded HTTP server. Since an Orchid site is 
+just a bunch of files on disk being served directly (with no additional server-side processing), you can even stop the 
+Orchid process and start any HTTP server (like [this one](https://github.com/indexzero/http-server)) in that directory
+and you'd get the same result.
+
 Congratulations, you now have a basic Orchid site up and running! Let's go back over what we learned:
 
-1) Orchid is a command-line tool that is run through Gradle. Orchid provides a plugin for Gradle so that it is easy to 
+1. Orchid is a command-line tool that is run through Gradle. Orchid provides a plugin for Gradle so that it is easy to 
     get set up and running Orchid without needing to know much about Gradle.
-2) Orchid keeps most of its files in `src/orchid/resources/`. One special file in that folder, `homepage.md` can be     
-    added so that Orchid can build its front page with it. 
-3) You can add any files you want to `src/orchid/resources/pages`, and Orchid will copy them over to your final site in
-    that same structure. You can also name special files here `index`, and they will be kept at the index of that folder
-    in the final site rather than in a sub-directory named index, which can be used to create special landing pages. 
-4) The homepage and all static pages are processed based on their file extension. Use the `.md` extension to process the
-    file as Markdown, and `.ad` to process it as Asciidoc. In fact, you'll find that _any_ page from _any_ plugin will 
-    be processed in a similar manner, so that using all plugins will feel very similar.
-    
-Stay tuned for more tutorials on how to use Orchid. In the next tutorial, I will show you how to improve this small 
-business by making the links dynamic, and also adding breadcrumbs and a customizing the locations page content to 
-improve consistency across your site and make it easier to navigate.
+2. Orchid is a _static site generator_, which is a tool that takes content and generates and entire website consisting 
+    of only HTML, CSS, and other static files that can be hosted from any webserver. 
+3. Orchid uses a series of plugins to generate your site, and has a unique way of managing the build lifecycle that 
+    actually improves per-page generation times as your site grows, unlike most other tools which tend to slow down 
+    dramatically.
+
+Stay tuned for more tutorials on how to use Orchid. We will take what we learned here and expand upon that to learn how 
+to add your first pages to start customizing your site and make it unique.
