@@ -8,7 +8,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.relations.PageRelation;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -45,24 +44,12 @@ public final class HomepageGenerator extends OrchidGenerator {
 
     private OrchidPage getHomepage() {
         OrchidResource resource = context.locateLocalResourceEntry("homepage");
-        Homepage page;
         if(resource == null) {
-            resource = new StringResource(context, "index.peb", "");
-            page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
-
-            JSONObject readmeComponent = new JSONObject();
-            readmeComponent.put("type", "readme");
-            page.getComponents().add(readmeComponent);
-
-            JSONObject licenseComponent = new JSONObject();
-            licenseComponent.put("type", "license");
-            page.getComponents().add(licenseComponent);
-        }
-        else {
-            page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
-            page.getReference().setFileName("index");
+            resource = new StringResource(context, "homepage.md", "");
         }
 
+        Homepage page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
+        page.getReference().setFileName("index");
         page.getReference().setUsePrettyUrl(false);
 
         return page;
@@ -125,4 +112,5 @@ public final class HomepageGenerator extends OrchidGenerator {
             return super.getPrevious();
         }
     }
+
 }

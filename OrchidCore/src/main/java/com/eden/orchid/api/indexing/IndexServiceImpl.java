@@ -6,7 +6,6 @@ import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -121,41 +119,13 @@ public final class IndexServiceImpl implements IndexService {
     }
 
     @Override
-    public Object find(String collectionType, String collectionId, String itemId) {
-        Object object;
-        if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            object = findInCollection(collectionType, collectionId, itemId);
-        }
-        else if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            object = findInCollection(collectionType, itemId);
-        }
-        else if(!EdenUtils.isEmpty(itemId)) {
-            object = findInCollection(itemId);
-        }
-        else {
-            object = null;
-        }
-
-        return object;
+    public Stream<?> findAll(String collectionType, String collectionId, String itemId) {
+        return optionallyFilterCollections(getCollections(collectionType, collectionId), itemId);
     }
 
     @Override
-    public Stream<?> findAll(String collectionType, String collectionId, String itemId) {
-        Stream<?> objects;
-        if(!EdenUtils.isEmpty(collectionId) && !EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            objects = findAllInCollection(collectionType, collectionId, itemId);
-        }
-        else if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(itemId)) {
-            objects = findAllInCollection(collectionType, itemId);
-        }
-        else if(!EdenUtils.isEmpty(itemId)) {
-            objects = findAllInCollection(itemId);
-        }
-        else {
-            objects = null;
-        }
-
-        return objects;
+    public Object find(String collectionType, String collectionId, String itemId) {
+        return filterCollections(getCollections(collectionType, collectionId), itemId).findFirst().orElse(null);
     }
 
     @Override
@@ -171,43 +141,30 @@ public final class IndexServiceImpl implements IndexService {
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    private Stream<?> findAllInCollection(String itemId) {
-        return collections
-                .stream()
-                .flatMap(o -> (o.findMatches(itemId)));
-    }
+    private Stream<? extends OrchidCollection> getCollections(String collectionType, String collectionId) {
+        Stream<? extends OrchidCollection> stream = collections.stream();
 
-    private Stream<?> findAllInCollection(String collectionType, String itemId) {
-        return collections
-                .stream()
-                .filter(collection -> collection.getCollectionType().equals(collectionType))
-                .flatMap(o -> (o.findMatches(itemId)));
-    }
-
-    private Stream<?> findAllInCollection(String collectionType, String collectionId, String itemId) {
-        Optional<? extends OrchidCollection> foundCollection = collections
-                .stream()
-                .filter(collection -> collection.getCollectionType().equals(collectionType))
-                .filter(collection -> collection.getCollectionId().equals(collectionId))
-                .findFirst();
-
-        if (foundCollection.isPresent()) {
-            return foundCollection.get().findMatches(itemId);
+        if(!EdenUtils.isEmpty(collectionType)) {
+            stream = stream.filter(collection -> collection.getCollectionType().equals(collectionType));
+        }
+        if(!EdenUtils.isEmpty(collectionId)) {
+            stream = stream.filter(collection -> collection.getCollectionId().equals(collectionId));
         }
 
-        return new ArrayList<>().stream();
+        return stream;
     }
 
-    private Object findInCollection(String itemId) {
-        return OrchidUtils.first(findAllInCollection(itemId));
+    private Stream<?> filterCollections(Stream<? extends OrchidCollection> collections, String itemId) {
+        return collections.flatMap(o -> (o.findMatches(itemId))).distinct();
     }
 
-    private Object findInCollection(String collectionType, String itemId) {
-        return OrchidUtils.first(findAllInCollection(collectionType, itemId));
-    }
-
-    private Object findInCollection(String collectionType, String collectionId, String itemId) {
-        return OrchidUtils.first(findAllInCollection(collectionType, collectionId, itemId));
+    private Stream<?> optionallyFilterCollections(Stream<? extends OrchidCollection> collections, String itemId) {
+        if(!EdenUtils.isEmpty(itemId)) {
+            return collections.flatMap(o -> (o.findMatches(itemId))).distinct();
+        }
+        else {
+            return collections.flatMap(o -> (o.getItems().stream())).distinct();
+        }
     }
 
 }

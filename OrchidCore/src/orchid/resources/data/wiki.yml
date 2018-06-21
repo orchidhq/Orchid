@@ -2,6 +2,7 @@ includeIndexInPageTitle: false
 sections:
   - 'user-manual'
   - 'developers-guide'
+  - 'tutorials'
 wikiPages:
   layout: geopattern2
   searchIndices:
@@ -17,6 +18,9 @@ wikiPages:
       - type: 'separator'
         title: 'User Manual'
         order: 1000
+      - type: 'wiki'
+        topLevel: true
+        order: 1010
   'developers-guide':
     menu:
       - type: 'separator'
@@ -28,7 +32,14 @@ wikiPages:
       - type: 'separator'
         title: "Developer's Guide"
         order: 1000
-  menu:
-    - type: 'wiki'
-      topLevel: true
-      order: 1010
+      - type: 'wiki'
+        topLevel: true
+        order: 1010
+  'tutorials':
+    menu:
+      - type: 'separator'
+        title: 'In This Page'
+        order: 100
+      - type: 'pageIds'
+        order: 110
+        structure: nested
