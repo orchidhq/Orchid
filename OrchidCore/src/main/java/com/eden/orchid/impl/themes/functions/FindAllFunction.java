@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.stream.Collectors;
 
 @Singleton
 @Getter @Setter
@@ -42,7 +43,7 @@ public final class FindAllFunction extends TemplateFunction {
 
     @Override
     public Object apply(Object input) {
-        return context.findAll(collectionType, collectionId, itemId);
+        return context.findAll(collectionType, collectionId, itemId).collect(Collectors.toList());
     }
 
 }

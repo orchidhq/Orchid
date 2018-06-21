@@ -64,12 +64,12 @@ public interface IndexService extends OrchidService {
 
     default List<? extends OrchidCollection> getCollections() { return getService(IndexService.class).getCollections(); }
 
-    default Object find(String collectionType, String collectionId, String itemId) {
-        return getService(IndexService.class).find(collectionType, collectionId, itemId);
-    }
-
     default Stream<?> findAll(String collectionType, String collectionId, String itemId) {
         return getService(IndexService.class).findAll(collectionType, collectionId, itemId);
+    }
+
+    default Object find(String collectionType, String collectionId, String itemId) {
+        return getService(IndexService.class).find(collectionType, collectionId, itemId);
     }
 
     default OrchidPage findPage(String collectionType, String collectionId, String itemId) {

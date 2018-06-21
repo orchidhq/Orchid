@@ -29,8 +29,8 @@ public class FrontMatterCollection extends GlobalCollection<OrchidPage> {
     protected Stream<OrchidPage> find(String id) {
         // TODO: Make this able to evaluate simple queries including parentheses, & (and), and | (or) operators
         if(id.contains("=")) {
-            String key = id.split("=")[0];
-            String value = id.split("=")[1];
+            String key = id.split("=")[0].trim();
+            String value = id.split("=")[1].trim();
             return getItems()
                     .stream()
                     .filter(page -> (page.get(key) != null ? page.get(key).toString() : "").equals(value));
