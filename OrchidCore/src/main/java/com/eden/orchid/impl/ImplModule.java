@@ -75,10 +75,18 @@ import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
 import com.eden.orchid.impl.themes.tags.LogTag;
+import com.eden.orchid.utilities.OrchidUtils;
+import com.google.inject.Provides;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @IgnoreModule
@@ -238,7 +246,7 @@ public final class ImplModule extends OrchidModule {
 
             @Override
             public Collection<Class<?>> getItems() {
-                if(pages == null) {
+                if (pages == null) {
                     pages = new ArrayList<>();
                     new FastClasspathScanner().matchSubclassesOf(OrchidPage.class, pages::add).scan();
                 }
@@ -252,4 +260,16 @@ public final class ImplModule extends OrchidModule {
             }
         });
     }
+
+    @Provides
+    @Singleton
+    public OkHttpClient provideOkhttpClient(@Named("d") String destinationDir) throws IOException {
+        return new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .cache(new Cache(OrchidUtils.getTempDir(destinationDir, "okHttpCache", true).toFile(), 50 * 1024 * 1024)) // 50 MiB cache
+                .build();
+    }
+
 }

@@ -6,9 +6,9 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.publication.OrchidPublisher;
+import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.io.FileUtils;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -120,19 +120,8 @@ public class GithubPagesPublisher extends OrchidPublisher {
 
     private Path copySite() throws Exception {
         Path sourceDir = Paths.get(destinationDir);
-        Path targetDir = Files.createTempDirectory(sourceDir.getParent(), "gh-pages");
-
+        Path targetDir = OrchidUtils.getTempDir(destinationDir, "gh-pages", true);
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                FileUtils.deleteDirectory(targetDir.toFile());
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }));
-
         return targetDir;
     }
 
