@@ -1,7 +1,9 @@
 package com.eden.orchid.api.server;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -24,8 +26,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class OrchidView implements OptionsHolder, AssetHolder {
 
@@ -197,6 +201,35 @@ public class OrchidView implements OptionsHolder, AssetHolder {
                 .stream()
                 .sorted(Comparator.comparing(OrchidCommand::getKey))
                 .collect(Collectors.toList());
+    }
+
+    public List<OrchidCollection> getCollections() {
+        return this.context.getCollections()
+                .stream()
+                .sorted(Comparator.comparing(OrchidCollection::getCollectionType))
+                .collect(Collectors.toList());
+    }
+
+    public List<OrchidCollection> getRelatedCollections(String collectionType, String collectionId) {
+        Stream<? extends OrchidCollection> stream = this.context.getCollections().stream().filter(Objects::nonNull);
+
+        if(!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(collectionId)) {
+            stream = stream.filter(collection -> collectionType.equals(collection.getCollectionType()));
+        }
+        else if(!EdenUtils.isEmpty(collectionType)) {
+            stream = stream.filter(collection -> collectionType.equals(collection.getCollectionType()));
+        }
+        else if(!EdenUtils.isEmpty(collectionId)) {
+            OrchidCollection estimatedCollection = stream.findFirst().orElse(null);
+            if(estimatedCollection != null) {
+                stream = stream.filter(collection -> estimatedCollection.getCollectionType().equals(collection.getCollectionType()));
+            }
+            else {
+                stream = this.context.getCollections().stream().filter(Objects::nonNull);
+            }
+        }
+
+        return stream.sorted(Comparator.comparing(OrchidCollection::getCollectionType)).collect(Collectors.toList());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.eden.orchid.api.generators;
 
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,10 @@ import lombok.Setter;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Description("A Folder Collection represents a collection of OrchidPages that are located as a batch from a " +
+        "specified folder in your resources. A page is matched from a Folder Collection with an 'itemId' matching " +
+        "the page's title."
+)
 public class FolderCollection extends OrchidCollection<OrchidPage> {
 
     @Getter private final String resourceRoot;

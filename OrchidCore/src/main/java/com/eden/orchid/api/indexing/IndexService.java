@@ -75,4 +75,8 @@ public interface IndexService extends OrchidService {
         return getService(IndexService.class).findAll(collectionType, collectionId, itemId);
     }
 
+    default List<?> findAll(String collectionType, String collectionId, String itemId, int page, int pageSize) {
+        return getService(IndexService.class).findAll(collectionType, collectionId, itemId, page, pageSize);
+    }
+
 }

@@ -140,6 +140,14 @@ public final class IndexServiceImpl implements IndexService {
         return optionallyFilterCollections(getCollections(collectionType, collectionId), itemId).collect(Collectors.toList());
     }
 
+    @Override
+    public List<?> findAll(String collectionType, String collectionId, String itemId, int page, int pageSize) {
+        return optionallyFilterCollections(getCollections(collectionType, collectionId), itemId)
+                .skip((page-1) * pageSize)
+                .limit(pageSize)
+                .collect(Collectors.toList());
+    }
+
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 

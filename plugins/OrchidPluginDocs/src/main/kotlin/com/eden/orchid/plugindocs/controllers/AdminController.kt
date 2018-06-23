@@ -42,6 +42,7 @@ constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : Orchid
     fun describeClass(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, params: DescribeParams): OrchidResponse {
         if (params.classType != null) {
             val data = HashMap<String, Any>()
+            data.putAll(request.all().toMap())
             data["classType"] = params.classType!!
 
             val view = OrchidView(context, this, data, "describe")
