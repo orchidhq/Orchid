@@ -102,7 +102,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         val collections = ArrayList<OrchidCollection<*>>()
 
         model.taxonomies.values.forEach { taxonomy ->
-            collections.add(TaxonomyCollection(this, taxonomy))
+            collections.add(TaxonomyCollection(taxonomy))
         }
 
         return collections

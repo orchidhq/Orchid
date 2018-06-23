@@ -41,8 +41,9 @@
                 <div class="uk-width-auto@m">
                     <ul class="uk-tab-left"
                         uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-                        <li><a href="#">Tasks</a></li>
+                        <li><a href="#">Collections</a></li>
                         <li><a href="#">Commands</a></li>
+                        <li><a href="#">Tasks</a></li>
                         <li><a href="#">Event Log</a></li>
                     </ul>
                 </div>
@@ -52,15 +53,11 @@
                         <ul id="component-tab-left" class="uk-switcher">
                             <li>
                                 <ul class="uk-list uk-list-divider">
-                                {% for task in view.tasks %}
+                                {% for collection in view.collections %}
                                     <li class="uk-link-text">
-                                        <a href="{{ view.getDescriptionLink(task.class) }}">
-                                            <b>{{ task.name }}</b>
+                                        <a href="{{ view.getDescriptionLink(collection.class) }}&collectionType={{ collection.collectionType }}&collectionId={{ collection.collectionId }}">
+                                            <b>{{ collection.collectionType }}, {{ collection.collectionId }}</b>
                                         </a>
-                                        {% if task.description is not empty %}
-                                            -
-                                            <span>{{ task.description }}</span>
-                                        {% endif %}
                                     </li>
                                 {% endfor %}
                                 </ul>
@@ -75,6 +72,21 @@
                                         {% if command.description is not empty %}
                                             -
                                             <span>{{ command.description }}</span>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </li>
+                            <li>
+                                <ul class="uk-list uk-list-divider">
+                                {% for task in view.tasks %}
+                                    <li class="uk-link-text">
+                                        <a href="{{ view.getDescriptionLink(task.class) }}">
+                                            <b>{{ task.name }}</b>
+                                        </a>
+                                        {% if task.description is not empty %}
+                                            -
+                                            <span>{{ task.description }}</span>
                                         {% endif %}
                                     </li>
                                 {% endfor %}

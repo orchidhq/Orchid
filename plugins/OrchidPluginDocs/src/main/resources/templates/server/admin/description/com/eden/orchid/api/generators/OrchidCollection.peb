@@ -1,0 +1,65 @@
+{#{% set 'collection' = controller.provide(classType) %}#}
+{# @pebvariable name="collection" type="com.eden.orchid.api.generators.OrchidCollection" #}
+{% set 'collectionImpl' = controller.provide(classType) %}
+
+{% set relatedCollections = view.getRelatedCollections(collectionType, collectionId) %}
+
+<ul class="uk-breadcrumb">
+    <li><a href="{{ view.getDescriptionLink('com.eden.orchid.api.generators.OrchidCollection') }}">Collection</a></li>
+    <li><a href="{{ view.getDescriptionLink(classType) }}">{{ classType.simpleName }}</a></li>
+    {% if collectionType is not empty and collectionId is not empty %}
+        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a></li>
+        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}&collectionId={{ collectionId }}">{{ collectionId }}</a></li>
+    {% set loadItems = true %}
+    {% elseif collectionId is not empty %}
+        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionId={{ collectionId }}">{{ collectionId }}</a></li>
+    {% set loadItems = true %}
+    {% elseif collectionType is not empty %}
+        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a></li>
+    {% set loadItems = true %}
+    {% else %}
+    {% set loadItems = false %}
+    {% endif %}
+</ul>
+
+<hr>
+
+<div uk-grid>
+    <div class="uk-width-auto@m">
+        <ul class="uk-tab-left uk-tab">
+            <li class="uk-active">
+                <a href="#" style="padding-left: 0;"><b>Related Collections</b></a>
+            </li>
+            {% for collection in relatedCollections %}
+                <li>
+                    <a
+                            href="{{ view.getDescriptionLink(collection.class) }}&collectionType={{ collection.collectionType }}&collectionId={{ collection.collectionId }}"
+                            style="padding-left: 0;">
+                    {{ collection.collectionType }}, {{ collection.collectionId }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="uk-width-expand@m">
+        <div class="uk-panel"
+             style="border-left: none; border-right: none;">
+            <ul id="related-collections" class="uk-switcher">
+                <li class="uk-active">
+                    <div>
+                    {% if loadItems %}
+                    {% set collectionItems = findAll(collectionType=collectionType, collectionId=collectionId) %}
+                        <ul class="uk-nav uk-nav-default" style="margin-top: 0;">
+                            <li class="uk-nav-header">Items in this Collection</li>
+                            {% for item in collectionItems %}
+                                <li><a href="{{ item.link }}">{{ item.title }}</a></li>
+                            {% else %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

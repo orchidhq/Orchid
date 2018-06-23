@@ -3,11 +3,13 @@ package com.eden.orchid.utilities;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
@@ -18,6 +20,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -310,6 +315,35 @@ public final class OrchidUtils {
             }
             return formatter.toString();
         }
+    }
+
+    public static Path getTempDir(String dirName) throws IOException {
+        return getTempDir(OrchidFlags.getInstance().getString("d"), dirName);
+    }
+
+    public static Path getTempDir(String baseDir, String dirName) throws IOException {
+        return getTempDir(baseDir, dirName, false);
+    }
+
+    public static Path getTempDir(String baseDir, String dirName, boolean asSiblingToBase) throws IOException {
+        Path sourceDir = Paths.get(baseDir);
+
+        if(asSiblingToBase) {
+            sourceDir = sourceDir.getParent();
+        }
+
+        Path targetDir = Files.createTempDirectory(sourceDir, dirName);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                FileUtils.deleteDirectory(targetDir.toFile());
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
+
+        return targetDir;
     }
 
 // Deprecated Methods

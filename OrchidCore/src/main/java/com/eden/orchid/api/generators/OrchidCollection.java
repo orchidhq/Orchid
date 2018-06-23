@@ -1,6 +1,7 @@
 package com.eden.orchid.api.generators;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.api.options.Descriptive;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
  * @since v1.0.0
  * @orchidApi extensible
  */
-public abstract class OrchidCollection<T> {
+public abstract class OrchidCollection<T> implements Descriptive {
 
     @Getter protected final String collectionType;
     @Getter protected final String collectionId;

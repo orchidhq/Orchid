@@ -2,6 +2,7 @@ package com.eden.orchid.impl.generators.collections;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.GlobalCollection;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Inject;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Singleton
+@Description("A Front Matter Collection filters all pages in your site by a query against properties in a page's " +
+        "Front Matter. A page is matched from a File Collection with an 'itemId' of the format 'key=value."
+)
 public class FrontMatterCollection extends GlobalCollection<OrchidPage> {
 
     private final OrchidContext context;

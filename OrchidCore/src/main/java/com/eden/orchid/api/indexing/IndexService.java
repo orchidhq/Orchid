@@ -7,7 +7,6 @@ import com.google.inject.ImplementedBy;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @since v1.0.0
@@ -64,16 +63,20 @@ public interface IndexService extends OrchidService {
 
     default List<? extends OrchidCollection> getCollections() { return getService(IndexService.class).getCollections(); }
 
-    default Stream<?> findAll(String collectionType, String collectionId, String itemId) {
-        return getService(IndexService.class).findAll(collectionType, collectionId, itemId);
-    }
-
     default Object find(String collectionType, String collectionId, String itemId) {
         return getService(IndexService.class).find(collectionType, collectionId, itemId);
     }
 
     default OrchidPage findPage(String collectionType, String collectionId, String itemId) {
         return getService(IndexService.class).findPage(collectionType, collectionId, itemId);
+    }
+
+    default List<?> findAll(String collectionType, String collectionId, String itemId) {
+        return getService(IndexService.class).findAll(collectionType, collectionId, itemId);
+    }
+
+    default List<?> findAll(String collectionType, String collectionId, String itemId, int page, int pageSize) {
+        return getService(IndexService.class).findAll(collectionType, collectionId, itemId, page, pageSize);
     }
 
 }
