@@ -106,8 +106,8 @@ public final class AssetsGenerator extends OrchidGenerator {
             }
 
             @Override
-            public Class<AssetDirectory> resultClass() {
-                return AssetDirectory.class;
+            public boolean acceptsClass(Class clazz) {
+                return clazz.equals(AssetDirectory.class);
             }
 
             @Override

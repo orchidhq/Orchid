@@ -1,26 +1,26 @@
 taxonomies:
-  - group:
-      single: true
-      plugins:
-        orderByDirection: asc
-        orderBy:
-          - 'title'
-      themes:
-        orderByDirection: asc
-        orderBy:
-          - 'title'
-      bundles:
-        orderByDirection: asc
-        orderBy:
-          - 'title'
-  - tags:
-      single: false
+  - key: group
+    single: true
+    plugins:
+      orderByDirection: asc
       orderBy:
-        - entryCount
-  - orchidApi:
-      single: true
-      includeFrom:
-        - javadoc
+        - 'title'
+    themes:
+      orderByDirection: asc
+      orderBy:
+        - 'title'
+    bundles:
+      orderByDirection: asc
+      orderBy:
+        - 'title'
+  - key: tags
+    single: false
+    orderBy:
+      - entryCount
+  - key: orchidApi
+    single: true
+    includeFrom:
+      - javadoc
 taxonomyArchivePages:
   searchIndices:
     - 'pages'

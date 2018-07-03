@@ -103,8 +103,8 @@ public final class Social implements OptionsHolder {
             }
 
             @Override
-            public Class<Item> resultClass() {
-                return Item.class;
+            public boolean acceptsClass(Class clazz) {
+                return clazz.equals(Item.class);
             }
 
             @Override

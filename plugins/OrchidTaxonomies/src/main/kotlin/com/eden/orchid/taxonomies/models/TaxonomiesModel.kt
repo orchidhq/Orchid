@@ -31,21 +31,17 @@ constructor(val context: OrchidContext) {
         }
     }
 
-    fun getTaxonomy(taxonomy: String, taxonomyOptions: JSONObject) : Taxonomy {
-        if(!taxonomies.containsKey(taxonomy)) {
-            val newTaxonomy = Taxonomy(context, taxonomy)
-            newTaxonomy.extractOptions(context, taxonomyOptions)
-            taxonomies[taxonomy] = newTaxonomy
-        }
-
+    fun getTaxonomy(taxonomy: String) : Taxonomy {
         return taxonomies[taxonomy]!!
     }
 
-    fun addPage(taxonomy: String, term: String, page: OrchidPage) {
-        val taxonomyModel = taxonomies[taxonomy]!!
+    fun putTaxonomy(taxonomy: Taxonomy) {
+        taxonomies[taxonomy.key] = taxonomy
+    }
 
-        val termOptions = taxonomyModel.query(term)
+    fun addPage(taxonomy: Taxonomy, term: String, page: OrchidPage) {
+        val termOptions = taxonomy.query(term)
 
-        taxonomyModel.addPage(term, page, termOptions?.element as? JSONObject ?: JSONObject())
+        taxonomy.addPage(term, page, termOptions?.element as? JSONObject ?: JSONObject())
     }
 }
