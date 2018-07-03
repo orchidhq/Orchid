@@ -69,7 +69,7 @@ import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
-import com.eden.orchid.impl.themes.menus.DropdownMenuItem;
+import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
@@ -157,7 +157,7 @@ public final class ImplModule extends OrchidModule {
         // Menu Items
         addToSet(OrchidMenuItem.class,
                 DividerMenuItem.class,
-                DropdownMenuItem.class,
+                SubmenuMenuItem.class,
                 LinkMenuItem.class,
                 IndexMenuItem.class,
                 PageMenuItem.class);
