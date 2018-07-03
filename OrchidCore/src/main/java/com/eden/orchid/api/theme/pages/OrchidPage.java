@@ -5,11 +5,11 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
@@ -33,7 +33,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +50,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     // global variables
     @Getter protected final OrchidContext context;
     @Getter @Setter protected OrchidGenerator generator;
-    @Getter @Setter @OptionsData private JSONElement allData;
+    @Getter @Setter @AllOptions
+    private Map<String, Object> allData;
     @Getter @Setter private Map<String, Object> _map;
 
     // variables that give the page identity
@@ -419,23 +419,24 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public Map<String, Object> getMap() {
         if(_map == null) {
-            if(EdenUtils.elementIsObject(allData)) {
-                _map = ((JSONObject) allData.getElement()).toMap();
-            }
-            else if(data != null) {
-                _map = data.toMap();
-            }
-            else {
-                _map = new HashMap<>();
-            }
+            _map = allData;
         }
 
         return _map;
     }
 
+    public boolean has(String key) {
+        return getMap().containsKey(key);
+    }
+
     public Object get(String key) {
         // TODO: make this method also return values by reflection, so that anything that needs to dynamically get a property by name can get it from this one method
         return getMap().get(key);
+    }
+
+    public Object query(String key) {
+        JSONElement result = new JSONElement(new JSONObject(getMap())).query(key);
+        return (result != null) ? result.getElement() : null;
     }
 
 }

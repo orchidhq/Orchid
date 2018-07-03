@@ -1,5 +1,6 @@
 package com.eden.orchid.taxonomies
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -38,17 +39,34 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
 
+        Clog.v("{}", taxonomies)
+
         if (taxonomies.length() > 0) {
+            Clog.v("we have taxonomies")
             for (i in 0 until taxonomies.length()) {
-                val taxonomy = taxonomies.get(i)
+                var taxonomy = taxonomies.get(i)
                 val taxonomyKey: String
                 val taxonomyOptions: JSONObject?
 
                 if(taxonomy is String) {
+                    Clog.v("taxonomy is string")
                     taxonomyKey = taxonomy
                     taxonomyOptions = null
                 }
                 else if(taxonomy is JSONObject) {
+                    Clog.v("taxonomy is jsonobject")
+                    if (taxonomy.length() == 1) {
+                        taxonomyKey = taxonomy.keySet().first()
+                        taxonomyOptions = taxonomy.get(taxonomyKey) as? JSONObject
+                    }
+                    else {
+                        taxonomyKey = taxonomy.getString("key")
+                        taxonomyOptions = taxonomy
+                    }
+                }
+                else if(taxonomy is Map<*, *>) {
+                    Clog.v("taxonomy was map, now is jsonobject")
+                    taxonomy = JSONObject(taxonomy)
                     if (taxonomy.length() == 1) {
                         taxonomyKey = taxonomy.keySet().first()
                         taxonomyOptions = taxonomy.get(taxonomyKey) as? JSONObject
@@ -59,8 +77,11 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
                     }
                 }
                 else {
+                    Clog.v("taxonomy was {}", taxonomy.javaClass.simpleName)
                     continue
                 }
+
+                Clog.v("Taxonomy: {}", taxonomyKey)
 
                 val taxonomyModel = model.getTaxonomy(taxonomyKey, taxonomyOptions ?: JSONObject())
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomyModel.includeFrom, taxonomyModel.excludeFrom)

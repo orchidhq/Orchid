@@ -1,16 +1,14 @@
 package com.eden.orchid.api.theme.models;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.google.inject.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +28,8 @@ import java.util.Map;
 @Getter @Setter
 public final class Social implements OptionsHolder {
 
-    @OptionsData
-    public JSONElement allOptions;
+    @AllOptions
+    public Map<String, Object> allOptions;
 
     @Option
     @Description("Your email address.")

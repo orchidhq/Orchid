@@ -9,6 +9,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 public class AssetMetadataArchetype implements OptionArchetype {
 
@@ -20,7 +21,7 @@ public class AssetMetadataArchetype implements OptionArchetype {
     }
 
     @Override
-    public JSONObject getOptions(Object target, String archetypeKey) {
+    public Map<String, Object> getOptions(Object target, String archetypeKey) {
         JSONObject data = null;
 
         if(target instanceof AssetPage) {
@@ -37,7 +38,7 @@ public class AssetMetadataArchetype implements OptionArchetype {
             }
         }
 
-        return data;
+        return (data != null) ? data.toMap() : null;
     }
 
 }

@@ -1,11 +1,10 @@
 package com.eden.orchid.api.theme;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -19,6 +18,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -27,8 +27,8 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
 
-    @Getter @Setter @OptionsData
-    private JSONElement allData;
+    @Getter @Setter @AllOptions
+    private Map<String, Object> allData;
 
     @Getter @Setter
     @Option
@@ -134,7 +134,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
         AbstractTheme that = (AbstractTheme) o;
         if(getAllData() != null) {
             return Objects.equals(getKey(), that.getKey()) &&
-                Objects.equals(getAllData().getElement(), that.getAllData().getElement());
+                Objects.equals(getAllData(), that.getAllData());
         }
         else {
             return Objects.equals(getKey(), that.getKey());
@@ -144,7 +144,7 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     @Override
     public int hashCode() {
         if(getAllData() != null) {
-            return Objects.hash(super.hashCode(), getKey(), getAllData().getElement());
+            return Objects.hash(super.hashCode(), getKey(), getAllData());
         }
         else {
             return Objects.hash(super.hashCode(), getKey());

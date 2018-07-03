@@ -18,13 +18,13 @@ public final class DataPropertyPathType extends PermalinkPathType {
 
     @Override
     public boolean acceptsKey(OrchidPage page, String key) {
-        Object o = page.getAllData().query(key);
+        Object o = page.query(key);
         return o != null;
     }
 
     @Override
     public String format(OrchidPage page, String key) {
-        Object o = page.getAllData().query(key);
+        Object o = page.query(key);
         return converter.convert(o).second;
     }
 

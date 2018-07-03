@@ -4,10 +4,10 @@ import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.annotations.OptionsData
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.camelCase
@@ -21,8 +21,8 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
     val terms = HashMap<String, Term>()
     lateinit var archivePages: List<OrchidPage>
 
-    @OptionsData
-    lateinit var allData: JSONElement
+    @AllOptions
+    lateinit var allData: Map<String, Any>
 
     @Option @IntDefault(100)
     @Description("The maximum number of term pages to include in a single page in the Taxonomy archive.")
@@ -123,15 +123,15 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
             "newestEntry" -> term.pages.maxBy { it.publishDate }!!.publishDate
             "oldestEntry" -> term.pages.minBy { it.publishDate }!!.publishDate
             else -> {
-                if(term.allData.element is JSONObject && (term.allData.element as JSONObject).has(key)) {
-                    if ((term.allData.element as JSONObject).get(key) is String) {
-                        (term.allData.element as JSONObject).getString(key)
+                if(term.element.has(key)) {
+                    if (term.element.get(key) is String) {
+                        term.element.getString(key)
                     }
-                    else if ((term.allData.element as JSONObject).get(key) is Number) {
-                        (term.allData.element as JSONObject).getNumber(key)
+                    else if (term.element.get(key) is Number) {
+                        term.element.getNumber(key)
                     }
-                    else if ((term.allData.element as JSONObject).get(key) is Boolean) {
-                        (term.allData.element as JSONObject).getBoolean(key)
+                    else if (term.element.get(key) is Boolean) {
+                        term.element.getBoolean(key)
                     }
                 }
 
@@ -139,6 +139,10 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
                 term.title
             }
         }
+    }
+
+    fun query(pointer: String): JSONElement? {
+        return JSONElement(JSONObject(allData)).query(pointer)
     }
 
 }

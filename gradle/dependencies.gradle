@@ -1,6 +1,6 @@
 ext {
     JavaEden = [
-        Common: "1.4.1",
+        Common: "1.6.0",
         Clog: "2.0.1",
         Krow: "0.1.2",
         Eden: "0.2.0",

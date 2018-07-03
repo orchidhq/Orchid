@@ -44,7 +44,7 @@ constructor(val context: OrchidContext) {
     fun addPage(taxonomy: String, term: String, page: OrchidPage) {
         val taxonomyModel = taxonomies[taxonomy]!!
 
-        val termOptions = taxonomyModel.allData.query(term)
+        val termOptions = taxonomyModel.query(term)
 
         taxonomyModel.addPage(term, page, termOptions?.element as? JSONObject ?: JSONObject())
     }

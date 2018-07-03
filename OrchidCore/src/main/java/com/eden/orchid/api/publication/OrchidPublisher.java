@@ -1,16 +1,15 @@
 package com.eden.orchid.api.publication;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
@@ -21,6 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 /**
  * An OrchidPublisher is a task that gets run when the Orchid site is done building and is ready to be deployed, such as
@@ -60,8 +60,8 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
     protected int order;
 
     @Getter @Setter
-    @OptionsData
-    private JSONElement allData;
+    @AllOptions
+    private Map<String, Object> allData;
 
     @Inject
     public OrchidPublisher(OrchidContext context, String type, int priority) {

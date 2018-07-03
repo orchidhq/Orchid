@@ -1,13 +1,11 @@
 package com.eden.orchid.api.options;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.krow.KrowTable;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -28,7 +27,7 @@ public class OptionsExtractor extends Extractor {
         this.context = context;
     }
 
-    public void extractOptions(OptionsHolder optionsHolder, JSONObject options) {
+    public void extractOptions(OptionsHolder optionsHolder, Map<String, Object> options) {
         super.extractOptions(optionsHolder, options);
     }
 
@@ -111,7 +110,7 @@ public class OptionsExtractor extends Extractor {
         List<OptionsDescription> optionDescriptions = new ArrayList<>();
 
         if(fields.first != null) {
-            optionDescriptions.add(new OptionsDescription(fields.first.getName(), JSONElement.class, "All options passed to this object.", "{}"));
+            optionDescriptions.add(new OptionsDescription(fields.first.getName(), Map.class, "All options passed to this object.", "{}"));
         }
 
         for (Field field : fields.second) {

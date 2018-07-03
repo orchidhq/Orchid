@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ### Source Types
@@ -63,8 +65,12 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
         try {
             OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
 
-            JSONObject sourceJson = (sourceObject instanceof JSONObject) ? (JSONObject) sourceObject : new JSONObject();
-            extractorProvider.get().extractOptions(holder, sourceJson);
+            if(sourceObject instanceof JSONObject) {
+                extractorProvider.get().extractOptions(holder, ((JSONObject) sourceObject).toMap());
+            }
+            else if(sourceObject instanceof Map) {
+                extractorProvider.get().extractOptions(holder, (Map<String, Object>) sourceObject);
+            }
 
             return holder;
         }
@@ -79,7 +85,7 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
     public OptionsHolder getDefaultValue(Field field) {
         try {
             OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-            extractorProvider.get().extractOptions(holder, new JSONObject());
+            extractorProvider.get().extractOptions(holder, new HashMap<>());
             return holder;
         }
         catch (Exception e) {
