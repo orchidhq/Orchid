@@ -159,7 +159,8 @@ following variables available to work with:
 | `page`        | The current page | 
 | `site`        | General data for your entire site | 
 | `index`       | Your site's entire index, allowing you to find specific groups of pages from it. It is usually better to create a TemplateTag or Component that accesses the index, but you can use it directly if you want. | 
-| `config`      | The map of all options set in your `config.yml` and `data/` files. | 
+| `config`      | The map of all options set in your `config.yml` and `config/` files. | 
+| `data`        | The map of all options set in your `data.yml` and `data/` files. | 
 
 {.table .table-striped}
 

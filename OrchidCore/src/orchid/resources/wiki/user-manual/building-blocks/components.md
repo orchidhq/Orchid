@@ -113,8 +113,7 @@ components:
   - type: 'pageContent'
   - type: 'form'
     form: 'contact'
-    templates: 
-      - 'customForm' 
+    template: 'customForm' 
 
 # `form` will now prefer the `components/customForm.peb` template over `components/form.peb`  
 {% endhighlight %}

@@ -42,7 +42,7 @@ public final class NotFound404Response {
             indexPageVars.put("title", "Not Found - " + targetPath);
             indexPageVars.put("path", targetPath);
 
-            JSONObject object = new JSONObject(context.getOptionsData().toMap());
+            JSONObject object = new JSONObject(context.getConfig().toMap());
             object.put("page", indexPageVars);
             object.put("theme", context.getTheme());
 

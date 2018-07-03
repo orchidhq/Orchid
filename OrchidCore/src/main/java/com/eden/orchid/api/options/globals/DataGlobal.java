@@ -5,15 +5,15 @@ import com.eden.orchid.api.options.TemplateGlobal;
 
 import java.util.Map;
 
-public class ConfigGlobal implements TemplateGlobal<Map<String, Object>> {
+public class DataGlobal implements TemplateGlobal<Map<String, Object>> {
 
     @Override
     public String key() {
-        return "config";
+        return "data";
     }
 
     @Override
     public Map<String, Object> get(OrchidContext context) {
-        return context.getConfig().toMap();
+        return context.getData().toMap();
     }
 }

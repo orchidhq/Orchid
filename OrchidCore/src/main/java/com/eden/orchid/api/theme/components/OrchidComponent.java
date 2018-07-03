@@ -20,6 +20,8 @@ import lombok.Setter;
 import org.json.JSONArray;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,10 +42,10 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
-    @Description("Specify a list of templates to use when rendering this component. The first template that exists " +
-            "will be chosen for this component."
+    @Description("Specify a template or a list of templates to use when rendering this component. The first template " +
+            "that exists will be chosen for this component."
     )
-    protected String[] templates;
+    protected String[] template;
 
     @Getter @Setter
     @Option @IntDefault(0)
@@ -91,6 +93,13 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.type = type;
         this.context = context;
         this.assetHolder = new AssetHolderDelegate(context, this, "component");
+    }
+
+    public List<String> getTemplates() {
+        List<String> templates = new ArrayList<>();
+        Collections.addAll(templates, this.template);
+
+        return templates;
     }
 
     @Override

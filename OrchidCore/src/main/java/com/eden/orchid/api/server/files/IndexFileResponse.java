@@ -95,7 +95,7 @@ public final class IndexFileResponse {
                 indexPageVars.put("dirs", jsonDirs);
                 indexPageVars.put("files", jsonFiles);
 
-                JSONObject object = new JSONObject(context.getOptionsData().toMap());
+                JSONObject object = new JSONObject(context.getConfig().toMap());
                 object.put("page", indexPageVars);
                 object.put("theme", context.getTheme());
 

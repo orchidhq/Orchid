@@ -1,6 +1,6 @@
 ---
 title: Posts Demo
-templates: page
+template: page
 skipTaxonomy: true
 components:
   - type: pageContent

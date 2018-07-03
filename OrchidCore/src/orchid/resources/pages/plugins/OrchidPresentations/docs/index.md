@@ -1,6 +1,6 @@
 ---
 title: Presentations API
-templates: page
+template: page
 skipTaxonomy: true
 components:
   - type: pageContent

@@ -83,11 +83,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     @Setter
     @Option
-    @Description("An array of possible templates to use for the page content area. The first one that exists will be " +
-            "used, otherwise the page's default set of templates will be searched for (which typically is customized " +
-            "by the generator.)"
+    @Description("Specify a template or a list of templates to use when rendering this page. The first template that " +
+            "exists will be chosen for this page, otherwise the page's default set of templates will be searched for " +
+            "(which typically is customized by the generator that produces this page)."
     )
-    protected String[] templates;
+    protected String[] template;
 
     // internal bookkeeping variables
     @Getter @Setter protected boolean isCurrent;
@@ -208,7 +208,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         this.breadcrumbs = new BreadcrumbHolderDelegate(context);
 
         this.key = key;
-        this.templates = new String[]{"page"};
+        this.template = new String[]{"page"};
 
         this.resource = resource;
         this.reference = new OrchidReference(resource.getReference());
@@ -276,7 +276,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
-        Collections.addAll(templates, this.templates);
+        Collections.addAll(templates, this.template);
 
         return templates;
     }

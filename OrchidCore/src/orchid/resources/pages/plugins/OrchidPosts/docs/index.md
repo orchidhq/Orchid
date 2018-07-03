@@ -1,6 +1,6 @@
 ---
 title: Posts API
-templates: page
+template: page
 skipTaxonomy: true
 components:
   - type: pageContent

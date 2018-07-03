@@ -36,6 +36,7 @@ import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
 import com.eden.orchid.api.options.globals.ConfigGlobal;
+import com.eden.orchid.api.options.globals.DataGlobal;
 import com.eden.orchid.api.options.globals.IndexGlobal;
 import com.eden.orchid.api.options.globals.SiteGlobal;
 import com.eden.orchid.api.options.globals.ThemeGlobal;
@@ -101,6 +102,7 @@ public final class ApiModule extends OrchidModule {
         // Template Globals
         addToSet(TemplateGlobal.class,
                 ConfigGlobal.class,
+                DataGlobal.class,
                 IndexGlobal.class,
                 SiteGlobal.class,
                 ThemeGlobal.class);

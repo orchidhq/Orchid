@@ -55,7 +55,7 @@ constructor(
             "first template in this lit that exists will be chosen, otherwise falling back to the default if the " +
             "list is empty or none of the templates are found."
     )
-    lateinit var templates: Array<String>
+    lateinit var template: Array<String>
 
     @Option("span") @StringDefault("auto")
     @Description("The number of columns this field should occupy on large screens, out of 12. Can also be 'left' (6" +
@@ -76,8 +76,8 @@ constructor(
 
     open fun getTemplates(): List<String> {
         val allTemplates = ArrayList<String>()
-        if (!EdenUtils.isEmpty(templates)) {
-            Collections.addAll(allTemplates, *templates)
+        if (!EdenUtils.isEmpty(template)) {
+            Collections.addAll(allTemplates, *template)
         }
 
         allTemplates.add("fields/$type-$key")

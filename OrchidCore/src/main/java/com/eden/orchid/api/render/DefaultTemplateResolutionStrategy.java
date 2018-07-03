@@ -52,7 +52,7 @@ public final class DefaultTemplateResolutionStrategy extends TemplateResolutionS
     public List<String> getComponentTemplate(OrchidComponent component) {
         List<String> templateNames = new ArrayList<>();
         if(!EdenUtils.isEmpty(component.getTemplates())) {
-            Collections.addAll(templateNames, component.getTemplates());
+            templateNames.addAll(component.getTemplates());
         }
         templateNames.add(component.getType());
 

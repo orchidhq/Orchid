@@ -18,8 +18,8 @@ configuration and how to set it up follows.
 
 All Orchid sites must have a config file in the root of the resources directory, called `config.yml`, which serves as 
 the root of all site options. The entire site can be fully described in this one file, but if you have lots of options
-and want to make it easier to manage it all, you may add any options files you want to `data/` (more on this below).
-Orchid merges the options in `data/` with those in `config.yml`, which are then made available to all parts of the 
+and want to make it easier to manage it all, you may add any options files you want to `config/` (more on this below).
+Orchid merges the options in `config/` with those in `config.yml`, which are then made available to all parts of the 
 Orchid build.
 
 In addition to `config` and `data` files, Orchid also supports setup via command-line flags. These are used for 
@@ -28,8 +28,8 @@ in.
 
 {% alert 'info' :: compileAs('md') %}
 Note: Orchid supports many data languages, including TOML. You may name your config file `config.tml` to parse it as
-TOML rather than YAML, or `config.json` to parse as JSON. The same goes for all files in `data/`. You may also 
-mix-and-match parser types as needed, or even add your own.
+TOML rather than YAML, or `config.json` to parse as JSON. The same goes for all files in `config/` and `data/`. You may 
+also mix-and-match parser types as needed, or even add your own.
 {% endalert %}
 
 Orchid parses options before every build when running `watch` or `serve` tasks, and so support rapid changes in 
@@ -121,19 +121,19 @@ theme:
 {% endhighlight %}
 
 {% highlight 'yaml' %}
-# data/theme.yml
+# config/theme.yml
 siteName: 'My Site'
 {% endhighlight %}
 
 {% highlight 'yaml' %}
-# data/theme/components.yml
+# config/theme/components.yml
 - type: pageContent
 - type: readme
 - type: license
 {% endhighlight %}
 
 {% highlight 'yaml' %}
-# data/theme/menu.yml
+# config/theme/menu.yml
 - type: page
   itemId: 'About'
 - type: link

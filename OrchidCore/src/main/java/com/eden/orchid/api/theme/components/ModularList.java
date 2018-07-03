@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.google.inject.Provider;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,6 +29,12 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
     protected List<I> loadedItems;
 
     private boolean initialized = false;
+
+    @Getter @Setter
+    private String typeKey = "type";
+
+    @Getter @Setter
+    private String defaultType = null;
 
     @Inject
     public ModularList(OrchidContext context) {
@@ -79,7 +86,11 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
             for (int i = 0; i < itemsJson.length(); i++) {
                 JSONObject itemJson = itemsJson.getJSONObject(i);
-                String itemType = itemJson.optString("type");
+                String itemType = itemJson.optString(typeKey);
+
+                if(EdenUtils.isEmpty(itemType) && !EdenUtils.isEmpty(defaultType)) {
+                    itemType = defaultType;
+                }
 
                 if(!EdenUtils.isEmpty(itemType)) {
                     if (itemTypes.containsKey(itemType)) {
@@ -93,7 +104,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
                     }
                 }
                 else {
-                    Clog.w("{} type not given {}", getItemClass().getSimpleName(), itemType, getLogMessage());
+                    Clog.w("{} type not given {}", getItemClass().getSimpleName(), getLogMessage());
                 }
             }
 
@@ -105,6 +116,10 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
     protected void addItem(I item, JSONObject itemJson) {
         loadedItems.add(item);
+    }
+
+    protected String getItemType() {
+        return "";
     }
 
     protected String getLogMessage() {
