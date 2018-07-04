@@ -91,4 +91,12 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
         return true;
     }
 
+    protected boolean exists(Object value, String message) {
+        if(value == null) {
+            Clog.e(message);
+            return false;
+        }
+        return true;
+    }
+
 }

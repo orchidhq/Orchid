@@ -9,7 +9,7 @@ ext.getActualVersion = { Project project ->
         def vs = v.split("\\.")
         def major = (vs[0] as int)
         def minor = (vs[1] as int)
-        def patch = (vs[2] as int) - 1
+        def patch = ((vs[2] as int) > 0) ? (vs[2] as int) - 1 : 0
         return "$major.$minor.$patch"
     }
     else {

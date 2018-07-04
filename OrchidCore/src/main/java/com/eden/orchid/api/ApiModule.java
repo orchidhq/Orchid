@@ -26,6 +26,7 @@ import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateTimeOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
+import com.eden.orchid.api.options.extractors.EnumOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
@@ -92,6 +93,7 @@ public final class ApiModule extends OrchidModule {
                 DateOptionExtractor.class,
                 DateTimeOptionExtractor.class,
                 DoubleOptionExtractor.class,
+                EnumOptionExtractor.class,
                 FloatOptionExtractor.class,
                 IntOptionExtractor.class,
                 JSONArrayOptionExtractor.class,

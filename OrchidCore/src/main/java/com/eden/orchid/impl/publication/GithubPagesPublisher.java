@@ -9,10 +9,12 @@ import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.io.FileUtils;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -24,6 +26,13 @@ import java.util.Arrays;
 import java.util.concurrent.Executors;
 
 public class GithubPagesPublisher extends OrchidPublisher {
+
+    public enum PublishType {
+        CLEAN_BRANCH,
+        CLEAN_BRANCH_MAINTAIN_HISTORY,
+        VERSIONED_BRANCH,
+        VERSIONED_BRANCH_WITH_LATEST
+    }
 
     private final String destinationDir;
     private final String githubToken;
@@ -48,6 +57,21 @@ public class GithubPagesPublisher extends OrchidPublisher {
     @Description("The repository to push to, as [username/repo], or just [repo] to use the authenticating username.")
     private String repo;
 
+    @Getter @Setter
+    @Option @StringDefault("CLEAN_BRANCH")
+    @Description("The type of publication to use for Github Pages." +
+            "- CLEAN_BRANCH: Create a new branch with no history and force-push to the remote. Overwrites existing branch completely." +
+            "- CLEAN_BRANCH_MAINTAIN_HISTORY: Clone existing branch, remove all files, then push to the remote. Overwrites all files, but maintains history." +
+            "- VERSIONED_BRANCH: Clone existing branch, add current site to a versioned subfolder, then push to the remote. Maintains history and all prior versions' content." +
+            "- VERSIONED_BRANCH_WITH_LATEST: Clone existing branch, add current site to a 'latest' and a versioned subfolder, then force-push to the remote. Maintains history and all prior versions' content." +
+            "")
+    private PublishType publishType;
+
+    @Getter @Setter
+    @Option @StringDefault("latest")
+    @Description("The name of the 'latest' directory used for the VERSIONED_BRANCH_WITH_LATEST publish type.")
+    private String latestDirName;
+
     @Inject
     public GithubPagesPublisher(
             OrchidContext context,
@@ -66,6 +90,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
         valid = valid && exists(username,     "Must set the GitHub user or organization.");
         valid = valid && exists(repo,         "Must set the GitHub repository.");
         valid = valid && exists(branch,       "Must set the repository branch.");
+        valid = valid && exists(publishType,  "Must set the publish type.");
 
         return valid;
     }
@@ -73,22 +98,83 @@ public class GithubPagesPublisher extends OrchidPublisher {
     @Override
     public void publish() {
         try {
-            Path repo = copySite();
-
-            gitCommand(repo, null, "git", "init");
-
-            gitCommand(repo, null, "git", "config", "user.name", "Orchid");
-            gitCommand(repo, null, "git", "config", "user.email", "orchid@orchid");
-
-            gitCommand(repo, null, "git", "add",    "-A");
-            gitCommand(repo, null, "git", "commit", "-m", getCommitMessage());
-
-            gitCommand(repo, new String[] {"git", "remote", "add", "origin", getDisplayedRemoteUrl()}, "git", "remote", "add", "origin", getRemoteUrl());
-
-            gitCommand(repo, null, "git", "push", "-f", "origin", getRemoteBranch());
+            switch (publishType) {
+                case CLEAN_BRANCH: doCleanBranch(); break;
+                case CLEAN_BRANCH_MAINTAIN_HISTORY: doCleanBranchMaintainHistory(); break;
+                case VERSIONED_BRANCH: doVersionedBranch(); break;
+                case VERSIONED_BRANCH_WITH_LATEST: doVersionedBranchWithLatest(); break;
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+// Git push methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    private void doCleanBranch() throws Exception {
+        Path repo = getSiteDir();
+        copySite(repo);
+        gitCommand(repo, null, "git", "init");
+        createCommit(repo);
+        pushBranch(repo, true);
+    }
+
+    private void doCleanBranchMaintainHistory() throws Exception {
+        Path repo = getSiteDir();
+        cloneRepo(repo);
+        deleteSite(repo);
+        copySite(repo);
+        createCommit(repo);
+        pushBranch(repo, false);
+    }
+
+    private void doVersionedBranch() throws Exception {
+        Path repo = getSiteDir();
+        cloneRepo(repo);
+
+        Path versionDir = makeSubDir(repo, context.getVersion());
+        copySite(versionDir);
+        createCommit(repo);
+        pushBranch(repo, false);
+    }
+
+    private void doVersionedBranchWithLatest() throws Exception {
+        Path repo = getSiteDir();
+        cloneRepo(repo);
+
+        Path versionDir = makeSubDir(repo, context.getVersion());
+        copySite(versionDir);
+
+        Path latestDir = makeSubDir(repo, latestDirName);
+        deleteSite(latestDir);
+        copySite(latestDir);
+
+        createCommit(repo);
+        pushBranch(repo, true);
+    }
+
+    private void cloneRepo(Path repo) throws Exception {
+        gitCommand(repo, new String[] {"git", "clone", getDisplayedRemoteUrl()}, "git", "clone", getRemoteUrl());
+    }
+
+    private void createCommit(Path repo) throws Exception {
+        gitCommand(repo, null, "git", "config", "user.name", "Orchid");
+        gitCommand(repo, null, "git", "config", "user.email", "orchid@orchid");
+
+        gitCommand(repo, null, "git", "add",    "-A");
+        gitCommand(repo, null, "git", "commit", "-m", getCommitMessage());
+    }
+
+    private void pushBranch(Path repo, boolean force) throws Exception {
+        gitCommand(repo, new String[] {"git", "remote", "add", "origin", getDisplayedRemoteUrl()}, "git", "remote", "add", "origin", getRemoteUrl());
+
+        if(force) {
+            gitCommand(repo, null, "git", "push", "-f", "origin", getRemoteBranch());
+        }
+        else {
+            gitCommand(repo, null, "git", "push", "origin", getRemoteBranch());
         }
     }
 
@@ -118,11 +204,27 @@ public class GithubPagesPublisher extends OrchidPublisher {
 // Helper Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    private Path copySite() throws Exception {
+    private Path getSiteDir() throws Exception {
+        return OrchidUtils.getTempDir(destinationDir, "gh-pages", true);
+    }
+
+    private Path makeSubDir(Path sourceDir, String subfolder) throws Exception {
+        return Files.createDirectories(sourceDir.resolve(subfolder));
+    }
+
+    private Path copySite(Path targetDir) throws Exception {
         Path sourceDir = Paths.get(destinationDir);
-        Path targetDir = OrchidUtils.getTempDir(destinationDir, "gh-pages", true);
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
         return targetDir;
+    }
+
+    private void deleteSite(Path targetDir) throws Exception {
+        File[] files = targetDir.toFile().listFiles();
+
+        for(File file : files) {
+            if(file.isDirectory() && file.getName().equals(".git")) continue;
+            FileUtils.deleteDirectory(file);
+        }
     }
 
     private String getDisplayedRemoteUrl() {
