@@ -41,4 +41,4 @@ services:
         username: 'cjbrooks12'
         repo: 'JavaEden/Orchid'
         branch: 'gh-pages'
-        publishType: 'CLEAN_BRANCH_MAINTAIN_HISTORY'
+        publishType: 'VERSIONED_BRANCH'
