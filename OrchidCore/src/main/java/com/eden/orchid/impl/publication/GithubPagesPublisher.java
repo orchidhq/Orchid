@@ -116,9 +116,9 @@ public class GithubPagesPublisher extends OrchidPublisher {
     private void doCleanBranch() throws Exception {
         Path repo = getSiteDir();
         copySite(repo);
-        gitCommand(repo, null, "git", "init");
+        initRepo(repo);
         createCommit(repo);
-        pushBranch(repo, true);
+        pushBranch(repo, "master", true);
     }
 
     private void doCleanBranchMaintainHistory() throws Exception {
@@ -127,7 +127,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
         deleteSite(repo);
         copySite(repo);
         createCommit(repo);
-        pushBranch(repo, false);
+        pushBranch(repo, branch, false);
     }
 
     private void doVersionedBranch() throws Exception {
@@ -137,7 +137,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
         Path versionDir = makeSubDir(repo, context.getVersion());
         copySite(versionDir);
         createCommit(repo);
-        pushBranch(repo, false);
+        pushBranch(repo, branch, false);
     }
 
     private void doVersionedBranchWithLatest() throws Exception {
@@ -152,11 +152,16 @@ public class GithubPagesPublisher extends OrchidPublisher {
         copySite(latestDir);
 
         createCommit(repo);
-        pushBranch(repo, true);
+        pushBranch(repo, branch, true);
+    }
+
+    private void initRepo(Path repo) throws Exception {
+        gitCommand(repo, null, "git", "init");
+        gitCommand(repo, new String[] {"git", "remote", "add", "origin", getDisplayedRemoteUrl()}, "git", "remote", "add", "origin", getRemoteUrl());
     }
 
     private void cloneRepo(Path repo) throws Exception {
-        gitCommand(repo, new String[] {"git", "clone", getDisplayedRemoteUrl()}, "git", "clone", getRemoteUrl());
+        gitCommand(repo, new String[] {"git", "clone", "--single-branch", "-b", branch, getDisplayedRemoteUrl()}, "git", "clone", "--single-branch", "-b", branch, getRemoteUrl());
     }
 
     private void createCommit(Path repo) throws Exception {
@@ -167,14 +172,12 @@ public class GithubPagesPublisher extends OrchidPublisher {
         gitCommand(repo, null, "git", "commit", "-m", getCommitMessage());
     }
 
-    private void pushBranch(Path repo, boolean force) throws Exception {
-        gitCommand(repo, new String[] {"git", "remote", "add", "origin", getDisplayedRemoteUrl()}, "git", "remote", "add", "origin", getRemoteUrl());
-
+    private void pushBranch(Path repo, String localBranch, boolean force) throws Exception {
         if(force) {
-            gitCommand(repo, null, "git", "push", "-f", "origin", getRemoteBranch());
+            gitCommand(repo, null, "git", "push", "-f", "origin", getRemoteBranch(localBranch));
         }
         else {
-            gitCommand(repo, null, "git", "push", "origin", getRemoteBranch());
+            gitCommand(repo, null, "git", "push", "origin", getRemoteBranch(localBranch));
         }
     }
 
@@ -212,10 +215,9 @@ public class GithubPagesPublisher extends OrchidPublisher {
         return Files.createDirectories(sourceDir.resolve(subfolder));
     }
 
-    private Path copySite(Path targetDir) throws Exception {
+    private void copySite(Path targetDir) throws Exception {
         Path sourceDir = Paths.get(destinationDir);
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
-        return targetDir;
     }
 
     private void deleteSite(Path targetDir) throws Exception {
@@ -223,7 +225,8 @@ public class GithubPagesPublisher extends OrchidPublisher {
 
         for(File file : files) {
             if(file.isDirectory() && file.getName().equals(".git")) continue;
-            FileUtils.deleteDirectory(file);
+            if(file.isDirectory()) FileUtils.deleteDirectory(file);
+            else if(file.isFile()) file.delete();
         }
     }
 
@@ -241,8 +244,8 @@ public class GithubPagesPublisher extends OrchidPublisher {
         return Clog.format("https://{}:{}@github.com/{}/{}.git", username, githubToken, repoUsername, repoName);
     }
 
-    private String getRemoteBranch() {
-        return Clog.format("master:{}", branch);
+    private String getRemoteBranch(String localBranch) {
+        return Clog.format("{}:{}", localBranch, branch);
     }
 
 // Helper Classes
