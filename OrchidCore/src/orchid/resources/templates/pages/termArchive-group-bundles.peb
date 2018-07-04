@@ -7,7 +7,7 @@
     {% set 'includedPages' = page.get('included') %}
 
     {% for pluginItem in includedPages | slice(0, 3) %}
-    {% set 'pageUrl' = link(pluginItem.pluginName, 'staticPages-'~plugin.pluginType) %}
+    {% set 'pageUrl' = link(itemId=pluginItem.pluginName, collectionType='pages', collectionId=plugin.pluginType) %}
 
     {% if pageUrl is not empty %}
         <a class="list-group-item" href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a>
