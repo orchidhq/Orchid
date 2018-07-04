@@ -39,7 +39,7 @@ public final class LocalDateFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         return DateTimeFormatter.ofPattern(format).format(converter.convert(input).second);
     }
 

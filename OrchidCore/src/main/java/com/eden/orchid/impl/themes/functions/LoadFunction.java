@@ -44,13 +44,11 @@ public final class LoadFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
-        String resourceName = converter.convert((input != null) ? input : resource).second;
+    public Object apply() {
+        OrchidResource foundResource = localResourcesOnly ? context.getLocalResourceEntry(resource) : context.getResourceEntry(resource);
 
-        OrchidResource resource = localResourcesOnly ? context.getLocalResourceEntry(resourceName) : context.getResourceEntry(resourceName);
-
-        if(resource != null) {
-            return resource.compileContent(null);
+        if(foundResource != null) {
+            return foundResource.compileContent(null);
         }
 
         return "";

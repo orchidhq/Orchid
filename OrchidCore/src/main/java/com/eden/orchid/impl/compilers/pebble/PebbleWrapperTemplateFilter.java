@@ -9,7 +9,6 @@ import com.mitchellbosecke.pebble.extension.escaper.SafeString;
 import com.mitchellbosecke.pebble.template.EvaluationContext;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import lombok.Getter;
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ public final class PebbleWrapperTemplateFilter implements Filter {
 
     private final Provider<OrchidContext> contextProvider;
     private final String name;
+    private final String inputParam;
     private final List<String> params;
     private final Class<? extends TemplateFunction> functionClass;
 
@@ -26,9 +26,11 @@ public final class PebbleWrapperTemplateFilter implements Filter {
         this.contextProvider = contextProvider;
         this.name = name;
         if(params.size() > 0) {
+            this.inputParam = params.get(0);
             this.params = params.subList(1, params.size());
         }
         else {
+            this.inputParam = "";
             this.params = params;
         }
         this.functionClass = functionClass;
@@ -46,9 +48,10 @@ public final class PebbleWrapperTemplateFilter implements Filter {
             PebbleTemplate self,
             EvaluationContext context,
             int lineNumber) throws PebbleException {
+        args.put(inputParam, input);
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
         freshFunction.extractOptions(contextProvider.get(), args);
-        Object output = freshFunction.apply(input);
+        Object output = freshFunction.apply();
 
         if(freshFunction.isSafe()) {
             return new SafeString(output.toString());

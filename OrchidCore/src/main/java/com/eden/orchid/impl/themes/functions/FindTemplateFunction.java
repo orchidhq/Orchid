@@ -49,7 +49,7 @@ public final class FindTemplateFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         List<String> templates = null;
 
         if(input != null) {

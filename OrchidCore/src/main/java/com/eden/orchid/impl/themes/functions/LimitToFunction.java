@@ -17,7 +17,7 @@ public final class LimitToFunction extends TemplateFunction {
 
     @Option
     @Description("A String to limit the length of.")
-    private String input;
+    private Object input;
 
     @Option
     @Description("The length to limit.")
@@ -34,38 +34,41 @@ public final class LimitToFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         if(count == 0) {
             throw new IllegalArgumentException("Count must be given.");
         }
 
-        if(input != null && input instanceof Iterable) {
-            Iterable originalItems = (Iterable) input;
-            List<Object> limitedItems = new ArrayList<>();
-            int i = 0;
-            for(Object o : originalItems) {
-                if(i >= count) break;
-                limitedItems.add(o);
-                i++;
+        if(input != null) {
+            if (input instanceof Iterable) {
+                Iterable originalItems = (Iterable) input;
+                List<Object> limitedItems = new ArrayList<>();
+                int i = 0;
+                for (Object o : originalItems) {
+                    if (i >= count) break;
+                    limitedItems.add(o);
+                    i++;
+                }
+                return limitedItems;
             }
-            return limitedItems;
-        }
-        else if(input != null && input.getClass().isArray()) {
-            Object[] originalItems = (Object[]) input;
-            List<Object> limitedItems = new ArrayList<>();
-            int i = 0;
-            for(Object o : originalItems) {
-                if(i >= count) break;
-                limitedItems.add(o);
-                i++;
+            else if (input.getClass().isArray()) {
+                Object[] originalItems = (Object[]) input;
+                List<Object> limitedItems = new ArrayList<>();
+                int i = 0;
+                for (Object o : originalItems) {
+                    if (i >= count) break;
+                    limitedItems.add(o);
+                    i++;
+                }
+                return limitedItems;
             }
-            return limitedItems;
-        }
-        else {
-            String actualInput = (input != null && input instanceof String) ? (String) input : this.input;
+            else {
+                String actualInput = (input instanceof String) ? (String) input : this.input.toString();
 
-            return actualInput.substring(0, count);
+                return actualInput.substring(0, count);
+            }
         }
+        return "";
     }
 
 }

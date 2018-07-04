@@ -57,7 +57,7 @@ public final class FindAllFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         if(page > 0 && pageSize > 0) {
             Clog.v("Finding all paginated: {}/{}", page, pageSize);
             return context.findAll(collectionType, collectionId, itemId, page, pageSize);

@@ -18,7 +18,7 @@ constructor(private val converter: StringConverter) : TemplateFunction("nl2br", 
         return arrayOf("input")
     }
 
-    override fun apply(input: Any?): Any {
-        return converter.convert(input ?: this.input).second.nl2br()
+    override fun apply(): Any {
+        return converter.convert(input).second.nl2br()
     }
 }

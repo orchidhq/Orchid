@@ -45,6 +45,6 @@ public abstract class TemplateFunction implements OptionsHolder {
      *
      * @return the result
      */
-    public abstract Object apply(Object input);
+    public abstract Object apply();
 
 }

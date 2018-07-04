@@ -41,7 +41,7 @@ public final class LinkFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         OrchidPage page = context.findPage(collectionType, collectionId, itemId);
         if(page != null) {
             return page.getLink();

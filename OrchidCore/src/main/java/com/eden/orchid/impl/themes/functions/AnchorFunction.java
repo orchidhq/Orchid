@@ -65,7 +65,7 @@ public final class AnchorFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         if(EdenUtils.isEmpty(itemId) && !EdenUtils.isEmpty(title)) {
             itemId = title;
         }

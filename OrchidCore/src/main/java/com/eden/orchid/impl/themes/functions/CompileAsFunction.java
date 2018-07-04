@@ -19,7 +19,7 @@ public final class CompileAsFunction extends TemplateFunction {
     @Getter @Setter
     @Option
     @Description("The content to compile.")
-    private String input;
+    private Object input;
 
     @Getter @Setter
     @Option @StringDefault("txt")
@@ -38,7 +38,7 @@ public final class CompileAsFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         return context.compile(ext, input.toString());
     }
 

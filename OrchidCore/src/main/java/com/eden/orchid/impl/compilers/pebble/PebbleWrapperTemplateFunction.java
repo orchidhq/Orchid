@@ -8,7 +8,6 @@ import com.mitchellbosecke.pebble.extension.escaper.SafeString;
 import com.mitchellbosecke.pebble.template.EvaluationContext;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import lombok.Getter;
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +40,7 @@ public final class PebbleWrapperTemplateFunction implements Function {
             int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
         freshFunction.extractOptions(contextProvider.get(), args);
-        Object output = freshFunction.apply(null);
+        Object output = freshFunction.apply();
 
         if(freshFunction.isSafe()) {
             return new SafeString(output.toString());

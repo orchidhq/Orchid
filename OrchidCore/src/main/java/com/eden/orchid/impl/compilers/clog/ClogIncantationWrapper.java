@@ -40,12 +40,13 @@ public final class ClogIncantationWrapper implements Incantation {
                 : 0;
 
         Map<String, Object> object = new HashMap<>();
-        for (int i = 0; i < length; i++) {
-            object.put(params.get(i), reagents[i]);
+        object.put(params.get(0), input);
+        for (int i = 1; i < length; i++) {
+            object.put(params.get(i), reagents[i-1]);
         }
 
         freshFunction.extractOptions(contextProvider.get(), object);
 
-        return freshFunction.apply(input);
+        return freshFunction.apply();
     }
 }
