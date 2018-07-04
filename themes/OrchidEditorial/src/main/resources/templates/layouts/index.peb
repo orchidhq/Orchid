@@ -7,8 +7,8 @@
 <html>
 <head>
 {% include '?trackingHeadStart' %}
-{% include 'includes/head' %}
-{% include 'includes/styles' %}
+{% head %}
+{% styles %}
 {% include '?trackingHeadEnd' %}
 </head>
 <body class="is-loading">
@@ -31,7 +31,7 @@
                 <section id="pageContent">
                     <header class="major"><h2>{{ page.title }}</h2></header>
                     <article>
-                    {% include 'includes/componentHolder.peb' with {"componentHolder": page.components} %}
+                        {% page %}
                     </article>
                 </section>
             {% endblock %}
@@ -46,7 +46,7 @@
     {% include 'includes/sidebar.peb' %}
 </div>
 
-{% include 'includes/scripts' %}
+{% scripts %}
 {% include '?trackingBodyEnd' %}
 </body>
 </html>

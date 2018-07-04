@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 {% include '?trackingHeadStart' %}
-{% include 'includes/head' %}
-{% include 'includes/styles' %}
+{% head %}
+{% styles %}
 {% block layoutStyles %}{% endblock %}
 {% include '?trackingHeadEnd' %}
 </head>
@@ -33,7 +33,7 @@
 
         {% endblock %}
         {% block remainingComponents %}
-            {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+            {% page %}
         {% endblock %}
         </div>
 
@@ -53,7 +53,7 @@
 </div>
 {% endblock %}
 
-{% include 'includes/scripts' %}
+{% scripts %}
 {% block layoutScripts %}{% endblock %}
 <script>
     $(function () {

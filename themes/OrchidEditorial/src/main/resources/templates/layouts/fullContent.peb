@@ -5,5 +5,5 @@
 {% endblock %}
 
 {% block pageContent %}
-    {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+    {% page %}
 {% endblock %}

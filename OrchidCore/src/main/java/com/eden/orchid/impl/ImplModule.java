@@ -69,12 +69,16 @@ import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
-import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
+import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
+import com.eden.orchid.impl.themes.tags.HeadTag;
 import com.eden.orchid.impl.themes.tags.LogTag;
+import com.eden.orchid.impl.themes.tags.PageTag;
+import com.eden.orchid.impl.themes.tags.ScriptsTag;
+import com.eden.orchid.impl.themes.tags.StylesTag;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provides;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
@@ -199,7 +203,11 @@ public final class ImplModule extends OrchidModule {
         // Template Tags
         addToSet(TemplateTag.class,
                 LogTag.class,
-                BreadcrumbsTag.class
+                BreadcrumbsTag.class,
+                HeadTag.class,
+                PageTag.class,
+                ScriptsTag.class,
+                StylesTag.class
         );
 
         addToSet(AdminList.class, new AdminList() {

@@ -7,8 +7,8 @@
 <html>
 <head>
 {% include '?trackingHeadStart' %}
-{% include 'includes/head' %}
-{% include 'includes/styles' %}
+{% head %}
+{% styles %}
 {% include '?trackingHeadEnd' %}
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
@@ -82,8 +82,7 @@
 
 </div>
 
-{% include 'includes/scripts' %}
-
+{% scripts %}
 {% include '?trackingBodyEnd' %}
 </body>
 </html>

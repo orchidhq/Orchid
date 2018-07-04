@@ -8,7 +8,7 @@
 
     <!-- Main -->
     <div id="main">
-        {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+        {% page %}
 
         {% include 'includes/pagination' %}
     </div>

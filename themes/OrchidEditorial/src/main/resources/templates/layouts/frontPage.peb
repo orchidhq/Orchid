@@ -21,7 +21,7 @@
 {% block pageContent %}
     <section id="pageContent">
         <article>
-            {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+        {% page %}
         </article>
     </section>
 {% endblock %}
