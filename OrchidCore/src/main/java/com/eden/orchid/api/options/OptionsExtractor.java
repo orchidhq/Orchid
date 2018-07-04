@@ -22,8 +22,8 @@ public class OptionsExtractor extends Extractor {
     private final OrchidContext context;
 
     @Inject
-    public OptionsExtractor(OrchidContext context, Set<OptionExtractor> extractors) {
-        super(extractors, null);
+    public OptionsExtractor(OrchidContext context, Set<OptionExtractor> extractors, OptionsValidator validator) {
+        super(extractors, validator);
         this.context = context;
     }
 

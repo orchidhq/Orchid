@@ -18,6 +18,11 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:3.10.0"
     api "commons-io:commons-io:2.6"
 
+    // validation
+    api "javax.validation:validation-api:2.0.0.Final"
+    implementation "org.hibernate.validator:hibernate-validator:6.0.10.Final"
+    api "org.glassfish:javax.el:3.0.1-b09"
+
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api 'org.json:json:20180130'
     api 'org.yaml:snakeyaml:1.21'

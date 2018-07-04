@@ -14,9 +14,11 @@ import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.converters.TypeConverter;
+import com.eden.orchid.api.options.HibernateValidator;
 import com.eden.orchid.api.options.Extractor;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
+import com.eden.orchid.api.options.OptionsValidator;
 import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
@@ -57,6 +59,7 @@ public final class ApiModule extends OrchidModule {
     @Override
     protected void configure() {
         bind(Extractor.class).to(OptionsExtractor.class);
+        bind(OptionsValidator.class).to(HibernateValidator.class);
 
         // Type Converters
         addToSet(StringConverterHelper.class,

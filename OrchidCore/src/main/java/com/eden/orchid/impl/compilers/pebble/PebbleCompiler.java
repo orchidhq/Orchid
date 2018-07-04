@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.pebble;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
@@ -8,7 +7,6 @@ import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.PebbleEngine;
-import com.mitchellbosecke.pebble.attributes.AttributeResolver;
 import com.mitchellbosecke.pebble.extension.Extension;
 import com.mitchellbosecke.pebble.extension.NodeVisitorFactory;
 import com.mitchellbosecke.pebble.lexer.LexerImpl;
@@ -54,9 +52,6 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 .build();
 
         this.engine.getExtensionRegistry().getAttributeResolver().add(new GetMethodAttributeResolver());
-        for(AttributeResolver resolver : this.engine.getExtensionRegistry().getAttributeResolver()) {
-            Clog.v("resolver: {}", resolver.getClass().getSimpleName());
-        }
     }
 
     @Override

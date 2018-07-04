@@ -108,6 +108,8 @@ public final class Orchid {
         catch (Exception e) {
             Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
             e.printStackTrace();
+
+            context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
             return false;
         }
     }
