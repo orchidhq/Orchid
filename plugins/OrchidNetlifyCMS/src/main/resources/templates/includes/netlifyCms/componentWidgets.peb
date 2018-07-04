@@ -5,7 +5,7 @@
     CMS.registerWidget({
         id:        "{{- component.type -}}Component",
         label:     "{{- component.type -}}",
-        fields:     {{- page.getTemplateFields(component) | raw -}}
+        fields:     {{- page.getTemplateFieldsFromComponent(component) | raw -}}
     });
     {% endfor %}
 </script>

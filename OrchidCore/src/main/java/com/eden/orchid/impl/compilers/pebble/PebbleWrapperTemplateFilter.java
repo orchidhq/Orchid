@@ -3,8 +3,11 @@ package com.eden.orchid.impl.compilers.pebble;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.google.inject.Provider;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.Filter;
 import com.mitchellbosecke.pebble.extension.escaper.SafeString;
+import com.mitchellbosecke.pebble.template.EvaluationContext;
+import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import lombok.Getter;
 import org.json.JSONObject;
 
@@ -37,7 +40,12 @@ public final class PebbleWrapperTemplateFilter implements Filter {
     }
 
     @Override
-    public Object apply(Object input, Map<String, Object> args) {
+    public Object apply(
+            Object input,
+            Map<String, Object> args,
+            PebbleTemplate self,
+            EvaluationContext context,
+            int lineNumber) throws PebbleException {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
         JSONObject object = new JSONObject(args);
         freshFunction.extractOptions(contextProvider.get(), object);

@@ -5,7 +5,7 @@
     CMS.registerEditorComponent({
         id:        "{{- tag.name -}}",
         label:     "{{- tag.name -}}",
-        fields:     {{- page.getTemplateFields(tag) | raw -}},
+        fields:     {{- page.getTemplateFieldsFromTag(tag) | raw -}},
         pattern:   getTagPatternRegex('{{ tag.name }}', {{ tag.hasContent() }}),
         fromBlock: function(match) { return   parseTagPatternRegex(match, '{{ tag.name }}', {{ tag.hasContent() }}); },
         toBlock:   function(obj)   { return   tagBlock(obj, '{{ tag.name }}', {{ page.getTagProps(tag)|raw }}, {{ tag.hasContent() }}); },

@@ -5,6 +5,8 @@ import com.eden.orchid.api.compilers.TemplateFunction;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.extension.Function;
 import com.mitchellbosecke.pebble.extension.escaper.SafeString;
+import com.mitchellbosecke.pebble.template.EvaluationContext;
+import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import lombok.Getter;
 import org.json.JSONObject;
 
@@ -32,7 +34,11 @@ public final class PebbleWrapperTemplateFunction implements Function {
     }
 
     @Override
-    public Object execute(Map<String, Object> args) {
+    public Object execute(
+            Map<String, Object> args,
+            PebbleTemplate self,
+            EvaluationContext context,
+            int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
         JSONObject object = new JSONObject(args);
         freshFunction.extractOptions(contextProvider.get(), object);

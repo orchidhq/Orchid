@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.compilers.pebble;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
@@ -7,6 +8,7 @@ import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.attributes.AttributeResolver;
 import com.mitchellbosecke.pebble.extension.Extension;
 import com.mitchellbosecke.pebble.extension.NodeVisitorFactory;
 import com.mitchellbosecke.pebble.lexer.LexerImpl;
@@ -14,6 +16,7 @@ import com.mitchellbosecke.pebble.lexer.TokenStream;
 import com.mitchellbosecke.pebble.node.RootNode;
 import com.mitchellbosecke.pebble.parser.Parser;
 import com.mitchellbosecke.pebble.parser.ParserImpl;
+import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 
 import javax.inject.Inject;
@@ -46,9 +49,14 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 .loader(loader)
                 .executorService(executor)
                 .extension(extensionArray)
+                .allowGetClass(true)
                 .newLineTrimming(false)
-//                .cacheActive(false)
                 .build();
+
+        this.engine.getExtensionRegistry().getAttributeResolver().add(new GetMethodAttributeResolver());
+        for(AttributeResolver resolver : this.engine.getExtensionRegistry().getAttributeResolver()) {
+            Clog.v("resolver: {}", resolver.getClass().getSimpleName());
+        }
     }
 
     @Override
@@ -63,7 +71,9 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
             Parser parser = new ParserImpl(
                     engine.getExtensionRegistry().getUnaryOperators(),
                     engine.getExtensionRegistry().getBinaryOperators(),
-                    engine.getExtensionRegistry().getTokenParsers());
+                    engine.getExtensionRegistry().getTokenParsers(),
+                    new ParserOptions()
+            );
             RootNode root = parser.parse(tokenStream);
 
             PebbleTemplateImpl compiledTemplate = new PebbleTemplateImpl(engine, root, "");

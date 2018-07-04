@@ -17,7 +17,7 @@ class NetlifyCmsAdminPage(
         val menuItems: Set<OrchidMenuItem>
 ) : OrchidPage(resource, "contentManager") {
 
-    public fun getTemplateFields(tag: TemplateTag): JSONArray {
+    public fun getTemplateFieldsFromTag(tag: TemplateTag): JSONArray {
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {
@@ -41,7 +41,7 @@ class NetlifyCmsAdminPage(
         return fields
     }
 
-    public fun getTemplateFields(tag: OrchidComponent): JSONArray {
+    public fun getTemplateFieldsFromComponent(tag: OrchidComponent): JSONArray {
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {
@@ -51,7 +51,7 @@ class NetlifyCmsAdminPage(
         return fields
     }
 
-    public fun getTemplateFields(tag: OrchidMenuItem): JSONArray {
+    public fun getTemplateFieldsFromMenuItem(tag: OrchidMenuItem): JSONArray {
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {

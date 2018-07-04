@@ -7,7 +7,6 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
-import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.NodeVisitor;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;
@@ -18,7 +17,7 @@ import com.mitchellbosecke.pebble.node.expression.Expression;
 import com.mitchellbosecke.pebble.node.expression.FilterExpression;
 import com.mitchellbosecke.pebble.node.expression.RenderableNodeExpression;
 import com.mitchellbosecke.pebble.parser.Parser;
-import com.mitchellbosecke.pebble.template.EvaluationContext;
+import com.mitchellbosecke.pebble.template.EvaluationContextImpl;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 import com.mitchellbosecke.pebble.tokenParser.TokenParser;
 import com.mitchellbosecke.pebble.utils.StringUtils;
@@ -176,7 +175,7 @@ public final class PebbleWrapperTemplateTag implements TokenParser {
         }
 
         @Override
-        public void render(PebbleTemplateImpl self, Writer writer, EvaluationContext context) throws PebbleException, IOException {
+        public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
             TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
 
             Map<String, Object> evaluatedParamExpressionMap = new HashMap<>();

@@ -22,7 +22,7 @@ dependencies {
     api 'org.json:json:20180130'
     api 'org.yaml:snakeyaml:1.21'
     api 'com.moandjiezana.toml:toml4j:0.7.2'
-    api 'io.pebbletemplates:pebble:2.5.1'
+    api 'io.pebbletemplates:pebble:3.0.0.BETA01'
     api 'io.bit3:jsass:5.7.3'
     api 'com.univocity:univocity-parsers:2.6.3'
 
