@@ -8,9 +8,10 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter @Setter
 public class AssetRelation extends Relation<String> {
@@ -56,8 +57,8 @@ public class AssetRelation extends Relation<String> {
         return get();
     }
 
-    public JSONObject parseStringRef(String ref) {
-        JSONObject objectRef = new JSONObject();
+    public Map<String, Object> parseStringRef(String ref) {
+        Map<String, Object> objectRef = new HashMap<>();
 
         objectRef.put("itemId", ref);
 

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -121,10 +122,10 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         JSONElement el = context.query(generator.getKey());
         if (EdenUtils.elementIsObject(el)) {
-            generator.extractOptions(context, (JSONObject) el.getElement());
+            generator.extractOptions(context, ((JSONObject) el.getElement()).toMap());
         }
         else {
-            generator.extractOptions(context, new JSONObject());
+            generator.extractOptions(context, new HashMap<>());
         }
 
         // get the pages from a generator

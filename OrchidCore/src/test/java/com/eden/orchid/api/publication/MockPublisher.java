@@ -1,7 +1,8 @@
 package com.eden.orchid.api.publication;
 
 import com.eden.orchid.api.OrchidContext;
-import org.json.JSONObject;
+
+import java.util.Map;
 
 public class MockPublisher extends OrchidPublisher {
 
@@ -15,9 +16,10 @@ public class MockPublisher extends OrchidPublisher {
     }
 
     @Override
-    public void extractOptions(OrchidContext context, JSONObject options) {
+    public void extractOptions(OrchidContext context, Map<String, Object> options) {
         setOrder(getPriority());
-        setDry(options.optBoolean("dry", false));
+        setDry(options.get("dry") != null && Boolean.parseBoolean(options.get("dry").toString()));
+
     }
 
     @Override

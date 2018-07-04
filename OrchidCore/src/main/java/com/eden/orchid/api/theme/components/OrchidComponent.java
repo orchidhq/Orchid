@@ -16,7 +16,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -106,7 +105,7 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     public boolean canBeUsedOnPage(
             OrchidPage containingPage,
             ComponentHolder componentHolder,
-            JSONArray possibleComponents,
+            List<Map<String, Object>> possibleComponents,
             List<OrchidComponent> currentComponents) {
         return true;
     }

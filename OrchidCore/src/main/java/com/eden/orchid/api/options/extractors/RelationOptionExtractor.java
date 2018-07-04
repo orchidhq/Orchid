@@ -1,6 +1,5 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
@@ -11,6 +10,8 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @since v1.0.0
@@ -43,7 +44,7 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
 
     private Relation loadRelation(Field field, Object sourceObject) {
         Relation relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
-        JSONObject relationConfig = new JSONObject();
+        Map<String, Object> relationConfig = new HashMap<>();
 
         RelationConfig configAnnotation = field.getAnnotation(RelationConfig.class);
         if(configAnnotation != null) {
@@ -62,7 +63,10 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
             relationConfig = EdenUtils.merge(relationConfig, relation.parseStringRef((String) sourceObject));
         }
         else if(sourceObject instanceof JSONObject) {
-            relationConfig = EdenUtils.merge(relationConfig, (JSONObject) sourceObject);
+            relationConfig = EdenUtils.merge(relationConfig, ((JSONObject) sourceObject).toMap());
+        }
+        else if(sourceObject instanceof Map) {
+            relationConfig = EdenUtils.merge(relationConfig, (Map<String, Object>) sourceObject);
         }
 
         relation.setRef(relationConfig);

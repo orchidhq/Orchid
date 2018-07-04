@@ -1,6 +1,5 @@
 package com.eden.orchid.forms.model
 
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
@@ -11,7 +10,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import org.json.JSONObject
 
-class Form(val context: OrchidContext, var key: String, formData: JSONObject) : OptionsHolder {
+class Form(val context: OrchidContext, var key: String, formData: Map<String, Any>) : OptionsHolder {
 
     @Option
     @Description("The user-facing title of the form.")

@@ -8,8 +8,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.pages.PagesGenerator;
 import com.eden.orchid.pages.pages.StaticPage;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -69,20 +67,19 @@ public class OfficialOrchidDocsListener implements OrchidEventListener {
                     return orderValue;
                 });
 
-                JSONArray existingMenuItemsJson = page.getMenu().getItemsJson();
-                JSONArray menuItemsJson = new JSONArray();
+                List<Map<String, Object>> menuItemsJson = new ArrayList<>();
 
-                JSONObject rootPluginMenuItemJson = new JSONObject();
+                Map<String, Object> rootPluginMenuItemJson = new HashMap<>();
                 rootPluginMenuItemJson.put("type", "page");
                 rootPluginMenuItemJson.put("title", "Home");
                 rootPluginMenuItemJson.put("itemId", pluginRootMap.get(pluginName).getTitle());
                 rootPluginMenuItemJson.put("collectionType", PagesGenerator.GENERATOR_KEY);
                 rootPluginMenuItemJson.put("collectionId", ((StaticPage) pluginRootMap.get(pluginName)).getGroup());
-                menuItemsJson.put(rootPluginMenuItemJson);
+                menuItemsJson.add(rootPluginMenuItemJson);
 
                 for(OrchidPage docPage : pluginDocsPages) {
                     if(docPage.getReference().getPathSegments().length == 3 && docPage.getReference().getPathSegment(2).equals("docs")) {
-                        JSONObject menuItemJson = new JSONObject();
+                        Map<String, Object> menuItemJson = new HashMap<>();
                         menuItemJson.put("type", "page");
                         menuItemJson.put("itemId", docPage.getTitle());
                         menuItemJson.put("collectionType", PagesGenerator.GENERATOR_KEY);
@@ -93,24 +90,22 @@ public class OfficialOrchidDocsListener implements OrchidEventListener {
                         else {
                             menuItemJson.put("title", "Documentation");
                         }
-                        menuItemsJson.put(menuItemJson);
+                        menuItemsJson.add(menuItemJson);
                     }
                 }
 
                 for(OrchidPage docPage : pluginDocsPages) {
                     if(!(docPage.getReference().getPathSegments().length == 3 && docPage.getReference().getPathSegment(2).equals("docs"))) {
-                        JSONObject menuItemJson = new JSONObject();
+                        Map<String, Object> menuItemJson = new HashMap<>();
                         menuItemJson.put("type", "page");
                         menuItemJson.put("itemId", docPage.getTitle());
                         menuItemJson.put("collectionType", PagesGenerator.GENERATOR_KEY);
                         menuItemJson.put("collectionId", ((StaticPage) docPage).getGroup());
-                        menuItemsJson.put(menuItemJson);
+                        menuItemsJson.add(menuItemJson);
                     }
                 }
 
-                for (int i = 0; i < existingMenuItemsJson.length(); i++) {
-                    menuItemsJson.put(existingMenuItemsJson.get(i));
-                }
+                menuItemsJson.addAll(page.getMenu().getItemsJson());
 
                 page.getMenu().set(menuItemsJson);
             }

@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.utilities.OrchidUtils
-import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,7 +32,7 @@ constructor(val context: OrchidContext) {
         this.categories = LinkedHashMap()
     }
 
-    fun getCategory(category: String?, categoryOptions: JSONObject) : CategoryModel {
+    fun getCategory(category: String?, categoryOptions: Map<String, Any>) : CategoryModel {
         var key: String?
         var path: String
 

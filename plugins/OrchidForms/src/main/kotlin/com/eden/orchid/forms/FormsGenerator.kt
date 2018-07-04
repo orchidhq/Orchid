@@ -11,7 +11,6 @@ import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.forms.pages.FormSubmissionPage
 import com.eden.orchid.utilities.OrchidUtils
-import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
 
@@ -48,7 +47,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
             resource.reference.isUsePrettyUrl = false
             val fileData = context.parse(resource.reference.extension, resource.content)
             val key = resource.reference.originalFileName
-            val form = Form(context, key, fileData)
+            val form = Form(context, key, fileData.toMap())
             forms.put(key, form)
         }
     }
@@ -66,19 +65,19 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
                 formSubmissionPage.reference.path = OrchidUtils.normalizePath("submit/" + formSubmissionPage.reference.originalPath)
                 pages.add(formSubmissionPage)
 
-                val form = Form(context, key, formSubmissionPage.data.getJSONObject("form"))
+                val form = Form(context, key, formSubmissionPage.data["form"] as? Map<String, Any> ?: HashMap())
 
                 // if the form does not specify an action, set its page as the action.
                 if(EdenUtils.isEmpty(form.action)) {
                     form.action = formSubmissionPage.reference.toString()
                 }
 
-                form.fields.add(JSONObject(mapOf(
+                form.fields.add(mapOf(
                         "type" to "hidden",
                         "key" to "__onSubmit",
                         "value" to formSubmissionPage.reference.toString(),
                         "order" to Integer.MAX_VALUE
-                )))
+                ))
 
                 forms.put(key, form)
             }

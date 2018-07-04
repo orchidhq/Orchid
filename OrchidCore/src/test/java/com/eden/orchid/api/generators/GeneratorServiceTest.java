@@ -10,7 +10,6 @@ import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -120,16 +119,16 @@ public final class GeneratorServiceTest {
         underTest.startIndexing();
         underTest.startGeneration();
 
-        verify(generator1).extractOptions(any(), (JSONObject) any());
+        verify(generator1).extractOptions(any(), any());
         verify(generator1).startIndexing();
         assertThat(generator1.mockPages.size(), is(1));
         assertThat(generator1.mockPages.size(), is(1));
 
-        verify(generator2).extractOptions(any(), (JSONObject) any());
+        verify(generator2).extractOptions(any(), any());
         verify(generator2).startIndexing();
         assertThat(generator2.mockPages.size(), is(1));
 
-        verify(generator3).extractOptions(any(), (JSONObject) any());
+        verify(generator3).extractOptions(any(), any());
         verify(generator3).startIndexing();
         assertThat(generator3.mockPages, is(nullValue()));
     }

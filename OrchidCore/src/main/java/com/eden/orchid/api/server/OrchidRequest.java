@@ -93,7 +93,7 @@ public final class OrchidRequest {
         return all().get(key).toString();
     }
 
-    public JSONObject all() {
+    public Map<String, Object> all() {
         Map<String, Object> all = new HashMap<>();
         all.putAll(pathParams);
         for(Map.Entry<String, List<String>> entry : session.getParameters().entrySet()) {
@@ -107,7 +107,7 @@ public final class OrchidRequest {
         all.putAll(files);
         all.putAll(body);
 
-        return new JSONObject(all);
+        return all;
     }
 
     public JSONObject body() {

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -111,7 +112,7 @@ public final class ThemeServiceTest {
         underTest.popTheme();
         assertThat(underTest.getTheme(), is(theme1));
 
-        underTest.pushTheme(theme2, new JSONObject());
+        underTest.pushTheme(theme2, new HashMap<>());
         assertThat(underTest.getTheme(), is(theme2));
         underTest.clearThemes();
         assertThat(underTest.getTheme(), is(theme1));
@@ -144,7 +145,7 @@ public final class ThemeServiceTest {
         underTest.popAdminTheme();
         assertThat(underTest.getAdminTheme(), is(adminTheme1));
 
-        underTest.pushAdminTheme(adminTheme2, new JSONObject());
+        underTest.pushAdminTheme(adminTheme2, new HashMap<>());
         assertThat(underTest.getAdminTheme(), is(adminTheme2));
         underTest.clearAdminThemes();
         assertThat(underTest.getAdminTheme(), is(adminTheme1));

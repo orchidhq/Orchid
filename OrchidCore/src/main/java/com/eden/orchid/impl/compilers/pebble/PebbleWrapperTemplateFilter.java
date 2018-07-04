@@ -47,8 +47,7 @@ public final class PebbleWrapperTemplateFilter implements Filter {
             EvaluationContext context,
             int lineNumber) throws PebbleException {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
-        JSONObject object = new JSONObject(args);
-        freshFunction.extractOptions(contextProvider.get(), object);
+        freshFunction.extractOptions(contextProvider.get(), args);
         Object output = freshFunction.apply(input);
 
         if(freshFunction.isSafe()) {

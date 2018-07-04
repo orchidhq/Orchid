@@ -11,9 +11,9 @@ import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -47,7 +47,7 @@ public abstract class OrchidMenuItem extends Prioritized implements ModularPageL
     public boolean canBeUsedOnPage(
             OrchidPage containingPage,
             OrchidMenu menu,
-            JSONArray possibleMenuItems,
+            List<Map<String, Object>> possibleMenuItems,
             List<OrchidMenuItem> currentMenuItems) {
         return true;
     }

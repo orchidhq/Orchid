@@ -111,7 +111,7 @@ constructor(val context: OrchidContext) : OptionsHolder {
             return field
         }
 
-    fun getTerm(term: String, taxonomyOptions: JSONObject) : Term {
+    fun getTerm(term: String, taxonomyOptions: Map<String, Any>) : Term {
         if(!terms.containsKey(term)) {
             val newTerm = Term(term)
             newTerm.extractOptions(context, taxonomyOptions)
@@ -121,7 +121,7 @@ constructor(val context: OrchidContext) : OptionsHolder {
         return terms[term]!!
     }
 
-    public fun addPage(term: String, page: OrchidPage, termOptions: JSONObject) {
+    public fun addPage(term: String, page: OrchidPage, termOptions: Map<String, Any>) {
         val termModel = getTerm(term, termOptions)
         termModel.pages.add(page)
     }
@@ -175,10 +175,8 @@ constructor(val context: OrchidContext) : OptionsHolder {
                 itemSource["key"] = stringConverter.get().convert(o).second
             }
 
-            val itemSourceJson = JSONObject(itemSource)
-
             val taxonomy = Taxonomy(context)
-            taxonomy.extractOptions(context, itemSourceJson)
+            taxonomy.extractOptions(context, itemSource)
 
             return EdenPair(true, taxonomy)
         }

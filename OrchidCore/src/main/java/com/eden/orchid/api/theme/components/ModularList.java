@@ -6,8 +6,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.google.inject.Provider;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
     private Map<String, Class<I>> itemTypes;
 
     @Getter
-    protected JSONArray itemsJson;
+    protected List<Map<String, Object>> itemsJson;
     protected List<I> loadedItems;
 
     private boolean initialized = false;
@@ -57,7 +55,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
     protected abstract Class<I> getItemClass();
 
-    public void initialize(JSONArray itemsJson) {
+    public void initialize(List<Map<String, Object>> itemsJson) {
         if(!initialized) {
             this.itemTypes = itemTypesProvider.get();
             this.itemsJson = itemsJson;
@@ -72,7 +70,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
             }
         }
         else if (itemsJson != null) {
-            if(itemsJson.length() > 0) {
+            if(itemsJson.size() > 0) {
                 return false;
             }
         }
@@ -84,9 +82,9 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         if (loadedItems == null) {
             loadedItems = new ArrayList<>();
 
-            for (int i = 0; i < itemsJson.length(); i++) {
-                JSONObject itemJson = itemsJson.getJSONObject(i);
-                String itemType = itemJson.optString(typeKey);
+            for (int i = 0; i < itemsJson.size(); i++) {
+                Map<String, Object> itemJson = itemsJson.get(i);
+                String itemType = itemJson.getOrDefault(typeKey, "").toString();
 
                 if(EdenUtils.isEmpty(itemType) && !EdenUtils.isEmpty(defaultType)) {
                     itemType = defaultType;
@@ -114,7 +112,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         return loadedItems;
     }
 
-    protected void addItem(I item, JSONObject itemJson) {
+    protected void addItem(I item, Map<String, Object> itemJson) {
         loadedItems.add(item);
     }
 
@@ -130,19 +128,17 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         loadedItems = null;
     }
 
-    public void add(JSONObject menuItemJson) {
+    public void add(Map<String, Object> menuItemJson) {
         invalidate();
-        itemsJson.put(menuItemJson);
+        itemsJson.add(menuItemJson);
     }
 
-    public void add(JSONArray menuItemsJson) {
+    public void add(List<Map<String, Object>> menuItemsJson) {
         invalidate();
-        for (int i = 0; i < menuItemsJson.length(); i++) {
-            itemsJson.put(menuItemsJson.get(i));
-        }
+        itemsJson.addAll(menuItemsJson);
     }
 
-    public void set(JSONArray menuItemsJson) {
+    public void set(List<Map<String, Object>> menuItemsJson) {
         invalidate();
         itemsJson = menuItemsJson;
     }

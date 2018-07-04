@@ -10,7 +10,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.models.JavadocModel
 import com.eden.orchid.javadoc.pages.JavadocClassPage
-import org.json.JSONArray
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ constructor(context: OrchidContext, val model: JavadocModel) : OrchidMenuItem(co
     )
     var includeItems: Boolean = false
 
-    override fun canBeUsedOnPage(containingPage: OrchidPage?, menu: OrchidMenu?, possibleMenuItems: JSONArray?, currentMenuItems: MutableList<OrchidMenuItem>?): Boolean {
+    override fun canBeUsedOnPage(containingPage: OrchidPage?, menu: OrchidMenu?, possibleMenuItems: List<Map<String, Any>>, currentMenuItems: MutableList<OrchidMenuItem>?): Boolean {
         return containingPage is JavadocClassPage
     }
 

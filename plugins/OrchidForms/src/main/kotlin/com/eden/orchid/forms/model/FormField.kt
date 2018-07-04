@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.server.annotations.Extensible
 import com.eden.orchid.api.theme.components.ModularPageListItem
 import com.eden.orchid.api.theme.pages.OrchidPage
-import org.json.JSONArray
 import java.util.Collections
 import javax.inject.Inject
 
@@ -150,7 +149,7 @@ constructor(
         this.fieldType = type
     }
 
-    override fun canBeUsedOnPage(containingPage: OrchidPage, modularList: FormFieldList, possibleItems: JSONArray, currentItems: MutableList<FormField>): Boolean {
+    override fun canBeUsedOnPage(containingPage: OrchidPage, modularList: FormFieldList, possibleItems: List<Map<String, Any>>, currentItems: MutableList<FormField>): Boolean {
         return true
     }
 

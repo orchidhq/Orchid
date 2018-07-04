@@ -28,6 +28,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -131,8 +132,8 @@ public final class OrchidUtils {
      * @param paramKeys the key names used for the ordered parameters
      * @return a mapping of values extracted from the input text
      */
-    public static JSONObject parseCommandArgs(String args, String[] paramKeys) {
-        JSONObject paramMap = new JSONObject();
+    public static Map<String, Object> parseCommandArgs(String args, String[] paramKeys) {
+        Map<String, Object> paramMap = new HashMap<>();
 
         String[] argsPieces = args.split("\\s*--\\s*");
         String orderedInput = argsPieces[0].trim();

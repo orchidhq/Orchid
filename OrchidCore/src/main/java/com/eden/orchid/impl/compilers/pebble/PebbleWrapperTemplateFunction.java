@@ -40,8 +40,7 @@ public final class PebbleWrapperTemplateFunction implements Function {
             EvaluationContext context,
             int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
-        JSONObject object = new JSONObject(args);
-        freshFunction.extractOptions(contextProvider.get(), object);
+        freshFunction.extractOptions(contextProvider.get(), args);
         Object output = freshFunction.apply(null);
 
         if(freshFunction.isSafe()) {

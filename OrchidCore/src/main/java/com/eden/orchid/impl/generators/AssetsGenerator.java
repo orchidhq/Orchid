@@ -123,10 +123,8 @@ public final class AssetsGenerator extends OrchidGenerator {
                     itemSource.put("sourceDir", stringConverter.get().convert(o).second);
                 }
 
-                JSONObject itemSourceJson = new JSONObject(itemSource);
-
                 AssetDirectory dir = new AssetDirectory();
-                dir.extractOptions(context, itemSourceJson);
+                dir.extractOptions(context, itemSource);
 
                 return new EdenPair<>(true, dir);
             }

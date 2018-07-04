@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +53,6 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected OrchidGenerator generator;
     @Getter @Setter @AllOptions
     private Map<String, Object> allData;
-    @Getter @Setter private Map<String, Object> _map;
 
     // variables that give the page identity
     @Getter @Setter protected OrchidResource resource;
@@ -61,7 +61,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected OrchidPage next;
     @Getter @Setter protected OrchidPage previous;
     @Getter @Setter protected OrchidPage parent;
-    @Getter @Setter protected JSONObject data;
+    @Getter @Setter protected Map<String, Object> data;
 
     @Getter @Setter
     @Option
@@ -218,11 +218,13 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             this.reference.setPath(path);
         }
 
-        if (resource.getEmbeddedData() != null && resource.getEmbeddedData().getElement() instanceof JSONObject) {
-            this.data = (JSONObject) resource.getEmbeddedData().getElement();
+        JSONElement el = resource.getEmbeddedData();
+
+        if (EdenUtils.elementIsObject(el)) {
+            this.data = ((JSONObject) el.getElement()).toMap();
         }
         else {
-            this.data = new JSONObject();
+            this.data = new HashMap<>();
         }
 
         initialize(title);
@@ -306,16 +308,16 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         }
 
         if (includePageData) {
-            JSONObject pageData = serializeData();
+            Map<String, Object> pageData = serializeData();
             if (pageData != null) {
-                pageJson.put("data", pageData);
+                pageJson.put("data", new JSONObject(pageData));
             }
         }
 
         return pageJson;
     }
 
-    protected JSONObject serializeData() {
+    protected Map<String, Object> serializeData() {
         return this.data;
     }
 
@@ -333,7 +335,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         externalPage.description = source.optString("description");
 
         if (source.has("data")) {
-            externalPage.data = source.getJSONObject("className");
+            externalPage.data = source.getJSONObject("className").toMap();
         }
 
         return externalPage;
@@ -404,7 +406,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public void addComponents() {
         if (this.components != null && this.components.isEmpty()) {
-            JSONObject jsonObject = new JSONObject();
+            Map<String, Object> jsonObject = new HashMap<>();
             jsonObject.put("type", "pageContent");
             this.components.add(jsonObject);
         }
@@ -418,11 +420,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 //----------------------------------------------------------------------------------------------------------------------
 
     public Map<String, Object> getMap() {
-        if(_map == null) {
-            _map = allData;
-        }
-
-        return _map;
+        return allData;
     }
 
     public boolean has(String key) {

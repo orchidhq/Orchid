@@ -109,11 +109,10 @@ public final class Social implements OptionsHolder {
 
             @Override
             public EdenPair<Boolean, Item> convert(Object o) {
-                Map<String, ?> itemSource = (Map<String, ?>) mapConverter.get().convert(o).second;
-                JSONObject itemSourceJson = new JSONObject(itemSource);
+                Map<String, Object> itemSource = (Map<String, Object>) mapConverter.get().convert(o).second;
 
                 Item item = new Item();
-                item.extractOptions(context, itemSourceJson);
+                item.extractOptions(context, itemSource);
 
                 return new EdenPair<>(true, item);
             }

@@ -22,7 +22,6 @@ import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 import com.mitchellbosecke.pebble.tokenParser.TokenParser;
 import com.mitchellbosecke.pebble.utils.StringUtils;
 import lombok.Getter;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -192,8 +191,7 @@ public final class PebbleWrapperTemplateTag implements TokenParser {
                 evaluatedParamExpressionMap.put("content", bodyContent);
             }
 
-            JSONObject object = new JSONObject(evaluatedParamExpressionMap);
-            freshTag.extractOptions(contextProvider.get(), object);
+            freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
 
             if(freshTag.rendersContent()) {
                 Map<String, Object> templateArgs = new HashMap<>();

@@ -3,12 +3,14 @@ package com.eden.orchid.api.publication;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
@@ -77,10 +79,10 @@ public class PublicationPipelineTest {
 
     @Test
     public void testSetupCorrectly() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"crashing\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"invalid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         underTest.publishAll(true);
@@ -92,10 +94,10 @@ public class PublicationPipelineTest {
 
     @Test
     public void testPipelineStopsShortWhenStageIsInvalid() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"crashing\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"invalid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
@@ -113,9 +115,9 @@ public class PublicationPipelineTest {
 
     @Test
     public void testPipelineStopsShortWhenStageThrows() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"crashing\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
@@ -131,8 +133,8 @@ public class PublicationPipelineTest {
 
     @Test
     public void testPublishedWhenNotDry() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
@@ -145,8 +147,8 @@ public class PublicationPipelineTest {
 
     @Test
     public void testNotPublishedWhenDry() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll(true);
@@ -159,8 +161,8 @@ public class PublicationPipelineTest {
 
     @Test
     public void testNotPublishedWhenPublisherIsDry() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"valid\", \"dry\": true}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"valid\", \"dry\": true}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
@@ -173,8 +175,8 @@ public class PublicationPipelineTest {
 
     @Test
     public void testNotPublishedWhenFailedValidation() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"invalid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
@@ -187,10 +189,10 @@ public class PublicationPipelineTest {
 
     @Test
     public void testProgressUpdatesForValidPublishers() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         underTest.publishAll(false, progressHandler);
@@ -204,10 +206,10 @@ public class PublicationPipelineTest {
 
     @Test
     public void testProgressUpdatesForInvalidPublishers() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"invalid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         underTest.publishAll(false, progressHandler);
@@ -222,10 +224,10 @@ public class PublicationPipelineTest {
 
     @Test
     public void testProgressUpdatesForCrashingPublishers() throws Throwable {
-        JSONArray stagesJson = new JSONArray();
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"crashing\"}"));
-        stagesJson.put(new JSONObject("{\"type\": \"valid\"}"));
+        List<Map<String, Object>> stagesJson = new ArrayList<>();
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
+        stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         underTest.publishAll(false, progressHandler);
