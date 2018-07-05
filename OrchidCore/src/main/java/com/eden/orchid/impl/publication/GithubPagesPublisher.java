@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.publication;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -14,6 +15,9 @@ import org.apache.commons.io.FileUtils;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -28,49 +32,76 @@ import java.util.concurrent.Executors;
 public class GithubPagesPublisher extends OrchidPublisher {
 
     public enum PublishType {
-        CLEAN_BRANCH,
-        CLEAN_BRANCH_MAINTAIN_HISTORY,
-        VERSIONED_BRANCH,
-        VERSIONED_BRANCH_WITH_LATEST
+        CleanBranch,
+        CleanBranchMaintainHistory,
+        VersionedBranch,
+        VersionedBranchWithLatest
     }
 
     private final String destinationDir;
+
+    @NotBlank(message = "A GitHub Personal Access Token is required for deploys, set as 'githubToken' flag.")
     private final String githubToken;
 
     @Getter @Setter
     @Option @StringDefault("Deploy to GitHub Pages from Orchid.")
     @Description("The commit message to attach to this deploy.")
+    @NotBlank
     private String commitMessage;
 
     @Getter @Setter
     @Option @StringDefault("gh-pages")
     @Description("The branch to push to.")
+    @NotBlank(message = "Must set the repository branch.")
     private String branch;
 
     @Getter @Setter
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")
+    @NotBlank(message = "Must set the GitHub user or organization.")
     private String username;
+
+    @Getter @Setter
+    @Option @StringDefault("Orchid")
+    @Description("The username on the commit.")
+    @NotBlank
+    private String commitUsername;
+
+    @Getter @Setter
+    @Option @StringDefault("orchid@orchid")
+    @Description("The email on the commit.")
+    @NotBlank
+    @Email
+    private String commitEmail;
 
     @Getter @Setter
     @Option
     @Description("The repository to push to, as [username/repo], or just [repo] to use the authenticating username.")
+    @NotBlank(message = "Must set the GitHub repository.")
     private String repo;
 
     @Getter @Setter
-    @Option @StringDefault("CLEAN_BRANCH")
+    @Option @StringDefault("CleanBranch")
     @Description("The type of publication to use for Github Pages." +
-            "- CLEAN_BRANCH: Create a new branch with no history and force-push to the remote. Overwrites existing branch completely." +
-            "- CLEAN_BRANCH_MAINTAIN_HISTORY: Clone existing branch, remove all files, then push to the remote. Overwrites all files, but maintains history." +
-            "- VERSIONED_BRANCH: Clone existing branch, add current site to a versioned subfolder, then push to the remote. Maintains history and all prior versions' content." +
-            "- VERSIONED_BRANCH_WITH_LATEST: Clone existing branch, add current site to a 'latest' and a versioned subfolder, then force-push to the remote. Maintains history and all prior versions' content." +
+            "- CleanBranch: Create a new branch with no history and force-push to the remote. Overwrites existing branch completely." +
+            "- CleanBranchMaintainHistory: Clone existing branch, remove all files, then push to the remote. Overwrites all files, but maintains history." +
+            "- VersionedBranch: Clone existing branch, add current site to a versioned subfolder, then push to the remote. Maintains history and all prior versions' content." +
+            "- VersionedBranchWithLatest: Clone existing branch, add current site to a 'latest' and a versioned subfolder, then force-push to the remote. Maintains history and all prior versions' content." +
             "")
+    @NotNull(message = "Must set a valid publish type.")
     private PublishType publishType;
 
     @Getter @Setter
     @Option @StringDefault("latest")
-    @Description("The name of the 'latest' directory used for the VERSIONED_BRANCH_WITH_LATEST publish type.")
+    @Description("The name of the 'latest' directory used for the VersionedBranchWithLatest publish type.")
+    @NotBlank
     private String latestDirName;
+
+    @Getter @Setter
+    @Option @StringDefault("github.com")
+    @Description("The URL for a self-hosted Github Enterprise installation.")
+    @NotBlank
+    private String githubUrl;
 
     @Inject
     public GithubPagesPublisher(
@@ -83,26 +114,13 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     @Override
-    public boolean validate() {
-        boolean valid = true;
-
-        valid = valid && exists(githubToken,  "A GitHub Personal Access Token is required for deploys, set as 'githubToken' flag.");
-        valid = valid && exists(username,     "Must set the GitHub user or organization.");
-        valid = valid && exists(repo,         "Must set the GitHub repository.");
-        valid = valid && exists(branch,       "Must set the repository branch.");
-        valid = valid && exists(publishType,  "Must set the publish type.");
-
-        return valid;
-    }
-
-    @Override
     public void publish() {
         try {
             switch (publishType) {
-                case CLEAN_BRANCH: doCleanBranch(); break;
-                case CLEAN_BRANCH_MAINTAIN_HISTORY: doCleanBranchMaintainHistory(); break;
-                case VERSIONED_BRANCH: doVersionedBranch(); break;
-                case VERSIONED_BRANCH_WITH_LATEST: doVersionedBranchWithLatest(); break;
+                case CleanBranch: doCleanBranch(); break;
+                case CleanBranchMaintainHistory: doCleanBranchMaintainHistory(); break;
+                case VersionedBranch: doVersionedBranch(); break;
+                case VersionedBranchWithLatest: doVersionedBranchWithLatest(); break;
             }
         }
         catch (Exception e) {
@@ -110,11 +128,10 @@ public class GithubPagesPublisher extends OrchidPublisher {
         }
     }
     
-// Git push methods
+// Git publish types
 //----------------------------------------------------------------------------------------------------------------------
 
     private void doCleanBranch() throws Exception {
-        Clog.v("Doing clean branch deploy");
         Path repo = getSiteDir();
         copySite(repo);
         initRepo(repo);
@@ -123,7 +140,6 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private void doCleanBranchMaintainHistory() throws Exception {
-        Clog.v("Doing clean branch deploy (with history)");
         Path repo = getSiteDir();
         cloneRepo(repo);
         deleteSite(repo);
@@ -133,28 +149,22 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private void doVersionedBranch() throws Exception {
-        Clog.v("Doing versioned branch deploy");
         Path repo = getSiteDir();
-        Clog.v("Got site dir");
         cloneRepo(repo);
-        Clog.v("Cloned repo");
 
         Path versionDir = makeSubDir(repo, context.getVersion());
-        Clog.v("Made subdirectory");
+        deleteSite(versionDir);
         copySite(versionDir);
-        Clog.v("Copied site into subdirectory");
         createCommit(repo);
-        Clog.v("Created commit");
         pushBranch(repo, branch, false);
-        Clog.v("Pushed branch");
     }
 
     private void doVersionedBranchWithLatest() throws Exception {
-        Clog.v("Doing versioned branch deploy (with latest version)");
         Path repo = getSiteDir();
         cloneRepo(repo);
 
         Path versionDir = makeSubDir(repo, context.getVersion());
+        deleteSite(versionDir);
         copySite(versionDir);
 
         Path latestDir = makeSubDir(repo, latestDirName);
@@ -164,6 +174,9 @@ public class GithubPagesPublisher extends OrchidPublisher {
         createCommit(repo);
         pushBranch(repo, branch, true);
     }
+    
+// Git tasks
+//----------------------------------------------------------------------------------------------------------------------
 
     private void initRepo(Path repo) throws Exception {
         gitCommand(repo, null, "git", "init");
@@ -171,15 +184,15 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private void cloneRepo(Path repo) throws Exception {
-        gitCommand(repo, new String[] {"git", "clone", "--single-branch", "-b", branch, getDisplayedRemoteUrl()}, "git", "clone", "--single-branch", "-b", branch, getRemoteUrl());
+        gitCommand(repo, new String[] {"git", "clone", "--single-branch", "-b", branch, getDisplayedRemoteUrl(), "."}, "git", "clone", "--single-branch", "-b", branch, getRemoteUrl(), ".");
     }
 
     private void createCommit(Path repo) throws Exception {
-        gitCommand(repo, null, "git", "config", "user.name", "Orchid");
-        gitCommand(repo, null, "git", "config", "user.email", "orchid@orchid");
+        gitCommand(repo, null, "git", "config", "user.name", commitUsername);
+        gitCommand(repo, null, "git", "config", "user.email", commitEmail);
 
         gitCommand(repo, null, "git", "add",    "-A");
-        gitCommand(repo, null, "git", "commit", "-m", getCommitMessage());
+        gitCommand(repo, null, "git", "commit", "-m", commitMessage);
     }
 
     private void pushBranch(Path repo, String localBranch, boolean force) throws Exception {
@@ -222,11 +235,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private Path makeSubDir(Path sourceDir, String subfolder) throws Exception {
-        Path resolved = sourceDir.resolve(subfolder);
-        Clog.d("sourceDir: {}", sourceDir);
-        Clog.d("subfolder: {}", subfolder);
-        Clog.d("resolved: {}", resolved);
-        return Files.createDirectories(resolved);
+        return sourceDir.resolve(subfolder);
     }
 
     private void copySite(Path targetDir) throws Exception {
@@ -237,10 +246,12 @@ public class GithubPagesPublisher extends OrchidPublisher {
     private void deleteSite(Path targetDir) throws Exception {
         File[] files = targetDir.toFile().listFiles();
 
-        for(File file : files) {
-            if(file.isDirectory() && file.getName().equals(".git")) continue;
-            if(file.isDirectory()) FileUtils.deleteDirectory(file);
-            else if(file.isFile()) file.delete();
+        if(!EdenUtils.isEmpty(files)) {
+            for (File file : files) {
+                if (file.isDirectory() && file.getName().equals(".git")) continue;
+                if (file.isDirectory()) FileUtils.deleteDirectory(file);
+                else if (file.isFile()) file.delete();
+            }
         }
     }
 
@@ -248,14 +259,14 @@ public class GithubPagesPublisher extends OrchidPublisher {
         String[] repoParts = repo.split("/");
         String repoUsername = (repoParts.length == 2) ? repoParts[0] : username;
         String repoName     = (repoParts.length == 2) ? repoParts[1] : repoParts[0];
-        return Clog.format("https://github.com/{}/{}.git", repoUsername, repoName);
+        return Clog.format("https://{}/{}/{}.git", githubUrl, repoUsername, repoName);
     }
 
     private String getRemoteUrl() {
         String[] repoParts = repo.split("/");
         String repoUsername = (repoParts.length == 2) ? repoParts[0] : username;
         String repoName     = (repoParts.length == 2) ? repoParts[1] : repoParts[0];
-        return Clog.format("https://{}:{}@github.com/{}/{}.git", username, githubToken, repoUsername, repoName);
+        return Clog.format("https://{}:{}@{}/{}/{}.git", username, githubToken, githubUrl, repoUsername, repoName);
     }
 
     private String getRemoteBranch(String localBranch) {

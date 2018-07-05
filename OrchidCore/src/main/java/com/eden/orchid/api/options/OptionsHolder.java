@@ -13,9 +13,9 @@ public interface OptionsHolder extends Descriptive {
         onPostExtraction();
     }
 
-    default void validate(OrchidContext context) {
+    default boolean validate(OrchidContext context) {
         OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
-        extractor.validate(this);
+        return extractor.validate(this);
     }
 
     default void onPostExtraction() {

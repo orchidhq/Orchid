@@ -35,10 +35,3 @@ services:
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
-  publications:
-    stages:
-      - type: 'ghPages'
-        username: 'cjbrooks12'
-        repo: 'JavaEden/Orchid'
-        branch: 'gh-pages'
-        publishType: 'VERSIONED_BRANCH'

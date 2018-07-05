@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -41,9 +42,13 @@ public class NetlifyPublisher extends OrchidPublisher {
     @Getter @Setter
     @Option
     @Description("Your Netlify site ID or domain (ie. orchid.netlify.com).")
+    @NotBlank(message = "A Netlify site domain must be provided.")
     private String siteId;
 
+    @Getter
+    @NotBlank(message = "A Netlify Personal Access Token is required for deploys, set as 'netlifyToken' flag.")
     private final String netlifyToken;
+
     private final String destinationDir;
     private final OkHttpClient client;
 
@@ -61,10 +66,7 @@ public class NetlifyPublisher extends OrchidPublisher {
 
     @Override
     public boolean validate() {
-        boolean valid = true;
-
-        valid = valid && exists(netlifyToken, "A Netlify Personal Access Token is required for deploys, set as 'netlifyToken' flag.");
-        valid = valid && exists(siteId,       "A Netlify site domain must be provided.");
+        boolean valid = super.validate();
 
         // make sure the site exists
         EdenPair<Boolean, String> site = netlifyGet("sites/" + siteId);

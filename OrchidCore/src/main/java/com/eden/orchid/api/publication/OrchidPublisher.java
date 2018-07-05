@@ -76,7 +76,9 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
      *
      * @return whether this publisher is valid and ready to publish.
      */
-    public abstract boolean validate();
+    public boolean validate() {
+        return validate(context);
+    }
 
     /**
      * A callback to run the publication step.
