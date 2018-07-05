@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.krow.KrowTable;
@@ -20,15 +21,28 @@ import java.util.Set;
 public class OptionsExtractor extends Extractor {
 
     private final OrchidContext context;
+    private final OptionsValidator validator;
 
     @Inject
     public OptionsExtractor(OrchidContext context, Set<OptionExtractor> extractors, OptionsValidator validator) {
         super(extractors, validator);
         this.context = context;
+        this.validator = validator;
     }
 
     public void extractOptions(OptionsHolder optionsHolder, Map<String, Object> options) {
         super.extractOptions(optionsHolder, options);
+    }
+
+    public boolean validate(OptionsHolder optionsHolder) {
+        try {
+            validator.validate(optionsHolder);
+            return true;
+        }
+        catch (Exception e) {
+            Clog.e("{} did not pass validation", optionsHolder, e);
+            return false;
+        }
     }
 
     @Override

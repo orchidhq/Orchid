@@ -13,9 +13,10 @@ public interface OptionsHolder extends Descriptive {
         onPostExtraction();
     }
 
-//    default void extractOptions(OrchidContext context, JSONObject options) {
-//        this.extractOptions(context, options.toMap());
-//    }
+    default void validate(OrchidContext context) {
+        OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
+        extractor.validate(this);
+    }
 
     default void onPostExtraction() {
 

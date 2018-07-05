@@ -114,6 +114,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
 //----------------------------------------------------------------------------------------------------------------------
 
     private void doCleanBranch() throws Exception {
+        Clog.v("Doing clean branch deploy");
         Path repo = getSiteDir();
         copySite(repo);
         initRepo(repo);
@@ -122,6 +123,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private void doCleanBranchMaintainHistory() throws Exception {
+        Clog.v("Doing clean branch deploy (with history)");
         Path repo = getSiteDir();
         cloneRepo(repo);
         deleteSite(repo);
@@ -131,16 +133,24 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private void doVersionedBranch() throws Exception {
+        Clog.v("Doing versioned branch deploy");
         Path repo = getSiteDir();
+        Clog.v("Got site dir");
         cloneRepo(repo);
+        Clog.v("Cloned repo");
 
         Path versionDir = makeSubDir(repo, context.getVersion());
+        Clog.v("Made subdirectory");
         copySite(versionDir);
+        Clog.v("Copied site into subdirectory");
         createCommit(repo);
+        Clog.v("Created commit");
         pushBranch(repo, branch, false);
+        Clog.v("Pushed branch");
     }
 
     private void doVersionedBranchWithLatest() throws Exception {
+        Clog.v("Doing versioned branch deploy (with latest version)");
         Path repo = getSiteDir();
         cloneRepo(repo);
 
@@ -212,7 +222,11 @@ public class GithubPagesPublisher extends OrchidPublisher {
     }
 
     private Path makeSubDir(Path sourceDir, String subfolder) throws Exception {
-        return Files.createDirectories(sourceDir.resolve(subfolder));
+        Path resolved = sourceDir.resolve(subfolder);
+        Clog.d("sourceDir: {}", sourceDir);
+        Clog.d("subfolder: {}", subfolder);
+        Clog.d("resolved: {}", resolved);
+        return Files.createDirectories(resolved);
     }
 
     private void copySite(Path targetDir) throws Exception {
