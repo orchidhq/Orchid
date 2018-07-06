@@ -45,12 +45,26 @@ public final class CorePebbleExtension extends AbstractExtension {
         List<TokenParser> tokenParsers = new ArrayList<>();
 
         for(TemplateTag templateTag : templateTags) {
+            final String[] tabParams;
+            final Class<? extends TemplateTag.Tab> tabClass;
+            if(templateTag.getType() == TemplateTag.Type.Tabbed) {
+                TemplateTag.Tab tab = templateTag.getNewTab("", "");
+                tabParams = tab.parameters();
+                tabClass = tab.getClass();
+            }
+            else {
+                tabParams = null;
+                tabClass = null;
+            }
+
             tokenParsers.add(new PebbleWrapperTemplateTag(
                     contextProvider,
                     templateTag.getName(),
+                    templateTag.getType(),
                     templateTag.parameters(),
-                    templateTag.hasContent(),
-                    templateTag.getClass()
+                    templateTag.getClass(),
+                    tabParams,
+                    tabClass
             ));
         }
 

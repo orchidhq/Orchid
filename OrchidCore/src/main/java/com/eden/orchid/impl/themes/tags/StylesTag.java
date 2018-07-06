@@ -10,7 +10,7 @@ public final class StylesTag extends TemplateTag {
 
     @Inject
     public StylesTag() {
-        super("styles", false, true);
+        super("styles", Type.Simple, true);
     }
 
     @Override

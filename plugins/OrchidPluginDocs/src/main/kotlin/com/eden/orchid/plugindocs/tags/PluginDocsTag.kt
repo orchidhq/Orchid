@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class PluginDocsTag
 @Inject constructor(val extractor: OptionsExtractor)
-    : TemplateTag("docs", false) {
+    : TemplateTag("docs", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("A fully-qualified class name to render options for.")

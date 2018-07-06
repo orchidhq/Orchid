@@ -24,7 +24,7 @@ class NetlifyCmsAdminPage(
             fields.put(it.toNetlifyCmsField())
         }
 
-        if (tag.hasContent()) {
+        if (tag.type == TemplateTag.Type.Content) {
             val filtersField = JSONObject()
             filtersField.put("label", "Content Filters")
             filtersField.put("name", "filters")

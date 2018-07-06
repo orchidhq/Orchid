@@ -9,7 +9,7 @@ import java.time.format.DateTimeParseException
 import javax.inject.Inject
 
 class YoutubeTag @Inject
-constructor() : TemplateTag("youtube", false) {
+constructor() : TemplateTag("youtube", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Youtube video Id.")

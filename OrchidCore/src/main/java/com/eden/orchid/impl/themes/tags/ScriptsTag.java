@@ -10,7 +10,7 @@ public final class ScriptsTag extends TemplateTag {
 
     @Inject
     public ScriptsTag() {
-        super("scripts", false, true);
+        super("scripts", Type.Simple, true);
     }
 
     @Override

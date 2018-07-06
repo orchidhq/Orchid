@@ -6,7 +6,7 @@ import com.eden.orchid.api.options.annotations.Option
 import javax.inject.Inject
 
 class GistTag @Inject
-constructor() : TemplateTag("gist", false) {
+constructor() : TemplateTag("gist", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Github username who owns the Gist.")

@@ -10,7 +10,7 @@ public final class HeadTag extends TemplateTag {
 
     @Inject
     public HeadTag() {
-        super("head", false, true);
+        super("head", Type.Simple, true);
     }
 
     @Override

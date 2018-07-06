@@ -10,7 +10,7 @@ public final class PageTag extends TemplateTag {
 
     @Inject
     public PageTag() {
-        super("page", false, true);
+        super("page", Type.Simple, true);
     }
 
     @Override
