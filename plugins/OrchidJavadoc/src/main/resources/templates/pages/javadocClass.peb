@@ -1,6 +1,6 @@
 <div class="orchid-sourcedoc">
 {% include 'includes/javadoc/class/summary' %}
 {% include 'includes/javadoc/class/fields' %}
-{% include 'includes/javadoc/class/constructors' %}
-{% include 'includes/javadoc/class/methods' %}
+{#{% include 'includes/javadoc/class/constructors' %}#}
+{#{% include 'includes/javadoc/class/methods' %}#}
 </div>
