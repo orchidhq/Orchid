@@ -10,6 +10,7 @@ import com.eden.orchid.writersblocks.functions.PluralizeFunction
 import com.eden.orchid.writersblocks.tags.AlertTag
 import com.eden.orchid.writersblocks.tags.GistTag
 import com.eden.orchid.writersblocks.tags.InstagramTag
+import com.eden.orchid.writersblocks.tags.TabsTag
 import com.eden.orchid.writersblocks.tags.TwitterTag
 import com.eden.orchid.writersblocks.tags.YoutubeTag
 
@@ -23,9 +24,10 @@ class WritersBlocksModule : OrchidModule() {
         addToSet<TemplateTag>(
                 AlertTag::class,
                 GistTag::class,
-                YoutubeTag::class,
+                InstagramTag::class,
+                TabsTag::class,
                 TwitterTag::class,
-                InstagramTag::class)
+                YoutubeTag::class)
     }
 }
 

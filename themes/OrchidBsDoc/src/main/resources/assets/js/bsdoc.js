@@ -42,7 +42,7 @@ function buildNav() {
 }
 
 function setupSmoothScroll() {
-    $('a').click(function () {
+    $('a:not([role])').click(function () {
         var href = $.attr(this, 'href');
 
         if(href) {

@@ -1,0 +1,20 @@
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+    {% for tab in tag.tabs %}
+        {% if loop.first %}
+        <li role="presentation" class="active"><a href="#{{ tab.key }}" aria-controls="home" role="tab" data-toggle="tab">{{ tab.title }}</a></li>
+        {% else %}
+        <li role="presentation"><a href="#{{ tab.key }}" aria-controls="home" role="tab" data-toggle="tab">{{ tab.title }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <div class="tab-content">
+    {% for tab in tag.tabs %}
+        {% if loop.first %}
+        <div role="tabpanel" class="tab-pane fade in active" id="{{ tab.key }}">{{ tab.content | raw }}</div>
+        {% else %}
+        <div role="tabpanel" class="tab-pane fade" id="{{ tab.key }}">{{ tab.content | raw }}</div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
