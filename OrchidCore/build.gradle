@@ -8,7 +8,7 @@ dependencies {
 
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.2.0'
-    api 'io.github.lukehutch:fast-classpath-scanner:2.21'
+    api 'io.github.lukehutch:fast-classpath-scanner:3.1.6'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
@@ -19,9 +19,9 @@ dependencies {
     api "commons-io:commons-io:2.6"
 
     // validation
-    api "javax.validation:validation-api:2.0.0.Final"
+    api "javax.validation:validation-api:2.0.1.Final"
     implementation "org.hibernate.validator:hibernate-validator:6.0.10.Final"
-    api "org.glassfish:javax.el:3.0.1-b09"
+    api "org.glassfish:javax.el:3.0.1-b10"
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api 'org.json:json:20180130'
@@ -29,7 +29,7 @@ dependencies {
     api 'com.moandjiezana.toml:toml4j:0.7.2'
     api 'io.pebbletemplates:pebble:3.0.0.BETA01'
     api 'io.bit3:jsass:5.7.3'
-    api 'com.univocity:univocity-parsers:2.6.3'
+    api 'com.univocity:univocity-parsers:2.6.4'
 
     // Flexmark extensions
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
