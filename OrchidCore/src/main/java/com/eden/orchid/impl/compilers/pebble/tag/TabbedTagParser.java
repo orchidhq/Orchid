@@ -18,6 +18,7 @@ import com.mitchellbosecke.pebble.utils.StringUtils;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,8 +59,8 @@ public class TabbedTagParser extends BaseTagParser {
         // skip over the tag name token
         stream.next();
 
-        tagBodyParams = new HashMap<>();
-        tagBodyExpressions = new HashMap<>();
+        tagBodyParams = new LinkedHashMap<>();
+        tagBodyExpressions = new LinkedHashMap<>();
 
         // get Tag params
         paramExpressionMap = parseParams(tagParameters, tagClass, stream, parser);

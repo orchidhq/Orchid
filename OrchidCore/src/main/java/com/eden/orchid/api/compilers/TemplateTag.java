@@ -1,5 +1,6 @@
 package com.eden.orchid.api.compilers;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.server.annotations.Extensible;
 import lombok.AllArgsConstructor;
@@ -8,9 +9,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Template Tags are a convenient way to create complex structures from simple markup that may be used anywhere. Tags
@@ -55,7 +55,7 @@ public abstract class TemplateTag implements OptionsHolder {
     @Accessors(fluent = true)
     private final boolean rendersContent;
 
-    private final Map<String, Tab> content;
+    private final LinkedHashMap<String, Tab> content;
 
     @Getter
     @Setter
@@ -75,7 +75,7 @@ public abstract class TemplateTag implements OptionsHolder {
         this.name = name;
         this.type = type;
         this.rendersContent = rendersContent;
-        this.content = new HashMap<>();
+        this.content = new LinkedHashMap<>();
     }
 
     /**

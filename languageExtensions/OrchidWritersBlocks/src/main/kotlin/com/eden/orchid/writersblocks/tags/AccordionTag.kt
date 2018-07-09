@@ -6,8 +6,8 @@ import com.eden.orchid.api.options.annotations.Option
 import org.apache.commons.lang3.RandomStringUtils
 import javax.inject.Inject
 
-class TabsTag @Inject
-constructor() : TemplateTag("tabs", TemplateTag.Type.Tabbed, true) {
+class AccordionTag @Inject
+constructor() : TemplateTag("accordion", TemplateTag.Type.Tabbed, true) {
 
     @Option
     @Description("The unique id of this accordion. Defaults to a random value.")
@@ -28,7 +28,7 @@ constructor() : TemplateTag("tabs", TemplateTag.Type.Tabbed, true) {
     class Tab(private val key: String?, private val content: String?) : TemplateTag.Tab {
 
         @Option
-        @Description("The title of the tab")
+        @Description("The title of the section")
         lateinit var title: String
 
         override fun getKey(): String? {
