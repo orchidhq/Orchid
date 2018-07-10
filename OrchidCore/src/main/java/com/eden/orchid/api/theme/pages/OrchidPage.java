@@ -2,6 +2,7 @@ package com.eden.orchid.api.theme.pages;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -11,6 +12,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -62,6 +64,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected OrchidPage previous;
     @Getter @Setter protected OrchidPage parent;
     @Getter @Setter protected Map<String, Object> data;
+
+    private String compiledContent;
 
     @Getter @Setter
     @Option
@@ -260,12 +264,22 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public String getContent() {
-        if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-            return resource.compileContent(this);
+        if(!(Orchid.getInstance().getState() == Orchid.State.BUILDING || Orchid.getInstance().getState() == Orchid.State.IDLE)) {
+            throw new IllegalStateException("Cannot get page content until indexing has completed.");
         }
-        else {
-            return "";
+        if(compiledContent == null) {
+            if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
+                compiledContent = resource.compileContent(this);
+                if(compiledContent == null) {
+                    compiledContent = "";
+                }
+            }
+            else {
+                compiledContent = "";
+            }
         }
+
+        return compiledContent;
     }
 
     public Theme getTheme() {
@@ -414,6 +428,13 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public void loadAssets() {
 
+    }
+
+    public void free() {
+        if (resource instanceof FreeableResource) {
+            ((FreeableResource) resource).free();
+        }
+        compiledContent = null;
     }
 
 // Map Implementation

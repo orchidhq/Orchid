@@ -10,7 +10,6 @@ import com.eden.orchid.api.indexing.OrchidInternalIndex;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -140,7 +139,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
                 page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
-                freePage(page);
+                page.free();
             });
             context.addChildIndex(generator.getKey(), index);
         }
@@ -208,7 +207,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     public void onPageGenerated(OrchidPage page, long millis) {
         metrics.onPageGenerated(page, millis);
-        freePage(page);
+        page.free();
     }
 
 // Utilities
@@ -237,12 +236,6 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
 
         return generatorStream;
-    }
-
-    private void freePage(OrchidPage page) {
-        if (page.getResource() instanceof FreeableResource) {
-            ((FreeableResource) page.getResource()).free();
-        }
     }
 
 }
