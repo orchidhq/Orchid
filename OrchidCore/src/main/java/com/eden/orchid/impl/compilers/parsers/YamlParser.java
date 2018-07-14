@@ -1,11 +1,10 @@
 package com.eden.orchid.impl.compilers.parsers;
 
 import com.eden.orchid.api.compilers.OrchidParser;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,16 +26,16 @@ public final class YamlParser extends OrchidParser {
     }
 
     @Override
-    public JSONObject parse(String extension, String input) {
+    public Map<String, Object> parse(String extension, String input) {
         try {
             Object yamlData = new Yaml().load(input);
 
             if(yamlData instanceof Map) {
-                return new JSONObject((Map<String, Object>) yamlData);
+                return (Map<String, Object>) yamlData;
             }
             else if(yamlData instanceof List) {
-                JSONObject object = new JSONObject();
-                object.put(OrchidParser.arrayAsObjectKey, new JSONArray((List<Object>) yamlData));
+                Map<String, Object> object = new HashMap<>();
+                object.put(OrchidParser.arrayAsObjectKey, yamlData);
                 return object;
             }
         }

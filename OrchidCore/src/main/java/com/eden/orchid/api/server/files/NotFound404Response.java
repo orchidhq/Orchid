@@ -9,11 +9,12 @@ import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class NotFound404Response {
 
@@ -38,20 +39,20 @@ public final class NotFound404Response {
         else {
             resource = context.getResourceEntry("templates/server/404.peb");
 
-            JSONObject indexPageVars = new JSONObject();
+            Map<String, Object> indexPageVars = new HashMap<>();
             indexPageVars.put("title", "Not Found - " + targetPath);
             indexPageVars.put("path", targetPath);
 
-            JSONObject object = new JSONObject(context.getConfig().toMap());
+            Map<String, Object> object = context.getConfig();
             object.put("page", indexPageVars);
             object.put("theme", context.getTheme());
 
             String notFoundIndexContent;
             if (resource != null) {
-                notFoundIndexContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object.toMap());
+                notFoundIndexContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object);
             }
             else {
-                notFoundIndexContent = object.toString(2);
+                notFoundIndexContent = context.serialize("json", object);
             }
 
             page = new OrchidPage(new StringResource(context, "404.txt", notFoundIndexContent), "404");

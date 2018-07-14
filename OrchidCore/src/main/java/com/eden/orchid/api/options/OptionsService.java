@@ -3,7 +3,6 @@ package com.eden.orchid.api.options;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidService;
 import com.google.inject.ImplementedBy;
-import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -18,15 +17,15 @@ public interface OptionsService extends OrchidService {
         getService(OptionsService.class).clearOptions();
     }
 
-    default JSONObject loadOptions() {
+    default Map<String, Object> loadOptions() {
         return getService(OptionsService.class).loadOptions();
     }
 
-    default JSONObject getConfig() {
+    default Map<String, Object> getConfig() {
         return getService(OptionsService.class).getConfig();
     }
 
-    default JSONObject getData() {
+    default Map<String, Object> getData() {
         return getService(OptionsService.class).getData();
     }
 

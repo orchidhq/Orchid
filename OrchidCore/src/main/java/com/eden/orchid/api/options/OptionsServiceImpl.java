@@ -22,8 +22,8 @@ public final class OptionsServiceImpl implements OptionsService {
     private OrchidContext context;
     private Set<TemplateGlobal> globals;
 
-    private JSONObject config;
-    private JSONObject data;
+    private Map<String, Object> config;
+    private Map<String, Object> data;
 
     @Inject
     public OptionsServiceImpl(Set<TemplateGlobal> globals) {
@@ -42,7 +42,7 @@ public final class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
-    public JSONObject getConfig() {
+    public Map<String, Object> getConfig() {
         if (config == null) {
             loadOptions();
         }
@@ -50,7 +50,7 @@ public final class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
-    public JSONObject getData() {
+    public Map<String, Object> getData() {
         if (data == null) {
             loadOptions();
         }
@@ -58,7 +58,7 @@ public final class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
-    public JSONObject loadOptions() {
+    public Map<String, Object> loadOptions() {
         if (config == null) {
             config = loadData("config");
         }
@@ -72,7 +72,7 @@ public final class OptionsServiceImpl implements OptionsService {
     @Override
     public JSONElement query(String pointer) {
         if (!EdenUtils.isEmpty(pointer)) {
-            return new JSONElement(getConfig()).query(pointer);
+            return new JSONElement(new JSONObject(getConfig())).query(pointer);
         }
         return null;
     }
@@ -115,20 +115,20 @@ public final class OptionsServiceImpl implements OptionsService {
 // Helpers for loading data
 //----------------------------------------------------------------------------------------------------------------------
 
-    private JSONObject loadData(String name) {
-        JSONObject data = new JSONObject();
+    private Map<String, Object> loadData(String name) {
+        Map<String, Object> data = new HashMap<>();
 
-        JSONObject files = context.getDatafiles(name);
+        Map<String, Object> files = context.getDatafiles(name);
         if (files != null) {
             data = EdenUtils.merge(data, files);
         }
 
-        JSONObject file = context.getDatafile(name);
+        Map<String, Object> file = context.getDatafile(name);
         if(file != null) {
             data = EdenUtils.merge(data, file);
         }
 
-        JSONObject envFile = context.getDatafile(name + "-" + context.getEnvironment());
+        Map<String, Object> envFile = context.getDatafile(name + "-" + context.getEnvironment());
         if(envFile != null) {
             data = EdenUtils.merge(data, envFile);
         }

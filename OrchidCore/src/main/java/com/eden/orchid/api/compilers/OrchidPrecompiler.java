@@ -1,10 +1,11 @@
 package com.eden.orchid.api.compilers;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.ImplementedBy;
+
+import java.util.Map;
 
 /**
  * The precompiler is a compiler to be run against files before they are sent to their appropriate OrchidCompiler.
@@ -48,6 +49,6 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract EdenPair<String, JSONElement> getEmbeddedData(String input);
+    public abstract EdenPair<String, Map<String, Object>> getEmbeddedData(String input);
 
 }

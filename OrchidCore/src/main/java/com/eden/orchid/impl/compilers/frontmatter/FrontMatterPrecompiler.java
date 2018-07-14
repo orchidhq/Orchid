@@ -1,17 +1,17 @@
 package com.eden.orchid.impl.compilers.frontmatter;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -39,11 +39,11 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
     }
 
     @Override
-    public EdenPair<String, JSONElement> getEmbeddedData(String input) {
-        EdenPair<JSONObject, Integer> frontMatter = parseFrontMatter(input);
+    public EdenPair<String, Map<String, Object>> getEmbeddedData(String input) {
+        EdenPair<Map<String, Object>, Integer> frontMatter = parseFrontMatter(input);
 
         if(frontMatter.second != 0) {
-            return new EdenPair<>(input.substring(frontMatter.second), new JSONElement(frontMatter.first));
+            return new EdenPair<>(input.substring(frontMatter.second), frontMatter.first);
         }
         else {
             return new EdenPair<>(input, null);
@@ -54,13 +54,13 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
         return getFrontMatterHeader(input).isValidHeader;
     }
 
-    private EdenPair<JSONObject, Integer> parseFrontMatter(String input) {
+    private EdenPair<Map<String, Object>, Integer> parseFrontMatter(String input) {
         FrontMatterHeader header = getFrontMatterHeader(input);
 
         if(header.isValidHeader) {
             final String frontMatterText = input.substring(header.fmStart, header.fmEnd);
 
-            JSONObject frontMatter = null;
+            Map<String, Object> frontMatter = null;
 
             if(!EdenUtils.isEmpty(header.extension)) {
                 frontMatter = context.parse(header.extension, frontMatterText);
@@ -71,7 +71,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             }
 
             if(frontMatter == null) {
-                frontMatter = new JSONObject();
+                frontMatter = new HashMap<>();
             }
 
             return new EdenPair<>(frontMatter, header.contentStart);

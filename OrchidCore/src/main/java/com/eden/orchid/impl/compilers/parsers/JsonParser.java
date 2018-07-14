@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public final class JsonParser extends OrchidParser {
@@ -30,10 +31,10 @@ public final class JsonParser extends OrchidParser {
     }
 
     @Override
-    public JSONObject parse(String extension, String input) {
+    public Map<String, Object> parse(String extension, String input) {
         // first try parsing it as JSON Object
         try {
-            return new JSONObject(input);
+            return new JSONObject(input).toMap();
         }
         catch (Exception e) {}
 
@@ -41,7 +42,7 @@ public final class JsonParser extends OrchidParser {
         try {
             JSONObject object = new JSONObject();
             object.put(OrchidParser.arrayAsObjectKey, new JSONArray(input));
-            return object;
+            return object.toMap();
         }
         catch (Exception e) {
         }

@@ -14,6 +14,6 @@ public class ConfigGlobal implements TemplateGlobal<Map<String, Object>> {
 
     @Override
     public Map<String, Object> get(OrchidContext context) {
-        return context.getConfig().toMap();
+        return context.getConfig();
     }
 }

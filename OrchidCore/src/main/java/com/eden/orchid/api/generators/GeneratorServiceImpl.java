@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -163,9 +164,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
     private void buildExternalIndex() {
         if(!EdenUtils.isEmpty(externalIndices)) {
             for (String externalIndex : externalIndices) {
-                JSONObject indexJson = this.context.loadAdditionalFile(externalIndex);
+                Map<String, Object> indexJson = this.context.loadAdditionalFile(externalIndex);
                 if (indexJson != null) {
-                    OrchidIndex index = OrchidIndex.fromJSON(context, indexJson);
+                    OrchidIndex index = OrchidIndex.fromJSON(context, new JSONObject(indexJson));
                     context.addExternalChildIndex(index);
                 }
             }

@@ -1,6 +1,5 @@
 package com.eden.orchid.api.compilers;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -191,7 +190,7 @@ public final class CompilerServiceImpl implements CompilerService {
         }
     }
 
-    public JSONObject parse(String extension, String input) {
+    public Map<String, Object> parse(String extension, String input) {
         OrchidParser parser = parserFor(extension);
         return (parser != null) ? parser.parse(extension, input) : null;
     }
@@ -201,7 +200,7 @@ public final class CompilerServiceImpl implements CompilerService {
         return (parser != null) ? parser.serialize(extension, input) : null;
     }
 
-    public EdenPair<String, JSONElement> getEmbeddedData(String input) {
+    public EdenPair<String, Map<String, Object>> getEmbeddedData(String input) {
         return precompiler.getEmbeddedData(input);
     }
 

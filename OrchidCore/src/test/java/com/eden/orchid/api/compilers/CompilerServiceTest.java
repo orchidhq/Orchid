@@ -1,6 +1,5 @@
 package com.eden.orchid.api.compilers;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
@@ -10,8 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -31,19 +32,19 @@ public final class CompilerServiceTest {
 
     private String mockInput;
     private String compiledOutput;
-    private JSONObject parsedOutput;
+    private Map<String, Object> parsedOutput;
     private String precompilerOutput;
-    private JSONElement precompilerElement;
-    private EdenPair<String, JSONElement> precompilerEmbeddedData;
+    private Map<String, Object> precompilerElement;
+    private EdenPair<String, Map<String, Object>> precompilerEmbeddedData;
 
     @BeforeEach
     public void testSetup() {
         // target outputs
         mockInput = "input";
         compiledOutput = "compiled";
-        parsedOutput = new JSONObject();
+        parsedOutput = new HashMap<>();
         precompilerOutput = "precompiled";
-        precompilerElement = new JSONElement(new JSONObject());
+        precompilerElement = new HashMap<>();
         precompilerEmbeddedData = new EdenPair<>(precompilerOutput, precompilerElement);
 
         Set<OrchidCompiler> compilers = new HashSet<>();

@@ -4,6 +4,9 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * A Resource type that provides a plain String as content to a template. When used with renderTemplate() or renderString(),
@@ -15,10 +18,10 @@ public final class StringResource extends OrchidResource {
     public StringResource(String content, OrchidReference reference) {
         super(reference);
         if(content != null) {
-            EdenPair<String, JSONElement> parsedContent = getContext().getEmbeddedData(content);
+            EdenPair<String, Map<String, Object>> parsedContent = getContext().getEmbeddedData(content);
             this.rawContent = content;
             this.content = parsedContent.first;
-            this.embeddedData = parsedContent.second;
+            this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
         }
         else {
             this.rawContent = "";

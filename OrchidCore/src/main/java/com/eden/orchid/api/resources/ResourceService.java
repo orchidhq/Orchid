@@ -3,9 +3,9 @@ package com.eden.orchid.api.resources;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.inject.ImplementedBy;
-import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since v1.0.0
@@ -14,11 +14,11 @@ import java.util.List;
 @ImplementedBy(ResourceServiceImpl.class)
 public interface ResourceService extends OrchidService {
 
-    default JSONObject getDatafile(final String fileName) {
+    default Map<String, Object> getDatafile(final String fileName) {
         return getService(ResourceService.class).getDatafile(fileName);
     }
 
-    default JSONObject getDatafiles(final String directory) {
+    default Map<String, Object> getDatafiles(final String directory) {
         return getService(ResourceService.class).getDatafiles(directory);
     }
 
@@ -46,15 +46,15 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive);
     }
 
-    default JSONObject loadAdditionalFile(String url) {
+    default Map<String, Object> loadAdditionalFile(String url) {
         return getService(ResourceService.class).loadAdditionalFile(url);
     }
 
-    default JSONObject loadLocalFile(String url) {
+    default Map<String, Object> loadLocalFile(String url) {
         return getService(ResourceService.class).loadLocalFile(url);
     }
 
-    default JSONObject loadRemoteFile(String url) {
+    default Map<String, Object> loadRemoteFile(String url) {
         return getService(ResourceService.class).loadRemoteFile(url);
     }
 

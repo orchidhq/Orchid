@@ -22,7 +22,9 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public final class IndexFileResponse {
 
@@ -89,22 +91,22 @@ public final class IndexFileResponse {
 
                 OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb");
 
-                JSONObject indexPageVars = new JSONObject();
+                Map<String, Object> indexPageVars = new HashMap<>();
                 indexPageVars.put("title", "List of files/dirs under " + targetPath);
                 indexPageVars.put("path", targetPath);
                 indexPageVars.put("dirs", jsonDirs);
                 indexPageVars.put("files", jsonFiles);
 
-                JSONObject object = new JSONObject(context.getConfig().toMap());
+                Map<String, Object> object = context.getConfig();
                 object.put("page", indexPageVars);
                 object.put("theme", context.getTheme());
 
                 String directoryListingContent;
                 if (resource != null) {
-                    directoryListingContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object.toMap());
+                    directoryListingContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object);
                 }
                 else {
-                    directoryListingContent = object.toString(2);
+                    directoryListingContent = context.serialize("json", object);
                 }
 
                 OrchidPage page = new OrchidPage(new StringResource(context, "directoryListing.txt", directoryListingContent), "directoryListing");

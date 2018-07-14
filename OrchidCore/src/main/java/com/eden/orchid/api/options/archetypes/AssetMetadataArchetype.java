@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionArchetype;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.utilities.OrchidUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class AssetMetadataArchetype implements OptionArchetype {
 
     @Override
     public Map<String, Object> getOptions(Object target, String archetypeKey) {
-        JSONObject data = null;
+        Map<String, Object> data = null;
 
         if(target instanceof AssetPage) {
             AssetPage page = (AssetPage) target;
@@ -38,7 +37,7 @@ public class AssetMetadataArchetype implements OptionArchetype {
             }
         }
 
-        return (data != null) ? data.toMap() : null;
+        return data;
     }
 
 }

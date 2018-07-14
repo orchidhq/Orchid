@@ -3,9 +3,9 @@ package com.eden.orchid.impl.compilers.parsers;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public final class TOMLParser extends OrchidParser {
@@ -31,9 +31,9 @@ public final class TOMLParser extends OrchidParser {
     }
 
     @Override
-    public JSONObject parse(String extension, String input) {
+    public Map<String, Object> parse(String extension, String input) {
         Toml toml = new Toml().read(input);
-        return new JSONObject(toml.toMap());
+        return toml.toMap();
     }
 
     @Override

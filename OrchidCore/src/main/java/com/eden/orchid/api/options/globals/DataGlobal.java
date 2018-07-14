@@ -14,6 +14,6 @@ public class DataGlobal implements TemplateGlobal<Map<String, Object>> {
 
     @Override
     public Map<String, Object> get(OrchidContext context) {
-        return context.getData().toMap();
+        return context.getData();
     }
 }
