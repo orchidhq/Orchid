@@ -24,12 +24,12 @@ dependencies {
     api "org.glassfish:javax.el:3.0.1-b10"
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
-    api 'org.json:json:20180130'
-    api 'org.yaml:snakeyaml:1.21'
-    api 'com.moandjiezana.toml:toml4j:0.7.2'
-    api 'io.pebbletemplates:pebble:3.0.0.BETA01'
-    api 'io.bit3:jsass:5.7.3'
-    api 'com.univocity:univocity-parsers:2.6.4'
+    implementation 'org.json:json:20180130'
+    implementation 'org.yaml:snakeyaml:1.21'
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+    implementation 'io.pebbletemplates:pebble:3.0.0'
+    implementation 'io.bit3:jsass:5.7.3'
+    implementation 'com.univocity:univocity-parsers:2.6.4'
 
     // Flexmark extensions
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
@@ -41,8 +41,8 @@ dependencies {
     implementation "com.vladsch.flexmark:flexmark-ext-toc:$flexmarkVersion"
 
     // server
-    api 'org.nanohttpd:nanohttpd:2.3.1'
-    api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'org.nanohttpd:nanohttpd-websocket:2.3.1'
 
     // generate own documentation with Orchid
     orchidCompile mainProjects

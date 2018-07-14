@@ -48,4 +48,9 @@ public final class JsonParser extends OrchidParser {
 
         return null;
     }
+
+    @Override
+    public String serialize(String extension, Object input) {
+        return new JSONObject(input).toString();
+    }
 }

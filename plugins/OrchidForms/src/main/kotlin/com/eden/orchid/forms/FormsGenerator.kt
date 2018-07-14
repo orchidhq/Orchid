@@ -52,6 +52,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun getFormsWithSubmissionPages(forms: HashMap<String, Form>): List<OrchidPage> {
         val pages = ArrayList<OrchidPage>()
         val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.compilerExtensions.toTypedArray(), false)

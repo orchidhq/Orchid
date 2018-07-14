@@ -18,6 +18,7 @@ public final class OrchidParserTest {
         underTest = new OrchidParser(100) {
             @Override public String[] getSourceExtensions() { return new String[] { "" }; }
             @Override public JSONObject parse(String extension, String input) { return new JSONObject(); }
+            @Override public String serialize(String extension, Object input) { return ""; }
         };
     }
 

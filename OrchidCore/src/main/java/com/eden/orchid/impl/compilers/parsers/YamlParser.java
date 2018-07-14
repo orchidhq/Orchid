@@ -44,4 +44,9 @@ public final class YamlParser extends OrchidParser {
 
         return null;
     }
+
+    @Override
+    public String serialize(String extension, Object input) {
+        return new Yaml().dump(input);
+    }
 }

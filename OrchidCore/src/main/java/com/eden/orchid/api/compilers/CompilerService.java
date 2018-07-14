@@ -139,6 +139,20 @@ public interface CompilerService extends OrchidService {
     }
 
     /**
+     * Compiles input against a given Parser identified by file extension.
+     *
+     * @param extension the extension to find a Parser for
+     * @param input the input to parse
+     * @return the data represented by the input if an appropriate Parser could be found, otherwise an empty JSONObject
+     *
+     * @since v1.0.0
+     * @see OrchidParser
+     */
+    default String serialize(String extension, Object input) {
+        return getService(CompilerService.class).serialize(extension, input);
+    }
+
+    /**
      * Extract the data embedded within some given content, returning the data that was extracted as well as the content
      * after the embedded data has been removed.
      *

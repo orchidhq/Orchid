@@ -62,4 +62,9 @@ public final class CSVParser extends OrchidParser {
         object.put(OrchidParser.arrayAsObjectKey, array);
         return object;
     }
+
+    @Override
+    public String serialize(String extension, Object input) {
+        return "";
+    }
 }

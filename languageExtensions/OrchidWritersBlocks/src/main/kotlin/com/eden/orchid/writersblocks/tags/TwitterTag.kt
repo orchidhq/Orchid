@@ -48,6 +48,7 @@ constructor(val client: OkHttpClient) : TemplateTag("twitter", TemplateTag.Type.
     }
 
     var embeddedTweet: String? = null
+        @Suppress("UNUSED_PARAMETER")
         private set(value) {}
         get() {
             if(field == null) {

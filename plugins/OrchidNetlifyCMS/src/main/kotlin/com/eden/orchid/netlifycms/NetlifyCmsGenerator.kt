@@ -24,7 +24,6 @@ import com.eden.orchid.netlifycms.util.toNetlifyCmsSlug
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject
-import org.yaml.snakeyaml.Yaml
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -137,8 +136,7 @@ constructor(
 
         jsonConfig = EdenUtils.merge(jsonConfig, config)
 
-        val yaml = Yaml()
-        return yaml.dump(jsonConfig.toMap())
+        return context.serialize("yaml", jsonConfig.toMap())
     }
 
     private fun setupFolderCollection(collectionData: JSONObject, collection: FolderCollection): Boolean {

@@ -196,6 +196,11 @@ public final class CompilerServiceImpl implements CompilerService {
         return (parser != null) ? parser.parse(extension, input) : null;
     }
 
+    public String serialize(String extension, Object input) {
+        OrchidParser parser = parserFor(extension);
+        return (parser != null) ? parser.serialize(extension, input) : null;
+    }
+
     public EdenPair<String, JSONElement> getEmbeddedData(String input) {
         return precompiler.getEmbeddedData(input);
     }

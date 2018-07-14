@@ -2,6 +2,7 @@ package com.eden.orchid.impl.compilers.parsers;
 
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.moandjiezana.toml.Toml;
+import com.moandjiezana.toml.TomlWriter;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -33,5 +34,11 @@ public final class TOMLParser extends OrchidParser {
     public JSONObject parse(String extension, String input) {
         Toml toml = new Toml().read(input);
         return new JSONObject(toml.toMap());
+    }
+
+    @Override
+    public String serialize(String extension, Object input) {
+        TomlWriter tomlWriter = new TomlWriter();
+        return tomlWriter.write(input);
     }
 }

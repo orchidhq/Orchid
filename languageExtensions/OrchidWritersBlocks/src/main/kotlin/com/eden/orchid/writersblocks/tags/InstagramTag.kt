@@ -22,6 +22,7 @@ constructor(val client: OkHttpClient) : TemplateTag("instagram", TemplateTag.Typ
     }
 
     var embeddedPost: String? = null
+        @Suppress("UNUSED_PARAMETER")
         private set(value) {}
         get() {
             if(field == null) {
