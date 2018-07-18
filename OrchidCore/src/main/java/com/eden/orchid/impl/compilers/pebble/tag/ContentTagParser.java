@@ -60,7 +60,12 @@ public class ContentTagParser extends BaseTagParser {
     public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
         TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
-        freshTag.setPage((OrchidPage) context.getVariable("page"));
+
+        Object pageVar = context.getVariable("page");
+        if(pageVar instanceof OrchidPage) {
+            freshTag.setPage((OrchidPage) pageVar);
+        }
+
         freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
 
         String bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context)).trim();
