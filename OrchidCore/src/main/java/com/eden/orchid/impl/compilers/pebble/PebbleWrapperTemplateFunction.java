@@ -40,7 +40,12 @@ public final class PebbleWrapperTemplateFunction implements Function {
             EvaluationContext context,
             int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
-        freshFunction.setPage((OrchidPage) context.getVariable("page"));
+
+        Object pageVar = context.getVariable("page");
+        if(pageVar instanceof OrchidPage) {
+            freshFunction.setPage((OrchidPage) pageVar);
+        }
+
         freshFunction.extractOptions(contextProvider.get(), args);
         Object output = freshFunction.apply();
 

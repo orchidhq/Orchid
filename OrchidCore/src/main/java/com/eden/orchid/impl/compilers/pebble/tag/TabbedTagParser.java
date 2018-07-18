@@ -124,7 +124,12 @@ public class TabbedTagParser extends BaseTagParser {
 
         // evaluate its own params and populate the main Tag class with them
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
-        freshTag.setPage((OrchidPage) context.getVariable("page"));
+
+        Object pageVar = context.getVariable("page");
+        if(pageVar instanceof OrchidPage) {
+            freshTag.setPage((OrchidPage) pageVar);
+        }
+
         freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
 
         // populate the content of each tab
