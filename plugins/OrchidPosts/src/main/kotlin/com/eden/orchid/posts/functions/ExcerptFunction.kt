@@ -8,15 +8,18 @@ import javax.inject.Inject
 class ExcerptFunction @Inject
 constructor(val strategy: PostsExcerptStrategy) : TemplateFunction("excerpt", false) {
 
-    var page: Any? = null
+    var input: Any? = null
 
     override fun parameters(): Array<String> {
-        return arrayOf("page")
+        return arrayOf("input")
     }
 
     override fun apply(): Any {
-        if(page != null && page is OrchidPage) {
-            return strategy.getExcerpt(page as OrchidPage)
+        if(input != null && input is OrchidPage) {
+            return strategy.getExcerpt(input as OrchidPage)
+        }
+        else if(page != null) {
+            return strategy.getExcerpt(page)
         }
 
         return ""

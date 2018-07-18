@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.themes.functions;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.indexing.IndexService;
@@ -34,9 +33,9 @@ public final class FindAllFunction extends TemplateFunction {
     @Description("The specific Id of the given collection type where the items are expected to come from.")
     private String collectionId;
 
-    @Option @IntDefault(0)
+    @Option("page") @IntDefault(0)
     @Description("Paginate results starting at this page.")
-    private int page;
+    public int pageIndex;
 
     @Option @IntDefault(0)
     @Description("Paginate results using this as a page size")
@@ -58,9 +57,8 @@ public final class FindAllFunction extends TemplateFunction {
 
     @Override
     public Object apply() {
-        if(page > 0 && pageSize > 0) {
-            Clog.v("Finding all paginated: {}/{}", page, pageSize);
-            return context.findAll(collectionType, collectionId, itemId, page, pageSize);
+        if(pageIndex > 0 && pageSize > 0) {
+            return context.findAll(collectionType, collectionId, itemId, pageIndex, pageSize);
         }
         else {
             return context.findAll(collectionType, collectionId, itemId);

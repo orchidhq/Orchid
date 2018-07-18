@@ -2,6 +2,7 @@ package com.eden.orchid.impl.compilers.pebble.tag;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.compilers.pebble.PebbleWrapperTemplateTag;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
@@ -56,6 +57,7 @@ public class SimpleTagParser extends BaseTagParser {
         TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
 
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
+        freshTag.setPage((OrchidPage) context.getVariable("page"));
         freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
 
         freshTag.onRender();

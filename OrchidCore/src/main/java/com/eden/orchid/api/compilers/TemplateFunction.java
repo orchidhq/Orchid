@@ -2,7 +2,9 @@ package com.eden.orchid.api.compilers;
 
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Template Functions add methods that can be called by themselves or as a "filter" in an expression within the primary
@@ -19,6 +21,10 @@ public abstract class TemplateFunction implements OptionsHolder {
 
     @Getter
     protected final boolean isSafe;
+
+    @Getter
+    @Setter
+    protected OrchidPage page;
 
     /**
      * Initialize the Function with the name which it should be called with in the template., and whether Whether this

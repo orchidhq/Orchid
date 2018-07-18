@@ -2,6 +2,7 @@ package com.eden.orchid.impl.compilers.pebble;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.extension.Function;
 import com.mitchellbosecke.pebble.extension.escaper.SafeString;
@@ -39,6 +40,7 @@ public final class PebbleWrapperTemplateFunction implements Function {
             EvaluationContext context,
             int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
+        freshFunction.setPage((OrchidPage) context.getVariable("page"));
         freshFunction.extractOptions(contextProvider.get(), args);
         Object output = freshFunction.apply();
 

@@ -2,12 +2,12 @@
 layout: frontPage
 relativePriority: 1.0
 components:
-  - {template: 'homepage-description'}
-  - {template: 'homepage-grid'}
-  - {template: 'homepage-setup'}
-  - {template: 'homepage-staggered-list'}
-  - {template: 'homepage-open-source'}
-  - {template: 'homepage-call-to-action'}
+  - template: 'homepage-description'
+  - template: 'homepage-grid'
+  - template: 'homepage-setup'
+  - template: 'homepage-staggered-list'
+  - template: 'homepage-open-source'
+  - template: 'homepage-call-to-action'
 extraCss:
   - 'assets/css/homepage.scss'
 keywordPages:

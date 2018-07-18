@@ -1,8 +1,8 @@
 package com.eden.orchid.api.compilers;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,6 +60,10 @@ public abstract class TemplateTag implements OptionsHolder {
     @Getter
     @Setter
     private Type type;
+
+    @Getter
+    @Setter
+    protected OrchidPage page;
 
     /**
      * Initialize the Tag with the name which it should be called with in the template. The actual implementation of a
