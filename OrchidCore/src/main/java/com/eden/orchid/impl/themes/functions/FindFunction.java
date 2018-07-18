@@ -41,7 +41,7 @@ public final class FindFunction extends TemplateFunction {
     }
 
     @Override
-    public Object apply(Object input) {
+    public Object apply() {
         return context.find(collectionType, collectionId, itemId);
     }
 

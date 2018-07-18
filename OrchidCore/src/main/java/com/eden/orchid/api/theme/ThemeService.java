@@ -3,7 +3,8 @@ package com.eden.orchid.api.theme;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
 import com.google.inject.ImplementedBy;
-import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * @since v1.0.0
@@ -32,7 +33,7 @@ public interface ThemeService extends OrchidService {
         getService(ThemeService.class).pushTheme(theme);
     }
 
-    default void pushTheme(Theme theme, JSONObject themeOptions) {
+    default void pushTheme(Theme theme, Map<String, Object> themeOptions) {
         getService(ThemeService.class).pushTheme(theme, themeOptions);
     }
 
@@ -64,7 +65,7 @@ public interface ThemeService extends OrchidService {
         getService(ThemeService.class).pushAdminTheme(theme);
     }
 
-    default void pushAdminTheme(AdminTheme theme, JSONObject themeOptions) {
+    default void pushAdminTheme(AdminTheme theme, Map<String, Object> themeOptions) {
         getService(ThemeService.class).pushAdminTheme(theme, themeOptions);
     }
 

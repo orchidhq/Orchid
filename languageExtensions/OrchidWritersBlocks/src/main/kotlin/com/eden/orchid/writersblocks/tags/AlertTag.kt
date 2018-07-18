@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import javax.inject.Inject
 
 class AlertTag @Inject
-constructor() : TemplateTag("alert", true) {
+constructor() : TemplateTag("alert", TemplateTag.Type.Content, true) {
 
     @Option @StringDefault("info")
     @Description("The Alert level. Typically based on the Bootstrap alert levels of [success, info, warning, and " +

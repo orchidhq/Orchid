@@ -32,7 +32,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
     override fun getOption(field: Field, sourceObject: Any, key: String): Author? {
         if (sourceObject is JSONObject) {
             val author = Author()
-            author.extractOptions(contextProvider.get(), sourceObject)
+            author.extractOptions(contextProvider.get(), sourceObject.toMap())
             return author
         } else {
             val value = converter.convert(sourceObject)

@@ -34,7 +34,7 @@ class AuthorPage(resource: OrchidResource, val author: Author, val postsModel: P
     }
 
     fun initializeAuthorFromPageData() {
-        author.extractOptions(context, this.allData.element as JSONObject)
+        author.extractOptions(context, this.allData)
     }
 
     override fun getTemplates(): List<String> {

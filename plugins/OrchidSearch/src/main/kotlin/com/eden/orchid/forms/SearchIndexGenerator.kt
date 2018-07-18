@@ -11,7 +11,6 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
-import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
 
@@ -70,7 +69,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
 
         // Render an index of all indices, so individual index pages can be found
         for (page in indices.allPages) {
-            page.data = JSONObject()
+            page.data = HashMap()
         }
         val indexResource = JsonResource(JSONElement(indices.toJSON(false, false)), OrchidReference(context, "meta/index.json"))
         val indicesPage = OrchidPage(indexResource, "index")

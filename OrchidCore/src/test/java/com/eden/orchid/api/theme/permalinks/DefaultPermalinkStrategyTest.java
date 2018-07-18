@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.permalinks;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -82,9 +81,10 @@ public class DefaultPermalinkStrategyTest {
         JSONObject jsonData = new JSONObject();
         jsonData.put("pageValue", 2);
 
-        JSONElement data = new JSONElement(jsonData);
         pathTypes.add(new DataPropertyPathType(converter));
-        when(page.getAllData()).thenReturn(data);
+        when(page.query(anyString())).thenCallRealMethod();
+        when(page.get(anyString())).thenCallRealMethod();
+        when(page.getMap()).thenReturn(jsonData.toMap());
 
         underTest = new DefaultPermalinkStrategy(pathTypes);
 
@@ -100,9 +100,10 @@ public class DefaultPermalinkStrategyTest {
         jsonData.put("pageObj", new JSONObject());
         jsonData.getJSONObject("pageObj").put("pageValue", 2);
 
-        JSONElement data = new JSONElement(jsonData);
         pathTypes.add(new DataPropertyPathType(converter));
-        when(page.getAllData()).thenReturn(data);
+        when(page.query(anyString())).thenCallRealMethod();
+        when(page.get(anyString())).thenCallRealMethod();
+        when(page.getMap()).thenReturn(jsonData.toMap());
 
         underTest = new DefaultPermalinkStrategy(pathTypes);
 

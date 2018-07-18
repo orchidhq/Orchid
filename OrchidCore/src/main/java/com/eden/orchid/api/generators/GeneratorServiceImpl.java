@@ -10,7 +10,6 @@ import com.eden.orchid.api.indexing.OrchidInternalIndex;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -21,7 +20,9 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -121,10 +122,10 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         JSONElement el = context.query(generator.getKey());
         if (EdenUtils.elementIsObject(el)) {
-            generator.extractOptions(context, (JSONObject) el.getElement());
+            generator.extractOptions(context, ((JSONObject) el.getElement()).toMap());
         }
         else {
-            generator.extractOptions(context, new JSONObject());
+            generator.extractOptions(context, new HashMap<>());
         }
 
         // get the pages from a generator
@@ -139,7 +140,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
                 page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
-                freePage(page);
+                page.free();
             });
             context.addChildIndex(generator.getKey(), index);
         }
@@ -163,9 +164,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
     private void buildExternalIndex() {
         if(!EdenUtils.isEmpty(externalIndices)) {
             for (String externalIndex : externalIndices) {
-                JSONObject indexJson = this.context.loadAdditionalFile(externalIndex);
+                Map<String, Object> indexJson = this.context.loadAdditionalFile(externalIndex);
                 if (indexJson != null) {
-                    OrchidIndex index = OrchidIndex.fromJSON(context, indexJson);
+                    OrchidIndex index = OrchidIndex.fromJSON(context, new JSONObject(indexJson));
                     context.addExternalChildIndex(index);
                 }
             }
@@ -207,7 +208,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     public void onPageGenerated(OrchidPage page, long millis) {
         metrics.onPageGenerated(page, millis);
-        freePage(page);
+        page.free();
     }
 
 // Utilities
@@ -236,12 +237,6 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
 
         return generatorStream;
-    }
-
-    private void freePage(OrchidPage page) {
-        if (page.getResource() instanceof FreeableResource) {
-            ((FreeableResource) page.getResource()).free();
-        }
     }
 
 }

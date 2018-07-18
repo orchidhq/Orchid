@@ -1,6 +1,6 @@
 ---
 title: Anonymous Form Demo
-templates: page
+template: page
 skipTaxonomy: true
 components:
   - type: pageContent

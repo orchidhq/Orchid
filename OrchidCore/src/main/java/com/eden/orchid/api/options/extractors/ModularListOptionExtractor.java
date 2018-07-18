@@ -7,11 +7,11 @@ import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.ModularListConfig;
 import com.eden.orchid.api.theme.components.ModularList;
 import com.google.inject.Provider;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,13 +52,13 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
         Iterable iterable = iterableConverter.convert(sourceObject, objectKeyName).second;
 
-        JSONArray jsonArray = new JSONArray();
+        List<Map<String, Object>> jsonArray = new ArrayList<>();
         for(Object o : iterable) {
-            Map map = mapConverter.convert(o).second;
-            jsonArray.put(new JSONObject(map));
+            Map<String, Object> map = (Map<String, Object>) mapConverter.convert(o).second;
+            jsonArray.add(map);
         }
 
-        if(jsonArray.length() > 0) {
+        if(jsonArray.size() > 0) {
             ModularList modularList = (ModularList) contextProvider.get().getInjector().getInstance(field.getType());
             modularList.initialize(jsonArray);
             return modularList;
@@ -70,7 +70,7 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
     @Override
     public ModularList getDefaultValue(Field field) {
         ModularList modularList = (ModularList) contextProvider.get().getInjector().getInstance(field.getType());
-        modularList.initialize(new JSONArray());
+        modularList.initialize(new ArrayList<>());
         return modularList;
     }
 

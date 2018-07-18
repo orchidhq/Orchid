@@ -2,14 +2,14 @@
 official: true
 included:
   - pluginType: themes
-    pluginName: Orchid BsDoc
+    pluginName: Orchid Bs Doc
   - pluginType: themes
     pluginName: Orchid Editorial
   - pluginType: themes
     pluginName: Orchid Future Imperfect
     
   - pluginType: plugins
-    pluginName: Orchid Asciidoc    
+    pluginName: Orchid Asciidoc
   - pluginType: plugins
     pluginName: Orchid Bible
   - pluginType: plugins

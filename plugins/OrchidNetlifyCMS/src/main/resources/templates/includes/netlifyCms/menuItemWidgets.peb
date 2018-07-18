@@ -5,7 +5,7 @@
     CMS.registerWidget({
         id:        "{{- menuItem.type -}}Menu",
         label:     "{{- menuItem.type -}}",
-        fields:     {{- page.getTemplateFields(menuItem) | raw -}}
+        fields:     {{- page.getTemplateFieldsFromMenuItem(menuItem) | raw -}}
     });
     {% endfor %}
 </script>

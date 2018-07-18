@@ -1,5 +1,6 @@
 package com.eden.orchid.taxonomies
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -17,8 +18,6 @@ import com.eden.orchid.taxonomies.pages.TaxonomyArchivePage
 import com.eden.orchid.taxonomies.pages.TermArchivePage
 import com.eden.orchid.taxonomies.utils.getSingleTermValue
 import com.eden.orchid.taxonomies.utils.getTermValues
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,56 +32,34 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
 
     @Option
     @Description("An array of Taxonomy configurations.")
-    lateinit var taxonomies: JSONArray
+    lateinit var taxonomies: List<Taxonomy>
 
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
 
-        if (taxonomies.length() > 0) {
-            for (i in 0 until taxonomies.length()) {
-                val taxonomy = taxonomies.get(i)
-                val taxonomyKey: String
-                val taxonomyOptions: JSONObject?
-
-                if(taxonomy is String) {
-                    taxonomyKey = taxonomy
-                    taxonomyOptions = null
-                }
-                else if(taxonomy is JSONObject) {
-                    if (taxonomy.length() == 1) {
-                        taxonomyKey = taxonomy.keySet().first()
-                        taxonomyOptions = taxonomy.get(taxonomyKey) as? JSONObject
-                    }
-                    else {
-                        taxonomyKey = taxonomy.getString("key")
-                        taxonomyOptions = taxonomy
-                    }
-                }
-                else {
-                    continue
-                }
-
-                val taxonomyModel = model.getTaxonomy(taxonomyKey, taxonomyOptions ?: JSONObject())
-                val enabledGeneratorKeys = context.getGeneratorKeys(taxonomyModel.includeFrom, taxonomyModel.excludeFrom)
+        if (!EdenUtils.isEmpty(taxonomies)) {
+            taxonomies.forEach { taxonomy ->
+                model.putTaxonomy(taxonomy)
+                val enabledGeneratorKeys = context.getGeneratorKeys(taxonomy.includeFrom, taxonomy.excludeFrom)
 
                 context.internalIndex.getGeneratorPages(enabledGeneratorKeys).forEach { page ->
                     if(page.getSingleTermValue("skipTaxonomy") == "true") {return@forEach}
 
                     val pageTerms = HashSet<String?>()
-                    if(taxonomyModel.single) {
-                        pageTerms.add(page.getSingleTermValue(taxonomyKey))
+                    if(taxonomy.single) {
+                        pageTerms.add(page.getSingleTermValue(taxonomy.key))
                     }
                     else {
-                        if(taxonomyModel.singleKey.isNotBlank()) {
-                            pageTerms.add(page.getSingleTermValue(taxonomyModel.singleKey))
+                        if(taxonomy.singleKey.isNotBlank()) {
+                            pageTerms.add(page.getSingleTermValue(taxonomy.singleKey))
                         }
 
-                        pageTerms.addAll(page.getTermValues(taxonomyKey))
+                        pageTerms.addAll(page.getTermValues(taxonomy.key))
                     }
 
                     pageTerms.forEach { term ->
                         if(term != null) {
-                            model.addPage(taxonomyKey, term, page)
+                            model.addPage(taxonomy, term, page)
                         }
                     }
                 }

@@ -18,7 +18,7 @@ constructor(private val converter: StringConverter) : TemplateFunction("encodeSp
         return arrayOf("input")
     }
 
-    override fun apply(input: Any?): Any {
-        return converter.convert(input ?: this.input).second.encodeSpaces()
+    override fun apply(): Any {
+        return converter.convert(input).second.encodeSpaces()
     }
 }

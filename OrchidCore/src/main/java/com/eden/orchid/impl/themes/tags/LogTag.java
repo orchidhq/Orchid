@@ -24,7 +24,7 @@ public final class LogTag extends TemplateTag {
 
     @Inject
     public LogTag() {
-        super("log", true, false);
+        super("log", Type.Content, false);
     }
 
     @Override
@@ -33,7 +33,7 @@ public final class LogTag extends TemplateTag {
     }
 
     @Override
-    public void onPostExtraction() {
+    public void onRender() {
         IClog clog = (!EdenUtils.isEmpty(tag)) ? Clog.tag(tag) : Clog.getInstance();
 
         switch (level.toLowerCase()) {

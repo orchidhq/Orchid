@@ -1,0 +1,33 @@
+taxonomies:
+  - key: group
+    single: true
+    plugins:
+      orderByDirection: asc
+      orderBy:
+        - 'title'
+    themes:
+      orderByDirection: asc
+      orderBy:
+        - 'title'
+    bundles:
+      orderByDirection: asc
+      orderBy:
+        - 'title'
+  - key: tags
+    single: false
+    orderBy:
+      - entryCount
+  - key: orchidApi
+    single: true
+    includeFrom:
+      - javadoc
+taxonomyArchivePages:
+  searchIndices:
+    - 'pages'
+  extraCss:
+    - 'assets/css/plugins.scss'
+termArchivePages:
+  searchIndices:
+    - 'pages'
+  extraCss:
+    - 'assets/css/plugins.scss'

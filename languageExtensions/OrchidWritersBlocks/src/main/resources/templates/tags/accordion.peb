@@ -1,0 +1,16 @@
+<div class="panel-group" id="{{ tag.id }}">
+{% for tab in tag.tabs %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#{{ tag.id }}" href="#{{ tag.id }}-{{ tab.key }}" role="tab">
+                    {{ tab.title }}
+                </a>
+            </h4>
+        </div>
+        <div id="{{ tag.id }}-{{ tab.key }}" class="panel-collapse collapse">
+            <div class="panel-body">{{ tab.content | raw }}</div>
+        </div>
+    </div>
+{% endfor %}
+</div>

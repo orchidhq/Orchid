@@ -3,6 +3,9 @@ package com.eden.orchid.api.resources.resource;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * An abstract concept of a 'freeable' resource, that is one that is able to look its contents back up, and so can be
@@ -18,9 +21,9 @@ public abstract class FreeableResource extends OrchidResource {
 
     protected void loadContent() {
         if(rawContent != null) {
-            EdenPair<String, JSONElement> parsedContent = reference.getContext().getEmbeddedData(rawContent);
+            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(rawContent);
             this.content = parsedContent.first;
-            this.embeddedData = parsedContent.second;
+            this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
         }
         else {
             this.rawContent = "";

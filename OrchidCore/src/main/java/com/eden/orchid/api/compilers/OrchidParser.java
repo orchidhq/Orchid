@@ -1,7 +1,8 @@
 package com.eden.orchid.api.compilers;
 
 import com.eden.orchid.api.registration.Prioritized;
-import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * A generic Parser used to convert structured text input into a usable JSONObject. Commonly used for extracting data
@@ -80,6 +81,19 @@ public abstract class OrchidParser extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract JSONObject parse(String extension, String input);
+    public abstract Map<String, Object> parse(String extension, String input);
+
+    /**
+     * Processes content according to a particular extension. The Parser expects to return a JSON object, regardless
+     * of whether it parsed JSONObject- or JSONArray-type content. If the result of processing is a JSONArray, it is
+     * expected that the array data will exist in a JSONObject at the OrchidParser.arrayAsObjectKey.
+     *
+     * @param extension the extension to parse the content against
+     * @param input the content to parse
+     * @return a JSONObject representing the data found by parsing the content
+     *
+     * @since v1.0.0
+     */
+    public abstract String serialize(String extension, Object input);
 
 }

@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
@@ -9,6 +10,8 @@ import com.google.inject.name.Named;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -74,7 +77,7 @@ public final class ThemeServiceImpl implements ThemeService {
     @Override public Theme getDefaultTheme()                               { return themes.getDefaultTheme(); }
     @Override public Theme findTheme(String theme)                         { return themes.findTheme(theme); }
     @Override public void  pushTheme(Theme theme)                          { themes.pushTheme(theme); }
-    @Override public void  pushTheme(Theme theme, JSONObject themeOptions) { themes.pushTheme(theme, themeOptions); }
+    @Override public void  pushTheme(Theme theme, Map<String, Object> themeOptions) { themes.pushTheme(theme, themeOptions); }
     @Override public void  popTheme()                                      { themes.popTheme(); }
     @Override public void  clearThemes()                                   { themes.clearThemes(); }
     @Override public Theme doWithTheme(Object theme, Runnable cb)          { return themes.doWithTheme(theme, cb); }
@@ -83,7 +86,7 @@ public final class ThemeServiceImpl implements ThemeService {
     @Override public AdminTheme getDefaultAdminTheme()                                    { return adminThemes.getDefaultTheme(); }
     @Override public AdminTheme findAdminTheme(String theme)                              { return adminThemes.findTheme(theme); }
     @Override public void       pushAdminTheme(AdminTheme theme)                          { adminThemes.pushTheme(theme); }
-    @Override public void       pushAdminTheme(AdminTheme theme, JSONObject themeOptions) { adminThemes.pushTheme(theme, themeOptions); }
+    @Override public void       pushAdminTheme(AdminTheme theme, Map<String, Object> themeOptions) { adminThemes.pushTheme(theme, themeOptions); }
     @Override public void       popAdminTheme()                                           { adminThemes.popTheme(); }
     @Override public void       clearAdminThemes()                                        { adminThemes.clearThemes(); }
 
@@ -143,19 +146,22 @@ public final class ThemeServiceImpl implements ThemeService {
         }
 
         void pushTheme(T theme) {
-            JSONObject themeOptions = new JSONObject();
+            Map<String, Object> actualThemeOptions = new HashMap<>();
 
-            if(EdenUtils.elementIsObject(context.query(defaultOptionsKey))) {
-                themeOptions = EdenUtils.merge(themeOptions,  (JSONObject) context.query(defaultOptionsKey).getElement());
-            }
-            if(EdenUtils.elementIsObject(context.query(theme.getKey()))) {
-                themeOptions = EdenUtils.merge(themeOptions,  (JSONObject) context.query(theme.getKey()).getElement());
+            JSONElement defaultThemeOptions = context.query(defaultOptionsKey);
+            if(EdenUtils.elementIsObject(defaultThemeOptions)) {
+                actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) defaultThemeOptions.getElement()).toMap());
             }
 
-            pushTheme(theme, themeOptions);
+            JSONElement themeOptions = context.query(theme.getKey());
+            if(EdenUtils.elementIsObject(themeOptions)) {
+                actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) themeOptions.getElement()).toMap());
+            }
+
+            pushTheme(theme, actualThemeOptions);
         }
 
-        void pushTheme(T theme, JSONObject themeOptions) {
+        void pushTheme(T theme, Map<String, Object> themeOptions) {
             theme.clearCache();
             theme.initialize();
 
@@ -175,16 +181,30 @@ public final class ThemeServiceImpl implements ThemeService {
 
         T doWithTheme(Object themeObject, Runnable cb) {
             T theme = null;
-            JSONObject themeOptions = null;
+            Object themeKey = null;
+            Map<String, Object> themeOptions = null;
 
             if(themeObject != null) {
                 if(themeObject instanceof String) {
                     themeOptions = null;
-                    theme = findTheme((String) themeObject);
+                    themeKey = themeObject;
+                    theme = findTheme((String) themeKey);
                 }
                 else if(themeObject instanceof JSONObject) {
-                    themeOptions = (JSONObject) themeObject;
-                    theme = findTheme(((JSONObject) themeObject).getString("key"));
+                    themeOptions = ((JSONObject) themeObject).toMap();
+                    themeKey = themeOptions.get("key");
+                    if(themeKey != null) {
+                        themeKey = themeKey.toString();
+                    }
+                    theme = findTheme((String) themeKey);
+                }
+                else if(themeObject instanceof Map) {
+                    themeOptions = (Map<String, Object>) themeObject;
+                    themeKey = themeOptions.get("key");
+                    if(themeKey != null) {
+                        themeKey = themeKey.toString();
+                    }
+                    theme = findTheme((String) themeKey);
                 }
             }
 

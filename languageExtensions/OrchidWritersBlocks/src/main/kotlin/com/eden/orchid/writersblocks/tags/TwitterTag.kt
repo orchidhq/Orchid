@@ -11,7 +11,7 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 class TwitterTag @Inject
-constructor(val client: OkHttpClient) : TemplateTag("twitter", false) {
+constructor(val client: OkHttpClient) : TemplateTag("twitter", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Twitter handle to use, without the @.")
@@ -48,6 +48,7 @@ constructor(val client: OkHttpClient) : TemplateTag("twitter", false) {
     }
 
     var embeddedTweet: String? = null
+        @Suppress("UNUSED_PARAMETER")
         private set(value) {}
         get() {
             if(field == null) {

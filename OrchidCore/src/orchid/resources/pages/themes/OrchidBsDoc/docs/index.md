@@ -1,5 +1,5 @@
 ---
 theme: BsDoc
-templates: page
+template: page
 skipTaxonomy: true
 ---

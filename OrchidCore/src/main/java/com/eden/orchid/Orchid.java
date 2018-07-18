@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +108,8 @@ public final class Orchid {
         catch (Exception e) {
             Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
             e.printStackTrace();
+
+            context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
             return false;
         }
     }
@@ -365,17 +368,17 @@ public final class Orchid {
          * default, but other classes are free to use it as needed.
          */
         public static class ArchetypeOptions extends OrchidEvent {
-            private JSONObject config;
+            private Map<String, Object> config;
             public ArchetypeOptions(String archetypeKey, Object sender) {
                 super(archetypeKey, sender);
-                config = new JSONObject();
+                config = new HashMap<>();
             }
 
-            public JSONObject getConfig() {
+            public Map<String, Object> getConfig() {
                 return config;
             }
 
-            public void addConfig(JSONObject config) {
+            public void addConfig(Map<String, Object> config) {
                 if(config != null) {
                     this.config = EdenUtils.merge(this.config, config);
                 }

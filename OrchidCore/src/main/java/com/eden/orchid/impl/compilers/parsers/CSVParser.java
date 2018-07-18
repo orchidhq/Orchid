@@ -6,12 +6,13 @@ import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class CSVParser extends OrchidParser {
 
@@ -26,7 +27,7 @@ public final class CSVParser extends OrchidParser {
     }
 
     @Override
-    public JSONObject parse(String extension, String input) {
+    public Map<String, Object> parse(String extension, String input) {
         List<String[]> allRows;
 
         if(extension.equalsIgnoreCase("csv")) {
@@ -44,22 +45,27 @@ public final class CSVParser extends OrchidParser {
             allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.forName("UTF-8")));
         }
 
-        JSONArray array = new JSONArray();
+        List<Map<String, Object>> array = new ArrayList<>();
 
         String[] cols = allRows.get(0);
 
         for (int i = 1; i < allRows.size(); i++) {
-            JSONObject object = new JSONObject();
+            Map<String, Object> object = new HashMap<>();
 
             for (int j = 0; j < cols.length; j++) {
                 object.put(cols[j], allRows.get(i)[j]);
             }
 
-            array.put(object);
+            array.add(object);
         }
 
-        JSONObject object = new JSONObject();
+        Map<String, Object> object = new HashMap<>();
         object.put(OrchidParser.arrayAsObjectKey, array);
         return object;
+    }
+
+    @Override
+    public String serialize(String extension, Object input) {
+        return "";
     }
 }

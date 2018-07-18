@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class HighlightTag @Inject
     constructor(private val context: OrchidContext)
-    : TemplateTag("highlight", true) {
+    : TemplateTag("highlight", TemplateTag.Type.Content, true) {
 
     @Option @StringDefault("java")
     @Description("Your language to use for the syntax highlighting format.")

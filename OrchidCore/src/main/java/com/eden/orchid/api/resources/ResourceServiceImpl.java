@@ -19,7 +19,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,7 +31,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
@@ -71,11 +72,11 @@ public final class ResourceServiceImpl implements ResourceService {
         this.context = context;
     }
 
-// Load many datafiles into a single JSONObject
+// Load many datafiles into a single map
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public JSONObject getDatafile(final String fileName) {
+    public Map<String, Object> getDatafile(final String fileName) {
         return context.getParserExtensions().stream()
                 .map(ext -> {
                     OrchidResource resource = getLocalResourceEntry(fileName + "." + ext);
@@ -95,16 +96,16 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public JSONObject getDatafiles(final String directory) {
+    public Map<String, Object> getDatafiles(final String directory) {
         String[] parserExtensions = new String[context.getParserExtensions().size()];
         context.getParserExtensions().toArray(parserExtensions);
         List<OrchidResource> files = getLocalResourceEntries(directory, parserExtensions, true);
 
-        JSONObject allDatafiles = new JSONObject();
+        Map<String, Object> allDatafiles = new HashMap<>();
 
         for (OrchidResource file : files) {
             file.getReference().setUsePrettyUrl(false);
-            JSONObject fileData = context.parse(file.getReference().getExtension(), file.getContent());
+            Map<String, Object> fileData = context.parse(file.getReference().getExtension(), file.getContent());
 
             String innerPath = OrchidUtils.normalizePath(file.getReference().getPath().replaceAll(directory, ""));
 
@@ -116,23 +117,23 @@ public final class ResourceServiceImpl implements ResourceService {
         return allDatafiles;
     }
 
-    private void addNestedDataToMap(JSONObject allDatafiles, String[] pathPieces, JSONObject fileData) {
+    private void addNestedDataToMap(Map<String, Object> allDatafiles, String[] pathPieces, Map<String, Object> fileData) {
         if (fileData != null && pathPieces.length > 0) {
             if(pathPieces.length > 1) {
-                if(!allDatafiles.has(pathPieces[0])) {
-                    allDatafiles.put(pathPieces[0], new JSONObject());
+                if(!allDatafiles.containsKey(pathPieces[0])) {
+                    allDatafiles.put(pathPieces[0], new HashMap<String, Object>());
                 }
                 String[] newArray = Arrays.copyOfRange(pathPieces, 1, pathPieces.length);
-                addNestedDataToMap(allDatafiles.getJSONObject(pathPieces[0]), newArray, fileData);
+                addNestedDataToMap((Map<String, Object>) allDatafiles.get(pathPieces[0]), newArray, fileData);
             }
             else {
-                if (fileData.has(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
-                    allDatafiles.put(pathPieces[0], fileData.getJSONArray(OrchidParser.arrayAsObjectKey));
+                if (fileData.containsKey(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
+                    allDatafiles.put(pathPieces[0], fileData.get(OrchidParser.arrayAsObjectKey));
                 }
                 else {
-                    if(allDatafiles.has(pathPieces[0]) && (allDatafiles.get(pathPieces[0]) instanceof JSONObject)) {
+                    if(allDatafiles.containsKey(pathPieces[0]) && (allDatafiles.get(pathPieces[0]) instanceof Map)) {
                         for(String key : fileData.keySet()) {
-                            allDatafiles.getJSONObject(pathPieces[0]).put(key, fileData.get(key));
+                            ((Map<String, Object>) allDatafiles.get(pathPieces[0])).put(key, fileData.get(key));
                         }
                     }
                     else {
@@ -274,7 +275,7 @@ public final class ResourceServiceImpl implements ResourceService {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public JSONObject loadAdditionalFile(String url) {
+    public Map<String, Object> loadAdditionalFile(String url) {
         if (!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
             return loadLocalFile(url.replaceAll("file://", ""));
         }
@@ -284,7 +285,7 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public JSONObject loadLocalFile(String url) {
+    public Map<String, Object> loadLocalFile(String url) {
         try {
             File file = new File(url);
             String s = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
@@ -301,14 +302,14 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public JSONObject loadRemoteFile(String url) {
+    public Map<String, Object> loadRemoteFile(String url) {
         Request request = new Request.Builder().url(url).build();
 
-        JSONObject object = null;
+        Map<String, Object> object = null;
 
         try(Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                object = new JSONObject(response.body().string());
+                object = context.parse("json", response.body().string());
             }
         }
         catch (IOException e) {

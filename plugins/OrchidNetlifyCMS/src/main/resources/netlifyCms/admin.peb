@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Orchid Content Manager</title>
-{% include 'includes/styles' %}
+    {% styles %}
     <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.css" />
 </head>
 <body>
@@ -19,7 +19,7 @@
     CMS.registerWidget('orchidMenu', 'list');
 </script>
 
-{% include 'includes/scripts' %}
+{% scripts %}
 {% if page.isLocal() %}
 <!-- start:register backend -->
 <script>

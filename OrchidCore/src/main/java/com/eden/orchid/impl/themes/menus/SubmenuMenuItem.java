@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class DropdownMenuItem extends OrchidMenuItem {
+public final class SubmenuMenuItem extends OrchidMenuItem {
 
     @Option
     @Description("The text of the root menu item.")
@@ -23,8 +23,8 @@ public final class DropdownMenuItem extends OrchidMenuItem {
     public OrchidMenu menu;
 
     @Inject
-    public DropdownMenuItem(OrchidContext context) {
-        super(context, "dropdown", 100);
+    public SubmenuMenuItem(OrchidContext context) {
+        super(context, "submenu", 100);
     }
 
     @Override

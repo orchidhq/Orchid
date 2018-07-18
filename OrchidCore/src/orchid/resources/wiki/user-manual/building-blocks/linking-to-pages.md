@@ -127,7 +127,7 @@ This menu item only matches items if they are an {{anchor('OrchidPage')}}.
 {% highlight 'yaml' %}
 menu: 
   - type: page
-    itemid: 'itemId'
+    itemId: 'itemId'
     collectionId: 'collectionId'
     collectionType: 'collectionType'
 {% endhighlight %}

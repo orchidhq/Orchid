@@ -26,14 +26,12 @@
 #      limit: 3
 #      category: programming
 #      noWrapper: true
-#      templates:
-#          - 'includes/postPreview_mini'
+#      template: 'includes/postPreview_mini'
 #    - type: recentPosts
 #      limit: 5
 #      category: personal
 #      noWrapper: true
-#      templates:
-#          - 'includes/postPreview_list'
+#      template: 'includes/postPreview_list'
 #pages:
 #  layout: layouts/single
 #posts:

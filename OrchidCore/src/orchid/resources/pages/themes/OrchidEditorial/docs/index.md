@@ -1,5 +1,5 @@
 ---
 theme: Editorial
-templates: 'page'
+template: 'page'
 skipTaxonomy: true
 ---

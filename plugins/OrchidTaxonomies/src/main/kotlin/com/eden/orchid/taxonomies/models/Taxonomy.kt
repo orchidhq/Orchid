@@ -1,28 +1,39 @@
 package com.eden.orchid.taxonomies.models
 
 import com.eden.common.json.JSONElement
+import com.eden.common.util.EdenPair
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.converters.FlexibleMapConverter
+import com.eden.orchid.api.converters.StringConverter
+import com.eden.orchid.api.converters.TypeConverter
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.annotations.OptionsData
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
+import com.google.inject.Provider
 import org.json.JSONObject
+import javax.inject.Inject
 
-class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
+class Taxonomy
+@Inject
+constructor(val context: OrchidContext) : OptionsHolder {
 
     val terms = HashMap<String, Term>()
     lateinit var archivePages: List<OrchidPage>
 
-    @OptionsData
-    lateinit var allData: JSONElement
+    @Option
+    lateinit var key: String
+
+    @AllOptions
+    lateinit var allData: Map<String, Any>
 
     @Option @IntDefault(100)
     @Description("The maximum number of term pages to include in a single page in the Taxonomy archive.")
@@ -100,7 +111,7 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
             return field
         }
 
-    fun getTerm(term: String, taxonomyOptions: JSONObject) : Term {
+    fun getTerm(term: String, taxonomyOptions: Map<String, Any>) : Term {
         if(!terms.containsKey(term)) {
             val newTerm = Term(term)
             newTerm.extractOptions(context, taxonomyOptions)
@@ -110,7 +121,7 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
         return terms[term]!!
     }
 
-    public fun addPage(term: String, page: OrchidPage, termOptions: JSONObject) {
+    public fun addPage(term: String, page: OrchidPage, termOptions: Map<String, Any>) {
         val termModel = getTerm(term, termOptions)
         termModel.pages.add(page)
     }
@@ -123,21 +134,51 @@ class Taxonomy(val context: OrchidContext, val key: String) : OptionsHolder {
             "newestEntry" -> term.pages.maxBy { it.publishDate }!!.publishDate
             "oldestEntry" -> term.pages.minBy { it.publishDate }!!.publishDate
             else -> {
-                if(term.allData.element is JSONObject && (term.allData.element as JSONObject).has(key)) {
-                    if ((term.allData.element as JSONObject).get(key) is String) {
-                        (term.allData.element as JSONObject).getString(key)
+                if(term.element.has(key)) {
+                    if (term.element.get(key) is String) {
+                        term.element.getString(key)
                     }
-                    else if ((term.allData.element as JSONObject).get(key) is Number) {
-                        (term.allData.element as JSONObject).getNumber(key)
+                    else if (term.element.get(key) is Number) {
+                        term.element.getNumber(key)
                     }
-                    else if ((term.allData.element as JSONObject).get(key) is Boolean) {
-                        (term.allData.element as JSONObject).getBoolean(key)
+                    else if (term.element.get(key) is Boolean) {
+                        term.element.getBoolean(key)
                     }
                 }
 
                 // else
                 term.title
             }
+        }
+    }
+
+    fun query(pointer: String): JSONElement? {
+        return JSONElement(JSONObject(allData)).query(pointer)
+    }
+
+    class Converter @Inject
+    constructor(private val context: OrchidContext, private val mapConverter: Provider<FlexibleMapConverter>, private val stringConverter: Provider<StringConverter>) : TypeConverter<Taxonomy> {
+
+        override fun acceptsClass(clazz: Class<*>): Boolean {
+            return clazz == Taxonomy::class.java
+        }
+
+        override fun convert(o: Any): EdenPair<Boolean, Taxonomy> {
+            val result = mapConverter.get().convert(o)
+
+            val itemSource: Map<String, Any>
+            if (result.first) {
+                itemSource = mapConverter.get().convert(o).second as Map<String, Any>
+            }
+            else {
+                itemSource = HashMap()
+                itemSource["key"] = stringConverter.get().convert(o).second
+            }
+
+            val taxonomy = Taxonomy(context)
+            taxonomy.extractOptions(context, itemSource)
+
+            return EdenPair(true, taxonomy)
         }
     }
 

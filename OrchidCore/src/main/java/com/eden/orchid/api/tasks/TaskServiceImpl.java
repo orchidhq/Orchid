@@ -15,12 +15,12 @@ import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -128,7 +128,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             if (foundCommand != null) {
                 OrchidCommand freshCommand = context.resolve(foundCommand.getClass());
 
-                JSONObject paramsJSON = OrchidUtils.parseCommandArgs(commandArgs, freshCommand.parameters());
+                Map<String, Object> paramsJSON = OrchidUtils.parseCommandArgs(commandArgs, freshCommand.parameters());
 
                 freshCommand.extractOptions(context, paramsJSON);
 

@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotBlank;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -26,6 +27,7 @@ public class ScriptPublisher extends OrchidPublisher {
     @Getter @Setter
     @Option
     @Description("The executable name")
+    @NotBlank(message = "Must set the command to run.")
     private String[] command;
 
     @Getter @Setter
@@ -37,11 +39,6 @@ public class ScriptPublisher extends OrchidPublisher {
     public ScriptPublisher(OrchidContext context, @Named("resourcesDir") String resourcesDir) {
         super(context, "script", 100);
         this.resourcesDir = resourcesDir;
-    }
-
-    @Override
-    public boolean validate() {
-        return !EdenUtils.isEmpty(command);
     }
 
     @Override

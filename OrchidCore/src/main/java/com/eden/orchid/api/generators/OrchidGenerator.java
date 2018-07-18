@@ -1,14 +1,13 @@
 package com.eden.orchid.api.generators;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
@@ -19,6 +18,7 @@ import lombok.Setter;
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -109,8 +109,8 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     public boolean parallel;
 
     @Getter @Setter
-    @OptionsData
-    private JSONElement allData;
+    @AllOptions
+    private Map<String, Object> allData;
 
     @Inject
     public OrchidGenerator(OrchidContext context, String key, int priority) {

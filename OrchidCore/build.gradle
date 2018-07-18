@@ -8,7 +8,7 @@ dependencies {
 
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.2.0'
-    api 'io.github.lukehutch:fast-classpath-scanner:2.21'
+    api 'io.github.lukehutch:fast-classpath-scanner:3.1.6'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
@@ -18,13 +18,18 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:3.10.0"
     api "commons-io:commons-io:2.6"
 
+    // validation
+    api "javax.validation:validation-api:2.0.1.Final"
+    implementation "org.hibernate.validator:hibernate-validator:6.0.10.Final"
+    api "org.glassfish:javax.el:3.0.1-b10"
+
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
-    api 'org.json:json:20180130'
-    api 'org.yaml:snakeyaml:1.21'
-    api 'com.moandjiezana.toml:toml4j:0.7.2'
-    api 'io.pebbletemplates:pebble:2.5.1'
-    api 'io.bit3:jsass:5.7.3'
-    api 'com.univocity:univocity-parsers:2.6.3'
+    implementation 'org.json:json:20180130'
+    implementation 'org.yaml:snakeyaml:1.21'
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+    implementation 'io.pebbletemplates:pebble:3.0.0'
+    implementation 'io.bit3:jsass:5.7.3'
+    implementation 'com.univocity:univocity-parsers:2.6.4'
 
     // Flexmark extensions
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
@@ -36,8 +41,8 @@ dependencies {
     implementation "com.vladsch.flexmark:flexmark-ext-toc:$flexmarkVersion"
 
     // server
-    api 'org.nanohttpd:nanohttpd:2.3.1'
-    api 'org.nanohttpd:nanohttpd-websocket:2.3.1'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'org.nanohttpd:nanohttpd-websocket:2.3.1'
 
     // generate own documentation with Orchid
     orchidCompile mainProjects

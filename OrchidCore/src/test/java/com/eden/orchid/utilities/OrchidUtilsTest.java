@@ -107,7 +107,7 @@ public final class OrchidUtilsTest {
     @ParameterizedTest
     @MethodSource("parseCommandArgsValues")
     public void parseCommandArgsTest(String input, String[] paramKeys, Map<String, Object> expected) {
-        Map<String, Object> output = OrchidUtils.parseCommandArgs(input, paramKeys).toMap();
+        Map<String, Object> output = OrchidUtils.parseCommandArgs(input, paramKeys);
 
         assertThat(output.keySet(), containsInAnyOrder(expected.keySet().toArray()));
 

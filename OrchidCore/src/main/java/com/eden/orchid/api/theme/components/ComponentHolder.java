@@ -9,6 +9,7 @@ public final class ComponentHolder extends ModularPageList<ComponentHolder, Orch
     @Inject
     public ComponentHolder(OrchidContext context) {
         super(context);
+        setDefaultType("template");
     }
 
     @Override

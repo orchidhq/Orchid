@@ -16,19 +16,17 @@ constructor() : TemplateFunction("bible", true), VerseFormatter {
 
     @Option
     @Description("The input to encode.")
-    lateinit var input: String
+    lateinit var verseReference: String
 
     @Option
     @Description("The Bible version key.")
     lateinit var version: String
 
     override fun parameters(): Array<String> {
-        return arrayOf("input", "version")
+        return arrayOf("verseReference", "version")
     }
 
-    override fun apply(input: Any?): Any {
-        val verseReference = if (input != null) input.toString() else this.input
-
+    override fun apply(): Any {
         try {
             if(!EdenUtils.isEmpty(Eden.getInstance().config().getString("ABS_ApiKey"))) {
                 val eden = Eden.getInstance()

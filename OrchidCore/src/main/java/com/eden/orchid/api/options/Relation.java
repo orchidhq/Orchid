@@ -3,16 +3,17 @@ package com.eden.orchid.api.options;
 import com.eden.orchid.api.OrchidContext;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Relation<T> implements OptionsHolder {
 
     protected final OrchidContext context;
 
     @Getter @Setter
-    private JSONObject ref;
+    private Map<String, Object> ref;
     private T item;
 
     @Inject
@@ -31,8 +32,8 @@ public abstract class Relation<T> implements OptionsHolder {
         return item;
     }
 
-    public JSONObject parseStringRef(String ref) {
-        JSONObject objectRef = new JSONObject();
+    public Map<String, Object> parseStringRef(String ref) {
+        Map<String, Object> objectRef = new HashMap<>();
 
         objectRef.put("itemId", ref);
 

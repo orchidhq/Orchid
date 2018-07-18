@@ -1,16 +1,14 @@
 package com.eden.orchid.api.theme.models;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.google.inject.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +28,8 @@ import java.util.Map;
 @Getter @Setter
 public final class Social implements OptionsHolder {
 
-    @OptionsData
-    public JSONElement allOptions;
+    @AllOptions
+    public Map<String, Object> allOptions;
 
     @Option
     @Description("Your email address.")
@@ -105,17 +103,16 @@ public final class Social implements OptionsHolder {
             }
 
             @Override
-            public Class<Item> resultClass() {
-                return Item.class;
+            public boolean acceptsClass(Class clazz) {
+                return clazz.equals(Item.class);
             }
 
             @Override
             public EdenPair<Boolean, Item> convert(Object o) {
-                Map<String, ?> itemSource = (Map<String, ?>) mapConverter.get().convert(o).second;
-                JSONObject itemSourceJson = new JSONObject(itemSource);
+                Map<String, Object> itemSource = (Map<String, Object>) mapConverter.get().convert(o).second;
 
                 Item item = new Item();
-                item.extractOptions(context, itemSourceJson);
+                item.extractOptions(context, itemSource);
 
                 return new EdenPair<>(true, item);
             }

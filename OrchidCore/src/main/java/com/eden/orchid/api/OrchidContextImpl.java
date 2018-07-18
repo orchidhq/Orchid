@@ -119,10 +119,10 @@ public final class OrchidContextImpl implements OrchidContext {
         services.values().forEach(service -> {
             JSONElement el = query(service.optionsQuery());
             if (EdenUtils.elementIsObject(el)) {
-                service.extractOptions(this, (JSONObject) el.getElement());
+                service.extractOptions(this, ((JSONObject) el.getElement()).toMap());
             }
             else {
-                service.extractOptions(this, new JSONObject());
+                service.extractOptions(this, new HashMap<>());
             }
         });
     }

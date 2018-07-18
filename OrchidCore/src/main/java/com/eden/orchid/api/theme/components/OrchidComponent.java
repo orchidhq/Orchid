@@ -1,13 +1,12 @@
 package com.eden.orchid.api.theme.components;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -17,10 +16,12 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,10 +41,10 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
 
     @Getter @Setter
     @Option
-    @Description("Specify a list of templates to use when rendering this component. The first template that exists " +
-            "will be chosen for this component."
+    @Description("Specify a template or a list of templates to use when rendering this component. The first template " +
+            "that exists will be chosen for this component."
     )
-    protected String[] templates;
+    protected String[] template;
 
     @Getter @Setter
     @Option @IntDefault(0)
@@ -82,8 +83,8 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     protected boolean noWrapper;
 
     @Getter @Setter
-    @OptionsData
-    private JSONElement allData;
+    @AllOptions
+    private Map<String, Object> allData;
 
     @Inject
     public OrchidComponent(OrchidContext context, String type, int priority) {
@@ -93,11 +94,18 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.assetHolder = new AssetHolderDelegate(context, this, "component");
     }
 
+    public List<String> getTemplates() {
+        List<String> templates = new ArrayList<>();
+        Collections.addAll(templates, this.template);
+
+        return templates;
+    }
+
     @Override
     public boolean canBeUsedOnPage(
             OrchidPage containingPage,
             ComponentHolder componentHolder,
-            JSONArray possibleComponents,
+            List<Map<String, Object>> possibleComponents,
             List<OrchidComponent> currentComponents) {
         return true;
     }

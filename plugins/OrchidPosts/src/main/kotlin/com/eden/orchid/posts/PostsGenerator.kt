@@ -102,11 +102,11 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                     continue
                 }
 
-                postsModel.getCategory(OrchidUtils.normalizePath(categoryKey), categoryOptions ?: JSONObject())
+                postsModel.getCategory(OrchidUtils.normalizePath(categoryKey), categoryOptions?.toMap() ?: HashMap())
             }
         }
         else {
-            postsModel.getCategory(null, defaultConfig)
+            postsModel.getCategory(null, defaultConfig.toMap())
         }
 
         val allPages = ArrayList<OrchidPage>()

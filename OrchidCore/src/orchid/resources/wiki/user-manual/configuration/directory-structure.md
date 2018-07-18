@@ -47,6 +47,7 @@ briefly here, but is explained in much more detail in later pages of this User M
 +++ css/
 +++ js/
 +++ images/
+++ config/
 ++ data/
 ++ templates/
 +++ layouts/
@@ -67,7 +68,7 @@ briefly here, but is explained in much more detail in later pages of this User M
     necessary to put all SCSS files within this one directory, but it is encouraged.
 * `assets/js/` - The typical location for included JS.
 * `assets/images/` - The typical location for uploaded images.
-* `data/` - The data files in this location are merged into `config.yml` before being passed to the rest of the site
+* `config/` - The data files in this location are merged into `config.yml` before being passed to the rest of the site
 * `templates/` - Contains additional templates you define. Typically, your theme will provide a fairly robust set of 
     layouts, page templates, includes, etc, but you may want to make minor tweaks to make your site unique. Simply drop 
     a template in here with the same name and it will be chosen instead of the theme's template. You can even add 

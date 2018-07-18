@@ -10,7 +10,7 @@
 {%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
   {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
-<pre><code class="lang-yaml"># data/{{ theme.key }}.yml or # data/theme.yml
+<pre><code class="lang-yaml"># config/{{ theme.key }}.yml or # config/theme.yml
 {%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
 {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>

@@ -15,7 +15,7 @@
 
 <!-- COMPLETE PAGE CONFIGURATION -->
 <script>
-    window.allData = {{ page.allData.element | raw }};
+    window.allData = {{ page.toJSON() | raw }};
 </script>
 
 <!-- end:debug info -->

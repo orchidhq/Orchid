@@ -12,6 +12,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -190,6 +191,11 @@ public final class GeneratorServiceTest {
 
     @Test
     public void testFreeableResourcesFreed() throws Throwable {
+        doAnswer((Answer) invocation -> {
+            mockFreeableResource.free();
+            return null;
+        }).when(mockPage2).free();
+
         underTest.startIndexing();
         underTest.startGeneration();
         verify(mockFreeableResource).free();

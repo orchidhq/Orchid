@@ -1,12 +1,11 @@
 package com.eden.orchid.taxonomies.models
 
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.annotations.OptionsData
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.taxonomies.utils.getSingleTermValue
@@ -14,14 +13,15 @@ import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
+import org.json.JSONObject
 
 class Term(val key: String) : OptionsHolder {
 
     public var pages = HashSet<OrchidPage>()
     lateinit var archivePages: List<OrchidPage>
 
-    @OptionsData
-    lateinit var allData: JSONElement
+    @AllOptions
+    lateinit var allData: Map<String, Any>
 
     @Option @IntDefault(100)
     @Description("The maximum number of associated pages to include in a single page in the Term archive.")
@@ -82,6 +82,11 @@ class Term(val key: String) : OptionsHolder {
                 field = sortedList.sortedWith(comparator!!)
             }
             return field
+        }
+
+    val element: JSONObject
+        get() {
+            return JSONObject(allData)
         }
 
 }

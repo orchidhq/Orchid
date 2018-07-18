@@ -49,7 +49,7 @@ Note: If you have developed a theme that you'd like to feature in our showcase, 
 ---
 
 Your themes are configured in your `config.yml`. Options can be set for all themes at the `theme` key, or for a specific 
-theme at the key corresponding to its key. You can also break the theme options out into their own `data/` files, as 
+theme at the key corresponding to its key. You can also break the theme options out into their own `config/` files, as 
 described {{ anchor('here', 'Site Configuration') }}. For example, this current theme is `BsDoc`, and can be configured 
 any of the following ways:
 
@@ -64,11 +64,11 @@ BsDoc:
   primaryColor: {{theme.primaryColor}}
 {% endhighlight %}
 {% highlight 'yaml' %}
-# data/theme.yml
+# config/theme.yml
 primaryColor: {{theme.primaryColor}}
 {% endhighlight %}
 {% highlight 'yaml' %}
-# data/BsDoc.yml
+# config/BsDoc.yml
 primaryColor: {{theme.primaryColor}}
 {% endhighlight %}
 

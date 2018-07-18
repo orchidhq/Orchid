@@ -12,7 +12,7 @@ public final class BreadcrumbsTag extends TemplateTag {
 
     @Inject
     public BreadcrumbsTag() {
-        super("breadcrumbs", false, true);
+        super("breadcrumbs", Type.Simple, true);
     }
 
     @Override

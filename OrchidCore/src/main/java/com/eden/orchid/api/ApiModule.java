@@ -14,9 +14,11 @@ import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.converters.TypeConverter;
+import com.eden.orchid.api.options.HibernateValidator;
 import com.eden.orchid.api.options.Extractor;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
+import com.eden.orchid.api.options.OptionsValidator;
 import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
 import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
@@ -24,6 +26,7 @@ import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateTimeOptionExtractor;
 import com.eden.orchid.api.options.extractors.DoubleOptionExtractor;
+import com.eden.orchid.api.options.extractors.EnumOptionExtractor;
 import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
@@ -36,6 +39,7 @@ import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
 import com.eden.orchid.api.options.globals.ConfigGlobal;
+import com.eden.orchid.api.options.globals.DataGlobal;
 import com.eden.orchid.api.options.globals.IndexGlobal;
 import com.eden.orchid.api.options.globals.SiteGlobal;
 import com.eden.orchid.api.options.globals.ThemeGlobal;
@@ -56,6 +60,7 @@ public final class ApiModule extends OrchidModule {
     @Override
     protected void configure() {
         bind(Extractor.class).to(OptionsExtractor.class);
+        bind(OptionsValidator.class).to(HibernateValidator.class);
 
         // Type Converters
         addToSet(StringConverterHelper.class,
@@ -88,6 +93,7 @@ public final class ApiModule extends OrchidModule {
                 DateOptionExtractor.class,
                 DateTimeOptionExtractor.class,
                 DoubleOptionExtractor.class,
+                EnumOptionExtractor.class,
                 FloatOptionExtractor.class,
                 IntOptionExtractor.class,
                 JSONArrayOptionExtractor.class,
@@ -101,6 +107,7 @@ public final class ApiModule extends OrchidModule {
         // Template Globals
         addToSet(TemplateGlobal.class,
                 ConfigGlobal.class,
+                DataGlobal.class,
                 IndexGlobal.class,
                 SiteGlobal.class,
                 ThemeGlobal.class);

@@ -1,12 +1,11 @@
 package com.eden.orchid.api.compilers;
 
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidService;
 import com.google.inject.ImplementedBy;
-import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -134,8 +133,22 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidParser
      */
-    default JSONObject parse(String extension, String input) {
+    default Map<String, Object> parse(String extension, String input) {
         return getService(CompilerService.class).parse(extension, input);
+    }
+
+    /**
+     * Compiles input against a given Parser identified by file extension.
+     *
+     * @param extension the extension to find a Parser for
+     * @param input the input to parse
+     * @return the data represented by the input if an appropriate Parser could be found, otherwise an empty JSONObject
+     *
+     * @since v1.0.0
+     * @see OrchidParser
+     */
+    default String serialize(String extension, Object input) {
+        return getService(CompilerService.class).serialize(extension, input);
     }
 
     /**
@@ -148,7 +161,7 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidPrecompiler
      */
-    default EdenPair<String, JSONElement> getEmbeddedData(String input) {
+    default EdenPair<String, Map<String, Object>> getEmbeddedData(String input) {
         return getService(CompilerService.class).getEmbeddedData(input);
     }
 

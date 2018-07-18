@@ -1,20 +1,14 @@
 package com.eden.orchid.taxonomies.utils
 
 import com.eden.orchid.api.theme.pages.OrchidPage
-import org.json.JSONArray
-import org.json.JSONObject
 
 fun OrchidPage.getSingleTermValue(taxonomy: String): String? {
     try {
         val method = this.javaClass.getMethod("get${taxonomy.capitalize()}")
         return method.invoke(this)?.toString()
     } catch (e: Exception) {
-        if (this.allData.element is JSONObject) {
-            val pageData = this.allData.element as JSONObject
-
-            if (pageData.has(taxonomy)) {
-                return pageData.get(taxonomy)?.toString()
-            }
+        if (this.has(taxonomy)) {
+            return this.get(taxonomy)?.toString()
         }
     }
 
@@ -33,18 +27,14 @@ fun OrchidPage.getTermValues(taxonomy: String): List<String> {
             return (result as Array<String>).toList()
         }
     } catch (e: Exception) {
-        if (this.allData.element is JSONObject) {
-            val pageData = this.allData.element as JSONObject
+        if (this.has(taxonomy) && this.get(taxonomy) is Iterable<*>) {
+            val terms = ArrayList<String>()
 
-            if (pageData.has(taxonomy) && pageData.get(taxonomy) is JSONArray) {
-                val terms = ArrayList<String>()
-
-                pageData.getJSONArray(taxonomy).forEach {
-                    terms.add(it.toString())
-                }
-
-                return terms
+            (this.get(taxonomy) as? Iterable<*>)?.forEach {
+                terms.add(it.toString())
             }
+
+            return terms
         }
     }
 

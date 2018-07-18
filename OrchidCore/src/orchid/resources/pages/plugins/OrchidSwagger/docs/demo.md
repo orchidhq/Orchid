@@ -1,6 +1,6 @@
 ---
 title: Swagger Demo
-templates: page
+template: page
 skipTaxonomy: true
 components:
   - type: pageContent

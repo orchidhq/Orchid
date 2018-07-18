@@ -1,16 +1,21 @@
 package com.eden.orchid.api.options;
 
 import com.eden.orchid.api.OrchidContext;
-import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OptionsHolder extends Descriptive {
 
-    default void extractOptions(OrchidContext context, JSONObject options) {
+    default void extractOptions(OrchidContext context, Map<String, Object> options) {
         OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
         extractor.extractOptions(this, options);
         onPostExtraction();
+    }
+
+    default boolean validate(OrchidContext context) {
+        OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
+        return extractor.validate(this);
     }
 
     default void onPostExtraction() {

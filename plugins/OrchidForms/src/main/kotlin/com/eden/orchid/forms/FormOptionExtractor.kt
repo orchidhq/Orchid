@@ -19,7 +19,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
 
     override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
         if (sourceObject is JSONObject) {
-            return Form(contextProvider.get(), "", sourceObject)
+            return Form(contextProvider.get(), "", sourceObject.toMap())
         } else {
             val value = converter.convert(sourceObject)
             if (value.first) {

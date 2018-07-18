@@ -14,6 +14,7 @@ import com.mitchellbosecke.pebble.lexer.TokenStream;
 import com.mitchellbosecke.pebble.node.RootNode;
 import com.mitchellbosecke.pebble.parser.Parser;
 import com.mitchellbosecke.pebble.parser.ParserImpl;
+import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 
 import javax.inject.Inject;
@@ -46,9 +47,11 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 .loader(loader)
                 .executorService(executor)
                 .extension(extensionArray)
+                .allowGetClass(true)
                 .newLineTrimming(false)
-//                .cacheActive(false)
                 .build();
+
+        this.engine.getExtensionRegistry().getAttributeResolver().add(new GetMethodAttributeResolver());
     }
 
     @Override
@@ -63,7 +66,9 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
             Parser parser = new ParserImpl(
                     engine.getExtensionRegistry().getUnaryOperators(),
                     engine.getExtensionRegistry().getBinaryOperators(),
-                    engine.getExtensionRegistry().getTokenParsers());
+                    engine.getExtensionRegistry().getTokenParsers(),
+                    new ParserOptions()
+            );
             RootNode root = parser.parse(tokenStream);
 
             PebbleTemplateImpl compiledTemplate = new PebbleTemplateImpl(engine, root, "");

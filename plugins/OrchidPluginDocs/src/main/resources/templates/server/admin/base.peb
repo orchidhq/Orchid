@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Orchid Insights</title>
-    {% include 'includes/styles' with { "page": view } %}
+    {% set page = view %}
+    {% styles %}
     {% block styles %}{% endblock %}
 
     <style>
@@ -91,7 +92,7 @@
 
 
 <script>window.websocketUrl = 'ws://localhost:{{ websocketPort }}';</script>
-{% include 'includes/scripts' with { "page": view } %}
+{% scripts %}
 {% block scripts %}{% endblock %}
 </body>
 </html>

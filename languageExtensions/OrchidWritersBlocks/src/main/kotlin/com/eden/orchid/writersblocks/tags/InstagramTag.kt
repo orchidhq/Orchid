@@ -11,7 +11,7 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 class InstagramTag @Inject
-constructor(val client: OkHttpClient) : TemplateTag("instagram", false) {
+constructor(val client: OkHttpClient) : TemplateTag("instagram", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Id of an Instagram post to link to.")
@@ -22,6 +22,7 @@ constructor(val client: OkHttpClient) : TemplateTag("instagram", false) {
     }
 
     var embeddedPost: String? = null
+        @Suppress("UNUSED_PARAMETER")
         private set(value) {}
         get() {
             if(field == null) {

@@ -49,6 +49,18 @@ Embed a photo from Instagram.
 {% endverbatim %}
 {% endhighlight %}
 
+#### Tabs
+
+Embed a Twitter post, collection, or timeline.
+
+{% highlight 'jinja' %}
+{% verbatim %}
+{% tabs %}
+    {% tab1 'One' %}Tab Content One{% endtab1 %}
+    {% tab2 'Two' %}Tab Content Two{% endtab2 %}
+{% endtabs %}
+{% endverbatim %}
+{% endhighlight %}
 
 #### Twitter
 

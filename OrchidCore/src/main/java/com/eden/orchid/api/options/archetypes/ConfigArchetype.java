@@ -5,10 +5,10 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionArchetype;
-import com.eden.orchid.utilities.OrchidUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 public class ConfigArchetype implements OptionArchetype {
 
@@ -20,14 +20,14 @@ public class ConfigArchetype implements OptionArchetype {
     }
 
     @Override
-    public JSONObject getOptions(Object target, String archetypeKey) {
-        JSONObject configOptions = null;
-        JSONObject eventOptions = null;
+    public Map<String, Object> getOptions(Object target, String archetypeKey) {
+        Map<String, Object> configOptions = null;
+        Map<String, Object> eventOptions = null;
 
         if(!EdenUtils.isEmpty(archetypeKey)) {
             JSONElement contextOptions = context.query(archetypeKey);
-            if(contextOptions != null && contextOptions.getElement() instanceof JSONObject) {
-                configOptions = (JSONObject) contextOptions.getElement();
+            if(EdenUtils.elementIsObject(contextOptions)) {
+                configOptions = ((JSONObject) contextOptions.getElement()).toMap();
             }
         }
 

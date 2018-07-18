@@ -2,11 +2,13 @@ package com.eden.orchid.impl.compilers.pebble;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.extension.Function;
 import com.mitchellbosecke.pebble.extension.escaper.SafeString;
+import com.mitchellbosecke.pebble.template.EvaluationContext;
+import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import lombok.Getter;
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -32,11 +34,15 @@ public final class PebbleWrapperTemplateFunction implements Function {
     }
 
     @Override
-    public Object execute(Map<String, Object> args) {
+    public Object execute(
+            Map<String, Object> args,
+            PebbleTemplate self,
+            EvaluationContext context,
+            int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().getInjector().getInstance(functionClass);
-        JSONObject object = new JSONObject(args);
-        freshFunction.extractOptions(contextProvider.get(), object);
-        Object output = freshFunction.apply(null);
+        freshFunction.setPage((OrchidPage) context.getVariable("page"));
+        freshFunction.extractOptions(contextProvider.get(), args);
+        Object output = freshFunction.apply();
 
         if(freshFunction.isSafe()) {
             return new SafeString(output.toString());

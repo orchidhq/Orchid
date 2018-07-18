@@ -6,9 +6,10 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.google.inject.Provider;
 import lombok.Getter;
-import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public final class ClogIncantationWrapper implements Incantation {
@@ -38,13 +39,14 @@ public final class ClogIncantationWrapper implements Incantation {
                 ? Math.min(reagents.length, params.size())
                 : 0;
 
-        JSONObject object = new JSONObject();
-        for (int i = 0; i < length; i++) {
-            object.put(params.get(i), reagents[i]);
+        Map<String, Object> object = new HashMap<>();
+        object.put(params.get(0), input);
+        for (int i = 1; i < length; i++) {
+            object.put(params.get(i), reagents[i-1]);
         }
 
         freshFunction.extractOptions(contextProvider.get(), object);
 
-        return freshFunction.apply(input);
+        return freshFunction.apply();
     }
 }

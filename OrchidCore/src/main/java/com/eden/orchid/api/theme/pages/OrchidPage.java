@@ -2,15 +2,17 @@ package com.eden.orchid.api.theme.pages;
 
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.OptionsData;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -51,8 +53,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     // global variables
     @Getter protected final OrchidContext context;
     @Getter @Setter protected OrchidGenerator generator;
-    @Getter @Setter @OptionsData private JSONElement allData;
-    @Getter @Setter private Map<String, Object> _map;
+    @Getter @Setter @AllOptions
+    private Map<String, Object> allData;
 
     // variables that give the page identity
     @Getter @Setter protected OrchidResource resource;
@@ -61,7 +63,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected OrchidPage next;
     @Getter @Setter protected OrchidPage previous;
     @Getter @Setter protected OrchidPage parent;
-    @Getter @Setter protected JSONObject data;
+    @Getter @Setter protected Map<String, Object> data;
+
+    private String compiledContent;
 
     @Getter @Setter
     @Option
@@ -83,11 +87,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     @Setter
     @Option
-    @Description("An array of possible templates to use for the page content area. The first one that exists will be " +
-            "used, otherwise the page's default set of templates will be searched for (which typically is customized " +
-            "by the generator.)"
+    @Description("Specify a template or a list of templates to use when rendering this page. The first template that " +
+            "exists will be chosen for this page, otherwise the page's default set of templates will be searched for " +
+            "(which typically is customized by the generator that produces this page)."
     )
-    protected String[] templates;
+    protected String[] template;
 
     // internal bookkeeping variables
     @Getter @Setter protected boolean isCurrent;
@@ -208,7 +212,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         this.breadcrumbs = new BreadcrumbHolderDelegate(context);
 
         this.key = key;
-        this.templates = new String[]{"page"};
+        this.template = new String[]{"page"};
 
         this.resource = resource;
         this.reference = new OrchidReference(resource.getReference());
@@ -218,11 +222,13 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             this.reference.setPath(path);
         }
 
-        if (resource.getEmbeddedData() != null && resource.getEmbeddedData().getElement() instanceof JSONObject) {
-            this.data = (JSONObject) resource.getEmbeddedData().getElement();
+        JSONElement el = resource.getEmbeddedData();
+
+        if (EdenUtils.elementIsObject(el)) {
+            this.data = ((JSONObject) el.getElement()).toMap();
         }
         else {
-            this.data = new JSONObject();
+            this.data = new HashMap<>();
         }
 
         initialize(title);
@@ -258,12 +264,22 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public String getContent() {
-        if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-            return resource.compileContent(this);
+        if(!(Orchid.getInstance().getState() == Orchid.State.BUILDING || Orchid.getInstance().getState() == Orchid.State.IDLE)) {
+            throw new IllegalStateException("Cannot get page content until indexing has completed.");
         }
-        else {
-            return "";
+        if(compiledContent == null) {
+            if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
+                compiledContent = resource.compileContent(this);
+                if(compiledContent == null) {
+                    compiledContent = "";
+                }
+            }
+            else {
+                compiledContent = "";
+            }
         }
+
+        return compiledContent;
     }
 
     public Theme getTheme() {
@@ -276,7 +292,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
-        Collections.addAll(templates, this.templates);
+        Collections.addAll(templates, this.template);
 
         return templates;
     }
@@ -306,16 +322,16 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         }
 
         if (includePageData) {
-            JSONObject pageData = serializeData();
+            Map<String, Object> pageData = serializeData();
             if (pageData != null) {
-                pageJson.put("data", pageData);
+                pageJson.put("data", new JSONObject(pageData));
             }
         }
 
         return pageJson;
     }
 
-    protected JSONObject serializeData() {
+    protected Map<String, Object> serializeData() {
         return this.data;
     }
 
@@ -333,7 +349,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         externalPage.description = source.optString("description");
 
         if (source.has("data")) {
-            externalPage.data = source.getJSONObject("className");
+            externalPage.data = source.getJSONObject("className").toMap();
         }
 
         return externalPage;
@@ -404,7 +420,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     public void addComponents() {
         if (this.components != null && this.components.isEmpty()) {
-            JSONObject jsonObject = new JSONObject();
+            Map<String, Object> jsonObject = new HashMap<>();
             jsonObject.put("type", "pageContent");
             this.components.add(jsonObject);
         }
@@ -414,28 +430,32 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     }
 
+    public void free() {
+        if (resource instanceof FreeableResource) {
+            ((FreeableResource) resource).free();
+        }
+        compiledContent = null;
+    }
+
 // Map Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
     public Map<String, Object> getMap() {
-        if(_map == null) {
-            if(EdenUtils.elementIsObject(allData)) {
-                _map = ((JSONObject) allData.getElement()).toMap();
-            }
-            else if(data != null) {
-                _map = data.toMap();
-            }
-            else {
-                _map = new HashMap<>();
-            }
-        }
+        return allData;
+    }
 
-        return _map;
+    public boolean has(String key) {
+        return getMap().containsKey(key);
     }
 
     public Object get(String key) {
         // TODO: make this method also return values by reflection, so that anything that needs to dynamically get a property by name can get it from this one method
         return getMap().get(key);
+    }
+
+    public Object query(String key) {
+        JSONElement result = new JSONElement(new JSONObject(getMap())).query(key);
+        return (result != null) ? result.getElement() : null;
     }
 
 }

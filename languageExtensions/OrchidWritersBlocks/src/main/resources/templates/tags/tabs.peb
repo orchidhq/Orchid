@@ -1,0 +1,19 @@
+<div id="{{ tag.id }}">
+    <ul class="nav nav-tabs" role="tablist">
+    {% for tab in tag.tabs %}
+        <li role="presentation" class="{% if loop.first %}active{% endif %}">
+            <a href="#{{ tag.id }}-{{ tab.key }}"
+               aria-controls="home"
+               role="tab"
+               data-toggle="tab">{{ tab.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <div class="tab-content">
+    {% for tab in tag.tabs %}
+        <div role="tabpanel"
+             class="tab-pane fade {% if loop.first %}in active{% endif %}"
+             id="{{ tag.id }}-{{ tab.key }}">{{ tab.content | raw }}</div>
+    {% endfor %}
+    </div>
+</div>

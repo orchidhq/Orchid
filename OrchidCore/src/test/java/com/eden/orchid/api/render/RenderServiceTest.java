@@ -1,7 +1,6 @@
 package com.eden.orchid.api.render;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
@@ -12,7 +11,6 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +19,7 @@ import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
+import java.util.HashMap;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -61,8 +60,8 @@ public final class RenderServiceTest {
         resourceContent = "test content";
         layoutContent = "test layout";
 
-        when(context.getEmbeddedData(layoutContent)).thenReturn(new EdenPair<>(layoutContent, new JSONElement(new JSONObject())));
-        when(context.getEmbeddedData(resourceContent)).thenReturn(new EdenPair<>(resourceContent, new JSONElement(new JSONObject())));
+        when(context.getEmbeddedData(layoutContent)).thenReturn(new EdenPair<>(layoutContent, new HashMap<>()));
+        when(context.getEmbeddedData(resourceContent)).thenReturn(new EdenPair<>(resourceContent, new HashMap<>()));
         when(context.getOutputExtension(any())).thenReturn("html");
         when(context.resolve(OrchidPrecompiler.class)).thenReturn(precompiler);
 
