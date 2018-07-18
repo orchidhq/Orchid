@@ -333,6 +333,8 @@ public final class OrchidUtils {
             sourceDir = sourceDir.getParent();
         }
 
+        Files.createDirectories(sourceDir);
+
         Path targetDir = Files.createTempDirectory(sourceDir, dirName);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
