@@ -13,16 +13,17 @@ import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -45,38 +46,37 @@ public final class IndexFileResponse {
             File[] files = targetFile.listFiles();
 
             if (files != null) {
-                JSONArray jsonDirs = new JSONArray();
-                JSONArray jsonFiles = new JSONArray();
+                List<Map<String, Object>> jsonDirs = new ArrayList<>();
+                List<Map<String, Object>> jsonFiles = new ArrayList<>();
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd-hh:mm:ss z", Locale.getDefault());
 
-                JSONObject parentFolder = new JSONObject();
+                Map<String, Object> parentFolder = new HashMap<>();
                 parentFolder.put("url", OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/")) + "/..");
                 parentFolder.put("path", StringUtils.strip(targetPath, "/") + "/..");
                 parentFolder.put("name", "..");
                 parentFolder.put("size", "");
                 parentFolder.put("date", "");
                 parentFolder.put("icon", assetHolder.addAsset("assets/svg/folder.svg"));
-                jsonDirs.put(parentFolder);
+                jsonDirs.add(parentFolder);
 
                 for (File file : files) {
-                    JSONObject newFile = new JSONObject();
+                    Map<String, Object> newFile = new HashMap<>();
                     newFile.put("url", OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/") + "/" + file.getName()));
                     newFile.put("path", StringUtils.strip(targetPath, "/") + "/" + file.getName());
                     newFile.put("name", file.getName());
                     newFile.put("date", formatter.format(new Date(file.lastModified())));
-                    
                     String icon;
 
                     if (file.isDirectory()) {
                         icon = "folder";
                         newFile.put("size", file.listFiles().length + " entries");
-                        jsonDirs.put(newFile);
+                        jsonDirs.add(newFile);
                     }
                     else {
                         icon = FilenameUtils.getExtension(file.getName());
                         newFile.put("size", humanReadableByteCount(file.length(), true));
-                        jsonFiles.put(newFile);
+                        jsonFiles.add(newFile);
                     }
 
                     String s = "assets/svg/" + icon + ".svg";
@@ -97,7 +97,7 @@ public final class IndexFileResponse {
                 indexPageVars.put("dirs", jsonDirs);
                 indexPageVars.put("files", jsonFiles);
 
-                Map<String, Object> object = context.getConfig();
+                Map<String, Object> object = new HashMap<>(context.getConfig());
                 object.put("page", indexPageVars);
                 object.put("theme", context.getTheme());
 
@@ -117,8 +117,8 @@ public final class IndexFileResponse {
                 try {
                     content = IOUtils.toString(is, Charset.forName("UTF-8"));
                 }
-                catch (Exception e) {
-                    content = "";
+                catch (IOException e) {
+                    content = directoryListingContent;
                 }
             }
         }

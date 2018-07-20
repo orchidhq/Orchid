@@ -43,7 +43,7 @@ public final class NotFound404Response {
             indexPageVars.put("title", "Not Found - " + targetPath);
             indexPageVars.put("path", targetPath);
 
-            Map<String, Object> object = context.getConfig();
+            Map<String, Object> object = new HashMap<>(context.getConfig());
             object.put("page", indexPageVars);
             object.put("theme", context.getTheme());
 

@@ -12,7 +12,6 @@ import com.eden.orchid.posts.PostsGenerator
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.utilities.OrchidUtils
-import org.json.JSONObject
 
 @Archetypes(
     Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
@@ -34,7 +33,7 @@ class AuthorPage(resource: OrchidResource, val author: Author, val postsModel: P
     }
 
     fun initializeAuthorFromPageData() {
-        author.extractOptions(context, this.allData)
+        author.extractOptions(context, this.data)
     }
 
     override fun getTemplates(): List<String> {
