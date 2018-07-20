@@ -1,6 +1,7 @@
 package com.eden.orchid.api.compilers;
 
 import com.eden.common.util.EdenPair;
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.ImplementedBy;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @since v1.0.0
  */
 @ImplementedBy(FrontMatterPrecompiler.class)
-public abstract class OrchidPrecompiler extends Prioritized {
+public abstract class OrchidPrecompiler extends Prioritized implements OptionsHolder {
 
     /**
      * Initialize the OrchidPrecompiler with a set priority. Currently does nothing but is in place to allow for
@@ -38,7 +39,7 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract boolean shouldPrecompile(String input);
+    public abstract boolean shouldPrecompile(String extension, String input);
 
     /**
      * Extract the data embedded within some given content, returning the data that was extracted as well as the content
@@ -49,6 +50,6 @@ public abstract class OrchidPrecompiler extends Prioritized {
      *
      * @since v1.0.0
      */
-    public abstract EdenPair<String, Map<String, Object>> getEmbeddedData(String input);
+    public abstract EdenPair<String, Map<String, Object>> getEmbeddedData(String extension, String input);
 
 }

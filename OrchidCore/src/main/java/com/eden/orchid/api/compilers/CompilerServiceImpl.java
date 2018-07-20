@@ -3,6 +3,7 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -78,6 +79,9 @@ public final class CompilerServiceImpl implements CompilerService {
     )
     public String defaultPrecompilerExtension;
 
+    @AllOptions
+    public Map<String, Object> allConfig;
+
     private OrchidContext context;
 
     private Set<OrchidCompiler> compilers;
@@ -108,6 +112,12 @@ public final class CompilerServiceImpl implements CompilerService {
     @Override
     public void onPostExtraction() {
         buildCustomCompilerIndex();
+        if(allConfig.get("precompiler") instanceof Map) {
+            precompiler.extractOptions(context, (HashMap<String, Object>) allConfig.get("precompiler"));
+        }
+        else {
+            precompiler.extractOptions(context, new HashMap<>());
+        }
     }
 
     private void buildCompilerIndex() {
@@ -200,8 +210,8 @@ public final class CompilerServiceImpl implements CompilerService {
         return (parser != null) ? parser.serialize(extension, input) : null;
     }
 
-    public EdenPair<String, Map<String, Object>> getEmbeddedData(String input) {
-        return precompiler.getEmbeddedData(input);
+    public EdenPair<String, Map<String, Object>> getEmbeddedData(String extension, String input) {
+        return precompiler.getEmbeddedData(extension, input);
     }
 
     public String getOutputExtension(String extension) {

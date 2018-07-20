@@ -21,7 +21,7 @@ public abstract class FreeableResource extends OrchidResource {
 
     protected void loadContent() {
         if(rawContent != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(rawContent);
+            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), rawContent);
             this.content = parsedContent.first;
             this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
         }

@@ -18,7 +18,7 @@ public final class StringResource extends OrchidResource {
     public StringResource(String content, OrchidReference reference) {
         super(reference);
         if(content != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = getContext().getEmbeddedData(content);
+            EdenPair<String, Map<String, Object>> parsedContent = getContext().getEmbeddedData(reference.getExtension(), content);
             this.rawContent = content;
             this.content = parsedContent.first;
             this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));

@@ -51,6 +51,7 @@ import com.eden.orchid.api.theme.models.Social;
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
+import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
@@ -77,6 +78,7 @@ public final class ApiModule extends OrchidModule {
                 LongConverter.class,
                 NumberConverter.class,
                 Social.Item.Converter.class,
+                FrontMatterPrecompiler.CustomDelimiter.Converter.class,
                 StringConverter.class,
                 TimeConverter.class
         );
