@@ -23,7 +23,8 @@ import javax.inject.Singleton
 class ChangelogGenerator @Inject
 constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator(context, "changelog", OrchidGenerator.PRIORITY_DEFAULT) {
 
-    @Option @StringDefault("changelog")
+    @Option
+    @StringDefault("changelog")
     @Description("The base directory in local resources to look for changelog entries in.")
     lateinit var baseDir: String
 
@@ -31,7 +32,8 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
     @Description("Whether to include minor versions in the version list.")
     var includeMinorVersions: Boolean = false
 
-    @Option @StringDefault("{major}.{minor}.{patch}")
+    @Option
+    @StringDefault("{major}.{minor}.{patch}")
     @Description("The format your changelog version follow.")
     lateinit var format: String
 
@@ -50,18 +52,41 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
 
         var comparator: Comparator<ChangelogVersion>? = null
 
-        if(orderBy.keySet().size == 0) {
+        if (orderBy.keySet().size == 0) {
             orderBy = JSONObject()
-            orderBy.put("major", "number")
-            orderBy.put("minor", "number")
-            orderBy.put("patch", "number")
+            orderBy.put("major", with(JSONObject()) {
+                put("type", "number")
+                put("order", 1)
+            })
+            orderBy.put("minor", with(JSONObject()) {
+                put("type", "number")
+                put("order", 2)
+            })
+            orderBy.put("patch", with(JSONObject()) {
+                put("type", "number")
+                put("order", 3)
+            })
         }
-        orderBy.keySet().forEach { key ->
-            comparator = if (comparator == null)
-                compareBy { getChangelogComponent(it, key) }
-            else
-                comparator!!.thenBy { getChangelogComponent(it, key) }
-        }
+
+        val orderByList = ArrayList<JSONObject>()
+        orderBy.keySet()
+                .forEach { key ->
+                    orderByList.add(with(JSONObject()) {
+                        put("key",   key)
+                        put("type",  orderBy.getJSONObject(key).getString("type"))
+                        put("order", orderBy.getJSONObject(key).getInt("order"))
+                    })
+                }
+
+        orderByList
+                .sortedBy { it.getInt("order") }
+                .forEach { obj ->
+                    comparator = if (comparator == null)
+                        compareBy { getChangelogComponent(it, obj.getString("key")) }
+                    else
+                        comparator!!.thenBy { getChangelogComponent(it, obj.getString("key")) }
+                }
+
         versions = versions.sortedWith(comparator!!).reversed()
 
         model.initialize(versions)
@@ -72,10 +97,10 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         val versionsJson = JSONArray()
         model.versions.forEach {
-            if(it.major) {
+            if (it.major) {
                 versionsJson.put(it.toJSON())
             }
-            else if(it.minor && includeMinorVersions) {
+            else if (it.minor && includeMinorVersions) {
                 versionsJson.put(it.toJSON())
             }
         }
@@ -90,7 +115,7 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
     }
 
     fun getChangelogComponent(version: ChangelogVersion, key: String): Comparable<*>? {
-        if(orderBy.getString(key).equals("string", true)) {
+        if (orderBy.getJSONObject(key).getString("type").equals("string", true)) {
             return version.versionComponents[key] ?: ""
         }
         else {

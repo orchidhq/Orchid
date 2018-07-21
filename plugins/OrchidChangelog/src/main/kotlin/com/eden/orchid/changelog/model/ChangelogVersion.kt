@@ -40,7 +40,7 @@ class ChangelogVersion(
             return resource.compileContent(null)
         }
 
-    val versionComponents = HashMap<String, String>()
+    val versionComponents = LinkedHashMap<String, String>()
 
     init {
         extractOptions(context, (resource.embeddedData.element as JSONObject).toMap())
