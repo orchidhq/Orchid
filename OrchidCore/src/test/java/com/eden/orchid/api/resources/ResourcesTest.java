@@ -27,6 +27,7 @@ public final class ResourcesTest {
         input = "hello world";
 
         when(context.getEmbeddedData("", input)).thenReturn(new EdenPair<>(input, new HashMap<>()));
+        when(context.getEmbeddedData("txt", input)).thenReturn(new EdenPair<>(input, new HashMap<>()));
     }
 
     @Test

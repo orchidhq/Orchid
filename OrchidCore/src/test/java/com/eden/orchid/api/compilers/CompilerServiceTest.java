@@ -64,13 +64,14 @@ public final class CompilerServiceTest {
         when(mockParser.parse("yaml", "input")).thenReturn(parsedOutput);
 
         mockPrecompiler = mock(OrchidPrecompiler.class);
-        when(mockPrecompiler.getEmbeddedData(mockInput)).thenReturn(precompilerEmbeddedData);
+        when(mockPrecompiler.getEmbeddedData("", mockInput)).thenReturn(precompilerEmbeddedData);
 
         // test the service directly
         context = mock(OrchidContext.class);
         when(context.getSiteData(any())).thenReturn(null);
         service = new CompilerServiceImpl(compilers, parsers, mockPrecompiler);
         service.initialize(context);
+        service.allConfig = new HashMap<>();
 
         // add custom compiler extensions
         service.customCompilerExtensions = new JSONObject();
@@ -126,7 +127,7 @@ public final class CompilerServiceTest {
 
     @Test
     public void getEmbeddedData() throws Throwable {
-        assertThat(underTest.getEmbeddedData(mockInput), is(precompilerEmbeddedData));
+        assertThat(underTest.getEmbeddedData("", mockInput), is(precompilerEmbeddedData));
     }
 
     @Test
