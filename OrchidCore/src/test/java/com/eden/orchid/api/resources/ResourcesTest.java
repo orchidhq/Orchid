@@ -26,7 +26,8 @@ public final class ResourcesTest {
         context = mock(OrchidContext.class);
         input = "hello world";
 
-        when(context.getEmbeddedData(input)).thenReturn(new EdenPair<>(input, new HashMap<>()));
+        when(context.getEmbeddedData("", input)).thenReturn(new EdenPair<>(input, new HashMap<>()));
+        when(context.getEmbeddedData("txt", input)).thenReturn(new EdenPair<>(input, new HashMap<>()));
     }
 
     @Test

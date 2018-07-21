@@ -12,7 +12,7 @@
 
 > A beautiful and truly unique documentation engine and static site generator.
 
-![Example Orchid site](https://orchid.netlify.com/OrchidCore/assets/media/sample.jpg)
+![Example Orchid site](https://orchid.netlify.com/assets/media/sample.jpg)
 
 Orchid is a brand-new, general-purpose static site generator for Java and Kotlin, with a focus on extensibility and 
 aimed at developers looking to improve their technical documentation. Orchid was born out of a desire for better-looking 

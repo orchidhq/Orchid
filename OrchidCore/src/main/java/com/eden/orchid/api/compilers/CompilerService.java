@@ -161,8 +161,8 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidPrecompiler
      */
-    default EdenPair<String, Map<String, Object>> getEmbeddedData(String input) {
-        return getService(CompilerService.class).getEmbeddedData(input);
+    default EdenPair<String, Map<String, Object>> getEmbeddedData(String extension, String input) {
+        return getService(CompilerService.class).getEmbeddedData(extension, input);
     }
 
     /**

@@ -5,6 +5,11 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
+import com.eden.orchid.api.converters.FlexibleMapConverter;
+import com.eden.orchid.api.converters.TypeConverter;
+import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Option;
+import com.google.inject.Provider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,6 +29,9 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     private final List<EdenPair<String, OrchidParser>> delimiters;
 
+    @Option
+    public List<CustomDelimiter> customDelimeters;
+
     @Inject
     public FrontMatterPrecompiler(OrchidContext context, Set<OrchidParser> parsers) {
         super(100);
@@ -39,8 +47,8 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
     }
 
     @Override
-    public EdenPair<String, Map<String, Object>> getEmbeddedData(String input) {
-        EdenPair<Map<String, Object>, Integer> frontMatter = parseFrontMatter(input);
+    public EdenPair<String, Map<String, Object>> getEmbeddedData(String extension, String input) {
+        EdenPair<Map<String, Object>, Integer> frontMatter = parseFrontMatter(extension, input);
 
         if(frontMatter.second != 0) {
             return new EdenPair<>(input.substring(frontMatter.second), frontMatter.first);
@@ -50,12 +58,12 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
         }
     }
 
-    public boolean shouldPrecompile(String input) {
-        return getFrontMatterHeader(input).isValidHeader;
+    public boolean shouldPrecompile(String extension, String input) {
+        return getFrontMatterHeader(extension, input).isValidHeader;
     }
 
-    private EdenPair<Map<String, Object>, Integer> parseFrontMatter(String input) {
-        FrontMatterHeader header = getFrontMatterHeader(input);
+    private EdenPair<Map<String, Object>, Integer> parseFrontMatter(String extension, String input) {
+        FrontMatterHeader header = getFrontMatterHeader(extension, input);
 
         if(header.isValidHeader) {
             final String frontMatterText = input.substring(header.fmStart, header.fmEnd);
@@ -80,7 +88,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
         return new EdenPair<>(null, 0);
     }
 
-    private FrontMatterHeader getFrontMatterHeader(String input) {
+    private FrontMatterHeader getFrontMatterHeader(String extension, String input) {
         for(EdenPair<String, OrchidParser> delimiter : delimiters) {
             Matcher m = Pattern.compile("^" + delimiter.first + "{3}(\\w+)?$", Pattern.MULTILINE).matcher(input);
 
@@ -122,6 +130,29 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             }
         }
 
+        if(!EdenUtils.isEmpty(customDelimeters)) {
+            for (CustomDelimiter delimiter : customDelimeters) {
+                if(EdenUtils.isEmpty(delimiter.fileExtensions) || delimiter.fileExtensions.stream().anyMatch((ext) -> ext.equalsIgnoreCase(extension))) {
+                    Matcher mStart = Pattern.compile(delimiter.regex, Pattern.DOTALL).matcher(input);
+
+                    if (mStart.find()) {
+                        FrontMatterHeader header = new FrontMatterHeader(true, mStart.start(delimiter.group), mStart.end(delimiter.group), mStart.end());
+
+                        header.parser = context.parserFor(delimiter.parser);
+                        header.delimiter = "";
+
+                        String parsedType = delimiter.parser;
+
+                        if (!EdenUtils.isEmpty(parsedType)) {
+                            header.extension = parsedType;
+                        }
+
+                        return header;
+                    }
+                }
+            }
+        }
+
         return new FrontMatterHeader(false);
     }
 
@@ -159,5 +190,48 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
                     '}';
         }
     }
+
+    public static class CustomDelimiter implements OptionsHolder {
+
+        @Option
+        public String regex;
+
+        @Option
+        public int group;
+
+        @Option
+        public String parser;
+
+        @Option
+        public List<String> fileExtensions;
+
+        public static class Converter implements TypeConverter<CustomDelimiter> {
+            private final OrchidContext context;
+            private final Provider<FlexibleMapConverter> mapConverter;
+
+            @Inject
+            public Converter(OrchidContext context, Provider<FlexibleMapConverter> mapConverter) {
+                this.context = context;
+                this.mapConverter = mapConverter;
+            }
+
+            @Override
+            public boolean acceptsClass(Class clazz) {
+                return clazz.equals(CustomDelimiter.class);
+            }
+
+            @Override
+            public EdenPair<Boolean, CustomDelimiter> convert(Object o) {
+                Map<String, Object> itemSource = (Map<String, Object>) mapConverter.get().convert(o).second;
+
+                CustomDelimiter item = new CustomDelimiter();
+                item.extractOptions(context, itemSource);
+
+                return new EdenPair<>(true, item);
+            }
+        }
+
+    }
+
 }
 

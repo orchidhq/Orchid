@@ -60,7 +60,7 @@ public abstract class OrchidResource {
             return ((JSONObject) data.getElement()).getBoolean("precompile");
         }
 
-        return context.resolve(OrchidPrecompiler.class).shouldPrecompile(getRawContent());
+        return context.resolve(OrchidPrecompiler.class).shouldPrecompile(reference.getExtension(), getRawContent());
     }
 
     public boolean shouldRender() {

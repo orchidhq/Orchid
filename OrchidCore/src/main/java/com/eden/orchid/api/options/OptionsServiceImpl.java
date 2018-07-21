@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -60,10 +61,10 @@ public final class OptionsServiceImpl implements OptionsService {
     @Override
     public Map<String, Object> loadOptions() {
         if (config == null) {
-            config = loadData("config");
+            config = Collections.unmodifiableMap(loadData("config"));
         }
         if (data == null) {
-            data = loadData("data");
+            data = Collections.unmodifiableMap(loadData("data"));
         }
 
         return config;

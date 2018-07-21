@@ -18,8 +18,8 @@ public final class OrchidPrecompilerTest {
     public void testSetup() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidPrecompiler(100) {
-            @Override public EdenPair<String, Map<String, Object>> getEmbeddedData(String input) { return null; }
-            @Override public boolean shouldPrecompile(String input) { return false; }
+            @Override public EdenPair<String, Map<String, Object>> getEmbeddedData(String extension, String input) { return null; }
+            @Override public boolean shouldPrecompile(String extension, String input) { return false; }
         };
     }
 

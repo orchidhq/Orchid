@@ -60,8 +60,10 @@ public final class RenderServiceTest {
         resourceContent = "test content";
         layoutContent = "test layout";
 
-        when(context.getEmbeddedData(layoutContent)).thenReturn(new EdenPair<>(layoutContent, new HashMap<>()));
-        when(context.getEmbeddedData(resourceContent)).thenReturn(new EdenPair<>(resourceContent, new HashMap<>()));
+        when(context.getEmbeddedData("html", layoutContent)).thenReturn(new EdenPair<>(layoutContent, new HashMap<>()));
+        when(context.getEmbeddedData("peb",  layoutContent)).thenReturn(new EdenPair<>(layoutContent, new HashMap<>()));
+        when(context.getEmbeddedData("html", resourceContent)).thenReturn(new EdenPair<>(resourceContent, new HashMap<>()));
+        when(context.getEmbeddedData("peb",  resourceContent)).thenReturn(new EdenPair<>(resourceContent, new HashMap<>()));
         when(context.getOutputExtension(any())).thenReturn("html");
         when(context.resolve(OrchidPrecompiler.class)).thenReturn(precompiler);
 
