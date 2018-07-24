@@ -109,6 +109,10 @@ public abstract class OrchidModule extends AbstractModule {
         });
     }
 
+    public final void withResources(int priority) {
+//        addToSet(PluginResourceSource.class, new PluginJarResourceSource(getProvider(OrchidContext.class), this.getClass(), priority));
+    }
+
     public <T> AnnotatedBindingBuilder<T> _bind(Class<T> clazz) {
         return super.bind(clazz);
     }
