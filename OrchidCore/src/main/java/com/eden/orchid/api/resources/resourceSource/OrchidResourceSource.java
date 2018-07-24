@@ -1,10 +1,8 @@
 package com.eden.orchid.api.resources.resourceSource;
 
-import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -20,21 +18,20 @@ import java.util.List;
  * @since v1.0.0
  * @orchidApi extensible
  */
-public abstract class OrchidResourceSource extends Prioritized {
+public interface OrchidResourceSource extends Comparable<OrchidResourceSource> {
 
-    protected final OrchidContext context;
+    int getPriority();
 
-    @Inject
-    public OrchidResourceSource(OrchidContext context, int priority) {
-        super(priority);
-        this.context = context;
-    }
+    OrchidResource getResourceEntry(String fileName);
 
-    public abstract OrchidResource getResourceEntry(String fileName);
+    List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive);
 
-    public abstract List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive);
-
-    protected boolean shouldAddEntry(String entryName) {
+    default boolean shouldAddEntry(String entryName) {
         return true;
     }
+
+    default int compareTo(@NotNull OrchidResourceSource o) {
+        return getPriority() - getPriority();
+    }
+
 }

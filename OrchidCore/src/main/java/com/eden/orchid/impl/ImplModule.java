@@ -14,7 +14,7 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
-import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -114,7 +114,7 @@ public final class ImplModule extends OrchidModule {
         addToSet(AdminTheme.class);
 
         // Resource Sources
-        addToSet(FileResourceSource.class,
+        addToSet(LocalResourceSource.class,
                 LocalFileResourceSource.class);
 
         addToSet(PluginResourceSource.class,

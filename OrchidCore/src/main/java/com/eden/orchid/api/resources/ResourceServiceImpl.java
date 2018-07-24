@@ -6,7 +6,7 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -47,7 +47,7 @@ import java.util.TreeSet;
 public final class ResourceServiceImpl implements ResourceService {
 
     private OrchidContext context;
-    private Set<FileResourceSource> fileResourceSources;
+    private Set<LocalResourceSource> fileResourceSources;
     private Set<PluginResourceSource> pluginResourceSources;
     private OkHttpClient client;
 
@@ -56,7 +56,7 @@ public final class ResourceServiceImpl implements ResourceService {
     @Inject
     public ResourceServiceImpl(
             @Named("resourcesDir") String resourcesDir,
-            Set<FileResourceSource> fileResourceSources,
+            Set<LocalResourceSource> fileResourceSources,
             Set<PluginResourceSource> pluginResourceSources,
             OkHttpClient client) {
 

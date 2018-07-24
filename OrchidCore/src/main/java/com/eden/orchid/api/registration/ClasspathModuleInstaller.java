@@ -17,7 +17,7 @@ public class ClasspathModuleInstaller extends AbstractModule {
         moduleLog.append("\n--------------------");
 
         FastClasspathScanner scanner = new FastClasspathScanner();
-        scanner.matchClassesImplementing(Module.class, (matchingClass) -> {
+        scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
             if (isInstantiable(matchingClass)) {
                 try {
                     Module provider = matchingClass.newInstance();
