@@ -11,4 +11,3 @@ apply plugin: 'net.vivin.gradle-semantic-build-versioning'
 rootProject.name = 'buildSrc'
 
 include ':orchidPlugin'
-include ':orchidJavadocPlugin'

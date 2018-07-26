@@ -13,5 +13,4 @@ task publishPlugins {
 apply plugin: "java"
 dependencies {
     runtime project(':orchidPlugin')
-    runtime project(':orchidJavadocPlugin')
 }

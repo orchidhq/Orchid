@@ -1,4 +1,4 @@
-apply plugin: 'com.eden.orchidJavadocPlugin'
+apply plugin: 'com.eden.orchidPlugin'
 
 orchid {
     runTask     = 'build'
@@ -13,3 +13,5 @@ orchid {
         "githubToken ${project.properties['github_token']}"
     ]
 }
+
+tasks.build.dependsOn orchidBuild

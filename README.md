@@ -143,7 +143,6 @@ The following lists all official Orchid packages:
 - #### Core Packages
   - [Orchid Core                 ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
   - [Orchid Gradle Plugin        ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)
-  - [Orchid Gradle Javadoc Plugin](https://plugins.gradle.org/plugin/com.eden.orchidJavadocPlugin)
 - #### Themes
   - [OrchidBsDoc          ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion)
   - [OrchidEditorial      ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion)

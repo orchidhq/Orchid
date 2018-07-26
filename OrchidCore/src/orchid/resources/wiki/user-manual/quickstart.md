@@ -38,8 +38,7 @@ ridiculously good-looking Javadocs, wikis, and more.
 
 **Step 1**
 
-Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`. If you 
-are generating Javadoc, you'll also need the [Orchid Gradle Javadoc Plugin](https://plugins.gradle.org/plugin/com.eden.orchidJavadocPlugin).
+Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`.
 
 The plugin adds several new tasks to run Orchid in various modes, along with replacing the Javadoc task with Orchid. It
 also opens up a configuration block where you can set options such as the theme and input/output directories of Orchid. 
