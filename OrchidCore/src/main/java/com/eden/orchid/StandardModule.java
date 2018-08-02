@@ -8,13 +8,11 @@ import com.eden.orchid.impl.ImplModule;
 import com.google.inject.AbstractModule;
 import lombok.Builder;
 
-import java.util.Map;
-
 @IgnoreModule
 @Builder
 public final class StandardModule extends AbstractModule {
 
-    private final Map<String, String[]> flags;
+    private final String[] args;
 
     @Builder.Default private boolean includeCoreApi = true;
     @Builder.Default private boolean includeCoreImpl = true;
@@ -30,10 +28,10 @@ public final class StandardModule extends AbstractModule {
             install(new ImplModule());
         }
         if(includeFlags) {
-            if(flags == null) {
+            if(args == null) {
                 throw new IllegalStateException("A mapping of flags must be provided to use the FlagsModule");
             }
-            install(new FlagsModule(flags));
+            install(new FlagsModule(args));
         }
         if(includeClasspath) {
             install(new ClasspathModuleInstaller());

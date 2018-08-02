@@ -4,6 +4,8 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.helpers.JavadocInvoker
 import com.eden.orchid.javadoc.models.JavadocModel
@@ -28,13 +30,17 @@ constructor(context: OrchidContext, private val model: JavadocModel, private val
         const val GENERATOR_KEY = "javadoc"
     }
 
+    @Option
+    @StringDefault("../../main/java")
+    lateinit var sourceDirs: List<String>
+
     override fun startIndexing(): List<OrchidPage> {
         val classes = HashSet<ClassDoc>()
         val packages = HashSet<PackageDoc>()
 
         javadocInvoker.extractOptions(context, allData)
 
-        val rootDoc = javadocInvoker.getRootDoc()
+        val rootDoc = javadocInvoker.getRootDoc(sourceDirs)
 
         if (rootDoc == null) return ArrayList()
 

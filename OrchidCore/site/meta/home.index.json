@@ -1,0 +1,16 @@
+{
+  "ownKey": "home",
+  "ownPages": [{
+    "reference": {
+      "path": "",
+      "baseUrl": "http://localhost:8080",
+      "fileName": "index",
+      "extension": "html",
+      "usePrettyUrl": false,
+      "link": "http://localhost:8080/index.html"
+    },
+    "description": "",
+    "title": "Homepage",
+    "content": ""
+  }]
+}

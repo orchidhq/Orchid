@@ -10,7 +10,6 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -57,10 +56,8 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void main(String[] args) {
-        Map<String, String[]> options = OrchidUtils.parseCommandLineArgs(args);
-
         boolean success = Orchid.getInstance().start(
-                StandardModule.builder().flags(options).build()
+                StandardModule.builder().args(args).build()
         );
         System.exit((success) ? 0 : 1);
     }

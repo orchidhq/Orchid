@@ -72,33 +72,33 @@ public final class OrchidUtilsTest {
     @ParameterizedTest
     @MethodSource("parseCommandLineArgsValues")
     public void parseCommandLineArgsTest(String[] input, Map<String, String[]> expected) {
-        Map<String, String[]> output = OrchidUtils.parseCommandLineArgs(input);
+        Map<String, Object> output = OrchidUtils.parseCommandLineArgs(input);
 
         assertThat(output.keySet(), containsInAnyOrder(expected.keySet().toArray()));
 
         for(String key : expected.keySet()) {
-            assertThat(output.get(key), is(arrayContaining(expected.get(key))));
+            assertThat(output.get(key), is(equalTo(expected.get(key))));
         }
     }
     public static Stream<Arguments> parseCommandLineArgsValues() {
         return Stream.of(
                 Arguments.of(
                         new String[] {"-key1 val1"},
-                        Collections.unmodifiableMap(new HashMap<String, String[]>() {{
-                            put("-key1", new String[]{"-key1", "val1"});
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("key1", "val1");
                         }})
                 ),
                 Arguments.of(
                         new String[] {"-key2 val1 val2 val3"},
-                        Collections.unmodifiableMap(new HashMap<String, String[]>() {{
-                            put("-key2", new String[]{"-key2", "val1", "val2", "val3"});
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("key2", new String[]{"val1", "val2", "val3"});
                         }})
                 ),
                 Arguments.of(
                         new String[] {"-key1 val1", "-key2 val1 val2 val3"},
-                        Collections.unmodifiableMap(new HashMap<String, String[]>() {{
-                            put("-key1", new String[]{"-key1", "val1"});
-                            put("-key2", new String[]{"-key2", "val1", "val2", "val3"});
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("key1", "val1");
+                            put("key2", new String[]{"val1", "val2", "val3"});
                         }})
                 )
         );

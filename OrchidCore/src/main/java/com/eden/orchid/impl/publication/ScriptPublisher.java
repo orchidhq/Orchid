@@ -36,7 +36,7 @@ public class ScriptPublisher extends OrchidPublisher {
     private String cwd;
 
     @Inject
-    public ScriptPublisher(OrchidContext context, @Named("resourcesDir") String resourcesDir) {
+    public ScriptPublisher(OrchidContext context, @Named("src") String resourcesDir) {
         super(context, "script", 100);
         this.resourcesDir = resourcesDir;
     }

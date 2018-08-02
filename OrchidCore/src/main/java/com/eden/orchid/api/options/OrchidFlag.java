@@ -1,6 +1,16 @@
 package com.eden.orchid.api.options;
 
-import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Archetype;
+import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.Protected;
+import com.eden.orchid.api.options.archetypes.EnvironmentVariableArchetype;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Denotes a Javadoc-style command-line argument. It is important to note that Options are found by scanning the
@@ -10,143 +20,54 @@ import com.eden.orchid.api.options.annotations.Description;
  * @since v1.0.0
  * @orchidApi extensible
  */
+@Archetype(value = EnvironmentVariableArchetype.class, key = "")
 public abstract class OrchidFlag {
-    protected enum FlagType {
-        STRING,
-        STRING_ARRAY,
-        INTEGER,
-        DOUBLE,
-        BOOLEAN,
-    }
 
-    private final String flag;
+    public Map<String, Value> getParsedFlags() {
+        Map<String, Value> flagValues = new HashMap<>();
 
-    private final boolean isRequired;
+        for(Field field : this.getClass().getDeclaredFields()) {
+            if(field.isAnnotationPresent(Option.class)) {
+                try {
+                    Value value = new Value(
+                            field.getType(),
+                            field.getName(),
+                            field.get(this),
+                            field.isAnnotationPresent(Protected.class)
+                    );
 
-    private final boolean printValue;
-
-    private final Object defaultValue;
-
-    /**
-     * Initialize this Flag with its flag key, whether it is required, and if it is required its optional default value.
-     *
-     * @see OrchidFlag#getFlag()
-     * @see OrchidFlag#isRequired()
-     * @see OrchidFlag#getDefaultValue()
-     *
-     * @param flag
-     * @param isRequired
-     * @param defaultValue
-     */
-    public OrchidFlag(String flag, boolean isRequired, Object defaultValue) {
-        this(flag, isRequired, false, defaultValue);
-    }
-
-    /**
-     * Initialize this Flag with its flag key, whether it is required, and if it is required its optional default value.
-     *
-     * @see OrchidFlag#getFlag()
-     * @see OrchidFlag#isRequired()
-     * @see OrchidFlag#getDefaultValue()
-     *
-     * @param flag
-     * @param isRequired
-     * @param defaultValue
-     */
-    public OrchidFlag(String flag, boolean isRequired, boolean printValue, Object defaultValue) {
-        this.flag = flag;
-        this.isRequired = isRequired;
-        this.printValue = printValue;
-        this.defaultValue = defaultValue;
-    }
-
-    /**
-     * The name of the flag used on the command-line. This value should _not_ start with a dash, but options specified
-     * on the command-line _must_ begin with a dash. The value returned by this flag can be injected with an @Named-
-     * annotated parameter.
-     *
-     * @return the flag, without any leading dash
-     */
-    public final String getFlag() {
-        return this.flag;
-    }
-
-    /**
-     * Return true if this OrchidOption must be set before continuing with the Orchid build. If the flag is required and
-     * is not set, you may pass a default value to be used. If the default value is null, the Orchid build will fail.
-     *
-     * @return true if this option is required, false otherwise.
-     */
-    public final boolean isRequired() {
-        return this.isRequired;
-    }
-
-    /**
-     * Return true if this OrchidOption must be set before continuing with the Orchid build. If the flag is required and
-     * is not set, you may pass a default value to be used. If the default value is null, the Orchid build will fail.
-     *
-     * @return true if this option is required, false otherwise.
-     */
-    public final boolean shouldPrintValue() {
-        return this.printValue;
-    }
-
-    /**
-     * If the user has not provided a value for this flag, and this flag is required, this value is used instead to get
-     * a value for this option.
-     *
-     * @return the default value
-     */
-    public final Object getDefaultValue() {
-        return this.defaultValue;
-    }
-
-    /**
-     * Return a description of this OrchidOption, which is displayed when listing available Options.
-     *
-     * @return this option's description
-     */
-    public final String getDescription() {
-        if(getClass().isAnnotationPresent(Description.class)) {
-            return getClass().getAnnotation(Description.class).value();
+                    flagValues.put(value.key, value);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        return "";
+        return flagValues;
     }
 
-    /**
-     * Return the number of arguments this OrchidOption is expecting. This number is strictly enforced, and the option
-     * will only be allowed to parse the command-line option if the number of arguments it finds exactly matches this
-     * value.
-     *
-     * For each custom option that you want to recognize, optionLength must return the number of separate pieces or
-     * tokens in the option. For example, we want to be able to use the custom option of the form -tag mytag. This
-     * option has two pieces, the -tag option itself and its value, so the optionLength method in our doclet must return
-     * 2 for the -tag option.
-     *
-     * An option can return 0 if it isn't expecting any actual command-line option, but does want to add data to the
-     * 'option' object.
-     *
-     * @return the length of this option, including the flag itself
-     */
-    public int optionLength() { return 2; }
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static final class Value {
 
-    /**
-     * A callback for when an option on the command-line matches the optionLength or when optionLength is 0. Whatever
-     * JSONElement is returned will be available in the root JSONObject at `options.{flag}`.
-     *
-     * @param options the raw values found on the command line. Its length will always be exactly equal to optionLength
-     * @return the data parsed from the command-line option
-     */
-    public Object parseFlag(String[] options) { return options[1]; }
+        private final Class<?> type;
+        private final String key;
+        private final Object value;
 
+        private final boolean isProtected;
 
-    /**
-     * Flags are simple values that can only be of type String, Integer, Float, or Boolean, or String[]. Return the
-     * type that this flag represents.
-     *
-     * @return the type of this flag.
-     */
-    public FlagType getFlagType() { return FlagType.STRING; }
+        public Class<?> getType() {
+            if(type.equals(byte.class))   { return Byte.class; }
+            if(type.equals(short.class))  { return Short.class; }
+            if(type.equals(int.class))    { return Integer.class; }
+            if(type.equals(long.class))   { return Long.class; }
+            if(type.equals(float.class))  { return Float.class; }
+            if(type.equals(double.class)) { return Double.class; }
+
+            return type;
+        }
+    }
 
 }

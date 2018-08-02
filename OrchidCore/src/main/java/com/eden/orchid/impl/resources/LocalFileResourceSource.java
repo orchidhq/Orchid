@@ -11,7 +11,7 @@ import javax.inject.Inject;
 public final class LocalFileResourceSource extends FileResourceSource implements LocalResourceSource {
 
     @Inject
-    public LocalFileResourceSource(Provider<OrchidContext> context, @Named("resourcesDir") String resourcesDir) {
+    public LocalFileResourceSource(Provider<OrchidContext> context, @Named("src") String resourcesDir) {
         super(context, resourcesDir, Integer.MAX_VALUE);
     }
 

@@ -122,7 +122,7 @@ public final class ApiModule extends OrchidModule {
 
     @Provides
     OrchidSite provideOrchidSite
-            (@Named("v") String version,
+            (@Named("version") String version,
              @Named("baseUrl") String baseUrl,
              @Named("environment") String environment,
              @Named("defaultTemplateExtension") String defaultTemplateExtension) {

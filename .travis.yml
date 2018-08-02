@@ -17,21 +17,21 @@ branches:
 
 jobs:
   include:
-    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+    - install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
       script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: linux
       jdk: openjdk8
-    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+    - install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
       script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: linux
       jdk: oraclejdk8
-    - install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+    - install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
       script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
       os: osx
       osx_image: xcode8.3
 
     - stage: afterTests
-      install: ./gradlew assemble -PnoJavadoc=true -Prelease=$TRAVIS_PULL_REQUEST
+      install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
       script: ./gradlew codeCoverageReport sendCoverageToCodacy
       os: linux
       jdk: openjdk8

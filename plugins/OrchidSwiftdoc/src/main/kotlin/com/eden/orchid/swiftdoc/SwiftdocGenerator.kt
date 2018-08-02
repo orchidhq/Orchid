@@ -38,7 +38,7 @@ import java.util.stream.Stream
 import javax.inject.Inject
 
 class SwiftdocGenerator
-@Inject constructor(context: OrchidContext, val model: SwiftdocModel, @Named("resourcesDir") val resourcesDir: String)
+@Inject constructor(context: OrchidContext, val model: SwiftdocModel, @Named("src") val resourcesDir: String)
     : OrchidGenerator(context, "swiftdoc", OrchidGenerator.PRIORITY_DEFAULT) {
 
     @Option

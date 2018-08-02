@@ -7,6 +7,6 @@ import com.sun.javadoc.RootDoc
 @ImplementedBy(JavadocInvokerImpl::class)
 interface JavadocInvoker : OptionsHolder {
 
-    fun getRootDoc(): RootDoc?
+    fun getRootDoc(sourceDirs: List<String>): RootDoc?
 
 }

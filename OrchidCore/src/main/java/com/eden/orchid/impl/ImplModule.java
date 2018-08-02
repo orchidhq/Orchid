@@ -271,7 +271,7 @@ public final class ImplModule extends OrchidModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkhttpClient(@Named("d") String destinationDir) throws IOException {
+    public OkHttpClient provideOkhttpClient(@Named("dest") String destinationDir) throws IOException {
         return new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)

@@ -1,7 +1,5 @@
 package com.eden.orchid.javadoc.helpers
 
-import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.name.Named
 import com.sun.javadoc.RootDoc
@@ -17,26 +15,23 @@ import com.sun.tools.javac.util.List as JavacList
 
 class JavadocInvokerImpl
 @Inject
-constructor(@Named("resourcesDir") val resourcesDir: String): JavadocInvoker {
+constructor(@Named("src") val resourcesDir: String): JavadocInvoker {
 
-    @Option @StringDefault("../../main/java")
-    lateinit var sourceDirs: List<String>
-
-    override fun getRootDoc(): RootDoc? {
+    override fun getRootDoc(sourceDirs: List<String>): RootDoc? {
         try {
             return getJavadocTool().getRootDocImpl(
-                    getLocale(),                // var1, this.docenv.setLocale(var1);
-                    getCharset(),               // var2, this.docenv.setEncoding(var2);
-                    getModifierFilter(),        // var3, this.docenv.showAccess = var3;
-                    getJavaSourceFileNames(),   // var4
-                    getOptions(),               // var5
-                    getJavaSourceFileObjects(), // var6
-                    isBreakiterator(),          // var7, this.docenv.breakiterator = var7;
-                    getStuffList(),             // var8
-                    getThingList(),             // var9
-                    isDocClasses(),             // var10, this.javadocReader.sourceCompleter = var10 ? null : this.thisCompleter;
-                    useLegacyDoclet(),          // var11, this.docenv.legacyDoclet = var11;
-                    isQuiet()                   // var12, this.docenv.quiet = var12;
+                    getLocale(),                        // var1, this.docenv.setLocale(var1);
+                    getCharset(),                       // var2, this.docenv.setEncoding(var2);
+                    getModifierFilter(),                // var3, this.docenv.showAccess = var3;
+                    getJavaSourceFileNames(sourceDirs), // var4
+                    getOptions(),                       // var5
+                    getJavaSourceFileObjects(),         // var6
+                    isBreakiterator(),                  // var7, this.docenv.breakiterator = var7;
+                    getStuffList(),                     // var8
+                    getThingList(),                     // var9
+                    isDocClasses(),                     // var10, this.javadocReader.sourceCompleter = var10 ? null : this.thisCompleter;
+                    useLegacyDoclet(),                  // var11, this.docenv.legacyDoclet = var11;
+                    isQuiet()                           // var12, this.docenv.quiet = var12;
             )
         }
         catch (e: Throwable) {
@@ -70,7 +65,7 @@ constructor(@Named("resourcesDir") val resourcesDir: String): JavadocInvoker {
         return ModifierFilter(5)
     }
 
-    private fun getJavaSourceFileNames(): JavacList<String> {
+    private fun getJavaSourceFileNames(sourceDirs: List<String>): JavacList<String> {
         var sourceFiles = JavacList.nil<String>()
 
         for(sourceDir in sourceDirs) {
@@ -115,7 +110,7 @@ constructor(@Named("resourcesDir") val resourcesDir: String): JavadocInvoker {
     }
 
     private fun isQuiet(): Boolean {
-        return false
+        return true
     }
 
 }

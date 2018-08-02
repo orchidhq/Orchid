@@ -50,7 +50,7 @@ public final class FileResource extends FreeableResource  {
 
     private static String pathFromFile(OrchidContext context, File file) {
         String filePath = file.getPath();
-        String basePath = OrchidFlags.getInstance().getString("resourcesDir");
+        String basePath = OrchidFlags.getInstance().getFlagValue("src");
         basePath = basePath.replaceAll("\\\\", "/");
         filePath = filePath.replaceAll("\\\\", "/");
 

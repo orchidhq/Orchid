@@ -55,7 +55,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Inject
     public ResourceServiceImpl(
-            @Named("resourcesDir") String resourcesDir,
+            @Named("src") String resourcesDir,
             Set<LocalResourceSource> fileResourceSources,
             Set<PluginResourceSource> pluginResourceSources,
             OkHttpClient client) {
