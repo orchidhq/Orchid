@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter @Setter
@@ -40,7 +41,7 @@ public final class LocalDateFunction extends TemplateFunction {
 
     @Override
     public Object apply() {
-        return DateTimeFormatter.ofPattern(format).format(converter.convert(input).second);
+        return DateTimeFormatter.ofPattern(format).format(converter.convert(LocalDate.class, input).second);
     }
 
 }

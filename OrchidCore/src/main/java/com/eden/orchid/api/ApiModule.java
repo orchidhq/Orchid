@@ -14,8 +14,8 @@ import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.converters.TypeConverter;
-import com.eden.orchid.api.options.HibernateValidator;
 import com.eden.orchid.api.options.Extractor;
+import com.eden.orchid.api.options.HibernateValidator;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsValidator;
@@ -47,11 +47,9 @@ import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.site.OrchidSiteImpl;
-import com.eden.orchid.api.theme.models.Social;
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
-import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
@@ -77,8 +75,7 @@ public final class ApiModule extends OrchidModule {
                 IntegerConverter.class,
                 LongConverter.class,
                 NumberConverter.class,
-                Social.Item.Converter.class,
-                FrontMatterPrecompiler.CustomDelimiter.Converter.class,
+                OptionsHolderOptionExtractor.Converter.class,
                 StringConverter.class,
                 TimeConverter.class
         );

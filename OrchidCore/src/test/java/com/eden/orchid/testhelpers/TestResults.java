@@ -1,0 +1,30 @@
+package com.eden.orchid.testhelpers;
+
+import lombok.AllArgsConstructor;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@AllArgsConstructor
+public class TestResults {
+
+    public final Map<String, TestRenderer.TestRenderedPage> renderedPageMap;
+
+    @Override
+    public String toString() {
+        return "TestResults with " + renderedPageMap.size() + " pages";
+    }
+
+    public String showResults() {
+        if(renderedPageMap.size() == 0) {
+            return "(empty site)";
+        }
+        else {
+            return renderedPageMap
+                    .keySet()
+                    .stream()
+                    .sorted()
+                    .collect(Collectors.joining("\n"));
+        }
+    }
+}

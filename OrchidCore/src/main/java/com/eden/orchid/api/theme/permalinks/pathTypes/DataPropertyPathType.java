@@ -25,7 +25,7 @@ public final class DataPropertyPathType extends PermalinkPathType {
     @Override
     public String format(OrchidPage page, String key) {
         Object o = page.query(key);
-        return converter.convert(o).second;
+        return converter.convert(String.class, o).second;
     }
 
 }

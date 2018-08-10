@@ -1,22 +1,15 @@
 package com.eden.orchid.api.theme.models;
 
-import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.converters.FlexibleMapConverter;
-import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.google.inject.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.JSONObject;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -91,32 +84,6 @@ public final class Social implements OptionsHolder {
         @Option
         @Description("The order in which this item is rendered.")
         public int order;
-
-        public static class Converter implements TypeConverter<Item> {
-            private final OrchidContext context;
-            private final Provider<FlexibleMapConverter> mapConverter;
-
-            @Inject
-            public Converter(OrchidContext context, Provider<FlexibleMapConverter> mapConverter) {
-                this.context = context;
-                this.mapConverter = mapConverter;
-            }
-
-            @Override
-            public boolean acceptsClass(Class clazz) {
-                return clazz.equals(Item.class);
-            }
-
-            @Override
-            public EdenPair<Boolean, Item> convert(Object o) {
-                Map<String, Object> itemSource = (Map<String, Object>) mapConverter.get().convert(o).second;
-
-                Item item = new Item();
-                item.extractOptions(context, itemSource);
-
-                return new EdenPair<>(true, item);
-            }
-        }
 
     }
 

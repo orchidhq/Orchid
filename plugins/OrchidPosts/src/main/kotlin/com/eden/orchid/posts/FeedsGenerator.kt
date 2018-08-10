@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.model.PostsModel
 import java.util.stream.Stream
@@ -63,12 +64,15 @@ constructor(
                     .take(size)
 
             feedTypes.forEach { feedType ->
-                context.renderRaw(FeedPage(context, feedType, sortedFeedItems))
+                val res = context.getResourceEntry("feeds/$feedType.peb")
+                if(res != null) {
+                    context.renderRaw(FeedPage(res, feedType, sortedFeedItems))
+                }
             }
         }
     }
 
-    class FeedPage constructor(context: OrchidContext, filename: String, val items: List<OrchidPage>) : OrchidPage(context.getResourceEntry("feeds/$filename.peb"), "rss") {
+    class FeedPage constructor(resource: OrchidResource, filename: String, val items: List<OrchidPage>) : OrchidPage(resource, "rss") {
         init {
             this.reference.fileName = filename
             this.reference.path = ""

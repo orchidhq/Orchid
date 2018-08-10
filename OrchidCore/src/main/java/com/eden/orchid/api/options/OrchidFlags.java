@@ -1,7 +1,6 @@
 package com.eden.orchid.api.options;
 
 import com.eden.common.util.EdenUtils;
-import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.name.Names;
@@ -51,8 +50,7 @@ public final class OrchidFlags {
         this.flags = flags;
     }
 
-    public AbstractModule parseFlags(String[] args) {
-        Map<String, Object> flagsMap = OrchidUtils.parseCommandLineArgs(args);
+    public AbstractModule parseFlags(Map<String, Object> flagsMap) {
         parsedFlagsData = new HashMap<>();
 
         for (OrchidFlag flag : flags) {

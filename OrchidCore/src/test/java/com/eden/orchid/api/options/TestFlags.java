@@ -3,6 +3,7 @@ package com.eden.orchid.api.options;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -118,7 +119,7 @@ public class TestFlags {
     public void testParsingFlags() throws Throwable {
         OrchidFlags.instance = new OrchidFlags(flagParsers);
 
-        AbstractModule module = OrchidFlags.getInstance().parseFlags(args);
+        AbstractModule module = OrchidFlags.getInstance().parseFlags(OrchidUtils.parseCommandLineArgs(args));
 
         // verify that the options get parsed correctly
         assertThat(OrchidFlags.getInstance().getFlagValue("one"),   is(equalTo("valueOne")));

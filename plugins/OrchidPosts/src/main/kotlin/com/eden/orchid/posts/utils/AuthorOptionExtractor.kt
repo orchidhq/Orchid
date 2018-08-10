@@ -26,7 +26,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
     }
 
     fun getValue(`object`: Any): String {
-        return converter.convert(`object`).second
+        return converter.convert(String::class.java, `object`).second
     }
 
     override fun getOption(field: Field, sourceObject: Any, key: String): Author? {
@@ -35,7 +35,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
             author.extractOptions(contextProvider.get(), sourceObject.toMap())
             return author
         } else {
-            val value = converter.convert(sourceObject)
+            val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {
                 return postsModel.getAuthorByName(value.second)
             }

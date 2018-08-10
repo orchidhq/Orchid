@@ -9,10 +9,12 @@ import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for Orchid to runTask
@@ -444,6 +447,66 @@ public final class Orchid {
             this.isBuildState = isBuildState;
             this.isDeployState = isDeployState;
             this.isWorkingState = isDeployState || isBuildState;
+        }
+    }
+
+//
+//----------------------------------------------------------------------------------------------------------------------
+
+
+    public boolean startForUnitTest(List<Module> modules, Function<Provider<OrchidContext>, List<OrchidModule>> contextDependantModulesFunction) {
+        try {
+            String moduleLog = "\n--------------------";
+            for (Module module : modules) {
+                if (!module.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
+                    moduleLog += "\n * " + module.getClass().getName();
+                }
+            }
+            moduleLog += "\n";
+            Clog.tag("Using the following modules").log(moduleLog);
+
+            modules.add(new OrchidModule() {
+                @Override
+                protected void configure() {
+                    Provider<OrchidContext> contextProvider = getProvider(OrchidContext.class);
+                    List<OrchidModule> contextDependantModules = contextDependantModulesFunction.apply(contextProvider);
+                    if(contextDependantModules != null) {
+                        for(OrchidModule module : contextDependantModules) {
+                            install(module);
+                        }
+                    }
+                }
+            });
+
+            injector = Guice.createInjector(modules);
+
+            String flagLog = "";
+            flagLog += "\n--------------------\n";
+            flagLog += OrchidFlags.getInstance().printFlags();
+            flagLog += "\n";
+            Clog.tag("Flag values").log(flagLog);
+
+            context = injector.getInstance(OrchidContext.class);
+
+            try {
+                OrchidSecurityManager manager = injector.getInstance(OrchidSecurityManager.class);
+                System.setSecurityManager(manager);
+            }
+            catch (Exception e) {
+
+            }
+
+            Clog.i("Running Orchid version {}, site version {} in {} environment", context.getOrchidVersion(), context.getVersion(), context.getEnvironment());
+            context.start();
+            context.finish();
+            return true;
+        }
+        catch (Exception e) {
+            Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
+            e.printStackTrace();
+
+            context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
+            return false;
         }
     }
 

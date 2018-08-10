@@ -1,8 +1,0 @@
-User-agent: *
-
-Disallow: /
-
-
-
-Sitemap: http://localhost:8080/sitemap.xml
-

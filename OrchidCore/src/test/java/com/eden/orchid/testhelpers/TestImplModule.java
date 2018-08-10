@@ -1,4 +1,4 @@
-package com.eden.orchid.impl;
+package com.eden.orchid.testhelpers;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidService;
@@ -11,8 +11,8 @@ import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.publication.OrchidPublisher;
-import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
@@ -35,9 +35,6 @@ import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
-import com.eden.orchid.impl.generators.AssetsGenerator;
-import com.eden.orchid.impl.generators.HomepageGenerator;
-import com.eden.orchid.impl.generators.SitemapGenerator;
 import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
@@ -92,11 +89,12 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@IgnoreModule
-public final class ImplModule extends OrchidModule {
+public class TestImplModule extends OrchidModule {
 
     @Override
     protected void configure() {
+        bind(OrchidRenderer.class).to(TestRenderer.class);
+
         // prepare empty sets for binding
         addToSet(OrchidService.class);
 
@@ -135,10 +133,7 @@ public final class ImplModule extends OrchidModule {
                 FrontMatterPrecompiler.class);
 
         // Generators
-        addToSet(OrchidGenerator.class,
-                AssetsGenerator.class,
-                HomepageGenerator.class,
-                SitemapGenerator.class);
+        addToSet(OrchidGenerator.class);
 
         // Tasks and Commands
         addToSet(OrchidTask.class,

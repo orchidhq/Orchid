@@ -33,4 +33,9 @@ public final class StringResource extends OrchidResource {
     public StringResource(OrchidContext context, String name, String content) {
         this(content, new OrchidReference(context, name));
     }
+
+    public StringResource(OrchidContext context, String name, String content, Map<String, Object> data) {
+        this(content, new OrchidReference(context, name));
+        this.embeddedData = new JSONElement(new JSONObject(data));
+    }
 }

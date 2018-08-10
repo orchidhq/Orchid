@@ -83,7 +83,9 @@ public final class BaseFlags extends OrchidFlag {
 
     @Override
     public Map<String, Value> getParsedFlags() {
-        Clog.getInstance().setMinPriority(logLevel);
+        if(!environment.equals("test")) {
+            Clog.getInstance().setMinPriority(logLevel);
+        }
 
         // resolve absolute dir for source dir
         src = FilenameUtils.normalize(new File(src).getAbsolutePath());
