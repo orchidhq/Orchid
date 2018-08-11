@@ -80,11 +80,8 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         val authorPages = getAuthorPages()
 
         if (EdenUtils.isEmpty(categories)) {
-            Clog.v("adding default config: {}", defaultConfig)
             categories.add(defaultConfig)
         }
-
-        Clog.v("We have {} categories: [{}]", categories.size, categories.map { it.key }.joinToString(separator = ", "))
 
         postsModel.initialize(excerptSeparator, categories, authorPages)
 
@@ -155,7 +152,6 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
 
                 // TODO: when setting the permalink, check all categories in the hierarchy until you find one
                 val permalink = if (!EdenUtils.isEmpty(post.permalink)) post.permalink else categoryModel.permalink
-                Clog.v("applying permalink: {} ({}, {})", permalink, post.permalink, categoryModel.permalink)
                 permalinkStrategy.applyPermalink(post, permalink)
                 posts.add(post)
             }

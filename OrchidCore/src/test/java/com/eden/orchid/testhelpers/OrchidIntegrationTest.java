@@ -82,7 +82,7 @@ public class OrchidIntegrationTest {
     }
 
     protected void resource(String path, String content) {
-        resource(path, "", new HashMap<>());
+        resource(path, content, new HashMap<>());
     }
 
     protected void resource(String path, String content, Map<String, Object> data) {

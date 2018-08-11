@@ -8,11 +8,14 @@ import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.google.inject.Provider;
 import kotlin.Pair;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TestResourceSource implements OrchidResourceSource, LocalResourceSource {
 
@@ -41,12 +44,34 @@ public class TestResourceSource implements OrchidResourceSource, LocalResourceSo
 
     @Override
     public List<OrchidResource> getResourceEntries(String dirName, String[] fileExtensions, boolean recursive) {
+        Stream<Map.Entry<String, Pair<String, Map<String, Object>>>> matchedResoures = (recursive)
+                ? getResourcesInDirs(dirName)
+                : getResourcesInDir(dirName);
+
+        return matchedResoures
+                .filter(it -> isValidExtension(it.getKey(), fileExtensions))
+                .map(it -> new StringResource(context.get(), it.getKey(), it.getValue().getFirst(), it.getValue().getSecond()))
+                .collect(Collectors.toList());
+    }
+
+    private Stream<Map.Entry<String, Pair<String, Map<String, Object>>>> getResourcesInDir(String dirName) {
         return mockResources
                 .entrySet()
                 .stream()
-                .filter(it -> it.getKey().startsWith(dirName))
-                .map(it -> new StringResource(context.get(), it.getKey(), it.getValue().getFirst(), it.getValue().getSecond()))
-                .collect(Collectors.toList());
+                .filter(it -> FilenameUtils.getPath(it.getKey()).equals(dirName));
+    }
+
+    private Stream<Map.Entry<String, Pair<String, Map<String, Object>>>> getResourcesInDirs(String dirName) {
+        return mockResources
+                .entrySet()
+                .stream()
+                .filter(it -> it.getKey().startsWith(dirName));
+    }
+
+    private boolean isValidExtension(String filename, String[] fileExtensions) {
+        return (fileExtensions != null)
+                ? Arrays.asList(fileExtensions).contains(FilenameUtils.getExtension(filename))
+                : true;
     }
 
     public OrchidModule toModule() {

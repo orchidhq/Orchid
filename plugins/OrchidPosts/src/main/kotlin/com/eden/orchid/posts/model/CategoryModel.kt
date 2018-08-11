@@ -3,9 +3,13 @@ package com.eden.orchid.posts.model
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.posts.PostsGenerator
 import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.camelCase
@@ -14,7 +18,9 @@ import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import javax.inject.Inject
 
-
+@Archetypes(
+        Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.defaultConfig")
+)
 class CategoryModel
 @Inject
 constructor(val context: OrchidContext) : OptionsHolder {
@@ -26,7 +32,8 @@ constructor(val context: OrchidContext) : OptionsHolder {
 
     var path: String = ""
 
-    @Option @StringDefault(":category/:year/:month/:day/:slug")
+    @Option
+    @StringDefault(":category/:year/:month/:day/:slug")
     @Description("The permalink structure to use for the blog posts in this category. Permalinks may be " +
             "overridden on any individual post."
     )
@@ -41,7 +48,7 @@ constructor(val context: OrchidContext) : OptionsHolder {
     override fun onPostExtraction() {
         key = OrchidUtils.normalizePath(key)
 
-        if(!EdenUtils.isEmpty(key)) {
+        if (!EdenUtils.isEmpty(key)) {
             val categoryPath = key!!.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             key = categoryPath.last()
             path = OrchidUtils.normalizePath(categoryPath.joinToString("/"))
@@ -52,17 +59,16 @@ constructor(val context: OrchidContext) : OptionsHolder {
         }
         allCategories = path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
-        title = if(!EdenUtils.isEmpty(title)) {
+        title = if (!EdenUtils.isEmpty(title)) {
             title
         }
-        else if(!EdenUtils.isEmpty(key)) {
+        else if (!EdenUtils.isEmpty(key)) {
             key!!.from { camelCase() } to { titleCase() }
         }
         else {
             "Blog"
         }
     }
-
 
 
 }
