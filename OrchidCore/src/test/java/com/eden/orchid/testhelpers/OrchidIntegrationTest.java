@@ -3,6 +3,8 @@ package com.eden.orchid.testhelpers;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.registration.OrchidModule;
 import kotlin.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -73,8 +75,16 @@ public class OrchidIntegrationTest {
         flags.put(flag, value);
     }
 
-    protected void config(String flag, Object value) {
-        config.put(flag, value);
+//    protected void config(String flag, Object value) {
+//        config.put(flag, value);
+//    }
+
+    protected void configObject(String flag, String json) {
+        config.put(flag, new JSONObject(json).toMap());
+    }
+
+    protected void configArray(String flag, String json) {
+        config.put(flag, new JSONArray(json).toList());
     }
 
     protected void resource(String path) {

@@ -58,9 +58,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("The `permalink` can be set in `defaultOptions`, which is applied to all posts by default.")
     fun test06() {
-        config("posts", mapOf(
-                "defaultConfig" to mapOf("permalink" to "blog/:year/:month/:slug")
-        ))
+        configObject("posts", """{"defaultConfig": {"permalink": "blog/:year/:month/:slug"}}""")
         resource("posts/2018-01-01-post-one.md")
 
         val testResults = execute()
@@ -71,9 +69,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("The `permalink` in a post's options overrides the one set in `defaultOptions`.")
     fun test07() {
-        config("posts", mapOf(
-                "defaultConfig" to mapOf("permalink" to "defaultConfig/:year/:month/:slug")
-        ))
+        configObject("posts", """{"defaultConfig": {"permalink": "defaultConfig/:year/:month/:slug"}}""")
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "postConfig/:year/:month/:slug"))
 
         val testResults = execute()
@@ -83,9 +79,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("Posts supports multiple categories. Setting a category as a string value uses all category defaults.")
     fun tet08() {
-        config("posts", mapOf(
-                "categories" to listOf("cat1", "cat2")
-        ))
+        configObject("posts", """{"categories": ["cat1", "cat2"]}""")
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
@@ -97,12 +91,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("Posts supports multiple categories. You can list each category as an Object to customize its options.")
     fun test09() {
-        config("posts", mapOf(
-                "categories" to listOf(
-                        mapOf("cat1" to mapOf<String, Any?>()),
-                        mapOf("cat2" to mapOf<String, Any?>())
-                )
-        ))
+        configObject("posts", """{"categories": [{"cat1": {}}, {"cat2": {}}]}""")
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
@@ -114,12 +103,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("Posts supports multiple categories. Rather than a list for the categories, you can use a single Object, where each key points to the options for the value, to query easily.")
     fun test10() {
-        config("posts", mapOf(
-                "categories" to mapOf(
-                        "cat1" to mapOf<String, Any?>(),
-                        "cat2" to mapOf<String, Any?>()
-                )
-        ))
+        configObject("posts", """ {"categories": {"cat1": {}, "cat2": {}}}""")
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
@@ -131,12 +115,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("Categories can be hierarchical, by using a path rather than just a key.")
     fun test11() {
-        config("posts", mapOf(
-                "categories" to listOf(
-                        "cat1",
-                        "cat1/cat2"
-                )
-        ))
+        configObject("posts", """{"categories": ["cat1", "cat1/cat2"]}""")
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat1/cat2/2018-02-02-post-one.md")
 
@@ -148,12 +127,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @Test
     @DisplayName("Hierarchical categories must have every category level individually-defined.")
     fun test12() {
-        config("posts", mapOf(
-                "categories" to listOf(
-                        "cat1",
-                        "cat2/cat3"
-                )
-        ))
+        configObject("posts", """{"categories": ["cat1", "cat2/cat3"]}""")
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat1/cat2/2018-02-02-post-one.md")
 

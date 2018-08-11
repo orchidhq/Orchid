@@ -35,9 +35,7 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @DisplayName("Wiki supports multiple sections. Setting a section as a string value uses all section defaults.")
     fun tet03() {
         enableLogging()
-        config("wiki", mapOf(
-                "sections" to listOf("section1", "section2")
-        ))
+        configObject("wiki", """{"sections": ["section1", "section2"]}""")
         resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section1/page-one.md")
         resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")
@@ -54,12 +52,7 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @Test
     @DisplayName("Wiki supports multiple sections. You can list each section as an Object to customize its options.")
     fun test04() {
-        config("wiki", mapOf(
-                "sections" to listOf(
-                        mapOf("section1" to mapOf<String, Any?>()),
-                        mapOf("section2" to mapOf<String, Any?>())
-                )
-        ))
+        configObject("wiki", """{"sections": [{"section1": {}}, {"section2": {}}]}""")
         resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section1/page-one.md")
         resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")
@@ -76,12 +69,7 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @Test
     @DisplayName("Wiki supports multiple sections. Rather than a list for the sections, you can use a single Object, where each key points to the options for the value, to query easily.")
     fun test05() {
-        config("wiki", mapOf(
-                "sections" to mapOf(
-                        "section1" to mapOf<String, Any?>(),
-                        "section2" to mapOf<String, Any?>()
-                )
-        ))
+        configObject("wiki", """{"sections": {"section1": {}, "section2": {}}}""")
         resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section1/page-one.md")
         resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")

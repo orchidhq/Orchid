@@ -31,9 +31,7 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
     @Test
     @DisplayName("You can change the base directory where pages are found.")
     fun test03() {
-        config("pages", mapOf(
-                "baseDir" to "otherPages"
-        ))
+        configObject("pages", """{"baseDir": "otherPages"}""")
         resource("otherPages/page-one.md")
 
         val testResults = execute()
@@ -43,9 +41,7 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
     @Test
     @DisplayName("When the base directory is changed, pages in default `pages` directory will no longer be used.")
     fun test04() {
-        config("pages", mapOf(
-                "baseDir" to "otherPages"
-        ))
+        configObject("pages", """{"baseDir": "otherPages"}""")
         resource("pages/page-one.md")
 
         val testResults = execute()
