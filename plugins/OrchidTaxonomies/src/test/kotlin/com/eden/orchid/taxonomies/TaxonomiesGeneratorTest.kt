@@ -12,23 +12,71 @@ import strikt.api.expect
 class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule(), TaxonomiesModule()) {
 
     @Test
-    @DisplayName("Files, formatted correctly in the `wiki` directory, get rendered correctly without any configuration.")
+    @DisplayName("Taxonomies creates archive pages based on the pages from other generators. Setting taxonomies as a string value uses all category defaults.")
     fun test01() {
-        resource("posts/2018-01-01-post-one.md")
-        resource("posts/2018-02-01-post-two.md")
-        resource("posts/2018-03-01-post-three.md")
+        configObject("taxonomies", """{"taxonomies": ["tags"]}""")
 
-        resource("pages/page-one.md")
-        resource("pages/page-two.md")
-        resource("pages/page-three.md")
+        resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
+        resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
         val testResults = execute()
         expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expect(testResults).pageWasRendered("/2018/2/1/post-two/index.html")
-        expect(testResults).pageWasRendered("/2018/3/1/post-three/index.html")
         expect(testResults).pageWasRendered("/page-one/index.html")
-        expect(testResults).pageWasRendered("/page-two/index.html")
-        expect(testResults).pageWasRendered("/page-three/index.html")
+        expect(testResults).pageWasRendered("/tags/index.html")
+        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+    }
+
+    @Test
+    @DisplayName("Taxonomies creates archive pages based on the pages from other generators. You can list each category as an Object to customize its options.")
+    fun test02() {
+        configObject("taxonomies", """{"taxonomies": [{"tags": {}}]}""")
+
+        resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
+        resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
+
+        val testResults = execute()
+        expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expect(testResults).pageWasRendered("/page-one/index.html")
+        expect(testResults).pageWasRendered("/tags/index.html")
+        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+    }
+
+    @Test
+    @DisplayName("Taxonomies creates archive pages based on the pages from other generators. Rather than a list for the categories, you can use a single Object, where each key points to the options for the value, to query easily.")
+    fun test03() {
+        configObject("taxonomies", """{"taxonomies": {"tags": {}}}""")
+
+        resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
+        resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
+
+        val testResults = execute()
+        expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expect(testResults).pageWasRendered("/page-one/index.html")
+        expect(testResults).pageWasRendered("/tags/index.html")
+        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+    }
+
+    @Test
+    @DisplayName("Values for taxonomy terms can be gotten through page configs, or implicitly from static data set up by the page's generator.")
+    fun test04() {
+        configObject("posts", """{"categories": ["category1", "category2"]}""")
+        configObject("taxonomies", """{"taxonomies": ["tags", "categories"]}""")
+
+        resource("posts/category1/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
+        resource("posts/category2/2018-02-01-post-two.md", "", """{"tags": ["tag1"]}""")
+        resource("pages/page-one.md", "", """{"tags": ["tag2"]}""")
+
+        val testResults = execute()
+        println(testResults.showResults())
+        expect(testResults).pageWasRendered("/category1/2018/1/1/post-one/index.html")
+        expect(testResults).pageWasRendered("/category2/2018/2/1/post-two/index.html")
+        expect(testResults).pageWasRendered("/page-one/index.html")
+        expect(testResults).pageWasRendered("/tags/index.html")
+        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+        expect(testResults).pageWasRendered("/tags/tag2/index.html")
+        expect(testResults).pageWasRendered("/categories/index.html")
+        expect(testResults).pageWasRendered("/categories/category1/index.html")
+        expect(testResults).pageWasRendered("/categories/category2/index.html")
     }
 
 }

@@ -1,6 +1,7 @@
 package com.eden.orchid.testhelpers;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
 import kotlin.Pair;
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class OrchidIntegrationTest {
 
     protected TestOrchidRunner runner;
+    protected OrchidContext testContext;
     protected TestResults testResults;
 
     protected Map<String, Object> flags;
@@ -46,6 +48,7 @@ public class OrchidIntegrationTest {
     public void tearDown() {
         enableLogging();
         runner = null;
+        testContext = null;
         testResults = null;
         flags = null;
         config = null;
@@ -67,7 +70,9 @@ public class OrchidIntegrationTest {
         }
         testedModules.addAll(standardAdditionalModules);
 
-        testResults = runner.runTest(flags, config, resources, testedModules);
+        Pair<OrchidContext, TestResults> results = runner.runTest(flags, config, resources, testedModules);
+        this.testContext = results.getFirst();
+        this.testResults = results.getSecond();
         return testResults;
     }
 
@@ -93,6 +98,10 @@ public class OrchidIntegrationTest {
 
     protected void resource(String path, String content) {
         resource(path, content, new HashMap<>());
+    }
+
+    protected void resource(String path, String content, String json) {
+        resource(path, content, new JSONObject(json).toMap());
     }
 
     protected void resource(String path, String content, Map<String, Object> data) {

@@ -38,7 +38,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     }
 
     @Test
-    @DisplayName("Files, formatted correctly in the `posts/{year}/{month}` directory, get rendered correctly without any configuration.")
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{month}/{day}` directory, get rendered correctly without any configuration.")
     fun test04() {
         resource("posts/2018/01/01/post-one.md")
 

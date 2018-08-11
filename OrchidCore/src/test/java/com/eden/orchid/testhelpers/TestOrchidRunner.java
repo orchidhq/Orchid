@@ -2,6 +2,7 @@ package com.eden.orchid.testhelpers;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.StandardModule;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule;
 import com.eden.orchid.impl.compilers.pebble.PebbleModule;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 public class TestOrchidRunner {
 
-    public TestResults runTest(Map<String, Object> flags, Map<String, Object> config, Map<String, Pair<String, Map<String, Object>>> resources, List<OrchidModule> extraModules) {
+    public Pair<OrchidContext, TestResults> runTest(Map<String, Object> flags, Map<String, Object> config, Map<String, Pair<String, Map<String, Object>>> resources, List<OrchidModule> extraModules) {
         List<Module> modules = new ArrayList<>();
         if(!flags.containsKey("environment")) {
             flags = new HashMap<>(flags);
@@ -46,7 +47,7 @@ public class TestOrchidRunner {
 
         TestRenderer renderer = Orchid.getInstance().getInjector().getInstance(TestRenderer.class);
 
-        return new TestResults(renderer.getRenderedPageMap());
+        return new Pair<>(Orchid.getInstance().getContext(), new TestResults(renderer.getRenderedPageMap()));
     }
 
 }
