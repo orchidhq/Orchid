@@ -7,15 +7,15 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expect
 
-@DisplayName("Tests page-rendering behavior or Posts generator")
-class PostsGeneratorTest : OrchidIntegrationTest() {
+@DisplayName("Tests page-rendering behavior of Posts generator")
+class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
 
     @Test
     @DisplayName("Files, formatted correctly in the `posts` directory, gets rendered correctly without any configuration.")
     fun test01() {
         resource("posts/2018-01-01-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
@@ -24,7 +24,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
     fun test02() {
         resource("posts/2018/01-01-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
@@ -33,7 +33,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
     fun test03() {
         resource("posts/2018/01/01-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
@@ -42,7 +42,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
     fun test04() {
         resource("posts/2018/01/01/post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
@@ -51,7 +51,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
     fun test05() {
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "blog/:year/:month/:slug"))
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/blog/2018/1/post-one/index.html")
     }
 
@@ -63,7 +63,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         ))
         resource("posts/2018-01-01-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         println(testResults.showResults())
         expect(testResults).pageWasRendered("/blog/2018/1/post-one/index.html")
     }
@@ -76,7 +76,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         ))
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "postConfig/:year/:month/:slug"))
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/postConfig/2018/1/post-one/index.html")
     }
 
@@ -89,7 +89,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
         expect(testResults).pageWasRendered("/cat2/2018/2/2/post-one/index.html")
     }
@@ -106,7 +106,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
         expect(testResults).pageWasRendered("/cat2/2018/2/2/post-one/index.html")
     }
@@ -123,7 +123,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
         expect(testResults).pageWasRendered("/cat2/2018/2/2/post-one/index.html")
     }
@@ -140,7 +140,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat1/cat2/2018-02-02-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
         expect(testResults).pageWasRendered("/cat1/cat2/2018/2/2/post-one/index.html")
     }
@@ -157,7 +157,7 @@ class PostsGeneratorTest : OrchidIntegrationTest() {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat1/cat2/2018-02-02-post-one.md")
 
-        val testResults = runWith(PostsModule())
+        val testResults = execute()
         expect(testResults).nothingRendered()
     }
 

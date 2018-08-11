@@ -1,71 +1,55 @@
 package com.eden.orchid.pages
 
-import com.eden.orchid.testhelpers.TestOrchidRunner
-import com.eden.orchid.testhelpers.pageWasNotRendered
+import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.nothingRendered
 import com.eden.orchid.testhelpers.pageWasRendered
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expect
 
-class PagesGeneratorTest {
+@DisplayName("Tests page-rendering behavior of Pages generator")
+class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
 
     @Test
-    fun testNormalPageRendered() {
-        val helperClass = TestOrchidRunner()
-        val flags = mapOf<String, Any?>()
-        val config = mapOf<String, Any?>()
-        val resources = mapOf(
-                "pages/page-one.md" to ("Page Content One" to mapOf<String, Any?>())
-        )
+    @DisplayName("Files in the `pages` directory are rendered directly.")
+    fun test01() {
+        resource("pages/page-one.md")
 
-        val testResults = helperClass.runTest(flags, config, resources, PagesModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/page-one/index.html")
     }
 
     @Test
-    fun testIndexPageRendered() {
-        val helperClass = TestOrchidRunner()
-        val flags = mapOf<String, Any?>()
-        val config = mapOf<String, Any?>()
-        val resources = mapOf(
-                "pages/page-one/index.md" to ("Page Content One" to mapOf<String, Any?>())
-        )
+    @DisplayName("Files in the `pages` directory with a filename of `index` are rendered as that directory's index.")
+    fun test02() {
+        resource("pages/page-one/index.md")
 
-        val testResults = helperClass.runTest(flags, config, resources, PagesModule())
+        val testResults = execute()
         expect(testResults).pageWasRendered("/page-one/index.html")
     }
 
     @Test
-    fun testPagesDirNotRenderedWhenUsingOtherBaseDir() {
-        val helperClass = TestOrchidRunner()
-        val flags = mapOf<String, Any?>()
-        val config = mapOf(
-                "pages" to mapOf(
-                        "baseDir" to "otherPages"
-                )
-        )
-        val resources = mapOf(
-                "pages/page-one/index.md" to ("Page Content One" to mapOf<String, Any?>())
-        )
+    @DisplayName("You can change the base directory where pages are found.")
+    fun test03() {
+        config("pages", mapOf(
+                "baseDir" to "otherPages"
+        ))
+        resource("otherPages/page-one.md")
 
-        val testResults = helperClass.runTest(flags, config, resources, PagesModule())
-        expect(testResults).pageWasNotRendered("/page-one/index.html")
+        val testResults = execute()
+        expect(testResults).pageWasRendered("/page-one/index.html")
     }
 
     @Test
-    fun testUsingOtherBaseDir() {
-        val helperClass = TestOrchidRunner()
-        val flags = mapOf<String, Any?>()
-        val config = mapOf(
-                "pages" to mapOf(
-                        "baseDir" to "otherPages"
-                )
-        )
-        val resources = mapOf(
-                "otherPages/page-one/index.md" to ("Page Content One" to mapOf<String, Any?>())
-        )
+    @DisplayName("When the base directory is changed, pages in default `pages` directory will no longer be used.")
+    fun test04() {
+        config("pages", mapOf(
+                "baseDir" to "otherPages"
+        ))
+        resource("pages/page-one.md")
 
-        val testResults = helperClass.runTest(flags, config, resources, PagesModule())
-        expect(testResults).pageWasRendered("/page-one/index.html")
+        val testResults = execute()
+        expect(testResults).nothingRendered()
     }
 
 }

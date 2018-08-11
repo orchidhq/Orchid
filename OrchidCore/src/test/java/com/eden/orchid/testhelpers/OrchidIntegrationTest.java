@@ -6,8 +6,13 @@ import kotlin.Pair;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class OrchidIntegrationTest {
 
@@ -17,6 +22,14 @@ public class OrchidIntegrationTest {
     protected Map<String, Object> flags;
     protected Map<String, Object> config;
     protected Map<String, Pair<String, Map<String, Object>>> resources;
+
+    protected final Set<OrchidModule> standardAdditionalModules;
+
+    public OrchidIntegrationTest(OrchidModule... standardAdditionalModules) {
+        Set<OrchidModule> standardModules = new HashSet<>();
+        Collections.addAll(standardModules, standardAdditionalModules);
+        this.standardAdditionalModules = Collections.unmodifiableSet(standardModules);
+    }
 
     @BeforeEach
     public void setUp() {
@@ -45,8 +58,14 @@ public class OrchidIntegrationTest {
         Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
     }
 
-    protected TestResults runWith(OrchidModule... modules) {
-        testResults = runner.runTest(flags, config, resources, modules);
+    protected TestResults execute(OrchidModule... modules) {
+        List<OrchidModule> testedModules = new ArrayList<>();
+        if(modules != null) {
+            Collections.addAll(testedModules, modules);
+        }
+        testedModules.addAll(standardAdditionalModules);
+
+        testResults = runner.runTest(flags, config, resources, testedModules);
         return testResults;
     }
 

@@ -9,14 +9,13 @@ import com.google.inject.Module;
 import kotlin.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TestOrchidRunner {
 
-    public TestResults runTest(Map<String, Object> flags, Map<String, Object> config, Map<String, Pair<String, Map<String, Object>>> resources, OrchidModule... extraModules) {
+    public TestResults runTest(Map<String, Object> flags, Map<String, Object> config, Map<String, Pair<String, Map<String, Object>>> resources, List<OrchidModule> extraModules) {
         List<Module> modules = new ArrayList<>();
         if(!flags.containsKey("environment")) {
             flags = new HashMap<>(flags);
@@ -33,7 +32,7 @@ public class TestOrchidRunner {
         modules.add(new FlexmarkModule());
 
         if(extraModules != null) {
-            Collections.addAll(modules, extraModules);
+            modules.addAll(extraModules);
         }
 
         Orchid.getInstance().startForUnitTest(modules, orchidContextProvider -> {
