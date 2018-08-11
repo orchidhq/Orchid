@@ -19,6 +19,6 @@ constructor(private val converter: StringConverter) : TemplateFunction("nl2br", 
     }
 
     override fun apply(): Any {
-        return converter.convert(input).second.nl2br()
+        return converter.convert(String::class.java, input).second.nl2br()
     }
 }

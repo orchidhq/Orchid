@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.google.inject.Provider;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -69,26 +68,21 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
 
     @Override
     public OptionsHolder getDefaultValue(Field field) {
-        try {
-            OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-            extractorProvider.get().extractOptions(holder, new HashMap<>());
-            return holder;
-        }
-        catch (Exception e) {
+        OptionsHolder holder = converter.convert(field.getType(), new HashMap<>()).second;
 
+        if(holder == null) {
+            Clog.e("Could not create instance of [{}] to extract into class {}", field.getType().getName(), field.getDeclaringClass().getName());
         }
 
-        Clog.e("Could not create instance of [{}] to extract into class [{}]", field.getType().getName(), field.getDeclaringClass().getName());
-        return null;
+        return holder;
     }
-
 
     public static class Converter implements TypeConverter<OptionsHolder> {
         private final OrchidContext context;
-        private final Provider<FlexibleMapConverter> mapConverter;
+        private final FlexibleMapConverter mapConverter;
 
         @Inject
-        public Converter(OrchidContext context, Provider<FlexibleMapConverter> mapConverter) {
+        public Converter(OrchidContext context, FlexibleMapConverter mapConverter) {
             this.context = context;
             this.mapConverter = mapConverter;
         }
@@ -102,19 +96,11 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
         public EdenPair<Boolean, OptionsHolder> convert(Class clazz, Object o) {
             try {
                 OptionsHolder holder = (OptionsHolder) context.getInjector().getInstance(clazz);
-
-                if(o instanceof JSONObject) {
-                    holder.extractOptions(context, ((JSONObject) o).toMap());
-                }
-                else if(o instanceof Map) {
-                    holder.extractOptions(context, (Map<String, Object>) o);
-                }
-
+                EdenPair<Boolean, Map> config = mapConverter.convert(clazz, o);
+                holder.extractOptions(context, config.second);
                 return new EdenPair<>(true, holder);
             }
-            catch (Exception e) {
-
-            }
+            catch (Exception e) { }
 
             return null;
         }

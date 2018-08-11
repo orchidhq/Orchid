@@ -31,10 +31,10 @@ import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
-import com.eden.orchid.api.options.extractors.ListOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.ModularListOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
+import com.eden.orchid.api.options.extractors.OrchidListOptionExtractor;
 import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
@@ -97,7 +97,7 @@ public final class ApiModule extends OrchidModule {
                 IntOptionExtractor.class,
                 JSONArrayOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
-                ListOptionExtractor.class,
+                OrchidListOptionExtractor.class,
                 LongOptionExtractor.class,
                 StringOptionExtractor.class,
                 TimeOptionExtractor.class

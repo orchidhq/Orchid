@@ -5,7 +5,6 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
-import com.eden.orchid.utilities.OrchidUtils
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,42 +16,15 @@ constructor(val context: OrchidContext) {
     lateinit var excerptSeparator: String
 
     var authorPages: List<AuthorPage> = ArrayList()
-    var categories: MutableMap<String?, CategoryModel>
+    var categories: MutableMap<String?, CategoryModel> = LinkedHashMap()
 
     val categoryNames: Set<String?>
         get() = categories.keys
 
-    init {
-        this.categories = LinkedHashMap()
-    }
-
-    fun initialize(excerptSeparator: String, authorPages: List<AuthorPage>) {
+    fun initialize(excerptSeparator: String, categories: List<CategoryModel>, authorPages: List<AuthorPage>) {
         this.excerptSeparator = excerptSeparator
         this.authorPages = authorPages
-        this.categories = LinkedHashMap()
-    }
-
-    fun getCategory(category: String?, categoryOptions: Map<String, Any>) : CategoryModel {
-        var key: String?
-        var path: String
-
-        if(!EdenUtils.isEmpty(category)) {
-            val categoryPath = category!!.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            key = categoryPath.last()
-            path = OrchidUtils.normalizePath(categoryPath.joinToString("/"))
-        }
-        else {
-            key = null
-            path = ""
-        }
-
-        if(!categories.containsKey(category)) {
-            val newCategory = CategoryModel(context, key, path)
-            newCategory.extractOptions(context, categoryOptions)
-            categories[category] = newCategory
-        }
-
-        return categories[category]!!
+        this.categories = hashMapOf(*(categories.map { it.key to it }.toTypedArray()))
     }
 
     fun validateCategories(): Boolean {
