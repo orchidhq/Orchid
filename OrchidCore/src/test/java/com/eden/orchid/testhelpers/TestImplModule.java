@@ -1,6 +1,5 @@
 package com.eden.orchid.testhelpers;
 
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.compilers.OrchidParser;
@@ -16,7 +15,6 @@ import com.eden.orchid.api.render.OrchidRenderer;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
-import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
@@ -24,7 +22,6 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.compilers.clog.ClogSetupListener;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -77,17 +74,13 @@ import com.eden.orchid.impl.themes.tags.ScriptsTag;
 import com.eden.orchid.impl.themes.tags.StylesTag;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provides;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class TestImplModule extends OrchidModule {
 
@@ -200,64 +193,6 @@ public class TestImplModule extends OrchidModule {
                 ScriptsTag.class,
                 StylesTag.class
         );
-
-        addToSet(AdminList.class, new AdminList() {
-            @Override
-            public String getKey() {
-                return "services";
-            }
-
-            @Override
-            public Class<?> getListClass() {
-                return OrchidService.class;
-            }
-
-            @Override
-            public Collection<Class<?>> getItems() {
-                return Orchid
-                        .getInstance()
-                        .getContext()
-                        .getServices()
-                        .stream()
-                        .map(Object::getClass)
-                        .collect(Collectors.toList());
-            }
-
-            @Override
-            public boolean isImportantType() {
-                return true;
-            }
-        });
-
-        addToSet(AdminList.class, new AdminList() {
-
-            private Collection<Class<?>> pages;
-
-            @Override
-            public String getKey() {
-                return "pages";
-            }
-
-            @Override
-            public Class<?> getListClass() {
-                return OrchidPage.class;
-            }
-
-            @Override
-            public Collection<Class<?>> getItems() {
-                if (pages == null) {
-                    pages = new ArrayList<>();
-                    new FastClasspathScanner().matchSubclassesOf(OrchidPage.class, pages::add).scan();
-                }
-
-                return pages;
-            }
-
-            @Override
-            public boolean isImportantType() {
-                return true;
-            }
-        });
     }
 
     @Provides

@@ -3,7 +3,7 @@ package com.eden.orchid.api.registration;
 import com.caseyjbrooks.clog.Clog;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
 
 import java.lang.reflect.Modifier;
 import java.util.stream.Stream;
@@ -16,40 +16,43 @@ public class ClasspathModuleInstaller extends AbstractModule {
         final StringBuilder moduleLog = new StringBuilder();
         moduleLog.append("\n--------------------");
 
-        FastClasspathScanner scanner = new FastClasspathScanner();
-        scanner.matchSubclassesOf(OrchidModule.class, (matchingClass) -> {
-            if (isInstantiable(matchingClass)) {
-                try {
-                    Module provider = matchingClass.newInstance();
-                    if (provider != null) {
-                        install(provider);
-                        if (!provider.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
-                            moduleLog.append("\n * " + provider.getClass().getName());
+        new ClassGraph()
+                .enableClassInfo()
+                .scan()
+                .getSubclasses(OrchidModule.class.getName())
+                .loadClasses(OrchidModule.class).forEach((matchingClass) -> {
+                    if (isInstantiable(matchingClass)) {
+                        try {
+                            Module provider = matchingClass.newInstance();
+                            if (provider != null) {
+                                install(provider);
+                                if (!provider.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
+                                    moduleLog.append("\n * " + provider.getClass().getName());
+                                }
+                            }
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        scanner.scan();
+        );
 
         moduleLog.append("\n");
         Clog.tag("Auto-loaded modules").log(moduleLog.toString());
     }
 
     private boolean isInstantiable(Class<?> matchingClass) {
-        if(matchingClass.isAnnotationPresent(IgnoreModule.class)) {
+        if (matchingClass.isAnnotationPresent(IgnoreModule.class)) {
             return false;
         }
-        if(matchingClass.isInterface()) {
+        if (matchingClass.isInterface()) {
             return false;
         }
-        if(Modifier.isAbstract(matchingClass.getModifiers())) {
+        if (Modifier.isAbstract(matchingClass.getModifiers())) {
             return false;
         }
-        if(!hasParameterlessPublicConstructor(matchingClass)) {
+        if (!hasParameterlessPublicConstructor(matchingClass)) {
             return false;
         }
 

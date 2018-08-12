@@ -1,14 +1,7 @@
 apply from: "$actionsScript/java.gradle"
 apply from: "$actionsScript/javadoc.gradle"
 apply from: "$actionsScript/publish.gradle"
-apply plugin: "us.kirchmeier.capsule"
 
 dependencies {
 
-}
-
-task fatCapsule(type: FatCapsule) {
-    applicationClass 'com.eden.orchid.Orchid'
-
-    archiveName "${project.name.uncapitalize()}-${project.version}"
 }

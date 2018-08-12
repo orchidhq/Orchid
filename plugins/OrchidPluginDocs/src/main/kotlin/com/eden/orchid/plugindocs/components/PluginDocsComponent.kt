@@ -6,7 +6,7 @@ import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
+import io.github.classgraph.ClassGraph
 import javax.inject.Inject
 
 class PluginDocsComponent
@@ -46,13 +46,17 @@ class PluginDocsComponent
     }
 
     private fun addPackageClasses(classList: MutableSet<String>) {
-        val scanner = FastClasspathScanner(*packageNames)
-        scanner.strictWhitelist().matchAllStandardClasses { matchingClass ->
-            if(isOptionsHolderClass(matchingClass)) {
-                classList.add(matchingClass.name)
-            }
-        }
-        scanner.scan()
+        ClassGraph()
+                .enableClassInfo()
+                .whitelistPackages(*packageNames)
+                .scan()
+                .allStandardClasses
+                .loadClasses()
+                .forEach { matchingClass ->
+                    if(isOptionsHolderClass(matchingClass)) {
+                        classList.add(matchingClass.name)
+                    }
+                }
     }
 
     private fun isOptionsHolderClass(clazz: Class<*>): Boolean {

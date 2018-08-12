@@ -4,7 +4,7 @@ import com.eden.common.util.EdenUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.name.Names;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -23,19 +23,23 @@ public final class OrchidFlags {
         if (instance == null) {
             List<OrchidFlag> orchidFlags = new ArrayList<>();
 
-            FastClasspathScanner scanner = new FastClasspathScanner();
-            scanner.matchSubclassesOf(OrchidFlag.class, (matchingClass) -> {
-                try {
-                    OrchidFlag option = matchingClass.newInstance();
-                    if (option != null) {
-                        orchidFlags.add(option);
+            new ClassGraph()
+                    .enableClassInfo()
+                    .scan()
+                    .getSubclasses(OrchidFlag.class.getName())
+                    .loadClasses(OrchidFlag.class).forEach((matchingClass) -> {
+                        try {
+                            OrchidFlag option = matchingClass.newInstance();
+                            if (option != null) {
+                                orchidFlags.add(option);
+                            }
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            scanner.scan();
+            );
+
             instance = new OrchidFlags(orchidFlags);
         }
         return instance;
@@ -77,10 +81,10 @@ public final class OrchidFlags {
                 .stream()
                 .sorted(Comparator.comparing(OrchidFlag.Value::getKey))
                 .map(entry -> {
-                    if(entry.getType().equals(String.class) && EdenUtils.isEmpty((String) entry.getValue())) {
+                    if (entry.getType().equals(String.class) && EdenUtils.isEmpty((String) entry.getValue())) {
                         return "";
                     }
-                    if(entry.isProtected()) {
+                    if (entry.isProtected()) {
                         return "-" + entry.getKey() + ": [HIDDEN]";
                     }
 
@@ -93,7 +97,7 @@ public final class OrchidFlags {
     public <T> T getFlagValue(String key) {
         for (OrchidFlag flag : flags) {
             for (OrchidFlag.Value entry : flag.getParsedFlags().values()) {
-                if(entry.getKey().equals(key)) {
+                if (entry.getKey().equals(key)) {
                     return (T) entry.getValue();
                 }
             }

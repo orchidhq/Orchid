@@ -4,7 +4,7 @@ apply from: 'gradle/dependencies.gradle'
 apply from: 'gradle/utils.gradle'
 
 buildscript {
-    def kotlin_version = '1.2.51'
+    def kotlin_version = '1.2.60'
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
         jcenter()
@@ -15,7 +15,6 @@ buildscript {
         classpath "org.ajoberstar:gradle-git:1.7.2"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
-        classpath "us.kirchmeier:gradle-capsule-plugin:1.0.2"
     }
 }
 
@@ -133,7 +132,7 @@ task codeCoverageReport(type: JacocoReport) {
 
 configurations { codacy }
 dependencies {
-    codacy 'com.github.codacy:codacy-coverage-reporter:4.0.1'
+    codacy 'com.github.codacy:codacy-coverage-reporter:4.0.2'
 }
 task sendCoverageToCodacy(type: JavaExec) {
     dependsOn codeCoverageReport

@@ -80,7 +80,7 @@ import com.eden.orchid.impl.themes.tags.ScriptsTag;
 import com.eden.orchid.impl.themes.tags.StylesTag;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provides;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
@@ -252,7 +252,12 @@ public final class ImplModule extends OrchidModule {
             public Collection<Class<?>> getItems() {
                 if (pages == null) {
                     pages = new ArrayList<>();
-                    new FastClasspathScanner().matchSubclassesOf(OrchidPage.class, pages::add).scan();
+
+                    new ClassGraph()
+                            .enableClassInfo()
+                            .scan()
+                            .getSubclasses(OrchidPage.class.getName())
+                            .loadClasses(OrchidPage.class).forEach(pages::add);
                 }
 
                 return pages;
