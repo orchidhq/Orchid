@@ -34,14 +34,9 @@ git clone https://github.com/JavaEden/Orchid.git
 cd Orchid
 ```
 
-**Run (serve, without Javadoc)**
+**Run (serve)**
 ```bash
-./gradlew assemble :OrchidCore:orchidServe -PnoJavadoc=true
-```
-
-**Run (serve, with Javadoc)**
-```bash
-./gradlew :OrchidCore:assemble -PorchidRunTask=serve
+./gradlew assemble :OrchidCore:orchidServe
 ```
 
 **Run Tests**

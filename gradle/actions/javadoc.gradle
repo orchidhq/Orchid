@@ -16,3 +16,5 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+tasks.javadoc.onlyIf { false }

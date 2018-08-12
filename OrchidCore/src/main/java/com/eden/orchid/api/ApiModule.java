@@ -14,8 +14,8 @@ import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.converters.StringConverterHelper;
 import com.eden.orchid.api.converters.TimeConverter;
 import com.eden.orchid.api.converters.TypeConverter;
-import com.eden.orchid.api.options.HibernateValidator;
 import com.eden.orchid.api.options.Extractor;
+import com.eden.orchid.api.options.HibernateValidator;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsValidator;
@@ -31,10 +31,10 @@ import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
-import com.eden.orchid.api.options.extractors.ListOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.ModularListOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
+import com.eden.orchid.api.options.extractors.OrchidListOptionExtractor;
 import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
@@ -47,11 +47,9 @@ import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.site.OrchidSiteImpl;
-import com.eden.orchid.api.theme.models.Social;
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
-import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
@@ -77,8 +75,7 @@ public final class ApiModule extends OrchidModule {
                 IntegerConverter.class,
                 LongConverter.class,
                 NumberConverter.class,
-                Social.Item.Converter.class,
-                FrontMatterPrecompiler.CustomDelimiter.Converter.class,
+                OptionsHolderOptionExtractor.Converter.class,
                 StringConverter.class,
                 TimeConverter.class
         );
@@ -100,7 +97,7 @@ public final class ApiModule extends OrchidModule {
                 IntOptionExtractor.class,
                 JSONArrayOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
-                ListOptionExtractor.class,
+                OrchidListOptionExtractor.class,
                 LongOptionExtractor.class,
                 StringOptionExtractor.class,
                 TimeOptionExtractor.class
@@ -122,7 +119,7 @@ public final class ApiModule extends OrchidModule {
 
     @Provides
     OrchidSite provideOrchidSite
-            (@Named("v") String version,
+            (@Named("version") String version,
              @Named("baseUrl") String baseUrl,
              @Named("environment") String environment,
              @Named("defaultTemplateExtension") String defaultTemplateExtension) {

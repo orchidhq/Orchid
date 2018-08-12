@@ -10,7 +10,6 @@ class WikiModel {
     var sectionsPage: WikiSectionsPage? = null
 
     var sections: MutableMap<String?, WikiSection> = LinkedHashMap()
-        private set
 
     val allPages: List<OrchidPage>
         get() {
@@ -26,8 +25,8 @@ class WikiModel {
             return allPages
         }
 
-    fun initialize() {
-        this.sections = LinkedHashMap()
+    fun initialize(sections: List<WikiSection>) {
+        this.sections = hashMapOf(*(sections.map { it.key to it }.toTypedArray()))
     }
 
     fun getSection(sectionKey: String?) : WikiSection? {

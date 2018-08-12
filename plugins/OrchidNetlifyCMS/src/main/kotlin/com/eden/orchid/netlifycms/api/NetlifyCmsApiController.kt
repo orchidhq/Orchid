@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @JvmSuppressWildcards
 class NetlifyCmsApiController @Inject
-constructor(val context: OrchidContext, @Named("resourcesDir") val resourcesDir: String) : OrchidController(1000) {
+constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) : OrchidController(1000) {
 
     override fun getPathNamespace(): String {
         return "api"

@@ -28,7 +28,7 @@ public final class FileController implements OrchidFileController {
     @Inject
     public FileController(
             OrchidContext context,
-            @Named("d") String destination,
+            @Named("dest") String destination,
             StaticFileResponse staticFileResponse,
             IndexFileResponse indexFileResponse,
             NotFound404Response notFound404Response,

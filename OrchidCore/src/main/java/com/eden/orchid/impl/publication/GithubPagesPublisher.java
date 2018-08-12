@@ -106,7 +106,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
     @Inject
     public GithubPagesPublisher(
             OrchidContext context,
-            @Named("d") String destinationDir,
+            @Named("dest") String destinationDir,
             @Nullable @Named("githubToken") String githubToken) {
         super(context, "ghPages", 100);
         this.destinationDir = destinationDir;

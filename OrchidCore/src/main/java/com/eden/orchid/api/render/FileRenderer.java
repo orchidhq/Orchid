@@ -18,7 +18,7 @@ public final class FileRenderer implements OrchidRenderer {
     private final String destination;
 
     @Inject
-    public FileRenderer(@Named("d") String destination) {
+    public FileRenderer(@Named("dest") String destination) {
         this.destination = destination;
     }
 

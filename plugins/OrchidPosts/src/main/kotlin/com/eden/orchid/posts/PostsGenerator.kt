@@ -7,6 +7,7 @@ import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
@@ -24,8 +25,6 @@ import com.eden.orchid.utilities.dashCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
-import org.json.JSONArray
-import org.json.JSONObject
 import java.time.LocalDate
 import java.util.regex.Pattern
 import java.util.stream.Stream
@@ -49,20 +48,21 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     )
     lateinit var excerptSeparator: String
 
+    @Option
     @Description("A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
             "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
             "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
             "configuration, but they will not have their own pages."
     )
-    var authors: List<Author> = emptyList()
+    lateinit var authors: List<Author>
 
-    @Option
+    @Option @ImpliedKey("key")
     @Description("An array of Category configurations, which may be just the path of the category or a full " +
             "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
             "category does not have an entry for its parent category, an error is thrown and Posts generation " +
             "will not continue."
     )
-    lateinit var categories: JSONArray
+    lateinit var categories: MutableList<CategoryModel>
 
     @Option @StringDefault("posts")
     @Description("The base directory in local resources to look for blog post entries in.")
@@ -74,40 +74,16 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
 
     @Option
     @Description("The configuration for the default category, when no other categories are set up.")
-    lateinit var defaultConfig: JSONObject
+    lateinit var defaultConfig: CategoryModel
 
     override fun startIndexing(): List<OrchidPage> {
         val authorPages = getAuthorPages()
 
-        postsModel.initialize(excerptSeparator, authorPages)
-
-        if (categories.length() > 0) {
-            for (i in 0 until categories.length()) {
-                val category = categories.get(i)
-                val categoryKey: String
-                val categoryOptions: JSONObject?
-
-                if (category is String) {
-                    categoryKey = category
-                    categoryOptions = null
-                } else if (category is JSONObject) {
-                    if (category.length() == 1) {
-                        categoryKey = category.keySet().first()
-                        categoryOptions = category.get(categoryKey) as? JSONObject
-                    } else {
-                        categoryKey = category.getString("key")
-                        categoryOptions = category
-                    }
-                } else {
-                    continue
-                }
-
-                postsModel.getCategory(OrchidUtils.normalizePath(categoryKey), categoryOptions?.toMap() ?: HashMap())
-            }
+        if (EdenUtils.isEmpty(categories)) {
+            categories.add(defaultConfig)
         }
-        else {
-            postsModel.getCategory(null, defaultConfig.toMap())
-        }
+
+        postsModel.initialize(excerptSeparator, categories, authorPages)
 
         val allPages = ArrayList<OrchidPage>()
 

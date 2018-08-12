@@ -1,5 +1,6 @@
 package com.eden.orchid.utilities;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -105,18 +106,26 @@ public final class OrchidUtils {
 
     /**
      * Parse input in the forms of an array of key-arg mappings, such as `['-key1 val1', '-key2 val1 val2 val3']`, and
-     * converts it to its mapped form, like {'-key1': ['-key1', 'val1'], '-key2': ['-key2', 'val1', 'val2', 'val3']}.
-     * The keys are retained as the first item in the value arrays, and the key retains the dash at its start.
+     * converts it to its mapped form, like {'-key1': 'val1', '-key2': ['val1', 'val2', 'val3']}. The dash is stripped
+     * from the key.
      *
      * @param args
      * @return parsed args
      */
-    public static Map<String, String[]> parseCommandLineArgs(String[] args) {
+    public static Map<String, Object> parseCommandLineArgs(String[] args) {
         return Arrays
                 .stream(args)
                 .filter(s -> s.startsWith("-"))
                 .map(s -> s.split("\\s+"))
-                .collect(Collectors.toMap(s -> s[0], s -> s, (key1, key2) -> key1));
+                .collect(Collectors.toMap(s -> s[0].substring(1), s -> {
+                    String[] newArray = Arrays.copyOfRange(s, 1, s.length);
+                    if(newArray.length == 1) {
+                        return newArray[0];
+                    }
+                    else {
+                        return newArray;
+                    }
+                }, (key1, key2) -> key1));
     }
 
     /**
@@ -156,14 +165,9 @@ public final class OrchidUtils {
             }
 
             parseCommandLineArgs(namedInputPieces).forEach((key, vals) -> {
-                String keyName = StringUtils.stripStart(key, "-");
-                if(!EdenUtils.isEmpty(keyName)) {
-                    if(vals.length == 2) {
-                        paramMap.put(StringUtils.stripStart(key, "-"), vals[1]);
-                    }
-                    else {
-                        paramMap.put(StringUtils.stripStart(key, "-"), Arrays.copyOfRange(vals, 1, vals.length));
-                    }
+                Clog.v("command arg key: {}", key);
+                if(!EdenUtils.isEmpty(key)) {
+                    paramMap.put(key, vals);
                 }
             });
         }
@@ -319,7 +323,7 @@ public final class OrchidUtils {
     }
 
     public static Path getTempDir(String dirName) throws IOException {
-        return getTempDir(OrchidFlags.getInstance().getString("d"), dirName);
+        return getTempDir(OrchidFlags.getInstance().getFlagValue("dest"), dirName);
     }
 
     public static Path getTempDir(String baseDir, String dirName) throws IOException {

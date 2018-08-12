@@ -1,8 +1,11 @@
 package com.eden.orchid.api.registration;
 
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.impl.resources.PluginJarResourceSource;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.binder.AnnotatedBindingBuilder;
@@ -107,6 +110,10 @@ public abstract class OrchidModule extends AbstractModule {
                 binder.addBinding().toInstance(object);
             }
         });
+    }
+
+    public final void withResources(int priority) {
+        addToSet(PluginResourceSource.class, new PluginJarResourceSource(getProvider(OrchidContext.class), this.getClass(), priority));
     }
 
     public <T> AnnotatedBindingBuilder<T> _bind(Class<T> clazz) {

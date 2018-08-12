@@ -5,11 +5,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
-import com.eden.orchid.api.converters.FlexibleMapConverter;
-import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Option;
-import com.google.inject.Provider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -204,32 +201,6 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
 
         @Option
         public List<String> fileExtensions;
-
-        public static class Converter implements TypeConverter<CustomDelimiter> {
-            private final OrchidContext context;
-            private final Provider<FlexibleMapConverter> mapConverter;
-
-            @Inject
-            public Converter(OrchidContext context, Provider<FlexibleMapConverter> mapConverter) {
-                this.context = context;
-                this.mapConverter = mapConverter;
-            }
-
-            @Override
-            public boolean acceptsClass(Class clazz) {
-                return clazz.equals(CustomDelimiter.class);
-            }
-
-            @Override
-            public EdenPair<Boolean, CustomDelimiter> convert(Object o) {
-                Map<String, Object> itemSource = (Map<String, Object>) mapConverter.get().convert(o).second;
-
-                CustomDelimiter item = new CustomDelimiter();
-                item.extractOptions(context, itemSource);
-
-                return new EdenPair<>(true, item);
-            }
-        }
 
     }
 

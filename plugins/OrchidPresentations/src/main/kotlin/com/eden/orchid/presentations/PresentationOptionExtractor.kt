@@ -20,7 +20,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
     override fun getOption(field: Field, sourceObject: Any, key: String): Presentation? {
         var toReturn: Presentation? = null
 
-        val value = converter.convert(sourceObject)
+        val value = converter.convert(String::class.java, sourceObject)
         if (value.first) {
             toReturn = model.presentations.getOrDefault(value.second, null)
         }

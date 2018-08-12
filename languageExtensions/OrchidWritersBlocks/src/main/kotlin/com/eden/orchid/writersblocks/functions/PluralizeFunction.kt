@@ -24,7 +24,7 @@ constructor(private val converter: StringConverter) : TemplateFunction("pluraliz
     }
 
     override fun apply(): Any {
-        val actualInput = converter.convert(input)
+        val actualInput = converter.convert(String::class.java, input)
 
         return if (this.count != Int.MIN_VALUE) {
             English.plural(actualInput.second, this.count)

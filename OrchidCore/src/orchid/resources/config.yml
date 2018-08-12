@@ -30,8 +30,8 @@ theme:
   extraCss:
     - 'assets/css/pygments.scss'
 
-services:
-  generators:
-    externalIndices:
-      - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
-      - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
+#services:
+#  generators:
+#    externalIndices:
+#      - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
+#      - 'https://javaeden.github.io/Common/meta/javadoc.index.json'

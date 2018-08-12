@@ -21,7 +21,7 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
         if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())
         } else {
-            val value = converter.convert(sourceObject)
+            val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {
                 return formsModel.forms.getOrDefault(value.second, null)
             }

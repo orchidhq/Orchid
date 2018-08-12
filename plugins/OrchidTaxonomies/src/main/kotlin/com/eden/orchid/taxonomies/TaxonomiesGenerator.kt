@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -30,7 +31,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         const val GENERATOR_KEY = "taxonomies"
     }
 
-    @Option
+    @Option @ImpliedKey("key")
     @Description("An array of Taxonomy configurations.")
     lateinit var taxonomies: List<Taxonomy>
 

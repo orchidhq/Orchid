@@ -14,7 +14,8 @@ import java.util.Map;
 @Builder
 public final class StandardModule extends AbstractModule {
 
-    private final Map<String, String[]> flags;
+    private final String[] args;
+    private final Map<String, Object> flags;
 
     @Builder.Default private boolean includeCoreApi = true;
     @Builder.Default private boolean includeCoreImpl = true;
@@ -30,10 +31,10 @@ public final class StandardModule extends AbstractModule {
             install(new ImplModule());
         }
         if(includeFlags) {
-            if(flags == null) {
+            if(args == null && flags == null) {
                 throw new IllegalStateException("A mapping of flags must be provided to use the FlagsModule");
             }
-            install(new FlagsModule(flags));
+            install(new FlagsModule(args, flags));
         }
         if(includeClasspath) {
             install(new ClasspathModuleInstaller());

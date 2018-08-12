@@ -56,7 +56,7 @@ public class NetlifyPublisher extends OrchidPublisher {
     public NetlifyPublisher(
             OrchidContext context,
             OkHttpClient client,
-            @Named("d") String destinationDir,
+            @Named("dest") String destinationDir,
             @Nullable @Named("netlifyToken") String netlifyToken) {
         super(context, "netlify", 100);
         this.client = client;

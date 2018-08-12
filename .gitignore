@@ -37,3 +37,4 @@ Orchid.ipr
 /**/templates/meta.*
 
 OrchidCore/src/orchid/resources/generate_posts\.py
+/tools_source_from_cfr/*

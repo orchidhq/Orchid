@@ -55,7 +55,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             Set<OrchidTask> tasks,
             Set<OrchidCommand> commands,
             @Named("task") String task,
-            @Named("resourcesDir") String resourcesDir,
+            @Named("src") String resourcesDir,
             OrchidServer server,
             FileWatcher watcher) {
         this.tasks = new TreeSet<>(tasks);

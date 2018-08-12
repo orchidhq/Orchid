@@ -1,13 +1,14 @@
 package com.eden.orchid.api.options.extractors;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
+import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.google.inject.Provider;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -45,14 +46,14 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
 
     private final Provider<OptionsExtractor> extractorProvider;
     private final Provider<OrchidContext> contextProvider;
-    private final FlexibleMapConverter mapConverter;
+    private final OptionsHolderOptionExtractor.Converter converter;
 
     @Inject
-    public OptionsHolderOptionExtractor(Provider<OptionsExtractor> extractorProvider, Provider<OrchidContext> contextProvider, FlexibleMapConverter mapConverter) {
+    public OptionsHolderOptionExtractor(Provider<OptionsExtractor> extractorProvider, Provider<OrchidContext> contextProvider, OptionsHolderOptionExtractor.Converter converter) {
         super(25);
         this.extractorProvider = extractorProvider;
         this.contextProvider = contextProvider;
-        this.mapConverter = mapConverter;
+        this.converter = converter;
     }
 
     @Override
@@ -62,38 +63,47 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
 
     @Override
     public OptionsHolder getOption(Field field, Object sourceObject, String key) {
-        try {
-            OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-
-            if(sourceObject instanceof JSONObject) {
-                extractorProvider.get().extractOptions(holder, ((JSONObject) sourceObject).toMap());
-            }
-            else if(sourceObject instanceof Map) {
-                extractorProvider.get().extractOptions(holder, (Map<String, Object>) sourceObject);
-            }
-
-            return holder;
-        }
-        catch (Exception e) {
-
-        }
-
-        return null;
+        return converter.convert(field.getType(), sourceObject).second;
     }
 
     @Override
     public OptionsHolder getDefaultValue(Field field) {
-        try {
-            OptionsHolder holder = (OptionsHolder) contextProvider.get().getInjector().getInstance(field.getType());
-            extractorProvider.get().extractOptions(holder, new HashMap<>());
-            return holder;
-        }
-        catch (Exception e) {
+        OptionsHolder holder = converter.convert(field.getType(), new HashMap<>()).second;
 
+        if(holder == null) {
+            Clog.e("Could not create instance of [{}] to extract into class {}", field.getType().getName(), field.getDeclaringClass().getName());
         }
 
-        Clog.e("Could not create instance of [{}] to extract into class [{}]", field.getType().getName(), field.getDeclaringClass().getName());
-        return null;
+        return holder;
+    }
+
+    public static class Converter implements TypeConverter<OptionsHolder> {
+        private final OrchidContext context;
+        private final FlexibleMapConverter mapConverter;
+
+        @Inject
+        public Converter(OrchidContext context, FlexibleMapConverter mapConverter) {
+            this.context = context;
+            this.mapConverter = mapConverter;
+        }
+
+        @Override
+        public boolean acceptsClass(Class clazz) {
+            return OptionsHolder.class.isAssignableFrom(clazz);
+        }
+
+        @Override
+        public EdenPair<Boolean, OptionsHolder> convert(Class clazz, Object o) {
+            try {
+                OptionsHolder holder = (OptionsHolder) context.getInjector().getInstance(clazz);
+                EdenPair<Boolean, Map> config = mapConverter.convert(clazz, o);
+                holder.extractOptions(context, config.second);
+                return new EdenPair<>(true, holder);
+            }
+            catch (Exception e) { }
+
+            return null;
+        }
     }
 
 }

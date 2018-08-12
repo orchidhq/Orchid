@@ -1,12 +1,8 @@
 package com.eden.orchid.taxonomies.models
 
 import com.eden.common.json.JSONElement
-import com.eden.common.util.EdenPair
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.converters.FlexibleMapConverter
-import com.eden.orchid.api.converters.StringConverter
-import com.eden.orchid.api.converters.TypeConverter
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
@@ -18,7 +14,6 @@ import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
-import com.google.inject.Provider
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -154,32 +149,6 @@ constructor(val context: OrchidContext) : OptionsHolder {
 
     fun query(pointer: String): JSONElement? {
         return JSONElement(JSONObject(allData)).query(pointer)
-    }
-
-    class Converter @Inject
-    constructor(private val context: OrchidContext, private val mapConverter: Provider<FlexibleMapConverter>, private val stringConverter: Provider<StringConverter>) : TypeConverter<Taxonomy> {
-
-        override fun acceptsClass(clazz: Class<*>): Boolean {
-            return clazz == Taxonomy::class.java
-        }
-
-        override fun convert(o: Any): EdenPair<Boolean, Taxonomy> {
-            val result = mapConverter.get().convert(o)
-
-            val itemSource: Map<String, Any>
-            if (result.first) {
-                itemSource = mapConverter.get().convert(o).second as Map<String, Any>
-            }
-            else {
-                itemSource = HashMap()
-                itemSource["key"] = stringConverter.get().convert(o).second
-            }
-
-            val taxonomy = Taxonomy(context)
-            taxonomy.extractOptions(context, itemSource)
-
-            return EdenPair(true, taxonomy)
-        }
     }
 
 }

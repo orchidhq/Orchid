@@ -4,32 +4,45 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.javadoc.helpers.JavadocInvoker
 import com.eden.orchid.javadoc.models.JavadocModel
 import com.eden.orchid.javadoc.pages.JavadocClassPage
 import com.eden.orchid.javadoc.pages.JavadocPackagePage
 import com.sun.javadoc.ClassDoc
 import com.sun.javadoc.PackageDoc
-import com.sun.javadoc.RootDoc
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.sun.tools.javac.util.List as JavacList
 
 @Singleton
 @Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " + "of methods, fields, etc. but in your site's theme.")
 class JavadocGenerator @Inject
-constructor(context: OrchidContext, private val rootDoc: RootDoc, private val model: JavadocModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+constructor(context: OrchidContext, private val model: JavadocModel, private val javadocInvoker: JavadocInvoker) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "javadoc"
     }
 
+    @Option
+    @StringDefault("../../main/java")
+    lateinit var sourceDirs: List<String>
+
     override fun startIndexing(): List<OrchidPage> {
         val classes = HashSet<ClassDoc>()
         val packages = HashSet<PackageDoc>()
+
+        javadocInvoker.extractOptions(context, allData)
+
+        val rootDoc = javadocInvoker.getRootDoc(sourceDirs)
+
+        if (rootDoc == null) return ArrayList()
 
         for (classDoc in rootDoc.classes()) {
             classes.add(classDoc)

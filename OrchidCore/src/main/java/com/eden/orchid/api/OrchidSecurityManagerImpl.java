@@ -25,7 +25,7 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
     private final boolean enforceWriteAccess = true;
 
     @Inject
-    public OrchidSecurityManagerImpl(@Named("resourcesDir") String resourcesDir, @Named("d") String d) {
+    public OrchidSecurityManagerImpl(@Named("src") String resourcesDir, @Named("dest") String d) {
         String source            = OrchidUtils.normalizePath(resourcesDir);
         String destination       = OrchidUtils.normalizePath(d);
         String destinationParent = OrchidUtils.normalizePath(String.join("/", Arrays.copyOfRange(d.split("/"), 0, d.split("/").length - 1)));

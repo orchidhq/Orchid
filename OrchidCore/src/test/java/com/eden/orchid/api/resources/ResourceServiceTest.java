@@ -2,7 +2,7 @@ package com.eden.orchid.api.resources;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +20,8 @@ public final class ResourceServiceTest {
     private OkHttpClient client;
 
     private String resourcesDir;
-    private Set<FileResourceSource> fileResourceSources;
-    private FileResourceSource mockFileResourceSource;
+    private Set<LocalResourceSource> fileResourceSources;
+    private LocalResourceSource mockFileResourceSource;
     private Set<PluginResourceSource> pluginResourceSources;
     private PluginResourceSource mockPluginResourceSource;
 
@@ -29,7 +29,7 @@ public final class ResourceServiceTest {
     public void testSetup() {
         resourcesDir = "mockResourcesDir";
         fileResourceSources = new HashSet<>();
-        mockFileResourceSource = mock(FileResourceSource.class);
+        mockFileResourceSource = mock(LocalResourceSource.class);
         fileResourceSources.add(mockFileResourceSource);
 
         pluginResourceSources = new HashSet<>();

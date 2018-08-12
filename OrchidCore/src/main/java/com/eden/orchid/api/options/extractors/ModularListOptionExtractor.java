@@ -50,11 +50,11 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
                 ? field.getAnnotation(ModularListConfig.class).objectKeyName()
                 : "type";
 
-        Iterable iterable = iterableConverter.convert(sourceObject, objectKeyName).second;
+        Iterable iterable = iterableConverter.convert(field.getType(), sourceObject, objectKeyName).second;
 
         List<Map<String, Object>> jsonArray = new ArrayList<>();
         for(Object o : iterable) {
-            Map<String, Object> map = (Map<String, Object>) mapConverter.convert(o).second;
+            Map<String, Object> map = (Map<String, Object>) mapConverter.convert(field.getType(), o).second;
             jsonArray.add(map);
         }
 

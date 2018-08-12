@@ -7,14 +7,13 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.compilers.TemplateTag;
-import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
-import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -81,7 +80,7 @@ import com.eden.orchid.impl.themes.tags.ScriptsTag;
 import com.eden.orchid.impl.themes.tags.StylesTag;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provides;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
@@ -104,9 +103,6 @@ public final class ImplModule extends OrchidModule {
         addToSet(GlobalCollection.class,
                 FrontMatterCollection.class);
 
-        addToSet(TypeConverter.class,
-                AssetsGenerator.AssetDirectory.Converter.class);
-
         // Themes
         addToSet(Theme.class,
                 DefaultTheme.class);
@@ -114,7 +110,7 @@ public final class ImplModule extends OrchidModule {
         addToSet(AdminTheme.class);
 
         // Resource Sources
-        addToSet(FileResourceSource.class,
+        addToSet(LocalResourceSource.class,
                 LocalFileResourceSource.class);
 
         addToSet(PluginResourceSource.class,
@@ -256,7 +252,12 @@ public final class ImplModule extends OrchidModule {
             public Collection<Class<?>> getItems() {
                 if (pages == null) {
                     pages = new ArrayList<>();
-                    new FastClasspathScanner().matchSubclassesOf(OrchidPage.class, pages::add).scan();
+
+                    new ClassGraph()
+                            .enableClassInfo()
+                            .scan()
+                            .getSubclasses(OrchidPage.class.getName())
+                            .loadClasses(OrchidPage.class).forEach(pages::add);
                 }
 
                 return pages;
@@ -271,7 +272,7 @@ public final class ImplModule extends OrchidModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkhttpClient(@Named("d") String destinationDir) throws IOException {
+    public OkHttpClient provideOkhttpClient(@Named("dest") String destinationDir) throws IOException {
         return new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)

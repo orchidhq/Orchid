@@ -7,8 +7,8 @@ import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsHolder
-import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -34,67 +34,66 @@ import javax.inject.Singleton
 
 @Singleton
 @Description("Create a structured and navigable knowledge-base for your project.")
-class WikiGenerator @Inject
-constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
+class WikiGenerator
+@Inject
+constructor(context: OrchidContext, private val wikiModel: WikiModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
 
     companion object {
         const val GENERATOR_KEY = "wiki"
     }
 
-    @Option @StringDefault("wiki")
+    @Option
+    @StringDefault("wiki")
     @Description("The base directory in local resources to look for wikis in.")
     lateinit var baseDir: String
 
     @Option
+    @ImpliedKey("key")
     @Description("The sections within the baseDir to make wikis out of.")
-    lateinit var sections: Array<String>
+    lateinit var sections: MutableList<WikiSection>
 
-    @Option @BooleanDefault(true)
-    @Description("If true, the title of each page in the wiki will be prepended with its numerical order in the wiki.")
-    var includeIndexInPageTitle: Boolean = true
+    @Option
+    @Description("The configuration for the default wiki, when no other categories are set up.")
+    lateinit var defaultConfig: WikiSection
 
     override fun startIndexing(): List<OrchidPage> {
-        model.initialize()
-
         if (EdenUtils.isEmpty(sections)) {
-            val wiki = getWikiPages(null)
-            if (wiki != null) {
-                model.sections.put(null, wiki)
-            }
-        } else {
-            for (section in sections) {
-                val wiki = getWikiPages(section)
-                if (wiki != null) {
-                    model.sections.put(section, wiki)
-                }
-            }
-
-            model.sectionsPage = getSectionsIndex()
+            sections.add(defaultConfig)
         }
 
-        return model.allPages
+        wikiModel.initialize(sections)
+
+        wikiModel.sections.values.forEach { section ->
+            loadWikiPages(section)
+        }
+
+        if (sections.size > 1) {
+            wikiModel.sectionsPage = getSectionsIndex()
+        }
+
+        return wikiModel.allPages
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         pages.forEach { context.renderTemplate(it) }
     }
 
-    private fun getWikiPages(section: String?): WikiSection? {
+    private fun loadWikiPages(section: WikiSection) {
         val wiki = ArrayList<WikiPage>()
 
-        val sectionBaseDir = if (!EdenUtils.isEmpty(section))
-            OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(section) + "/"
+        val sectionBaseDir = if (!EdenUtils.isEmpty(section.key))
+            OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(section.key) + "/"
         else
             OrchidUtils.normalizePath(baseDir) + "/"
 
         var summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
 
         if (summary == null) {
-            if(section != null) {
+            if (section.key != null) {
                 Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
             }
 
-            return null
+            return
         }
 
         val content = context.compile(summary.reference.extension, summary.content)
@@ -117,9 +116,9 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
                 resource = StringResource(context, path + File.separator + "index.md", a.text())
             }
 
-            val pageTitle = if(includeIndexInPageTitle) "${i+1}. " + a.text() else a.text()
+            val pageTitle = if (section.includeIndexInPageTitle) "${i + 1}. " + a.text() else a.text()
 
-            val page = WikiPage(resource, pageTitle, section, i+1)
+            val page = WikiPage(resource, pageTitle, section.key, i + 1)
 
             i++
 
@@ -130,7 +129,8 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
                 page.previous = previous
 
                 previous = page
-            } else {
+            }
+            else {
                 previous = page
             }
 
@@ -148,11 +148,11 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
         summary = StringResource(safe, summaryReference)
 
         val sectionTitle =
-                if(!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
-                else if (!EdenUtils.isEmpty(section)) section!!
+                if (!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
+                else if (!EdenUtils.isEmpty(section.key)) section.key!!
                 else "Wiki"
 
-        val summaryPage = WikiSummaryPage(section, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
+        val summaryPage = WikiSummaryPage(section.key, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
         summaryPage.reference.isUsePrettyUrl = true
 
         for (wikiPage in wiki) {
@@ -160,15 +160,16 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
             wikiPage.parent = summaryPage
         }
 
-        return WikiSection(section, summaryPage, wiki)
+        section.summaryPage = summaryPage
+        section.wikiPages = wiki
     }
 
     private fun getSectionsIndex(): WikiSectionsPage {
         val resource = StringResource(context, OrchidUtils.normalizePath(baseDir) + ".md", "")
 
-        val sectionsPage = WikiSectionsPage(model, resource, "Wiki")
+        val sectionsPage = WikiSectionsPage(wikiModel, resource, "Wiki")
 
-        for(summaryPage in model.sections.values) {
+        for (summaryPage in wikiModel.sections.values) {
             summaryPage.summaryPage.sectionsPage = sectionsPage
             summaryPage.summaryPage.parent = sectionsPage
         }
@@ -179,7 +180,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidGenera
     override fun getCollections(): List<OrchidCollection<*>> {
         val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
 
-        model.sections.forEach {
+        wikiModel.sections.forEach {
             var sectionPages = ArrayList<OrchidPage>()
 
             sectionPages.add(it.value.summaryPage)

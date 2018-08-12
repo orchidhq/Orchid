@@ -5,7 +5,7 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourceSource.JarResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -22,8 +22,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public abstract class AbstractTheme extends PluginResourceSource implements OptionsHolder, AssetHolder {
+public abstract class AbstractTheme extends JarResourceSource implements OptionsHolder, AssetHolder {
 
+    @Getter protected final OrchidContext context;
     @Getter protected final String key;
     @Getter protected final AssetHolder assetHolder;
 
@@ -54,10 +55,11 @@ public abstract class AbstractTheme extends PluginResourceSource implements Opti
     private OrchidPage currentPage;
 
     public AbstractTheme(OrchidContext context, String key, int priority) {
-        super(context, priority);
+        super(() -> context, priority);
         this.key = key;
         this.assetHolder = new AssetHolderDelegate(context, this, "theme");
         this.preferredTemplateExtension = "peb";
+        this.context = context;
     }
 
     public void clearCache() {

@@ -44,7 +44,6 @@ cd OrchidStarter
 {% highlight 'groovy' %}
 plugins {
     id "com.eden.orchidPlugin" version "{{ site.version }}"
-    id "com.eden.orchidJavadocPlugin" version "{{ site.version }}" // if using Orchid for Javadocs
 }
 repositories {
     jcenter()

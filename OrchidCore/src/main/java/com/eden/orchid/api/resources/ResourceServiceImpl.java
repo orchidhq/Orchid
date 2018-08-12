@@ -6,7 +6,7 @@ import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourceSource.FileResourceSource;
+import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * @since v1.0.0
@@ -47,21 +47,21 @@ import java.util.TreeSet;
 public final class ResourceServiceImpl implements ResourceService {
 
     private OrchidContext context;
-    private Set<FileResourceSource> fileResourceSources;
-    private Set<PluginResourceSource> pluginResourceSources;
+    private List<LocalResourceSource> fileResourceSources;
+    private List<PluginResourceSource> pluginResourceSources;
     private OkHttpClient client;
 
     private final String resourcesDir;
 
     @Inject
     public ResourceServiceImpl(
-            @Named("resourcesDir") String resourcesDir,
-            Set<FileResourceSource> fileResourceSources,
+            @Named("src") String resourcesDir,
+            Set<LocalResourceSource> fileResourceSources,
             Set<PluginResourceSource> pluginResourceSources,
             OkHttpClient client) {
 
-        this.fileResourceSources = new TreeSet<>(fileResourceSources);
-        this.pluginResourceSources = new TreeSet<>(pluginResourceSources);
+        this.fileResourceSources = fileResourceSources.stream().sorted().collect(Collectors.toList());
+        this.pluginResourceSources = pluginResourceSources.stream().sorted().collect(Collectors.toList());
 
         this.client = client;
         this.resourcesDir = resourcesDir;

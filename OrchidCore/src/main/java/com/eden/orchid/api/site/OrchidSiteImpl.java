@@ -32,7 +32,7 @@ public final class OrchidSiteImpl implements OrchidSite {
     @Inject
     public OrchidSiteImpl(
             String orchidVersion,
-            @Named("v") String version,
+            @Named("version") String version,
             @Named("baseUrl") String baseUrl,
             @Named("environment") String environment,
             @Named("defaultTemplateExtension") String defaultTemplateExtension
