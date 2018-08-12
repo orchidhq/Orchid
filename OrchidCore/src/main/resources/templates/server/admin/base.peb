@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Orchid Insights</title>
+    {% set page = view %}
+    {% styles %}
+    {% block styles %}{% endblock %}
+</head>
+<body>
+{% block allContent %}
+    {% block mainContent %}
+    {% endblock %}
+{% endblock %}
+<script>window.websocketUrl = 'ws://localhost:{{ websocketPort }}';</script>
+{% scripts %}
+{% block scripts %}{% endblock %}
+</body>
+</html>
