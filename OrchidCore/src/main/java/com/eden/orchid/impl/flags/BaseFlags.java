@@ -4,6 +4,8 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.FlagAliases;
+import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.Protected;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -26,6 +28,7 @@ public final class BaseFlags extends OrchidFlag {
     public String src;
 
     @Option @StringDefault("./site")
+    @FlagAliases({"d"})
     @Description("the output directory for all generated files")
     public String dest;
 
@@ -34,6 +37,7 @@ public final class BaseFlags extends OrchidFlag {
     public String task;
 
     @Option @StringDefault("Default")
+    @FlagAliases({"t"})
     @Description("the key of your selected Theme object")
     public String theme;
 
@@ -49,6 +53,7 @@ public final class BaseFlags extends OrchidFlag {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Option @StringDefault("debug")
+    @FlagAliases({"e"})
     @Description("the development environment. Reads 'config-<environment>.yml' and may alter the behavior of " +
             "registered components."
     )
@@ -67,6 +72,10 @@ public final class BaseFlags extends OrchidFlag {
     @Option @StringDefault("VERBOSE")
     @Description("The level of logging statements to show. One of: [VERBOSE, DEBUG, INFO, DEFAULT, WARNING, ERROR, FATAL]")
     public Clog.Priority logLevel;
+
+    @Option @IntDefault(8080)
+    @Description("The port to run the development server on. The Websocket typically listens at a port 2 above the normal port.")
+    public int port;
 
 // Tokens
 //----------------------------------------------------------------------------------------------------------------------

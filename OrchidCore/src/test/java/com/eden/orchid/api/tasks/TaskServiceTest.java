@@ -38,7 +38,7 @@ public final class TaskServiceTest {
 
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new TaskServiceImpl(tasks, commands, "", "", server, fileWatcher);
+        service = new TaskServiceImpl(tasks, commands, "", "", 8080, server, fileWatcher);
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
