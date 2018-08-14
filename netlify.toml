@@ -8,4 +8,4 @@
 [build]
   base    = ""
   publish = "OrchidCore/build/docs/orchid"
-  command = "./gradlew assemble -Penv=prod"
+  command = "./gradlew assemble :OrchidCore:orchidBuild -Penv=prod"

@@ -10,6 +10,7 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.components.DisqusComponent
 import com.eden.orchid.posts.components.RecentPostsComponent
 import com.eden.orchid.posts.functions.ExcerptFunction
+import com.eden.orchid.posts.functions.RecentPostsFunction
 import com.eden.orchid.posts.menu.LatestPostsMenuType
 import com.eden.orchid.posts.permalink.pathtypes.AuthorNamePathType
 import com.eden.orchid.posts.permalink.pathtypes.CategoryPathType
@@ -28,7 +29,9 @@ class PostsModule : OrchidModule() {
 
         addToSet<OrchidMenuItem, LatestPostsMenuType>()
         addToSet<OptionExtractor<*>, AuthorOptionExtractor>()
-        addToSet<TemplateFunction, ExcerptFunction>()
+        addToSet<TemplateFunction>(
+                ExcerptFunction::class,
+                RecentPostsFunction::class)
         addToSet<OrchidGenerator>(
                 PostsGenerator::class,
                 FeedsGenerator::class)

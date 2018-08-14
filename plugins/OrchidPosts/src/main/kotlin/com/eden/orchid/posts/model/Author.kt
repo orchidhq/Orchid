@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.models.Social
 import com.eden.orchid.posts.pages.AuthorPage
 import java.net.URLEncoder
 import java.security.MessageDigest
@@ -53,6 +54,10 @@ class Author : OptionsHolder {
             "[404, mm, identicon, monsterid, wavatar, retro, robohash, blank]"
     )
     lateinit var gravatarDefault: String
+
+    @Option
+    @Description("The author's social media links.")
+    lateinit var social: Social
 
     var authorPage: AuthorPage? = null
 

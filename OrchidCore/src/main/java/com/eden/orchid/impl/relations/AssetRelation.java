@@ -57,6 +57,10 @@ public class AssetRelation extends Relation<String> {
         return get();
     }
 
+    public String getLink() {
+        return get();
+    }
+
     public Map<String, Object> parseStringRef(String ref) {
         Map<String, Object> objectRef = new HashMap<>();
 

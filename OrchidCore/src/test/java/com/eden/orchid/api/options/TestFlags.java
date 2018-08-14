@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options;
 
+import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -27,6 +29,7 @@ public class TestFlags {
     public static class TestFlagsClass extends OrchidFlag {
 
         @Option
+        @FlagAliases("o")
         public String one;
 
         @Option
@@ -100,11 +103,10 @@ public class TestFlags {
     @BeforeEach
     public void setupTest() {
         List<String> args = new ArrayList<>();
-        args.add("-one valueOne");
-        args.add("-two valueTwo");
-        args.add("-three valueThree");
-        args.add("-four valueFour");
-        args.add("-five 17");
+        args.addAll(Arrays.asList("-o", "valueOne"));
+        args.addAll(Arrays.asList("--two", "valueTwo"));
+        args.addAll(Arrays.asList("--three", "valueThree"));
+        args.addAll(Arrays.asList("--five", "17"));
         this.args = new String[args.size()];
         args.toArray(this.args);
 
@@ -150,9 +152,24 @@ public class TestFlags {
         catch (ConfigurationException e) {
             threwError = true;
         }
-
         if(!threwError) {
             throw new Exception("No error was thrown when injecting the wrong type");
+        }
+
+        threwError = false;
+        try {
+            List<String> args = new ArrayList<>();
+            args.addAll(Arrays.asList(this.args));
+            args.addAll(Arrays.asList("--four", "valueFour"));
+            this.args = new String[args.size()];
+            args.toArray(this.args);
+            OrchidFlags.getInstance().parseFlags(OrchidUtils.parseCommandLineArgs(this.args));
+        }
+        catch (IllegalArgumentException e) {
+            threwError = true;
+        }
+        if(!threwError) {
+            throw new Exception("No error was thrown when passing a flag that is not registered.");
         }
     }
 }

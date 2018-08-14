@@ -40,6 +40,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     private final String task;
     private final String resourcesDir;
+    private final int port;
 
     @Getter private TaskType taskType;
 
@@ -56,6 +57,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             Set<OrchidCommand> commands,
             @Named("task") String task,
             @Named("src") String resourcesDir,
+            @Named("port") int port,
             OrchidServer server,
             FileWatcher watcher) {
         this.tasks = new TreeSet<>(tasks);
@@ -66,6 +68,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
         this.task = task;
         this.resourcesDir = resourcesDir;
+        this.port = port;
 
         this.lastBuild = 0;
     }
@@ -202,7 +205,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Override
     public void serve() {
         try {
-            server.start(8080);
+            server.start(port);
         }
         catch (IOException e) {
             e.printStackTrace();

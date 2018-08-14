@@ -72,7 +72,16 @@ public final class OrchidUtilsTest {
     @ParameterizedTest
     @MethodSource("parseCommandLineArgsValues")
     public void parseCommandLineArgsTest(String[] input, Map<String, String[]> expected) {
-        Map<String, Object> output = OrchidUtils.parseCommandLineArgs(input);
+        Map<String, String> flagNames = new HashMap<>();
+        flagNames.put("dest", "dest");
+        flagNames.put("port", "port");
+
+        Map<String, String> aliases = new HashMap<>();
+        aliases.put("d", "dest");
+
+        List<String> positionalArgs = Arrays.asList("task", "baseUrl");
+
+        Map<String, Object> output = OrchidUtils.parseArgsArray(input, flagNames, aliases, positionalArgs);
 
         assertThat(output.keySet(), containsInAnyOrder(expected.keySet().toArray()));
 
@@ -83,22 +92,81 @@ public final class OrchidUtilsTest {
     public static Stream<Arguments> parseCommandLineArgsValues() {
         return Stream.of(
                 Arguments.of(
-                        new String[] {"-key1 val1"},
+                        new String[] {"build"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
-                            put("key1", "val1");
+                            put("task", "build");
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"-key2 val1 val2 val3"},
+                        new String[] {"build", "https://orchid.netlify.com/"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
-                            put("key2", new String[]{"val1", "val2", "val3"});
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"-key1 val1", "-key2 val1 val2 val3"},
+                        new String[] {"build", "https://orchid.netlify.com/", "--port", "9000"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
-                            put("key1", "val1");
-                            put("key2", new String[]{"val1", "val2", "val3"});
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
+                            put("port", "9000");
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"build", "--port", "9000"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("task", "build");
+                            put("port", "9000");
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"--port", "9000"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("port", "9000");
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"build", "https://orchid.netlify.com/", "--port", "9000", "-d", "build/orchid/docs"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
+                            put("port", "9000");
+                            put("dest", "build/orchid/docs");
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"build", "https://orchid.netlify.com/", "--port", "9000", "-d", "build/orchid/docs", "-d", "build/orchid/docs2"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
+                            put("port", "9000");
+                            put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"build", "https://orchid.netlify.com/", "--port", "9000", "-d", "build/orchid/docs", "--dest", "build/orchid/docs2"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
+                            put("port", "9000");
+                            put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"build", "https://orchid.netlify.com/", "--port"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
+                            put("port", "true");
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"build", "https://orchid.netlify.com/", "--port", "-d", "build/orchid/docs", "--dest", "build/orchid/docs2"},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+                            put("task", "build");
+                            put("baseUrl", "https://orchid.netlify.com/");
+                            put("port", "true");
+                            put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
                         }})
                 )
         );
@@ -132,7 +200,7 @@ public final class OrchidUtilsTest {
                         }})
                 ),
                 Arguments.of(
-                        "-- -key1 false -key2 true",
+                        "--key1 false --key2 true",
                         new String[] {"key1", "key2"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("key1", "false");
@@ -140,12 +208,12 @@ public final class OrchidUtilsTest {
                         }})
                 ),
                 Arguments.of(
-                        "false true -- -key3 val1 val2 val3",
+                        "false true --key3 val1 val2 val3",
                         new String[] {"key1", "key2"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("key1", "false");
                             put("key2", "true");
-                            put("key3", new String[]{"val1", "val2", "val3"});
+                            put("key3", Arrays.asList("val1", "val2", "val3"));
                         }})
                 )
         );

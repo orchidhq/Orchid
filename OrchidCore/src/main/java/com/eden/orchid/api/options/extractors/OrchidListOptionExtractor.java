@@ -1,6 +1,5 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.Converters;
@@ -211,8 +210,6 @@ public final class OrchidListOptionExtractor extends OptionExtractor<List> {
                 if(sourceMap.size() == 1) {
                     String key = new ArrayList<>(sourceMap.keySet()).get(0);
                     Map<String, Object> value = convert(sourceMap.get(key));
-
-                    Clog.v("Lifting {} up with {}->{} (from {})", value, keyName, key, object);
 
                     value.put(keyName, key);
                     sourceMap = value;

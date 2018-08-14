@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Formatter;
@@ -37,7 +38,6 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
@@ -104,28 +104,95 @@ public final class OrchidUtils {
         return normalizedPath;
     }
 
-    /**
-     * Parse input in the forms of an array of key-arg mappings, such as `['-key1 val1', '-key2 val1 val2 val3']`, and
-     * converts it to its mapped form, like {'-key1': 'val1', '-key2': ['val1', 'val2', 'val3']}. The dash is stripped
-     * from the key.
-     *
-     * @param args
-     * @return parsed args
-     */
     public static Map<String, Object> parseCommandLineArgs(String[] args) {
-        return Arrays
-                .stream(args)
-                .filter(s -> s.startsWith("-"))
-                .map(s -> s.split("\\s+"))
-                .collect(Collectors.toMap(s -> s[0].substring(1), s -> {
-                    String[] newArray = Arrays.copyOfRange(s, 1, s.length);
-                    if(newArray.length == 1) {
-                        return newArray[0];
+        Map<String, String> flagNames = OrchidFlags.getInstance().getFlagNames();
+        Map<String, String> flagAliases = OrchidFlags.getInstance().getFlagAliases();
+        List<String> positionalFlags = OrchidFlags.getInstance().getPositionalFlags();
+
+        return parseArgsArray(args, flagNames, flagAliases, positionalFlags);
+    }
+
+    static Map<String, Object> parseArgsArray(String[] args, Map<String, String> validNames, Map<String, String> validAliases, List<String> positionalNames) {
+        List<String> positionalArgs = new ArrayList<>();
+        Map<String, Object> namedArgs = new HashMap<>();
+
+        // loop over flags, adding them to positional args until we get an arg starting with '--' or '-', at which point
+        // we start adding to that key's values
+        String currentFlag = null;
+        int valuesParsed = 0;
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+
+            if(arg.startsWith("--")) {
+                // full flag name
+                String flag = arg.replace("--", "");
+                if(validNames == null || validNames.containsKey(flag)) {
+                    if(valuesParsed == 0 && currentFlag != null) {
+                        // the previous flag had no values, mark it as true
+                        addArgValue(namedArgs, currentFlag, "true");
                     }
-                    else {
-                        return newArray;
+                    currentFlag = flag;
+                    valuesParsed = 0;
+
+                }
+                else {
+                    throw new IllegalArgumentException(Clog.format("Unrecognized flag: --{}", flag));
+                }
+            }
+            else if(arg.startsWith("-")) {
+                // aliased flag name
+                String flag = arg.replace("-", "");
+                if(validNames != null && validAliases != null && validAliases.containsKey(flag)) {
+                    if(valuesParsed == 0 && currentFlag != null) {
+                        // the previous flag had no values, mark it as true
+                        addArgValue(namedArgs, currentFlag, "true");
                     }
-                }, (key1, key2) -> key1));
+                    currentFlag = validAliases.get(flag);
+                    valuesParsed = 0;
+                }
+                else {
+                    throw new IllegalArgumentException(Clog.format("Unrecognized flag: -{}", flag));
+                }
+            }
+            else {
+                if(currentFlag != null) {
+                    // named flag values
+                    addArgValue(namedArgs, currentFlag, arg);
+                    valuesParsed++;
+                }
+                else {
+                    // positional flag values
+                    positionalArgs.add(arg);
+                }
+            }
+        }
+
+        if(valuesParsed == 0 && currentFlag != null) {
+            // the final flag had no values, mark it as true
+            addArgValue(namedArgs, currentFlag, "true");
+        }
+
+        // add positional args to named args map. Positional args override named args
+        for (int i = 0; i < positionalArgs.size(); i++) {
+            addArgValue(namedArgs, positionalNames.get(i), positionalArgs.get(i));
+        }
+
+        return namedArgs;
+    }
+
+    private static void addArgValue(Map<String, Object> namedArgs, String key, String value) {
+        if(!namedArgs.containsKey(key)) {
+            namedArgs.put(key, value);
+        }
+        else {
+            if(!(namedArgs.get(key) instanceof List)) {
+                List<Object> listValues = new ArrayList<>();
+                listValues.add(namedArgs.get(key));
+                namedArgs.put(key, listValues);
+            }
+
+            ((List<Object>) namedArgs.get(key)).add(value);
+        }
     }
 
     /**
@@ -137,42 +204,12 @@ public final class OrchidUtils {
      * As as example: `val1 -- -key2 val1 val2 val3`, when parsed with paramKeys as `['key1']`, results in a mapped form
      * like `{'key1': 'val1', 'key2': ['val1', 'val2', 'val3']}`.
      *
-     * @param args the raw input text
+     * @param argString the raw input text
      * @param paramKeys the key names used for the ordered parameters
      * @return a mapping of values extracted from the input text
      */
-    public static Map<String, Object> parseCommandArgs(String args, String[] paramKeys) {
-        Map<String, Object> paramMap = new HashMap<>();
-
-        String[] argsPieces = args.split("\\s*--\\s*");
-        String orderedInput = argsPieces[0].trim();
-        String namedInput = (argsPieces.length > 1) ? argsPieces[1].trim() : "";
-
-        if(!EdenUtils.isEmpty(orderedInput)) {
-            String[] orderedInputPieces = orderedInput.split("\\s+");
-            int i = 0;
-            while (i < paramKeys.length && i < orderedInputPieces.length) {
-                paramMap.put(paramKeys[i], orderedInputPieces[i]);
-                i++;
-            }
-        }
-
-        if(!EdenUtils.isEmpty(namedInput)) {
-            String[] namedInputPieces = namedInput.split("\\s*-\\s*");
-
-            for (int i = 0; i < namedInputPieces.length; i++) {
-                namedInputPieces[i] = "-" + namedInputPieces[i];
-            }
-
-            parseCommandLineArgs(namedInputPieces).forEach((key, vals) -> {
-                Clog.v("command arg key: {}", key);
-                if(!EdenUtils.isEmpty(key)) {
-                    paramMap.put(key, vals);
-                }
-            });
-        }
-
-        return paramMap;
+    public static Map<String, Object> parseCommandArgs(String argString, String[] paramKeys) {
+        return parseArgsArray(argString.split("\\s+"), null, null, Arrays.asList(paramKeys));
     }
 
     /**

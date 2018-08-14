@@ -1,5 +1,6 @@
 package com.eden.orchid.api.options;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
@@ -8,6 +9,7 @@ import io.github.classgraph.ClassGraph;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,6 +54,43 @@ public final class OrchidFlags {
 
     OrchidFlags(Collection<OrchidFlag> flags) {
         this.flags = flags;
+    }
+
+    public Map<String, String> getFlagNames() {
+        Map<String, String> allFlags = new HashMap<>();
+        for (OrchidFlag flag : flags) {
+            flag.loadFlagNames((key, aliases) -> {
+                addFlag(allFlags, key, key);
+            });
+        }
+
+        return allFlags;
+    }
+
+    public Map<String, String> getFlagAliases() {
+        Map<String, String> allFlags = new HashMap<>();
+        for (OrchidFlag flag : flags) {
+            flag.loadFlagNames((key, aliases) -> {
+                if(!EdenUtils.isEmpty(aliases)) {
+                    for(String alias : aliases) {
+                        addFlag(allFlags, key, alias);
+                    }
+                }
+            });
+        }
+
+        return allFlags;
+    }
+
+    public List<String> getPositionalFlags() {
+        return Arrays.asList("task", "baseUrl");
+    }
+
+    private void addFlag(Map<String, String> allFlags, String key, String alias) {
+        if(allFlags.containsKey(alias)) {
+            throw new IllegalArgumentException(Clog.format("A flag with key {} already exists! Currently mapping {}, intended mapping {}.", alias, allFlags.get(alias), key));
+        }
+        allFlags.put(alias, key);
     }
 
     public AbstractModule parseFlags(Map<String, Object> flagsMap) {
