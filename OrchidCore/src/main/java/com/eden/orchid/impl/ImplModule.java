@@ -49,6 +49,7 @@ import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.DeployCommand;
 import com.eden.orchid.impl.tasks.DeployTask;
 import com.eden.orchid.impl.tasks.HelpCommand;
+import com.eden.orchid.impl.tasks.HelpTask;
 import com.eden.orchid.impl.tasks.InteractiveTask;
 import com.eden.orchid.impl.tasks.QuitCommand;
 import com.eden.orchid.impl.tasks.ServeTask;
@@ -142,6 +143,7 @@ public final class ImplModule extends OrchidModule {
 
         // Tasks and Commands
         addToSet(OrchidTask.class,
+                HelpTask.class,
                 BuildTask.class,
                 WatchTask.class,
                 ServeTask.class,
