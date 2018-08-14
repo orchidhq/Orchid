@@ -46,6 +46,7 @@ public final class BaseFlags extends OrchidFlag {
     public String adminTheme;
 
     @Option @StringDefault("")
+    @FlagAliases({"v"})
     @Description("the version of your library")
     public String version;
 

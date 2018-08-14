@@ -1,6 +1,8 @@
 package com.eden.orchid.api.options;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.annotations.Archetype;
+import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.Protected;
 import com.eden.orchid.api.options.archetypes.EnvironmentVariableArchetype;
@@ -11,6 +13,7 @@ import lombok.Setter;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * Denotes a Javadoc-style command-line argument. It is important to note that Options are found by scanning the
@@ -26,7 +29,7 @@ public abstract class OrchidFlag {
     public Map<String, Value> getParsedFlags() {
         Map<String, Value> flagValues = new HashMap<>();
 
-        for(Field field : this.getClass().getDeclaredFields()) {
+        for(Field field : this.getClass().getFields()) {
             if(field.isAnnotationPresent(Option.class)) {
                 try {
                     Value value = new Value(
@@ -45,6 +48,22 @@ public abstract class OrchidFlag {
         }
 
         return flagValues;
+    }
+
+    final void loadFlagNames(BiConsumer<String, String[]> consumer) {
+        for(Field field : this.getClass().getFields()) {
+            if(field.isAnnotationPresent(Option.class)) {
+                String flagKey = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                        ? field.getAnnotation(Option.class).value()
+                        : field.getName();
+
+                String[] aliases = (field.isAnnotationPresent(FlagAliases.class))
+                        ? field.getAnnotation(FlagAliases.class).value()
+                        : null;
+
+                consumer.accept(flagKey, aliases);
+            }
+        }
     }
 
     @AllArgsConstructor

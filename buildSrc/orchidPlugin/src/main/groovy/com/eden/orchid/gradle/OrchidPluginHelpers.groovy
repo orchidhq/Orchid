@@ -10,7 +10,8 @@ class OrchidPluginHelpers {
         def projectArgsMap = getOrchidProjectArgsMap(project, defaultTask, forceTask)
 
         for (Map.Entry<String, String> entry : projectArgsMap.entrySet()) {
-            projectArgs.add "-${entry.key} ${entry.value}"
+            projectArgs.add "--${entry.key}"
+            projectArgs.add "${entry.value}"
         }
 
         return projectArgs
