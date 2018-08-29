@@ -359,12 +359,19 @@ public final class OrchidUtils {
         }
     }
 
+// Temporary Directories, which get deleted after Orchid finishes
+//----------------------------------------------------------------------------------------------------------------------
+
     public static Path getTempDir(String dirName) throws IOException {
         return getTempDir(OrchidFlags.getInstance().getFlagValue("dest"), dirName);
     }
 
     public static Path getTempDir(String baseDir, String dirName) throws IOException {
         return getTempDir(baseDir, dirName, false);
+    }
+
+    public static Path getTempDir(String dirName, boolean asSiblingToBase) throws IOException {
+        return getTempDir(OrchidFlags.getInstance().getFlagValue("dest"), dirName, asSiblingToBase);
     }
 
     public static Path getTempDir(String baseDir, String dirName, boolean asSiblingToBase) throws IOException {
@@ -389,6 +396,16 @@ public final class OrchidUtils {
 
         return targetDir;
     }
+
+// Cache directories, which stay on the user's system
+//----------------------------------------------------------------------------------------------------------------------
+
+    public static Path getCacheDir(String dirName) throws IOException {
+        Path sourceDir = Paths.get(System.getProperty("user.home") + "/.orchid/" + dirName);
+
+        return Files.createDirectories(sourceDir);
+    }
+
 
 // Deprecated Methods
 //----------------------------------------------------------------------------------------------------------------------

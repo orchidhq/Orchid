@@ -13,10 +13,11 @@ dependencies {
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
     api "com.eden:Clog4j:${JavaEden.Clog}"
-    api "com.eden:Krow:${JavaEden.Krow}"
+    api "com.eden:krow:${JavaEden.Krow}"
     api "org.projectlombok:lombok:1.18.2"
     api "com.squareup.okhttp3:okhttp:3.11.0"
     api "commons-io:commons-io:2.6"
+    api 'org.apache.commons:commons-lang3:3.7'
 
     // validation
     api "javax.validation:validation-api:2.0.1.Final"

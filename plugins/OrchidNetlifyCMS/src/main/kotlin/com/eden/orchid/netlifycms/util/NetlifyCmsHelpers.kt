@@ -22,7 +22,7 @@ import java.time.LocalTime
 
 fun OptionsDescription.toNetlifyCmsField(): JSONObject {
     val field = JSONObject()
-    field.put("label", this.key.from { camelCase() }.to { titleCase() })
+    field.put("label", this.key from { camelCase() } to { titleCase() })
     field.put("name", this.key)
     field.put("description", this.description)
     field.put("required", false)

@@ -30,6 +30,7 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
         String destination       = OrchidUtils.normalizePath(d);
         String destinationParent = OrchidUtils.normalizePath(String.join("/", Arrays.copyOfRange(d.split("/"), 0, d.split("/").length - 1)));
         String tmp               = OrchidUtils.normalizePath(FileUtils.getTempDirectoryPath());
+        String cache             = OrchidUtils.normalizePath(System.getProperty("user.home") + "/.orchid");
         String cwd               = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         String javaHome          = OrchidUtils.normalizePath(System.getenv("JAVA_HOME"));
 
@@ -38,6 +39,7 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
             readableDirs.add(source);
             readableDirs.add(destination);
             readableDirs.add(tmp);
+            readableDirs.add(cache);
             readableDirs.add(cwd);
             readableDirs.add(javaHome);
             for(URL url: ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()){
@@ -51,6 +53,7 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
             writableDirs.add(destination);
             writableDirs.add(destinationParent);
             writableDirs.add(tmp);
+            writableDirs.add(cache);
         }
     }
 

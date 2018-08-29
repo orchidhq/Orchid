@@ -109,10 +109,10 @@ public abstract class OrchidFlag {
     @Setter
     public static final class FlagDescription {
 
-        private final String type;
-        private final String key;
-        private final String[] aliases;
-        private final String description;
+        public final String type;
+        public final String key;
+        public final String[] aliases;
+        public final String description;
 
     }
 

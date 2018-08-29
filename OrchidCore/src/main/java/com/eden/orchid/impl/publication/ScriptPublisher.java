@@ -6,18 +6,14 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.publication.OrchidPublisher;
-import lombok.AllArgsConstructor;
+import com.eden.orchid.utilities.InputStreamPrinter;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotBlank;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
 
 public class ScriptPublisher extends OrchidPublisher {
@@ -71,18 +67,5 @@ public class ScriptPublisher extends OrchidPublisher {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    @AllArgsConstructor
-    static class InputStreamPrinter implements Runnable {
-
-        private final InputStream inputStream;
-
-        @Override
-        public void run() {
-            new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8"))).lines().forEach(s -> Clog.log(s));
-        }
-    }
-
-
 
 }

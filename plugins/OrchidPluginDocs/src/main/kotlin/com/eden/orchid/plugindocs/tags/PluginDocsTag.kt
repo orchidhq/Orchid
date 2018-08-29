@@ -1,8 +1,8 @@
 package com.eden.orchid.plugindocs.tags
 
 import com.caseyjbrooks.clog.Clog
+import com.copperleaf.krow.formatters.html.HtmlTableFormatter
 import com.eden.common.util.EdenUtils
-import com.eden.krow.formatters.HtmlTableFormatter
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor

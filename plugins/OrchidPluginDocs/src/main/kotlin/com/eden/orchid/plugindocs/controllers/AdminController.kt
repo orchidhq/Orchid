@@ -1,6 +1,6 @@
 package com.eden.orchid.plugindocs.controllers
 
-import com.eden.krow.formatters.HtmlTableFormatter
+import com.copperleaf.krow.formatters.html.HtmlTableFormatter
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.OptionsHolder
