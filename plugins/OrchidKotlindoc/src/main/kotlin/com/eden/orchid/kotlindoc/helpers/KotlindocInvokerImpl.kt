@@ -1,6 +1,5 @@
 package com.eden.orchid.kotlindoc.helpers
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.kotlindoc.model.KotlinClassdoc
@@ -39,7 +38,7 @@ constructor(
 
     override fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc? {
         val dokkaOutputPath = OrchidUtils.getTempDir("dokka", true)
-        val dokkaJarPaths = getMavenJars("com.github.copper-leaf:dokka-json:0.1.0")
+        val dokkaJarPaths = getMavenJars("com.github.copper-leaf:dokka-json:0.1.2")
 
         executeDokka(dokkaJarPaths, dokkaOutputPath, sourceDirs)
 
@@ -50,10 +49,10 @@ constructor(
 // Download jars from Maven
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun getMavenJars(target: String): List<String> {
+    private fun getMavenJars(vararg target: String): List<String> {
         val processedTargets = HashSet<String>()
         val targetsToProcess = ArrayDeque<String>()
-        targetsToProcess.add(target)
+        targetsToProcess.addAll(target)
 
         val resolvedJars = ArrayList<String>()
 
@@ -175,9 +174,12 @@ constructor(
 //----------------------------------------------------------------------------------------------------------------------
 
     private fun getKotlinRootdoc(dokkaOutputPath: Path): KotlinRootdoc {
+        val packages = getDokkaPackagePages(dokkaOutputPath)
+        val classes = getDokkaClassPages(dokkaOutputPath, packages)
+
         return KotlinRootdoc(
-                getDokkaPackagePages(dokkaOutputPath),
-                getDokkaClassPages(dokkaOutputPath)
+                packages,
+                classes
         )
     }
 
@@ -189,17 +191,19 @@ constructor(
                 .filter { it.isFile && it.name == "index.json" }
                 .map { JSONObject(it.readText()) }
                 .filter { it["kind"] == "Package" }
-                .map { KotlinPackagedoc(it["qualifiedName"].toString()) }
+                .map {
+                    KotlinPackagedoc(
+                            it["name"].toString(),
+                            it["comment"].toString(),
+                            it["qualifiedName"].toString()
+                    )
+                }
                 .toCollection(packagePagesList)
-
-        packagePagesList.forEach {
-            Clog.v("package: {}", it.name)
-        }
 
         return packagePagesList
     }
 
-    private fun getDokkaClassPages(dokkaOutputPath: Path): List<KotlinClassdoc> {
+    private fun getDokkaClassPages(dokkaOutputPath: Path, packages: List<KotlinPackagedoc>): List<KotlinClassdoc> {
         val classPagesList = ArrayList<KotlinClassdoc>()
         dokkaOutputPath
                 .toFile()
@@ -207,14 +211,23 @@ constructor(
                 .filter { it.isFile && it.name != "index.json" }
                 .map { JSONObject(it.readText()) }
                 .filter { it["kind"] == "Class" }
-                .map { KotlinClassdoc(it["qualifiedName"].toString()) }
+                .map {
+                    KotlinClassdoc(
+                            it["name"].toString(),
+                            it["comment"].toString(),
+                            it["qualifiedName"].toString(),
+                            getPackagedoc(it["package"].toString(), packages),
+                            it["kind"].toString(),
+                            it.getBoolean("classLike")
+                    )
+                }
                 .toCollection(classPagesList)
 
-        classPagesList.forEach {
-            Clog.v("class: {}", it.name)
-        }
-
         return classPagesList
+    }
+
+    private fun getPackagedoc(packageName: String, packages: List<KotlinPackagedoc>): KotlinPackagedoc {
+        return packages.find { it.qualifiedName == packageName } ?: throw IllegalArgumentException("Error: Class was defined in package that does not exist: package=$packageName")
     }
 
 }

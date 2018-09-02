@@ -12,8 +12,8 @@ import java.util.HashMap
 open class BaseJavadocResource(
         context: OrchidContext,
         qualifiedName: String,
-        var doc: Doc)
-    : FreeableResource(OrchidReference(context, qualifiedName.replace("\\.".toRegex(), "/") + ".html")) {
+        var doc: Doc
+) : FreeableResource(OrchidReference(context, qualifiedName.replace("\\.".toRegex(), "/") + ".html")) {
 
     init {
         reference.extension = "md"
@@ -37,7 +37,8 @@ open class BaseJavadocResource(
             for ((key, value) in tagMap) {
                 if (value.size == 1) {
                     data.put(key, value[0])
-                } else {
+                }
+                else {
                     data.put(key, value)
                 }
             }
