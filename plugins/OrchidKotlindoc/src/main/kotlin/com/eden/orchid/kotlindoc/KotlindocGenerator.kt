@@ -1,5 +1,6 @@
 package com.eden.orchid.kotlindoc
 
+import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
@@ -7,14 +8,11 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kotlindoc.helpers.KotlindocInvoker
-import com.eden.orchid.kotlindoc.model.KotlinClassdoc
-import com.eden.orchid.kotlindoc.model.KotlinPackagedoc
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import com.eden.orchid.kotlindoc.page.KotlindocPackagePage
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.HashSet
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,25 +39,17 @@ constructor(
 
         if (rootDoc == null) return ArrayList()
 
-        val classes = HashSet<KotlinClassdoc>()
-        val packages = HashSet<KotlinPackagedoc>()
-
-        for (classDoc in rootDoc.classes) {
-            classes.add(classDoc)
-            packages.add(classDoc.containingPackage)
-        }
-
         model.initialize(ArrayList(), ArrayList())
 
-        for (classDoc in classes) {
+        for (classDoc in rootDoc.classes) {
             model.allClasses.add(KotlindocClassPage(context, classDoc, model))
         }
 
-        val packagePageMap = HashMap<KotlinPackagedoc, KotlindocPackagePage>()
-        for (packageDoc in packages) {
+        val packagePageMap = HashMap<String, KotlindocPackagePage>()
+        for (packageDoc in rootDoc.packages) {
             val classesInPackage = ArrayList<KotlindocClassPage>()
             for (classDocPage in model.allClasses) {
-                if (classDocPage.classDoc.containingPackage == packageDoc) {
+                if (classDocPage.classDoc.`package` == packageDoc.qualifiedName) {
                     classesInPackage.add(classDocPage)
                 }
             }
@@ -69,7 +59,7 @@ constructor(
             val packagePage = KotlindocPackagePage(context, packageDoc, classesInPackage, model)
 
             model.allPackages.add(packagePage)
-            packagePageMap[packageDoc] = packagePage
+            packagePageMap[packageDoc.qualifiedName] = packagePage
         }
 
         for (packagePage in packagePageMap.values) {
@@ -81,7 +71,7 @@ constructor(
         }
 
         for (classDocPage in model.allClasses) {
-            classDocPage.packagePage = packagePageMap[classDocPage.classDoc.containingPackage]
+            classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
 
         return model.allPages
@@ -91,7 +81,7 @@ constructor(
         pages.forEach { context.renderTemplate(it) }
     }
 
-    private fun isInnerPackage(parent: KotlinPackagedoc, possibleChild: KotlinPackagedoc): Boolean {
+    private fun isInnerPackage(parent: KotlinPackageDoc, possibleChild: KotlinPackageDoc): Boolean {
 
         // packages start the same...
         if (possibleChild.qualifiedName.startsWith(parent.qualifiedName)) {

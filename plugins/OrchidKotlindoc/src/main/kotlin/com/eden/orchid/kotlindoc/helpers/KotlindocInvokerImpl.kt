@@ -1,9 +1,9 @@
 package com.eden.orchid.kotlindoc.helpers
 
+import com.copperleaf.dokka.json.models.KotlinClassDoc
+import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.kotlindoc.model.KotlinClassdoc
-import com.eden.orchid.kotlindoc.model.KotlinPackagedoc
 import com.eden.orchid.kotlindoc.model.KotlinRootdoc
 import com.eden.orchid.utilities.InputStreamPrinter
 import com.eden.orchid.utilities.OrchidUtils
@@ -11,7 +11,6 @@ import com.google.inject.name.Named
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
-import org.json.JSONObject
 import org.w3c.dom.NodeList
 import org.xml.sax.InputSource
 import java.io.File
@@ -32,13 +31,14 @@ constructor(
         val context: OrchidContext) : KotlindocInvoker {
 
     val repos = listOf(
-            "https://jcenter.bintray.com/",
-            "https://jitpack.io/"
+            "https://jcenter.bintray.com",
+            "https://kotlin.bintray.com/kotlinx",
+            "https://jitpack.io"
     )
 
     override fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc? {
         val dokkaOutputPath = OrchidUtils.getTempDir("dokka", true)
-        val dokkaJarPaths = getMavenJars("com.github.copper-leaf:dokka-json:0.1.2")
+        val dokkaJarPaths = getMavenJars("com.github.copper-leaf.dokka-json:dokka-json:0.1.5")
 
         executeDokka(dokkaJarPaths, dokkaOutputPath, sourceDirs)
 
@@ -175,7 +175,7 @@ constructor(
 
     private fun getKotlinRootdoc(dokkaOutputPath: Path): KotlinRootdoc {
         val packages = getDokkaPackagePages(dokkaOutputPath)
-        val classes = getDokkaClassPages(dokkaOutputPath, packages)
+        val classes = getDokkaClassPages(dokkaOutputPath)
 
         return KotlinRootdoc(
                 packages,
@@ -183,51 +183,32 @@ constructor(
         )
     }
 
-    private fun getDokkaPackagePages(dokkaOutputPath: Path): List<KotlinPackagedoc> {
-        val packagePagesList = ArrayList<KotlinPackagedoc>()
+    private fun getDokkaPackagePages(dokkaOutputPath: Path): List<KotlinPackageDoc> {
+        val packagePagesList = ArrayList<KotlinPackageDoc>()
         dokkaOutputPath
                 .toFile()
                 .walkTopDown()
                 .filter { it.isFile && it.name == "index.json" }
-                .map { JSONObject(it.readText()) }
-                .filter { it["kind"] == "Package" }
-                .map {
-                    KotlinPackagedoc(
-                            it["name"].toString(),
-                            it["comment"].toString(),
-                            it["qualifiedName"].toString()
-                    )
-                }
+                .map { KotlinPackageDoc.fromJson(it.readText()) }
                 .toCollection(packagePagesList)
 
         return packagePagesList
     }
 
-    private fun getDokkaClassPages(dokkaOutputPath: Path, packages: List<KotlinPackagedoc>): List<KotlinClassdoc> {
-        val classPagesList = ArrayList<KotlinClassdoc>()
+    private fun getDokkaClassPages(dokkaOutputPath: Path): List<KotlinClassDoc> {
+        val classPagesList = ArrayList<KotlinClassDoc>()
         dokkaOutputPath
                 .toFile()
                 .walkTopDown()
                 .filter { it.isFile && it.name != "index.json" }
-                .map { JSONObject(it.readText()) }
-                .filter { it["kind"] == "Class" }
-                .map {
-                    KotlinClassdoc(
-                            it["name"].toString(),
-                            it["comment"].toString(),
-                            it["qualifiedName"].toString(),
-                            getPackagedoc(it["package"].toString(), packages),
-                            it["kind"].toString(),
-                            it.getBoolean("classLike")
-                    )
-                }
+                .map { KotlinClassDoc.fromJson(it.readText()) }
                 .toCollection(classPagesList)
 
         return classPagesList
     }
 
-    private fun getPackagedoc(packageName: String, packages: List<KotlinPackagedoc>): KotlinPackagedoc {
-        return packages.find { it.qualifiedName == packageName } ?: throw IllegalArgumentException("Error: Class was defined in package that does not exist: package=$packageName")
-    }
+//    private fun getPackagedoc(packageName: String, packages: List<KotlinPackageDoc>): KotlinPackageDoc {
+//        return packages.find { it.qualifiedName == packageName } ?: throw IllegalArgumentException("Error: Class was defined in package that does not exist: package=$packageName")
+//    }
 
 }

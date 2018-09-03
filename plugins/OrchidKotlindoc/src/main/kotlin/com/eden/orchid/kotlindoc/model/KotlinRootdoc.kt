@@ -1,6 +1,9 @@
 package com.eden.orchid.kotlindoc.model
 
-class KotlinRootdoc(val packages: List<KotlinPackagedoc>, val classes: List<KotlinClassdoc>) {
+import com.copperleaf.dokka.json.models.KotlinClassDoc
+import com.copperleaf.dokka.json.models.KotlinPackageDoc
+
+class KotlinRootdoc(val packages: List<KotlinPackageDoc>, val classes: List<KotlinClassDoc>) {
 
 
 }

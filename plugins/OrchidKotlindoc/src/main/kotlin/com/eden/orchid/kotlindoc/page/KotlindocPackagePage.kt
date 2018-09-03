@@ -1,17 +1,17 @@
 package com.eden.orchid.kotlindoc.page
 
+import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.kotlindoc.KotlindocGenerator
 import com.eden.orchid.kotlindoc.model.KotlindocModel
-import com.eden.orchid.kotlindoc.model.KotlinPackagedoc
 import com.eden.orchid.kotlindoc.resources.KotlinPackagedocResource
 
 @Archetype(value = ConfigArchetype::class, key = "${KotlindocGenerator.GENERATOR_KEY}.packagePages")
 class KotlindocPackagePage(
         context: OrchidContext,
-        val packageDoc: KotlinPackagedoc,
+        val packageDoc: KotlinPackageDoc,
         val classes: List<KotlindocClassPage>,
         val model: KotlindocModel
 ) : BaseKotlindocPage(KotlinPackagedocResource(context, packageDoc), "kotlindocPackage", packageDoc.qualifiedName) {
@@ -19,48 +19,48 @@ class KotlindocPackagePage(
     val innerPackages: MutableList<KotlindocPackagePage> = ArrayList()
 
     fun hasInterfaces(): Boolean {
-        return classes.any { it.classDoc.classType == "Interface" }
+        return classes.any { it.classDoc.kind == "Interface" }
     }
 
     val interfaces: List<KotlindocClassPage>
         get() {
-            return classes.filter { it.classDoc.classType == "Interface" }
+            return classes.filter { it.classDoc.kind == "Interface" }
         }
 
     fun hasOrdinaryClasses(): Boolean {
-        return classes.any { it.classDoc.classType == "Class" }
+        return classes.any { it.classDoc.kind == "Class" }
     }
 
     val ordinaryClasses: List<KotlindocClassPage>
         get() {
-            return classes.filter { it.classDoc.classType == "Class" }
+            return classes.filter { it.classDoc.kind == "Class" }
         }
 
     fun hasEnums(): Boolean {
-        return classes.any { it.classDoc.classType == "Enum" }
+        return classes.any { it.classDoc.kind == "Enum" }
     }
 
     val enums: List<KotlindocClassPage>
         get() {
-            return classes.filter { it.classDoc.classType == "Enum" }
+            return classes.filter { it.classDoc.kind == "Enum" }
         }
 
     fun hasExceptions(): Boolean {
-        return classes.any { it.classDoc.classType == "Exception" }
+        return classes.any { it.classDoc.kind == "Exception" }
     }
 
     val exceptions: List<KotlindocClassPage>
         get() {
-            return classes.filter { it.classDoc.classType == "Exception" }
+            return classes.filter { it.classDoc.kind == "Exception" }
         }
 
     fun hasAnnotations(): Boolean {
-        return classes.any { it.classDoc.classType == "AnnotationClass" }
+        return classes.any { it.classDoc.kind == "AnnotationClass" }
     }
 
     val annotations: List<KotlindocClassPage>
         get() {
-            return classes.filter { it.classDoc.classType == "AnnotationClass" }
+            return classes.filter { it.classDoc.kind == "AnnotationClass" }
         }
 
 }

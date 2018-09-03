@@ -1,9 +1,9 @@
 package com.eden.orchid.kotlindoc.resources
 
+import com.copperleaf.dokka.json.models.KotlinClassDoc
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.kotlindoc.model.KotlinClassdoc
 
 class KotlinClassdocResource(
         context: OrchidContext,
-        classDoc: KotlinClassdoc
+        classDoc: KotlinClassDoc
 ) : BaseKotlindocResource(context, classDoc.qualifiedName, classDoc)
