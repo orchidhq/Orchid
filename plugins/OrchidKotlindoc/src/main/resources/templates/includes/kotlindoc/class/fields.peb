@@ -1,0 +1,23 @@
+{# @pebvariable name="classDoc" type="com.copperleaf.dokka.json.models.KotlinClassDoc" #}
+{% set "classDoc" = page.classDoc %}
+
+{% if classDoc.fields|length > 0 %}
+<h2 id="fields">Fields</h2>
+
+{% for field in classDoc.fields %}
+{# @pebvariable name="field" type="com.copperleaf.dokka.json.models.KotlinField" #}
+<div class="panel panel-default">
+    <div class="panel-heading" id="{{ field.qualifiedName|replace({'<': '-', '>': '-'}) }}">
+        <code>
+        {% for modifier in field.modifiers %}
+            {{ modifier }}
+        {% endfor %}
+        {{ field.name }}
+        </code>
+    </div>
+    <div class="panel-body">
+        <p>{{ field.comment | compileAs('md') }}</p>
+    </div>
+</div>
+{% endfor %}
+{% endif %}

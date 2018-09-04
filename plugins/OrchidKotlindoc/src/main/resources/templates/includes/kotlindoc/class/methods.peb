@@ -1,0 +1,23 @@
+{# @pebvariable name="classDoc" type="com.copperleaf.dokka.json.models.KotlinClassDoc" #}
+{% set "classDoc" = page.classDoc %}
+
+{% if classDoc.methods|length > 0 %}
+<h2 id="methods">Methods</h2>
+
+{% for method in classDoc.methods %}
+{# @pebvariable name="method" type="com.copperleaf.dokka.json.models.KotlinMethod" #}
+<div class="panel panel-default">
+    <div class="panel-heading" id="{{ method.qualifiedName|replace({'<': '-', '>': '-'}) }}">
+        <code>
+        {% for modifier in method.modifiers %}
+            {{ modifier }}
+        {% endfor %}
+        {{ method.name }}
+        </code>
+    </div>
+    <div class="panel-body">
+        <p>{{ method.comment | compileAs('md') }}</p>
+    </div>
+</div>
+{% endfor %}
+{% endif %}

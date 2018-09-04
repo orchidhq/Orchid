@@ -38,13 +38,12 @@ constructor(
 
     override fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc? {
         val dokkaOutputPath = OrchidUtils.getTempDir("dokka", true)
-        val dokkaJarPaths = getMavenJars("com.github.copper-leaf.dokka-json:dokka-json:0.1.5")
+        val dokkaJarPaths = getMavenJars("com.github.copper-leaf.dokka-json:dokka-json:0.1.6")
 
         executeDokka(dokkaJarPaths, dokkaOutputPath, sourceDirs)
 
         return getKotlinRootdoc(dokkaOutputPath)
     }
-
 
 // Download jars from Maven
 //----------------------------------------------------------------------------------------------------------------------
