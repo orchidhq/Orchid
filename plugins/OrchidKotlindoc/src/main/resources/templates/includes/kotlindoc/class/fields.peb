@@ -12,7 +12,7 @@
         {% for modifier in field.modifiers %}
             {{ modifier }}
         {% endfor %}
-        {{ field.name }}
+        {{ field.signature }}
         </code>
     </div>
     <div class="panel-body">

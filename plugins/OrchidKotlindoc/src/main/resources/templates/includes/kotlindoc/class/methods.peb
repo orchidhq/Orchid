@@ -12,12 +12,15 @@
         {% for modifier in method.modifiers %}
             {{ modifier }}
         {% endfor %}
-        {{ method.name }}
+        {{ method.signature }}
         </code>
     </div>
     <div class="panel-body">
         <p>{{ method.comment | compileAs('md') }}</p>
     </div>
+
+    {% include 'includes/kotlindoc/misc/parameters' with {"parameters": method.parameters} %}
+    {% include 'includes/kotlindoc/misc/returnValue' with {"returnValue": method.returnValue} %}
 </div>
 {% endfor %}
 {% endif %}

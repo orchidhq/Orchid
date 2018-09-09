@@ -12,12 +12,14 @@
         {% for modifier in constructor.modifiers %}
             {{ modifier }}
         {% endfor %}
-        {{ constructor.name }}
+        {{ constructor.signature }}
         </code>
     </div>
     <div class="panel-body">
         <p>{{ constructor.comment | compileAs('md') }}</p>
     </div>
+
+    {% include 'includes/kotlindoc/misc/parameters' with {"parameters": constructor.parameters} %}
 </div>
 {% endfor %}
 {% endif %}
