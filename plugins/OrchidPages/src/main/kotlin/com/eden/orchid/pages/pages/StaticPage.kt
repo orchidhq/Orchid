@@ -10,7 +10,6 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.impl.relations.PageRelation
 import com.eden.orchid.pages.PageGroupArchetype
 import com.eden.orchid.pages.PagesGenerator
 
@@ -35,45 +34,6 @@ class StaticPage(resource: OrchidResource)
             "specific options for the theme."
     )
     var theme: Any? = null
-
-    @Option("next")
-    @Description("The reference to the next page to link to.")
-    var nextPage: PageRelation? = null
-    fun setNext(nextPage: PageRelation?) {
-        this.nextPage = nextPage
-    }
-    override fun getNext(): OrchidPage? {
-        return if (nextPage != null && nextPage!!.get() != null) {
-            nextPage!!.get()
-        }
-        else super.getNext()
-    }
-
-    @Option("previous")
-    @Description("The reference to the previous page to link to.")
-    var previousPage: PageRelation? = null
-    fun setPrevious(previousPage: PageRelation?) {
-        this.previousPage = previousPage
-    }
-    override fun getPrevious(): OrchidPage? {
-        return if (previousPage != null && previousPage!!.get() != null) {
-            previousPage!!.get()
-        }
-        else super.getPrevious()
-    }
-
-    @Option("parent")
-    @Description("The reference to the parent page to link to.")
-    var parentPage: PageRelation? = null
-    fun setParent(parentPage: PageRelation?) {
-        this.parentPage = parentPage
-    }
-    override fun getParent(): OrchidPage? {
-        return if (parentPage != null && parentPage!!.get() != null) {
-            parentPage!!.get()
-        }
-        else super.getParent()
-    }
 
     override fun onPostExtraction() {
         reference.isUsePrettyUrl = usePrettyUrl

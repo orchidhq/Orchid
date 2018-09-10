@@ -23,6 +23,10 @@ public abstract class Relation<T> implements OptionsHolder {
 
     public abstract T load();
 
+    public final void set(T item) {
+        this.item = item;
+    }
+
     public final T get() {
         if(item == null) {
             extractOptions(context, ref);

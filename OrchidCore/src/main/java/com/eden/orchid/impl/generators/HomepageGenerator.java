@@ -3,11 +3,9 @@ package com.eden.orchid.impl.generators;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.impl.relations.PageRelation;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -82,35 +80,10 @@ public final class HomepageGenerator extends OrchidGenerator {
 
     public static class Homepage extends OrchidPage {
 
-        @Option("next")
-        @Description("The reference to the next page to link to.")
-        public PageRelation nextPage;
-
-        @Option("previous")
-        @Description("The reference to the previous page to link to.")
-        public PageRelation previousPage;
-
         public Homepage(OrchidResource resource, String key, String title) {
             super(resource, key, title);
         }
 
-        @Override
-        public OrchidPage getNext() {
-            if(nextPage != null && nextPage.get() != null) {
-                return nextPage.get();
-            }
-
-            return super.getNext();
-        }
-
-        @Override
-        public OrchidPage getPrevious() {
-            if(previousPage != null && previousPage.get() != null) {
-                return previousPage.get();
-            }
-
-            return super.getPrevious();
-        }
     }
 
 }
