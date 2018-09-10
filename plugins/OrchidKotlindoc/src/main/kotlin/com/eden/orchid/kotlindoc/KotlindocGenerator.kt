@@ -2,6 +2,7 @@ package com.eden.orchid.kotlindoc
 
 import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -100,6 +101,15 @@ constructor(
         }
 
         return false
+    }
+
+    override fun getCollections(): List<OrchidCollection<*>>? {
+        val collections = ArrayList<OrchidCollection<*>>()
+
+        collections.add(KotlindocCollection(this, "classes", model.allClasses))
+        collections.add(KotlindocCollection(this, "packages", model.allPackages))
+
+        return collections
     }
 
 }
