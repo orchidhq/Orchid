@@ -18,7 +18,7 @@ import com.eden.orchid.pages.PagesGenerator
         Archetype(value = PageGroupArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
 )
 class StaticPage(resource: OrchidResource)
-    : OrchidPage(resource, "staticPage") {
+    : OrchidPage(resource, "staticPage", null) {
 
     @Option @BooleanDefault(true)
     @Description("Whether to use the 'pretty' URL version when linking to this page or not.")

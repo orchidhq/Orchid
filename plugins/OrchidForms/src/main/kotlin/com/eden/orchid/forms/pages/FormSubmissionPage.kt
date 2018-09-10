@@ -7,5 +7,8 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.forms.FormsGenerator
 
 @Archetype(value = ConfigArchetype::class, key = "${FormsGenerator.GENERATOR_KEY}.submissionPages")
-class FormSubmissionPage(resource: OrchidResource, key: String, title: String?, path: String?)
-    : OrchidPage(resource, key, title, path)
+class FormSubmissionPage(
+        resource: OrchidResource,
+        key: String,
+        title: String?
+) : OrchidPage(resource, key, title)

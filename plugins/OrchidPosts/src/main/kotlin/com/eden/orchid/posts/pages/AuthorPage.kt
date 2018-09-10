@@ -14,12 +14,17 @@ import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.utilities.OrchidUtils
 
 @Archetypes(
-    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
-    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.authorPages")
+        Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
+        Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.authorPages")
 )
-class AuthorPage(resource: OrchidResource, val author: Author, val postsModel: PostsModel) : OrchidPage(resource, "postAuthor") {
+class AuthorPage(
+        resource: OrchidResource,
+        val author: Author,
+        val postsModel: PostsModel
+) : OrchidPage(resource, "postAuthor", author.name) {
 
-    @Option @StringDefault("authors/:authorName")
+    @Option
+    @StringDefault("authors/:authorName")
     @Description("The permalink structure to use only for this author bio page.")
     lateinit var permalink: String
 

@@ -81,7 +81,7 @@ public final class AssetHolderDelegate implements AssetHolder {
                     setPrefix = false;
                 }
             }
-            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset));
+            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset), null);
             if(setPrefix) {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
@@ -125,7 +125,7 @@ public final class AssetHolderDelegate implements AssetHolder {
                     setPrefix = false;
                 }
             }
-            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset));
+            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset), null);
             if(setPrefix) {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
@@ -160,7 +160,7 @@ public final class AssetHolderDelegate implements AssetHolder {
                     setPrefix = false;
                 }
             }
-            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(asset));
+            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(asset), null);
             if(setPrefix) {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }

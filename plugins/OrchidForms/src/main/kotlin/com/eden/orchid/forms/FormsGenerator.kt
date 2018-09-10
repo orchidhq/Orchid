@@ -61,7 +61,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
             for (resource in formsPages) {
                 val key = resource.reference.originalFileName
 
-                val formSubmissionPage = FormSubmissionPage(resource, "form", null, null)
+                val formSubmissionPage = FormSubmissionPage(resource, "form", null)
                 formSubmissionPage.reference.stripFromPath(OrchidUtils.normalizePath(baseDir))
                 formSubmissionPage.reference.path = OrchidUtils.normalizePath("submit/" + formSubmissionPage.reference.originalPath)
                 pages.add(formSubmissionPage)

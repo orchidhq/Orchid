@@ -11,7 +11,7 @@ import com.eden.orchid.kss.parser.StyleguideSection
 @Archetype(value = ConfigArchetype::class, key = "${KssGenerator.GENERATOR_KEY}.styleguidePages")
 class KssPage(
         context: OrchidContext, val styleguideSection: StyleguideSection)
-    : OrchidPage(KssSectionResource(context, styleguideSection), "styleguide") {
+    : OrchidPage(KssSectionResource(context, styleguideSection), "styleguide", "Styleguide - ${styleguideSection.name}") {
 
     var parent: KssPage? = null
     var children: MutableList<KssPage> = ArrayList()

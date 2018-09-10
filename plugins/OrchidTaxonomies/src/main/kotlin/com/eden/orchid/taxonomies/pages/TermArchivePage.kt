@@ -17,7 +17,7 @@ open class TermArchivePage(
         val taxonomy: Taxonomy,
         val term: Term,
         val index: Int
-) : OrchidPage(resource, "termArchive") {
+) : OrchidPage(resource, "termArchive", "${term.title} - ${taxonomy.title}") {
 
     override fun getTemplates(): List<String> {
         val templates = mutableListOf(

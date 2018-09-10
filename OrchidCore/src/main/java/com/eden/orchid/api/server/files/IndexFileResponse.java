@@ -109,7 +109,11 @@ public final class IndexFileResponse {
                     directoryListingContent = context.serialize("json", object);
                 }
 
-                OrchidPage page = new OrchidPage(new StringResource(context, "directoryListing.txt", directoryListingContent), "directoryListing");
+                OrchidPage page = new OrchidPage(
+                        new StringResource(context, "directoryListing.txt", directoryListingContent),
+                        "directoryListing",
+                        "Index"
+                );
                 page.addJs("assets/js/shadowComponents.js");
                 assetHolder.addCss("assets/css/directoryListing.css");
 

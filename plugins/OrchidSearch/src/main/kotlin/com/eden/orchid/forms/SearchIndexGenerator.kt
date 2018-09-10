@@ -51,7 +51,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
             val jsonElement = JSONElement(mappedIndex[key]!!.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
             val resource = JsonResource(jsonElement, reference)
-            val page = OrchidPage(resource, "index")
+            val page = OrchidPage(resource, "index", null)
             page.reference.isUsePrettyUrl = false
             context.renderRaw(page)
 
@@ -62,7 +62,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
         val compositeJsonElement = JSONElement(internalIndex.toJSON(true, false))
         val compositeReference = OrchidReference(context, "meta/all.index.json")
         val compositeIndexResource = JsonResource(compositeJsonElement, compositeReference)
-        val compositeIndexPage = OrchidPage(compositeIndexResource, "index")
+        val compositeIndexPage = OrchidPage(compositeIndexResource, "index", null)
         compositeIndexPage.reference.isUsePrettyUrl = false
         context.renderRaw(compositeIndexPage)
         indices.addToIndex(indices.ownKey + "/" + compositeIndexPage.reference.path, compositeIndexPage)
@@ -72,7 +72,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
             page.data = HashMap()
         }
         val indexResource = JsonResource(JSONElement(indices.toJSON(false, false)), OrchidReference(context, "meta/index.json"))
-        val indicesPage = OrchidPage(indexResource, "index")
+        val indicesPage = OrchidPage(indexResource, "index", null)
         indicesPage.reference.isUsePrettyUrl = false
         context.renderRaw(indicesPage)
     }
@@ -82,7 +82,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
             val jsonElement = JSONElement(page.toJSON(true, true))
             val reference = OrchidReference(page.reference)
             val resource = JsonResource(jsonElement, reference)
-            val pageIndex = OrchidPage(resource, "pageIndex")
+            val pageIndex = OrchidPage(resource, "pageIndex", null)
             pageIndex.reference.isUsePrettyUrl = true
             pageIndex.reference.outputExtension = "json"
             context.renderRaw(pageIndex)

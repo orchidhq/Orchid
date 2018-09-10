@@ -200,15 +200,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
 
-    public OrchidPage(OrchidResource resource, String key) {
-        this(resource, key, null);
-    }
-
     public OrchidPage(OrchidResource resource, String key, String title) {
-        this(resource, key, title, null);
-    }
-
-    public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
         this.breadcrumbs = new BreadcrumbHolderDelegate(context);
@@ -219,10 +211,6 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         this.resource = resource;
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
-
-        if (path != null) {
-            this.reference.setPath(path);
-        }
 
         JSONElement el = resource.getEmbeddedData();
 

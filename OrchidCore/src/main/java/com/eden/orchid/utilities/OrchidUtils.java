@@ -262,14 +262,26 @@ public final class OrchidUtils {
             Arrays.stream(extraCss)
                     .map(context::getResourceEntry)
                     .filter(Objects::nonNull)
-                    .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
+                    .map(orchidResource -> new AssetPage(
+                            source,
+                            sourceKey,
+                            orchidResource,
+                            orchidResource.getReference().getTitle(),
+                            orchidResource.getReference().getTitle()
+                    ))
                     .forEach(holder::addCss);
         }
         if(!EdenUtils.isEmpty(extraJs)) {
             Arrays.stream(extraJs)
                     .map(context::getResourceEntry)
                     .filter(Objects::nonNull)
-                    .map(orchidResource -> new AssetPage(source, sourceKey, orchidResource, orchidResource.getReference().getTitle()))
+                    .map(orchidResource -> new AssetPage(
+                            source,
+                            sourceKey,
+                            orchidResource,
+                            orchidResource.getReference().getTitle(),
+                            orchidResource.getReference().getTitle()
+                    ))
                     .forEach(holder::addJs);
         }
     }

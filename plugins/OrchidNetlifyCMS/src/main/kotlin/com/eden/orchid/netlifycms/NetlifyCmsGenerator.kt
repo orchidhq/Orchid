@@ -90,7 +90,7 @@ constructor(
             val adminPage = NetlifyCmsAdminPage(adminResource, templateTags, components, menuItems)
             context.renderRaw(adminPage)
 
-            val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig()), "admin")
+            val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig()), "admin", null)
             adminConfig.reference.isUsePrettyUrl = false
             context.renderRaw(adminConfig)
         }

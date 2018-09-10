@@ -72,7 +72,7 @@ constructor(
         }
     }
 
-    class FeedPage constructor(resource: OrchidResource, filename: String, val items: List<OrchidPage>) : OrchidPage(resource, "rss") {
+    class FeedPage constructor(resource: OrchidResource, filename: String, val items: List<OrchidPage>) : OrchidPage(resource, "rss", null) {
         init {
             this.reference.fileName = filename
             this.reference.path = ""

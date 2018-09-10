@@ -15,7 +15,7 @@ class NetlifyCmsAdminPage(
         val templateTags: Set<TemplateTag>,
         val components: Set<OrchidComponent>,
         val menuItems: Set<OrchidMenuItem>
-) : OrchidPage(resource, "contentManager") {
+) : OrchidPage(resource, "contentManager", "Content Manager") {
 
     public fun getTemplateFieldsFromTag(tag: TemplateTag): JSONArray {
         val fields = JSONArray()
