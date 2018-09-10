@@ -15,6 +15,7 @@ public abstract class Relation<T> implements OptionsHolder {
     @Getter @Setter
     private Map<String, Object> ref;
     private T item;
+    private T defaultItem;
 
     @Inject
     public Relation(OrchidContext context) {
@@ -24,13 +25,17 @@ public abstract class Relation<T> implements OptionsHolder {
     public abstract T load();
 
     public final void set(T item) {
-        this.item = item;
+        this.defaultItem = item;
     }
 
     public final T get() {
         if(item == null) {
             extractOptions(context, ref);
             item = load();
+
+            if(item == null && defaultItem != null) {
+                item = defaultItem;
+            }
         }
 
         return item;
