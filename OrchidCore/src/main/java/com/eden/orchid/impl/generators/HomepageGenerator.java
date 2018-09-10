@@ -47,8 +47,7 @@ public final class HomepageGenerator extends OrchidGenerator {
         }
 
         Homepage page = new Homepage(resource, "frontPage", context.getSite().getSiteInfo().getSiteName());
-        page.getReference().setFileName("index");
-        page.getReference().setUsePrettyUrl(false);
+        page.getReference().setFileName("");
 
         return page;
     }
