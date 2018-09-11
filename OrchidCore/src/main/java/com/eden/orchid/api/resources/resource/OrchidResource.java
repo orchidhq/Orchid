@@ -5,9 +5,6 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
@@ -21,7 +18,6 @@ import java.nio.charset.Charset;
  * @since v1.0.0
  * @orchidApi extensible
  */
-@Getter @Setter
 public abstract class OrchidResource {
 
     protected final OrchidContext context;
@@ -33,7 +29,6 @@ public abstract class OrchidResource {
 
     protected int priority;
 
-    @Getter(AccessLevel.NONE)
     protected boolean shouldRender = true;
 
     public OrchidResource(OrchidReference reference) {
@@ -133,4 +128,48 @@ public abstract class OrchidResource {
                 "reference=" + reference.getRelativePath() +
                 '}';
     }
+
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    public OrchidContext getContext() {
+        return this.context;
+    }
+
+    public OrchidReference getReference() {
+        return this.reference;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public JSONElement getEmbeddedData() {
+        return this.embeddedData;
+    }
+
+    public int getPriority() {
+        return this.priority;
+    }
+
+    public void setRawContent(String rawContent) {
+        this.rawContent = rawContent;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setEmbeddedData(JSONElement embeddedData) {
+        this.embeddedData = embeddedData;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public void setShouldRender(boolean shouldRender) {
+        this.shouldRender = shouldRender;
+    }
+
 }

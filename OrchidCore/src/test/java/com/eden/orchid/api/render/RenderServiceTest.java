@@ -73,7 +73,7 @@ public final class RenderServiceTest {
         reference = new OrchidReference(context, "testContent.html");
         resource = new StringResource(resourceContent, reference);
 
-        page = new OrchidPage(resource, "testContent");
+        page = new OrchidPage(resource, "testContent", null);
         page = spy(page);
         page.setPublishDate(LocalDate.now().atStartOfDay());
         page.setExpiryDate(LocalDate.now().atTime(LocalTime.MAX));
