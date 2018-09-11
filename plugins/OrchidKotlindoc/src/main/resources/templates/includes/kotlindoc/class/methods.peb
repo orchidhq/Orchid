@@ -12,7 +12,7 @@
         {% for modifier in method.modifiers %}
             {{ modifier }}
         {% endfor %}
-        {{ method.signature }}
+        {{ method.signature }}: {{ anchor(method.returnValue.type, method.returnValue.qualifiedName) }}
         </code>
     </div>
     <div class="panel-body">

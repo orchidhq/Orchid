@@ -5,7 +5,7 @@ import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.kotlindoc.model.KotlinRootdoc
-import com.eden.orchid.utilities.InputStreamPrinter
+import com.eden.orchid.utilities.InputStreamIgnorer
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.name.Named
 import okhttp3.OkHttpClient
@@ -166,7 +166,7 @@ constructor(
                 .directory(File(resourcesDir))
                 .start()
 
-        Executors.newSingleThreadExecutor().submit(InputStreamPrinter(process.inputStream))
+        Executors.newSingleThreadExecutor().submit(InputStreamIgnorer(process.inputStream))
         process.waitFor()
     }
 
