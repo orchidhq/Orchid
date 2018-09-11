@@ -10,20 +10,24 @@ import com.sun.javadoc.ProgramElementDoc
 import com.sun.javadoc.Type
 
 @Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.GENERATOR_KEY}.pages")
-abstract class BaseJavadocPage(resource: BaseJavadocResource, key: String, title: String) : OrchidPage(resource, key, title) {
+abstract class BaseJavadocPage(
+        resource: BaseJavadocResource,
+        key: String,
+        title: String
+) : OrchidPage(resource, key, title) {
 
     fun visibilityName(input: Any?): Any {
-        if(input is ProgramElementDoc) {
-            if(input.isPublic) {
+        if (input is ProgramElementDoc) {
+            if (input.isPublic) {
                 return "public"
             }
-            else if(input.isProtected) {
+            else if (input.isProtected) {
                 return "protected"
             }
-            else if(input.isPrivate) {
+            else if (input.isPrivate) {
                 return "private"
             }
-            else if(input.isPackagePrivate) {
+            else if (input.isPackagePrivate) {
                 return ""
             }
         }

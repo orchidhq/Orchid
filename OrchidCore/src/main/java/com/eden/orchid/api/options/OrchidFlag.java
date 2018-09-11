@@ -2,6 +2,7 @@ package com.eden.orchid.api.options;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.annotations.Archetype;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.Protected;
@@ -26,15 +27,52 @@ import java.util.function.BiConsumer;
 @Archetype(value = EnvironmentVariableArchetype.class, key = "")
 public abstract class OrchidFlag {
 
+    public Map<String, FlagDescription> describeFlags() {
+        Map<String, FlagDescription> flagDescriptions = new HashMap<>();
+
+        for(Field field : this.getClass().getFields()) {
+            if(field.isAnnotationPresent(Option.class)) {
+                String flagKey = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                        ? field.getAnnotation(Option.class).value()
+                        : field.getName();
+                String[] aliases = (field.isAnnotationPresent(FlagAliases.class))
+                        ? field.getAnnotation(FlagAliases.class).value()
+                        : null;
+                String description = (field.isAnnotationPresent(Description.class))
+                        ? field.getAnnotation(Description.class).value()
+                        : null;
+
+                try {
+                    FlagDescription des = new FlagDescription(
+                            field.getType().getSimpleName(),
+                            flagKey,
+                            aliases,
+                            description
+                    );
+
+                    flagDescriptions.put(des.key, des);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return flagDescriptions;
+    }
+
     public Map<String, Value> getParsedFlags() {
         Map<String, Value> flagValues = new HashMap<>();
 
         for(Field field : this.getClass().getFields()) {
             if(field.isAnnotationPresent(Option.class)) {
+                String flagKey = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
+                        ? field.getAnnotation(Option.class).value()
+                        : field.getName();
                 try {
                     Value value = new Value(
                             field.getType(),
-                            field.getName(),
+                            flagKey,
                             field.get(this),
                             field.isAnnotationPresent(Protected.class)
                     );
@@ -64,6 +102,18 @@ public abstract class OrchidFlag {
                 consumer.accept(flagKey, aliases);
             }
         }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static final class FlagDescription {
+
+        public final String type;
+        public final String key;
+        public final String[] aliases;
+        public final String description;
+
     }
 
     @AllArgsConstructor

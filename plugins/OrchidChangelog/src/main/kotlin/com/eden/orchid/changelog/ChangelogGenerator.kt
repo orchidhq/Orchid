@@ -108,7 +108,7 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
         val jsonElement = JSONElement(versionsJson)
         val reference = OrchidReference(context, "meta/versions.json")
         val resource = JsonResource(jsonElement, reference)
-        val page = OrchidPage(resource, "changelogVersions")
+        val page = OrchidPage(resource, "changelogVersions", "Changelog Index")
         page.reference.isUsePrettyUrl = false
 
         context.renderRaw(page)

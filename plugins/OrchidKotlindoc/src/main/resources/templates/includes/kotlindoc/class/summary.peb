@@ -1,0 +1,13 @@
+{# @pebvariable name="page" type="com.eden.orchid.kotlindoc.page.KotlindocClassPage" #}
+
+<p id="summary">
+    <b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.packageDoc.qualifiedName}}</a></b>
+</p>
+<p>
+    <code style="padding: 0;">
+        class {{ page.classDoc.qualifiedName }}
+    </code>
+</p>
+<div class="class-description" id="description">
+{{ page.content | raw }}
+</div>

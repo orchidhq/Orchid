@@ -1,8 +1,8 @@
 package com.eden.orchid.api.generators;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.krow.HorizontalAlignment;
-import com.eden.krow.KrowTable;
+import com.copperleaf.krow.HorizontalAlignment;
+import com.copperleaf.krow.KrowTable;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;

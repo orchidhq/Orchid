@@ -7,18 +7,19 @@ build_script:
   - gradlew.bat assemble --no-daemon
 
 test_script:
-  - gradlew.bat check --no-daemon
+  - gradlew.bat build --no-daemon
 
 branches:
   only:
     - master
+    - dev
 
 cache:
   - C:\Users\appveyor\.gradle
 
 environment:
   matrix:
-  - JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+    - JAVA_HOME: C:\Program Files\Java\jdk1.8.0
 
 matrix:
   fast_finish: true

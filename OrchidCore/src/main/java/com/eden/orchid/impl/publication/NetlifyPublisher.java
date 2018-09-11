@@ -52,6 +52,8 @@ public class NetlifyPublisher extends OrchidPublisher {
     private final String destinationDir;
     private final OkHttpClient client;
 
+    private int filesUploaded = 0;
+
     @Inject
     public NetlifyPublisher(
             OrchidContext context,
@@ -120,6 +122,7 @@ public class NetlifyPublisher extends OrchidPublisher {
         }
         else {
             Clog.i("Uploading {} files to Netlify.", requiredFiles.getJSONArray("required").length());
+            filesUploaded = 0;
             // upload all required files
             String deployId = requiredFiles.getString("id");
             requiredFiles
@@ -131,7 +134,7 @@ public class NetlifyPublisher extends OrchidPublisher {
                     .flatMap(sha1ToUpload -> fileMap.getOrDefault(sha1ToUpload, new ArrayList<>()).parallelStream())
                     .forEach(fileToUpload -> {
                         String path = OrchidUtils.getRelativeFilename(fileToUpload.getAbsolutePath(), destinationDir);
-                        netlifyUpload(deployId, path, fileToUpload);
+                        netlifyUpload(deployId, path, fileToUpload, requiredFiles.getJSONArray("required").length());
                     });
         }
     }
@@ -190,9 +193,10 @@ public class NetlifyPublisher extends OrchidPublisher {
         return new EdenPair<>(false, null);
     }
 
-    private EdenPair<Boolean, String> netlifyUpload(String deployId, String filename, File toUpload) {
+    private EdenPair<Boolean, String> netlifyUpload(String deployId, String filename, File toUpload, int totalFiles) {
         String fullURL = Clog.format("{}/deploys/{}/files/{}", netlifyUrl, deployId, filename);
-        Clog.d("Netlify UPLOAD: {}", fullURL);
+        filesUploaded++;
+        Clog.d("Netlify UPLOAD {}/{}: {}", filesUploaded, totalFiles, fullURL);
         try {
             Request request = new Request.Builder()
                     .url(fullURL)

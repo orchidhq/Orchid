@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.publication.OrchidPublisher;
+import com.eden.orchid.utilities.InputStreamPrinter;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -223,7 +224,7 @@ public class GithubPagesPublisher extends OrchidPublisher {
                 .directory(temporaryDir.toFile())
                 .start();
 
-        Executors.newSingleThreadExecutor().submit(new ScriptPublisher.InputStreamPrinter(process.getInputStream()));
+        Executors.newSingleThreadExecutor().submit(new InputStreamPrinter(process.getInputStream()));
         process.waitFor();
     }
 

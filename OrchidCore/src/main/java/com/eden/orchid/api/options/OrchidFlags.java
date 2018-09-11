@@ -9,8 +9,8 @@ import io.github.classgraph.ClassGraph;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +67,15 @@ public final class OrchidFlags {
         return allFlags;
     }
 
+    public Map<String, OrchidFlag.FlagDescription> describeFlags() {
+        Map<String, OrchidFlag.FlagDescription> allFlags = new HashMap<>();
+        for (OrchidFlag flag : flags) {
+            allFlags.putAll(flag.describeFlags());
+        }
+
+        return allFlags;
+    }
+
     public Map<String, String> getFlagAliases() {
         Map<String, String> allFlags = new HashMap<>();
         for (OrchidFlag flag : flags) {
@@ -83,7 +92,7 @@ public final class OrchidFlags {
     }
 
     public List<String> getPositionalFlags() {
-        return Arrays.asList("task", "baseUrl");
+        return Collections.singletonList("task");
     }
 
     private void addFlag(Map<String, String> allFlags, String key, String alias) {

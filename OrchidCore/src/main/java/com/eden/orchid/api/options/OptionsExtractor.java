@@ -1,9 +1,9 @@
 package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
+import com.copperleaf.krow.KrowTable;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
-import com.eden.krow.KrowTable;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;

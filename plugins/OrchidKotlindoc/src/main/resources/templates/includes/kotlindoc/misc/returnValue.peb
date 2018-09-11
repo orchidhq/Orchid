@@ -1,0 +1,8 @@
+{% if returnValue.type is not empty %}
+<div class="panel-footer">
+    <div><b>Returns: </b></div>
+    <div>
+        <code>{{ anchor(returnValue.type, returnValue.qualifiedName) }}</code>
+    </div>
+</div>
+{% endif %}

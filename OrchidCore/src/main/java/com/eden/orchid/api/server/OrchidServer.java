@@ -17,8 +17,8 @@ public class OrchidServer {
     @Getter private int httpServerPort;
     @Getter private int websocketPort;
 
-    @Getter private OrchidWebserver server;
-    @Getter private OrchidWebsocket websocket;
+    @Getter public OrchidWebserver server;
+    @Getter public OrchidWebsocket websocket;
 
     @Getter private final Set<OrchidController> controllers;
     @Getter private final OrchidFileController fileController;

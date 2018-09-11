@@ -24,15 +24,12 @@ import com.eden.orchid.swiftdoc.swift.statements.SwiftGlobal
 import com.eden.orchid.swiftdoc.swift.statements.SwiftProtocol
 import com.eden.orchid.swiftdoc.swift.statements.SwiftStruct
 import com.eden.orchid.swiftdoc.swift.statements.SwiftTypealias
+import com.eden.orchid.utilities.InputStreamCollector
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.nio.charset.Charset
 import java.util.concurrent.Executors
 import java.util.stream.Stream
 import javax.inject.Inject
@@ -167,20 +164,6 @@ class SwiftdocGenerator
         }
 
         return JSONObject()
-    }
-
-    private class InputStreamCollector(val inputStream: InputStream) : Runnable {
-
-        var output = StringBuffer()
-
-        override fun run() {
-            output = StringBuffer()
-            BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8"))).lines().forEach({output.append(it)})
-        }
-
-        override fun toString(): String {
-            return output.toString()
-        }
     }
 
 }

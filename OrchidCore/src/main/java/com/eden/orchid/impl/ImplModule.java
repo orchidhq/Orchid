@@ -44,13 +44,14 @@ import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
-import com.eden.orchid.impl.tasks.BuildCommand;
+import com.eden.orchid.impl.commands.BuildCommand;
 import com.eden.orchid.impl.tasks.BuildTask;
-import com.eden.orchid.impl.tasks.DeployCommand;
+import com.eden.orchid.impl.commands.DeployCommand;
 import com.eden.orchid.impl.tasks.DeployTask;
-import com.eden.orchid.impl.tasks.HelpCommand;
-import com.eden.orchid.impl.tasks.InteractiveTask;
-import com.eden.orchid.impl.tasks.QuitCommand;
+import com.eden.orchid.impl.commands.HelpCommand;
+import com.eden.orchid.impl.tasks.HelpTask;
+import com.eden.orchid.impl.tasks.ShellTask;
+import com.eden.orchid.impl.commands.QuitCommand;
 import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.tasks.WatchTask;
 import com.eden.orchid.impl.themes.DefaultTheme;
@@ -142,11 +143,12 @@ public final class ImplModule extends OrchidModule {
 
         // Tasks and Commands
         addToSet(OrchidTask.class,
+                HelpTask.class,
                 BuildTask.class,
                 WatchTask.class,
                 ServeTask.class,
                 DeployTask.class,
-                InteractiveTask.class);
+                ShellTask.class);
 
         addToSet(OrchidCommand.class,
                 HelpCommand.class,

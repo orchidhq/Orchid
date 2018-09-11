@@ -24,6 +24,7 @@ import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolderDelegate;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
+import com.eden.orchid.impl.relations.PageRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
@@ -60,10 +61,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     @Getter @Setter protected OrchidResource resource;
     @Getter @Setter protected OrchidReference reference;
     @Getter @Setter protected String key;
-    @Getter @Setter protected OrchidPage next;
-    @Getter @Setter protected OrchidPage previous;
-    @Getter @Setter protected OrchidPage parent;
     @Getter @Setter protected Map<String, Object> data;
+
+    @Option("next") private PageRelation nextPage;
+    @Option("previous") private PageRelation previousPage;
+    @Option("parent") private PageRelation parentPage;
 
     private String compiledContent;
 
@@ -198,15 +200,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
 
-    public OrchidPage(OrchidResource resource, String key) {
-        this(resource, key, null);
-    }
-
     public OrchidPage(OrchidResource resource, String key, String title) {
-        this(resource, key, title, null);
-    }
-
-    public OrchidPage(OrchidResource resource, String key, String title, String path) {
         this.context = resource.getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
         this.breadcrumbs = new BreadcrumbHolderDelegate(context);
@@ -217,10 +211,6 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         this.resource = resource;
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
-
-        if (path != null) {
-            this.reference.setPath(path);
-        }
 
         JSONElement el = resource.getEmbeddedData();
 
@@ -308,11 +298,11 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         JSONObject pageJson = new JSONObject();
         pageJson.put("title", this.getTitle());
         pageJson.put("reference", this.reference.toJSON());
-        if (this.previous != null) {
-            pageJson.put("previous", this.previous.getReference().toJSON());
+        if (getPrevious() != null) {
+            pageJson.put("previous", getPrevious().getReference().toJSON());
         }
-        if (this.next != null) {
-            pageJson.put("next", this.next.getReference().toJSON());
+        if (getNext() != null) {
+            pageJson.put("next", getNext().getReference().toJSON());
         }
 
         pageJson.put("description", this.description);
@@ -435,6 +425,51 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             ((FreeableResource) resource).free();
         }
         compiledContent = null;
+    }
+
+// Page Relationships
+//----------------------------------------------------------------------------------------------------------------------
+
+    public void setNext(OrchidPage nextPage) {
+        if(this.nextPage == null) this.nextPage = new PageRelation(context);
+        this.nextPage.set(nextPage);
+    }
+    public void setNext(PageRelation nextPage) {
+        this.nextPage = nextPage;
+    }
+    public OrchidPage getNext() {
+        if (nextPage != null) {
+            return nextPage.get();
+        }
+        return null;
+    }
+
+    public void setPrevious(OrchidPage previousPage) {
+        if(this.previousPage == null) this.previousPage = new PageRelation(context);
+        this.previousPage.set(previousPage);
+    }
+    public void setPrevious(PageRelation previousPage) {
+        this.previousPage = previousPage;
+    }
+    public OrchidPage getPrevious() {
+        if (previousPage != null) {
+            return previousPage.get();
+        }
+        return null;
+    }
+
+    public void setParent(OrchidPage parentPage) {
+        if(this.parentPage == null) this.parentPage = new PageRelation(context);
+        this.parentPage.set(parentPage);
+    }
+    public void setParent(PageRelation parentPage) {
+        this.parentPage = parentPage;
+    }
+    public OrchidPage getParent() {
+        if (parentPage != null) {
+            return parentPage.get();
+        }
+        return null;
     }
 
 // Map Implementation

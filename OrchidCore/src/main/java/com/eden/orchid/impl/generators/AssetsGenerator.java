@@ -49,7 +49,13 @@ public final class AssetsGenerator extends OrchidGenerator {
 
         sourceDirs.stream()
                 .flatMap( dir      -> context.getLocalResourceEntries(dir.sourceDir, (!EdenUtils.isEmpty(dir.assetFileExtensions)) ? dir.assetFileExtensions : null, dir.recursive).stream())
-                .map(     resource -> new AssetPage(null, null, resource, resource.getReference().getFileName()))
+                .map(     resource -> new AssetPage(
+                        null,
+                        null,
+                        resource,
+                        resource.getReference().getFileName(),
+                        resource.getReference().getFileName()
+                ))
                 .peek(    asset    -> asset.getReference().setUsePrettyUrl(false))
                 .forEach( asset    -> context.getGlobalAssetHolder().addAsset(asset));
 

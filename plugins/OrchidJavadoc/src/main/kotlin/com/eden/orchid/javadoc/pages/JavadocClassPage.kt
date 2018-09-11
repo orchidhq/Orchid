@@ -9,8 +9,11 @@ import com.eden.orchid.javadoc.resources.ClassDocResource
 import com.sun.javadoc.ClassDoc
 
 @Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.GENERATOR_KEY}.classPages")
-class JavadocClassPage(context: OrchidContext, val classDoc: ClassDoc, val model: JavadocModel)
-    : BaseJavadocPage(ClassDocResource(context, classDoc), "javadocClass", classDoc.typeName()) {
+class JavadocClassPage(
+        context: OrchidContext,
+        val classDoc: ClassDoc,
+        val model: JavadocModel
+) : BaseJavadocPage(ClassDocResource(context, classDoc), "javadocClass", classDoc.typeName()) {
 
     var packagePage: JavadocPackagePage? = null
 
@@ -18,9 +21,11 @@ class JavadocClassPage(context: OrchidContext, val classDoc: ClassDoc, val model
         get() {
             if (classDoc.isInterface) {
                 return "interface"
-            } else if (classDoc.isAnnotationType) {
+            }
+            else if (classDoc.isAnnotationType) {
                 return "@interface"
-            } else if (classDoc.isEnum) {
+            }
+            else if (classDoc.isEnum) {
                 return "enum"
             }
 
@@ -29,7 +34,7 @@ class JavadocClassPage(context: OrchidContext, val classDoc: ClassDoc, val model
 
     val summary: String
         get() {
-            return context.compile("md", classDoc.firstSentenceTags().joinToString(" ", transform = {it.text()}))
+            return context.compile("md", classDoc.firstSentenceTags().joinToString(" ", transform = { it.text() }))
         }
 
 }

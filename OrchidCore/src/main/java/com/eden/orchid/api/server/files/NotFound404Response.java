@@ -34,7 +34,11 @@ public final class NotFound404Response {
         OrchidResource resource = context.locateLocalResourceEntry("404");
         OrchidPage page = null;
         if(resource != null) {
-            page = new OrchidPage(resource, "404");
+            page = new OrchidPage(
+                    resource,
+                    "404",
+                    "Not Found!"
+            );
         }
         else {
             resource = context.getResourceEntry("templates/server/404.peb");
@@ -55,7 +59,11 @@ public final class NotFound404Response {
                 notFoundIndexContent = context.serialize("json", object);
             }
 
-            page = new OrchidPage(new StringResource(context, "404.txt", notFoundIndexContent), "404");
+            page = new OrchidPage(
+                    new StringResource(context, "404.txt", notFoundIndexContent),
+                    "404",
+                    "Not Found!"
+            );
             page.addJs("assets/js/shadowComponents.js");
             assetHolder.addCss("assets/css/directoryListing.css");
         }

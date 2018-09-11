@@ -1,0 +1,6 @@
+<div class="orchid-sourcedoc">
+{% include 'includes/kotlindoc/class/summary' %}
+{% include 'includes/kotlindoc/class/fields' %}
+{% include 'includes/kotlindoc/class/constructors' %}
+{% include 'includes/kotlindoc/class/methods' %}
+</div>

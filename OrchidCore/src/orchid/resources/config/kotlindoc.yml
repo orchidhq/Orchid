@@ -1,0 +1,15 @@
+classPages:
+  searchIndices:
+    - 'wiki'
+    - 'kotlindoc'
+  menu:
+    - type: 'separator'
+      title: 'Class Info'
+      order: 100
+    - type: 'kotlindocClassLinks'
+      includeItems: true
+      order: 110
+packagePages:
+  searchIndices:
+    - 'wiki'
+    - 'kotlindoc'

@@ -37,7 +37,11 @@ public final class AdminAssetResponse {
                         .mimeType(mimeType);
             }
             else {
-                OrchidPage page = new OrchidPage(res, "");
+                OrchidPage page = new OrchidPage(
+                        res,
+                        "",
+                        null
+                );
 
                 return new OrchidResponse(context)
                         .mimeType(mimeType)

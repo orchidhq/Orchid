@@ -10,7 +10,7 @@ import com.eden.orchid.api.resources.resource.ExternalResource;
 public final class OrchidExternalPage extends OrchidPage {
 
     public OrchidExternalPage(OrchidReference reference) {
-        super(new ExternalResource(reference), "ext");
+        super(new ExternalResource(reference), "ext", null);
     }
 
     @Override

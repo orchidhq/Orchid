@@ -81,7 +81,7 @@ public final class SitemapGenerator extends OrchidGenerator {
     public static class SitemapPage extends OrchidPage {
         public final List<OrchidPage> entries;
         SitemapPage(OrchidContext context, String key, List<OrchidPage> entries) {
-            super(context.getResourceEntry("sitemap.xml.peb"), "sitemap");
+            super(context.getResourceEntry("sitemap.xml.peb"), "sitemap", "Sitemap");
             this.entries = entries;
             this.reference.setFileName("sitemap-" + key);
             this.reference.setPath("");
@@ -93,7 +93,7 @@ public final class SitemapGenerator extends OrchidGenerator {
     public static class SitemapIndexPage extends OrchidPage {
         public final List<SitemapPage> sitemaps;
         SitemapIndexPage(OrchidContext context, List<SitemapPage> sitemaps) {
-            super(context.getResourceEntry("sitemapIndex.xml.peb"), "sitemapIndex");
+            super(context.getResourceEntry("sitemapIndex.xml.peb"), "sitemapIndex", "Sitemap Index");
             this.sitemaps = sitemaps;
             this.reference.setFileName("sitemap");
             this.reference.setPath("");
@@ -105,7 +105,7 @@ public final class SitemapGenerator extends OrchidGenerator {
     public static class RobotsPage extends OrchidPage {
         public final SitemapIndexPage sitemap;
         RobotsPage(OrchidContext context, SitemapIndexPage sitemap) {
-            super(context.getResourceEntry("robots.txt.peb"), "robots");
+            super(context.getResourceEntry("robots.txt.peb"), "robots", "Robots");
             this.sitemap = sitemap;
             this.reference.setFileName("robots");
             this.reference.setPath("");
