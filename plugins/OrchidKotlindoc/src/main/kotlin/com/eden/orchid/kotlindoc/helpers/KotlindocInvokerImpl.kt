@@ -38,7 +38,7 @@ constructor(
 
     override fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc? {
         val dokkaOutputPath = OrchidUtils.getTempDir("dokka", true)
-        val dokkaJarPaths = getMavenJars("com.github.copper-leaf.dokka-json:dokka-json:0.1.7")
+        val dokkaJarPaths = getMavenJars("com.github.copper-leaf.dokka-json:dokka-json:0.1.9")
 
         executeDokka(dokkaJarPaths, dokkaOutputPath, sourceDirs)
 
@@ -160,6 +160,7 @@ constructor(
                         "org.jetbrains.dokka.MainKt", // Dokka main class
                         "-format", "json", // JSON format (so Orchid can pick it up afterwards)
                         "-noStdlibLink",
+                        "-impliedPlatforms", "JVM",
                         "-src", sourceDirs.joinToString(separator = File.pathSeparator), // the sources to process
                         "-output", dokkaOutputPath.toFile().absolutePath // where Orchid will find them later
                 )
