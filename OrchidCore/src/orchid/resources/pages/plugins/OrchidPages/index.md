@@ -2,9 +2,9 @@
 official: true
 description: Add static pages with rich taxonomy to your Orchid site.
 images:
-  - src: http://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/pages.jpg
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1537027621/plugins/pages.jpg
     alt: Pages
-    caption: Photo by Ilario Piatti on Unsplash
+    caption: Photo by Annie Spratt on Unsplash
 ---
 
 ### Using Static Pages

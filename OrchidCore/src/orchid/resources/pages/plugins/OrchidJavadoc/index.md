@@ -9,12 +9,8 @@ images:
 
 ### Using Orchid with Javadoc
 
-The Orchid Javadoc plugin is started from the Gradle plugin. It replaces the standard `javadoc` gradle task with its own 
-implementation (which is just a custom Doclet), but instead of rendering the normal, horribly-ugly Javadoc pages, runs
-an Orchid build. This plugin also hooks into the Javadoc content model and generates pages for each Class and Package
-in your project's `main` `sourceSet`. Since the `javadoc` task is replaced by Orchid's own task, it maintains all the 
-task dependencies of a normal Java Gradle project, i.e. `gradle assemble` will run Orchid after compiling your Java 
-sources.
+The Orchid Javadoc plugin integrates with the Javadoc tool to embed class and package info directly in your Orchid site.
+Orchid will even compile your Javadoc comments as Markdown!
 
 ### Configuring Javadoc pages
 

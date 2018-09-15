@@ -1,10 +1,4 @@
-{# @pebvariable name="classDoc" type="com.copperleaf.dokka.json.models.KotlinClassDoc" #}
-{% set "classDoc" = page.classDoc %}
-
-{% if classDoc.methods|length > 0 %}
-<h2 id="methods">Methods</h2>
-
-{% for method in classDoc.methods %}
+{% for method in methods %}
 {# @pebvariable name="method" type="com.copperleaf.dokka.json.models.KotlinMethod" #}
 <div class="panel panel-default">
     <div class="panel-heading" id="{{ method.qualifiedName|replace({'<': '-', '>': '-'}) }}">
@@ -23,4 +17,3 @@
     {% include 'includes/kotlindoc/misc/returnValue' with {"returnValue": method.returnValue} %}
 </div>
 {% endfor %}
-{% endif %}

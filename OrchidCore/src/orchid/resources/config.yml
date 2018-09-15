@@ -37,6 +37,7 @@ services:
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
+      - 'https://copper-leaf.github.io/krow/meta/kotlindoc.index.json'
 
 kotlindoc:
   sourceDirs:
