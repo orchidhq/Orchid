@@ -88,7 +88,7 @@ constructor(context: OrchidContext, private val model: JavadocModel, private val
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach({ context.renderTemplate(it) })
+        pages.forEach { context.renderTemplate(it) }
     }
 
     override fun getCollections(): List<OrchidCollection<*>>? {
@@ -96,7 +96,6 @@ constructor(context: OrchidContext, private val model: JavadocModel, private val
 
         collections.add(JavadocCollection(this, "classes", model.allClasses))
         collections.add(JavadocCollection(this, "packages", model.allPackages))
-        collections.add(ExternalJavadocCollection(context, this))
 
         return collections
     }

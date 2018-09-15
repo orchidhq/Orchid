@@ -25,6 +25,10 @@ import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.impl.commands.BuildCommand;
+import com.eden.orchid.impl.commands.DeployCommand;
+import com.eden.orchid.impl.commands.HelpCommand;
+import com.eden.orchid.impl.commands.QuitCommand;
 import com.eden.orchid.impl.compilers.clog.ClogSetupListener;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -38,21 +42,18 @@ import com.eden.orchid.impl.compilers.text.TextCompiler;
 import com.eden.orchid.impl.generators.AssetsGenerator;
 import com.eden.orchid.impl.generators.HomepageGenerator;
 import com.eden.orchid.impl.generators.SitemapGenerator;
+import com.eden.orchid.impl.generators.collections.ExternalPageCollection;
 import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
-import com.eden.orchid.impl.commands.BuildCommand;
 import com.eden.orchid.impl.tasks.BuildTask;
-import com.eden.orchid.impl.commands.DeployCommand;
 import com.eden.orchid.impl.tasks.DeployTask;
-import com.eden.orchid.impl.commands.HelpCommand;
 import com.eden.orchid.impl.tasks.HelpTask;
-import com.eden.orchid.impl.tasks.ShellTask;
-import com.eden.orchid.impl.commands.QuitCommand;
 import com.eden.orchid.impl.tasks.ServeTask;
+import com.eden.orchid.impl.tasks.ShellTask;
 import com.eden.orchid.impl.tasks.WatchTask;
 import com.eden.orchid.impl.themes.DefaultTheme;
 import com.eden.orchid.impl.themes.components.LicenseComponent;
@@ -102,7 +103,8 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidService.class);
 
         addToSet(GlobalCollection.class,
-                FrontMatterCollection.class);
+                FrontMatterCollection.class,
+                ExternalPageCollection.class);
 
         // Themes
         addToSet(Theme.class,
