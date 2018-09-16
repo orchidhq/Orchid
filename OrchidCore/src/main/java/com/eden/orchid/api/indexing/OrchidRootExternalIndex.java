@@ -15,14 +15,6 @@ public final class OrchidRootExternalIndex extends OrchidExternalIndex {
         super("external");
     }
 
-    public void addChildIndex(OrchidIndex index) {
-        List<OrchidPage> indexPages = index.getAllPages();
-
-        for(OrchidPage page : indexPages) {
-            this.addToIndex(page.getReference().getPath(), page);
-        }
-    }
-
     @Override
     public void addToIndex(String taxonomy, OrchidPage page) {
         super.addToIndex(this.ownKey + "/" + taxonomy, page);
@@ -39,7 +31,18 @@ public final class OrchidRootExternalIndex extends OrchidExternalIndex {
     }
 
     @Override
+    public OrchidIndex findIndex(String taxonomy) {
+        return super.findIndex(this.ownKey + "/" + taxonomy);
+    }
+
+    public void addChildIndex(OrchidIndex index) {
+        for(OrchidPage page : index.getAllPages()) {
+            this.addToIndex(page.getReference().getPath(), page);
+        }
+    }
+
+    @Override
     public String toString() {
-        return this.toJSON().toString(2);
+        return "root external index: " + this.ownKey;
     }
 }

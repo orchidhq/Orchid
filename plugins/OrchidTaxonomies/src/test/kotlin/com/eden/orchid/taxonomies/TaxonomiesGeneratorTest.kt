@@ -6,7 +6,7 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import strikt.api.expect
+import strikt.api.expectThat
 
 @DisplayName("Tests page-rendering behavior of Taxonomy generator, using Posts and Pages as the data source.")
 class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule(), TaxonomiesModule()) {
@@ -20,10 +20,10 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expect(testResults).pageWasRendered("/page-one/index.html")
-        expect(testResults).pageWasRendered("/tags/index.html")
-        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/tags/index.html")
+        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
     }
 
     @Test
@@ -35,10 +35,10 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expect(testResults).pageWasRendered("/page-one/index.html")
-        expect(testResults).pageWasRendered("/tags/index.html")
-        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/tags/index.html")
+        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
     }
 
     @Test
@@ -50,10 +50,10 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expect(testResults).pageWasRendered("/page-one/index.html")
-        expect(testResults).pageWasRendered("/tags/index.html")
-        expect(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/tags/index.html")
+        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
     }
 
     @Test
@@ -68,15 +68,15 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
 
         val testResults = execute()
         println(testResults.showResults())
-        expect(testResults).pageWasRendered("/category1/2018/1/1/post-one/index.html")
-        expect(testResults).pageWasRendered("/category2/2018/2/1/post-two/index.html")
-        expect(testResults).pageWasRendered("/page-one/index.html")
-        expect(testResults).pageWasRendered("/tags/index.html")
-        expect(testResults).pageWasRendered("/tags/tag1/index.html")
-        expect(testResults).pageWasRendered("/tags/tag2/index.html")
-        expect(testResults).pageWasRendered("/categories/index.html")
-        expect(testResults).pageWasRendered("/categories/category1/index.html")
-        expect(testResults).pageWasRendered("/categories/category2/index.html")
+        expectThat(testResults).pageWasRendered("/category1/2018/1/1/post-one/index.html")
+        expectThat(testResults).pageWasRendered("/category2/2018/2/1/post-two/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/tags/index.html")
+        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(testResults).pageWasRendered("/tags/tag2/index.html")
+        expectThat(testResults).pageWasRendered("/categories/index.html")
+        expectThat(testResults).pageWasRendered("/categories/category1/index.html")
+        expectThat(testResults).pageWasRendered("/categories/category2/index.html")
     }
 
 }

@@ -67,12 +67,22 @@ public final class OrchidRootInternalIndex extends OrchidInternalIndex {
         return super.find(this.ownKey + "/" + taxonomy);
     }
 
+    @Override
+    public OrchidPage findPage(String taxonomy) {
+        return super.findPage(this.ownKey + "/" + taxonomy);
+    }
+
+    @Override
+    public OrchidIndex findIndex(String taxonomy) {
+        return super.findIndex(this.ownKey + "/" + taxonomy);
+    }
+
     public List<OrchidPage> find(String taxonomy, String generator) {
         return allIndexedPages.get(generator).find(generator + "/" + taxonomy);
     }
 
     @Override
     public String toString() {
-        return this.toJSON().toString(2);
+        return "root internal index: " + this.ownKey;
     }
 }

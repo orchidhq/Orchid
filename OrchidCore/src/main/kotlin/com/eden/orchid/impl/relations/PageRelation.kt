@@ -5,13 +5,9 @@ import com.eden.orchid.api.options.Relation
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
-import lombok.Getter
-import lombok.Setter
 
 import javax.inject.Inject
 
-@Getter
-@Setter
 class PageRelation @Inject
 constructor(context: OrchidContext) : Relation<OrchidPage>(context) {
 

@@ -9,7 +9,7 @@ apply from: "$actionsScript/testing.gradle"
 
 dependencies {
     testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-    testCompile "io.strikt:strikt-core:0.10.1"
+    testCompile "io.strikt:strikt-core:0.13.0"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"

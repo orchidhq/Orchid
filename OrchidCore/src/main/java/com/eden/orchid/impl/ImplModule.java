@@ -72,7 +72,11 @@ import com.eden.orchid.impl.themes.functions.LocalDateFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.IndexMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.impl.themes.menus.PageChildrenMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
+import com.eden.orchid.impl.themes.menus.PageParentMenuItem;
+import com.eden.orchid.impl.themes.menus.PageSiblingsMenuItem;
+import com.eden.orchid.impl.themes.menus.PageSubtreeMenuItem;
 import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
 import com.eden.orchid.impl.themes.tags.HeadTag;
@@ -164,7 +168,11 @@ public final class ImplModule extends OrchidModule {
                 SubmenuMenuItem.class,
                 LinkMenuItem.class,
                 IndexMenuItem.class,
-                PageMenuItem.class);
+                PageMenuItem.class,
+                PageParentMenuItem.class,
+                PageSiblingsMenuItem.class,
+                PageChildrenMenuItem.class,
+                PageSubtreeMenuItem.class);
 
         // Component Types
         addToSet(OrchidComponent.class,

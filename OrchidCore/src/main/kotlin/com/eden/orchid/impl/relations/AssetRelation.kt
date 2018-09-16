@@ -6,12 +6,8 @@ import com.eden.orchid.api.options.Relation
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.utilities.OrchidUtils
-import lombok.Getter
-import lombok.Setter
 import javax.inject.Inject
 
-@Getter
-@Setter
 class AssetRelation
 @Inject
 constructor(

@@ -58,8 +58,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     private Map<String, Object> allData;
 
     // variables that give the page identity
-    @Getter @Setter protected OrchidResource resource;
-    @Getter @Setter protected OrchidReference reference;
+    protected OrchidResource resource;
+    protected OrchidReference reference;
     @Getter @Setter protected String key;
     @Getter @Setter protected Map<String, Object> data;
 
@@ -250,7 +250,9 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public final boolean isDraft() {
-        return draft || publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX)) || expiryDate.isBefore(LocalDate.now().atStartOfDay());
+        return draft
+                || (publishDate != null && publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX)))
+                || (expiryDate != null && expiryDate.isBefore(LocalDate.now().atStartOfDay()));
     }
 
     public String getContent() {
@@ -347,7 +349,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     @Override
     public String toString() {
-        return this.toJSON().toString(2);
+        return getLink();
     }
 
 // Assets, Components, Breadcrumbs
@@ -493,4 +495,22 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         return (result != null) ? result.getElement() : null;
     }
 
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    public OrchidResource getResource() {
+        return resource;
+    }
+
+    public void setResource(OrchidResource resource) {
+        this.resource = resource;
+    }
+
+    public OrchidReference getReference() {
+        return reference;
+    }
+
+    public void setReference(OrchidReference reference) {
+        this.reference = reference;
+    }
 }

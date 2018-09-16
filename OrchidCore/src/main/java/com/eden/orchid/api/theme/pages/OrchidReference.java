@@ -3,15 +3,12 @@ package com.eden.orchid.api.theme.pages;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONObject;
 
 import java.net.URL;
 
-@Getter @Setter
 public final class OrchidReference {
 
     protected final OrchidContext context;
@@ -350,5 +347,57 @@ public final class OrchidReference {
             return null;
         }
     }
+
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    public String getBaseUrl() {
+        return this.baseUrl;
+    }
+
+    public String getExtension() {
+        return this.extension;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public boolean isUsePrettyUrl() {
+        return this.usePrettyUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
+    }
+
+    public void setOutputExtension(String outputExtension) {
+        this.outputExtension = outputExtension;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUsePrettyUrl(boolean usePrettyUrl) {
+        this.usePrettyUrl = usePrettyUrl;
+    }
+
 }
 

@@ -86,7 +86,7 @@ constructor(context: OrchidContext, private val wikiModel: WikiModel) : OrchidGe
         else
             OrchidUtils.normalizePath(baseDir) + "/"
 
-        var summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
+        val summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
 
         if (summary == null) {
             if (section.key != null) {
@@ -145,14 +145,14 @@ constructor(context: OrchidContext, private val wikiModel: WikiModel) : OrchidGe
         val segments = summaryReference.originalPath.split("/")
         summaryReference.fileName = segments.last()
         summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
-        summary = StringResource(safe, summaryReference)
+        val newSummary = StringResource(safe, summaryReference, summary.embeddedData)
 
         val sectionTitle =
                 if (!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
                 else if (!EdenUtils.isEmpty(section.key)) section.key!!
                 else "Wiki"
 
-        val summaryPage = WikiSummaryPage(section.key, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
+        val summaryPage = WikiSummaryPage(section.key, newSummary, sectionTitle from String::camelCase to Array<String>::titleCase)
         summaryPage.reference.isUsePrettyUrl = true
 
         for (wikiPage in wiki) {
