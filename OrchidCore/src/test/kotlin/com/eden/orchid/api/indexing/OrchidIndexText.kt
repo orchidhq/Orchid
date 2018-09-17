@@ -123,21 +123,21 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("wikiIndex has all of wikiPages") {
                     expect {
                         that(wikiIndex)
-                                .map(OrchidIndex::getAllPages)
+                                .map(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(wikiPages)
                     }
                 },
                 DynamicTest.dynamicTest("pagesIndex has all of pagesPages") {
                     expect {
                         that(pagesIndex)
-                                .map(OrchidIndex::getAllPages)
+                                .map(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(pagesPages)
                     }
                 },
                 DynamicTest.dynamicTest("rootIndex has all of wikiIndex and pagesPages") {
                     expect {
                         that(rootIndex)
-                                .map(OrchidIndex::getAllPages)
+                                .map(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(wikiPages + pagesPages)
                     }
                 }
@@ -177,8 +177,8 @@ class OrchidIndexText {
                 expect {
                     that(rootIndex)
                             .map { it.findIndex(page.reference.path) }
-                            .map(OrchidIndex::getOwnPages)
                             .isNotNull()
+                            .map(OrchidIndex::getOwnPages)
                             .contains(page)
                 }
             }
@@ -192,8 +192,8 @@ class OrchidIndexText {
                     expect {
                         that(rootIndex)
                                 .map { it.findIndex("wiki/user-manual") }
-                                .map(OrchidIndex::getAllPages)
                                 .isNotNull()
+                                .map(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(
                                         wiki_userManual_summary,
                                         wiki_userManual_inner_page1,
@@ -208,8 +208,8 @@ class OrchidIndexText {
                     expect {
                         that(rootIndex)
                                 .map { it.findIndex("wiki/developers-guide") }
-                                .map(OrchidIndex::getAllPages)
                                 .isNotNull()
+                                .map(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(
                                         wiki_developersGuide_summary,
                                         wiki_developersGuide_inner_page1,

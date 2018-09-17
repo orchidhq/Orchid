@@ -250,9 +250,20 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public final boolean isDraft() {
-        return draft
-                || (publishDate != null && publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX)))
-                || (expiryDate != null && expiryDate.isBefore(LocalDate.now().atStartOfDay()));
+        if(context.includeDrafts()) {
+            return false;
+        }
+        else if(draft) {
+            return true;
+        }
+        else if(publishDate != null && publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX))) {
+            return true;
+        }
+        else if(expiryDate != null && expiryDate.isBefore(LocalDate.now().atStartOfDay())) {
+            return true;
+        }
+
+        return false;
     }
 
     public String getContent() {

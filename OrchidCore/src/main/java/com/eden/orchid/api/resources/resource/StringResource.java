@@ -20,8 +20,14 @@ public final class StringResource extends OrchidResource {
         if(content != null) {
             EdenPair<String, Map<String, Object>> parsedContent = getContext().getEmbeddedData(reference.getExtension(), content);
             this.rawContent = content;
-            this.content = parsedContent.first;
-            this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
+            if(parsedContent != null) {
+                this.content = parsedContent.first;
+                this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
+            }
+            else {
+                this.content = content;
+                this.embeddedData = null;
+            }
         }
         else {
             this.rawContent = "";
