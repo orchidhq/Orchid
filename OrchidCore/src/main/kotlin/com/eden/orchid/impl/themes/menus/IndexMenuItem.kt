@@ -26,8 +26,10 @@ constructor(
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(index)) {
-            val foundIndex = context.index.findIndex(index)
-            menuItems.add(OrchidMenuItemImpl(context, title, foundIndex!!))
+            val foundIndex = context.internalIndex.findIndex(index)
+            if(foundIndex != null) {
+                menuItems.add(OrchidMenuItemImpl(context, title, foundIndex))
+            }
         }
 
         return menuItems

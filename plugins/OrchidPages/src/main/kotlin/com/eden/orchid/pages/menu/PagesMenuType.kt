@@ -46,7 +46,7 @@ constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
-        val allPages = context.internalIndex.getGeneratorPages("pages")
+        val allPages = context.internalIndex.getChildIndex("pages")
 
         val pages = if (EdenUtils.isEmpty(group))
             allPages

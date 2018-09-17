@@ -2,7 +2,7 @@ package com.eden.orchid.wiki.menu
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.indexing.OrchidInternalIndex
+import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -32,7 +32,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
     var topLevel: Boolean = false
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        var menuItems: MutableList<OrchidMenuItemImpl> = ArrayList()
+        var menuItems = ArrayList<OrchidMenuItemImpl>()
 
         val sections = HashMap<String?, WikiSection>()
 
@@ -60,7 +60,7 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
             menuSection = "wiki"
         }
 
-        val wikiPagesIndex = OrchidInternalIndex(menuSection)
+        val wikiPagesIndex = OrchidIndex(null, menuSection)
 
         for (value in sections.values) {
             val sectionPages = ArrayList<OrchidPage>(value.wikiPages)

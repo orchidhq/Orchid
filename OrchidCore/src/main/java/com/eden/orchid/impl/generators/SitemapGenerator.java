@@ -3,7 +3,7 @@ package com.eden.orchid.impl.generators;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -50,7 +50,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         SitemapIndexPage sitemapIndex = null;
 
         if(useSitemaps) {
-            Map<String, OrchidInternalIndex> mappedIndex = context.getInternalIndex().getAllIndexedPages();
+            Map<String, OrchidIndex> mappedIndex = context.getInternalIndex().getAllIndexedPages();
             List<SitemapPage> sitemapPages = new ArrayList<>();
 
             // Render an page for each generator's individual index

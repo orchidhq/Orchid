@@ -140,7 +140,7 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
      * @return the list of OrchidCollections
      */
     public List<? extends OrchidCollection> getCollections() {
-        List<OrchidPage> pages = context.getGeneratorPages(key);
+        List<OrchidPage> pages = context.getInternalIndex().getChildIndex(key);
         if(!EdenUtils.isEmpty(pages)) {
             return Collections.singletonList(new FileCollection(this, this.getKey(), pages));
         }

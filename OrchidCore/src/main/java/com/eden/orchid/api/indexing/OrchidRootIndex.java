@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,24 +14,22 @@ import java.util.stream.Collectors;
 
 @Getter @Setter
 @Singleton
-public final class OrchidRootInternalIndex extends OrchidInternalIndex {
-    private Map<String, OrchidInternalIndex> allIndexedPages;
+public final class OrchidRootIndex extends OrchidIndex {
+    private Map<String, OrchidIndex> allIndexedPages;
 
-    public OrchidRootInternalIndex() {
-        super("internal");
+    public OrchidRootIndex(String ownKey) {
+        super(null, ownKey);
         this.allIndexedPages = new HashMap<>();
     }
 
-    public void addChildIndex(String key, OrchidInternalIndex index) {
+    public void addChildIndex(String key, OrchidIndex index) {
         allIndexedPages.put(key, index);
-        List<OrchidPage> indexPages = index.getAllPages();
-
-        for(OrchidPage page : indexPages) {
+        for(OrchidPage page : index.getAllPages()) {
             this.addToIndex(page.getReference().getPath(), page);
         }
     }
 
-    public List<OrchidPage> getGeneratorPages(String generator) {
+    public List<OrchidPage> getChildIndex(String generator) {
         if(allIndexedPages.containsKey(generator)) {
             return allIndexedPages.get(generator).getAllPages();
         }
@@ -39,13 +38,11 @@ public final class OrchidRootInternalIndex extends OrchidInternalIndex {
         }
     }
 
-    public List<OrchidPage> getGeneratorPages(String[] generators) {
-        List<OrchidPage> pages = new ArrayList<>();
-        for(String generator : generators) {
-            pages.addAll(getGeneratorPages(generator));
-        }
-
-        return pages;
+    public List<OrchidPage> getChildIndices(String[] generators) {
+        return Arrays
+                .stream(generators)
+                .flatMap(it -> getChildIndex(it).stream())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,12 +74,12 @@ public final class OrchidRootInternalIndex extends OrchidInternalIndex {
         return super.findIndex(this.ownKey + "/" + taxonomy);
     }
 
-    public List<OrchidPage> find(String taxonomy, String generator) {
-        return allIndexedPages.get(generator).find(generator + "/" + taxonomy);
+    public List<OrchidPage> find(String taxonomy, String childKey) {
+        return allIndexedPages.get(childKey).find(childKey + "/" + taxonomy);
     }
 
     @Override
     public String toString() {
-        return "root internal index: " + this.ownKey;
+        return "root " + super.toString();
     }
 }

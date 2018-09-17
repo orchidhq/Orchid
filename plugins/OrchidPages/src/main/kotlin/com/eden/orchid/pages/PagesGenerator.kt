@@ -60,7 +60,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
     }
 
     override fun getCollections(): List<OrchidCollection<*>> {
-        val ownPages = context.getGeneratorPages(this.key)
+        val ownPages = context.internalIndex.getChildIndex(this.key)
         val pageGroupMap = HashMap<String?, MutableList<OrchidPage>>()
         val collections = ArrayList<OrchidCollection<*>>()
 

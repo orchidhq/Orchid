@@ -39,12 +39,12 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         model.initialize()
 
         if (!EdenUtils.isEmpty(taxonomies)) {
-            taxonomies.forEach { taxonomy ->
+            taxonomies.forEach outerLoop@ { taxonomy ->
                 model.putTaxonomy(taxonomy)
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomy.includeFrom, taxonomy.excludeFrom)
 
-                context.internalIndex.getGeneratorPages(enabledGeneratorKeys).forEach { page ->
-                    if(page.getSingleTermValue("skipTaxonomy") == "true") {return@forEach}
+                context.internalIndex.getChildIndices(enabledGeneratorKeys).forEach innerLoop@ { page ->
+                    if(page.getSingleTermValue("skipTaxonomy") == "true") {return@innerLoop}
 
                     val pageTerms = HashSet<String?>()
                     if(taxonomy.single) {

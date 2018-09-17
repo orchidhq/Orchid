@@ -55,7 +55,7 @@ constructor(
 
     private fun generateFeeds() {
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
-        var feedItems = context.internalIndex.getGeneratorPages(enabledGeneratorKeys)
+        var feedItems = context.internalIndex.getChildIndices(enabledGeneratorKeys)
 
         if(feedItems.isNotEmpty()) {
             var sortedFeedItems = feedItems

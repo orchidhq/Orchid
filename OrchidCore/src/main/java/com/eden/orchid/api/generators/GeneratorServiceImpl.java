@@ -6,7 +6,6 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
-import com.eden.orchid.api.indexing.OrchidInternalIndex;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -15,6 +14,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -102,11 +102,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.startIndexing(allGenerators);
 
         context.clearIndex();
-
         buildInternalIndex();
         buildExternalIndex();
-
-        context.mergeIndices(context.getInternalIndex(), context.getExternalIndex());
+        context.buildCompositeIndex();
 
         metrics.stopIndexing();
     }
@@ -135,14 +133,14 @@ public final class GeneratorServiceImpl implements GeneratorService {
         generatorPages = extend.getGeneratorPages();
 
         if (!EdenUtils.isEmpty(generatorPages)) {
-            OrchidInternalIndex index = new OrchidInternalIndex(generator.getKey());
+            OrchidIndex index = new OrchidIndex(null, generator.getKey());
             generatorPages.stream().filter(Objects::nonNull).forEach(page -> {
                 page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
                 page.free();
             });
-            context.addChildIndex(generator.getKey(), index);
+            context.getInternalIndex().addChildIndex(generator.getKey(), index);
         }
 
         // get the collections from a generator
@@ -167,7 +165,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
                 Map<String, Object> indexJson = this.context.loadAdditionalFile(externalIndex);
                 if (indexJson != null) {
                     OrchidIndex index = OrchidIndex.fromJSON(context, new JSONObject(indexJson));
-                    context.addExternalChildIndex(index);
+                    String externalIndexKey = FilenameUtils.getBaseName(externalIndex).replace(".index", "");
+                    context.getExternalIndex().addChildIndex(externalIndexKey, index);
                 }
             }
         }
@@ -190,7 +189,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         List<? extends OrchidPage> generatorPages = null;
         if (!EdenUtils.isEmpty(generator.getKey())) {
-            generatorPages = context.getGeneratorPages(generator.getKey());
+            generatorPages = context.getInternalIndex().getChildIndex(generator.getKey());
         }
         if (generatorPages == null) {
             generatorPages = new ArrayList<>();

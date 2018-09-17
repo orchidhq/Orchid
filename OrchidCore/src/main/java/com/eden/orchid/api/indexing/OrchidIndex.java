@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,19 +21,20 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public abstract class OrchidIndex {
+public class OrchidIndex {
+
+    protected final OrchidIndex parent;
 
     protected final String ownKey;
     protected List<OrchidPage> ownPages;
     protected Map<String, OrchidIndex> childrenPages;
 
-    public OrchidIndex(String ownKey) {
+    public OrchidIndex(OrchidIndex parent, String ownKey) {
         this.ownKey = ownKey;
+        this.parent = parent;
         this.ownPages = new ArrayList<>();
         this.childrenPages = new HashMap<>();
     }
-
-    public abstract Class<? extends OrchidIndex> childIndexClass();
 
     public void addToIndex(String taxonomy, OrchidPage page) {
         String[] pathPieces = OrchidUtils.normalizePath(taxonomy).split("/");
@@ -59,7 +62,7 @@ public abstract class OrchidIndex {
                     // we haven't created an index for the next path piece, create one by reflection
                     if (!childrenPages.containsKey(nextPathPiece)) {
                         try {
-                            OrchidIndex indexInstance = this.childIndexClass().getConstructor(String.class).newInstance(nextPathPiece);
+                            OrchidIndex indexInstance = new OrchidIndex(this, nextPathPiece);
                             childrenPages.put(nextPathPiece, indexInstance);
                         }
                         catch (Exception e) {
@@ -158,6 +161,12 @@ public abstract class OrchidIndex {
         return allPages;
     }
 
+    public void addAll(OrchidIndex index) {
+        for(OrchidPage page : index.getAllPages()) {
+            this.addToIndex(page.getReference().getPath(), page);
+        }
+    }
+
     public OrchidIndex get(String key) {
         return childrenPages.get(key);
     }
@@ -193,8 +202,30 @@ public abstract class OrchidIndex {
         return indexJson;
     }
 
+    @Override
+    public String toString() {
+        return Clog.format("index [{}] with {} own pages and {} child indices",
+                this.ownKey,
+                ownPages.size(),
+                childrenPages.size()
+        );
+    }
+
+// Factory methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    public static OrchidIndex from(String rootKey, Collection<? extends OrchidPage> pages) {
+        OrchidIndex index = new OrchidIndex(null, rootKey);
+        for (OrchidPage page : pages) {
+            OrchidReference ref = new OrchidReference(page.getReference());
+            index.addToIndex(ref.getPath(), page);
+        }
+
+        return index;
+    }
+
     public static OrchidIndex fromJSON(OrchidContext context, JSONObject source) {
-        OrchidExternalIndex index = new OrchidExternalIndex(source.getString("ownKey"));
+        OrchidIndex index = new OrchidIndex(null, source.getString("ownKey"));
 
         if (source.has("ownPages")) {
             JSONArray ownPagesJson = source.getJSONArray("ownPages");
@@ -217,14 +248,5 @@ public abstract class OrchidIndex {
         }
 
         return index;
-    }
-
-    @Override
-    public String toString() {
-        return Clog.format("index [{}] with {} own pages and {} child indices",
-                this.ownKey,
-                ownPages.size(),
-                childrenPages.size()
-        );
     }
 }

@@ -31,6 +31,7 @@ constructor(
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     @On(Orchid.Lifecycle.EndSession::class)
     fun onEndSession(event: Orchid.Lifecycle.EndSession) {
         sn!!.close()

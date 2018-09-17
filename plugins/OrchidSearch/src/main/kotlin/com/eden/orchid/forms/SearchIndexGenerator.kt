@@ -4,7 +4,7 @@ import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.indexing.OrchidInternalIndex
+import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -41,14 +41,11 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
     }
 
     private fun generateSiteIndexFiles() {
-        val internalIndex = context.internalIndex
-        val mappedIndex = internalIndex.allIndexedPages
-
-        val indices = OrchidInternalIndex("index")
+        val indices = OrchidIndex(null, "index")
 
         // Render an page for each generator's individual index
-        mappedIndex.keys.forEach { key ->
-            val jsonElement = JSONElement(mappedIndex[key]!!.toJSON(true, false))
+        context.internalIndex.allIndexedPages.forEach { key, value ->
+            val jsonElement = JSONElement(value.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
             val resource = JsonResource(jsonElement, reference)
             val page = OrchidPage(resource, "index", null)
@@ -59,7 +56,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
         }
 
         // Render full composite index page
-        val compositeJsonElement = JSONElement(internalIndex.toJSON(true, false))
+        val compositeJsonElement = JSONElement(context.internalIndex.toJSON(true, false))
         val compositeReference = OrchidReference(context, "meta/all.index.json")
         val compositeIndexResource = JsonResource(compositeJsonElement, compositeReference)
         val compositeIndexPage = OrchidPage(compositeIndexResource, "index", null)

@@ -3,8 +3,7 @@ package com.eden.orchid.api.generators;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.indexing.OrchidRootExternalIndex;
-import com.eden.orchid.api.indexing.OrchidRootInternalIndex;
+import com.eden.orchid.api.indexing.OrchidRootIndex;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.theme.Theme;
@@ -35,8 +34,8 @@ public final class GeneratorServiceTest {
     private GeneratorService underTest;
     private GeneratorServiceImpl service;
 
-    private OrchidRootInternalIndex internalIndex;
-    private OrchidRootExternalIndex externalIndex;
+    private OrchidRootIndex internalIndex;
+    private OrchidRootIndex externalIndex;
 
     private Set<OrchidGenerator> generators;
 
@@ -66,8 +65,8 @@ public final class GeneratorServiceTest {
 
         when(theme.isHasRenderedAssets()).thenReturn(true);
 
-        internalIndex = new OrchidRootInternalIndex();
-        externalIndex = new OrchidRootExternalIndex();
+        internalIndex = new OrchidRootIndex("internal");
+        externalIndex = new OrchidRootIndex("external");
 
         when(context.getInternalIndex()).thenReturn(internalIndex);
         when(context.getExternalIndex()).thenReturn(externalIndex);
@@ -78,6 +77,7 @@ public final class GeneratorServiceTest {
         mockPage1 = mock(OrchidPage.class);
         mockPage1Reference = new OrchidReference(context, "page1.html");
         when(mockPage1.getReference()).thenReturn(mockPage1Reference);
+        when(mockPage1.getContext()).thenReturn(context);
         pages1.add(mockPage1);
         generator1 = new MockGenerator(context, "gen1", 100, pages1);
         generator1 = spy(generator1);
@@ -89,6 +89,7 @@ public final class GeneratorServiceTest {
         mockPage2Reference = new OrchidReference(context, "page2.html");
         when(mockPage2.getResource()).thenReturn(mockFreeableResource);
         when(mockPage2.getReference()).thenReturn(mockPage2Reference);
+        when(mockPage2.getContext()).thenReturn(context);
         pages2.add(mockPage2);
         generator2 = new MockGenerator(context, "gen2", 150, pages2);
         generator2 = spy(generator2);
@@ -98,10 +99,6 @@ public final class GeneratorServiceTest {
         generator3 = new MockGenerator(context, "gen3", 200, pages3);
         generator3 = spy(generator3);
         generators.add(generator3);
-
-        when(context.getGeneratorPages(generator1.getKey())).thenReturn(pages1);
-        when(context.getGeneratorPages(generator2.getKey())).thenReturn(pages2);
-        when(context.getGeneratorPages(generator3.getKey())).thenReturn(null);
 
         // test the service directly
         service = new GeneratorServiceImpl(generators, buildMetrics);
