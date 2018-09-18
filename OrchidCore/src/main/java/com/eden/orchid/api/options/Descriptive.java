@@ -9,14 +9,22 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.*;
 public interface Descriptive {
 
     default String getDescriptiveName() {
-        Description annotation = getClass().getAnnotation(Description.class);
-        return (annotation != null && !EdenUtils.isEmpty(annotation.name()))
-                ? annotation.name()
-                : to(from(getClass().getSimpleName(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
+        return getDescriptiveName(getClass());
     }
 
     default String getDescription() {
-        Description annotation = getClass().getAnnotation(Description.class);
+        return getDescription(getClass());
+    }
+
+    static String getDescriptiveName(Class<?> describingClass) {
+        Description annotation = describingClass.getAnnotation(Description.class);
+        return (annotation != null && !EdenUtils.isEmpty(annotation.name()))
+                ? annotation.name()
+                : to(from(describingClass.getSimpleName(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
+    }
+
+    static String getDescription(Class<?> describingClass) {
+        Description annotation = describingClass.getAnnotation(Description.class);
         return (annotation != null && !EdenUtils.isEmpty(annotation.value()))
                 ? annotation.value()
                 : "";

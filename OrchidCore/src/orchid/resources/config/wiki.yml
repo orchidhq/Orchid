@@ -1,8 +1,11 @@
 includeIndexInPageTitle: false
 sections:
-  - 'user-manual'
-  - 'developers-guide'
-  - 'tutorials'
+  - key: 'user-manual'
+    title: 'User Manual'
+  - key: 'developers-guide'
+    title: 'Developers Guide'
+  - key: 'tutorials'
+    title: 'Tutorials'
 wikiPages:
   layout: geopattern2
   searchIndices:

@@ -19,14 +19,20 @@ theme:
     - type: 'link'
       title: 'Home'
       url: '/'
-    - type: 'wikiSections'
-      topLevel: false
-    - type: 'taxonomy'
-      taxonomyType: 'group'
-      includeTerms: true
-      termsAtRoot: true
-    - type: 'kotlindocPackages'
-    - type: 'kotlindocClasses'
+    - type: 'submenu'
+      title: 'Learn'
+      menu:
+        - type: 'wikiSections'
+        - type: 'page'
+          title: 'API Docs'
+          itemId: 'com.eden.orchid'
+    - type: 'submenu'
+      title: 'Explore'
+      menu:
+        - type: 'taxonomy'
+          taxonomyType: 'group'
+          includeTerms: true
+          termsAtRoot: true
   extraCss:
     - 'assets/css/pygments.scss'
 
@@ -36,7 +42,7 @@ services:
       - 'javadoc'
       - 'kotlindoc'
       - 'swiftdoc'
-      - 'pages'
+    #      - 'pages'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'

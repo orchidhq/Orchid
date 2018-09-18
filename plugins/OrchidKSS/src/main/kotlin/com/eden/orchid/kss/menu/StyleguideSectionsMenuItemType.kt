@@ -9,8 +9,13 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.kss.model.KssModel
 import javax.inject.Inject
 
-class StyleguideSectionsMenuItemType @Inject
-constructor(context: OrchidContext, private val model: KssModel) : OrchidMenuItem(context, "styleguideSections", 100) {
+@Description("Link to all the sections of your styleguide.", name = "Styleguide Sections")
+class StyleguideSectionsMenuItemType
+@Inject
+constructor(
+        context: OrchidContext,
+        private val model: KssModel
+) : OrchidMenuItem(context, "styleguideSections", 100) {
 
     @Option @StringDefault("Styleguide")
     @Description("The title of the root menu item.")

@@ -12,8 +12,16 @@ import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import javax.inject.Inject
 
-class KotlinClassDocLinksMenuItemType @Inject
-constructor(context: OrchidContext, val model: KotlindocModel) : OrchidMenuItem(context, "kotlindocClassLinks", 100) {
+@Description("Links to the different sections within a Kotlindoc Class page, optionally with their items nested " +
+        "underneath them.",
+        name = "Kotlindoc Class Sections"
+)
+class KotlinClassDocLinksMenuItemType
+@Inject
+constructor(
+        context: OrchidContext,
+        val model: KotlindocModel
+) : OrchidMenuItem(context, "kotlindocClassLinks", 100) {
 
     @Option @BooleanDefault(false)
     @Description("Whether to include the items for each category. For example, including a menu item for each " +

@@ -3,7 +3,6 @@ package com.eden.orchid.wiki.menu
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
-import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
@@ -20,19 +19,21 @@ import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 import javax.inject.Inject
 
-class WikiPagesMenuItemType @Inject
-constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuItem(context, "wiki", 100) {
+@Description("Links to all pages in your wiki, optionally by section.", name = "Wiki Pages")
+class WikiPagesMenuItemType
+@Inject
+constructor(
+        context: OrchidContext,
+        private val model: WikiModel
+) : OrchidMenuItem(context, "wiki", 100) {
 
     @Option
     @Description("The wiki section to include in this menu.")
     var section: String? = null
 
-    @Option @BooleanDefault(false)
-    @Description("Whether to keep the wiki pages as children of a single menu item, or expand them all to the root.")
-    var topLevel: Boolean = false
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        var menuItems = ArrayList<OrchidMenuItemImpl>()
+        val menuItems = ArrayList<OrchidMenuItemImpl>()
 
         val sections = HashMap<String?, WikiSection>()
 
@@ -79,21 +80,16 @@ constructor(context: OrchidContext, private val model: WikiModel) : OrchidMenuIt
             item.setIndexComparator(menuItemComparator)
         }
 
-        if (topLevel) {
-            val innerItems = ArrayList<OrchidMenuItemImpl>()
-
-            for (item in menuItems) {
-                if (item.isHasChildren) {
-                    innerItems.addAll(item.children)
-                } else {
-                    innerItems.add(item)
-                }
+        val innerItems = ArrayList<OrchidMenuItemImpl>()
+        for (item in menuItems) {
+            if (item.isHasChildren) {
+                innerItems.addAll(item.children)
+            } else {
+                innerItems.add(item)
             }
-
-            menuItems = innerItems
         }
 
-        return menuItems
+        return innerItems
     }
 
     private var menuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->

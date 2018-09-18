@@ -11,8 +11,15 @@ import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
 import javax.inject.Inject
 
-class TaxonomyTermMenuType @Inject
-constructor(context: OrchidContext, var model: TaxonomiesModel) : OrchidMenuItem(context, "taxonomyTerm", 100) {
+@Description("Link to a specific Taxonomy Term landing page, optionally with links to its associated pages.",
+        name = "Taxonomy Term"
+)
+class TaxonomyTermMenuType
+@Inject
+constructor(
+        context: OrchidContext,
+        var model: TaxonomiesModel
+) : OrchidMenuItem(context, "taxonomyTerm", 100) {
 
     @Option
     @Description("The Taxonomy to include terms from.")
