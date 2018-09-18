@@ -1,11 +1,9 @@
 {% set 'menuItem' = controller.provide(classType) %}
 {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem" #}
 
-<p><code>{{ menuItem.priority }}: [{{ menuItem.type }}]</code></p>
-
 <b>Basic Usage</b>
 
-<pre><code class="lang-yaml"># theme's config, or in any option of type OrchidMenu
+<pre><code class="lang-yaml"># the theme's config, a page's front matter, or in any option of type OrchidMenu
 ...
 menu:
   - type: "{{ menuItem.type }}"

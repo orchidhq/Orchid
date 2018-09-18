@@ -1,7 +1,9 @@
 package com.eden.orchid.api;
 
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
 
+@Description(value = "The core, common API for working with Orchid..", name = "Services")
 public interface OrchidService extends OptionsHolder {
 
     default String getKey() {

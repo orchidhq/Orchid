@@ -1,12 +1,11 @@
 package com.eden.orchid.api.indexing
 
 import com.eden.orchid.api.theme.pages.OrchidPage
-import java.util.HashMap
 import javax.inject.Singleton
 
 @Singleton
 class OrchidRootIndex(ownKey: String) : OrchidIndex(null, ownKey) {
-    val allIndexedPages = HashMap<String, OrchidIndex>()
+    val allIndexedPages = LinkedHashMap<String, OrchidIndex>()
 
     fun addChildIndex(key: String, index: OrchidIndex) {
         allIndexedPages[key] = index

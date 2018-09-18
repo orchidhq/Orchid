@@ -10,6 +10,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("The children of a page in your site, referenced from a Collection. If no page query is given, will use " +
+        "the current page. The children are defined as the children of the Index at the page path.",
+        name = "Page Children"
+)
 class PageChildrenMenuItem
 @Inject
 constructor(
@@ -17,7 +21,7 @@ constructor(
 ) : OrchidMenuItem(context, "pageChildren", 100) {
 
     @Option
-    @Description("The title of this menu item")
+    @Description("The title of this menu item.")
     lateinit var title: String
 
     @Option

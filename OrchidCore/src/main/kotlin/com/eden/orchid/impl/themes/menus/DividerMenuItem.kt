@@ -9,6 +9,7 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("A divider between sections of the menu, optionally with a title.", name = "Divider")
 class DividerMenuItem
 @Inject
 constructor(

@@ -10,6 +10,7 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("A generic inner menu, which holds a menu inside it.", name = "Submenu")
 class SubmenuMenuItem
 @Inject
 constructor(

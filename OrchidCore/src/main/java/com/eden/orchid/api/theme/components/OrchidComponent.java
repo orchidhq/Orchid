@@ -29,6 +29,7 @@ import java.util.Map;
  * @orchidApi extensible
  */
 @Extensible
+@Description(value = "A reusable block of content.", name = "Components")
 public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder, ModularPageListItem<ComponentHolder, OrchidComponent> {
 
     protected final OrchidContext context;

@@ -34,6 +34,9 @@ services:
   generators:
     disabled:
       - 'javadoc'
+      - 'kotlindoc'
+      - 'swiftdoc'
+      - 'pages'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'

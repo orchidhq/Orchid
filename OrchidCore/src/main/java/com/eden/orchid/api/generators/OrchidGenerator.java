@@ -55,6 +55,7 @@ import java.util.stream.Stream;
  * @orchidApi extensible
  */
 @Extensible
+@Description(value = "A plugin that creates a new content model in your site.", name = "Generators")
 @Archetype(value = ConfigArchetype.class, key = "allGenerators")
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 

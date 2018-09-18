@@ -6,9 +6,13 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("A page in your site, referenced from a Collection. If no page query is given, will use the current page.",
+        name = "Page"
+)
 class PageMenuItem
 @Inject
 constructor(
@@ -16,7 +20,7 @@ constructor(
 ) : OrchidMenuItem(context, "page", 100) {
 
     @Option
-    @Description("The title of this menu item")
+    @Description("The title of this menu item.")
     lateinit var title: String
 
     @Option
@@ -34,15 +38,18 @@ constructor(
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
-        val page = context.findPage(collectionType, collectionId, itemId)
+        val page: OrchidPage = (
+                if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(collectionId))
+                    context.findPage(collectionType, collectionId, itemId)
+                else
+                    null
+                ) ?: this.page
 
-        if (page != null) {
-            val item = OrchidMenuItemImpl(context, page)
-            if (!EdenUtils.isEmpty(title)) {
-                item.title = title
-            }
-            menuItems.add(item)
+        val item = OrchidMenuItemImpl(context, page)
+        if (!EdenUtils.isEmpty(title)) {
+            item.title = title
         }
+        menuItems.add(item)
 
         return menuItems
     }

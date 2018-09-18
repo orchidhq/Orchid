@@ -12,6 +12,7 @@ import com.eden.orchid.utilities.OrchidUtils
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("A link to any generic URL.", name = "Link")
 class LinkMenuItem
 @Inject
 constructor(
@@ -23,7 +24,9 @@ constructor(
     lateinit var title: String
 
     @Option
-    @Description("The URL of this menu item")
+    @Description("The URL of this menu item. A URL of `/` links to the root of your site. A URL starting with a '#'" +
+            "will link to an anchor on the current page."
+    )
     lateinit var url: String
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {

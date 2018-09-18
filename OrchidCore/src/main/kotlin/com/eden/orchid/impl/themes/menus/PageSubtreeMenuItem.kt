@@ -10,6 +10,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("The subtree of all pages starting at a page in your site, referenced from a Collection. If no page " +
+        "query is given, will use the current page. The subtree is defined as the Index at the page's path.",
+        name = "Page Sub-Tree"
+)
 class PageSubtreeMenuItem
 @Inject
 constructor(
@@ -17,7 +21,7 @@ constructor(
 ) : OrchidMenuItem(context, "pageSubtree", 100) {
 
     @Option
-    @Description("The title of this menu item")
+    @Description("The title of this menu item.")
     lateinit var title: String
 
     @Option

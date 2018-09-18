@@ -6,19 +6,14 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
-import lombok.Getter
-import lombok.Setter
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.ArrayList
 import java.util.Arrays
-import java.util.HashMap
 
-@Getter
-@Setter
 open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
     val ownPages = ArrayList<OrchidPage>()
-    val childrenPages = HashMap<String, OrchidIndex>()
+    val childrenPages = LinkedHashMap<String, OrchidIndex>()
 
     open val allPages: List<OrchidPage>
         get() {

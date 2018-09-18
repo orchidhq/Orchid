@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
@@ -13,6 +14,7 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import lombok.Getter;
@@ -30,6 +32,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
+import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
 public class OrchidView implements OptionsHolder, AssetHolder {
 
@@ -187,6 +192,25 @@ public class OrchidView implements OptionsHolder, AssetHolder {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public String getDescriptiveName(Object o) {
+        Class<?> className = (o instanceof Class) ? (Class) o : o.getClass();
+
+        Description annotation = className.getAnnotation(Description.class);
+
+        return (annotation != null && !EdenUtils.isEmpty(annotation.name()))
+                ? annotation.name()
+                : to(from(className.getSimpleName(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
+    }
+
+    public String getDescription(Object o) {
+        Class<?> className = (o instanceof Class) ? (Class) o : o.getClass();
+
+        Description annotation = className.getAnnotation(Description.class);
+        return (annotation != null && !EdenUtils.isEmpty(annotation.value()))
+                ? annotation.value()
+                : "";
     }
 
     public List<OrchidTask> getTasks() {

@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @since v1.0.0
  * @orchidApi extensible
+ * @since v1.0.0
  */
 @Extensible
+@Description(value = "A factory that produces dynamic menu items.", name = "Menu Items")
 public abstract class OrchidMenuItem extends Prioritized implements ModularPageListItem<OrchidMenu, OrchidMenuItem> {
 
     protected final OrchidContext context;

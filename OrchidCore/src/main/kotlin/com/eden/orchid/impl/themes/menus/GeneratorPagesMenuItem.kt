@@ -9,24 +9,25 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import java.util.ArrayList
 import javax.inject.Inject
 
-class IndexMenuItem
+@Description("Adds all pages from a generator to the menu.", name = "Generator Pages")
+class GeneratorPagesMenuItem
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "index", 100) {
+) : OrchidMenuItem(context, "generatorPages", 100) {
 
     @Option
     @Description("The text of the root menu item.")
     lateinit var title: String
 
     @Option
-    @Description("Add all pages from the given generator under this menu item.")
-    lateinit var index: String
+    @Description("The generator to show all items for.")
+    lateinit var generator: String
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
-        if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(index)) {
-            val foundIndex = context.internalIndex.findIndex(index)
+        if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(generator)) {
+            val foundIndex = context.internalIndex.findIndex(generator)
             if(foundIndex != null) {
                 menuItems.add(OrchidMenuItemImpl(context, title, foundIndex))
             }

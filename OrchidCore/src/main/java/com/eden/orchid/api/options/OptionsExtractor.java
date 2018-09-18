@@ -7,6 +7,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,6 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.eden.orchid.utilities.OrchidExtensionsKt.*;
 
 @Singleton
 public class OptionsExtractor extends Extractor {
@@ -148,12 +151,17 @@ public class OptionsExtractor extends Extractor {
 
         optionDescriptions.sort(Comparator.comparing(OptionsDescription::getKey));
 
-        String classDescription = (optionsHolderClass.isAnnotationPresent(Description.class))
-                ? optionsHolderClass.getAnnotation(Description.class).value()
+        Description annotation = optionsHolderClass.getAnnotation(Description.class);
+
+        String descriptiveName = (annotation != null && !EdenUtils.isEmpty(annotation.name()))
+                ? annotation.name()
+                : to(from(optionsHolderClass.getSimpleName(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
+
+        String classDescription = (annotation != null && !EdenUtils.isEmpty(annotation.name()))
+                ? annotation.value()
                 : "";
 
-
-        return new OptionHolderDescription(classDescription, optionDescriptions);
+        return new OptionHolderDescription(descriptiveName, classDescription, optionDescriptions);
     }
 
     public KrowTable getDescriptionTable(OptionHolderDescription optionsHolderDescription) {

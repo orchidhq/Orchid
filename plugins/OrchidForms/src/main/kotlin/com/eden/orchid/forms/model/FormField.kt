@@ -13,6 +13,7 @@ import java.util.Collections
 import javax.inject.Inject
 
 @Extensible
+@Description("A field to be included in a dynamically-generated form.", name = "Form Fields")
 abstract class FormField @Inject
 constructor(
         val context: OrchidContext,

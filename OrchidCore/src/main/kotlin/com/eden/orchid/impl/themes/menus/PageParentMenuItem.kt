@@ -10,6 +10,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
 
+@Description("The parent of a page in your site, referenced from a Collection. If no page query is given, will use the " +
+        "current page. The parent page is the same as the next level up in the breadcrumb hierarchy.",
+        name = "Page Parent"
+)
 class PageParentMenuItem
 @Inject
 constructor(
