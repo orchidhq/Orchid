@@ -1,10 +1,8 @@
-package com.eden.orchid.testhelpers.com.eden.orchid.api.indexing
+package com.eden.orchid.api.indexing
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.indexing.OrchidIndex
-import com.eden.orchid.api.indexing.OrchidRootIndex
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -17,6 +15,8 @@ import org.mockito.Mockito.mock
 import strikt.api.expect
 import strikt.assertions.contains
 import strikt.assertions.containsExactlyInAnyOrder
+import strikt.assertions.get
+import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isSameInstanceAs
 
@@ -218,6 +218,50 @@ class OrchidIndexText {
                                         wiki_developersGuide_inner_deep_page1,
                                         wiki_developersGuide_inner_deep_page2
                                 )
+                    }
+                }
+        )
+    }
+
+    @TestFactory
+    fun testFindSubtreeParent(): List<DynamicTest> {
+        return listOf(
+                DynamicTest.dynamicTest("the subtree of 'wiki/user-manual' has a parent of `wiki`") {
+                    expect {
+                        that(rootIndex)
+                                .map { it.findIndex("wiki/user-manual") }
+                                .isNotNull()
+                                .and {
+                                    var indexParent: OrchidIndex? = null
+                                    map { indexParent = it; it.parent }
+                                            .isNotNull()
+                                            .and {
+                                                map { it.ownKey }.isEqualTo("wiki")
+                                                map { it.children }["user-manual"]
+                                                        .isNotNull()
+                                                        .isSameInstanceAs(indexParent)
+                                            }
+                                }
+
+                    }
+                },
+                DynamicTest.dynamicTest("the subtree of 'wiki/developers-guide' has a parent of `wiki`") {
+                    expect {
+                        that(rootIndex)
+                                .map { it.findIndex("wiki/developers-guide") }
+                                .isNotNull()
+                                .and {
+                                    var indexParent: OrchidIndex? = null
+                                    map { indexParent = it; it.parent }
+                                            .isNotNull()
+                                            .and {
+                                                map { it.ownKey }.isEqualTo("wiki")
+                                                map { it.children }["developers-guide"]
+                                                        .isNotNull()
+                                                        .isSameInstanceAs(indexParent)
+                                            }
+                                }
+
                     }
                 }
         )
