@@ -51,23 +51,29 @@ Add the following to your `dependencies` and `repositories` blocks:
 {% highlight 'groovy' %}
 repositories {
     jcenter()
+    maven { url "https://kotlin.bintray.com/kotlinx" }
     maven { url 'https://dl.bintray.com/javaeden/Orchid/' }
+    maven { url 'https://dl.bintray.com/javaeden/Eden/' }
     maven { url 'https://jitpack.io' }
 }
 dependencies {
+    // 'compile' to distribute your plugin 
     compile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
-    orchidCompile "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
+    // 'orchidCompile' for creating private plugins
+    orchidCompile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
+    // 'orchidRuntime' for the plugins you want to use
+    orchidRuntime "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
 }
 {% endhighlight %}
 
-The dependency in `orchidCompile` adds all official Orchid core packages, themes, and plugins for ease of setup. You
+The dependency in `orchidRuntime` adds all official Orchid core packages, themes, and plugins for ease of setup. You
 may instead choose which specific packages you want to install, which are listed on the [homepage]({{site.baseUrl}}). 
 
-The dependency in `compile` is optional, but is needed if you intend to create plugins to share with the community, or
-if you just want to keep your private plugins in the `main` configuration while keeping only content in your `orchid`
-configuration.
+The dependency in `compile` is optional, but is needed if you intend to create plugins to share with the community. You
+may also use the `orchidCompile` dependency if you just want to develop plugins for private use, by keeping plugin code
+iun you `orchid` source folder along with your content.
 
-{% alert 'info' 'Note on repositories' :: compileAs('md') %}
+{% alert level='info' headline='Note on repositories' :: compileAs('md') %}
 Orchid currently hosts its own artifacts on Bintray, but I am having issues getting them synced to JCenter properly. 
 Using a `maven` repository at `https://dl.bintray.com/javaeden/Orchid/` will ensure Gradle will always be able to 
 resolve all artifacts, and will also be available immediately after a new version is released (it usually takes them a 

@@ -51,7 +51,6 @@ allprojects {
         maven { url 'https://dl.bintray.com/javaeden/Eden/' }
         maven { url "https://kotlin.bintray.com/kotlinx" }
         maven { url 'https://jitpack.io' }
-        maven { url "http://dl.bintray.com/typesafe/maven-releases" }
     }
 }
 

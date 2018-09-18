@@ -33,6 +33,9 @@ theme:
           taxonomyType: 'group'
           includeTerms: true
           termsAtRoot: true
+    - type: 'link'
+      title: 'Github'
+      url: 'https://github.com/JavaEden/Orchid'
   extraCss:
     - 'assets/css/pygments.scss'
 
@@ -40,9 +43,7 @@ services:
   generators:
     disabled:
       - 'javadoc'
-      - 'kotlindoc'
       - 'swiftdoc'
-    #      - 'pages'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'

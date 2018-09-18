@@ -40,7 +40,7 @@ constructor(
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
         val page: OrchidPage = (
-                if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(collectionId))
+                if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(itemId))
                     context.findPage(collectionType, collectionId, itemId)
                 else
                     null
