@@ -3,10 +3,12 @@ package com.eden.orchid.netlifycms.pages
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.tasks.TaskService
+import com.eden.orchid.api.theme.assets.CssPage
+import com.eden.orchid.api.theme.assets.JsPage
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.netlifycms.isRunningLocally
 import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import org.json.JSONArray
 import org.json.JSONObject
@@ -16,8 +18,9 @@ class NetlifyCmsAdminPage(
         resource: OrchidResource,
         val templateTags: Set<TemplateTag>,
         val components: Set<OrchidComponent>,
-        val menuItems: Set<OrchidMenuItem>
-) : OrchidPage(resource, "contentManager", "Content Manager") {
+        val menuItems: Set<OrchidMenuItem>,
+        val useNetlifyIdentityWidget: Boolean
+) : OrchidPage(resource, "contentManager", "Orchid Content Manager") {
 
     public fun getTemplateFieldsFromTag(tag: TemplateTag): JSONArray {
         val fields = JSONArray()
@@ -71,16 +74,31 @@ class NetlifyCmsAdminPage(
         return json.toString()
     }
 
-    public fun isLocal(): Boolean {
-        return context.taskType == TaskService.TaskType.SERVE
+    public fun isRunningLocally(): Boolean {
+        return isRunningLocally(context)
     }
 
     override fun loadAssets() {
         super.loadAssets()
+        addJs("https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js")
 
-        if(isLocal()) {
+        if (isRunningLocally()) {
             addCss("assets/css/fs-backend.min.css")
             addJs("assets/js/fs-backend.min.js")
+            addJs("inline:fs-cms-registration.js:CMS.registerBackend(\"orchid-server\", FileSystemBackendClass)")
+        }
+        else if (useNetlifyIdentityWidget) {
+            addJs("https://identity.netlify.com/v1/netlify-identity-widget.js")
         }
     }
+
+    // override to prevent theme scripts and styles from being added to this page
+    override fun collectThemeScripts(scripts: MutableList<JsPage>) {
+
+    }
+
+    override fun collectThemeStyles(styles: MutableList<CssPage>) {
+
+    }
+
 }

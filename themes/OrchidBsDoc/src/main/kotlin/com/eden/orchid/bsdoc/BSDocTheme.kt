@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
-import com.eden.orchid.api.theme.assets.AssetPage
+import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.models.Social
 import org.json.JSONObject
@@ -56,8 +56,8 @@ constructor(context: OrchidContext) : Theme(context, "BsDoc", 100) {
 
     override fun loadAssets() {
         // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
-        addCss(AssetPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"), "bootstrap.min", null))
-        addCss(AssetPage(this, "theme", context.getResourceEntry("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"), "font-awesome.min", null))
+        addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"), "bootstrap.min", null))
+        addCss(CssPage(this, "theme", context.getResourceEntry("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"), "font-awesome.min", null))
         addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
         addCss("assets/css/bsdoc.scss")
 

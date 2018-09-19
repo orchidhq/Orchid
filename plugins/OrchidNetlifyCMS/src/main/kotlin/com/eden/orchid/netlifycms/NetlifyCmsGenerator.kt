@@ -39,14 +39,6 @@ constructor(
         val extractor: OptionsExtractor
 ) : OrchidGenerator(context, "netlifyCms", OrchidGenerator.PRIORITY_DEFAULT) {
 
-    override fun setTheme(theme: Any?) {
-
-    }
-
-    override fun getTheme(): Any {
-        return "Default"
-    }
-
     @Option
     @Description("Arbitrary config options to add to the main CMS config file.")
     lateinit var config: JSONObject
@@ -67,6 +59,10 @@ constructor(
     @Description("Whether options of its own class are included.")
     var includeOwnOptions: Boolean = true
 
+    @Option @BooleanDefault(false)
+    @Description("Whether to use the Netlify Identity Widget for managing user accounts. Should be paired with the `git-gateway` backend.")
+    var useNetlifyIdentityWidget: Boolean = false
+
     override fun startIndexing(): List<OrchidPage>? {
         return null
     }
@@ -74,7 +70,7 @@ constructor(
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         val includeCms: Boolean
 
-        if(context.taskType == TaskService.TaskType.SERVE) {
+        if(isRunningLocally(context)) {
             config.put("backend", JSONObject())
             config.getJSONObject("backend").put("name", "orchid-server")
             resourceRoot = ""
@@ -87,7 +83,7 @@ constructor(
         if(includeCms) {
             val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
             adminResource.reference.stripFromPath("netlifyCms")
-            val adminPage = NetlifyCmsAdminPage(adminResource, templateTags, components, menuItems)
+            val adminPage = NetlifyCmsAdminPage(adminResource, templateTags, components, menuItems, useNetlifyIdentityWidget)
             context.renderRaw(adminPage)
 
             val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig()), "admin", null)
@@ -182,4 +178,9 @@ constructor(
     override fun getCollections(): List<OrchidCollection<*>>? {
         return null
     }
+
+}
+
+fun isRunningLocally(context: OrchidContext): Boolean {
+    return context.taskType == TaskService.TaskType.SERVE
 }

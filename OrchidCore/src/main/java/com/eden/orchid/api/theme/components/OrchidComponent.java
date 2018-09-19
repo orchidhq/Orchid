@@ -11,7 +11,8 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Getter;
@@ -121,13 +122,13 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     }
 
     @Override
-    public final List<AssetPage> getScripts() {
+    public final List<JsPage> getScripts() {
         addAssets();
         return assetHolder.getScripts();
     }
 
     @Override
-    public final List<AssetPage> getStyles() {
+    public final List<CssPage> getStyles() {
         addAssets();
         return assetHolder.getStyles();
     }

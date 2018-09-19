@@ -13,7 +13,8 @@ import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import lombok.Getter;
@@ -102,9 +103,9 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public final List<AssetPage> getScripts() {
+    public final List<JsPage> getScripts() {
         addAssets();
-        List<AssetPage> scripts = new ArrayList<>();
+        List<JsPage> scripts = new ArrayList<>();
         scripts.addAll(context.getAdminTheme().getScripts());
         scripts.addAll(assets.getScripts());
 
@@ -112,9 +113,9 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public final List<AssetPage> getStyles() {
+    public final List<CssPage> getStyles() {
         addAssets();
-        List<AssetPage> styles = new ArrayList<>();
+        List<CssPage> styles = new ArrayList<>();
         styles.addAll(context.getAdminTheme().getStyles());
         styles.addAll(assets.getStyles());
 

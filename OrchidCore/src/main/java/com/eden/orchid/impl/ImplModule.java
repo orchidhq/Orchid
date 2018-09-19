@@ -48,6 +48,7 @@ import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
+import com.eden.orchid.impl.resources.InlineResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.DeployTask;
@@ -119,7 +120,8 @@ public final class ImplModule extends OrchidModule {
 
         // Resource Sources
         addToSet(LocalResourceSource.class,
-                LocalFileResourceSource.class);
+                LocalFileResourceSource.class,
+                InlineResourceSource.class);
 
         addToSet(PluginResourceSource.class,
                 CoreResourceSource.class);

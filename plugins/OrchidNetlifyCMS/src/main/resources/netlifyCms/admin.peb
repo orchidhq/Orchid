@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Orchid Content Manager</title>
     {% styles %}
-    <link rel="stylesheet" href="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.css" />
 </head>
 <body>
-<script src="https://unpkg.com/netlify-cms@^1.0.0/dist/cms.js"></script>
+{% scripts %}
+
 {% include 'includes/netlifyCms/tagEditorComponents' with {"templateTags": page.templateTags} %}
 {% include 'includes/netlifyCms/componentWidgets' with {"components": page.components} %}
 {% include 'includes/netlifyCms/menuItemWidgets' with {"menuItems": page.menuItems} %}
@@ -18,15 +18,6 @@
     CMS.registerWidget('componentHolder', 'list');
     CMS.registerWidget('orchidMenu', 'list');
 </script>
-
-{% scripts %}
-{% if page.isLocal() %}
-<!-- start:register backend -->
-<script>
-    CMS.registerBackend("orchid-server", FileSystemBackendClass)
-</script>
-<!-- end:register backend -->
-{% endif %}
 
 </body>
 </html>

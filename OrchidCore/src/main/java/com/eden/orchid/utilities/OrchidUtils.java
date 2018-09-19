@@ -6,7 +6,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -264,7 +265,7 @@ public final class OrchidUtils {
             Arrays.stream(extraCss)
                     .map(context::getResourceEntry)
                     .filter(Objects::nonNull)
-                    .map(orchidResource -> new AssetPage(
+                    .map(orchidResource -> new CssPage(
                             source,
                             sourceKey,
                             orchidResource,
@@ -277,7 +278,7 @@ public final class OrchidUtils {
             Arrays.stream(extraJs)
                     .map(context::getResourceEntry)
                     .filter(Objects::nonNull)
-                    .map(orchidResource -> new AssetPage(
+                    .map(orchidResource -> new JsPage(
                             source,
                             sourceKey,
                             orchidResource,
@@ -288,7 +289,7 @@ public final class OrchidUtils {
         }
     }
 
-    public static void addComponentAssets(OrchidPage containingPage, ComponentHolder[] componentHolders, List<AssetPage> assets, Function<? super OrchidComponent, ? extends List<AssetPage>> getter) {
+    public static <T extends AssetHolder> void addComponentAssets(OrchidPage containingPage, ComponentHolder[] componentHolders, List<T> assets, Function<? super OrchidComponent, ? extends List<T>> getter) {
         if(!EdenUtils.isEmpty(componentHolders)) {
             for (ComponentHolder componentHolder : componentHolders) {
                 try {
