@@ -77,6 +77,7 @@ public final class HomepageGenerator extends OrchidGenerator {
         return page;
     }
 
+    @Description(value = "The root page for your entire site.", name = "Homepage")
     public static class Homepage extends OrchidPage {
 
         public Homepage(OrchidResource resource, String key, String title) {

@@ -93,6 +93,7 @@ import okhttp3.OkHttpClient;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
@@ -269,7 +270,12 @@ public final class ImplModule extends OrchidModule {
                             .enableClassInfo()
                             .scan()
                             .getSubclasses(OrchidPage.class.getName())
-                            .loadClasses(OrchidPage.class).forEach(pages::add);
+                            .loadClasses(OrchidPage.class)
+                            .forEach(pageClass -> {
+                                if (!Modifier.isAbstract(pageClass.getModifiers())) {
+                                    pages.add(pageClass);
+                                }
+                            });
                 }
 
                 return pages;

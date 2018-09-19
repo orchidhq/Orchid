@@ -78,6 +78,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         return null;
     }
 
+    @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")
     public static class SitemapPage extends OrchidPage {
         public final List<OrchidPage> entries;
         SitemapPage(OrchidContext context, String key, List<OrchidPage> entries) {
@@ -90,6 +91,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         }
     }
 
+    @Description(value = "The root sitemap, with links to all individual sitemaps.", name = "Sitemap Index")
     public static class SitemapIndexPage extends OrchidPage {
         public final List<SitemapPage> sitemaps;
         SitemapIndexPage(OrchidContext context, List<SitemapPage> sitemaps) {
@@ -102,6 +104,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         }
     }
 
+    @Description(value = "Your site's robots.txt file, for directing web crawlers.", name = "Robots.txt")
     public static class RobotsPage extends OrchidPage {
         public final SitemapIndexPage sitemap;
         RobotsPage(OrchidContext context, SitemapIndexPage sitemap) {

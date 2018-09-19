@@ -3,12 +3,14 @@ package com.eden.orchid.kotlindoc.page
 import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.kotlindoc.KotlindocGenerator
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.resources.KotlinPackagedocResource
 
 @Archetype(value = ConfigArchetype::class, key = "${KotlindocGenerator.GENERATOR_KEY}.packagePages")
+@Description(value = "Documentation for a Kotlin or Java package.", name = "Kotlin Package")
 class KotlindocPackagePage(
         context: OrchidContext,
         val packageDoc: KotlinPackageDoc,

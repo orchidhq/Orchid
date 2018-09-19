@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Archetype(value = AssetMetadataArchetype.class, key = "assetmeta")
+@Description(value = "A static asset, like Javascript, CSS, or an image.", name = "Asset")
 public final class AssetPage extends OrchidPage {
 
     @Getter @Setter

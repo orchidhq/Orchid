@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.pages;
 
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 
 /**
@@ -7,6 +8,10 @@ import com.eden.orchid.api.resources.resource.ExternalResource;
  * functionality for Pages is disabled for this page type, and is intended just to be used so external pages can be
  * linked to in the same way as internal pages.
  */
+@Description(value = "A page referencing a URL outside of your current build. External assets may be downloaded and " +
+        "hosted in your own site for robustness.",
+        name = "External"
+)
 public final class OrchidExternalPage extends OrchidPage {
 
     public OrchidExternalPage(OrchidReference reference) {

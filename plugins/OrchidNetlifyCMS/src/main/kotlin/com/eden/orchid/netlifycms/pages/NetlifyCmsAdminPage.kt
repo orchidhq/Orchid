@@ -1,6 +1,7 @@
 package com.eden.orchid.netlifycms.pages
 
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.api.theme.components.OrchidComponent
@@ -10,6 +11,7 @@ import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import org.json.JSONArray
 import org.json.JSONObject
 
+@Description(value = "The page hosting the Netlify CMS.", name = "Netlify CMS")
 class NetlifyCmsAdminPage(
         resource: OrchidResource,
         val templateTags: Set<TemplateTag>,
