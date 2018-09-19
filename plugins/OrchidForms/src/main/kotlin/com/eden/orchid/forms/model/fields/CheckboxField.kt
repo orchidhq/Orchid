@@ -6,16 +6,16 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.forms.model.FormField
 import javax.inject.Inject
 
-@Description("A hidden field, to submit data with the form without showing the user.", name="Hidden")
-class HiddenField
+@Description("A checkbox, for boolean true/false input.", name="Checkbox")
+class CheckboxField
 @Inject
 constructor(
         context: OrchidContext
-) : FormField(context, arrayOf("hidden")) {
+) : FormField(context, arrayOf("checkbox")) {
 
     @Option
-    @Description("The value of this hidden field.")
-    lateinit var value: String
+    @Description("The key the field maps to in the resulting form")
+    var default: Boolean = false
 
     override fun getTemplates(): List<String> {
         return super.getTemplates().toMutableList()

@@ -14,10 +14,12 @@ import javax.inject.Inject
 
 @Extensible
 @Description("A field to be included in a dynamically-generated form.", name = "Form Fields")
-abstract class FormField @Inject
+abstract class FormField
+@Inject
 constructor(
         val context: OrchidContext,
-        val inputTypes: Array<String>) : ModularPageListItem<FormFieldList, FormField> {
+        val inputTypes: Array<String>
+) : ModularPageListItem<FormFieldList, FormField> {
 
     lateinit var containingPage: OrchidPage
 
@@ -57,20 +59,23 @@ constructor(
     )
     lateinit var template: Array<String>
 
-    @Option("span") @StringDefault("auto")
+    @Option("span")
+    @StringDefault("auto")
     @Description("The number of columns this field should occupy on large screens, out of 12. Can also be 'left' (6" +
             "columns, ordered from the left), 'right' (6 columns, ordered from the right), 'auto' (equivalent to " +
             "'left'), or 'full' (12 columns) The default is 'auto'."
     )
     lateinit var spanVal: String
 
-    @Option("spanSm") @StringDefault("auto")
+    @Option("spanSm")
+    @StringDefault("auto")
     @Description("The number of columns this field should occupy on small screens, out of 12. Can also be 'left', " +
             "'right', 'auto', or 'full', which are all 12 columns. The default is 'auto'."
     )
     lateinit var spanSmVal: String
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     @Description("Whether this field is required for submission.")
     var required: Boolean = false
 
@@ -92,28 +97,30 @@ constructor(
 
         when (spanVal) {
             "right" -> wrapperClasses += "col-right "
-            else -> wrapperClasses += "col "
+            else    -> wrapperClasses += "col "
         }
 
         when (spanVal) {
-            "full" -> wrapperClasses += "col-lg-12 "
-            "left" -> wrapperClasses += "col-lg-6 "
+            "full"  -> wrapperClasses += "col-lg-12 "
+            "left"  -> wrapperClasses += "col-lg-6 "
             "right" -> wrapperClasses += "col-lg-6 "
-            "auto" -> wrapperClasses += "col-lg-6 "
-            else -> try {
+            "auto"  -> wrapperClasses += "col-lg-6 "
+            else    -> try {
                 val colSpan = Integer.parseInt(spanVal)
                 wrapperClasses += "col-lg-$colSpan "
-            } catch (e: NumberFormatException) {
+            }
+            catch (e: NumberFormatException) {
                 wrapperClasses += "col-lg-6 "
             }
 
         }
         when (spanSmVal) {
             "auto" -> wrapperClasses += "col-sm-12 "
-            else -> try {
+            else   -> try {
                 val colSpan = Integer.parseInt(spanSmVal)
                 wrapperClasses += "col-sm-$colSpan "
-            } catch (e: NumberFormatException) {
+            }
+            catch (e: NumberFormatException) {
                 wrapperClasses += "col-sm-6 "
             }
 

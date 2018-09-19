@@ -29,6 +29,7 @@ import java.util.TreeSet;
  * @orchidApi services
  */
 @Singleton
+@Description(value = "How Orchid runs command line tasks and commands.", name = "Tasks")
 public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     private OrchidContext context;

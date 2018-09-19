@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidCollection;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
  * @orchidApi services
  */
 @Singleton
+@Description(value = "How Orchid organizes the data it collects.", name = "Index")
 public final class IndexServiceImpl implements IndexService {
 
     private final Set<GlobalCollection> globalCollections;

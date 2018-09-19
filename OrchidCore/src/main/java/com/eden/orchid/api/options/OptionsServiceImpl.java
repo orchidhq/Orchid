@@ -3,6 +3,7 @@ package com.eden.orchid.api.options;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import java.util.Set;
  * @since v1.0.0
  * @orchidApi services
  */
+@Description(value = "How Orchid manages global data and configurations.", name = "Options")
 public final class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;

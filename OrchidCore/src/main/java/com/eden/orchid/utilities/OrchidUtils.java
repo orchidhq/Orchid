@@ -173,8 +173,10 @@ public final class OrchidUtils {
         }
 
         // add positional args to named args map. Positional args override named args
-        for (int i = 0; i < positionalArgs.size(); i++) {
-            addArgValue(namedArgs, positionalNames.get(i), positionalArgs.get(i));
+        if(positionalArgs.size() > 0 && positionalNames.size() >= positionalArgs.size()) {
+            for (int i = 0; i < positionalArgs.size(); i++) {
+                addArgValue(namedArgs, positionalNames.get(i), positionalArgs.get(i));
+            }
         }
 
         return namedArgs;

@@ -17,6 +17,7 @@ import java.util.TreeSet;
  * @orchidApi services
  */
 @Singleton
+@Description(value = "How Orchid publishes your site to production.", name = "Publications")
 public final class PublicationServiceImpl implements PublicationService {
 
     private final Set<OrchidPublisher> allPublishers;

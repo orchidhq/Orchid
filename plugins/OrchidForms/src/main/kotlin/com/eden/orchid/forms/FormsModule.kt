@@ -6,6 +6,7 @@ import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.forms.components.FormComponent
 import com.eden.orchid.forms.model.FormField
+import com.eden.orchid.forms.model.fields.CheckboxField
 import com.eden.orchid.forms.model.fields.DropdownField
 import com.eden.orchid.forms.model.fields.HiddenField
 import com.eden.orchid.forms.model.fields.TextField
@@ -21,10 +22,11 @@ class FormsModule : OrchidModule() {
         addToSet<OrchidComponent, FormComponent>()
         addToSet<OptionExtractor<*>, FormOptionExtractor>()
         addToSet<FormField>(
-                TextField::class,
-                TextareaField::class,
+                CheckboxField::class,
                 DropdownField::class,
-                HiddenField::class)
+                HiddenField::class,
+                TextareaField::class,
+                TextField::class)
     }
 
 }

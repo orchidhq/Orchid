@@ -20,6 +20,7 @@ import java.util.function.Supplier;
  * @since v1.0.0
  * @orchidApi services
  */
+@Description(value = "How Orchid renders pages and writes them to disk.", name = "Render")
 public class RenderServiceImpl implements RenderService {
 
     protected OrchidContext context;

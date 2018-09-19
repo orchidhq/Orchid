@@ -33,6 +33,7 @@ import java.util.stream.Stream;
  * @orchidApi services
  */
 @Singleton
+@Description(value = "How content gets created in your build.", name = "Generators")
 public final class GeneratorServiceImpl implements GeneratorService {
 
     private final Set<OrchidGenerator> allGenerators;

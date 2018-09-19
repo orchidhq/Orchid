@@ -8,8 +8,12 @@ import com.eden.orchid.forms.model.FormField
 import org.json.JSONObject
 import javax.inject.Inject
 
-class DropdownField @Inject
-constructor(context: OrchidContext) : FormField(context, arrayOf("dropdown")) {
+@Description("A dropdown selector, with a list of key-value pairs as options.", name="Dropdown")
+class DropdownField
+@Inject
+constructor(
+        context: OrchidContext
+) : FormField(context, arrayOf("dropdown")) {
 
     @Option
     @Description("A map of values which populate the select element.")

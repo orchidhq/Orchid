@@ -2,6 +2,7 @@ package com.eden.orchid.api.events;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import lombok.Getter;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.Stack;
 
 @Singleton
+@Description(value = "The Orchid event broadcast system.", name = "Events")
 public final class EventServiceImpl implements EventService {
 
     private OrchidContext context;

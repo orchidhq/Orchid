@@ -6,8 +6,12 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.forms.model.FormField
 import javax.inject.Inject
 
-class TextareaField @Inject
-constructor(context: OrchidContext) : FormField(context, arrayOf("textarea")) {
+@Description("A textarea for long-form input.", name="Textarea")
+class TextareaField
+@Inject
+constructor(
+        context: OrchidContext
+) : FormField(context, arrayOf("textarea")) {
 
     @Option
     @Description("The initial height of the textarea in rows.")
