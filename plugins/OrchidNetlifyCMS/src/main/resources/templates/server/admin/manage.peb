@@ -1,5 +1,30 @@
 {% extends view.layout %}
 
 {% block allContent %}
-<iframe-refresh src="{{ site.baseUrl }}/admin/index.html"></iframe-refresh>
+<div id="nc-root"></div>
+{% endblock %}
+
+{% block scripts %}
+{% include 'includes/netlifyCms/orchidNetlifyCms' with {"model": view.model} %}
+{% endblock %}
+
+{% block styles %}
+{# Temporary fix to make headers visible. The Netlify CMS CSS has them at fixed position, which doens't work when the
+root element isn't the entire page.
+#}
+<style>
+    #nc-root {
+        position: relative;
+        width: 100%;
+        height: calc(100vh - 80px);
+    }
+
+    #nc-root header > div {
+        position: relative !important;
+    }
+
+    #nc-root header + div > div > div > div:first-child {
+        position: absolute !important;
+    }
+</style>
 {% endblock %}

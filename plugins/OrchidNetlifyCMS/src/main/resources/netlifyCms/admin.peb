@@ -1,24 +1,12 @@
 <!doctype html>
 <html>
 <head>
-{# @pebvariable name="page" type="com.eden.orchid.netlifyCms.pages.NetlifyCmsAdminPage" #}
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Orchid Content Manager</title>
+    {% head %}
     {% styles %}
 </head>
 <body>
 {% scripts %}
-
-{% include 'includes/netlifyCms/tagEditorComponents' with {"templateTags": page.templateTags} %}
-{% include 'includes/netlifyCms/componentWidgets' with {"components": page.components} %}
-{% include 'includes/netlifyCms/menuItemWidgets' with {"menuItems": page.menuItems} %}
-
-<script>
-    CMS.registerWidget('componentHolder', 'list');
-    CMS.registerWidget('orchidMenu', 'list');
-</script>
-
+{% include 'includes/netlifyCms/orchidNetlifyCms' with {"model": page.model} %}
 </body>
 </html>
 

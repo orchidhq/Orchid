@@ -80,7 +80,7 @@
     {% endblock %}
 
         <a href="#uk-sidenav-left" uk-toggle></a>
-        <div id="uk-sidenav-left" uk-offcanvas>
+        <div id="uk-sidenav-left" uk-offcanvas="mode: push">
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
                 {% include 'includes/server/admin/sidenav' %}

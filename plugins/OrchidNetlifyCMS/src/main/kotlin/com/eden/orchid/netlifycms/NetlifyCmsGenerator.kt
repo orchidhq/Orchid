@@ -2,7 +2,6 @@ package com.eden.orchid.netlifycms
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
@@ -14,10 +13,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.tasks.TaskService
-import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
 import com.eden.orchid.netlifycms.util.getNetlifyCmsFields
 import com.eden.orchid.netlifycms.util.toNetlifyCmsSlug
@@ -29,13 +26,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@JvmSuppressWildcards
 class NetlifyCmsGenerator @Inject
 constructor(
         context: OrchidContext,
-        val templateTags: Set<TemplateTag>,
-        val components: Set<OrchidComponent>,
-        val menuItems: Set<OrchidMenuItem>,
+        val model: NetlifyCmsModel,
         val extractor: OptionsExtractor
 ) : OrchidGenerator(context, "netlifyCms", OrchidGenerator.PRIORITY_DEFAULT) {
 
@@ -69,8 +63,9 @@ constructor(
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         val includeCms: Boolean
+        model.useNetlifyIdentityWidget = useNetlifyIdentityWidget
 
-        if(isRunningLocally(context)) {
+        if(model.isRunningLocally()) {
             config.put("backend", JSONObject())
             config.getJSONObject("backend").put("name", "orchid-server")
             resourceRoot = ""
@@ -83,7 +78,7 @@ constructor(
         if(includeCms) {
             val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
             adminResource.reference.stripFromPath("netlifyCms")
-            val adminPage = NetlifyCmsAdminPage(adminResource, templateTags, components, menuItems, useNetlifyIdentityWidget)
+            val adminPage = NetlifyCmsAdminPage(adminResource, model)
             context.renderRaw(adminPage)
 
             val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig()), "admin", null)
@@ -179,8 +174,4 @@ constructor(
         return null
     }
 
-}
-
-fun isRunningLocally(context: OrchidContext): Boolean {
-    return context.taskType == TaskService.TaskType.SERVE
 }

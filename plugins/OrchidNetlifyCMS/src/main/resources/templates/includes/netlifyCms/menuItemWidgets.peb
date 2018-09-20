@@ -1,11 +1,11 @@
 <!-- start:register menuItems -->
 <script>
-    {% for menuItem in menuItems %}
+    {% for menuItem in model.menuItems %}
     {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
     CMS.registerWidget({
         id:        "{{- menuItem.type -}}Menu",
         label:     "{{- menuItem.type -}}",
-        fields:     {{- page.getTemplateFieldsFromMenuItem(menuItem) | raw -}}
+        fields:     {{- model.getTemplateFieldsFromMenuItem(menuItem) | raw -}}
     });
     {% endfor %}
 </script>

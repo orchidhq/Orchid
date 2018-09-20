@@ -1,11 +1,11 @@
 <!-- start:register components -->
 <script>
-    {% for component in components %}
+    {% for component in model.components %}
     {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
     CMS.registerWidget({
         id:        "{{- component.type -}}Component",
         label:     "{{- component.type -}}",
-        fields:     {{- page.getTemplateFieldsFromComponent(component) | raw -}}
+        fields:     {{- model.getTemplateFieldsFromComponent(component) | raw -}}
     });
     {% endfor %}
 </script>

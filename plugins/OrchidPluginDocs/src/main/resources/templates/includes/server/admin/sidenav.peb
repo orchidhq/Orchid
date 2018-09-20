@@ -9,16 +9,22 @@
 </ul>
 
 {% macro renderAdminList(view, adminLists) %}
-<ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+<ul class="uk-nav-primary uk-nav-parent-icon" uk-nav>
 {% for adminList in adminLists %}
-<li class="uk-parent">
-    <a href="#">{{ adminList.getDescriptiveName() }}</a>
-    <ul class="uk-nav-sub">
-    {% for item in adminList.getItems() %}
-        <li><a href="{{ view.getDescriptionLink(item) }}">{{ view.getDescriptiveName(item) }}</a></li>
-    {% endfor %}
-    </ul>
-</li>
+    <li class="uk-parent">
+        <a href="#">{{ adminList.getDescriptiveName() }}</a>
+        <ul class="uk-list uk-list-striped">
+        {% for item in adminList.getItems() %}
+            <li>
+                <a href="{{ view.getDescriptionLink(item) }}" class="uk-link-heading">
+                    <span class="uk-text-uppercase uk-text-bold">{{ view.getDescriptiveName(item) }}</span>
+                    <p class="uk-text-small uk-margin-remove-bottom uk-margin-small-top">{{ view.getDescription(item) }}</p>
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </li>
+    {% if not loop.last %}<li class="uk-nav-divider"></li>{% endif %}
 {% endfor %}
 </ul>
 {% endmacro %}
