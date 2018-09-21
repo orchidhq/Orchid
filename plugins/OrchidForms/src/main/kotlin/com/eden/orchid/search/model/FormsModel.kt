@@ -1,4 +1,4 @@
-package com.eden.orchid.forms.model
+package com.eden.orchid.search.model
 
 import javax.inject.Inject
 import javax.inject.Singleton

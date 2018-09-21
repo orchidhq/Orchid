@@ -29,20 +29,23 @@ import java.time.LocalDate
 import java.util.regex.Pattern
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@Description("Share your thoughts and interests with blog posts and archives.")
-class PostsGenerator @Inject
-constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, val postsModel: PostsModel)
-    : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+@Description("Share your thoughts and interests with blog posts.", name = "Blog Posts")
+class PostsGenerator
+@Inject
+constructor(
+        context: OrchidContext,
+        val permalinkStrategy: PermalinkStrategy,
+        val postsModel: PostsModel
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "posts"
         val pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)")
     }
 
-    @Option @StringDefault("<!--more-->")
+    @Option
+    @StringDefault("<!--more-->")
     @Description("The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
             "first 240 characters of the post."
     )
@@ -56,7 +59,8 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     )
     lateinit var authors: List<Author>
 
-    @Option @ImpliedKey("key")
+    @Option
+    @ImpliedKey("key")
     @Description("An array of Category configurations, which may be just the path of the category or a full " +
             "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
             "category does not have an entry for its parent category, an error is thrown and Posts generation " +
@@ -64,11 +68,13 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
     )
     lateinit var categories: MutableList<CategoryModel>
 
-    @Option @StringDefault("posts")
+    @Option
+    @StringDefault("posts")
     @Description("The base directory in local resources to look for blog post entries in.")
     lateinit var baseDir: String
 
-    @Option @StringDefault("posts/authors")
+    @Option
+    @StringDefault("posts/authors")
     @Description("The base directory in local resources to look for author configs/bios in.")
     lateinit var authorsBaseDir: String
 
@@ -87,7 +93,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
 
         val allPages = ArrayList<OrchidPage>()
 
-        if(postsModel.validateCategories()) {
+        if (postsModel.validateCategories()) {
             allPages.addAll(authorPages)
             postsModel.categories.values.forEach { categoryModel ->
                 categoryModel.first = getPostsPages(categoryModel)
@@ -142,7 +148,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
                 val title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
                 val post = PostPage(entry, categoryModel, title)
 
-                if(post.publishDate.toLocalDate().isToday()) {
+                if (post.publishDate.toLocalDate().isToday()) {
                     post.publishDate = LocalDate.of(
                             Integer.parseInt(matcher.group(1)),
                             Integer.parseInt(matcher.group(2)),
@@ -174,7 +180,7 @@ constructor(context: OrchidContext, val permalinkStrategy: PermalinkStrategy, va
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
         postsModel.categories.values.forEach {
-            if(EdenUtils.isEmpty(it.key)) {
+            if (EdenUtils.isEmpty(it.key)) {
                 val collection = FolderCollection(
                         this,
                         "blog",

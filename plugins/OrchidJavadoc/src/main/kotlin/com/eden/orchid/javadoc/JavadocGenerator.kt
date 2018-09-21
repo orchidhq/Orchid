@@ -18,13 +18,19 @@ import java.util.HashMap
 import java.util.HashSet
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 import com.sun.tools.javac.util.List as JavacList
 
-@Singleton
-@Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " + "of methods, fields, etc. but in your site's theme.")
-class JavadocGenerator @Inject
-constructor(context: OrchidContext, private val model: JavadocModel, private val javadocInvoker: JavadocInvoker) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+@Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " +
+        "of methods, fields, etc. but in your site's theme.",
+        name = "Javadoc"
+)
+class JavadocGenerator
+@Inject
+constructor(
+        context: OrchidContext,
+        private val model: JavadocModel,
+        private val javadocInvoker: JavadocInvoker
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "javadoc"

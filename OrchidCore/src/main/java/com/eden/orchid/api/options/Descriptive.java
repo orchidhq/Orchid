@@ -16,6 +16,10 @@ public interface Descriptive {
         return getDescription(getClass());
     }
 
+    default String getDescriptionSummary() {
+        return getDescriptionSummary(getClass());
+    }
+
     static String getDescriptiveName(Class<?> describingClass) {
         Description annotation = describingClass.getAnnotation(Description.class);
         return (annotation != null && !EdenUtils.isEmpty(annotation.name()))
@@ -28,6 +32,11 @@ public interface Descriptive {
         return (annotation != null && !EdenUtils.isEmpty(annotation.value()))
                 ? annotation.value()
                 : "";
+    }
+
+    static String getDescriptionSummary(Class<?> describingClass) {
+        String description = getDescription(describingClass);
+        return description.substring(0, description.indexOf(".")+1);
     }
 
 }

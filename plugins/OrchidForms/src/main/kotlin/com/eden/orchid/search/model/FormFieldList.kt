@@ -1,4 +1,4 @@
-package com.eden.orchid.forms.model
+package com.eden.orchid.search.model
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.components.ModularPageList

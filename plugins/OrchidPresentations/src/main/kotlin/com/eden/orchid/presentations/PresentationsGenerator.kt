@@ -13,16 +13,20 @@ import com.eden.orchid.presentations.model.Slide
 import java.util.stream.Stream
 import javax.inject.Inject
 
-@Description("Embed presentations and slide-decks in your pages.")
+@Description("Embed presentations and slide-decks in your pages using Deck.js.", name = "Presentations")
 class PresentationsGenerator
-@Inject constructor(context: OrchidContext, private val model: PresentationsModel)
-    : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+@Inject
+constructor(
+        context: OrchidContext,
+        private val model: PresentationsModel
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "presentations"
     }
 
-    @Option @StringDefault("presentations")
+    @Option
+    @StringDefault("presentations")
     @Description("The base directory in local resources to look for presentation slides in.")
     lateinit var baseDir: String
 
@@ -54,7 +58,7 @@ class PresentationsGenerator
             it.reference.stripFromPath(baseDir)
             it.reference.stripFromPath(key)
 
-            if(!slideMap.containsKey(key)) {
+            if (!slideMap.containsKey(key)) {
                 slideMap.put(key, ArrayList())
             }
             slideMap.get(key)!!.add(it)

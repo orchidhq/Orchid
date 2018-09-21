@@ -1,10 +1,10 @@
-package com.eden.orchid.forms.model.fields
+package com.eden.orchid.search.model.fields
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.forms.model.FormField
+import com.eden.orchid.search.model.FormField
 import org.json.JSONObject
 import javax.inject.Inject
 

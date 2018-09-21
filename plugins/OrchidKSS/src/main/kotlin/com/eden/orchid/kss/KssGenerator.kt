@@ -16,16 +16,20 @@ import com.google.inject.Singleton
 import java.util.stream.Stream
 import javax.inject.Inject
 
-@Singleton
-@Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).")
-class KssGenerator @Inject
-constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+@Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).", name = "Living Styleguide")
+class KssGenerator
+@Inject
+constructor(
+        context: OrchidContext,
+        val model: KssModel
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "styleguide"
     }
 
-    @Option @StringDefault("assets/css")
+    @Option
+    @StringDefault("assets/css")
     @Description("The base directory in local resources to look for KSS blocks in.")
     lateinit var baseDir: String
 
@@ -44,7 +48,8 @@ constructor(context: OrchidContext, val model: KssModel) : OrchidGenerator(conte
 
         if (EdenUtils.isEmpty(sections)) {
             model.sections.put(null, getStyleguidePages(null))
-        } else {
+        }
+        else {
             for (section in sections) {
                 model.sections.put(section, getStyleguidePages(section))
             }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-@Description("Generates the root homepage for your site.")
+@Description(value = "Generates the root homepage for your site.", name = "Homepage")
 public final class HomepageGenerator extends OrchidGenerator {
 
     public static final String GENERATOR_KEY = "home";
@@ -35,14 +35,14 @@ public final class HomepageGenerator extends OrchidGenerator {
         pages.forEach(context::renderTemplate);
 
         OrchidPage favicon = getFavicon();
-        if(favicon != null) {
+        if (favicon != null) {
             context.renderBinary(favicon);
         }
     }
 
     private OrchidPage getHomepage() {
         OrchidResource resource = context.locateLocalResourceEntry("homepage");
-        if(resource == null) {
+        if (resource == null) {
             resource = new StringResource(context, "homepage.md", "");
         }
 
@@ -55,7 +55,7 @@ public final class HomepageGenerator extends OrchidGenerator {
     private OrchidPage get404() {
         OrchidResource resource = context.locateLocalResourceEntry("404");
         OrchidPage page = null;
-        if(resource != null) {
+        if (resource != null) {
             page = new OrchidPage(resource, "404", context.getSite().getSiteInfo().getSiteName());
             page.getReference().setFileName("404");
             page.getReference().setUsePrettyUrl(false);
@@ -67,7 +67,7 @@ public final class HomepageGenerator extends OrchidGenerator {
     private OrchidPage getFavicon() {
         OrchidResource resource = context.getResourceEntry("favicon.ico");
         OrchidPage page = null;
-        if(resource != null) {
+        if (resource != null) {
             page = new OrchidPage(resource, "favicon", context.getSite().getSiteInfo().getSiteName());
             page.getReference().setFileName("favicon");
             page.getReference().setOutputExtension("ico");

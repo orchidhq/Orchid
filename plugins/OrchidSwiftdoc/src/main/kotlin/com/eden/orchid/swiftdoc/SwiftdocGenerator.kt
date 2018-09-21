@@ -34,9 +34,21 @@ import java.util.concurrent.Executors
 import java.util.stream.Stream
 import javax.inject.Inject
 
+@Description("Generate documentation from Swift code and comments with the help of SourceKitten. It's like Javadoc, " +
+        "but for Swift!",
+        name = "Swiftdoc"
+)
 class SwiftdocGenerator
-@Inject constructor(context: OrchidContext, val model: SwiftdocModel, @Named("src") val resourcesDir: String)
-    : OrchidGenerator(context, "swiftdoc", OrchidGenerator.PRIORITY_DEFAULT) {
+@Inject
+constructor(
+        context: OrchidContext,
+        val model: SwiftdocModel,
+        @Named("src") val resourcesDir: String
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+
+    companion object {
+        const val GENERATOR_KEY = "swiftdoc"
+    }
 
     @Option
     @StringDefault("swift")
@@ -70,7 +82,7 @@ class SwiftdocGenerator
                     isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.private")
 //                        isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.internal")
 
-                    if(!isHidden) { // skip hidden/internal statements
+                    if (!isHidden) { // skip hidden/internal statements
                         val statement: SwiftStatement? = when (o.getString("key.kind")) {
                             "source.lang.swift.decl.class"              -> SwiftClass(context, o, fileResource)
                             "source.lang.swift.decl.typealias"          -> SwiftTypealias(context, o, fileResource)
@@ -98,20 +110,20 @@ class SwiftdocGenerator
                 val page = SwiftdocSourcePage(res, statements, codeJson.toString(2))
                 model.pages.add(page)
             }
-            catch(e: Exception) {
+            catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
-        for(statement in model.allStatements) {
-            if(statement is SwiftExtension) continue
-            if(statement is SwiftFloatingComment) continue
-            if(statement is SwiftFree) continue
-            if(statement is SwiftTypealias) continue
+        for (statement in model.allStatements) {
+            if (statement is SwiftExtension) continue
+            if (statement is SwiftFloatingComment) continue
+            if (statement is SwiftFree) continue
+            if (statement is SwiftTypealias) continue
 
             val ref = OrchidReference(statement.origin)
             ref.stripFromPath("swift/source")
-            if(!EdenUtils.isEmpty(ref.originalPath)) {
+            if (!EdenUtils.isEmpty(ref.originalPath)) {
                 ref.path = OrchidUtils.toSlug("swift/${statement.kind}/${ref.originalPath}/${statement.name}")
             }
             else {
@@ -129,11 +141,11 @@ class SwiftdocGenerator
     override fun getCollections(): List<OrchidCollection<*>>? {
         val collections = java.util.ArrayList<OrchidCollection<*>>()
 
-        collections.add(SwiftdocCollection(this, "swiftClasses",   model.classPages))
-        collections.add(SwiftdocCollection(this, "swiftStructs",   model.structPages))
+        collections.add(SwiftdocCollection(this, "swiftClasses", model.classPages))
+        collections.add(SwiftdocCollection(this, "swiftStructs", model.structPages))
         collections.add(SwiftdocCollection(this, "swiftProtocols", model.protocolPages))
-        collections.add(SwiftdocCollection(this, "swiftEnums",     model.enumPages))
-        collections.add(SwiftdocCollection(this, "swiftGlobals",   model.globalPages))
+        collections.add(SwiftdocCollection(this, "swiftEnums", model.enumPages))
+        collections.add(SwiftdocCollection(this, "swiftGlobals", model.globalPages))
 
         return collections
     }
@@ -148,9 +160,9 @@ class SwiftdocGenerator
     private fun parseSwiftFile(name: String): JSONObject {
         try {
             val process = ProcessBuilder()
-                .command("sourcekitten", "doc", "--single-file", "./$name")
-                .directory(File(resourcesDir))
-                .start()
+                    .command("sourcekitten", "doc", "--single-file", "./$name")
+                    .directory(File(resourcesDir))
+                    .start()
 
             val collector = InputStreamCollector(process.inputStream)
             Executors.newSingleThreadExecutor().submit(collector)

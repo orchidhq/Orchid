@@ -23,37 +23,48 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class NetlifyCmsGenerator @Inject
+@Description("Add a fully-configured Netlify CMS to your site, that adapts to your content.",
+        name = "Netlify CMS"
+)
+class NetlifyCmsGenerator
+@Inject
 constructor(
         context: OrchidContext,
         val model: NetlifyCmsModel,
         val extractor: OptionsExtractor
-) : OrchidGenerator(context, "netlifyCms", OrchidGenerator.PRIORITY_DEFAULT) {
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+
+    companion object {
+        const val GENERATOR_KEY = "netlifyCms"
+    }
 
     @Option
     @Description("Arbitrary config options to add to the main CMS config file.")
     lateinit var config: JSONObject
 
-    @Option @StringDefault("src/orchid/resources")
+    @Option
+    @StringDefault("src/orchid/resources")
     @Description("The resource directory, relative to the git repo root, where all resources are located.")
     lateinit var resourceRoot: String
 
-    @Option @StringDefault("assets/media")
+    @Option
+    @StringDefault("assets/media")
     @Description("The resource directory, relative to the resourceRoot, where 'media' resources are located.")
     lateinit var mediaFolder: String
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     @Description("Whether options of parent classes are included.")
     var includeInheritedOptions: Boolean = false
 
-    @Option @BooleanDefault(true)
+    @Option
+    @BooleanDefault(true)
     @Description("Whether options of its own class are included.")
     var includeOwnOptions: Boolean = true
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     @Description("Whether to use the Netlify Identity Widget for managing user accounts. Should be paired with the `git-gateway` backend.")
     var useNetlifyIdentityWidget: Boolean = false
 
@@ -65,7 +76,7 @@ constructor(
         val includeCms: Boolean
         model.useNetlifyIdentityWidget = useNetlifyIdentityWidget
 
-        if(model.isRunningLocally()) {
+        if (model.isRunningLocally()) {
             config.put("backend", JSONObject())
             config.getJSONObject("backend").put("name", "orchid-server")
             resourceRoot = ""
@@ -75,7 +86,7 @@ constructor(
             includeCms = config.has("backend")
         }
 
-        if(includeCms) {
+        if (includeCms) {
             val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
             adminResource.reference.stripFromPath("netlifyCms")
             val adminPage = NetlifyCmsAdminPage(adminResource, model)
@@ -98,12 +109,12 @@ constructor(
                 .forEach { collection ->
                     var collectionData = JSONObject()
                     val shouldContinue: Boolean = when (collection) {
-                        is FolderCollection -> setupFolderCollection(collectionData, collection)
-                        is FileCollection -> setupFileCollection(collectionData, collection)
+                        is FolderCollection   -> setupFolderCollection(collectionData, collection)
+                        is FileCollection     -> setupFileCollection(collectionData, collection)
                         is ResourceCollection -> setupResourceCollection(collectionData, collection)
-                        else -> false
+                        else                  -> false
                     }
-                    if(shouldContinue) {
+                    if (shouldContinue) {
                         collectionData.put("label", collection.title)
                         collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
 

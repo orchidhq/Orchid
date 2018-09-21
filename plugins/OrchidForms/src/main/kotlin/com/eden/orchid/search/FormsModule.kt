@@ -1,16 +1,16 @@
-package com.eden.orchid.forms
+package com.eden.orchid.search
 
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.forms.components.FormComponent
-import com.eden.orchid.forms.model.FormField
-import com.eden.orchid.forms.model.fields.CheckboxField
-import com.eden.orchid.forms.model.fields.DropdownField
-import com.eden.orchid.forms.model.fields.HiddenField
-import com.eden.orchid.forms.model.fields.TextField
-import com.eden.orchid.forms.model.fields.TextareaField
+import com.eden.orchid.search.components.FormComponent
+import com.eden.orchid.search.model.FormField
+import com.eden.orchid.search.model.fields.CheckboxField
+import com.eden.orchid.search.model.fields.DropdownField
+import com.eden.orchid.search.model.fields.HiddenField
+import com.eden.orchid.search.model.fields.TextField
+import com.eden.orchid.search.model.fields.TextareaField
 import com.eden.orchid.utilities.addToSet
 
 class FormsModule : OrchidModule() {

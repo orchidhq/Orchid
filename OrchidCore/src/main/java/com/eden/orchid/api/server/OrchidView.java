@@ -99,7 +99,7 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     }
 
     protected void loadAssets() {
-
+        addJs("assets/js/shadowComponents.js");
     }
 
     @Override
@@ -197,6 +197,10 @@ public class OrchidView implements OptionsHolder, AssetHolder {
 
     public String getDescription(Object o) {
         return Descriptive.getDescription((o instanceof Class) ? (Class) o : o.getClass());
+    }
+
+    public String getDescriptionSummary(Object o) {
+        return Descriptive.getDescriptionSummary((o instanceof Class) ? (Class) o : o.getClass());
     }
 
     public List<OrchidTask> getTasks() {

@@ -1,10 +1,10 @@
-package com.eden.orchid.forms.components
+package com.eden.orchid.search.components
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.forms.model.Form
+import com.eden.orchid.search.model.Form
 
 import javax.inject.Inject
 

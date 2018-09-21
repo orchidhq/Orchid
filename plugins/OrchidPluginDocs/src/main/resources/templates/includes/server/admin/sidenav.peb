@@ -18,7 +18,7 @@
             <li>
                 <a href="{{ view.getDescriptionLink(item) }}" class="uk-link-heading">
                     <span class="uk-text-uppercase uk-text-bold">{{ view.getDescriptiveName(item) }}</span>
-                    <p class="uk-text-small uk-margin-remove-bottom uk-margin-small-top">{{ view.getDescription(item) }}</p>
+                    <p class="uk-text-small uk-margin-remove-bottom uk-margin-small-top">{{ view.getDescriptionSummary(item) }}</p>
                 </a>
             </li>
         {% endfor %}

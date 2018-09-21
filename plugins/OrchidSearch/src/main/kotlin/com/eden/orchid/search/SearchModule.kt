@@ -1,4 +1,4 @@
-package com.eden.orchid.forms
+package com.eden.orchid.search
 
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.registration.OrchidModule

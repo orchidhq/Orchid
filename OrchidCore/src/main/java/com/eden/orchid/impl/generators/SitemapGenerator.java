@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+@Description(value="Generate a sitemap and `robots.txt` for automatic SEO.", name="Sitemap and Robots.txt")
 public final class SitemapGenerator extends OrchidGenerator {
 
     public static final String GENERATOR_KEY = "sitemap";

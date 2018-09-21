@@ -21,17 +21,22 @@ import com.eden.orchid.taxonomies.utils.getSingleTermValue
 import com.eden.orchid.taxonomies.utils.getTermValues
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class TaxonomiesGenerator @Inject
-constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStrategy: PermalinkStrategy) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+@Description("Create custom archives from any logically-related content.", name = "Taxonomies")
+class TaxonomiesGenerator
+@Inject
+constructor(
+        context: OrchidContext,
+        val model: TaxonomiesModel,
+        val permalinkStrategy: PermalinkStrategy
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "taxonomies"
     }
 
-    @Option @ImpliedKey("key")
+    @Option
+    @ImpliedKey("key")
     @Description("An array of Taxonomy configurations.")
     lateinit var taxonomies: List<Taxonomy>
 
@@ -39,19 +44,21 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
         model.initialize()
 
         if (!EdenUtils.isEmpty(taxonomies)) {
-            taxonomies.forEach outerLoop@ { taxonomy ->
+            taxonomies.forEach outerLoop@{ taxonomy ->
                 model.putTaxonomy(taxonomy)
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomy.includeFrom, taxonomy.excludeFrom)
 
-                context.internalIndex.getChildIndices(enabledGeneratorKeys).forEach innerLoop@ { page ->
-                    if(page.getSingleTermValue("skipTaxonomy") == "true") {return@innerLoop}
+                context.internalIndex.getChildIndices(enabledGeneratorKeys).forEach innerLoop@{ page ->
+                    if (page.getSingleTermValue("skipTaxonomy") == "true") {
+                        return@innerLoop
+                    }
 
                     val pageTerms = HashSet<String?>()
-                    if(taxonomy.single) {
+                    if (taxonomy.single) {
                         pageTerms.add(page.getSingleTermValue(taxonomy.key))
                     }
                     else {
-                        if(taxonomy.singleKey.isNotBlank()) {
+                        if (taxonomy.singleKey.isNotBlank()) {
                             pageTerms.add(page.getSingleTermValue(taxonomy.singleKey))
                         }
 
@@ -59,7 +66,7 @@ constructor(context: OrchidContext, val model: TaxonomiesModel, val permalinkStr
                     }
 
                     pageTerms.forEach { term ->
-                        if(term != null) {
+                        if (term != null) {
                             model.addPage(taxonomy, term, page)
                         }
                     }

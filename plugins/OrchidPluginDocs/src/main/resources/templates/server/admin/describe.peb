@@ -18,7 +18,7 @@
 {% set classDescripton = optionsExtractor.describeOptions(classType, false, false) %}
 <ul class="uk-switcher uk-margin">
     <li>
-        <p>{{ classDescripton.classDescription }}</p>
+        <p>{{ classDescripton.classDescription|compileAs('md')|raw }}</p>
         {% include controller.getClassTypeOverviewTemplate(classType) %}
     </li>
 {% if optionsExtractor.hasOptions(classType, true, false) %}

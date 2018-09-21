@@ -21,13 +21,16 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Singleton
-@Description("Prints all assets to the output directory. This is all scripts and styles (after compilation) that have " +
-        "been registered to an AssetHolder, and all files in the directories specified in config.sourceDirs.")
+@Description(value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " +
+        "are automatically rendered to your site, this is just for additional static assets.",
+        name = "Assets"
+)
 public final class AssetsGenerator extends OrchidGenerator {
 
     public static final String GENERATOR_KEY = "assets";
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
     private List<AssetDirectory> sourceDirs;
@@ -39,7 +42,7 @@ public final class AssetsGenerator extends OrchidGenerator {
 
     @Override
     public List<? extends OrchidPage> startIndexing() {
-        if(EdenUtils.isEmpty(sourceDirs)) {
+        if (EdenUtils.isEmpty(sourceDirs)) {
             AssetDirectory dir = new AssetDirectory();
             dir.setSourceDir("assets");
             dir.setAssetFileExtensions(null);
@@ -48,16 +51,16 @@ public final class AssetsGenerator extends OrchidGenerator {
         }
 
         sourceDirs.stream()
-                .flatMap( dir      -> context.getLocalResourceEntries(dir.sourceDir, (!EdenUtils.isEmpty(dir.assetFileExtensions)) ? dir.assetFileExtensions : null, dir.recursive).stream())
-                .map(     resource -> new AssetPage(
+                .flatMap(dir -> context.getLocalResourceEntries(dir.sourceDir, (!EdenUtils.isEmpty(dir.assetFileExtensions)) ? dir.assetFileExtensions : null, dir.recursive).stream())
+                .map(resource -> new AssetPage(
                         null,
                         null,
                         resource,
                         resource.getReference().getFileName(),
                         resource.getReference().getFileName()
                 ))
-                .peek(    asset    -> asset.getReference().setUsePrettyUrl(false))
-                .forEach( asset    -> context.getGlobalAssetHolder().addAsset(asset));
+                .peek(asset -> asset.getReference().setUsePrettyUrl(false))
+                .forEach(asset -> context.getGlobalAssetHolder().addAsset(asset));
 
         return null;
     }
@@ -75,7 +78,8 @@ public final class AssetsGenerator extends OrchidGenerator {
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class AssetDirectory implements OptionsHolder {
 
         @Option
@@ -87,7 +91,8 @@ public final class AssetsGenerator extends OrchidGenerator {
         @Description("Restrict the file extensions used for the assets in this directory.")
         private String[] assetFileExtensions;
 
-        @Option @BooleanDefault(true)
+        @Option
+        @BooleanDefault(true)
         @Description("Whether to include subdirectories of this directory")
         private boolean recursive;
 

@@ -1,4 +1,4 @@
-package com.eden.orchid.forms
+package com.eden.orchid.search
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
@@ -7,22 +7,29 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.forms.model.Form
-import com.eden.orchid.forms.model.FormsModel
-import com.eden.orchid.forms.pages.FormSubmissionPage
+import com.eden.orchid.search.model.Form
+import com.eden.orchid.search.model.FormsModel
+import com.eden.orchid.search.pages.FormSubmissionPage
 import com.eden.orchid.utilities.OrchidUtils
 import java.util.stream.Stream
 import javax.inject.Inject
 
-@Description("Indexes form definitions so they can be easily referenced from components on different pages.")
-class FormsGenerator @Inject
-constructor(context: OrchidContext, private val model: FormsModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+@Description("Indexes form definitions so they can be easily referenced from components on different pages.",
+        name = "Forms"
+)
+class FormsGenerator
+@Inject
+constructor(
+        context: OrchidContext,
+        private val model: FormsModel
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "forms"
     }
 
-    @Option @StringDefault("forms")
+    @Option
+    @StringDefault("forms")
     @Description("The base directory in local resources to look for forms in.")
     lateinit var baseDir: String
 
@@ -57,7 +64,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
         val pages = ArrayList<OrchidPage>()
         val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.compilerExtensions.toTypedArray(), false)
 
-        if(!EdenUtils.isEmpty(formsPages)) {
+        if (!EdenUtils.isEmpty(formsPages)) {
             for (resource in formsPages) {
                 val key = resource.reference.originalFileName
 
@@ -69,7 +76,7 @@ constructor(context: OrchidContext, private val model: FormsModel) : OrchidGener
                 val form = Form(context, key, formSubmissionPage.data["form"] as? Map<String, Any> ?: HashMap())
 
                 // if the form does not specify an action, set its page as the action.
-                if(EdenUtils.isEmpty(form.action)) {
+                if (EdenUtils.isEmpty(form.action)) {
                     form.action = formSubmissionPage.reference.toString()
                 }
 

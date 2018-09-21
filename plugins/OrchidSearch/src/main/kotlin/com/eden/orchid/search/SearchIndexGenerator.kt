@@ -1,4 +1,4 @@
-package com.eden.orchid.forms;
+package com.eden.orchid.search
 
 import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
@@ -14,9 +14,12 @@ import com.eden.orchid.api.theme.pages.OrchidReference
 import java.util.stream.Stream
 import javax.inject.Inject
 
-@Description("Generates index files to connect your site to others.")
-class SearchIndexGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE) {
+@Description("Generates index files to connect your site to others.", name = "Indices")
+class SearchIndexGenerator
+@Inject
+constructor(
+        context: OrchidContext
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE) {
 
     companion object {
         const val GENERATOR_KEY = "indices"
@@ -35,7 +38,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, Or
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         generateSiteIndexFiles()
-        if(enablePageIndices) {
+        if (enablePageIndices) {
             generatePageIndexFiles()
         }
     }

@@ -1,10 +1,10 @@
-package com.eden.orchid.forms
+package com.eden.orchid.search
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.OptionExtractor
-import com.eden.orchid.forms.model.Form
-import com.eden.orchid.forms.model.FormsModel
+import com.eden.orchid.search.model.Form
+import com.eden.orchid.search.model.FormsModel
 import com.google.inject.Provider
 import org.json.JSONObject
 import java.lang.reflect.Field

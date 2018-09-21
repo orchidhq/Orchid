@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+    // the CMS crashes at a URL like '/admin', and requires a trailing slash to work properly. Redirect with the
+    // trailing slash if it is not there.
+    if (window.location.pathname.endsWith('/') === false) {
+        window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '/' + window.location.search;
+    }
+</script>
+
 {% include 'includes/netlifyCms/orchidNetlifyCms' with {"model": view.model} %}
 {% endblock %}
 
@@ -18,13 +26,11 @@ root element isn't the entire page.
         width: 100%;
         height: calc(100vh - 80px);
     }
-
-    #nc-root header > div {
-        position: relative !important;
-    }
-
-    #nc-root header + div > div > div > div:first-child {
-        position: absolute !important;
-    }
+#nc-root header > div {
+    position: relative !important;
+}
+#nc-root header + div > div > div > div:first-child {
+    position: absolute !important;
+}
 </style>
 {% endblock %}

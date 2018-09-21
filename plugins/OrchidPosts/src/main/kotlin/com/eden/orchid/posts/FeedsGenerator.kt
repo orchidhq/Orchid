@@ -12,32 +12,32 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.model.PostsModel
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@Description("Generate feeds for you blog in RSS and Atom formats.")
+@Description("Generate feeds for you blog in RSS and Atom formats.", name = "RSS Feeds")
 class FeedsGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val postsModel: PostsModel)
-    : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE + 1) {
+        context: OrchidContext
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE + 1) {
 
     companion object {
         const val GENERATOR_KEY = "feeds"
     }
 
-    @Option @StringDefault("rss", "atom")
+    @Option
+    @StringDefault("rss", "atom")
     @Description("A list of different feed types to render. Each feed type is rendered as `/{feedType}.xml` from the " +
             "`feeds/{feedType}.peb` resource."
     )
     var feedTypes: Array<String> = emptyArray()
 
-    @Option @StringDefault("posts")
+    @Option
+    @StringDefault("posts")
     @Description("A list of generator keys whose pages are included in this feed.")
     lateinit var includeFrom: Array<String>
 
-    @Option @IntDefault(25)
+    @Option
+    @IntDefault(25)
     @Description("The maximum number of entries to include in this feed.")
     var size = 25
 
@@ -57,7 +57,7 @@ constructor(
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
         var feedItems = context.internalIndex.getChildIndices(enabledGeneratorKeys)
 
-        if(feedItems.isNotEmpty()) {
+        if (feedItems.isNotEmpty()) {
             var sortedFeedItems = feedItems
                     .sortedWith(compareBy({ it.lastModifiedDate }, { it.publishDate }))
                     .reversed()
@@ -65,7 +65,7 @@ constructor(
 
             feedTypes.forEach { feedType ->
                 val res = context.getResourceEntry("feeds/$feedType.peb")
-                if(res != null) {
+                if (res != null) {
                     context.renderRaw(FeedPage(res, feedType, sortedFeedItems))
                 }
             }
