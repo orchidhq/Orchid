@@ -9,8 +9,13 @@ import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
 import javax.inject.Inject
 
-class TaxonomyTermComponent @Inject
-constructor(context: OrchidContext, var model: TaxonomiesModel) : OrchidComponent(context, "taxonomyTerm", 100) {
+@Description("Show a list of all terms in a Taxonomy.", name = "Taxonomy Terms")
+class TaxonomyTermComponent
+@Inject
+constructor(
+        context: OrchidContext,
+        var model: TaxonomiesModel
+) : OrchidComponent(context, "taxonomyTerm", 100) {
 
     @Option
     @Description("The Taxonomy to include terms from.")

@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
@@ -30,7 +29,6 @@ import org.jsoup.Jsoup
 import java.io.File
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
 class WikiGenerator
@@ -91,7 +89,7 @@ constructor(
         val summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
 
         if (summary == null) {
-            if (section.key != null) {
+            if (EdenUtils.isEmpty(section.key)) {
                 Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
             }
 
@@ -151,7 +149,7 @@ constructor(
 
         val sectionTitle =
                 if (!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
-                else if (!EdenUtils.isEmpty(section.key)) section.key!!
+                else if (!EdenUtils.isEmpty(section.key)) section.key
                 else "Wiki"
 
         val summaryPage = WikiSummaryPage(section.key, newSummary, sectionTitle from String::camelCase to Array<String>::titleCase)

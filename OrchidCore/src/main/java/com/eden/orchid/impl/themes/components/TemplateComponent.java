@@ -10,9 +10,11 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
+@Description(value = "Display a component with a user-defined template and data.", name = "Template")
 public final class TemplateComponent extends OrchidComponent {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Option
     @Description("Custom data to be rendered into the custom template.")
     public JSONObject data;

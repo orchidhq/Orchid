@@ -36,7 +36,9 @@ public interface Descriptive {
 
     static String getDescriptionSummary(Class<?> describingClass) {
         String description = getDescription(describingClass);
-        return description.substring(0, description.indexOf(".")+1);
+        return (description.indexOf(".") > 0)
+                ? description.substring(0, description.indexOf(".")+1)
+                : description;
     }
 
 }

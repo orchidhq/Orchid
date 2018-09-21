@@ -9,19 +9,25 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.presentations.model.Presentation
 import javax.inject.Inject
 
+@Description("Embed a Deck.js presentation.", name = "Presentation")
 class PresentationComponent
-@Inject constructor(context: OrchidContext)
-    : OrchidComponent(context, "presentation", 25) {
+@Inject
+constructor(
+        context: OrchidContext
+) : OrchidComponent(context, "presentation", 25) {
 
-    @Option @StringDefault("web-2_0")
+    @Option
+    @StringDefault("web-2_0")
     @Description("The Deck.js presentation theme to use. Should be one of ['neon', 'swiss', 'web-2_0']")
     lateinit var deckTheme: String
 
-    @Option @StringDefault("horizontal-slide")
+    @Option
+    @StringDefault("horizontal-slide")
     @Description("The Deck.js transition theme to use. Should be one of ['fade', 'horizontal-slide', 'vertical-slide']")
     lateinit var transitionTheme: String
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     @Description("If true, only include the Deck.js Javascript files, opting to build the styles yourself.")
     var scriptsOnly: Boolean = false
 
@@ -30,7 +36,7 @@ class PresentationComponent
     var presentation: Presentation? = null
 
     override fun loadAssets() {
-        if(!scriptsOnly) {
+        if (!scriptsOnly) {
             addCss("assets/core/deck_core.scss")
             addCss("assets/extensions/goto/deck_goto.scss")
             addCss("assets/extensions/menu/deck_menu.scss")

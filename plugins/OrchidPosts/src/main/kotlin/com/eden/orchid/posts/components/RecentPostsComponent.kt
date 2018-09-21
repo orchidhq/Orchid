@@ -10,10 +10,16 @@ import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.pages.PostPage
 import javax.inject.Inject
 
-class RecentPostsComponent @Inject
-constructor(context: OrchidContext, var postsModel: PostsModel) : OrchidComponent(context, "recentPosts", 25) {
+@Description("Render a list of the most recent blog posts.", name = "Recent Posts")
+class RecentPostsComponent
+@Inject
+constructor(
+        context: OrchidContext,
+        var postsModel: PostsModel
+) : OrchidComponent(context, "recentPosts", 25) {
 
-    @Option @IntDefault(10)
+    @Option
+    @IntDefault(10)
     @Description("The maximum number of posts to include in this component.")
     var limit: Int = 10
 
@@ -24,7 +30,8 @@ constructor(context: OrchidContext, var postsModel: PostsModel) : OrchidComponen
     fun getRecentPosts(): List<PostPage> {
         return if (!EdenUtils.isEmpty(category)) {
             postsModel.getRecentPosts(category, limit)
-        } else {
+        }
+        else {
             postsModel.getRecentPosts(null, limit)
         }
     }

@@ -9,9 +9,12 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import io.github.classgraph.ClassGraph
 import javax.inject.Inject
 
+@Description("Show all options for your plugin's classes", name = "Plugin Documentation")
 class PluginDocsComponent
-@Inject constructor(context: OrchidContext)
-    : OrchidComponent(context, "pluginDocs", 25) {
+@Inject
+constructor(
+        context: OrchidContext
+) : OrchidComponent(context, "pluginDocs", 25) {
 
     @Option
     @Description("A list of fully-qualified class names to render options for.")
@@ -53,7 +56,7 @@ class PluginDocsComponent
                 .allStandardClasses
                 .loadClasses()
                 .forEach { matchingClass ->
-                    if(isOptionsHolderClass(matchingClass)) {
+                    if (isOptionsHolderClass(matchingClass)) {
                         classList.add(matchingClass.name)
                     }
                 }
