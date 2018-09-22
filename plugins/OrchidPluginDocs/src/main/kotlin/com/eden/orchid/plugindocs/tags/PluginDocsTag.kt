@@ -11,19 +11,24 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import javax.inject.Inject
 
+@Description("Show all options for one of your plugin's classes.", name = "Plugin Documentation")
 class PluginDocsTag
-@Inject constructor(val extractor: OptionsExtractor)
-    : TemplateTag("docs", TemplateTag.Type.Simple, true) {
+@Inject
+constructor(
+        val extractor: OptionsExtractor
+) : TemplateTag("docs", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("A fully-qualified class name to render options for.")
     lateinit var className: String
 
-    @Option @BooleanDefault(true)
+    @Option
+    @BooleanDefault(true)
     @Description("Whether to include the class's own options.")
     var includeOwnOptions: Boolean = true
 
-    @Option @BooleanDefault(true)
+    @Option
+    @BooleanDefault(true)
     @Description("Whether to include the options the class inherits from its parent classes.")
     var includeInheritedOptions: Boolean = true
 

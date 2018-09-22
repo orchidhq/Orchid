@@ -10,8 +10,12 @@ import java.io.IOException
 import java.net.URLEncoder
 import javax.inject.Inject
 
-class TwitterTag @Inject
-constructor(val client: OkHttpClient) : TemplateTag("twitter", TemplateTag.Type.Simple, true) {
+@Description("Embed a Twitter post or feed in your page.", name = "Twitter")
+class TwitterTag
+@Inject
+constructor(
+        val client: OkHttpClient
+) : TemplateTag("twitter", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Twitter handle to use, without the @.")
@@ -49,9 +53,10 @@ constructor(val client: OkHttpClient) : TemplateTag("twitter", TemplateTag.Type.
 
     var embeddedTweet: String? = null
         @Suppress("UNUSED_PARAMETER")
-        private set(value) {}
+        private set(value) {
+        }
         get() {
-            if(field == null) {
+            if (field == null) {
                 val tweetUrl = "https://twitter.com/$user/status/$id"
                 val requestUrl = "https://publish.twitter.com/oembed?url=${URLEncoder.encode(tweetUrl, "UTF-8")}"
 
@@ -64,7 +69,8 @@ constructor(val client: OkHttpClient) : TemplateTag("twitter", TemplateTag.Type.
                         val body = response.body()?.string() ?: ""
                         field = JSONObject(body).getString("html")
                     }
-                } catch (e: IOException) {
+                }
+                catch (e: IOException) {
                     e.printStackTrace()
                 }
             }

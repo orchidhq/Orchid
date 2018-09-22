@@ -10,11 +10,15 @@ import com.eden.orchid.utilities.encodeSpaces
 import org.python.util.PythonInterpreter
 import javax.inject.Inject
 
-class HighlightTag @Inject
-    constructor(private val context: OrchidContext)
-    : TemplateTag("highlight", TemplateTag.Type.Content, true) {
+@Description("Add syntax highlighting using Pygments.", name = "Highlight")
+class HighlightTag
+@Inject
+constructor(
+        private val context: OrchidContext
+) : TemplateTag("highlight", TemplateTag.Type.Content, true) {
 
-    @Option @StringDefault("java")
+    @Option
+    @StringDefault("java")
     @Description("Your language to use for the syntax highlighting format.")
     lateinit var language: String
 
@@ -39,7 +43,8 @@ class HighlightTag @Inject
 
             // replace newlines with <br> tag, and spaces between tags with &nbsp; to preserve original structure
             return result.encodeSpaces()
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             e.printStackTrace()
         }
 

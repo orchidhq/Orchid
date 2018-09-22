@@ -9,7 +9,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import io.github.classgraph.ClassGraph
 import javax.inject.Inject
 
-@Description("Show all options for your plugin's classes", name = "Plugin Documentation")
+@Description("Show all options for your plugin's classes.", name = "Plugin Documentation")
 class PluginDocsComponent
 @Inject
 constructor(
