@@ -8,9 +8,10 @@ import javax.inject.Singleton
 
 @Singleton
 class TaxonomiesModel
-
 @Inject
-constructor(val context: OrchidContext) {
+constructor(
+        val context: OrchidContext
+) {
 
     var taxonomies = HashMap<String, Taxonomy>()
 

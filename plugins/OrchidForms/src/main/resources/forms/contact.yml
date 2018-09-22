@@ -28,3 +28,9 @@ fields:
     required: true
     span: 'full'
     order: 4
+  signUpForNewsletter:
+    label: 'Sign up for our newsletter'
+    type: 'checkbox'
+    span: 'auto'
+    order: 5
+    default: true

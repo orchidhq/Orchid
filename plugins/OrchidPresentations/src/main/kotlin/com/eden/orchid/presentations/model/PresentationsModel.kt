@@ -5,7 +5,8 @@ import javax.inject.Singleton
 
 @Singleton
 class PresentationsModel
-@Inject constructor() {
+@Inject
+constructor() {
 
     var presentations: MutableMap<String, Presentation> = mutableMapOf()
 

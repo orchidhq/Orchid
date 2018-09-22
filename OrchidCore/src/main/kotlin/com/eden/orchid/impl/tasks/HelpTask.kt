@@ -33,6 +33,7 @@ constructor(
         println(printOptions(formatter))
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun printHeader(formatter: TableFormatter<String>): String {
         return "\n\nOrchid Static Site Generator.\nVersion " + contextProvider.get().site.orchidVersion + "\n"
     }

@@ -16,12 +16,18 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@Description("Track changes and create references to all versions of your project.")
-class ChangelogGenerator @Inject
-constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator(context, "changelog", OrchidGenerator.PRIORITY_DEFAULT) {
+@Description("Track changes and create references to all versions of your project.", name = "Changelog")
+class ChangelogGenerator
+@Inject
+constructor(
+        context: OrchidContext,
+        val model: ChangelogModel
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+
+    companion object {
+        const val GENERATOR_KEY = "changelog"
+    }
 
     @Option
     @StringDefault("changelog")
@@ -72,8 +78,8 @@ constructor(context: OrchidContext, val model: ChangelogModel) : OrchidGenerator
         orderBy.keySet()
                 .forEach { key ->
                     orderByList.add(with(JSONObject()) {
-                        put("key",   key)
-                        put("type",  orderBy.getJSONObject(key).getString("type"))
+                        put("key", key)
+                        put("type", orderBy.getJSONObject(key).getString("type"))
                         put("order", orderBy.getJSONObject(key).getInt("order"))
                     })
                 }

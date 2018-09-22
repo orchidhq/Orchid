@@ -9,27 +9,24 @@ import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.components.ModularPageListItem;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @since v1.0.0
  * @orchidApi extensible
+ * @since v1.0.0
  */
 @Extensible
+@Description(value = "A factory that produces dynamic menu items.", name = "Menu Items")
 public abstract class OrchidMenuItem extends Prioritized implements ModularPageListItem<OrchidMenu, OrchidMenuItem> {
 
     protected final OrchidContext context;
 
-    @Getter protected final String type;
+    protected final String type;
 
-    @Setter protected OrchidPage page;
+    protected OrchidPage page;
 
-    @Getter @Setter
     @Option
     @IntDefault(0)
     @Description("By default, menu items are rendered in the order in which they are declared, but the ordering can " +
@@ -54,4 +51,19 @@ public abstract class OrchidMenuItem extends Prioritized implements ModularPageL
 
     public abstract List<OrchidMenuItemImpl> getMenuItems();
 
+    public String getType() {
+        return this.type;
+    }
+
+    public int getOrder() {
+        return this.order;
+    }
+
+    public void setPage(OrchidPage page) {
+        this.page = page;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
 }

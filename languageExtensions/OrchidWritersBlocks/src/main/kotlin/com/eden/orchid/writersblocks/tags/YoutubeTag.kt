@@ -8,8 +8,12 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import java.time.format.DateTimeParseException
 import javax.inject.Inject
 
-class YoutubeTag @Inject
-constructor() : TemplateTag("youtube", TemplateTag.Type.Simple, true) {
+@Description("Embed a YouTube video in your page.", name = "YouTube")
+class YoutubeTag
+@Inject
+constructor(
+
+) : TemplateTag("youtube", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Youtube video Id.")

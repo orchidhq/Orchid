@@ -179,4 +179,10 @@ public class OrchidMenuItemImpl {
         return !EdenUtils.isEmpty(children);
     }
 
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

@@ -11,6 +11,8 @@ import com.eden.orchid.api.options.annotations.Option;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -124,7 +126,7 @@ public class OptionsExtractor extends Extractor {
         List<OptionsDescription> optionDescriptions = new ArrayList<>();
 
         if(fields.first != null) {
-            optionDescriptions.add(new OptionsDescription(fields.first.getName(), Map.class, "All options passed to this object.", "{}"));
+            optionDescriptions.add(new OptionsDescription(fields.first.getName(), Map.class, getFieldTypeParams(fields.first), "All options passed to this object.", "{}"));
         }
 
         for (Field field : fields.second) {
@@ -143,17 +145,38 @@ public class OptionsExtractor extends Extractor {
                 }
             }
 
-            optionDescriptions.add(new OptionsDescription(key, field.getType(), description, defaultValue));
+            optionDescriptions.add(new OptionsDescription(key, field.getType(), getFieldTypeParams(field), description, defaultValue));
         }
 
         optionDescriptions.sort(Comparator.comparing(OptionsDescription::getKey));
 
-        String classDescription = (optionsHolderClass.isAnnotationPresent(Description.class))
-                ? optionsHolderClass.getAnnotation(Description.class).value()
-                : "";
+        return new OptionHolderDescription(
+                Descriptive.getDescriptiveName(optionsHolderClass),
+                Descriptive.getDescription(optionsHolderClass),
+                optionDescriptions
+        );
+    }
 
+    private Class<?>[] getFieldTypeParams(Field field) {
+        final Class<?>[] genericClasses;
+        if(field.getGenericType() instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+            Type[] parameterizedTypes = parameterizedType.getActualTypeArguments();
+            genericClasses = new Class<?>[parameterizedTypes.length];
+            for (int i = 0; i < parameterizedTypes.length; i++) {
+                try {
+                    genericClasses[i] = (Class<?>) parameterizedTypes[i];
+                }
+                catch (Exception e) {
+                    genericClasses[i] = null;
+                }
+            }
+        }
+        else {
+            genericClasses = null;
+        }
 
-        return new OptionHolderDescription(classDescription, optionDescriptions);
+        return genericClasses;
     }
 
     public KrowTable getDescriptionTable(OptionHolderDescription optionsHolderDescription) {

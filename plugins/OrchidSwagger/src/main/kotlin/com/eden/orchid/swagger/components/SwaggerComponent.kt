@@ -9,10 +9,15 @@ import org.json.JSONObject
 
 import javax.inject.Inject
 
-class SwaggerComponent @Inject
-constructor(context: OrchidContext) : OrchidComponent(context, "swaggerUi", 100) {
+@Description("Embed the Swagger UI and point it to your OpenApi.json spec.", name = "Swagger UI")
+class SwaggerComponent
+@Inject
+constructor(
+        context: OrchidContext
+) : OrchidComponent(context, "swaggerUi", 100) {
 
-    @Option @StringDefault("3.5.0")
+    @Option
+    @StringDefault("3.5.0")
     @Description("The version of SwaggerUI to use.")
     lateinit var swaggerUiVersion: String
 
@@ -20,7 +25,8 @@ constructor(context: OrchidContext) : OrchidComponent(context, "swaggerUi", 100)
     @Description("The URL containing the OpenAPI definition.")
     lateinit var openApiSource: String
 
-    @Option @StringDefault("swagger-ui")
+    @Option
+    @StringDefault("swagger-ui")
     @Description("The ID of the element that should contain the Swagger UI.")
     lateinit var swaggerElementId: String
 

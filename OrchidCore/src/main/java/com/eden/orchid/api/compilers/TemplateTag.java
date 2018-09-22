@@ -1,6 +1,7 @@
 package com.eden.orchid.api.compilers;
 
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.List;
  * @since v1.0.0
  */
 @Extensible
+@Description(value = "A shortcode-like tag for named blocks of template content or DSLs.", name = "Template Tags")
 public abstract class TemplateTag implements OptionsHolder {
 
     public enum Type {

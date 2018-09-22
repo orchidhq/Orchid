@@ -8,7 +8,8 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.resources.resourceSource.JarResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -99,9 +100,9 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
     }
 
     @Override
-    public final List<AssetPage> getScripts() {
+    public final List<JsPage> getScripts() {
         addAssets();
-        List<AssetPage> scripts = new ArrayList<>();
+        List<JsPage> scripts = new ArrayList<>();
         scripts.addAll(assetHolder.getScripts());
         OrchidUtils.addComponentAssets(currentPage, getComponentHolders(), scripts, OrchidComponent::getScripts);
 
@@ -109,9 +110,9 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
     }
 
     @Override
-    public final List<AssetPage> getStyles() {
+    public final List<CssPage> getStyles() {
         addAssets();
-        List<AssetPage> styles = new ArrayList<>();
+        List<CssPage> styles = new ArrayList<>();
         styles.addAll(assetHolder.getStyles());
         OrchidUtils.addComponentAssets(currentPage, getComponentHolders(), styles, OrchidComponent::getStyles);
 

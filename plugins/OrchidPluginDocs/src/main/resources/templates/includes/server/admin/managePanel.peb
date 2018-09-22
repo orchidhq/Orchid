@@ -52,15 +52,25 @@
                          style="border-left: none; border-right: none;">
                         <ul id="component-tab-left" class="uk-switcher">
                             <li>
-                                <ul class="uk-list uk-list-divider">
-                                {% for collection in view.collections %}
-                                    <li class="uk-link-text">
-                                        <a href="{{ view.getDescriptionLink(collection.class) }}&collectionType={{ collection.collectionType }}&collectionId={{ collection.collectionId }}">
-                                            <b>{{ collection.collectionType }}, {{ collection.collectionId }}</b>
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                                </ul>
+                                <table class="uk-table uk-table-striped uk-table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Collection Type</th>
+                                        <th>Collection Id</th>
+                                        <th>Size</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for collection in view.collections %}
+                                    {% set collectionLink = view.getDescriptionLink(collection.class)~'&collectionType='~collection.collectionType~'&collectionId='~collection.collectionId %}
+                                    <tr>
+                                        <td class="uk-table-link"><a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.collectionType }}</a></td>
+                                        <td class="uk-table-link"><a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.collectionId }}</a></td>
+                                        <td class="uk-table-link"><a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.items|length }}</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </li>
                             <li>
                                 <ul class="uk-list uk-list-divider">

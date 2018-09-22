@@ -19,14 +19,23 @@ theme:
     - type: 'link'
       title: 'Home'
       url: '/'
-    - type: 'wikiSections'
-      topLevel: false
-    - type: 'taxonomy'
-      taxonomyType: 'group'
-      includeTerms: true
-      termsAtRoot: true
-    - type: 'kotlindocPackages'
-    - type: 'kotlindocClasses'
+    - type: 'submenu'
+      title: 'Learn'
+      menu:
+        - type: 'wikiSections'
+        - type: 'page'
+          title: 'API Docs'
+          itemId: 'com.eden.orchid'
+    - type: 'submenu'
+      title: 'Explore'
+      menu:
+        - type: 'taxonomy'
+          taxonomyType: 'group'
+          includeTerms: true
+          termsAtRoot: true
+    - type: 'link'
+      title: 'Github'
+      url: 'https://github.com/JavaEden/Orchid'
   extraCss:
     - 'assets/css/pygments.scss'
 
@@ -34,12 +43,8 @@ services:
   generators:
     disabled:
       - 'javadoc'
+      - 'swiftdoc'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
       - 'https://copper-leaf.github.io/krow/meta/kotlindoc.index.json'
-
-kotlindoc:
-  sourceDirs:
-    - '../../main/kotlin'
-    - '../../main/java'

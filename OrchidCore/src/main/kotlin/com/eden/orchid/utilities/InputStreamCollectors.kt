@@ -21,13 +21,15 @@ class InputStreamCollector(private val inputStream: InputStream) : Runnable {
 }
 
 class InputStreamPrinter
-
 @JvmOverloads
-constructor(private val inputStream: InputStream, val tag: String? = null) : Runnable {
+constructor(
+        private val inputStream: InputStream,
+        val tag: String? = null
+) : Runnable {
 
     override fun run() {
         BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8"))).lines().forEach {
-            if(tag != null) {
+            if (tag != null) {
                 Clog.tag(tag).log(it)
             }
             else {

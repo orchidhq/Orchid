@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -19,6 +20,7 @@ import java.util.Stack;
  * @since v1.0.0
  * @orchidApi services
  */
+@Description(value = "How Orchid manages your site's themes.", name = "Themes")
 public final class ThemeServiceImpl implements ThemeService {
 
     private OrchidContext context;

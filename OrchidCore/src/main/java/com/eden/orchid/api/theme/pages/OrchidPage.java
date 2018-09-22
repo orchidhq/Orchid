@@ -17,7 +17,8 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.breadcrumbs.Breadcrumb;
 import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolder;
 import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolderDelegate;
@@ -48,6 +49,7 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
  * @since v1.0.0
  * @orchidApi extensible
  */
+@Description(value = "A representation of a single file in your output site.", name = "Pages")
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements OptionsHolder, AssetHolder {
 
@@ -58,8 +60,8 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     private Map<String, Object> allData;
 
     // variables that give the page identity
-    @Getter @Setter protected OrchidResource resource;
-    @Getter @Setter protected OrchidReference reference;
+    protected OrchidResource resource;
+    protected OrchidReference reference;
     @Getter @Setter protected String key;
     @Getter @Setter protected Map<String, Object> data;
 
@@ -250,7 +252,20 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public final boolean isDraft() {
-        return draft || publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX)) || expiryDate.isBefore(LocalDate.now().atStartOfDay());
+        if(context.includeDrafts()) {
+            return false;
+        }
+        else if(draft) {
+            return true;
+        }
+        else if(publishDate != null && publishDate.isAfter(LocalDate.now().atTime(LocalTime.MAX))) {
+            return true;
+        }
+        else if(expiryDate != null && expiryDate.isBefore(LocalDate.now().atStartOfDay())) {
+            return true;
+        }
+
+        return false;
     }
 
     public String getContent() {
@@ -347,7 +362,7 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
 
     @Override
     public String toString() {
-        return this.toJSON().toString(2);
+        return getLink();
     }
 
 // Assets, Components, Breadcrumbs
@@ -359,23 +374,23 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public final List<AssetPage> getScripts() {
+    public final List<JsPage> getScripts() {
         addAssets();
-        List<AssetPage> scripts = new ArrayList<>();
-        context.getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(context.getTheme().getScripts()));
-        scripts.addAll(assets.getScripts());
-        OrchidUtils.addComponentAssets(this, getComponentHolders(), scripts, OrchidComponent::getScripts);
+        List<JsPage> scripts = new ArrayList<>();
+        collectThemeScripts(scripts);
+        collectOwnScripts(scripts);
+        collectComponentScripts(scripts);
 
         return scripts;
     }
 
     @Override
-    public final List<AssetPage> getStyles() {
+    public final List<CssPage> getStyles() {
         addAssets();
-        List<AssetPage> styles = new ArrayList<>();
-        context.getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(context.getTheme().getStyles()));
-        styles.addAll(assets.getStyles());
-        OrchidUtils.addComponentAssets(this, getComponentHolders(), styles, OrchidComponent::getStyles);
+        List<CssPage> styles = new ArrayList<>();
+        collectThemeStyles(styles);
+        collectOwnStyles(styles);
+        collectComponentStyles(styles);
 
         return styles;
     }
@@ -387,6 +402,33 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
             hasAddedAssets = true;
         }
     }
+
+    protected void collectThemeScripts(List<JsPage> scripts) {
+        context.getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(context.getTheme().getScripts()));
+    }
+
+    protected void collectOwnScripts(List<JsPage> scripts) {
+        scripts.addAll(assets.getScripts());
+    }
+
+    protected void collectComponentScripts(List<JsPage> scripts) {
+        OrchidUtils.addComponentAssets(this, getComponentHolders(), scripts, OrchidComponent::getScripts);
+    }
+
+    protected void collectThemeStyles(List<CssPage> styles) {
+        context.getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(context.getTheme().getStyles()));
+    }
+
+    protected void collectOwnStyles(List<CssPage> styles) {
+        styles.addAll(assets.getStyles());
+    }
+
+    protected void collectComponentStyles(List<CssPage> styles) {
+        OrchidUtils.addComponentAssets(this, getComponentHolders(), styles, OrchidComponent::getStyles);
+    }
+
+// Breadcrumbs
+//----------------------------------------------------------------------------------------------------------------------
 
     public final BreadcrumbHolder getBreadcrumbHolder() {
         return breadcrumbs;
@@ -493,4 +535,22 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
         return (result != null) ? result.getElement() : null;
     }
 
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    public OrchidResource getResource() {
+        return resource;
+    }
+
+    public void setResource(OrchidResource resource) {
+        this.resource = resource;
+    }
+
+    public OrchidReference getReference() {
+        return reference;
+    }
+
+    public void setReference(OrchidReference reference) {
+        this.reference = reference;
+    }
 }

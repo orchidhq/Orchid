@@ -1,3 +1,7 @@
+sourceDirs:
+  - '../../main/kotlin'
+  - '../../main/java'
+
 classPages:
   searchIndices:
     - 'wiki'

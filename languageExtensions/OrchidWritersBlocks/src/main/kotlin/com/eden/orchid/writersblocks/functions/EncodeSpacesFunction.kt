@@ -7,8 +7,12 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.utilities.encodeSpaces
 import javax.inject.Inject
 
-class EncodeSpacesFunction @Inject
-constructor(private val converter: StringConverter) : TemplateFunction("encodeSpaces", true) {
+@Description("Encode space characters as `&nbsp;` to preserve indentation.", name = "Encode Spaces")
+class EncodeSpacesFunction
+@Inject
+constructor(
+        private val converter: StringConverter
+) : TemplateFunction("encodeSpaces", true) {
 
     @Option
     @Description("The input to encode.")

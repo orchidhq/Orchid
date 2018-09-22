@@ -9,9 +9,8 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
+@Description(value = "Print the tag content to the console for debugging templates.", name = "Log")
 public final class LogTag extends TemplateTag {
 
     @Option @StringDefault("verbose")

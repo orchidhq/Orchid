@@ -26,7 +26,7 @@ class WikiModel {
         }
 
     fun initialize(sections: List<WikiSection>) {
-        this.sections = hashMapOf(*(sections.map { it.key to it }.toTypedArray()))
+        this.sections = linkedMapOf(*(sections.map { it.key to it }.toTypedArray()))
     }
 
     fun getSection(sectionKey: String?) : WikiSection? {

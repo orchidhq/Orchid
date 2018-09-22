@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
+@Description(value = "The global information for your Orchid site.", name = "Site Info")
 public final class SiteInfo implements OptionsHolder {
 
     @Option

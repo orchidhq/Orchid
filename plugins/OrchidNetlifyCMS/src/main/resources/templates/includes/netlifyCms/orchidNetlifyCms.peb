@@ -1,0 +1,8 @@
+{% include 'includes/netlifyCms/tagEditorComponents' with {"model": view.model} %}
+{% include 'includes/netlifyCms/componentWidgets' with {"model": view.model} %}
+{% include 'includes/netlifyCms/menuItemWidgets' with {"model": view.model} %}
+
+<script>
+    CMS.registerWidget('componentHolder', 'list');
+    CMS.registerWidget('orchidMenu', 'list');
+</script>

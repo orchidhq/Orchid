@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.util.concurrent.Executors;
 
+@Description(value = "Run arbitrary shell scripts.", name = "Script")
 public class ScriptPublisher extends OrchidPublisher {
 
     private final String resourcesDir;

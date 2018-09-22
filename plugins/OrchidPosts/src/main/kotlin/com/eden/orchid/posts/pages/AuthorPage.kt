@@ -17,6 +17,7 @@ import com.eden.orchid.utilities.OrchidUtils
         Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
         Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.authorPages")
 )
+@Description(value = "An 'about' page for an author in your blog.", name = "Author")
 class AuthorPage(
         resource: OrchidResource,
         val author: Author,

@@ -18,9 +18,12 @@ import java.nio.file.Files
 import java.util.Base64
 import javax.inject.Inject
 
-@JvmSuppressWildcards
-class NetlifyCmsApiController @Inject
-constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) : OrchidController(1000) {
+class NetlifyCmsApiController
+@Inject
+constructor(
+        val context: OrchidContext,
+        @Named("src") val resourcesDir: String
+) : OrchidController(1000) {
 
     override fun getPathNamespace(): String {
         return "api"
@@ -28,11 +31,11 @@ constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) 
 
 // Get file lists
 //----------------------------------------------------------------------------------------------------------------------
-    
+
     @Get(path = "/files/**localFilename")
     fun getFiles(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
         val resources = context.getLocalResourceEntries(localFilename, null, false)
-        if(!EdenUtils.isEmpty(resources)) {
+        if (!EdenUtils.isEmpty(resources)) {
             val locatedResources = JSONArray()
 
             resources.forEach {
@@ -62,7 +65,7 @@ constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) 
     @Get(path = "/file/**localFilename")
     fun getFile(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getLocalResourceEntry(localFilename)
-        if(resource != null) {
+        if (resource != null) {
             return OrchidResponse(context).content(resource.rawContent)
         }
         else {
@@ -73,8 +76,8 @@ constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) 
     @Delete(path = "/file/**localFilename")
     fun deleteFile(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getLocalResourceEntry(localFilename)
-        if(resource != null) {
-            if(resource.canDelete()) {
+        if (resource != null) {
+            if (resource.canDelete()) {
                 resource.delete()
                 return OrchidResponse(context).content("Successfully deleted")
             }
@@ -90,8 +93,8 @@ constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) 
     @Put(path = "/file/**localFilename")
     fun updateFile(request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getLocalResourceEntry(localFilename)
-        if(resource != null) {
-            if(resource.canUpdate()) {
+        if (resource != null) {
+            if (resource.canUpdate()) {
                 val contentBase64 = request.input("content")
                 val contentBytes = Base64.getDecoder().decode(contentBase64)
                 val contentStream = contentBytes.inputStream()
@@ -118,7 +121,8 @@ constructor(val context: OrchidContext, @Named("src") val resourcesDir: String) 
         try {
             Files.write(newFile.toPath(), Base64.getDecoder().decode(request.input("content")))
             return OrchidResponse(context).content("Successfully created")
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             e.printStackTrace()
             return OrchidResponse(context).content("Could not create file").status(500)
         }

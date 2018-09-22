@@ -15,7 +15,9 @@ import com.sun.tools.javac.util.List as JavacList
 
 class JavadocInvokerImpl
 @Inject
-constructor(@Named("src") val resourcesDir: String): JavadocInvoker {
+constructor(
+        @Named("src") val resourcesDir: String
+): JavadocInvoker {
 
     override fun getRootDoc(sourceDirs: List<String>): RootDoc? {
         try {

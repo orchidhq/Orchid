@@ -9,9 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
+@Description(value = "Compile any String using any of Orchid's included markup languages.", name = "Compile-As")
 public final class CompileAsFunction extends TemplateFunction {
 
     private final OrchidContext context;

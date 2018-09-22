@@ -15,15 +15,14 @@
 {% endif %}
 </ul>
 
+{% set classDescripton = optionsExtractor.describeOptions(classType, false, false) %}
 <ul class="uk-switcher uk-margin">
     <li>
-        <h3>{{ classType.simpleName }} Overview</h3>
-        <p>{{ optionsExtractor.describeOptions(classType, false, false).classDescription }}</p>
+        <p>{{ classDescripton.classDescription|compileAs('md')|raw }}</p>
         {% include controller.getClassTypeOverviewTemplate(classType) %}
     </li>
 {% if optionsExtractor.hasOptions(classType, true, false) %}
     <li>
-        <h3>Options defined in {{ classType.simpleName }}</h3>
         <div class="uk-overflow-auto">
         {{ controller.getOptions(classType, true, false) | raw }}
         </div>
@@ -31,7 +30,6 @@
 {% endif %}
 {% if optionsExtractor.hasOptions(classType, false, true) %}
     <li>
-        <h3>Options defined in superclasses of {{ classType.simpleName }}</h3>
         <div class="uk-overflow-auto">
         {{ controller.getOptions(classType, false, true) | raw }}
         </div>

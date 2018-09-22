@@ -300,9 +300,12 @@ generating phase, even if it is not.
 {% block kotlinExample %}
 
 @Singleton
-@Description("A description for this custom generator.")
-class CustomGenerator @Inject constructor(context: OrchidContext)
-    : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+@Description("A description for this custom generator.", name = "Custom Generator)
+class CustomGenerator 
+@Inject 
+constructor(
+        context: OrchidContext
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "customKey"

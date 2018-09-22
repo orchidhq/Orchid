@@ -10,8 +10,12 @@ import org.apache.commons.lang3.StringUtils
 import java.util.stream.Collectors
 import javax.inject.Inject
 
-class PagesMenuType @Inject
-constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
+@Description("Static pages, optionally by group.", name = "Static Pages")
+class PagesMenuType
+@Inject
+constructor(
+        context: OrchidContext
+) : OrchidMenuItem(context, "pages", 100) {
 
     @Option
     @Description("Whether to group all pages under a single menu item or expand these items into the root of the menu.")
@@ -46,7 +50,7 @@ constructor(context: OrchidContext) : OrchidMenuItem(context, "pages", 100) {
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
-        val allPages = context.internalIndex.getGeneratorPages("pages")
+        val allPages = context.internalIndex.getChildIndex("pages")
 
         val pages = if (EdenUtils.isEmpty(group))
             allPages

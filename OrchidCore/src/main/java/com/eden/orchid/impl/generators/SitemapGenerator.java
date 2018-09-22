@@ -3,7 +3,7 @@ package com.eden.orchid.impl.generators;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
-import com.eden.orchid.api.indexing.OrchidInternalIndex;
+import com.eden.orchid.api.indexing.OrchidIndex;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+@Description(value="Generate a sitemap and `robots.txt` for automatic SEO.", name="Sitemap and Robots.txt")
 public final class SitemapGenerator extends OrchidGenerator {
 
     public static final String GENERATOR_KEY = "sitemap";
@@ -50,7 +51,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         SitemapIndexPage sitemapIndex = null;
 
         if(useSitemaps) {
-            Map<String, OrchidInternalIndex> mappedIndex = context.getInternalIndex().getAllIndexedPages();
+            Map<String, OrchidIndex> mappedIndex = context.getInternalIndex().getAllIndexedPages();
             List<SitemapPage> sitemapPages = new ArrayList<>();
 
             // Render an page for each generator's individual index
@@ -78,6 +79,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         return null;
     }
 
+    @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")
     public static class SitemapPage extends OrchidPage {
         public final List<OrchidPage> entries;
         SitemapPage(OrchidContext context, String key, List<OrchidPage> entries) {
@@ -90,6 +92,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         }
     }
 
+    @Description(value = "The root sitemap, with links to all individual sitemaps.", name = "Sitemap Index")
     public static class SitemapIndexPage extends OrchidPage {
         public final List<SitemapPage> sitemaps;
         SitemapIndexPage(OrchidContext context, List<SitemapPage> sitemaps) {
@@ -102,6 +105,7 @@ public final class SitemapGenerator extends OrchidGenerator {
         }
     }
 
+    @Description(value = "Your site's robots.txt file, for directing web crawlers.", name = "Robots.txt")
     public static class RobotsPage extends OrchidPage {
         public final SitemapIndexPage sitemap;
         RobotsPage(OrchidContext context, SitemapIndexPage sitemap) {

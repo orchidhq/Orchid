@@ -9,10 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Getter @Setter
+@Description(value = "Get the link to a page.", name = "Link")
 public final class LinkFunction extends TemplateFunction {
 
     private final OrchidContext context;

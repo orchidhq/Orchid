@@ -11,8 +11,13 @@ import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
 import javax.inject.Inject
 
-class LatestPostsMenuType @Inject
-constructor(context: OrchidContext, private val postsModel: PostsModel) : OrchidMenuItem(context, "latestPosts", 100) {
+@Description("Latest posts, optionally by category.", name = "Latest Posts")
+class LatestPostsMenuType
+@Inject
+constructor(
+        context: OrchidContext,
+        private val postsModel: PostsModel
+) : OrchidMenuItem(context, "latestPosts", 100) {
 
     @Option @IntDefault(10)
     @Description("The maximum number of posts to include in this menu item.")

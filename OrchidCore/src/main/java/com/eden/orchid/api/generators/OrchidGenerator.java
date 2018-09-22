@@ -55,6 +55,7 @@ import java.util.stream.Stream;
  * @orchidApi extensible
  */
 @Extensible
+@Description(value = "A plugin that creates a new content model in your site.", name = "Generators")
 @Archetype(value = ConfigArchetype.class, key = "allGenerators")
 public abstract class OrchidGenerator extends Prioritized implements OptionsHolder {
 
@@ -140,7 +141,7 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
      * @return the list of OrchidCollections
      */
     public List<? extends OrchidCollection> getCollections() {
-        List<OrchidPage> pages = context.getGeneratorPages(key);
+        List<OrchidPage> pages = context.getInternalIndex().getChildIndex(key);
         if(!EdenUtils.isEmpty(pages)) {
             return Collections.singletonList(new FileCollection(this, this.getKey(), pages));
         }

@@ -1,7 +1,6 @@
 package com.eden.orchid.api.theme.menus;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.components.ModularPageList;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl;
@@ -13,7 +12,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-@Extensible
 @Getter @Setter
 public final class OrchidMenu extends ModularPageList<OrchidMenu, OrchidMenuItem> {
 

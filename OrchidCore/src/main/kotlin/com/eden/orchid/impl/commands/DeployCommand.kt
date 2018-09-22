@@ -9,8 +9,11 @@ import com.google.inject.Provider
 import javax.inject.Inject
 
 @Description("Publish the Orchid build results.")
-class DeployCommand @Inject
-constructor(private val contextProvider: Provider<OrchidContext>) : OrchidCommand(100, "deploy") {
+class DeployCommand
+@Inject
+constructor(
+        private val contextProvider: Provider<OrchidContext>
+) : OrchidCommand(100, "deploy") {
 
     @Option
     @BooleanDefault(true)

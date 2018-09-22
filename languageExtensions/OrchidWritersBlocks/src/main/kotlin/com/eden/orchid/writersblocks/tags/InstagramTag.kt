@@ -10,8 +10,12 @@ import java.io.IOException
 import java.net.URLEncoder
 import javax.inject.Inject
 
-class InstagramTag @Inject
-constructor(val client: OkHttpClient) : TemplateTag("instagram", TemplateTag.Type.Simple, true) {
+@Description("Embed an Instagram post in your content.", name = "Instagram")
+class InstagramTag
+@Inject
+constructor(
+        val client: OkHttpClient
+) : TemplateTag("instagram", TemplateTag.Type.Simple, true) {
 
     @Option
     @Description("The Id of an Instagram post to link to.")
@@ -23,9 +27,10 @@ constructor(val client: OkHttpClient) : TemplateTag("instagram", TemplateTag.Typ
 
     var embeddedPost: String? = null
         @Suppress("UNUSED_PARAMETER")
-        private set(value) {}
+        private set(value) {
+        }
         get() {
-            if(field == null) {
+            if (field == null) {
                 val postUrl = "http://instagr.am/p/$id"
                 val requestUrl = "https://api.instagram.com/oembed?url=${URLEncoder.encode(postUrl, "UTF-8")}"
 
@@ -38,7 +43,8 @@ constructor(val client: OkHttpClient) : TemplateTag("instagram", TemplateTag.Typ
                         val body = response.body()?.string() ?: ""
                         field = JSONObject(body).getString("html")
                     }
-                } catch (e: IOException) {
+                }
+                catch (e: IOException) {
                     e.printStackTrace()
                 }
             }

@@ -10,13 +10,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Singleton
 @Getter @Setter
+@Description(value = "Get all Page objects matching a query.", name = "Find all")
 public final class FindAllFunction extends TemplateFunction {
 
     private final OrchidContext context;

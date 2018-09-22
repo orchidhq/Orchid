@@ -1,1 +1,5 @@
-<input type="hidden" name="{{ field.key }}" value="{{ field.value }}">
+<input
+        type="hidden"
+        name="{{ field.key }}"
+        id="{{ form.key }}--{{ field.key }}"
+        value="{{ field.value }}">

@@ -28,6 +28,7 @@ import java.util.TreeSet;
  * @orchidApi services
  */
 @Singleton
+@Description(value = "How content gets processed by Orchid.", name = "Compilers")
 public final class CompilerServiceImpl implements CompilerService {
 
     private String[] binaryExtensions = new String[] {

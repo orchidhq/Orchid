@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
+import com.eden.orchid.api.options.Descriptive;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -12,7 +13,8 @@ import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provider;
 import lombok.Getter;
@@ -97,13 +99,13 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     }
 
     protected void loadAssets() {
-
+        addJs("assets/js/shadowComponents.js");
     }
 
     @Override
-    public final List<AssetPage> getScripts() {
+    public final List<JsPage> getScripts() {
         addAssets();
-        List<AssetPage> scripts = new ArrayList<>();
+        List<JsPage> scripts = new ArrayList<>();
         scripts.addAll(context.getAdminTheme().getScripts());
         scripts.addAll(assets.getScripts());
 
@@ -111,9 +113,9 @@ public class OrchidView implements OptionsHolder, AssetHolder {
     }
 
     @Override
-    public final List<AssetPage> getStyles() {
+    public final List<CssPage> getStyles() {
         addAssets();
-        List<AssetPage> styles = new ArrayList<>();
+        List<CssPage> styles = new ArrayList<>();
         styles.addAll(context.getAdminTheme().getStyles());
         styles.addAll(assets.getStyles());
 
@@ -187,6 +189,18 @@ public class OrchidView implements OptionsHolder, AssetHolder {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public String getDescriptiveName(Object o) {
+        return Descriptive.getDescriptiveName((o instanceof Class) ? (Class) o : o.getClass());
+    }
+
+    public String getDescription(Object o) {
+        return Descriptive.getDescription((o instanceof Class) ? (Class) o : o.getClass());
+    }
+
+    public String getDescriptionSummary(Object o) {
+        return Descriptive.getDescriptionSummary((o instanceof Class) ? (Class) o : o.getClass());
     }
 
     public List<OrchidTask> getTasks() {

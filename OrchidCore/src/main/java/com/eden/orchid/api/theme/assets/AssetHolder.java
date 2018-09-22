@@ -12,19 +12,19 @@ public interface AssetHolder {
         getAssetHolder().withNamespace(namespace, cb);
     }
 
-    default AssetPage addJs(AssetPage jsAsset) {
+    default JsPage addJs(JsPage jsAsset) {
         return getAssetHolder().addJs(jsAsset);
     }
 
-    default AssetPage addJs(String jsAsset) {
+    default JsPage addJs(String jsAsset) {
         return getAssetHolder().addJs(jsAsset);
     }
 
-    default AssetPage addCss(AssetPage cssAsset) {
+    default CssPage addCss(CssPage cssAsset) {
         return getAssetHolder().addCss(cssAsset);
     }
 
-    default AssetPage addCss(String cssAsset) {
+    default CssPage addCss(String cssAsset) {
         return getAssetHolder().addCss(cssAsset);
     }
 
@@ -36,11 +36,11 @@ public interface AssetHolder {
         return getAssetHolder().addAsset(asset);
     }
 
-    default List<AssetPage> getScripts() {
+    default List<JsPage> getScripts() {
         return getAssetHolder().getScripts();
     }
 
-    default List<AssetPage> getStyles() {
+    default List<CssPage> getStyles() {
         return getAssetHolder().getStyles();
     }
     

@@ -1,7 +1,8 @@
-<label for="{{ field.key }}">{{ field.label }}</label>
+<label for="{{ form.key }}--{{ field.key }}">{{ field.label }}</label>
 <select
         type="{{ field.type }}"
         name="{{ field.key }}"
+        id="{{ form.key }}--{{ field.key }}"
         placeholder="{{ field.placeholder }}"
         {% if field.required %}required{% endif %}
         {% if field.multiple %}multiple{% endif %}>

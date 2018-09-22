@@ -5,7 +5,7 @@ import com.eden.orchid.testhelpers.nothingRendered
 import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import strikt.api.expect
+import strikt.api.expectThat
 
 @DisplayName("Tests page-rendering behavior of Pages generator")
 class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
@@ -16,7 +16,7 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/page-one.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
     }
 
     @Test
@@ -25,7 +25,7 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/page-one/index.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
     }
 
     @Test
@@ -35,7 +35,7 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         resource("otherPages/page-one.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/page-one/index.html")
     }
 
     @Test
@@ -45,7 +45,7 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/page-one.md")
 
         val testResults = execute()
-        expect(testResults).nothingRendered()
+        expectThat(testResults).nothingRendered()
     }
 
 }

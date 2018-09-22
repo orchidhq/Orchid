@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
@@ -30,13 +29,14 @@ import org.jsoup.Jsoup
 import java.io.File
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@Description("Create a structured and navigable knowledge-base for your project.")
+@Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
 class WikiGenerator
 @Inject
-constructor(context: OrchidContext, private val wikiModel: WikiModel) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY), OptionsHolder {
+constructor(
+        context: OrchidContext,
+        private val wikiModel: WikiModel
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "wiki"
@@ -86,10 +86,10 @@ constructor(context: OrchidContext, private val wikiModel: WikiModel) : OrchidGe
         else
             OrchidUtils.normalizePath(baseDir) + "/"
 
-        var summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
+        val summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
 
         if (summary == null) {
-            if (section.key != null) {
+            if (EdenUtils.isEmpty(section.key)) {
                 Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
             }
 
@@ -145,14 +145,14 @@ constructor(context: OrchidContext, private val wikiModel: WikiModel) : OrchidGe
         val segments = summaryReference.originalPath.split("/")
         summaryReference.fileName = segments.last()
         summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
-        summary = StringResource(safe, summaryReference)
+        val newSummary = StringResource(safe, summaryReference, summary.embeddedData)
 
         val sectionTitle =
                 if (!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
-                else if (!EdenUtils.isEmpty(section.key)) section.key!!
+                else if (!EdenUtils.isEmpty(section.key)) section.key
                 else "Wiki"
 
-        val summaryPage = WikiSummaryPage(section.key, summary, sectionTitle from String::camelCase to Array<String>::titleCase)
+        val summaryPage = WikiSummaryPage(section.key, newSummary, sectionTitle from String::camelCase to Array<String>::titleCase)
         summaryPage.reference.isUsePrettyUrl = true
 
         for (wikiPage in wiki) {

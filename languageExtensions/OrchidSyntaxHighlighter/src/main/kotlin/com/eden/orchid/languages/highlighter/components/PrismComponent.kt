@@ -9,10 +9,19 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.utilities.OrchidUtils
 import javax.inject.Inject
 
-class PrismComponent @Inject
-constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
+@Description("Automatically find and highlight code snippets with Prism.js. Markdown code snippets are immediately " +
+        "compatible with Prism.js and requires no further configuration. This component simply attached the " +
+        "necessary scripts and styles to the page, but needs no UI template of its own.",
+        name = "Prism.js"
+)
+class PrismComponent
+@Inject
+constructor(
+        context: OrchidContext
+) : OrchidComponent(context, "prism", 100) {
 
-    @Option @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")
+    @Option
+    @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")
     @Description("The base URL to load Prism CSS and JS files from.")
     lateinit var prismSource: String
 
@@ -44,9 +53,11 @@ constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
         if (!scriptsOnly) {
             if (!EdenUtils.isEmpty(theme)) {
                 addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
-            } else if (!EdenUtils.isEmpty(githubTheme)) {
+            }
+            else if (!EdenUtils.isEmpty(githubTheme)) {
                 addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
-            } else {
+            }
+            else {
                 addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
             }
         }
@@ -59,7 +70,7 @@ constructor(context: OrchidContext) : OrchidComponent(context, "prism", 100) {
 
         if (!EdenUtils.isEmpty(plugins)) {
             for (plugin in plugins) {
-                if(plugin == "copy-to-clipboard") {
+                if (plugin == "copy-to-clipboard") {
                     addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
                 }
                 addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")

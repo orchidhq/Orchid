@@ -6,7 +6,8 @@ import com.eden.orchid.taxonomies.pages.TaxonomyArchivePage
 import com.eden.orchid.taxonomies.pages.TermArchivePage
 import javax.inject.Inject
 
-class ArchiveIndexPathType @Inject
+class ArchiveIndexPathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {

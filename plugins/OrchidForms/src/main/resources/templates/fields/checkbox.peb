@@ -1,0 +1,7 @@
+<input
+        type="{{ field.type }}"
+        name="{{ field.key }}"
+        id="{{ form.key }}--{{ field.key }}"
+        {% if field.required %}required{% endif %}
+        {% if field.default %}checked{% endif %}>
+<label for="{{ form.key }}--{{ field.key }}">{{ field.label }}</label>

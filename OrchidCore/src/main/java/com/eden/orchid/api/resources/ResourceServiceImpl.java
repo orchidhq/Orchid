@@ -3,6 +3,7 @@ package com.eden.orchid.api.resources;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
  * @orchidApi services
  */
 @Singleton
+@Description(value = "How Orchid locates resources.", name = "Resources")
 public final class ResourceServiceImpl implements ResourceService {
 
     private OrchidContext context;

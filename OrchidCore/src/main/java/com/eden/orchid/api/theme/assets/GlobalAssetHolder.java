@@ -1,7 +1,7 @@
 package com.eden.orchid.api.theme.assets;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.InlineResource;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
@@ -24,14 +24,16 @@ public class GlobalAssetHolder {
 
     // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check
     // again. Go ahead and render it now so we can free its resources, and eventually implement an asset pipeline from
-    // this point
+    // this point. Inline resources are rendered directly into the page, and should not be rendered as a proper resource
     public AssetPage addAsset(AssetPage asset) {
         assets.add(asset);
-        if(context.get().isBinaryExtension(asset.getReference().getOutputExtension())) {
-            context.get().renderBinary(asset);
-        }
-        else {
-            context.get().renderRaw(asset);
+        if(!(asset.getResource() instanceof InlineResource)) {
+            if(context.get().isBinaryExtension(asset.getReference().getOutputExtension())) {
+                context.get().renderBinary(asset);
+            }
+            else {
+                context.get().renderRaw(asset);
+            }
         }
 
         return asset;

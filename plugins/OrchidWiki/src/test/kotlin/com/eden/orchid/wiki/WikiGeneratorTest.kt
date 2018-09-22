@@ -4,7 +4,7 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import strikt.api.expect
+import strikt.api.expectThat
 
 @DisplayName("Tests page-rendering behavior of Wiki generator")
 class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
@@ -16,8 +16,8 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/page-one.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/wiki/index.html")
-        expect(testResults).pageWasRendered("/wiki/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
     }
 
     @Test
@@ -27,8 +27,8 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/page-one.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/wiki/index.html")
-        expect(testResults).pageWasRendered("/wiki/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
     }
 
     @Test
@@ -42,11 +42,11 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/page-two.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/wiki/index.html")
-        expect(testResults).pageWasRendered("/wiki/section1/index.html")
-        expect(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
-        expect(testResults).pageWasRendered("/wiki/section2/index.html")
-        expect(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section1/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
     }
 
     @Test
@@ -59,11 +59,11 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/page-two.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/wiki/index.html")
-        expect(testResults).pageWasRendered("/wiki/section1/index.html")
-        expect(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
-        expect(testResults).pageWasRendered("/wiki/section2/index.html")
-        expect(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section1/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
     }
 
     @Test
@@ -76,11 +76,11 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/page-two.md")
 
         val testResults = execute()
-        expect(testResults).pageWasRendered("/wiki/index.html")
-        expect(testResults).pageWasRendered("/wiki/section1/index.html")
-        expect(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
-        expect(testResults).pageWasRendered("/wiki/section2/index.html")
-        expect(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section1/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
     }
 
 }

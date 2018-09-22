@@ -13,10 +13,19 @@ import com.eden.orchid.javadoc.pages.JavadocClassPage
 import java.util.ArrayList
 import javax.inject.Inject
 
-class ClassDocLinksMenuItemType @Inject
-constructor(context: OrchidContext, val model: JavadocModel) : OrchidMenuItem(context, "javadocClassLinks", 100) {
+@Description("Links to the different sections within a Javadoc Class page, optionally with their items nested " +
+        "underneath them.",
+        name = "Javadoc Class Sections"
+)
+class ClassDocLinksMenuItemType
+@Inject
+constructor(
+        context: OrchidContext,
+        val model: JavadocModel
+) : OrchidMenuItem(context, "javadocClassLinks", 100) {
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     @Description("Whether to include the items for each category. For example, including a menu item for each " +
             "individual constructor as children of 'Constructors' or just a link to the Constructors section."
     )
@@ -33,19 +42,19 @@ constructor(context: OrchidContext, val model: JavadocModel) : OrchidMenuItem(co
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
         val linkData = arrayOf(
-                LinkData({true},                                 { emptyList() },           "Summary",      "summary"),
-                LinkData({true},                                 { emptyList() },           "Description",  "description"),
-                LinkData({classDoc.fields().isNotEmpty()},       this::getFieldLinks,       "Fields",       "fields"),
-                LinkData({classDoc.constructors().isNotEmpty()}, this::getConstructorLinks, "Constructors", "constructors"),
-                LinkData({classDoc.methods().isNotEmpty()},      this::getMethodLinks,      "Methods",      "methods")
+                LinkData({ true }, { emptyList() }, "Summary", "summary"),
+                LinkData({ true }, { emptyList() }, "Description", "description"),
+                LinkData({ classDoc.fields().isNotEmpty() }, this::getFieldLinks, "Fields", "fields"),
+                LinkData({ classDoc.constructors().isNotEmpty() }, this::getConstructorLinks, "Constructors", "constructors"),
+                LinkData({ classDoc.methods().isNotEmpty() }, this::getMethodLinks, "Methods", "methods")
         )
 
-        for(item in linkData) {
-            if(item.matches()) {
+        for (item in linkData) {
+            if (item.matches()) {
                 val menuItem = OrchidMenuItemImpl(context, item.title, ArrayList()).apply {
                     isSeparator = false
                     anchor = item.id
-                    if(includeItems) {
+                    if (includeItems) {
                         children = item.items()
                     }
                 }

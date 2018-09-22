@@ -7,8 +7,12 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.utilities.nl2br
 import javax.inject.Inject
 
-class Nl2brFunction @Inject
-constructor(private val converter: StringConverter) : TemplateFunction("nl2br", true) {
+@Description("Convert newline characters to `<br>` tags.", name = "nl2br")
+class Nl2brFunction
+@Inject
+constructor(
+        private val converter: StringConverter
+) : TemplateFunction("nl2br", true) {
 
     @Option
     @Description("The input to encode.")

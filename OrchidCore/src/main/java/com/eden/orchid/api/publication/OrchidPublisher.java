@@ -43,6 +43,7 @@ import java.util.Map;
  * @orchidApi extensible
  */
 @Extensible
+@Description(value = "Deploy your site after it has finished being built.", name = "Publishers")
 @Archetype(value = ConfigArchetype.class, key = "allPublishers")
 public abstract class OrchidPublisher extends Prioritized implements OptionsHolder, ModularListItem<PublicationPipeline, OrchidPublisher> {
 

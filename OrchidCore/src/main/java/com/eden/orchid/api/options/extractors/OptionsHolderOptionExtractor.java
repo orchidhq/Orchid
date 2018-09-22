@@ -77,6 +77,11 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
         return holder;
     }
 
+    @Override
+    public String describeDefaultValue(Field field) {
+        return "a new instance of " + field.getType().getSimpleName();
+    }
+
     public static class Converter implements TypeConverter<OptionsHolder> {
         private final OrchidContext context;
         private final FlexibleMapConverter mapConverter;

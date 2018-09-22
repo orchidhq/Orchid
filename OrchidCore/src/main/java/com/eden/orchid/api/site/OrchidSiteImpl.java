@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.nio.file.Paths;
 
+@Description(value = "The global configurations for your Orchid site.", name = "Site")
 public final class OrchidSiteImpl implements OrchidSite {
 
     private OrchidContext context;

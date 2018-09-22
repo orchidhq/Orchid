@@ -2,12 +2,14 @@ package com.eden.orchid.javadoc.pages
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.javadoc.JavadocGenerator
 import com.eden.orchid.javadoc.resources.PackageDocResource
 import com.sun.javadoc.PackageDoc
 
 @Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.GENERATOR_KEY}.packagePages")
+@Description(value = "Documentation for a Java package.", name = "Java Package")
 class JavadocPackagePage(
         context: OrchidContext,
         val packageDoc: PackageDoc,

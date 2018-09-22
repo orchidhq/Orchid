@@ -9,10 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Getter @Setter
+@Description(value = "Lookup a Page object by a query.", name = "Find")
 public final class FindFunction extends TemplateFunction {
 
     private final OrchidContext context;

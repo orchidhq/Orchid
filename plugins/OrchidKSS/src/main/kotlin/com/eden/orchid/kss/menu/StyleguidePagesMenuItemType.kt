@@ -9,8 +9,13 @@ import com.eden.orchid.kss.model.KssModel
 import com.eden.orchid.kss.pages.KssPage
 import javax.inject.Inject
 
-class StyleguidePagesMenuItemType @Inject
-constructor(context: OrchidContext, private val model: KssModel) : OrchidMenuItem(context, "styleguide", 100) {
+@Description("All pages in your styleguide, optionally by section.", name = "Styleguide")
+class StyleguidePagesMenuItemType
+@Inject
+constructor(
+        context: OrchidContext,
+        private val model: KssModel
+) : OrchidMenuItem(context, "styleguide", 100) {
 
     @Option
     @Description("The Styleguide section to get pages for.")

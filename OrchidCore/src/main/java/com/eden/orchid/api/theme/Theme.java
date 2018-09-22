@@ -16,6 +16,7 @@ import javax.inject.Inject;
  * @orchidApi extensible
  */
 @Extensible
+@Description(value = "A collection of assets and templates used to render your site.", name = "Themes")
 public abstract class Theme extends AbstractTheme {
 
     @Getter @Setter

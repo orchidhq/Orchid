@@ -51,7 +51,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public AssetPage addJs(AssetPage jsAsset) {
+    public JsPage addJs(JsPage jsAsset) {
         if(validAsset(jsAsset, JS_EXT)) {
             jsAsset.getReference().setUsePrettyUrl(false);
             assets.add(jsAsset);
@@ -69,7 +69,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public AssetPage addJs(String jsAsset) {
+    public JsPage addJs(String jsAsset) {
         OrchidResource resource = context.getResourceEntry(jsAsset);
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
@@ -81,7 +81,7 @@ public final class AssetHolderDelegate implements AssetHolder {
                     setPrefix = false;
                 }
             }
-            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset), null);
+            JsPage page = new JsPage(source, sourceKey, resource, FilenameUtils.getBaseName(jsAsset), null);
             if(setPrefix) {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
@@ -96,7 +96,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public AssetPage addCss(AssetPage cssAsset) {
+    public CssPage addCss(CssPage cssAsset) {
         if(validAsset(cssAsset, CSS_EXT)) {
             cssAsset.getReference().setUsePrettyUrl(false);
             assets.add(cssAsset);
@@ -113,7 +113,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public AssetPage addCss(String cssAsset) {
+    public CssPage addCss(String cssAsset) {
         OrchidResource resource = context.getResourceEntry(cssAsset);
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
@@ -125,7 +125,7 @@ public final class AssetHolderDelegate implements AssetHolder {
                     setPrefix = false;
                 }
             }
-            AssetPage page = new AssetPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset), null);
+            CssPage page = new CssPage(source, sourceKey, resource, FilenameUtils.getBaseName(cssAsset), null);
             if(setPrefix) {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
@@ -175,18 +175,20 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public List<AssetPage> getScripts() {
+    public List<JsPage> getScripts() {
         return assets
                 .stream()
-                .filter(asset -> asset.getReference().getOutputExtension().equals(JS_EXT))
+                .filter(asset -> asset instanceof JsPage)
+                .map(asset -> (JsPage) asset)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<AssetPage> getStyles() {
+    public List<CssPage> getStyles() {
         return assets
                 .stream()
-                .filter(asset -> asset.getReference().getOutputExtension().equals(CSS_EXT))
+                .filter(asset -> asset instanceof CssPage)
+                .map(asset -> (CssPage) asset)
                 .collect(Collectors.toList());
     }
 
@@ -203,7 +205,7 @@ public final class AssetHolderDelegate implements AssetHolder {
         return context.isProduction();
     }
 
-    public void withNamespace(String namespace, Runnable cb) {
+    public synchronized void withNamespace(String namespace, Runnable cb) {
         prefix = OrchidUtils.normalizePath(namespace);
         cb.run();
         prefix = null;

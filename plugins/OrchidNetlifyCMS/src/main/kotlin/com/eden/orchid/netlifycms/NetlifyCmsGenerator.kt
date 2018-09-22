@@ -2,7 +2,6 @@ package com.eden.orchid.netlifycms
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
@@ -14,10 +13,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.tasks.TaskService
-import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
 import com.eden.orchid.netlifycms.util.getNetlifyCmsFields
 import com.eden.orchid.netlifycms.util.toNetlifyCmsSlug
@@ -26,46 +23,50 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@JvmSuppressWildcards
-class NetlifyCmsGenerator @Inject
+@Description("Add a fully-configured Netlify CMS to your site, that adapts to your content.",
+        name = "Netlify CMS"
+)
+class NetlifyCmsGenerator
+@Inject
 constructor(
         context: OrchidContext,
-        val templateTags: Set<TemplateTag>,
-        val components: Set<OrchidComponent>,
-        val menuItems: Set<OrchidMenuItem>,
+        val model: NetlifyCmsModel,
         val extractor: OptionsExtractor
-) : OrchidGenerator(context, "netlifyCms", OrchidGenerator.PRIORITY_DEFAULT) {
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
 
-    override fun setTheme(theme: Any?) {
-
-    }
-
-    override fun getTheme(): Any {
-        return "Default"
+    companion object {
+        const val GENERATOR_KEY = "netlifyCms"
     }
 
     @Option
     @Description("Arbitrary config options to add to the main CMS config file.")
     lateinit var config: JSONObject
 
-    @Option @StringDefault("src/orchid/resources")
+    @Option
+    @StringDefault("src/orchid/resources")
     @Description("The resource directory, relative to the git repo root, where all resources are located.")
     lateinit var resourceRoot: String
 
-    @Option @StringDefault("assets/media")
+    @Option
+    @StringDefault("assets/media")
     @Description("The resource directory, relative to the resourceRoot, where 'media' resources are located.")
     lateinit var mediaFolder: String
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     @Description("Whether options of parent classes are included.")
     var includeInheritedOptions: Boolean = false
 
-    @Option @BooleanDefault(true)
+    @Option
+    @BooleanDefault(true)
     @Description("Whether options of its own class are included.")
     var includeOwnOptions: Boolean = true
+
+    @Option
+    @BooleanDefault(false)
+    @Description("Whether to use the Netlify Identity Widget for managing user accounts. Should be paired with the `git-gateway` backend.")
+    var useNetlifyIdentityWidget: Boolean = false
 
     override fun startIndexing(): List<OrchidPage>? {
         return null
@@ -73,8 +74,9 @@ constructor(
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         val includeCms: Boolean
+        model.useNetlifyIdentityWidget = useNetlifyIdentityWidget
 
-        if(context.taskType == TaskService.TaskType.SERVE) {
+        if (model.isRunningLocally()) {
             config.put("backend", JSONObject())
             config.getJSONObject("backend").put("name", "orchid-server")
             resourceRoot = ""
@@ -84,10 +86,10 @@ constructor(
             includeCms = config.has("backend")
         }
 
-        if(includeCms) {
+        if (includeCms) {
             val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
             adminResource.reference.stripFromPath("netlifyCms")
-            val adminPage = NetlifyCmsAdminPage(adminResource, templateTags, components, menuItems)
+            val adminPage = NetlifyCmsAdminPage(adminResource, model)
             context.renderRaw(adminPage)
 
             val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig()), "admin", null)
@@ -107,12 +109,12 @@ constructor(
                 .forEach { collection ->
                     var collectionData = JSONObject()
                     val shouldContinue: Boolean = when (collection) {
-                        is FolderCollection -> setupFolderCollection(collectionData, collection)
-                        is FileCollection -> setupFileCollection(collectionData, collection)
+                        is FolderCollection   -> setupFolderCollection(collectionData, collection)
+                        is FileCollection     -> setupFileCollection(collectionData, collection)
                         is ResourceCollection -> setupResourceCollection(collectionData, collection)
-                        else -> false
+                        else                  -> false
                     }
-                    if(shouldContinue) {
+                    if (shouldContinue) {
                         collectionData.put("label", collection.title)
                         collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
 
@@ -182,4 +184,5 @@ constructor(
     override fun getCollections(): List<OrchidCollection<*>>? {
         return null
     }
+
 }

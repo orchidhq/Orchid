@@ -33,13 +33,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Description(value = "Upload your site directly to Netlify, while using your favorite CI platform.", name = "Netlify")
 public class NetlifyPublisher extends OrchidPublisher {
 
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType BINARY = MediaType.parse("application/octet-stream");
     private static final String netlifyUrl = "https://api.netlify.com/api/v1";
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Option
     @Description("Your Netlify site ID or domain (ie. orchid.netlify.com).")
     @NotBlank(message = "A Netlify site domain must be provided.")
@@ -72,7 +74,7 @@ public class NetlifyPublisher extends OrchidPublisher {
 
         // make sure the site exists
         EdenPair<Boolean, String> site = netlifyGet("sites/" + siteId);
-        if(!site.first) {
+        if (!site.first) {
             Clog.e("A Netlify site at {} does not exist or it cannot be accessed.", siteId);
             valid = false;
         }
@@ -95,7 +97,7 @@ public class NetlifyPublisher extends OrchidPublisher {
             if (!EdenUtils.isEmpty(newFiles)) {
                 for (Object object : newFiles) {
                     File child = (File) object;
-                    if(child.isDirectory()) continue;
+                    if (child.isDirectory()) continue;
                     try {
                         String path = OrchidUtils.getRelativeFilename(child.getAbsolutePath(), destinationDir);
                         String sha1 = OrchidUtils.sha1(child);
@@ -112,12 +114,12 @@ public class NetlifyPublisher extends OrchidPublisher {
 
         // post to Netlify to determine which files need to be uploaded still
         EdenPair<Boolean, String> requiredFilesResponse = netlifyPost(Clog.format("sites/{}/deploys", siteId), body);
-        if(!requiredFilesResponse.first) {
+        if (!requiredFilesResponse.first) {
             throw new RuntimeException("something went wrong attempting to deploy to Netlify: " + requiredFilesResponse.second);
         }
         JSONObject requiredFiles = new JSONObject(requiredFilesResponse.second);
 
-        if(requiredFiles.getJSONArray("required").length() == 0) {
+        if (requiredFiles.getJSONArray("required").length() == 0) {
             Clog.i("All files up-to-date on Netlify.");
         }
         else {
@@ -153,7 +155,7 @@ public class NetlifyPublisher extends OrchidPublisher {
 
             String bodyString = response.body().string();
 
-            if(!response.isSuccessful()) {
+            if (!response.isSuccessful()) {
                 Clog.e("{}", bodyString);
             }
 
@@ -180,7 +182,7 @@ public class NetlifyPublisher extends OrchidPublisher {
 
             String bodyString = response.body().string();
 
-            if(!response.isSuccessful()) {
+            if (!response.isSuccessful()) {
                 Clog.e("{}", bodyString);
             }
 
@@ -224,7 +226,7 @@ public class NetlifyPublisher extends OrchidPublisher {
             Duration d = Duration.between(RateLimit_Reset, current);
 
             // if we are nearing the rate limit, pause down a bit until it resets
-            if((RateLimit_Remaining*1.0/RateLimit_Limit*1.0) < 0.1) {
+            if ((RateLimit_Remaining * 1.0 / RateLimit_Limit * 1.0) < 0.1) {
                 Thread.sleep(Math.abs(d.toMillis()));
             }
         }

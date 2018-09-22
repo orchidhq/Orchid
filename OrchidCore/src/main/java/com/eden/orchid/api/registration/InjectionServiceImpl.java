@@ -1,6 +1,7 @@
 package com.eden.orchid.api.registration;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Description;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import java.util.Set;
 import java.util.TreeSet;
 
+@Description(value = "The Orchid dependency injection container.", name = "Injection")
 public class InjectionServiceImpl implements InjectionService {
 
     private final Injector injector;

@@ -1,5 +1,7 @@
 package com.eden.orchid.api.server.admin;
 
+import com.eden.orchid.api.options.Descriptive;
+
 import java.util.Collection;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Collection;
  * @since v1.0.0
  * @orchidApi extensible
  */
-public interface AdminList {
+public interface AdminList extends Descriptive {
 
     String getKey();
 
@@ -18,4 +20,12 @@ public interface AdminList {
     Collection<Class<?>> getItems();
 
     boolean isImportantType();
+
+    default String getDescriptiveName() {
+        return Descriptive.getDescriptiveName(getListClass());
+    }
+
+    default String getDescription() {
+        return Descriptive.getDescription(getListClass());
+    }
 }

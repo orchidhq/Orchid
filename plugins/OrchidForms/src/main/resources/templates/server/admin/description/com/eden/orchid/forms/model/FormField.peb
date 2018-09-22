@@ -1,5 +1,5 @@
 {% set 'field' = controller.provide(classType) %}
-{# @pebvariable name="field" type="com.eden.orchid.forms.model.FormField" #}
+{# @pebvariable name="field" type="com.eden.orchid.search.model.FormField" #}
 
 <b>Default Config</b>
 

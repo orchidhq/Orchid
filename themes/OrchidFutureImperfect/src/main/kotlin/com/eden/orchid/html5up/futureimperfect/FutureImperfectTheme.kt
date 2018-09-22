@@ -9,8 +9,12 @@ import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
-class FutureImperfectTheme @Inject
-constructor(context: OrchidContext) : Theme(context, "FutureImperfect", 100) {
+@Description("A theme based on Future Imperfect by HTML5Up, good for blogs.", name = "BsDoc")
+class FutureImperfectTheme
+@Inject
+constructor(
+        context: OrchidContext
+) : Theme(context, "FutureImperfect", 100) {
 
     @Option
     @Description("Your social media links.")

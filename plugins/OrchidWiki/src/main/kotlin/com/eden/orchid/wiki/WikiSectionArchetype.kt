@@ -7,8 +7,7 @@ import com.eden.orchid.wiki.pages.WikiPage
 import org.json.JSONObject
 import javax.inject.Inject
 
-public class WikiSectionArchetype
-
+class WikiSectionArchetype
 @Inject
 constructor(val context: OrchidContext) : OptionArchetype {
 

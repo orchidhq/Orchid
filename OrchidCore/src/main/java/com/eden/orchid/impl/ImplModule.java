@@ -48,6 +48,7 @@ import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
+import com.eden.orchid.impl.resources.InlineResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.DeployTask;
@@ -70,9 +71,13 @@ import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
-import com.eden.orchid.impl.themes.menus.IndexMenuItem;
+import com.eden.orchid.impl.themes.menus.GeneratorPagesMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.impl.themes.menus.PageChildrenMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
+import com.eden.orchid.impl.themes.menus.PageParentMenuItem;
+import com.eden.orchid.impl.themes.menus.PageSiblingsMenuItem;
+import com.eden.orchid.impl.themes.menus.PageSubtreeMenuItem;
 import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
 import com.eden.orchid.impl.themes.tags.HeadTag;
@@ -89,6 +94,7 @@ import okhttp3.OkHttpClient;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
@@ -114,7 +120,8 @@ public final class ImplModule extends OrchidModule {
 
         // Resource Sources
         addToSet(LocalResourceSource.class,
-                LocalFileResourceSource.class);
+                LocalFileResourceSource.class,
+                InlineResourceSource.class);
 
         addToSet(PluginResourceSource.class,
                 CoreResourceSource.class);
@@ -163,8 +170,12 @@ public final class ImplModule extends OrchidModule {
                 DividerMenuItem.class,
                 SubmenuMenuItem.class,
                 LinkMenuItem.class,
-                IndexMenuItem.class,
-                PageMenuItem.class);
+                GeneratorPagesMenuItem.class,
+                PageMenuItem.class,
+                PageParentMenuItem.class,
+                PageSiblingsMenuItem.class,
+                PageChildrenMenuItem.class,
+                PageSubtreeMenuItem.class);
 
         // Component Types
         addToSet(OrchidComponent.class,
@@ -261,7 +272,12 @@ public final class ImplModule extends OrchidModule {
                             .enableClassInfo()
                             .scan()
                             .getSubclasses(OrchidPage.class.getName())
-                            .loadClasses(OrchidPage.class).forEach(pages::add);
+                            .loadClasses(OrchidPage.class)
+                            .forEach(pageClass -> {
+                                if (!Modifier.isAbstract(pageClass.getModifiers())) {
+                                    pages.add(pageClass);
+                                }
+                            });
                 }
 
                 return pages;
