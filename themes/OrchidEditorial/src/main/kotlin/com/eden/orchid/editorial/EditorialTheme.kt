@@ -8,6 +8,9 @@ import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
+@Description("A theme based on Editorial by HTML5Up, with nested navigation menus good for building wikis.",
+        name = "BsDoc"
+)
 class EditorialTheme
 @Inject
 constructor(

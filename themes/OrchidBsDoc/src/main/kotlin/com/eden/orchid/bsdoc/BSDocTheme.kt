@@ -13,6 +13,7 @@ import com.eden.orchid.api.theme.models.Social
 import org.json.JSONObject
 import javax.inject.Inject
 
+@Description("A theme based on the Bootstrap 3 documentation, and good for code documentation.", name="BsDoc")
 class BSDocTheme
 @Inject
 constructor(
