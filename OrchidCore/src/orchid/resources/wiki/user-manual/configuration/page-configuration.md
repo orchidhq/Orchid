@@ -1,5 +1,4 @@
 ---
-title: Page Configuration
 customItems:
     - 'Item One'
     - 'Item Two'

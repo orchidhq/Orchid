@@ -17,7 +17,7 @@ title: 'User Manual'
 
 * [Directory Structure](configuration/directory-structure.md)
 * [Site Configuration](configuration/site-config.md)
-* [Page Configuration](configuration/page-config.md)
+* [Page Configuration](configuration/page-configuration.md)
 * [Admin Panel](configuration/admin-panel.md)
 
 ## Content

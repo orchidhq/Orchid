@@ -8,14 +8,21 @@
     <li><a href="{{ view.getDescriptionLink('com.eden.orchid.api.generators.OrchidCollection') }}">Collection</a></li>
     <li><a href="{{ view.getDescriptionLink(classType) }}">{{ classType.simpleName }}</a></li>
     {% if collectionType is not empty and collectionId is not empty %}
-        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a></li>
-        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}&collectionId={{ collectionId }}">{{ collectionId }}</a></li>
+        <li>
+            <a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a>
+        </li>
+        <li>
+            <a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}&collectionId={{ collectionId }}">{{ collectionId }}</a>
+        </li>
     {% set loadItems = true %}
     {% elseif collectionId is not empty %}
-        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionId={{ collectionId }}">{{ collectionId }}</a></li>
+        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionId={{ collectionId }}">{{ collectionId }}</a>
+        </li>
     {% set loadItems = true %}
     {% elseif collectionType is not empty %}
-        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a></li>
+        <li>
+            <a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a>
+        </li>
     {% set loadItems = true %}
     {% else %}
     {% set loadItems = false %}
@@ -27,14 +34,14 @@
 <div uk-grid>
     <div class="uk-width-auto@m">
         <ul class="uk-tab-left uk-tab">
-            <li class="uk-active">
+            <li class="">
                 <a href="#" style="padding-left: 0;"><b>Related Collections</b></a>
             </li>
             {% for collection in relatedCollections %}
-                <li>
-                    <a
-                            href="{{ view.getDescriptionLink(collection.class) }}&collectionType={{ collection.collectionType }}&collectionId={{ collection.collectionId }}"
-                            style="padding-left: 0;">
+                {% set isActive = (collection.collectionType == collectionType) and (collection.collectionId == collectionId) %}
+                <li class="{{ (isActive) ? 'uk-active' : '' }}">
+                    <a href="{{ view.getDescriptionLink(collection.class) }}&collectionType={{ collection.collectionType }}&collectionId={{ collection.collectionId }}"
+                       style="padding-left: 0;">
                     {{ collection.collectionType }}, {{ collection.collectionId }}
                     </a>
                 </li>
@@ -42,20 +49,34 @@
         </ul>
     </div>
     <div class="uk-width-expand@m">
-        <div class="uk-panel"
-             style="border-left: none; border-right: none;">
+        <div class="uk-panel" style="border-left: none; border-right: none;">
             <ul id="related-collections" class="uk-switcher">
                 <li class="uk-active">
                     <div>
                     {% if loadItems %}
                     {% set collectionItems = findAll(collectionType=collectionType, collectionId=collectionId) %}
-                        <ul class="uk-nav uk-nav-default" style="margin-top: 0;">
-                            <li class="uk-nav-header">Items in this Collection</li>
+                        <table class="uk-table uk-table-striped uk-table-hover">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Path</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {% for item in collectionItems %}
-                                <li><a href="{{ item.link }}">{{ item.title }}</a></li>
+                            {% set pageLink = item.link %}
+                            {% set pagePath = item.reference.path %}
+                            <tr>
+                                <td class="uk-table-link"><a class="uk-link-reset" href="{{ pageLink }}">{{ item.title }}</a></td>
+                                <td class="uk-table-link"><a class="uk-link-reset" href="{{ pageLink }}">/{{ pagePath }}</a></td>
+                            </tr>
                             {% else %}
+                            <tr>
+                                <td colspan="2">No items in this collection</td>
+                            </tr>
                             {% endfor %}
-                        </ul>
+                            </tbody>
+                        </table>
                     {% endif %}
                     </div>
                 </li>
