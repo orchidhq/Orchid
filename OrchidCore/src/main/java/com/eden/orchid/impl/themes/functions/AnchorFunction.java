@@ -19,6 +19,7 @@ import java.util.List;
 
 @Singleton
 @Getter @Setter
+@Description(value = "Generate an HTML link to a page.", name = "Anchor")
 public final class AnchorFunction extends TemplateFunction {
 
     private final OrchidContext context;

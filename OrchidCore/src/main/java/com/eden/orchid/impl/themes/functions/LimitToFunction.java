@@ -13,6 +13,7 @@ import java.util.List;
 
 @Singleton
 @Getter @Setter
+@Description(value = "Trim a String, array, or Iterable down to size.", name = "Limit-To")
 public final class LimitToFunction extends TemplateFunction {
 
     @Option

@@ -3,7 +3,7 @@ ext {
         Common: "1.8.0",
         Clog: "2.0.4",
         Krow: "0.1.7",
-        Eden: "0.2.0",
+        Eden: "0.3.0",
     ]
     junitVersion = '5.2.0'
     jsoupVersion = '1.11.3'

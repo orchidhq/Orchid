@@ -14,18 +14,22 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
+@Description(value = "Load a resource's content into a String.", name = "Load")
 public final class LoadFunction extends TemplateFunction {
 
     private final OrchidContext context;
     private final StringConverter converter;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @Option
     @Description("The resource to lookup and render in-place.")
     private String resource;
 
-    @Getter @Setter
-    @Option @BooleanDefault(true)
+    @Getter
+    @Setter
+    @Option
+    @BooleanDefault(true)
     @Description("When true, only resources from local sources are considered, otherwise resources from all plugins " +
             "and from the current theme will also be considered."
     )
@@ -40,14 +44,14 @@ public final class LoadFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"resource", "localResourcesOnly"};
+        return new String[]{"resource", "localResourcesOnly"};
     }
 
     @Override
     public Object apply() {
         OrchidResource foundResource = localResourcesOnly ? context.getLocalResourceEntry(resource) : context.getResourceEntry(resource);
 
-        if(foundResource != null) {
+        if (foundResource != null) {
             return foundResource.compileContent(null);
         }
 

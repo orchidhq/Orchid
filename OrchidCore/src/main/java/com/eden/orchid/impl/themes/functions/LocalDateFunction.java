@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter @Setter
+@Description(value = "Format a Java 8 LocalDate object to String.", name = "Format LocalDate")
 public final class LocalDateFunction extends TemplateFunction {
 
     private final OrchidContext context;

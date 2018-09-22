@@ -8,8 +8,12 @@ import com.eden.orchid.api.options.annotations.Option
 import org.atteo.evo.inflector.English
 import javax.inject.Inject
 
-class PluralizeFunction @Inject
-constructor(private val converter: StringConverter) : TemplateFunction("pluralize", true) {
+@Description("Take any word and make it plural.", name = "Pluralize")
+class PluralizeFunction
+@Inject
+constructor(
+        private val converter: StringConverter
+) : TemplateFunction("pluralize", true) {
 
     @Option
     @Description("The input String to pluralize.")

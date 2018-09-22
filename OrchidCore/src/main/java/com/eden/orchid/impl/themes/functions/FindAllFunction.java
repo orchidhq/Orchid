@@ -17,6 +17,7 @@ import java.util.List;
 
 @Singleton
 @Getter @Setter
+@Description(value = "Get all Page objects matching a query.", name = "Find all")
 public final class FindAllFunction extends TemplateFunction {
 
     private final OrchidContext context;

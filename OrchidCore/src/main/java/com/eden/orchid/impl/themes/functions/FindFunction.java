@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 
 @Singleton
 @Getter @Setter
+@Description(value = "Lookup a Page object by a query.", name = "Find")
 public final class FindFunction extends TemplateFunction {
 
     private final OrchidContext context;

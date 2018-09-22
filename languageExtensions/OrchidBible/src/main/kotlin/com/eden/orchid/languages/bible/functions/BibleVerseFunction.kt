@@ -11,8 +11,12 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.repositories.EdenRepository
 import javax.inject.Inject
 
-class BibleVerseFunction @Inject
-constructor() : TemplateFunction("bible", true), VerseFormatter {
+@Description("Easily embed full Bible verses in your content.", name = "Bible Verse")
+class BibleVerseFunction
+@Inject
+constructor(
+
+) : TemplateFunction("bible", true), VerseFormatter {
 
     @Option
     @Description("The input to encode.")
