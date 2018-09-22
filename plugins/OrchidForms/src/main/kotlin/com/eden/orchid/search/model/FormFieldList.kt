@@ -5,9 +5,11 @@ import com.eden.orchid.api.theme.components.ModularPageList
 import com.google.inject.Provider
 import javax.inject.Inject
 
-class FormFieldList @Inject
-constructor(context: OrchidContext)
-    : ModularPageList<FormFieldList, FormField>(context, Provider { getFieldInputTypes(context) }) {
+class FormFieldList
+@Inject
+constructor(
+        context: OrchidContext
+) : ModularPageList<FormFieldList, FormField>(context, Provider { getFieldInputTypes(context) }) {
 
     override fun getItemClass(): Class<FormField> {
         return FormField::class.java
@@ -20,7 +22,7 @@ constructor(context: OrchidContext)
             val itemTypes = context.resolveSet(FormField::class.java)
 
             for (itemType in itemTypes) {
-                for(itemTypeAtKey in itemType.inputTypes) {
+                for (itemTypeAtKey in itemType.inputTypes) {
                     fieldTypes[itemTypeAtKey] = itemType.javaClass
                 }
             }

@@ -73,7 +73,12 @@ constructor(
     }
 
     @Description(value = "A page with an RSS-like feed.", name = "RSS Feed")
-    class FeedPage constructor(resource: OrchidResource, filename: String, val items: List<OrchidPage>) : OrchidPage(resource, "rss", null) {
+    class FeedPage
+    constructor(
+            resource: OrchidResource,
+            filename: String,
+            val items: List<OrchidPage>
+    ) : OrchidPage(resource, "rss", null) {
         init {
             this.reference.fileName = filename
             this.reference.path = ""

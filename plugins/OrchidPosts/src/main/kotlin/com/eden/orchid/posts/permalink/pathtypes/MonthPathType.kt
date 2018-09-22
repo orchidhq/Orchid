@@ -5,7 +5,8 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.pages.PostPage
 import javax.inject.Inject
 
-class MonthPathType @Inject
+class MonthPathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {

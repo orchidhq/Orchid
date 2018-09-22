@@ -4,7 +4,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FormsModel @Inject
+class FormsModel
+@Inject
 constructor() {
 
     lateinit var forms: MutableMap<String, Form>

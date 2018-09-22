@@ -14,10 +14,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 
-@Singleton
 @Description(value = "Lookup the appropriate template to render a layout, page, or component.", name = "Find Template")
 public final class FindTemplateFunction extends TemplateFunction {
 

@@ -10,8 +10,13 @@ import com.google.inject.Provider
 import java.lang.reflect.Field
 import javax.inject.Inject
 
-class PresentationOptionExtractor @Inject
-constructor(private val contextProvider: Provider<OrchidContext>, private val converter: StringConverter, val model: PresentationsModel) : OptionExtractor<Presentation>(1000) {
+class PresentationOptionExtractor
+@Inject
+constructor(
+        private val contextProvider: Provider<OrchidContext>,
+        private val converter: StringConverter,
+        val model: PresentationsModel
+) : OptionExtractor<Presentation>(1000) {
 
     override fun acceptsClass(clazz: Class<*>): Boolean {
         return clazz == Presentation::class.java
@@ -25,11 +30,11 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
             toReturn = model.presentations.getOrDefault(value.second, null)
         }
 
-        if(toReturn == null) {
+        if (toReturn == null) {
             toReturn = getDefaultValue(field)
         }
 
-        if(toReturn == null) {
+        if (toReturn == null) {
             Clog.w("Presentation with key '${value.second}' does not exist")
         }
 

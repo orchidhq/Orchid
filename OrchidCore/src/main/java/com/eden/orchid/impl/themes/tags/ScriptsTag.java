@@ -4,9 +4,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Description(value = "Render all script tags to the page.", name = "Scripts")
 public final class ScriptsTag extends TemplateTag {
 

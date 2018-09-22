@@ -5,7 +5,8 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.pages.AuthorPage
 import javax.inject.Inject
 
-class AuthorNamePathType @Inject
+class AuthorNamePathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {

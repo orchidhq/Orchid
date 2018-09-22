@@ -23,8 +23,12 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class AdminController @Inject
-constructor(val context: OrchidContext, val adminLists: Set<AdminList>) : OrchidController(1000) {
+class AdminController
+@Inject
+constructor(
+        val context: OrchidContext,
+        val adminLists: Set<AdminList>
+) : OrchidController(1000) {
 
     val tableAttrs = object : DefaultHtmlAttributes() {
         override val tableClass: String get() = "uk-table uk-table-divider"

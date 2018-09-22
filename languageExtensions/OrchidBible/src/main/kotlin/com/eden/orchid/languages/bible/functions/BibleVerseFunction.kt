@@ -14,9 +14,7 @@ import javax.inject.Inject
 @Description("Easily embed full Bible verses in your content.", name = "Bible Verse")
 class BibleVerseFunction
 @Inject
-constructor(
-
-) : TemplateFunction("bible", true), VerseFormatter {
+constructor() : TemplateFunction("bible", true), VerseFormatter {
 
     @Option
     @Description("The input to encode.")

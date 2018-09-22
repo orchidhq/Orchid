@@ -15,7 +15,9 @@ import javax.inject.Singleton
 @Singleton
 class JavadocModel
 @Inject
-constructor(val context: OrchidContext) {
+constructor(
+        val context: OrchidContext
+) {
 
     var allClasses: MutableList<JavadocClassPage> = ArrayList()
     var allPackages: MutableList<JavadocPackagePage> = ArrayList()

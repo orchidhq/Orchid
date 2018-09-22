@@ -5,7 +5,8 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.pages.PostPage
 import javax.inject.Inject
 
-class YearPathType @Inject
+class YearPathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
@@ -15,7 +16,8 @@ constructor() : PermalinkPathType(100) {
     override fun format(page: OrchidPage, key: String): String? {
         return if (page is PostPage) {
             "" + page.year
-        } else "${page.publishDate.year}"
+        }
+        else "${page.publishDate.year}"
     }
 
 }

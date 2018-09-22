@@ -8,8 +8,11 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 
 import javax.inject.Inject
 
-class PageRelation @Inject
-constructor(context: OrchidContext) : Relation<OrchidPage>(context) {
+class PageRelation
+@Inject
+constructor(
+        context: OrchidContext
+) : Relation<OrchidPage>(context) {
 
     @Option
     @Description("The Id of an item to look up.")

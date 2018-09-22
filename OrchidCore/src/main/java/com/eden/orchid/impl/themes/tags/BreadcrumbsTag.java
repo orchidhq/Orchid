@@ -4,9 +4,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Description(value = "Generate the page's breadcrumbs.", name = "Breadcrumbs")
 public final class BreadcrumbsTag extends TemplateTag {
 

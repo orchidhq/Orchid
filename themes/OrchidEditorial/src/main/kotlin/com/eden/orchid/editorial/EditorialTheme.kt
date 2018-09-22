@@ -8,10 +8,14 @@ import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
-class EditorialTheme @Inject
-constructor(context: OrchidContext) : Theme(context, "Editorial", 100) {
+class EditorialTheme
+@Inject
+constructor(
+        context: OrchidContext
+) : Theme(context, "Editorial", 100) {
 
-    @Option @StringDefault("#f56a6a")
+    @Option
+    @StringDefault("#f56a6a")
     @Description("The CSS HEX value for the site's primary color.")
     lateinit var primaryColor: String
 

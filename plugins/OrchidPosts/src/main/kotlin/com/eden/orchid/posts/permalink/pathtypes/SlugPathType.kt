@@ -8,7 +8,8 @@ import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.utils.PostsUtils
 import javax.inject.Inject
 
-class SlugPathType @Inject
+class SlugPathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
@@ -21,7 +22,8 @@ constructor() : PermalinkPathType(100) {
 
             if (EdenUtils.isEmpty(page.categoryModel.key)) {
                 baseCategoryPath = "posts"
-            } else {
+            }
+            else {
                 baseCategoryPath = "posts/" + page.categoryModel.path
             }
 

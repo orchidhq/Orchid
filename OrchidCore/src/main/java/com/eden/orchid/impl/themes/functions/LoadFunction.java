@@ -11,9 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Description(value = "Load a resource's content into a String.", name = "Load")
 public final class LoadFunction extends TemplateFunction {
 

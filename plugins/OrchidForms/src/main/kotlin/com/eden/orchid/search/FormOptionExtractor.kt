@@ -10,8 +10,13 @@ import org.json.JSONObject
 import java.lang.reflect.Field
 import javax.inject.Inject
 
-class FormOptionExtractor @Inject
-constructor(private val contextProvider: Provider<OrchidContext>, private val converter: StringConverter, private val formsModel: FormsModel) : OptionExtractor<Form>(1000) {
+class FormOptionExtractor
+@Inject
+constructor(
+        private val contextProvider: Provider<OrchidContext>,
+        private val converter: StringConverter,
+        private val formsModel: FormsModel
+) : OptionExtractor<Form>(1000) {
 
     override fun acceptsClass(clazz: Class<*>): Boolean {
         return clazz == Form::class.java
@@ -20,7 +25,8 @@ constructor(private val contextProvider: Provider<OrchidContext>, private val co
     override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
         if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())
-        } else {
+        }
+        else {
             val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {
                 return formsModel.forms.getOrDefault(value.second, null)

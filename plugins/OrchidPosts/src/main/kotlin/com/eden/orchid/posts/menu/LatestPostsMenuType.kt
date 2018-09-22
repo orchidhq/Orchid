@@ -12,7 +12,8 @@ import com.eden.orchid.posts.model.PostsModel
 import javax.inject.Inject
 
 @Description("Latest posts, optionally by category.", name = "Latest Posts")
-class LatestPostsMenuType @Inject
+class LatestPostsMenuType
+@Inject
 constructor(
         context: OrchidContext,
         private val postsModel: PostsModel

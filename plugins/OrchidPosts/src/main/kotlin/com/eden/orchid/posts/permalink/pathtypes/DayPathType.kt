@@ -5,7 +5,8 @@ import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.pages.PostPage
 import javax.inject.Inject
 
-class DayPathType @Inject
+class DayPathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
@@ -15,7 +16,8 @@ constructor() : PermalinkPathType(100) {
     override fun format(page: OrchidPage, key: String): String? {
         return if (page is PostPage) {
             "${page.day}"
-        } else "${page.publishDate.dayOfMonth}"
+        }
+        else "${page.publishDate.dayOfMonth}"
 
     }
 

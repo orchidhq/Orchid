@@ -6,8 +6,11 @@ import com.eden.orchid.utilities.OrchidUtils
 import java.util.regex.Pattern
 import javax.inject.Inject
 
-class PostsExcerptStrategy @Inject
-constructor(private val postsModel: PostsModel) {
+class PostsExcerptStrategy
+@Inject
+constructor(
+        private val postsModel: PostsModel
+) {
 
     fun getExcerpt(page: OrchidPage): String {
         val excerptSeparator = OrchidUtils.normalizePath(postsModel.excerptSeparator)
@@ -17,10 +20,12 @@ constructor(private val postsModel: PostsModel) {
 
         return if (pattern.matcher(content).find()) {
             pattern.split(content)[0]
-        } else {
+        }
+        else {
             if (content.length > 240) {
                 content.substring(0, 240) + "..."
-            } else {
+            }
+            else {
                 content
             }
         }

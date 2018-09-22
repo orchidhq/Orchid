@@ -12,7 +12,9 @@ import javax.inject.Singleton
 @Singleton
 class KotlindocModel
 @Inject
-constructor(val context: OrchidContext) {
+constructor(
+        val context: OrchidContext
+) {
 
     var allClasses: MutableList<KotlindocClassPage> = ArrayList()
     var allPackages: MutableList<KotlindocPackagePage> = ArrayList()

@@ -6,7 +6,8 @@ import com.eden.orchid.posts.pages.PostPage
 import java.time.Month
 import javax.inject.Inject
 
-class MonthNamePathType @Inject
+class MonthNamePathType
+@Inject
 constructor() : PermalinkPathType(100) {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {

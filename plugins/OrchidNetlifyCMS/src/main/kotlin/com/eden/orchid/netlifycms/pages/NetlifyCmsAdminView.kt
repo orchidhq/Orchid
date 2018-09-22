@@ -19,7 +19,7 @@ class NetlifyCmsAdminView(
 
     override fun loadAssets() {
         super.loadAssets()
-        model.loadAssets(this)
+//        model.loadAssets(this)
     }
 
 }

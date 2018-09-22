@@ -7,11 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-@Singleton
 @Getter @Setter
 @Description(value = "Trim a String, array, or Iterable down to size.", name = "Limit-To")
 public final class LimitToFunction extends TemplateFunction {

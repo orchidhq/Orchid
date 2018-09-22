@@ -4,9 +4,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 @Description(value = "All the default SEO tags that need to be in the HTML `<head>`.", name = "Head")
 public final class HeadTag extends TemplateTag {
 

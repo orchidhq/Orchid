@@ -8,16 +8,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AsciiDoctorCompiler @Inject
+class AsciiDoctorCompiler
+@Inject
 constructor() : OrchidCompiler(800) {
 
-    private val asciidoctor: Asciidoctor
-    private val options: Options
-
-    init {
-        asciidoctor = Asciidoctor.Factory.create()
-        options = Options()
-    }
+    private val asciidoctor: Asciidoctor = Asciidoctor.Factory.create()
+    private val options: Options = Options()
 
     override fun compile(extension: String, source: String, data: Map<String, Any>): String {
         return asciidoctor.convert(source, options)

@@ -8,8 +8,11 @@ import com.google.inject.Provider
 import javax.inject.Inject
 
 @Description("Run the main Orchid build process.")
-class BuildCommand @Inject
-constructor(private val contextProvider: Provider<OrchidContext>) : OrchidCommand(100, "build") {
+class BuildCommand
+@Inject
+constructor(
+        private val contextProvider: Provider<OrchidContext>
+) : OrchidCommand(100, "build") {
 
     override fun parameters(): Array<String> {
         return emptyArray()

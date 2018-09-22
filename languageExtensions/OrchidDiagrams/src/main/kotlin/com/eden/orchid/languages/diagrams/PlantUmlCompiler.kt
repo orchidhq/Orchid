@@ -11,7 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlantUmlCompiler @Inject
+class PlantUmlCompiler
+@Inject
 constructor() : OrchidCompiler(800) {
 
     private val tags = arrayOf("uml", "salt", "math", "latex", "gantt")

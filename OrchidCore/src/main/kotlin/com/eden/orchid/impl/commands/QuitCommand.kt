@@ -9,8 +9,11 @@ import com.google.inject.Provider
 import javax.inject.Inject
 
 @Description("Run the main Orchid build process.")
-class QuitCommand @Inject
-constructor(private val contextProvider: Provider<OrchidContext>) : OrchidCommand(1000, "quit") {
+class QuitCommand
+@Inject
+constructor(
+        private val contextProvider: Provider<OrchidContext>
+) : OrchidCommand(1000, "quit") {
 
     override fun parameters(): Array<String> {
         return emptyArray()
