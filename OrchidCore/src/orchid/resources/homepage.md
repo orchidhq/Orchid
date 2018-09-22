@@ -11,6 +11,7 @@ components:
 extraCss:
   - 'assets/css/homepage.scss'
 keywordPages:
+  - ['Kotlin Docs', 'Orchid Kotlindoc']
   - ['Blog', 'Orchid Posts']
   - ['Javadocs', 'Orchid Javadoc']
   - ['Landing Pages', 'Orchid Pages']
