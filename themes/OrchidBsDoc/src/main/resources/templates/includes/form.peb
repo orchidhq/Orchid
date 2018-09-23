@@ -3,7 +3,7 @@
     action="{{ form.action }}"
     class="orchid-form"
     method="{{ form.method }}"
-    {% for entry in form.attrs %}{{ entry.key }}="{{ entry.value | escape(strategy="html_attr") }}"{% endfor %}>
+    {% for entry in form.attrs %}{{ entry.key }}="{{ entry.value }}"{% endfor %}>
     <div class="row">
         {% for field in form.fields.get(page) %}
             <div class="{{ field.span }}">

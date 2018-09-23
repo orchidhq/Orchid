@@ -6,11 +6,10 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource
+import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.Provider
 import org.apache.commons.io.FilenameUtils
 import java.util.Arrays
-import java.util.stream.Collectors
-import java.util.stream.Stream
 import javax.inject.Inject
 
 class TestResourceSource
@@ -38,23 +37,20 @@ constructor(
             getResourcesInDir(dirName)
 
         return matchedResoures
-                .filter({ it -> isValidExtension(it.key, fileExtensions) })
-                .map({ it -> StringResource(context.get(), it.key, it.value.first, it.value.second) })
-                .collect(Collectors.toList<OrchidResource>())
+                .filter { it -> isValidExtension(it.key, fileExtensions) }
+                .map { it -> StringResource(context.get(), it.key, it.value.first, it.value.second) }
     }
 
-    private fun getResourcesInDir(dirName: String): Stream<Map.Entry<String, Pair<String, Map<String, Any>>>> {
+    private fun getResourcesInDir(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {
         return mockResources
                 .entries
-                .stream()
-                .filter { it -> FilenameUtils.getPath(it.key) == dirName }
+                .filter { it -> OrchidUtils.normalizePath(FilenameUtils.getPath(it.key)) == OrchidUtils.normalizePath(dirName) }
     }
 
-    private fun getResourcesInDirs(dirName: String): Stream<Map.Entry<String, Pair<String, Map<String, Any>>>> {
+    private fun getResourcesInDirs(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {
         return mockResources
                 .entries
-                .stream()
-                .filter { it -> it.key.startsWith(dirName) }
+                .filter { it -> it.key.startsWith(OrchidUtils.normalizePath(dirName)) }
     }
 
     private fun isValidExtension(filename: String, fileExtensions: Array<String>?): Boolean {

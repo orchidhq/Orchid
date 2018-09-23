@@ -135,4 +135,25 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         expectThat(testResults).nothingRendered()
     }
 
+    @Test
+    @DisplayName("Authors can be specified both in post config, and as files in the 'posts/authors/' directory.")
+    fun test13() {
+        configObject("posts", """{"authors": ["author-one"]}""")
+        resource("posts/authors/author-two.md", "", "{}")
+
+        val testResults = execute()
+        expectThat(testResults).pageWasRendered("/authors/author-one/index.html")
+        expectThat(testResults).pageWasRendered("/authors/author-two/index.html")
+    }
+
+    @Test
+    @DisplayName("Authors can be specified both in post config as objects as well as Strings.")
+    fun test14() {
+        configObject("posts", """{"authors": ["Author One", {"name": "Author Two", "email": "email@email.com"}]}""")
+
+        val testResults = execute()
+        expectThat(testResults).pageWasRendered("/authors/author-one/index.html")
+        expectThat(testResults).pageWasRendered("/authors/author-two/index.html")
+    }
+
 }

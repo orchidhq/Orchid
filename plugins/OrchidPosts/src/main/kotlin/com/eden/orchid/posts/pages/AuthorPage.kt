@@ -29,19 +29,6 @@ class AuthorPage(
     @Description("The permalink structure to use only for this author bio page.")
     lateinit var permalink: String
 
-    init {
-        this.extractOptions(this.context, data)
-        postInitialize(title)
-    }
-
-    override fun initialize(title: String?) {
-
-    }
-
-    fun initializeAuthorFromPageData() {
-        author.extractOptions(context, this.data)
-    }
-
     override fun getTemplates(): List<String> {
         val templates = super.getTemplates()
         templates.add(0, "$key-${OrchidUtils.toSlug(author.name)}")

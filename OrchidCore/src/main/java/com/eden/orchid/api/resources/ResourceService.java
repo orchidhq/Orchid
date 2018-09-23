@@ -14,6 +14,10 @@ import java.util.Map;
 @ImplementedBy(ResourceServiceImpl.class)
 public interface ResourceService extends OrchidService {
 
+    default String[] getIgnoredFilenames() {
+        return getService(ResourceService.class).getIgnoredFilenames();
+    }
+
     default Map<String, Object> getDatafile(final String fileName) {
         return getService(ResourceService.class).getDatafile(fileName);
     }

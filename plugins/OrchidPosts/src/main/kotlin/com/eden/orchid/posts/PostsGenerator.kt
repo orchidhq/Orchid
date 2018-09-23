@@ -21,8 +21,10 @@ import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.posts.utils.PostsUtils
 import com.eden.orchid.posts.utils.isToday
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.dashCase
 import com.eden.orchid.utilities.from
+import com.eden.orchid.utilities.snakeCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
 import java.time.LocalDate
@@ -52,6 +54,7 @@ constructor(
     lateinit var excerptSeparator: String
 
     @Option
+    @ImpliedKey("name")
     @Description("A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
             "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
             "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
@@ -108,22 +111,26 @@ constructor(
     }
 
     override fun startGeneration(posts: Stream<out OrchidPage>) {
-        posts.forEach({ context.renderTemplate(it) })
+        posts.forEach { context.renderTemplate(it) }
     }
 
     private fun getAuthorPages(): List<AuthorPage> {
-        val resourcesList = context.getLocalResourceEntries(authorsBaseDir, null, false)
-
         val authorPages = ArrayList<AuthorPage>()
 
+        // add Author pages from content pages in the authorsBaseDir
+        val resourcesList = context.getLocalResourceEntries(authorsBaseDir, null, false)
         for (entry in resourcesList) {
-            val authorPage = AuthorPage(entry, Author(), postsModel)
-            authorPage.initializeAuthorFromPageData()
+            val newAuthor = Author()
+            val authorName = entry.reference.originalFileName from { snakeCase() } to { camelCase()}
+            newAuthor.extractOptions(context, mutableMapOf<String, Any?>("name" to authorName))
+
+            val authorPage = AuthorPage(entry, newAuthor, postsModel)
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)
         }
 
+        // add Author pages from those specified in config.yml
         for (author in this.authors) {
             val authorPage = AuthorPage(StringResource(context, "index.md", ""), author, postsModel)
             authorPage.author.authorPage = authorPage

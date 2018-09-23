@@ -4,6 +4,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -54,6 +56,13 @@ public final class ResourceServiceImpl implements ResourceService {
     private OkHttpClient client;
 
     private final String resourcesDir;
+
+    @Option
+    @StringDefault({".DS_store", ".localized"})
+    @Description("A list of filenames to globally filter out files from being sourced. Should be used primarily for " +
+            "ignoring pesky hidden or system files that are not intended to be used as site content."
+    )
+    private String[] ignoredFilenames;
 
     @Inject
     public ResourceServiceImpl(
@@ -478,4 +487,15 @@ public final class ResourceServiceImpl implements ResourceService {
         return context.getResourceEntry(fullFileName);
     }
 
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public String[] getIgnoredFilenames() {
+        return ignoredFilenames;
+    }
+
+    public void setIgnoredFilenames(String[] ignoredFilenames) {
+        this.ignoredFilenames = ignoredFilenames;
+    }
 }
