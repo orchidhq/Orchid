@@ -52,7 +52,7 @@ open class FileResourceSource : OrchidResourceSource {
             if (!EdenUtils.isEmpty(newFiles)) {
                 for (`object` in newFiles) {
                     val newFile = `object` as File
-                    if (shouldAddEntry(newFile.name)) {
+                    if (!isIgnoredFile(file) && shouldAddEntry(newFile.name)) {
                         val entry = FileResource(context.get(), newFile)
                         entry.priority = priority
                         entries.add(entry)
@@ -62,6 +62,10 @@ open class FileResourceSource : OrchidResourceSource {
         }
 
         return entries
+    }
+
+    private fun isIgnoredFile(file: File): Boolean {
+        return context.get()?.ignoredFilenames?.any { file.name == it } ?: false
     }
 
     override fun compareTo(other: OrchidResourceSource): Int {
