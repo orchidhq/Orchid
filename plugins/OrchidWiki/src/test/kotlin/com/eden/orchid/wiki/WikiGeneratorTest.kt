@@ -1,6 +1,7 @@
 package com.eden.orchid.wiki
 
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.nothingRendered
 import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -81,6 +82,21 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
         expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
         expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+    }
+
+    @Test
+    @DisplayName("The Wiki generator finishes successfully when there are no resources for it.")
+    fun test06() {
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
+    }
+
+    @Test
+    @DisplayName("The Wiki generator finishes successfully when there are no resources for it, when using multiple sections.")
+    fun test07() {
+        configObject("wiki", """{"sections": ["section1", "section2"]}""")
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
     }
 
 }

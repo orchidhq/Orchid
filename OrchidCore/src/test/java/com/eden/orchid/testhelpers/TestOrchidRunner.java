@@ -1,5 +1,6 @@
 package com.eden.orchid.testhelpers;
 
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.StandardModule;
 import com.eden.orchid.api.OrchidContext;
@@ -18,7 +19,7 @@ public class TestOrchidRunner {
 
     public Pair<OrchidContext, TestResults> runTest(Map<String, Object> flags, Map<String, Object> config, Map<String, Pair<String, Map<String, Object>>> resources, List<OrchidModule> extraModules) {
         List<Module> modules = new ArrayList<>();
-        if(!flags.containsKey("environment")) {
+        if (!flags.containsKey("environment")) {
             flags = new HashMap<>(flags);
             flags.put("environment", "test");
         }
@@ -32,11 +33,11 @@ public class TestOrchidRunner {
         modules.add(new PebbleModule());
         modules.add(new FlexmarkModule());
 
-        if(extraModules != null) {
+        if (extraModules != null) {
             modules.addAll(extraModules);
         }
 
-        Orchid.getInstance().startForUnitTest(modules, orchidContextProvider -> {
+        EdenPair<Boolean, Throwable> result = Orchid.getInstance().startForUnitTest(modules, orchidContextProvider -> {
             ArrayList<OrchidModule> contextDependantModules = new ArrayList<>();
 
             contextDependantModules.add(new TestResourceSource(orchidContextProvider, resources).toModule());
@@ -47,7 +48,14 @@ public class TestOrchidRunner {
 
         TestRenderer renderer = Orchid.getInstance().getInjector().getInstance(TestRenderer.class);
 
-        return new Pair<>(Orchid.getInstance().getContext(), new TestResults(renderer.getRenderedPageMap()));
+        return new Pair<>(
+                Orchid.getInstance().getContext(),
+                new TestResults(
+                        renderer.getRenderedPageMap(),
+                        result.first,
+                        result.second
+                )
+        );
     }
 
 }

@@ -1,6 +1,7 @@
 package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidSecurityManager;
@@ -454,7 +455,7 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
 
-    public boolean startForUnitTest(List<Module> modules, Function<Provider<OrchidContext>, List<OrchidModule>> contextDependantModulesFunction) {
+    public EdenPair<Boolean, Throwable> startForUnitTest(List<Module> modules, Function<Provider<OrchidContext>, List<OrchidModule>> contextDependantModulesFunction) {
         try {
             String moduleLog = "\n--------------------";
             for (Module module : modules) {
@@ -499,14 +500,14 @@ public final class Orchid {
             Clog.i("Running Orchid version {}, site version {} in {} environment", context.getOrchidVersion(), context.getVersion(), context.getEnvironment());
             context.start();
             context.finish();
-            return true;
+            return new EdenPair<>(true, null);
         }
         catch (Exception e) {
             Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
             e.printStackTrace();
 
             context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
-            return false;
+            return new EdenPair<>(true, e);
         }
     }
 

@@ -48,4 +48,11 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         expectThat(testResults).nothingRendered()
     }
 
+    @Test
+    @DisplayName("The Pages generator finishes successfully when there are no resources for it.")
+    fun test05() {
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
+    }
+
 }

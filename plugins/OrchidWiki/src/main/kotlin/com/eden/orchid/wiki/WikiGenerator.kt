@@ -61,13 +61,17 @@ constructor(
             sections.add(defaultConfig)
         }
 
-        wikiModel.initialize(sections)
-
-        wikiModel.sections.values.forEach { section ->
-            loadWikiPages(section)
+        val loadedSections = ArrayList<WikiSection>()
+        this.sections.forEach { section ->
+            val loadedSection = loadWikiPages(section)
+            if(loadedSection != null) {
+                loadedSections.add(loadedSection)
+            }
         }
 
-        if (sections.size > 1) {
+        wikiModel.initialize(loadedSections)
+
+        if (loadedSections.size > 1) {
             wikiModel.sectionsPage = getSectionsIndex()
         }
 
@@ -78,7 +82,7 @@ constructor(
         pages.forEach { context.renderTemplate(it) }
     }
 
-    private fun loadWikiPages(section: WikiSection) {
+    private fun loadWikiPages(section: WikiSection): WikiSection? {
         val wiki = ArrayList<WikiPage>()
 
         val sectionBaseDir = if (!EdenUtils.isEmpty(section.key))
@@ -93,7 +97,7 @@ constructor(
                 Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
             }
 
-            return
+            return null
         }
 
         val content = context.compile(summary.reference.extension, summary.content)
@@ -162,6 +166,8 @@ constructor(
 
         section.summaryPage = summaryPage
         section.wikiPages = wiki
+
+        return section
     }
 
     private fun getSectionsIndex(): WikiSectionsPage {

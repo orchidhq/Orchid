@@ -3,6 +3,7 @@ package com.eden.orchid.taxonomies
 import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.posts.PostsModule
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.nothingRendered
 import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -77,6 +78,23 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         expectThat(testResults).pageWasRendered("/categories/index.html")
         expectThat(testResults).pageWasRendered("/categories/category1/index.html")
         expectThat(testResults).pageWasRendered("/categories/category2/index.html")
+    }
+
+    @Test
+    @DisplayName("The Taxonomies generator finishes successfully when there are no resources for it.")
+    fun test05() {
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
+    }
+
+    @Test
+    @DisplayName("The Taxonomies generator finishes successfully when there are no resources for it, when using multiple categories.")
+    fun test06() {
+        configObject("posts", """{"categories": ["category1", "category2"]}""")
+        configObject("taxonomies", """{"taxonomies": ["tags", "categories"]}""")
+
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
     }
 
 }
