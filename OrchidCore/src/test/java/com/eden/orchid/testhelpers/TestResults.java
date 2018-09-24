@@ -1,6 +1,7 @@
 package com.eden.orchid.testhelpers;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,9 +11,15 @@ public class TestResults {
 
     public final Map<String, TestRenderer.TestRenderedPage> renderedPageMap;
 
+    @Getter
+    public final boolean renderingSuccess;
+
+    @Getter
+    public final Throwable thrownException;
+
     @Override
     public String toString() {
-        return "TestResults with " + renderedPageMap.size() + " pages";
+        return "TestResults: " + (renderingSuccess ? "success" : "failure") + " with " + renderedPageMap.size() + " pages";
     }
 
     public String showResults() {

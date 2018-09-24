@@ -156,4 +156,19 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         expectThat(testResults).pageWasRendered("/authors/author-two/index.html")
     }
 
+    @Test
+    @DisplayName("The Posts generator finishes successfully when there are no resources for it.")
+    fun test15() {
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
+    }
+
+    @Test
+    @DisplayName("The Wiki generator finishes successfully when there are no resources for it, when using multiple categories.")
+    fun test16() {
+        configObject("posts", """{"categories": ["cat1", "cat2/cat3"]}""")
+        val testResults = execute()
+        expectThat(testResults).nothingRendered()
+    }
+
 }

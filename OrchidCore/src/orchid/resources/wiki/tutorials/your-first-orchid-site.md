@@ -78,7 +78,7 @@ Let's add the `com.eden.orchidPlugin` plugin to this block.
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
-    id 'com.eden.orchidPlugin' version '0.8.10'
+    id 'com.eden.orchidPlugin' version '0.12.1'
 }
 {% endhighlight %}
 
@@ -91,9 +91,12 @@ By itself, the Orchid Gradle Plugin isn't quite enough to get Orchid running. We
 To do this, add the following lines to at the end of `build.gradle`.
 
 {% highlight 'groovy' %}
-// 1. Include all official Orchid plugins and themes
+// 1. Include desired official Orchid plugins and themes
 dependencies {
-    orchidCompile "io.github.javaeden.orchid:OrchidAll:0.8.10"
+    orchidCompile "io.github.javaeden.orchid:OrchidCore:0.12.1"
+        orchidCompile "io.github.javaeden.orchid:OrchidBsDoc:0.12.1"
+        orchidCompile "io.github.javaeden.orchid:OrchidPages:0.12.1"
+        orchidCompile "io.github.javaeden.orchid:OrchidAsciidoc:0.12.1"
 }
 
 // 2. Get Orchid from Jcenter, Bintray, and Jitpack
@@ -135,28 +138,10 @@ Using the following modules:
 Auto-loaded modules: 
 --------------------
  * com.eden.orchid.bsdoc.BsDocModule
- * com.eden.orchid.changelog.ChangelogModule
- * com.eden.orchid.editorial.EditorialModule
- * com.eden.orchid.forms.FormsModule
- * com.eden.orchid.forms.SearchModule
- * com.eden.orchid.html5up.futureimperfect.FutureImperfectModule
  * com.eden.orchid.impl.compilers.markdown.FlexmarkModule
  * com.eden.orchid.impl.compilers.pebble.PebbleModule
- * com.eden.orchid.kss.KssModule
  * com.eden.orchid.languages.asciidoc.AsciidocModule
- * com.eden.orchid.languages.bible.BibleModule
- * com.eden.orchid.languages.diagrams.DiagramsModule
- * com.eden.orchid.languages.highlighter.SyntaxHighlighterModule
- * com.eden.orchid.netlifycms.NetlifyCmsModule
  * com.eden.orchid.pages.PagesModule
- * com.eden.orchid.plugindocs.PluginDocsModule
- * com.eden.orchid.posts.PostsModule
- * com.eden.orchid.presentations.PresentationsModule
- * com.eden.orchid.swagger.SwaggerModule
- * com.eden.orchid.swiftdoc.SwiftdocModule
- * com.eden.orchid.taxonomies.TaxonomiesModule
- * com.eden.orchid.wiki.WikiModule
- * com.eden.orchid.writersblocks.WritersBlocksModule
 {% endhighlight %}
 
 This lets you know which plugins are currently being used. Orchid will auto-load any plugin included in your Gradle 
@@ -168,13 +153,17 @@ Flag values:
 --------------------
 -adminTheme: Default
 -baseUrl: http://localhost:8080
--d: /path/to/your/site/build/docs/orchid
+-defaultTemplateExtension: peb
+-dest: /path/to/your/site/build/docs/orchid
 -dryDeploy: false
 -environment: debug
--resourcesDir: /path/to/your/site/src/orchid/resources
--task: serve
+-logLevel: VERBOSE
+-port: 8080
+-src: /path/to/your/site/src/orchid/resources
+-task: build
 -theme: BsDoc
--v: 1
+-version: unspecified
+
 {% endhighlight %}
 
 This shows the command-line flags passed to Orchid from Gradle. This may be helpful for debugging your build, 
@@ -194,35 +183,12 @@ is being used by another process, the port will be changed to the nearest free p
 [INFO] TaskServiceImpl: Build Starting...
 [INFO] GeneratorServiceImpl: Indexing [10000: assets]
 [INFO] GeneratorServiceImpl: Indexing [1000: home]
-[INFO] GeneratorServiceImpl: Indexing [1000: styleguide]
 [INFO] GeneratorServiceImpl: Indexing [1000: pages]
-[INFO] GeneratorServiceImpl: Indexing [1000: posts]
-[INFO] GeneratorServiceImpl: Indexing [1000: wiki]
-[INFO] GeneratorServiceImpl: Indexing [100: changelog]
-[INFO] GeneratorServiceImpl: Indexing [100: forms]
-[INFO] GeneratorServiceImpl: Indexing [100: netlifyCms]
-[INFO] GeneratorServiceImpl: Indexing [100: presentations]
-[INFO] GeneratorServiceImpl: Indexing [100: swiftdoc]
-[INFO] GeneratorServiceImpl: Indexing [100: taxonomies]
 [INFO] GeneratorServiceImpl: Indexing [11: sitemap]
-[INFO] GeneratorServiceImpl: Indexing [11: feeds]
-[INFO] GeneratorServiceImpl: Indexing [10: indices]
 [INFO] GeneratorServiceImpl: Generating [10000: assets]
 [INFO] GeneratorServiceImpl: Generating [1000: home]
-[INFO] GeneratorServiceImpl: Generating [1000: styleguide]
 [INFO] GeneratorServiceImpl: Generating [1000: pages]
-[INFO] GeneratorServiceImpl: Generating [1000: posts]
-[INFO] GeneratorServiceImpl: Generating [1000: wiki]
-[INFO] GeneratorServiceImpl: Generating [100: changelog]
-[INFO] GeneratorServiceImpl: Generating [100: forms]
-[INFO] GeneratorServiceImpl: Generating [100: netlifyCms]
-[DEBUG] GeneratorServiceImpl: [netlifyCms] Generator pages rendered with [Default] Theme.
-[INFO] GeneratorServiceImpl: Generating [100: presentations]
-[INFO] GeneratorServiceImpl: Generating [100: swiftdoc]
-[INFO] GeneratorServiceImpl: Generating [100: taxonomies]
 [INFO] GeneratorServiceImpl: Generating [11: sitemap]
-[INFO] GeneratorServiceImpl: Generating [11: feeds]
-[INFO] GeneratorServiceImpl: Generating [10: indices]
 {% endhighlight %}
 
 Orchid works in two distinct phases: the _indexing_ phase and the _generation_ phase. During the indexing phase, Orchid 
@@ -244,14 +210,12 @@ Build Metrics:
 ┌───────┬────────────┬───────────────┬─────────────────┬───────────────────────────┬─────────────────────────────┐
 │       │ Page Count │ Indexing Time │ Generation Time │ Mean Page Generation Time │ Median Page Generation Time │
 ├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
-│  home │     1      │     64ms      │      362ms      │           354ms           │            354ms            │
+│  home │     1      │     58ms      │      434ms      │           429ms           │            429ms            │
 ├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
-│ pages │     4      │     23ms      │      220ms      │           54ms            │            45ms             │
-├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
-│ TOTAL │          5 │         201ms │           773ms │                     114ms │                        45ms │
+│ TOTAL │          1 │          69ms │           453ms │                     429ms │                       429ms │
 └───────┴────────────┴───────────────┴─────────────────┴───────────────────────────┴─────────────────────────────┘
 
-Generated 5 pages in 977ms
+Generated 1 page in 524ms
 
 
 [INFO] TaskServiceImpl: Build Complete
