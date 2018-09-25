@@ -12,8 +12,8 @@ import java.util.ArrayList
 import java.util.Arrays
 
 open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
-    val ownPages = ArrayList<OrchidPage>()
-    val childrenPages = LinkedHashMap<String, OrchidIndex>()
+    private val ownPages = ArrayList<OrchidPage>()
+    private val childrenPages = LinkedHashMap<String, OrchidIndex>()
 
     open val allPages: List<OrchidPage>
         get() {

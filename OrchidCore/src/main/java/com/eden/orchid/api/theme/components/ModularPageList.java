@@ -41,7 +41,7 @@ public abstract class ModularPageList<L extends ModularPageList<L, I>, I extends
         throw new UnsupportedOperationException("Please use get(OrchidPage page)");
     }
 
-    public List<I> get(OrchidPage page) {
+    public synchronized List<I> get(OrchidPage page) {
         containingPage = page;
         List<I> listItems = super.get();
         containingPage = null;

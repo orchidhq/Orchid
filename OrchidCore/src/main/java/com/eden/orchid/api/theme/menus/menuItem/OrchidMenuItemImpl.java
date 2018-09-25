@@ -30,6 +30,10 @@ public class OrchidMenuItemImpl {
 
     protected Comparator<OrchidMenuItemImpl> indexComparator;
 
+    @Getter
+    @Setter
+    private Map<String, Object> allData;
+
     public OrchidMenuItemImpl(OrchidContext context, String title, OrchidIndex index) {
         this.context = context;
         this.title = title;
@@ -177,6 +181,10 @@ public class OrchidMenuItemImpl {
 
     public boolean hasChildren() {
         return !EdenUtils.isEmpty(children);
+    }
+
+    public Object get(String key) {
+        return allData.get(key);
     }
 
 // Delombok

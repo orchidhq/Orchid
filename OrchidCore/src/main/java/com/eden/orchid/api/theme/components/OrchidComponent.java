@@ -136,4 +136,8 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     protected void loadAssets() {
 
     }
+
+    public Object get(String key) {
+        return allData.get(key);
+    }
 }

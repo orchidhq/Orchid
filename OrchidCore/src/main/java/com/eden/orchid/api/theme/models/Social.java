@@ -5,7 +5,6 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -65,7 +64,6 @@ public final class Social implements OptionsHolder {
         
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class Item implements OptionsHolder {
 
@@ -84,6 +82,22 @@ public final class Social implements OptionsHolder {
         @Option
         @Description("The order in which this item is rendered.")
         public int order;
+
+        @AllOptions
+        @Getter
+        @Setter
+        private Map<String, Object> allData;
+
+        public Item(String label, String link, String icon, int order) {
+            this.label = label;
+            this.link = link;
+            this.icon = icon;
+            this.order = order;
+        }
+
+        public Object get(String key) {
+            return allData.get(key);
+        }
 
     }
 
