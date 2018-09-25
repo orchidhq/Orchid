@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme.menus.menuItem;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
@@ -9,6 +10,8 @@ import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.components.ModularPageListItem;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,23 @@ public abstract class OrchidMenuItem extends Prioritized implements ModularPageL
             "menu item earlier in the list."
     )
     protected int order;
+
+    @AllOptions
+    @Getter
+    @Setter
+    private Map<String, Object> allData;
+
+    @Getter
+    @Setter
+    @Option
+    @Description("Set all the menu items from this as a dropdown, instead of including them directly at the root.")
+    protected boolean asSubmenu;
+
+    @Option
+    @Getter
+    @Setter
+    @Description("The title the menu")
+    protected String submenuTitle;
 
     public OrchidMenuItem(OrchidContext context, String type, int priority) {
         super(priority);
