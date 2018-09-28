@@ -3,7 +3,9 @@ package com.eden.orchid.api.options;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -86,10 +88,13 @@ public final class OptionsServiceImpl implements OptionsService {
 
         if (data != null) {
             if (data instanceof OrchidPage) {
-                OrchidPage page = (OrchidPage) data;
-                siteData.put("page", page);
-                siteData.put(page.getKey(), page);
-                addMap(siteData, page.getMap());
+                addPage(siteData, (OrchidPage) data);
+            }
+            else if (data instanceof OrchidComponent) {
+                addComponent(siteData, (OrchidComponent) data);
+            }
+            else if (data instanceof TemplateTag) {
+                addTag(siteData, (TemplateTag) data);
             }
             else if (data instanceof JSONElement) {
                 addJSONElement(siteData, (JSONElement) data);
@@ -168,6 +173,22 @@ public final class OptionsServiceImpl implements OptionsService {
 
     private void addCollection(Map<String, Object> siteData, Collection<?> data) {
         siteData.put("data", data);
+    }
+
+    private void addPage(Map<String, Object> siteData, OrchidPage page) {
+        siteData.put("page", page);
+        siteData.put(page.getKey(), page);
+        addMap(siteData, page.getMap());
+    }
+
+    private void addComponent(Map<String, Object> siteData, OrchidComponent component) {
+        siteData.put("component", component);
+        addPage(siteData, component.getPage());
+    }
+
+    private void addTag(Map<String, Object> siteData, TemplateTag tag) {
+        siteData.put("tag", tag);
+        addPage(siteData, tag.getPage());
     }
 
 }

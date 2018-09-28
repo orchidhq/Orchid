@@ -22,6 +22,10 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.impl.commands.BuildCommand;
+import com.eden.orchid.impl.commands.DeployCommand;
+import com.eden.orchid.impl.commands.HelpCommand;
+import com.eden.orchid.impl.commands.QuitCommand;
 import com.eden.orchid.impl.compilers.clog.ClogSetupListener;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
@@ -38,14 +42,10 @@ import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
-import com.eden.orchid.impl.commands.BuildCommand;
 import com.eden.orchid.impl.tasks.BuildTask;
-import com.eden.orchid.impl.commands.DeployCommand;
 import com.eden.orchid.impl.tasks.DeployTask;
-import com.eden.orchid.impl.commands.HelpCommand;
-import com.eden.orchid.impl.tasks.ShellTask;
-import com.eden.orchid.impl.commands.QuitCommand;
 import com.eden.orchid.impl.tasks.ServeTask;
+import com.eden.orchid.impl.tasks.ShellTask;
 import com.eden.orchid.impl.tasks.WatchTask;
 import com.eden.orchid.impl.themes.DefaultTheme;
 import com.eden.orchid.impl.themes.components.LicenseComponent;
@@ -56,7 +56,6 @@ import com.eden.orchid.impl.themes.functions.AnchorFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
-import com.eden.orchid.impl.themes.functions.FindTemplateFunction;
 import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
@@ -170,7 +169,6 @@ public class TestImplModule extends OrchidModule {
                 CompileAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
-                FindTemplateFunction.class,
                 LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,

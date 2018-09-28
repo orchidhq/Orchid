@@ -135,22 +135,6 @@ public abstract class BaseTagParser {
         return lastExpression;
     }
 
-    protected void renderTagContent(
-            PebbleTemplateImpl self,
-            Writer writer,
-            EvaluationContextImpl context,
-            Map<String, Object> templateArgs,
-            Consumer<Exception> onError) {
-        try {
-            self.includeTemplate(writer, context, "tags/" + name, templateArgs);
-        }
-        catch (Exception e) {
-            if(onError != null) {
-                onError.accept(e);
-            }
-        }
-    }
-
     protected interface CheckedFunction<I> {
         void apply(I i) throws Exception;
     }

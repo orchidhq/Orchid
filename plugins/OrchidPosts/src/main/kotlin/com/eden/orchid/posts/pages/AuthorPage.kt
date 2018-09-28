@@ -30,9 +30,7 @@ class AuthorPage(
     lateinit var permalink: String
 
     override fun getTemplates(): List<String> {
-        val templates = super.getTemplates()
-        templates.add(0, "$key-${OrchidUtils.toSlug(author.name)}")
-        return templates
+        return listOf("$key-${OrchidUtils.toSlug(author.name)}")
     }
 
 }

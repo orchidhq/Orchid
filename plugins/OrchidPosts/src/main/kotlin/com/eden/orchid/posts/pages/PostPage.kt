@@ -76,7 +76,7 @@ class PostPage(resource: OrchidResource, val categoryModel: CategoryModel, title
     }
 
     override fun getTemplates(): List<String> {
-        val templates = super.getTemplates()
+        val templates = ArrayList<String>()
         if(!EdenUtils.isEmpty(postType)) {
             templates.add(0, "$key-type-$postType")
         }

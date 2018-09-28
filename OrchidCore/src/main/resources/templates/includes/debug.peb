@@ -6,8 +6,10 @@
 <!-- PAGE -->
 <!-- Type: {{ page.key }} -->
 <!-- Class: {{ page.class.name }} -->
-<!-- Layout: {{ page | template('layout') | join(', ') }} -->
-<!-- Page Template: {{ page | template('page') | join(', ') }} -->
+<!-- Layout: {{ page.getPossibleLayouts() | join(', ') }} -->
+<!-- Resolved Layout: {{ page.resolveLayout().reference.originalFullFilename }} -->
+<!-- Page Template: {{ page.getPossibleTemplates() | join(', ') }} -->
+<!-- Resolved Page Template: {{ page.getPossibleTemplates().reference.originalFullFilename }} -->
 
 <!-- RESOURCE -->
 <!-- Class: {{ page.resource.class.name }} -->

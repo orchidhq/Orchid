@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.components;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
@@ -8,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.registration.Prioritized;
+import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -31,15 +33,21 @@ import java.util.Map;
  */
 @Extensible
 @Description(value = "A reusable block of content.", name = "Components")
-public abstract class OrchidComponent extends Prioritized implements OptionsHolder, AssetHolder, ModularPageListItem<ComponentHolder, OrchidComponent> {
+public abstract class OrchidComponent extends Prioritized implements
+        OptionsHolder,
+        AssetHolder,
+        ModularPageListItem<ComponentHolder, OrchidComponent>,
+        Renderable {
 
-    protected final OrchidContext context;
-
+    @Getter protected final OrchidContext context;
+    @Getter protected final String templateBase = "components";
     @Getter protected final String type;
     @Getter protected final AssetHolder assetHolder;
     private boolean hasAddedAssets;
 
-    @Setter protected OrchidPage page;
+    @Getter
+    @Setter
+    protected OrchidPage page;
 
     @Getter @Setter
     @Option
@@ -96,13 +104,6 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
         this.assetHolder = new AssetHolderDelegate(context, this, "component");
     }
 
-    public List<String> getTemplates() {
-        List<String> templates = new ArrayList<>();
-        Collections.addAll(templates, this.template);
-
-        return templates;
-    }
-
     @Override
     public boolean canBeUsedOnPage(
             OrchidPage containingPage,
@@ -140,4 +141,22 @@ public abstract class OrchidComponent extends Prioritized implements OptionsHold
     public Object get(String key) {
         return allData.get(key);
     }
+
+    public List<String> getTemplates() {
+        return null;
+    }
+
+    public final List<String> getPossibleTemplates() {
+        List<String> templates = new ArrayList<>();
+        Collections.addAll(templates, this.template);
+
+        List<String> declaredTemplates = getTemplates();
+        if(!EdenUtils.isEmpty(declaredTemplates)) {
+            templates.addAll(declaredTemplates);
+        }
+        templates.add(getType());
+
+        return templates;
+    }
+
 }

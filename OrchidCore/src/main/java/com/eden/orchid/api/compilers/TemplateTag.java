@@ -1,7 +1,9 @@
 package com.eden.orchid.api.compilers;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,9 @@ import java.util.List;
  */
 @Extensible
 @Description(value = "A shortcode-like tag for named blocks of template content or DSLs.", name = "Template Tags")
-public abstract class TemplateTag implements OptionsHolder {
+public abstract class TemplateTag implements
+        OptionsHolder,
+        Renderable {
 
     public enum Type {
         Simple, Content, Tabbed
@@ -49,6 +53,8 @@ public abstract class TemplateTag implements OptionsHolder {
             return new String[0];
         }
     }
+
+    @Getter protected final String templateBase = "tags";
 
     @Getter
     private final String name;
@@ -132,5 +138,21 @@ public abstract class TemplateTag implements OptionsHolder {
             case Tabbed:  return new ArrayList<>(this.content.values());
             default:      return new ArrayList<>();
         }
+    }
+
+    @Override
+    public OrchidContext getContext() {
+        return page.getContext();
+    }
+
+    public List<String> getTemplates() {
+        return null;
+    }
+
+    public final List<String> getPossibleTemplates() {
+        List<String> templates = new ArrayList<>();
+        templates.add(getName());
+
+        return templates;
     }
 }

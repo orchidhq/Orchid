@@ -18,7 +18,6 @@ import com.mitchellbosecke.pebble.utils.StringUtils;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,10 +149,7 @@ public class TabbedTagParser extends BaseTagParser {
 
         freshTag.onRender();
         if (freshTag.rendersContent()) {
-            Map<String, Object> templateArgs = new HashMap<>();
-            templateArgs.put("tag", freshTag);
-
-            renderTagContent(self, writer, context, templateArgs, Exception::printStackTrace);
+            writer.append(freshTag.renderContent());
         }
     }
 

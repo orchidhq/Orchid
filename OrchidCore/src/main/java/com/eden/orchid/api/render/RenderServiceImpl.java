@@ -4,11 +4,9 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.experimental.Accessors;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
@@ -24,7 +22,6 @@ import java.util.function.Supplier;
 public class RenderServiceImpl implements RenderService {
 
     protected OrchidContext context;
-    protected TemplateResolutionStrategy strategy;
     protected OrchidRenderer renderer;
 
     @Option @BooleanDefault(false)
@@ -39,9 +36,8 @@ public class RenderServiceImpl implements RenderService {
     public boolean includeDrafts;
 
     @Inject
-    public RenderServiceImpl(OrchidContext context, TemplateResolutionStrategy strategy, OrchidRenderer renderer) {
+    public RenderServiceImpl(OrchidContext context, OrchidRenderer renderer) {
         this.context = context;
-        this.strategy = strategy;
         this.renderer = renderer;
     }
 
@@ -52,22 +48,10 @@ public class RenderServiceImpl implements RenderService {
 
     @Override
     public final InputStream getRenderedTemplate(OrchidPage page) {
-        InputStream is = null;
-
         page.setCurrent(true);
-
-        for (String template : strategy.getPageLayout(page)) {
-            OrchidResource templateResource = context.getResourceEntry(template);
-            if (templateResource != null) {
-                String content = "" + context.compile(FilenameUtils.getExtension(template), templateResource.getContent(), page);
-                is = toStream(content);
-                break;
-            }
-        }
-
+        String content = "" + page.renderInLayout();
         page.setCurrent(false);
-
-        return is;
+        return toStream(content);
     }
 
     @Override

@@ -65,7 +65,6 @@ import com.eden.orchid.impl.themes.functions.AnchorFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
-import com.eden.orchid.impl.themes.functions.FindTemplateFunction;
 import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
@@ -197,7 +196,6 @@ public final class ImplModule extends OrchidModule {
                 CompileAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
-                FindTemplateFunction.class,
                 LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,

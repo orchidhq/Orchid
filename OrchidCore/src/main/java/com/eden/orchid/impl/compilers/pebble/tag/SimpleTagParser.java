@@ -16,7 +16,6 @@ import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SimpleTagParser extends BaseTagParser {
@@ -67,9 +66,7 @@ public class SimpleTagParser extends BaseTagParser {
 
         freshTag.onRender();
         if (freshTag.rendersContent()) {
-            Map<String, Object> templateArgs = new HashMap<>();
-            templateArgs.put("tag", freshTag);
-            renderTagContent(self, writer, context, templateArgs, Exception::printStackTrace);
+            writer.append(freshTag.renderContent());
         }
     }
 

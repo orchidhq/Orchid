@@ -19,12 +19,7 @@ open class TaxonomyArchivePage(
 ) : OrchidPage(resource, "taxonomyArchive", taxonomy.title) {
 
     override fun getTemplates(): List<String> {
-        val templates = mutableListOf(
-                "${this.key}-${taxonomy.key}"
-        )
-        templates.addAll(super.getTemplates())
-
-        return templates
+        return listOf("${this.key}-${taxonomy.key}")
     }
 
 }
