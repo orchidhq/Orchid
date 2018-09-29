@@ -1,8 +1,11 @@
 package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
+import com.eden.orchid.api.events.On;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
@@ -13,8 +16,11 @@ import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.utilities.CacheKt;
 import com.google.inject.name.Named;
+import lombok.Data;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -43,17 +49,19 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
- * @since v1.0.0
  * @orchidApi services
+ * @since v1.0.0
  */
 @Singleton
 @Description(value = "How Orchid locates resources.", name = "Resources")
-public final class ResourceServiceImpl implements ResourceService {
+public final class ResourceServiceImpl implements ResourceService, OrchidEventListener {
 
     private OrchidContext context;
-    private List<LocalResourceSource> fileResourceSources;
-    private List<PluginResourceSource> pluginResourceSources;
-    private OkHttpClient client;
+
+    private final List<LocalResourceSource> fileResourceSources;
+    private final List<PluginResourceSource> pluginResourceSources;
+    private final OkHttpClient client;
+    private final LRUCache<ResourceCacheKey, OrchidResource> resourceCache;
 
     private final String resourcesDir;
 
@@ -76,6 +84,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
         this.client = client;
         this.resourcesDir = resourcesDir;
+        this.resourceCache = new LRUCache<>();
     }
 
     @Override
@@ -130,8 +139,8 @@ public final class ResourceServiceImpl implements ResourceService {
 
     private void addNestedDataToMap(Map<String, Object> allDatafiles, String[] pathPieces, Map<String, Object> fileData) {
         if (fileData != null && pathPieces.length > 0) {
-            if(pathPieces.length > 1) {
-                if(!allDatafiles.containsKey(pathPieces[0])) {
+            if (pathPieces.length > 1) {
+                if (!allDatafiles.containsKey(pathPieces[0])) {
                     allDatafiles.put(pathPieces[0], new HashMap<String, Object>());
                 }
                 String[] newArray = Arrays.copyOfRange(pathPieces, 1, pathPieces.length);
@@ -142,8 +151,8 @@ public final class ResourceServiceImpl implements ResourceService {
                     allDatafiles.put(pathPieces[0], fileData.get(OrchidParser.arrayAsObjectKey));
                 }
                 else {
-                    if(allDatafiles.containsKey(pathPieces[0]) && (allDatafiles.get(pathPieces[0]) instanceof Map)) {
-                        for(String key : fileData.keySet()) {
+                    if (allDatafiles.containsKey(pathPieces[0]) && (allDatafiles.get(pathPieces[0]) instanceof Map)) {
+                        for (String key : fileData.keySet()) {
                             ((Map<String, Object>) allDatafiles.get(pathPieces[0])).put(key, fileData.get(key));
                         }
                     }
@@ -160,51 +169,60 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Override
     public OrchidResource getLocalResourceEntry(final String fileName) {
-        return fileResourceSources
-                .stream()
-                .map(source -> source.getResourceEntry(fileName))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public OrchidResource getThemeResourceEntry(final String fileName) {
-        return context.getTheme().getResourceEntry(fileName);
-    }
-
-    @Override
-    public OrchidResource getResourceEntry(final String fileName) {
-        OrchidResource resource = null;
-
-        // If the fileName looks like an external resource, return a Resource pointing to that resource
-        if(OrchidUtils.isExternal(fileName)) {
-            OrchidReference ref = OrchidReference.fromUrl(context, FilenameUtils.getName(fileName), fileName);
-            resource = new ExternalResource(ref);
-        }
-
-        // If not external, check for a resource in any specified local resource sources
-        if (resource == null) {
-            resource = getLocalResourceEntry(fileName);
-        }
-
-        // If nothing found in local resources, check the theme
-        if (resource == null) {
-            resource = getThemeResourceEntry(fileName);
-        }
-
-        // If nothing found in the theme, check the default resource sources
-        if (resource == null) {
-            resource = pluginResourceSources
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, "LOCAL", context.getTheme().hashCode());
+        return CacheKt.computeIfAbsent(resourceCache, key, () -> {
+            return fileResourceSources
                     .stream()
                     .map(source -> source.getResourceEntry(fileName))
                     .filter(Objects::nonNull)
                     .findFirst()
                     .orElse(null);
-        }
+        });
+    }
 
-        // return the resource if found, otherwise null
-        return resource;
+    @Override
+    public OrchidResource getThemeResourceEntry(final String fileName) {
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, "THEME", context.getTheme().hashCode());
+        return CacheKt.computeIfAbsent(resourceCache, key, () -> {
+            return context.getTheme().getResourceEntry(fileName);
+        });
+    }
+
+    @Override
+    public OrchidResource getResourceEntry(final String fileName) {
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, "ALL", context.getTheme().hashCode());
+        return CacheKt.computeIfAbsent(resourceCache, key, () -> {
+            OrchidResource resource = null;
+
+            // If the fileName looks like an external resource, return a Resource pointing to that resource
+            if (OrchidUtils.isExternal(fileName)) {
+                OrchidReference ref = OrchidReference.fromUrl(context, FilenameUtils.getName(fileName), fileName);
+                resource = new ExternalResource(ref);
+            }
+
+            // If not external, check for a resource in any specified local resource sources
+            if (resource == null) {
+                resource = getLocalResourceEntry(fileName);
+            }
+
+            // If nothing found in local resources, check the theme
+            if (resource == null) {
+                resource = getThemeResourceEntry(fileName);
+            }
+
+            // If nothing found in the theme, check the default resource sources
+            if (resource == null) {
+                resource = pluginResourceSources
+                        .stream()
+                        .map(source -> source.getResourceEntry(fileName))
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .orElse(null);
+            }
+
+            // return the resource if found, otherwise null
+            return resource;
+        });
     }
 
 // Get all matching resources
@@ -318,7 +336,7 @@ public final class ResourceServiceImpl implements ResourceService {
 
         Map<String, Object> object = null;
 
-        try(Response response = client.newCall(request).execute()) {
+        try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 object = context.parse("json", response.body().string());
             }
@@ -399,11 +417,11 @@ public final class ResourceServiceImpl implements ResourceService {
     @Override
     public OrchidResource locateLocalResourceEntry(final String fileName, List<String> fileExtensions) {
         String fullFileName = OrchidUtils.normalizePath(fileName);
-        if(!fullFileName.contains(".")) {
-            for(String extension : fileExtensions) {
+        if (!fullFileName.contains(".")) {
+            for (String extension : fileExtensions) {
                 String testFileName = fullFileName + "." + extension;
                 OrchidResource resource = getLocalResourceEntry(testFileName);
-                if(resource != null) {
+                if (resource != null) {
                     return resource;
                 }
             }
@@ -415,7 +433,7 @@ public final class ResourceServiceImpl implements ResourceService {
     private OrchidResource locateSinglePage(String templateName, String extension) {
         String fullFileName = OrchidUtils.normalizePath(templateName);
 
-        if(!fullFileName.contains(".")) {
+        if (!fullFileName.contains(".")) {
             fullFileName = fullFileName + "." + extension;
         }
 
@@ -423,11 +441,9 @@ public final class ResourceServiceImpl implements ResourceService {
     }
 
 
-
-
     @Override
     public OrchidResource locateTemplate(String fileNames) {
-        if(fileNames.startsWith("?")) {
+        if (fileNames.startsWith("?")) {
             return locateTemplate(StringUtils.stripStart(fileNames, "?"), true);
         }
         else {
@@ -459,14 +475,14 @@ public final class ResourceServiceImpl implements ResourceService {
 
     @Override
     public OrchidResource locateTemplate(final List<String> fileNames, boolean ignoreMissing) {
-        for(String template : fileNames) {
+        for (String template : fileNames) {
             OrchidResource resource = locateSingleTemplate(template);
-            if(resource != null) {
+            if (resource != null) {
                 return resource;
             }
         }
 
-        if(ignoreMissing) {
+        if (ignoreMissing) {
             return null;
         }
         else {
@@ -477,10 +493,10 @@ public final class ResourceServiceImpl implements ResourceService {
     private OrchidResource locateSingleTemplate(String templateName) {
         String fullFileName = OrchidUtils.normalizePath(OrchidUtils.normalizePath(templateName));
 
-        if(!fullFileName.startsWith("templates/")) {
+        if (!fullFileName.startsWith("templates/")) {
             fullFileName = "templates/" + fullFileName;
         }
-        if(!fullFileName.contains(".")) {
+        if (!fullFileName.contains(".")) {
             fullFileName = fullFileName + "." + context.getTheme().getPreferredTemplateExtension();
         }
 
@@ -498,4 +514,20 @@ public final class ResourceServiceImpl implements ResourceService {
     public void setIgnoredFilenames(String[] ignoredFilenames) {
         this.ignoredFilenames = ignoredFilenames;
     }
+
+// Cache Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Data
+    public static class ResourceCacheKey {
+        private final String resourceName;
+        private final String resourceType;
+        private final int themeHashcode;
+    }
+
+    @On(Orchid.Lifecycle.ClearCache.class)
+    public void onClearCache(Orchid.Lifecycle.ClearCache event) {
+        resourceCache.clear();
+    }
+
 }

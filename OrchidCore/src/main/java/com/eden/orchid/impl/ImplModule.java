@@ -13,6 +13,7 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
@@ -186,6 +187,7 @@ public final class ImplModule extends OrchidModule {
         // Server
         addToSet(OrchidEventListener.class,
                 TaskServiceImpl.class,
+                ResourceServiceImpl.class,
                 ClogSetupListener.class);
 
         addToSet(OrchidController.class);
