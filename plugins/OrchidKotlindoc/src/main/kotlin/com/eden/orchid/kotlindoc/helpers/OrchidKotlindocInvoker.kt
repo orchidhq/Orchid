@@ -1,11 +1,11 @@
 package com.eden.orchid.kotlindoc.helpers
 
+import com.copperleaf.dokka.json.models.KotlinRootdoc
 import com.eden.orchid.api.options.OptionsHolder
-import com.eden.orchid.kotlindoc.model.KotlinRootdoc
 import com.google.inject.ImplementedBy
 
-@ImplementedBy(KotlindocInvokerImpl::class)
-interface KotlindocInvoker : OptionsHolder {
+@ImplementedBy(OrchidKotlindocInvokerImpl::class)
+interface OrchidKotlindocInvoker : OptionsHolder {
 
     fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc?
 

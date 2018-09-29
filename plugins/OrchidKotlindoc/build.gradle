@@ -1,4 +1,5 @@
 
 dependencies {
-    implementation 'com.github.copper-leaf.dokka-json:dokka-json-models:0.1.9'
+    implementation 'com.github.copper-leaf.dokka-json:dokka-json-lib:0.1.12'
 }
+
