@@ -6,7 +6,12 @@
 {% if parameters|length > 0 %}
 {% for param in parameters %}
     <li class="list-group-item clearfix">
-        <code class="pull-left">{{ param.name }}: {{ anchor(param.type, param.type) }}</code>
+        <code class="pull-left">
+        {{- param.name }}: {{ anchor(param.type, param.type) -}}
+        {% if param.defaultValue is not empty %}
+        = {{ param.defaultValue -}}
+        {%- endif -%}
+        </code>
         {% if param.comment|length > 0 %}
             <br><br>
             <div>{{ param.comment | raw }}</div>

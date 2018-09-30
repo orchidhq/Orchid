@@ -2,12 +2,7 @@
 {# @pebvariable name="method" type="com.copperleaf.dokka.json.models.KotlinMethod" #}
 <div class="panel panel-default">
     <div class="panel-heading" id="{{ method.qualifiedName|replace({'<': '-', '>': '-'}) }}">
-        <code>
-        {% for modifier in method.modifiers %}
-            {{ modifier }}
-        {% endfor %}
-        {{ method.signature }}: {{ anchor(method.returnValue.type, method.returnValue.qualifiedName) }}
-        </code>
+        {% include 'includes/kotlindoc/misc/signature' with {"simpleSignature": method.simpleSignature, "signature": method.signature} %}
     </div>
     <div class="panel-body">
         <p>{{ method.comment | compileAs('md') }}</p>

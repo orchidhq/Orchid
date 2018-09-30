@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
@@ -40,6 +41,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
 import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
@@ -51,10 +53,16 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
  */
 @Description(value = "A representation of a single file in your output site.", name = "Pages")
 @Archetype(value = ConfigArchetype.class, key = "allPages")
-public class OrchidPage implements OptionsHolder, AssetHolder {
+public class OrchidPage implements
+        OptionsHolder,
+        AssetHolder,
+        Renderable
+{
 
     // global variables
     @Getter protected final OrchidContext context;
+    @Getter protected final String templateBase = "pages";
+
     @Getter @Setter protected OrchidGenerator generator;
     @Getter @Setter @AllOptions
     private Map<String, Object> allData;
@@ -296,10 +304,50 @@ public class OrchidPage implements OptionsHolder, AssetHolder {
     }
 
     public List<String> getTemplates() {
+        return null;
+    }
+
+    public final List<String> getPossibleTemplates() {
         List<String> templates = new ArrayList<>();
         Collections.addAll(templates, this.template);
 
+        List<String> declaredTemplates = getTemplates();
+        if(!EdenUtils.isEmpty(declaredTemplates)) {
+            templates.addAll(declaredTemplates);
+        }
+        templates.add(getKey());
+        templates.add("page");
+
         return templates;
+    }
+
+    public final List<String> getPossibleLayouts() {
+        List<String> layouts = new ArrayList<>();
+        if(!EdenUtils.isEmpty(getLayout())) {
+            layouts.add(getLayout());
+        }
+        if(getGenerator() != null && !EdenUtils.isEmpty(getGenerator().getLayout())) {
+            layouts.add(getGenerator().getLayout());
+        }
+        layouts.add("index");
+
+        return layouts;
+    }
+
+    public final OrchidResource resolveLayout() {
+        return OrchidUtils.expandTemplateList(getContext(), getPossibleLayouts(), "layouts")
+                .map(template -> getContext().locateTemplate(template, true))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public final String renderInLayout() {
+        OrchidResource layoutResource = resolveLayout();
+        if(layoutResource != null) {
+            return layoutResource.compileContent(this);
+        }
+        return "";
     }
 
 // Serialize/deserialize from JSON

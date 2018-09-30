@@ -22,13 +22,10 @@ open class TermArchivePage(
 ) : OrchidPage(resource, "termArchive", "${term.title} - ${taxonomy.title}") {
 
     override fun getTemplates(): List<String> {
-        val templates = mutableListOf(
+        return listOf(
                 "${this.key}-${taxonomy.key}-${term.key}",
                 "${this.key}-${taxonomy.key}"
         )
-        templates.addAll(super.getTemplates())
-
-        return templates
     }
 
 }

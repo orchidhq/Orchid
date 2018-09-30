@@ -7,13 +7,13 @@
                     {% block componentWrapper %}
                         <article class="post single">
                             <div class="component component-{{ component.type }} component-order-{{ component.order }}">
-                                {% include '?'~(component | template('component') | join(',')) %}
+                                {{ component.renderContent() | raw }}
                             </div>
                         </article>
                     {% endblock %}
                 {% else %}
                     {% block componentNoWrapper %}
-                        {% include '?'~(component | template('component') | join(',')) %}
+                        {{ component.renderContent() | raw }}
                     {% endblock %}
                 {% endif %}
             {% endif %}

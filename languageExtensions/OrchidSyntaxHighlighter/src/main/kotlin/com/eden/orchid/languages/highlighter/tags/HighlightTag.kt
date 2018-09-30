@@ -1,6 +1,5 @@
 package com.eden.orchid.languages.highlighter.tags
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -14,7 +13,7 @@ import javax.inject.Inject
 class HighlightTag
 @Inject
 constructor(
-        private val context: OrchidContext
+
 ) : TemplateTag("highlight", TemplateTag.Type.Content, true) {
 
     @Option

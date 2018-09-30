@@ -13,6 +13,7 @@ import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
@@ -65,7 +66,6 @@ import com.eden.orchid.impl.themes.functions.AnchorFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
-import com.eden.orchid.impl.themes.functions.FindTemplateFunction;
 import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
@@ -187,6 +187,7 @@ public final class ImplModule extends OrchidModule {
         // Server
         addToSet(OrchidEventListener.class,
                 TaskServiceImpl.class,
+                ResourceServiceImpl.class,
                 ClogSetupListener.class);
 
         addToSet(OrchidController.class);
@@ -197,7 +198,6 @@ public final class ImplModule extends OrchidModule {
                 CompileAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
-                FindTemplateFunction.class,
                 LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,

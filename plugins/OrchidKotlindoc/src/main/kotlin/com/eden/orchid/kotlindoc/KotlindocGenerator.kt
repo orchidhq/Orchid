@@ -8,7 +8,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.kotlindoc.helpers.KotlindocInvoker
+import com.eden.orchid.kotlindoc.helpers.OrchidKotlindocInvoker
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import com.eden.orchid.kotlindoc.page.KotlindocPackagePage
@@ -16,7 +16,6 @@ import java.util.ArrayList
 import java.util.HashMap
 import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information "
         + "of methods, fields, etc. but in your site's theme.",
@@ -26,7 +25,7 @@ class KotlindocGenerator
 @Inject
 constructor(
         context: OrchidContext,
-        private val invoker: KotlindocInvoker,
+        private val invoker: OrchidKotlindocInvoker,
         private val model: KotlindocModel
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 

@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.pebble.tag;
 
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -18,7 +17,6 @@ import com.mitchellbosecke.pebble.utils.StringUtils;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,14 +72,7 @@ public class ContentTagParser extends BaseTagParser {
 
         freshTag.onRender();
         if (freshTag.rendersContent()) {
-            Map<String, Object> templateArgs = new HashMap<>();
-            templateArgs.put("tag", freshTag);
-
-            renderTagContent(self, writer, context, templateArgs, unchecked(e ->  {
-                if (!EdenUtils.isEmpty(bodyContent)) {
-                    writer.append(bodyContent.trim());
-                }
-            }));
+            writer.append(freshTag.renderContent());
         }
     }
 

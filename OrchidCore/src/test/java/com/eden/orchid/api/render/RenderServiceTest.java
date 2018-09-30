@@ -8,6 +8,7 @@ import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import org.apache.commons.io.IOUtils;
@@ -18,7 +19,6 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -28,11 +28,11 @@ import static org.mockito.Mockito.*;
 
 public final class RenderServiceTest {
 
+    private Theme theme;
     private OptionsExtractor extractor;
     private OrchidContext context;
     private RenderService underTest;
     private RenderServiceImpl service;
-    private TemplateResolutionStrategy templateResolutionStrategy;
     private OrchidPrecompiler precompiler;
     private OrchidRenderer renderer;
 
@@ -50,12 +50,16 @@ public final class RenderServiceTest {
         Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
 
         // test the service directly
+        theme = mock(Theme.class);
         context = mock(OrchidContext.class);
         extractor = mock(OptionsExtractor.class);
         precompiler = mock(OrchidPrecompiler.class);
         renderer = mock(OrchidRenderer.class);
         when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
         when(renderer.render(any(), any())).thenReturn(true);
+        when(context.getTheme()).thenReturn(theme);
+        when(theme.getPreferredTemplateExtension()).thenReturn("peb");
+        when(context.getDefaultTemplateExtension()).thenReturn("peb");
 
         resourceContent = "test content";
         layoutContent = "test layout";
@@ -77,16 +81,15 @@ public final class RenderServiceTest {
         page = spy(page);
         page.setPublishDate(LocalDate.now().atStartOfDay());
         page.setExpiryDate(LocalDate.now().atTime(LocalTime.MAX));
-        templateResolutionStrategy = mock(TemplateResolutionStrategy.class);
+        page.setLayout("one.html");
 
-        when(context.getResourceEntry("one.html")).thenReturn(layout);
-        when(templateResolutionStrategy.getPageLayout(page)).thenReturn(Collections.singletonList("one.html"));
+        when(context.locateTemplate("templates/layouts/one.html", true)).thenReturn(layout);
         when(context.compile("html", layoutContent, page)).thenReturn(layoutContent);
         when(context.compile("html", resourceContent, page)).thenReturn(resourceContent);
         when(context.compile("peb", layoutContent, page)).thenReturn(layoutContent);
         when(context.compile("peb", resourceContent, page)).thenReturn(resourceContent);
 
-        service = new RenderServiceImpl(context, templateResolutionStrategy, renderer);
+        service = new RenderServiceImpl(context, renderer);
         service.initialize(context);
         service = spy(service);
 
