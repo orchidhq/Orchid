@@ -111,7 +111,7 @@ public final class OrchidResponse {
                 response = this.response;
             }
             else if (view != null) {
-                response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "text/html", view.renderView());
+                response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "text/html", view.renderInLayout());
             }
             else if (!EdenUtils.isEmpty(content)) {
                 response = NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "text/html", content);

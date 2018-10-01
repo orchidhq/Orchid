@@ -9,5 +9,5 @@
     </code>
 </p>
 <div class="class-description" id="description">
-{{ page.content | raw }}
+{{ page.classDoc.comment | compileAs('md') | raw }}
 </div>

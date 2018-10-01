@@ -62,6 +62,7 @@ public class OrchidPage implements
     // global variables
     @Getter protected final OrchidContext context;
     @Getter protected final String templateBase = "pages";
+    @Getter protected final String layoutBase = "layouts";
 
     @Getter @Setter protected OrchidGenerator generator;
     @Getter @Setter @AllOptions
@@ -335,7 +336,7 @@ public class OrchidPage implements
     }
 
     public final OrchidResource resolveLayout() {
-        return OrchidUtils.expandTemplateList(getContext(), getPossibleLayouts(), "layouts")
+        return OrchidUtils.expandTemplateList(getContext(), getPossibleLayouts(), getLayoutBase())
                 .map(template -> getContext().locateTemplate(template, true))
                 .filter(Objects::nonNull)
                 .findFirst()

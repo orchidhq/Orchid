@@ -3,5 +3,5 @@
 <p><b>Package <code>{{ page.packageDoc.qualifiedName }}</code></b></p>
 
 <div class="package-description">
-{{ page.content | raw }}
+{{ page.packageDoc.comment | compileAs('md') | raw }}
 </div>
