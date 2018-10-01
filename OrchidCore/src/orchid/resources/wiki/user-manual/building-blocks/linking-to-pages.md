@@ -90,7 +90,7 @@ This function only matches items if they are an {{anchor('OrchidPage')}}.
 
 {% highlight 'jinja' %}
 {% verbatim %}
-{{ link(['itemId', 'collectionId', 'collectionType']) -> http://orchid.netlify.com/... }}
+{{ link(['itemId', 'collectionId', 'collectionType']) -> https://orchid.netlify.com/... }}
 {{ link(itemId='itemId', collectionId='collectionId', collectionType='collectionType') }}
 {% endverbatim %}
 {% endhighlight %}

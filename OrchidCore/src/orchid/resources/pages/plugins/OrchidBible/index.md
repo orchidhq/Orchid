@@ -3,7 +3,7 @@ official: true
 noDocs: true
 description: Load the full text of Bible verses quickly and easily.
 images:
-  - src: http://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/bible.jpg
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/bible.jpg
     alt: Bible
     caption: Photo by Priscilla Du Preez on Unsplash
 ---
@@ -12,8 +12,8 @@ images:
 
 Bible verses can be added simply by passing their reference to the `bible` function. The verse text will be downloaded 
 and displayed on the page, along with the verse reference. You will need to sign up for an API key for the  
-[Bibles.org API](http://www.bibles.org/pages/api) to download verse text, and the Bible version must be the `id` of one
-of the [available versions on Bibles.org](http://www.bibles.org/versions_api).
+[Bibles.org API](https://www.bibles.org/pages/api) to download verse text, and the Bible version must be the `id` of one
+of the [available versions on Bibles.org](https://www.bibles.org/versions_api).
 
 As a filter
 

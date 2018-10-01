@@ -1,5 +1,5 @@
 ---
-pebbleUrl: 'http://www.mitchellbosecke.com/pebble/documentation'
+pebbleUrl: 'https://github.com/PebbleTemplates/pebble/wiki'
 ---
 
 {% extends '_wikiBase' %}

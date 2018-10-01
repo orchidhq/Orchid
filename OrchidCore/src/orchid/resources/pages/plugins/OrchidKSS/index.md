@@ -2,14 +2,14 @@
 official: true
 description: Generate a living styleguide from annotated CSS, Sass, Scss, or LESS
 images:
-  - src: http://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974377/plugins/styleguide.jpg
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974377/plugins/styleguide.jpg
     alt: KSS Styleguide
     caption: Photo by Jan Losert on Unsplash
 ---
 
 ### Using Orchid KSS
 
-[KSS](http://warpspire.com/kss/syntax/) is a methodology for documenting your CSS and generating a styleguide which
+[KSS](https://warpspire.com/kss/syntax/) is a methodology for documenting your CSS and generating a styleguide which
 shows example usage of your stylesheets. This plugin implements a basic KSS parser and renders KSS blocks as Orchid 
 pages. KSS are block comments placed within your stylesheets, an example is given below:
 
