@@ -1,5 +1,5 @@
 ---
-pluginName: OrchidPages
+pluginName: Orchid Pages
 contentTypeTitle: static page
 bundles:
   - Orchid Blog

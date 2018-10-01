@@ -2,6 +2,7 @@ package com.eden.orchid.impl.themes.functions;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
+import com.eden.orchid.api.indexing.IndexService;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -36,7 +37,7 @@ public final class LinkFunction extends TemplateFunction {
 
     @Override
     public String[] parameters() {
-        return new String[] {"itemId", "collectionId", "collectionType"};
+        return IndexService.locateParams;
     }
 
     @Override

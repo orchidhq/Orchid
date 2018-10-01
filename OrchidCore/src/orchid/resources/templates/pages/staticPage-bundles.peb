@@ -17,7 +17,7 @@
 
     <div class="list-group">
     {% for pluginItem in included %}
-    {% set 'pageUrl' = link(pluginItem.pluginName, 'staticPages-'~plugin.pluginType) %}
+    {% set 'pageUrl' = link(pluginItem.pluginName, 'pages', pluginItem.pluginType) %}
 
     {% if pageUrl is not empty %}
         <a class="list-group-item" href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a>

@@ -4,8 +4,8 @@
     <div class="row p">
         <div class="col-md-6 col-md-offset-3">
             Orchid is complete free and open-source, and always will be. Pick from one of our many great
-            {{ anchor(title="themes", itemId='themes', collectionType="taxonomy", collectionId="group") }} or
-            {{ anchor(title="plugins", itemId='plugins', collectionType="taxonomy", collectionId="group") }}, or create
+            {{ anchor('themes', 'themes', 'taxonomy', 'group') }} or
+            {{ anchor('plugins', 'plugins', 'taxonomy', 'group') }}, or create
             your own. Plugins are
             {{ anchor("really easy to make", "Developers Guide") }}, even if you
             want to keep them

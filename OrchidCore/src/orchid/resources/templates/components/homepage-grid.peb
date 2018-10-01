@@ -22,8 +22,8 @@
         <p class="description">
             Orchid's unique indexing and plugin system allows the most complex ideas to be expressed in a way that works
             well with the entire ecosystem. Chose from one of the many plugins in
-            {{ anchor(title="our catalog", itemId='plugins', collectionType="taxonomy", collectionId="group") }} or
-            {{ anchor("make your own", "Developers Guide") }}.
+            {{ anchor('our catalog', 'plugins', 'taxonomy', 'group') }} or
+            {{ anchor('make your own', 'Developers Guide') }}.
         </p>
     </div>
     <div class="col-sm-6 tile">
