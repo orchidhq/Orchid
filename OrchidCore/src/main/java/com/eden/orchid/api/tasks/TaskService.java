@@ -38,8 +38,8 @@ public interface TaskService extends OrchidService {
         getService(TaskService.class).serve();
     }
 
-    default void deploy(boolean dryDeploy) {
-        getService(TaskService.class).deploy(dryDeploy);
+    default boolean deploy(boolean dryDeploy) {
+        return getService(TaskService.class).deploy(dryDeploy);
     }
 
     default TaskType getTaskType() {

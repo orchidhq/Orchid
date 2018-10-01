@@ -107,7 +107,7 @@ public final class Orchid {
             return true;
         }
         catch (Exception e) {
-            Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
+            Clog.e("Something went wrong running Orchid", e);
             e.printStackTrace();
 
             context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
@@ -292,9 +292,22 @@ public final class Orchid {
          * A deployment phase has completed, and we are now at the end of the {@link Orchid.State#DEPLOYING } state.
          */
         public static class DeployFinish extends OrchidEvent {
-            private DeployFinish(Object sender) { super(sender); }
+            private final boolean success;
+            private DeployFinish(Object sender, boolean success) {
+                super(sender);
+                this.success = success;
+            }
 
-            public static DeployFinish fire(Object sender) { return new DeployFinish(sender); }
+            @Override
+            public String toString() {
+                JSONObject data = new JSONObject();
+
+                data.put("success", success);
+
+                return data.toString();
+            }
+
+            public static DeployFinish fire(Object sender, boolean success) { return new DeployFinish(sender, success); }
         }
 
         /**

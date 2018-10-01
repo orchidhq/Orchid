@@ -214,22 +214,18 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     }
 
     @Override
-    public void deploy(boolean dryDeploy) {
+    public boolean deploy(boolean dryDeploy) {
         initOptions();
 
         Orchid.getInstance().setState(Orchid.State.DEPLOYING);
         Clog.i("Deploy Starting...");
         context.broadcast(Orchid.Lifecycle.DeployStart.fire(this));
         boolean success = context.publishAll(dryDeploy);
-        context.broadcast(Orchid.Lifecycle.DeployFinish.fire(this));
+        context.broadcast(Orchid.Lifecycle.DeployFinish.fire(this, success));
+        Clog.i("Deploy complete");
         Orchid.getInstance().setState(Orchid.State.IDLE);
 
-        if(success) {
-            Clog.i("Deployment completed successfully");
-        }
-        else {
-            Clog.w("Deployment failed");
-        }
+        return success;
     }
 
 // Build Events
