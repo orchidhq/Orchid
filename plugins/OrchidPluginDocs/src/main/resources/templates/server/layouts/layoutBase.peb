@@ -53,7 +53,7 @@
                 </ul>
                 <ul class="uk-navbar-nav">
                     <li>
-                    {% include 'includes/server/admin/managePanel' %}
+                    {% include 'server/includes/managePanel' %}
                     </li>
                 </ul>
             </div>
@@ -62,28 +62,28 @@
 
     <!-- Left Sidenav Content -->
     <div class="uk-offcanvas-content">
-    {% block allContent %}
+    {% if view.fullscreen %}
+    {% page %}
+    {% else %}
         <div class="uk-flex-center uk-grid-large" uk-grid>
             <div class="uk-width-2-3@m uk-width-1-2@xl">
                 <div class="uk-padding uk-padding-remove-horizontal">
                     <div class="uk-card uk-card-default uk-box-shadow-large">
                         <div class="uk-card-body">
                             <h1 class="uk-card-title">{{ view.title }}</h1>
-                            {% block mainContent %}
-                                <img src="/assets/img/orchid.png" alt="Orchid Logo">
-                            {% endblock %}
+                            {% page %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {% endblock %}
+    {% endif %}
 
         <a href="#uk-sidenav-left" uk-toggle></a>
         <div id="uk-sidenav-left" uk-offcanvas="mode: push">
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-                {% include 'includes/server/admin/sidenav' %}
+                {% include 'server/includes/sidenav' %}
             </div>
         </div>
     </div>

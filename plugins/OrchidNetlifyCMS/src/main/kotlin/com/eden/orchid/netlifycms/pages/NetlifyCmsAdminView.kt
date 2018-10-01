@@ -15,11 +15,7 @@ class NetlifyCmsAdminView(
 
     init {
         this.title = "Orchid Content Manager"
-    }
-
-    override fun loadAssets() {
-        super.loadAssets()
-//        model.loadAssets(this)
+        this.type = Type.Fullscreen
     }
 
 }

@@ -1,9 +1,7 @@
-{% extends view.layout %}
-
-{% block mainContent %}
 {# @pebvariable name="view" type="com.eden.orchid.api.server.OrchidView" #}
 {# @pebvariable name="controller" type="com.eden.orchid.plugindocs.controllers.AdminController" #}
 {# @pebvariable name="classType" type="java.lang.Class" #}
+{% set classType = params.classType %}
 
 <ul uk-tab>
     <li><a href="#">Overview</a></li>
@@ -36,5 +34,3 @@
     </li>
 {% endif %}
 </ul>
-
-{% endblock %}

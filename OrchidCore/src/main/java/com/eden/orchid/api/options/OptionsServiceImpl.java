@@ -5,6 +5,8 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.server.OrchidServer;
+import com.eden.orchid.api.server.OrchidView;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
@@ -87,7 +89,10 @@ public final class OptionsServiceImpl implements OptionsService {
         Map<String, Object> siteData = new HashMap<>();
 
         if (data != null) {
-            if (data instanceof OrchidPage) {
+            if (data instanceof OrchidView) {
+                addView(siteData, (OrchidView) data);
+            }
+            else if (data instanceof OrchidPage) {
                 addPage(siteData, (OrchidPage) data);
             }
             else if (data instanceof OrchidComponent) {
@@ -189,6 +194,20 @@ public final class OptionsServiceImpl implements OptionsService {
     private void addTag(Map<String, Object> siteData, TemplateTag tag) {
         siteData.put("tag", tag);
         addPage(siteData, tag.getPage());
+    }
+
+    private void addView(Map<String, Object> siteData, OrchidView view) {
+        siteData.put("view", view);
+        siteData.put("controller", view.getController());
+        siteData.put("params", view.getParams());
+
+        OrchidServer server = context.getInjector().getInstance(OrchidServer.class);
+        siteData.put("httpServerPort", server.getHttpServerPort());
+        siteData.put("websocketPort", server.getWebsocketPort());
+
+        siteData.put("optionsExtractor", context.resolve(OptionsExtractor.class));
+
+        addPage(siteData, view);
     }
 
 }

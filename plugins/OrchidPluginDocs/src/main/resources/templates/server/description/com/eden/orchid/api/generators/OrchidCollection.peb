@@ -52,7 +52,7 @@
         <div class="uk-panel" style="border-left: none; border-right: none;">
             <ul id="related-collections" class="uk-switcher">
                 <li class="uk-active">
-                    <div>
+                    <div style="overflow-x: scroll;">
                     {% if loadItems %}
                     {% set collectionItems = findAll(collectionType=collectionType, collectionId=collectionId) %}
                         <table class="uk-table uk-table-striped uk-table-hover">

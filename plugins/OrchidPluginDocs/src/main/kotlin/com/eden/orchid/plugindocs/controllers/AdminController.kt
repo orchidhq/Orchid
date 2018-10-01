@@ -16,7 +16,6 @@ import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
-import com.eden.orchid.api.server.admin.AdminList
 import com.eden.orchid.api.server.annotations.Get
 import org.apache.commons.lang3.ClassUtils
 import java.net.URLEncoder
@@ -26,8 +25,7 @@ import javax.inject.Inject
 class AdminController
 @Inject
 constructor(
-        val context: OrchidContext,
-        val adminLists: Set<AdminList>
+        val context: OrchidContext
 ) : OrchidController(1000) {
 
     val tableAttrs = object : DefaultHtmlAttributes() {
@@ -60,11 +58,11 @@ constructor(
         if (params.classType != null) {
             val data = HashMap<String, Any>()
             data.putAll(request.all().toMap())
-            data["classType"] = params.classType!!
 
             val view = OrchidView(context, this, data, "describe")
             view.title = Descriptive.getDescriptiveName(params.classType!!)
             view.breadcrumbs = arrayOf("describe", params.classType!!.`package`.name)
+            view.params = params
 
             return OrchidResponse(context).view(view)
         }
@@ -84,14 +82,14 @@ constructor(
         val classes = ArrayList<String>()
 
         // first add the class and its superclasses, to make sure that the concrete types get precedence over interfaces
-        classes.add("server/admin/description/" + o.name.replace(".", "/"))
+        classes.add("server/description/" + o.name.replace(".", "/"))
         ClassUtils.getAllSuperclasses(o).forEach {
-            classes.add("server/admin/description/" + it.name.replace(".", "/"))
+            classes.add("server/description/" + it.name.replace(".", "/"))
         }
 
         // fall back to interface class templates
         ClassUtils.getAllInterfaces(o).forEach {
-            classes.add("server/admin/description/" + it.name.replace(".", "/"))
+            classes.add("server/description/" + it.name.replace(".", "/"))
         }
 
         return "?" + classes.joinToString(",")
