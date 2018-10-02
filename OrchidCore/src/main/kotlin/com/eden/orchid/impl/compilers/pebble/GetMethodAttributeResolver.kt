@@ -8,10 +8,9 @@ import com.mitchellbosecke.pebble.attributes.AttributeResolver
 import com.mitchellbosecke.pebble.attributes.ResolvedAttribute
 import com.mitchellbosecke.pebble.node.ArgumentsNode
 import com.mitchellbosecke.pebble.template.EvaluationContextImpl
-
-import javax.inject.Inject
 import java.lang.reflect.Method
 import java.util.concurrent.ConcurrentHashMap
+import javax.inject.Inject
 
 class GetMethodAttributeResolver @Inject
 constructor() : AttributeResolver, OrchidEventListener {
@@ -21,8 +20,8 @@ constructor() : AttributeResolver, OrchidEventListener {
     override fun resolve(
         instance: Any?,
         attributeNameValue: Any,
-        argumentValues: Array<Any>,
-        args: ArgumentsNode,
+        argumentValues: Array<Any?>?,
+        args: ArgumentsNode?,
         context: EvaluationContextImpl,
         filename: String,
         lineNumber: Int
@@ -53,7 +52,7 @@ constructor() : AttributeResolver, OrchidEventListener {
         }
 
         // method wasn't found, lets figure it out for ourselves...
-        val unCachedValue = shouldInvoke(instance, attributeName)
+        val unCachedValue = shouldInvoke(instance)
 
         // ...then cache what we found...
         if (classCache == null) {
@@ -66,7 +65,7 @@ constructor() : AttributeResolver, OrchidEventListener {
         return unCachedValue
     }
 
-    private fun shouldInvoke(instance: Any, attributeName: String): EdenPair<Boolean, Method> {
+    private fun shouldInvoke(instance: Any): EdenPair<Boolean, Method> {
         try {
             val dynamicGetMethod = instance.javaClass.getMethod("get", String::class.java)
             return EdenPair(true, dynamicGetMethod)
@@ -77,6 +76,7 @@ constructor() : AttributeResolver, OrchidEventListener {
     }
 
     @On(Orchid.Lifecycle.ClearCache::class)
+    @Suppress("UNUSED_PARAMETER")
     fun onClearCache(event: Orchid.Lifecycle.ClearCache) {
         cache.clear()
     }

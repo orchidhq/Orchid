@@ -2,9 +2,8 @@ package com.eden.orchid.impl.compilers.parsers
 
 import com.eden.orchid.api.compilers.OrchidParser
 import org.yaml.snakeyaml.Yaml
-
-import javax.inject.Inject
 import java.util.HashMap
+import javax.inject.Inject
 
 class YamlParser @Inject
 constructor() : OrchidParser(100) {
@@ -17,6 +16,7 @@ constructor() : OrchidParser(100) {
         return arrayOf("yaml", "yml")
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun parse(extension: String, input: String): Map<String, Any>? {
         try {
             val yamlData = Yaml().load<Any>(input)

@@ -3,9 +3,8 @@ package com.eden.orchid.impl.themes.functions
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-
-import javax.inject.Inject
 import java.util.ArrayList
+import javax.inject.Inject
 
 @Description(value = "Trim a String, array, or Iterable down to size.", name = "Limit-To")
 class LimitToFunction @Inject
@@ -23,6 +22,7 @@ constructor() : TemplateFunction("limitTo", false) {
         return arrayOf("input", "count")
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun apply(): Any {
         if (count == 0) {
             throw IllegalArgumentException("Count must be given.")

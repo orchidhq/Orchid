@@ -6,60 +6,71 @@ import com.eden.orchid.Orchid
 import java.net.MalformedURLException
 import java.net.URL
 
-object ClogSpells {
+@Suppress("UNUSED_PARAMETER")
+class ClogSpells {
 
-    @Spell
-    fun baseUrl(`object`: Any): String {
-        return Orchid.getInstance().context.site.baseUrl
-    }
+    companion object {
 
-    @Spell
-    @Throws(MalformedURLException::class)
-    fun baseUrlScheme(`object`: Any): String {
-        return URL(ClogSpells.baseUrl(`object`)).protocol
-    }
-
-    @Spell
-    @Throws(MalformedURLException::class)
-    fun baseUrlHost(`object`: Any): String {
-        return URL(ClogSpells.baseUrl(`object`)).host
-    }
-
-    @Spell
-    @Throws(MalformedURLException::class)
-    fun baseUrlPort(`object`: Any): Int {
-        return URL(ClogSpells.baseUrl(`object`)).port
-    }
-
-    @Spell
-    @Throws(MalformedURLException::class)
-    fun baseUrlRoot(`object`: Any): String {
-        val url = URL(ClogSpells.baseUrl(`object`))
-
-        var urlRoot = ""
-        urlRoot += url.protocol + "://"
-        urlRoot += url.host
-
-        if (url.port != -1 && url.port != 80) {
-            urlRoot += ":" + url.port
+        @Spell
+        @JvmStatic
+        fun baseUrl(`object`: Any): String {
+            return Orchid.getInstance().context.site.baseUrl
         }
 
-        return urlRoot
-    }
+        @Spell
+        @Throws(MalformedURLException::class)
+        @JvmStatic
+        fun baseUrlScheme(`object`: Any): String {
+            return URL(ClogSpells.baseUrl(`object`)).protocol
+        }
 
-    @Spell
-    fun orchidVersion(`object`: Any): String {
-        return Orchid.getInstance().context.site.orchidVersion
-    }
+        @Spell
+        @Throws(MalformedURLException::class)
+        @JvmStatic
+        fun baseUrlHost(`object`: Any): String {
+            return URL(ClogSpells.baseUrl(`object`)).host
+        }
 
-    @Spell
-    fun env(`object`: Any): String {
-        return Orchid.getInstance().context.site.environment
-    }
+        @Spell
+        @Throws(MalformedURLException::class)
+        @JvmStatic
+        fun baseUrlPort(`object`: Any): Int {
+            return URL(ClogSpells.baseUrl(`object`)).port
+        }
 
-    @Spell
-    fun version(`object`: Any): String {
-        return Orchid.getInstance().context.site.version
-    }
+        @Spell
+        @Throws(MalformedURLException::class)
+        @JvmStatic
+        fun baseUrlRoot(`object`: Any): String {
+            val url = URL(ClogSpells.baseUrl(`object`))
 
+            var urlRoot = ""
+            urlRoot += url.protocol + "://"
+            urlRoot += url.host
+
+            if (url.port != -1 && url.port != 80) {
+                urlRoot += ":" + url.port
+            }
+
+            return urlRoot
+        }
+
+        @Spell
+        @JvmStatic
+        fun orchidVersion(`object`: Any): String {
+            return Orchid.getInstance().context.site.orchidVersion
+        }
+
+        @Spell
+        @JvmStatic
+        fun env(`object`: Any): String {
+            return Orchid.getInstance().context.site.environment
+        }
+
+        @Spell
+        @JvmStatic
+        fun version(`object`: Any): String {
+            return Orchid.getInstance().context.site.version
+        }
+    }
 }

@@ -6,8 +6,6 @@ import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.resources.resource.OrchidResource
-
 import javax.inject.Inject
 
 @Description(value = "Load a resource's content into a String.", name = "Load")
@@ -23,7 +21,7 @@ constructor(private val context: OrchidContext, private val converter: StringCon
     @BooleanDefault(true)
     @Description("When true, only resources from local sources are considered, otherwise resources from all plugins "
             + "and from the current theme will also be considered.")
-    var isLocalResourcesOnly: Boolean = false
+    var localResourcesOnly: Boolean = false
 
     override fun parameters(): Array<String> {
         return arrayOf("resource", "localResourcesOnly")
@@ -31,7 +29,7 @@ constructor(private val context: OrchidContext, private val converter: StringCon
 
     override fun apply(): Any {
         val foundResource =
-            if (isLocalResourcesOnly) context.getLocalResourceEntry(resource) else context.getResourceEntry(resource)
+            if (localResourcesOnly) context.getLocalResourceEntry(resource) else context.getResourceEntry(resource)
 
         return if (foundResource != null) {
             foundResource.compileContent(null)

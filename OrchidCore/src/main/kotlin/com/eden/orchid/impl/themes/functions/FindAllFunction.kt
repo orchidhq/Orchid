@@ -6,10 +6,7 @@ import com.eden.orchid.api.indexing.IndexService
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
-
 import javax.inject.Inject
-import java.util.ArrayList
-import java.util.Arrays
 
 @Description(value = "Get all Page objects matching a query.", name = "Find all")
 class FindAllFunction @Inject
@@ -38,10 +35,11 @@ constructor(val context: OrchidContext) : TemplateFunction("findAll", false) {
     var pageSize: Int = 0
 
     override fun parameters(): Array<String> {
-        val params = ArrayList(Arrays.asList(*IndexService.locateParams))
-        params.add("page")
-        params.add("pageSize")
-        return params.toTypedArray()
+        return arrayOf(
+                *IndexService.locateParams,
+                "page",
+                "pageSize"
+        )
     }
 
     override fun apply(): Any {

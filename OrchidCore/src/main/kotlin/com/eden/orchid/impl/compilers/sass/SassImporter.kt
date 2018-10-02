@@ -2,13 +2,10 @@ package com.eden.orchid.impl.compilers.sass
 
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.OrchidUtils
 import io.bit3.jsass.importer.Import
 import io.bit3.jsass.importer.Importer
-
 import javax.inject.Inject
-import java.util.Collections
 
 class SassImporter @Inject
 constructor(private val context: OrchidContext) : Importer {
@@ -62,8 +59,8 @@ constructor(private val context: OrchidContext) : Importer {
         return null
     }
 
-    private fun splitPath(name: String): EdenPair<String, String> {
-        var name = name
+    private fun splitPath(originalName: String): EdenPair<String, String> {
+        var name = originalName
         name = name.replace("\\\\\\\\".toRegex(), "/")
         name = name.replace("\\\\".toRegex(), "/")
 

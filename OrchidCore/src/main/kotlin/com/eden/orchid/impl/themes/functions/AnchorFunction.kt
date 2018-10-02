@@ -7,11 +7,7 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.indexing.IndexService
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.pages.OrchidPage
-
 import javax.inject.Inject
-import java.util.ArrayList
-import java.util.Collections
 
 @Description(value = "Generate an HTML link to a page.", name = "Anchor")
 class AnchorFunction @Inject
@@ -38,13 +34,11 @@ constructor(val context: OrchidContext) : TemplateFunction("anchor", true) {
     var customClasses: String? = null
 
     override fun parameters(): Array<String?> {
-        val params = ArrayList<String>()
-        params.add("title")
-        Collections.addAll(params, *IndexService.locateParams)
-        params.add("customClasses")
-        val paramsArray = arrayOfNulls<String>(params.size)
-        params.toTypedArray()
-        return paramsArray
+        return arrayOf(
+                "title",
+                *IndexService.locateParams,
+                "customClasses"
+        )
     }
 
     override fun apply(): String? {
