@@ -183,10 +183,10 @@ with the Orchid plugins that came from this inspiration.
     - {{ anchor('Orchid Posts') }}
 - [**Gitbook**](https://toolchain.gitbook.com/)
     - {{ anchor('Orchid Wiki') }}
-- [**Javadoc**](http://www.oracle.com/technetwork/java/javase/tech/index-jsp-135444.html)
+- [**Javadoc**](https://www.oracle.com/technetwork/java/javase/tech/index-jsp-135444.html)
     - {{ anchor('Orchid Javadoc') }}
     - {{ anchor('Orchid Swiftdoc') }}
-- [**SC5 Styleguide**](http://styleguide.sc5.io/)
+- [**SC5 Styleguide**](https://styleguide.sc5.io/)
     - {{ anchor('Orchid KSS') }}
 
 {% endblock %}

@@ -14,7 +14,7 @@ import java.util.List;
 @ImplementedBy(IndexServiceImpl.class)
 public interface IndexService extends OrchidService {
 
-    String[] locateParams = new String[] {"itemId", "collectionId", "collectionType"};
+    String[] locateParams = new String[] {"itemId", "collectionType", "collectionId"};
 
     default void clearIndex() {
         getService(IndexService.class).clearIndex();

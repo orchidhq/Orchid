@@ -1,4 +1,5 @@
-includeIndexInPageTitle: false
+defaultConfig:
+  includeIndexInPageTitle: false
 sections:
   - key: 'user-manual'
     title: 'User Manual'

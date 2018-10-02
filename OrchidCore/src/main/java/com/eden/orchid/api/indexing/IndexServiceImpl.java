@@ -1,11 +1,17 @@
 package com.eden.orchid.api.indexing;
 
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.On;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.CacheKt;
+import com.eden.orchid.utilities.LRUCache;
+import lombok.Data;
 import lombok.Getter;
 
 import javax.inject.Inject;
@@ -25,7 +31,7 @@ import java.util.stream.Stream;
  */
 @Singleton
 @Description(value = "How Orchid organizes the data it collects.", name = "Index")
-public final class IndexServiceImpl implements IndexService {
+public final class IndexServiceImpl implements IndexService, OrchidEventListener {
 
     private final Set<GlobalCollection> globalCollections;
 
@@ -35,9 +41,12 @@ public final class IndexServiceImpl implements IndexService {
 
     @Getter private List<OrchidCollection> collections;
 
+    private final LRUCache<CollectionSearchCacheKey, Object> collectionSearchCache;
+
     @Inject
     public IndexServiceImpl(Set<GlobalCollection> globalCollections) {
         this.globalCollections = Collections.unmodifiableSet(globalCollections);
+        this.collectionSearchCache = new LRUCache<>();
     }
 
     @Override
@@ -70,7 +79,10 @@ public final class IndexServiceImpl implements IndexService {
 
     @Override
     public Object find(String collectionType, String collectionId, String itemId) {
-        return filterCollections(getCollections(collectionType, collectionId), itemId).findFirst().orElse(null);
+        final CollectionSearchCacheKey key = new CollectionSearchCacheKey(collectionType, collectionId, itemId);
+        return CacheKt.computeIfAbsent(collectionSearchCache, key, () -> {
+            return filterCollections(getCollections(collectionType, collectionId), itemId).findFirst().orElse(null);
+        });
     }
 
     @Override
@@ -127,6 +139,21 @@ public final class IndexServiceImpl implements IndexService {
                     .flatMap(Collection::stream)
                     .distinct();
         }
+    }
+
+// Cache Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Data
+    public static class CollectionSearchCacheKey {
+        private final String collectionType;
+        private final String collectionId;
+        private final String itemId;
+    }
+
+    @On(Orchid.Lifecycle.ClearCache.class)
+    public void onClearCache(Orchid.Lifecycle.ClearCache event) {
+        collectionSearchCache.clear();
     }
 
 }

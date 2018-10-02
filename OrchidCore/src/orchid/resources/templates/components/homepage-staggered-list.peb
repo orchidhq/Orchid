@@ -25,7 +25,7 @@
                 Orchid ships with
                 <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a>,
                 <a href="https://sass-lang.com/guide">SCSS</a>, and
-                <a href="http://www.mitchellbosecke.com/pebble/documentation">Pebble</a> compilers built-in, which make
+                <a href="https://github.com/PebbleTemplates/pebble/wiki">Pebble</a> compilers built-in, which make
                 designing your site and managing your content a breeze, with additional languages like
                 <a href="https://asciidoctor.org/">Asciidoctor</a> available as plugins. Orchid also has features like
                 full-text static search, a modular architecture with component-based design system, integration with the

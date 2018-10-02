@@ -27,7 +27,12 @@ constructor(
     lateinit var collectionId: String
 
     override fun load(): OrchidPage? {
-        return context.findPage(this.collectionType, this.collectionId, this.itemId)
+        if(listOf(collectionType, collectionId, itemId).any { it.isNotBlank() }) {
+            return context.findPage(this.collectionType, this.collectionId, this.itemId)
+        }
+        else {
+            return null
+        }
     }
 
 }

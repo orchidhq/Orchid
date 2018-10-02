@@ -18,7 +18,7 @@ constructor(
     @Option
     @BooleanDefault(true)
     @Description("Whether to run a dry deploy, validating all options but not actually deploying anything.")
-    var isDry: Boolean = false
+    var dry: Boolean = true
 
     override fun parameters(): Array<String> {
         return arrayOf("dry")
@@ -26,7 +26,7 @@ constructor(
 
     @Throws(Exception::class)
     override fun run(commandName: String) {
-        contextProvider.get().deploy(isDry)
+        contextProvider.get().deploy(dry)
     }
 }
 

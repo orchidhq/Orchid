@@ -10,6 +10,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.indexing.IndexServiceImpl;
 import com.eden.orchid.api.publication.OrchidPublisher;
 import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
@@ -188,6 +189,7 @@ public final class ImplModule extends OrchidModule {
         addToSet(OrchidEventListener.class,
                 TaskServiceImpl.class,
                 ResourceServiceImpl.class,
+                IndexServiceImpl.class,
                 ClogSetupListener.class);
 
         addToSet(OrchidController.class);

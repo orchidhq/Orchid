@@ -14,12 +14,16 @@ class DeployTask
 @Inject
 constructor(
         private val contextProvider: Provider<OrchidContext>,
-        @param:Named("dryDeploy") private val dryDeploy: Boolean
+        @Named("dryDeploy") private val dryDeploy: Boolean
 ) : OrchidTask(100, "deploy", TaskService.TaskType.DEPLOY) {
 
     override fun run() {
         contextProvider.get().build()
-        contextProvider.get().deploy(dryDeploy)
+        val success = contextProvider.get().deploy(dryDeploy)
+
+        if(!success) {
+            throw Exception("deployment failed, check logs for details")
+        }
     }
 
 }

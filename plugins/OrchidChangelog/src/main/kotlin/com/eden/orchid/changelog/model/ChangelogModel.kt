@@ -11,5 +11,9 @@ class ChangelogModel {
         this.versions = versions
     }
 
+    fun getVersion(versionName: String): ChangelogVersion? {
+        return versions.find { it.version == versionName }
+    }
+
 }
 

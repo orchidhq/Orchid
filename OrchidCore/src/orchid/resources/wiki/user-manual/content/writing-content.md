@@ -15,7 +15,7 @@ Page content in Orchid usually consists of two major sections: Front Matter, and
 
 ## Front Matter
 
-The full details of a page's Front Matter are discussed in the [Page Content]({{ link('Page Configuration', 'wiki') }}) 
+The full details of a page's Front Matter are discussed in the {{ anchor('Page Content', 'Page Configuration', 'wiki') }} 
 page, but in essence, Front Matter is a block of YAML between triple-dashed lines at the top of the file. The Front
 Matter can provide a lot of useful information to Orchid, such as:
  

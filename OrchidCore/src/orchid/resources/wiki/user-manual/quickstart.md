@@ -42,7 +42,6 @@ Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchid
 
 The plugin adds several new tasks to run Orchid in various modes, along with replacing the Javadoc task with Orchid. It
 also opens up a configuration block where you can set options such as the theme and input/output directories of Orchid. 
-The plugin is explained in more detail in the {{anchor('Advanced Configuration')}} section.
 
 **Step 2**
 
