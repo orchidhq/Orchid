@@ -17,10 +17,10 @@ import javax.inject.Singleton
 class NetlifyCmsModel
 @Inject
 constructor(
-        val context: OrchidContext,
-        val templateTags: Set<TemplateTag>,
-        val components: Set<OrchidComponent>,
-        val menuItems: Set<OrchidMenuItem>
+    val context: OrchidContext,
+    val templateTags: Set<TemplateTag>,
+    val components: Set<OrchidComponent>,
+    val menuItems: Set<OrchidMenuItem>
 ) {
 
     var useNetlifyIdentityWidget: Boolean = false

@@ -1,6 +1,4 @@
-package com.eden.orchid.api.events;
-
-import lombok.Getter;
+package com.eden.orchid.api.events
 
 /**
  * A generic representation of an Event used to communicate intended or completed actions and extend core functionality.
@@ -8,14 +6,12 @@ import lombok.Getter;
  * @param <T> the type of the sender, used to communicate from where the event was sent.
  *
  * @since v1.0.0
- */
-public abstract class OrchidEvent<T> {
+</T> */
+abstract class OrchidEvent<T> {
 
-    @Getter
-    private final T sender;
+    val sender: T?
 
-    @Getter
-    private final String type;
+    val type: String
 
     /**
      * Initialize this Event with the Object that is sending it out, typically `this`, but may be a dedicated Sender
@@ -25,9 +21,9 @@ public abstract class OrchidEvent<T> {
      *
      * @since v1.0.0
      */
-    public OrchidEvent(String type, T sender) {
-        this.type = type;
-        this.sender = sender;
+    constructor(type: String, sender: T) {
+        this.type = type
+        this.sender = sender
     }
 
     /**
@@ -38,13 +34,12 @@ public abstract class OrchidEvent<T> {
      *
      * @since v1.0.0
      */
-    public OrchidEvent(T sender) {
-        this.type = this.getClass().getSimpleName().toLowerCase().replaceAll("Event", "");
-        this.sender = sender;
+    constructor(sender: T?) {
+        this.type = this.javaClass.simpleName.toLowerCase().replace("Event".toRegex(), "")
+        this.sender = sender
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
+    override fun toString(): String {
+        return this.javaClass.simpleName
     }
 }

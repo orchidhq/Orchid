@@ -4,8 +4,6 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Template Functions add methods that can be called by themselves or as a "filter" in an expression within the primary
@@ -18,14 +16,10 @@ import lombok.Setter;
 @Description(value = "A function that can be called from your templates.", name = "Template Functions")
 public abstract class TemplateFunction implements OptionsHolder {
 
-    @Getter
     protected final String name;
 
-    @Getter
     protected final boolean isSafe;
 
-    @Getter
-    @Setter
     protected OrchidPage page;
 
     /**
@@ -55,4 +49,19 @@ public abstract class TemplateFunction implements OptionsHolder {
      */
     public abstract Object apply();
 
+    public String getName() {
+        return this.name;
+    }
+
+    public boolean isSafe() {
+        return this.isSafe;
+    }
+
+    public OrchidPage getPage() {
+        return this.page;
+    }
+
+    public void setPage(OrchidPage page) {
+        this.page = page;
+    }
 }
