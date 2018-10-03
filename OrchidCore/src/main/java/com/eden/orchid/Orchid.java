@@ -16,8 +16,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import lombok.Getter;
-import lombok.Setter;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -40,10 +38,9 @@ public final class Orchid {
 
     private static Orchid instance;
 
-    @Getter private OrchidContext context;
-    @Getter private Injector injector;
+    private OrchidContext context;
+    private Injector injector;
 
-    @Getter @Setter
     private Orchid.State state = State.BOOTSTRAP;
 
     public static Orchid getInstance() {
@@ -113,6 +110,22 @@ public final class Orchid {
             context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
             return false;
         }
+    }
+
+    public OrchidContext getContext() {
+        return this.context;
+    }
+
+    public Injector getInjector() {
+        return this.injector;
+    }
+
+    public State getState() {
+        return this.state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
 // Events fired by Orchid Core
@@ -236,7 +249,7 @@ public final class Orchid {
          * the indexing phase of each Generator.
          */
         public static class IndexGeneratorExtend extends OrchidEvent<OrchidGenerator> {
-            @Getter private final List<? extends OrchidPage> generatorPages;
+            private final List<? extends OrchidPage> generatorPages;
 
             private IndexGeneratorExtend(OrchidGenerator sender, List<? extends OrchidPage> generatorPages) {
                 super(sender);
@@ -245,6 +258,10 @@ public final class Orchid {
 
             public static IndexGeneratorExtend fire(OrchidGenerator sender, List<? extends OrchidPage> generatorPages) {
                 return new IndexGeneratorExtend(sender, generatorPages);
+            }
+
+            public List<? extends OrchidPage> getGeneratorPages() {
+                return this.generatorPages;
             }
         }
 
@@ -453,14 +470,26 @@ public final class Orchid {
         IDLE(false, false)
         ;
 
-        @Getter private final boolean isBuildState;
-        @Getter private final boolean isDeployState;
-        @Getter private final boolean isWorkingState;
+        private final boolean isBuildState;
+        private final boolean isDeployState;
+        private final boolean isWorkingState;
 
         State(boolean isBuildState, boolean isDeployState) {
             this.isBuildState = isBuildState;
             this.isDeployState = isDeployState;
             this.isWorkingState = isDeployState || isBuildState;
+        }
+
+        public boolean isBuildState() {
+            return this.isBuildState;
+        }
+
+        public boolean isDeployState() {
+            return this.isDeployState;
+        }
+
+        public boolean isWorkingState() {
+            return this.isWorkingState;
         }
     }
 
