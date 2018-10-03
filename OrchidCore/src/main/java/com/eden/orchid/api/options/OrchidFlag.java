@@ -7,9 +7,6 @@ import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.Protected;
 import com.eden.orchid.api.options.archetypes.EnvironmentVariableArchetype;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -104,9 +101,6 @@ public abstract class OrchidFlag {
         }
     }
 
-    @AllArgsConstructor
-    @Getter
-    @Setter
     public static final class FlagDescription {
 
         public final String type;
@@ -114,11 +108,31 @@ public abstract class OrchidFlag {
         public final String[] aliases;
         public final String description;
 
+        @java.beans.ConstructorProperties({"type", "key", "aliases", "description"})
+        public FlagDescription(String type, String key, String[] aliases, String description) {
+            this.type = type;
+            this.key = key;
+            this.aliases = aliases;
+            this.description = description;
+        }
+
+        public String getType() {
+            return this.type;
+        }
+
+        public String getKey() {
+            return this.key;
+        }
+
+        public String[] getAliases() {
+            return this.aliases;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
     }
 
-    @AllArgsConstructor
-    @Getter
-    @Setter
     public static final class Value {
 
         private final Class<?> type;
@@ -126,6 +140,14 @@ public abstract class OrchidFlag {
         private final Object value;
 
         private final boolean isProtected;
+
+        @java.beans.ConstructorProperties({"type", "key", "value", "isProtected"})
+        public Value(Class<?> type, String key, Object value, boolean isProtected) {
+            this.type = type;
+            this.key = key;
+            this.value = value;
+            this.isProtected = isProtected;
+        }
 
         public Class<?> getType() {
             if(type.equals(byte.class))   { return Byte.class; }
@@ -136,6 +158,18 @@ public abstract class OrchidFlag {
             if(type.equals(double.class)) { return Double.class; }
 
             return type;
+        }
+
+        public String getKey() {
+            return this.key;
+        }
+
+        public Object getValue() {
+            return this.value;
+        }
+
+        public boolean isProtected() {
+            return this.isProtected;
         }
     }
 

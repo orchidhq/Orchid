@@ -14,8 +14,6 @@ import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,21 +23,19 @@ import java.util.function.Consumer;
 
 public abstract class AbstractTheme extends JarResourceSource implements OptionsHolder, AssetHolder {
 
-    @Getter protected final OrchidContext context;
-    @Getter protected final String key;
-    @Getter protected final AssetHolder assetHolder;
+    protected final OrchidContext context;
+    protected final String key;
+    protected final AssetHolder assetHolder;
 
-    @Getter @Setter @AllOptions
+    @AllOptions
     private Map<String, Object> allData;
 
-    @Getter @Setter
     @Option
     @Description("Add extra CSS files to every page rendered with this theme, which will be compiled just like the " +
             "rest of the site's assets."
     )
     protected String[] extraCss;
 
-    @Getter @Setter
     @Option
     @Description("Add extra Javascript files to every page rendered with this theme, which will be compiled just " +
             "like the rest of the site's assets."
@@ -48,9 +44,9 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
 
     private boolean hasAddedAssets;
 
-    @Getter @Setter private boolean hasRenderedAssets;
+    private boolean hasRenderedAssets;
 
-    @Getter @Setter protected String preferredTemplateExtension;
+    protected String preferredTemplateExtension;
 
     private boolean isUsingCurrentPage;
     private OrchidPage currentPage;
@@ -152,5 +148,57 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
         else {
             return Objects.hash(super.hashCode(), getKey());
         }
+    }
+
+    public OrchidContext getContext() {
+        return this.context;
+    }
+
+    public String getKey() {
+        return this.key;
+    }
+
+    public AssetHolder getAssetHolder() {
+        return this.assetHolder;
+    }
+
+    public Map<String, Object> getAllData() {
+        return this.allData;
+    }
+
+    public String[] getExtraCss() {
+        return this.extraCss;
+    }
+
+    public String[] getExtraJs() {
+        return this.extraJs;
+    }
+
+    public boolean isHasRenderedAssets() {
+        return this.hasRenderedAssets;
+    }
+
+    public String getPreferredTemplateExtension() {
+        return this.preferredTemplateExtension;
+    }
+
+    public void setAllData(Map<String, Object> allData) {
+        this.allData = allData;
+    }
+
+    public void setExtraCss(String[] extraCss) {
+        this.extraCss = extraCss;
+    }
+
+    public void setExtraJs(String[] extraJs) {
+        this.extraJs = extraJs;
+    }
+
+    public void setHasRenderedAssets(boolean hasRenderedAssets) {
+        this.hasRenderedAssets = hasRenderedAssets;
+    }
+
+    public void setPreferredTemplateExtension(String preferredTemplateExtension) {
+        this.preferredTemplateExtension = preferredTemplateExtension;
     }
 }

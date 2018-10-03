@@ -3,7 +3,6 @@ package com.eden.orchid.api.generators;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.Descriptive;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -19,10 +18,9 @@ import java.util.stream.Stream;
  */
 public abstract class OrchidCollection<T> implements Descriptive {
 
-    @Getter protected final String collectionType;
-    @Getter protected final String collectionId;
+    protected final String collectionType;
+    protected final String collectionId;
 
-    @Getter
     private List<T> items;
 
     public OrchidCollection(String collectionType, String collectionId, List<T> items) {
@@ -69,5 +67,17 @@ public abstract class OrchidCollection<T> implements Descriptive {
 
     public void clear() {
         this.items = null;
+    }
+
+    public String getCollectionType() {
+        return this.collectionType;
+    }
+
+    public String getCollectionId() {
+        return this.collectionId;
+    }
+
+    public List<T> getItems() {
+        return this.items;
     }
 }
