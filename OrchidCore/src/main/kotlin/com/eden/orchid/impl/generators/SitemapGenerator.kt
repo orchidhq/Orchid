@@ -7,10 +7,9 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
-
-import javax.inject.Inject
 import java.util.ArrayList
 import java.util.stream.Stream
+import javax.inject.Inject
 
 @Description(value = "Generate a sitemap and `robots.txt` for automatic SEO.", name = "Sitemap and Robots.txt")
 class SitemapGenerator @Inject
@@ -20,12 +19,12 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     @Option
     @BooleanDefault(true)
     @Description("Whether to generate sitemaps.")
-    var isUseSitemaps: Boolean = false
+    var useSitemaps: Boolean = true
 
     @Option
     @BooleanDefault(true)
     @Description("Whether to generate a robots.txt, which includes a link to the sitemap.")
-    var isUseRobots: Boolean = false
+    var useRobots: Boolean = true
 
     override fun startIndexing(): List<OrchidPage>? {
         return null
@@ -38,7 +37,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     private fun generateSitemapFiles() {
         var sitemapIndex: SitemapIndexPage? = null
 
-        if (isUseSitemaps) {
+        if (useSitemaps) {
             val mappedIndex = context.internalIndex.allIndexedPages
             val sitemapPages = ArrayList<SitemapPage>()
 
@@ -55,7 +54,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
             context.renderRaw(sitemapIndex)
         }
 
-        if (isUseRobots) {
+        if (useRobots) {
             // Render the robots.txt
             val robotsPage = RobotsPage(context, sitemapIndex)
             context.renderRaw(robotsPage)
@@ -100,7 +99,6 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     }
 
     companion object {
-
         val GENERATOR_KEY = "sitemap"
     }
 }

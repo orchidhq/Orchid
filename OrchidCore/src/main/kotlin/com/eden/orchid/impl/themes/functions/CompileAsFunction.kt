@@ -19,13 +19,13 @@ constructor(private val context: OrchidContext) : TemplateFunction("compileAs", 
     @Option
     @StringDefault("txt")
     @Description("The extension to compile the inner content against.")
-    var ext: String? = null
+    lateinit var ext: String
 
     override fun parameters(): Array<String> {
         return arrayOf("input", "ext")
     }
 
     override fun apply(): Any {
-        return context.compile(ext, input!!.toString())
+        return context.compile(ext, input?.toString() ?: "")
     }
 }

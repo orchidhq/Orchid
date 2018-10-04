@@ -108,7 +108,6 @@ public abstract class OrchidFlag {
         public final String[] aliases;
         public final String description;
 
-        @java.beans.ConstructorProperties({"type", "key", "aliases", "description"})
         public FlagDescription(String type, String key, String[] aliases, String description) {
             this.type = type;
             this.key = key;
@@ -141,7 +140,6 @@ public abstract class OrchidFlag {
 
         private final boolean isProtected;
 
-        @java.beans.ConstructorProperties({"type", "key", "value", "isProtected"})
         public Value(Class<?> type, String key, Object value, boolean isProtected) {
             this.type = type;
             this.key = key;

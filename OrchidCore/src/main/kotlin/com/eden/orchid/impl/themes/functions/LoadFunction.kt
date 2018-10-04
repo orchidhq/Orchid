@@ -15,13 +15,13 @@ constructor(private val context: OrchidContext, private val converter: StringCon
 
     @Option
     @Description("The resource to lookup and render in-place.")
-    var resource: String? = null
+    lateinit var resource: String
 
     @Option
     @BooleanDefault(true)
     @Description("When true, only resources from local sources are considered, otherwise resources from all plugins "
             + "and from the current theme will also be considered.")
-    var localResourcesOnly: Boolean = false
+    var localResourcesOnly: Boolean = true
 
     override fun parameters(): Array<String> {
         return arrayOf("resource", "localResourcesOnly")

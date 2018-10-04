@@ -17,11 +17,11 @@ constructor() : TemplateTag("log", TemplateTag.Type.Content, false) {
     @Option
     @StringDefault("verbose")
     @Description("The priority with which to log the message.")
-    var level: String? = null
+    lateinit var level: String
 
     @Option
     @Description("An options tag to display with the message.")
-    var tag: String? = null
+    lateinit var tag: String
 
     override fun parameters(): Array<String> {
         return arrayOf("level", "tag")
@@ -30,7 +30,7 @@ constructor() : TemplateTag("log", TemplateTag.Type.Content, false) {
     override fun onRender() {
         val clog = if (!EdenUtils.isEmpty(tag)) Clog.tag(tag) else Clog.getInstance()
 
-        when (level!!.toLowerCase()) {
+        when (level.toLowerCase()) {
             "verbose" -> clog.v(content)
             "debug" -> clog.d(content)
             "info" -> clog.i(content)

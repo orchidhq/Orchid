@@ -12,10 +12,9 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidPage
-
+import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
-import java.util.stream.Stream
 
 @Singleton
 @Description(
@@ -28,18 +27,18 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
-    var sourceDirs: List<AssetDirectory>? = null
+    lateinit var sourceDirs: List<AssetDirectory>
 
     override fun startIndexing(): List<OrchidPage>? {
         if (EdenUtils.isEmpty(sourceDirs)) {
             val dir = AssetDirectory()
             dir.sourceDir = "assets"
-            dir.assetFileExtensions = null
+            dir.assetFileExtensions = emptyArray()
             dir.isRecursive = true
             sourceDirs = listOf(dir)
         }
 
-        sourceDirs!!.stream()
+        sourceDirs.stream()
             .flatMap<OrchidResource> { dir ->
                 context.getLocalResourceEntries(
                     dir.sourceDir,
@@ -77,16 +76,16 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
         @Option
         @StringDefault("assets")
         @Description("Set which local resource directories you want to copy static assets from.")
-        var sourceDir: String? = null
+        lateinit var sourceDir: String
 
         @Option
         @Description("Restrict the file extensions used for the assets in this directory.")
-        var assetFileExtensions: Array<String>? = null
+        lateinit var assetFileExtensions: Array<String>
 
         @Option
         @BooleanDefault(true)
         @Description("Whether to include subdirectories of this directory")
-        var isRecursive: Boolean = false
+        var isRecursive: Boolean = true
     }
 
     companion object {

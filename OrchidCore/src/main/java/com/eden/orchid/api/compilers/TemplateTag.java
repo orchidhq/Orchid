@@ -71,7 +71,6 @@ public abstract class TemplateTag implements
         private final String key;
         private final String content;
 
-        @java.beans.ConstructorProperties({"key", "content"})
         public SimpleTab(String key, String content) {
             this.key = key;
             this.content = content;
