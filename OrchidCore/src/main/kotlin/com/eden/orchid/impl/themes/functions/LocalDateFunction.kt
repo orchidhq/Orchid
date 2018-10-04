@@ -22,13 +22,13 @@ constructor(val context: OrchidContext, val converter: DateTimeConverter) : Temp
     @Option
     @StringDefault("MMM d yyyy  hh:mm a")
     @Description("The date format to display the date as.")
-    var format: String? = null
+    lateinit var format: String
 
     override fun parameters(): Array<String> {
         return arrayOf("input", "format")
     }
 
     override fun apply(): Any {
-        return DateTimeFormatter.ofPattern(format!!).format(converter.convert(LocalDate::class.java, input).second)
+        return DateTimeFormatter.ofPattern(format).format(converter.convert(LocalDate::class.java, input).second)
     }
 }

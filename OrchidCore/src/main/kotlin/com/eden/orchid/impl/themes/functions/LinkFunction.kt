@@ -15,15 +15,15 @@ constructor(val context: OrchidContext) : TemplateFunction("link", true) {
 
     @Option
     @Description("The Id of an item to link to.")
-    var itemId: String? = null
+    lateinit var itemId: String
 
     @Option
     @Description("The type of collection the item is expected to come from.")
-    var collectionType: String? = null
+    lateinit var collectionType: String
 
     @Option
     @Description("The specific Id of the given collection type where the item is expected to come from.")
-    var collectionId: String? = null
+    lateinit var collectionId: String
 
     override fun parameters(): Array<String> {
         return IndexService.locateParams

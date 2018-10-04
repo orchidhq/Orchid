@@ -15,23 +15,23 @@ constructor(val context: OrchidContext) : TemplateFunction("anchor", true) {
 
     @Option
     @Description("The title to display in an anchor tag for the given item if found. Otherwise, the title is " + "returned directly.")
-    var title: String? = null
+    lateinit var title: String
 
     @Option
     @Description("The Id of an item to link to.")
-    var itemId: String? = null
+    lateinit var itemId: String
 
     @Option
     @Description("The type of collection the item is expected to come from.")
-    var collectionType: String? = null
+    lateinit var collectionType: String
 
     @Option
     @Description("The specific Id of the given collection type where the item is expected to come from.")
-    var collectionId: String? = null
+    lateinit var collectionId: String
 
     @Option
     @Description("Custom classes to add to the resulting anchor tag. If no matching item is found, these classes are " + "not used.")
-    var customClasses: String? = null
+    lateinit var customClasses: String
 
     override fun parameters(): Array<String?> {
         return arrayOf(

@@ -5,10 +5,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.RelationConfig;
 import com.eden.orchid.impl.relations.AssetRelation;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
 @Description(value = "The global information for your Orchid site.", name = "Site Info")
 public final class SiteInfo implements OptionsHolder {
 
@@ -36,4 +33,43 @@ public final class SiteInfo implements OptionsHolder {
     )
     private String siteDescription;
 
+    public AssetRelation getAvatar() {
+        return this.avatar;
+    }
+
+    public AssetRelation getFavicon() {
+        return this.favicon;
+    }
+
+    public String getSiteName() {
+        return this.siteName;
+    }
+
+    public String getSubtitle() {
+        return this.subtitle;
+    }
+
+    public String getSiteDescription() {
+        return this.siteDescription;
+    }
+
+    public void setAvatar(AssetRelation avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setFavicon(AssetRelation favicon) {
+        this.favicon = favicon;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setSiteDescription(String siteDescription) {
+        this.siteDescription = siteDescription;
+    }
 }

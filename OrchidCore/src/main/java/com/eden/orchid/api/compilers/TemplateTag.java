@@ -6,9 +6,6 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -32,6 +29,34 @@ public abstract class TemplateTag implements
         OptionsHolder,
         Renderable {
 
+    public String getTemplateBase() {
+        return this.templateBase;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public boolean rendersContent() {
+        return this.rendersContent;
+    }
+
+    public Type getType() {
+        return this.type;
+    }
+
+    public OrchidPage getPage() {
+        return this.page;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setPage(OrchidPage page) {
+        this.page = page;
+    }
+
     public enum Type {
         Simple, Content, Tabbed
     }
@@ -42,35 +67,40 @@ public abstract class TemplateTag implements
         String[] parameters();
     }
 
-    @Getter
-    @AllArgsConstructor
     public static final class SimpleTab implements Tab {
         private final String key;
         private final String content;
+
+        public SimpleTab(String key, String content) {
+            this.key = key;
+            this.content = content;
+        }
 
         @Override
         public String[] parameters() {
             return new String[0];
         }
+
+        public String getKey() {
+            return this.key;
+        }
+
+        public String getContent() {
+            return this.content;
+        }
     }
 
-    @Getter protected final String templateBase = "tags";
+    protected final String templateBase = "tags";
 
-    @Getter
     private final String name;
 
-    @Getter
     @Accessors(fluent = true)
     private final boolean rendersContent;
 
     private final LinkedHashMap<String, Tab> content;
 
-    @Getter
-    @Setter
     private Type type;
 
-    @Getter
-    @Setter
     protected OrchidPage page;
 
     /**

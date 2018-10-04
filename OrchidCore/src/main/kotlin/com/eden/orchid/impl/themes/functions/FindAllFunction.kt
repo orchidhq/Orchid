@@ -14,15 +14,15 @@ constructor(val context: OrchidContext) : TemplateFunction("findAll", false) {
 
     @Option
     @Description("The Id of the items to link to.")
-    var itemId: String? = null
+    lateinit var itemId: String
 
     @Option
     @Description("The type of collection the items are expected to come from.")
-    var collectionType: String? = null
+    lateinit var collectionType: String
 
     @Option
     @Description("The specific Id of the given collection type where the items are expected to come from.")
-    var collectionId: String? = null
+    lateinit var collectionId: String
 
     @Option("page")
     @IntDefault(0)
