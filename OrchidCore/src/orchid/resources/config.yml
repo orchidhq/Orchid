@@ -44,7 +44,7 @@ services:
     disabled:
       - 'javadoc'
       - 'swiftdoc'
-#      - 'kotlindoc'
+      - 'kotlindoc'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'

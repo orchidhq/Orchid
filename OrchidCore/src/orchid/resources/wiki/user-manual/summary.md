@@ -27,10 +27,10 @@ title: 'User Manual'
 * [Assets](content/assets.md)
 * [Breadcrumbs](content/breadcrumbs.md)
 * [Static Pages](content/static-pages.md)
-* [Blog Posts](content/blogs.md)
 * [Wikis](content/wikis.md)
+* [Code Documentation](content/code-documentation.md)
+* [Blog Posts](content/blogs.md)
 * [Taxonomies](content/taxonomies.md)
-* [Javadoc](content/javadoc.md)
 
 ## Templates and Themes
 

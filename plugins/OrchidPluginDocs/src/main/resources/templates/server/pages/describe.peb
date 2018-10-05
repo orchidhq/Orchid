@@ -1,36 +1,5 @@
-{# @pebvariable name="view" type="com.eden.orchid.api.server.OrchidView" #}
-{# @pebvariable name="controller" type="com.eden.orchid.plugindocs.controllers.AdminController" #}
-{# @pebvariable name="classType" type="java.lang.Class" #}
-{% set classType = params.classType %}
-
-<ul uk-tab>
-    <li><a href="#">Overview</a></li>
-{% if optionsExtractor.hasOptions(classType, true, false) %}
-    <li><a href="#">Own Options</a></li>
-{% endif %}
-{% if optionsExtractor.hasOptions(classType, false, true) %}
-    <li><a href="#">Inherited Options</a></li>
-{% endif %}
-</ul>
-
-{% set classDescripton = optionsExtractor.describeOptions(classType, false, false) %}
-<ul class="uk-switcher uk-margin">
-    <li>
-        <p>{{ classDescripton.classDescription|compileAs('md')|raw }}</p>
-        {% include controller.getClassTypeOverviewTemplate(classType) %}
-    </li>
-{% if optionsExtractor.hasOptions(classType, true, false) %}
-    <li>
-        <div class="uk-overflow-auto">
-        {{ controller.getOptions(classType, true, false) | raw }}
-        </div>
-    </li>
-{% endif %}
-{% if optionsExtractor.hasOptions(classType, false, true) %}
-    <li>
-        <div class="uk-overflow-auto">
-        {{ controller.getOptions(classType, false, true) | raw }}
-        </div>
-    </li>
-{% endif %}
-</ul>
+{% docs
+    className=params.className
+    tableClass='uk-table uk-table-divider'
+    tableLeaderClass='uk-hidden'
+    tabsTemplate='tabs-uikit' %}

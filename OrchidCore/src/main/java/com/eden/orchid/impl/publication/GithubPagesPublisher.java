@@ -100,10 +100,10 @@ public class GithubPagesPublisher extends OrchidPublisher {
     @Option
     @StringDefault("CleanBranch")
     @Description("The type of publication to use for Github Pages." +
-            "- CleanBranch: Create a new branch with no history and force-push to the remote. Overwrites existing branch completely." +
-            "- CleanBranchMaintainHistory: Clone existing branch, remove all files, then push to the remote. Overwrites all files, but maintains history." +
-            "- VersionedBranch: Clone existing branch, add current site to a versioned subfolder, then push to the remote. Maintains history and all prior versions' content." +
-            "- VersionedBranchWithLatest: Clone existing branch, add current site to a 'latest' and a versioned subfolder, then force-push to the remote. Maintains history and all prior versions' content." +
+            "\n- `CleanBranch`: Create a new branch with no history and force-push to the remote. Overwrites existing branch completely." +
+            "\n- `CleanBranchMaintainHistory`: Clone existing branch, remove all files, then push to the remote. Overwrites all files, but maintains history." +
+            "\n- `VersionedBranch`: Clone existing branch, add current site to a versioned subfolder, then push to the remote. Maintains history and all prior versions' content." +
+            "\n- `VersionedBranchWithLatest`: Clone existing branch, add current site to a 'latest' and a versioned subfolder, then force-push to the remote. Maintains history and all prior versions' content." +
             "")
     @NotNull(message = "Must set a valid publish type.")
     private PublishType publishType;

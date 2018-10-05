@@ -9,10 +9,11 @@ apply from: "$actionsScript/testing.gradle"
 
 dependencies {
     testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-    testCompile "io.strikt:strikt-core:0.13.0"
+    testCompile "io.strikt:strikt-core:$striktVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testCompile "org.jsoup:jsoup:$jsoupVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

@@ -80,12 +80,14 @@ import com.eden.orchid.impl.themes.menus.PageParentMenuItem;
 import com.eden.orchid.impl.themes.menus.PageSiblingsMenuItem;
 import com.eden.orchid.impl.themes.menus.PageSubtreeMenuItem;
 import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
+import com.eden.orchid.impl.themes.tags.AccordionTag;
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
 import com.eden.orchid.impl.themes.tags.HeadTag;
 import com.eden.orchid.impl.themes.tags.LogTag;
 import com.eden.orchid.impl.themes.tags.PageTag;
 import com.eden.orchid.impl.themes.tags.ScriptsTag;
 import com.eden.orchid.impl.themes.tags.StylesTag;
+import com.eden.orchid.impl.themes.tags.TabsTag;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provides;
 import io.github.classgraph.ClassGraph;
@@ -220,7 +222,9 @@ public final class ImplModule extends OrchidModule {
                 HeadTag.class,
                 PageTag.class,
                 ScriptsTag.class,
-                StylesTag.class
+                StylesTag.class,
+                AccordionTag.class,
+                TabsTag.class
         );
 
         addToSet(AdminList.class, new AdminList() {

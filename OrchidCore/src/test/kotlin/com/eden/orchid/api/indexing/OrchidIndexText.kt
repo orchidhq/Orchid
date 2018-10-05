@@ -123,21 +123,21 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("wikiIndex has all of wikiPages") {
                     expect {
                         that(wikiIndex)
-                                .map(OrchidIndex::allPages)
+                                .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(wikiPages)
                     }
                 },
                 DynamicTest.dynamicTest("pagesIndex has all of pagesPages") {
                     expect {
                         that(pagesIndex)
-                                .map(OrchidIndex::allPages)
+                                .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(pagesPages)
                     }
                 },
                 DynamicTest.dynamicTest("rootIndex has all of wikiIndex and pagesPages") {
                     expect {
                         that(rootIndex)
-                                .map(OrchidIndex::allPages)
+                                .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(wikiPages + pagesPages)
                     }
                 }
@@ -150,7 +150,7 @@ class OrchidIndexText {
             DynamicTest.dynamicTest("when looking up 'findPage ${page.reference.path}' from its path, the index returns the same instance") {
                 expect {
                     that(rootIndex)
-                            .map { it.findPage(page.reference.path) }
+                            .get { it.findPage(page.reference.path) }
                             .isSameInstanceAs(page)
                 }
             }
@@ -163,7 +163,7 @@ class OrchidIndexText {
             DynamicTest.dynamicTest("when looking up 'find ${page.reference.path}' from its path, the index returns a list containing the same instance") {
                 expect {
                     that(rootIndex)
-                            .map { it.find(page.reference.path) }
+                            .get { it.find(page.reference.path) }
                             .contains(page)
                 }
             }
@@ -176,9 +176,9 @@ class OrchidIndexText {
             DynamicTest.dynamicTest("when looking up 'findIndex ${page.reference.path}' from its path, the index returns an index containing the same instance as its own page") {
                 expect {
                     that(rootIndex)
-                            .map { it.findIndex(page.reference.path) }
+                            .get { it.findIndex(page.reference.path) }
                             .isNotNull()
-                            .map(OrchidIndex::getOwnPages)
+                            .get(OrchidIndex::getOwnPages)
                             .contains(page)
                 }
             }
@@ -191,9 +191,9 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/user-manual' has 5 pages total") {
                     expect {
                         that(rootIndex)
-                                .map { it.findIndex("wiki/user-manual") }
+                                .get { it.findIndex("wiki/user-manual") }
                                 .isNotNull()
-                                .map(OrchidIndex::allPages)
+                                .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(
                                         wiki_userManual_summary,
                                         wiki_userManual_inner_page1,
@@ -207,9 +207,9 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/developers-guide' has 5 pages total") {
                     expect {
                         that(rootIndex)
-                                .map { it.findIndex("wiki/developers-guide") }
+                                .get { it.findIndex("wiki/developers-guide") }
                                 .isNotNull()
-                                .map(OrchidIndex::allPages)
+                                .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(
                                         wiki_developersGuide_summary,
                                         wiki_developersGuide_inner_page1,
@@ -229,15 +229,15 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/user-manual' has a parent of `wiki`") {
                     expect {
                         that(rootIndex)
-                                .map { it.findIndex("wiki/user-manual") }
+                                .get { it.findIndex("wiki/user-manual") }
                                 .isNotNull()
                                 .and {
                                     var indexParent: OrchidIndex? = null
-                                    map { indexParent = it; it.parent }
+                                    get { indexParent = it; it.parent }
                                             .isNotNull()
                                             .and {
-                                                map { it.ownKey }.isEqualTo("wiki")
-                                                map { it.children }["user-manual"]
+                                                get { it.ownKey }.isEqualTo("wiki")
+                                                get { it.children }["user-manual"]
                                                         .isNotNull()
                                                         .isSameInstanceAs(indexParent)
                                             }
@@ -248,15 +248,15 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/developers-guide' has a parent of `wiki`") {
                     expect {
                         that(rootIndex)
-                                .map { it.findIndex("wiki/developers-guide") }
+                                .get { it.findIndex("wiki/developers-guide") }
                                 .isNotNull()
                                 .and {
                                     var indexParent: OrchidIndex? = null
-                                    map { indexParent = it; it.parent }
+                                    get { indexParent = it; it.parent }
                                             .isNotNull()
                                             .and {
-                                                map { it.ownKey }.isEqualTo("wiki")
-                                                map { it.children }["developers-guide"]
+                                                get { it.ownKey }.isEqualTo("wiki")
+                                                get { it.children }["developers-guide"]
                                                         .isNotNull()
                                                         .isSameInstanceAs(indexParent)
                                             }

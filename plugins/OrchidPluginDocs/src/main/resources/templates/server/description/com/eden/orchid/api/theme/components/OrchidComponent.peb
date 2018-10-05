@@ -1,4 +1,4 @@
-{% set 'component' = controller.provide(classType) %}
+{% set 'component' =  tag.provide() %}
 {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
 
 <p><code>{{ component.priority }}: [{{ component.type }}]</code></p>
@@ -9,8 +9,8 @@
 ...
 components:
   - type: "{{ component.type }}"
-{%- if optionsExtractor.hasOptions(classType, true, false) %}
-{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{%- if tag.optionsExtractor.hasOptions(classType, true, false) %}
+{%- for option in tag.optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
     {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 {% endif %}
 </code></pre>

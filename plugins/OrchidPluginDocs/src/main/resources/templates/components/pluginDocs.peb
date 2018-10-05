@@ -1,7 +1,11 @@
 {# @pebvariable name="component" type="com.eden.orchid.pluginDocs.components.PluginDocsComponent" #}
 
 {% for classType in component.getClassList() %}
-    <h2>{{ classType }}</h2>
-    <hr>
-    {% docs ''~classType %}
+    <h2>{{ component.getDescriptiveName(classType) }}</h2>
+    {% docs
+        className=classType
+        tableClass=component.tableClass
+        tableHeaderClass=component.tableHeaderClass
+        tableLeaderClass=component.tableLeaderClass
+        tabsTemplate=component.tabsTemplate %}
 {% endfor %}

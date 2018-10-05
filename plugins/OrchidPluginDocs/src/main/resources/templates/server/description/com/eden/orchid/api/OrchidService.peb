@@ -1,18 +1,18 @@
-{% set 'service' = controller.provide(classType) %}
+{% set 'service' =  tag.provide() %}
 {# @pebvariable name="service" type="com.eden.orchid.api.OrchidService" #}
 
-{% if optionsExtractor.hasOptions(classType, true, false) %}
+{% if tag.optionsExtractor.hasOptions(classType, true, false) %}
 <b>Default Config</b>
 
 <pre><code class="lang-yaml"># config.yml
 ...
 {{ service.optionsQuery }}:
-{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{%- for option in tag.optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
   {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 <i>or</i>
 <pre><code class="lang-yaml"># config/{{ service.optionsQuery.replaceAll("\.", "/") }}.yml
-{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{%- for option in tag.optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
 {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 {% endif %}

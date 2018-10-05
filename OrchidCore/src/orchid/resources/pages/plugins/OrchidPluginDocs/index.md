@@ -26,6 +26,8 @@ layout: frontPage
 components:
   - type: readme
   - type: pluginDocs
+    tableClass: table
+    tableLeaderClass: hidden
     packageNames: 
       - com.eden.orchid.plugindocs
 ---

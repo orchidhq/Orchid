@@ -3,9 +3,12 @@ package com.eden.orchid.api.compilers;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
@@ -103,6 +106,14 @@ public abstract class TemplateTag implements
 
     protected OrchidPage page;
 
+    @Getter
+    @Setter
+    @Option
+    @Description("Specify a template or a list of templates to use when rendering this component. The first template " +
+            "that exists will be chosen for this component."
+    )
+    protected String template;
+
     /**
      * Initialize the Tag with the name which it should be called with in the template. The actual implementation of a
      * Tag should have a single constructor annotated with {@link javax.inject.Inject }.
@@ -181,6 +192,7 @@ public abstract class TemplateTag implements
 
     public final List<String> getPossibleTemplates() {
         List<String> templates = new ArrayList<>();
+        templates.add(this.template);
         templates.add(getName());
 
         return templates;

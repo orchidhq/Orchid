@@ -1,6 +1,6 @@
-{#{% set 'collection' = controller.provide(classType) %}#}
+{#{% set 'collection' =  tag.provide() %}#}
 {# @pebvariable name="collection" type="com.eden.orchid.api.generators.OrchidCollection" #}
-{% set 'collectionImpl' = controller.provide(classType) %}
+{% set 'collectionImpl' =  tag.provide() %}
 
 {% set relatedCollections = view.getRelatedCollections(collectionType, collectionId) %}
 
