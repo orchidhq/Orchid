@@ -1,17 +1,17 @@
 {% set 'generator' =  tag.provide() %}
 {# @pebvariable name="generator" type="com.eden.orchid.api.generators.OrchidGenerator" #}
 
-{% if tag.optionsExtractor.hasOptions(classType, true, false) %}
+{% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
 <b>Default Config</b>
 
 <pre><code class="lang-yaml"># config.yml
 ...
-{{ generator.key }}:{% for option in tag.optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{{ generator.key }}:{% for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
   {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 <i>or</i>
 <pre><code class="lang-yaml"># config/{{ generator.key }}.yml
-{%- for option in tag.optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
 {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 {% endif %}

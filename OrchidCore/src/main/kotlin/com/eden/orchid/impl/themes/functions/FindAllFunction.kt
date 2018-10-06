@@ -24,7 +24,7 @@ constructor(val context: OrchidContext) : TemplateFunction("findAll", false) {
     @Description("The specific Id of the given collection type where the items are expected to come from.")
     lateinit var collectionId: String
 
-    @Option("page")
+    @Option
     @IntDefault(0)
     @Description("Paginate results starting at this page.")
     var pageIndex: Int = 0

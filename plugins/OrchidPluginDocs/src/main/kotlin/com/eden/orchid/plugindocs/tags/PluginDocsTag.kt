@@ -8,6 +8,7 @@ import com.copperleaf.krow.formatters.html.HtmlTableFormatter
 import com.copperleaf.krow.krow
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.options.OptionHolderDescription
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
@@ -50,6 +51,8 @@ constructor(
     fun findClass(): Class<*> {
         return Class.forName(className)
     }
+
+    val classType: Class<*> get() = findClass()
 
     fun getClassTypeOverviewTemplate(): String {
         val o = findClass()
@@ -94,6 +97,28 @@ constructor(
         else {
             return "No options"
         }
+    }
+
+    fun getRelatedCollections(collectionType: String, collectionId: String): List<OrchidCollection<*>> {
+        var stream = this.context.collections.filter { it != null }
+
+        if (!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(collectionId)) {
+            stream = stream.filter { collection -> collectionType == collection.collectionType }
+        }
+        else if (!EdenUtils.isEmpty(collectionType)) {
+            stream = stream.filter { collection -> collectionType == collection.collectionType }
+        }
+        else if (!EdenUtils.isEmpty(collectionId)) {
+            val estimatedCollection = stream.firstOrNull()
+            if (estimatedCollection != null) {
+                stream = stream.filter { collection -> estimatedCollection.collectionType == collection.collectionType }
+            }
+            else {
+                stream = this.context.collections.filter { it != null }
+            }
+        }
+
+        return stream.sortedBy { it.collectionType }
     }
 
     private fun getDescriptionTable(optionsHolderDescription: OptionHolderDescription): KrowTable {

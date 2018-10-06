@@ -1,6 +1,5 @@
 package com.eden.orchid.api.server;
 
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.Descriptive;
@@ -21,10 +20,8 @@ import java.net.URLEncoder;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class OrchidView extends OrchidPage {
 
@@ -165,28 +162,6 @@ public class OrchidView extends OrchidPage {
                 .stream()
                 .sorted(Comparator.comparing(OrchidCollection::getCollectionType))
                 .collect(Collectors.toList());
-    }
-
-    public List<OrchidCollection> getRelatedCollections(String collectionType, String collectionId) {
-        Stream<? extends OrchidCollection> stream = this.context.getCollections().stream().filter(Objects::nonNull);
-
-        if (!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(collectionId)) {
-            stream = stream.filter(collection -> collectionType.equals(collection.getCollectionType()));
-        }
-        else if (!EdenUtils.isEmpty(collectionType)) {
-            stream = stream.filter(collection -> collectionType.equals(collection.getCollectionType()));
-        }
-        else if (!EdenUtils.isEmpty(collectionId)) {
-            OrchidCollection estimatedCollection = stream.findFirst().orElse(null);
-            if (estimatedCollection != null) {
-                stream = stream.filter(collection -> estimatedCollection.getCollectionType().equals(collection.getCollectionType()));
-            }
-            else {
-                stream = this.context.getCollections().stream().filter(Objects::nonNull);
-            }
-        }
-
-        return stream.sorted(Comparator.comparing(OrchidCollection::getCollectionType)).collect(Collectors.toList());
     }
 
     public boolean isFullscreen() {

@@ -9,8 +9,8 @@
 ...
 components:
   - type: "{{ component.type }}"
-{%- if tag.optionsExtractor.hasOptions(classType, true, false) %}
-{%- for option in tag.optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{%- if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
+{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
     {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 {% endif %}
 </code></pre>

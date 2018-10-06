@@ -6,8 +6,9 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import java.util.List;
 import java.util.stream.Stream;
 
-@Description("A File Collection represents a collection of OrchidPages that come from individually-specified pages in " +
-        "your resources. A page is matched from a File Collection with an 'itemId' matching the page's title."
+@Description(value = "A File Collection represents a collection of OrchidPages that come from individually-specified pages in " +
+        "your resources. A page is matched from a File Collection with an 'itemId' matching the page's title.",
+        name = "File Collection"
 )
 public class FileCollection extends OrchidCollection<OrchidPage> {
 

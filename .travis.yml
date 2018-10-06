@@ -17,21 +17,40 @@ branches:
 
 jobs:
   include:
-    - install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
-      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
+    - stage: testDebug
+      install: ./gradlew assemble
+      script: ./gradlew check
       os: linux
       jdk: openjdk8
-    - install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
-      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
+    - stage: testDebug
+      install: ./gradlew assemble
+      script: ./gradlew check
       os: linux
       jdk: oraclejdk8
-    - install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
-      script: ./gradlew check -Prelease=$TRAVIS_PULL_REQUEST
+    - stage: testDebug
+      install: ./gradlew assemble
+      script: ./gradlew check
+      os: osx
+      osx_image: xcode8.3
+
+    - stage: testRelease
+      install: ./gradlew assemble -Prelease
+      script: ./gradlew check -Prelease
+      os: linux
+      jdk: openjdk8
+    - stage: testRelease
+      install: ./gradlew assemble -Prelease
+      script: ./gradlew check -Prelease
+      os: linux
+      jdk: oraclejdk8
+    - stage: testRelease
+      install: ./gradlew assemble -Prelease
+      script: ./gradlew check -Prelease
       os: osx
       osx_image: xcode8.3
 
     - stage: afterTests
-      install: ./gradlew assemble -Prelease=$TRAVIS_PULL_REQUEST
+      install: ./gradlew assemble
       script: ./gradlew codeCoverageReport sendCoverageToCodacy
       os: linux
       jdk: openjdk8
@@ -58,8 +77,12 @@ jobs:
           name: v${GRADLE_PROJECT_RELEASE_NAME} Release
 
 stages:
-  - test
-  - afterTests
+  - name: testDebug
+    if: branch = dev
+  - name: testRelease
+    if: branch = master
+  - name: afterTests
+    if: branch = dev AND tag IS blank AND type IN (push)
   - name: release
     if: branch = master AND tag IS blank AND type IN (push)
 
