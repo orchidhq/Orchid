@@ -1,27 +1,26 @@
-{#{% set 'collection' =  tag.provide() %}#}
+{% set 'collection' =  tag.provide() %}
 {# @pebvariable name="collection" type="com.eden.orchid.api.generators.OrchidCollection" #}
-{% set 'collectionImpl' =  tag.provide() %}
 
-{% set relatedCollections = view.getRelatedCollections(collectionType, collectionId) %}
+{% set relatedCollections = tag.getRelatedCollections(collectionType, collectionId) %}
 
 <ul class="uk-breadcrumb">
     <li><a href="{{ view.getDescriptionLink('com.eden.orchid.api.generators.OrchidCollection') }}">Collection</a></li>
-    <li><a href="{{ view.getDescriptionLink(classType) }}">{{ classType.simpleName }}</a></li>
+    <li><a href="{{ view.getDescriptionLink(tag.classType) }}">{{ view.getDescriptiveName(tag.classType) }}</a></li>
     {% if collectionType is not empty and collectionId is not empty %}
         <li>
-            <a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a>
+            <a href="{{ view.getDescriptionLink(tag.classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a>
         </li>
         <li>
-            <a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}&collectionId={{ collectionId }}">{{ collectionId }}</a>
+            <a href="{{ view.getDescriptionLink(tag.classType) }}&collectionType={{ collectionType }}&collectionId={{ collectionId }}">{{ collectionId }}</a>
         </li>
     {% set loadItems = true %}
     {% elseif collectionId is not empty %}
-        <li><a href="{{ view.getDescriptionLink(classType) }}&collectionId={{ collectionId }}">{{ collectionId }}</a>
+        <li><a href="{{ view.getDescriptionLink(tag.classType) }}&collectionId={{ collectionId }}">{{ collectionId }}</a>
         </li>
     {% set loadItems = true %}
     {% elseif collectionType is not empty %}
         <li>
-            <a href="{{ view.getDescriptionLink(classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a>
+            <a href="{{ view.getDescriptionLink(tag.classType) }}&collectionType={{ collectionType }}">{{ collectionType }}</a>
         </li>
     {% set loadItems = true %}
     {% else %}
