@@ -12,8 +12,6 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.inject.Inject;
 import java.util.Collections;
@@ -80,12 +78,10 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
      */
     public static final int PRIORITY_LATE = 10;
 
-    @Getter
     protected final String key;
 
     protected final OrchidContext context;
 
-    @Getter @Setter
     @Option
     @Description("Set a theme to be used only when rendering pages from this Generator. This can be a String to use " +
             "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
@@ -93,14 +89,12 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     )
     private Object theme;
 
-    @Getter @Setter
     @Option
     @Description("Set the default layout to be used for all Pages from this Generator. Pages can specify their own " +
             "layouts, which take precedence over the Generator layout."
     )
     public String layout;
 
-    @Getter @Setter
     @Option @BooleanDefault(false)
     @Description("Improve site generation performance dramatically by rendering the pages from this Generator in " +
             "parallel. There are currently thread-safety issues that may cause deadlocks, especially when in `serve` " +
@@ -109,7 +103,6 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
     )
     public boolean parallel;
 
-    @Getter @Setter
     @AllOptions
     private Map<String, Object> allData;
 
@@ -149,4 +142,39 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
         return null;
     }
 
+    public String getKey() {
+        return this.key;
+    }
+
+    public Object getTheme() {
+        return this.theme;
+    }
+
+    public String getLayout() {
+        return this.layout;
+    }
+
+    public boolean isParallel() {
+        return this.parallel;
+    }
+
+    public Map<String, Object> getAllData() {
+        return this.allData;
+    }
+
+    public void setTheme(Object theme) {
+        this.theme = theme;
+    }
+
+    public void setLayout(String layout) {
+        this.layout = layout;
+    }
+
+    public void setParallel(boolean parallel) {
+        this.parallel = parallel;
+    }
+
+    public void setAllData(Map<String, Object> allData) {
+        this.allData = allData;
+    }
 }

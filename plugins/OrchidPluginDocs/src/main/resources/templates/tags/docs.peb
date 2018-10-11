@@ -1,10 +1,12 @@
-{# @pebvariable name="tag" type="com.eden.orchid.plugindocs.tags.PluginDocsTag" #}
-
-<div>
-    <h3>Own Options</h3>
-    <div>{{ tag.getOptions(true, false) | raw }}</div>
-</div>
-<div>
-    <h3>Inherited Options</h3>
-    <div>{{ tag.getOptions(false, true) | raw }}</div>
-</div>
+{% tabs template=tag.tabsTemplate %}
+    {% overview 'Overview' %}
+        {{ tag.getClassDescription() | raw }}
+        {% include tag.getClassTypeOverviewTemplate() %}
+    {% endoverview %}
+    {% own_options 'Own Options' %}
+        {{ tag.getOwnOptionsDescription() | raw }}
+    {% endown_options %}
+    {% inherited_options 'Inherited Options' %}
+        {{ tag.getInheritedOptionsDescription() | raw }}
+    {% endinherited_options %}
+{% endtabs %}

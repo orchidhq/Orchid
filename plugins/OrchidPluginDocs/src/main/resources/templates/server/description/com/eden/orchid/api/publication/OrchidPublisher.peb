@@ -1,7 +1,7 @@
-{% set 'publisher' = controller.provide(classType) %}
+{% set 'publisher' =  tag.provide() %}
 {# @pebvariable name="publisher" type="com.eden.orchid.api.publication.OrchidPublisher" #}
 
-{% if optionsExtractor.hasOptions(classType, true, false) %}
+{% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
 <b>Default Config</b>
 
 <pre><code class="lang-yaml"># config.yml
@@ -10,7 +10,7 @@ services:
   publications:
     stages:
       {{ publisher.type }}:
-      {%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+      {%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
         {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 </code></pre>
 {% endif %}

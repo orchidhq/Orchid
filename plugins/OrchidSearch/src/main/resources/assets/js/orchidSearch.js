@@ -2,7 +2,7 @@
 
     function initializeSearchField() {
         $('form[data-orchid-search]').submit(function (e) {
-            event.preventDefault();
+            e.preventDefault();
 
             var $queryEl = $(this).find("input[name=query]");
             var $query = $queryEl.val();

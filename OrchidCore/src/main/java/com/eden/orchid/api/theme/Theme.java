@@ -5,8 +5,6 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.inject.Inject;
 
@@ -19,7 +17,6 @@ import javax.inject.Inject;
 @Description(value = "A collection of assets and templates used to render your site.", name = "Themes")
 public abstract class Theme extends AbstractTheme {
 
-    @Getter @Setter
     @Option
     @Description("The primary menu for your site. Different themes may specify additional menus.")
     protected OrchidMenu menu;
@@ -29,4 +26,11 @@ public abstract class Theme extends AbstractTheme {
         super(context, key, priority);
     }
 
+    public OrchidMenu getMenu() {
+        return this.menu;
+    }
+
+    public void setMenu(OrchidMenu menu) {
+        this.menu = menu;
+    }
 }

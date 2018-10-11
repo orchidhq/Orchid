@@ -5,6 +5,8 @@
 
 {% block sectionIntro %}
 
+## Description
+
 The `netlify` Publisher allows you to upload your site to Netlify.
 
 To use the `netlify` publisher, you'll need to provide Orchid with a `netlifyToken` containing a Personal Access Token
@@ -23,7 +25,7 @@ After your PAT is set up, you'll need to create a new site on Netlify, and set t
 publisher config. And that's it, Orchid will do the hard work of authenticating with Netlify and determining which files
 to upload.
 
-**Example configuration**
+## Example Usage
 
 {% highlight 'yaml' %}
 services:
@@ -33,5 +35,8 @@ services:
         siteId: 'orchid.netlify.com'
 {% endhighlight %}
 
+## API Documentation
+
+{% docs className='com.eden.orchid.impl.publication.NetlifyPublisher' tableClass='table' tableLeaderClass='hidden' %}
 
 {% endblock %}

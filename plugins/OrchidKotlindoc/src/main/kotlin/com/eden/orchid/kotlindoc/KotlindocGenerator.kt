@@ -17,7 +17,7 @@ import java.util.HashMap
 import java.util.stream.Stream
 import javax.inject.Inject
 
-@Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information "
+@Description("Creates a page for each Class and Package in your project, displaying the expected KDoc information "
         + "of methods, fields, etc. but in your site's theme.",
         name = "Kotlindoc"
 )

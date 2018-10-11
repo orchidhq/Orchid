@@ -2,6 +2,7 @@ package com.eden.orchid.plugindocs.components
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.Descriptive
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -25,6 +26,22 @@ constructor(
             "options displayed."
     )
     var packageNames = emptyArray<String>()
+
+    @Option
+    @Description("A fully-qualified class name to render options for.")
+    lateinit var tableClass: String
+
+    @Option
+    @Description("A fully-qualified class name to render options for.")
+    lateinit var tableHeaderClass: String
+
+    @Option
+    @Description("A fully-qualified class name to render options for.")
+    lateinit var tableLeaderClass: String
+
+    @Option
+    @Description("A custom template to use the for tabs tag used internally.")
+    lateinit var tabsTemplate: String
 
     fun getClassList(): Set<String> {
         val classList = emptyList<String>().toMutableSet()
@@ -75,6 +92,57 @@ constructor(
         }
 
         return false
+    }
+
+    fun getDescriptiveName(o: Any): String {
+        if(o is Class<*>) {
+            return Descriptive.getDescriptiveName(o)
+        }
+        else if(o is String) {
+            try {
+                return Descriptive.getDescriptiveName(Class.forName(o))
+            }
+            catch (e: Exception) {
+                return o.toString()
+            }
+        }
+        else {
+            return Descriptive.getDescriptiveName(o.javaClass)
+        }
+    }
+
+    fun getDescription(o: Any): String {
+        if(o is Class<*>) {
+            return Descriptive.getDescription(o)
+        }
+        else if(o is String) {
+            try {
+                return Descriptive.getDescription(Class.forName(o))
+            }
+            catch (e: Exception) {
+                return o.toString()
+            }
+        }
+        else {
+            return Descriptive.getDescription(o.javaClass)
+        }
+    }
+
+    fun getDescriptionSummary(o: Any): String {
+        if(o is Class<*>) {
+            return Descriptive.getDescriptionSummary(o)
+        }
+        else if(o is String) {
+            try {
+                return Descriptive.getDescriptionSummary(Class.forName(o))
+            }
+            catch (e: Exception) {
+                return o.toString()
+            }
+        }
+        else {
+            return Descriptive.getDescriptionSummary(o.javaClass)
+        }
     }
 
 }

@@ -3,10 +3,10 @@ package com.eden.orchid.api.compilers;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -32,6 +32,34 @@ public abstract class TemplateTag implements
         OptionsHolder,
         Renderable {
 
+    public String getTemplateBase() {
+        return this.templateBase;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public boolean rendersContent() {
+        return this.rendersContent;
+    }
+
+    public Type getType() {
+        return this.type;
+    }
+
+    public OrchidPage getPage() {
+        return this.page;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setPage(OrchidPage page) {
+        this.page = page;
+    }
+
     public enum Type {
         Simple, Content, Tabbed
     }
@@ -42,36 +70,49 @@ public abstract class TemplateTag implements
         String[] parameters();
     }
 
-    @Getter
-    @AllArgsConstructor
     public static final class SimpleTab implements Tab {
         private final String key;
         private final String content;
+
+        public SimpleTab(String key, String content) {
+            this.key = key;
+            this.content = content;
+        }
 
         @Override
         public String[] parameters() {
             return new String[0];
         }
+
+        public String getKey() {
+            return this.key;
+        }
+
+        public String getContent() {
+            return this.content;
+        }
     }
 
-    @Getter protected final String templateBase = "tags";
+    protected final String templateBase = "tags";
 
-    @Getter
     private final String name;
 
-    @Getter
     @Accessors(fluent = true)
     private final boolean rendersContent;
 
     private final LinkedHashMap<String, Tab> content;
 
-    @Getter
-    @Setter
     private Type type;
+
+    protected OrchidPage page;
 
     @Getter
     @Setter
-    protected OrchidPage page;
+    @Option
+    @Description("Specify a template or a list of templates to use when rendering this component. The first template " +
+            "that exists will be chosen for this component."
+    )
+    protected String template;
 
     /**
      * Initialize the Tag with the name which it should be called with in the template. The actual implementation of a
@@ -151,6 +192,7 @@ public abstract class TemplateTag implements
 
     public final List<String> getPossibleTemplates() {
         List<String> templates = new ArrayList<>();
+        templates.add(this.template);
         templates.add(getName());
 
         return templates;

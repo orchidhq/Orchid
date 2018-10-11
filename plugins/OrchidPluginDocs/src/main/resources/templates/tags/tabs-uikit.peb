@@ -1,0 +1,16 @@
+<div id="{{ tag.id }}">
+    <ul uk-tab>
+    {% for tab in tag.tabs %}
+        <li class="{% if loop.first %}uk-active{% endif %}">
+            <a href="#">{{ tab.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <ul class="uk-switcher uk-margin">
+    {% for tab in tag.tabs %}
+        <li>
+            <div class="uk-overflow-auto">{{ tab.content | raw }}</div>
+        </li>
+    {% endfor %}
+    </ul>
+</div>

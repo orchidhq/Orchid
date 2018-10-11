@@ -7,3 +7,9 @@ bundles:
 ---
 
 {% extends '_wikiBase_contentTypes' %}
+
+{% block 'pluginNotes' %}
+## API Documentation
+
+{% docs className='com.eden.orchid.pages.PagesGenerator' tableClass='table' tableLeaderClass='hidden' %}
+{% endblock %}

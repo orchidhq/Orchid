@@ -23,7 +23,7 @@ constructor(
 
     @Option
     @Description("A new menu to nest under this menu item.")
-    var menu: OrchidMenu? = null
+    lateinit var menu: OrchidMenu
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()

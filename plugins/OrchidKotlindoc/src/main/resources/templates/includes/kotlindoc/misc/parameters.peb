@@ -1,24 +1,19 @@
-{# @pebvariable name="parameters" type="com.copperleaf.dokka.json.models.KotlinParameter" #}
+{# @pebvariable name="param" type="com.copperleaf.dokka.json.models.KotlinParameter" #}
 <div class="panel-body">
     <b>Parameters: </b>
 </div>
 <ul class="list-group">
-{% if parameters|length > 0 %}
 {% for param in parameters %}
     <li class="list-group-item clearfix">
         <code class="pull-left">
-        {{- param.name }}: {{ anchor(param.type, param.type) -}}
-        {% if param.defaultValue is not empty %}
-        = {{ param.defaultValue -}}
-        {%- endif -%}
+        {{  param.name }}: {% include 'includes/kotlindoc/misc/signature' with {"signature": param.signature} %}
         </code>
         {% if param.comment|length > 0 %}
             <br><br>
-            <div>{{ param.comment | raw }}</div>
+            <div>{{ param.comment | compileAs('md') }}</div>
         {% endif %}
     </li>
-{% endfor %}
 {% else %}
     <li class="list-group-item">No parameters</li>
-{% endif %}
+{% endfor %}
 </ul>

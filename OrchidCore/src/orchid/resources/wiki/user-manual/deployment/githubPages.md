@@ -5,6 +5,8 @@
 
 {% block sectionIntro %}
 
+## Description
+
 The `ghPages` Publisher allows you to upload your site to GithubPages.
 
 {% alert 'info' %}
@@ -31,7 +33,7 @@ The `username` property is the user which issued the PAT, and it is also the org
 GitHub. You can authenticate with a different user than is hosting the repository by setting the `repo` as 
 `username/repo`.
 
-**Example configuration**
+## Example Usage
 
 {% highlight 'yaml' %}
 services:
@@ -45,5 +47,8 @@ services:
         repo: 'cjbrooks12.github.io' # becomes cjbrooks12/cjbrooks12.github.io 
 {% endhighlight %}
 
+## API Documentation
+
+{% docs className='com.eden.orchid.impl.publication.GithubPagesPublisher' tableClass='table' tableLeaderClass='hidden' %}
 
 {% endblock %}

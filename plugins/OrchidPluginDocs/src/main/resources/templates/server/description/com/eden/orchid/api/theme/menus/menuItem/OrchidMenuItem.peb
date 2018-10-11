@@ -1,4 +1,4 @@
-{% set 'menuItem' = controller.provide(classType) %}
+{% set 'menuItem' =  tag.provide() %}
 {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem" #}
 
 <b>Basic Usage</b>
@@ -7,8 +7,8 @@
 ...
 menu:
   - type: "{{ menuItem.type }}"
-{%- if optionsExtractor.hasOptions(classType, true, false) %}
-{%- for option in optionsExtractor.describeOwnOptions(classType).optionsDescriptions %}
+{%- if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
+{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
     {{ option.key }}: {{ option.defaultValue }}{% endfor %}
 {% endif %}
 </code></pre>

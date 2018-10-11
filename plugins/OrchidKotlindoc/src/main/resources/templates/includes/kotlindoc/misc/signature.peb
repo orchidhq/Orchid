@@ -1,6 +1,4 @@
-<code>
 {%- for signatureComponent in signature -%}
 {%- if signatureComponent.kind == 'type' %}{{ anchor(signatureComponent.name, signatureComponent.qualifiedName) -}}
 {%- else %}{{ signatureComponent.name }}{% endif -%}
 {%- endfor -%}
-</code>
