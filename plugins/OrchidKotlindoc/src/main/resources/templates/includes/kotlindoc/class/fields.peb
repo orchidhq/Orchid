@@ -8,11 +8,11 @@
 {# @pebvariable name="field" type="com.copperleaf.dokka.json.models.KotlinField" #}
 <div class="panel panel-default">
     <div class="panel-heading" id="{{ field.qualifiedName|replace({'<': '-', '>': '-'}) }}">
-        {% include 'includes/kotlindoc/misc/signature' with {"simpleSignature": field.simpleSignature, "signature": field.signature} %}
+        <code>
+        {% include 'includes/kotlindoc/misc/signature' with {"signature": field.signature} %}
+        </code>
     </div>
-    <div class="panel-body">
-        <p>{{ field.comment | compileAs('md') }}</p>
-    </div>
+    <div class="panel-body">{{ field.comment | compileAs('md') }}</div>
 </div>
 {% endfor %}
 {% endif %}

@@ -8,11 +8,11 @@
 {# @pebvariable name="constructor" type="com.copperleaf.dokka.json.models.KotlinConstructor" #}
 <div class="panel panel-default">
     <div class="panel-heading" id="{{ constructor.qualifiedName|replace({'<': '-', '>': '-'}) }}">
-        {% include 'includes/kotlindoc/misc/signature' with {"simpleSignature": constructor.simpleSignature, "signature": constructor.signature} %}
+        <code>
+        {% include 'includes/kotlindoc/misc/signature' with {"signature": constructor.signature} %}
+        </code>
     </div>
-    <div class="panel-body">
-        <p>{{ constructor.comment | compileAs('md') }}</p>
-    </div>
+    <div class="panel-body">{{ constructor.comment | compileAs('md') }}</div>
 
     {% include 'includes/kotlindoc/misc/parameters' with {"parameters": constructor.parameters} %}
 </div>
