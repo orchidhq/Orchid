@@ -1,5 +1,5 @@
 {# @pebvariable name="returnType" type="com.copperleaf.dokka.json.models.KotlinReturnType" #}
-{% if not returnType.name == "Unit" %}
+{% if returnType.name != "Unit" %}
 <div class="panel-footer">
     <div><b>Returns: </b></div>
     <div>
