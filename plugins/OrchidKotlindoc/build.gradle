@@ -1,5 +1,5 @@
 
 dependencies {
-    implementation 'com.github.copper-leaf.dokka-json:dokka-json-lib:0.1.18'
+    implementation "com.github.copper-leaf.dokka-json:dokka-json-lib:${JavaEden.JsonDocs}"
 }
 

@@ -1,9 +1,9 @@
 package com.eden.orchid.javadoc.resources
 
+import com.copperleaf.javadoc.json.models.JavaClassDoc
 import com.eden.orchid.api.OrchidContext
-import com.sun.javadoc.ClassDoc
 
 class ClassDocResource(
         context: OrchidContext,
-        classDoc: ClassDoc
-) : BaseJavadocResource(context, classDoc.qualifiedName(), classDoc)
+        classDoc: JavaClassDoc
+) : BaseJavadocResource(context, classDoc.qualifiedName, classDoc)
