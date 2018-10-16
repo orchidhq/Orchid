@@ -1,5 +1,6 @@
 package com.eden.orchid.javadoc
 
+import com.caseyjbrooks.clog.Clog
 import com.copperleaf.javadoc.json.models.JavaPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
@@ -47,11 +48,14 @@ constructor(
         model.initialize(ArrayList(), ArrayList())
 
         for (classDoc in rootDoc.classes) {
+            Clog.v("classDoc page: {}", classDoc.name)
             model.allClasses.add(JavadocClassPage(context, classDoc, model))
         }
 
         val packagePageMap = HashMap<String, JavadocPackagePage>()
         for (packageDoc in rootDoc.packages) {
+            Clog.v("packageDoc page: {}", packageDoc.name)
+
             val classesInPackage = ArrayList<JavadocClassPage>()
             for (classDocPage in model.allClasses) {
                 if (classDocPage.classDoc.`package` == packageDoc.name) {

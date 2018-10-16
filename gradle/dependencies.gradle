@@ -4,7 +4,7 @@ ext {
         Clog: "2.0.4",
         Krow: "0.1.9",
         Eden: "0.3.0",
-        JsonDocs: "0.1.20",
+        JsonDocs: "0.1.22",
     ]
     junitVersion = '5.3.1'
     jsoupVersion = '1.11.3'

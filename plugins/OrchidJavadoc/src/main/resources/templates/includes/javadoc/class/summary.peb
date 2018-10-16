@@ -5,7 +5,7 @@
 </p>
 <p>
     <code style="padding: 0;">
-        class {{ page.classDoc.qualifiedName }}
+    {% include 'includes/javadoc/misc/signature' with {"signature": page.classDoc.signature} %}
     </code>
 </p>
 <div class="class-description" id="description">

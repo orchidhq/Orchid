@@ -51,4 +51,5 @@ services:
       - 'https://copper-leaf.github.io/krow/meta/kotlindoc.index.json'
   publications:
     stages:
-      - type: requireChangelogVersion
+      - type: githubReleases
+        repo: 'JavaEden/Orchid'
