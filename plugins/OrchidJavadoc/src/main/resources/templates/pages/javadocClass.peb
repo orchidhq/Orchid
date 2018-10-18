@@ -2,5 +2,9 @@
 {% include 'includes/javadoc/class/summary' %}
 {% include 'includes/javadoc/class/fields' %}
 {% include 'includes/javadoc/class/constructors' %}
-{% include 'includes/javadoc/class/methods' %}
+
+{% if page.classDoc.methods|length > 0 %}
+    <h2 id="methods">Methods</h2>
+{% include 'includes/javadoc/class/methods' with {"methods": page.classDoc.methods} %}
+{% endif %}
 </div>

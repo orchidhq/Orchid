@@ -1,41 +1,18 @@
-{# @pebvariable name="classDoc" type="com.sun.javadoc.ClassDoc" #}
+{# @pebvariable name="classDoc" type="com.copperleaf.javadoc.json.models.JavaClassDoc" #}
 {% set "classDoc" = page.classDoc %}
 
 {% if classDoc.fields|length > 0 %}
 <h2 id="fields">Fields</h2>
 
 {% for field in classDoc.fields %}
-{# @pebvariable name="field" type="com.sun.javadoc.FieldDoc" #}
-<div class="panel {% if field.isStatic() %}panel-info{% else %}panel-default{% endif %}">
+{# @pebvariable name="field" type="com.copperleaf.javadoc.json.models.JavaField" #}
+<div class="panel panel-default">
     <div class="panel-heading" id="{{ page.model.idFor(field) }}">
         <code>
-        {{ page.javadocVisibility(field) }}
-        {% if field.isStatic() %}static{% endif %}
-        {% if field.type.isPrimitive() %}
-            {{- field.type.qualifiedTypeName -}}
-        {% else %}
-            {{- anchor(field.type.typeName, field.type.qualifiedTypeName) -}}
-        {% endif %}
-        {{- field.type.dimension() }} {{ field.name }}
-        {% if field.constantValueExpression|length > 0 %}
-            = {{ field.constantValueExpression }}
-        {% endif %}
+        {% include 'includes/javadoc/misc/signature' with {"signature": field.signature} %}
         </code>
-
-        {% if field.isFinal() %}<span class="label label-warning pull-right" style="margin-right: 4px;">final</span>{% endif %}
-        {% if field.isTransient() %}<span class="label label-info pull-right" style="margin-right: 4px;">transient</span>{% endif %}
-        {% if field.isVolatile() %}<span class="label label-info pull-right" style="margin-right: 4px;">volatile</span>{% endif %}
-        {% if field.isStatic() %}<span class="label label-danger pull-right" style="margin-right: 4px;">static</span>{% endif %}
     </div>
-    {% if field.annotations|length > 0 %}
-        <div class="panel-body">
-            <div><b>Field Annotations:</b></div>
-            <code>{% include 'includes/javadoc/misc/annotations' with {"annotations": field.annotations} %}</code>
-        </div>
-    {% endif %}
-    <div class="panel-body">
-        <p>{{ field.commentText | raw }}</p>
-    </div>
+    <div class="panel-body">{{ field.simpleComment | compileAs('md') }}</div>
 </div>
 {% endfor %}
 {% endif %}

@@ -1,36 +1,13 @@
-{# @pebvariable name="page" type="com.eden.orchid.javadoc.pages.JavadocClassPage" #}
+{# @pebvariable name="page" type="com.eden.orchid.javadoc.page.JavadocClassPage" #}
 
 <p id="summary">
-    <b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.title}}</a></b>
+    <b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.packageDoc.qualifiedName}}</a></b>
 </p>
 <p>
     <code style="padding: 0;">
-        {% include 'includes/javadoc/misc/annotations' with {"annotations": page.classDoc.annotations} %}
-        <b>{{- page.classDoc.modifiers -}}</b>
-        <b>{{ page.classType -}}</b>
-        <b>{%- include 'includes/javadoc/misc/type' with {"type": page.classDoc, "showBounds": true} -%}</b>
-
-        {% if page.classDoc.superclass is not empty %}
-            <span>
-                extends {% include 'includes/javadoc/misc/type' with {"type": page.classDoc.superclass, "showBounds": true} -%}
-            </span>
-        {% endif %}
-
-        {% if page.classDoc.interfaces|length > 0 %}
-        {% if page.classDoc.isInterface() %}
-            extends
-        {% else %}
-            implements
-        {% endif %}
-        {% for interface in page.classDoc.interfaces %}
-            {%- include 'includes/javadoc/misc/type' with {"type": interface} -%}{%- if not loop.last -%}, {% endif %}
-        {% endfor %}
-        {% endif %}
+    {% include 'includes/javadoc/misc/signature' with {"signature": page.classDoc.signature} %}
     </code>
 </p>
-<p class="clearfix">
-{% include 'includes/javadoc/misc/modifiers' with {"el": page.classDoc, "float": "left"} %}
-</p>
 <div class="class-description" id="description">
-{{ page.content | raw }}
+{{ page.classDoc.simpleComment | compileAs('md') | raw }}
 </div>

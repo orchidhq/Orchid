@@ -44,9 +44,9 @@ constructor(
         val linkData = arrayOf(
                 LinkData({ true }, { emptyList() }, "Summary", "summary"),
                 LinkData({ true }, { emptyList() }, "Description", "description"),
-                LinkData({ classDoc.fields().isNotEmpty() }, this::getFieldLinks, "Fields", "fields"),
-                LinkData({ classDoc.constructors().isNotEmpty() }, this::getConstructorLinks, "Constructors", "constructors"),
-                LinkData({ classDoc.methods().isNotEmpty() }, this::getMethodLinks, "Methods", "methods")
+                LinkData({ classDoc.fields.isNotEmpty() }, this::getFieldLinks, "Fields", "fields"),
+                LinkData({ classDoc.constructors.isNotEmpty() }, this::getConstructorLinks, "Constructors", "constructors"),
+                LinkData({ classDoc.methods.isNotEmpty() }, this::getMethodLinks, "Methods", "methods")
         )
 
         for (item in linkData) {
@@ -76,8 +76,8 @@ constructor(
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
 
-        return classDoc.fields().map {
-            OrchidMenuItemImpl(context, model.nameFor(it), ArrayList()).apply {
+        return classDoc.fields.map {
+            OrchidMenuItemImpl(context, it.simpleSignature, ArrayList()).apply {
                 isSeparator = false
                 anchor = model.idFor(it)
             }
@@ -88,8 +88,8 @@ constructor(
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
 
-        return classDoc.constructors().map {
-            OrchidMenuItemImpl(context, model.nameFor(it), ArrayList()).apply {
+        return classDoc.constructors.map {
+            OrchidMenuItemImpl(context, it.simpleSignature, ArrayList()).apply {
                 isSeparator = false
                 anchor = model.idFor(it)
             }
@@ -100,8 +100,8 @@ constructor(
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
 
-        return classDoc.methods().map {
-            OrchidMenuItemImpl(context, model.nameFor(it), ArrayList()).apply {
+        return classDoc.methods.map {
+            OrchidMenuItemImpl(context, it.simpleSignature, ArrayList()).apply {
                 isSeparator = false
                 anchor = model.idFor(it)
             }

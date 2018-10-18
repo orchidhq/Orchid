@@ -1,4 +1,4 @@
 
 dependencies {
-    compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+    implementation "com.github.copper-leaf.dokka-json:javadoc-json-lib:${JavaEden.JsonDocs}"
 }

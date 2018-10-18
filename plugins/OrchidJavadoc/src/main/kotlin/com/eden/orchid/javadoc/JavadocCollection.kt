@@ -19,10 +19,10 @@ class JavadocCollection(generator: JavadocGenerator, collectionId: String, items
             return items.stream()
                     .filter { page ->
                         if (page is JavadocClassPage) {
-                            page.classDoc.qualifiedName() == id
+                            page.classDoc.qualifiedName == id
                         }
                         else if (page is JavadocPackagePage) {
-                            page.packageDoc.name() == id
+                            page.packageDoc.name == id
                         }
                         else {
                             false
@@ -33,7 +33,7 @@ class JavadocCollection(generator: JavadocGenerator, collectionId: String, items
             return items.stream()
                     .filter { page ->
                         if (page is JavadocClassPage) {
-                            page.classDoc.name() == id
+                            page.classDoc.name == id
                         }
                         else {
                             false

@@ -1,4 +1,0 @@
-{% for annotation in annotations %}
-{% include 'includes/javadoc/misc/annotation' %}{%- if not loop.last -%}, {% endif -%}
-{%- if inline is empty or not inline -%}<br>{%- endif -%}
-{% endfor %}

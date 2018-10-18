@@ -7,7 +7,7 @@
 {% for field in classDoc.fields %}
 {# @pebvariable name="field" type="com.copperleaf.dokka.json.models.KotlinField" #}
 <div class="panel panel-default">
-    <div class="panel-heading" id="{{ field.qualifiedName|replace({'<': '-', '>': '-'}) }}">
+    <div class="panel-heading" id="{{ page.model.idFor(field) }}">
         <code>
         {% include 'includes/kotlindoc/misc/signature' with {"signature": field.signature} %}
         </code>

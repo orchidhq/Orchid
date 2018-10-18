@@ -87,7 +87,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
 
     private FrontMatterHeader getFrontMatterHeader(String extension, String input) {
         for(EdenPair<String, OrchidParser> delimiter : delimiters) {
-            Matcher m = Pattern.compile("^" + delimiter.first + "{3}(\\w+)?$", Pattern.MULTILINE).matcher(input);
+            Matcher m = Pattern.compile("^" + delimiter.first + "{3}(\\w+)?$\n", Pattern.MULTILINE).matcher(input);
 
             int matches = 0;
             int firstMatchStart = 0;
@@ -117,7 +117,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
                 header.parser = delimiter.second;
                 header.delimiter = delimiter.first;
 
-                String parsedType = input.substring(0, header.fmStart).replaceAll(delimiter.first + "{3}", "");
+                String parsedType = input.substring(0, header.fmStart).replaceAll(delimiter.first + "{3}", "").trim();
 
                 if(!EdenUtils.isEmpty(parsedType)) {
                     header.extension = parsedType;

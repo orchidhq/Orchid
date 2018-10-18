@@ -1,47 +1,20 @@
-{# @pebvariable name="classDoc" type="com.sun.javadoc.ClassDoc" #}
+{# @pebvariable name="classDoc" type="com.copperleaf.javadoc.json.models.JavaClassDoc" #}
 {% set "classDoc" = page.classDoc %}
 
 {% if classDoc.constructors|length > 0 %}
 <h2 id="constructors">Constructors</h2>
 
-{% for ctor in classDoc.constructors %}
-{# @pebvariable name="ctor" type="com.sun.javadoc.ConstructorDoc" #}
+{% for constructor in classDoc.constructors %}
+{# @pebvariable name="constructor" type="com.copperleaf.javadoc.json.models.JavaConstructor" #}
 <div class="panel panel-default">
-    <div class="panel-heading" id="{{ page.model.idFor(ctor) }}">
+    <div class="panel-heading" id="{{ page.model.idFor(constructor) }}">
         <code>
-        {{ ctor.name -}}{%- include 'includes/javadoc/misc/signatureParameterList' with {"parameters": ctor.parameters,"parameterTags": ctor.paramTags} -%}
+        {% include 'includes/javadoc/misc/signature' with {"signature": constructor.signature} %}
         </code>
-        {% include 'includes/javadoc/misc/modifiers' with {"el": ctor} %}
     </div>
-    {% if ctor.annotations|length > 0 %}
-        <div class="panel-body">
-            <div><b>Constructor Annotations:</b></div>
-            <code>{% include 'includes/javadoc/misc/annotations' with {"annotations": ctor.annotations} %}</code>
-        </div>
-    {% endif %}
-    <div class="panel-body">
-        <p>{{ ctor.commentText | raw }}</p>
-    </div>
+    <div class="panel-body">{{ constructor.simpleComment | compileAs('md') }}</div>
 
-    {% if ctor.typeParameters|length > 0 %}
-        <div class="panel-body">
-            <b>Type Parameters: </b>
-        </div>
-    {% include 'includes/javadoc/misc/typeParameterList' with {
-    "typeParameters": ctor.typeParameters,
-    "typeParameterTags": ctor.typeParamTags
-    } %}
-    {% endif %}
-
-    {% if ctor.parameters|length > 0 %}
-        <div class="panel-body">
-            <b>Parameters: </b>
-        </div>
-    {% include 'includes/javadoc/misc/parameterList' with {
-    "parameters": ctor.parameters,
-    "parameterTags": ctor.paramTags
-    } %}
-    {% endif %}
+    {% include 'includes/javadoc/misc/parameters' with {"parameters": constructor.parameters} %}
 </div>
 {% endfor %}
 {% endif %}
