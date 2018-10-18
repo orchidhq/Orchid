@@ -22,17 +22,24 @@ ext.getActualVersion = { Project project ->
 }
 
 ext.getBaseUrl = { Project project ->
+    def url = null
     if (project.hasProperty('env') && project.property('env') == 'prod') {
         if(Boolean.parseBoolean(System.getenv('PULL_REQUEST'))) {
-            return System.getenv('DEPLOY_URL') // Netlify deploy preview URL
+            url = System.getenv('DEPLOY_URL') // Netlify deploy preview URL
         }
-        else {
-            return System.getenv('URL') // Netlify production URL
+        else if(System.getenv('URL')) {
+            url = System.getenv('URL') // Netlify production URL
         }
     }
     else {
-        return 'http://localhost:8080' // local development URL
+        url = 'http://localhost:8080' // local development URL
     }
+
+    if(!url) {
+        url = "https://orchid.netlify.com"
+    }
+
+    return url
 }
 
 ext.getEnvName = { Project project ->

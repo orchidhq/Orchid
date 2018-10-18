@@ -56,14 +56,9 @@ constructor(
                                 .toString()))
                 .build()
         Clog.d("Github POST: {}", url)
-        try {
-            val response = client.newCall(request).execute()
-            if (!response.isSuccessful) {
-                val bodyString = response.body()!!.string()
-                Clog.e("{}", bodyString)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val response = client.newCall(request).execute()
+        if (!response.isSuccessful) {
+            Clog.e("{}", response.body()!!.string())
         }
     }
 }

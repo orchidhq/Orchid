@@ -16,9 +16,8 @@ theme:
     cell_size: 55
     seed: 1
   menu:
-    - type: 'link'
+    - type: 'page'
       title: 'Home'
-      url: '/'
     - type: 'submenu'
       title: 'Learn'
       menu:

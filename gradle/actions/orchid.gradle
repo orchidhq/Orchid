@@ -10,7 +10,7 @@ orchid {
     // additional command-line args
     args = [
         "absApiKey ${project.properties['ABS_ApiKey']}",
-        "githubToken ${project.properties['github_token']}"
+        "githubToken ${project.hasProperty('github_token') ? project.property('github_token') : System.getenv('GITHUB_TOKEN')}"
     ]
 }
 
