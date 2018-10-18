@@ -1,7 +1,7 @@
 {% for method in methods %}
 {# @pebvariable name="method" type="com.copperleaf.dokka.json.models.KotlinMethod" #}
 <div class="panel panel-default">
-    <div class="panel-heading" id="{{ method.qualifiedName|replace({'<': '-', '>': '-'}) }}">
+    <div class="panel-heading" id="{{ page.model.idFor(method) }}">
         <code>
         {% include 'includes/kotlindoc/misc/signature' with {"signature": method.signature} %}
         </code>

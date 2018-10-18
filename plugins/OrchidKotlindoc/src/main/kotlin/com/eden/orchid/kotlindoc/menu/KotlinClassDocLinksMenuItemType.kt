@@ -75,9 +75,9 @@ constructor(
         val classDoc = containingPage.classDoc
 
         return classDoc.fields.map {
-            OrchidMenuItemImpl(context, it.name, ArrayList()).apply {
+            OrchidMenuItemImpl(context, it.simpleSignature, java.util.ArrayList()).apply {
                 isSeparator = false
-                anchor = it.qualifiedName.replace('<', '-').replace('>', '-')
+                anchor = model.idFor(it)
             }
         }
     }
@@ -87,9 +87,9 @@ constructor(
         val classDoc = containingPage.classDoc
 
         return classDoc.constructors.map {
-            OrchidMenuItemImpl(context, it.name, ArrayList()).apply {
+            OrchidMenuItemImpl(context, it.simpleSignature, java.util.ArrayList()).apply {
                 isSeparator = false
-                anchor = it.qualifiedName.replace('<', '-').replace('>', '-')
+                anchor = model.idFor(it)
             }
         }
     }
@@ -99,9 +99,9 @@ constructor(
         val classDoc = containingPage.classDoc
 
         return classDoc.methods.map {
-            OrchidMenuItemImpl(context, it.name, ArrayList()).apply {
+            OrchidMenuItemImpl(context, it.simpleSignature, java.util.ArrayList()).apply {
                 isSeparator = false
-                anchor = it.qualifiedName.replace('<', '-').replace('>', '-')
+                anchor = model.idFor(it)
             }
         }
     }

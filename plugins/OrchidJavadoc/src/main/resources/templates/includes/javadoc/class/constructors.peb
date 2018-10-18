@@ -7,7 +7,7 @@
 {% for constructor in classDoc.constructors %}
 {# @pebvariable name="constructor" type="com.copperleaf.javadoc.json.models.JavaConstructor" #}
 <div class="panel panel-default">
-    <div class="panel-heading" id="{{ constructor.qualifiedName }}">
+    <div class="panel-heading" id="{{ page.model.idFor(constructor) }}">
         <code>
         {% include 'includes/javadoc/misc/signature' with {"signature": constructor.signature} %}
         </code>
