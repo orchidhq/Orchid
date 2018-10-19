@@ -17,4 +17,11 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_600,w_800/v1524971822/themes/bsdoc/5.jpg
     alt: Javadocs
     caption: Javadocs
+menu:
+  - type: 'page'
+    itemId: 'Orchid Bs Doc'
+  - type: 'pageChildren'
+    itemId: 'Orchid Bs Doc'
+    asSubmenu: true
+    submenuTitle: Docs
 ---

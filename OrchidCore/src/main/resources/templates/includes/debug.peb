@@ -3,6 +3,10 @@
 
 <!-- start:debug info -->
 
+<!-- THEME -->
+<!-- Type: {{ theme.key }} -->
+<!-- Class: {{ theme.class.name }} -->
+
 <!-- PAGE -->
 <!-- Type: {{ page.key }} -->
 <!-- Class: {{ page.class.name }} -->

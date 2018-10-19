@@ -5,6 +5,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974588/plugins/presentations.jpg
     alt: Presentations
     caption: Photo by rawpixel.com on Unsplash
+menu:
+  - type: 'page'
+    itemId: 'Orchid Presentations'
+  - type: 'pageChildren'
+    itemId: 'Orchid Presentations'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### Using Orchid Presentations

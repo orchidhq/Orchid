@@ -30,7 +30,7 @@ public final class OrchidMenu extends ModularPageList<OrchidMenu, OrchidMenuItem
         for (OrchidMenuItem menuItem : get(containingPage)) {
             List<OrchidMenuItemImpl> impls = menuItem.getMenuItems();
 
-            if (menuItem.isAsSubmenu()) {
+            if (impls.size() > 0 && menuItem.isAsSubmenu()) {
                 OrchidMenuItemImpl innerMenuItem = new OrchidMenuItemImpl(context, impls, menuItem.getSubmenuTitle());
                 innerMenuItem.setAllData(menuItem.getAllData());
                 menuItemsChildren.add(innerMenuItem);

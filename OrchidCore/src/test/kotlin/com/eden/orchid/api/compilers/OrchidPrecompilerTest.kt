@@ -237,4 +237,21 @@ class OrchidPrecompilerTest {
                 .and { get { it.first }.isEqualTo("Page Content") }
                 .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
     }
+
+    @Test
+    fun parseYamlFrontMatterWithNoPageContent() {
+        val input = """
+            |---
+            |title: Front Matter Title
+            |---
+        """.trimMargin()
+
+        expectThat(underTest.shouldPrecompile("md", input)).isTrue()
+
+        val output = underTest.getEmbeddedData("md", input)
+
+        expectThat(output)
+                .and { get { it.first }.isEqualTo("") }
+                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+    }
 }

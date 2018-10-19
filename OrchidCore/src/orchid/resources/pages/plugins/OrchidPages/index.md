@@ -5,6 +5,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1537027621/plugins/pages.jpg
     alt: Pages
     caption: Photo by Annie Spratt on Unsplash
+menu:
+  - type: 'page'
+    itemId: 'Orchid Pages'
+  - type: 'pageChildren'
+    itemId: 'Orchid Pages'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### Using Static Pages

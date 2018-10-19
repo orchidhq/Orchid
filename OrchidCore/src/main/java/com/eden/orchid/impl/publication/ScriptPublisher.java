@@ -57,7 +57,7 @@ public class ScriptPublisher extends OrchidPublisher {
 
             builder.directory(new File(directory));
 
-            Clog.v("[{}]> {}", directory, String.join(" ", command));
+            Clog.i("[{}]> {}", directory, String.join(" ", command));
 
             Process process = builder.start();
 

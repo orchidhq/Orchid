@@ -5,6 +5,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974475/plugins/netlifycms.jpg
     alt: Netlify CMS
     caption: Screenshot of Netlify CMS
+menu:
+  - type: 'page'
+    itemId: 'Orchid Netlify CMS'
+  - type: 'pageChildren'
+    itemId: 'Orchid Netlify CMS'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### Using Netlify CMS with Orchid

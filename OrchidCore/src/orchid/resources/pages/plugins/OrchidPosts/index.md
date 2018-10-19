@@ -5,6 +5,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/posts.jpg
     alt: Posts
     caption: Photo by Emma Matthews on Unsplash
+menu:
+  - type: 'page'
+    itemId: 'Orchid Posts'
+  - type: 'pageChildren'
+    itemId: 'Orchid Posts'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### Creating Blog Posts
