@@ -52,7 +52,16 @@ constructor(
         val index = context.internalIndex.findIndex(pagePath)
 
         if (index != null) {
-            menuItems.add(OrchidMenuItemImpl(context, title, index.children.values.flatMap { it.getOwnPages() }))
+            if (submenuTitle.isBlank()) {
+                submenuTitle = page.title
+            }
+
+            menuItems.addAll(index
+                    .children
+                    .values
+                    .flatMap { it.getOwnPages() }
+                    .map { OrchidMenuItemImpl(context, it) }
+            )
         }
 
         return menuItems

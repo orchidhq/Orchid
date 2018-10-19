@@ -11,4 +11,11 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_600,w_800/v1524970938/themes/editorial/3.jpg
     alt: Search
     caption: Search
+menu:
+  - type: 'page'
+    itemId: 'Orchid Editorial'
+  - type: 'pageChildren'
+    itemId: 'Orchid Editorial'
+    asSubmenu: true
+    submenuTitle: Docs
 ---

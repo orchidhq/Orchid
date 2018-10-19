@@ -5,6 +5,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1525466545/plugins/swiftdoc.jpg
     alt: Swiftdoc
     caption: Photo by OOI JIET on Unsplash
+menu:
+  - type: 'page'
+    itemId: 'Orchid Swiftdoc'
+  - type: 'pageChildren'
+    itemId: 'Orchid Swiftdoc'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### Using Orchid to document Swift code

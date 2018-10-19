@@ -169,7 +169,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public OrchidResource getLocalResourceEntry(final String fileName) {
-        final ResourceCacheKey key = new ResourceCacheKey(fileName, "LOCAL", context.getTheme().hashCode());
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, "LOCAL", context.getTheme().getKey(), context.getTheme().hashCode());
         return CacheKt.computeIfAbsent(resourceCache, key, () -> {
             return fileResourceSources
                     .stream()
@@ -182,7 +182,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public OrchidResource getThemeResourceEntry(final String fileName) {
-        final ResourceCacheKey key = new ResourceCacheKey(fileName, "THEME", context.getTheme().hashCode());
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, "THEME", context.getTheme().getKey(), context.getTheme().hashCode());
         return CacheKt.computeIfAbsent(resourceCache, key, () -> {
             return context.getTheme().getResourceEntry(fileName);
         });
@@ -190,7 +190,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public OrchidResource getResourceEntry(final String fileName) {
-        final ResourceCacheKey key = new ResourceCacheKey(fileName, "ALL", context.getTheme().hashCode());
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, "ALL", context.getTheme().getKey(), context.getTheme().hashCode());
         return CacheKt.computeIfAbsent(resourceCache, key, () -> {
             OrchidResource resource = null;
 
@@ -522,6 +522,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     public static class ResourceCacheKey {
         private final String resourceName;
         private final String resourceType;
+        private final String themeKey;
         private final int themeHashcode;
     }
 

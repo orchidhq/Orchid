@@ -14,4 +14,11 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_600,w_800/v1524969542/themes/futureimperfect/4.jpg
     alt: Sidebar
     caption: Sidebar
+menu:
+  - type: 'page'
+    itemId: 'Orchid Future Imperfect'
+  - type: 'pageChildren'
+    itemId: 'Orchid Future Imperfect'
+    asSubmenu: true
+    submenuTitle: Docs
 ---

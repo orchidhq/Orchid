@@ -6,6 +6,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973700/plugins/syntaxhighlighter.jpg
     alt: Syntax Highlighter
     caption: Photo by William Iven on Unsplash
+menu:
+  - type: 'page'
+    itemId: 'Orchid Syntax Highlighter'
+  - type: 'pageChildren'
+    itemId: 'Orchid Syntax Highlighter'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### About Orchid Writers' Blocks

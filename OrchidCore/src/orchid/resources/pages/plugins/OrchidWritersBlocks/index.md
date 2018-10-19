@@ -6,6 +6,13 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/writersblocks.jpg
     alt: Writer's Blocks
     caption: Photo by Ilario Piatti on Unsplash
+menu:
+  - type: 'page'
+    itemId: 'Orchid Writers Blocks'
+  - type: 'pageChildren'
+    itemId: 'Orchid Writers Blocks'
+    asSubmenu: true
+    submenuTitle: Docs
 ---
 
 ### About Orchid Writers' Blocks

@@ -89,7 +89,7 @@ public final class ExternalResource extends FreeableResource {
 
     private ResponseBody getContentBody() throws IOException {
         if (download) {
-            Clog.v("Downloading external resource {}", originalExternalReference.toString());
+            Clog.i("Downloading external resource {}", originalExternalReference.toString());
             OkHttpClient client = context.resolve(OkHttpClient.class);
             Request request = new Request.Builder().url(originalExternalReference.toString()).build();
             Response response = client.newCall(request).execute();

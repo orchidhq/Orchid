@@ -47,7 +47,7 @@ public class PublicationPipelineTest {
         progressHandler = (progress, maxProgress) -> {
             progressUpdates++;
             didProgressComplete = didProgressComplete || (progress.equals(maxProgress));
-            Clog.v("Progress: {}/{}", progress, maxProgress);
+            Clog.d("Progress: {}/{}", progress, maxProgress);
         };
 
         context = mock(OrchidContext.class);

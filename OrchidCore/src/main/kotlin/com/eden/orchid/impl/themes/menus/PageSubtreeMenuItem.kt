@@ -21,10 +21,6 @@ constructor(
 ) : OrchidMenuItem(context, "pageSubtree", 100) {
 
     @Option
-    @Description("The title of this menu item.")
-    lateinit var title: String
-
-    @Option
     @Description("The Id of an item to look up.")
     lateinit var itemId: String
 
@@ -46,12 +42,14 @@ constructor(
                     null
                 ) ?: this.page
 
-        val pagePath = page.reference.path
-
-        val index = context.internalIndex.findIndex(pagePath)
+        val index = context.internalIndex.findIndex(page.reference.path)
 
         if (index != null) {
-            menuItems.add(OrchidMenuItemImpl(context, title, index))
+            if(submenuTitle.isBlank()) {
+                submenuTitle = page.title
+            }
+
+            menuItems.addAll(OrchidMenuItemImpl(context, "", index).children)
         }
 
         return menuItems
