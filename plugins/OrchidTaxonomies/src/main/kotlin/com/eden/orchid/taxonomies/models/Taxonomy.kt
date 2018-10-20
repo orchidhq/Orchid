@@ -54,6 +54,14 @@ constructor(
     lateinit var singleKey: String
 
     @Option
+    @Description("If true, pages selected by this taxonomy will have their parent page be set as the term archive, " +
+            "creating a complete breadcrumb hierarchy. \n\n" +
+            "**WARNING**: This will override the parent page set by the plugin that originally produced the page, " +
+            "effectively replacing its normal hierarchy with this taxonomy's hierarchy."
+    )
+    var setAsPageParent: Boolean = false
+
+    @Option
     @Description("A list of properties to order the Terms by.")
     lateinit var orderBy: Array<String>
 
@@ -77,9 +85,14 @@ constructor(
             return if (!EdenUtils.isEmpty(field)) field else key.from { camelCase() }.to { titleCase() }
         }
 
+    val landingPage: OrchidPage
+        get() {
+            return archivePages.first()
+        }
+
     val link: String
         get() {
-            return archivePages.first().link
+            return landingPage.link
         }
 
     var allTerms: List<Term> = ArrayList()
@@ -122,7 +135,7 @@ constructor(
         return terms[term]!!
     }
 
-    public fun addPage(term: String, page: OrchidPage, termOptions: Map<String, Any>) {
+    fun addPage(term: String, page: OrchidPage, termOptions: Map<String, Any>) {
         val termModel = getTerm(term, termOptions)
         termModel.pages.add(page)
     }

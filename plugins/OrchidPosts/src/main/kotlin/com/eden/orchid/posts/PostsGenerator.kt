@@ -24,9 +24,9 @@ import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.dashCase
 import com.eden.orchid.utilities.from
-import com.eden.orchid.utilities.snakeCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
+import org.json.JSONObject
 import java.time.LocalDate
 import java.util.regex.Pattern
 import java.util.stream.Stream
@@ -121,8 +121,9 @@ constructor(
         val resourcesList = context.getLocalResourceEntries(authorsBaseDir, null, false)
         for (entry in resourcesList) {
             val newAuthor = Author()
-            val authorName = entry.reference.originalFileName from { snakeCase() } to { camelCase()}
-            newAuthor.extractOptions(context, mutableMapOf<String, Any?>("name" to authorName))
+            val authorName = entry.reference.originalFileName from { dashCase() } to { camelCase() }
+            val options = (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
+            newAuthor.extractOptions(context, options)
 
             val authorPage = AuthorPage(entry, newAuthor, postsModel)
             authorPage.author.authorPage = authorPage

@@ -43,7 +43,7 @@ class Term(val key: String) : OptionsHolder {
     @Description("The displayed title of the Term. Defaults to the un-camelCased Term key.")
     var title: String = ""
         get() {
-            return if(!EdenUtils.isEmpty(field)) field else key.from { camelCase() }.to { titleCase() }
+            return if(!EdenUtils.isEmpty(field)) field else key from { camelCase() } to { titleCase() }
         }
 
     val landingPage: OrchidPage
