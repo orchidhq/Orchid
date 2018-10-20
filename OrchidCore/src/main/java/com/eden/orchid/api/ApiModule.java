@@ -21,7 +21,6 @@ import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsValidator;
 import com.eden.orchid.api.options.TemplateGlobal;
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor;
-import com.eden.orchid.api.options.extractors.ArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateOptionExtractor;
 import com.eden.orchid.api.options.extractors.DateTimeOptionExtractor;
@@ -31,11 +30,12 @@ import com.eden.orchid.api.options.extractors.FloatOptionExtractor;
 import com.eden.orchid.api.options.extractors.IntOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor;
+import com.eden.orchid.api.options.extractors.ListOptionExtractor;
 import com.eden.orchid.api.options.extractors.LongOptionExtractor;
 import com.eden.orchid.api.options.extractors.ModularListOptionExtractor;
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor;
-import com.eden.orchid.api.options.extractors.OrchidListOptionExtractor;
 import com.eden.orchid.api.options.extractors.RelationOptionExtractor;
+import com.eden.orchid.api.options.extractors.StringArrayOptionExtractor;
 import com.eden.orchid.api.options.extractors.StringOptionExtractor;
 import com.eden.orchid.api.options.extractors.TimeOptionExtractor;
 import com.eden.orchid.api.options.globals.ConfigGlobal;
@@ -87,7 +87,7 @@ public final class ApiModule extends OrchidModule {
                 RelationOptionExtractor.class,
 
                 AnyOptionExtractor.class,
-                ArrayOptionExtractor.class,
+                StringArrayOptionExtractor.class,
                 BooleanOptionExtractor.class,
                 DateOptionExtractor.class,
                 DateTimeOptionExtractor.class,
@@ -97,7 +97,7 @@ public final class ApiModule extends OrchidModule {
                 IntOptionExtractor.class,
                 JSONArrayOptionExtractor.class,
                 JSONObjectOptionExtractor.class,
-                OrchidListOptionExtractor.class,
+                ListOptionExtractor.class,
                 LongOptionExtractor.class,
                 StringOptionExtractor.class,
                 TimeOptionExtractor.class

@@ -115,16 +115,16 @@ public final class GeneratorServiceTest {
         underTest.startIndexing();
         underTest.startGeneration();
 
-        verify(generator1).extractOptions(any(), any());
+        verify(generator1).extractOptions((OrchidContext) any(), any());
         verify(generator1).startIndexing();
         assertThat(generator1.mockPages.size(), is(1));
         assertThat(generator1.mockPages.size(), is(1));
 
-        verify(generator2).extractOptions(any(), any());
+        verify(generator2).extractOptions((OrchidContext) any(), any());
         verify(generator2).startIndexing();
         assertThat(generator2.mockPages.size(), is(1));
 
-        verify(generator3).extractOptions(any(), any());
+        verify(generator3).extractOptions((OrchidContext) any(), any());
         verify(generator3).startIndexing();
         assertThat(generator3.mockPages, is(nullValue()));
     }
