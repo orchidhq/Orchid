@@ -48,7 +48,7 @@ public class OptionsExtractor extends Extractor {
     }
 
     @Override
-    protected <T> T getInstance(Class<T> clazz) {
+    public <T> T getInstance(Class<T> clazz) {
         return context.resolve(clazz);
     }
 

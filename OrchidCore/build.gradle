@@ -8,7 +8,7 @@ dependencies {
 
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.2.1'
-    api 'io.github.classgraph:classgraph:4.2.1'
+    api 'io.github.classgraph:classgraph:4.4.3'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
@@ -28,9 +28,9 @@ dependencies {
     implementation 'org.json:json:20180130'
     implementation 'org.yaml:snakeyaml:1.23'
     implementation 'com.moandjiezana.toml:toml4j:0.7.2'
-    implementation 'io.pebbletemplates:pebble:3.0.4'
+    implementation 'io.pebbletemplates:pebble:3.0.5'
     implementation 'io.bit3:jsass:5.7.3'
-    implementation 'com.univocity:univocity-parsers:2.7.5'
+    implementation 'com.univocity:univocity-parsers:2.7.6'
 
     // Flexmark extensions
     api "com.vladsch.flexmark:flexmark:$flexmarkVersion"

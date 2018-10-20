@@ -132,7 +132,7 @@ task codeCoverageReport(type: JacocoReport) {
 
 configurations { codacy }
 dependencies {
-    codacy 'com.github.codacy:codacy-coverage-reporter:4.0.2'
+    codacy 'com.github.codacy:codacy-coverage-reporter:5.0.275'
 }
 task sendCoverageToCodacy(type: JavaExec) {
     dependsOn codeCoverageReport

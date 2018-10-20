@@ -28,10 +28,10 @@ constructor(
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
-        if (!EdenUtils.isEmpty(title) && menu != null && !menu!!.isEmpty) {
+        if (!EdenUtils.isEmpty(title) && !menu.isEmpty) {
             menuItems.add(OrchidMenuItemImpl(
                     context,
-                    menu!!.getMenuItems(this.page),
+                    menu.getMenuItems(this.page),
                     title
             ))
         }
