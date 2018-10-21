@@ -116,7 +116,7 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
                 .get { it.content }
-                .asHtml()
+                .asHtml(removeComments = true)
                 .select("body")
                 .matches()
                 .innerHtml()

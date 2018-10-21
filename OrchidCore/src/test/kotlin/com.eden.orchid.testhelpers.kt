@@ -1,8 +1,11 @@
 package com.eden.orchid.testhelpers
 
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Comment
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Node
 import org.jsoup.select.Elements
+import org.jsoup.select.NodeFilter
 import strikt.api.Assertion
 
 fun Assertion.Builder<TestResults>.somethingRendered(): Assertion.Builder<TestResults> =
@@ -28,7 +31,29 @@ fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.B
 // Test formatted HTML
 //----------------------------------------------------------------------------------------------------------------------
 
-fun Assertion.Builder<String>.asHtml() = get { Jsoup.parse(it) }
+fun Assertion.Builder<String>.asHtml(removeComments: Boolean = false) = get {
+    val doc = Jsoup.parse(it)
+
+    if(removeComments) {
+        doc.filter(object : NodeFilter {
+            override fun tail(node: Node, depth: Int): NodeFilter.FilterResult {
+                return if (node is Comment) {
+                    NodeFilter.FilterResult.REMOVE
+                }
+                else NodeFilter.FilterResult.CONTINUE
+            }
+
+            override fun head(node: Node, depth: Int): NodeFilter.FilterResult {
+                return if (node is Comment) {
+                    NodeFilter.FilterResult.REMOVE
+                }
+                else NodeFilter.FilterResult.CONTINUE
+            }
+        })
+    }
+
+    doc
+}
 
 @JvmName("select_document")
 fun Assertion.Builder<Document>.select(cssQuery: String) = get { it.select(cssQuery) }

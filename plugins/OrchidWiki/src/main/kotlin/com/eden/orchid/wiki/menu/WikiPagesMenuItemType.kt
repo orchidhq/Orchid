@@ -1,22 +1,14 @@
 package com.eden.orchid.wiki.menu
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
-import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.api.theme.pages.OrchidReference
-import com.eden.orchid.utilities.camelCase
-import com.eden.orchid.utilities.from
-import com.eden.orchid.utilities.titleCase
-import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
-import com.eden.orchid.wiki.pages.WikiSummaryPage
 import javax.inject.Inject
 
 @Description("Links to all pages in your wiki, optionally by section.", name = "Wiki Pages")
@@ -31,50 +23,36 @@ constructor(
     @Description("The wiki section to include in this menu.")
     var section: String? = null
 
-
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
         val sections = HashMap<String?, WikiSection>()
 
         val menuItemTitle: String
-        val menuSection: String
-
-        if(EdenUtils.isEmpty(section)) {
-            if(page is WikiPage) {
-                section = (page as WikiPage).section
-            }
-            else if(page is WikiSummaryPage) {
-                section = (page as WikiSummaryPage).section
-            }
-        }
 
         val wikiSection = model.getSection(section)
 
         if (wikiSection != null) {
             sections.put(section, wikiSection)
-            menuItemTitle = (section!! from String::camelCase to Array<String>::titleCase) + " Wiki"
-            menuSection = section ?: ""
+            menuItemTitle = wikiSection.title
         } else {
             sections.putAll(model.sections)
             menuItemTitle = "Wiki"
-            menuSection = "wiki"
         }
 
-        val wikiPagesIndex = OrchidIndex(null, menuSection)
+        if(submenuTitle.isBlank()) {
+            submenuTitle = menuItemTitle
+        }
+
+        val wikiPagesIndex = OrchidIndex(null, "wiki")
 
         for (value in sections.values) {
-            val sectionPages = ArrayList<OrchidPage>(value.wikiPages)
-            for (page in sectionPages) {
-                val ref = OrchidReference(page.reference)
-                if (!menuSection.equals("wiki", ignoreCase = true)) {
-                    ref.stripFromPath("wiki")
-                }
-                wikiPagesIndex.addToIndex(ref.path, page)
+            for(page in value.wikiPages) {
+                wikiPagesIndex.addToIndex(page.reference.path, page)
             }
         }
 
-        menuItems.add(OrchidMenuItemImpl(context, menuItemTitle, wikiPagesIndex))
+        menuItems.add(OrchidMenuItemImpl(context, "", wikiPagesIndex))
 
         for (item in menuItems) {
             item.setIndexComparator(menuItemComparator)

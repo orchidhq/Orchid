@@ -1,1 +1,11 @@
-{{ page.content | raw }}
+<!DOCTYPE HTML>
+<html>
+<head>
+{% head %}
+{% styles %}
+</head>
+<body>
+{% page %}
+{% scripts %}
+</body>
+</html>
