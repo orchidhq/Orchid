@@ -5,32 +5,24 @@ import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import strikt.api.Assertion
 
-fun Assertion.Builder<TestResults>.somethingRendered() =
-        assert("some pages were rendered") {
-            if(!it.renderingSuccess) fail()
-            else if(it.renderedPageMap.isEmpty()) fail()
-            else pass()
+fun Assertion.Builder<TestResults>.somethingRendered(): Assertion.Builder<TestResults> =
+        passesIf("at least one page was rendered") {
+            it.renderingSuccess && it.renderedPageMap.isNotEmpty()
         }
 
-fun Assertion.Builder<TestResults>.nothingRendered() =
-        assert("no pages were rendered") {
-            if(!it.renderingSuccess) fail()
-            else if(it.renderedPageMap.isEmpty()) pass()
-            else fail()
+fun Assertion.Builder<TestResults>.nothingRendered(): Assertion.Builder<TestResults> =
+        passesIf("no pages were rendered") {
+            it.renderingSuccess && it.renderedPageMap.isEmpty()
         }
 
-fun Assertion.Builder<TestResults>.pageWasRendered(name: String) =
-        assert("page was rendered at $name") {
-            if(!it.renderingSuccess) fail()
-            else if(it.renderedPageMap[name] != null) pass()
-            else fail()
-        }
+fun Assertion.Builder<TestResults>.pageWasRendered(name: String): Assertion.Builder<TestRenderer.TestRenderedPage> =
+        passesIf("page was rendered at $name") {
+            it.renderingSuccess && it.renderedPageMap[name] != null
+        }.get { it.renderedPageMap[name]!! }
 
-fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String) =
-        assert("page was rendered at $name") {
-            if(!it.renderingSuccess) fail()
-            else if(it.renderedPageMap[name] != null) fail()
-            else pass()
+fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.Builder<TestResults> =
+        passesIf("page was not rendered at $name") {
+            it.renderingSuccess && it.renderedPageMap[name] == null
         }
 
 // Test formatted HTML
@@ -48,6 +40,10 @@ fun Assertion.Builder<Elements>.matches() = passesIf("matches at least one node"
 
 fun Assertion.Builder<Elements>.doesNotMatch() = passesIf("matches no nodes") { it.isEmpty() }
 
+fun Assertion.Builder<Elements>.innerHtml() = get { it.html().trimLines() }
+
+fun Assertion.Builder<Elements>.outerHtml() = get { it.outerHtml().trimLines() }
+
 fun Assertion.Builder<Elements>.text() = get { it.text() }
 
 fun Assertion.Builder<Elements>.attr(attrName: String) = get {
@@ -60,3 +56,9 @@ fun Assertion.Builder<Elements>.attr(attrName: String) = get {
 }
 
 fun Assertion.Builder<Elements>.hasClass(className: String) = passesIf("has class '%s'") { it.hasClass(className) }
+
+
+private fun String.trimLines() = this
+        .lines()
+        .map { it.trimEnd() }
+        .joinToString("\n")

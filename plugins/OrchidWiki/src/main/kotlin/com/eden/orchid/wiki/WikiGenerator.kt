@@ -110,6 +110,8 @@ constructor(
         var i = 0
 
         for (a in links) {
+            if(OrchidUtils.isExternal(a.attr("href"))) continue
+
             val file = sectionBaseDir + a.attr("href")
             val path = sectionBaseDir + FilenameUtils.removeExtension(a.attr("href"))
 

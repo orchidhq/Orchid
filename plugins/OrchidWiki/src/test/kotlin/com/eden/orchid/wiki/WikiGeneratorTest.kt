@@ -1,11 +1,17 @@
 package com.eden.orchid.wiki
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.asHtml
+import com.eden.orchid.testhelpers.innerHtml
+import com.eden.orchid.testhelpers.matches
 import com.eden.orchid.testhelpers.nothingRendered
 import com.eden.orchid.testhelpers.pageWasRendered
+import com.eden.orchid.testhelpers.select
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
+import strikt.assertions.isEqualTo
 
 @DisplayName("Tests page-rendering behavior of Wiki generator")
 class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
@@ -97,6 +103,35 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         configObject("wiki", """{"sections": ["section1", "section2"]}""")
         val testResults = execute()
         expectThat(testResults).nothingRendered()
+    }
+
+    @Test
+    @DisplayName("External links are ignored")
+    fun test08() {
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
+        resource("wiki/summary.md", """
+            * [Page One](page-one.md)
+            * [Page Two](https://www.example.com/)
+        """.trimIndent())
+        resource("wiki/page-one.md")
+
+        resource("templates/layouts/index.peb", "{{ page.content | raw }}")
+
+        val testResults = execute()
+        expectThat(testResults)
+                .pageWasRendered("/wiki/index.html")
+                .get { it.content }
+                .asHtml()
+                .select("body")
+                .matches()
+                .innerHtml()
+                .isEqualTo("""
+                    <ul>
+                     <li><a href="wiki/page-one">Page One</a></li>
+                     <li><a href="https://www.example.com/">Page Two</a></li>
+                    </ul>
+                """.trimIndent())
+        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
     }
 
 }
