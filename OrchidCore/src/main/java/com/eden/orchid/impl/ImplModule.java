@@ -16,7 +16,6 @@ import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
@@ -49,7 +48,6 @@ import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
-import com.eden.orchid.impl.resources.CoreResourceSource;
 import com.eden.orchid.impl.resources.InlineResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
@@ -108,6 +106,8 @@ public final class ImplModule extends OrchidModule {
 
     @Override
     protected void configure() {
+        withResources(1);
+
         // prepare empty sets for binding
         addToSet(OrchidService.class);
 
@@ -125,9 +125,6 @@ public final class ImplModule extends OrchidModule {
         addToSet(LocalResourceSource.class,
                 LocalFileResourceSource.class,
                 InlineResourceSource.class);
-
-        addToSet(PluginResourceSource.class,
-                CoreResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,

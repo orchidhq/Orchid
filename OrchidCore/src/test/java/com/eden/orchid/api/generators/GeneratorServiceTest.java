@@ -1,6 +1,5 @@
 package com.eden.orchid.api.generators;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.indexing.OrchidRootIndex;
@@ -58,7 +57,6 @@ public final class GeneratorServiceTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         context = mock(OrchidContext.class);
         extractor = mock(OptionsExtractor.class);
         theme = mock(Theme.class);

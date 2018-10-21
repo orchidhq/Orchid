@@ -5,6 +5,7 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.StandardModule;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule;
 import com.eden.orchid.impl.compilers.pebble.PebbleModule;
 import com.google.inject.Module;
@@ -42,6 +43,28 @@ public class TestOrchidRunner {
 
             contextDependantModules.add(new TestResourceSource(orchidContextProvider, resources).toModule());
             contextDependantModules.add(new TestConfigResourceSource(orchidContextProvider, config).toModule());
+
+            for (Module module : modules) {
+                if (module instanceof OrchidModule) {
+                    OrchidModule orchidModule = (OrchidModule) module;
+                    if (orchidModule.isHasResources()) {
+
+                        contextDependantModules.add(new OrchidModule() {
+                            @Override
+                            protected void configure() {
+                                addToSet(
+                                        PluginResourceSource.class,
+                                        new PluginFileResourceSource(
+                                                orchidContextProvider,
+                                                orchidModule.getClass(),
+                                                orchidModule.getResourcePriority() + 1
+                                        )
+                                );
+                            }
+                        });
+                    }
+                }
+            }
 
             return contextDependantModules;
         });

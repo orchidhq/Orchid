@@ -56,8 +56,6 @@ class OrchidIndexText {
 
     @BeforeEach
     fun setUp() {
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
-
         context = mock(OrchidContext::class.java)
         extractor = mock(OptionsExtractor::class.java)
         `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", emptyMap()))

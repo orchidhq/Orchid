@@ -40,8 +40,6 @@ public class PublicationPipelineTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-
         progressUpdates = 0;
         didProgressComplete = false;
         progressHandler = (progress, maxProgress) -> {

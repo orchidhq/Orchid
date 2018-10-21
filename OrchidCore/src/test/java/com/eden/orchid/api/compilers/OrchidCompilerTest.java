@@ -1,6 +1,5 @@
 package com.eden.orchid.api.compilers;
 
-import com.caseyjbrooks.clog.Clog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,6 @@ public final class OrchidCompilerTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidCompiler(100) {
             @Override public String compile(String extension, String input, Map<String, Object> data) { return ""; }
             @Override public String getOutputExtension() { return ""; }

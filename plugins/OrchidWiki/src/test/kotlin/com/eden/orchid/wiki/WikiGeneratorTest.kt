@@ -1,6 +1,5 @@
 package com.eden.orchid.wiki
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.asHtml
 import com.eden.orchid.testhelpers.innerHtml
@@ -41,7 +40,6 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @Test
     @DisplayName("Wiki supports multiple sections. Setting a section as a string value uses all section defaults.")
     fun tet03() {
-        enableLogging()
         configObject("wiki", """{"sections": ["section1", "section2"]}""")
         resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section1/page-one.md")
@@ -108,14 +106,11 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @Test
     @DisplayName("External links are ignored")
     fun test08() {
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
         resource("wiki/summary.md", """
             * [Page One](page-one.md)
             * [Page Two](https://www.example.com/)
         """.trimIndent())
         resource("wiki/page-one.md")
-
-        resource("templates/layouts/index.peb", "{{ page.content | raw }}")
 
         val testResults = execute()
         expectThat(testResults)

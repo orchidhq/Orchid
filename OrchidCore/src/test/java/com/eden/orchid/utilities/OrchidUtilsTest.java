@@ -24,7 +24,7 @@ public final class OrchidUtilsTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
+
     }
 
     @ParameterizedTest

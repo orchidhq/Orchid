@@ -5,7 +5,6 @@ import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourceSource.JarResourceSource
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.google.inject.Provider
-
 import javax.inject.Inject
 
 class PluginJarResourceSource

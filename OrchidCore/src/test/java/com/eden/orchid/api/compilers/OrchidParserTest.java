@@ -1,6 +1,5 @@
 package com.eden.orchid.api.compilers;
 
-import com.caseyjbrooks.clog.Clog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,6 @@ public final class OrchidParserTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         underTest = new OrchidParser(100) {
             @Override public String[] getSourceExtensions() { return new String[] { "" }; }
             @Override public Map<String, Object> parse(String extension, String input) { return new HashMap<>(); }
