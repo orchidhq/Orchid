@@ -1,6 +1,7 @@
 taxonomies:
   - key: group
     single: true
+    setAsPageParent: true
     plugins:
       orderByDirection: asc
       orderBy:

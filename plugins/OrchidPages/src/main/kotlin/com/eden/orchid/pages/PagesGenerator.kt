@@ -1,5 +1,6 @@
 package com.eden.orchid.pages
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
@@ -9,6 +10,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.pages.pages.StaticPage
+import com.eden.orchid.utilities.OrchidUtils
 import java.util.stream.Stream
 import javax.inject.Inject
 import kotlin.streams.toList
@@ -48,11 +50,13 @@ constructor(
             val page = StaticPage(entry)
             pages.add(page)
 
-            pagesMap[page.reference.path] = page
+            pagesMap[getPathWithFilename(page)] = page
         }
 
         for(page in pages) {
-            var parentPath = page.reference.path
+            var parentPath = getPathWithFilename(page)
+
+            parentPath = parentPath.split("/").toList().dropLast(1).joinToString("/")
 
             while(parentPath.isNotBlank()) {
                 parentPath = parentPath.split("/").toList().dropLast(1).joinToString("/")
@@ -107,5 +111,18 @@ constructor(
         collections.add(allPagesCollection)
 
         return collections
+    }
+
+    private fun getPathWithFilename(page: StaticPage): String {
+        val outputPath = OrchidUtils.normalizePath(page.reference.path)
+        val outputName: String?
+        if (EdenUtils.isEmpty(OrchidUtils.normalizePath(page.reference.outputExtension))) {
+            outputName = OrchidUtils.normalizePath(page.reference.fileName)
+        }
+        else {
+            outputName = OrchidUtils.normalizePath(page.reference.fileName)
+        }
+
+        return "$outputPath/$outputName"
     }
 }
