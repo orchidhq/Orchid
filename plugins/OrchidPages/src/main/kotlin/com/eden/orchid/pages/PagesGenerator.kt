@@ -36,6 +36,8 @@ constructor(
         val resourcesList = context.getLocalResourceEntries(baseDir, null, true)
         val pages = ArrayList<StaticPage>()
 
+        val pagesMap = HashMap<String, StaticPage>()
+
         for (entry in resourcesList) {
             entry.reference.stripFromPath(baseDir)
             if (entry.reference.originalFileName.equals("index", true)) {
@@ -45,6 +47,21 @@ constructor(
 
             val page = StaticPage(entry)
             pages.add(page)
+
+            pagesMap[page.reference.path] = page
+        }
+
+        for(page in pages) {
+            var parentPath = page.reference.path
+
+            while(parentPath.isNotBlank()) {
+                parentPath = parentPath.split("/").toList().dropLast(1).joinToString("/")
+
+                if(pagesMap.containsKey(parentPath)) {
+                    page.parent = pagesMap[parentPath]
+                    break
+                }
+            }
         }
 
         return pages
