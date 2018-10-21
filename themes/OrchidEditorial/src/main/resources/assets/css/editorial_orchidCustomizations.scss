@@ -47,3 +47,26 @@ p a img {
 #footer {
   padding-bottom: 60px !important;
 }
+
+@media screen and (min-width: 1280px) {
+  #main > .inner {
+    max-width: calc(100vw - 24em);
+  }
+}
+
+.menu ul {
+  display: none;
+}
+.menu ul.top-level {
+  display: block;
+}
+
+.menu ul li a.subheader {
+  border: none;
+  font-weight: bold;
+  margin-top: 2.4rem;
+
+  &:hover {
+    color: inherit !important
+  }
+}

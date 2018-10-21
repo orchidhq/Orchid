@@ -6,29 +6,14 @@ import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.google.inject.Provider
 import org.apache.commons.io.FileUtils
-
 import java.io.File
 import java.util.ArrayList
 
-open class FileResourceSource : OrchidResourceSource {
-
-    private val context: Provider<OrchidContext>
-
-    val directory: String
-
-    override val priority: Int
-
-    constructor(context: Provider<OrchidContext>, priority: Int) {
-        this.context = context
-        this.directory = ""
-        this.priority = priority
-    }
-
-    constructor(context: Provider<OrchidContext>, directory: String, priority: Int) {
-        this.context = context
-        this.directory = directory
-        this.priority = priority
-    }
+open class FileResourceSource(
+        private val context: Provider<OrchidContext>,
+        open val directory: String,
+        override val priority: Int
+) : OrchidResourceSource {
 
     override fun getResourceEntry(fileName: String): OrchidResource? {
         val file = File("$directory/$fileName")
@@ -37,14 +22,12 @@ open class FileResourceSource : OrchidResourceSource {
             FileResource(context.get(), file)
         }
         else null
-
     }
 
     override fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
-        val fullPath = "$directory/$dirName"
-        val file = File(fullPath)
+        val file = File("$directory/$dirName")
 
         if (file.exists() && file.isDirectory) {
             val newFiles = FileUtils.listFiles(file, fileExtensions, recursive)

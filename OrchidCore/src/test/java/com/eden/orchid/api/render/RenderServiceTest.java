@@ -1,6 +1,5 @@
 package com.eden.orchid.api.render;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
@@ -47,8 +46,6 @@ public final class RenderServiceTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
-
         // test the service directly
         theme = mock(Theme.class);
         context = mock(OrchidContext.class);

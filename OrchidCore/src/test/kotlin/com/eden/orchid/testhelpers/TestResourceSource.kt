@@ -1,11 +1,14 @@
 package com.eden.orchid.testhelpers
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourceSource.FileResourceSource
 import com.eden.orchid.api.resources.resourceSource.LocalResourceSource
 import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource
+import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.Provider
 import org.apache.commons.io.FilenameUtils
@@ -67,4 +70,51 @@ constructor(
             }
         }
     }
+}
+
+
+class PluginFileResourceSource
+@Inject
+constructor(
+        val context: Provider<OrchidContext>,
+        val pluginClass: Class<out OrchidModule>,
+        priority: Int
+) : FileResourceSource(context, "", priority), PluginResourceSource {
+
+    init {
+        Clog.v("Creating PluginFileResourceSource for pluginClass {}", pluginClass.name)
+    }
+
+    override val directory: String
+        get() {
+            val path = "/" + pluginClass.name.replace('.', '/') + ".class"
+            val jarUrl = pluginClass.getResource(path)
+
+            var url = jarUrl?.toString() ?: ""
+
+            Clog.v("path start: {}", url)
+
+            // initial path
+            url = url.reversed()
+            url = url.replaceFirst(path.reversed(), "")
+
+            // intellij paths
+            url = url.replaceFirst("/out/production/classes".reversed(), "")
+            url = url.replaceFirst("/out/test/classes".reversed(), "")
+
+            // gradle paths
+            url = url.replaceFirst("/build/classes/java/main".reversed(), "")
+            url = url.replaceFirst("/build/classes/java/test".reversed(), "")
+            url = url.replaceFirst("/build/classes/kotlin/main".reversed(), "")
+            url = url.replaceFirst("/build/classes/kotlin/test".reversed(), "")
+
+            // cleanup path
+            url = url.reversed()
+            url = url.replaceFirst("file:", "")
+            url += "/src/main/resources"
+
+            Clog.v("path end: {}", url)
+
+            return url
+        }
 }

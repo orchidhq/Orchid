@@ -101,10 +101,13 @@ constructor(
         val archivePages = ArrayList<OrchidPage>()
 
         model.taxonomies.values.forEach { taxonomy ->
+            buildTaxonomyLandingPages(taxonomy)
+
+
             taxonomy.allTerms.forEach { term ->
                 archivePages.addAll(buildTermArchivePages(taxonomy, term))
             }
-            archivePages.addAll(buildTaxonomyLandingPages(taxonomy))
+            archivePages.addAll(taxonomy.archivePages)
         }
 
         return archivePages
@@ -158,12 +161,19 @@ constructor(
 
                 val page = TermArchivePage(StringResource("", pageRef), model, termPageList, taxonomy, term, i + 1)
                 permalinkStrategy.applyPermalink(page, page.term.permalink)
+                page.parent = taxonomy.landingPage
                 termArchivePages.add(page)
             }
         }
 
-        linkPages(termArchivePages)
+        linkPages(termArchivePages.reversed())
         term.archivePages = termArchivePages
+
+        if(taxonomy.setAsPageParent) {
+            for(page in pagesList) {
+                page.parent = term.landingPage
+            }
+        }
 
         return termArchivePages
     }

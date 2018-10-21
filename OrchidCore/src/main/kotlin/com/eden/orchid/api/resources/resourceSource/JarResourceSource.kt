@@ -18,8 +18,9 @@ open class JarResourceSource : OrchidResourceSource {
     private val context: Provider<OrchidContext>
 
     val pluginClass: Class<*>
-
     override val priority: Int
+    private var initialized = false
+    private var jarFile: JarFile? = null
 
     constructor(context: Provider<OrchidContext>, priority: Int) {
         this.context = context
@@ -55,10 +56,13 @@ open class JarResourceSource : OrchidResourceSource {
     }
 
     override fun getResourceEntry(fileName: String): OrchidResource? {
-        val jarFile = jarForClass()
+        if(!initialized) {
+            jarFile = jarForClass()
+            initialized = true
+        }
 
         if (jarFile != null) {
-            val entries = jarFile.entries()
+            val entries = jarFile!!.entries()
             while (entries.hasMoreElements()) {
                 val entry = entries.nextElement()
 
@@ -74,18 +78,23 @@ open class JarResourceSource : OrchidResourceSource {
     override fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
-        val jarFile = jarForClass() ?: return entries
+        if(!initialized) {
+            jarFile = jarForClass()
+            initialized = true
+        }
 
-        val jarEntries = jarFile.entries()
-        while (jarEntries.hasMoreElements()) {
-            val jarEntry = jarEntries.nextElement()
-            // we are checking a file in the jar
-            if (OrchidUtils.normalizePath(jarEntry.name)!!.startsWith("$dirName/") && !jarEntry.isDirectory) {
+        if (jarFile != null) {
+            val jarEntries = jarFile!!.entries()
+            while (jarEntries.hasMoreElements()) {
+                val jarEntry = jarEntries.nextElement()
+                // we are checking a file in the jar
+                if (OrchidUtils.normalizePath(jarEntry.name)!!.startsWith("$dirName/") && !jarEntry.isDirectory) {
 
-                if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.name, fileExtensions)) {
+                    if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.name, fileExtensions)) {
 
-                    if (shouldAddEntry(jarEntry.name)) {
-                        entries.add(JarResource(context.get(), jarFile, jarEntry))
+                        if (shouldAddEntry(jarEntry.name)) {
+                            entries.add(JarResource(context.get(), jarFile, jarEntry))
+                        }
                     }
                 }
             }

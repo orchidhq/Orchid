@@ -6,10 +6,12 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import lombok.Data;
 import lombok.Getter;
+import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +45,16 @@ public class TestRenderer implements OrchidRenderer {
     @Data
     public static class TestRenderedPage {
         private final String path;
-        private final InputStream content;
+        private final InputStream contentStream;
+
+        public String getContent() {
+            try {
+                return IOUtils.toString(contentStream, Charset.forName("UTF-8"));
+            }
+            catch (Exception e) {
+                return "";
+            }
+        }
     }
 
 

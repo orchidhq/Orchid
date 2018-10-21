@@ -6,6 +6,12 @@ import com.eden.orchid.utilities.addToSet
 
 class DiagramsModule : OrchidModule() {
 
+    companion object {
+        init {
+            System.setProperty("java.awt.headless", "true");
+        }
+    }
+
     override fun configure() {
         addToSet<OrchidCompiler, PlantUmlCompiler>()
     }

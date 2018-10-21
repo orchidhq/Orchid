@@ -1,6 +1,5 @@
 package com.eden.orchid.api.events;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -48,7 +47,6 @@ public final class EventServiceTest {
 
     @BeforeEach
     public void testSetup() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
         sender = new Object();
         baseEvent = new TestEvent2(sender);
         specificEvent = new TestEvent(sender);

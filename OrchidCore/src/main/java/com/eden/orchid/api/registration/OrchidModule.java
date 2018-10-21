@@ -1,5 +1,6 @@
 package com.eden.orchid.api.registration;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
@@ -32,6 +33,9 @@ import java.util.stream.Collectors;
  * @orchidApi extensible
  */
 public abstract class OrchidModule extends AbstractModule {
+
+    private boolean hasResources = false;
+    private int resourcePriority;
 
     private static final Set<Class<?>> knownSets = new HashSet<>();
 
@@ -113,10 +117,23 @@ public abstract class OrchidModule extends AbstractModule {
     }
 
     public final void withResources(int priority) {
+        if(hasResources) {
+            throw new IllegalStateException(Clog.format("Resources already added to {}", this.getClass().getName()));
+        }
         addToSet(PluginResourceSource.class, new PluginJarResourceSource(getProvider(OrchidContext.class), this.getClass(), priority));
+        hasResources = true;
+        resourcePriority = priority;
     }
 
     public <T> AnnotatedBindingBuilder<T> _bind(Class<T> clazz) {
         return super.bind(clazz);
+    }
+
+    public boolean isHasResources() {
+        return hasResources;
+    }
+
+    public int getResourcePriority() {
+        return resourcePriority;
     }
 }
