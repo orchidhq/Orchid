@@ -122,8 +122,12 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
                 .innerHtml()
                 .isEqualTo("""
                     <ul>
-                     <li><a href="wiki/page-one">Page One</a></li>
-                     <li><a href="https://www.example.com/">Page Two</a></li>
+                      <li>
+                        <a href="wiki/page-one">Page One</a>
+                      </li>
+                      <li>
+                        <a href="https://www.example.com/">Page Two</a>
+                      </li>
                     </ul>
                 """.trimIndent())
         expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")

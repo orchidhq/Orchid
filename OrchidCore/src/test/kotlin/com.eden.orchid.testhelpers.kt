@@ -32,7 +32,13 @@ fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.B
 //----------------------------------------------------------------------------------------------------------------------
 
 fun Assertion.Builder<String>.asHtml(removeComments: Boolean = false) = get {
-    val doc = Jsoup.parse(it)
+    val doc = Jsoup.parse(it).apply {
+        outputSettings(Document.OutputSettings().apply {
+            indentAmount(2)
+            prettyPrint(true)
+            outline(true)
+        })
+    }
 
     if(removeComments) {
         doc.filter(object : NodeFilter {

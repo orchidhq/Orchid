@@ -9,7 +9,7 @@ class WikiModel {
 
     var sectionsPage: WikiSectionsPage? = null
 
-    var sections: MutableMap<String?, WikiSection> = LinkedHashMap()
+    var sections: MutableMap<String, WikiSection> = LinkedHashMap()
 
     val allPages: List<OrchidPage>
         get() {
@@ -29,8 +29,8 @@ class WikiModel {
         this.sections = linkedMapOf(*(sections.map { it.key to it }.toTypedArray()))
     }
 
-    fun getSection(sectionKey: String?) : WikiSection? {
-        if(sectionKey != null) {
+    fun getSection(sectionKey: String) : WikiSection? {
+        if(sectionKey.isNotBlank()) {
             return sections.getOrDefault(sectionKey, null)
         }
 

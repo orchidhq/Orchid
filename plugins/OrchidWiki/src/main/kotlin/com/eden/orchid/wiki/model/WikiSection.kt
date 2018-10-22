@@ -31,9 +31,9 @@ constructor() : OptionsHolder {
     lateinit var title: String
 
     @Option
-    @BooleanDefault(true)
+    @BooleanDefault(false)
     @Description("If true, the title of each page in the wiki will be prepended with its numerical order in the wiki.")
-    var includeIndexInPageTitle: Boolean = true
+    var includeIndexInPageTitle: Boolean = false
 
     lateinit var summaryPage: WikiSummaryPage
     lateinit var wikiPages: List<WikiPage>
