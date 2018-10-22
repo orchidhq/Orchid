@@ -81,18 +81,12 @@ constructor(
         priority: Int
 ) : FileResourceSource(context, "", priority), PluginResourceSource {
 
-    init {
-        Clog.v("Creating PluginFileResourceSource for pluginClass {}", pluginClass.name)
-    }
-
     override val directory: String
         get() {
             val path = "/" + pluginClass.name.replace('.', '/') + ".class"
             val jarUrl = pluginClass.getResource(path)
 
             var url = jarUrl?.toString() ?: ""
-
-            Clog.v("path start: {}", url)
 
             // initial path
             url = url.reversed()
@@ -112,8 +106,6 @@ constructor(
             url = url.reversed()
             url = url.replaceFirst("file:", "")
             url += "/src/main/resources"
-
-            Clog.v("path end: {}", url)
 
             return url
         }
