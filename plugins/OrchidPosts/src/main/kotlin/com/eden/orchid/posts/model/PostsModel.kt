@@ -47,18 +47,13 @@ constructor(val context: OrchidContext) {
     }
 
     fun getAuthorByName(authorName: String): Author? {
-        Clog.v("Finding author for {}", authorName)
         if (!EdenUtils.isEmpty(authorPages)) {
             for (authorPage in authorPages) {
-                Clog.v("Author: {}", authorPage.author.name)
                 if (authorPage.author.name.equals(authorName, ignoreCase = true)) {
-                    Clog.v("Found {}", authorName)
                     return authorPage.author
                 }
             }
         }
-
-        Clog.v("Could not find {}", authorName)
 
         return null
     }

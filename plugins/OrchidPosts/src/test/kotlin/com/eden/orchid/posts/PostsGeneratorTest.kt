@@ -62,7 +62,6 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/2018-01-01-post-one.md")
 
         val testResults = execute()
-        println(testResults.showResults())
         expectThat(testResults).pageWasRendered("/blog/2018/1/post-one/index.html")
     }
 

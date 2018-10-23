@@ -8,7 +8,6 @@ import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
-import com.eden.orchid.wiki.pages.WikiPage
 import javax.inject.Inject
 
 @Description("Links to all pages in your wiki, optionally by section.", name = "Wiki Pages")
@@ -21,7 +20,7 @@ constructor(
 
     @Option
     @Description("The wiki section to include in this menu.")
-    var section: String? = null
+    lateinit var section: String
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val menuItems = ArrayList<OrchidMenuItemImpl>()
@@ -30,12 +29,27 @@ constructor(
 
         val menuItemTitle: String
 
-        val wikiSection = model.getSection(section)
-
-        if (wikiSection != null) {
-            sections.put(section, wikiSection)
-            menuItemTitle = wikiSection.title
-        } else {
+        // multiple sections to choose from
+        if(model.sections.size > 1) {
+            // we're specifying a single section to show
+            if(section.isNotBlank()) {
+                val wikiSection = model.getSection(section)
+                if(wikiSection != null) {
+                    sections.put(section, wikiSection)
+                    menuItemTitle = wikiSection.title
+                }
+                else {
+                    menuItemTitle = "Wiki"
+                }
+            }
+            // did not specify a section, include them all
+            else {
+                sections.putAll(model.sections)
+                menuItemTitle = "Wiki"
+            }
+        }
+        // we only have the default section, so add it
+        else {
             sections.putAll(model.sections)
             menuItemTitle = "Wiki"
         }
@@ -55,7 +69,7 @@ constructor(
         menuItems.add(OrchidMenuItemImpl(context, "", wikiPagesIndex))
 
         for (item in menuItems) {
-            item.setIndexComparator(menuItemComparator)
+            item.setIndexComparator(wikiMenuItemComparator)
         }
 
         val innerItems = ArrayList<OrchidMenuItemImpl>()
@@ -67,30 +81,13 @@ constructor(
             }
         }
 
-        return innerItems
-    }
-
-    private var menuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
-        var o1WikiPage = getWikiPageFromMenuItem(o1)
-        var o2WikiPage = getWikiPageFromMenuItem(o2)
-
-        var o1Order = if(o1WikiPage != null) o1WikiPage.order else 0
-        var o2Order = if(o2WikiPage != null) o2WikiPage.order else 0
-
-        o1Order.compareTo(o2Order)
-    }
-
-    private fun getWikiPageFromMenuItem(item: OrchidMenuItemImpl): WikiPage? {
-        if(item.page != null && item.page is WikiPage) {
-            return item.page as WikiPage
+        return if(model.sections.size > 1 && section.isNotBlank()) {
+            innerItems.first().children
         }
-        else if(item.children.isNotEmpty() && item.children.first() != null && item.children.first().page is WikiPage){
-            return item.children.first().page as WikiPage
+        else {
+            innerItems
         }
-        
-        return null
     }
-
 
 }
 

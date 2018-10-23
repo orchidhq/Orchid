@@ -68,7 +68,6 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("pages/page-one.md", "", """{"tags": ["tag2"]}""")
 
         val testResults = execute()
-        println(testResults.showResults())
         expectThat(testResults).pageWasRendered("/category1/2018/1/1/post-one/index.html")
         expectThat(testResults).pageWasRendered("/category2/2018/2/1/post-two/index.html")
         expectThat(testResults).pageWasRendered("/page-one/index.html")
