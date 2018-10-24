@@ -4,7 +4,7 @@
 
     <groupId>io.github.javaeden.orchid</groupId>
     <artifactId>orchid-maven-plugin</artifactId>
-    <version>0.12.10-SNAPSHOT</version>
+    <version>0.1.0</version>
 
     <name>Orchid Maven plugin</name>
     <packaging>maven-plugin</packaging>
@@ -56,7 +56,7 @@
     <distributionManagement>
         <repository>
             <id>orchid-bintray</id>
-            <url>https://api.bintray.com/maven/${env.ORG_GRADLE_PROJECT_bintray_username}/Orchid/${project.artifactId}/;publish=1</url>
+            <url>https://api.bintray.com/maven/javaeden/Orchid/${project.artifactId}/;publish=1;override=1</url>
         </repository>
     </distributionManagement>
 </project>
