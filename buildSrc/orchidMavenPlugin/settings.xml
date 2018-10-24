@@ -1,0 +1,9 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
+    <servers>
+        <server>
+            <id>orchid-bintray</id>
+            <username>${env.ORG_GRADLE_PROJECT_bintray_username}</username>
+            <password>${env.ORG_GRADLE_PROJECT_bintray_apiKey}</password>
+        </server>
+    </servers>
+</settings>
