@@ -51,7 +51,7 @@ private plugins and a rich API so you can make your site as beautiful and unique
 
 ## Quick Start
 
-Orchid integrates with any new or existing Gradle project. The simplest way to get started is to deploy the 
+Orchid integrates with any new or existing Gradle/Maven project. The simplest way to get started is to deploy the 
 [starter repo](https://github.com/JavaEden/OrchidStarter) directly to Netlify. Just click the button below to 
 automatically clone this repo and deploy it to Netlify. The starter repo includes the 
 [Netlify CMS](https://www.netlifycms.org/), so you will be up and publishing content as soon as possible. You will need 
@@ -60,10 +60,14 @@ generated based on your current Orchid plugins and configurations.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JavaEden/OrchidStarter)
 
-To run Orchid locally, the only system dependency necessary is a valid Java 8 JDK. Orchid is run via Gradle, and can 
-integrate with any new or existing Gradle project. To get started, pick a Bundle (OrchidAll or OrchidBlog) or manually 
+To run Orchid locally, the only system dependency necessary is a valid Java 8 JDK. Orchid is run via Gradle/Maven, and can 
+integrate with any new or existing Gradle or Maven project. To get started, pick a Bundle (OrchidAll or OrchidBlog) or manually 
 choose your desired Orchid plugins. You may pick a bundle to start with and add any number of plugins afterward, both 
-official and unofficial. Then, setup your project's build.gradle file like so:
+official and unofficial. 
+
+### Configuring a Gradle project
+
+To use Orchid from a Gradle project, setup your project's build.gradle file like so:
 
 ```groovy
 plugins {
@@ -123,6 +127,91 @@ The Orchid Gradle plugin adds a new configuration and content root to your proje
 (you may have to create this folder yourself). All your site content sits in `src/orchid/resources`, and any 
 additional classes you'd like to include as a private plugin can be placed in `src/orchid/java`. 
 
+### Configuring a Maven project
+
+To use Orchid from a Maven project, setup your project's pom.xml file like so:
+
+```xml
+<project>
+    ...
+    
+    <properties>
+        <orchid.version>0.12.14</orchid.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL -->
+            <plugin>
+                <groupId>io.github.javaeden.orchid</groupId>
+                <artifactId>orchid-maven-plugin</artifactId>
+                <version>${orchid.version}</version>
+
+                <!-- Add an Orchid Bundle. OrchidAll comes with all official themes included.
+                     You must include a theme separately when using the OrchidBlog bundle.
+                     Any additional plugins may be added as dependencies here as well. -->
+                <dependencies>
+                    <dependency>
+                        <groupId>io.github.javaeden.orchid</groupId>
+                        <artifactId>OrchidAll</artifactId>
+                        <version>${orchid.version}</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>com.eden</groupId>
+                        <artifactId>Clog</artifactId>
+                        <version>2.0.4</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <!-- Theme is required -->
+                    <theme>${theme}</theme>
+                    
+                    <!-- The following properties are optional -->
+                    <version>${project.version}</version>
+                    <baseUrl>${baseUrl}</baseUrl>                         <!-- a baseUrl appended to all generated links. Defaults to '/' -->
+                    <srcDir>path/to/new/source/directory</srcDir>        <!-- defaults to 'src/orchid/resources' -->
+                    <destDir>path/to/new/destination/directory</destDir> <!-- defaults to 'build/docs/orchid' -->
+                    <runTask>build</runTask>                             <!-- specify a task to run with 'mvn orchid:run' -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Orchid uses dependencies from both Jcenter and Jitpack, so both must be included. jcenter also includes 
+         everything available from MavenCentral, while Jitpack makes accessible any Github project. -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter</id>
+            <url>https://dl.bintray.com/javaeden/Orchid</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jcenter2</id>
+            <url>https://dl.bintray.com/javaeden/Eden</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
+```
+
+You can now run Orchid in the following ways:
+
+1) `./mvn orchid:run` - Runs an Orchid task. The `runTask` property should be specified in `pom.xml` or passed as a 
+    Maven system property (`-Dorchid.runTask=build`). The task `listTasks` will show a list of all tasks that can be 
+    run given the plugins currently installed.
+2) `./mvn orchid:build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP 
+    file server in the root of the output directory.
+3) `./mvn orchid:watch` - Runs the Orchid build task a single time, then begins watching the source directory for 
+    changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed.
+4) `./mvn orchid:serve` - Sets up a development server and watches files for changes. The site can be viewed at 
+    `localhost:8080` (or the closest available port).
+
 ## Example Orchid Sites
 
 * [Official Orchid documentation](https://orchid.netlify.com)
@@ -143,6 +232,7 @@ The following lists all official Orchid packages:
 - #### Core Packages
   - [Orchid Core                 ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
   - [Orchid Gradle Plugin        ](https://plugins.gradle.org/plugin/com.eden.orchidPlugin)
+  - [Orchid Maven Plugin        ](https://bintray.com/javaeden/Orchid/orchid-maven-plugin/_latestVersion)
 - #### Themes
   - [OrchidBsDoc          ](https://bintray.com/javaeden/Orchid/OrchidBsDoc/_latestVersion)
   - [OrchidEditorial      ](https://bintray.com/javaeden/Orchid/OrchidEditorial/_latestVersion)
