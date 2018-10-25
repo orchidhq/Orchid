@@ -20,49 +20,49 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     /**
      * Source directory where Orchid resources will be loaded.
      */
-    @Parameter(defaultValue = "${project.basedir}/src/orchid/resources")
+    @Parameter(property = "orchid.srcDir", defaultValue = "${project.basedir}/src/orchid/resources")
     private String srcDir;
 
     /**
      * Destination directory where the static site will be generated.
      */
-    @Parameter(defaultValue = "${project.build.directory}/docs/orchid")
+    @Parameter(property = "orchid.destDir", defaultValue = "${project.build.directory}/docs/orchid")
     private String destDir;
 
     /**
      * The static site version.
      */
-    @Parameter(defaultValue = "${project.version}")
+    @Parameter(property = "orchid.version", defaultValue = "${project.version}")
     private String version;
 
     /**
      * The theme to use in the static site.
      */
-    @Parameter(defaultValue = "Default")
+    @Parameter(property = "orchid.theme", defaultValue = "Default")
     private String theme;
 
     /**
      * The base URL used in HTML links.
      */
-    @Parameter
+    @Parameter(property = "orchid.baseUrl")
     private String baseUrl;
 
     /**
      * The environment used to run the site.
      */
-    @Parameter(defaultValue = "debug")
+    @Parameter(property = "orchid.environment", defaultValue = "debug")
     private String environment;
 
     /**
      * A run task that can be used to override the default 'run' command.
      */
-    @Parameter
+    @Parameter(property = "orchid.runTask")
     private String runTask;
 
     /**
      * Allows running a dry deploy instead of a full deploy.
      */
-    @Parameter(defaultValue = "false")
+    @Parameter(property = "orchid.dryDeploy", defaultValue = "false")
     private boolean dryDeploy;
 
     /**

@@ -12,8 +12,8 @@ please indent using 4 spaces.
 
 Orchid releases are deployed continuously. With any push to the `master` branch, the patch version is incremented, then
 the compiled sources are uploaded to Bintray and a git tag created and uploaded to Github Releases. All code should be 
-deployed via pull request. All Orchid plugins, themes, bundles, core, and Gradle plugins are released at the same 
-version with every release.
+deployed via pull request. All Orchid plugins, themes, bundles, core, and Gradle/Maven plugins are released at the same 
+version with every release, and release notes will be uploaded to Github Releases.
 
 Documentation updates and submissions for new themes or plugins should be made as PRs to the `docs` branch. 
 Documentation is hosted on Netlify, and a deploy preview will be made for your PR before it is merged into `docs`. All
@@ -92,7 +92,9 @@ means that the sub-projects of `builSrc/` are not first-class projects of the ro
 Gradle project which is included in the runtime of the root Gradle project.
 
 The Gradle sub-projects in `buildSrc/` are the different Gradle plugins which run Orchid. Other runners may be added for
-other build systems, but they will necessarily have to be managed outside of Gradle.
+other build systems, such as Maven, but they will necessarily have to be managed outside of Gradle. The projects under
+`buildSrc` can use whatever build tools make the most sense to build and deploy themselves, since they are not strictly
+part of the rest of the Gradle project.
 
 ## Pull Requests
 
