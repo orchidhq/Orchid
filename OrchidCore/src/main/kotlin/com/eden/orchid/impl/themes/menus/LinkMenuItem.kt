@@ -51,7 +51,12 @@ constructor(
                 reference = OrchidReference.fromUrl(context, title, url)
             }
             if (reference != null) {
-                menuItems.add(OrchidMenuItemImpl(context, OrchidExternalPage(reference)))
+                menuItems.add(
+                        OrchidMenuItemImpl.Builder(context)
+                                .page(OrchidExternalPage(reference))
+                                .title(title)
+                                .build()
+                )
             }
         }
 

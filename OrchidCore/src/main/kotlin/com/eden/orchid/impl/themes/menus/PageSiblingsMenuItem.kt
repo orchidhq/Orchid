@@ -60,7 +60,7 @@ constructor(
                     .children
                     .values
                     .flatMap { it.getOwnPages() }
-                    .map { OrchidMenuItemImpl(context, it) }
+                    .map { OrchidMenuItemImpl.Builder(context).page(it).build() }
             )
         }
 

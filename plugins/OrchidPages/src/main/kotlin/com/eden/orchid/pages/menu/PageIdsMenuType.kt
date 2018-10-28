@@ -26,71 +26,77 @@ constructor(
         context: OrchidContext
 ) : OrchidMenuItem(context, "pageIds", 100) {
 
-    @Option @IntDefault(1)
+    @Option
+    @IntDefault(1)
     @Description("The first 'level' of header to match. Defaults to h1.")
     var maxLevel: Int = 1
 
-    @Option @IntDefault(6)
+    @Option
+    @IntDefault(6)
     @Description("The last 'level' of header to match. Defaults to h6.")
     var minLevel: Int = 6
 
-    @Option @StringDefault("flat")
+    @Option
+    @StringDefault("flat")
     @Description("The structure used to display the items. One of [flat, nested].")
-    lateinit var structure: String
+    lateinit var structure: Structure
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+        if (maxLevel >= minLevel) {
+            Clog.w("maxLevel must be less than minLevel")
+            return emptyList()
+        }
+
+        val menuItems = ArrayList<OrchidMenuItemImpl.Builder>()
         val headerLevelMap = HashMap<String, Int>()
         val doc = Jsoup.parse(page.content)
 
-        if(maxLevel >= minLevel) {
-            Clog.w("maxLevel must be less than minLevel")
-            return menuItems
-        }
-
         val selector: String = IntStream
-                .range(maxLevel, minLevel)
-                .mapToObj({ i -> "h$i[id]" })
+                .rangeClosed(maxLevel, minLevel)
+                .mapToObj { i -> "h$i[id]" }
                 .toList()
-                .joinToString(separator=",")
+                .joinToString(separator = ",")
 
         val ids = doc.select(selector)
         for (id in ids) {
-            val menuItem = OrchidMenuItemImpl(context, id.text(), ArrayList())
-            menuItem.isSeparator = false
-            menuItem.anchor = id.attr("id")
+            val menuItem = OrchidMenuItemImpl.Builder(context)
+                    .title(id.text())
+                    .anchor(id.attr("id"))
 
-            headerLevelMap[menuItem.anchor] = Integer.parseInt(id.tag().name.substring(1))
+            headerLevelMap[id.attr("id")] = Integer.parseInt(id.tag().name.substring(1))
 
             menuItems.add(menuItem)
         }
 
-        if(structure == "nested") {
-            val mostRecent = arrayOfNulls<OrchidMenuItemImpl>(7)
-            mostRecent[0] = OrchidMenuItemImpl(context, "", ArrayList())
+        if (structure == Structure.nested) {
+            val mostRecent = arrayOfNulls<OrchidMenuItemImpl.Builder>(7)
+            mostRecent[0] = OrchidMenuItemImpl.Builder(context)
 
-            for(menuItem in menuItems) {
-                val level = headerLevelMap[menuItem.anchor]!!
+            for (menuItem in menuItems) {
+                val level = headerLevelMap[menuItem.anchor()]!!
                 mostRecent[level] = menuItem
 
                 var offset = 1
                 var parent = mostRecent[level - offset]
-                while(parent == null && offset < level) {
+                while (parent == null && offset < level) {
                     offset++
                     parent = mostRecent[level - offset]
                 }
-                if(parent != null) {
-                    if(parent.children == null) parent.children = ArrayList()
-                    parent.children.add(menuItem)
+                if (parent != null) {
+                    parent.child(menuItem)
                 }
                 mostRecent[level] = menuItem
             }
 
-            return mostRecent[0]?.children?.filterNotNull()?.toList() ?: ArrayList()
+            return mostRecent[0]?.build()?.children ?: ArrayList()
         }
         else {
-            return menuItems
+            return menuItems.map { it.build() }
         }
+    }
+
+    enum class Structure {
+        flat, nested
     }
 }
 

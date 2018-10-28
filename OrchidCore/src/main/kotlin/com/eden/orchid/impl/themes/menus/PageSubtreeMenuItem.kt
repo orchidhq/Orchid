@@ -45,11 +45,15 @@ constructor(
         val index = context.internalIndex.findIndex(page.reference.path)
 
         if (index != null) {
-            if(submenuTitle.isBlank()) {
+            if (submenuTitle.isBlank()) {
                 submenuTitle = page.title
             }
 
-            menuItems.addAll(OrchidMenuItemImpl(context, "", index).children)
+            menuItems.addAll(OrchidMenuItemImpl.Builder(context)
+                    .fromIndex(index)
+                    .build()
+                    .children
+            )
         }
 
         return menuItems

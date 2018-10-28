@@ -39,7 +39,7 @@ constructor(
         val title: String?
 
         if(parent != null) {
-            childMenuItems.add(OrchidMenuItemImpl(context, parent))
+            childMenuItems.add(OrchidMenuItemImpl.Builder(context).page(parent).build())
             title = parent.title
         }
         else {
@@ -50,7 +50,10 @@ constructor(
             childMenuItems.add(getChildMenuItem(it, it.children))
         }
 
-        return OrchidMenuItemImpl(context, childMenuItems, title)
+        return OrchidMenuItemImpl.Builder(context)
+                .title(title)
+                .children(childMenuItems)
+                .build()
     }
 }
 

@@ -26,11 +26,11 @@ constructor(
         val items = ArrayList<OrchidMenuItemImpl>()
 
         model.taxonomies.values.forEach {
-            items.add(OrchidMenuItemImpl(
-                    context,
-                    it.title,
-                    it.archivePages.first()
-            ))
+            items.add(OrchidMenuItemImpl.Builder(context)
+                    .title(it.title)
+                    .page(it.archivePages.first())
+                    .build()
+            )
         }
 
         return items

@@ -2,46 +2,50 @@
 title: 'User Manual'
 ---
 
-* [Introduction](intro.md)
-* [Quick-Start](quickstart.md)
+## Getting Started
+* [Getting Started](getting-started/index.md)
+    * [Quick-Start](getting-started/quickstart.md)
+    * [Basic Usage](getting-started/basic-usage.md)
+    * [Directory Structure](getting-started/directory-structure.md)
+    * [Configuration](getting-started/site-config.md)
+    * [Admin Panel](getting-started/admin-panel.md)
+    * [Plugins](getting-started/plugins.md)
 
-## Building Blocks
+## Core Concepts
+* [Core Concepts](core-concepts/index.md)
+    * [Pages](core-concepts/pages.md)
+    * [Themes](core-concepts/themes.md)
+    * [Components](core-concepts/components.md)
+    * [Menus](core-concepts/menus.md)
+    * [Breadcrumbs](core-concepts/breadcrumbs.md)
+    * [Links](core-concepts/linking-to-pages.md)
+    * [Datafiles](core-concepts/datafiles.md)
 
-* [Generators](building-blocks/generators.md)
-* [Pages](building-blocks/pages.md)
-* [Components](building-blocks/components.md)
-* [Menus](building-blocks/menus.md)
-* [Linking to Pages](building-blocks/linking-to-pages.md)
+## Content Management
+* [Content Management](content-management/index.md)
+    * [Writing Content](content-management/writing-content.md)
+    * [Drafts](content-management/drafts.md)
 
-## Configuration 
+## Theming
+* [Themes Overview](themes/index.md)
+    * [Templates](themes/templates.md)
+    * [Assets](themes/assets.md)
+    * [Template Overrides](themes/template-overrides.md)
+    * [Pebble](themes/pebble.md)
 
-* [Directory Structure](configuration/directory-structure.md)
-* [Site Configuration](configuration/site-config.md)
-* [Page Configuration](configuration/page-configuration.md)
-* [Admin Panel](configuration/admin-panel.md)
+## Publication
+* [Publication](publication/index.md)
+    * [Script](publication/script.md)
+    * [Netlify](publication/netlify.md)
+    * [GitHub Pages](publication/github-pages.md)
+    * [GitHub Releases](publication/github-releases.md)
 
-## Content
-
-* [Writing Content](content/writing-content.md)
-* [Drafts](content/drafts.md)
-* [Assets](content/assets.md)
-* [Breadcrumbs](content/breadcrumbs.md)
-* [Static Pages](content/static-pages.md)
-* [Wikis](content/wikis.md)
-* [Code Documentation](content/code-documentation.md)
-* [Blog Posts](content/blogs.md)
-* [Taxonomies](content/taxonomies.md)
-
-## Templates and Themes
-
-* [Themes](themes/themes.md)
-* [Templates](themes/templates.md)
-* [Template Lookup Order](themes/template-lookup.md)
-* [Pebble](themes/pebble.md)
-
-## Deployment
-
-* [Publication Pipeline](deployment/publication-pipeline.md)
-* [Script](deployment/script.md)
-* [Netlify](deployment/netlify.md)
-* [GitHub Pages](deployment/githubPages.md)
+## Extending Orchid
+* [Extending Orchid](extending/index.md)
+    * [Registration](extending/registration.md)
+    * [Options](extending/registration.md)
+    * [Lifecycle Events](extending/lifecycle-events.md)
+    * [Tasks](extending/tasks.md)
+    * [Commands](extending/commands.md)
+    * [Generators](extending/generators.md)
+    * [Parsers and Compilers](extending/compilers.md)

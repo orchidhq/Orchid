@@ -122,6 +122,10 @@ constructor(
                 resource = StringResource(context, path + File.separator + "index.md", a.text())
             }
 
+            if (resource.reference.originalFileName.equals("index", ignoreCase = true)) {
+                resource.reference.setAsDirectoryIndex()
+            }
+
             val pageTitle = if (section.includeIndexInPageTitle) "${i + 1}. " + a.text() else a.text()
 
             val page = WikiPage(resource, pageTitle, section.key, i + 1)

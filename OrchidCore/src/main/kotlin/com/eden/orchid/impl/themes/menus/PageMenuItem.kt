@@ -45,11 +45,11 @@ constructor(
                     null
                 ) ?: this.page
 
-        val item = OrchidMenuItemImpl(context, page)
+        val item = OrchidMenuItemImpl.Builder(context).page(page)
         if (!EdenUtils.isEmpty(title)) {
-            item.title = title
+            item.title(title)
         }
-        menuItems.add(item)
+        menuItems.add(item.build())
 
         return menuItems
     }

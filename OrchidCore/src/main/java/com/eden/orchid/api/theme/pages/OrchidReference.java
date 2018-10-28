@@ -147,6 +147,12 @@ public final class OrchidReference {
         this.path = String.join("/", ArrayUtils.remove(getOriginalPath().split("/"), segmentIndex));
     }
 
+    public void setAsDirectoryIndex() {
+        String[] segments = getOriginalPathSegments();
+        fileName = segments[segments.length - 1];
+        removePathSegment(segments.length - 1);
+    }
+
     public String getOriginalPath() {
         return path;
     }

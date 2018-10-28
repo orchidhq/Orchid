@@ -180,6 +180,7 @@ constructor(
             }
         }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> provide(): T? {
         try {
             return context.injector.getInstance(findClass()) as? T

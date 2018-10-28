@@ -1,12 +1,9 @@
-defaultConfig:
-  includeIndexInPageTitle: false
 sections:
   - key: 'user-manual'
     title: 'User Manual'
-  - key: 'developers-guide'
-    title: 'Developers Guide'
   - key: 'tutorials'
     title: 'Tutorials'
+
 wikiPages:
   layout: geopattern2
   searchIndices:
@@ -23,21 +20,7 @@ wikiPages:
         title: 'User Manual'
         order: 1000
       - type: 'wiki'
-        topLevel: true
-        order: 1010
-  'developers-guide':
-    menu:
-      - type: 'separator'
-        title: 'In This Page'
-        order: 100
-      - type: 'pageIds'
-        order: 110
-        structure: nested
-      - type: 'separator'
-        title: "Developer's Guide"
-        order: 1000
-      - type: 'wiki'
-        topLevel: true
+        section: 'user-manual'
         order: 1010
   'tutorials':
     menu:

@@ -34,7 +34,12 @@ constructor(
         }
 
         if(!pages.isEmpty()) {
-            return listOf(OrchidMenuItemImpl(context, title, pages.sortedBy { it.statement.name }))
+            return listOf(
+                    OrchidMenuItemImpl.Builder(context)
+                            .title(title)
+                            .pages(pages.sortedBy { it.statement.name })
+                            .build()
+            )
         }
 
         return emptyList()

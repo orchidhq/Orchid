@@ -1,8 +1,7 @@
 ---
 classnames:
-  - AbstractTheme
-  - AdminTheme
-  - Theme
+  - OrchidTask
+  - OrchidCommand
 ---
 
 {% extends '_developersGuideBase' %}

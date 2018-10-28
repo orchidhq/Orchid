@@ -54,7 +54,12 @@ constructor(
                 "Latest from blog"
             }
 
-            items.add(OrchidMenuItemImpl(context, title, latestPosts))
+            items.add(
+                    OrchidMenuItemImpl.Builder(context)
+                            .title(title)
+                            .pages(latestPosts)
+                            .build()
+            )
         }
 
         return items

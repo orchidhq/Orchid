@@ -66,7 +66,11 @@ constructor(
             }
         }
 
-        menuItems.add(OrchidMenuItemImpl(context, "", wikiPagesIndex))
+        menuItems.add(
+                OrchidMenuItemImpl.Builder(context)
+                        .fromIndex(wikiPagesIndex)
+                        .build()
+        )
 
         for (item in menuItems) {
             item.setIndexComparator(wikiMenuItemComparator)

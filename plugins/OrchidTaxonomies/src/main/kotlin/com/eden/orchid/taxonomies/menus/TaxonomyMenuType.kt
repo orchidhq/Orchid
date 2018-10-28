@@ -43,31 +43,34 @@ constructor(
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val items = ArrayList<OrchidMenuItemImpl>()
         val taxonomy = this.taxonomy
-        if(taxonomy != null) {
-            if(includeTerms) {
-                if(termsAtRoot) {
+        if (taxonomy != null) {
+            if (includeTerms) {
+                if (termsAtRoot) {
                     taxonomy.allTerms.forEach {
-                        items.add(OrchidMenuItemImpl(
-                                context,
-                                it.title,
-                                it.archivePages.first()
-                        ))
+                        items.add(
+                                OrchidMenuItemImpl.Builder(context)
+                                        .title(it.title)
+                                        .page(it.archivePages.first())
+                                        .build()
+                        )
                     }
                 }
                 else {
-                    items.add(OrchidMenuItemImpl(
-                            context,
-                            taxonomy.title,
-                            taxonomy.allTerms.map { it.archivePages.first() }.toList()
-                    ))
+                    items.add(
+                            OrchidMenuItemImpl.Builder(context)
+                                    .title(taxonomy.title)
+                                    .pages(taxonomy.allTerms.map { it.archivePages.first() }.toList())
+                                    .build()
+                    )
                 }
             }
             else {
-                items.add(OrchidMenuItemImpl(
-                        context,
-                        taxonomy.title,
-                        taxonomy.archivePages.first()
-                ))
+                items.add(
+                        OrchidMenuItemImpl.Builder(context)
+                                .title(taxonomy.title)
+                                .page(taxonomy.archivePages.first())
+                                .build()
+                )
             }
         }
 

@@ -7,7 +7,6 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
 import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
 import org.apache.commons.lang3.StringUtils
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 @Description("Static pages, optionally by group.", name = "Static Pages")
@@ -18,32 +17,27 @@ constructor(
 ) : OrchidMenuItem(context, "pages", 100) {
 
     @Option
-    @Description("Whether to group all pages under a single menu item or expand these items into the root of the menu.")
-    var atRoot: Boolean = false
-
-    @Option
     @Description("Include only pages in a specific page group, otherwise include all pages.")
     lateinit var group: String
 
-    @Option
-    @Description("The title of the root menu item.")
-    lateinit var title: String
-
-    private var menuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
+    private var menuItemComparator = Comparator { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
         var o1Title = ""
         var o2Title = ""
 
         if (o1.page != null) {
-            o1Title = o1.page.title
-        } else if (o1.isHasChildren && o1.children.size > 0 && o1.children[0] != null && o1.children[0].page != null) {
+            o1Title = o1.page!!.title
+        }
+        else if (o1.isHasChildren && o1.children.size > 0 && o1.children[0] != null && o1.children[0].page != null) {
             o1Title = o1.children[0].title
         }
 
         if (o2.page != null) {
-            o2Title = o2.page.title
-        } else if (o2.isHasChildren && o2.children.size > 0 && o2.children[0] != null && o2.children[0].page != null) {
+            o2Title = o2.page!!.title
+        }
+        else if (o2.isHasChildren && o2.children.size > 0 && o2.children[0] != null && o2.children[0].page != null) {
             o2Title = o2.children[0].title
         }
+
         o1Title.compareTo(o2Title)
     }
 
@@ -55,29 +49,24 @@ constructor(
         val pages = if (EdenUtils.isEmpty(group))
             allPages
         else
-            allPages
-                    .stream()
-                    .filter { page -> page.reference.path.startsWith(group) }
-                    .collect(Collectors.toList())
+            allPages.filter { page -> page.reference.path.startsWith(group) }
 
-        if (atRoot) {
-            for (page in pages) {
-                menuItems.add(OrchidMenuItemImpl(context, page))
+        if (EdenUtils.isEmpty(submenuTitle)) {
+            if (!EdenUtils.isEmpty(group)) {
+                submenuTitle = StringUtils.capitalize(group)
             }
-        } else {
-            if (EdenUtils.isEmpty(title)) {
-                if (!EdenUtils.isEmpty(group)) {
-                    title = StringUtils.capitalize(group)
-                } else {
-                    title = "Pages"
-                }
+            else {
+                submenuTitle = "Pages"
             }
-            menuItems.add(OrchidMenuItemImpl(context, title, pages))
         }
+        menuItems.addAll(pages.map {
+            OrchidMenuItemImpl.Builder(context)
+                    .page(it)
+                    .indexComparator(menuItemComparator)
+                    .build()
+        })
 
-        for (item in menuItems) {
-            item.setIndexComparator(menuItemComparator)
-        }
+        menuItems.sortWith(menuItemComparator)
 
         return menuItems
     }

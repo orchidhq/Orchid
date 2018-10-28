@@ -27,7 +27,12 @@ constructor(
         model.sections.keys.forEach {
             val pages = model.getSectionRoot(it)
             if(pages.isNotEmpty()) {
-                menuItems.add(OrchidMenuItemImpl(context, title, pages))
+                menuItems.add(
+                        OrchidMenuItemImpl.Builder(context)
+                                .title(title)
+                                .pages(pages)
+                                .build()
+                )
             }
         }
 

@@ -29,7 +29,12 @@ constructor(
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(generator)) {
             val foundIndex = context.internalIndex.findIndex(generator)
             if(foundIndex != null) {
-                menuItems.add(OrchidMenuItemImpl(context, title, foundIndex))
+                menuItems.add(
+                        OrchidMenuItemImpl.Builder(context)
+                                .fromIndex(foundIndex)
+                                .title(title)
+                                .build()
+                )
             }
         }
 

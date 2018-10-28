@@ -227,7 +227,7 @@ public class OrchidPage implements
                 this.title = title;
             }
             else {
-                this.title = to(from(resource.getReference().getTitle(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
+                this.title = to(from(resource.getReference().getTitle(), OrchidExtensionsKt::filename), OrchidExtensionsKt::titleCase);
             }
         }
 

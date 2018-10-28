@@ -24,10 +24,19 @@ constructor(
         val menuItems = ArrayList<OrchidMenuItemImpl>()
 
         if (!EdenUtils.isEmpty(title)) {
-            menuItems.add(OrchidMenuItemImpl(context, title))
+            menuItems.add(
+                    OrchidMenuItemImpl.Builder(context)
+                            .title(title)
+                            .separator(true)
+                            .build()
+            )
         }
         else {
-            menuItems.add(OrchidMenuItemImpl(context))
+            menuItems.add(
+                    OrchidMenuItemImpl.Builder(context)
+                            .separator(true)
+                            .build()
+            )
         }
 
         return menuItems

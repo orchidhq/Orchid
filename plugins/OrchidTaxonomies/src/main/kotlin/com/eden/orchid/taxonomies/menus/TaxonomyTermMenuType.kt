@@ -41,7 +41,8 @@ constructor(
     )
     var pagesAtRoot = false
 
-    @Option @IntDefault(4)
+    @Option
+    @IntDefault(4)
     @Description("The maximum number of associated pages to include in this menu item.")
     var limit: Int = 4
 
@@ -58,25 +59,25 @@ constructor(
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         val items = ArrayList<OrchidMenuItemImpl>()
         val term = this.term
-        if(term != null) {
-            if(includePages) {
-                val pageList = if(term.allPages.size > limit) term.allPages.subList(0, limit) else term.allPages
+        if (term != null) {
+            if (includePages) {
+                val pageList = if (term.allPages.size > limit) term.allPages.subList(0, limit) else term.allPages
 
-                if(pagesAtRoot) {
+                if (pagesAtRoot) {
                     pageList.forEach {
-                        items.add(OrchidMenuItemImpl(context, it))
+                        items.add(OrchidMenuItemImpl.Builder(context).page(it).build())
                     }
                 }
                 else {
-                    items.add(OrchidMenuItemImpl(context, term.title, pageList))
+                    items.add(OrchidMenuItemImpl.Builder(context).title(term.title).pages(pageList).build())
                 }
             }
             else {
-                items.add(OrchidMenuItemImpl(
-                        context,
-                        term.title,
-                        term.archivePages.first()
-                ))
+                items.add(OrchidMenuItemImpl.Builder(context)
+                        .title(term.title)
+                        .page(term.archivePages.first())
+                        .build()
+                )
             }
         }
 

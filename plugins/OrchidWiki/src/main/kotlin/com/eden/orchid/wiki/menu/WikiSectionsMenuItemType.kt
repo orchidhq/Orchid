@@ -17,7 +17,12 @@ constructor(
 
     override fun getMenuItems(): List<OrchidMenuItemImpl> {
         return  model.sections.values
-                .map { OrchidMenuItemImpl(context, it.sectionTitle, it.summaryPage) }
+                .map {
+                    OrchidMenuItemImpl.Builder(context)
+                            .title(it.sectionTitle)
+                            .page(it.summaryPage)
+                            .build()
+                }
                 .toList()
     }
 

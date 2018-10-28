@@ -49,14 +49,15 @@ constructor(
 
         for(item in linkData) {
             if(item.matches()) {
-                val menuItem = OrchidMenuItemImpl(context, item.title, ArrayList()).apply {
-                    isSeparator = false
-                    anchor = item.id
-                    if(includeItems) {
-                        children = item.items()
-                    }
+                val menuItem = OrchidMenuItemImpl.Builder(context)
+                        .title(item.title)
+                        .anchor(item.id)
+
+                if (includeItems) {
+                    menuItem.children(item.items())
                 }
-                menuItems.add(menuItem)
+
+                menuItems.add(menuItem.build())
             }
         }
 
@@ -75,10 +76,10 @@ constructor(
         val classDoc = containingPage.classDoc
 
         return classDoc.fields.map {
-            OrchidMenuItemImpl(context, it.simpleSignature, java.util.ArrayList()).apply {
-                isSeparator = false
-                anchor = model.idFor(it)
-            }
+            OrchidMenuItemImpl.Builder(context)
+                    .title(it.simpleSignature)
+                    .anchor(model.idFor(it))
+                    .build()
         }
     }
 
@@ -87,10 +88,10 @@ constructor(
         val classDoc = containingPage.classDoc
 
         return classDoc.constructors.map {
-            OrchidMenuItemImpl(context, it.simpleSignature, java.util.ArrayList()).apply {
-                isSeparator = false
-                anchor = model.idFor(it)
-            }
+            OrchidMenuItemImpl.Builder(context)
+                    .title(it.simpleSignature)
+                    .anchor(model.idFor(it))
+                    .build()
         }
     }
 
@@ -99,10 +100,10 @@ constructor(
         val classDoc = containingPage.classDoc
 
         return classDoc.methods.map {
-            OrchidMenuItemImpl(context, it.simpleSignature, java.util.ArrayList()).apply {
-                isSeparator = false
-                anchor = model.idFor(it)
-            }
+            OrchidMenuItemImpl.Builder(context)
+                    .title(it.simpleSignature)
+                    .anchor(model.idFor(it))
+                    .build()
         }
     }
 

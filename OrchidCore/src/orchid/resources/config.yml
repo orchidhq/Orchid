@@ -17,14 +17,8 @@ theme:
     seed: 1
   menu:
     - type: 'page'
-      title: 'Home'
-    - type: 'submenu'
-      title: 'Learn'
-      menu:
-        - type: 'wikiSections'
-        - type: 'page'
-          title: 'API Docs'
-          itemId: 'com.eden.orchid'
+      itemId: 'Getting Started'
+    - type: 'wikiSections'
     - type: 'submenu'
       title: 'Explore'
       menu:
@@ -32,6 +26,9 @@ theme:
           taxonomyType: 'group'
           includeTerms: true
           termsAtRoot: true
+        - type: 'page'
+          title: 'API Docs'
+          itemId: 'com.eden.orchid'
     - type: 'link'
       title: 'Github'
       url: 'https://github.com/JavaEden/Orchid'
@@ -43,7 +40,7 @@ services:
     disabled:
       - 'javadoc'
       - 'swiftdoc'
-#      - 'kotlindoc'
+      - 'kotlindoc'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
@@ -52,3 +49,4 @@ services:
     stages:
       - type: githubReleases
         repo: 'JavaEden/Orchid'
+
