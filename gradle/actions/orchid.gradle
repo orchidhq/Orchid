@@ -6,11 +6,11 @@ orchid {
     version     = getActualVersion(project)
     baseUrl     = getBaseUrl(project)
     environment = getEnvName(project)
+    githubToken = getGithubToken(project)
 
     // additional command-line args
     args = [
         "absApiKey ${project.properties['ABS_ApiKey']}",
-        "githubToken ${project.hasProperty('github_token') ? project.property('github_token') : System.getenv('GITHUB_TOKEN')}"
     ]
 }
 

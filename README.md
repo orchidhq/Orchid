@@ -141,7 +141,7 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
     ...
     
     <properties>
-        <orchid.version>0.12.14</orchid.version>
+        <orchid.version>{version}</orchid.version>
     </properties>
 
     <build>
@@ -160,12 +160,6 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
                         <groupId>io.github.javaeden.orchid</groupId>
                         <artifactId>OrchidAll</artifactId>
                         <version>${orchid.version}</version>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>com.eden</groupId>
-                        <artifactId>Clog</artifactId>
-                        <version>2.0.4</version>
                     </dependency>
                 </dependencies>
 

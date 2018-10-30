@@ -22,12 +22,14 @@ class OrchidPluginHelpers {
 
         projectArgs.put "src",          getPropertyValue(project, 'srcDir', project.sourceSets.orchid.resources.srcDirs[0].toString())
         projectArgs.put "dest",         getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/orchid')
-        projectArgs.put "version",      getPropertyValue(project, 'version', project.version)
+        projectArgs.put "version",      getPropertyValue(project, 'version', project.version.toString())
         projectArgs.put "theme",        getPropertyValue(project, 'theme', 'Default')
         projectArgs.put "baseUrl",      getPropertyValue(project, 'baseUrl', '')
         projectArgs.put "environment",  getPropertyValue(project, 'environment', 'debug')
         projectArgs.put "task",         (forceTask) ? defaultTask : getPropertyValue(project, 'runTask', defaultTask)
         projectArgs.put "dryDeploy",    getPropertyValue(project, 'dryDeploy', 'false')
+        projectArgs.put "port",         getPropertyValue(project, 'port', '8080')
+        projectArgs.put "githubToken",  getPropertyValue(project, 'githubToken', '')
 
         if(project.orchid.args != null && project.orchid.args.size() > 0) {
             for(String arg : project.orchid.args) {

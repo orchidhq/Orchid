@@ -9,5 +9,7 @@ class OrchidPluginExtension {
     String baseUrl
     String environment
     String dryDeploy
+    int port
+    String githubToken
     List<String> args = new ArrayList<String>()
 }

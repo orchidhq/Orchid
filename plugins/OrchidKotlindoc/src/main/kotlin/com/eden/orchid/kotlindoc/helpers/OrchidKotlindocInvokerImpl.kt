@@ -28,17 +28,17 @@ constructor(
     val outputDir: Path by lazy { OrchidUtils.getTempDir("dokka", true) }
     val resolver: MavenResolver by lazy { MavenResolverImpl(client, cacheDir) }
     val dokkaRunner: KotlindocInvoker by lazy {
-        KotlindocInvokerImpl(resolver, outputDir, listOf(Artifact.from("com.github.copper-leaf.dokka-json:dokka-json:0.1.23")))
+        KotlindocInvokerImpl(resolver, outputDir, listOf(Artifact.from("com.github.copper-leaf.dokka-json:dokka-json:0.1.25")))
     }
 
     override fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc? {
         var rootDoc = dokkaRunner.loadCachedRootDoc()
-        if(rootDoc != null) {
+        if (rootDoc != null) {
             return rootDoc
         }
         else {
             val sources = sourceDirs.map { File(resourcesDir).toPath().resolve(it) }
-            return dokkaRunner.getRootDoc(sources, emptyList()) { inputStream -> InputStreamIgnorer(inputStream) }
+            return dokkaRunner.getRootDoc(sources) { inputStream -> InputStreamIgnorer(inputStream) }
         }
     }
 
