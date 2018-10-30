@@ -51,6 +51,10 @@ ext.getEnvName = { Project project ->
     }
 }
 
+ext.getGithubToken = { Project project ->
+    return project.hasProperty('github_token') ? project.property('github_token') : System.getenv('GITHUB_TOKEN')
+}
+
 ext.getChangelogFile = {
     def versionFilename = rootProject.version.toString().replaceAll("\\.", "_") + ".md"
     def fullVersionFilename = "${project(':OrchidCore').projectDir}/src/orchid/resources/changelog/$versionFilename"

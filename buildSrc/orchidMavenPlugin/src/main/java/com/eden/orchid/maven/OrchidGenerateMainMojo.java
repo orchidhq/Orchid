@@ -18,6 +18,12 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     private static final String ORCHID_CLASS = "com.eden.orchid.Orchid";
 
     /**
+     * The base URL used in HTML links.
+     */
+    @Parameter(property = "orchid.baseUrl")
+    private String baseUrl;
+
+    /**
      * Source directory where Orchid resources will be loaded.
      */
     @Parameter(property = "orchid.srcDir", defaultValue = "${project.basedir}/src/orchid/resources")
@@ -30,10 +36,10 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     private String destDir;
 
     /**
-     * The static site version.
+     * A run task that can be used to override the default 'run' command.
      */
-    @Parameter(property = "orchid.version", defaultValue = "${project.version}")
-    private String version;
+    @Parameter(property = "orchid.runTask")
+    private String runTask;
 
     /**
      * The theme to use in the static site.
@@ -42,10 +48,10 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     private String theme;
 
     /**
-     * The base URL used in HTML links.
+     * The static site version.
      */
-    @Parameter(property = "orchid.baseUrl")
-    private String baseUrl;
+    @Parameter(property = "orchid.version", defaultValue = "${project.version}")
+    private String version;
 
     /**
      * The environment used to run the site.
@@ -54,16 +60,22 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     private String environment;
 
     /**
-     * A run task that can be used to override the default 'run' command.
-     */
-    @Parameter(property = "orchid.runTask")
-    private String runTask;
-
-    /**
      * Allows running a dry deploy instead of a full deploy.
      */
     @Parameter(property = "orchid.dryDeploy", defaultValue = "false")
     private boolean dryDeploy;
+
+    /**
+     * The environment used to run the site.
+     */
+    @Parameter(property = "orchid.port", defaultValue = "8080")
+    private int port;
+
+    /**
+     * The environment used to run the site.
+     */
+    @Parameter(property = "orchid.githubToken")
+    private String githubToken;
 
     /**
      * Additional arguments to give to Orchid.
@@ -102,14 +114,16 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     private String[] getOrchidProjectArgs() {
         return ArrayUtils.addAll(
                 new String[]{
+                        "--baseUrl", baseUrl == null ? "" : baseUrl,
                         "--src", srcDir,
                         "--dest", destDir,
-                        "--version", version,
-                        "--theme", theme,
-                        "--baseUrl", baseUrl == null ? "" : baseUrl,
-                        "--environment", environment,
                         "--task", (force ? command : runTask != null ? runTask : command),
+                        "--theme", theme,
+                        "--version", version,
+                        "--environment", environment,
                         "--dryDeploy", Boolean.toString(dryDeploy),
+                        "--port", Integer.toString(port),
+                        "--githubToken", githubToken,
                 },
                 args
         );
