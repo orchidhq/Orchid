@@ -74,7 +74,7 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     /**
      * The environment used to run the site.
      */
-    @Parameter(property = "orchid.githubToken")
+    @Parameter(property = "orchid.githubToken", defaultValue = "")
     private String githubToken;
 
     /**
@@ -103,8 +103,6 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
 
             String[] args = getOrchidProjectArgs();
 
-            getLog().info("Args : " + StringUtils.join(args, ", "));
-
             main.invoke(null, (Object) args);
         } catch (ReflectiveOperationException e) {
             throw new MojoExecutionException("Unable to call " + ORCHID_CLASS, e);
@@ -112,18 +110,19 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     }
 
     private String[] getOrchidProjectArgs() {
+        if(args == null) args = new String[0];
         return ArrayUtils.addAll(
                 new String[]{
-                        "--baseUrl", baseUrl == null ? "" : baseUrl,
-                        "--src", srcDir,
-                        "--dest", destDir,
-                        "--task", (force ? command : runTask != null ? runTask : command),
-                        "--theme", theme,
-                        "--version", version,
-                        "--environment", environment,
-                        "--dryDeploy", Boolean.toString(dryDeploy),
-                        "--port", Integer.toString(port),
-                        "--githubToken", githubToken,
+                        "--baseUrl",     "" + baseUrl,
+                        "--src",         "" + srcDir,
+                        "--dest",        "" + destDir,
+                        "--task",        "" + (force ? command : runTask != null ? runTask : command),
+                        "--theme",       "" + theme,
+                        "--version",     "" + version,
+                        "--environment", "" + environment,
+                        "--dryDeploy",   "" + Boolean.toString(dryDeploy),
+                        "--port",        "" + Integer.toString(port),
+                        "--githubToken", "" + githubToken,
                 },
                 args
         );

@@ -122,6 +122,8 @@ public final class OrchidUtils {
         String currentFlag = null;
         int valuesParsed = 0;
         for (int i = 0; i < args.length; i++) {
+            if(args[i] == null) continue;
+
             String arg = args[i];
 
             if(arg.startsWith("--")) {
