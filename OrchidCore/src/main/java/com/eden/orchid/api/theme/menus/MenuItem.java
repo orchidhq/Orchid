@@ -1,4 +1,4 @@
-package com.eden.orchid.api.theme.menus.menuItem;
+package com.eden.orchid.api.theme.menus;
 
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -18,27 +18,27 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public final class OrchidMenuItemImpl {
+public final class MenuItem {
 
     @NonNull private final OrchidContext context;
     @NonNull private final String title;
     @Nullable private final OrchidPage page;
-    @NonNull private final List<OrchidMenuItemImpl> children;
+    @NonNull private final List<MenuItem> children;
     @NonNull private final String anchor;
     private final boolean separator;
     @NonNull private Map<String, Object> allData;
 
-    private Comparator<OrchidMenuItemImpl> indexComparator;
+    private Comparator<MenuItem> indexComparator;
 
-    private OrchidMenuItemImpl(
+    private MenuItem(
             @NonNull OrchidContext context,
             @NonNull String title,
             @Nullable OrchidPage page,
-            @NonNull List<OrchidMenuItemImpl> children,
+            @NonNull List<MenuItem> children,
             @NonNull String anchor,
             boolean separator,
             @NonNull Map<String, Object> allData,
-            @Nullable Comparator<OrchidMenuItemImpl> indexComparator
+            @Nullable Comparator<MenuItem> indexComparator
     ) {
         this.context = context;
         this.title = title;
@@ -62,9 +62,9 @@ public final class OrchidMenuItemImpl {
                 : null;
     }
 
-    public List<OrchidMenuItemImpl> getChildren() {
+    public List<MenuItem> getChildren() {
         if (indexComparator != null) {
-            for (OrchidMenuItemImpl child : children) {
+            for (MenuItem child : children) {
                 child.setIndexComparator(indexComparator);
             }
 
@@ -92,7 +92,7 @@ public final class OrchidMenuItemImpl {
 
     public boolean hasActivePage(OrchidPage page) {
         if (isHasChildren()) {
-            for (OrchidMenuItemImpl child : children) {
+            for (MenuItem child : children) {
                 if (child.isActivePage(page) || child.hasActivePage(page)) {
                     return true;
                 }
@@ -122,8 +122,8 @@ public final class OrchidMenuItemImpl {
         return allData.get(key);
     }
 
-    public OrchidMenuItemImpl.Builder toBuilder() {
-        return new OrchidMenuItemImpl.Builder(context)
+    public MenuItem.Builder toBuilder() {
+        return new MenuItem.Builder(context)
                 .title(title)
                 .page(page)
                 .children(children)
@@ -139,11 +139,11 @@ public final class OrchidMenuItemImpl {
     public static final class Builder {
 
         @NonNull protected final OrchidContext context;
-        @Nullable private List<OrchidMenuItemImpl.Builder> children;
+        @Nullable private List<MenuItem.Builder> children;
         @Nullable private OrchidPage page;
         @Nullable private String anchor;
         @Nullable private String title;
-        @Nullable private Comparator<OrchidMenuItemImpl> indexComparator;
+        @Nullable private Comparator<MenuItem> indexComparator;
         @Nullable private Map<String, Object> data;
 
         private boolean separator;
@@ -194,21 +194,21 @@ public final class OrchidMenuItemImpl {
         }
 
         @Nullable
-        public List<OrchidMenuItemImpl.Builder> children() {
+        public List<MenuItem.Builder> children() {
             return children;
         }
 
-        public Builder childrenBuilders(@NonNull List<OrchidMenuItemImpl.Builder> children) {
+        public Builder childrenBuilders(@NonNull List<MenuItem.Builder> children) {
             this.children = children;
             return this;
         }
 
-        public Builder children(@NonNull List<OrchidMenuItemImpl> children) {
-            this.children = children.stream().map(OrchidMenuItemImpl::toBuilder).collect(Collectors.toList());
+        public Builder children(@NonNull List<MenuItem> children) {
+            this.children = children.stream().map(MenuItem::toBuilder).collect(Collectors.toList());
             return this;
         }
 
-        public Builder child(@NonNull OrchidMenuItemImpl.Builder child) {
+        public Builder child(@NonNull MenuItem.Builder child) {
             if (children == null) {
                 children = new ArrayList<>();
             }
@@ -265,11 +265,11 @@ public final class OrchidMenuItemImpl {
         }
 
         @Nullable
-        public Comparator<OrchidMenuItemImpl> indexComparator() {
+        public Comparator<MenuItem> indexComparator() {
             return indexComparator;
         }
 
-        public Builder indexComparator(@Nullable Comparator<OrchidMenuItemImpl> indexComparator) {
+        public Builder indexComparator(@Nullable Comparator<MenuItem> indexComparator) {
             this.indexComparator = indexComparator;
             return this;
         }
@@ -284,7 +284,7 @@ public final class OrchidMenuItemImpl {
             return this;
         }
 
-        public OrchidMenuItemImpl build() {
+        public MenuItem build() {
             if (EdenUtils.isEmpty(title) && page != null) {
                 title = page.getTitle();
             }
@@ -297,11 +297,11 @@ public final class OrchidMenuItemImpl {
                 title = "";
             }
 
-            return new OrchidMenuItemImpl(
+            return new MenuItem(
                     context,
                     title,
                     page,
-                    (children != null) ? children.stream().map(OrchidMenuItemImpl.Builder::build).collect(Collectors.toList()) : new ArrayList<>(),
+                    (children != null) ? children.stream().map(MenuItem.Builder::build).collect(Collectors.toList()) : new ArrayList<>(),
                     (anchor != null) ? anchor : "",
                     separator,
                     (data != null) ? data : new HashMap<>(),

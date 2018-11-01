@@ -3,7 +3,7 @@ package com.eden.orchid.taxonomies
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.taxonomies.components.TaxonomyComponent
 import com.eden.orchid.taxonomies.components.TaxonomyTermComponent
@@ -28,7 +28,7 @@ class TaxonomiesModule : OrchidModule() {
         addToSet<OrchidComponent>(
                 TaxonomyComponent::class,
                 TaxonomyTermComponent::class)
-        addToSet<OrchidMenuItem>(
+        addToSet<OrchidMenuFactory>(
                 TaxonomiesMenuType::class,
                 TaxonomyMenuType::class,
                 TaxonomyTermMenuType::class)

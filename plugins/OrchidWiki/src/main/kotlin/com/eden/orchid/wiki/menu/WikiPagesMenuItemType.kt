@@ -4,8 +4,8 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import javax.inject.Inject
@@ -16,14 +16,14 @@ class WikiPagesMenuItemType
 constructor(
         context: OrchidContext,
         private val model: WikiModel
-) : OrchidMenuItem(context, "wiki", 100) {
+) : OrchidMenuFactory(context, "wiki", 100) {
 
     @Option
     @Description("The wiki section to include in this menu.")
     lateinit var section: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val menuItems = ArrayList<MenuItem>()
 
         val sections = HashMap<String?, WikiSection>()
 
@@ -67,7 +67,7 @@ constructor(
         }
 
         menuItems.add(
-                OrchidMenuItemImpl.Builder(context)
+                MenuItem.Builder(context)
                         .fromIndex(wikiPagesIndex)
                         .build()
         )
@@ -76,7 +76,7 @@ constructor(
             item.setIndexComparator(wikiMenuItemComparator)
         }
 
-        val innerItems = ArrayList<OrchidMenuItemImpl>()
+        val innerItems = ArrayList<MenuItem>()
         for (item in menuItems) {
             if (item.isHasChildren) {
                 innerItems.addAll(item.children)

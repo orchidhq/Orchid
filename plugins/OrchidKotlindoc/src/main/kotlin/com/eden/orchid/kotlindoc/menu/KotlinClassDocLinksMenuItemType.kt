@@ -5,8 +5,8 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.OrchidMenu
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
@@ -21,7 +21,7 @@ class KotlinClassDocLinksMenuItemType
 constructor(
         context: OrchidContext,
         val model: KotlindocModel
-) : OrchidMenuItem(context, "kotlindocClassLinks", 100) {
+) : OrchidMenuFactory(context, "kotlindocClassLinks", 100) {
 
     @Option @BooleanDefault(false)
     @Description("Whether to include the items for each category. For example, including a menu item for each " +
@@ -29,15 +29,15 @@ constructor(
     )
     var includeItems: Boolean = false
 
-    override fun canBeUsedOnPage(containingPage: OrchidPage?, menu: OrchidMenu?, possibleMenuItems: List<Map<String, Any>>, currentMenuItems: MutableList<OrchidMenuItem>?): Boolean {
+    override fun canBeUsedOnPage(containingPage: OrchidPage?, menu: OrchidMenu?, possibleMenuItems: List<Map<String, Any>>, currentMenuFactories: MutableList<OrchidMenuFactory>?): Boolean {
         return containingPage is KotlindocClassPage
     }
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
+    override fun getMenuItems(): List<MenuItem> {
         val containingPage = page as KotlindocClassPage
         val classDoc = containingPage.classDoc
 
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+        val menuItems = ArrayList<MenuItem>()
 
         val linkData = arrayOf(
                 LinkData({true},                                 { emptyList() },           "Summary",      "summary"),
@@ -49,7 +49,7 @@ constructor(
 
         for(item in linkData) {
             if(item.matches()) {
-                val menuItem = OrchidMenuItemImpl.Builder(context)
+                val menuItem = MenuItem.Builder(context)
                         .title(item.title)
                         .anchor(item.id)
 
@@ -66,41 +66,41 @@ constructor(
 
     private data class LinkData(
             val matches: () -> Boolean,
-            val items: () -> List<OrchidMenuItemImpl>,
+            val items: () -> List<MenuItem>,
             val title: String,
             val id: String
     )
 
-    private fun getFieldLinks(): List<OrchidMenuItemImpl> {
+    private fun getFieldLinks(): List<MenuItem> {
         val containingPage = page as KotlindocClassPage
         val classDoc = containingPage.classDoc
 
         return classDoc.fields.map {
-            OrchidMenuItemImpl.Builder(context)
+            MenuItem.Builder(context)
                     .title(it.simpleSignature)
                     .anchor(model.idFor(it))
                     .build()
         }
     }
 
-    private fun getConstructorLinks(): List<OrchidMenuItemImpl> {
+    private fun getConstructorLinks(): List<MenuItem> {
         val containingPage = page as KotlindocClassPage
         val classDoc = containingPage.classDoc
 
         return classDoc.constructors.map {
-            OrchidMenuItemImpl.Builder(context)
+            MenuItem.Builder(context)
                     .title(it.simpleSignature)
                     .anchor(model.idFor(it))
                     .build()
         }
     }
 
-    private fun getMethodLinks(): List<OrchidMenuItemImpl> {
+    private fun getMethodLinks(): List<MenuItem> {
         val containingPage = page as KotlindocClassPage
         val classDoc = containingPage.classDoc
 
         return classDoc.methods.map {
-            OrchidMenuItemImpl.Builder(context)
+            MenuItem.Builder(context)
                     .title(it.simpleSignature)
                     .anchor(model.idFor(it))
                     .build()

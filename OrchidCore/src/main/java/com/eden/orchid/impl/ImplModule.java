@@ -24,7 +24,7 @@ import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.commands.BuildCommand;
 import com.eden.orchid.impl.commands.DeployCommand;
@@ -166,7 +166,7 @@ public final class ImplModule extends OrchidModule {
                 QuitCommand.class);
 
         // Menu Items
-        addToSet(OrchidMenuItem.class,
+        addToSet(OrchidMenuFactory.class,
                 DividerMenuItem.class,
                 SubmenuMenuItem.class,
                 LinkMenuItem.class,

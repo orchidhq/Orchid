@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import org.apache.commons.lang3.StringUtils
 import javax.inject.Inject
 
@@ -14,13 +14,13 @@ class PagesMenuType
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "pages", 100) {
+) : OrchidMenuFactory(context, "pages", 100) {
 
     @Option
     @Description("Include only pages in a specific page group, otherwise include all pages.")
     lateinit var group: String
 
-    private var menuItemComparator = Comparator { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
+    private var menuItemComparator = Comparator { o1: MenuItem, o2: MenuItem ->
         var o1Title = ""
         var o2Title = ""
 
@@ -41,8 +41,8 @@ constructor(
         o1Title.compareTo(o2Title)
     }
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val menuItems = ArrayList<MenuItem>()
 
         val allPages = context.internalIndex.getChildIndex("pages")
 
@@ -60,7 +60,7 @@ constructor(
             }
         }
         menuItems.addAll(pages.map {
-            OrchidMenuItemImpl.Builder(context)
+            MenuItem.Builder(context)
                     .page(it)
                     .indexComparator(menuItemComparator)
                     .build()

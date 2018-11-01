@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenu
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.utilities.camelCase
 import com.eden.orchid.utilities.from
@@ -65,7 +65,7 @@ fun OptionsDescription.toNetlifyCmsField(): JSONObject {
         val extractor = Orchid.getInstance().context.injector.getInstance(OptionsExtractor::class.java)
         field.put("fields", extractor.describeAllOptions(MenuItem::class.java).getNetlifyCmsFields())
     }
-    else if(this.optionType == OrchidMenuItem::class.java) {
+    else if(this.optionType == OrchidMenuFactory::class.java) {
         val typeField = JSONObject()
         typeField.put("label", "Type")
         typeField.put("name", "Type")

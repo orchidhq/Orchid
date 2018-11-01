@@ -1,9 +1,9 @@
 package com.eden.orchid.wiki.menu
 
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.wiki.pages.WikiPage
 
-internal var wikiMenuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuItemImpl ->
+internal var wikiMenuItemComparator = { o1: MenuItem, o2: MenuItem ->
     var o1WikiPage = getWikiPageFromMenuItem(o1)
     var o2WikiPage = getWikiPageFromMenuItem(o2)
 
@@ -13,7 +13,7 @@ internal var wikiMenuItemComparator = { o1: OrchidMenuItemImpl, o2: OrchidMenuIt
     o1Order.compareTo(o2Order)
 }
 
-private fun getWikiPageFromMenuItem(item: OrchidMenuItemImpl): WikiPage? {
+private fun getWikiPageFromMenuItem(item: MenuItem): WikiPage? {
     if(item.page != null && item.page is WikiPage) {
         return item.page as WikiPage
     }

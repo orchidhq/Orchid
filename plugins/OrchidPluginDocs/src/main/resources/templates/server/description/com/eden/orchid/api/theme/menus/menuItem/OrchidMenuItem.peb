@@ -1,5 +1,5 @@
 {% set 'menuItem' =  tag.provide() %}
-{# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem" #}
+{# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.OrchidMenuFactory" #}
 
 <b>Basic Usage</b>
 

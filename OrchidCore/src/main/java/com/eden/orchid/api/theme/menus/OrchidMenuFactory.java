@@ -1,4 +1,4 @@
-package com.eden.orchid.api.theme.menus.menuItem;
+package com.eden.orchid.api.theme.menus;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.AllOptions;
@@ -8,7 +8,6 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.components.ModularPageListItem;
-import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ import java.util.Map;
  */
 @Extensible
 @Description(value = "A factory that produces dynamic menu items.", name = "Menu Items")
-public abstract class OrchidMenuItem extends Prioritized implements ModularPageListItem<OrchidMenu, OrchidMenuItem> {
+public abstract class OrchidMenuFactory extends Prioritized implements ModularPageListItem<OrchidMenu, OrchidMenuFactory> {
 
     protected final OrchidContext context;
 
@@ -55,7 +54,7 @@ public abstract class OrchidMenuItem extends Prioritized implements ModularPageL
     @Description("The title the menu")
     protected String submenuTitle;
 
-    public OrchidMenuItem(OrchidContext context, String type, int priority) {
+    public OrchidMenuFactory(OrchidContext context, String type, int priority) {
         super(priority);
         this.type = type;
         this.context = context;
@@ -65,11 +64,11 @@ public abstract class OrchidMenuItem extends Prioritized implements ModularPageL
             OrchidPage containingPage,
             OrchidMenu menu,
             List<Map<String, Object>> possibleMenuItems,
-            List<OrchidMenuItem> currentMenuItems) {
+            List<OrchidMenuFactory> currentMenuItems) {
         return true;
     }
 
-    public abstract List<OrchidMenuItemImpl> getMenuItems();
+    public abstract List<MenuItem> getMenuItems();
 
     public String getType() {
         return this.type;

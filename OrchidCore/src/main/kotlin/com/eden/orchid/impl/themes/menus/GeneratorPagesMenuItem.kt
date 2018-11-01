@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class GeneratorPagesMenuItem
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "generatorPages", 100) {
+) : OrchidMenuFactory(context, "generatorPages", 100) {
 
     @Option
     @Description("The text of the root menu item.")
@@ -24,13 +24,13 @@ constructor(
     @Description("The generator to show all items for.")
     lateinit var generator: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val menuItems = ArrayList<MenuItem>()
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(generator)) {
             val foundIndex = context.internalIndex.findIndex(generator)
             if(foundIndex != null) {
                 menuItems.add(
-                        OrchidMenuItemImpl.Builder(context)
+                        MenuItem.Builder(context)
                                 .fromIndex(foundIndex)
                                 .title(title)
                                 .build()

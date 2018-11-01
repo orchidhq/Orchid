@@ -5,7 +5,7 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.api.theme.assets.AssetHolder
 import com.eden.orchid.api.theme.components.OrchidComponent
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,7 +20,7 @@ constructor(
     val context: OrchidContext,
     val templateTags: Set<TemplateTag>,
     val components: Set<OrchidComponent>,
-    val menuItems: Set<OrchidMenuItem>
+    val menuFactories: Set<OrchidMenuFactory>
 ) {
 
     var useNetlifyIdentityWidget: Boolean = false
@@ -59,7 +59,7 @@ constructor(
         return fields
     }
 
-    fun getTemplateFieldsFromMenuItem(tag: OrchidMenuItem): JSONArray {
+    fun getTemplateFieldsFromMenuItem(tag: OrchidMenuFactory): JSONArray {
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {

@@ -6,8 +6,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import org.jsoup.Jsoup
 import java.util.stream.IntStream
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class PageIdsMenuType
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "pageIds", 100) {
+) : OrchidMenuFactory(context, "pageIds", 100) {
 
     @Option
     @IntDefault(1)
@@ -41,13 +41,13 @@ constructor(
     @Description("The structure used to display the items. One of [flat, nested].")
     lateinit var structure: Structure
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
+    override fun getMenuItems(): List<MenuItem> {
         if (maxLevel >= minLevel) {
             Clog.w("maxLevel must be less than minLevel")
             return emptyList()
         }
 
-        val menuItems = ArrayList<OrchidMenuItemImpl.Builder>()
+        val menuItems = ArrayList<MenuItem.Builder>()
         val headerLevelMap = HashMap<String, Int>()
         val doc = Jsoup.parse(page.content)
 
@@ -59,7 +59,7 @@ constructor(
 
         val ids = doc.select(selector)
         for (id in ids) {
-            val menuItem = OrchidMenuItemImpl.Builder(context)
+            val menuItem = MenuItem.Builder(context)
                     .title(id.text())
                     .anchor(id.attr("id"))
 
@@ -69,8 +69,8 @@ constructor(
         }
 
         if (structure == Structure.nested) {
-            val mostRecent = arrayOfNulls<OrchidMenuItemImpl.Builder>(7)
-            mostRecent[0] = OrchidMenuItemImpl.Builder(context)
+            val mostRecent = arrayOfNulls<MenuItem.Builder>(7)
+            mostRecent[0] = MenuItem.Builder(context)
 
             for (menuItem in menuItems) {
                 val level = headerLevelMap[menuItem.anchor()]!!
