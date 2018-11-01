@@ -6,8 +6,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import org.jsoup.Jsoup
 import java.util.stream.IntStream
 import javax.inject.Inject
@@ -73,7 +73,7 @@ constructor(
             mostRecent[0] = MenuItem.Builder(context)
 
             for (menuItem in menuItems) {
-                val level = headerLevelMap[menuItem.anchor()]!!
+                val level = headerLevelMap[menuItem.anchor]!!
                 mostRecent[level] = menuItem
 
                 var offset = 1

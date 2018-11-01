@@ -4,8 +4,8 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import javax.inject.Inject
@@ -73,7 +73,7 @@ constructor(
         )
 
         for (item in menuItems) {
-            item.setIndexComparator(wikiMenuItemComparator)
+            item.indexComparator = wikiMenuItemComparator
         }
 
         val innerItems = ArrayList<MenuItem>()

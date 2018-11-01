@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import org.apache.commons.lang3.StringUtils
 import javax.inject.Inject
 
@@ -27,14 +27,14 @@ constructor(
         if (o1.page != null) {
             o1Title = o1.page!!.title
         }
-        else if (o1.isHasChildren && o1.children.size > 0 && o1.children[0] != null && o1.children[0].page != null) {
+        else if (o1.isHasChildren && o1.children.size > 0 && o1.children[0].page != null) {
             o1Title = o1.children[0].title
         }
 
         if (o2.page != null) {
             o2Title = o2.page!!.title
         }
-        else if (o2.isHasChildren && o2.children.size > 0 && o2.children[0] != null && o2.children[0].page != null) {
+        else if (o2.isHasChildren && o2.children.size > 0 && o2.children[0].page != null) {
             o2Title = o2.children[0].title
         }
 
