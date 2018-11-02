@@ -11,9 +11,9 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.annotations.Validate
-import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidPage
+import java.util.Arrays
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,12 +21,12 @@ import javax.validation.constraints.NotBlank
 
 @Singleton
 @Description(
-    value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " + "are automatically rendered to your site, this is just for additional static assets.",
-    name = "Assets"
+        value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " + "are automatically rendered to your site, this is just for additional static assets.",
+        name = "Assets"
 )
 class AssetsGenerator @Inject
 constructor(context: OrchidContext) : OrchidGenerator(context,
-    GENERATOR_KEY, OrchidGenerator.PRIORITY_INIT) {
+        GENERATOR_KEY, OrchidGenerator.PRIORITY_INIT) {
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
@@ -35,24 +35,27 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     lateinit var sourceDirs: List<AssetDirectory>
 
     override fun startIndexing(): List<OrchidPage>? {
-        sourceDirs.stream()
-            .flatMap<OrchidResource> { dir ->
-                context.getLocalResourceEntries(
-                    dir.sourceDir,
-                    if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
-                    dir.isRecursive
-                ).stream()
-            }
-            .map { resource ->
-                AssetPage(
-                    null, null,
-                    resource,
-                    resource.reference.fileName,
-                    resource.reference.fileName
-                )
-            }
-            .peek { asset -> asset.reference.isUsePrettyUrl = false }
-            .forEach { asset -> context.globalAssetHolder.addAsset(asset) }
+        sourceDirs
+                .flatMap { dir ->
+                    context.getLocalResourceEntries(
+                            dir.sourceDir,
+                            if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
+                            dir.recursive
+                    )
+                }
+                .map { resource ->
+                    AssetPage(
+                            null, null,
+                            resource,
+                            resource.reference.fileName,
+                            resource.reference.fileName
+                    ).apply {
+                        reference.isUsePrettyUrl = false
+                    }
+                }
+                .forEach { asset ->
+                    context.globalAssetHolder.addAsset(asset)
+                }
 
         return null
     }
@@ -83,7 +86,12 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
         @Option
         @BooleanDefault(true)
         @Description("Whether to include subdirectories of this directory")
-        var isRecursive: Boolean = true
+        var recursive: Boolean = true
+
+        override fun toString(): String {
+            return "AssetDirectory(sourceDir='$sourceDir', assetFileExtensions=${Arrays.toString(assetFileExtensions)}, isRecursive=$recursive)"
+        }
+
     }
 
     companion object {
