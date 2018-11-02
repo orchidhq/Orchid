@@ -4,17 +4,6 @@
 {% extends '_wikiBase' %}
 
 {% block sectionIntro %}
-Orchid provides a powerful, yet simple and intuitive way to configure your site. It expects that large and complex sites
-may have lots of options set in a many-layered hierarchy, but does not sacrifice simplicity for power with smaller 
-sites. To fully understand all that can be configured with the site config, you should refer to the Options section of
-the developer guide, refer to your plugins' documentation, or visit your admin panel. A basic description of site 
-configuration and how to set it up follows.
-{% endblock %}
-
-{% block sectionBody %}
-
-## The Basics
-***
 
 All Orchid sites must have a config file in the root of the resources directory, called `config.yml`, which serves as 
 the root of all site options. The entire site can be fully described in this one file, but if you have lots of options

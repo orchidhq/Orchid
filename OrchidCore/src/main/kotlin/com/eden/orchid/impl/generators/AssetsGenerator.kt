@@ -7,14 +7,17 @@ import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.annotations.Validate
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Singleton
+import javax.validation.constraints.NotBlank
 
 @Singleton
 @Description(
@@ -27,17 +30,11 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
+    @ImpliedKey("sourceDir")
+    @StringDefault("assets/media")
     lateinit var sourceDirs: List<AssetDirectory>
 
     override fun startIndexing(): List<OrchidPage>? {
-        if (EdenUtils.isEmpty(sourceDirs)) {
-            val dir = AssetDirectory()
-            dir.sourceDir = "assets"
-            dir.assetFileExtensions = emptyArray()
-            dir.isRecursive = true
-            sourceDirs = listOf(dir)
-        }
-
         sourceDirs.stream()
             .flatMap<OrchidResource> { dir ->
                 context.getLocalResourceEntries(
@@ -68,13 +65,14 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
         return null
     }
 
-    // Helpers
-    //----------------------------------------------------------------------------------------------------------------------
+// Helpers
+//----------------------------------------------------------------------------------------------------------------------
 
+    @Validate
     class AssetDirectory : OptionsHolder {
 
         @Option
-        @StringDefault("assets")
+        @NotBlank
         @Description("Set which local resource directories you want to copy static assets from.")
         lateinit var sourceDir: String
 
@@ -89,7 +87,6 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     }
 
     companion object {
-
         val GENERATOR_KEY = "assets"
     }
 

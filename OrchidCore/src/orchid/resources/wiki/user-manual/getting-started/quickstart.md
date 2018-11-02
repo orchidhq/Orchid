@@ -3,7 +3,7 @@
 
 {% extends '_wikiBase' %}
 
-{% block sectionBody %}
+{% block sectionIntro %}
 ## Start a new Orchid project
 
 The simplest way to get started with Orchid is to use the Orchid Starter repo as a base. 
@@ -30,99 +30,221 @@ Starter repo to the Netlify CDN.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JavaEden/OrchidStarter)
     
-## Integrate Orchid into an existing Gradle project
+## Integrate Orchid into an existing project
 
 The Starter repo is great if you are setting up Orchid as a standalone website, but Orchid was designed to be integrated
-into any project. Here's how to add Orchid to an existing Gradle project and use it to start building really, really, 
-ridiculously good-looking Javadocs, wikis, and more. 
+into any project. Orchid can be set up from Gradle, Maven, or started manually through scriptlets or from another 
+application.
 
-**Step 1**
+### Gradle
 
-Add the [Orchid Gradle Plugin](https://plugins.gradle.org/plugin/com.eden.orchidPlugin) to your `build.gradle`.
-
-The plugin adds several new tasks to run Orchid in various modes, along with replacing the Javadoc task with Orchid. It
-also opens up a configuration block where you can set options such as the theme and input/output directories of Orchid. 
-
-**Step 2**
-
-Add the following to your `dependencies` and `repositories` blocks:
+To use Orchid from a Gradle project, setup your project's build.gradle file like so:
 
 {% highlight 'groovy' %}
+plugins {
+    // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL   
+    id "com.eden.orchidPlugin" version "{{site.version}}"
+}
+
 repositories {
+    // Orchid uses dependencies from both Jcenter and Jitpack, so both must be included. jcenter also includes 
+    // everything available from MavenCentral, while Jitpack makes accessible any Github project.
     jcenter()
     maven { url "https://kotlin.bintray.com/kotlinx" }
     maven { url 'https://dl.bintray.com/javaeden/Orchid/' }
     maven { url 'https://dl.bintray.com/javaeden/Eden/' }
     maven { url 'https://jitpack.io' }
 }
+
 dependencies {
-    // 'compile' to distribute your plugin 
-    compile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
-    // 'orchidCompile' for creating private plugins
-    orchidCompile "io.github.javaeden.orchid:OrchidCore:{{site.version}}"
-    // 'orchidRuntime' for the plugins you want to use
-    orchidRuntime "io.github.javaeden.orchid:OrchidAll:{{site.version}}"
+    // Add an Orchid Bundle. OrchidAll comes with all official themes included.
+    // You must include a theme separately when using the OrchidBlog bundle.
+    // Any additional plugins may be added as dependencies here as well.
+    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{site.version}}'
 }
-{% endhighlight %}
 
-The dependency in `orchidRuntime` adds all official Orchid core packages, themes, and plugins for ease of setup. You
-may instead choose which specific packages you want to install, which are listed on the [homepage]({{site.baseUrl}}). 
-
-The dependency in `compile` is optional, but is needed if you intend to create plugins to share with the community. You
-may also use the `orchidCompile` dependency if you just want to develop plugins for private use, by keeping plugin code
-iun you `orchid` source folder along with your content.
-
-{% alert level='info' headline='Note on repositories' :: compileAs('md') %}
-Orchid currently hosts its own artifacts on Bintray, but I am having issues getting them synced to JCenter properly. 
-Using a `maven` repository at `https://dl.bintray.com/javaeden/Orchid/` will ensure Gradle will always be able to 
-resolve all artifacts, and will also be available immediately after a new version is released (it usually takes them a 
-bit longer to sync to JCenter).
-
-In addition, Orchid has transitive dependencies hosted on Jitpack, though eventually Orchid will only depend on  
-artifacts that can be resolved through JCenter.
-{% endalert %}
-
-**Step 3**
-
-Add the following block to the top-level of your `build.gradle`:
-
-{% highlight 'groovy' %}
 orchid {
-    version = "${project.version}" 
-    theme = "FutureImperfect" // or whatever theme you choose
-    baseUrl = "http://localhost:8080" // you may want to change this when deploying to production, typically from an environment variable in your CI build
+    // Theme is required
+    theme   = "{theme}"
+    
+    // The following properties are optional
+    version = "${project.version}"
+    baseUrl = "{baseUrl}"                         // a baseUrl prepended to all generated links. Defaults to '/'
+    srcDir  = "path/to/new/source/directory"      // defaults to 'src/orchid/resources'
+    destDir = "path/to/new/destination/directory" // defaults to 'build/docs/orchid'
+    runTask = "build"                             // specify a task to run with 'gradle orchidRun'
 }
 {% endhighlight %}
 
-**Step 3.5 (Optional, but necessary to document Android projects)**
+You can now run Orchid in the following ways:
 
-The Gradle Android plugin does not extend the `java` plugin, so Android modules cannot directly use Orchid. However, you
-can create a _separate_ module in your Gradle build just for Orchid and point it at your Android java sources to 
-generate Javadoc for them.
+1) `./gradlew orchidRun` - Runs an Orchid task. The `runTask` should be specified in `build.gradle` or passed as a 
+    Gradle project property (`-PorchidRunTask=build`). The task `help` will show a list of all tasks that can be 
+    run given the plugins currently installed.
+2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP 
+    file server in the root of the output directory, or deploy this folder directly to your webserver.
+3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for 
+    changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed.
+4) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at 
+    `localhost:8080` (or the closest available port).
+4) `./gradlew orchidDeploy` - Runs the orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+    You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
+    directly to Github Pages or Netlify.
+    
+_On windows, all the above commands need to be run with `gradlew` instead of `./gradlew`._
 
-{% highlight 'groovy' %}
-// in your Orchid module's build.gradle
-orchidJavadoc {
-    sources = [file("${project('app')}}/src/main/java")]
-}
+The Orchid Gradle plugin adds a new configuration and content root to your project, in the `src/orchid` directory 
+(you may have to create this folder yourself). All your site content sits in `src/orchid/resources`, and any 
+additional classes you'd like to include as a private plugin can be placed in `src/orchid/java`.
+
+### Maven
+
+To use Orchid from a Maven project, setup your project's pom.xml file like so:
+
+{% highlight 'xml' %}
+<project>
+    ...
+    
+    <properties>
+        <orchid.version>{{site.version}}</orchid.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL -->
+            <plugin>
+                <groupId>io.github.javaeden.orchid</groupId>
+                <artifactId>orchid-maven-plugin</artifactId>
+                <version>${orchid.version}</version>
+
+                <!-- Add an Orchid Bundle. OrchidAll comes with all official themes included.
+                     You must include a theme separately when using the OrchidBlog bundle.
+                     Any additional plugins may be added as dependencies here as well. -->
+                <dependencies>
+                    <dependency>
+                        <groupId>io.github.javaeden.orchid</groupId>
+                        <artifactId>OrchidAll</artifactId>
+                        <version>${orchid.version}</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <!-- Theme is required -->
+                    <theme>${theme}</theme>
+                    
+                    <!-- The following properties are optional -->
+                    <version>${project.version}</version>
+                    <baseUrl>${baseUrl}</baseUrl>                        <!-- a baseUrl prepended to all generated links. Defaults to '/' -->
+                    <srcDir>path/to/new/source/directory</srcDir>        <!-- defaults to 'src/orchid/resources' -->
+                    <destDir>path/to/new/destination/directory</destDir> <!-- defaults to 'target/docs/orchid' -->
+                    <runTask>build</runTask>                             <!-- specify a task to run with 'mvn orchid:run' -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Orchid uses dependencies from both Jcenter and Jitpack, so both must be included. jcenter also includes 
+         everything available from MavenCentral, while Jitpack makes accessible any Github project. -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter</id>
+            <name>bintray-plugins</name>
+            <url>http://jcenter.bintray.com</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>kotlinx</id>
+            <url>https://kotlin.bintray.com/kotlinx</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>orchid-bintray</id>
+            <url>https://dl.bintray.com/javaeden/Orchid</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>eden-bintray</id>
+            <url>https://dl.bintray.com/javaeden/Eden</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
 {% endhighlight %}
 
-This does not change the resouce dir, but just tells Javadoc where to look for Java sources, and this information gets 
-passed back to Orchid. You can also use this technique to include Javadoc documentation from multiple Gradle modules in
-one Orchid build, if desired.
+You can now run Orchid in the following ways:
 
-**Step 4**
+1) `./mvn orchid:run` - Runs an Orchid task. The `runTask` property should be specified in `pom.xml` or passed as a 
+    Maven system property (`-Dorchid.runTask=build`). The task `help` will show a list of all tasks that can be 
+    run given the plugins currently installed.
+2) `./mvn orchid:build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
+    `target/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP 
+    file server in the root of the output directory, or deploy this folder directly to your webserver.
+3) `./mvn orchid:watch` - Runs the Orchid build task a single time, then begins watching the source directory for 
+    changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+    `build/docs/orchid` unless the output directory has been changed.
+4) `./mvn orchid:serve` - Sets up a development server and watches files for changes. The site can be viewed at 
+    `localhost:8080` (or the closest available port).
+4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+    You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
+    directly to Github Pages or Netlify.
+    
+### kscript
 
-Add the following folder in your project: `src/orchid/resources`. This is where all your site configuration and 
-content lives.
+If you're using Orchid to build a standalone site (not integrated as the docs for another project in the same repo), a 
+full Gradle or Maven setup may be a bit overkill. Instead, you may use a tool like 
+[kscript](https://github.com/holgerbrandl/kscript) to bootstrap and run Orchid yourself with a more minimalistic project 
+structure. The basic API below is specifically created for kscript, but can be easily adapted for other JVM scripting
+tools, or used like a library and started from another application.
 
-**Step 5**
+{% highlight 'kotlin' %}
+@file:MavenRepository("kotlinx", "https://kotlin.bintray.com/kotlinx")
+@file:MavenRepository("orchid-bintray", "https://dl.bintray.com/javaeden/Orchid/")
+@file:MavenRepository("eden-bintray", "https://dl.bintray.com/javaeden/Eden/")
+@file:MavenRepository("jitpack", "https://jitpack.io")
 
-Add a `config.yml` file inside `src/orchid/resources`.
+@file:DependsOn("io.github.javaeden.orchid:OrchidAll:{{site.version}}")
 
+import com.eden.orchid.Orchid
+import com.eden.orchid.StandardModule
 
-And that's it! You can now run Orchid using any of the commands listed above. You should now refer to the documentation 
-for your theme, all your plugins, and the OrchidCore to see what you can configure with your specific build, and how to 
-add content to your plugins. 
+val flags = HashMap<String, Any?>()
+
+// Theme is required
+flags["theme"] = "{theme}"
+
+// The following properties are optional
+flags["version"] = "{{site.version}}"
+flags["baseUrl"] = "{baseUrl}"                         // a baseUrl prepended to all generated links. Defaults to '/'
+flags["srcDir"]  = "path/to/new/source/directory"      // defaults to './src'
+flags["destDir"] = "path/to/new/destination/directory" // defaults to './site'
+flags["runTask"] = "build"                             // specify a default task to run when not supplied on the command line
+
+val modules = listOf(StandardModule.builder()
+        .args(args) // pass in the array of command-line args and let Orchid parse them out
+        .flags(flags) // pass a map with any additional args
+        .build()
+)
+Orchid.getInstance().start(modules)
+{% endhighlight %}
+
+You can now start Orchid directly with its CLI, using the following commands:
+
+1) `kscript ./path/to/scriptlet.kts <task> [--<flag> <flag value>]` - Runs an Orchid task by name. Additional parameters
+    may be specified after the task name like `--theme Editorial`, which take precedence over the default values 
+    specified in the scriptlet. The default tasks are:
+    1) `build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
+        `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any 
+        HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
+    2) `.watch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
+        Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+        `build/docs/orchid` unless the output directory has been changed.
+    3) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
+        (or the closest available port).
+    4) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+        You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the
+        site directly to Github Pages or Netlify.
+2) `kscript ./path/to/scriptlet.kts help` - Print out basic usage and all available tasks and command-line options. 
 
 {% endblock %}

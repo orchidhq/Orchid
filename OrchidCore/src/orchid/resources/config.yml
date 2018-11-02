@@ -50,3 +50,7 @@ services:
       - type: githubReleases
         repo: 'JavaEden/Orchid'
 
+assets:
+  - 'assets/media'
+  - 'assets/images'
+  - 'assets/favicon'
