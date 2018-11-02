@@ -102,7 +102,7 @@ class MenuItem private constructor(
 
         var separator: Boolean = false
 
-        constructor(context: OrchidContext, builder: Builder.()->Unit) : this(context) {
+        constructor(context: OrchidContext, builder: Builder.() -> Unit) : this(context) {
             this.builder()
         }
 
@@ -111,30 +111,20 @@ class MenuItem private constructor(
                 children = ArrayList()
             }
 
-            if (index.children.size > 0) {
+            if (index.children.isNotEmpty()) {
                 for ((key, value) in index.children) {
-                    if (!EdenUtils.isEmpty(value.getOwnPages())) {
-                        if (value.getOwnPages().size == 1) {
-                            this.children!!.add(Builder(context)
-                                    .page(
-                                            value
-                                                    .getOwnPages()[0]
-                                    )
-                            )
-                        }
-                        else {
-                            this.children!!.add(Builder(context).title(key).fromIndex(value))
-                        }
-                    }
-                    else {
-                        this.children!!.add(Builder(context).title(key).fromIndex(value))
-                    }
+                    this.children!!.add(Builder(context).title(key).fromIndex(value))
                 }
             }
 
             if (!EdenUtils.isEmpty(index.getOwnPages())) {
                 for (page in index.getOwnPages()) {
-                    this.children!!.add(Builder(context).page(page))
+                    if(page.reference.fileName == "index") {
+                        this.title(page.title).page(page)
+                    }
+                    else {
+                        this.children!!.add(Builder(context).page(page))
+                    }
                 }
             }
 
