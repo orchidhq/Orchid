@@ -1,12 +1,16 @@
 package com.eden.orchid.impl.compilers.frontmatter;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
+import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,6 +31,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
     private final List<EdenPair<String, OrchidParser>> delimiters;
 
     @Option
+    @ImpliedKey("regex")
     public List<CustomDelimiter> customDelimeters;
 
     @Inject
@@ -72,7 +77,12 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             }
 
             if(frontMatter == null) {
-                frontMatter = header.parser.parse("" + header.parser.getDelimiter(), frontMatterText);
+                frontMatter = header
+                        .parser
+                        .parse("" + header
+                                .parser
+                                .getDelimiter(),
+                                frontMatterText);
             }
 
             if(frontMatter == null) {
@@ -136,15 +146,21 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
                         FrontMatterHeader header = new FrontMatterHeader(true, mStart.start(delimiter.group), mStart.end(delimiter.group), mStart.end());
 
                         header.parser = context.parserFor(delimiter.parser);
-                        header.delimiter = "";
 
-                        String parsedType = delimiter.parser;
-
-                        if (!EdenUtils.isEmpty(parsedType)) {
-                            header.extension = parsedType;
+                        if(header.parser == null) {
+                            Clog.w("#{$1} is not a valid parser extension, perhaps you are missing a #{$1} Parser extension?", delimiter.parser);
                         }
+                        else {
+                            header.delimiter = "";
 
-                        return header;
+                            String parsedType = delimiter.parser;
+
+                            if (!EdenUtils.isEmpty(parsedType)) {
+                                header.extension = parsedType;
+                            }
+
+                            return header;
+                        }
                     }
                 }
             }
@@ -194,9 +210,11 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
         public String regex;
 
         @Option
+        @IntDefault(1)
         public int group;
 
         @Option
+        @StringDefault("yml")
         public String parser;
 
         @Option

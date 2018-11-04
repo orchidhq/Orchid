@@ -30,6 +30,7 @@ import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
+import com.eden.orchid.impl.compilers.parsers.PropertiesParser;
 import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
@@ -115,7 +116,8 @@ public class TestImplModule extends OrchidModule {
                 CSVParser.class,
                 YamlParser.class,
                 TOMLParser.class,
-                JsonParser.class);
+                JsonParser.class,
+                PropertiesParser.class);
 
         // Precompilers
         addToSet(OrchidPrecompiler.class,

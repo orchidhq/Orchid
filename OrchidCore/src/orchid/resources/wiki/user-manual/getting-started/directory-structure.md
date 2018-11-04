@@ -63,4 +63,10 @@ assets. This means you do not need to copy a bunch of files into your project to
 customize of the default templates. Any templates in the `templates/` directory will override those defined by the theme
 or other plugins.
 
+### Content
+
+Content in Orchid comes from plugins, such as {{anchor('Orchid Pages')}}, {{anchor('Orchid Posts')}}, or 
+{{anchor('Orchid Wiki')}}. Each plugin is free to use whatever directory structure it wants, so make sure to check out
+the documentation for your plugins to know where they get their content from.
+
 {% endblock %}

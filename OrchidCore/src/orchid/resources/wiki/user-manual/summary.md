@@ -14,20 +14,24 @@ title: 'User Manual'
 ## Core Concepts
 * [Core Concepts](core-concepts/index.md)
     * [Pages](core-concepts/pages.md)
-    * [Themes](core-concepts/themes.md)
+    * [Writing Content](core-concepts/writing-content.md)
+    * [Front Matter](core-concepts/front-matter.md)
+    * [Precompiling](core-concepts/precompiling.md)
+    * [Archetypes](core-concepts/archetypes.md)
+    * [Layouts](core-concepts/layouts.md)
+    * [Assets](core-concepts/assets.md)
     * [Components](core-concepts/components.md)
     * [Menus](core-concepts/menus.md)
     * [Breadcrumbs](core-concepts/breadcrumbs.md)
     * [Links](core-concepts/linking-to-pages.md)
-    * [Datafiles](core-concepts/datafiles.md)
 
 ## Content Management
 * [Content Management](content-management/index.md)
-    * [Writing Content](content-management/writing-content.md)
     * [Drafts](content-management/drafts.md)
+    * [Datafiles](content-management/datafiles.md)
 
 ## Theming
-* [Themes Overview](themes/index.md)
+* [Theming](themes/index.md)
     * [Templates](themes/templates.md)
     * [Assets](themes/assets.md)
     * [Template Overrides](themes/template-overrides.md)
