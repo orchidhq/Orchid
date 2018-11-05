@@ -28,12 +28,10 @@ title: 'User Manual'
 ## Content Management
 * [Content Management](content-management/index.md)
     * [Drafts](content-management/drafts.md)
-    * [Datafiles](content-management/datafiles.md)
 
 ## Theming
 * [Theming](themes/index.md)
     * [Templates](themes/templates.md)
-    * [Assets](themes/assets.md)
     * [Template Overrides](themes/template-overrides.md)
     * [Pebble](themes/pebble.md)
 
