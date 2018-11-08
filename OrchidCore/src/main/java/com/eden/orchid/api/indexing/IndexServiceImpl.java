@@ -108,6 +108,45 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<? extends OrchidCollection> getCollections(List<String> whitelist) {
+        if(EdenUtils.isEmpty(whitelist)) return collections;
+
+        return collections
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(collection -> {
+                    boolean passes = false;
+                    for(String filter : whitelist) {
+                        final String collectionType;
+                        final String collectionId;
+
+                        if(filter.contains(":")) {
+                            collectionType = filter.split(":")[0];
+                            collectionId = filter.split(":")[1];
+                        }
+                        else {
+                            collectionType = filter;
+                            collectionId = null;
+                        }
+
+                        if(collection.getCollectionType().equals(collectionType)) {
+                            if(collectionId != null) {
+                                if(collection.getCollectionId().equals(collectionId)) {
+                                    passes = true;
+                                }
+                            }
+                            else {
+                                passes = true;
+                            }
+                        }
+                    }
+
+                    return passes;
+                })
+                .collect(Collectors.toList());
+    }
+
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 

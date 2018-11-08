@@ -68,6 +68,10 @@ constructor(
     @Description("Whether to use the Netlify Identity Widget for managing user accounts. Should be paired with the `git-gateway` backend.")
     var useNetlifyIdentityWidget: Boolean = false
 
+    @Option
+    @Description("A list of collections to include. Can be in the format of either 'collectionType' or 'collectionType:collectionId'")
+    lateinit var filterCollections: List<String>
+
     override fun startIndexing(): List<OrchidPage>? {
         return null
     }
@@ -105,7 +109,7 @@ constructor(
         jsonConfig.put("public_folder", "/" + OrchidUtils.normalizePath(mediaFolder))
         jsonConfig.put("collections", JSONArray())
 
-        context.collections
+        context.getCollections(filterCollections)
                 .forEach { collection ->
                     var collectionData = JSONObject()
                     val shouldContinue: Boolean = when (collection) {
@@ -146,7 +150,7 @@ constructor(
         collectionData.put("create", collection.isCanCreate)
         collectionData.put("delete", collection.isCanDelete)
         collectionData.put("slug", collection.slugFormat.toNetlifyCmsSlug())
-        collectionData.put("fields", extractor.describeOptions(collection.pageClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
+        collectionData.put("fields", extractor.describeOptions(collection.pageClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields(2))
 
         return true
     }
@@ -159,7 +163,7 @@ constructor(
             pageData.put("label", page.title)
             pageData.put("name", page.resource.reference.originalFileName)
             pageData.put("file", OrchidUtils.normalizePath("$resourceRoot/${page.resource.reference.originalFullFileName}"))
-            pageData.put("fields", extractor.describeOptions(page.javaClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
+            pageData.put("fields", extractor.describeOptions(page.javaClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields(2))
 
             collectionData.getJSONArray("files").put(pageData)
         }
@@ -174,7 +178,7 @@ constructor(
             pageData.put("label", res.reference.originalFileName)
             pageData.put("name", res.reference.originalFileName)
             pageData.put("file", OrchidUtils.normalizePath("$resourceRoot/${res.reference.originalFullFileName}"))
-            pageData.put("fields", extractor.describeOptions(collection.itemClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields())
+            pageData.put("fields", extractor.describeOptions(collection.itemClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields(2))
 
             collectionData.getJSONArray("files").put(pageData)
         }
