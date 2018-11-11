@@ -24,18 +24,27 @@ import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
+import com.google.inject.name.Named
+import com.openhtmltopdf.DOMBuilder
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
+import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import org.apache.commons.io.FilenameUtils
 import org.jsoup.Jsoup
 import java.io.File
+import java.io.FileOutputStream
+import java.util.regex.Pattern
 import java.util.stream.Stream
 import javax.inject.Inject
+
+
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
 class WikiGenerator
 @Inject
 constructor(
         context: OrchidContext,
-        private val wikiModel: WikiModel
+        private val wikiModel: WikiModel,
+        @Named("dest") private val dest: String
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
@@ -80,6 +89,41 @@ constructor(
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         pages.forEach { context.renderTemplate(it) }
+
+        wikiModel
+                .sections
+                .filter { it.value.createPdf }
+                .forEach { t, u ->
+            var pdfOutput = u.summaryPage.content.replaceBaseUrls()
+
+            for(wikiPage in u.wikiPages) {
+                pdfOutput += "<h1 id=\"${wikiPage.link.formatAnchor()}\">${wikiPage.title}</h1>"
+                pdfOutput += wikiPage.content.replaceBaseUrls()
+            }
+
+            val doc = Jsoup.parse(pdfOutput)
+            val pdfDoc = DOMBuilder.jsoup2DOM(doc)
+
+            val outputPath = "$dest/${OrchidUtils.normalizePath(u.summaryPage.reference.path)}"
+            val outputName = "book.pdf"
+
+            val outputDir = File(outputPath)
+            if (!outputDir.exists()) {
+                outputDir.mkdirs()
+            }
+            val outputFile = File(outputDir, outputName)
+            if (!outputFile.exists()) {
+                outputFile.createNewFile()
+            }
+
+            FileOutputStream(outputFile).use { os ->
+                val builder = PdfRendererBuilder()
+                builder.useSVGDrawer(BatikSVGDrawer())
+                builder.withW3cDocument(pdfDoc, context.baseUrl)
+                builder.toStream(os)
+                builder.run()
+            }
+        }
     }
 
     private fun loadWikiPages(section: WikiSection): WikiSection? {
@@ -203,6 +247,22 @@ constructor(
         }
 
         return collectionsList
+    }
+
+// Helpers
+//----------------------------------------------------------------------------------------------------------------------
+
+    fun String.replaceBaseUrls(): String {
+        val pattern = "href=\"(${Pattern.quote(context.baseUrl)}(.*?))\"".toRegex()
+
+        return pattern.replace(this) { match ->
+            val formattedId = match.groupValues[2].replace("/", "_")
+            "href=\"#$formattedId\""
+        }
+    }
+
+    fun String.formatAnchor(): String {
+        return this.replace(context.baseUrl, "").replace("/", "_")
     }
 
 }

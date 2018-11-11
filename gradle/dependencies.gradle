@@ -13,4 +13,5 @@ ext {
     mockitoVersion = '2.+'
     striktVersion = '0.15.0'
     kotlin_version = '1.2.71'
+    open_html_version = '0.0.1-RC17'
 }

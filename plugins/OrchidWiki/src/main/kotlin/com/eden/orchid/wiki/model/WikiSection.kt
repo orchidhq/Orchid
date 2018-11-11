@@ -30,6 +30,9 @@ constructor() : OptionsHolder {
     @Option
     lateinit var title: String
 
+    @Option @BooleanDefault(true)
+    var createPdf: Boolean = true
+
     @Option
     @BooleanDefault(false)
     @Description("If true, the title of each page in the wiki will be prepended with its numerical order in the wiki.")
