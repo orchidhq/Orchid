@@ -12,6 +12,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.options.OptionHolderDescription
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import org.apache.commons.lang3.ClassUtils
@@ -43,6 +44,10 @@ constructor(
     @Option
     @Description("A custom template to use the for tabs tag used internally.")
     lateinit var tabsTemplate: String
+
+    @Option @BooleanDefault(false)
+    @Description("A custom template to use the for tabs tag used internally.")
+    var admin: Boolean = false
 
     override fun parameters(): Array<String> {
         return arrayOf("className")
@@ -143,12 +148,17 @@ constructor(
     private fun getDescriptionLink(o: Any, title: String): String {
         val className = o as? Class<*> ?: o.javaClass
 
-        val page = context.findPage(null, null, className.name)
-
-        if (page != null) {
-            val link = page.link
-
+        if(admin) {
+            val link = "${context.baseUrl}/admin/describe?className=${className.name}"
             return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+        }
+        else {
+            val page = context.findPage(null, null, className.name)
+
+            if (page != null) {
+                val link = page.link
+                return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+            }
         }
 
         return title
