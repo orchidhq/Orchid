@@ -104,6 +104,29 @@ constructor(
         }
     }
 
+    fun getArchetypesDescription(): String {
+        val classDescription = optionsExtractor.describeOptions(findClass(), false, false)
+        if(classDescription.archetypeDescriptions.isNotEmpty()) {
+            val table = krow {
+                classDescription.archetypeDescriptions.forEachIndexed { i, option ->
+                    cell("Key", "$i") {
+                        content = "<code>${option.key}</code>"
+                    }
+                    cell("Type", "$i") {
+                        content = getDescriptionLink(option.archetypeType, option.displayName)
+                    }
+                    cell("Description", "$i") {
+                        content = context.compile("md", option.description)
+                    }
+                }
+            }
+            return table.print(HtmlTableFormatter(tableAttrs))
+        }
+        else {
+            return "No archetypes"
+        }
+    }
+
     fun getRelatedCollections(collectionType: String, collectionId: String): List<OrchidCollection<*>> {
         var stream = this.context.collections.filter { it != null }
 

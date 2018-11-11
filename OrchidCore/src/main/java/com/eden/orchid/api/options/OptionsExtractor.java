@@ -5,6 +5,7 @@ import com.copperleaf.krow.KrowTable;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 
@@ -123,12 +124,12 @@ public class OptionsExtractor extends Extractor {
     }
 
     private OptionHolderDescription describeOptions(Class<?> optionsHolderClass, EdenPair<Field, Set<Field>> fields) {
-        List<OptionsDescription> optionDescriptions = new ArrayList<>();
 
+        // describe options
+        List<OptionsDescription> optionDescriptions = new ArrayList<>();
         if(fields.first != null) {
             optionDescriptions.add(new OptionsDescription(fields.first.getName(), Map.class, getFieldTypeParams(fields.first), "All options passed to this object.", "{}"));
         }
-
         for (Field field : fields.second) {
             String key = (!EdenUtils.isEmpty(field.getAnnotation(Option.class).value()))
                     ? field.getAnnotation(Option.class).value()
@@ -147,13 +148,29 @@ public class OptionsExtractor extends Extractor {
 
             optionDescriptions.add(new OptionsDescription(key, field.getType(), getFieldTypeParams(field), description, defaultValue));
         }
-
         optionDescriptions.sort(Comparator.comparing(OptionsDescription::getKey));
+
+        // describe archetypes
+        List<ArchetypeDescription> archetypeDescriptions = new ArrayList<>();
+        for(Archetype archetype : getArchetypes(optionsHolderClass)) {
+            String archetypeKey = archetype.key();
+            Class<? extends OptionArchetype> archetypeClass = archetype.value();
+            String archetypeDisplayName = Descriptive.getDescriptiveName(archetypeClass);
+            String archetypeDescription = Descriptive.getDescription(archetypeClass);
+
+            archetypeDescriptions.add(new ArchetypeDescription(
+                    archetypeKey,
+                    archetypeClass,
+                    archetypeDisplayName,
+                    archetypeDescription
+            ));
+        }
 
         return new OptionHolderDescription(
                 Descriptive.getDescriptiveName(optionsHolderClass),
                 Descriptive.getDescription(optionsHolderClass),
-                optionDescriptions
+                optionDescriptions,
+                archetypeDescriptions
         );
     }
 

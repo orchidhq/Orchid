@@ -9,4 +9,7 @@
     {% inherited_options 'Inherited Options' %}
         {{ tag.getInheritedOptionsDescription() | raw }}
     {% endinherited_options %}
+    {% archetypes 'Archetypes' %}
+        {{ tag.getArchetypesDescription() | raw }}
+    {% endarchetypes %}
 {% endtabs %}
