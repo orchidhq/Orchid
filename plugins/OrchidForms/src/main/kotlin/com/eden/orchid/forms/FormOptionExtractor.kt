@@ -26,6 +26,9 @@ constructor(
         if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())
         }
+        else if (sourceObject is Map<*, *>) {
+            return Form(contextProvider.get(), "", sourceObject as? Map<String, Any> ?: emptyMap())
+        }
         else {
             val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {

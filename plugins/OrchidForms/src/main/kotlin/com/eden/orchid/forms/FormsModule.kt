@@ -9,6 +9,7 @@ import com.eden.orchid.forms.model.FormField
 import com.eden.orchid.forms.model.fields.CheckboxField
 import com.eden.orchid.forms.model.fields.DropdownField
 import com.eden.orchid.forms.model.fields.HiddenField
+import com.eden.orchid.forms.model.fields.RadioButtonsField
 import com.eden.orchid.forms.model.fields.TextField
 import com.eden.orchid.forms.model.fields.TextareaField
 import com.eden.orchid.utilities.addToSet
@@ -23,6 +24,7 @@ class FormsModule : OrchidModule() {
         addToSet<OptionExtractor<*>, FormOptionExtractor>()
         addToSet<FormField>(
                 CheckboxField::class,
+                RadioButtonsField::class,
                 DropdownField::class,
                 HiddenField::class,
                 TextareaField::class,
