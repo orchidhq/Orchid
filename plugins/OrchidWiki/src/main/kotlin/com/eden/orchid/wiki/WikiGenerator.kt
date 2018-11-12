@@ -40,8 +40,7 @@ class WikiGenerator
 @Inject
 constructor(
         context: OrchidContext,
-        private val wikiModel: WikiModel,
-        @Named("dest") private val dest: String
+        private val wikiModel: WikiModel
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {

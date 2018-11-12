@@ -63,6 +63,7 @@ import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
 import com.eden.orchid.impl.themes.functions.AnchorFunction;
+import com.eden.orchid.impl.themes.functions.AssetFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
@@ -197,6 +198,7 @@ public final class ImplModule extends OrchidModule {
 
         // Template Functions
         addToSet(TemplateFunction.class,
+                AssetFunction.class,
                 AnchorFunction.class,
                 CompileAsFunction.class,
                 FindAllFunction.class,

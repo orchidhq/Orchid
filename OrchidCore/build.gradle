@@ -18,6 +18,7 @@ dependencies {
     api "com.squareup.okhttp3:okhttp:3.11.0"
     api "commons-io:commons-io:2.6"
     api 'org.apache.commons:commons-lang3:3.8.1'
+    api 'net.coobird:thumbnailator:0.4.8'
 
     // validation
     api "javax.validation:validation-api:2.0.1.Final"
