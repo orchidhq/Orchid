@@ -1,8 +1,10 @@
 sections:
   - key: 'user-manual'
     title: 'User Manual'
+    createPdf: true
   - key: 'tutorials'
     title: 'Tutorials'
+    createPdf: true
 
 wikiPages:
   layout: geopattern2

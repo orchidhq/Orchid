@@ -13,6 +13,7 @@ import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.WikiGenerator
+import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 import javax.inject.Inject
@@ -30,8 +31,8 @@ constructor() : OptionsHolder {
     @Option
     lateinit var title: String
 
-    @Option @BooleanDefault(true)
-    var createPdf: Boolean = true
+    @Option @BooleanDefault(false)
+    var createPdf: Boolean = false
 
     @Option
     @BooleanDefault(false)
@@ -40,6 +41,7 @@ constructor() : OptionsHolder {
 
     lateinit var summaryPage: WikiSummaryPage
     lateinit var wikiPages: List<WikiPage>
+    var bookPage: WikiBookPage? = null
 
     val sectionTitle: String
         get() {

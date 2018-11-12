@@ -17,6 +17,9 @@ class WikiModel {
             for (value in sections.values) {
                 allPages.add(value.summaryPage)
                 allPages.addAll(value.wikiPages)
+                if(value.bookPage != null) {
+                    allPages.add(value.bookPage!!)
+                }
             }
             if(sectionsPage != null) {
                 allPages.add(sectionsPage!!)

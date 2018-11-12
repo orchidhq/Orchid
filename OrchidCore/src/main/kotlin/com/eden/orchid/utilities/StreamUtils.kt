@@ -4,6 +4,9 @@ import com.caseyjbrooks.clog.Clog
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.io.OutputStream
+import java.io.PipedInputStream
+import java.io.PipedOutputStream
 import java.nio.charset.Charset
 
 class InputStreamCollector(private val inputStream: InputStream) : Runnable {
@@ -46,5 +49,14 @@ class InputStreamIgnorer(private val inputStream: InputStream) : Runnable {
             // do nothing with it
         }
     }
+}
 
+fun convertOutputStream(writer: (OutputStream) -> Unit): InputStream {
+    val pipedInputStreamPrinter = PipedInputStream()
+    val pipedOutputStream = PipedOutputStream(pipedInputStreamPrinter)
+    Thread {
+        pipedOutputStream.use(writer)
+    }.start()
+
+    return pipedInputStreamPrinter
 }
