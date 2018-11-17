@@ -1,0 +1,10 @@
+<h1>{{ section.title }}</h1>
+<h2>Table of Contents</h2>
+
+{{ resource.replaceBaseUrls(section.summaryPage.content) | raw }}
+
+{% for wikiPage in section.wikiPages %}
+<h1 id="{{ resource.formatAnchor(wikiPage.link) }}" style="page-break-before: always;">{{ wikiPage.title }}</h1>
+
+{{ resource.replaceBaseUrls(wikiPage.content) | raw }}
+{% endfor %}

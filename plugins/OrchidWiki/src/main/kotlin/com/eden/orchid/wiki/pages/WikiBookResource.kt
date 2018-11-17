@@ -24,12 +24,11 @@ class WikiBookResource(
 
     override fun getContentStream(): InputStream? {
         return convertOutputStream { safeOs ->
-            var pdfOutput = section.summaryPage.content.replaceBaseUrls()
-
-            for (wikiPage in section.wikiPages) {
-                pdfOutput += "<h1 id=\"${wikiPage.link.formatAnchor()}\" style=\"page-break-before: always;\">${wikiPage.title}</h1>"
-                pdfOutput += wikiPage.content.replaceBaseUrls()
-            }
+            val wikiBookTemplate = context.locateTemplate("wiki/book")
+            val pdfOutput = wikiBookTemplate.compileContent(mapOf(
+                    "section" to section,
+                    "resource" to this@WikiBookResource
+            ))
 
             val doc = Jsoup.parse(pdfOutput)
             val pdfDoc = DOMBuilder.jsoup2DOM(doc)
@@ -42,16 +41,16 @@ class WikiBookResource(
         }
     }
 
-    fun String.replaceBaseUrls(): String {
+    fun replaceBaseUrls(input: String): String {
         val pattern = "href=\"(${Pattern.quote(context.baseUrl)}(.*?))\"".toRegex()
 
-        return pattern.replace(this) { match ->
+        return pattern.replace(input) { match ->
             val formattedId = match.groupValues[2].replace("/", "_")
             "href=\"#$formattedId\""
         }
     }
 
-    fun String.formatAnchor(): String {
-        return this.replace(context.baseUrl, "").replace("/", "_")
+    fun formatAnchor(input: String): String {
+        return input.replace(context.baseUrl, "").replace("/", "_")
     }
 }
