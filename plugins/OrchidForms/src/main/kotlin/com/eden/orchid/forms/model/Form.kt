@@ -48,7 +48,7 @@ class Form(val context: OrchidContext, var key: String, formData: Map<String, An
     var fields: FormFieldList? = null
     get() {
         if(redirectionPage.get() != null) {
-            field?.addExtraField("redirectionPage", redirectionPageFieldName, redirectionPage.get().link)
+            field?.addExtraField("redirectionPage", redirectionPageFieldName, redirectionPage.get()!!.link)
         }
         if(!method.equals("get", ignoreCase = true) && !method.equals("post", ignoreCase = true)) {
             field?.addExtraField("method", methodFieldName, method)

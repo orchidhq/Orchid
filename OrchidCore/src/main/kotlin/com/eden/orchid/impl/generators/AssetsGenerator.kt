@@ -54,7 +54,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
                     }
                 }
                 .forEach { asset ->
-                    context.assetManager.addAsset(asset)
+                    context.assetManager.addAsset(asset, true)
                 }
 
         return null

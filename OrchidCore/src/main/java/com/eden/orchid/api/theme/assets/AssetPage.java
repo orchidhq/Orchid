@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.assets;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -20,6 +21,9 @@ public class AssetPage extends OrchidPage {
     private String sourceKey;
 
     @Getter @Setter
+    private boolean rendered;
+
+    @Getter @Setter
     @Option
     @Description("The asset alt text.")
     private String alt;
@@ -34,4 +38,12 @@ public class AssetPage extends OrchidPage {
         return "";
     }
 
+    @Override
+    public String getLink() {
+        if(!rendered) {
+            context.renderAsset(this);
+        }
+
+        return super.getLink();
+    }
 }

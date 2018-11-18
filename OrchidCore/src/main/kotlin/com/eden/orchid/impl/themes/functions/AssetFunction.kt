@@ -9,7 +9,7 @@ import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.convertOutputStream
 import net.coobird.thumbnailator.Thumbnails
@@ -21,7 +21,7 @@ class AssetFunction
 @Inject
 constructor(
         val context: OrchidContext
-) : TemplateFunction("asset", true) {
+) : TemplateFunction("asset", false) {
 
     @Option
     @Description("The path to a resource to render.")
@@ -52,14 +52,17 @@ constructor(
 
     override fun apply(): Any? {
         val originalResource = context.getLocalResourceEntry(path)
-        val newReference = OrchidReference(originalResource.reference)
-        val newResource = ThumbnailResource(originalResource, newReference, allData)
-        val newPage = OrchidPage(newResource, "thumbnail", "")
+        if(originalResource != null) {
+            val newReference = OrchidReference(originalResource.reference)
+            val newResource = ThumbnailResource(originalResource, newReference, allData)
+            val newPage = AssetPage(page, "page", newResource, "thumbnail", "")
 
-        // TODO: add this page to the AssetManager. Optimize by first checking the AssetManager for a page with the same filename and data and using that instead
-        context.renderBinary(newPage)
+            // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
+            // rendered lazily when the link for the asset is requested (or not at all if it is never used)
+            return context.assetManager.addAsset(newPage, false)
+        }
 
-        return newPage
+        return null
     }
 }
 

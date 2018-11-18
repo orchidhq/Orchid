@@ -49,7 +49,7 @@ public final class PebbleWrapperTemplateFunction implements Function {
         freshFunction.extractOptions(contextProvider.get(), args);
         Object output = freshFunction.apply();
 
-        if(freshFunction.isSafe()) {
+        if(freshFunction.isSafeString()) {
             return new SafeString(output.toString());
         }
         else {

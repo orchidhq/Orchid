@@ -5,7 +5,7 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(DefaultAssetManager.class)
 public interface AssetManager {
 
-    AssetPage addAsset(AssetPage asset);
+    AssetPage addAsset(AssetPage asset, boolean renderImmediately);
     void clearAssets();
 
 }

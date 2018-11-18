@@ -12,7 +12,7 @@ import org.apache.commons.io.FilenameUtils;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public final class AssetHolderDelegate implements AssetHolder {
@@ -87,17 +87,29 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     @Override
     public JsPage addJs(JsPage jsAsset) {
-        return addAssetInternal(jsAsset, "js");
+        return addJs(jsAsset, true);
+    }
+
+    private JsPage addJs(JsPage jsAsset, boolean renderImmediately) {
+        return addAssetInternal(jsAsset, "js", renderImmediately);
     }
 
     @Override
     public CssPage addCss(CssPage cssAsset) {
-        return addAssetInternal(cssAsset, "css");
+        return addCss(cssAsset, true);
+    }
+
+    private CssPage addCss(CssPage cssAsset, boolean renderImmediately) {
+        return addAssetInternal(cssAsset, "css", renderImmediately);
     }
 
     @Override
     public AssetPage addAsset(AssetPage asset) {
-        return addAssetInternal(asset, null);
+        return addAsset(asset, true);
+    }
+
+    private AssetPage addAsset(AssetPage asset, boolean renderImmediately) {
+        return addAssetInternal(asset, null, renderImmediately);
     }
 
 // Add assets by string
@@ -105,17 +117,17 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     @Override
     public JsPage addJs(String jsAsset) {
-        return addAssetInternal(jsAsset, "JS", JsPage::new, this::addJs);
+        return addAssetInternal(jsAsset, "JS", true, JsPage::new, this::addJs);
     }
 
     @Override
     public CssPage addCss(String cssAsset) {
-        return addAssetInternal(cssAsset, "CSS", CssPage::new, this::addCss);
+        return addAssetInternal(cssAsset, "CSS", true, CssPage::new, this::addCss);
     }
 
     @Override
     public AssetPage addAsset(String asset) {
-        return addAssetInternal(asset, "", AssetPage::new, this::addAsset);
+        return addAssetInternal(asset, "", true, AssetPage::new, this::addAsset);
     }
 
 // internals
@@ -125,11 +137,11 @@ public final class AssetHolderDelegate implements AssetHolder {
         return asset.getReference().getOutputExtension().equalsIgnoreCase(targetExtension);
     }
 
-    private <T extends AssetPage> T addAssetInternal(T asset, String expectedOutputExtension) {
+    private <T extends AssetPage> T addAssetInternal(T asset, String expectedOutputExtension, boolean renderImmediately) {
         if(expectedOutputExtension == null || validAsset(asset, expectedOutputExtension)) {
             asset.getReference().setUsePrettyUrl(false);
-            assets.add(asset);
-            context.getAssetManager().addAsset(asset);
+            AssetPage actualAsset = context.getAssetManager().addAsset(asset, renderImmediately);
+            assets.add(actualAsset);
             return asset;
         }
         else {
@@ -142,7 +154,7 @@ public final class AssetHolderDelegate implements AssetHolder {
         }
     }
 
-    private <T extends AssetPage> T addAssetInternal(String asset, String assetTypeName, CreateAssetInterface<T> creator, Consumer<T> adder) {
+    private <T extends AssetPage> T addAssetInternal(String asset, String assetTypeName, boolean renderImmediately, CreateAssetInterface<T> creator, BiConsumer<T, Boolean> adder) {
         OrchidResource resource = context.getResourceEntry(asset);
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
@@ -158,7 +170,7 @@ public final class AssetHolderDelegate implements AssetHolder {
             if(setPrefix) {
                 page.getReference().setPath(prefix + "/" + page.getReference().getOriginalPath());
             }
-            adder.accept(page);
+            adder.accept(page, renderImmediately);
             return page;
         }
         else {

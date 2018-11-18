@@ -232,7 +232,7 @@ public class OrchidPage implements
 // Get page info that has additional logic
 //----------------------------------------------------------------------------------------------------------------------
 
-    public final String getLink() {
+    public String getLink() {
         return reference.toString();
     }
 

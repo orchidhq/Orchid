@@ -23,6 +23,7 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -189,6 +190,7 @@ public final class ImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
+                ThemeServiceImpl.class,
                 TaskServiceImpl.class,
                 ResourceServiceImpl.class,
                 IndexServiceImpl.class,

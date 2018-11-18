@@ -3,7 +3,10 @@ package com.eden.orchid.api.theme;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.On;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.assets.AssetManager;
 import com.google.inject.Provider;
@@ -21,7 +24,7 @@ import java.util.Stack;
  * @orchidApi services
  */
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
-public final class ThemeServiceImpl implements ThemeService {
+public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {
 
     private OrchidContext context;
     private final AssetManager assetManager;
@@ -227,5 +230,10 @@ public final class ThemeServiceImpl implements ThemeService {
                 return null;
             }
         }
+    }
+
+    @On(Orchid.Lifecycle.ClearCache.class)
+    public void onClearCache(Orchid.Lifecycle.ClearCache event) {
+        assetManager.clearAssets();
     }
 }
