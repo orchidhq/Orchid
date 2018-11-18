@@ -1,7 +1,7 @@
 package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
+import com.eden.orchid.api.theme.assets.AssetManager;
 import com.google.inject.ImplementedBy;
 
 import java.util.Map;
@@ -13,8 +13,8 @@ import java.util.Map;
 @ImplementedBy(ThemeServiceImpl.class)
 public interface ThemeService extends OrchidService {
 
-    default GlobalAssetHolder getGlobalAssetHolder() {
-        return getService(ThemeService.class).getGlobalAssetHolder();
+    default AssetManager getAssetManager() {
+        return getService(ThemeService.class).getAssetManager();
     }
 
     default Theme getDefaultTheme() {

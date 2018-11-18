@@ -5,7 +5,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
+import com.eden.orchid.api.theme.assets.AssetManager;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ import java.util.Stack;
 public final class ThemeServiceImpl implements ThemeService {
 
     private OrchidContext context;
-    private final GlobalAssetHolder globalAssetHolder;
+    private final AssetManager assetManager;
 
     private ThemeHolder<Theme> themes;
     private ThemeHolder<AdminTheme> adminThemes;
@@ -37,12 +37,12 @@ public final class ThemeServiceImpl implements ThemeService {
 
     @Inject
     public ThemeServiceImpl(
-            GlobalAssetHolder globalAssetHolder,
+            AssetManager assetManager,
             Provider<Set<Theme>> themesProvider,
             @Named("theme") String defaultTheme,
             Provider<Set<AdminTheme>> adminThemesProvider,
             @Named("adminTheme") String defaultAdminTheme) {
-        this.globalAssetHolder = globalAssetHolder;
+        this.assetManager = assetManager;
         this.defaultTheme = defaultTheme;
         this.themesProvider = themesProvider;
 
@@ -68,8 +68,8 @@ public final class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public GlobalAssetHolder getGlobalAssetHolder() {
-        return globalAssetHolder;
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 
 // Interface Implementation

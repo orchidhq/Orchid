@@ -3,7 +3,7 @@ package com.eden.orchid.api.theme;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
+import com.eden.orchid.api.theme.assets.AssetManager;
 import com.google.inject.Injector;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ public final class ThemeServiceTest {
     private ThemeService underTest;
     private ThemeServiceImpl service;
 
-    private GlobalAssetHolder globalAssetHolder;
+    private AssetManager assetManager;
 
     private JSONObject theme2ContextOptions;
     private JSONObject adminTheme2ContextOptions;
@@ -49,7 +49,7 @@ public final class ThemeServiceTest {
         adminThemes = new HashSet<>();
         adminThemes.add(adminTheme1);
 
-        globalAssetHolder = mock(GlobalAssetHolder.class);
+        assetManager = mock(AssetManager.class);
 
         themeContextOptions = new JSONObject();
         theme2ContextOptions = new JSONObject();
@@ -70,7 +70,7 @@ public final class ThemeServiceTest {
         when(context.query("adminTheme2")).thenReturn(new JSONElement(adminTheme2ContextOptions));
 
         // Create instance of Service Implementation
-        service = new ThemeServiceImpl(globalAssetHolder, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
+        service = new ThemeServiceImpl(assetManager, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
         service.initialize(context);
 
         // Create wrapper around the Implementation to verify it works in composition
@@ -82,7 +82,7 @@ public final class ThemeServiceTest {
 
     @Test
     public void getGlobalAssetHolder() throws Throwable {
-        assertThat(underTest.getGlobalAssetHolder(), is(globalAssetHolder));
+        assertThat(underTest.getAssetManager(), is(assetManager));
     }
 
     @Test
