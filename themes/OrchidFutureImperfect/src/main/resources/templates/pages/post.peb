@@ -28,9 +28,12 @@
         </div>
     </header>
     {% block postBody %}
-    <span class="image featured">
-        <img src="{{ post.featuredImage }}" alt="{{ post.featuredImage.alt }}" title="{{ post.featuredImage.title }}"/>
-    </span>
+    {% if post.featuredImage.exists %}
+        {% set featuredImage = post.featuredImage.get() %}
+        <span class="image featured">
+            <img src="{{ featuredImage.link }}" alt="{{ featuredImage.alt }}" title="{{ featuredImage.title }}"/>
+        </span>
+    {% endif %}
     {{ post.content | raw }}
     {% endblock %}
 

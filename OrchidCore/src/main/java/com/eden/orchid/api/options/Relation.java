@@ -44,6 +44,10 @@ public abstract class Relation<T> implements OptionsHolder {
         return item;
     }
 
+    public boolean exists() {
+        return get() != null;
+    }
+
     public Map<String, Object> parseStringRef(String ref) {
         Map<String, Object> objectRef = new HashMap<>();
 

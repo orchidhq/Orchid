@@ -2,6 +2,7 @@ site:
   about:
     siteName: Orchid
     siteDescription: A beautiful and truly unique documentation engine and static site generator.
+    avatar: 'assets/media/avatar.jpg'
 
 theme:
   useSidebarSearch: true
