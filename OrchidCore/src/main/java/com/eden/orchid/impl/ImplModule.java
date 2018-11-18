@@ -72,6 +72,9 @@ import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
+import com.eden.orchid.impl.themes.functions.ResizeFunction;
+import com.eden.orchid.impl.themes.functions.RotateFunction;
+import com.eden.orchid.impl.themes.functions.ScaleFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.GeneratorPagesMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
@@ -208,7 +211,11 @@ public final class ImplModule extends OrchidModule {
                 LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,
-                LocalDateFunction.class
+                LocalDateFunction.class,
+
+                RotateFunction.class,
+                ScaleFunction.class,
+                ResizeFunction.class
         );
 
         // Publication Methods

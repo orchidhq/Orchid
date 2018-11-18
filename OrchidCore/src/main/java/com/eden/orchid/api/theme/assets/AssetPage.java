@@ -1,29 +1,20 @@
 package com.eden.orchid.api.theme.assets;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.AssetMetadataArchetype;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import lombok.Getter;
-import lombok.Setter;
 
 @Archetype(value = AssetMetadataArchetype.class, key = "assetmeta")
 @Description(value = "A static asset, like Javascript, CSS, or an image.", name = "Asset")
 public class AssetPage extends OrchidPage {
 
-    @Getter @Setter
     private Object source;
-
-    @Getter @Setter
     private String sourceKey;
-
-    @Getter @Setter
     private boolean rendered;
 
-    @Getter @Setter
     @Option
     @Description("The asset alt text.")
     private String alt;
@@ -41,9 +32,47 @@ public class AssetPage extends OrchidPage {
     @Override
     public String getLink() {
         if(!rendered) {
-            context.renderAsset(this);
+            AssetPage assetPage = context.getAssetManager().getActualAsset(this);
+            if(assetPage == null) {
+                context.getAssetManager().addAsset(this, true);
+            }
         }
 
         return super.getLink();
+    }
+
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+    public Object getSource() {
+        return this.source;
+    }
+
+    public String getSourceKey() {
+        return this.sourceKey;
+    }
+
+    public boolean isRendered() {
+        return this.rendered;
+    }
+
+    public String getAlt() {
+        return this.alt;
+    }
+
+    public void setSource(Object source) {
+        this.source = source;
+    }
+
+    public void setSourceKey(String sourceKey) {
+        this.sourceKey = sourceKey;
+    }
+
+    public void setRendered(boolean rendered) {
+        this.rendered = rendered;
+    }
+
+    public void setAlt(String alt) {
+        this.alt = alt;
     }
 }

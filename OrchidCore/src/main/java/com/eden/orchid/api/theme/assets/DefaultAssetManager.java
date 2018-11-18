@@ -21,6 +21,17 @@ public final class DefaultAssetManager implements AssetManager {
         this.assets = new HashMap<>();
     }
 
+    @Override
+    public AssetPage getActualAsset(AssetPage asset) {
+        final String assetKey = asset.getReference().toString();
+        if(assets.containsKey(assetKey)) {
+            return assets.get(assetKey);
+        }
+        else {
+            return null;
+        }
+    }
+
     // Assets should only make it here if it passes the check in a local AssetHolderDelegate, so we don't need to check
     // again. Go ahead and render it now so we can free its resources, and eventually implement an asset pipeline from
     // this point. Inline resources are rendered directly into the page, and should not be rendered as a proper resource
