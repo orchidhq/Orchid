@@ -2,7 +2,6 @@ package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.resource.ResourceTransformation;
 import com.eden.orchid.api.resources.resource.ResourceWrapper;
 import com.eden.orchid.api.resources.resource.StringResource;
 import org.junit.jupiter.api.BeforeEach;

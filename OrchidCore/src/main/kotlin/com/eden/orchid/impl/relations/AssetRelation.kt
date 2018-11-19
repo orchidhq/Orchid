@@ -5,7 +5,6 @@ import com.eden.orchid.api.options.Relation
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.assets.AssetPage
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.impl.themes.functions.ThumbnailResource
 import javax.inject.Inject
 
@@ -24,12 +23,9 @@ constructor(
     override fun load(): AssetPage? {
         val originalResource = context.getLocalResourceEntry(itemId)
         if(originalResource != null) {
-            val newReference = OrchidReference(originalResource.reference)
-            val newResource = ThumbnailResource(originalResource, newReference)
-
             // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
             // rendered lazily when the link for the asset is requested (or not at all if it is never used)
-            return AssetPage(this, "relation", newResource, "thumbnail", "")
+            return AssetPage(this, "relation", ThumbnailResource(originalResource), "thumbnail", "")
         }
 
         return null

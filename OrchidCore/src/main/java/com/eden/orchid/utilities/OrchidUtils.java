@@ -340,15 +340,6 @@ public final class OrchidUtils {
         return false;
     }
 
-    public static <T> T transform(T input, List<Function<T, T>> transformations) {
-        return transformations
-                .stream()
-                .reduce(
-                        UnaryOperator.identity(),
-                        (a, b) -> ((T o) -> b.apply(a.apply(o)))
-                ).apply(input);
-    }
-
     public static String sha1(final File file) throws NoSuchAlgorithmException, IOException {
         return sha1(new BufferedInputStream(new FileInputStream(file)));
     }

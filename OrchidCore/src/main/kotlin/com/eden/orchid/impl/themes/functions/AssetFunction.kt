@@ -8,12 +8,12 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.resources.ResourceTransformation
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.assets.Resizable
 import com.eden.orchid.api.theme.assets.Rotateable
 import com.eden.orchid.api.theme.assets.Scalable
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.utilities.convertOutputStream
 import net.coobird.thumbnailator.Thumbnails
@@ -37,13 +37,10 @@ constructor(
 
     override fun apply(): Any? {
         val originalResource = context.getLocalResourceEntry(itemId)
-        if(originalResource != null) {
-            val newReference = OrchidReference(originalResource.reference)
-            val newResource = ThumbnailResource(originalResource, newReference)
-
+        if (originalResource != null) {
             // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
             // rendered lazily when the link for the asset is requested (or not at all if it is never used)
-            return AssetPage(page, "page", newResource, "thumbnail", "")
+            return AssetPage(page, "page", ThumbnailResource(originalResource), "thumbnail", "")
         }
 
         return null
@@ -63,27 +60,27 @@ constructor(
     @Option
     var input: Any? = null
 
-    protected inline fun <reified T> applyInternal(transformation: (AssetPage, T)->Unit): Any? {
-        if(input != null) {
+    protected inline fun <reified T> applyInternal(transformation: (AssetPage, T) -> Unit): Any? {
+        if (input != null) {
             val asset: AssetPage?
 
-            if(input is AssetPage) {
+            if (input is AssetPage) {
                 asset = input as AssetPage
             }
-            else if(input is AssetRelation) {
+            else if (input is AssetRelation) {
                 asset = (input as AssetRelation).get()
             }
             else {
                 asset = null
             }
 
-            if(asset == null) {
+            if (asset == null) {
                 Clog.e("Cannot use '{}' function on null object", name)
             }
-            else if(asset.isRendered) {
+            else if (asset.isRendered) {
                 Clog.e("Cannot use '{}' function on asset {}, it has already been rendered", name, asset.toString())
             }
-            else if(asset.resource !is T) {
+            else if (asset.resource !is T) {
                 Clog.e("Cannot use '{}' function on asset {}, its resource is not an instance of {}", name, asset.toString(), T::class.java.name)
             }
             else {
@@ -102,7 +99,8 @@ class RotateFunction
 @Inject
 constructor() : BaseImageManipulationFunction("rotate") {
 
-    @Option @DoubleDefault(0.0)
+    @Option
+    @DoubleDefault(0.0)
     @Description("Set image rotation angle in degrees.")
     var angle: Double = 0.0
 
@@ -122,7 +120,8 @@ class ScaleFunction
 @Inject
 constructor() : BaseImageManipulationFunction("scale") {
 
-    @Option @DoubleDefault(0.0)
+    @Option
+    @DoubleDefault(0.0)
     @Description("Set image rotation angle in degrees.")
     var factor: Double = 0.0
 
@@ -142,11 +141,13 @@ class ResizeFunction
 @Inject
 constructor() : BaseImageManipulationFunction("resize") {
 
-    @Option @IntDefault(-1)
+    @Option
+    @IntDefault(-1)
     @Description("Set image rotation angle in degrees.")
     var width: Int = -1
 
-    @Option @IntDefault(-1)
+    @Option
+    @IntDefault(-1)
     @Description("Set image rotation angle in degrees.")
     var height: Int = -1
 
@@ -161,15 +162,13 @@ constructor() : BaseImageManipulationFunction("resize") {
     }
 }
 
-
-
-
-
-
 class ThumbnailResource(
-        val resource: OrchidResource,
-        newReference: OrchidReference
-) : OrchidResource(newReference), OptionsHolder, Rotateable, Scalable, Resizable {
+        resource: OrchidResource
+) : ResourceTransformation(resource),
+        OptionsHolder,
+        Rotateable,
+        Scalable,
+        Resizable {
 
     var resizeWidth: Int = -1
     var resizeHeight: Int = -1
@@ -181,8 +180,7 @@ class ThumbnailResource(
         content = ""
         embeddedData = null
 
-        newReference.fileName = newReference.originalFileName
-        newReference.isUsePrettyUrl = false
+        contentStreamTransformations = listOf(::transformImage)
     }
 
     override fun rotate(page: AssetPage, angle: Double) {
@@ -202,25 +200,25 @@ class ThumbnailResource(
         page.reference.fileName = page.reference.originalFileName + "_${resizeWidth}x${resizeHeight}"
     }
 
-    override fun getContentStream(): InputStream? {
+    private fun transformImage(input: InputStream): InputStream {
         return convertOutputStream { safeOs ->
-            val thumbnailBuilder = Thumbnails.of(resource.contentStream)
+            val thumbnailBuilder = Thumbnails.of(input)
 
-            if(resizeWidth > 0 && resizeHeight > 0) {
+            if (resizeWidth > 0 && resizeHeight > 0) {
                 thumbnailBuilder.size(resizeWidth, resizeHeight)
             }
-            else if(scaleFactor > 0) {
+            else if (scaleFactor > 0) {
                 thumbnailBuilder.scale(scaleFactor)
             }
             else {
                 thumbnailBuilder.scale(1.0)
             }
 
-            if(rotateAngle != 0.0) {
+            if (rotateAngle != 0.0) {
                 thumbnailBuilder.rotate(rotateAngle)
             }
 
-            thumbnailBuilder.outputFormat(resource.reference.extension)
+            thumbnailBuilder.outputFormat(reference.extension)
             thumbnailBuilder.toOutputStream(safeOs)
         }
     }

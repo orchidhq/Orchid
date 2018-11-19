@@ -23,6 +23,7 @@ public class AssetPage extends OrchidPage {
         super(resource, key, title);
         this.source = source;
         this.sourceKey = sourceKey;
+        reference.setUsePrettyUrl(false);
     }
 
     public String renderAssetToPage() {
