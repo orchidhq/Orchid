@@ -7,7 +7,10 @@ import java.io.InputStream
 /**
  * A Resource type that wraps another resource, optionally applying a transformation along the way.
  */
-open class ResourceTransformation(
+open class ResourceTransformation
+
+@JvmOverloads
+constructor(
         resource: OrchidResource,
         protected var contentTransformations: List<(String) -> String> = emptyList(),
         protected var contentStreamTransformations: List<(InputStream) -> InputStream> = emptyList()
@@ -22,7 +25,7 @@ open class ResourceTransformation(
     }
 
     fun <T> transform(input: T, transformations: List<(T) -> T>): T {
-        return transformations.reduce { a, b -> { o: T -> b.invoke(a.invoke(o)) } } .invoke(input)
+        return if(transformations.isEmpty()) input else transformations.reduce { a, b -> { o: T -> b.invoke(a.invoke(o)) } } .invoke(input)
     }
 
 }

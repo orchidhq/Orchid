@@ -7,6 +7,7 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -48,7 +49,7 @@ public final class ResourcesTest {
     @Test
     public void testResourceTransformationOneTransform() {
         StringResource stringResource = new StringResource(context, "hello-world.txt", input);
-        ResourceTransformation transformation = new ResourceTransformation(stringResource, String::toUpperCase);
+        ResourceTransformation transformation = new ResourceTransformation(stringResource, Arrays.asList(String::toUpperCase));
 
         assertThat(transformation.getContent(), is(equalTo("HELLO WORLD")));
     }
@@ -56,7 +57,7 @@ public final class ResourcesTest {
     @Test
     public void testResourceTransformationManyTransforms() {
         StringResource stringResource = new StringResource(context, "hello-world.txt", input);
-        ResourceTransformation transformation = new ResourceTransformation(stringResource, String::toUpperCase, s -> s.replaceAll("\\s+", "-"));
+        ResourceTransformation transformation = new ResourceTransformation(stringResource, Arrays.asList(String::toUpperCase, s -> s.replaceAll("\\s+", "-")));
 
         assertThat(transformation.getContent(), is(equalTo("HELLO-WORLD")));
     }
