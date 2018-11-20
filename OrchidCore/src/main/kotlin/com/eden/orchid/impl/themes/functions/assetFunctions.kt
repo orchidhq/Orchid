@@ -17,7 +17,6 @@ import com.eden.orchid.api.theme.assets.Scalable
 import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.utilities.convertOutputStream
 import net.coobird.thumbnailator.Thumbnails
-import java.io.InputStream
 import javax.inject.Inject
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
@@ -151,13 +150,17 @@ constructor() : BaseImageManipulationFunction("resize") {
     @Description("Set image rotation angle in degrees.")
     var height: Int = -1
 
+    @Option
+    @Description("True to stretch image to fit, false to maintain aspect ratio.")
+    var exact: Boolean = false
+
     override fun parameters(): Array<String?> {
-        return arrayOf("input", "width", "height")
+        return arrayOf("input", "width", "height", "exact")
     }
 
     override fun apply(): Any? {
         return applyInternal { asset, resource: Resizable ->
-            resource.resize(asset, width, height)
+            resource.resize(asset, width, height, exact)
         }
     }
 }
@@ -170,56 +173,65 @@ class ThumbnailResource(
         Scalable,
         Resizable {
 
-    var resizeWidth: Int = -1
-    var resizeHeight: Int = -1
-    var scaleFactor: Double = 0.0
-    var rotateAngle: Double = 0.0
-
     init {
         rawContent = ""
         content = ""
         embeddedData = null
 
-        contentStreamTransformations = listOf(::transformImage)
+        contentStreamTransformations = mutableListOf()
     }
 
     override fun rotate(page: AssetPage, angle: Double) {
-        rotateAngle = angle
-        page.reference.fileName = page.reference.originalFileName + "_rotate-${rotateAngle}"
-
+        page.reference.fileName = page.reference.originalFileName + "_rotate-${angle}"
+        contentStreamTransformations.add { input ->
+            Clog.v("try transforming inputstream with rotate")
+            convertOutputStream { safeOs ->
+                Clog.v("start transforming inputstream with rotate")
+                Thumbnails
+                        .of(input)
+                        .rotate(angle)
+                        .scale(1.0)
+                        .outputFormat(reference.extension)
+                        .toOutputStream(safeOs)
+                Clog.v("end transforming inputstream with rotate")
+            }
+        }
     }
 
     override fun scale(page: AssetPage, factor: Double) {
-        scaleFactor = factor
-        page.reference.fileName = page.reference.originalFileName + "_scale-${scaleFactor}"
+        page.reference.fileName = page.reference.originalFileName + "_scale-${factor}"
+        contentStreamTransformations.add { input ->
+            Clog.v("try transforming inputstream with scale")
+            convertOutputStream { safeOs ->
+                Clog.v("start transforming inputstream with scale")
+                Thumbnails
+                        .of(input)
+                        .scale(factor)
+                        .outputFormat(reference.extension)
+                        .toOutputStream(safeOs)
+                Clog.v("end transforming inputstream with scale")
+            }
+        }
     }
 
-    override fun resize(page: AssetPage, width: Int, height: Int) {
-        resizeWidth = width
-        resizeHeight = height
-        page.reference.fileName = page.reference.originalFileName + "_${resizeWidth}x${resizeHeight}"
-    }
+    override fun resize(page: AssetPage, width: Int, height: Int, exact: Boolean) {
+        page.reference.fileName = page.reference.originalFileName + "_${width}x${height}${if (exact) "_exact" else ""}"
+        contentStreamTransformations.add { input ->
+            Clog.v("try transforming inputstream with resize")
+            convertOutputStream { safeOs ->
+                Clog.v("start transforming inputstream with resize")
+                val thumbnailBuilder = Thumbnails.of(input)
+                if (exact) {
+                    thumbnailBuilder.forceSize(width, height)
+                }
+                else {
+                    thumbnailBuilder.size(width, height)
+                }
 
-    private fun transformImage(input: InputStream): InputStream {
-        return convertOutputStream { safeOs ->
-            val thumbnailBuilder = Thumbnails.of(input)
-
-            if (resizeWidth > 0 && resizeHeight > 0) {
-                thumbnailBuilder.size(resizeWidth, resizeHeight)
+                thumbnailBuilder.outputFormat(reference.extension)
+                thumbnailBuilder.toOutputStream(safeOs)
+                Clog.v("end transforming inputstream with resize")
             }
-            else if (scaleFactor > 0) {
-                thumbnailBuilder.scale(scaleFactor)
-            }
-            else {
-                thumbnailBuilder.scale(1.0)
-            }
-
-            if (rotateAngle != 0.0) {
-                thumbnailBuilder.rotate(rotateAngle)
-            }
-
-            thumbnailBuilder.outputFormat(reference.extension)
-            thumbnailBuilder.toOutputStream(safeOs)
         }
     }
 

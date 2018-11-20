@@ -28,6 +28,7 @@ title: 'User Manual'
 ## Content Management
 * [Content Management](content-management/index.md)
     * [Drafts](content-management/drafts.md)
+    * [Media](content-management/media.md)
 
 ## Theming
 * [Theming](themes/index.md)

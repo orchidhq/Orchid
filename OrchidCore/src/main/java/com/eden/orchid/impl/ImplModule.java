@@ -72,6 +72,7 @@ import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
+import com.eden.orchid.impl.themes.functions.ParseAsFunction;
 import com.eden.orchid.impl.themes.functions.ResizeFunction;
 import com.eden.orchid.impl.themes.functions.RotateFunction;
 import com.eden.orchid.impl.themes.functions.ScaleFunction;
@@ -206,6 +207,7 @@ public final class ImplModule extends OrchidModule {
                 AssetFunction.class,
                 AnchorFunction.class,
                 CompileAsFunction.class,
+                ParseAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
                 LimitToFunction.class,

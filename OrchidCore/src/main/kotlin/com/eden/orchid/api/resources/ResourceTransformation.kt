@@ -12,8 +12,8 @@ open class ResourceTransformation
 @JvmOverloads
 constructor(
         resource: OrchidResource,
-        protected var contentTransformations: List<(String) -> String> = emptyList(),
-        protected var contentStreamTransformations: List<(InputStream) -> InputStream> = emptyList()
+        protected var contentTransformations: MutableList<(String) -> String> = mutableListOf(),
+        protected var contentStreamTransformations: MutableList<(InputStream) -> InputStream> = mutableListOf()
 ) : ResourceWrapper(resource) {
 
     override fun getContent(): String {
