@@ -42,7 +42,7 @@ constructor(
         if (originalResource != null) {
             // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
             // rendered lazily when the link for the asset is requested (or not at all if it is never used)
-            return AssetPage(page, "page", ThumbnailResource(originalResource), "thumbnail", "")
+            return AssetPage(page, "page", ThumbnailResource(originalResource), "thumbnail", originalResource.title)
         }
 
         return null

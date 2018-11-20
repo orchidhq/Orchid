@@ -1,5 +1,6 @@
 package com.eden.orchid.wiki.pages
 
+import com.eden.common.json.JSONElement
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.convertOutputStream
@@ -7,6 +8,7 @@ import com.eden.orchid.wiki.model.WikiSection
 import com.openhtmltopdf.DOMBuilder
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
+import org.json.JSONObject
 import org.jsoup.Jsoup
 import java.io.InputStream
 import java.util.regex.Pattern
@@ -16,14 +18,16 @@ class WikiBookResource(
         val section: WikiSection
 ) : OrchidResource(reference) {
 
+    private var resourceStream: InputStream? = null
+
     init {
         rawContent = ""
         content = ""
-        embeddedData = null
+        embeddedData = JSONElement(JSONObject())
     }
 
-    override fun getContentStream(): InputStream? {
-        return convertOutputStream { safeOs ->
+    fun loadContent() {
+        if(resourceStream == null) {
             val wikiBookTemplate = context.locateTemplate("wiki/book")
             val pdfOutput = wikiBookTemplate.compileContent(mapOf(
                     "section" to section,
@@ -33,12 +37,19 @@ class WikiBookResource(
             val doc = Jsoup.parse(pdfOutput)
             val pdfDoc = DOMBuilder.jsoup2DOM(doc)
 
-            PdfRendererBuilder()
-                    .useSVGDrawer(BatikSVGDrawer())
-                    .withW3cDocument(pdfDoc, context.baseUrl)
-                    .toStream(safeOs)
-                    .run()
+            resourceStream = convertOutputStream { safeOs ->
+                PdfRendererBuilder()
+                        .useSVGDrawer(BatikSVGDrawer())
+                        .withW3cDocument(pdfDoc, context.baseUrl)
+                        .toStream(safeOs)
+                        .run()
+            }
         }
+    }
+
+    override fun getContentStream(): InputStream? {
+        loadContent()
+        return resourceStream
     }
 
     fun replaceBaseUrls(input: String): String {

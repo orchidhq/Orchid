@@ -22,11 +22,9 @@ import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiBookPage
-import com.eden.orchid.wiki.pages.WikiBookResource
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
-import com.google.inject.name.Named
 import org.apache.commons.io.FilenameUtils
 import org.jsoup.Jsoup
 import java.io.File
@@ -190,9 +188,7 @@ constructor(
             bookReference.fileName = "book"
             bookReference.extension = "pdf"
             bookReference.isUsePrettyUrl = false
-            val bookResource = WikiBookResource(bookReference, section)
-            val bookPage = WikiBookPage(bookResource, section)
-            section.bookPage = bookPage
+            section.bookPage = WikiBookPage(bookReference, section)
         }
         else {
             section.bookPage = null
