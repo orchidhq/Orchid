@@ -7,38 +7,21 @@ class OrchidPluginHelpers {
     public static ArrayList<String> getOrchidProjectArgs(Project project, String defaultTask, boolean forceTask) {
         def projectArgs = new ArrayList<String>()
 
-        def projectArgsMap = getOrchidProjectArgsMap(project, defaultTask, forceTask)
+        projectArgs.addAll([
+                "--baseUrl",     getPropertyValue(project, 'baseUrl', ''),
+                "--src",         getPropertyValue(project, 'srcDir', project.sourceSets.orchid.resources.srcDirs[0].toString()),
+                "--dest",        getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/orchid'),
+                "--task",        (forceTask) ? defaultTask : getPropertyValue(project, 'runTask', defaultTask),
+                "--theme",       getPropertyValue(project, 'theme', 'Default'),
+                "--version",     getPropertyValue(project, 'version', project.version.toString()),
+                "--environment", getPropertyValue(project, 'environment', 'debug'),
+                "--dryDeploy",   getPropertyValue(project, 'dryDeploy', 'false'),
+                "--port",        getPropertyValue(project, 'port', '8080'),
+                "--githubToken", getPropertyValue(project, 'githubToken', ''),
+        ])
 
-        for (Map.Entry<String, String> entry : projectArgsMap.entrySet()) {
-            projectArgs.add "--${entry.key}"
-            projectArgs.add "${entry.value}"
-        }
-
-        return projectArgs
-    }
-
-    public static HashMap<String, String> getOrchidProjectArgsMap(Project project, String defaultTask, boolean forceTask) {
-        def projectArgs = new HashMap<String, String>()
-
-        projectArgs.put "src",          getPropertyValue(project, 'srcDir', project.sourceSets.orchid.resources.srcDirs[0].toString())
-        projectArgs.put "dest",         getPropertyValue(project, 'destDir', project.buildDir.absolutePath + '/docs/orchid')
-        projectArgs.put "version",      getPropertyValue(project, 'version', project.version.toString())
-        projectArgs.put "theme",        getPropertyValue(project, 'theme', 'Default')
-        projectArgs.put "baseUrl",      getPropertyValue(project, 'baseUrl', '')
-        projectArgs.put "environment",  getPropertyValue(project, 'environment', 'debug')
-        projectArgs.put "task",         (forceTask) ? defaultTask : getPropertyValue(project, 'runTask', defaultTask)
-        projectArgs.put "dryDeploy",    getPropertyValue(project, 'dryDeploy', 'false')
-        projectArgs.put "port",         getPropertyValue(project, 'port', '8080')
-        projectArgs.put "githubToken",  getPropertyValue(project, 'githubToken', '')
-
-        if(project.orchid.args != null && project.orchid.args.size() > 0) {
-            for(String arg : project.orchid.args) {
-                String[] option = arg.split("\\s+")
-
-                if(option.length == 2) {
-                    projectArgs.put option[0], option[1]
-                }
-            }
+        if (project.orchid.args != null && project.orchid.args.size() > 0) {
+            projectArgs.addAll(project.orchid.args)
         }
 
         return projectArgs
