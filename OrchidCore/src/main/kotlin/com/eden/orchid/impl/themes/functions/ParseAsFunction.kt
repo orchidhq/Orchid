@@ -13,7 +13,7 @@ class ParseAsFunction
 @Inject
 constructor(
         private val context: OrchidContext
-) : TemplateFunction("parseAs", true) {
+) : TemplateFunction("parseAs", false) {
 
     @Option
     @Description("The content to parse.")
