@@ -1,4 +1,5 @@
 ---
+sampleAsset: 'assets/media/pic09.jpg'
 ---
 
 ## Media Management
@@ -14,7 +15,7 @@ template function to load an asset, and Orchid will make sure it ends up in your
 {% endverbatim %}
 {% endhighlight %}
 
-![asset]({{ 'assets/media/pic01.jpg'|asset }})
+![asset]({{ sampleAsset|asset }})
 
 ## Image Manipulation 
 
@@ -28,7 +29,7 @@ Rotate an image asset. Rotation angle is expressed in degrees.
 {% endverbatim %}
 {% endhighlight %}
 
-![rotated asset]({{ 'assets/media/pic01.jpg'|asset|rotate(90) }})
+![rotated asset]({{ sampleAsset|asset|rotate(90) }})
 
 {% docs className='com.eden.orchid.impl.themes.functions.RotateFunction' tableClass='table' tableLeaderClass='hidden' %}
 
@@ -42,7 +43,7 @@ Scale an image asset by a constant factor.
 {% endverbatim %}
 {% endhighlight %}
 
-![scaled asset]({{ 'assets/media/pic01.jpg'|asset|scale(0.85) }})
+![scaled asset]({{ sampleAsset|asset|scale(0.85) }})
 
 {% docs className='com.eden.orchid.impl.themes.functions.ScaleFunction' tableClass='table' tableLeaderClass='hidden' %}
 
@@ -54,12 +55,15 @@ image to exactly the specified dimensions, stretching the image as necessary to 
 
 {% highlight 'jinja' %}
 {% verbatim %}
-{{ 'assets/image.jpg'|asset|resize(800, 600, exact=true) }}
+{{ 'assets/image.jpg'|asset|resize(800, 600, "exact") }}
 {% endverbatim %}
 {% endhighlight %}
 
-![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, exact=false) }})
-![exact resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, exact=true) }})
+![resized asset]({{ sampleAsset|asset|resize(400, 300, "fit") }})
+![exact resized asset]({{ sampleAsset|asset|resize(400, 300, "exact") }})
+![resized cropped center-left asset]({{ sampleAsset|asset|resize(400, 300, "cl") }})
+![resized cropped center asset]({{ sampleAsset|asset|resize(400, 300, "c") }})
+![resized cropped center-right asset]({{ sampleAsset|asset|resize(400, 300, "cr") }})
 
 {% docs className='com.eden.orchid.impl.themes.functions.ResizeFunction' tableClass='table' tableLeaderClass='hidden' %}
 
@@ -74,4 +78,6 @@ the same filter more than once, and they will be applied in turn from left-to-ri
 {% endverbatim %}
 {% endhighlight %}
 
-![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300)|rotate(45)|rotate(45) }})
+![resized asset]({{ sampleAsset|asset|resize(400, 300) }})
+![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45) }})
+![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45)|rotate(45) }})

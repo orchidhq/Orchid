@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.ResourceTransformation
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
@@ -17,6 +18,8 @@ import com.eden.orchid.api.theme.assets.Scalable
 import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.utilities.convertOutputStream
 import net.coobird.thumbnailator.Thumbnails
+import net.coobird.thumbnailator.geometry.Positions
+import java.io.InputStream
 import javax.inject.Inject
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
@@ -151,16 +154,24 @@ constructor() : BaseImageManipulationFunction("resize") {
     var height: Int = -1
 
     @Option
-    @Description("True to stretch image to fit, false to maintain aspect ratio.")
-    var exact: Boolean = false
+    @StringDefault("fit")
+    @Description("`exact` to stretch image to fit, or `fit` to maintain aspect ratio. Alternatively, you can crop " +
+            "the image to the specified dimensions by setting a mode with the cropping position, one of " +
+            "[" +
+            "`tl`, `tc`, `tr`, " +
+            "`cl`, `c`, `cr`, " +
+            "`bl`, `bc`, `br`" +
+            "]"
+    )
+    lateinit var mode: Resizable.Mode
 
     override fun parameters(): Array<String?> {
-        return arrayOf("input", "width", "height", "exact")
+        return arrayOf("input", "width", "height", "mode")
     }
 
     override fun apply(): Any? {
         return applyInternal { asset, resource: Resizable ->
-            resource.resize(asset, width, height, exact)
+            resource.resize(asset, width, height, mode)
         }
     }
 }
@@ -183,54 +194,61 @@ class ThumbnailResource(
 
     override fun rotate(page: AssetPage, angle: Double) {
         page.reference.fileName = page.reference.originalFileName + "_rotate-${angle}"
-        contentStreamTransformations.add { input ->
-            Clog.v("try transforming inputstream with rotate")
-            convertOutputStream { safeOs ->
-                Clog.v("start transforming inputstream with rotate")
-                Thumbnails
-                        .of(input)
-                        .rotate(angle)
-                        .scale(1.0)
-                        .outputFormat(reference.extension)
-                        .toOutputStream(safeOs)
-                Clog.v("end transforming inputstream with rotate")
-            }
-        }
+        contentStreamTransformations.add { input -> rotateTransformation(input, angle, reference.outputExtension) }
     }
 
     override fun scale(page: AssetPage, factor: Double) {
         page.reference.fileName = page.reference.originalFileName + "_scale-${factor}"
-        contentStreamTransformations.add { input ->
-            Clog.v("try transforming inputstream with scale")
-            convertOutputStream { safeOs ->
-                Clog.v("start transforming inputstream with scale")
+        contentStreamTransformations.add { input -> scaleTransformation(input, factor, reference.outputExtension) }
+    }
+
+    override fun resize(page: AssetPage, width: Int, height: Int, mode: Resizable.Mode) {
+        page.reference.fileName = page.reference.originalFileName + "_${width}x${height}_${mode.name}"
+        contentStreamTransformations.add { input -> resizeTransformation(input, width, height, mode, reference.outputExtension) }
+    }
+
+    companion object {
+        fun rotateTransformation(input: InputStream, angle: Double, outputFormat: String): InputStream {
+            return convertOutputStream { safeOs ->
+                Thumbnails
+                        .of(input)
+                        .rotate(angle)
+                        .scale(1.0)
+                        .outputFormat(outputFormat)
+                        .toOutputStream(safeOs)
+            }
+        }
+
+        fun scaleTransformation(input: InputStream, factor: Double, outputFormat: String): InputStream {
+            return convertOutputStream { safeOs ->
                 Thumbnails
                         .of(input)
                         .scale(factor)
-                        .outputFormat(reference.extension)
+                        .outputFormat(outputFormat)
                         .toOutputStream(safeOs)
-                Clog.v("end transforming inputstream with scale")
             }
         }
-    }
 
-    override fun resize(page: AssetPage, width: Int, height: Int, exact: Boolean) {
-        page.reference.fileName = page.reference.originalFileName + "_${width}x${height}${if (exact) "_exact" else ""}"
-        contentStreamTransformations.add { input ->
-            Clog.v("try transforming inputstream with resize")
-            convertOutputStream { safeOs ->
-                Clog.v("start transforming inputstream with resize")
+        fun resizeTransformation(input: InputStream, width: Int, height: Int, mode: Resizable.Mode, outputFormat: String): InputStream {
+            return convertOutputStream { safeOs ->
                 val thumbnailBuilder = Thumbnails.of(input)
-                if (exact) {
-                    thumbnailBuilder.forceSize(width, height)
-                }
-                else {
-                    thumbnailBuilder.size(width, height)
+
+                when (mode) {
+                    Resizable.Mode.exact -> thumbnailBuilder.forceSize(width, height)
+                    Resizable.Mode.fit   -> thumbnailBuilder.size(width, height)
+                    Resizable.Mode.bl    -> thumbnailBuilder.size(width, height).crop(Positions.BOTTOM_LEFT)
+                    Resizable.Mode.bc    -> thumbnailBuilder.size(width, height).crop(Positions.BOTTOM_CENTER)
+                    Resizable.Mode.br    -> thumbnailBuilder.size(width, height).crop(Positions.BOTTOM_RIGHT)
+                    Resizable.Mode.cl    -> thumbnailBuilder.size(width, height).crop(Positions.CENTER_LEFT)
+                    Resizable.Mode.c     -> thumbnailBuilder.size(width, height).crop(Positions.CENTER)
+                    Resizable.Mode.cr    -> thumbnailBuilder.size(width, height).crop(Positions.CENTER_RIGHT)
+                    Resizable.Mode.tl    -> thumbnailBuilder.size(width, height).crop(Positions.TOP_LEFT)
+                    Resizable.Mode.tc    -> thumbnailBuilder.size(width, height).crop(Positions.TOP_CENTER)
+                    Resizable.Mode.tr    -> thumbnailBuilder.size(width, height).crop(Positions.TOP_RIGHT)
                 }
 
-                thumbnailBuilder.outputFormat(reference.extension)
+                thumbnailBuilder.outputFormat(outputFormat)
                 thumbnailBuilder.toOutputStream(safeOs)
-                Clog.v("end transforming inputstream with resize")
             }
         }
     }
