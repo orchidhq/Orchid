@@ -10,7 +10,7 @@ orchid {
 
     // additional command-line args
     args = [
-        "--absApiKey", project.properties['ABS_ApiKey']
+        "--absApiKey", "${project.properties['ABS_ApiKey']}"
     ]
 }
 
