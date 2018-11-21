@@ -17,8 +17,6 @@ import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -39,24 +37,20 @@ public abstract class OrchidComponent extends Prioritized implements
         ModularPageListItem<ComponentHolder, OrchidComponent>,
         Renderable {
 
-    @Getter protected final OrchidContext context;
-    @Getter protected final String templateBase = "components";
-    @Getter protected final String type;
-    @Getter protected final AssetHolder assetHolder;
+    protected final OrchidContext context;
+    protected final String templateBase = "components";
+    protected final String type;
+    protected final AssetHolder assetHolder;
     private boolean hasAddedAssets;
 
-    @Getter
-    @Setter
     protected OrchidPage page;
 
-    @Getter @Setter
     @Option
     @Description("Specify a template or a list of templates to use when rendering this component. The first template " +
             "that exists will be chosen for this component."
     )
     protected String[] template;
 
-    @Getter @Setter
     @Option @IntDefault(0)
     @Description("By default, components are rendered in the order in which they are declared, but the ordering can " +
             "be changed by setting the order on any individual component. A higher value for order will render that " +
@@ -64,35 +58,30 @@ public abstract class OrchidComponent extends Prioritized implements
     )
     protected int order;
 
-    @Getter @Setter
     @Option
     @Description("Add extra CSS files to the page containing this Component, which will be compiled just like the " +
             "rest of the site's assets."
     )
     protected String[] extraCss;
 
-    @Getter @Setter
     @Option
     @Description("Add extra Javascript files to the page containing this Component, which will be compiled just like " +
             "the rest of the site's assets."
     )
     protected String[] extraJs;
 
-    @Getter @Setter
     @Option @BooleanDefault(false)
     @Description("When true, this component will not have a template rendered on the page. Useful for Components that" +
             " only add extra CSS or JS, or for temporarily removing a component from the page."
     )
     protected boolean hidden;
 
-    @Getter @Setter
     @Option @BooleanDefault(false)
     @Description("When true, this component will not be wrapped in a wrapper element. The wrapper element is determined" +
             "by the theme, and it is up to the theme to ensure this is implemented properly."
     )
     protected boolean noWrapper;
 
-    @Getter @Setter
     @AllOptions
     private Map<String, Object> allData;
 
@@ -158,5 +147,90 @@ public abstract class OrchidComponent extends Prioritized implements
 
         return templates;
     }
+
+    public OrchidContext getContext() {
+        return this.context;
+    }
+
+    public String getTemplateBase() {
+        return this.templateBase;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public AssetHolder getAssetHolder() {
+        return this.assetHolder;
+    }
+
+    public OrchidPage getPage() {
+        return this.page;
+    }
+
+    public String[] getTemplate() {
+        return this.template;
+    }
+
+    public int getOrder() {
+        return this.order;
+    }
+
+    public String[] getExtraCss() {
+        return this.extraCss;
+    }
+
+    public String[] getExtraJs() {
+        return this.extraJs;
+    }
+
+    public boolean isHidden() {
+        return this.hidden;
+    }
+
+    public boolean isNoWrapper() {
+        return this.noWrapper;
+    }
+
+    public Map<String, Object> getAllData() {
+        return this.allData;
+    }
+
+    public void setPage(OrchidPage page) {
+        this.page = page;
+    }
+
+    public void setTemplate(String[] template) {
+        this.template = template;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public void setExtraCss(String[] extraCss) {
+        this.extraCss = extraCss;
+    }
+
+    public void setExtraJs(String[] extraJs) {
+        this.extraJs = extraJs;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public void setNoWrapper(boolean noWrapper) {
+        this.noWrapper = noWrapper;
+    }
+
+    public void setAllData(Map<String, Object> allData) {
+        this.allData = allData;
+    }
+
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
+
+
 
 }

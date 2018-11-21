@@ -4,6 +4,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.resources.resource.InlineResource;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -169,6 +171,22 @@ public class RenderServiceImpl implements RenderService {
         context.onPageGenerated(page, stopTime - startTime);
 
         return result;
+    }
+
+    @Override
+    public boolean renderAsset(AssetPage asset) {
+        boolean success = false;
+        if(!(asset.getResource() instanceof InlineResource)) {
+            if(context.isBinaryExtension(asset.getReference().getOutputExtension())) {
+                success = renderBinary(asset);
+            }
+            else {
+                success = renderRaw(asset);
+            }
+        }
+
+        asset.setRendered(true);
+        return success;
     }
 
 }

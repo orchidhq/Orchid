@@ -12,6 +12,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.options.OptionHolderDescription
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import org.apache.commons.lang3.ClassUtils
@@ -43,6 +44,10 @@ constructor(
     @Option
     @Description("A custom template to use the for tabs tag used internally.")
     lateinit var tabsTemplate: String
+
+    @Option @BooleanDefault(false)
+    @Description("A custom template to use the for tabs tag used internally.")
+    var admin: Boolean = false
 
     override fun parameters(): Array<String> {
         return arrayOf("className")
@@ -99,6 +104,29 @@ constructor(
         }
     }
 
+    fun getArchetypesDescription(): String {
+        val classDescription = optionsExtractor.describeOptions(findClass(), false, false)
+        if(classDescription.archetypeDescriptions.isNotEmpty()) {
+            val table = krow {
+                classDescription.archetypeDescriptions.forEachIndexed { i, option ->
+                    cell("Key", "$i") {
+                        content = "<code>${option.key}</code>"
+                    }
+                    cell("Type", "$i") {
+                        content = getDescriptionLink(option.archetypeType, option.displayName)
+                    }
+                    cell("Description", "$i") {
+                        content = context.compile("md", option.description)
+                    }
+                }
+            }
+            return table.print(HtmlTableFormatter(tableAttrs))
+        }
+        else {
+            return "No archetypes"
+        }
+    }
+
     fun getRelatedCollections(collectionType: String, collectionId: String): List<OrchidCollection<*>> {
         var stream = this.context.collections.filter { it != null }
 
@@ -143,12 +171,17 @@ constructor(
     private fun getDescriptionLink(o: Any, title: String): String {
         val className = o as? Class<*> ?: o.javaClass
 
-        val page = context.findPage(null, null, className.name)
-
-        if (page != null) {
-            val link = page.link
-
+        if(admin) {
+            val link = "${context.baseUrl}/admin/describe?className=${className.name}"
             return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+        }
+        else {
+            val page = context.findPage(null, null, className.name)
+
+            if (page != null) {
+                val link = page.link
+                return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+            }
         }
 
         return title
@@ -180,6 +213,7 @@ constructor(
             }
         }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> provide(): T? {
         try {
             return context.injector.getInstance(findClass()) as? T

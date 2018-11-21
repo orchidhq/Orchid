@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class PageSubtreeMenuItem
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "pageSubtree", 100) {
+) : OrchidMenuFactory(context, "pageSubtree", 100) {
 
     @Option
     @Description("The Id of an item to look up.")
@@ -32,8 +32,8 @@ constructor(
     @Description("The specific Id of the given collection type where the item is expected to come from.")
     lateinit var collectionId: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val menuItems = ArrayList<MenuItem>()
 
         val page: OrchidPage = (
                 if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(itemId))
@@ -45,11 +45,15 @@ constructor(
         val index = context.internalIndex.findIndex(page.reference.path)
 
         if (index != null) {
-            if(submenuTitle.isBlank()) {
+            if (submenuTitle.isBlank()) {
                 submenuTitle = page.title
             }
 
-            menuItems.addAll(OrchidMenuItemImpl(context, "", index).children)
+            menuItems.addAll(MenuItem.Builder(context)
+                    .fromIndex(index)
+                    .build()
+                    .children
+            )
         }
 
         return menuItems

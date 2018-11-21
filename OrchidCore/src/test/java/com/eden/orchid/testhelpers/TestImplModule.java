@@ -20,7 +20,7 @@ import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory;
 import com.eden.orchid.impl.commands.BuildCommand;
 import com.eden.orchid.impl.commands.DeployCommand;
 import com.eden.orchid.impl.commands.HelpCommand;
@@ -30,6 +30,7 @@ import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
+import com.eden.orchid.impl.compilers.parsers.PropertiesParser;
 import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
@@ -115,7 +116,8 @@ public class TestImplModule extends OrchidModule {
                 CSVParser.class,
                 YamlParser.class,
                 TOMLParser.class,
-                JsonParser.class);
+                JsonParser.class,
+                PropertiesParser.class);
 
         // Precompilers
         addToSet(OrchidPrecompiler.class,
@@ -139,7 +141,7 @@ public class TestImplModule extends OrchidModule {
                 QuitCommand.class);
 
         // Menu Items
-        addToSet(OrchidMenuItem.class,
+        addToSet(OrchidMenuFactory.class,
                 DividerMenuItem.class,
                 SubmenuMenuItem.class,
                 LinkMenuItem.class,

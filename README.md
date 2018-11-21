@@ -1,6 +1,7 @@
 
 # Orchid
 
+[![Build Status](https://casey-brooks.visualstudio.com/Orchid/_apis/build/status/Orchid-Gradle-CI)](https://casey-brooks.visualstudio.com/Orchid/_build/latest?definitionId=2)
 [![Linux and Mac Build Status](https://travis-ci.org/JavaEden/Orchid.svg?branch=master "Linux and Mac Build Status")](https://travis-ci.org/JavaEden/Orchid)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/master?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/master)
 [![Current Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg "Current Version") ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)

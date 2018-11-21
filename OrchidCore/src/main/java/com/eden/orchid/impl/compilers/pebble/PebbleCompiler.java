@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.compilers.pebble;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
@@ -83,7 +84,8 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
             return writer.toString();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            Clog.e("Error rendering Pebble template (see template source below)", e);
+            Clog.e(source);
         }
         return source;
     }

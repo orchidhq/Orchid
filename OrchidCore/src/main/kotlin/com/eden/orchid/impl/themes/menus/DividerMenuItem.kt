@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -14,20 +14,29 @@ class DividerMenuItem
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "separator", 100) {
+) : OrchidMenuFactory(context, "separator", 100) {
 
     @Option
     @Description("An optional title for this divider, to create a contextual section within the menu.")
     lateinit var title: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val menuItems = ArrayList<MenuItem>()
 
         if (!EdenUtils.isEmpty(title)) {
-            menuItems.add(OrchidMenuItemImpl(context, title))
+            menuItems.add(
+                    MenuItem.Builder(context)
+                            .title(title)
+                            .separator(true)
+                            .build()
+            )
         }
         else {
-            menuItems.add(OrchidMenuItemImpl(context))
+            menuItems.add(
+                    MenuItem.Builder(context)
+                            .separator(true)
+                            .build()
+            )
         }
 
         return menuItems

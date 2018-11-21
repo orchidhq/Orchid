@@ -18,7 +18,7 @@ public abstract class TemplateFunction implements OptionsHolder {
 
     protected final String name;
 
-    protected final boolean isSafe;
+    protected final boolean isSafeString;
 
     protected OrchidPage page;
 
@@ -30,9 +30,9 @@ public abstract class TemplateFunction implements OptionsHolder {
      *
      * @param name the name which to call this Function
      */
-    public TemplateFunction(String name, boolean isSafe) {
+    public TemplateFunction(String name, boolean isSafeString) {
         this.name = name;
-        this.isSafe = isSafe;
+        this.isSafeString = isSafeString;
     }
 
     /**
@@ -53,8 +53,8 @@ public abstract class TemplateFunction implements OptionsHolder {
         return this.name;
     }
 
-    public boolean isSafe() {
-        return this.isSafe;
+    public boolean isSafeString() {
+        return this.isSafeString;
     }
 
     public OrchidPage getPage() {

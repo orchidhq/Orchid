@@ -9,4 +9,5 @@ public class OptionHolderDescription {
     private String descriptiveName;
     private String classDescription;
     private List<OptionsDescription> optionsDescriptions;
+    private List<ArchetypeDescription> archetypeDescriptions;
 }

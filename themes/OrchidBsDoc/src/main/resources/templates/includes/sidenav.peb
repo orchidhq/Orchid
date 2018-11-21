@@ -19,7 +19,7 @@
 
     <ul class="nav bs-docs-sidenav">
         {% for menuItem in page.menu.getMenuItems(page) %}
-            {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl" #}
+        {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.MenuItem" #}
             {% if menuItem.hasChildren() %}
                 <li class="has-children {{ menuItem.activeClass(page) }}">
                     <a>{{ menuItem.title | title }}</a>

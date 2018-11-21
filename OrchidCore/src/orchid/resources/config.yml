@@ -2,6 +2,7 @@ site:
   about:
     siteName: Orchid
     siteDescription: A beautiful and truly unique documentation engine and static site generator.
+    avatar: 'assets/media/avatar.jpg'
 
 theme:
   useSidebarSearch: true
@@ -17,14 +18,8 @@ theme:
     seed: 1
   menu:
     - type: 'page'
-      title: 'Home'
-    - type: 'submenu'
-      title: 'Learn'
-      menu:
-        - type: 'wikiSections'
-        - type: 'page'
-          title: 'API Docs'
-          itemId: 'com.eden.orchid'
+      itemId: 'Getting Started'
+    - type: 'wikiSections'
     - type: 'submenu'
       title: 'Explore'
       menu:
@@ -32,6 +27,12 @@ theme:
           taxonomyType: 'group'
           includeTerms: true
           termsAtRoot: true
+        - type: 'page'
+          title: 'API Docs'
+          itemId: 'com.eden.orchid'
+        - type: 'page'
+          title: 'Changelog'
+          itemId: 'Changelog'
     - type: 'link'
       title: 'Github'
       url: 'https://github.com/JavaEden/Orchid'
@@ -43,7 +44,7 @@ services:
     disabled:
       - 'javadoc'
       - 'swiftdoc'
-#      - 'kotlindoc'
+      - 'kotlindoc'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
       - 'https://javaeden.github.io/Common/meta/javadoc.index.json'

@@ -21,6 +21,7 @@ import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
+import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
@@ -29,6 +30,8 @@ import org.jsoup.Jsoup
 import java.io.File
 import java.util.stream.Stream
 import javax.inject.Inject
+
+
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
 class WikiGenerator
@@ -79,7 +82,14 @@ constructor(
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+        pages.forEach {
+            if(it is WikiBookPage) {
+                context.renderBinary(it)
+            }
+            else {
+                context.renderTemplate(it)
+            }
+        }
     }
 
     private fun loadWikiPages(section: WikiSection): WikiSection? {
@@ -120,6 +130,10 @@ constructor(
             if (resource == null) {
                 Clog.w("Could not find wiki resource page at '#{$1}'", file)
                 resource = StringResource(context, path + File.separator + "index.md", a.text())
+            }
+
+            if (resource.reference.originalFileName.equals("index", ignoreCase = true)) {
+                resource.reference.setAsDirectoryIndex()
             }
 
             val pageTitle = if (section.includeIndexInPageTitle) "${i + 1}. " + a.text() else a.text()
@@ -168,6 +182,17 @@ constructor(
 
         section.summaryPage = summaryPage
         section.wikiPages = wiki
+
+        if(section.createPdf) {
+            val bookReference = OrchidReference(summary.reference)
+            bookReference.fileName = "book"
+            bookReference.extension = "pdf"
+            bookReference.isUsePrettyUrl = false
+            section.bookPage = WikiBookPage(bookReference, section)
+        }
+        else {
+            section.bookPage = null
+        }
 
         return section
     }

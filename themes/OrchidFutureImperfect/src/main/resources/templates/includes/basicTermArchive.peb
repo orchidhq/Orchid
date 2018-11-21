@@ -28,8 +28,9 @@
                 </div>
                 {% endif %}
             </header>
-            {% if page.featuredImage is not empty %}
-            <a href="{{ page.link }}" class="image featured"><img src="{{ page.featuredImage }}" alt="{{ page.title }}"/></a>
+            {% if post.featuredImage.exists %}
+                {% set featuredImage = post.featuredImage.get() %}
+                <a href="{{ page.link }}" class="image featured"><img src="{{ featuredImage.link }}" alt="{{ page.title }}"/></a>
             {% endif %}
             <p>{{ page | excerpt | raw }}</p>
             <footer>

@@ -4,8 +4,8 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
@@ -19,7 +19,7 @@ class TaxonomyTermMenuType
 constructor(
         context: OrchidContext,
         var model: TaxonomiesModel
-) : OrchidMenuItem(context, "taxonomyTerm", 100) {
+) : OrchidMenuFactory(context, "taxonomyTerm", 100) {
 
     @Option
     @Description("The Taxonomy to include terms from.")
@@ -41,7 +41,8 @@ constructor(
     )
     var pagesAtRoot = false
 
-    @Option @IntDefault(4)
+    @Option
+    @IntDefault(4)
     @Description("The maximum number of associated pages to include in this menu item.")
     var limit: Int = 4
 
@@ -55,28 +56,28 @@ constructor(
             return taxonomy?.terms?.get(termType)
         }
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val items = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val items = ArrayList<MenuItem>()
         val term = this.term
-        if(term != null) {
-            if(includePages) {
-                val pageList = if(term.allPages.size > limit) term.allPages.subList(0, limit) else term.allPages
+        if (term != null) {
+            if (includePages) {
+                val pageList = if (term.allPages.size > limit) term.allPages.subList(0, limit) else term.allPages
 
-                if(pagesAtRoot) {
+                if (pagesAtRoot) {
                     pageList.forEach {
-                        items.add(OrchidMenuItemImpl(context, it))
+                        items.add(MenuItem.Builder(context).page(it).build())
                     }
                 }
                 else {
-                    items.add(OrchidMenuItemImpl(context, term.title, pageList))
+                    items.add(MenuItem.Builder(context).title(term.title).pages(pageList).build())
                 }
             }
             else {
-                items.add(OrchidMenuItemImpl(
-                        context,
-                        term.title,
-                        term.archivePages.first()
-                ))
+                items.add(MenuItem.Builder(context)
+                        .title(term.title)
+                        .page(term.archivePages.first())
+                        .build()
+                )
             }
         }
 

@@ -1,6 +1,6 @@
 ext {
     JavaEden = [
-        Common: "1.10.2",
+        Common: "1.10.4",
         Clog: "2.0.4",
         Krow: "0.1.10",
         Eden: "0.4.0",
@@ -13,4 +13,5 @@ ext {
     mockitoVersion = '2.+'
     striktVersion = '0.15.0'
     kotlin_version = '1.2.71'
+    open_html_version = '0.0.1-RC17'
 }

@@ -105,16 +105,16 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                 .innerHtml()
                 .isEqualTo("""
                     <li>
-                      <a href="wiki/page-one">1</a>
+                      <a href="http://orchid.test/wiki/page-one">1</a>
                     </li>
                     <li>
-                      <a href="wiki/page-two">2</a>
+                      <a href="http://orchid.test/wiki/page-two">2</a>
                     </li>
                     <li>
                       <span class="submenu">Page-three</span>
                       <ul>
                         <li>
-                          <a href="wiki/page-three/page-four">3-4</a>
+                          <a href="http://orchid.test/wiki/page-three/page-four">3-4</a>
                         </li>
                       </ul>
                     </li>
@@ -139,16 +139,16 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                 .innerHtml()
                 .isEqualTo("""
                     <li>
-                      <a href="wiki/page-one">1</a>
+                      <a href="http://orchid.test/wiki/page-one">1</a>
                     </li>
                     <li>
-                      <a href="wiki/page-two">2</a>
+                      <a href="http://orchid.test/wiki/page-two">2</a>
                     </li>
                     <li>
                       <span class="submenu">Page-three</span>
                       <ul>
                         <li>
-                          <a href="wiki/page-three/page-four">3-4</a>
+                          <a href="http://orchid.test/wiki/page-three/page-four">3-4</a>
                         </li>
                       </ul>
                     </li>
@@ -179,16 +179,16 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                       <span class="submenu">Section1</span>
                       <ul>
                         <li>
-                          <a href="wiki/section1/page-one">1</a>
+                          <a href="http://orchid.test/wiki/section1/page-one">1</a>
                         </li>
                         <li>
-                          <a href="wiki/section1/page-two">2</a>
+                          <a href="http://orchid.test/wiki/section1/page-two">2</a>
                         </li>
                         <li>
                           <span class="submenu">Page-three</span>
                           <ul>
                             <li>
-                              <a href="wiki/section1/page-three/page-four">3-4</a>
+                              <a href="http://orchid.test/wiki/section1/page-three/page-four">3-4</a>
                             </li>
                           </ul>
                         </li>
@@ -198,16 +198,16 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                       <span class="submenu">Section2</span>
                       <ul>
                         <li>
-                          <a href="wiki/section2/page-one">1</a>
+                          <a href="http://orchid.test/wiki/section2/page-one">1</a>
                         </li>
                         <li>
-                          <a href="wiki/section2/page-two">2</a>
+                          <a href="http://orchid.test/wiki/section2/page-two">2</a>
                         </li>
                         <li>
                           <span class="submenu">Page-three</span>
                           <ul>
                             <li>
-                              <a href="wiki/section2/page-three/page-four">3-4</a>
+                              <a href="http://orchid.test/wiki/section2/page-three/page-four">3-4</a>
                             </li>
                           </ul>
                         </li>
@@ -237,16 +237,16 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                 .innerHtml()
                 .isEqualTo("""
                     <li>
-                      <a href="wiki/section1/page-one">1</a>
+                      <a href="http://orchid.test/wiki/section1/page-one">1</a>
                     </li>
                     <li>
-                      <a href="wiki/section1/page-two">2</a>
+                      <a href="http://orchid.test/wiki/section1/page-two">2</a>
                     </li>
                     <li>
                       <span class="submenu">Page-three</span>
                       <ul>
                         <li>
-                          <a href="wiki/section1/page-three/page-four">3-4</a>
+                          <a href="http://orchid.test/wiki/section1/page-three/page-four">3-4</a>
                         </li>
                       </ul>
                     </li>

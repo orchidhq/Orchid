@@ -23,8 +23,9 @@ import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem;
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.commands.BuildCommand;
 import com.eden.orchid.impl.commands.DeployCommand;
@@ -35,6 +36,7 @@ import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.eden.orchid.impl.compilers.markdown.MarkdownCompiler;
 import com.eden.orchid.impl.compilers.parsers.CSVParser;
 import com.eden.orchid.impl.compilers.parsers.JsonParser;
+import com.eden.orchid.impl.compilers.parsers.PropertiesParser;
 import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
@@ -62,6 +64,7 @@ import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
 import com.eden.orchid.impl.themes.functions.AnchorFunction;
+import com.eden.orchid.impl.themes.functions.AssetFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
@@ -69,6 +72,10 @@ import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
+import com.eden.orchid.impl.themes.functions.ParseAsFunction;
+import com.eden.orchid.impl.themes.functions.ResizeFunction;
+import com.eden.orchid.impl.themes.functions.RotateFunction;
+import com.eden.orchid.impl.themes.functions.ScaleFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.GeneratorPagesMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
@@ -138,7 +145,8 @@ public final class ImplModule extends OrchidModule {
                 CSVParser.class,
                 YamlParser.class,
                 TOMLParser.class,
-                JsonParser.class);
+                JsonParser.class,
+                PropertiesParser.class);
 
         // Precompilers
         addToSet(OrchidPrecompiler.class,
@@ -166,7 +174,7 @@ public final class ImplModule extends OrchidModule {
                 QuitCommand.class);
 
         // Menu Items
-        addToSet(OrchidMenuItem.class,
+        addToSet(OrchidMenuFactory.class,
                 DividerMenuItem.class,
                 SubmenuMenuItem.class,
                 LinkMenuItem.class,
@@ -186,6 +194,7 @@ public final class ImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
+                ThemeServiceImpl.class,
                 TaskServiceImpl.class,
                 ResourceServiceImpl.class,
                 IndexServiceImpl.class,
@@ -195,14 +204,20 @@ public final class ImplModule extends OrchidModule {
 
         // Template Functions
         addToSet(TemplateFunction.class,
+                AssetFunction.class,
                 AnchorFunction.class,
                 CompileAsFunction.class,
+                ParseAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
                 LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,
-                LocalDateFunction.class
+                LocalDateFunction.class,
+
+                RotateFunction.class,
+                ScaleFunction.class,
+                ResizeFunction.class
         );
 
         // Publication Methods

@@ -1,0 +1,16 @@
+<label for="{{ form.key }}--{{ field.key }}">{{ field.label }}</label>
+{% for key in field.options.keySet() %}
+    {% set option = field.options.getString(key) %}
+    <div class="radio">
+        <label>
+            <input
+                    type="{{ field.type }}"
+                    name="{{ form.key }}--{{ field.key }}"
+                    id="{{ form.key }}--{{ field.key }}--{{ key }}"
+                    value="{{ key }}"
+                    {% if field.required %}required{% endif %}>
+            {{ option }}
+        </label>
+    </div>
+{% endfor %}
+

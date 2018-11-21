@@ -3,8 +3,8 @@ package com.eden.orchid.swiftdoc.menu
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.swiftdoc.SwiftdocModel
 import com.eden.orchid.swiftdoc.page.SwiftdocStatementPage
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class SwiftdocMenuItem
 constructor(
         context: OrchidContext,
         val model: SwiftdocModel
-) : OrchidMenuItem(context, "swiftdocPages", 100) {
+) : OrchidMenuFactory(context, "swiftdocPages", 100) {
 
     @Option
     lateinit var docType: String
@@ -23,7 +23,7 @@ constructor(
     @Option
     lateinit var title: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
+    override fun getMenuItems(): List<MenuItem> {
         val pages: List<SwiftdocStatementPage> = when(docType) {
             "class"    -> model.classPages
             "struct"   -> model.structPages
@@ -34,7 +34,12 @@ constructor(
         }
 
         if(!pages.isEmpty()) {
-            return listOf(OrchidMenuItemImpl(context, title, pages.sortedBy { it.statement.name }))
+            return listOf(
+                    MenuItem.Builder(context)
+                            .title(title)
+                            .pages(pages.sortedBy { it.statement.name })
+                            .build()
+            )
         }
 
         return emptyList()

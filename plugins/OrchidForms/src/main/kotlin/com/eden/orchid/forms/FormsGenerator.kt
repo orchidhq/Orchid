@@ -1,6 +1,5 @@
 package com.eden.orchid.forms
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
@@ -9,7 +8,6 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
-import com.eden.orchid.forms.pages.FormSubmissionPage
 import com.eden.orchid.utilities.OrchidUtils
 import java.util.stream.Stream
 import javax.inject.Inject
@@ -37,15 +35,13 @@ constructor(
         val forms = HashMap<String, Form>()
         getFormsByDatafiles(forms)
 
-        val pages = getFormsWithSubmissionPages(forms)
-
         model.initialize(forms)
 
-        return pages
+        return null
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+
     }
 
     private fun getFormsByDatafiles(forms: HashMap<String, Form>) {
@@ -57,41 +53,6 @@ constructor(
             val form = Form(context, key, fileData.toMap())
             forms.put(key, form)
         }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun getFormsWithSubmissionPages(forms: HashMap<String, Form>): List<OrchidPage> {
-        val pages = ArrayList<OrchidPage>()
-        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.compilerExtensions.toTypedArray(), false)
-
-        if (!EdenUtils.isEmpty(formsPages)) {
-            for (resource in formsPages) {
-                val key = resource.reference.originalFileName
-
-                val formSubmissionPage = FormSubmissionPage(resource, "form", null)
-                formSubmissionPage.reference.stripFromPath(OrchidUtils.normalizePath(baseDir))
-                formSubmissionPage.reference.path = OrchidUtils.normalizePath("submit/" + formSubmissionPage.reference.originalPath)
-                pages.add(formSubmissionPage)
-
-                val form = Form(context, key, formSubmissionPage.data["form"] as? Map<String, Any> ?: HashMap())
-
-                // if the form does not specify an action, set its page as the action.
-                if (EdenUtils.isEmpty(form.action)) {
-                    form.action = formSubmissionPage.reference.toString()
-                }
-
-                form.fields.add(mapOf(
-                        "type" to "hidden",
-                        "key" to "__onSubmit",
-                        "value" to formSubmissionPage.reference.toString(),
-                        "order" to Integer.MAX_VALUE
-                ))
-
-                forms.put(key, form)
-            }
-        }
-
-        return pages
     }
 
 }

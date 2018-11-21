@@ -2,8 +2,8 @@ package com.eden.orchid.wiki.menu
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.wiki.model.WikiModel
 import javax.inject.Inject
 
@@ -13,11 +13,16 @@ class WikiSectionsMenuItemType
 constructor(
         context: OrchidContext,
         private val model: WikiModel
-) : OrchidMenuItem(context, "wikiSections", 100) {
+) : OrchidMenuFactory(context, "wikiSections", 100) {
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
+    override fun getMenuItems(): List<MenuItem> {
         return  model.sections.values
-                .map { OrchidMenuItemImpl(context, it.sectionTitle, it.summaryPage) }
+                .map {
+                    MenuItem.Builder(context)
+                            .title(it.sectionTitle)
+                            .page(it.summaryPage)
+                            .build()
+                }
                 .toList()
     }
 

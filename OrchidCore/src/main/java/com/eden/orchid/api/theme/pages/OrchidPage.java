@@ -20,9 +20,6 @@ import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
-import com.eden.orchid.api.theme.breadcrumbs.Breadcrumb;
-import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolder;
-import com.eden.orchid.api.theme.breadcrumbs.BreadcrumbHolderDelegate;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
@@ -156,7 +153,6 @@ public class OrchidPage implements
 
     // variables that attach other objects to this page
     protected AssetHolder assets;
-    protected BreadcrumbHolder breadcrumbs;
 
     @Option
     @Description("The secondary only added to this page. It is common for generators to add menu items to their pages" +
@@ -195,7 +191,6 @@ public class OrchidPage implements
     public OrchidPage(OrchidResource resource, String key, String title) {
         this.context = resource.getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
-        this.breadcrumbs = new BreadcrumbHolderDelegate(context);
 
         this.key = key;
         this.template = new String[]{"page"};
@@ -227,7 +222,7 @@ public class OrchidPage implements
                 this.title = title;
             }
             else {
-                this.title = to(from(resource.getReference().getTitle(), OrchidExtensionsKt::camelCase), OrchidExtensionsKt::titleCase);
+                this.title = to(from(resource.getReference().getTitle(), OrchidExtensionsKt::filename), OrchidExtensionsKt::titleCase);
             }
         }
 
@@ -237,7 +232,7 @@ public class OrchidPage implements
 // Get page info that has additional logic
 //----------------------------------------------------------------------------------------------------------------------
 
-    public final String getLink() {
+    public String getLink() {
         return reference.toString();
     }
 
@@ -455,22 +450,6 @@ public class OrchidPage implements
 
     protected void collectComponentStyles(List<CssPage> styles) {
         OrchidUtils.addComponentAssets(this, getComponentHolders(), styles, OrchidComponent::getStyles);
-    }
-
-// Breadcrumbs
-//----------------------------------------------------------------------------------------------------------------------
-
-    public final BreadcrumbHolder getBreadcrumbHolder() {
-        return breadcrumbs;
-    }
-
-    public final List<Breadcrumb> getBreadCrumbs() {
-        breadcrumbs.setDefaultBreadcrumbs(defaultBreadcrumbs);
-        return breadcrumbs.getBreadCrumbs().get(this);
-    }
-
-    public final List<Breadcrumb> getBreadCrumbs(String key) {
-        return breadcrumbs.getBreadCrumbs(key).get(this);
     }
 
 // Callbacks
@@ -758,10 +737,6 @@ public class OrchidPage implements
 
     public void setAssets(AssetHolder assets) {
         this.assets = assets;
-    }
-
-    public void setBreadcrumbs(BreadcrumbHolder breadcrumbs) {
-        this.breadcrumbs = breadcrumbs;
     }
 
     public void setMenu(OrchidMenu menu) {

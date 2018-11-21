@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,20 +15,22 @@ public abstract class Relation<T> implements OptionsHolder {
 
     @Getter @Setter
     private Map<String, Object> ref;
-    private T item;
-    private T defaultItem;
+    @Nullable private T item;
+    @Nullable private T defaultItem;
 
     @Inject
     public Relation(OrchidContext context) {
         this.context = context;
     }
 
+    @Nullable
     public abstract T load();
 
-    public final void set(T item) {
+    public final void set(@Nullable T item) {
         this.defaultItem = item;
     }
 
+    @Nullable
     public final T get() {
         if(item == null) {
             extractOptions(context, ref);
@@ -39,6 +42,10 @@ public abstract class Relation<T> implements OptionsHolder {
         }
 
         return item;
+    }
+
+    public boolean exists() {
+        return get() != null;
     }
 
     public Map<String, Object> parseStringRef(String ref) {

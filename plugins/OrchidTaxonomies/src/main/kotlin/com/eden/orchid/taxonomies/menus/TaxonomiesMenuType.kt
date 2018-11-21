@@ -4,8 +4,8 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import javax.inject.Inject
 
@@ -15,22 +15,22 @@ class TaxonomiesMenuType
 constructor(
         context: OrchidContext,
         var model: TaxonomiesModel
-) : OrchidMenuItem(context, "taxonomies", 100) {
+) : OrchidMenuFactory(context, "taxonomies", 100) {
 
     @Option
     @StringDefault("Taxonomies")
     @Description("The menu item title.")
     lateinit var title: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val items = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val items = ArrayList<MenuItem>()
 
         model.taxonomies.values.forEach {
-            items.add(OrchidMenuItemImpl(
-                    context,
-                    it.title,
-                    it.archivePages.first()
-            ))
+            items.add(MenuItem.Builder(context)
+                    .title(it.title)
+                    .page(it.archivePages.first())
+                    .build()
+            )
         }
 
         return items

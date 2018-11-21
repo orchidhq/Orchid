@@ -1,6 +1,7 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.ImplementedBy;
 
@@ -177,6 +178,18 @@ public interface RenderService extends OrchidService {
      */
     default boolean renderBinary(final OrchidPage page) {
         return getService(RenderService.class).renderBinary(page);
+    }
+
+    /**
+     * Renders an AssetPage. If the page represents a binary asset, it will be rendered with {@link #renderBinary(OrchidPage)},
+     * otherwise it will be rendered with {@link #renderRaw(OrchidPage)}
+     *
+     * @param asset the asset to render
+     * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise
+     * @since v1.0.0
+     */
+    default boolean renderAsset(final AssetPage asset) {
+        return getService(RenderService.class).renderAsset(asset);
     }
 
 }

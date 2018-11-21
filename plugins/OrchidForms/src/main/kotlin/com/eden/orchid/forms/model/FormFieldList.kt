@@ -11,8 +11,23 @@ constructor(
         context: OrchidContext
 ) : ModularPageList<FormFieldList, FormField>(context, Provider { getFieldInputTypes(context) }) {
 
+    private var extraFields = mutableMapOf<String, Boolean>()
+
     override fun getItemClass(): Class<FormField> {
         return FormField::class.java
+    }
+
+    fun addExtraField(extraFieldKey: String, fieldName: String, fieldValue: String) {
+        if(!extraFields.containsKey(extraFieldKey)) {
+            add(mapOf(
+                    "type" to "hidden",
+                    "key" to fieldName,
+                    "value" to fieldValue,
+                    "order" to Integer.MAX_VALUE
+            ))
+
+            extraFields[extraFieldKey] = true
+        }
     }
 
     companion object {

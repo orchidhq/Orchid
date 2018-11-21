@@ -18,4 +18,13 @@ class WikiSummaryPage(val section: String?, resource: OrchidResource, title: Str
     : OrchidPage(resource, "wikiSummary", title) {
 
     var sectionsPage: WikiSectionsPage? = null
+
+    init {
+        this.extractOptions(this.context, data)
+        postInitialize(title)
+    }
+
+    override fun initialize(title: String?) {
+
+    }
 }

@@ -34,10 +34,10 @@ constructor(
 
     @Get(path = "/files/**localFilename")
     fun getFiles(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
+        val locatedResources = JSONArray()
+
         val resources = context.getLocalResourceEntries(localFilename, null, false)
         if (!EdenUtils.isEmpty(resources)) {
-            val locatedResources = JSONArray()
-
             resources.forEach {
                 val localResource = JSONObject()
                 localResource.put("name", "${it.reference.originalFileName}.${it.reference.extension}")
@@ -51,12 +51,9 @@ constructor(
 
                 locatedResources.put(localResource)
             }
+        }
 
-            return OrchidResponse(context).json(locatedResources)
-        }
-        else {
-            return OrchidResponse(context).content("Not found").status(404)
-        }
+        return OrchidResponse(context).json(locatedResources)
     }
 
 // CRUD with single files

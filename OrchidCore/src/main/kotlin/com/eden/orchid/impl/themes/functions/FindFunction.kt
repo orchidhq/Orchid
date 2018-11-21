@@ -28,7 +28,7 @@ constructor(val context: OrchidContext) : TemplateFunction("find", false) {
         return IndexService.locateParams
     }
 
-    override fun apply(): Any {
+    override fun apply(): Any? {
         return context.find(collectionType, collectionId, itemId)
     }
 }

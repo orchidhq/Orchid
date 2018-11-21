@@ -123,7 +123,7 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
                 .isEqualTo("""
                     <ul>
                       <li>
-                        <a href="wiki/page-one">Page One</a>
+                        <a href="http://orchid.test/wiki/page-one">Page One</a>
                       </li>
                       <li>
                         <a href="https://www.example.com/">Page Two</a>
@@ -131,6 +131,25 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
                     </ul>
                 """.trimIndent())
         expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
+    }
+
+    @Test
+    @DisplayName("Files named index are treated as the index of that directory, rather than including 'index' in the path.")
+    fun test09() {
+        resource("wiki/summary.md", """
+            |* [Page One](page-one.md)
+            |  * [Page Two](page-two/index.md)
+            |  * [Page Three](page-two/page-three.md)
+        """.trimMargin())
+        resource("wiki/page-one.md")
+        resource("wiki/page-two/index.md")
+        resource("wiki/page-two/page-three.md")
+
+        val testResults = execute()
+        expectThat(testResults).pageWasRendered("/wiki/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/page-two/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/page-two/page-three/index.html")
     }
 
 }

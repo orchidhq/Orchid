@@ -70,6 +70,10 @@ public class OrchidIntegrationTest {
         }
         testedModules.addAll(standardAdditionalModules);
 
+        if(!flags.containsKey("baseUrl")) {
+            flag("baseUrl", "http://orchid.test");
+        }
+
         Pair<OrchidContext, TestResults> results = runner.runTest(flags, config, resources, testedModules);
         this.testContext = results.getFirst();
         this.testResults = results.getSecond();

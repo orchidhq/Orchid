@@ -44,6 +44,10 @@ public interface IndexService extends OrchidService {
         return getService(IndexService.class).getCollections();
     }
 
+    default List<? extends OrchidCollection> getCollections(List<String> filters) {
+        return getService(IndexService.class).getCollections(filters);
+    }
+
     default Object find(String collectionType, String collectionId, String itemId) {
         return getService(IndexService.class).find(collectionType, collectionId, itemId);
     }

@@ -1,0 +1,28 @@
+title: 'Leave us a comment'
+redirectionPage: 'Orchid Forms'
+attributes:
+  data-netlify: true
+fields:
+  name:
+    label: 'Name (optional)'
+    type: text
+    span: 'full'
+    order: 1
+  occupation:
+    label: 'Occupation'
+    type: 'radio'
+    required: true
+    span: 'full'
+    order: 3
+    options:
+      student: Student
+      programmer: Programmer
+      teacher: Teacher
+      pastor: Pastor
+      other: Other
+  comments:
+    label: 'Comments'
+    type: 'textarea'
+    required: true
+    span: 'full'
+    order: 4

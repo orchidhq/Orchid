@@ -42,9 +42,8 @@ constructor(
 
         for (entry in resourcesList) {
             entry.reference.stripFromPath(baseDir)
-            if (entry.reference.originalFileName.equals("index", true)) {
-                entry.reference.fileName = entry.reference.originalPathSegments.last()
-                entry.reference.removePathSegment(entry.reference.originalPathSegments.lastIndex)
+            if (entry.reference.originalFileName.equals("index", ignoreCase = true)) {
+                entry.reference.setAsDirectoryIndex()
             }
 
             val page = StaticPage(entry)

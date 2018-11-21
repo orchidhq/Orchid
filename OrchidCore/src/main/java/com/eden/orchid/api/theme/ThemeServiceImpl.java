@@ -3,9 +3,12 @@ package com.eden.orchid.api.theme;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.events.On;
+import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.theme.assets.GlobalAssetHolder;
+import com.eden.orchid.api.theme.assets.AssetManager;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import org.json.JSONObject;
@@ -21,10 +24,10 @@ import java.util.Stack;
  * @orchidApi services
  */
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
-public final class ThemeServiceImpl implements ThemeService {
+public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {
 
     private OrchidContext context;
-    private final GlobalAssetHolder globalAssetHolder;
+    private final AssetManager assetManager;
 
     private ThemeHolder<Theme> themes;
     private ThemeHolder<AdminTheme> adminThemes;
@@ -37,12 +40,12 @@ public final class ThemeServiceImpl implements ThemeService {
 
     @Inject
     public ThemeServiceImpl(
-            GlobalAssetHolder globalAssetHolder,
+            AssetManager assetManager,
             Provider<Set<Theme>> themesProvider,
             @Named("theme") String defaultTheme,
             Provider<Set<AdminTheme>> adminThemesProvider,
             @Named("adminTheme") String defaultAdminTheme) {
-        this.globalAssetHolder = globalAssetHolder;
+        this.assetManager = assetManager;
         this.defaultTheme = defaultTheme;
         this.themesProvider = themesProvider;
 
@@ -68,8 +71,8 @@ public final class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
-    public GlobalAssetHolder getGlobalAssetHolder() {
-        return globalAssetHolder;
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
 
 // Interface Implementation
@@ -227,5 +230,10 @@ public final class ThemeServiceImpl implements ThemeService {
                 return null;
             }
         }
+    }
+
+    @On(Orchid.Lifecycle.ClearCache.class)
+    public void onClearCache(Orchid.Lifecycle.ClearCache event) {
+        assetManager.clearAssets();
     }
 }

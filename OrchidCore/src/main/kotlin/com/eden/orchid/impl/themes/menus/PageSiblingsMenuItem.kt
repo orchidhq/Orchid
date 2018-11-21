@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItem
-import com.eden.orchid.api.theme.menus.menuItem.OrchidMenuItemImpl
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class PageSiblingsMenuItem
 @Inject
 constructor(
         context: OrchidContext
-) : OrchidMenuItem(context, "pageSiblings", 100) {
+) : OrchidMenuFactory(context, "pageSiblings", 100) {
 
     @Option
     @Description("The title of this menu item.")
@@ -37,8 +37,8 @@ constructor(
     @Description("The specific Id of the given collection type where the item is expected to come from.")
     lateinit var collectionId: String
 
-    override fun getMenuItems(): List<OrchidMenuItemImpl> {
-        val menuItems = ArrayList<OrchidMenuItemImpl>()
+    override fun getMenuItems(): List<MenuItem> {
+        val menuItems = ArrayList<MenuItem>()
 
         val page: OrchidPage = (
                 if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(itemId))
@@ -60,7 +60,7 @@ constructor(
                     .children
                     .values
                     .flatMap { it.getOwnPages() }
-                    .map { OrchidMenuItemImpl(context, it) }
+                    .map { MenuItem.Builder(context).page(it).build() }
             )
         }
 
