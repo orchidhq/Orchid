@@ -1,4 +1,4 @@
-{% set 'generator' =  tag.provide() %}
+{% set generator =  tag.provide() %}
 {# @pebvariable name="generator" type="com.eden.orchid.api.generators.OrchidGenerator" #}
 
 {% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}

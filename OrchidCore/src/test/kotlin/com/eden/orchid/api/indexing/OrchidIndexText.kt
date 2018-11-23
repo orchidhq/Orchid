@@ -1,6 +1,5 @@
 package com.eden.orchid.api.indexing
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
@@ -148,7 +147,7 @@ class OrchidIndexText {
             DynamicTest.dynamicTest("when looking up 'findPage ${page.reference.path}' from its path, the index returns the same instance") {
                 expect {
                     that(rootIndex)
-                            .get { it.findPage(page.reference.path) }
+                            .get { findPage(page.reference.path) }
                             .isSameInstanceAs(page)
                 }
             }
@@ -161,7 +160,7 @@ class OrchidIndexText {
             DynamicTest.dynamicTest("when looking up 'find ${page.reference.path}' from its path, the index returns a list containing the same instance") {
                 expect {
                     that(rootIndex)
-                            .get { it.find(page.reference.path) }
+                            .get { find(page.reference.path) }
                             .contains(page)
                 }
             }
@@ -174,7 +173,7 @@ class OrchidIndexText {
             DynamicTest.dynamicTest("when looking up 'findIndex ${page.reference.path}' from its path, the index returns an index containing the same instance as its own page") {
                 expect {
                     that(rootIndex)
-                            .get { it.findIndex(page.reference.path) }
+                            .get { findIndex(page.reference.path) }
                             .isNotNull()
                             .get(OrchidIndex::getOwnPages)
                             .contains(page)
@@ -189,7 +188,7 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/user-manual' has 5 pages total") {
                     expect {
                         that(rootIndex)
-                                .get { it.findIndex("wiki/user-manual") }
+                                .get { findIndex("wiki/user-manual") }
                                 .isNotNull()
                                 .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(
@@ -205,7 +204,7 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/developers-guide' has 5 pages total") {
                     expect {
                         that(rootIndex)
-                                .get { it.findIndex("wiki/developers-guide") }
+                                .get { findIndex("wiki/developers-guide") }
                                 .isNotNull()
                                 .get(OrchidIndex::allPages)
                                 .containsExactlyInAnyOrder(
@@ -227,15 +226,15 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/user-manual' has a parent of `wiki`") {
                     expect {
                         that(rootIndex)
-                                .get { it.findIndex("wiki/user-manual") }
+                                .get { findIndex("wiki/user-manual") }
                                 .isNotNull()
                                 .and {
                                     var indexParent: OrchidIndex? = null
-                                    get { indexParent = it; it.parent }
+                                    get { indexParent = this; this.parent }
                                             .isNotNull()
                                             .and {
-                                                get { it.ownKey }.isEqualTo("wiki")
-                                                get { it.children }["user-manual"]
+                                                get { ownKey }.isEqualTo("wiki")
+                                                get { children }["user-manual"]
                                                         .isNotNull()
                                                         .isSameInstanceAs(indexParent)
                                             }
@@ -246,15 +245,15 @@ class OrchidIndexText {
                 DynamicTest.dynamicTest("the subtree of 'wiki/developers-guide' has a parent of `wiki`") {
                     expect {
                         that(rootIndex)
-                                .get { it.findIndex("wiki/developers-guide") }
+                                .get { findIndex("wiki/developers-guide") }
                                 .isNotNull()
                                 .and {
                                     var indexParent: OrchidIndex? = null
-                                    get { indexParent = it; it.parent }
+                                    get { indexParent = this; this.parent }
                                             .isNotNull()
                                             .and {
-                                                get { it.ownKey }.isEqualTo("wiki")
-                                                get { it.children }["developers-guide"]
+                                                get { ownKey }.isEqualTo("wiki")
+                                                get { children }["developers-guide"]
                                                         .isNotNull()
                                                         .isSameInstanceAs(indexParent)
                                             }

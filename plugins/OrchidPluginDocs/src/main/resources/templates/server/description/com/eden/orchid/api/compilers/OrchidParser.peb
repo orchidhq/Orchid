@@ -1,4 +1,4 @@
-{% set 'parser' =  tag.provide() %}
+{% set parser =  tag.provide() %}
 {# @pebvariable name="parser" type="com.eden.orchid.api.compilers.OrchidParser" #}
 
 <p><code>{{ parser.priority }}: [{{ parser.sourceExtensions | join('</code>, <code>') }}]</code></p>

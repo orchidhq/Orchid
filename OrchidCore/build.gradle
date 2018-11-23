@@ -7,15 +7,15 @@ apply plugin: 'java-library'
 dependencies {
 
     // Dynamic Component Registration
-    api 'com.google.inject:guice:4.2.1'
-    api 'io.github.classgraph:classgraph:4.4.3'
+    api 'com.google.inject:guice:4.2.2'
+    api 'io.github.classgraph:classgraph:4.4.12'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
     api "com.eden:Clog4j:${JavaEden.Clog}"
     api "com.eden:krow:${JavaEden.Krow}"
-    api "org.projectlombok:lombok:1.18.2"
-    api "com.squareup.okhttp3:okhttp:3.11.0"
+    api "org.projectlombok:lombok:1.18.4"
+    api "com.squareup.okhttp3:okhttp:3.12.0"
     api "commons-io:commons-io:2.6"
     api 'org.apache.commons:commons-lang3:3.8.1'
     api 'net.coobird:thumbnailator:0.4.8'
@@ -29,7 +29,7 @@ dependencies {
     implementation 'org.json:json:20180130'
     implementation 'org.yaml:snakeyaml:1.23'
     implementation 'com.moandjiezana.toml:toml4j:0.7.2'
-    implementation 'io.pebbletemplates:pebble:3.0.5'
+    implementation 'io.pebbletemplates:pebble:3.0.6'
     implementation 'io.bit3:jsass:5.7.3'
     implementation 'com.univocity:univocity-parsers:2.7.6'
 

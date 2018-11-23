@@ -1,4 +1,4 @@
-{% set 'publisher' =  tag.provide() %}
+{% set publisher =  tag.provide() %}
 {# @pebvariable name="publisher" type="com.eden.orchid.api.publication.OrchidPublisher" #}
 
 {% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}

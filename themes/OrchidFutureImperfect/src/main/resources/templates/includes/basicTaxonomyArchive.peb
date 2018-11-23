@@ -9,7 +9,7 @@
                     <h2><a href="{{ term.link }}">{{ term.title }}</a></h2>
                 </div>
             </header>
-            {% set 'termPages' = ((term.pages|length) > 3) ? (term.pages | limitTo(3)) : (term.pages) %}
+            {% set termPages = ((term.pages|length) > 3) ? (term.pages | limitTo(3)) : (term.pages) %}
             {% for page in termPages %}
                 <ul>
                     <li><a href="{{ page.link }}">{{ page.title }}</a></li>

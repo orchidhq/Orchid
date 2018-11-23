@@ -1,4 +1,4 @@
-{% set 'theme' =  tag.provide() %}
+{% set theme =  tag.provide() %}
 {# @pebvariable name="theme" type="com.eden.orchid.api.theme.Theme" #}
 
 {% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}

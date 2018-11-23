@@ -1,5 +1,5 @@
 {# @pebvariable name="classDoc" type="com.copperleaf.javadoc.json.models.JavaClassDoc" #}
-{% set "classDoc" = page.classDoc %}
+{% set classDoc = page.classDoc %}
 
 {% if classDoc.constructors|length > 0 %}
 <h2 id="constructors">Constructors</h2>

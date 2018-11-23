@@ -2,7 +2,7 @@
 {# @pebvariable name="statement" type="com.nrg.orchid.ios.swift.statements.SwiftStruct" #}
 {# @pebvariable name="member" type="com.nrg.orchid.ios.swift.SwiftMember" #}
 
-{% set 'statement' = page.statement %}
+{% set statement = page.statement %}
 
 <div class="orchid-sourcedoc">
     <div>

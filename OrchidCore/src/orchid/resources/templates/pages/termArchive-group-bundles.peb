@@ -4,10 +4,10 @@
 <div class="list-group" style="height: 200px;">
     <li class="list-group-item"><b>Includes the following:</b></li>
 
-    {% set 'includedPages' = page.get('included') %}
+    {% set includedPages = page.get('included') %}
 
     {% for pluginItem in includedPages | slice(0, 3) %}
-    {% set 'pageUrl' = link(itemId=pluginItem.pluginName, collectionType='pages', collectionId=plugin.pluginType) %}
+    {% set pageUrl = link(itemId=pluginItem.pluginName, collectionType='pages', collectionId=plugin.pluginType) %}
 
     {% if pageUrl is not empty %}
         <a class="list-group-item" href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a>

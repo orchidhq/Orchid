@@ -78,12 +78,11 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/page-1/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
                 .innerHtml()
-                .get { println(it); it }
                 .isEqualTo("""
                     <li>
                       <a href="http://orchid.test/page-1">Page 1</a>
@@ -114,12 +113,11 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/one/page-1/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
                 .innerHtml()
-                .get { println(it); it }
                 .isEqualTo("""
                     <li>
                       <a href="http://orchid.test/one/page-1">Page 1</a>

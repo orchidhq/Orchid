@@ -1,4 +1,4 @@
-{% set 'command' =  tag.provide() %}
+{% set command =  tag.provide() %}
 {# @pebvariable name="command" type="com.eden.orchid.api.tasks.OrchidCommand" #}
 
 <p><code>{{ command.getPriority }}: [{{ command.key }}]</code></p>

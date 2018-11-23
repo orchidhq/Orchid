@@ -1,4 +1,4 @@
-{% set 'component' =  tag.provide() %}
+{% set component =  tag.provide() %}
 {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
 
 <p><code>{{ component.priority }}: [{{ component.type }}]</code></p>
