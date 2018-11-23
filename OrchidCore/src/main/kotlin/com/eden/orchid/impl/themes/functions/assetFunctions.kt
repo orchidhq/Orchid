@@ -38,14 +38,7 @@ constructor(
     }
 
     override fun apply(): Any? {
-        val originalResource = context.getLocalResourceEntry(itemId)
-        if (originalResource != null) {
-            // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
-            // rendered lazily when the link for the asset is requested (or not at all if it is never used)
-            return AssetPage(page, "page", ThumbnailResource(originalResource), "thumbnail", originalResource.title)
-        }
-
-        return null
+        return context.assetManager.createAsset(itemId, page, "page")
     }
 }
 
@@ -56,6 +49,7 @@ constructor(
 abstract class BaseImageManipulationFunction
 @Inject
 constructor(
+        val context: OrchidContext,
         name: String
 ) : TemplateFunction(name, false) {
 
@@ -70,7 +64,9 @@ constructor(
                 asset = input as AssetPage
             }
             else if (input is AssetRelation) {
-                asset = (input as AssetRelation).get()
+                // always create a new asset from the relation, since the original is probably already rendered and we
+                // want to manipulate the asset and render it differently
+                asset = (input as AssetRelation).load()
             }
             else {
                 asset = null
@@ -99,7 +95,9 @@ constructor(
 @Description(value = "Rotate an image asset.", name = "Rotate")
 class RotateFunction
 @Inject
-constructor() : BaseImageManipulationFunction("rotate") {
+constructor(
+        context: OrchidContext
+) : BaseImageManipulationFunction(context, "rotate") {
 
     @Option
     @DoubleDefault(0.0)
@@ -120,7 +118,9 @@ constructor() : BaseImageManipulationFunction("rotate") {
 @Description(value = "Scale an image asset by a constant factor.", name = "Scale")
 class ScaleFunction
 @Inject
-constructor() : BaseImageManipulationFunction("scale") {
+constructor(
+        context: OrchidContext
+) : BaseImageManipulationFunction(context, "scale") {
 
     @Option
     @DoubleDefault(0.0)
@@ -141,7 +141,9 @@ constructor() : BaseImageManipulationFunction("scale") {
 @Description(value = "Resize an image asset to specific dimensions.", name = "Resize")
 class ResizeFunction
 @Inject
-constructor() : BaseImageManipulationFunction("resize") {
+constructor(
+        context: OrchidContext
+) : BaseImageManipulationFunction(context, "resize") {
 
     @Option
     @IntDefault(-1)

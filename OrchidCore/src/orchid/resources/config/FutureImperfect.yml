@@ -1,0 +1,9 @@
+sidebar:
+  - type: recentPosts
+    limit: 3
+    noWrapper: true
+    template: 'includes/postPreview_mini'
+  - type: recentPosts
+    limit: 5
+    noWrapper: true
+    template: 'includes/postPreview_list'

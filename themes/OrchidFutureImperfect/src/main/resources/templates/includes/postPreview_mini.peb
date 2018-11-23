@@ -18,7 +18,11 @@
                     </span>
                 {% endif %}
             </header>
-            <a href="{{ post.link }}" class="image"><img src="{{ post.featuredImage }}" alt="{{ post.title }}"/></a>
+
+            {% if post.featuredImage.exists %}
+                {% set featuredImage = post.featuredImage|resize(350, 150, 'c') %}
+                <a href="{{ post.link }}" class="image"><img src="{{ featuredImage }}" alt="{{ featuredImage.alt }}" title="{{ featuredImage.title }}"/></a>
+            {% endif %}
         </article>
 
     {% endfor %}

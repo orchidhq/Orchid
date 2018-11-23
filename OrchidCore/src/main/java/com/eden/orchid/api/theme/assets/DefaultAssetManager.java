@@ -1,6 +1,8 @@
 package com.eden.orchid.api.theme.assets;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.impl.themes.functions.ThumbnailResource;
 import com.google.inject.Provider;
 
 import javax.inject.Inject;
@@ -19,6 +21,18 @@ public final class DefaultAssetManager implements AssetManager {
     public DefaultAssetManager(Provider<OrchidContext> context) {
         this.context = context;
         this.assets = new HashMap<>();
+    }
+
+    @Override
+    public AssetPage createAsset(String asset, Object source, String sourceKey) {
+        OrchidResource originalResource = context.get().getLocalResourceEntry(asset);
+        if (originalResource != null) {
+            // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
+            // rendered lazily when the link for the asset is requested (or not at all if it is never used)
+            return new AssetPage(source, sourceKey, new ThumbnailResource(originalResource), "thumbnail", originalResource.getTitle());
+        }
+
+        return null;
     }
 
     @Override
