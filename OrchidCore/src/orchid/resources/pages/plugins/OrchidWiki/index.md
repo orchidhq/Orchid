@@ -14,7 +14,7 @@ menu:
     submenuTitle: Docs
 ---
 
-### Creating Wikis
+## Creating Wikis
 
 An Orchid Wiki is a collection of pages structured in a freeform hierarchy. Pages in a wiki are all related and ordered, 
 with one page linking directly to the next so a user can read the entire contents of the wiki from front-end simply by 
@@ -94,3 +94,33 @@ wiki:
 1) Looks for the Wiki in /docs instead of /wiki
 2) Creates a wiki based on {baseDir}/userManual/summary.md
 3) Creates a wiki based on {baseDir}/developerGuide/summary.md
+
+## Offline Documentation
+
+As of 0.13.0, the wiki plugin includes support for offline documentation. Simply add `createPdf: true` to the section
+configuration for have it generate a PDF with all the content for that section of your wiki. Each section will now 
+generate `book.pdf` in the section root.
+
+{% highlight 'yaml' %}
+wiki: 
+  sections:
+    - key: userManual
+      createPdf: true
+    - key: developerGuide
+      createPdf: true
+{% endhighlight %}
+
+Alternatively, you can set `createPdf: true` in the wiki `defaultConfig` to be applied to all wiki sections:
+
+{% highlight 'yaml' %}
+wiki: 
+  sections:
+    - 'userManual'
+    - 'developerGuide'
+  defaultConfig:
+    createPdf: true
+{% endhighlight %}
+
+The PDF starts with the section `summary.md` as a Table of Contents, and each page in the wiki starts after a page break
+in the PDF, and the TOC links to each page. You may override `templates/wiki/book.peb` to customize your PDFs as needed.
+PDFs are generated from HTML using the [OpenHTMLToPDF](https://github.com/danfickle/openhtmltopdf) library.
