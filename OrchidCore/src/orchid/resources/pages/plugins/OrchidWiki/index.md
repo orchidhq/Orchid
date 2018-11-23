@@ -97,9 +97,9 @@ wiki:
 
 ## Offline Documentation
 
-As of 0.13.0, the wiki plugin includes support for offline documentation. Simply add `createPdf: true` to the section
-configuration for have it generate a PDF with all the content for that section of your wiki. Each section will now 
-generate `book.pdf` in the section root.
+As of 0.13.0, the wiki plugin includes support for offline documentation. PDFs are an opt-in feature; to enable PDF 
+generation, simply add `createPdf: true` to the section configuration for have it generate a PDF with all the content 
+for that section of your wiki. Each section will now generate `book.pdf` in the section root.
 
 {% highlight 'yaml' %}
 wiki: 

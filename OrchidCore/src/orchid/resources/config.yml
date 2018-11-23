@@ -18,7 +18,8 @@ theme:
     seed: 1
   menu:
     - type: 'page'
-      itemId: 'Getting Started'
+      itemId: 'Quick-Start'
+      title: 'Get Started'
     - type: 'wikiSections'
     - type: 'submenu'
       title: 'Explore'
