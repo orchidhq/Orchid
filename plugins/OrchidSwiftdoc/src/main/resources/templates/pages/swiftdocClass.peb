@@ -4,7 +4,7 @@
 {# @pebvariable name="alias" type="com.nrg.orchid.ios.swift.statements.SwiftTypealias" #}
 {# @pebvariable name="extension" type="com.nrg.orchid.ios.swift.statements.SwiftExtension" #}
 
-{% set 'statement' = page.statement %}
+{% set statement = page.statement %}
 
 <div class="orchid-sourcedoc">
     <div>

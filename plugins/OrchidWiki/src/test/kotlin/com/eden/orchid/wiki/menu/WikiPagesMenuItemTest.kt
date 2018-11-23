@@ -98,7 +98,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
@@ -132,7 +132,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
@@ -169,7 +169,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
@@ -230,7 +230,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
@@ -267,7 +267,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()

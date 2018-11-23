@@ -2,6 +2,7 @@ package com.eden.orchid.posts.functions
 
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.utils.PostsExcerptStrategy
 import javax.inject.Inject
@@ -13,6 +14,7 @@ constructor(
         val strategy: PostsExcerptStrategy
 ) : TemplateFunction("excerpt", false) {
 
+    @Option
     var input: Any? = null
 
     override fun parameters(): Array<String> {

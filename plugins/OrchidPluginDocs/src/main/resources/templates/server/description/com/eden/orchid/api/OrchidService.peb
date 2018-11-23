@@ -1,4 +1,4 @@
-{% set 'service' =  tag.provide() %}
+{% set service =  tag.provide() %}
 {# @pebvariable name="service" type="com.eden.orchid.api.OrchidService" #}
 
 {% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}

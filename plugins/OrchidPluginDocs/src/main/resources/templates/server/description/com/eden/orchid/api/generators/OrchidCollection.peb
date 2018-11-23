@@ -1,4 +1,4 @@
-{% set 'collection' =  tag.provide() %}
+{% set collection =  tag.provide() %}
 {# @pebvariable name="collection" type="com.eden.orchid.api.generators.OrchidCollection" #}
 
 {% set relatedCollections = tag.getRelatedCollections(collectionType, collectionId) %}

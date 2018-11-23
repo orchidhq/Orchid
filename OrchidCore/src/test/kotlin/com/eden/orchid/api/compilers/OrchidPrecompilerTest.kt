@@ -76,8 +76,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -96,8 +96,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -114,8 +114,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -132,8 +132,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
 
@@ -153,8 +153,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -171,8 +171,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -184,8 +184,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo(input) }
-                .and { get { it.second }.isNull() }
+                .and { get { first }.isEqualTo(input) }
+                .and { get { second }.isNull() }
     }
 
     @Test
@@ -201,8 +201,8 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }.isNotNull().isEmpty() }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }.isNotNull().isEmpty() }
     }
 
     @Test
@@ -218,8 +218,8 @@ class OrchidPrecompilerTest {
         expectThat(underTest.shouldPrecompile("md", input)).isFalse()
         var output = underTest.getEmbeddedData("md", input)
         expectThat(output)
-                .and { get { it.first }.isEqualTo(input) }
-                .and { get { it.second }.isNull() }
+                .and { get { first }.isEqualTo(input) }
+                .and { get { second }.isNull() }
 
         underTest.customDelimeters = listOf(
                 FrontMatterPrecompiler.CustomDelimiter().apply {
@@ -234,15 +234,15 @@ class OrchidPrecompilerTest {
         expectThat(underTest.shouldPrecompile("md", input)).isFalse()
         output = underTest.getEmbeddedData("md", input)
         expectThat(output)
-                .and { get { it.first }.isEqualTo(input) }
-                .and { get { it.second }.isNull() }
+                .and { get { first }.isEqualTo(input) }
+                .and { get { second }.isNull() }
 
         // test when custom delimiter is set, and input matches the delimiter's file extensions
         expectThat(underTest.shouldPrecompile("js", input)).isTrue()
         output = underTest.getEmbeddedData("js", input)
         expectThat(output)
-                .and { get { it.first }.isEqualTo("Page Content") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("Page Content") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -274,12 +274,12 @@ class OrchidPrecompilerTest {
         expectThat(underTest.shouldPrecompile("css", input)).isTrue()
         val output = underTest.getEmbeddedData("css", input)
         expectThat(output)
-                .and { get { it.first.replace("\\s".toRegex(), "") }.isEqualTo(".button{color:red;}") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first.replace("\\s".toRegex(), "") }.isEqualTo(".button{color:red;}") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
                 .and {
-                    get { it.second }["customItems"]
+                    get { second }["customItems"]
                             .isA<Collection<*>>()
-                            .get { it.toList() }
+                            .get { toList() }
                             .hasSize(3)
                             .containsExactly("Item One", "Item Two", "Item Three")
                 }
@@ -310,12 +310,12 @@ class OrchidPrecompilerTest {
         expectThat(underTest.shouldPrecompile("md", input)).isTrue()
         val output = underTest.getEmbeddedData("md", input)
         expectThat(output)
-                .and { get { it.first }.isEqualTo("# Markdown content") }
-                .and { get { it.second }["title"].isEqualTo("Weekly Links #2") }
-                .and { get { it.second }["date"].isEqualTo("2013-02-01") }
-                .and { get { it.second }["type"].isEqualTo("post") }
-                .and { get { it.second }["tags"].isEqualTo("weekly links, java") }
-                .and { get { it.second }["status"].isEqualTo("published") }
+                .and { get { first }.isEqualTo("# Markdown content") }
+                .and { get { second }["title"].isEqualTo("Weekly Links #2") }
+                .and { get { second }["date"].isEqualTo("2013-02-01") }
+                .and { get { second }["type"].isEqualTo("post") }
+                .and { get { second }["tags"].isEqualTo("weekly links, java") }
+                .and { get { second }["status"].isEqualTo("published") }
 
     }
 
@@ -332,7 +332,7 @@ class OrchidPrecompilerTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { it.first }.isEqualTo("") }
-                .and { get { it.second }["title"].isEqualTo("Front Matter Title") }
+                .and { get { first }.isEqualTo("") }
+                .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 }

@@ -93,12 +93,11 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/page-one/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
                 .innerHtml()
-                .get { println(it); it }
                 .isEqualTo("""
                     <li>
                       <a href="#header-1">Header 1</a>
@@ -155,12 +154,11 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/page-one/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
                 .innerHtml()
-                .get { println(it); it }
                 .isEqualTo("""
                     <li>
                       <span class="submenu">Header 1</span>
@@ -225,12 +223,11 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/page-one/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
                 .innerHtml()
-                .get { println(it); it }
                 .isEqualTo("""
                     <li>
                       <span class="submenu">Header 1</span>
@@ -285,12 +282,11 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(testResults)
                 .pageWasRendered("/page-one/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body #menu")
                 .matches()
                 .innerHtml()
-                .get { println(it); it }
                 .isEqualTo("""
                     <li>
                       <a href="#header-1-1">Header 1-1</a>

@@ -1,4 +1,4 @@
-{% set 'compiler' =  tag.provide() %}
+{% set compiler =  tag.provide() %}
 {# @pebvariable name="compiler" type="com.eden.orchid.api.compilers.OrchidCompiler" #}
 
 <p><code>{{ compiler.priority }}</code>: [<code>{{ compiler.sourceExtensions | join('</code>, <code>') | raw }}</code>]</p>

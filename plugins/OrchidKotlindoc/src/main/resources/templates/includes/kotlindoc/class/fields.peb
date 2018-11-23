@@ -1,5 +1,5 @@
 {# @pebvariable name="classDoc" type="com.copperleaf.dokka.json.models.KotlinClassDoc" #}
-{% set "classDoc" = page.classDoc %}
+{% set classDoc = page.classDoc %}
 
 {% if classDoc.fields|length > 0 %}
 <h2 id="fields">Fields</h2>

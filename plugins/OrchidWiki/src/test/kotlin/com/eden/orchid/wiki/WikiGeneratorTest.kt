@@ -115,7 +115,7 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         val testResults = execute()
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
-                .get { it.content }
+                .get { content }
                 .asHtml(removeComments = true)
                 .select("body")
                 .matches()

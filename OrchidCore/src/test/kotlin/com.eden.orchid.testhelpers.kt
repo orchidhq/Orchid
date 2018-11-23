@@ -21,7 +21,7 @@ fun Assertion.Builder<TestResults>.nothingRendered(): Assertion.Builder<TestResu
 fun Assertion.Builder<TestResults>.pageWasRendered(name: String): Assertion.Builder<TestRenderer.TestRenderedPage> =
         passesIf("page was rendered at $name") {
             it.renderingSuccess && it.renderedPageMap[name] != null
-        }.get { it.renderedPageMap[name]!! }
+        }.get { renderedPageMap[name]!! }
 
 fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.Builder<TestResults> =
         passesIf("page was not rendered at $name") {
@@ -32,7 +32,7 @@ fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.B
 //----------------------------------------------------------------------------------------------------------------------
 
 fun Assertion.Builder<String>.asHtml(removeComments: Boolean = false) = get {
-    val doc = Jsoup.parse(it).apply {
+    val doc = Jsoup.parse(this).apply {
         outputSettings(Document.OutputSettings().apply {
             indentAmount(2)
             prettyPrint(true)
@@ -62,26 +62,26 @@ fun Assertion.Builder<String>.asHtml(removeComments: Boolean = false) = get {
 }
 
 @JvmName("select_document")
-fun Assertion.Builder<Document>.select(cssQuery: String) = get { it.select(cssQuery) }
+fun Assertion.Builder<Document>.select(cssQuery: String) = get { select(cssQuery) }
 
 @JvmName("select_elements")
-fun Assertion.Builder<Elements>.select(cssQuery: String) = get { it.select(cssQuery) }
+fun Assertion.Builder<Elements>.select(cssQuery: String) = get { select(cssQuery) }
 
 fun Assertion.Builder<Elements>.matches() = passesIf("matches at least one node") { it.isNotEmpty() }
 
 fun Assertion.Builder<Elements>.doesNotMatch() = passesIf("matches no nodes") { it.isEmpty() }
 
-fun Assertion.Builder<Elements>.innerHtml() = get { it.html().trimLines() }
+fun Assertion.Builder<Elements>.innerHtml() = get { html().trimLines() }
 
-fun Assertion.Builder<Elements>.outerHtml() = get { it.outerHtml().trimLines() }
+fun Assertion.Builder<Elements>.outerHtml() = get { outerHtml().trimLines() }
 
-fun Assertion.Builder<Elements>.text() = get { it.text() }
+fun Assertion.Builder<Elements>.text() = get { text() }
 
 fun Assertion.Builder<Elements>.attr(attrName: String) = get {
-    if(it.hasAttr(attrName))
-        it.attr(attrName)
-    else if(it.hasAttr("data-$attrName"))
-        it.attr("data-$attrName")
+    if(this.hasAttr(attrName))
+        this.attr(attrName)
+    else if(this.hasAttr("data-$attrName"))
+        this.attr("data-$attrName")
     else
         null
 }
