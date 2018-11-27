@@ -1,16 +1,11 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 Themes are what create structure to your site and make it unique. At its core, an Orchid theme simple contributes CSS 
 and Javascript assets to the pages using that theme, and it also helps decide the templates that are used to lay out 
 your pages. The templates and assets added by your theme can always be overridden in your local build, but it is never
 necessary to know anything about the your themes templates for it to work well with Orchid. 
-{% endblock %}
 
-{% block sectionBody %}
 ## Picking a Theme
 ---
 
@@ -100,5 +95,3 @@ wiki:
     key: 'BsDoc'
     primaryColor: '#000000'
 {% endhighlight %} 
-
-{% endblock %}

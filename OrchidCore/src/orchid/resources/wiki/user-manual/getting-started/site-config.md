@@ -1,9 +1,6 @@
 ---
+description: 'How to configure Orchid and scale the configuration as your site grows'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 A config file `config.yml` in the root of the resources directory serves as the root of all site options. The entire 
 site can be fully described in this one file, but if you have lots of options and want to make it easier to manage it 
@@ -101,5 +98,3 @@ siteName: 'My Site'
   title: 'Contact'
   url: '/contact'
 {% endhighlight %}
- 
-{% endblock %}

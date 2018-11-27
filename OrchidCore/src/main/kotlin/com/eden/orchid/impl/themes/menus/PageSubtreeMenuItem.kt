@@ -1,13 +1,11 @@
 package com.eden.orchid.impl.themes.menus
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
-import java.util.ArrayList
 import javax.inject.Inject
 
 @Description("The subtree of all pages starting at a page in your site, referenced from a Collection. If no page " +
@@ -33,29 +31,21 @@ constructor(
     lateinit var collectionId: String
 
     override fun getMenuItems(): List<MenuItem> {
-        val menuItems = ArrayList<MenuItem>()
-
-        val page: OrchidPage = (
-                if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(itemId))
-                    context.findPage(collectionType, collectionId, itemId)
-                else
-                    null
-                ) ?: this.page
-
+        val page: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
         val index = context.internalIndex.findIndex(page.reference.path)
 
-        if (index != null) {
+        return if (index != null) {
             if (submenuTitle.isBlank()) {
                 submenuTitle = page.title
             }
 
-            menuItems.addAll(MenuItem.Builder(context)
+            MenuItem.Builder(context)
                     .fromIndex(index)
                     .build()
                     .children
-            )
         }
-
-        return menuItems
+        else {
+            emptyList()
+        }
     }
 }

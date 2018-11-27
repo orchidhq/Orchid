@@ -1,9 +1,7 @@
 ---
+description: 'Get started with Orchid using Gradle, Maven, or kscript'
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 ## Start a new Orchid project
 
 The simplest way to get started with Orchid is to use the Orchid Starter repo as a base. 
@@ -246,5 +244,3 @@ You can now start Orchid directly with its CLI, using the following commands:
         You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the
         site directly to Github Pages or Netlify.
 2) `kscript ./path/to/scriptlet.kts help` - Print out basic usage and all available tasks and command-line options. 
-
-{% endblock %}

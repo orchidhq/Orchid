@@ -1,0 +1,100 @@
+{# ----- Page Header ----- #}
+{# FRONT MATTER VARIABLES #}
+{# requiredPlugin: String #}
+{#     the `itemId` of a required plugin #}
+{# requiredPluginBundles: Array<String> #}
+{#     a list of `itemId`s that contain the required plugin #}
+{# classnames: Array<String> #}
+{#     a list of fully-qualified classnames related to the current wiki page #}
+{# ----------------------- #}
+
+
+{% if page.resource.reference.originalFilename == 'index' %}
+{{ _childPages(index, page) }}
+{% else %}
+{{ _wikiPageHeader(page) }}
+{{ _requiredPlugin(requiredPlugin, requiredPluginTitle, requiredPluginBundles) }}
+{{ _relatedClasses(classnames) }}
+{{ _seeAlso(page) }}
+{{ _editPage(page) }}
+<hr>
+{{ page.content | raw }}
+{% endif %}
+
+{# ------------------------------------------------------------------------------------------------------------------ #}
+
+{% macro _wikiPageHeader(page) %}
+<h1>{{ page.title }}</h1>
+{% if page.description is not empty %}
+<p>{{ page.description }}</p>
+{% endif %}
+{% endmacro %}
+
+{% macro _requiredPlugin(requiredPlugin, requiredPluginTitle, requiredPluginBundles) %}
+{% if requiredPlugin is not empty %}
+<b>Required Plugin: {{ anchor(requiredPlugin, requiredPlugin, 'pages', 'plugins') }}</b>
+<br>
+<i>(included in the following bundles)</i>
+<ul>
+{% for bundle in requiredPluginBundles %}
+    <li>{{ anchor(bundle, bundle, 'pages', 'bundles') }}</li>
+{%- endfor %}
+</ul>
+{% endif %}
+{% endmacro %}
+
+{% macro _pluginReadme(pluginName, pluginType='plugins', filename='README.md', compileAsExtension='md') %}
+{{ load('../../../../'~pluginType~'/'~pluginName~'/'~filename) | compileAs(compileAsExtension) | raw }}
+{% endmacro %}
+
+{% macro _seeAlso(page) %}
+<b>See Also:</b>
+<ul>
+    <li><a href="{{ page.sectionSummary.link }}">Wiki Summary</a></li>
+    {% if page.previous is not empty %}
+        <li><a href="{{ page.previous.link }}">Previous: {{ page.previous.title }}</a></li>
+    {% endif %}
+    {% if page.next is not empty %}
+        <li><a href="{{ page.next.link }}">Next: {{ page.next.title }}</a></li>
+    {% endif %}
+</ul>
+{% endmacro %}
+
+{% macro _editPage(page) %}
+<a href="https://github.com/JavaEden/Orchid/edit/docs/OrchidCore/src/orchid/resources/{{ page.resource.reference.originalFullFilename }}">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+    <span>Edit this page</span>
+</a>
+{% endmacro %}
+
+{% macro _childPages(index, page) %}
+{% set childPages = index.findChildPages(page) %}
+<div class="row panel-row">
+{% for childPage in childPages %}
+    <div class="col col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title pull-left">
+                    <a href="{{childPage.link}}" style="color: black;">{{childPage.title}}</a>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="description">{{ childPage.description }}</div>
+                <div style="margin-top: 20px;"><a class="link" href="{{childPage.link}}" style="color: black;">Learn More »</a></div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endmacro %}
+
+{% macro _relatedClasses(classnames) %}
+{% if classnames is not empty %}
+<b>Relevant classes:</b>
+<ul>
+{% for classname in classnames %}
+    <li>{{ anchor(classname) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endmacro %}

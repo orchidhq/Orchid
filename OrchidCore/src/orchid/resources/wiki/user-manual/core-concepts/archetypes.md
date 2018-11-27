@@ -5,10 +5,6 @@ customItems:
     - 'Item Three'
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-
 Most pages have configurations that are intended to be the same across all pages of that type. Front Matter allows you 
 to customize the data for that single page, and some other Static Site Generators offer capabilities for generating new
 pages with that common format already set up, but ultimately they offer no guarantee that _all_ pages of a certain type
@@ -53,5 +49,3 @@ components, draft status, or any other option.
 It is worth noting that there is fundamentally no difference with whether the data came from Front Matter or from the 
 Archetype. When options are loaded into the Page, it is completely transparent from which source it came, so you can 
 simply work with the data without worrying that you've missed the Archetypes. 
-
-{% endblock %}

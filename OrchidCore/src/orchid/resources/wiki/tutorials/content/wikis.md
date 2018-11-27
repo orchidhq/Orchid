@@ -1,14 +1,10 @@
 ---
-pluginName: Orchid Wiki
-contentTypeTitle: wiki
-bundles:
+requiredPlugin: Orchid Wiki
+requiredPluginTitle: wiki
+requiredPluginBundles:
   - Orchid All
 ---
 
-{% extends '_wikiBase_contentTypes' %}
-
-{% block 'pluginNotes' %}
 ## API Documentation
 
 {% docs className='com.eden.orchid.wiki.WikiGenerator' tableClass='table' tableLeaderClass='hidden' %}
-{% endblock %}

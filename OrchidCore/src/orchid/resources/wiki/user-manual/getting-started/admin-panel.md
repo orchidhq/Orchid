@@ -1,9 +1,6 @@
 ---
+description: Orchid's unique admin panel brings all your plugins' documentation to you, always up-to-date
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 The Orchid Admin panel provides a great way to view everything that _can_ be done with your current site, and helping 
 you set up your site most effectively. Since Orchid is self-documenting by its very nature, it is able to inspect your 
@@ -63,5 +60,3 @@ The header will also indicate indexing and generation progress during a build.
 If you have the {{anchor('Orchid Netlify CMS')}} plugin installed, it will be embedded directly within the admin panel.
 
 ![Admin panel progress]({{site.baseUrl}}/assets/media/admin-netlify-cms.png)
-
-{% endblock %}

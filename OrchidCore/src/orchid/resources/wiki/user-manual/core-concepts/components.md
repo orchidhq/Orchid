@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionBody %}
-
 ## About Components
 ---
 
@@ -188,5 +184,3 @@ posts:
         extraCSS:
           - 'assets/css/form-overrides.scss' 
 {% endhighlight %} 
-
-{% endblock %}

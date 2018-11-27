@@ -3,9 +3,6 @@ classnames:
   - OrchidModule
 ---
 
-{% extends '_developersGuideBase' %}
-
-{% block sectionBody %}
 Orchid is built on top of Google Guice for dependency injection, and there really isn't anything that cannot be 
 extended. A basic knowledge of Guice might be helpful for more advanced customization, but a basic explanation here will
 certainly be enough to get started writing basic plugins.
@@ -188,5 +185,3 @@ with the Orchid plugins that came from this inspiration.
     - {{ anchor('Orchid Swiftdoc') }}
 - [**SC5 Styleguide**](https://styleguide.sc5.io/)
     - {{ anchor('Orchid KSS') }}
-
-{% endblock %}

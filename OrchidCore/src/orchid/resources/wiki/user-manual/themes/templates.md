@@ -1,9 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 Templates in Orchid all live within your resources' `templates/` directory, regardless of whether it comes from local 
 resources, plugins, or themes. Anytime a layout is requested or another template is included/extended from Pebble, the
 path is referenced relative to `templates/`, even if it is not specified. It is not necessary to specify the extension
@@ -12,9 +9,7 @@ prefers.
 
 In many cases, Orchid is pretty flexible with the exact template it uses, and in other cases it is pretty strict. This
 page will describe the general rules that define which templates are used in which circumstances. 
-{% endblock %}
 
-{% block sectionBody %}
 ## Layouts
 ---
 
@@ -201,6 +196,3 @@ it.
 
 By nature, Tags must be implemented as an extension to specific compiler language, and as Pebble is the only language 
 that implements this extension in Orchid's core, all Tag templates look like `templates/tags/{tagKey}.peb`.
-
-
-{% endblock %}

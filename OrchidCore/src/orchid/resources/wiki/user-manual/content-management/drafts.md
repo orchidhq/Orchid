@@ -1,12 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-{% endblock %}
-
-{% block sectionBody %}
 Drafts are pages that are not yet ready to be published or were intended to be accessible only for a limited time and
 are now expired. Pages that are drafts will not be rendered or be discoverable by other plugins from the index. 
 
@@ -45,4 +39,3 @@ services:
   render:
     includeDrafts: true
 {% endhighlight %}
-{% endblock %}

@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionBody %}
-
 ## Locating Pages with Collections
 ---
 
@@ -131,5 +127,3 @@ menu:
     collectionId: 'collectionId'
     collectionType: 'collectionType'
 {% endhighlight %}
-
-{% endblock %}

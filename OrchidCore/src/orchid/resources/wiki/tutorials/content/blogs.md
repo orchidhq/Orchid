@@ -1,15 +1,11 @@
 ---
-pluginName: Orchid Posts
-contentTypeTitle: blog
-bundles:
+requiredPlugin: Orchid Posts
+requiredPluginTitle: blog
+requiredPluginBundles:
   - Orchid Blog
   - Orchid All
 ---
 
-{% extends '_wikiBase_contentTypes' %}
-
-{% block 'pluginNotes' %}
 ## API Documentation
 
 {% docs className='com.eden.orchid.posts.PostsGenerator' tableClass='table' tableLeaderClass='hidden' %}
-{% endblock %}

@@ -4,9 +4,6 @@ classnames:
   - OptionExtractor
 ---
 
-{% extends '_developersGuideBase' %}
-
-{% block sectionBody %}
 Orchid has a novel and very powerful way of managing options that makes it easier for both developers and users. For 
 developers, you can spend less time focusing on finding options, and also not be stuck with 
 [Stringly-typed](http://wiki.c2.com/?StringlyTyped) options. For users, options are self-documenting, so you know you 
@@ -52,5 +49,3 @@ and use options:
     to each option as well via the `@Description` annotation. This also means that the auto-generated documentation is
     available during Orchid's runtime, so we tailor the documentation to only those classes that are relevant to 
     _your specific build_, and bring it all to you rather than forcing you to go find it yourself.
-
-{% endblock %}

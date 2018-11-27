@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-
 ## Description
 
 The `netlify` Publisher allows you to upload your site to Netlify.
@@ -38,5 +34,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.NetlifyPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

@@ -5,10 +5,6 @@ customItems:
     - 'Item Three'
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-
 ## Overview
 
 Front Matter allows you to customize your Pages individually, adding components or menus to just that page, changing the
@@ -112,5 +108,3 @@ status=published
 ...
 
 {% endhighlight %}
-
-{% endblock %}

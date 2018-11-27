@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-
 ## Description
 
 The `script` Publisher allows you to run arbitrary shell commands as part of your Orchid deploy pipeline. If the shell
@@ -32,5 +28,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.ScriptPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

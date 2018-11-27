@@ -1,13 +1,10 @@
 ---
-pluginName: Orchid Javadoc
-contentTypeTitle: javadoc
-bundles:
+requiredPlugin: Orchid Javadoc
+requiredPluginTitle: javadoc
+requiredPluginBundles:
   - Orchid All
 ---
 
-{% extends '_wikiBase_contentTypes' %}
-
-{% block 'pluginNotes' %}
 ## API Documentation
 
 ### Kotlin
@@ -21,5 +18,3 @@ bundles:
 ### Swift
 
 {% docs className='com.eden.orchid.swiftdoc.SwiftdocGenerator' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

@@ -34,4 +34,39 @@ class OrchidRootIndex(ownKey: String) : OrchidIndex(null, ownKey) {
     override fun toString(): String {
         return "root " + super.toString()
     }
+
+// Helper Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    fun findChildPages(page: OrchidPage): List<OrchidPage> {
+        val index = findIndex(page.reference.path)
+
+        return if (index != null) {
+            index.children.values.flatMap { it.getOwnPages() }
+        }
+        else {
+            emptyList()
+        }
+    }
+
+    fun findChildPages(collectionType: String?, collectionId: String?, itemId: String?, defaultPage: OrchidPage): List<OrchidPage> {
+        return findChildPages(defaultPage.context.findPageOrDefault(collectionType, collectionId, itemId, defaultPage))
+    }
+
+    fun findSiblingPages(page: OrchidPage): List<OrchidPage> {
+        val pagePath = page.reference.path.split("/").dropLast(1).joinToString("/")
+        val index = findIndex(pagePath)
+
+        return if (index != null) {
+            index.children.values.flatMap { it.getOwnPages() }
+        }
+        else {
+            emptyList()
+        }
+    }
+
+    fun findSiblingPages(collectionType: String?, collectionId: String?, itemId: String?, defaultPage: OrchidPage): List<OrchidPage> {
+        return findSiblingPages(defaultPage.context.findPageOrDefault(collectionType, collectionId, itemId, defaultPage))
+    }
+
 }

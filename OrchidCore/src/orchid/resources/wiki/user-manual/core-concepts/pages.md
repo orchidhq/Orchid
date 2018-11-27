@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-
 Pages are the most basic unit of data in Orchid. Conceptually, a Page represents one file in your final site, whether 
 its your homepage, a blog post, CSS or JS assets, images, or anything else.
 
@@ -17,5 +13,3 @@ contents inside a _page template_. Pages may also have their own unique menus, w
 that specific page or its related pages.
 
 ![Admin panel]({{site.baseUrl}}/assets/media/page-structure.png)
-
-{% endblock %}

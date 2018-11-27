@@ -4,5 +4,3 @@ classnames:
   - OrchidParser
   - OrchidPrecompiler
 ---
-
-{% extends '_developersGuideBase' %}

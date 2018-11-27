@@ -13,6 +13,7 @@ import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
 import lombok.Data;
 import lombok.Getter;
+import lombok.val;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -93,6 +94,19 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
         }
 
         return null;
+    }
+
+    @Override
+    public OrchidPage findPageOrDefault(String collectionType, String collectionId, String itemId, OrchidPage defaultPage) {
+        final OrchidPage foundPage;
+        if (!EdenUtils.isEmpty(collectionType) || !EdenUtils.isEmpty(collectionId) || !EdenUtils.isEmpty(itemId)) {
+            foundPage = findPage(collectionType, collectionId, itemId);
+        }
+        else {
+            foundPage = null;
+        }
+
+        return (foundPage != null) ? foundPage : defaultPage;
     }
 
     @Override

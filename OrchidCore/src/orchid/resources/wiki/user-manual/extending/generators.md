@@ -5,12 +5,6 @@ classnames:
   - OrchidPage
 ---
 
-{% extends '_developersGuideBase_extend' %}
-
-{% block sectionBody %}
-
-# About Generators
-
 ## Generator Description
 
 Here is a description of the pieces involved in creating and setting up a custom Generator. Code samples, in both Java
@@ -293,12 +287,12 @@ to the callback to ensure it is evaluated sequentially, but again, this should b
 implementing appropriate synchronization techniques and by treating your data as if it were immutable during the 
 generating phase, even if it is not.
 
-{{ parent() }}
+# Examples
 
-{% endblock %}
+## Kotlin Example
 
-{% block kotlinExample %}
-
+<div>
+{% highlight 'java' %}
 @Singleton
 @Description("A description for this custom generator.", name = "Custom Generator)
 class CustomGenerator 
@@ -340,10 +334,13 @@ constructor(
         return collections
     }
 }
-{% endblock %}
+{% endhighlight %}
+</div>
 
-{% block javaExample %}
+## Java Example
 
+<div>
+{% highlight 'java' %}
 @Singleton
 @Description("A description for this custom generator.")
 public static class CustomGenerator extends OrchidGenerator {
@@ -387,4 +384,5 @@ public static class CustomGenerator extends OrchidGenerator {
         return collections;
     }
 }
-{% endblock %}
+{% endhighlight %}
+</div>

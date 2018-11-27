@@ -1,15 +1,11 @@
 ---
-pluginName: Orchid Pages
-contentTypeTitle: static page
-bundles:
+requiredPlugin: Orchid Pages
+requiredPluginTitle: static page
+requiredPluginBundles:
   - Orchid Blog
   - Orchid All
 ---
 
-{% extends '_wikiBase_contentTypes' %}
-
-{% block 'pluginNotes' %}
 ## API Documentation
 
 {% docs className='com.eden.orchid.pages.PagesGenerator' tableClass='table' tableLeaderClass='hidden' %}
-{% endblock %}

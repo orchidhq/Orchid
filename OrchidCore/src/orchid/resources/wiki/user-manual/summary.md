@@ -46,7 +46,7 @@ title: 'User Manual'
 ## Extending Orchid
 * [Extending Orchid](extending/index.md)
     * [Registration](extending/registration.md)
-    * [Options](extending/registration.md)
+    * [Options](extending/options.md)
     * [Lifecycle Events](extending/lifecycle-events.md)
     * [Tasks](extending/tasks.md)
     * [Commands](extending/commands.md)

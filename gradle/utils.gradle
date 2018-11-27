@@ -43,8 +43,8 @@ ext.getBaseUrl = { Project project ->
 }
 
 ext.getEnvName = { Project project ->
-    if (project.hasProperty('env') && project.property('env') == 'prod') {
-        return 'prod'
+    if (project.hasProperty('env')) {
+        return project.property('env')
     }
     else {
         return 'debug'

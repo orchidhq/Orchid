@@ -1,15 +1,10 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 Orchid comes with a simple, yet flexible and powerful mechanism for deploying your site once it has been built. Rather
 than struggling to set up shell scripts to deploy your site, let Orchid do the hard for you. Your site is simple and 
 beautiful, letting others see it should be just the same.
-{% endblock %}
 
-{% block sectionBody %}
 The typical approach to deployment with static sites is to have a CI server, like Travis CI or Netlify, build your site 
 and then do something with the result of the build. This works well enough if you only run Orchid from one place, but it
 gets tricky if you end up changing CI providers or need to do a quick deploy from your local machine when the CI server
@@ -112,5 +107,3 @@ There are several publishers available in `OrchidCore`, but more may be availabl
 - {{anchor('Script')}} - Execute arbitrary shell scripts
 - {{anchor('Netlify')}} - Upload your site to Netlify
 - {{anchor('GitHub Pages')}} - Push your site to GitHub Pages 
-
-{% endblock %}

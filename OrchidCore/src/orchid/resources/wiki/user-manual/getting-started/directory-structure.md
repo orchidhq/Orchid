@@ -1,9 +1,6 @@
 ---
+description: Overview of Orchid's directory structure
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 A typical Orchid site looks like this:
 
@@ -68,5 +65,3 @@ or other plugins.
 Content in Orchid comes from plugins, such as {{anchor('Orchid Pages')}}, {{anchor('Orchid Posts')}}, or 
 {{anchor('Orchid Wiki')}}. Each plugin is free to use whatever directory structure it wants, so make sure to check out
 the documentation for your plugins to know where they get their content from.
-
-{% endblock %}

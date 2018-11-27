@@ -1,16 +1,11 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 Orchid has a well-defined order in which resources of any type are identified. This ordering sets Orchid up such that
 plugins provide basic templates which can always be customized later by the chosen Theme to match the markup of the 
 entire site. But any resource defined by a theme or a plugin can always be overridden by your local site, so you never
 have to edit core theme files to tweak the output of your site.
-{% endblock %}
 
-{% block sectionBody %}
 ## Resource Lookup Order
 ---
 
@@ -57,5 +52,3 @@ page as well, which also comes from the plugin's resources. Keep in mind that _a
 **_always_** be overridden by the theme or by your local resources, but without any customization plugins will still 
 have everything they need to function perfectly. This makes it very easy to add new plugins to your site, as they 
 usually require no setup at all to work.
-
-{% endblock %}

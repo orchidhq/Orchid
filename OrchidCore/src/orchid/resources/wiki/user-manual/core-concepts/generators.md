@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionBody %}
-
 ## Generators
 ---
 
@@ -101,5 +97,3 @@ posts:
 {% endhighlight %}
 
 Most generators will do just fine if you don't configure them at all, as they are set up with sensible default values. 
-
-{% endblock %}

@@ -1,10 +1,6 @@
 ---
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-
 ## Description
 
 The `ghPages` Publisher allows you to upload your site to GithubPages.
@@ -50,5 +46,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.GithubPagesPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}
