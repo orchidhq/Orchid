@@ -1,4 +1,5 @@
 ---
+description: 'Pages with a Front Matter header will first be precompiled as using Pebble.'
 customItems:
     - 'Item One'
     - 'Item Two'

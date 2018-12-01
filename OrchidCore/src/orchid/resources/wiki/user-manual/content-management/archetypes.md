@@ -1,8 +1,5 @@
 ---
-customItems:
-    - 'Item One'
-    - 'Item Two'
-    - 'Item Three'
+description: 'Archetypes are a unique way to manage page configurations as your site grows larger, customizing many pages from one central location.'
 ---
 
 Most pages have configurations that are intended to be the same across all pages of that type. Front Matter allows you 

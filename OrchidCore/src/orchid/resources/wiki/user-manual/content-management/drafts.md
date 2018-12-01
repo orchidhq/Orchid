@@ -1,4 +1,5 @@
 ---
+description: Drafts allow you to work on pages with the confidence that they won't be published. You can even set publish and expiry dates for ephemeral pages.
 ---
 
 Drafts are pages that are not yet ready to be published or were intended to be accessible only for a limited time and

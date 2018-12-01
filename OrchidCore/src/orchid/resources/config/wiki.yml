@@ -1,8 +1,8 @@
 sections:
   'user-manual':
     title: 'User Manual'
-  'tutorials':
-    title: 'Tutorials'
+  'learn':
+    title: 'Learn'
 
 wikiPages:
   layout: geopattern2
@@ -22,7 +22,7 @@ wikiPages:
       - type: 'wiki'
         section: 'user-manual'
         order: 1010
-  'tutorials':
+  'learn':
     menu:
       - type: 'separator'
         title: 'In This Page'

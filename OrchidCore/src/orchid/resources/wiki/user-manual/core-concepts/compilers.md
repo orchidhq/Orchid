@@ -1,4 +1,5 @@
 ---
+description: 'Orchid includes native support for compiling Markdown, Asciidoc, Pebble, SCSS, PlantUML diagrams, and more.'
 ---
 
 Most content in Orchid comes from a file in your local filesystem. While each plugin is free to do whatever they want to

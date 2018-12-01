@@ -1,4 +1,5 @@
 ---
+description: 'Components are single, logical blocks of content within a Page.'
 ---
 
 ## About Components

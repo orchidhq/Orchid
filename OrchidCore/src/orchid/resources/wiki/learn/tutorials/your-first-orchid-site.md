@@ -1,4 +1,5 @@
 ---
+description: 'Learn the basics of setting up and building an Orchid site with Gradle.'
 ---
 
 ## Introduction

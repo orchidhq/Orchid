@@ -110,7 +110,7 @@ constructor(
             return null
         }
 
-        val content = context.compile(summary.reference.extension, summary.content)
+        val content = summary.compileContent(null)
         val doc = Jsoup.parse(content)
 
         val links = doc.select("a[href]")

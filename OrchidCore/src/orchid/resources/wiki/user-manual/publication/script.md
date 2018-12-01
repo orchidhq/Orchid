@@ -1,4 +1,5 @@
 ---
+description: 'run arbitrary shell commands as part of your Orchid deploy pipeline.'
 ---
 
 ## Description

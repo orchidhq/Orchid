@@ -1,54 +1,61 @@
 ---
-title: 'User Manual'
 ---
 
 ## Getting Started
-* [Getting Started](getting-started/index.md)
-    * [Quick-Start](getting-started/quickstart.md)
-    * [Basic Usage](getting-started/basic-usage.md)
-    * [Directory Structure](getting-started/directory-structure.md)
-    * [Configuration](getting-started/site-config.md)
-    * [Admin Panel](getting-started/admin-panel.md)
-    * [Plugins](getting-started/plugins.md)
+{% set directoryBase = 'getting-started' %}
+* [Getting Started]({{ directoryBase }}/index.md)
+    * [Quick-Start]({{ directoryBase }}/quickstart.md)
+    * [Basic Usage]({{ directoryBase }}/basic-usage.md)
+    * [Directory Structure]({{ directoryBase }}/directory-structure.md)
+    * [Configuration]({{ directoryBase }}/site-config.md)
+    * [Admin Panel]({{ directoryBase }}/admin-panel.md)
+    * [Plugins]({{ directoryBase }}/plugins.md)
 
 ## Core Concepts
-* [Core Concepts](core-concepts/index.md)
-    * [Pages](core-concepts/pages.md)
-    * [Writing Content](core-concepts/writing-content.md)
-    * [Front Matter](core-concepts/front-matter.md)
-    * [Precompiling](core-concepts/precompiling.md)
-    * [Archetypes](core-concepts/archetypes.md)
-    * [Layouts](core-concepts/layouts.md)
-    * [Assets](core-concepts/assets.md)
-    * [Components](core-concepts/components.md)
-    * [Menus](core-concepts/menus.md)
-    * [Breadcrumbs](core-concepts/breadcrumbs.md)
-    * [Links](core-concepts/linking-to-pages.md)
+{% set directoryBase = 'core-concepts' %}
+* [Core Concepts]({{ directoryBase }}/index.md)
+    * [Pages]({{ directoryBase }}/pages.md)
+    * [Front Matter]({{ directoryBase }}/front-matter.md)
+    * [Compilers]({{ directoryBase }}/compilers.md)
+    * [Precompiling]({{ directoryBase }}/precompiling.md)
+    * [Layouts]({{ directoryBase }}/layouts.md)
+    * [Components]({{ directoryBase }}/components.md)
+    * [Menus]({{ directoryBase }}/menus.md)
+    * [Breadcrumbs]({{ directoryBase }}/breadcrumbs.md)
+    * [Assets]({{ directoryBase }}/assets.md)
 
 ## Content Management
-* [Content Management](content-management/index.md)
-    * [Drafts](content-management/drafts.md)
-    * [Media](content-management/media.md)
+{% set directoryBase = 'content-management' %}
+* [Content Management]({{ directoryBase }}/index.md)
+    * [Drafts]({{ directoryBase }}/drafts.md)
+    * [Archetypes]({{ directoryBase }}/archetypes.md)
+    * [Internal Links]({{ directoryBase }}/internal-links.md)
 
 ## Theming
-* [Theming](themes/index.md)
-    * [Templates](themes/templates.md)
-    * [Template Overrides](themes/template-overrides.md)
-    * [Pebble](themes/pebble.md)
+{% set directoryBase = 'themes' %}
+* [Theming]({{ directoryBase }}/index.md)
+    * [Templates]({{ directoryBase }}/templates.md)
+    * [Template Overrides]({{ directoryBase }}/template-overrides.md)
+    * [Pebble]({{ directoryBase }}/pebble.md)
+    * [Thumbnails]({{ directoryBase }}/thumbnails.md)
+    * [Multi-Theme Support]({{ directoryBase }}/multi-theme-support.md)
 
 ## Publication
-* [Publication](publication/index.md)
-    * [Script](publication/script.md)
-    * [Netlify](publication/netlify.md)
-    * [GitHub Pages](publication/github-pages.md)
-    * [GitHub Releases](publication/github-releases.md)
+{% set directoryBase = 'publication' %}
+* [Publication]({{ directoryBase }}/index.md)
+    * [Deployment Pipelines]({{ directoryBase }}/deployment-pipelines.md)
+    * [Script]({{ directoryBase }}/script.md)
+    * [Netlify]({{ directoryBase }}/netlify.md)
+    * [GitHub Pages]({{ directoryBase }}/github-pages.md)
+    * [GitHub Releases]({{ directoryBase }}/github-releases.md)
 
 ## Extending Orchid
-* [Extending Orchid](extending/index.md)
-    * [Registration](extending/registration.md)
-    * [Options](extending/options.md)
-    * [Lifecycle Events](extending/lifecycle-events.md)
-    * [Tasks](extending/tasks.md)
-    * [Commands](extending/commands.md)
-    * [Generators](extending/generators.md)
-    * [Parsers and Compilers](extending/compilers.md)
+{% set directoryBase = 'extending' %}
+* [Extending Orchid]({{ directoryBase }}/index.md)
+    * [Registration]({{ directoryBase }}/registration.md)
+    * [Options]({{ directoryBase }}/options.md)
+    * [Lifecycle Events]({{ directoryBase }}/lifecycle-events.md)
+    * [Tasks]({{ directoryBase }}/tasks.md)
+    * [Commands]({{ directoryBase }}/commands.md)
+    * [Generators]({{ directoryBase }}/generators.md)
+    * [Parsers and Compilers]({{ directoryBase }}/compilers.md)

@@ -1,4 +1,5 @@
 ---
+description: 'Learn more about how Orchid looks up templates for layouts, page types, components, and tags.'
 ---
 
 Templates in Orchid all live within your resources' `templates/` directory, regardless of whether it comes from local 

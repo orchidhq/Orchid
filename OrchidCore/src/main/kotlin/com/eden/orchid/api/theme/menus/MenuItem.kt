@@ -4,14 +4,9 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.theme.pages.OrchidPage
-import lombok.Getter
-import lombok.NonNull
-import lombok.Setter
 import java.util.ArrayList
 import java.util.Comparator
 
-@Getter
-@Setter
 class MenuItem private constructor(
         val context: OrchidContext,
         val title: String,
@@ -159,12 +154,12 @@ class MenuItem private constructor(
             return this
         }
 
-        fun anchor(@NonNull anchor: String): Builder {
+        fun anchor(anchor: String): Builder {
             this.anchor = anchor
             return this
         }
 
-        fun title(@NonNull title: String): Builder {
+        fun title(title: String): Builder {
             this.title = title
             return this
         }
@@ -179,7 +174,7 @@ class MenuItem private constructor(
             return this
         }
 
-        fun data(@NonNull data: Map<String, Any>): Builder {
+        fun data(data: Map<String, Any>): Builder {
             this.data = data
             return this
         }

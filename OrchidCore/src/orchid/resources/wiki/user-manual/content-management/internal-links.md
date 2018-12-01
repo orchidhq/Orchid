@@ -1,4 +1,5 @@
 ---
+description: Orchid's has a simple yet powerful convention for finding pages and generating links throughout your site.
 ---
 
 ## Locating Pages with Collections

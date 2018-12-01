@@ -1,4 +1,5 @@
 ---
+description: Get to know the basics of how Orchid makes it easy to generate internal links in you site.
 ---
 
 ## Introduction

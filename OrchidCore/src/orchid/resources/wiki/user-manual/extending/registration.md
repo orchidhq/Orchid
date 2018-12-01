@@ -1,4 +1,5 @@
 ---
+description: 'Orchid uses Google Guice to manage the plugin system, with some additional features that provide powerful introspection into your site from the admin panel.'
 classnames:
   - OrchidModule
 ---

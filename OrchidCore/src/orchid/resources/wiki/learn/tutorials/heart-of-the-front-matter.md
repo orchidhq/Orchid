@@ -1,4 +1,5 @@
 ---
+description: Practice using Front Matter to customize your site and use Pebble to make your content more dynamic.
 ---
 
 ## Introduction

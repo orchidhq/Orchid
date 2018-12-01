@@ -1,4 +1,5 @@
 ---
+description: Upload your site to Netlify after building, for really large sites that can't be built on Netlify's CI platform.
 ---
 
 ## Description

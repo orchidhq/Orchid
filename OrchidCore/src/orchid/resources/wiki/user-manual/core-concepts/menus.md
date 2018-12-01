@@ -1,4 +1,5 @@
 ---
+description: Orchid's built-in menu generation intelligently connects site structure to site menus which adapt themselves to site content.
 ---
 
 ## Menus

@@ -1,4 +1,5 @@
 ---
+description: 'Orchid has support for basic thumbnail generation to keep your pages loading fast.'
 sampleAsset: 'assets/media/pic09.jpg'
 ---
 
@@ -17,7 +18,7 @@ template function to load an asset, and Orchid will make sure it ends up in your
 
 ![asset]({{ sampleAsset|asset }})
 
-## Image Manipulation 
+## Thumbnail Generation 
 
 **Rotate**
 

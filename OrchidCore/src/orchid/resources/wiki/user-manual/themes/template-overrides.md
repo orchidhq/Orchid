@@ -1,4 +1,5 @@
 ---
+description: 'Orchid has a well-defined order in which templates are identified which allows you to easily customize templates from the theme or plugins.'
 ---
 
 Orchid has a well-defined order in which resources of any type are identified. This ordering sets Orchid up such that
@@ -12,7 +13,7 @@ have to edit core theme files to tweak the output of your site.
 The exact order in which all resources are located is shown in the diagram below. A resource can be anything, including 
 your templates and your content files, and each plugin or theme provides the resources bundled in its JarFile. 
 
-![Resource Lookup Order]({{site.baseUrl}}/assets/media/resource-lookup-order.png "Resource Lookup Order")
+![Resource Lookup Order]({{'assets/media/resource-lookup-order.png'|asset}} "Resource Lookup Order")
 
 ### Local Resource Sources
 

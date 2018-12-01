@@ -1,4 +1,5 @@
 ---
+description: 'A declarative system for extracting options from site configuration or Front Matter makes your plugins self-documenting.'
 classnames:
   - OptionsExtractor
   - OptionExtractor

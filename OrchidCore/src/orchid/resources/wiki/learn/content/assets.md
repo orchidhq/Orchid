@@ -1,4 +1,5 @@
 ---
+description: Share any kind of static assets.
 ---
 
 Assets are the CSS, Javascript, and images needed for your site. By default, only the assets declared by your themes, 
@@ -16,7 +17,6 @@ assets:
     - 'assets/css'
     - 'assets/js'
 {% endhighlight %}
-
 
 The `sourceDirs` key of the `assets` generator configuration block defines a list of directories to copy assets from 
 into the output site. These directories are copyied recursively, and the assets are compiled against their file 

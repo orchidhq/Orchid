@@ -1,4 +1,5 @@
 ---
+description: 'Pages are the most basic unit of data in Orchid, representing one file in your final site. Get to know the basic parts of an Orchid page and how other Orchid components relate.'
 ---
 
 Pages are the most basic unit of data in Orchid. Conceptually, a Page represents one file in your final site, whether 

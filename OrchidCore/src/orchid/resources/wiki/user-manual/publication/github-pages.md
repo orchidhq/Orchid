@@ -1,4 +1,5 @@
 ---
+description: 'Commit your site to git and publish it to Github Pages.'
 ---
 
 ## Description

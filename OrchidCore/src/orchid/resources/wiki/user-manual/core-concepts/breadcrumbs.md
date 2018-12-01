@@ -1,4 +1,5 @@
 ---
+description: 'Orchid maintains a structured and flexible page hierarchy which allows for automatically-generated breadcrumbs.'
 ---
 
 ## Breadcrumbs
