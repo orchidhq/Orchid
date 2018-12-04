@@ -8,6 +8,7 @@
     * [Homepage and Static Pages]({{ directoryBase }}/homepage-and-static-pages.md)
     * [The Heart of the (Front) Matter]({{ directoryBase }}/heart-of-the-front-matter.md)
     * [Link All The Things!]({{ directoryBase }}/link-all-the-things.md)
+    * [What's on the Menu?]({{ directoryBase }}/whats-on-the-menu.md)
 
 {#
 ## Plugin Tutorials

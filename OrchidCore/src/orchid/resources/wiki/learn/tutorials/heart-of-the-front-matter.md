@@ -120,8 +120,6 @@ you need to have Front Matter but don't want the rest of the page precompiled, y
 the Front Matter, or you may precompile it as a different language by setting `precompileAs` to the desired file 
 extension.
 
-## Page Templates
-
 Alright, so now that we've got our Houston page set up with Front Matter and being precompiled as Pebble, we should 
 probably do the same with our other locations pages as well. 
 
@@ -205,6 +203,8 @@ with a lot of single-use layouts that are all difficult to maintain or make site
 To address this, Orchid introduces several new mechanisms for managing the content on a page that are maintainable, 
 reusable, and composable. The technique we'll talk about in the rest of this tutorial is called **page templates**.
 
+## Page Templates
+
 ### What Are Page Templates?
 
 Put simply, page templates are kind of like your theme's layout, except they are only concerned with the small section 
@@ -221,7 +221,7 @@ even larger sites, the savings are even larger, and the maintenance burden will 
 ### Creating a Page Template
 
 The first thing we'll need to do is make ourselves a new page template, and then we'll tell Orchid to use that template 
-instead of the default one. So make a page in `templates/pages/location.peb` and add the following content.
+instead of the default one. So make a page in `templates/pages/staticPage-locations.peb` and add the following content.
 
 {% highlight 'jinja' %}
 {% verbatim %}
@@ -289,7 +289,7 @@ Houston, TX location coming soon.
 Orchid will look for the page template in several places. First it will look for a template in `templates/` that matches
 the exact file path and filename. If that doesn't exist, it will look for any file with that filename in the 
 `templates/pages/` directory. In either case, if a file extension is not provided, it will assume `.peb`. So by passing 
-`location` as the template, our custom page template at `templates/pages/location.peb` will be used.
+`location` as the template, our custom page template at `templates/pages/staticPage-locations.peb` will be used.
 
 Any time that you specify a custom template, it will be preferred to the defaults for that page type. Plugins with 
 special page types may set special formats for looking up page templates without needing to specify it. For example, the 
