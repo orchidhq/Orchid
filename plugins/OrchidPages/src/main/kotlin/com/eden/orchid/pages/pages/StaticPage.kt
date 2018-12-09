@@ -14,8 +14,8 @@ import com.eden.orchid.pages.PageGroupArchetype
 import com.eden.orchid.pages.PagesGenerator
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages"),
-        Archetype(value = PageGroupArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
+        Archetype(value = PageGroupArchetype::class, key = PagesGenerator.GENERATOR_KEY),
+        Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
 )
 @Description(value = "A generic static page.", name = "Static Page")
 class StaticPage(resource: OrchidResource)

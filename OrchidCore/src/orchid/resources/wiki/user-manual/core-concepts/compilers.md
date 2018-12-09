@@ -1,12 +1,6 @@
 ---
+description: 'Orchid includes native support for compiling Markdown, Asciidoc, Pebble, SCSS, PlantUML diagrams, and more.'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-{% endblock %}
-
-{% block sectionBody %}
 
 Most content in Orchid comes from a file in your local filesystem. While each plugin is free to do whatever they want to
 generate their pages, it is common for plugins to base their internal content models around the filesystem, and as such, 
@@ -50,5 +44,3 @@ services:
       - 'min'
       - 'debug'
 {% endhighlight %}
-
-{% endblock %}

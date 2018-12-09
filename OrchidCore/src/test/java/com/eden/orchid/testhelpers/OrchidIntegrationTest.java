@@ -1,6 +1,7 @@
 package com.eden.orchid.testhelpers;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
 import kotlin.Pair;
@@ -89,7 +90,18 @@ public class OrchidIntegrationTest {
 //    }
 
     protected void configObject(String flag, String json) {
-        config.put(flag, new JSONObject(json).toMap());
+        if(config.containsKey(flag)) {
+            Object o = config.get(flag);
+            if(o instanceof Map) {
+                config.put(flag, EdenUtils.merge((Map<String, ?>) o, new JSONObject(json).toMap()));
+            }
+            else {
+                config.put(flag, new JSONObject(json).toMap());
+            }
+        }
+        else {
+            config.put(flag, new JSONObject(json).toMap());
+        }
     }
 
     protected void configArray(String flag, String json) {

@@ -1,13 +1,10 @@
 ---
+description: 'Pages with a Front Matter header will first be precompiled as using Pebble.'
 customItems:
     - 'Item One'
     - 'Item Two'
     - 'Item Three'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 Typically files are processed as a compiler of their file extension. For example, a file with the `.md` extension will
 be processed as Markdown.
@@ -78,5 +75,3 @@ services:
   compilers:
     defaultPrecompilerExtension: 'html'
 {% endhighlight %}
-
-{% endblock %}

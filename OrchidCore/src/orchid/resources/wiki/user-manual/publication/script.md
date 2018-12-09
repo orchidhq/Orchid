@@ -1,9 +1,6 @@
 ---
+description: 'run arbitrary shell commands as part of your Orchid deploy pipeline.'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 ## Description
 
@@ -32,5 +29,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.ScriptPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

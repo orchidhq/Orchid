@@ -1,4 +1,5 @@
 ---
+description: Create your Orchid site's first pages and learn how Orchid processes files. 
 ---
 
 ## Introduction

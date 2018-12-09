@@ -15,9 +15,8 @@ import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
 
 @Archetypes(
-    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
-    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.postPages"),
-    Archetype(value = PostCategoryArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.postPages")
+    Archetype(value = PostCategoryArchetype::class, key = PostsGenerator.GENERATOR_KEY),
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.postPages")
 )
 @Description(value = "A blog post.", name = "Blog Post")
 class PostPage(resource: OrchidResource, val categoryModel: CategoryModel, title: String)

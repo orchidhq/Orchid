@@ -1,4 +1,5 @@
 ---
+description: 'Orchid accumulates assets from multiple sources before they are added to the page, including themes, plugins, components, and Front Matter.'
 ---
 
 ## Asset Sources

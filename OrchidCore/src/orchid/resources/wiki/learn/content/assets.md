@@ -1,15 +1,11 @@
 ---
+description: Share any kind of static assets.
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 Assets are the CSS, Javascript, and images needed for your site. By default, only the assets declared by your themes, 
 pages, or components are compiled into the final site. But there are several ways to add additional assets needed for 
 specific circumstances, outlined below: Asset Directories, and Extra CSS and JS
-{% endblock %}
 
-{% block sectionBody %}
 ## Asset Directories
 
 If you wish to copy assets, just give the Assets Generator the paths you want copied over. This is done with the 
@@ -21,7 +17,6 @@ assets:
     - 'assets/css'
     - 'assets/js'
 {% endhighlight %}
-
 
 The `sourceDirs` key of the `assets` generator configuration block defines a list of directories to copy assets from 
 into the output site. These directories are copyied recursively, and the assets are compiled against their file 
@@ -63,4 +58,3 @@ extraJs:
 
 Extra CSS and JS may also be added to the Theme configuration, with the effect of being added to all pages using that 
 theme.
-{% endblock %}

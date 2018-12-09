@@ -1,9 +1,6 @@
 ---
+description: 'Commit your site to git and publish it to Github Pages.'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 ## Description
 
@@ -50,5 +47,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.GithubPagesPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

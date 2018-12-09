@@ -1,12 +1,7 @@
 ---
+description: 'Orchid maintains a structured and flexible page hierarchy which allows for automatically-generated breadcrumbs.'
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-{% endblock %}
-
-{% block sectionBody %}
 ## Breadcrumbs
 
 Breadcrumbs are a common feature of many websites, and help visitors know where they are in the logical hierarchy of the
@@ -82,5 +77,3 @@ parent: 'location=USA'
 # {% breadcrumbs %} renders as 'All Locations / United States / Texas' 
 {% endverbatim %}
 {% endhighlight %}
-
-{% endblock %}

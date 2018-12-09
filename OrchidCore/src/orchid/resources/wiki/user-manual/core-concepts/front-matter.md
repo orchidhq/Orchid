@@ -1,13 +1,10 @@
 ---
+description: 'Front Matter allows you to customize your Pages individually, adding components or menus to just that page.'
 customItems:
     - 'Item One'
     - 'Item Two'
     - 'Item Three'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 ## Overview
 
@@ -112,5 +109,3 @@ status=published
 ...
 
 {% endhighlight %}
-
-{% endblock %}

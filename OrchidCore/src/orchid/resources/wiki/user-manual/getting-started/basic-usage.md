@@ -1,9 +1,6 @@
 ---
+description: 'Learn the basic commands to build and deploy your Orchid static site'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 Orchid is a **static site generator** with a focus on building really great documentation sites. Its main job is to take
 content from a variety of sources (such as Markdown or comments in your project's code), allow a series of plugins to 
@@ -89,5 +86,3 @@ kscript ./orchid.kts deploy
 ```
 {% endkscript %}
 {% endtabs %}
-
-{% endblock %}

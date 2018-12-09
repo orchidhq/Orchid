@@ -1,9 +1,6 @@
 ---
+description: Orchid's has a simple yet powerful convention for finding pages and generating links throughout your site.
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionBody %}
 
 ## Locating Pages with Collections
 ---
@@ -131,5 +128,3 @@ menu:
     collectionId: 'collectionId'
     collectionType: 'collectionType'
 {% endhighlight %}
-
-{% endblock %}

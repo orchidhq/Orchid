@@ -14,6 +14,7 @@ public final class OrchidReference {
     protected final OrchidContext context;
 
     private final String originalFullFileName;
+    private final String originalFileName;
 
     /**
      * The base URL of this reference, the URL at the root of your output site.
@@ -64,6 +65,7 @@ public final class OrchidReference {
         }
         fullFileName = fullFileName.trim();
         originalFullFileName = OrchidUtils.normalizePath(fullFileName);
+        originalFileName = FilenameUtils.getBaseName(originalFullFileName);
 
         if(shouldParse) {
             parseFullFilename(fullFileName);
@@ -78,6 +80,7 @@ public final class OrchidReference {
         this.context = source.context;
         this.baseUrl = source.baseUrl;
         this.originalFullFileName = source.originalFullFileName;
+        this.originalFileName = source.originalFileName;
         this.path = source.path;
         this.fileName = source.fileName;
         this.extension = source.extension;
@@ -206,7 +209,7 @@ public final class OrchidReference {
     }
 
     public String getOriginalFileName() {
-        return fileName;
+        return originalFileName;
     }
 
     public String getFileName() {

@@ -1,12 +1,7 @@
 ---
+description: Drafts allow you to work on pages with the confidence that they won't be published. You can even set publish and expiry dates for ephemeral pages.
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
-{% endblock %}
-
-{% block sectionBody %}
 Drafts are pages that are not yet ready to be published or were intended to be accessible only for a limited time and
 are now expired. Pages that are drafts will not be rendered or be discoverable by other plugins from the index. 
 
@@ -45,4 +40,3 @@ services:
   render:
     includeDrafts: true
 {% endhighlight %}
-{% endblock %}

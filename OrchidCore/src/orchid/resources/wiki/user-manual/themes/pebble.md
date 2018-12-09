@@ -1,18 +1,14 @@
 ---
-pebbleUrl: 'https://github.com/PebbleTemplates/pebble/wiki'
+description: 'Pebble is the fastest template engine available for Java, and offers easy-to-read syntax and template inheritance to keep your templates clean and themes easy to develop.'
+pebbleUrl: 'https://pebbletemplates.io/'
 ---
 
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 [Pebble]({{pebbleUrl}}) is the main template language used by Orchid. It has a 
 syntax very similar to other modern template languages like Liquid, Twig, or Jinja2, and supports template inheritance. 
 It also happens to be [one of the fastest](https://github.com/PebbleTemplates/pebble-performance-test) Java template engines, 
 period. This all makes Pebble an ideal choice for building themes and helping you manage your content in Orchid. Not to
-mention, [https://pebbletemplates.io/](https://pebbletemplates.io/) is built with Orchid!  
-{% endblock %}
+mention, [https://pebbletemplates.io/](https://pebbletemplates.io/) is built with Orchid!
 
-{% block sectionBody %}
 ## Pebble Overview
 ---
 
@@ -336,5 +332,3 @@ public static void main(String... args) {}
 To make it easier to find and use these custom Tags, the {{ anchor('Orchid Netlify CMS') }} plugin
 adds all these tags as custom fields within its WYSIWYG editor.
 {% endalert %}
-
-{% endblock %}

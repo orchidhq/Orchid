@@ -15,6 +15,10 @@ function trianglify(allOptions) {
         window.trianglifyOptions = defaultOptions;
     }
 
+    if(!window.trianglifyOptions) {
+        window.trianglifyOptions = {};
+    }
+
     window.trianglifyOptions.height = header.outerHeight();
     window.trianglifyOptions.width = header.outerWidth();
 

@@ -1,9 +1,6 @@
 ---
+description: 'Create a Release on Github from your Changelog.'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 ## Description
 
@@ -50,5 +47,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.GithubPagesPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

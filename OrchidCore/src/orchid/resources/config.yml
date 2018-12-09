@@ -18,7 +18,8 @@ theme:
     seed: 1
   menu:
     - type: 'page'
-      itemId: 'Getting Started'
+      itemId: 'Quick-Start'
+      title: 'Get Started'
     - type: 'wikiSections'
     - type: 'submenu'
       title: 'Explore'
@@ -38,17 +39,9 @@ theme:
       url: 'https://github.com/JavaEden/Orchid'
   extraCss:
     - 'assets/css/pygments.scss'
+    - 'assets/css/extras.scss'
 
 services:
-  generators:
-    disabled:
-      - 'javadoc'
-      - 'swiftdoc'
-      - 'kotlindoc'
-    externalIndices:
-      - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
-      - 'https://javaeden.github.io/Common/meta/javadoc.index.json'
-      - 'https://copper-leaf.github.io/krow/meta/kotlindoc.index.json'
   publications:
     stages:
       - type: githubReleases

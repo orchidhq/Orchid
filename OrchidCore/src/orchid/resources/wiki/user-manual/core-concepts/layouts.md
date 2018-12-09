@@ -1,4 +1,5 @@
 ---
+description: 'Orchid uses Pebble templates and a unique layout composition system for fast and flexible layout design.'
 ---
 
 ## Layouts

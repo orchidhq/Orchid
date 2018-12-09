@@ -1,13 +1,6 @@
 ---
-customItems:
-    - 'Item One'
-    - 'Item Two'
-    - 'Item Three'
+description: 'Archetypes are a unique way to manage page configurations as your site grows larger, customizing many pages from one central location.'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 Most pages have configurations that are intended to be the same across all pages of that type. Front Matter allows you 
 to customize the data for that single page, and some other Static Site Generators offer capabilities for generating new
@@ -53,5 +46,3 @@ components, draft status, or any other option.
 It is worth noting that there is fundamentally no difference with whether the data came from Front Matter or from the 
 Archetype. When options are loaded into the Page, it is completely transparent from which source it came, so you can 
 simply work with the data without worrying that you've missed the Archetypes. 
-
-{% endblock %}

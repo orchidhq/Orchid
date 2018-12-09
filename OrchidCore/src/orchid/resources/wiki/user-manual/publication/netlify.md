@@ -1,9 +1,6 @@
 ---
+description: Upload your site to Netlify after building, for really large sites that can't be built on Netlify's CI platform.
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionIntro %}
 
 ## Description
 
@@ -38,5 +35,3 @@ services:
 ## API Documentation
 
 {% docs className='com.eden.orchid.impl.publication.NetlifyPublisher' tableClass='table' tableLeaderClass='hidden' %}
-
-{% endblock %}

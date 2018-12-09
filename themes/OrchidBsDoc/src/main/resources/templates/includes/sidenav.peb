@@ -24,6 +24,11 @@
                 <li class="has-children {{ menuItem.activeClass(page) }}">
                     <a>{{ menuItem.title | title }}</a>
                     <ul class="nav">
+                        {% if menuItem.page is not null %}
+                        <li>
+                            <a href="{{ menuItem.link }}">Overview</a>
+                        </li>
+                        {% endif %}
                         {% for childLink in menuItem.children %}
                             {% if childLink.title|length > 0 %}
                                 <li class="{{ childLink.activeClass(page) }}">

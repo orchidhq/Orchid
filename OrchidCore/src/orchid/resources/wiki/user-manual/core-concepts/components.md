@@ -1,9 +1,6 @@
 ---
+description: 'Components are single, logical blocks of content within a Page.'
 ---
-
-{% extends '_wikiBase' %}
-
-{% block sectionBody %}
 
 ## About Components
 ---
@@ -188,5 +185,3 @@ posts:
         extraCSS:
           - 'assets/css/form-overrides.scss' 
 {% endhighlight %} 
-
-{% endblock %}
