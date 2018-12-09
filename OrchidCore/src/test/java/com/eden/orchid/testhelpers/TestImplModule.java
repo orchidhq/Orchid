@@ -35,6 +35,7 @@ import com.eden.orchid.impl.compilers.parsers.TOMLParser;
 import com.eden.orchid.impl.compilers.parsers.YamlParser;
 import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
+import com.eden.orchid.impl.compilers.text.HtmlCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
 import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.GithubPagesPublisher;
@@ -109,7 +110,8 @@ public class TestImplModule extends OrchidModule {
                 MarkdownCompiler.class,
                 PebbleCompiler.class,
                 SassCompiler.class,
-                TextCompiler.class);
+                TextCompiler.class,
+                HtmlCompiler.class);
 
         // Parsers
         addToSet(OrchidParser.class,

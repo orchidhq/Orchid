@@ -36,7 +36,11 @@ public class TestRenderer implements OrchidRenderer {
             outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
         }
 
-        TestRenderedPage outputFile = new TestRenderedPage("/" + outputPath + "/" + outputName, content);
+        TestRenderedPage outputFile = new TestRenderedPage(
+                "/" + outputPath + "/" + outputName,
+                content,
+                page
+        );
         renderedPageMap.put(outputFile.path, outputFile);
 
         return true;
@@ -46,6 +50,7 @@ public class TestRenderer implements OrchidRenderer {
     public static class TestRenderedPage {
         private final String path;
         private final InputStream contentStream;
+        private final OrchidPage origin;
 
         public String getContent() {
             try {

@@ -34,4 +34,9 @@ public class TestResults {
                     .collect(Collectors.joining("\n"));
         }
     }
+
+    public TestResults printResults() {
+        System.out.println(showResults());
+        return this;
+    }
 }

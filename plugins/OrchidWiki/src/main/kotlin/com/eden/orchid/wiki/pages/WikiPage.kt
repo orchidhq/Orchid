@@ -10,8 +10,8 @@ import com.eden.orchid.wiki.WikiGenerator
 import com.eden.orchid.wiki.WikiSectionArchetype
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages"),
-        Archetype(value = WikiSectionArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
+        Archetype(value = WikiSectionArchetype::class, key = WikiGenerator.GENERATOR_KEY),
+        Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
 )
 @Description(value = "An entry in your wiki.", name = "Wiki")
 class WikiPage(
