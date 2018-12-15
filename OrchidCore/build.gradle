@@ -20,6 +20,8 @@ dependencies {
     api 'net.coobird:thumbnailator:0.4.8'
     compileOnly "org.projectlombok:lombok:1.18.4"
     annotationProcessor "org.projectlombok:lombok:1.18.4"
+    testCompileOnly "org.projectlombok:lombok:1.18.4"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.4"
 
     // validation
     api "javax.validation:validation-api:2.0.1.Final"
