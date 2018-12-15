@@ -1,5 +1,5 @@
 ---
-description: Learn the unique way that Orchid enables a site to grow and adapt to large sites.
+description: See how Orchid's unique admin panel documents your build for you.
 extraCss:
     - |
         inline:.scss:
@@ -16,11 +16,11 @@ extraCss:
 If you've been following along with these tutorials or been exploring some of the other great Orchid plugins, you may be
 starting to realize just how much you can do with Orchid, and especially how difficult it can be to remember exactly how
 to use it all. It can be a bit tricky to navigate the documentation to find that one little snippet of code you need, 
-and you have to hope that it is up-to-date and hasn't changed if you're not yet on the latest version. 
+and you have to hope that it is up-to-date and hasn't changed if you're not yet on the latest version.
 
 Fortunately, Orchid has a solution for all of these problems: an admin panel which brings the most relevant 
 documentation to you in one central location, perfectly up-to-date with your version of Orchid. This tutorial will walk
-you through setting up this plugin and navigating the admin panel to help you find what you need. 
+you through setting up this plugin and navigating the admin panel to help you find what you need. And it 
 
 Before continuing, make sure you have followed along with the previous tutorial and have started your local Orchid 
 server with `gradle orchidServe`. We will be building on that example in this tutorial.
@@ -50,7 +50,7 @@ panel. Add the following dependency, and you're good to go!
 orchidCompile "io.github.javaeden.orchid:OrchidPluginDocs:{{ site.version }}"
 {% endhighlight %}
 
-You'll need to fully restart Orchid in order for the new dependency to be added, but once it's started back up, try 
+You'll need to fully restart Orchid in order for the new dependency to be added, but once it's started back up try 
 visiting [http://localhost:8080/admin](http://localhost:8080/admin) to see your shiny new admin panel, and then read on 
 to learn how to use it!
 
@@ -104,7 +104,7 @@ collection which are able to be selected individually with a corresponding `item
 it is commonly used as the `itemId`), and also its URL so you can be sure you know which page it is. Clicking on any row
 in this table will take you to that page.
 
-### Plugin Discovery
+### Plugin Discovery and Documentation
 
 Now that we've got an understanding of how to find all collections that your plugins generate, let's find out what other
 kind of information the admin panel offers us. 
@@ -117,7 +117,8 @@ without me telling you?
 Normally, you would have to go to the documentation for each plugin you're using, and search through it to find the 
 exact information you need. But this has several issues: you're trusting that the documentation for that plugin is 
 up-to-date, that it contains no errors, and even that the developer even has documentation! But even worse, what if 
-you're using an older version of the plugin than is being documented? Well then you're completely out-of-luck.
+you're using an older version of the plugin than is being documented, so that the public documentation is actually 
+_different_ from your version? Well then you're completely out-of-luck! 
 
 Fortunately, Orchid does not suffer from any of these problems because the admin panel brings all of this information
 to you automatically, perfectly up-to-date with your current plugins _no matter their version_. So let's find out where
@@ -172,5 +173,14 @@ This tab shows a table of all the possible Archetypes for each item, if they exi
 each. This will help you to know how you can leverage Archetypes to minimize repeated configurations in your site. This
 list is also ordered such that the archetypes later in the list override those earlier in the list.
 
+Together, the overview, options, and archetypes for Orchid's various objects give you a complete picture for how to use
+that object to customize your site. Rather than going to the docs websites for all your plugins, Orchid brings all that
+documentation to you in one central location to make it easier than ever to get building your site, and helps you 
+discover features that might otherwise be missed. 
+
 ## Conclusion
 
+There is a lot more than you can do with the admin panel, and different plugin may also include their own unique 
+features, but collection inspection and plugin discovery/documentation are definitely the among the best features of Orchid's admin
+panel. I would encourage you to poke around some of the other plugin objects and get comfortable navigating the admin 
+panel, because it will be an indispensable tool as you build out your site!
