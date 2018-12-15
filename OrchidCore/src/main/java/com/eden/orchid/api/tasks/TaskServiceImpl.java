@@ -185,11 +185,12 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 context.startGeneration();
                 context.broadcast(Orchid.Lifecycle.GeneratingFinish.fire(this));
 
+                Clog.i("Build Complete");
+
                 context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
 
                 lastBuild = System.currentTimeMillis();
 
-                Clog.i("Build Complete");
                 Orchid.getInstance().setState(Orchid.State.IDLE);
             }
         }
@@ -237,6 +238,14 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
             server.getWebsocket().sendMessage("Files Changed", "");
         }
         context.build();
+    }
+
+    @On(Orchid.Lifecycle.BuildFinish.class)
+    public void onBuildFinish(Orchid.Lifecycle.BuildFinish event) {
+        if(server != null && server.getServer() != null) {
+            Clog.i(server.getServer().getServerRunningMessage());
+            Clog.i("Hit [CTRL-C] to stop the server and quit Orchid");
+        }
     }
 
     @On(Orchid.Lifecycle.EndSession.class)

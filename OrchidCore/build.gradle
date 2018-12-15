@@ -14,11 +14,12 @@ dependencies {
     api "com.eden:Common:${JavaEden.Common}"
     api "com.eden:Clog4j:${JavaEden.Clog}"
     api "com.eden:krow:${JavaEden.Krow}"
-    api "org.projectlombok:lombok:1.18.4"
     api "com.squareup.okhttp3:okhttp:3.12.0"
     api "commons-io:commons-io:2.6"
     api 'org.apache.commons:commons-lang3:3.8.1'
     api 'net.coobird:thumbnailator:0.4.8'
+    compileOnly "org.projectlombok:lombok:1.18.4"
+    annotationProcessor "org.projectlombok:lombok:1.18.4"
 
     // validation
     api "javax.validation:validation-api:2.0.1.Final"
@@ -26,7 +27,7 @@ dependencies {
     api "org.glassfish:javax.el:3.0.1-b10"
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
-    implementation 'org.json:json:20180130'
+    api 'org.json:json:20180130'
     implementation 'org.yaml:snakeyaml:1.23'
     implementation 'com.moandjiezana.toml:toml4j:0.7.2'
     implementation 'io.pebbletemplates:pebble:3.0.6'

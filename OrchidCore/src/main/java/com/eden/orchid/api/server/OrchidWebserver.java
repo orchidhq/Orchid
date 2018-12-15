@@ -43,7 +43,7 @@ public final class OrchidWebserver extends NanoHTTPD {
 
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         context.setBaseUrl(Clog.format("http://localhost:{}/", getListeningPort()));
-        Clog.i("Webserver Running at {}", context.getBaseUrl());
+        Clog.i(getServerRunningMessage());
 
         getRoutes = new ArrayList<>();
         postRoutes = new ArrayList<>();
@@ -53,6 +53,10 @@ public final class OrchidWebserver extends NanoHTTPD {
         for (OrchidController listener : controllers) {
             findRoutes(listener);
         }
+    }
+
+    public String getServerRunningMessage() {
+        return Clog.format("Webserver Running at {}", context.getBaseUrl());
     }
 
     private void findRoutes(OrchidController controller) {
