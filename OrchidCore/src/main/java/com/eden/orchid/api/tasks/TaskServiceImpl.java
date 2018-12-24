@@ -185,7 +185,9 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 context.startGeneration();
                 context.broadcast(Orchid.Lifecycle.GeneratingFinish.fire(this));
 
-                Clog.i("Build Complete");
+                Clog.tag("\nBuild Metrics").log("\n{}", context.getBuildDetail().print());
+                Clog.noTag().log("Build Complete");
+                Clog.noTag().log(context.getBuildSummary() + "\n");
 
                 context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
 
@@ -219,11 +221,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         initOptions();
 
         Orchid.getInstance().setState(Orchid.State.DEPLOYING);
-        Clog.i("Deploy Starting...");
+        Clog.noTag().log("\n\nDeploy Starting...\n");
         context.broadcast(Orchid.Lifecycle.DeployStart.fire(this));
         boolean success = context.publishAll(dryDeploy);
         context.broadcast(Orchid.Lifecycle.DeployFinish.fire(this, success));
-        Clog.i("Deploy complete");
+        Clog.noTag().log("Deploy complete\n");
         Orchid.getInstance().setState(Orchid.State.IDLE);
 
         return success;
@@ -243,8 +245,8 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @On(Orchid.Lifecycle.BuildFinish.class)
     public void onBuildFinish(Orchid.Lifecycle.BuildFinish event) {
         if(server != null && server.getServer() != null) {
-            Clog.i(server.getServer().getServerRunningMessage());
-            Clog.i("Hit [CTRL-C] to stop the server and quit Orchid");
+            Clog.noTag().log(server.getServer().getServerRunningMessage());
+            Clog.noTag().log("Hit [CTRL-C] to stop the server and quit Orchid\n");
         }
     }
 

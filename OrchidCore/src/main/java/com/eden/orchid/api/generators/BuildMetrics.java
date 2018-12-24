@@ -31,12 +31,14 @@ public class BuildMetrics {
     private int totalPageCount;
 
     @Getter private Map<String, GeneratorMetrics> generatorMetricsMap;
+    private GeneratorMetrics compositeMetrics;
 
 // Measure Indexing Phase
 //----------------------------------------------------------------------------------------------------------------------
 
     public void startIndexing(Set<OrchidGenerator> generators) {
         generatorMetricsMap = new HashMap<>();
+        compositeMetrics = null;
 
         progress = 0;
         totalPageCount = 0;
@@ -91,7 +93,14 @@ public class BuildMetrics {
     }
 
     public void stopGeneration() {
-        printMetrics();
+        compositeMetrics = new GeneratorMetrics("TOTAL");
+        generatorMetricsMap
+                .values()
+                .stream()
+                .peek(compositeMetrics::compose)
+                .forEach(this::setColumnWidths);
+        setColumnWidths(compositeMetrics);
+
         context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "building", maxProgress, maxProgress, 0));
     }
 
@@ -104,23 +113,25 @@ public class BuildMetrics {
         }
     }
 
-    private void printMetrics() {
-        GeneratorMetrics compositeMetrics = new GeneratorMetrics("TOTAL");
+    public String getSummary() {
+        if(compositeMetrics == null) throw new IllegalStateException("Cannot get build summary: build not complete");
 
-        rowFormat = "| #{$1} | #{$2} | #{$3} | #{$4} | #{$5} | #{$6} |\n";
+        return Clog.format("Generated {} {} in {}",
+                compositeMetrics.getPageCount() + "",
+                (compositeMetrics.getPageCount() == 1) ? "page" : "pages",
+                compositeMetrics.getTotalTime()
+        );
+    }
+
+    public KrowTable getDetail() {
+        if(compositeMetrics == null) throw new IllegalStateException("Cannot get build summary: build not complete");
+
         titleColumnWidth          = "Generator".length();
         pageCountColumnWidth      = "Page Count".length();
         indexingTimeColumnWidth   = "Indexing Time".length();
         generationTimeColumnWidth = "Generation Time".length();
         meanPageTimeColumnWidth   = "Mean Page Generation Time".length();
         medianPageTimeColumnWidth = "Median Page Generation Time".length();
-
-        generatorMetricsMap
-                .values()
-                .stream()
-                .peek(compositeMetrics::compose)
-                .forEach(this::setColumnWidths);
-        setColumnWidths(compositeMetrics);
 
         KrowTable table = new KrowTable();
 
@@ -154,17 +165,7 @@ public class BuildMetrics {
         table.table((cell) -> {cell.setHorizontalAlignment(HorizontalAlignment.CENTER); return null; });
         table.row("TOTAL", (cell) -> {cell.setHorizontalAlignment(HorizontalAlignment.RIGHT); return null; });
 
-        String tableDisplay = table.print();
-
-        if(compositeMetrics.getPageCount() == 1) {
-            tableDisplay += Clog.format("\nGenerated {} page in {}\n\n", compositeMetrics.getPageCount() + "", compositeMetrics.getTotalTime());
-        }
-        else {
-            tableDisplay += Clog.format("\nGenerated {} pages in {}\n\n", compositeMetrics.getPageCount() + "", compositeMetrics.getTotalTime());
-        }
-
-
-        Clog.tag("\nBuild Metrics").log("\n" + tableDisplay);
+        return table;
     }
 
     private void setColumnWidths(GeneratorMetrics metric) {
@@ -176,7 +177,6 @@ public class BuildMetrics {
         medianPageTimeColumnWidth = Math.max(medianPageTimeColumnWidth, metric.getMedianPageTime().length());
     }
 
-    private String rowFormat;
     private int titleColumnWidth;
     private int pageCountColumnWidth;
     private int indexingTimeColumnWidth;

@@ -1,5 +1,6 @@
 package com.eden.orchid.api.generators;
 
+import com.copperleaf.krow.KrowTable;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.ImplementedBy;
@@ -21,6 +22,14 @@ public interface GeneratorService extends OrchidService {
 
     default void onPageGenerated(OrchidPage page, long millis) {
         getService(GeneratorService.class).onPageGenerated(page, millis);
+    }
+
+    default String getBuildSummary() {
+        return getService(GeneratorService.class).getBuildSummary();
+    }
+
+    default KrowTable getBuildDetail() {
+        return getService(GeneratorService.class).getBuildDetail();
     }
 
     /**

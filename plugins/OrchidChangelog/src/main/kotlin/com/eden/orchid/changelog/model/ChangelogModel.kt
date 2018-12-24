@@ -5,7 +5,7 @@ import javax.inject.Singleton
 @Singleton
 class ChangelogModel {
 
-    lateinit var versions: List<ChangelogVersion>
+    var versions: List<ChangelogVersion> = emptyList()
 
     fun initialize(versions: List<ChangelogVersion>) {
         this.versions = versions
