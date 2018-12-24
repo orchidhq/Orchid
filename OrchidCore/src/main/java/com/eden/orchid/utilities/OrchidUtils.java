@@ -38,7 +38,6 @@ import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
@@ -122,9 +121,7 @@ public final class OrchidUtils {
         String currentFlag = null;
         int valuesParsed = 0;
         for (int i = 0; i < args.length; i++) {
-            if(args[i] == null) continue;
-
-            String arg = args[i];
+            String arg = (args[i] != null) ? args[i] : "";
 
             if(arg.startsWith("--")) {
                 // full flag name
@@ -179,6 +176,25 @@ public final class OrchidUtils {
         if(positionalArgs.size() > 0 && positionalNames.size() >= positionalArgs.size()) {
             for (int i = 0; i < positionalArgs.size(); i++) {
                 addArgValue(namedArgs, positionalNames.get(i), positionalArgs.get(i));
+            }
+        }
+
+        for(String key : namedArgs.keySet()) {
+            Object value = namedArgs.get(key);
+
+            boolean removeObject = false;
+            if(value == null) {
+                removeObject = true;
+            }
+            else if(value instanceof String && EdenUtils.isEmpty((String)value)) {
+                removeObject = true;
+            }
+            else if(value instanceof Collection && EdenUtils.isEmpty((Collection)value)) {
+                removeObject = true;
+            }
+
+            if(removeObject) {
+                namedArgs.remove(key);
             }
         }
 

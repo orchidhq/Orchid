@@ -1,6 +1,5 @@
 package com.eden.orchid.utilities;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -167,6 +166,18 @@ public final class OrchidUtilsTest {
                             put("baseUrl", "https://orchid.netlify.com/");
                             put("port", "true");
                             put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"--port", ""},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+
+                        }})
+                ),
+                Arguments.of(
+                        new String[] {"--port", null},
+                        Collections.unmodifiableMap(new HashMap<String, Object>() {{
+
                         }})
                 )
         );
