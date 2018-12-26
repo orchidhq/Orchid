@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -179,7 +180,10 @@ public final class OrchidUtils {
             }
         }
 
-        for(String key : namedArgs.keySet()) {
+        Iterator<String> it = namedArgs.keySet().iterator();
+
+        while(it.hasNext()) {
+            String key = it.next();
             Object value = namedArgs.get(key);
 
             boolean removeObject = false;
@@ -194,7 +198,7 @@ public final class OrchidUtils {
             }
 
             if(removeObject) {
-                namedArgs.remove(key);
+                it.remove();
             }
         }
 
