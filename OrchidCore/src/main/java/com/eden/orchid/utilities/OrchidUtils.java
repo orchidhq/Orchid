@@ -32,13 +32,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
@@ -122,9 +122,7 @@ public final class OrchidUtils {
         String currentFlag = null;
         int valuesParsed = 0;
         for (int i = 0; i < args.length; i++) {
-            if(args[i] == null) continue;
-
-            String arg = args[i];
+            String arg = (args[i] != null) ? args[i] : "";
 
             if(arg.startsWith("--")) {
                 // full flag name
@@ -179,6 +177,28 @@ public final class OrchidUtils {
         if(positionalArgs.size() > 0 && positionalNames.size() >= positionalArgs.size()) {
             for (int i = 0; i < positionalArgs.size(); i++) {
                 addArgValue(namedArgs, positionalNames.get(i), positionalArgs.get(i));
+            }
+        }
+
+        Iterator<String> it = namedArgs.keySet().iterator();
+
+        while(it.hasNext()) {
+            String key = it.next();
+            Object value = namedArgs.get(key);
+
+            boolean removeObject = false;
+            if(value == null) {
+                removeObject = true;
+            }
+            else if(value instanceof String && EdenUtils.isEmpty((String)value)) {
+                removeObject = true;
+            }
+            else if(value instanceof Collection && EdenUtils.isEmpty((Collection)value)) {
+                removeObject = true;
+            }
+
+            if(removeObject) {
+                it.remove();
             }
         }
 

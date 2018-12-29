@@ -124,7 +124,6 @@ task codeCoverageReport(type: JacocoReport) {
 
     reports {
         xml.enabled true
-        xml.destination "${buildDir}/reports/jacoco/report.xml"
         html.enabled false
         csv.enabled false
     }
@@ -144,6 +143,6 @@ task sendCoverageToCodacy(type: JavaExec) {
             "-l",
             "Java",
             "-r",
-            "${buildDir}/reports/jacoco/report.xml"
+            "${buildDir}/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"
     ]
 }

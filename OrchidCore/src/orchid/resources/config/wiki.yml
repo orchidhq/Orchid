@@ -8,25 +8,25 @@ wikiPages:
   layout: geopattern2
   searchIndices:
     - 'wiki'
-  'user-manual':
-    menu:
-      - type: 'separator'
-        title: 'In This Page'
-        order: 100
-      - type: 'pageIds'
-        order: 110
-        structure: nested
-      - type: 'separator'
-        title: 'User Manual'
-        order: 1000
-      - type: 'wiki'
-        section: 'user-manual'
-        order: 1010
-  'learn':
-    menu:
-      - type: 'separator'
-        title: 'In This Page'
-        order: 100
-      - type: 'pageIds'
-        order: 110
-        structure: nested
+'user-manual':
+  menu:
+    - type: 'separator'
+      title: 'In This Page'
+      order: 100
+    - type: 'pageIds'
+      order: 110
+      structure: nested
+    - type: 'separator'
+      title: 'User Manual'
+      order: 1000
+    - type: 'wiki'
+      section: 'user-manual'
+      order: 1010
+'learn':
+  menu:
+    - type: 'separator'
+      title: 'In This Page'
+      order: 100
+    - type: 'pageIds'
+      order: 110
+      structure: nested

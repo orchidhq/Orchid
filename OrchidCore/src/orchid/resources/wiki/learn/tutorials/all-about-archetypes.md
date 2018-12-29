@@ -15,7 +15,7 @@ You can follow along with this tutorial on your own, or find the source for this
 
 ## The Problem With Large Sites
 
-There are literally hundreds of statis site generators out there, but nearly all of them are affected with the same 
+There are literally hundreds of static site generators out there, but nearly all of them are affected with the same 
 issue: how do you easily manage a site which may contain hundreds, or even _thousands_, of pages? Most sites will 
 contain large collections of pages which all need similar configurations, but most generators do not offer any way to 
 keep the configurations for all these pages in sync. Scaffolding pages with common configurations built-in only works 
@@ -223,7 +223,7 @@ pages:
         order: 3
 {% endhighlight %}
 
-When the site rebuilds, you'll notice that the `tempate` for the locations pages is set to `location`, and that all 
+When the site rebuilds, you'll notice that the `template` for the locations pages is set to `location`, and that all 
 pages have the `pageIds` menu item, which has been set from the "all pages" archetype, while the "page groups" archetype
 added the page menu items for all locations.
 
@@ -234,7 +234,7 @@ that are similar, and many of those might have subtle nuances that need to be ad
 Archetypes gives you the freedom to do exactly that, so let's recap: 
 
 1. Large sites typically lead to lots of configuration repetition which doesn't scale very well, and is very difficult
-    to change one established. 
+    to change once established. 
 2. Orchid allows pages to be configured from multiple sources, not just from its Front Matter. Most commonly, this 
     additional configuration comes from the same `config.yml` that you can use to configure the rest of the site, so 
     everything is nicely managed from one location.

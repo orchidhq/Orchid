@@ -10,8 +10,10 @@
     * 04 - [Link All The Things!]({{ directoryBase }}/link-all-the-things.md)
     * 05 - [What's on the Menu?]({{ directoryBase }}/whats-on-the-menu.md)
     * 06 - [All About Archetypes]({{ directoryBase }}/all-about-archetypes.md)
-
+    * 07 - [The Amazing, Auto-Documenting Admin Panel]({{ directoryBase }}/amazing-admin-panel.md)
 {#
+    * 08 - [Choose Your Own Adventure]({{ directoryBase }}/amazing-choose-your-own-adventure.md)
+
 ## Plugin Tutorials
 {% set directoryBase = 'content' %}
 * [Plugin Tutorials]({{ directoryBase }}/index.md)

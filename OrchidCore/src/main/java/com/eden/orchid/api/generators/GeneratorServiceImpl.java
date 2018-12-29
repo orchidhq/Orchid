@@ -1,6 +1,7 @@
 package com.eden.orchid.api.generators;
 
 import com.caseyjbrooks.clog.Clog;
+import com.copperleaf.krow.KrowTable;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
@@ -237,6 +238,19 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
 
         return generatorStream;
+    }
+
+// Build Details
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public String getBuildSummary() {
+        return metrics.getSummary();
+    }
+
+    @Override
+    public KrowTable getBuildDetail() {
+        return metrics.getDetail();
     }
 
 }
