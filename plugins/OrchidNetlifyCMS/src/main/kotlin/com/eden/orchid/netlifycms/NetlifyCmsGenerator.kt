@@ -54,9 +54,9 @@ constructor(
     lateinit var mediaFolder: String
 
     @Option
-    @BooleanDefault(false)
+    @BooleanDefault(true)
     @Description("Whether options of parent classes are included.")
-    var includeInheritedOptions: Boolean = false
+    var includeInheritedOptions: Boolean = true
 
     @Option
     @BooleanDefault(true)
