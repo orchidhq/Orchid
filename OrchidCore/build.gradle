@@ -8,13 +8,13 @@ dependencies {
 
     // Dynamic Component Registration
     api 'com.google.inject:guice:4.2.2'
-    api 'io.github.classgraph:classgraph:4.4.12'
+    api 'io.github.classgraph:classgraph:4.6.10'
 
     // core utilities
     api "com.eden:Common:${JavaEden.Common}"
     api "com.eden:Clog4j:${JavaEden.Clog}"
     api "com.eden:krow:${JavaEden.Krow}"
-    api "com.squareup.okhttp3:okhttp:3.12.0"
+    api "com.squareup.okhttp3:okhttp:3.12.1"
     api "commons-io:commons-io:2.6"
     api 'org.apache.commons:commons-lang3:3.8.1'
     api 'net.coobird:thumbnailator:0.4.8'
@@ -26,7 +26,7 @@ dependencies {
     // validation
     api "javax.validation:validation-api:2.0.1.Final"
     implementation "org.hibernate.validator:hibernate-validator:6.0.13.Final"
-    api "org.glassfish:javax.el:3.0.1-b10"
+    implementation "org.glassfish:javax.el:3.0.1-b11"
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api 'org.json:json:20180130'
