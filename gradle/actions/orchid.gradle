@@ -7,11 +7,6 @@ orchid {
     baseUrl     = getBaseUrl(project)
     environment = getEnvName(project)
     githubToken = getGithubToken(project)
-
-    // additional command-line args
-    args = [
-        "--absApiKey", "${project.properties['ABS_ApiKey']}"
-    ]
 }
 
 tasks.build.dependsOn orchidBuild

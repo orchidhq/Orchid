@@ -1,6 +1,5 @@
 package com.eden.orchid.languages.bible
 
-import com.eden.Eden
 import com.eden.orchid.api.options.OrchidFlag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -11,15 +10,15 @@ class AbsApiKeyFlag : OrchidFlag() {
 
     @Option @StringDefault("")
     @Description("Bible verses can only be looked up when an API key from Bibles.org. Get your key at " +
-            "http://bibles.org/pages/api/signup"
+            "https://bibles.org/pages/api/signup"
     )
     @Protected
     lateinit var absApiKey: String
 
-    override fun getParsedFlags(): MutableMap<String, Value> {
-        Eden.getInstance().config().putString("ABS_ApiKey", absApiKey)
-        Eden.getInstance().config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", "eng-NASB")
+    @Option @StringDefault("eng-NASB")
+    @Description("The default version code to use for looking up Bible passages. Version codes can be found at " +
+            "https://bibles.org/versions_api by clicking on your desired version, the code is the last URL segment."
+    )
+    lateinit var absDefaultVersion: String
 
-        return super.getParsedFlags()
-    }
 }

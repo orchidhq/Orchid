@@ -10,11 +10,15 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.repositories.EdenRepository
 import javax.inject.Inject
+import javax.inject.Named
 
 @Description("Easily embed full Bible verses in your content.", name = "Bible Verse")
 class BibleVerseFunction
 @Inject
-constructor() : TemplateFunction("bible", true), VerseFormatter {
+constructor(
+    @Named("absApiKey") val absApiKey: String,
+    @Named("absDefaultVersion") val absDefaultVersion: String
+) : TemplateFunction("bible", true), VerseFormatter {
 
     @Option
     @Description("The input to encode.")
@@ -29,29 +33,27 @@ constructor() : TemplateFunction("bible", true), VerseFormatter {
     }
 
     override fun apply(): Any {
-        try {
-            if(!EdenUtils.isEmpty(Eden.getInstance().config().getString("ABS_ApiKey"))) {
-                val eden = Eden.getInstance()
-                eden.config().putString("com.eden.americanbiblesociety.ABSRepository_selectedBibleId", version)
-                var repo: EdenRepository? = eden.getRepository(ABSRepository::class.java)
-                if (repo == null) {
-                    try {
-                        eden.registerRepository(ABSRepository())
-                        repo = eden.getRepository(ABSRepository::class.java)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
+        if(!EdenUtils.isEmpty(absApiKey)) {
+            val eden = Eden.getInstance()
+            Eden.getInstance().config().putString("ABS_ApiKey", absApiKey)
 
-                if (repo != null) {
-                    val passage = repo.lookupVerse(verseReference)
-                    passage.verseFormatter = this
-                    return passage.text.split("<br/><i>")[0] + " ~ " + passage.reference.toString()
+            var repo: EdenRepository? = eden.getRepository(ABSRepository::class.java)
+            if (repo == null) {
+                try {
+                    eden.registerRepository(ABSRepository())
+                    repo = eden.getRepository(ABSRepository::class.java)
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
+
+            if (repo != null) {
+                repo.defaultBibleId = if(version.isNotBlank()) version else absDefaultVersion
+                repo.setSelectedBible(repo.getBible(repo.defaultBibleId))
+                val passage = repo.lookupVerse(verseReference)
+                passage.verseFormatter = this
+                return passage.text.split("<br/><i>")[0] + " ~ " + passage.reference.toString()
+            }
         }
 
         return verseReference
