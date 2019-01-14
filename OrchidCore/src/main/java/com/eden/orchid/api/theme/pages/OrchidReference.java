@@ -197,7 +197,23 @@ public final class OrchidReference {
     public String getPathSegment(int segmentIndex) {
         String path = getPath();
         String[] segments = path.split("/");
-        return segments[segmentIndex];
+
+        final int actualIndex;
+        // we have a positive index
+        if(segmentIndex >= 0 && segmentIndex <= segments.length - 1) {
+            actualIndex = segmentIndex;
+        }
+        // we have a negative index, search from end
+        else if(segmentIndex < 0 && Math.abs(segmentIndex) <= segments.length) {
+            actualIndex = segments.length - Math.abs(segmentIndex);
+        }
+
+        // index not in range
+        else {
+            throw new ArrayIndexOutOfBoundsException(segmentIndex);
+        }
+
+        return segments[actualIndex];
     }
 
     public String[] getPathSegments() {

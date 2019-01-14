@@ -14,7 +14,7 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import javax.inject.Inject
 
-@Description("Create releases directly on Github.", name = "GithubReleases")
+@Description("Create releases directly on Github.", name = "Github Releases")
 class GithubReleasesPublisher
 @Inject
 constructor(
