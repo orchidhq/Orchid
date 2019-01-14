@@ -1,17 +1,12 @@
 apply plugin: 'com.eden.orchidPlugin'
 
 orchid {
-    runTask     = 'build'
-    theme       = 'BsDoc'
-    version     = getActualVersion(project)
-    baseUrl     = getBaseUrl(project)
+    runTask = 'build'
+    theme = 'BsDoc'
+    version = getActualVersion(project)
+    baseUrl = getBaseUrl(project)
     environment = getEnvName(project)
     githubToken = getGithubToken(project)
-
-    // additional command-line args
-    args = [
-        "--absApiKey", "${project.properties['ABS_ApiKey']}"
-    ]
 }
 
 tasks.build.dependsOn orchidBuild

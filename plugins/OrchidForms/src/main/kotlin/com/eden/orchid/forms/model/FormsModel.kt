@@ -8,7 +8,7 @@ class FormsModel
 @Inject
 constructor() {
 
-    lateinit var forms: MutableMap<String, Form>
+    var forms: MutableMap<String, Form> = mutableMapOf()
 
     fun initialize(forms: MutableMap<String, Form>) {
         this.forms = forms

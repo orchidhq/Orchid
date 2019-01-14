@@ -108,3 +108,4 @@ There are several publishers available in `OrchidCore`, but more may be availabl
 - {{anchor('Script')}} - Execute arbitrary shell scripts
 - {{anchor('Netlify')}} - Upload your site to Netlify
 - {{anchor('GitHub Pages')}} - Push your site to GitHub Pages 
+- {{anchor('GitHub Releases')}} - Create a release on Github 

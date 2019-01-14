@@ -16,17 +16,20 @@ import java.util.ArrayList
 import java.util.HashMap
 import java.util.stream.Stream
 import javax.inject.Inject
+import javax.inject.Named
 
-@Description("Creates a page for each Class and Package in your project, displaying the expected KDoc information "
-        + "of methods, fields, etc. but in your site's theme.",
-        name = "Kotlindoc"
+@Description(
+    "Creates a page for each Class and Package in your project, displaying the expected KDoc information "
+            + "of methods, fields, etc. but in your site's theme.",
+    name = "Kotlindoc"
 )
 class KotlindocGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        private val invoker: OrchidKotlindocInvoker,
-        private val model: KotlindocModel
+    context: OrchidContext,
+    @Named("kotlindocClasspath") private val kotlindocClasspath: String,
+    private val invoker: OrchidKotlindocInvoker,
+    private val model: KotlindocModel
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
@@ -35,10 +38,16 @@ constructor(
 
     @Option
     @StringDefault("../../main/kotlin")
+    @Description("The source directories with Kotlin files to document.")
     lateinit var sourceDirs: List<String>
 
+    @Option
+    @Description("Arbitrary command line arguments to pass through directly to Dokka.")
+    lateinit var args: List<String>
+
     override fun startIndexing(): List<OrchidPage> {
-        val rootDoc = invoker.getRootDoc(sourceDirs)
+        val args = if (kotlindocClasspath.isNotBlank()) listOf("-classpath", kotlindocClasspath, *args.toTypedArray()) else args
+        val rootDoc = invoker.getRootDoc(sourceDirs, args)
 
         if (rootDoc == null) return ArrayList()
 

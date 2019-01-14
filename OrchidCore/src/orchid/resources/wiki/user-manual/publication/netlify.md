@@ -14,7 +14,7 @@ source control.
 {% highlight 'groovy' %}
 orchid {
     ...
-    args = ["netlifyToken ${System.getenv('NETLIFY_TOKEN')}"]
+    args = ["netlifyToken", "${System.getenv('NETLIFY_TOKEN')}"]
 }
 {% endhighlight %}
 

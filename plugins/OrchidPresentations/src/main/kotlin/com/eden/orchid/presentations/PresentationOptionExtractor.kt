@@ -1,19 +1,16 @@
 package com.eden.orchid.presentations
 
 import com.caseyjbrooks.clog.Clog
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.presentations.model.Presentation
 import com.eden.orchid.presentations.model.PresentationsModel
-import com.google.inject.Provider
 import java.lang.reflect.Field
 import javax.inject.Inject
 
 class PresentationOptionExtractor
 @Inject
 constructor(
-        private val contextProvider: Provider<OrchidContext>,
         private val converter: StringConverter,
         val model: PresentationsModel
 ) : OptionExtractor<Presentation>(1000) {

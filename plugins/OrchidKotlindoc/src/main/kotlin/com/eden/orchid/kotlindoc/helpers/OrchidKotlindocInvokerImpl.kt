@@ -20,25 +20,29 @@ import javax.inject.Singleton
 class OrchidKotlindocInvokerImpl
 @Inject
 constructor(
-        @Named("src") val resourcesDir: String,
-        val client: OkHttpClient,
-        val context: OrchidContext) : OrchidKotlindocInvoker {
+    @Named("src") val resourcesDir: String,
+    val client: OkHttpClient,
+    val context: OrchidContext
+) : OrchidKotlindocInvoker {
 
     val cacheDir: Path by lazy { OrchidUtils.getCacheDir("kotlindoc") }
     val outputDir: Path by lazy { OrchidUtils.getTempDir("dokka", true) }
     val resolver: MavenResolver by lazy { MavenResolverImpl(client, cacheDir) }
     val dokkaRunner: KotlindocInvoker by lazy {
-        KotlindocInvokerImpl(resolver, outputDir, listOf(Artifact.from("com.github.copper-leaf.dokka-json:dokka-json:0.1.25")))
+        KotlindocInvokerImpl(
+            resolver,
+            outputDir,
+            listOf(Artifact.from("com.github.copper-leaf.dokka-json:dokka-json:0.1.25"))
+        )
     }
 
-    override fun getRootDoc(sourceDirs: List<String>): KotlinRootdoc? {
-        var rootDoc = dokkaRunner.loadCachedRootDoc()
-        if (rootDoc != null) {
-            return rootDoc
-        }
-        else {
+    override fun getRootDoc(sourceDirs: List<String>, extraArgs: List<String>): KotlinRootdoc? {
+        val rootDoc = dokkaRunner.loadCachedRootDoc()
+        return if (rootDoc != null) {
+            rootDoc
+        } else {
             val sources = sourceDirs.map { File(resourcesDir).toPath().resolve(it) }
-            return dokkaRunner.getRootDoc(sources) { inputStream -> InputStreamIgnorer(inputStream) }
+            dokkaRunner.getRootDoc(sources, args = extraArgs) { inputStream -> InputStreamIgnorer(inputStream) }
         }
     }
 

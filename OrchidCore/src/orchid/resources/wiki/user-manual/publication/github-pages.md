@@ -11,15 +11,16 @@ This publisher expects Git to be installed locally on your system, as it delegat
 directly to shell commands.
 {% endalert %}
 
-To use the `ghPages` publisher, you'll need to provide Orchid with a `githubToken` containing a Personal Access Token
-from Netlify. Since PATs are confidential and allow anyone who has it complete access to your account, you should set 
-this as an environment variable and add it to your Gradle orchid config from that variable rather than committing it to
-source control.
+To use the `githubReleases` publisher, you'll need to provide Orchid with a `githubToken` containing a Personal Access 
+Token from Github. Since PATs are confidential and allow anyone who has it complete access to your account, you should 
+set this as an environment variable and add it to your Gradle orchid config from that variable rather than committing it 
+to source control.
 
 {% highlight 'groovy' %}
 orchid {
     ...
-    args = ["githubToken ${System.getenv('GITHUB_TOKEN')}"]
+    githubToken = "${System.getenv('GITHUB_TOKEN')}" 
+    // or 'githubToken' in an environment variable without this line
 }
 {% endhighlight %}
 
@@ -39,6 +40,7 @@ services:
       - type: ghPages
         username: 'cjbrooks12'
         repo: 'JavaEden/Orchid'
+      #    or
       - type: ghPages
         username: 'cjbrooks12'
         repo: 'cjbrooks12.github.io' # becomes cjbrooks12/cjbrooks12.github.io 

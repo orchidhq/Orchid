@@ -19,7 +19,7 @@ constructor(
     @Description("The Form to render. Can be either a key to an indexed form definition, or a complete form " +
             "definition for a one-off use."
     )
-    lateinit var form: Form
+    var form: Form? = null
 
     override fun loadAssets() {
         addCss("assets/css/form.scss")

@@ -38,3 +38,28 @@ services:
 
 Orchid itself is written in Kotlin and documented with this Kotlindoc plugin. You can preview the generated 
 documentation {{anchor('here', 'com.eden.orchid')}}.
+
+### Dokka Configuration
+
+This plugin delegates to Dokka to provide the documentation model. It will fetch the necessary jars and [run Dokka using
+the command line](https://github.com/Kotlin/dokka#using-the-command-line), and you are able to add any additional 
+arguments you wish. 
+
+First, you may specify the `--kotlindocClasspath` flag to Orchid, which will forward this value to Dokka's `-classpath`
+arg. Example usage when running Orchid from Gradle looks like the following:
+
+{% highlight 'groovy' %}
+orchid {
+    ...
+    args = ["--kotlindocClasspath", getModuleClasspathString()]
+}
+{% endhighlight %}
+
+In addition, you may specify a full list of args in your `config.yml` which will be passed-through to Dokka. 
+
+{% highlight 'yaml' %}
+kotlindoc:
+  args:
+    - '-classpath'
+    - '...'
+{% endhighlight %}
