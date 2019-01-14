@@ -46,3 +46,8 @@ services:
     stages:
       - type: githubReleases
         repo: 'JavaEden/Orchid'
+
+kotlindoc:
+  sourceDirs:
+    - '../../main/java'
+    - '../../main/kotlin'

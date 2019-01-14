@@ -1,12 +1,16 @@
 apply plugin: 'com.eden.orchidPlugin'
 
-orchid {
-    runTask     = 'build'
-    theme       = 'BsDoc'
-    version     = getActualVersion(project)
-    baseUrl     = getBaseUrl(project)
-    environment = getEnvName(project)
-    githubToken = getGithubToken(project)
+afterEvaluate { proj ->
+    orchid {
+        runTask = 'build'
+        theme = 'BsDoc'
+        version = getActualVersion(proj)
+        baseUrl = getBaseUrl(proj)
+        environment = getEnvName(proj)
+        githubToken = getGithubToken(proj)
+
+        args = ["--kotlindocClasspath", project(":OrchidCore").sourceSets.orchid.runtimeClasspath.getAsPath()]
+    }
 }
 
 tasks.build.dependsOn orchidBuild
