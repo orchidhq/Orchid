@@ -37,6 +37,11 @@ public final class OrchidReference {
     private String extension;
 
     /**
+     * The querystring for linking to external pages
+     */
+    private String query;
+
+    /**
      * The output extension of the file.
      */
     private String outputExtension;
@@ -85,6 +90,7 @@ public final class OrchidReference {
         this.fileName = source.fileName;
         this.extension = source.extension;
         this.id = source.id;
+        this.query = source.query;
         this.title = source.title;
         this.usePrettyUrl = source.usePrettyUrl;
     }
@@ -286,6 +292,11 @@ public final class OrchidReference {
             output += id;
         }
 
+        if (!EdenUtils.isEmpty(query)) {
+            output += "?";
+            output += query;
+        }
+
         return OrchidUtils.normalizePath(output);
     }
 
@@ -331,6 +342,7 @@ public final class OrchidReference {
         referenceJson.put("fileName", this.fileName);
         referenceJson.put("extension", this.extension);
         referenceJson.put("id", this.id);
+        referenceJson.put("query", this.query);
         referenceJson.put("title", this.title);
         referenceJson.put("usePrettyUrl", this.usePrettyUrl);
 
@@ -344,6 +356,7 @@ public final class OrchidReference {
         newReference.fileName = source.optString("fileName");
         newReference.extension = source.optString("extension");
         newReference.id = source.optString("id");
+        newReference.query = source.optString("query");
         newReference.title = source.optString("title");
         newReference.usePrettyUrl = source.optBoolean("usePrettyUrl");
         return newReference;
@@ -365,6 +378,11 @@ public final class OrchidReference {
             newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));
             newReference.title = title;
             newReference.extension = FilenameUtils.getExtension(FilenameUtils.getName(url));
+            newReference.outputExtension = newReference.extension;
+            newReference.query = parsedUrl.getQuery();
+            newReference.id = parsedUrl.getRef();
+            newReference.setUsePrettyUrl(false);
+
             return newReference;
         }
         catch (Exception e) {
@@ -424,5 +442,13 @@ public final class OrchidReference {
         this.usePrettyUrl = usePrettyUrl;
     }
 
+    public String getQuery() {
+        return query;
+    }
+
+    public OrchidReference setQuery(String query) {
+        this.query = query;
+        return this;
+    }
 }
 

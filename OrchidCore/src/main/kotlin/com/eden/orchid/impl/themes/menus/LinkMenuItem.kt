@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidExternalPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
@@ -36,12 +36,18 @@ constructor(
 
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(url)) {
             var reference: OrchidReference? = null
+
+            // if link is just a slash, it is a link to the homepage
             if (url == "/") {
                 url = context.baseUrl
             }
+
+            // if the URL is not external, apply this site's base URL to make it absolute
             else if (!OrchidUtils.isExternal(url)) {
                 url = OrchidUtils.applyBaseUrl(context, url)
             }
+
+            // if the link is an ID, it should be a link to the current page at that ID
             else if (url.startsWith("#")) {
                 reference = OrchidReference(page.reference)
                 reference.id = url.substring(1)
