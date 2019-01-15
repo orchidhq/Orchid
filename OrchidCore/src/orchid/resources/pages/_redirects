@@ -6,7 +6,7 @@ usePrettyUrl: false
 {% set siteBaseUrl = site.baseUrl.replace('http://', '').replace('https://', '') %}
 
 # Force SSL
-http://{{siteBaseUrl}}/*   https://{{siteBaseUrl}}/:splat   301!
+http://{{siteBaseUrl}}/*            https://{{siteBaseUrl}}/:splat           301!
 
 # Redirect all previous sub-sites to their corresponding pages in the one main site
 /OrchidCore                         /                                        301
@@ -37,14 +37,11 @@ http://{{siteBaseUrl}}/*   https://{{siteBaseUrl}}/:splat   301!
 /OrchidFutureImperfect/*            /themes/OrchidBsDoc                      301
 
 # Renamed wiki section paths
-/wiki/userManual/*                  /wiki/user-manual/:splat                 301!
-/wiki/developersGuide/*             /wiki/developers-guide/:splat            301!
+/wiki/userManual/*                  /wiki/user-manual/                       301!
+/wiki/developersGuide/*             /wiki/user-manual                        301!
 
 # Broken images
 /OrchidCore/assets/media/sample.jpg /assets/media/sample.jpg                 301
-
-# Other redirects
-/changelog                          /wiki/developers-guide/changelog         301
 
 # Custom 404 page
 /*                                  /404.html                                404
