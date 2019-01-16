@@ -36,6 +36,13 @@ jobs:
         - ./gradlew assemble
         - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
       script: ./gradlew check
+      os: linux
+      jdk: oraclejdk9
+    - stage: testDebug
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check
       os: osx
       osx_image: xcode8.3
 
