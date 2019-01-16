@@ -6,7 +6,7 @@ import com.eden.orchid.api.server.OrchidView
 import com.eden.orchid.netlifycms.api.NetlifyCmsManageController
 import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 
-@Description(value = "The page hosting the Netlify CMS.", name = "Netlify CMS")
+@Description(value = "The page hosting the Netlify CMS.", name = "Netlify CMS View")
 class NetlifyCmsAdminView(
         context: OrchidContext,
         controller: NetlifyCmsManageController,

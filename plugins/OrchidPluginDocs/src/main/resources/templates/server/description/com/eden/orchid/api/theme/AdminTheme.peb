@@ -1,5 +1,5 @@
 {% set theme =  tag.provide() %}
-{# @pebvariable name="theme" type="com.eden.orchid.api.theme.Theme" #}
+{# @pebvariable name="theme" type="com.eden.orchid.api.theme.AdminTheme" #}
 
 {% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
 <b>Default Config</b>

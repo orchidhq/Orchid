@@ -1,0 +1,40 @@
+{% set templateTag =  tag.provide() %}
+{# @pebvariable name="templateTag" type="com.eden.orchid.api.compilers.TemplateTag" #}
+
+<p><b>Example Usage:</b></p>
+
+{% if templateTag.type.name == 'Simple' %}
+<pre><code class="lang-jinja">
+{{- '{% ' }}{{ templateTag.name }}{{ ' %}' }}
+</code></pre>
+{% elseif templateTag.type.name == 'Content' %}
+<pre><code class="lang-jinja">
+{{- '{% ' }}{{ templateTag.name }}{{ ' %}' }}
+  Content goes here
+{{ '{% end' }}{{ templateTag.name }}{{ ' %}' }}
+  or
+{{ '{% ' }}{{ templateTag.name }}{{ ' :: filters|for|content %}' }}
+  Content goes here
+{{ '{% end' }}{{ templateTag.name }}{{ ' %}' }}
+</code></pre>
+{% elseif templateTag.type.name == 'Tabbed' %}
+<pre><code class="lang-jinja">
+{{- '{% ' }}{{ templateTag.name }}{{ ' %}' }}
+  {{ '{% key1 %}' }}
+    Tab 1 content
+  {{ '{% endkey2 %}' }}
+  {{ '{% key2 %}' }}
+    Tab 2 content
+  {{ '{% endkey2 %}' }}
+{{ '{% end' }}{{ templateTag.name }}{{ ' %}' }}
+  or
+{{ '{% ' }}{{ templateTag.name }}{{ ' :: filters|for|content|of|all|tabs %}' }}
+  {{ '{% key1 :: filters|for|content|of|this|tab %}' }}
+    Tab 1 content
+  {{ '{% endkey2 %}' }}
+  {{ '{% key2 :: filters|for|content|of|this|tab %}' }}
+    Tab 2 content
+  {{ '{% endkey2 %}' }}
+{{ '{% end' }}{{ templateTag.name }}{{ ' %}' }}
+</code></pre>
+{% endif %}

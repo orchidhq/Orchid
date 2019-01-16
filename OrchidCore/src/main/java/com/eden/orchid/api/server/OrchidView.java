@@ -3,6 +3,7 @@ package com.eden.orchid.api.server;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.Descriptive;
+import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Description(value = "A representation of a server-rendered page, accessible when running Orchid's development server.", name = "View")
 public class OrchidView extends OrchidPage {
 
     public enum Type {

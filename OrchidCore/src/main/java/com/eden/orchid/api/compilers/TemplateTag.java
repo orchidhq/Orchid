@@ -32,34 +32,6 @@ public abstract class TemplateTag implements
         OptionsHolder,
         Renderable {
 
-    public String getTemplateBase() {
-        return this.templateBase;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public boolean rendersContent() {
-        return this.rendersContent;
-    }
-
-    public Type getType() {
-        return this.type;
-    }
-
-    public OrchidPage getPage() {
-        return this.page;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public void setPage(OrchidPage page) {
-        this.page = page;
-    }
-
     public enum Type {
         Simple, Content, Tabbed
     }
@@ -196,5 +168,33 @@ public abstract class TemplateTag implements
         templates.add(getName());
 
         return templates;
+    }
+
+    public String getTemplateBase() {
+        return this.templateBase;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public boolean rendersContent() {
+        return this.rendersContent;
+    }
+
+    public Type getType() {
+        return this.type;
+    }
+
+    public OrchidPage getPage() {
+        return this.page;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setPage(OrchidPage page) {
+        this.page = page;
     }
 }

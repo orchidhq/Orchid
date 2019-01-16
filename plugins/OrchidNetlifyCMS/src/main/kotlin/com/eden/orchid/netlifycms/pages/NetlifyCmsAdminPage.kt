@@ -7,7 +7,7 @@ import com.eden.orchid.api.theme.assets.JsPage
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 
-@Description(value = "The page hosting the Netlify CMS.", name = "Netlify CMS")
+@Description(value = "The page hosting the Netlify CMS.", name = "Netlify CMS Page")
 class NetlifyCmsAdminPage(
         resource: OrchidResource,
         val model: NetlifyCmsModel

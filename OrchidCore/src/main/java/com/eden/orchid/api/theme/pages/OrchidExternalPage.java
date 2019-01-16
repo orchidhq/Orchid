@@ -10,7 +10,7 @@ import com.eden.orchid.api.resources.resource.ExternalResource;
  */
 @Description(value = "A page referencing a URL outside of your current build. External assets may be downloaded and " +
         "hosted in your own site for robustness.",
-        name = "External"
+        name = "External Page"
 )
 public final class OrchidExternalPage extends OrchidPage {
 

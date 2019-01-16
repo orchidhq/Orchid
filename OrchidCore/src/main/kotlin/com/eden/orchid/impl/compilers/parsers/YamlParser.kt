@@ -13,7 +13,7 @@ constructor() : OrchidParser(100) {
     }
 
     override fun getSourceExtensions(): Array<String> {
-        return arrayOf("yaml", "yml")
+        return arrayOf("yml", "yaml")
     }
 
     @Suppress("UNCHECKED_CAST")

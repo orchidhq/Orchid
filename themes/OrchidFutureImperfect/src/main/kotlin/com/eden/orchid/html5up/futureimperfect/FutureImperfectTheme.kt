@@ -9,7 +9,7 @@ import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
-@Description("A theme based on Future Imperfect by HTML5Up, good for blogs.", name = "BsDoc")
+@Description("A theme based on Future Imperfect by HTML5Up, good for blogs.", name = "FutureImperfect")
 class FutureImperfectTheme
 @Inject
 constructor(

@@ -7,7 +7,7 @@ import com.eden.orchid.api.theme.Theme
 import javax.inject.Inject
 
 @Description(
-    value = "The default theme, which adds no assets and lets you build your theme entirely by custom " + "templates.",
+    value = "The default theme, which adds no assets and lets you build your theme entirely by custom templates.",
     name = "Default"
 )
 class DefaultTheme @Inject

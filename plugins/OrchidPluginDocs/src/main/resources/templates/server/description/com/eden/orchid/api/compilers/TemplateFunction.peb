@@ -1,0 +1,28 @@
+{% set templateFunction =  tag.provide() %}
+{# @pebvariable name="templateFunction" type="com.eden.orchid.api.compilers.TemplateFunction" #}
+
+{% set params = templateFunction.parameters() %}
+
+{% if params|length == 0 %}
+{# can only be used as function #}
+<p><b>Example Usage:</b></p>
+<pre v-pre><code class="lang-jinja">
+  {{- '{{ ' }}{{ templateFunction.name }}({{ params|join(', ') }}){{ ' }}' }}
+</code></pre>
+{% elseif params|length == 1 %}
+{# can be used as filter or function. Filters do not need parantheses #}
+<p><b>Example Usage:</b></p>
+<pre v-pre><code class="lang-jinja">
+{{- '{{ ' }}{{ templateFunction.name }}({{ params|join(', ') }}){{ ' }}' }}
+  or
+{{ '{{ ' }}{{ params|first }} | {{ templateFunction.name }}{{ ' }}' }}
+</code></pre>
+{% else %}
+{# can be used as filter or function #}
+<p><b>Example Usage:</b></p>
+<pre v-pre><code class="lang-jinja">
+{{- '{{ ' }}{{ templateFunction.name }}({{ params|join(', ') }}){{ ' }}' }}
+  or
+{{ '{{ ' }}{{ params|first }} | {{ templateFunction.name }}({{ params|slice(1)|join(', ') }}){{ ' }}' }}
+</code></pre>
+{% endif %}
