@@ -1,6 +1,5 @@
 package com.eden.orchid.javadoc
 
-import com.caseyjbrooks.clog.Clog
 import com.copperleaf.javadoc.json.models.JavaPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
@@ -17,17 +16,20 @@ import java.util.ArrayList
 import java.util.HashMap
 import java.util.stream.Stream
 import javax.inject.Inject
+import javax.inject.Named
 
-@Description("Creates a page for each Class and Package in your project, displaying the expected Javadoc information " +
-        "of methods, fields, etc. but in your site's theme.",
-        name = "Javadoc"
+@Description(
+    "Creates a page for each Class and Package in your project, displaying the expected Javadoc information " +
+            "of methods, fields, etc. but in your site's theme.",
+    name = "Javadoc"
 )
 class JavadocGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        private val model: JavadocModel,
-        private val javadocInvoker: OrchidJavadocInvoker
+    context: OrchidContext,
+    @Named("javadocClasspath") private val javadocClasspath: String,
+    private val model: JavadocModel,
+    private val javadocInvoker: OrchidJavadocInvoker
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
@@ -36,12 +38,19 @@ constructor(
 
     @Option
     @StringDefault("../../main/java")
+    @Description("The source directories with Kotlin files to document.")
     lateinit var sourceDirs: List<String>
 
+    @Option
+    @Description("Arbitrary command line arguments to pass through directly to Javadoc.")
+    lateinit var args: List<String>
+
     override fun startIndexing(): List<OrchidPage> {
+        val args = if (javadocClasspath.isNotBlank()) listOf("-classpath", javadocClasspath, *args.toTypedArray()) else args
+
         javadocInvoker.extractOptions(context, allData)
 
-        val rootDoc = javadocInvoker.getRootDoc(sourceDirs)
+        val rootDoc = javadocInvoker.getRootDoc(sourceDirs, args)
 
         if (rootDoc == null) return ArrayList()
 
@@ -105,8 +114,10 @@ constructor(
             // packages are not the same...
             if (possibleChild.name != parent.name) {
 
-                val parentSegmentCount = parent.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
-                val possibleChildSegmentCount = possibleChild.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
+                val parentSegmentCount =
+                    parent.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
+                val possibleChildSegmentCount =
+                    possibleChild.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
 
                 // child has one segment more than the parent, so is immediate child
                 if (possibleChildSegmentCount == parentSegmentCount + 1) {

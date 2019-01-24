@@ -61,7 +61,6 @@ class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
     @Test
     @DisplayName("Test that PlantUml syntax works when the file ends with .uml when the module is included")
     fun test03() {
-        enableLogging()
         resource(
             "homepage.uml",
             """
