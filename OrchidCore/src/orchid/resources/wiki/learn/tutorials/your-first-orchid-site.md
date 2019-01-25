@@ -94,17 +94,15 @@ To do this, add the following lines to at the end of `build.gradle`.
 {% highlight 'groovy' %}
 // 1. Include desired official Orchid plugins and themes
 dependencies {
-    orchidCompile "io.github.javaeden.orchid:OrchidCore:0.12.1"
-        orchidCompile "io.github.javaeden.orchid:OrchidBsDoc:0.12.1"
-        orchidCompile "io.github.javaeden.orchid:OrchidPages:0.12.1"
-        orchidCompile "io.github.javaeden.orchid:OrchidAsciidoc:0.12.1"
+    orchidCompile "io.github.javaeden.orchid:OrchidCore:{{ site.version }}"
+    orchidCompile "io.github.javaeden.orchid:OrchidBsDoc:{{ site.version }}"
+    orchidCompile "io.github.javaeden.orchid:OrchidPages:{{ site.version }}"
+    orchidCompile "io.github.javaeden.orchid:OrchidAsciidoc:{{ site.version }}"
 }
 
-// 2. Get Orchid from Jcenter, Bintray, and Jitpack
+// 2. Get Orchid from Jcenter
 repositories {
     jcenter()
-    maven { url 'https://dl.bintray.com/javaeden/Orchid/' }
-    maven { url 'https://jitpack.io' }
 }
 
 // 3. Use the 'BsDoc' theme, and view the site locally at 'http://localhost:8080'
