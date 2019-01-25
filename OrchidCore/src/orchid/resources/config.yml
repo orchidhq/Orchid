@@ -51,3 +51,9 @@ kotlindoc:
   sourceDirs:
     - '../../main/java'
     - '../../main/kotlin'
+
+allPages:
+  extraJs:
+    - "inline:sidebar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
+    - "https://sidecar.gitter.im/dist/sidecar.v1.js"
+
