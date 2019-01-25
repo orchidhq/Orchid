@@ -38,43 +38,31 @@ For example:
 
 corresponds to the following directory structure:
 
-{% filter compileAs('uml') %}
-@startsalt
-{
-{T
-+ / (resources root)
-++ config.yml
-++ /wiki
-+++ summary.md
-+++ getting-started.md
-+++ /setup
-++++ basic.md
-++++ advanced.md
-}
-}
-@endsalt
-{% endfilter %}
-
+{% highlight 'text' %}
+├── / (resources root)
+|   ├── config.yml
+|   └── /wiki
+|       ├── summary.md
+|       ├── getting-started.md
+|       └── /setup
+|           ├── basic.md
+|           └── advanced.md
+{% endhighlight %}
 
 which produces the following output:
 
-{% filter compileAs('uml') %}
-@startsalt
-{
-{T
-+ /wiki
-++ index.html
-++ /getting-started
-+++ index.html
-++ /setup
-+++ /basic
-++++ index.html
-+++ /advanced
-++++ index.html
-}
-}
-@endsalt
-{% endfilter %}
+{% highlight 'text' %}
+├── /wiki
+|   ├── /summary
+|   |   └── index.html
+|   ├── /getting-started
+|   |   └── index.html
+|   └── /setup
+|       ├── /basic
+|       |   └── index.html
+|       └── /advanced
+|           └── index.html
+{% endhighlight %}
 
 The content of those wiki pages can be anything, and can be written in any language as long as there is a Compiler for 
 it (just like the summary, and any other page). Orchid also creates a new menu item type which links to every page in 
