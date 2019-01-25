@@ -1,9 +1,11 @@
 package com.eden.orchid.plugindocs
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.theme.AdminTheme
 import javax.inject.Inject
 
+@Description(value = "The default Admin Panel theme, using UiKit and Vue.js.", name = "Default")
 class DefaultAdminTheme
 @Inject
 constructor(

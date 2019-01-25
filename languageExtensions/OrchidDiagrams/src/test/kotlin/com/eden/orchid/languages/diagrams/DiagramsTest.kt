@@ -4,6 +4,7 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestHomepageModule
 import com.eden.orchid.testhelpers.asHtml
 import com.eden.orchid.testhelpers.innerHtml
+import com.eden.orchid.testhelpers.matchCountIs
 import com.eden.orchid.testhelpers.matches
 import com.eden.orchid.testhelpers.pageWasRendered
 import com.eden.orchid.testhelpers.select
@@ -16,9 +17,10 @@ import strikt.assertions.isEqualTo
 class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
 
     @Test
-    @DisplayName("Test that Markdown works normally")
+    @DisplayName("Test that PlantUml works normally")
     fun test01() {
-        resource("homepage.md",
+        resource(
+            "homepage.md",
             """
             |Bob->Alice : hello
             """.trimMargin()
@@ -38,7 +40,8 @@ class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
     @Test
     @DisplayName("Test that PlantUml syntax is not supported when the module is not included. Homepage file will not be found at all.")
     fun test02() {
-        resource("homepage.uml",
+        resource(
+            "homepage.uml",
             """
             |Bob->Alice : hello
             """.trimMargin()
@@ -56,10 +59,10 @@ class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
     }
 
     @Test
-    @DisplayName("Test that Asciidoc syntax works when the file ends with .uml when the module is included")
+    @DisplayName("Test that PlantUml syntax works when the file ends with .uml when the module is included")
     fun test03() {
-        enableLogging()
-        resource("homepage.uml",
+        resource(
+            "homepage.uml",
             """
             |Bob->Alice : hello
             """.trimMargin()
@@ -73,6 +76,63 @@ class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
             .asHtml(true)
             .select("body > svg")
             .matches()
+    }
+
+    @Test
+    @DisplayName("Test that PlantUml syntax works with @startuml and @enduml tags")
+    fun test04() {
+        val input = """
+            |@startuml
+            |Bob->Alice : hello
+            |@enduml
+            """.trimMargin()
+        val output = PlantUmlCompiler().compile("uml", input, null)
+        println(output)
+        expectThat(output)
+            .asHtml(true)
+            .select("svg")
+            .matches()
+            .matchCountIs(1)
+    }
+
+    @Test
+    @DisplayName("Test that PlantUml syntax works without @startuml and @enduml tags")
+    fun test05() {
+        val input = """
+            |Bob->Alice : hello
+            """.trimMargin()
+        val output = PlantUmlCompiler().compile("uml", input, null)
+        println(output)
+        expectThat(output)
+            .asHtml(true)
+            .select("svg")
+            .matches()
+            .matchCountIs(1)
+    }
+
+    @Test
+    @DisplayName("Test that PlantUml syntax works with multiple @startuml and @enduml tags, rendering each one individually")
+    fun test06() {
+        val input = """
+            |@startuml
+            |Bob1->Alice1 : hello
+            |@enduml
+            |
+            |@startuml
+            |Bob2->Alice2 : hello
+            |@enduml
+            |
+            |@startuml
+            |Bob2->Alice2 : hello
+            |@enduml
+            """.trimMargin()
+        val output = PlantUmlCompiler().compile("uml", input, null)
+        println(output)
+        expectThat(output)
+            .asHtml(true)
+            .select("svg")
+            .matches()
+            .matchCountIs(3)
     }
 
 }

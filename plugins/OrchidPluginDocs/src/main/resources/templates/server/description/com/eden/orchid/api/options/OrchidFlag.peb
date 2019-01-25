@@ -1,6 +1,4 @@
 {% set flag =  tag.provide() %}
 {# @pebvariable name="flag" type="com.eden.orchid.api.options.OrchidFlag" #}
 
-<p><code>{{ flag.priority }}: [{{ flag.flag }}]</code></p>
-<p>{{ flag.itemLength }}</p>
-<p>{{ flag.required }}</p>
+<p>Flag: <code>{{ flag.flag }}</code></p>

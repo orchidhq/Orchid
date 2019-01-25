@@ -7,6 +7,9 @@ import com.google.inject.ImplementedBy
 @ImplementedBy(OrchidKotlindocInvokerImpl::class)
 interface OrchidKotlindocInvoker : OptionsHolder {
 
-    fun getRootDoc(sourceDirs: List<String>, extraArgs: List<String>): KotlinRootdoc?
+    fun getRootDoc(
+        sourceDirs: List<String>,
+        extraArgs: List<String>
+    ): KotlinRootdoc?
 
 }

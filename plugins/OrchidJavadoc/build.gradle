@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation "com.github.copper-leaf.dokka-json:javadoc-json-lib:${JavaEden.JsonDocs}"
+    implementation "com.eden:javadoc-runner:${JavaEden.JsonDocs}"
 }

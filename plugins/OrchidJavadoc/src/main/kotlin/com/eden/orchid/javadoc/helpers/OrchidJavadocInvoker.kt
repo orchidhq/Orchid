@@ -7,6 +7,9 @@ import com.google.inject.ImplementedBy
 @ImplementedBy(OrchidJavadocInvokerImpl::class)
 interface OrchidJavadocInvoker : OptionsHolder {
 
-    fun getRootDoc(sourceDirs: List<String>): JavadocRootdoc?
+    fun getRootDoc(
+        sourceDirs: List<String>,
+        extraArgs: List<String>
+    ): JavadocRootdoc?
 
 }

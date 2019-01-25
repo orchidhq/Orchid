@@ -48,7 +48,6 @@ allprojects {
     apply plugin: "com.dorongold.task-tree"
     repositories {
         jcenter()
-        maven { url 'https://dl.bintray.com/javaeden/Eden/' }
         maven { url "https://kotlin.bintray.com/kotlinx" }
         maven { url 'https://jitpack.io' }
     }

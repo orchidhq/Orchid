@@ -20,8 +20,6 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
     override fun setUp() {
         super.setUp()
 
-        enableLogging()
-
         resource("templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>

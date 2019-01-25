@@ -15,8 +15,6 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
     override fun setUp() {
         super.setUp()
 
-        enableLogging()
-
         resource("templates/layouts/layoutone.peb")
         resource("templates/layouts/layouttwo.peb")
         resource("templates/layouts/layoutthree.peb")

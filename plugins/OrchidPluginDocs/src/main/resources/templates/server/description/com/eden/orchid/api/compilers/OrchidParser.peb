@@ -1,5 +1,28 @@
 {% set parser =  tag.provide() %}
 {# @pebvariable name="parser" type="com.eden.orchid.api.compilers.OrchidParser" #}
+{% set serializedContent = parser.serialize(parser.sourceExtensions|first, {'key1': 'value1', 'key2': 'value2'}) | trim %}
 
-<p><code>{{ parser.priority }}: [{{ parser.sourceExtensions | join('</code>, <code>') }}]</code></p>
-<p><code>{{ parser.delimiterString | raw }}</code></p>
+<p><code>{{ parser.sourceExtensions | join('</code>, <code>') | raw }}</code></p>
+
+<b>Example Usage</b>
+
+<pre><code class="lang-yaml">
+{{- parser.delimiterString | raw }}{{ parser.delimiterString | raw }}{{ parser.delimiterString | raw }}
+{{ serializedContent | raw }}
+{{ parser.delimiterString | raw }}{{ parser.delimiterString | raw }}{{ parser.delimiterString | raw }}
+
+Page Content
+
+...
+</code></pre>
+
+or
+
+<pre><code class="lang-yaml">---{{ parser.sourceExtensions|first }}
+{{ serializedContent | raw }}
+---
+
+Page Content
+
+...
+</code></pre>

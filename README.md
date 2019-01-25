@@ -85,8 +85,6 @@ repositories {
     // everything available from MavenCentral, while Jitpack makes accessible any Github project.
     jcenter()
     maven { url "https://kotlin.bintray.com/kotlinx" }
-    maven { url 'https://dl.bintray.com/javaeden/Orchid/' }
-    maven { url 'https://dl.bintray.com/javaeden/Eden/' }
     maven { url 'https://jitpack.io' }
 }
 
@@ -192,14 +190,6 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
             <url>https://kotlin.bintray.com/kotlinx</url>
         </pluginRepository>
         <pluginRepository>
-            <id>orchid-bintray</id>
-            <url>https://dl.bintray.com/javaeden/Orchid</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>eden-bintray</id>
-            <url>https://dl.bintray.com/javaeden/Eden</url>
-        </pluginRepository>
-        <pluginRepository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </pluginRepository>
@@ -234,8 +224,6 @@ tools, or used like a library and started from another application.
 
 ```kotlin
 @file:MavenRepository("kotlinx", "https://kotlin.bintray.com/kotlinx")
-@file:MavenRepository("orchid-bintray", "https://dl.bintray.com/javaeden/Orchid/")
-@file:MavenRepository("eden-bintray", "https://dl.bintray.com/javaeden/Eden/")
 @file:MavenRepository("jitpack", "https://jitpack.io")
 
 @file:DependsOn("io.github.javaeden.orchid:OrchidAll:{version}")

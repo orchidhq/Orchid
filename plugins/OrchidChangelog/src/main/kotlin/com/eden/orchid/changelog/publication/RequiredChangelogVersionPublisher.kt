@@ -2,11 +2,16 @@ package com.eden.orchid.changelog.publication
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.changelog.model.ChangelogModel
 
 import javax.inject.Inject
 
+@Description(
+    value = "Checks that a changelog entry has been provided for the current version.",
+    name = "Require Changelog"
+)
 class RequiredChangelogVersionPublisher
 @Inject
 constructor(

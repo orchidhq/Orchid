@@ -1,11 +1,11 @@
 package com.eden.orchid.impl.compilers.parsers
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidParser
 import org.json.JSONArray
 import org.json.JSONObject
-
-import javax.inject.Inject
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 class JsonParser @Inject
 constructor() : OrchidParser(100) {
@@ -41,6 +41,12 @@ constructor() : OrchidParser(100) {
     }
 
     override fun serialize(extension: String, input: Any): String {
-        return JSONObject(input).toString()
+        Clog.v("Serializing {} as json", input)
+        if(input is Map<*, *>) {
+            return JSONObject(input).toString()
+        }
+        else {
+            return JSONObject().toString()
+        }
     }
 }
