@@ -9,16 +9,20 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
+import com.eden.orchid.api.indexing.IndexServiceImpl;
 import com.eden.orchid.api.publication.OrchidPublisher;
+import com.eden.orchid.api.registration.IgnoreModule;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.render.OrchidRenderer;
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
+import com.eden.orchid.api.resources.ResourceServiceImpl;
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.server.OrchidController;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.tasks.TaskServiceImpl;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.ThemeServiceImpl;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory;
 import com.eden.orchid.impl.commands.BuildCommand;
@@ -37,13 +41,16 @@ import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.HtmlCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
+import com.eden.orchid.impl.generators.collections.ExternalPageCollection;
 import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.GithubPagesPublisher;
 import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
+import com.eden.orchid.impl.resources.InlineResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
 import com.eden.orchid.impl.tasks.BuildTask;
 import com.eden.orchid.impl.tasks.DeployTask;
+import com.eden.orchid.impl.tasks.HelpTask;
 import com.eden.orchid.impl.tasks.ServeTask;
 import com.eden.orchid.impl.tasks.ShellTask;
 import com.eden.orchid.impl.tasks.WatchTask;
@@ -53,6 +60,7 @@ import com.eden.orchid.impl.themes.components.PageContentComponent;
 import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
 import com.eden.orchid.impl.themes.functions.AnchorFunction;
+import com.eden.orchid.impl.themes.functions.AssetFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
@@ -60,17 +68,27 @@ import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
 import com.eden.orchid.impl.themes.functions.LocalDateFunction;
+import com.eden.orchid.impl.themes.functions.ParseAsFunction;
+import com.eden.orchid.impl.themes.functions.ResizeFunction;
+import com.eden.orchid.impl.themes.functions.RotateFunction;
+import com.eden.orchid.impl.themes.functions.ScaleFunction;
 import com.eden.orchid.impl.themes.menus.DividerMenuItem;
 import com.eden.orchid.impl.themes.menus.GeneratorPagesMenuItem;
 import com.eden.orchid.impl.themes.menus.LinkMenuItem;
+import com.eden.orchid.impl.themes.menus.PageChildrenMenuItem;
 import com.eden.orchid.impl.themes.menus.PageMenuItem;
+import com.eden.orchid.impl.themes.menus.PageParentMenuItem;
+import com.eden.orchid.impl.themes.menus.PageSiblingsMenuItem;
+import com.eden.orchid.impl.themes.menus.PageSubtreeMenuItem;
 import com.eden.orchid.impl.themes.menus.SubmenuMenuItem;
+import com.eden.orchid.impl.themes.tags.AccordionTag;
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag;
 import com.eden.orchid.impl.themes.tags.HeadTag;
 import com.eden.orchid.impl.themes.tags.LogTag;
 import com.eden.orchid.impl.themes.tags.PageTag;
 import com.eden.orchid.impl.themes.tags.ScriptsTag;
 import com.eden.orchid.impl.themes.tags.StylesTag;
+import com.eden.orchid.impl.themes.tags.TabsTag;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.Provides;
 import okhttp3.Cache;
@@ -81,7 +99,8 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class TestImplModule extends OrchidModule {
+@IgnoreModule
+public final class TestImplModule extends OrchidModule {
 
     @Override
     protected void configure() {
@@ -93,7 +112,8 @@ public class TestImplModule extends OrchidModule {
         addToSet(OrchidService.class);
 
         addToSet(GlobalCollection.class,
-                FrontMatterCollection.class);
+                FrontMatterCollection.class,
+                ExternalPageCollection.class);
 
         // Themes
         addToSet(Theme.class,
@@ -103,7 +123,8 @@ public class TestImplModule extends OrchidModule {
 
         // Resource Sources
         addToSet(LocalResourceSource.class,
-                LocalFileResourceSource.class);
+                LocalFileResourceSource.class,
+                InlineResourceSource.class);
 
         // Compilers
         addToSet(OrchidCompiler.class,
@@ -130,6 +151,7 @@ public class TestImplModule extends OrchidModule {
 
         // Tasks and Commands
         addToSet(OrchidTask.class,
+                HelpTask.class,
                 BuildTask.class,
                 WatchTask.class,
                 ServeTask.class,
@@ -148,7 +170,11 @@ public class TestImplModule extends OrchidModule {
                 SubmenuMenuItem.class,
                 LinkMenuItem.class,
                 GeneratorPagesMenuItem.class,
-                PageMenuItem.class);
+                PageMenuItem.class,
+                PageParentMenuItem.class,
+                PageSiblingsMenuItem.class,
+                PageChildrenMenuItem.class,
+                PageSubtreeMenuItem.class);
 
         // Component Types
         addToSet(OrchidComponent.class,
@@ -159,21 +185,30 @@ public class TestImplModule extends OrchidModule {
 
         // Server
         addToSet(OrchidEventListener.class,
+                ThemeServiceImpl.class,
                 TaskServiceImpl.class,
+                ResourceServiceImpl.class,
+                IndexServiceImpl.class,
                 ClogSetupListener.class);
 
         addToSet(OrchidController.class);
 
         // Template Functions
         addToSet(TemplateFunction.class,
+                AssetFunction.class,
                 AnchorFunction.class,
                 CompileAsFunction.class,
+                ParseAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,
                 LimitToFunction.class,
                 LinkFunction.class,
                 LoadFunction.class,
-                LocalDateFunction.class
+                LocalDateFunction.class,
+
+                RotateFunction.class,
+                ScaleFunction.class,
+                ResizeFunction.class
         );
 
         // Publication Methods
@@ -190,7 +225,9 @@ public class TestImplModule extends OrchidModule {
                 HeadTag.class,
                 PageTag.class,
                 ScriptsTag.class,
-                StylesTag.class
+                StylesTag.class,
+                AccordionTag.class,
+                TabsTag.class
         );
     }
 

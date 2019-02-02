@@ -3,7 +3,7 @@ package com.eden.orchid.impl.resources
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.InlineStringResource
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import java.util.regex.Pattern
 import javax.inject.Inject
 

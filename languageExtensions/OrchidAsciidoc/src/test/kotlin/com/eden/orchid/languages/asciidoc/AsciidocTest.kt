@@ -1,7 +1,7 @@
 package com.eden.orchid.languages.asciidoc
 
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestHomepageModule
+import com.eden.orchid.testhelpers.TestGeneratorModule
 import com.eden.orchid.testhelpers.asHtml
 import com.eden.orchid.testhelpers.innerHtml
 import com.eden.orchid.testhelpers.matches
@@ -13,7 +13,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
-class AsciidocTest : OrchidIntegrationTest(TestHomepageModule()) {
+class AsciidocTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
     @Test
     @DisplayName("Test that Markdown works normally")

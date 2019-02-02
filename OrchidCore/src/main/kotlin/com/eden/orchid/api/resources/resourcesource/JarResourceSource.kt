@@ -1,4 +1,4 @@
-package com.eden.orchid.api.resources.resourceSource
+package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
@@ -14,6 +14,10 @@ import java.util.Objects
 import java.util.jar.JarFile
 
 open class JarResourceSource : OrchidResourceSource {
+
+    companion object {
+        const val JAR_URI_PREFIX = "jar:file:"
+    }
 
     private val context: Provider<OrchidContext>
 
@@ -40,7 +44,6 @@ open class JarResourceSource : OrchidResourceSource {
 
         val url = jarUrl.toString()
         val bang = url.indexOf("!")
-        val JAR_URI_PREFIX = "jar:file:"
         return if (url.startsWith(JAR_URI_PREFIX) && bang != -1) {
             try {
                 JarFile(url.substring(JAR_URI_PREFIX.length, bang))

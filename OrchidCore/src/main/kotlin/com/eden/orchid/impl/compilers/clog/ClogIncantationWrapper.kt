@@ -32,13 +32,13 @@ class ClogIncantationWrapper(
         else
             0
 
-        val `object` = HashMap<String, Any>()
-        `object`[params[0]] = input
+        val functionOptions = HashMap<String, Any>()
+        functionOptions[params[0]] = input
         for (i in 1 until length) {
-            `object`[params[i]] = reagents[i - 1]
+            functionOptions[params[i]] = reagents[i - 1]
         }
 
-        freshFunction.extractOptions(contextProvider.get(), `object`)
+        freshFunction.extractOptions(contextProvider.get(), functionOptions)
 
         return freshFunction.apply()
     }

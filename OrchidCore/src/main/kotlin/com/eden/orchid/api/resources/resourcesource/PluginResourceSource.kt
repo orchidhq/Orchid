@@ -1,3 +1,3 @@
-package com.eden.orchid.api.resources.resourceSource
+package com.eden.orchid.api.resources.resourcesource
 
 interface PluginResourceSource : OrchidResourceSource

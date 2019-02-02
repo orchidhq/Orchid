@@ -24,9 +24,9 @@ constructor() : OrchidParser(100) {
             if (yamlData is Map<*, *>) {
                 return yamlData as Map<String, Any>
             } else if (yamlData is List<*>) {
-                val `object` = HashMap<String, Any>()
-                `object`[OrchidParser.arrayAsObjectKey] = yamlData
-                return `object`
+                val yamlObject = HashMap<String, Any>()
+                yamlObject[OrchidParser.arrayAsObjectKey] = yamlData
+                return yamlObject
             }
         } catch (e: Exception) {
         }

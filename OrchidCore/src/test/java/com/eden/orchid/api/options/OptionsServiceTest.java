@@ -2,6 +2,7 @@ package com.eden.orchid.api.options;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-public final class OptionsServiceTest {
+public final class OptionsServiceTest extends BaseOrchidTest {
 
     private Set<TemplateGlobal> globals;
     private OrchidContext context;
@@ -17,8 +18,8 @@ public final class OptionsServiceTest {
     private OptionsServiceImpl service;
 
     @BeforeEach
-    public void testSetup() {
-
+    public void setUp() {
+        super.setUp();
         // test the service directly
         context = mock(OrchidContext.class);
         globals = new HashSet<>();

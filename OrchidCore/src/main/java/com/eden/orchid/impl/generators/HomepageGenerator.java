@@ -38,11 +38,6 @@ public final class HomepageGenerator extends OrchidGenerator {
     @Override
     public void startGeneration(Stream<? extends OrchidPage> pages) {
         pages.forEach(context::renderTemplate);
-
-        OrchidPage favicon = getFavicon();
-        if (favicon != null) {
-            context.renderBinary(favicon);
-        }
     }
 
     @Override
@@ -70,19 +65,6 @@ public final class HomepageGenerator extends OrchidGenerator {
         if (resource != null) {
             page = new OrchidPage(resource, "404", context.getSite().getSiteInfo().getSiteName());
             page.getReference().setFileName("404");
-            page.getReference().setUsePrettyUrl(false);
-        }
-
-        return page;
-    }
-
-    private OrchidPage getFavicon() {
-        OrchidResource resource = context.getResourceEntry("favicon.ico");
-        OrchidPage page = null;
-        if (resource != null) {
-            page = new OrchidPage(resource, "favicon", context.getSite().getSiteInfo().getSiteName());
-            page.getReference().setFileName("favicon");
-            page.getReference().setOutputExtension("ico");
             page.getReference().setUsePrettyUrl(false);
         }
 

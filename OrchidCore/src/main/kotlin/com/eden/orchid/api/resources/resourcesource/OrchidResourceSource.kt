@@ -1,4 +1,4 @@
-package com.eden.orchid.api.resources.resourceSource
+package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.orchid.api.resources.resource.OrchidResource
 

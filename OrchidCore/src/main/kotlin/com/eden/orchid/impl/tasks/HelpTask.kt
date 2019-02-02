@@ -10,6 +10,7 @@ import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskService
+import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.Provider
 import javax.inject.Inject
 
@@ -22,23 +23,21 @@ constructor(
 ) : OrchidTask(10, "help", TaskService.TaskType.OTHER) {
 
     override fun run() {
-        val formatter = AsciiTableFormatter(NoBorder())
-
-        println(printHeader(formatter))
+        println(printHeader())
         println("Usage:")
-        println(printUsage(formatter))
+        println(printUsage())
         println("Tasks:")
-        println(printTasks(formatter))
+        println(printTasks())
         println("Options:")
-        println(printOptions(formatter))
+        println(printOptions())
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun printHeader(formatter: TableFormatter<String>): String {
+    private fun printHeader(): String {
         return "\n\nOrchid Static Site Generator.\nVersion " + contextProvider.get().site.orchidVersion + "\n"
     }
 
-    private fun printUsage(formatter: TableFormatter<String>): String? {
+    private fun printUsage(): String? {
         return krow {
             showHeaders = false
             showLeaders = false
@@ -50,10 +49,10 @@ constructor(
             table {
                 wrapTextAt = 80
             }
-        }.print(formatter)
+        }.print(OrchidUtils.compactTableFormatter)
     }
 
-    private fun printTasks(formatter: TableFormatter<String>): String? {
+    private fun printTasks(): String? {
         return krow {
             showHeaders = false
             showLeaders = false
@@ -71,10 +70,10 @@ constructor(
                 wrapTextAt = 80
             }
 
-        }.print(formatter)
+        }.print(OrchidUtils.compactTableFormatter)
     }
 
-    private fun printOptions(formatter: TableFormatter<String>): String? {
+    private fun printOptions(): String? {
         return krow {
             showHeaders = false
             showLeaders = false
@@ -95,7 +94,7 @@ constructor(
             table {
                 wrapTextAt = 80
             }
-        }.print(formatter)
+        }.print(OrchidUtils.compactTableFormatter)
     }
 
 }

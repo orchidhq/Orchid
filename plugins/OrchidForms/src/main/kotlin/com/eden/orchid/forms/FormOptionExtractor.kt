@@ -22,6 +22,7 @@ constructor(
         return clazz == Form::class.java
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
         if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())

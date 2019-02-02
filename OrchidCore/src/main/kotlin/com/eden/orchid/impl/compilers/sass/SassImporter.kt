@@ -1,42 +1,50 @@
 package com.eden.orchid.impl.compilers.sass
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.utilities.OrchidUtils
 import io.bit3.jsass.importer.Import
 import io.bit3.jsass.importer.Importer
+import org.apache.commons.io.FilenameUtils
 import javax.inject.Inject
 
 class SassImporter @Inject
 constructor(private val context: OrchidContext) : Importer {
 
-    override fun apply(url: String, previous: Import): Collection<Import>? {
-        val thisItem = splitPath(url)
+    private val ignoredPreviousValues = arrayOf("stdin")
 
-        val availableFiles = arrayOf(
-            thisItem.first + "/" + thisItem.second + ".scss",
-            thisItem.first + "/" + thisItem.second + ".sass",
-            thisItem.first + "/" + "_" + thisItem.second + ".scss",
-            thisItem.first + "/" + "_" + thisItem.second + ".sass"
-        )
+    override fun apply(url: String, previous: Import): Collection<Import>? {
+        val cleanedCurrentImportName = cleanInputName(url)
+        val preferredInputExtension = getPreferredInputExtension(url)
+        val currentDirectory = getCurrentDirectory(url, previous)
+
+        val availableFiles = when (preferredInputExtension) {
+            SassCompiler.CompilerSyntax.SCSS -> cleanResourcePaths(
+                getScssPatterns(
+                    currentDirectory,
+                    cleanedCurrentImportName
+                )
+            )
+            SassCompiler.CompilerSyntax.SASS -> cleanResourcePaths(
+                getSassPatterns(
+                    currentDirectory,
+                    cleanedCurrentImportName
+                )
+            )
+            SassCompiler.CompilerSyntax.UNSPECIFIED -> cleanResourcePaths(
+                getAnyPatterns(
+                    currentDirectory,
+                    cleanedCurrentImportName
+                )
+            )
+        }
 
         for (availableFile in availableFiles) {
-            val pathStart = OrchidUtils.normalizePath(splitPath(previous.absoluteUri.path).first)
-            val pathEnd = OrchidUtils.normalizePath(availableFile)
-            var absoluteUri = OrchidUtils.normalizePath("$pathStart/$pathEnd")
-
-            if (absoluteUri!!.contains("//")) {
-                absoluteUri = absoluteUri.replace("//".toRegex(), "/")
-            }
-            if (absoluteUri.startsWith("/")) {
-                absoluteUri = absoluteUri.substring(1)
-            }
-
-            val importedResource = context.getResourceEntry("assets/css/$absoluteUri")
+            val importedResource = context.getResourceEntry(availableFile)
 
             if (importedResource != null) {
                 var content = importedResource.content
-
                 if (importedResource.shouldPrecompile()) {
                     content = context.compile(
                         importedResource.precompilerExtension,
@@ -46,8 +54,19 @@ constructor(private val context: OrchidContext) : Importer {
                 }
 
                 try {
-                    val newURI = "" + OrchidUtils.normalizePath(absoluteUri)!!
-                    val newImport = Import(newURI, newURI, content)
+                    val baseUri = "" + OrchidUtils.normalizePath(
+                        FilenameUtils.removeExtension("$currentDirectory/$cleanedCurrentImportName")
+                    )
+                    val relativeUri = "" + OrchidUtils.normalizePath(
+                        FilenameUtils.removeExtension("$currentDirectory/$cleanedCurrentImportName").split("/").last() + preferredInputExtension.ext
+                    )
+
+                    if (importedResource.reference.extension == "sass") {
+                        content = converSassToScss(content, baseUri)
+                    }
+
+                    val newImport = Import(relativeUri, baseUri, content)
+
                     return listOf(newImport)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -60,9 +79,7 @@ constructor(private val context: OrchidContext) : Importer {
     }
 
     private fun splitPath(originalName: String): EdenPair<String, String> {
-        var name = originalName
-        name = name.replace("\\\\\\\\".toRegex(), "/")
-        name = name.replace("\\\\".toRegex(), "/")
+        val name = cleanPath(originalName)
 
         if (name.contains("/")) {
             val pieces = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -73,9 +90,90 @@ constructor(private val context: OrchidContext) : Importer {
             }
             val fileName = pieces[pieces.size - 1].replace("_".toRegex(), "")
 
-            return EdenPair(OrchidUtils.normalizePath(path), OrchidUtils.normalizePath(fileName))
+            return EdenPair(
+                OrchidUtils.normalizePath(path),
+                OrchidUtils.normalizePath(FilenameUtils.removeExtension(fileName))
+            )
         } else {
-            return EdenPair("", name)
+            return EdenPair("", FilenameUtils.removeExtension(originalName))
         }
     }
+
+    private fun cleanPath(originalName: String): String {
+        var name = originalName
+        name = name.replace("\\\\\\\\".toRegex(), "/")
+        name = name.replace("\\\\".toRegex(), "/")
+
+        return name
+    }
+
+    private fun getScssPatterns(baseDir: String, importPath: String): Array<String> {
+        return arrayOf(
+            "$baseDir/$importPath.scss",
+            "$baseDir/_$importPath.scss"
+        )
+    }
+
+    private fun getSassPatterns(baseDir: String, importPath: String): Array<String> {
+        return arrayOf(
+            "$baseDir/$importPath.sass",
+            "$baseDir/_$importPath.sass"
+        )
+    }
+
+    private fun getAnyPatterns(baseDir: String, importPath: String): Array<String> {
+        return arrayOf(
+            *getScssPatterns(baseDir, importPath),
+            *getSassPatterns(baseDir, importPath)
+        )
+    }
+
+
+// helpers
+//----------------------------------------------------------------------------------------------------------------------
+
+    private fun cleanInputName(import: String): String {
+        return splitPath(import).second
+    }
+
+    private fun getPreferredInputExtension(input: String): SassCompiler.CompilerSyntax {
+        return when (FilenameUtils.getExtension(input)) {
+            SassCompiler.CompilerSyntax.SCSS.ext -> SassCompiler.CompilerSyntax.SCSS
+            SassCompiler.CompilerSyntax.SASS.ext -> SassCompiler.CompilerSyntax.SASS
+            else                                 -> SassCompiler.CompilerSyntax.UNSPECIFIED
+        }
+    }
+
+    private fun getCurrentDirectory(import: String, previous: Import): String {
+        val baseDirectory = if (ignoredPreviousValues.any { it == previous.absoluteUri.normalize().toString() }) {
+            "assets/css"
+        } else {
+            previous.absoluteUri.normalize().toString().split("/").dropLast(1).joinToString("/")
+        }
+
+        val importDirectory = splitPath(import).first
+
+        return if(importDirectory.isBlank()) {
+            OrchidUtils.normalizePath(baseDirectory)
+        }
+        else {
+            OrchidUtils.normalizePath("$baseDirectory/$importDirectory")
+        }
+    }
+
+    private fun cleanResourcePaths(inputs: Array<String>): List<String> {
+        return inputs.map { it }
+    }
+
+    private fun converSassToScss(input: String, baseUri: String): String {
+        // Importing Sass syntax is not natively supported, we must compile it ourselves manually. And since
+        // we are going outside the normal importing flow, we have to add a comment signalling the import's
+        // context. Unfortunately, this means that each Sass-style import is compiled in isolation, so variables,
+        // macros, etc. are not available in imported files, currently.
+        //
+        // In the future, there will hopefully be the `sass2scss()` native function will be exported by jsass, so the
+        // content passed here can just be converted to SCSS, instead of compiled fully to CSS and included.
+        return context.compile("sass", Clog.format("// CONTEXT={}\n{}", baseUri, input))
+    }
+
 }

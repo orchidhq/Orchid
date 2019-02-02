@@ -5,7 +5,7 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.StandardModule;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule;
 import com.eden.orchid.impl.compilers.pebble.PebbleModule;
 import com.google.inject.Module;

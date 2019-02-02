@@ -13,36 +13,36 @@ class ClogSpells {
 
         @Spell
         @JvmStatic
-        fun baseUrl(`object`: Any): String {
+        fun baseUrl(value: Any): String {
             return Orchid.getInstance().context.site.baseUrl
         }
 
         @Spell
         @Throws(MalformedURLException::class)
         @JvmStatic
-        fun baseUrlScheme(`object`: Any): String {
-            return URL(ClogSpells.baseUrl(`object`)).protocol
+        fun baseUrlScheme(value: Any): String {
+            return URL(ClogSpells.baseUrl(value)).protocol
         }
 
         @Spell
         @Throws(MalformedURLException::class)
         @JvmStatic
-        fun baseUrlHost(`object`: Any): String {
-            return URL(ClogSpells.baseUrl(`object`)).host
+        fun baseUrlHost(value: Any): String {
+            return URL(ClogSpells.baseUrl(value)).host
         }
 
         @Spell
         @Throws(MalformedURLException::class)
         @JvmStatic
-        fun baseUrlPort(`object`: Any): Int {
-            return URL(ClogSpells.baseUrl(`object`)).port
+        fun baseUrlPort(value: Any): Int {
+            return URL(ClogSpells.baseUrl(value)).port
         }
 
         @Spell
         @Throws(MalformedURLException::class)
         @JvmStatic
-        fun baseUrlRoot(`object`: Any): String {
-            val url = URL(ClogSpells.baseUrl(`object`))
+        fun baseUrlRoot(value: Any): String {
+            val url = URL(ClogSpells.baseUrl(value))
 
             var urlRoot = ""
             urlRoot += url.protocol + "://"
@@ -57,19 +57,19 @@ class ClogSpells {
 
         @Spell
         @JvmStatic
-        fun orchidVersion(`object`: Any): String {
+        fun orchidVersion(value: Any): String {
             return Orchid.getInstance().context.site.orchidVersion
         }
 
         @Spell
         @JvmStatic
-        fun env(`object`: Any): String {
+        fun env(value: Any): String {
             return Orchid.getInstance().context.site.environment
         }
 
         @Spell
         @JvmStatic
-        fun version(`object`: Any): String {
+        fun version(value: Any): String {
             return Orchid.getInstance().context.site.version
         }
     }

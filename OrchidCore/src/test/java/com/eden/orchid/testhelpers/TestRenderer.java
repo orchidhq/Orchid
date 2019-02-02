@@ -29,7 +29,7 @@ public class TestRenderer implements OrchidRenderer {
     public boolean render(OrchidPage page, InputStream content) {
         String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
         String outputName;
-        if(EdenUtils.isEmpty(OrchidUtils.normalizePath(page.getReference().getOutputExtension()))) {
+        if (EdenUtils.isEmpty(OrchidUtils.normalizePath(page.getReference().getOutputExtension()))) {
             outputName = OrchidUtils.normalizePath(page.getReference().getFileName());
         }
         else {
@@ -52,16 +52,21 @@ public class TestRenderer implements OrchidRenderer {
         private final InputStream contentStream;
         private final OrchidPage origin;
 
+        private String contentString = null;
+
         public String getContent() {
-            try {
-                return IOUtils.toString(contentStream, Charset.forName("UTF-8"));
+            if (contentString == null) {
+                try {
+                    contentString = IOUtils.toString(contentStream, Charset.forName("UTF-8"));
+                }
+                catch (Exception e) {
+                    contentString = "";
+                }
             }
-            catch (Exception e) {
-                return "";
-            }
+
+            return contentString;
         }
     }
-
 
 
 }

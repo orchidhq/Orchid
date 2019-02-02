@@ -3,7 +3,7 @@ package com.eden.orchid.api.registration;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.impl.resources.PluginJarResourceSource;

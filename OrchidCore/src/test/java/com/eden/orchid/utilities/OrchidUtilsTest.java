@@ -1,6 +1,7 @@
 package com.eden.orchid.utilities;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,10 +20,11 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public final class OrchidUtilsTest {
+public final class OrchidUtilsTest extends BaseOrchidTest {
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
 
     }
 

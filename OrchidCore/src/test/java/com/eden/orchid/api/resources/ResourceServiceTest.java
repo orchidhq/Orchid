@@ -2,8 +2,9 @@ package com.eden.orchid.api.resources;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource;
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource;
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-public final class ResourceServiceTest {
+public final class ResourceServiceTest extends BaseOrchidTest {
 
     private OrchidContext context;
     private ResourceService underTest;
@@ -26,7 +27,8 @@ public final class ResourceServiceTest {
     private PluginResourceSource mockPluginResourceSource;
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
         resourcesDir = "mockResourcesDir";
         fileResourceSources = new HashSet<>();
         mockFileResourceSource = mock(LocalResourceSource.class);

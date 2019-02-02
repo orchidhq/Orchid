@@ -6,11 +6,10 @@ import com.univocity.parsers.csv.CsvParserSettings
 import com.univocity.parsers.tsv.TsvParser
 import com.univocity.parsers.tsv.TsvParserSettings
 import org.apache.commons.io.IOUtils
-
-import javax.inject.Inject
 import java.nio.charset.Charset
 import java.util.ArrayList
 import java.util.HashMap
+import javax.inject.Inject
 
 class CSVParser @Inject
 constructor() : OrchidParser(100) {
@@ -41,18 +40,18 @@ constructor() : OrchidParser(100) {
         val cols = allRows[0]
 
         for (i in 1 until allRows.size) {
-            val `object` = HashMap<String, Any>()
+            val row = HashMap<String, Any>()
 
             for (j in cols.indices) {
-                `object`[cols[j]] = allRows[i][j]
+                row[cols[j]] = allRows[i][j]
             }
 
-            array.add(`object`)
+            array.add(row)
         }
 
-        val `object` = HashMap<String, Any>()
-        `object`[OrchidParser.arrayAsObjectKey] = array
-        return `object`
+        val rows = HashMap<String, Any>()
+        rows[OrchidParser.arrayAsObjectKey] = array
+        return rows
     }
 
     override fun serialize(extension: String, input: Any): String {

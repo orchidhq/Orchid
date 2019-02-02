@@ -1,7 +1,7 @@
 package com.eden.orchid.languages.diagrams
 
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestHomepageModule
+import com.eden.orchid.testhelpers.TestGeneratorModule
 import com.eden.orchid.testhelpers.asHtml
 import com.eden.orchid.testhelpers.innerHtml
 import com.eden.orchid.testhelpers.matchCountIs
@@ -14,7 +14,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
-class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
+class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
     @Test
     @DisplayName("Test that PlantUml works normally")
@@ -69,7 +69,6 @@ class DiagramsTest : OrchidIntegrationTest(TestHomepageModule()) {
         )
 
         val testResults = execute(DiagramsModule())
-        testResults.printResults()
         expectThat(testResults)
             .pageWasRendered("//index.svg")
             .get { content }

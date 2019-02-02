@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.parsers
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidParser
 import org.json.JSONArray
 import org.json.JSONObject
@@ -31,9 +30,9 @@ constructor() : OrchidParser(100) {
 
         // If it fails to parse as JSON Object and throws exception, try again as JSON Array
         try {
-            val `object` = JSONObject()
-            `object`.put(OrchidParser.arrayAsObjectKey, JSONArray(input))
-            return `object`.toMap()
+            val jsonObject = JSONObject()
+            jsonObject.put(OrchidParser.arrayAsObjectKey, JSONArray(input))
+            return jsonObject.toMap()
         } catch (e: Exception) {
         }
 
@@ -41,12 +40,10 @@ constructor() : OrchidParser(100) {
     }
 
     override fun serialize(extension: String, input: Any): String {
-        Clog.v("Serializing {} as json", input)
-        if(input is Map<*, *>) {
-            return JSONObject(input).toString()
-        }
-        else {
-            return JSONObject().toString()
+        return if (input is Map<*, *>) {
+            JSONObject(input).toString()
+        } else {
+            JSONObject().toString()
         }
     }
 }

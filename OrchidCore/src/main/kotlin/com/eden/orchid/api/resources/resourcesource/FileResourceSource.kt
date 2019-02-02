@@ -1,4 +1,4 @@
-package com.eden.orchid.api.resources.resourceSource
+package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
@@ -33,8 +33,8 @@ open class FileResourceSource(
             val newFiles = FileUtils.listFiles(file, fileExtensions, recursive)
 
             if (!EdenUtils.isEmpty(newFiles)) {
-                for (`object` in newFiles) {
-                    val newFile = `object` as File
+                for (resourceAsFile in newFiles) {
+                    val newFile = resourceAsFile as File
                     if (!isIgnoredFile(file) && shouldAddEntry(newFile.name)) {
                         val entry = FileResource(context.get(), newFile)
                         entry.priority = priority

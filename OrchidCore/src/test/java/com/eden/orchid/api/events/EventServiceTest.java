@@ -2,6 +2,7 @@ package com.eden.orchid.api.events;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class EventServiceTest {
+public final class EventServiceTest extends BaseOrchidTest {
 
     private OrchidContext context;
     private EventService underTest;
@@ -46,7 +47,8 @@ public final class EventServiceTest {
     };
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
         sender = new Object();
         baseEvent = new TestEvent2(sender);
         specificEvent = new TestEvent(sender);

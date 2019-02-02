@@ -4,6 +4,7 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.ResourceWrapper;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +15,15 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public final class ResourcesTest {
+public final class ResourcesTest extends BaseOrchidTest {
 
     private String input;
 
     private OrchidContext context;
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
         // test the service directly
         context = mock(OrchidContext.class);
         input = "hello world";

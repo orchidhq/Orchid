@@ -3,7 +3,9 @@ apply plugin: 'jacoco'
 test {
     useJUnitPlatform()
     testLogging {
-        showStandardStreams = project.hasProperty("showTestLogs")
+//        showStandardStreams = project.hasProperty("showTestLogs")
+        showStandardStreams = true
+        exceptionFormat = 'full'
     }
 }
 

@@ -21,12 +21,14 @@ import javax.validation.constraints.NotBlank
 
 @Singleton
 @Description(
-        value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " + "are automatically rendered to your site, this is just for additional static assets.",
-        name = "Assets"
+    value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " + "are automatically rendered to your site, this is just for additional static assets.",
+    name = "Assets"
 )
-class AssetsGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context,
-        GENERATOR_KEY, OrchidGenerator.PRIORITY_INIT) {
+class AssetsGenerator
+@Inject
+constructor(
+    context: OrchidContext
+) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_INIT) {
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
@@ -36,26 +38,26 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
 
     override fun startIndexing(): List<OrchidPage>? {
         sourceDirs
-                .flatMap { dir ->
-                    context.getLocalResourceEntries(
-                            dir.sourceDir,
-                            if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
-                            dir.recursive
-                    )
+            .flatMap { dir ->
+                context.getLocalResourceEntries(
+                    dir.sourceDir,
+                    if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
+                    dir.recursive
+                )
+            }
+            .map { resource ->
+                AssetPage(
+                    null, null,
+                    resource,
+                    resource.reference.fileName,
+                    resource.reference.fileName
+                ).apply {
+                    reference.isUsePrettyUrl = false
                 }
-                .map { resource ->
-                    AssetPage(
-                            null, null,
-                            resource,
-                            resource.reference.fileName,
-                            resource.reference.fileName
-                    ).apply {
-                        reference.isUsePrettyUrl = false
-                    }
-                }
-                .forEach { asset ->
-                    context.assetManager.addAsset(asset, true)
-                }
+            }
+            .forEach { asset ->
+                context.assetManager.addAsset(asset, true)
+            }
 
         return null
     }

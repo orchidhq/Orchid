@@ -1,6 +1,5 @@
 package com.eden.orchid.testhelpers;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class OrchidIntegrationTest {
+public class OrchidIntegrationTest extends BaseOrchidTest {
 
     protected TestOrchidRunner runner;
     protected OrchidContext testContext;
@@ -31,6 +30,7 @@ public class OrchidIntegrationTest {
     protected final Set<OrchidModule> standardAdditionalModules;
 
     public OrchidIntegrationTest(OrchidModule... standardAdditionalModules) {
+        super();
         Set<OrchidModule> standardModules = new HashSet<>();
         Collections.addAll(standardModules, standardAdditionalModules);
         this.standardAdditionalModules = Collections.unmodifiableSet(standardModules);
@@ -38,7 +38,7 @@ public class OrchidIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        disableLogging();
+        super.setUp();
         runner = new TestOrchidRunner();
         flags = new HashMap<>();
         config = new HashMap<>();
@@ -47,21 +47,13 @@ public class OrchidIntegrationTest {
 
     @AfterEach
     public void tearDown() {
-        enableLogging();
+        super.tearDown();
         runner = null;
         testContext = null;
         testResults = null;
         flags = null;
         config = null;
         resources = null;
-    }
-
-    protected void disableLogging() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
-    }
-
-    protected void enableLogging() {
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
     }
 
     protected TestResults execute(OrchidModule... modules) {
