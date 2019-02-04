@@ -116,7 +116,7 @@ public final class ImplModule extends OrchidModule {
     protected void configure() {
         withResources(1);
 
-        ClogSetupListener.registerJavaLoggingHandler();
+        ClogSetupListener.Companion.registerJavaLoggingHandler();
 
         // prepare empty sets for binding
         addToSet(OrchidService.class);
