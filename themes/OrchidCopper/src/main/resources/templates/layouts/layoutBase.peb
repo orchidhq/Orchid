@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% include '?trackingHeadStart' %}
+{% head %}
+{% styles %}
+{% include '?trackingHeadEnd' %}
+</head>
+<body>
+{% include '?trackingBodyStart' %}
+<div class="columns is-marginless">
+  <div class="column is-one-third is-paddingless column-main-left is-hidden-mobile">
+  {% if theme.sidebarBackgroundType.name == 'IMAGE' %}
+    <section class="hero is-fullheight is-primary hero-image">{{ sidebarContent(site, theme, page) }}</section>
+  {% elseif theme.sidebarBackgroundType.name == 'GRADIENT' %}
+    <section class="hero is-fullheight is-{{ theme.sidebarBackground }} is-bold">{{ sidebarContent(site, theme, page) }}</section>
+  {% elseif theme.sidebarBackgroundType.name == 'COLOR' %}
+    <section class="hero is-fullheight is-{{ theme.sidebarBackground }}">{{ sidebarContent(site, theme, page) }}</section>
+  {% else %}
+    <section class="hero is-fullheight is-primary">{{ sidebarContent(site, theme, page) }}</section>
+  {% endif %}
+  </div>
+  <div class="column is-one-third is-paddingless column-main-left is-hidden-tablet">
+    <section class="hero is-primary hero-image">{{ sidebarContent(site, theme, page) }}</section>
+  </div>
+  <div class="column is-two-thirds is-paddingless column-main-right">
+    <div class="textured" style="padding: 1.5rem; min-height: 100%;">
+    {% block breadcrumbs %}{{ breadcrumbLinks(page)  }}{% endblock %}
+    {% block main        %}{{ boxedPageContent(page) }}{% endblock %}
+    {% block pagination  %}{{ paginationLinks(page)  }}{% endblock %}
+    </div>
+  </div>
+</div>
+{% scripts %}
+{% include '?trackingBodyEnd' %}
+</body>
+</html>
+
+{% macro sidebarContent(site, theme, page) %}
+<!-- Hero header: will stick at the top -->
+<div class="hero-head">
+  <div class="columns is-mobile has-text-centered" style="padding: 24px 16px;">
+  {% for socialItem in theme.social.getItems() %}
+    <div class="column">
+      <a
+        class="icon is-inline-block" href="{{ socialItem.link }}" title="{{ socialItem.label }}"
+        style="padding: 0; margin: 0; width: initial; height: initial;"
+      >
+        <i class="{{ socialItem.icon }} large-social-icon"></i>
+      </a>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container has-text-centered" style="background: rgba(0,0,0,0.25);border-radius: 4px;padding: 20px;">
+    <figure class="image is-128x128" style="margin: 0 auto;">
+      <img src="{{ theme.logo|asset }}" alt="">
+    </figure>
+    <h1 class="title is-1 is-spaced" style="margin-top: 24px;">{{ site.about.siteName }}</h1>
+    <p class="subtitle is-4">{{ site.about.siteDescription }}</p>
+  </div>
+</div>
+
+<!-- Hero footer: will stick at the bottom -->
+<div class="hero-foot">
+  <nav class="tabs is-boxed is-centered">
+    <div class="container">
+      <ul>
+      {% for menuItem in theme.menu.getMenuItems(page) %}
+        <li class="{{ menuItem.activeClass(page, 'is-active') }}">
+          <a href="{{ menuItem.link }}">{{ menuItem.title }}</a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </nav>
+</div>
+{% endmacro %}
+
+{% macro breadcrumbLinks(page) %}
+<div class="box">
+{% breadcrumbs %}
+</div>
+{% endmacro %}
+
+{% macro boxedPageContent(page) %}
+<div class="box">
+  <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+  <p class="subtitle is-4">{{ page.description }}</p>
+  {% page %}
+</div>
+{% endmacro %}
+
+{% macro paginationLinks(page) %}
+<nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+{% if page.previous is not null %}
+  <a class="pagination-previous" style="background-color: white;" href="{{ page.previous.link }}">Previous</a>
+{% else %}
+  <a class="pagination-previous" style="background-color: white;" disabled>Previous</a>
+{% endif %}
+{% if page.next is not null %}
+  <a class="pagination-next" style="background-color: white;" href="{{ page.next.link }}">Next</a>
+{% else %}
+  <a class="pagination-next" style="background-color: white;" disabled>Next</a>
+{% endif %}
+</nav>
+{% endmacro %}

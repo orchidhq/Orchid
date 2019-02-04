@@ -5,6 +5,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Description;
@@ -26,6 +27,8 @@ import java.util.Stack;
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
 public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {
 
+    private final BooleanConverter booleanConverter;
+
     private OrchidContext context;
     private final AssetManager assetManager;
 
@@ -40,11 +43,13 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 
     @Inject
     public ThemeServiceImpl(
+            BooleanConverter booleanConverter,
             AssetManager assetManager,
             Provider<Set<Theme>> themesProvider,
             @Named("theme") String defaultTheme,
             Provider<Set<AdminTheme>> adminThemesProvider,
             @Named("adminTheme") String defaultAdminTheme) {
+        this.booleanConverter = booleanConverter;
         this.assetManager = assetManager;
         this.defaultTheme = defaultTheme;
         this.themesProvider = themesProvider;
@@ -60,8 +65,8 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
         Theme emptyTheme = new Theme(context, "Default", 1) { };
         AdminTheme emptyAdminTheme = new AdminTheme(context, "Default", 1) { };
 
-        themes = new ThemeHolder<>(context, defaultTheme, "theme", themesProvider.get(), emptyTheme);
-        adminThemes = new ThemeHolder<>(context, defaultAdminTheme, "adminTheme", adminThemesProvider.get(), emptyAdminTheme);
+        themes = new ThemeHolder<>(booleanConverter, context, defaultTheme, "theme", themesProvider.get(), emptyTheme);
+        adminThemes = new ThemeHolder<>(booleanConverter, context, defaultAdminTheme, "adminTheme", adminThemesProvider.get(), emptyAdminTheme);
     }
 
     @Override
@@ -100,6 +105,7 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 
     private static class ThemeHolder<T extends AbstractTheme> {
 
+        private final BooleanConverter booleanConverter;
         private OrchidContext context;
 
         private String defaultThemeKey;
@@ -108,7 +114,8 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
         private Stack<T> themeStack;
         private Set<T> availableThemes;
 
-        ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes, T emptyTheme) {
+        ThemeHolder(BooleanConverter booleanConverter, OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes, T emptyTheme) {
+            this.booleanConverter = booleanConverter;
             this.context = context;
             this.defaultThemeKey = defaultTheme;
             this.defaultOptionsKey = defaultOptionsKey;
@@ -151,14 +158,22 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
         }
 
         void pushTheme(T theme) {
+            boolean isolated = false;
             Map<String, Object> actualThemeOptions = new HashMap<>();
 
             JSONElement defaultThemeOptions = context.query(defaultOptionsKey);
-            if(EdenUtils.elementIsObject(defaultThemeOptions)) {
-                actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) defaultThemeOptions.getElement()).toMap());
+            JSONElement themeOptions = context.query(theme.getKey());
+
+            if(EdenUtils.elementIsObject(themeOptions)) {
+                JSONObject themeOptionsObject = (JSONObject) themeOptions.getElement();
+                if(themeOptionsObject.has("isolate") && booleanConverter.convert(boolean.class, themeOptionsObject.get("isolate")).second) {
+                    isolated = true;
+                }
             }
 
-            JSONElement themeOptions = context.query(theme.getKey());
+            if(EdenUtils.elementIsObject(defaultThemeOptions) && !isolated) {
+                actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) defaultThemeOptions.getElement()).toMap());
+            }
             if(EdenUtils.elementIsObject(themeOptions)) {
                 actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) themeOptions.getElement()).toMap());
             }

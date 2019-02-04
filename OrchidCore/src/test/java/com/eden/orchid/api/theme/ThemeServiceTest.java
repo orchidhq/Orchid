@@ -3,6 +3,12 @@ package com.eden.orchid.api.theme;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.api.converters.BooleanConverter;
+import com.eden.orchid.api.converters.ClogStringConverterHelper;
+import com.eden.orchid.api.converters.DoubleConverter;
+import com.eden.orchid.api.converters.LongConverter;
+import com.eden.orchid.api.converters.NumberConverter;
+import com.eden.orchid.api.converters.StringConverter;
 import com.eden.orchid.api.theme.assets.AssetManager;
 import com.eden.orchid.testhelpers.BaseOrchidTest;
 import com.google.inject.Injector;
@@ -10,6 +16,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -71,8 +78,14 @@ public final class ThemeServiceTest extends BaseOrchidTest {
         when(context.query("adminTheme")).thenReturn(new JSONElement(adminThemeContextOptions));
         when(context.query("adminTheme2")).thenReturn(new JSONElement(adminTheme2ContextOptions));
 
+        StringConverter stringConverter = new StringConverter(new HashSet<>(Arrays.asList(new ClogStringConverterHelper())));
+        LongConverter longConverter = new LongConverter(stringConverter);
+        DoubleConverter doubleConverter = new DoubleConverter(stringConverter);
+        NumberConverter numberConverter = new NumberConverter(longConverter, doubleConverter);
+        BooleanConverter booleanConverter = new BooleanConverter(stringConverter, numberConverter);
+
         // Create instance of Service Implementation
-        service = new ThemeServiceImpl(assetManager, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
+        service = new ThemeServiceImpl(booleanConverter, assetManager, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
         service.initialize(context);
 
         // Create wrapper around the Implementation to verify it works in composition

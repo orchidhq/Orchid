@@ -7,16 +7,16 @@ services:
       - 'javadoc'
       - 'swiftdoc'
       - 'kotlindoc'
-      - 'pages'
-      - 'styleguide'
-      - 'posts'
-      - 'changelog'
-      - 'forms'
-      - 'presentations'
+#      - 'pages'
+#      - 'styleguide'
+#      - 'posts'
+#      - 'changelog'
+#      - 'forms'
+#      - 'presentations'
       - 'sitemap'
       - 'indices'
       - 'feeds'
-      - 'taxonomies'
+#      - 'taxonomies'
 
 wiki:
   sections:

@@ -18,6 +18,7 @@ import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
+import com.eden.orchid.posts.utils.LatestPostsCollection
 import com.eden.orchid.posts.utils.PostsUtils
 import com.eden.orchid.posts.utils.isToday
 import com.eden.orchid.utilities.OrchidUtils
@@ -225,6 +226,7 @@ constructor(
                 authorsBaseDir
         )
         collectionsList.add(collection)
+        collectionsList.add(LatestPostsCollection(this, postsModel))
 
         return collectionsList
     }

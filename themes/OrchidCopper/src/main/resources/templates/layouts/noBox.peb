@@ -1,0 +1,9 @@
+{% extends 'layouts/layoutBase' %}
+
+{% block main %}
+<div class="box">
+  <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+  <p class="subtitle is-4">{{ page.description }}</p>
+</div>
+{% page %}
+{% endblock %}

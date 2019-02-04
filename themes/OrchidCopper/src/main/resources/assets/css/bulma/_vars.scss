@@ -1,0 +1,18 @@
+---
+---
+
+$orange:    {{ theme.colors.orange }};
+$yellow:    {{ theme.colors.yellow }};
+$green:     {{ theme.colors.green }};
+$turquoise: {{ theme.colors.turquoise }};
+$cyan:      {{ theme.colors.cyan }};
+$blue:      {{ theme.colors.blue }};
+$purple:    {{ theme.colors.purple }};
+$red:       {{ theme.colors.red }};
+
+$primary:   {{ theme.palette.primary }};
+$info:      {{ theme.palette.info }};
+$success:   {{ theme.palette.success }};
+$warning:   {{ theme.palette.warning }};
+$danger:    {{ theme.palette.danger }};
+$code:      {{ theme.palette.code }};
