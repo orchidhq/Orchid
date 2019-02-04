@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.caseyjbrooks.clog.ClogFormatter;
 import com.caseyjbrooks.clog.ClogLogger;
 import com.caseyjbrooks.clog.DefaultLogger;
+import com.caseyjbrooks.clog.IClog;
 import com.caseyjbrooks.clog.parseltongue.Incantation;
 import com.caseyjbrooks.clog.parseltongue.Parseltongue;
 import com.eden.orchid.Orchid;
@@ -22,6 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -205,6 +211,63 @@ public final class ClogSetupListener implements OrchidEventListener {
                 messages.clear();
                 System.out.println("");
             }
+        }
+    }
+
+    public static void registerJavaLoggingHandler() {
+        //reset() will remove all default handlers
+        LogManager.getLogManager().reset();
+        Logger rootLogger = LogManager.getLogManager().getLogger("");
+
+        // add our custom Java Logging handler
+        rootLogger.addHandler(new ClogJavaLoggingHandler());
+
+        // ignore annoying Hibernate Validator message
+        Clog.getInstance().addTagToBlacklist("org.hibernate.validator.internal.util.Version");
+    }
+
+    private static class ClogJavaLoggingHandler extends Handler {
+
+        @Override
+        public void publish(LogRecord record) {
+            Level level = record.getLevel();
+            int levelInt = level.intValue();
+
+            IClog clog = Clog.tag(record.getSourceClassName());
+
+            if(level.equals(Level.OFF)) {
+                // do nothing
+            }
+            else if(level.equals(Level.ALL)) {
+                // always log at verbose level
+                clog.v(record.getMessage());
+            }
+            else {
+                // log at closest Clog level
+                if(levelInt >= Level.SEVERE.intValue()) {
+                    clog.e(record.getMessage());
+                }
+                else if(levelInt >= Level.WARNING.intValue()) {
+                    clog.w(record.getMessage());
+                }
+                else if(levelInt >= Level.INFO.intValue()) {
+                    clog.i(record.getMessage());
+                }
+                else if(levelInt >= Level.CONFIG.intValue()) {
+                    clog.d(record.getMessage());
+                }
+                else {
+                    clog.v(record.getMessage());
+                }
+            }
+        }
+
+        @Override
+        public void flush() {
+        }
+
+        @Override
+        public void close() throws SecurityException {
         }
     }
 

@@ -106,6 +106,8 @@ public final class TestImplModule extends OrchidModule {
     protected void configure() {
         withResources(1);
 
+        ClogSetupListener.registerJavaLoggingHandler();
+
         bind(OrchidRenderer.class).to(TestRenderer.class);
 
         // prepare empty sets for binding

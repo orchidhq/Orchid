@@ -86,7 +86,6 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             |@enduml
             """.trimMargin()
         val output = PlantUmlCompiler().compile("uml", input, null)
-        println(output)
         expectThat(output)
             .asHtml(true)
             .select("svg")
@@ -101,7 +100,6 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             |Bob->Alice : hello
             """.trimMargin()
         val output = PlantUmlCompiler().compile("uml", input, null)
-        println(output)
         expectThat(output)
             .asHtml(true)
             .select("svg")
@@ -126,7 +124,6 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             |@enduml
             """.trimMargin()
         val output = PlantUmlCompiler().compile("uml", input, null)
-        println(output)
         expectThat(output)
             .asHtml(true)
             .select("svg")
