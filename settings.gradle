@@ -42,4 +42,5 @@ include 'languageExtensions:OrchidWritersBlocks'
 
 include 'bundles:OrchidAll'
 include 'bundles:OrchidBlog'
+include 'bundles:OrchidDocs'
 include 'bundles:OrchidLanguagePack'
