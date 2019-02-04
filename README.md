@@ -259,7 +259,7 @@ You can now start Orchid directly with its CLI, using the following commands:
     1) `build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
         `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any 
         HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
-    2) `.watch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
+    2) `watch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
         Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
         `build/docs/orchid` unless the output directory has been changed.
     3) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
@@ -276,6 +276,7 @@ You can now start Orchid directly with its CLI, using the following commands:
 * [Krow documentation](https://javaeden.github.io/Krow/)
 * [caseyjbrooks.com](https://www.caseyjbrooks.com/)
 * [Strikt.io](https://strikt.io/)
+* [PebbleTemplates.io](https://pebbletemplates.io/)
 
 ## Development Progress
 
