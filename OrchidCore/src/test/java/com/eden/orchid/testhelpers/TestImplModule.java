@@ -102,13 +102,21 @@ import java.util.concurrent.TimeUnit;
 @IgnoreModule
 public final class TestImplModule extends OrchidModule {
 
+    private final boolean serve;
+
+    public TestImplModule(boolean serve) {
+        this.serve = serve;
+    }
+
     @Override
     protected void configure() {
         withResources(1);
 
-        ClogSetupListener.Companion.registerJavaLoggingHandler();
+        ClogSetupListener.registerJavaLoggingHandler();
 
-        bind(OrchidRenderer.class).to(TestRenderer.class);
+        if(!serve) {
+            bind(OrchidRenderer.class).to(TestRenderer.class);
+        }
 
         // prepare empty sets for binding
         addToSet(OrchidService.class);

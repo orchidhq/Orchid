@@ -1,0 +1,18 @@
+{# @pebvariable name="classDoc" type="com.copperleaf.groovydoc.json.models.GroovyClassDoc" #}
+{% set classDoc = page.classDoc %}
+
+{% if classDoc.fields|length > 0 %}
+<h2 id="fields">Fields</h2>
+
+{% for field in classDoc.fields %}
+{# @pebvariable name="field" type="com.copperleaf.groovydoc.json.models.GroovyField" #}
+<div class="panel panel-default">
+    <div class="panel-heading" id="{{ page.model.idFor(field) }}">
+        <code>
+        {% include 'includes/groovydoc/misc/signature' with {"signature": field.signature} %}
+        </code>
+    </div>
+    <div class="panel-body">{{ field.simpleComment | compileAs('md') }}</div>
+</div>
+{% endfor %}
+{% endif %}

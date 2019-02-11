@@ -1,0 +1,12 @@
+{# @pebvariable name="returnType" type="com.copperleaf.groovydoc.json.models.GroovyReturnType" #}
+{% if returnType.name != "Unit" %}
+<div class="panel-footer">
+    <div><b>Returns: </b></div>
+    <div>
+        <code>
+        {% include 'includes/groovydoc/misc/signature' with {"signature": returnType.signature} %}
+        </code>
+    </div>
+    <div>{{ returnType.simpleComment | compileAs('md') }}</div>
+</div>
+{% endif %}

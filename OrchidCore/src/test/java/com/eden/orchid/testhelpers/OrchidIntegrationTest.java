@@ -1,8 +1,11 @@
 package com.eden.orchid.testhelpers;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.impl.compilers.markdown.FlexmarkModule;
+import com.eden.orchid.impl.compilers.pebble.PebbleModule;
 import kotlin.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +22,7 @@ import java.util.Set;
 
 public class OrchidIntegrationTest extends BaseOrchidTest {
 
+    protected boolean serve = false;
     protected TestOrchidRunner runner;
     protected OrchidContext testContext;
     protected TestResults testResults;
@@ -43,6 +47,7 @@ public class OrchidIntegrationTest extends BaseOrchidTest {
         flags = new HashMap<>();
         config = new HashMap<>();
         resources = new HashMap<>();
+        serve = false;
     }
 
     @AfterEach
@@ -54,32 +59,20 @@ public class OrchidIntegrationTest extends BaseOrchidTest {
         flags = null;
         config = null;
         resources = null;
+        serve = false;
     }
 
-    protected TestResults execute(OrchidModule... modules) {
-        List<OrchidModule> testedModules = new ArrayList<>();
-        if(modules != null) {
-            Collections.addAll(testedModules, modules);
-        }
-        testedModules.addAll(standardAdditionalModules);
+    protected void disableLogging() {
+        Clog.getInstance().setMinPriority(Clog.Priority.FATAL);
+    }
 
-        if(!flags.containsKey("baseUrl")) {
-            flag("baseUrl", "http://orchid.test");
-        }
-
-        Pair<OrchidContext, TestResults> results = runner.runTest(flags, config, resources, testedModules);
-        this.testContext = results.getFirst();
-        this.testResults = results.getSecond();
-        return testResults;
+    protected void enableLogging() {
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE);
     }
 
     protected void flag(String flag, Object value) {
         flags.put(flag, value);
     }
-
-//    protected void config(String flag, Object value) {
-//        config.put(flag, value);
-//    }
 
     protected void configObject(String flag, String json) {
         if(config.containsKey(flag)) {
@@ -114,6 +107,37 @@ public class OrchidIntegrationTest extends BaseOrchidTest {
 
     protected void resource(String path, String content, Map<String, Object> data) {
         resources.put(path, new Pair<>(content, data));
+    }
+
+    protected void serveOn(int port) {
+        flag("task", "serve");
+        flag("port", port);
+        flag("src", "./src");
+        flag("dest", "./build/orchid/test");
+        this.serve = true;
+    }
+
+// Execute test runner
+//----------------------------------------------------------------------------------------------------------------------
+
+    protected TestResults execute(OrchidModule... modules) {
+        List<OrchidModule> testedModules = new ArrayList<>();
+        if(modules != null) {
+            Collections.addAll(testedModules, modules);
+        }
+        testedModules.addAll(standardAdditionalModules);
+        testedModules.add(new TestImplModule(serve));
+        testedModules.add(new PebbleModule());
+        testedModules.add(new FlexmarkModule());
+
+        if(!flags.containsKey("baseUrl")) {
+            flag("baseUrl", "http://orchid.test");
+        }
+
+        Pair<OrchidContext, TestResults> results = runner.runTest(flags, config, resources, testedModules);
+        this.testContext = results.getFirst();
+        this.testResults = results.getSecond();
+        return testResults;
     }
 
 }

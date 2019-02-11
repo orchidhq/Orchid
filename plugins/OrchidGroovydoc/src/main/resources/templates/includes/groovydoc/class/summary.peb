@@ -1,0 +1,13 @@
+{# @pebvariable name="page" type="com.eden.orchid.groovydoc.page.groovydocClassPage" #}
+
+<p id="summary">
+    <b>In package <a href="{{page.packagePage.link}}">{{page.packagePage.packageDoc.qualifiedName}}</a></b>
+</p>
+<p>
+    <code style="padding: 0;">
+    {% include 'includes/groovydoc/misc/signature' with {"signature": page.classDoc.signature} %}
+    </code>
+</p>
+<div class="class-description" id="description">
+{{ page.classDoc.simpleComment | compileAs('md') | raw }}
+</div>

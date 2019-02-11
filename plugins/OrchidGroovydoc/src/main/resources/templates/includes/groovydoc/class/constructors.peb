@@ -1,0 +1,20 @@
+{# @pebvariable name="classDoc" type="com.copperleaf.groovydoc.json.models.GroovyClassDoc" #}
+{% set classDoc = page.classDoc %}
+
+{% if classDoc.constructors|length > 0 %}
+<h2 id="constructors">Constructors</h2>
+
+{% for constructor in classDoc.constructors %}
+{# @pebvariable name="constructor" type="com.copperleaf.groovydoc.json.models.GroovyConstructor" #}
+<div class="panel panel-default">
+    <div class="panel-heading" id="{{ page.model.idFor(constructor) }}">
+        <code>
+        {% include 'includes/groovydoc/misc/signature' with {"signature": constructor.signature} %}
+        </code>
+    </div>
+    <div class="panel-body">{{ constructor.simpleComment | compileAs('md') }}</div>
+
+    {% include 'includes/groovydoc/misc/parameters' with {"parameters": constructor.parameters} %}
+</div>
+{% endfor %}
+{% endif %}

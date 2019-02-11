@@ -85,6 +85,7 @@ constructor(
 
     companion object {
 
+        @JvmStatic
         fun registerJavaLoggingHandler() {
             //reset() will remove all default handlers
             LogManager.getLogManager().reset()

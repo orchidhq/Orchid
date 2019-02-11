@@ -1,0 +1,27 @@
+{# @pebvariable name="page" type="com.eden.orchid.groovydoc.pages.GroovydocPackagePage" #}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Inner Packages</h3></div>
+
+    <div class="list-group">
+    {% for packagePage in page.innerPackages %}
+        <a class="list-group-item clearfix" href="{{ packagePage.link }}">
+            <code class="pull-left">{{ packagePage.title }}</code>
+            {% if packagePage.innerPackages|length == 1 %}
+                <span class="badge pull-right">{{ packagePage.innerPackages|length }} package</span>
+            {% elseif packagePage.innerPackages|length > 1 %}
+                <span class="badge pull-right">{{ packagePage.innerPackages|length }} packages</span>
+            {% endif %}
+            {% if packagePage.classes|length == 1 %}
+                <span class="badge pull-right">{{ packagePage.classes|length }} class</span>
+            {% elseif packagePage.classes|length > 1 %}
+                <span class="badge pull-right">{{ packagePage.classes|length }} classes</span>
+            {% endif %}
+
+            {% if packagePage.summary|length > 0 %}
+                <br><br><div>{{ packagePage.summary|raw }}</div>
+            {% endif %}
+        </a>
+    {% endfor %}
+    </div>
+</div>

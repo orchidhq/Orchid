@@ -20,6 +20,7 @@ include 'themes:OrchidFutureImperfect'
 
 include 'plugins:OrchidChangelog'
 include 'plugins:OrchidForms'
+include 'plugins:OrchidGroovydoc'
 include 'plugins:OrchidJavadoc'
 include 'plugins:OrchidKotlindoc'
 include 'plugins:OrchidKSS'
