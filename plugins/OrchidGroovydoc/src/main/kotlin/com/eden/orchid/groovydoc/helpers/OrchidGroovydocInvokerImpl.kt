@@ -31,7 +31,6 @@ constructor(
         extraArgs: List<String>
     ): GroovydocRootdoc? {
         if(hasRunGroovydoc) {
-            Clog.i("Trying to load cached groovydoc")
             val cachedRootDoc = groovydocRunner.loadCachedRootDoc(outputDir)
             if (cachedRootDoc != null) {
                 Clog.i("returning cached groovydoc")
@@ -39,7 +38,6 @@ constructor(
             }
         }
 
-        Clog.i("executing groovydoc")
         val sources = sourceDirs.map { File(resourcesDir).toPath().resolve(it) }
         val rootDoc = groovydocRunner.getRootDoc(sources, outputDir, extraArgs) { inputStream ->
             InputStreamIgnorer(inputStream)

@@ -27,6 +27,15 @@ class GroovydocPackagePage(
             return classes.filter { it.classDoc.kind == "interface" }
         }
 
+    fun hasTraits(): Boolean {
+        return classes.any { it.classDoc.kind == "trait" }
+    }
+
+    val traits: List<GroovydocClassPage>
+        get() {
+            return classes.filter { it.classDoc.kind == "trait" }
+        }
+
     fun hasAnnotations(): Boolean {
         return classes.any { it.classDoc.kind == "@interface" }
     }

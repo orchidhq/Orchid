@@ -3,6 +3,9 @@
 {% if page.hasInterfaces %}
     {{ classListPanel('interface', 'interface', page.getInterfaces()) }}
 {% endif %}
+{% if page.hasTraits %}
+    {{ classListPanel('trait', 'traits', page.getTraits()) }}
+{% endif %}
 {% if page.hasOrdinaryClasses %}
     {{ classListPanel('class', 'classes', page.getOrdinaryClasses()) }}
 {% endif %}
