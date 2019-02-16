@@ -2,9 +2,9 @@
 official: true
 description: Embed Kotlin and Java documentation in your Orchid site using Dokka.
 images:
-  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974952/plugins/javadoc.jpg
+  - src: https://res.cloudinary.com/orchid/image/upload/c_crop,g_north,h_1402,w_2666/c_scale,e_blur:150,w_300/v1550346159/plugins/kotlindoc.jpg
     alt: Javadoc
-    caption: Photo by Brooke Lark on Unsplash
+    caption: Photo by Federico Bottos on Unsplash
 menu:
   - type: 'page'
     itemId: 'Orchid Kotlindoc'

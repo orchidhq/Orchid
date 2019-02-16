@@ -7,6 +7,7 @@ services:
       - 'javadoc'
       - 'swiftdoc'
       - 'kotlindoc'
+      - 'groovydoc'
 #      - 'pages'
 #      - 'styleguide'
 #      - 'posts'
