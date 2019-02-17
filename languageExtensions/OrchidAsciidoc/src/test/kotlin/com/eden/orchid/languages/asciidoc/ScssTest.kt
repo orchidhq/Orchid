@@ -298,6 +298,127 @@ class ScssTest : OrchidIntegrationTest(TestGeneratorModule(AssetsGenerator::clas
         )
     }
 
+    @Test
+    @DisplayName("Test absolute imports. Imports that start with `/` will not be loaded relative to the defailt " +
+            "`assets/css` directory or its current location in the import hierarchy, but instead at that exact path " +
+            "in the site resources. Relative imports from there follow the new hierarchy."
+    )
+    fun test08() {
+        enableLogging()
+        resource(
+            "assets/media/test.scss",
+            """
+            |@charset "utf-8";
+            |@import "test/vars";
+            |@import "test/layout/all";
+            """.trimMargin()
+        )
+
+        resource(
+            "assets/css/test/_vars.scss",
+            """
+                |${'$'}orange:       #E87B2E;
+                |${'$'}yellow:       #DBD5AB;
+                |${'$'}green:        #8B8F5E;
+                |${'$'}turquoise:    #56C2D9;
+                |${'$'}cyan:         #6F8787;
+                |${'$'}blue:         #7695B2;
+                |${'$'}purple:       #625D73;
+                |${'$'}red:          #D97E74;
+                |
+                |${'$'}primary: ${'$'}purple;
+                |
+                |${'$'}info: ${'$'}blue;
+                |${'$'}success: ${'$'}green;
+                |${'$'}warning: ${'$'}yellow;
+                |${'$'}danger: ${'$'}orange;
+                |
+                |${'$'}code: ${'$'}blue;
+            """.trimMargin()
+        )
+        resource(
+            "assets/css/test/layout/_all.scss",
+            """
+            |@charset "utf-8";
+            |
+            |@import "hero.scss";
+            |@import "/assets/css/section.scss";
+            |@import "/footer.scss";
+            |@import "/some/other/dir/import.scss";
+            """.trimMargin()
+        )
+        resource(
+            "assets/css/test/layout/_hero.scss",
+            """
+            |.hero {
+            |   display: flex;
+            |   color: ${'$'}info;
+            |}
+            """.trimMargin()
+        )
+        resource(
+            "assets/css/_section.scss",
+            """
+            |.section {
+            |   display: flex;
+            |   color: ${'$'}success;
+            |}
+            """.trimMargin()
+        )
+        resource(
+            "_footer.scss",
+            """
+            |.footer {
+            |   display: flex;
+            |   color: ${'$'}warning;
+            |}
+            """.trimMargin()
+        )
+
+        resource(
+            "some/other/dir/import.scss",
+            """
+            |.inner {
+            |   color: ${'$'}danger;
+            |   @import "deeper/still.scss";
+            |}
+            """.trimMargin()
+        )
+
+        resource(
+            "some/other/dir/deeper/still.scss",
+            """
+            |.still {
+            |   color: ${'$'}code;
+            |}
+            """.trimMargin()
+        )
+
+        execute().checkAndLog(
+            "/assets/media/test.css",
+            """
+            |.hero {
+            |   display: flex;
+            |   color: #7695B2;
+            |}
+            |.section {
+            |   display: flex;
+            |   color: #8B8F5E;
+            |}
+            |.footer {
+            |   display: flex;
+            |   color: #DBD5AB;
+            |}
+            |.inner {
+            |   color: #E87B2E;
+            |}
+            |.inner .still {
+            |   color: #7695B2;
+            |}
+            """.trimMargin()
+        )
+    }
+
 // Sass
 //----------------------------------------------------------------------------------------------------------------------
 

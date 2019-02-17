@@ -15,9 +15,9 @@ constructor(private val context: OrchidContext) : Importer {
     private val ignoredPreviousValues = arrayOf("stdin")
 
     override fun apply(url: String, previous: Import): Collection<Import>? {
-        val cleanedCurrentImportName = cleanInputName(url)
+        val (isAbsolute, cleanedCurrentImportName) = cleanInputName(url)
         val preferredInputExtension = getPreferredInputExtension(url)
-        val currentDirectory = getCurrentDirectory(url, previous)
+        val currentDirectory = getCurrentDirectory(url, previous, isAbsolute)
 
         val availableFiles = when (preferredInputExtension) {
             SassCompiler.CompilerSyntax.SCSS -> cleanResourcePaths(
@@ -62,7 +62,7 @@ constructor(private val context: OrchidContext) : Importer {
                     )
 
                     if (importedResource.reference.extension == "sass") {
-                        content = converSassToScss(content, baseUri)
+                        content = convertSassToScss(content, baseUri)
                     }
 
                     val newImport = Import(relativeUri, baseUri, content)
@@ -132,8 +132,11 @@ constructor(private val context: OrchidContext) : Importer {
 // helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun cleanInputName(import: String): String {
-        return splitPath(import).second
+    private fun cleanInputName(import: String): Pair<Boolean, String> {
+        return Pair(
+            import.trim().startsWith("/"),
+            splitPath(import).second
+        )
     }
 
     private fun getPreferredInputExtension(input: String): SassCompiler.CompilerSyntax {
@@ -144,7 +147,7 @@ constructor(private val context: OrchidContext) : Importer {
         }
     }
 
-    private fun getCurrentDirectory(import: String, previous: Import): String {
+    private fun getCurrentDirectory(import: String, previous: Import, isAbsolute: Boolean): String {
         val baseDirectory = if (ignoredPreviousValues.any { it == previous.absoluteUri.normalize().toString() }) {
             "assets/css"
         } else {
@@ -153,19 +156,24 @@ constructor(private val context: OrchidContext) : Importer {
 
         val importDirectory = splitPath(import).first
 
-        return if(importDirectory.isBlank()) {
-            OrchidUtils.normalizePath(baseDirectory)
+        return if(isAbsolute) {
+            importDirectory
         }
         else {
-            OrchidUtils.normalizePath("$baseDirectory/$importDirectory")
+            if(importDirectory.isBlank()) {
+                OrchidUtils.normalizePath(baseDirectory)
+            }
+            else {
+                OrchidUtils.normalizePath("$baseDirectory/$importDirectory")
+            }
         }
     }
 
     private fun cleanResourcePaths(inputs: Array<String>): List<String> {
-        return inputs.map { it }
+        return inputs.map { OrchidUtils.normalizePath(it) }
     }
 
-    private fun converSassToScss(input: String, baseUri: String): String {
+    private fun convertSassToScss(input: String, baseUri: String): String {
         // Importing Sass syntax is not natively supported, we must compile it ourselves manually. And since
         // we are going outside the normal importing flow, we have to add a comment signalling the import's
         // context. Unfortunately, this means that each Sass-style import is compiled in isolation, so variables,

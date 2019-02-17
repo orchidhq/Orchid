@@ -55,7 +55,7 @@ constructor(
                 Compiler().compileString(input, URI(sourceContext), URI(sourceContext), options).css
             }
         } catch (e: Exception) {
-            Clog.e("error compiling .{} content", e, extension)
+            Clog.e("error compiling .{} content: {}", e, extension, e.message)
             return ""
         }
 
