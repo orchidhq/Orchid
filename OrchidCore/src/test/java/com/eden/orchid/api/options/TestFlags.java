@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.AbstractModule;
 import com.google.inject.ConfigurationException;
@@ -21,7 +22,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-public class TestFlags {
+public class TestFlags extends BaseOrchidTest {
 
 // Test Classes
 //----------------------------------------------------------------------------------------------------------------------
@@ -102,6 +103,7 @@ public class TestFlags {
 
     @BeforeEach
     public void setupTest() {
+        super.setUp();
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList("-o", "valueOne"));
         args.addAll(Arrays.asList("--two", "valueTwo"));

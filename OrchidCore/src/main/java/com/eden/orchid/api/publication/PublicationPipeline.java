@@ -70,7 +70,6 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
                         publisher.publish();
                     }
                     catch (Exception e) {
-                        e.printStackTrace();
                         Clog.e("Something went wrong publishing [{}]", e, publisher.getType());
                         publisherSuccess = false;
                     }

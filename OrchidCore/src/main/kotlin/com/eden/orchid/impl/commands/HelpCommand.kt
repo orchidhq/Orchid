@@ -1,8 +1,6 @@
 package com.eden.orchid.impl.commands
 
 import com.caseyjbrooks.clog.Clog
-import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter
-import com.copperleaf.krow.formatters.ascii.NoBorder
 import com.copperleaf.krow.formatters.html.HtmlTableFormatter
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
@@ -11,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.server.OrchidServer
 import com.eden.orchid.api.tasks.OrchidCommand
+import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.Provider
 import javax.inject.Inject
 
@@ -47,7 +46,7 @@ constructor(
             val description = extractor.describeAllOptions(parsedClass)
             val table = extractor.getDescriptionTable(description)
 
-            val asciiTable = table.print(AsciiTableFormatter(NoBorder()))
+            val asciiTable = table.print(OrchidUtils.compactTableFormatter)
             Clog.i("\n{}", asciiTable)
 
             if (server != null && server.websocket != null) {

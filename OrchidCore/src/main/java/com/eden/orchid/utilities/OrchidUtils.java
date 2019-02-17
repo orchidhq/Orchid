@@ -1,6 +1,11 @@
 package com.eden.orchid.utilities;
 
 import com.caseyjbrooks.clog.Clog;
+import com.copperleaf.krow.TableFormatter;
+import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter;
+import com.copperleaf.krow.formatters.ascii.CrossingBorder;
+import com.copperleaf.krow.formatters.ascii.NoBorder;
+import com.copperleaf.krow.formatters.ascii.SingleBorder;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -45,11 +50,20 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
 import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
 public final class OrchidUtils {
+    
+// constants
+//----------------------------------------------------------------------------------------------------------------------
+
+    public static boolean isWindows = File.separator.equals("\\");
+
+    public static final TableFormatter<String> defaultTableFormatter = (OrchidUtils.isWindows)
+            ? new AsciiTableFormatter(new CrossingBorder())
+            : new AsciiTableFormatter(new SingleBorder());
+
+    public static final TableFormatter<String> compactTableFormatter = new AsciiTableFormatter(new NoBorder());
 
 // Tested and documented methods
 //----------------------------------------------------------------------------------------------------------------------
-
-    static boolean isWindows = File.separator.equals("\\");
 
     public static String applyBaseUrl(OrchidContext context, String url) {
         return context.getBaseUrl() + "/" + OrchidUtils.normalizePath(url);

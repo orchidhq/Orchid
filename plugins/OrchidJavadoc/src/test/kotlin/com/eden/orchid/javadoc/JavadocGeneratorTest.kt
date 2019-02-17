@@ -16,7 +16,6 @@ class JavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
         configObject("javadoc", """{"sourceDirs": "mockJava" }""")
 
         val testResults = execute()
-        testResults.printResults()
         expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")
         expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass2/index.html")
         expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/index.html")

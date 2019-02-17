@@ -6,6 +6,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType;
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class DefaultPermalinkStrategyTest {
+public final class DefaultPermalinkStrategyTest extends BaseOrchidTest {
 
     private PermalinkStrategy underTest;
     private Set<PermalinkPathType> pathTypes;
@@ -29,7 +30,8 @@ public class DefaultPermalinkStrategyTest {
     private OrchidPage page;
 
     @BeforeEach
-    public void setup() {
+    public void setUp() {
+        super.setUp();
         pathTypes = new HashSet<>();
         pathTypes.add(new TestPathType(100, "one", "two"));
         pathTypes.add(new TestPathType(150, "two", "four"));

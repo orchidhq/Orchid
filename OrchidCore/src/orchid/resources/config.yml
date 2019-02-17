@@ -53,7 +53,9 @@ kotlindoc:
     - '../../main/kotlin'
 
 allPages:
+  extraCss:
+    - "inline:sidecar.css: .gitter-chat-embed { margin-top: 50px; }"
   extraJs:
-    - "inline:sidebar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
+    - "inline:sidecar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
     - "https://sidecar.gitter.im/dist/sidecar.v1.js"
 

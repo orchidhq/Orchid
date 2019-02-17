@@ -52,7 +52,6 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"cat1": {"layout": "layoutone"}}""")
         resource("posts/cat1/2018-12-01-post-one.md")
         expectThat(execute())
-                .get { printResults() }
                 .pageWasRendered("/cat1/2018/12/1/post-one/index.html")
                 .get { origin }
                 .get { layout }

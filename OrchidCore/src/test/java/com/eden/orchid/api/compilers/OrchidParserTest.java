@@ -1,5 +1,6 @@
 package com.eden.orchid.api.compilers;
 
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,12 +10,13 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-public final class OrchidParserTest {
+public final class OrchidParserTest extends BaseOrchidTest {
 
     private OrchidParser underTest;
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
         underTest = new OrchidParser(100) {
             @Override public String[] getSourceExtensions() { return new String[] { "" }; }
             @Override public Map<String, Object> parse(String extension, String input) { return new HashMap<>(); }

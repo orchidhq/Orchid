@@ -1,9 +1,9 @@
 
 # Orchid
 
-[![Build Status](https://casey-brooks.visualstudio.com/Orchid/_apis/build/status/Orchid-Gradle-CI)](https://casey-brooks.visualstudio.com/Orchid/_build/latest?definitionId=2)
-[![Linux and Mac Build Status](https://travis-ci.org/JavaEden/Orchid.svg?branch=master "Linux and Mac Build Status")](https://travis-ci.org/JavaEden/Orchid)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/master?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/master)
+[![All Platforms Build Status](https://casey-brooks.visualstudio.com/Orchid/_apis/build/status/Orchid-Gradle-CI?branchName=dev "All Platforms Build Status")](https://casey-brooks.visualstudio.com/Orchid/_build/latest?definitionId=2?branchName=dev)
+[![Linux and Mac Build Status](https://travis-ci.org/JavaEden/Orchid.svg?branch=dev "Linux and Mac Build Status")](https://travis-ci.org/JavaEden/Orchid)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev)
 [![Current Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg "Current Version") ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
 [![License: LGPL-3.0](https://img.shields.io/badge/License-LGPL%20v3-blue.svg "Licensed under LGPL-3.0")](http://www.gnu.org/licenses/lgpl-3.0)
 [![Codacy Grade](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1 "Codacy Grade")](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JavaEden/Orchid&amp;utm_campaign=Badge_Grade)
@@ -259,7 +259,7 @@ You can now start Orchid directly with its CLI, using the following commands:
     1) `build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
         `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any 
         HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
-    2) `.watch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
+    2) `watch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
         Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
         `build/docs/orchid` unless the output directory has been changed.
     3) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
@@ -276,6 +276,7 @@ You can now start Orchid directly with its CLI, using the following commands:
 * [Krow documentation](https://javaeden.github.io/Krow/)
 * [caseyjbrooks.com](https://www.caseyjbrooks.com/)
 * [Strikt.io](https://strikt.io/)
+* [PebbleTemplates.io](https://pebbletemplates.io/)
 
 ## Development Progress
 

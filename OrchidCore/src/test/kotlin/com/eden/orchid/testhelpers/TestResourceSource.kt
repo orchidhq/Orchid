@@ -1,14 +1,13 @@
 package com.eden.orchid.testhelpers
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.resources.resourceSource.FileResourceSource
-import com.eden.orchid.api.resources.resourceSource.LocalResourceSource
-import com.eden.orchid.api.resources.resourceSource.OrchidResourceSource
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
+import com.eden.orchid.api.resources.resourcesource.FileResourceSource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
+import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.Provider
 import org.apache.commons.io.FilenameUtils

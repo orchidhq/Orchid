@@ -30,8 +30,8 @@ constructor(
         return clazz == Author::class.java
     }
 
-    fun getValue(`object`: Any): String {
-        return converter.convert(String::class.java, `object`).second
+    fun getValue(value: Any): String {
+        return converter.convert(String::class.java, value).second
     }
 
     override fun getOption(field: Field, sourceObject: Any, key: String): Author? {

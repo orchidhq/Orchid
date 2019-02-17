@@ -1,0 +1,11 @@
+{% extends 'layouts/layoutBase' %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block main %}
+{% page %}
+{% endblock %}
+
+{% block pagination %}
+{% endblock %}

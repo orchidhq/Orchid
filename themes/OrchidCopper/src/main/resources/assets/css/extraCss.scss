@@ -1,0 +1,77 @@
+---
+---
+
+@media screen and (min-width: 769px), print {
+  html {
+    overflow-y: hidden;
+  }
+
+  .column-main-left {
+    height: 100vh;
+    .hero {
+      height: 100vh
+    }
+  }
+
+  .column-main-right {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100vh;
+  }
+
+  .post-content .card {
+    width: 33%
+  }
+
+  .hover {
+    transform: scale(1.00) translate3d(0, 0, 0);
+    transition: .3s;
+    &:hover {
+      transform: scale(1.025) translate3d(0, 0, 0);
+    }
+  }
+
+  .large-social-icon {
+    font-size: 2rem
+  }
+}
+
+{% if theme.sidebarBackgroundType.name == 'IMAGE' %}
+.hero-image {
+  background-color: white !important;
+  background-image: url("{{ theme.sidebarBackground|asset }}");
+  background-position: 50% 50%;
+  background-size: cover;
+}
+{% endif %}
+
+.textured {
+  position: relative;
+}
+.textured::after {
+  content: "";
+  background-color: #ffffff;
+  background-image: url("{{ theme.backgroundTexture|asset }}");
+  background-repeat: repeat;
+  opacity: 1.0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.hover {
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+}
+
+.column-main-left {
+  .hero {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
+[v-cloak] {
+  display: none;
+}

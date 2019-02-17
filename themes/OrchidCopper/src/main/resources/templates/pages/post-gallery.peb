@@ -1,0 +1,55 @@
+<div class="columns">
+    <div class="column" style="width: 100%;">
+        <div class="card">
+            <div class="card-content">
+            {% if post.author is not null %}
+                <div class="" style="margin-bottom: 1em">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                            {% if post.author.avatar is not empty %}
+                            {% if post.author.link is not empty %}
+                                <a href="{{ post.author.link }}">
+                                    <img src="{{ post.author.avatar }}"
+                                         alt="{{ post.author.name }} Avatar"
+                                         style="border-radius: 50%"></a>
+                            {% else %}
+                                <img src="{{ post.author.avatar }}"
+                                     alt="{{ post.author.name }} Avatar"
+                                     style="border-radius: 50%">
+                            {% endif %}
+                            {% endif %}
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <h1 class="title is-3">{{ post.title }}</h1>
+                            <div class="subtitle is-5">
+                                <time datetime="{{ post.publishDate|localDate('yyyy-MM-dd') }}">{{ post.publishDate|localDate('MMMM dd, yyyy') }}</time>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+                <div class="content is-large">
+                {{ page.content | raw }}
+
+                    <div class="field is-grouped is-grouped-multiline">
+                    {% for tag in post.tags %}
+                        <div class="control">
+                            <div class="tags">
+                                <a class="tag is-link" href="{{ link(tag) }}">{{ '#'~tag }}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-image">
+                <figure class="image">
+                    <img src="{{ page.featuredImage }}" alt="{{ page.featuredImage.alt }}">
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>

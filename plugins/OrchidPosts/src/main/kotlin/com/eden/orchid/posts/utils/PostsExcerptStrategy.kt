@@ -19,16 +19,17 @@ constructor(
         val pattern = Pattern.compile(excerptSeparator!!, Pattern.DOTALL or Pattern.MULTILINE)
 
         return if (pattern.matcher(content).find()) {
-            pattern.split(content)[0]
+            pattern.split(content)[0].stripTags()
         }
         else {
-            if (content.length > 240) {
-                content.substring(0, 240) + "..."
-            }
-            else {
-                content
+            return content.stripTags().let {
+                if (it.length > 240) { it.substring(0, 240) + "..." } else { it }
             }
         }
+    }
+
+    private fun String.stripTags() : String {
+        return this.replace("(<.*?>)|(&.*?;)|([ ]{2,})".toRegex(), "")
     }
 }
 

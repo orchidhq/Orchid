@@ -1,0 +1,14 @@
+<form
+    name="{{ form.key }}"
+    action="{{ form.action }}"
+    class="field"
+    method="{{ form.method }}"
+    {% for entry in form.attrs %}{{ entry.key }}="{{ entry.value }}"{% endfor %}>
+    <div class="field">
+        {% for field in form.fields.get(page) %}
+            {% include field.templates | join(',') %}
+        {% endfor %}
+    </div>
+    <br>
+    <button type="submit" class="button is-primary">Submit</button>
+</form>

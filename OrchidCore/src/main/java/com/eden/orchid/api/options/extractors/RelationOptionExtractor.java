@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @since v1.0.0
  * @orchidApi optionTypes
+ * @since v1.0.0
  */
 public final class RelationOptionExtractor extends OptionExtractor<Relation> {
 
@@ -42,30 +42,30 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
         return loadRelation(field, null);
     }
 
-    private Relation loadRelation(Field field, Object sourceObject) {
+    private Relation loadRelation(final Field field, final Object sourceObject) {
         Relation relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
         Map<String, Object> relationConfig = new HashMap<>();
 
         RelationConfig configAnnotation = field.getAnnotation(RelationConfig.class);
-        if(configAnnotation != null) {
-            if(!EdenUtils.isEmpty(configAnnotation.collectionType())) {
+        if (configAnnotation != null) {
+            if (!EdenUtils.isEmpty(configAnnotation.collectionType())) {
                 relationConfig.put("collectionType", configAnnotation.collectionType());
             }
-            if(!EdenUtils.isEmpty(configAnnotation.collectionId())) {
+            if (!EdenUtils.isEmpty(configAnnotation.collectionId())) {
                 relationConfig.put("collectionId", configAnnotation.collectionId());
             }
-            if(!EdenUtils.isEmpty(configAnnotation.itemId())) {
+            if (!EdenUtils.isEmpty(configAnnotation.itemId())) {
                 relationConfig.put("itemId", configAnnotation.itemId());
             }
         }
 
-        if(sourceObject instanceof String) {
+        if (sourceObject instanceof String) {
             relationConfig = EdenUtils.merge(relationConfig, relation.parseStringRef((String) sourceObject));
         }
-        else if(sourceObject instanceof JSONObject) {
+        else if (sourceObject instanceof JSONObject) {
             relationConfig = EdenUtils.merge(relationConfig, ((JSONObject) sourceObject).toMap());
         }
-        else if(sourceObject instanceof Map) {
+        else if (sourceObject instanceof Map) {
             relationConfig = EdenUtils.merge(relationConfig, (Map<String, Object>) sourceObject);
         }
 

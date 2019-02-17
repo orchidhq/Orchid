@@ -35,13 +35,22 @@ constructor(
     lateinit var collectionId: String
 
     override fun getMenuItems(): List<MenuItem> {
-        val page: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
-
-        val item = MenuItem.Builder(context).page(page)
-        if (!EdenUtils.isEmpty(title)) {
-            item.title(title)
+        val page: OrchidPage? = if(collectionType.isEmpty() && collectionId.isEmpty() && itemId.isEmpty()) {
+            context.findPageOrDefault(collectionType, collectionId, itemId, page)
+        }
+        else {
+            context.findPageOrDefault(collectionType, collectionId, itemId, null)
         }
 
-        return listOf(item.build())
+        return if(page != null) {
+            val item = MenuItem.Builder(context).page(page)
+            if (!EdenUtils.isEmpty(title)) {
+                item.title(title)
+            }
+            listOf(item.build())
+        }
+        else {
+            emptyList()
+        }
     }
 }

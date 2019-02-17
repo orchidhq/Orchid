@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.testhelpers.BaseOrchidTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
@@ -19,7 +20,7 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isSameInstanceAs
 
-class OrchidIndexText {
+class OrchidIndexText : BaseOrchidTest() {
 
     private lateinit var context: OrchidContext
     private lateinit var extractor: OptionsExtractor
@@ -54,7 +55,8 @@ class OrchidIndexText {
     private lateinit var rootIndex: OrchidRootIndex
 
     @BeforeEach
-    fun setUp() {
+    override fun setUp() {
+        super.setUp()
         context = mock(OrchidContext::class.java)
         extractor = mock(OptionsExtractor::class.java)
         `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", emptyMap()))

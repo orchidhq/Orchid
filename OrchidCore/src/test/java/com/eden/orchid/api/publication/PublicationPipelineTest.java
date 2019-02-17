@@ -3,6 +3,7 @@ package com.eden.orchid.api.publication;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public class PublicationPipelineTest {
+public final class PublicationPipelineTest extends BaseOrchidTest {
 
     private OrchidContext context;
     private OptionsExtractor extractor;
@@ -39,7 +40,8 @@ public class PublicationPipelineTest {
     private BiConsumer<Integer, Integer> progressHandler;
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
         progressUpdates = 0;
         didProgressComplete = false;
         progressHandler = (progress, maxProgress) -> {
@@ -76,7 +78,7 @@ public class PublicationPipelineTest {
     }
 
     @Test
-    public void testSetupCorrectly() throws Throwable {
+    public void testSetupCorrectly() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
@@ -86,12 +88,12 @@ public class PublicationPipelineTest {
         underTest.publishAll(true);
 
         verify(crashingPublisher, times(1)).validate();
-        verify(invalidPublisher,  times(1)).validate();
-        verify(validPublisher,    times(1)).validate();
+        verify(invalidPublisher, times(1)).validate();
+        verify(validPublisher, times(1)).validate();
     }
 
     @Test
-    public void testPipelineStopsShortWhenStageIsInvalid() throws Throwable {
+    public void testPipelineStopsShortWhenStageIsInvalid() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
@@ -101,18 +103,18 @@ public class PublicationPipelineTest {
         boolean success = underTest.publishAll();
 
         verify(crashingPublisher, times(1)).validate();
-        verify(invalidPublisher,  times(1)).validate();
-        verify(validPublisher,    times(1)).validate();
+        verify(invalidPublisher, times(1)).validate();
+        verify(validPublisher, times(1)).validate();
 
         verify(crashingPublisher, never()).publish();
-        verify(invalidPublisher,  never()).publish();
-        verify(validPublisher,    never()).publish();
+        verify(invalidPublisher, never()).publish();
+        verify(validPublisher, never()).publish();
 
         assertThat(success, is(false));
     }
 
     @Test
-    public void testPipelineStopsShortWhenStageThrows() throws Throwable {
+    public void testPipelineStopsShortWhenStageThrows() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
@@ -121,72 +123,72 @@ public class PublicationPipelineTest {
         boolean success = underTest.publishAll();
 
         verify(crashingPublisher, times(1)).validate();
-        verify(validPublisher,    times(1)).validate();
+        verify(validPublisher, times(1)).validate();
 
         verify(crashingPublisher, times(1)).publish();
-        verify(validPublisher,    times(0)).publish();
+        verify(validPublisher, times(0)).publish();
 
         assertThat(success, is(false));
     }
 
     @Test
-    public void testPublishedWhenNotDry() throws Throwable {
+    public void testPublishedWhenNotDry() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
 
-        verify(validPublisher,    times(1)).validate();
-        verify(validPublisher,    times(1)).publish();
+        verify(validPublisher, times(1)).validate();
+        verify(validPublisher, times(1)).publish();
 
         assertThat(success, is(true));
     }
 
     @Test
-    public void testNotPublishedWhenDry() throws Throwable {
+    public void testNotPublishedWhenDry() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll(true);
 
-        verify(validPublisher,    times(1)).validate();
-        verify(validPublisher,    times(0)).publish();
+        verify(validPublisher, times(1)).validate();
+        verify(validPublisher, times(0)).publish();
 
         assertThat(success, is(true));
     }
 
     @Test
-    public void testNotPublishedWhenPublisherIsDry() throws Throwable {
+    public void testNotPublishedWhenPublisherIsDry() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\", \"dry\": true}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
 
-        verify(validPublisher,    times(1)).validate();
-        verify(validPublisher,    times(0)).publish();
+        verify(validPublisher, times(1)).validate();
+        verify(validPublisher, times(0)).publish();
 
         assertThat(success, is(true));
     }
 
     @Test
-    public void testNotPublishedWhenFailedValidation() throws Throwable {
+    public void testNotPublishedWhenFailedValidation() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
         underTest.initialize(stagesJson);
 
         boolean success = underTest.publishAll();
 
-        verify(invalidPublisher,    times(1)).validate();
-        verify(invalidPublisher,    times(0)).publish();
+        verify(invalidPublisher, times(1)).validate();
+        verify(invalidPublisher, times(0)).publish();
 
         assertThat(success, is(false));
     }
 
     @Test
-    public void testProgressUpdatesForValidPublishers() throws Throwable {
+    public void testProgressUpdatesForValidPublishers() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
@@ -203,7 +205,7 @@ public class PublicationPipelineTest {
     }
 
     @Test
-    public void testProgressUpdatesForInvalidPublishers() throws Throwable {
+    public void testProgressUpdatesForInvalidPublishers() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
@@ -221,7 +223,7 @@ public class PublicationPipelineTest {
     }
 
     @Test
-    public void testProgressUpdatesForCrashingPublishers() throws Throwable {
+    public void testProgressUpdatesForCrashingPublishers() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());

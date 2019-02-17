@@ -1,5 +1,6 @@
 package com.eden.orchid.testhelpers.com.eden.orchid
 
+import com.eden.orchid.testhelpers.BaseOrchidTest
 import com.eden.orchid.testhelpers.asHtml
 import com.eden.orchid.testhelpers.attr
 import com.eden.orchid.testhelpers.doesNotMatch
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class StriktHtmlTest {
+class StriktHtmlTest : BaseOrchidTest() {
 
     @Test
     fun testCssSelectorText() {

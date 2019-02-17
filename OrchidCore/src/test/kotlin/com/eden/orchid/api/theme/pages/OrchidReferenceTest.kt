@@ -2,6 +2,7 @@ package com.eden.orchid.api.theme.pages
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.testhelpers.BaseOrchidTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -10,12 +11,13 @@ import strikt.api.expectThat
 import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 
-class OrchidReferenceTest {
+class OrchidReferenceTest : BaseOrchidTest() {
 
     lateinit var context: OrchidContext
 
     @BeforeEach
-    internal fun setUp() {
+    override fun setUp() {
+        super.setUp()
         context = mock(OrchidContext::class.java)
     }
 

@@ -1,7 +1,7 @@
 package com.eden.orchid.languages.bible
 
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestHomepageModule
+import com.eden.orchid.testhelpers.TestGeneratorModule
 import com.eden.orchid.testhelpers.asHtml
 import com.eden.orchid.testhelpers.innerHtml
 import com.eden.orchid.testhelpers.matches
@@ -14,7 +14,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Bible verse functions")
-class BibleTest : OrchidIntegrationTest(TestHomepageModule()) {
+class BibleTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
     @Test
     @DisplayName("Test that the bible verse function works using the default version")
@@ -87,7 +87,5 @@ class BibleTest : OrchidIntegrationTest(TestHomepageModule()) {
                 | ~ John 3:16
             """.trimMargin())
     }
-
-
 
 }

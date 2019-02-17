@@ -2,8 +2,8 @@ package com.eden.orchid.impl.resources
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
-import com.eden.orchid.api.resources.resourceSource.JarResourceSource
-import com.eden.orchid.api.resources.resourceSource.PluginResourceSource
+import com.eden.orchid.api.resources.resourcesource.JarResourceSource
+import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.google.inject.Provider
 import javax.inject.Inject
 

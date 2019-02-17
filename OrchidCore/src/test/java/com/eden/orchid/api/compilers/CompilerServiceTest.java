@@ -3,6 +3,7 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class CompilerServiceTest {
+public final class CompilerServiceTest extends BaseOrchidTest {
 
     private OrchidContext context;
     private CompilerService underTest;
@@ -38,7 +39,8 @@ public final class CompilerServiceTest {
     private EdenPair<String, Map<String, Object>> precompilerEmbeddedData;
 
     @BeforeEach
-    public void testSetup() {
+    public void setUp() {
+        super.setUp();
         // target outputs
         mockInput = "input";
         compiledOutput = "compiled";
