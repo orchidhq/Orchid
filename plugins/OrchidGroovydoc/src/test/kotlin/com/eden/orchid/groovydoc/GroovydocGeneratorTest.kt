@@ -12,10 +12,7 @@ class GroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule()) {
     @Test
     @DisplayName("Groovy files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        enableLogging()
         configObject("groovydoc", """{"sourceDirs": "mockGroovy" }""")
-//        configObject("allPages", """{"extraCss": "assets/css/orchidGroovydoc.scss" }""")
-//        serveOn(8080)
 
         val testResults = execute()
         expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")

@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation 'net.sourceforge.plantuml:plantuml:1.2019.0'
+    implementation "net.sourceforge.plantuml:plantuml:$plantumlVersion"
 }

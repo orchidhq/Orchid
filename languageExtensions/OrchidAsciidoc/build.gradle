@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation 'org.asciidoctor:asciidoctorj:1.6.1'
+    implementation "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
 }

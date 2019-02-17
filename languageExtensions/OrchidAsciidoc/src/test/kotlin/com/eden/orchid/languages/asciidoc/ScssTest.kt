@@ -304,7 +304,6 @@ class ScssTest : OrchidIntegrationTest(TestGeneratorModule(AssetsGenerator::clas
             "in the site resources. Relative imports from there follow the new hierarchy."
     )
     fun test08() {
-        enableLogging()
         resource(
             "assets/media/test.scss",
             """

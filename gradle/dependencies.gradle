@@ -1,17 +1,41 @@
 ext {
     JavaEden = [
-        Common: "1.10.4",
-        Clog: "2.0.7",
-        Krow: "0.1.10",
-        Eden: "0.4.0",
-        JsonDocs: "0.2.3",
+            Common  : "1.10.4",
+            Clog    : "2.0.7",
+            Krow    : "0.1.10",
+            Eden    : "0.4.0",
+            ABS     : "0.5.0",
+            JsonDocs: "0.2.3",
     ]
-    junitVersion = '5.3.1'
-    jsoupVersion = '1.11.3'
+    asciidoctorjVersion = '1.6.2'
+    classgraphVersion = '4.6.32'
+    commonsioVersion = '2.6'
+    commonslangVersion = '3.8.1'
+    evoInflectorVersion = '1.2.2'
     flexmarkVersion = '0.40.16'
+    glassfishElVersion = '3.0.1-b11'
+    guiceVersion = '4.2.2'
     hamcrestVersion = '2.1'
+    hibernateValidatorVersion = '6.0.13.Final'
+    jaxbApiVersion = '2.3.0'
+    jsassVersion = '5.7.3'
+    jsoupVersion = '1.11.3'
+    junitVersion = '5.4.0'
+    jythonVersion = '2.7.1'
+    kotlin_version = '1.3.21'
+    lombokVersion = '1.18.6'
     mockitoVersion = '2.+'
-    striktVersion = '0.17.2'
-    kotlin_version = '1.3.20'
+    nanohttpdVersion = '2.3.1'
+    okhttpVersion = '3.13.1'
     open_html_version = '0.0.1-RC17'
+    orgjsonVersion = '20180130'
+    pebbleVersion = '3.0.8'
+    plantumlVersion = '1.2019.1'
+    pygmentsVersion = '2.3.1'
+    snakeyamlVersion = '1.23'
+    striktVersion = '0.17.2'
+    thumbnailatorVersion = '0.4.8'
+    toml4jVersion = '0.7.2'
+    univocityParsersVersion = '2.8.1'
+    validationApiVersion = '2.0.1.Final'
 }
