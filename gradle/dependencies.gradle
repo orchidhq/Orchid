@@ -30,7 +30,7 @@ ext {
     open_html_version = '0.0.1-RC17'
     orgjsonVersion = '20180130'
     pebbleVersion = '3.0.8'
-    plantumlVersion = '1.2019.1'
+    plantumlVersion = '1.2018.14'
     pygmentsVersion = '2.3.1'
     snakeyamlVersion = '1.23'
     striktVersion = '0.17.2'
