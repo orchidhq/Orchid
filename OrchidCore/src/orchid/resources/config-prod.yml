@@ -5,6 +5,7 @@ services:
   generators:
     disabled:
       - 'javadoc'
+      - 'groovydoc'
       - 'swiftdoc'
     externalIndices:
       - 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
