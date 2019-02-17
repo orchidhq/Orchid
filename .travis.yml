@@ -78,7 +78,7 @@ jobs:
       os: linux
       jdk: openjdk8
       install: ./gradlew assemble -Penv=prod -Prelease
-      script: travis_wait 30 ./gradlew deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
+      script: travis_wait 60 ./gradlew deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
       after_success:
         - git config --local user.name "Travis CI Deployment Bot"
         - git config --local user.email "deploy@travis-ci.org"
