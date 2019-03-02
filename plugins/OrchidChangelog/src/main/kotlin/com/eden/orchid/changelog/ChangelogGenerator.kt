@@ -53,7 +53,7 @@ constructor(
         var versions = context.getLocalResourceEntries(
                 OrchidUtils.normalizePath(baseDir),
                 context.compilerExtensions.toTypedArray(),
-                false)
+                true)
                 .map { ChangelogVersion(context, format, it.reference.originalFileName, it) }
 
         var comparator: Comparator<ChangelogVersion>? = null
@@ -129,4 +129,3 @@ constructor(
         }
     }
 }
-
