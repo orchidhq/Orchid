@@ -1,6 +1,8 @@
 ---
 ---
 
+@import "bulma/vars";
+
 @media screen and (min-width: 769px), print {
   html {
     overflow-y: hidden;
@@ -47,7 +49,12 @@
 
 .textured {
   position: relative;
+  padding: 1.5rem;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
 .textured::after {
   content: "";
   background-color: #ffffff;
@@ -62,6 +69,10 @@
   z-index: -1;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
 .hover {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
 }
@@ -74,4 +85,88 @@
 
 [v-cloak] {
   display: none;
+}
+
+.page-footer {
+  margin-top: 1.5rem;
+
+  .pagination.footer-pagination {
+    .pagination-previous {
+      background-color: white;
+
+      .icon {
+        justify-content: flex-start;
+      }
+    }
+    .pagination-previous[disabled] {
+      opacity: 1;
+
+      .inner {
+        opacity: 0.5;
+        display: flex;
+      }
+    }
+
+    .pagination-next {
+      background-color: white;
+
+      .icon {
+        justify-content: flex-end;
+      }
+    }
+    .pagination-next[disabled] {
+      opacity: 1;
+
+      .inner {
+        opacity: 0.5;
+        display: flex;
+      }
+    }
+  }
+
+  footer.footer {
+    margin: -1.5rem;
+    background: white;
+    border-top: thin solid {{theme.palette.primary}};
+  }
+}
+
+.hero-head {
+  .columns {
+    padding: 24px 16px;
+  }
+
+  .icon {
+    padding: 0;
+    margin: 0;
+    width: initial;
+    height: initial;
+  }
+}
+
+.hero-body {
+  .container {
+    background: rgba(0,0,0,0.25);
+    border-radius: 4px;
+    padding: 20px;
+
+    figure.image {
+      margin: 0 auto;
+    }
+    .title {
+      margin-top: 24px;
+    }
+  }
+}
+
+code.language-kotlin .token.number { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+code.language-kotlin .token.operator { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+.content blockquote, .content pre {
+  border-left: 5px solid {{theme.palette.primary}};
+}
+.content code {
+  color: {{theme.palette.primary}};
+}
+.content code[class*="language-"], .content pre[class*="language-"] {
+  color: {{theme.palette.code}}; font-size: 0.875em;
 }
