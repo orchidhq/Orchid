@@ -1,0 +1,7 @@
+{% extends 'layouts/layoutBase' %}
+
+{% block main %}
+<div class="box">
+{% page %}
+</div>
+{% endblock %}

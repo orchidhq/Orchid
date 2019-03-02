@@ -38,6 +38,7 @@ public final class CompilerServiceImpl implements CompilerService {
             "pdf",
             "gif",
             "svg",
+            "ico",
 
             // Webfont Formats
             "otf",

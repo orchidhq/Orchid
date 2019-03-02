@@ -14,7 +14,7 @@
     <section class="hero is-fullheight is-primary hero-image">{{ sidebarContent(site, theme, page) }}</section>
   {% elseif theme.sidebarBackgroundType.name == 'GRADIENT' %}
     <section class="hero is-fullheight is-{{ theme.sidebarBackground }} is-bold">{{ sidebarContent(site, theme, page) }}</section>
-  {% elseif theme.sidebarBackgroundType.name == 'COLOR' %}
+  {% elseif theme.sidebarBackgroundType.name == 'SOLID' %}
     <section class="hero is-fullheight is-{{ theme.sidebarBackground }}">{{ sidebarContent(site, theme, page) }}</section>
   {% else %}
     <section class="hero is-fullheight is-primary">{{ sidebarContent(site, theme, page) }}</section>
@@ -24,10 +24,14 @@
     <section class="hero is-primary hero-image">{{ sidebarContent(site, theme, page) }}</section>
   </div>
   <div class="column is-two-thirds is-paddingless column-main-right">
-    <div class="textured" style="padding: 1.5rem; min-height: 100%;">
+    <div class="textured">
     {% block breadcrumbs %}{{ breadcrumbLinks(page)  }}{% endblock %}
     {% block main        %}{{ boxedPageContent(page) }}{% endblock %}
-    {% block pagination  %}{{ paginationLinks(page)  }}{% endblock %}
+      <div class="grow"></div>
+      <div class="page-footer">
+      {% block pagination  %}{{ paginationLinks(page)  }}{% endblock %}
+      {% block footer %}{{ footerContent(page)  }}{% endblock %}
+      </div>
     </div>
   </div>
 </div>
@@ -39,13 +43,10 @@
 {% macro sidebarContent(site, theme, page) %}
 <!-- Hero header: will stick at the top -->
 <div class="hero-head">
-  <div class="columns is-mobile has-text-centered" style="padding: 24px 16px;">
+  <div class="columns is-mobile has-text-centered">
   {% for socialItem in theme.social.getItems() %}
     <div class="column">
-      <a
-        class="icon is-inline-block" href="{{ socialItem.link }}" title="{{ socialItem.label }}"
-        style="padding: 0; margin: 0; width: initial; height: initial;"
-      >
+      <a class="icon is-inline-block" href="{{ socialItem.link }}" title="{{ socialItem.label }}">
         <i class="{{ socialItem.icon }} large-social-icon"></i>
       </a>
     </div>
@@ -55,11 +56,11 @@
 
 <!-- Hero content: will be in the middle -->
 <div class="hero-body">
-  <div class="container has-text-centered" style="background: rgba(0,0,0,0.25);border-radius: 4px;padding: 20px;">
-    <figure class="image is-128x128" style="margin: 0 auto;">
+  <div class="container has-text-centered">
+    <figure class="image is-128x128">
       <img src="{{ theme.logo|asset }}" alt="">
     </figure>
-    <h1 class="title is-1 is-spaced" style="margin-top: 24px;">{{ site.about.siteName }}</h1>
+    <h1 class="title is-1 is-spaced">{{ site.about.siteName }}</h1>
     <p class="subtitle is-4">{{ site.about.siteDescription }}</p>
   </div>
 </div>
@@ -95,16 +96,27 @@
 {% endmacro %}
 
 {% macro paginationLinks(page) %}
-<nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+<nav class="pagination is-rounded footer-pagination" role="navigation" aria-label="pagination">
+
 {% if page.previous is not null %}
-  <a class="pagination-previous" style="background-color: white;" href="{{ page.previous.link }}">Previous</a>
+  <a class="pagination-previous" href="{{ page.previous.link }}"><span class="icon"><i class="fas fa-chevron-left"></i></span>{{ page.previous.title }}</a>
 {% else %}
-  <a class="pagination-previous" style="background-color: white;" disabled>Previous</a>
+  <a class="pagination-previous" disabled><span class="inner"><span class="icon"><i class="fas fa-chevron-left"></i></span>Previous</span></a>
 {% endif %}
+
 {% if page.next is not null %}
-  <a class="pagination-next" style="background-color: white;" href="{{ page.next.link }}">Next</a>
+  <a class="pagination-next" href="{{ page.next.link }}">{{ page.next.title }}<span class="icon"><i class="fas fa-chevron-right"></i></span></a>
 {% else %}
-  <a class="pagination-next" style="background-color: white;" disabled>Next</a>
+  <a class="pagination-next" disabled><span class="inner">Next<span class="icon"><i class="fas fa-chevron-right"></i></span></span></a>
 {% endif %}
+
 </nav>
+{% endmacro %}
+
+{% macro footerContent(page) %}
+<footer class="footer">
+  <div class="content is-small">
+    {% include 'includes/footer.peb' %}
+  </div>
+</footer>
 {% endmacro %}

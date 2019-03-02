@@ -59,6 +59,8 @@ open class JarResourceSource : OrchidResourceSource {
     }
 
     override fun getResourceEntry(fileName: String): OrchidResource? {
+        if(fileName.isBlank()) return null
+
         if(!initialized) {
             jarFile = jarForClass()
             initialized = true

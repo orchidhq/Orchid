@@ -9,7 +9,9 @@ import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
-class CopperTheme @Inject
+@Description("A Bulma-based, any-purpose theme..", name="Copper")
+class CopperTheme
+@Inject
 constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
 
     @Option
@@ -44,8 +46,11 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
         addCss("assets/css/bulma.scss")
         addCss("assets/css/extraCss.scss")
         addCss("assets/css/bulma-tooltip.css")
+        addCss("assets/css/bulma-accordion.min.css")
 
         addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js").apply { isDefer = true }
+        addJs("assets/js/bulma-accordion.min.js")
+        addJs("inline:.js:bulmaAccordion.attach();")
     }
 }
 
@@ -110,6 +115,14 @@ class CopperThemePalette : OptionsHolder {
     @Option
     @StringDefault("BLUE")
     lateinit var code: CopperThemeColorName
+
+    @Option
+    @StringDefault("BLUE")
+    lateinit var link: CopperThemeColorName
+
+    @Option
+    @StringDefault("PURPLE")
+    lateinit var linkVisited: CopperThemeColorName
 
 }
 
