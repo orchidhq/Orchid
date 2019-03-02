@@ -141,7 +141,7 @@ public final class CompilerServiceTest extends BaseOrchidTest {
     @Test
     public void testBinaryExtensions() throws Throwable {
         List<String> validBinaryExtensions = new ArrayList<>();
-        Collections.addAll(validBinaryExtensions, "jpg", "jpeg", "png", "pdf", "gif", "svg", "otf", "eot", "ttf", "woff", "woff2");
+        Collections.addAll(validBinaryExtensions, "jpg", "jpeg", "png", "pdf", "gif", "svg", "otf", "eot", "ttf", "woff", "woff2", "ico");
 
         String[] extArray = new String[validBinaryExtensions.size()];
         validBinaryExtensions.toArray(extArray);
