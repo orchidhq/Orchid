@@ -17,6 +17,20 @@ $content-table-head-cell-color: $text-strong !default;
 $content-table-foot-cell-border-width: 2px 0 0 !default;
 $content-table-foot-cell-color: $text-strong !default;
 
+$contentSizes: $size-small $size-medium $size-large !default;
+$contentSizeNames: 'small' 'medium' 'large' !default;
+
+@mixin content-size($target: "") {
+  @each $size in $contentSizes {
+    $i: index($contentSizes, $size);
+    $name: nth($contentSizeNames, $i);
+
+    .content.is-#{$name}#{if($target == "", "", "-" + $target)} {
+      font-size: $size;
+    }
+  }
+}
+
 .content {
   @include block;
 
@@ -201,17 +215,16 @@ $content-table-foot-cell-color: $text-strong !default;
       }
     }
   }
+}
 
-  // Sizes
-  &.is-small {
-    font-size: $size-small;
-  }
-
-  &.is-medium {
-    font-size: $size-medium;
-  }
-
-  &.is-large {
-    font-size: $size-large;
-  }
+// Sizes
+@include content-size();
+@include mobile {
+  @include content-size("mobile");
+}
+@include tablet {
+  @include content-size("tablet");
+}
+@include desktop {
+  @include content-size("desktop");
 }
