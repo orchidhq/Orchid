@@ -55,7 +55,7 @@
                     {% endif %}
                 </div>
                 {% endif %}
-                <div class="content is-large">
+                <div class="content is-medium-tablet is-large-desktop">
                 {{ page.content | raw }}
                 </div>
 
