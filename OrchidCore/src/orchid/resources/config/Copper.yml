@@ -12,6 +12,9 @@ menu:
   - type: 'page'
     itemId: 'Copper - Forms'
     title: 'Forms'
+  - type: 'page'
+    itemId: 'Copper - Wiki Layout'
+    title: 'Wiki'
 social:
   other:
     - label: 'Home'

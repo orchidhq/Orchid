@@ -3,6 +3,9 @@
 
 @import "bulma/vars";
 
+// Base theme styling
+//----------------------------------------------------------------------------------------------------------------------
+
 @media screen and (min-width: 769px), print {
   html {
     overflow-y: hidden;
@@ -80,12 +83,16 @@
 .column-main-left {
   .hero {
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+    overflow-y: scroll;
   }
 }
 
 [v-cloak] {
   display: none;
 }
+
+// Footer styling
+//----------------------------------------------------------------------------------------------------------------------
 
 .page-footer {
   margin-top: 1.5rem;
@@ -169,4 +176,38 @@ code.language-kotlin .token.operator { margin: 0; padding: 0; background: none; 
 }
 .content code[class*="language-"], .content pre[class*="language-"] {
   color: {{theme.palette.code}}; font-size: 0.875em;
+}
+
+// Sidebar menu styling
+//----------------------------------------------------------------------------------------------------------------------
+
+.sidebar-menu {
+  .sidebar-header-small {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    .image {
+      margin: 0 20px 0 0 !important;
+      align-self: center;
+    }
+    .title {
+      margin: 0 !important;
+      align-self: center;
+    }
+  }
+
+  .menu-list a:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  .menu-list a.is-active {
+    background-color: transparentize({{theme.palette.link}}, 0.15);
+  }
+  .menu-list a.is-active:hover {
+    background-color: transparentize(darken({{theme.palette.link}}, 5%), 0.55);
+  }
+
+  .menu-label {
+    color: white;
+  }
 }
