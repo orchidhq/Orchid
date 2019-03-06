@@ -25,13 +25,13 @@
       <h1 class="title is-3 is-spaced has-text-centered">{{ site.about.siteName }}</h1>
     </div>
 
-    <details class="is-hidden-desktop">
+    <details class="is-hidden-tablet">
       <summary>
         Menu
       </summary>
       <div id="mobile-sidebar-menu"></div>
     </details>
-    <div class="is-hidden-touch">
+    <div class="is-hidden-mobile">
       <aside class="menu" id="responsive-menu-content">
 
       {% for menuItem in page.menu.getMenuItems(page) %}
