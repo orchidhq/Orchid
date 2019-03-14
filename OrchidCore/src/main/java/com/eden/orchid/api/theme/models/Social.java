@@ -110,7 +110,7 @@ public final class Social implements OptionsHolder {
                 items.add(new Item(
                         "email",
                         "mailto:" + email,
-                        "fa-email",
+                        "fa-envelope",
                         10
                 ));
             }
