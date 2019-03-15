@@ -36,10 +36,6 @@ public final class Social implements OptionsHolder {
     public String github;
 
     @Option
-    @Description("Your Google+ username.")
-    public String googlePlus;
-
-    @Option
     @Description("Your Instagram handle, without the @.")
     public String instagram;
 
@@ -130,14 +126,7 @@ public final class Social implements OptionsHolder {
                         30
                 ));
             }
-            if (!EdenUtils.isEmpty(googlePlus)) {
-                items.add(new Item(
-                        "googlePlus",
-                        "" + googlePlus,
-                        "fa-google-Plus",
-                        40
-                ));
-            }
+    
             if (!EdenUtils.isEmpty(instagram)) {
                 items.add(new Item(
                         "instagram",
