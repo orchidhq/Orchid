@@ -1,8 +1,10 @@
 package com.eden.orchid.changelog.model
 
+import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -35,7 +37,10 @@ class ChangelogVersion(
     @Description("The URL that hosts the documentation for this specific version")
     lateinit var url: String
 
-    var content: String = ""
+    @AllOptions
+    lateinit var allData: Map<String, Any>
+
+    val content: String
         get() {
             return resource.compileContent(null)
         }
@@ -70,6 +75,21 @@ class ChangelogVersion(
         json.put("components", JSONObject(versionComponents))
 
         return json
+    }
+
+// Map Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    fun has(key: String): Boolean {
+        return allData.containsKey(key)
+    }
+
+    operator fun get(key: String): Any? {
+        return allData[key]
+    }
+
+    fun query(key: String): Any? {
+        return JSONElement(JSONObject(allData)).query(key)?.element
     }
 
 }
