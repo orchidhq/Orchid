@@ -71,7 +71,7 @@ constructor() : OrchidCompiler(800) {
     private fun compileSingleDiagram(input: String, tag: String): String {
         val formattedInput = """
             @start$tag
-            $${input.trim()}
+            ${input.trim()}
             @end$tag
         """.trimIndent()
 
