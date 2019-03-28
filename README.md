@@ -210,7 +210,7 @@ You can now run Orchid in the following ways:
     `build/docs/orchid` unless the output directory has been changed.
 4) `./mvn orchid:serve` - Sets up a development server and watches files for changes. The site can be viewed at 
     `localhost:8080` (or the closest available port).
-4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/publication/deployment-pipelines)
     You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
     directly to Github Pages or Netlify.
     
@@ -264,7 +264,7 @@ You can now start Orchid directly with its CLI, using the following commands:
         `build/docs/orchid` unless the output directory has been changed.
     3) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
         (or the closest available port).
-    4) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+    4) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/publication/deployment-pipelines)
         You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the
         site directly to Github Pages or Netlify.
 2) `kscript ./path/to/scriptlet.kts help` - Print out basic usage and all available tasks and command-line options. 
