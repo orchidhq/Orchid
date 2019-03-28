@@ -34,4 +34,4 @@ services:
 
 ## API Documentation
 
-{% docs className='com.eden.orchid.impl.publication.NetlifyPublisher' tableClass='table' tableLeaderClass='hidden' %}
+{% docs className='com.eden.orchid.netlify.publication.NetlifyPublisher' tableClass='table' tableLeaderClass='hidden' %}

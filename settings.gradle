@@ -41,6 +41,12 @@ include 'languageExtensions:OrchidDiagrams'
 include 'languageExtensions:OrchidSyntaxHighlighter'
 include 'languageExtensions:OrchidWritersBlocks'
 
+include 'integrations:OrchidAzure'
+include 'integrations:OrchidBitbucket'
+include 'integrations:OrchidGithub'
+include 'integrations:OrchidGitlab'
+include 'integrations:OrchidNetlify'
+
 include 'bundles:OrchidAll'
 include 'bundles:OrchidBlog'
 include 'bundles:OrchidDocs'

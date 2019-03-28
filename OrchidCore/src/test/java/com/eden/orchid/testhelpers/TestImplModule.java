@@ -43,8 +43,6 @@ import com.eden.orchid.impl.compilers.text.HtmlCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
 import com.eden.orchid.impl.generators.collections.ExternalPageCollection;
 import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
-import com.eden.orchid.impl.publication.GithubPagesPublisher;
-import com.eden.orchid.impl.publication.NetlifyPublisher;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.InlineResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
@@ -227,9 +225,7 @@ public final class TestImplModule extends OrchidModule {
 
         // Publication Methods
         addToSet(OrchidPublisher.class,
-                ScriptPublisher.class,
-                NetlifyPublisher.class,
-                GithubPagesPublisher.class
+                ScriptPublisher.class
         );
 
         // Template Tags

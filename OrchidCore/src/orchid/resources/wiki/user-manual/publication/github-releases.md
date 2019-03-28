@@ -35,4 +35,4 @@ services:
 
 ## API Documentation
 
-{% docs className='com.eden.orchid.changelog.publication.GithubReleasesPublisher' tableClass='table' tableLeaderClass='hidden' %}
+{% docs className='com.eden.orchid.github.publication.GithubReleasesPublisher' tableClass='table' tableLeaderClass='hidden' %}

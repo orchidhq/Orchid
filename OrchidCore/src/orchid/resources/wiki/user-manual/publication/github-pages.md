@@ -48,4 +48,4 @@ services:
 
 ## API Documentation
 
-{% docs className='com.eden.orchid.impl.publication.GithubPagesPublisher' tableClass='table' tableLeaderClass='hidden' %}
+{% docs className='com.eden.orchid.github.publication.GithubPagesPublisher' tableClass='table' tableLeaderClass='hidden' %}

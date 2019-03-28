@@ -7,14 +7,13 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.Protected;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.Map;
 
-public final class BaseFlags extends OrchidFlag {
+public final class CoreFlags extends OrchidFlag {
 
 // Base flags
 //----------------------------------------------------------------------------------------------------------------------
@@ -77,19 +76,6 @@ public final class BaseFlags extends OrchidFlag {
     @Option @IntDefault(8080)
     @Description("The port to run the development server on. The Websocket typically listens at a port 2 above the normal port.")
     public int port;
-
-// Tokens
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Option @StringDefault("")
-    @Description("Your GitHub Personal Access Token, required for GitHub Pages deploys.")
-    @Protected
-    public String githubToken;
-
-    @Option @StringDefault("")
-    @Description("Your Netlify Personal Access Token, required for Netlify deploys.")
-    @Protected
-    public String netlifyToken;
 
     @Override
     public Map<String, Value> getParsedFlags() {

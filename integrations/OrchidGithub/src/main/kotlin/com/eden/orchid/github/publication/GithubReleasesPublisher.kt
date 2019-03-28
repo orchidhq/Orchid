@@ -1,4 +1,4 @@
-package com.eden.orchid.changelog.publication
+package com.eden.orchid.github.publication
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
