@@ -33,6 +33,7 @@ import com.eden.orchid.api.options.extractors.JSONObjectOptionExtractor
 import com.eden.orchid.api.options.extractors.ListOptionExtractor
 import com.eden.orchid.api.options.extractors.LongOptionExtractor
 import com.eden.orchid.api.options.extractors.ModularListOptionExtractor
+import com.eden.orchid.api.options.extractors.ModularTypeOptionExtractor
 import com.eden.orchid.api.options.extractors.OptionsHolderOptionExtractor
 import com.eden.orchid.api.options.extractors.RelationOptionExtractor
 import com.eden.orchid.api.options.extractors.StringArrayOptionExtractor
@@ -86,6 +87,7 @@ class ApiModule : OrchidModule() {
         addToSet(
             OptionExtractor::class.java,
             ModularListOptionExtractor::class.java,
+            ModularTypeOptionExtractor::class.java,
             OptionsHolderOptionExtractor::class.java,
             RelationOptionExtractor::class.java,
 

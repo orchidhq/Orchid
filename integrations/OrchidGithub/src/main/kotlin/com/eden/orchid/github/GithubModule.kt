@@ -4,7 +4,9 @@ import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.github.publication.GithubPagesPublisher
 import com.eden.orchid.github.publication.GithubReleasesPublisher
+import com.eden.orchid.github.wiki.GithubWikiAdapter
 import com.eden.orchid.utilities.addToSet
+import com.eden.orchid.wiki.adapter.WikiAdapter
 
 class GithubModule : OrchidModule() {
 
@@ -12,6 +14,7 @@ class GithubModule : OrchidModule() {
         addToSet<OrchidPublisher>(
             GithubPagesPublisher::class,
             GithubReleasesPublisher::class)
+        addToSet<WikiAdapter, GithubWikiAdapter>()
     }
 
 }
