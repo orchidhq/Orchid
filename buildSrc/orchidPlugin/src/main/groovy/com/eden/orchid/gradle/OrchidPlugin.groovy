@@ -31,23 +31,38 @@ class OrchidPlugin implements Plugin<Project> {
 //----------------------------------------------------------------------------------------------------------------------
 
 class OrchidGenerateBuildTask extends OrchidGenerateMainTask {
-    OrchidGenerateBuildTask() { super("build", true) }
+    OrchidGenerateBuildTask() {
+        super("build", true)
+        description = 'Runs the main Orchid build process'
+    }
 }
 
 class OrchidGenerateWatchTask extends OrchidGenerateMainTask {
-    OrchidGenerateWatchTask() { super("watch", true) }
+    OrchidGenerateWatchTask() {
+        super("watch", true)
+        description = 'Watches the source directory and rebuilds the site on changes'
+    }
 }
 
 class OrchidGenerateServeTask extends OrchidGenerateMainTask {
-    OrchidGenerateServeTask() { super("serve", true) }
+    OrchidGenerateServeTask() {
+        super("serve", true)
+        description = 'Sets up a development server and watches the source directory, and rebuilds the site on changes'
+    }
 }
 
 class OrchidGenerateDeployTask extends OrchidGenerateMainTask {
-    OrchidGenerateDeployTask() { super("deploy", true) }
+    OrchidGenerateDeployTask() {
+        super("deploy", true)
+        description = 'Runs the main Orchid build process then publishes the results'
+    }
 }
 
 class OrchidGenerateShellTask extends OrchidGenerateMainTask {
-    OrchidGenerateShellTask() { super("interactive", true) }
+    OrchidGenerateShellTask() {
+        super("interactive", true)
+        description = 'Open the Orchid interactive shell'
+    }
 }
 
 class OrchidGenerateMainTask extends JavaExec {
@@ -62,6 +77,8 @@ class OrchidGenerateMainTask extends JavaExec {
     protected OrchidGenerateMainTask(String command, boolean force) {
         this.command = command
         this.force = force
+        this.group = "Orchid"
+        this.description = 'Runs an Orchid task specified by -PorchidRunTask'
 
         dependsOn 'classes', "${OrchidPlugin.configurationName}Classes"
         main = "${OrchidPlugin.mainClassName}"
