@@ -107,6 +107,29 @@ constructor(
         }
     }
 
+    /**
+     * This method will start the Netlify deploy using their async method, which is needed to deploy really large sites.
+     * It will make the initial request, then poll for a while until either the site is ready or a timeout is reached.
+     * That timeout is proportional to the number of files being uploaded.
+     */
+    private fun startDeploySite() {
+
+    }
+
+    /**
+     * Upload the required files to Netlify as site files as requested from the initial deploy call.
+     */
+    private fun uploadRequiredFiles() {
+
+    }
+
+    /**
+     * Upload the required files to Netlify as serverless functions as requested from the initial deploy call.
+     */
+    private fun uploadRequiredFunctions() {
+
+    }
+
     private fun getFrom(url: String, vararg args: Any): Request {
         val fullURL = Clog.format("$netlifyUrl/$url", *args)
         Clog.d("Netlify GET: {}", fullURL)

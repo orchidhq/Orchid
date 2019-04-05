@@ -18,10 +18,10 @@ import javax.inject.Inject
 class GithubReleasesPublisher
 @Inject
 constructor(
-        context: OrchidContext,
-        val model: ChangelogModel,
-        val client: OkHttpClient,
-        @Named("githubToken") val githubToken: String
+    context: OrchidContext,
+    private val model: ChangelogModel,
+    private val client: OkHttpClient,
+    @Named("githubToken") private val githubToken: String
 ) : OrchidPublisher(context, "githubReleases", 100) {
 
     @Option
@@ -46,15 +46,20 @@ constructor(
         val version = model.getVersion(context.site.version)
         val url = Clog.format("https://api.github.com/repos/{}/releases", repo)
         val request = Request.Builder().url(url)
-                .header("Authorization", "token $githubToken")
-                .post(RequestBody.create(
-                        MediaType.parse("application/json; charset=utf-8"),
-                        JSONObject(mapOf(
-                                "tag_name" to version?.version,
-                                "name" to version?.version,
-                                "body" to version?.content))
-                                .toString()))
-                .build()
+            .header("Authorization", "token $githubToken")
+            .post(
+                RequestBody.create(
+                    MediaType.parse("application/json; charset=utf-8"),
+                    JSONObject(
+                        mapOf(
+                            "tag_name" to version?.version,
+                            "name" to version?.version,
+                            "body" to version?.content
+                        )
+                    ).toString()
+                )
+            )
+            .build()
         Clog.d("Github POST: {}", url)
         val response = client.newCall(request).execute()
         if (!response.isSuccessful) {
