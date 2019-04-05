@@ -76,10 +76,8 @@ class CliGitRepoFacade(
 ) : GitRepoFacade {
 
     override fun initRepo(): GitRepoFacade {
-        gitCommand(null, "git", "init")
+        gitCommand("git", "init")
         gitCommand(
-            mapOf(4 to displayedRemoteUrl),
-
             "git",
             "remote",
             "add",
@@ -92,8 +90,6 @@ class CliGitRepoFacade(
 
     override fun cloneRepo(): GitRepoFacade {
         gitCommand(
-            mapOf(5 to displayedRemoteUrl),
-
             "git",
             "clone",
             "--single-branch",
@@ -107,19 +103,19 @@ class CliGitRepoFacade(
     }
 
     override fun commit(commitUsername: String, commitEmail: String, commitMessage: String): GitRepoFacade {
-        gitCommand(null, "git", "config", "user.name", commitUsername)
-        gitCommand(null, "git", "config", "user.email", commitEmail)
-        gitCommand(null, "git", "add", "-A")
-        gitCommand(null, "git", "commit", "-m", commitMessage)
+        gitCommand("git", "config", "user.name", commitUsername)
+        gitCommand("git", "config", "user.email", commitEmail)
+        gitCommand("git", "add", "-A")
+        gitCommand("git", "commit", "-m", commitMessage)
 
         return this
     }
 
     override fun push(force: Boolean): GitRepoFacade {
         if (force) {
-            gitCommand(null, "git", "push", "-f", "origin", "$remoteBranch:$remoteBranch")
+            gitCommand("git", "push", "-f", "origin", "$remoteBranch:$remoteBranch")
         } else {
-            gitCommand(null, "git", "push", "origin", "$remoteBranch:$remoteBranch")
+            gitCommand("git", "push", "origin", "$remoteBranch:$remoteBranch")
         }
 
         return this
@@ -128,20 +124,10 @@ class CliGitRepoFacade(
 // Execute Git commands
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun gitCommand(displayedCommandReplacements: Map<Int, String>?, vararg command: String) {
+    private fun gitCommand(vararg command: String) {
         // display git command without printing potentially sensitive info
-        val displayedCommand = if(displayedCommandReplacements == null) {
-            // no sensitive command segments, display entire command
-            command.toList()
-        }
-        else {
-            // replace sensitive command segments with their safe replacement
-            command.mapIndexed { index, s ->
-                if(displayedCommandReplacements.containsKey(index)) displayedCommandReplacements[index] else s
-            }
-        }
-        val displayedCommandString = displayedCommand.joinToString(" ")
-        Clog.tag("GIT").d(displayedCommandString)
+        val displayedCommand = command.joinToString().replace(remoteUrl, displayedRemoteUrl)
+        Clog.tag("GIT").d(displayedCommand)
 
         // synchronously run Git command
         val process = ProcessBuilder()
@@ -152,13 +138,13 @@ class CliGitRepoFacade(
 
 
         val executor = Executors.newSingleThreadExecutor()
-        executor.submit(InputStreamPrinter(process.inputStream))
+        executor.submit(InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) })
         val exitValue = process.waitFor()
         executor.shutdown()
 
         // throw error if the command did not return exit code 0
         if(exitValue != 0) {
-            throw IOException("Git command [$displayedCommandString] failed with exit code $exitValue")
+            throw IOException("Git command [$displayedCommand] failed with exit code $exitValue")
         }
     }
 
