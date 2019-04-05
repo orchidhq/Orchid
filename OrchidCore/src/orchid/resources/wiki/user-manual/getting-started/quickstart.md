@@ -195,7 +195,7 @@ tools, or used like a library and started from another application.
 import com.eden.orchid.Orchid
 import com.eden.orchid.StandardModule
 
-val flags = HashMap<String, Any?>()
+val flags = HashMap<String, Any>()
 
 // Theme is required
 flags["theme"] = "{theme}"
