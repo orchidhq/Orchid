@@ -3,5 +3,5 @@
 <p><b>Package <code>{{ page.packageDoc.name }}</code></b></p>
 
 <div class="package-description">
-{{ page.content | raw }}
+  {{ page.renderCommentText(page.packageDoc) | compileAs('md') }}
 </div>

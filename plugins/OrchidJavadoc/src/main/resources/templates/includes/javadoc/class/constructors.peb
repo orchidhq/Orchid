@@ -12,7 +12,9 @@
         {% include 'includes/javadoc/misc/signature' with {"signature": constructor.signature} %}
         </code>
     </div>
-    <div class="panel-body">{{ constructor.simpleComment | compileAs('md') }}</div>
+    <div class="panel-body">
+      {{ page.renderCommentText(constructor) | compileAs('md') }}
+    </div>
 
     {% include 'includes/javadoc/misc/parameters' with {"parameters": constructor.parameters} %}
 </div>

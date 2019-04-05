@@ -13,7 +13,7 @@ class JavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
     @Test
     @DisplayName("Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        configObject("javadoc", """{"sourceDirs": "mockJava" }""")
+        configObject("javadoc", """{ "sourceDirs": "mockJava" }""")
 
         val testResults = execute()
         expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")

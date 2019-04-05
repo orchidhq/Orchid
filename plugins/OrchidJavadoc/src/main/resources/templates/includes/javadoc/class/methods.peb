@@ -6,7 +6,9 @@
         {% include 'includes/javadoc/misc/signature' with {"signature": method.signature} %}
         </code>
     </div>
-    <div class="panel-body">{{ method.simpleComment | compileAs('md') }}</div>
+    <div class="panel-body">
+      {{ page.renderCommentText(method) | compileAs('md') }}
+    </div>
 
     {% include 'includes/javadoc/misc/parameters' with {"parameters": method.parameters} %}
     {% include 'includes/javadoc/misc/returnType' with {"returnType": method.returnValue} %}
