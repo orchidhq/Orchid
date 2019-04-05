@@ -76,7 +76,7 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
     /**
      * A callback to run the publication step.
      */
-    public abstract void publish();
+    public abstract void publish() throws Exception;
 
     protected boolean exists(String value, String message) {
         if (EdenUtils.isEmpty(value)) {

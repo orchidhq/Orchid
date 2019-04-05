@@ -27,16 +27,18 @@ class InputStreamPrinter
 @JvmOverloads
 constructor(
         private val inputStream: InputStream,
-        val tag: String? = null
+        val tag: String? = null,
+        val transform: ((String)->String)? = null
 ) : Runnable {
 
     override fun run() {
         BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8"))).lines().forEach {
+            val actualMessage = transform?.invoke(it) ?: it
             if (tag != null) {
-                Clog.tag(tag).log(it)
+                Clog.tag(tag).log(actualMessage)
             }
             else {
-                Clog.noTag().log(it)
+                Clog.noTag().log(actualMessage)
             }
         }
     }
