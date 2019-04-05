@@ -18,11 +18,7 @@ dependencies {
     api "commons-io:commons-io:$commonsioVersion"
     api "org.apache.commons:commons-lang3:$commonslangVersion"
     api "net.coobird:thumbnailator:$thumbnailatorVersion"
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
-    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
-
+    
     // validation
     api "javax.validation:validation-api:$validationApiVersion"
     implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"

@@ -12,7 +12,9 @@
         {% include 'includes/javadoc/misc/signature' with {"signature": field.signature} %}
         </code>
     </div>
-    <div class="panel-body">{{ field.simpleComment | compileAs('md') }}</div>
+    <div class="panel-body">
+      {{ page.renderCommentText(field) | compileAs('md') }}
+    </div>
 </div>
 {% endfor %}
 {% endif %}
