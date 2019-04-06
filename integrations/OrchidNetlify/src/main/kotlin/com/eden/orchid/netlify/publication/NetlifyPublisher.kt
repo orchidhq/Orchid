@@ -15,6 +15,7 @@ import okhttp3.Response
 import org.apache.commons.io.FileUtils
 import org.json.JSONObject
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
@@ -42,8 +43,6 @@ constructor(
     @NotBlank(message = "A Netlify site domain must be provided.")
     lateinit var siteId: String
 
-    private var filesUploaded = 0
-
     override fun validate(): Boolean {
         var valid = super.validate()
         // make sure the site exists
@@ -61,79 +60,152 @@ constructor(
 
     private fun doNetlifyDeploy() {
         val file = File(destinationDir)
-        val fileMap = mutableMapOf<String, MutableList<File>>()
+        val fileMap = mutableMapOf<String, MutableList<Pair<String, File>>>()
+        val functionMap = mutableMapOf<String, MutableList<Pair<String, File>>>()
 
         // create digest of files to be uploaded
-        val body = JSONObject()
-        val bodyFiles = JSONObject()
-
         if (file.exists() && file.isDirectory) {
             FileUtils.listFiles(file, null, true)
                 .filter { it.isFile }
                 .forEach {
                     val path = OrchidUtils.getRelativeFilename(it.absolutePath, destinationDir)
                     val sha1 = OrchidUtils.sha1(it)
-                    bodyFiles.put(path, sha1)
-                    fileMap.computeIfAbsent(sha1) { ArrayList() }.add(it)
+                    fileMap.computeIfAbsent(sha1) { ArrayList() }.add(path to it)
                 }
         }
 
-        body.put("files", bodyFiles)
         // post to Netlify to determine which files need to be uploaded still
-        val requiredFilesResponse = body.postTo("sites/{}/deploys", body, siteId).call(client)
-        if (!requiredFilesResponse.first) {
-            throw RuntimeException("something went wrong attempting to deploy to Netlify: " + requiredFilesResponse.second)
-        }
+        val asyncDeployResponse = startDeploySite(fileMap, functionMap)
 
-        val requiredFiles = JSONObject(requiredFilesResponse.second)
-        if (requiredFiles.getJSONArray("required").length() == 0) {
+        // poll Netlify until it has finished determining which files need to be uploaded, or until a timeout is reached
+        val deployResponse = pollUntilDeployIsReady(asyncDeployResponse)
+
+        if (deployResponse.toUploadTotalCount == 0) {
             Clog.i("All files up-to-date on Netlify.")
         } else {
-            filesUploaded = 0
-            // upload all required files
-            val deployId = requiredFiles.getString("id")
-            val totalFiles = requiredFiles.getJSONArray("required").length()
-            Clog.i("Uploading {} files to Netlify.", totalFiles)
-
-            requiredFiles
-                .getJSONArray("required")
-                .filterNotNull()
-                .map { o -> o.toString() }
-                .flatMap { sha1ToUpload -> fileMap.getOrDefault(sha1ToUpload, ArrayList()) }
-                .forEach { fileToUpload ->
-                    val path = OrchidUtils.getRelativeFilename(fileToUpload.absolutePath, destinationDir)
-                    fileToUpload.uploadTo("{}/deploys/{}/files/{}", totalFiles, netlifyUrl, deployId, path).call(client)
-                }
+            uploadRequiredFiles(deployResponse)
+            uploadRequiredFunctions(deployResponse)
         }
     }
 
     /**
      * This method will start the Netlify deploy using their async method, which is needed to deploy really large sites.
-     * It will make the initial request, then poll for a while until either the site is ready or a timeout is reached.
-     * That timeout is proportional to the number of files being uploaded.
+     * It will make the initial request, but must then poll for a while until either the site is ready or a timeout is
+     * reached. That timeout is proportional to the number of files being uploaded.
      */
-    private fun startDeploySite() {
+    private fun startDeploySite(
+        files: Map<String, MutableList<Pair<String, File>>>,
+        functions: Map<String, MutableList<Pair<String, File>>>
+    ) : CreateSiteResponse {
+        val body = JSONObject()
+        body.put("async", true)
+        body.put("files", JSONObject().apply {
+            for((sha1, filePairs) in files) {
+                for(filePair in filePairs) {
+                    this.put(filePair.first,  sha1)
+                }
+            }
+        })
+        body.put("functions", JSONObject().apply {
+            for((sha1, functionPairs) in functions) {
+                for(functionPair in functionPairs) {
+                    this.put(functionPair.first,  sha1)
+                }
+            }
+        })
 
+        val requiredFilesResponse = body.postTo("sites/$siteId/deploys").call(client)
+        if (!requiredFilesResponse.first) {
+            throw RuntimeException("something went wrong attempting to deploy to Netlify: " + requiredFilesResponse.second)
+        }
+
+        val required = JSONObject(requiredFilesResponse.second)
+
+        val deployId = required.getString("id")
+
+        return CreateSiteResponse(
+            deployId,
+
+            files,
+            functions,
+
+            emptyList(),
+            emptyList()
+        )
+    }
+
+    /**
+     * Poll for a while until either the site is ready or a timeout is reached. That timeout is proportional to the number of files being uploaded.
+     */
+    private fun pollUntilDeployIsReady(response: CreateSiteResponse): CreateSiteResponse {
+        val timeout = (30 * 1000) + (response.originalFilesCount * 50) // give timeout of 30s + 50ms * (number of files)
+        val startTime = System.currentTimeMillis()
+
+        while(true) {
+            val now = System.currentTimeMillis()
+            if((now - startTime) > timeout) break
+
+            val requiredFilesResponse = getFrom("sites/$siteId/deploys/${response.deployId}").call(client)
+
+            val required = JSONObject(requiredFilesResponse.second)
+
+            val deployState = required.getString("state")
+
+            if(deployState == "ready" || (required.has("required") || required.has("required_functions"))) {
+                val requiredFiles = required.optJSONArray("required")?.filterNotNull()?.map { it.toString() } ?: emptyList()
+                val requiredFunctions = required.optJSONArray("required_functions")?.filterNotNull()?.map { it.toString() } ?: emptyList()
+
+                return response.copy(requiredFiles = requiredFiles, requiredFunctions = requiredFunctions)
+            }
+        }
+
+        throw IOException("NetlifyPublisher timed out waiting for site to be ready to upload files")
     }
 
     /**
      * Upload the required files to Netlify as site files as requested from the initial deploy call.
      */
-    private fun uploadRequiredFiles() {
+    private fun uploadRequiredFiles(response: CreateSiteResponse) {
+        response.uploadedFilesCount = 0
+        // upload all required files
+        Clog.i("Uploading {} files to Netlify.", response.toUploadFilesCount)
 
+        response
+            .requiredFiles
+            .flatMap { sha1ToUpload -> response.getFiles(sha1ToUpload) }
+            .parallelStream()
+            .forEach { fileToUpload ->
+                val path = OrchidUtils.getRelativeFilename(fileToUpload.absolutePath, destinationDir)
+                Clog.d("Netlify FILE UPLOAD {}/{}: {}", response.uploadedFilesCount + 1, response.toUploadFilesCount, path)
+                fileToUpload.uploadTo("deploys/${response.deployId}/files/$path").call(client)
+                response.uploadedFilesCount++
+            }
     }
 
     /**
      * Upload the required files to Netlify as serverless functions as requested from the initial deploy call.
      */
-    private fun uploadRequiredFunctions() {
+    private fun uploadRequiredFunctions(response: CreateSiteResponse) {
+        response.uploadedFunctionsCount = 0
+        // upload all required functions
+        Clog.i("Uploading {} functions to Netlify.", response.uploadedFunctionsCount)
 
+        response
+            .requiredFunctions
+            .flatMap { sha1ToUpload -> response.getFunctions(sha1ToUpload) }
+            .parallelStream()
+            .forEach { functionToUpload ->
+                val functionName = functionToUpload.nameWithoutExtension
+                Clog.d("Netlify FUNCTION UPLOAD {}/{}: {}", response.uploadedFunctionsCount + 1, response.toUploadFunctionsCount, functionName)
+                functionToUpload.uploadTo("deploys/${response.deployId}/functions/$functionName?runtime=js").call(client)
+                response.uploadedFunctionsCount++
+            }
     }
 
     private fun getFrom(url: String, vararg args: Any): Request {
         val fullURL = Clog.format("$netlifyUrl/$url", *args)
         Clog.d("Netlify GET: {}", fullURL)
-        return newRequest(url)
+        return newRequest(fullURL)
             .get()
             .build()
     }
@@ -141,15 +213,13 @@ constructor(
     private fun JSONObject.postTo(url: String, vararg args: Any): Request {
         val fullURL = Clog.format("$netlifyUrl/$url", *args)
         Clog.d("Netlify POST: {}", fullURL)
-        return newRequest(url)
+        return newRequest(fullURL)
             .post(RequestBody.create(JSON, this.toString()))
             .build()
     }
 
-    private fun File.uploadTo(url: String, totalFiles: Int, vararg args: Any): Request {
-        val fullURL = Clog.format(url, *args)
-        filesUploaded++
-        Clog.d("Netlify UPLOAD {}/{}: {}", filesUploaded, totalFiles, fullURL)
+    private fun File.uploadTo(url: String, vararg args: Any): Request {
+        val fullURL = Clog.format("$netlifyUrl/$url", *args)
 
         return newRequest(fullURL)
             .put(RequestBody.create(BINARY, this))
@@ -173,6 +243,7 @@ constructor(
             if (!response.isSuccessful) {
                 Clog.e("{}", bodyString)
             }
+
             response.isSuccessful to bodyString
         } catch (e: Exception) {
             e.printStackTrace()
@@ -182,19 +253,16 @@ constructor(
 
     private fun Response.timeoutRateLimit(): Response {
         try {
-            val RateLimit_Limit = Integer.parseInt(header("X-RateLimit-Limit")!!)
-            val RateLimit_Remaining = Integer.parseInt(header("X-RateLimit-Remaining")!!)
-            val RateLimit_Reset =
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-RateLimit-Reset")).toInstant()
+            val RateLimit_Limit = header("X-Ratelimit-Limit")?.toIntOrNull() ?: header("X-RateLimit-Limit")?.toIntOrNull() ?: 1
+            val RateLimit_Remaining = header("X-Ratelimit-Remaining")?.toIntOrNull() ?: header("X-RateLimit-Remaining")?.toIntOrNull() ?: 1
+            val RateLimit_Reset = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-Ratelimit-Reset")!!).toInstant()
             val current = Instant.now()
             val d = Duration.between(RateLimit_Reset, current)
             // if we are nearing the rate limit, pause down a bit until it resets
             if (RateLimit_Remaining * 1.0 / RateLimit_Limit * 1.0 < 0.1) {
                 Thread.sleep(Math.abs(d.toMillis()))
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        } catch (e: Exception) { }
 
         return this
     }
@@ -204,4 +272,40 @@ constructor(
         private val BINARY = MediaType.parse("application/octet-stream")
         private const val netlifyUrl = "https://api.netlify.com/api/v1"
     }
+}
+
+private data class CreateSiteResponse(
+    val deployId: String,
+
+    val originalFiles: Map<String, MutableList<Pair<String, File>>>,
+    val originalFunctions: Map<String, MutableList<Pair<String, File>>>,
+
+    val requiredFiles: List<String>,
+    val requiredFunctions: List<String>
+) {
+
+    val originalFilesCount: Int by lazy {
+        originalFiles.map { it.value.size }.sum()
+    }
+    val originalFunctionsCount: Int by lazy {
+        originalFunctions.map { it.value.size }.sum()
+    }
+    val originaltotalCount: Int = originalFilesCount + originalFunctionsCount
+
+    val toUploadFilesCount: Int = requiredFiles.size
+    val toUploadFunctionsCount: Int = requiredFunctions.size
+    val toUploadTotalCount: Int = toUploadFilesCount + toUploadFunctionsCount
+
+    var uploadedFilesCount = 0
+    var uploadedFunctionsCount = 0
+
+    fun getFiles(sha1: String) : List<File> {
+        return originalFiles.getOrDefault(sha1, ArrayList()).map { it.second }
+    }
+
+    fun getFunctions(sha1: String) : List<File> {
+        return originalFunctions.getOrDefault(sha1, ArrayList()).map { it.second }
+    }
+
+
 }
