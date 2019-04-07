@@ -32,11 +32,18 @@ ext.getActualVersionArray = { Project project ->
 ext.getBaseUrl = { Project project ->
     def url = null
     if (project.hasProperty('env') && project.property('env') == 'prod') {
-        if(Boolean.parseBoolean(System.getenv('PULL_REQUEST'))) {
+
+        if(System.getenv('CONTEXT') == "branch-deploy") {
+            // branch deploys
+            url = System.getenv('DEPLOY_PRIME_URL') // Netlify deploy preview URL
+        }
+        else if(Boolean.parseBoolean(System.getenv('PULL_REQUEST'))) {
+            // PR deploy previews
             url = System.getenv('DEPLOY_URL') // Netlify deploy preview URL
         }
         else if(System.getenv('URL')) {
-            url = System.getenv('URL') // Netlify production URL
+            // production deploys
+            url = System.getenv('URL')
         }
     }
     else {

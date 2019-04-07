@@ -91,6 +91,9 @@
 [v-cloak] {
   display: none;
 }
+.is-gone {
+  display: none;
+}
 
 // Footer styling
 //----------------------------------------------------------------------------------------------------------------------
@@ -167,8 +170,24 @@
   }
 }
 
-code.language-kotlin .token.number { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
-code.language-kotlin .token.operator { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+.theme-border-bottom {
+  border-bottom: thin solid {{theme.palette.primary}};
+}
+.theme-border-top {
+  border-top: thin solid {{theme.palette.primary}};
+}
+
+.border-bottom {
+  border-bottom: thin solid rgba(0, 0, 0, 0.1);
+}
+.border-top {
+  border-top: thin solid rgba(0, 0, 0, 0.1);
+}
+
+
+code[class*="language-"] .token.number { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+code[class*="language-"] .token.operator { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+code[class*="language-"] .tag { line-height: initial;background: none;height: initial;padding: 0;display: inline;font-size: 1em; }
 .content blockquote, .content pre {
   border-left: 5px solid {{theme.palette.primary}};
 }

@@ -4,10 +4,12 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
@@ -31,6 +33,7 @@ import java.util.Map;
  */
 @Extensible
 @Description(value = "A reusable block of content.", name = "Components")
+@Archetype(value = SharedConfigArchetype.class, key = "from")
 public abstract class OrchidComponent extends Prioritized implements
         OptionsHolder,
         AssetHolder,

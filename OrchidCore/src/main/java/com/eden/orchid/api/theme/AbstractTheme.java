@@ -1,10 +1,13 @@
 package com.eden.orchid.api.theme;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.resources.resourcesource.JarResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -14,6 +17,7 @@ import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+@Archetype(value = SharedConfigArchetype.class, key = "from")
 public abstract class AbstractTheme extends JarResourceSource implements OptionsHolder, AssetHolder {
 
     protected final OrchidContext context;
@@ -124,6 +129,30 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
         callback.accept(this);
         this.currentPage = null;
     }
+
+// Map Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    public Map<String, Object> getMap() {
+        return allData;
+    }
+
+    public boolean has(String key) {
+        return getMap().containsKey(key);
+    }
+
+    public Object get(String key) {
+        // TODO: make this method also return values by reflection, so that anything that needs to dynamically get a property by name can get it from this one method
+        return getMap().get(key);
+    }
+
+    public Object query(String key) {
+        JSONElement result = new JSONElement(new JSONObject(getMap())).query(key);
+        return (result != null) ? result.getElement() : null;
+    }
+
+// Delombok
+//----------------------------------------------------------------------------------------------------------------------
 
     @Override
     public boolean equals(Object o) {

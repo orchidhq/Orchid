@@ -1,0 +1,17 @@
+{% set sidebarClasses = '' %}
+
+{% if theme.sidebarBackgroundType.name == 'IMAGE' %}
+    {% set sidebarClasses = 'is-primary hero-image' %}
+{% elseif theme.sidebarBackgroundType.name == 'GRADIENT' %}
+    {% set sidebarClasses = 'is-'~theme.sidebarBackground~' is-bold' %}
+{% elseif theme.sidebarBackgroundType.name == 'SOLID' %}
+    {% set sidebarClasses = 'is-'~theme.sidebarBackground %}
+{% else %}
+    {% set sidebarClasses = 'is-primary'%}
+{% endif %}
+
+<section class="hero {{ sidebarClasses }} {{ additionalClasses }}">
+{% include 'includes/copper/heroTop' %}
+{% include 'includes/copper/heroContent_'~sidebarType %}
+{% include 'includes/copper/heroBottom' %}
+</section>

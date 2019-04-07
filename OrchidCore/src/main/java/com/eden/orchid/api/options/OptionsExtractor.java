@@ -28,7 +28,7 @@ public class OptionsExtractor extends Extractor {
 
     @Inject
     public OptionsExtractor(OrchidContext context, Set<OptionExtractor> extractors, OptionsValidator validator) {
-        super(extractors, new AnnotatedValidatorWrapper(validator));
+        super(new ArrayList<>(extractors), new AnnotatedValidatorWrapper(validator), context::resolve);
         this.context = context;
         this.validator = validator;
     }
@@ -46,11 +46,6 @@ public class OptionsExtractor extends Extractor {
             Clog.e("{} did not pass validation", optionsHolder, e);
             return false;
         }
-    }
-
-    @Override
-    public <T> T getInstance(Class<T> clazz) {
-        return context.resolve(clazz);
     }
 
     public boolean hasOptions(Object possibleObjectHolder) {
@@ -139,7 +134,7 @@ public class OptionsExtractor extends Extractor {
                     : "";
             String defaultValue = "N/A";
 
-            for (OptionExtractor extractor : extractors) {
+            for (OptionExtractor extractor : getExtractors()) {
                 if (extractor.acceptsClass(field.getType())) {
                     defaultValue = extractor.describeDefaultValue(field);
                     break;

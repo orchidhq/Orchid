@@ -100,7 +100,7 @@ constructor(
             a.attr("href", page.reference.toString())
         }
 
-        val definedSectionTitle = summary.queryEmbeddedData("title")?.element as? String? ?: ""
+        val definedSectionTitle = section.title
 
         val safe = doc.toString()
         val summaryReference = OrchidReference(summary.reference)

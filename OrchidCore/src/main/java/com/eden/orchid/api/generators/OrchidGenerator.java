@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.impl.relations.ThemeRelation;
 
 import javax.inject.Inject;
 import java.util.Collections;
@@ -87,7 +88,7 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
             "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
             "specific options for the theme."
     )
-    private Object theme;
+    private ThemeRelation theme;
 
     @Option
     @Description("Set the default layout to be used for all Pages from this Generator. Pages can specify their own " +
@@ -146,7 +147,7 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
         return this.key;
     }
 
-    public Object getTheme() {
+    public ThemeRelation getTheme() {
         return this.theme;
     }
 
@@ -162,7 +163,7 @@ public abstract class OrchidGenerator extends Prioritized implements OptionsHold
         return this.allData;
     }
 
-    public void setTheme(Object theme) {
+    public void setTheme(ThemeRelation theme) {
         this.theme = theme;
     }
 

@@ -2,9 +2,8 @@ package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.AssetManager;
+import com.eden.orchid.impl.relations.ThemeRelation;
 import com.google.inject.ImplementedBy;
-
-import java.util.Map;
 
 /**
  * @since v1.0.0
@@ -15,10 +14,6 @@ public interface ThemeService extends OrchidService {
 
     default AssetManager getAssetManager() {
         return getService(ThemeService.class).getAssetManager();
-    }
-
-    default Theme getDefaultTheme() {
-        return getService(ThemeService.class).getDefaultTheme();
     }
 
     default Theme getTheme() {
@@ -33,11 +28,7 @@ public interface ThemeService extends OrchidService {
         getService(ThemeService.class).pushTheme(theme);
     }
 
-    default void pushTheme(Theme theme, Map<String, Object> themeOptions) {
-        getService(ThemeService.class).pushTheme(theme, themeOptions);
-    }
-
-    default Theme doWithTheme(Object theme, Runnable cb) {
+    default Theme doWithTheme(ThemeRelation theme, Runnable cb) {
         return getService(ThemeService.class).doWithTheme(theme, cb);
     }
 
@@ -47,10 +38,6 @@ public interface ThemeService extends OrchidService {
 
     default void clearThemes() {
         getService(ThemeService.class).clearThemes();
-    }
-
-    default AdminTheme getDefaultAdminTheme() {
-        return getService(ThemeService.class).getDefaultAdminTheme();
     }
 
     default AdminTheme getAdminTheme() {
@@ -63,10 +50,6 @@ public interface ThemeService extends OrchidService {
 
     default void pushAdminTheme(AdminTheme theme) {
         getService(ThemeService.class).pushAdminTheme(theme);
-    }
-
-    default void pushAdminTheme(AdminTheme theme, Map<String, Object> themeOptions) {
-        getService(ThemeService.class).pushAdminTheme(theme, themeOptions);
     }
 
     default void popAdminTheme() {

@@ -1,0 +1,17 @@
+{# @pebvariable name="component" type="com.eden.orchid.changelog.components.ChangelogComponent" #}
+{# @pebvariable name="version" type="com.eden.orchid.changelog.model.ChangelogVersion" #}
+
+<section class="accordions" id="{{ tag.id }}">
+{% for tab in tag.tabs %}
+  <article class="accordion {% if loop.first %}is-active{% endif %}">
+    <div class="accordion-header toggle">
+      <p>{{ tab.title }}</p>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+      {{ tab.content | raw }}
+      </div>
+    </div>
+  </article>
+{% endfor %}
+</section>

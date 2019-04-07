@@ -10,12 +10,14 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -165,19 +167,21 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         verify(context, never()).pushTheme(any());
         clearInvocations(context);
 
-        generator1.setTheme("theme1");
+        ThemeRelation g1Theme = new ThemeRelation(context);
+        g1Theme.extractOptions(context, Collections.singletonMap("key", "theme1"));
+        generator1.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
         verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
-        generator2.setTheme("theme1");
+        generator1.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
         verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
-        generator3.setTheme("theme1");
+        generator3.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
         verify(context, times(3)).doWithTheme(any(), any());

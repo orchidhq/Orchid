@@ -50,7 +50,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
 
         addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js").apply { isDefer = true }
         addJs("assets/js/bulma-accordion.min.js")
-        addJs("inline:.js:bulmaAccordion.attach();")
+        addJs("assets/js/bulma-tabs.js")
     }
 }
 
