@@ -299,7 +299,7 @@ public final class OrchidReference {
 
         String cleanedUrl = OrchidUtils.normalizePath(output);
 
-        if(baseUrl.equals("/") && !cleanedUrl.startsWith("/")) {
+        if(baseUrl != null && baseUrl.equals("/") && !cleanedUrl.startsWith("/")) {
             cleanedUrl = "/" + cleanedUrl;
         }
 
