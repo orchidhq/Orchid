@@ -1,5 +1,6 @@
 package com.eden.orchid.utilities
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
@@ -33,6 +34,26 @@ fun String?.wrap(width: Int = 80): List<String> {
 
     return matchList
 }
+
+fun String.logSyntaxError(extension: String, lineNumber: Int, errorMessage: String = "") {
+    val lines = this.lines()
+    val linesBefore_start = Math.max(lineNumber - 3, 0)
+    val linesBefore_end = Math.max(lineNumber - 1, 0)
+    val linesAfter_start = lineNumber
+    val linesAfter_end = Math.min(lineNumber + 5, lines.size)
+
+    val linesBefore = lines.subList(linesBefore_start, linesBefore_end)
+    val errorLine = lines.get(linesBefore_end)
+    val linesAfter = lines.subList(linesAfter_start, linesAfter_end)
+
+    var templateSnippet = ".{} Syntax Error: {} (see source below)"
+    templateSnippet += "\n   |" + linesBefore.joinToString("\n   |")
+    templateSnippet += "\n#{$0|fg('RED')}-->|#{$0|reset}$errorLine"
+    templateSnippet += "\n   |" + linesAfter.joinToString("\n   |")
+
+    Clog.tag("Syntax error").e(templateSnippet, extension.toUpperCase(), errorMessage)
+}
+
 
 fun JSONElement?.isObject(): Boolean {
     return this != null && this.element != null && this.element is JSONObject

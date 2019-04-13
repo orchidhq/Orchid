@@ -6,8 +6,10 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.Extension;
 import com.mitchellbosecke.pebble.extension.NodeVisitorFactory;
 import com.mitchellbosecke.pebble.lexer.LexerImpl;
@@ -82,6 +84,9 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
             compiledTemplate.evaluate(writer, data);
 
             return writer.toString();
+        }
+        catch (PebbleException e) {
+            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), e.getMessage());
         }
         catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
