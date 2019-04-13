@@ -26,7 +26,7 @@
                     <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left"></span>
                 </a>
                 <ul class="uk-breadcrumb">
-                    <li><a href="{{ site.baseUrl }}/admin">Orchid Admin</a></li>
+                    <li><a href="{{ 'admin'|baseUrl }}">Orchid Admin</a></li>
                     {% for crumb in view.breadcrumbs %}
                         <li class="uk-disabled"><a>{{ crumb }}</a></li>
                     {% endfor %}

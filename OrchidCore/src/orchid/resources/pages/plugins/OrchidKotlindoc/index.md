@@ -25,7 +25,7 @@ code, and then translates that model into Orchid pages in a similar way to the {
 {{anchor('Orchid Swiftdoc')}} plugins. 
 
 The classes can reference pages in other Orchid sites' docs by adding their index JSON to your build. For example, you 
-can add [{{site.baseUrl}}/meta/kotlindoc.index.json]({{site.baseUrl}}/meta/kotlindoc.index.json) to your site's 
+can add [{{ 'meta/kotlindoc.index.json'|baseUrl }}]({{ 'meta/kotlindoc.index.json'|baseUrl }}) to your site's 
 `config.yml` so that your docs will link out to the Orchid doc pages. This works with class pages generated from either
 the Javadoc or Kotlindoc plugins.
 
@@ -33,7 +33,7 @@ the Javadoc or Kotlindoc plugins.
 services:
   generators:
     externalIndices:
-      - '{{site.baseUrl}}/meta/kotlindoc.index.json'
+      - '{{ 'meta/kotlindoc.index.json'|baseUrl }}'
 {% endhighlight %}
 
 Orchid itself is written in Kotlin and documented with this Kotlindoc plugin. You can preview the generated 

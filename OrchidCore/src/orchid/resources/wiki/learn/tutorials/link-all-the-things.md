@@ -52,9 +52,9 @@ with that variable instead, and it will automatically update these URLs based on
 {% verbatim %}
 ---
 ---
-- [Houston]({{ site.baseUrl }}/locations/houston)
-- [Dallas]({{ site.baseUrl }}/locations/dallas)
-- [Austin]({{ site.baseUrl }}/locations/austin)
+- [Houston]({{ '/locations/houston'|baseUrl }})
+- [Dallas]({{ '/locations/dallas'|baseUrl }})
+- [Austin]({{ '/locations/austin'|baseUrl }})
 {% endverbatim %}
 {% endhighlight %}
 

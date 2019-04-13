@@ -13,4 +13,4 @@ The _page content_ is composed of a list of _components_, with one of these typi
 contents inside a _page template_. Pages may also have their own unique menus, which usually holds menu items related to 
 that specific page or its related pages.
 
-![Admin panel]({{site.baseUrl}}/assets/media/page-structure.png)
+![Admin panel]({{ 'assets/media/page-structure.png'|asset }})

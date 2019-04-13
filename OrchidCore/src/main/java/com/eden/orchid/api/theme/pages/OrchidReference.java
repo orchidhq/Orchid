@@ -297,7 +297,13 @@ public final class OrchidReference {
             output += query;
         }
 
-        return OrchidUtils.normalizePath(output);
+        String cleanedUrl = OrchidUtils.normalizePath(output);
+
+        if(baseUrl.equals("/") && !cleanedUrl.startsWith("/")) {
+            cleanedUrl = "/" + cleanedUrl;
+        }
+
+        return cleanedUrl;
     }
 
     public String getRelativePath() {
@@ -363,31 +369,48 @@ public final class OrchidReference {
     }
 
     public static OrchidReference fromUrl(OrchidContext context, String title, String url) {
-        try {
-            URL parsedUrl = new URL(url);
+        if(url.equals("/")) {
             OrchidReference newReference = new OrchidReference(context, url, false);
 
-            if(parsedUrl.getPort() != -1) {
-                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() + ":" + parsedUrl.getPort();
-            }
-            else {
-                newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
-            }
-
-            newReference.fileName = FilenameUtils.removeExtension(FilenameUtils.getName(parsedUrl.getPath()));
-            newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));
+            newReference.baseUrl = "/";
+            newReference.fileName = "";
+            newReference.path = "";
             newReference.title = title;
-            newReference.extension = FilenameUtils.getExtension(FilenameUtils.getName(url));
-            newReference.outputExtension = newReference.extension;
-            newReference.query = parsedUrl.getQuery();
-            newReference.id = parsedUrl.getRef();
+            newReference.extension = "";
+            newReference.outputExtension = "";
+            newReference.query = "";
+            newReference.id = "";
             newReference.setUsePrettyUrl(false);
 
             return newReference;
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        else {
+            try {
+                URL parsedUrl = new URL(url);
+                OrchidReference newReference = new OrchidReference(context, url, false);
+
+                if(parsedUrl.getPort() != -1) {
+                    newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() + ":" + parsedUrl.getPort();
+                }
+                else {
+                    newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
+                }
+
+                newReference.fileName = FilenameUtils.removeExtension(FilenameUtils.getName(parsedUrl.getPath()));
+                newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));
+                newReference.title = title;
+                newReference.extension = FilenameUtils.getExtension(FilenameUtils.getName(url));
+                newReference.outputExtension = newReference.extension;
+                newReference.query = parsedUrl.getQuery();
+                newReference.id = parsedUrl.getRef();
+                newReference.setUsePrettyUrl(false);
+
+                return newReference;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 

@@ -66,9 +66,11 @@ import com.eden.orchid.impl.themes.components.ReadmeComponent
 import com.eden.orchid.impl.themes.components.TemplateComponent
 import com.eden.orchid.impl.themes.functions.AnchorFunction
 import com.eden.orchid.impl.themes.functions.AssetFunction
+import com.eden.orchid.impl.themes.functions.BaseUrlFunction
 import com.eden.orchid.impl.themes.functions.CompileAsFunction
 import com.eden.orchid.impl.themes.functions.FindAllFunction
 import com.eden.orchid.impl.themes.functions.FindFunction
+import com.eden.orchid.impl.themes.functions.HomepageUrlFunction
 import com.eden.orchid.impl.themes.functions.LimitToFunction
 import com.eden.orchid.impl.themes.functions.LinkFunction
 import com.eden.orchid.impl.themes.functions.LoadFunction
@@ -231,7 +233,9 @@ class ImplModule : OrchidModule() {
             TemplateFunction::class.java,
             AssetFunction::class.java,
             AnchorFunction::class.java,
+            BaseUrlFunction::class.java,
             CompileAsFunction::class.java,
+            HomepageUrlFunction::class.java,
             ParseAsFunction::class.java,
             FindAllFunction::class.java,
             FindFunction::class.java,

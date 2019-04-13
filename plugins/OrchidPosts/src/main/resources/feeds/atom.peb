@@ -2,9 +2,9 @@
 {% set firstItem = page.items|first %}
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>{{ site.about.siteName }}</title>
-    <link href="{{ site.baseUrl }}"/>
-    <link href="{{- site.baseUrl -}}/atom.xml" rel="self" type="application/rss+xml"/>
-    <id>{{ site.baseUrl }}/</id>
+    <link href="{{ homepageUrl() }}"/>
+    <link href="{{- 'atom.xml'|baseUrl -}}" rel="self" type="application/rss+xml"/>
+    <id>{{ homepageUrl() }}</id>
     <updated>{{ firstItem.lastModifiedDate }}T00:00:00Z</updated>
     {% for item in page.items -%}
     <entry>
