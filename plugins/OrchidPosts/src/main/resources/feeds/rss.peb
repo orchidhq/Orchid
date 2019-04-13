@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <id>{{ site.baseUrl }}</id>
+        <id>{{ homepageUrl() }}</id>
         <title>{{- site.about.siteName -}}</title>
-        <link>{{- site.baseUrl -}}</link>
-        <atom:link href="{{- site.baseUrl -}}/rss.xml" rel="self" type="application/rss+xml"/>
+        <link>{{- homepageUrl() -}}</link>
+        <atom:link href="{{- 'rss.xml'|baseUrl -}}" rel="self" type="application/rss+xml"/>
         <description>{{- site.about.siteDescription -}}</description>
         {% for item in page.items -%}
         <item>

@@ -1,1 +1,1 @@
-<iframe-refresh src="{{ site.baseUrl }}/admin/index.html"></iframe-refresh>
+<iframe-refresh src="{{ 'admin/index.html'|baseUrl }}"></iframe-refresh>

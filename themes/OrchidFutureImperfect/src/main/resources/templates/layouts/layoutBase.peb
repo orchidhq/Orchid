@@ -24,7 +24,7 @@
 
     <!-- Header -->
     <header id="header">
-        <h1><a href="{{ site.baseUrl }}">{{ site.about.siteName }}</a></h1>
+        <h1><a href="{{ homepageUrl() }}">{{ site.about.siteName }}</a></h1>
         <nav class="links">
             <ul>
             {% for menuItem in theme.menu.getMenuItems(page) %}

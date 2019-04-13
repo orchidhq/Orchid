@@ -29,7 +29,7 @@
                     </button>
                 </div>
                 <div>
-                    <a href="{{ site.baseUrl }}" target="_blank">
+                    <a href="{{ homepageUrl() }}" target="_blank">
                         <button class="uk-button uk-button-default uk-width-1-1">View Site
                         </button>
                     </a>

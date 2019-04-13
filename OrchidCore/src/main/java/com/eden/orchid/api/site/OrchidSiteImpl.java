@@ -28,7 +28,12 @@ public final class OrchidSiteImpl implements OrchidSite {
         this.orchidVersion = orchidVersion;
         this.currentWorkingDirectory = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         this.version = version;
-        this.baseUrl = OrchidUtils.normalizePath(baseUrl);
+        if(baseUrl.equals("/")) {
+            this.baseUrl = baseUrl;
+        }
+        else {
+            this.baseUrl = OrchidUtils.normalizePath(baseUrl);
+        }
         this.environment = environment;
         this.defaultTemplateExtension = defaultTemplateExtension;
     }

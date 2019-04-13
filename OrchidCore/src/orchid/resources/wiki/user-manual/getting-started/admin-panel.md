@@ -14,7 +14,7 @@ that the plugin developers are keeping their documentation relevant over time.
 With your Orchid site running locally in `serve` mode and the {{anchor('Orchid Plugin Docs')}} plugin installed, all you 
 have to do is visit `http://localhost:8080/admin` in your browser to access the Admin Panel. 
 
-![Admin panel]({{site.baseUrl}}/assets/media/admin.png)
+![Admin panel]({{ 'assets/media/admin.png'|asset }})
 
 ## Sidebar
 
@@ -22,7 +22,7 @@ Click the "hamburger" icon on the top left to open a sidebar with a list of the 
 you will be configuring. In addition, you can view a list of anything that could possible be extended in Orchid, to give
 you a sense of what you could customize with plugins. 
 
-![Admin panel sidebar]({{site.baseUrl}}/assets/media/admin-sidebar.png)
+![Admin panel sidebar]({{ 'assets/media/admin-sidebar.png'|asset }})
 
 ## Plugin Documentation
 
@@ -34,29 +34,29 @@ You'll notice it has a sample YAML configuration for this generator. This shows 
 options, which are guaranteed to match the version of the plugin you're using with no upkeep from the plugin creator, 
 and the default values for those options. 
 
-![Admin panel generator]({{site.baseUrl}}/assets/media/admin-generator.png) 
+![Admin panel generator]({{ 'assets/media/admin-generator.png'|asset }}) 
 
 ## Manage Panel
 
 The "Manage" button on the top right opens a panel with some relevant content about your site, and a command box. 
 
-![Admin panel manage panel]({{site.baseUrl}}/assets/media/admin-manage.png)
+![Admin panel manage panel]({{ 'assets/media/admin-manage.png'|asset }})
 
 ## Collection Info
 
 Clicking into one of the rows of the "Collections" table in the Manage Panel will show all the pages in that collection, 
 and also related collections. This helps you understand the logical structure of your site's content.
 
-![Admin panel manage panel]({{site.baseUrl}}/assets/media/admin-collection.png)
+![Admin panel manage panel]({{ 'assets/media/admin-collection.png'|asset }})
 
 ## Build Progress
 
 The header will also indicate indexing and generation progress during a build.
 
-![Admin panel progress]({{site.baseUrl}}/assets/media/admin-progress.png)
+![Admin panel progress]({{ 'assets/media/admin-progress.png'|asset }})
 
 ## Netlify CMS Integration
 
 If you have the {{anchor('Orchid Netlify CMS')}} plugin installed, it will be embedded directly within the admin panel.
 
-![Admin panel progress]({{site.baseUrl}}/assets/media/admin-netlify-cms.png)
+![Admin panel progress]({{ 'assets/media/admin-netlify-cms.png'|asset }})

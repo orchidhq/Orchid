@@ -11,7 +11,7 @@
 {% endif %}
     <div class="container">
         <h1 class="home-title">
-            <img src="{{ site.baseUrl }}/assets/media/orchid.png" class="strobe" alt="Orchid Logo" title="Orchid Logo">
+            <img src="{{ 'assets/media/orchid.png'|asset }}" class="strobe" alt="Orchid Logo" title="Orchid Logo">
         </h1>
         <p class="lead">{{ site.about.siteDescription }}</p>
         {% if theme.social.github is not empty %}

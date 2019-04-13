@@ -187,7 +187,10 @@
 
     function loadRootIndex($orchidIndicesAllowed, done) {
         var allDocs = [];
-        $.getJSON(window.site.baseUrl + "/meta/index.json", function (data) {
+
+        var baseUrl = (window.site.baseUrl === '/') ? '' : window.site.baseUrl;
+
+        $.getJSON(baseUrl + "/meta/index.json", function (data) {
             var childIndices = data.childrenPages.meta.ownPages;
             var childIndicesFinishedCount = 0;
 

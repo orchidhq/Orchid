@@ -18,7 +18,7 @@
 
         <!-- Intro -->
         <section id="intro">
-            <a href="{{ site.baseUrl }}" class="logo"><img src="{{ site.about.avatar }}" alt="{{ site.about.siteName }}"/></a>
+            <a href="{{ homepageUrl() }}" class="logo"><img src="{{ site.about.avatar }}" alt="{{ site.about.siteName }}"/></a>
             <header>
                 <h2>{{ site.about.siteName }}</h2>
                 <p>{{ site.about.subtitle }}</p>

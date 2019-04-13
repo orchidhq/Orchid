@@ -1,7 +1,10 @@
 package com.eden.orchid.impl.compilers.parsers
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidParser
+import com.eden.orchid.utilities.logSyntaxError
 import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.parser.ParserException
 import java.util.HashMap
 import javax.inject.Inject
 
@@ -28,7 +31,10 @@ constructor() : OrchidParser(100) {
                 yamlObject[OrchidParser.arrayAsObjectKey] = yamlData
                 return yamlObject
             }
+        } catch (e: ParserException) {
+            input.logSyntaxError(extension, e.problemMark.line, e.problem)
         } catch (e: Exception) {
+            Clog.e("Error parsing YAML:\n{}", e.message)
         }
 
         return null

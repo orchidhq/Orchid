@@ -61,9 +61,11 @@ import com.eden.orchid.impl.themes.components.ReadmeComponent;
 import com.eden.orchid.impl.themes.components.TemplateComponent;
 import com.eden.orchid.impl.themes.functions.AnchorFunction;
 import com.eden.orchid.impl.themes.functions.AssetFunction;
+import com.eden.orchid.impl.themes.functions.BaseUrlFunction;
 import com.eden.orchid.impl.themes.functions.CompileAsFunction;
 import com.eden.orchid.impl.themes.functions.FindAllFunction;
 import com.eden.orchid.impl.themes.functions.FindFunction;
+import com.eden.orchid.impl.themes.functions.HomepageUrlFunction;
 import com.eden.orchid.impl.themes.functions.LimitToFunction;
 import com.eden.orchid.impl.themes.functions.LinkFunction;
 import com.eden.orchid.impl.themes.functions.LoadFunction;
@@ -207,7 +209,9 @@ public final class TestImplModule extends OrchidModule {
         addToSet(TemplateFunction.class,
                 AssetFunction.class,
                 AnchorFunction.class,
+                BaseUrlFunction.class,
                 CompileAsFunction.class,
+                HomepageUrlFunction.class,
                 ParseAsFunction.class,
                 FindAllFunction.class,
                 FindFunction.class,

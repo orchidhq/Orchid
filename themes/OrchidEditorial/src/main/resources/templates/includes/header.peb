@@ -1,5 +1,5 @@
 <header id="header">
-    <a href="{{ site.baseUrl }}" class="logo">{{ site.about.siteName }}</a>
+    <a href="{{ homepageUrl() }}" class="logo">{{ site.about.siteName }}</a>
     <ul class="icons">
     {% if theme.social is not empty %}
     {% for item in theme.social.items %}
