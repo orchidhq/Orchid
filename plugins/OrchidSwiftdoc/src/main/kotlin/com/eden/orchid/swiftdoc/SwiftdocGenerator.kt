@@ -159,10 +159,12 @@ constructor(
 
     private fun parseSwiftFile(name: String): JSONObject {
         try {
-            val process = ProcessBuilder()
-                    .command("sourcekitten", "doc", "--single-file", "./$name")
-                    .directory(File(resourcesDir))
-                    .start()
+            val processBuilder = ProcessBuilder()
+            processBuilder.command("sourcekitten", "doc", "--single-file", "./$name")
+            processBuilder.directory(File(resourcesDir))
+            processBuilder.redirectErrorStream()
+
+            val process = processBuilder.start()
 
             val collector = InputStreamCollector(process.inputStream)
             Executors.newSingleThreadExecutor().submit(collector)

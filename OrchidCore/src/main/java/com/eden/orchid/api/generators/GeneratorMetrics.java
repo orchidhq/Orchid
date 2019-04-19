@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.LongConsumer;
 
+import static com.eden.orchid.utilities.OrchidExtensionsKt.makeMillisReadable;
+
 public class GeneratorMetrics {
     private String key;
     private long indexingStartTime;
@@ -45,31 +47,6 @@ public class GeneratorMetrics {
 
 // Get formatted values
 //----------------------------------------------------------------------------------------------------------------------
-    private String makeMillisReadable(double lMillis) {
-        int hours = 0;
-        int minutes = 0;
-        int seconds = 0;
-        int millis = 0;
-        String sTime;
-        seconds = (int) (lMillis / 1000) % 60;
-        millis = (int) (lMillis % 1000);
-        if (seconds > 0) {
-            minutes = (int) (lMillis / 1000 / 60) % 60;
-            if (minutes > 0) {
-                hours = (int) (lMillis / 1000 / 60 / 60) % 24;
-                if (hours > 0) {
-                    sTime = hours + "h " + minutes + "m " + seconds + "s " + millis + "ms";
-                } else {
-                    sTime = minutes + "m " + seconds + "s " + millis + "ms";
-                }
-            } else {
-                sTime = seconds + "s " + millis + "ms";
-            }
-        } else {
-            sTime = millis + "ms";
-        }
-        return sTime;
-    }
 
     String getIndexingTime() {
         return makeMillisReadable(indexingEndTime - indexingStartTime);

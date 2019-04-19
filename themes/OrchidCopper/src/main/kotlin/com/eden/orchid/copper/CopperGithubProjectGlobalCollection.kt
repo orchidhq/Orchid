@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.GlobalCollection
+import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidExternalPage
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -12,22 +13,24 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.util.stream.Stream
-import javax.annotation.Nullable
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Provider
 
 class CopperGithubProjectGlobalCollection
 @Inject
 constructor(
     val context: Provider<OrchidContext>,
-    val client: OkHttpClient,
-    @Nullable @Named("githubToken") val githubToken: String?
+    val client: OkHttpClient
 ) : GlobalCollection<OrchidPage>("githubProject") {
 
     val latestPostsRegex = "^:githubProject\\((.*)\\)$".toRegex()
 
     val cachedProjectPages = mutableMapOf<String, Pair<Boolean, OrchidPage?>>()
+
+    val githubToken: String?
+        get() {
+            return OrchidFlags.getInstance().getFlagValue("githubToken")
+        }
 
     override fun loadItems(): List<OrchidPage> = emptyList()
 

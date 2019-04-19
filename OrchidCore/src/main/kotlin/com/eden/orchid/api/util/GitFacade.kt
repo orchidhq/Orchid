@@ -77,6 +77,7 @@ class CliGitRepoFacade(
 
     override fun initRepo(): GitRepoFacade {
         gitCommand("git", "init")
+        gitCommand("git", "checkout", "-b", remoteBranch)
         gitCommand(
             "git",
             "remote",
@@ -188,7 +189,8 @@ class CopyDir(private val sourceDir: Path, private val targetDir: Path) : Simple
             val targetFile = targetDir.resolve(sourceDir.relativize(file))
             Files.copy(file, targetFile)
         } catch (e: IOException) {
-            System.err.println(e)
+            Clog.e(e)
+            e.printStackTrace()
         }
 
         return FileVisitResult.CONTINUE
@@ -197,9 +199,12 @@ class CopyDir(private val sourceDir: Path, private val targetDir: Path) : Simple
     override fun preVisitDirectory(dir: Path, attributes: BasicFileAttributes): FileVisitResult {
         try {
             val newDir = targetDir.resolve(sourceDir.relativize(dir))
-            Files.createDirectory(newDir)
+            if(!Files.exists(newDir)) {
+                Files.createDirectory(newDir)
+            }
         } catch (e: IOException) {
-            System.err.println(e)
+            Clog.e(e)
+            e.printStackTrace()
         }
 
         return FileVisitResult.CONTINUE

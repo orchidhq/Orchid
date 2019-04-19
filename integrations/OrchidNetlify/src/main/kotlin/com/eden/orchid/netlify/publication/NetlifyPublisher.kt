@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.makeMillisReadable
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,12 +17,14 @@ import org.apache.commons.io.FileUtils
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
 import java.util.ArrayList
 import javax.inject.Inject
 import javax.inject.Named
+import javax.validation.ValidationException
 import javax.validation.constraints.NotBlank
 
 @Description(value = "Upload your site directly to Netlify, while using your favorite CI platform.", name = "Netlify")
@@ -39,12 +42,24 @@ constructor(
 ) : OrchidPublisher(context, "netlify", 100) {
 
     @Option
-    @Description("Your Netlify site ID or domain (ie. orchid.netlify.com).")
-    @NotBlank(message = "A Netlify site domain must be provided.")
+    @Description("Your Netlify site ID or domain (ie. orchid.netlify.com). If not provided, your site's baseUrl will be used.")
     lateinit var siteId: String
 
     override fun validate(): Boolean {
         var valid = super.validate()
+
+        if(siteId.isBlank()) {
+            // siteId not provided, use the baseUrl instead
+            try {
+                siteId = URL(context.baseUrl).host
+            }
+            catch (e: Exception) { }
+        }
+
+        if(siteId.isBlank()) {
+            throw ValidationException("A valid siteId must be provided.")
+        }
+
         // make sure the site exists
         val site = getFrom("sites/$siteId").call(client)
         if (!site.first) {
@@ -151,11 +166,15 @@ constructor(
 
             val deployState = required.getString("state")
 
-            if(deployState == "ready" || (required.has("required") || required.has("required_functions"))) {
+            if(deployState == "prepared" && (required.has("required") || required.has("required_functions"))) {
                 val requiredFiles = required.optJSONArray("required")?.filterNotNull()?.map { it.toString() } ?: emptyList()
                 val requiredFunctions = required.optJSONArray("required_functions")?.filterNotNull()?.map { it.toString() } ?: emptyList()
 
                 return response.copy(requiredFiles = requiredFiles, requiredFunctions = requiredFunctions)
+            }
+            else {
+                Clog.d("        Deploy still processing, trying again in {}", 5000.makeMillisReadable())
+                Thread.sleep(5000)
             }
         }
 
@@ -258,9 +277,12 @@ constructor(
             val RateLimit_Reset = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-Ratelimit-Reset")!!).toInstant()
             val current = Instant.now()
             val d = Duration.between(RateLimit_Reset, current)
+
             // if we are nearing the rate limit, pause down a bit until it resets
-            if (RateLimit_Remaining * 1.0 / RateLimit_Limit * 1.0 < 0.1) {
-                Thread.sleep(Math.abs(d.toMillis()))
+            if ((RateLimit_Remaining * 1.0 / RateLimit_Limit * 1.0) < 0.1) {
+                val totalMillis = Math.abs(d.toMillis())
+                Clog.d("        Rate limit running low, sleeping for {}", totalMillis.makeMillisReadable())
+                Thread.sleep(totalMillis)
             }
         } catch (e: Exception) { }
 
@@ -306,6 +328,5 @@ private data class CreateSiteResponse(
     fun getFunctions(sha1: String) : List<File> {
         return originalFunctions.getOrDefault(sha1, ArrayList()).map { it.second }
     }
-
 
 }
