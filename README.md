@@ -3,7 +3,7 @@
 
 [![All Platforms Build Status](https://casey-brooks.visualstudio.com/Orchid/_apis/build/status/Orchid-Gradle-CI?branchName=dev "All Platforms Build Status")](https://casey-brooks.visualstudio.com/Orchid/_build/latest?definitionId=2?branchName=dev)
 [![Linux and Mac Build Status](https://travis-ci.org/JavaEden/Orchid.svg?branch=dev "Linux and Mac Build Status")](https://travis-ci.org/JavaEden/Orchid)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev)
+[![Backers on Open Collective](https://opencollective.com/orchidssg/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/orchidssg/sponsors/badge.svg)](#sponsors) [![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev)
 [![Current Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg "Current Version") ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
 [![License: LGPL-3.0](https://img.shields.io/badge/License-LGPL%20v3-blue.svg "Licensed under LGPL-3.0")](http://www.gnu.org/licenses/lgpl-3.0)
 [![Codacy Grade](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1 "Codacy Grade")](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JavaEden/Orchid&amp;utm_campaign=Badge_Grade)
@@ -322,6 +322,36 @@ The following lists all official Orchid packages:
   - [OrchidAll         ](https://bintray.com/javaeden/Orchid/OrchidAll/_latestVersion)
   - [OrchidBlog        ](https://bintray.com/javaeden/Orchid/OrchidBlog/_latestVersion)
   - [OrchidLanguagePack](https://bintray.com/javaeden/Orchid/OrchidLanguagePack/_latestVersion)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/JavaEden/Orchid/graphs/contributors"><img src="https://opencollective.com/orchidssg/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/orchidssg#backer)]
+
+<a href="https://opencollective.com/orchidssg#backers" target="_blank"><img src="https://opencollective.com/orchidssg/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/orchidssg#sponsor)]
+
+<a href="https://opencollective.com/orchidssg/sponsor/0/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/1/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/2/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/3/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/4/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/5/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/6/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/7/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/8/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/orchidssg/sponsor/9/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
