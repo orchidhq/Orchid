@@ -299,7 +299,7 @@ public final class OrchidReference {
 
         String cleanedUrl = OrchidUtils.normalizePath(output);
 
-        if(baseUrl != null && baseUrl.equals("/") && !cleanedUrl.startsWith("/")) {
+        if(baseUrl != null && baseUrl.startsWith("/") && !cleanedUrl.startsWith("/")) {
             cleanedUrl = "/" + cleanedUrl;
         }
 
@@ -378,11 +378,35 @@ public final class OrchidReference {
             newReference.title = title;
             newReference.extension = "";
             newReference.outputExtension = "";
-            newReference.query = "";
-            newReference.id = "";
+            newReference.query = null;
+            newReference.id = null;
             newReference.setUsePrettyUrl(false);
 
             return newReference;
+        }
+        else if(url.startsWith("/")) {
+            try {
+                // parsing a URL requires an absolute URL. Append a dummy one here, and simply ignore it when creating
+                // the OrchidReference from it to get around that restriction
+                URL parsedUrl = new URL("http://example.com" + url);
+                OrchidReference newReference = new OrchidReference(context, url , false);
+
+                newReference.baseUrl = "/";
+                newReference.fileName = FilenameUtils.removeExtension(FilenameUtils.getName(parsedUrl.getPath()));
+                newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));
+                newReference.title = title;
+                newReference.extension = FilenameUtils.getExtension(FilenameUtils.getName(url));
+                newReference.outputExtension = newReference.extension;
+                newReference.query = parsedUrl.getQuery();
+                newReference.id = parsedUrl.getRef();
+                newReference.setUsePrettyUrl(false);
+
+                return newReference;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
         else {
             try {
