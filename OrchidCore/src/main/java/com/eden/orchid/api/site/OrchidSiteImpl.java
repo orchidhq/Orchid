@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import org.json.JSONObject;
+
 import javax.inject.Inject;
 import java.nio.file.Paths;
 
@@ -28,11 +29,13 @@ public final class OrchidSiteImpl implements OrchidSite {
         this.orchidVersion = orchidVersion;
         this.currentWorkingDirectory = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         this.version = version;
-        if(baseUrl.equals("/")) {
+        if (baseUrl.equals("/")) {
             this.baseUrl = baseUrl;
         }
         else {
-            this.baseUrl = OrchidUtils.normalizePath(baseUrl);
+            this.baseUrl = (baseUrl.startsWith("/"))
+                    ? "/" + OrchidUtils.normalizePath(baseUrl)
+                    : OrchidUtils.normalizePath(baseUrl);
         }
         this.environment = environment;
         this.defaultTemplateExtension = defaultTemplateExtension;

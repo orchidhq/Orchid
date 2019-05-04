@@ -21,9 +21,13 @@ constructor(val context: OrchidContext) : TemplateFunction("baseUrl", true) {
     }
 
     override fun apply(): Any {
-        val cleanedBaseUrl = OrchidUtils.normalizePath(context.baseUrl)
         val cleanedInput = OrchidUtils.normalizePath(input)
 
-        return "$cleanedBaseUrl/$cleanedInput"
+        return if(context.baseUrl == "/") {
+            "/$cleanedInput"
+        }
+        else {
+            "${context.baseUrl}/$cleanedInput"
+        }
     }
 }

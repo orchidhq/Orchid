@@ -2,10 +2,13 @@ package com.eden.orchid.api.theme.pages
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.site.OrchidSite
+import com.eden.orchid.api.site.OrchidSiteImpl
 import com.eden.orchid.testhelpers.BaseOrchidTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import strikt.api.expectThat
 import strikt.api.expectThrows
@@ -54,26 +57,78 @@ class OrchidReferenceTest : BaseOrchidTest() {
 
     @ParameterizedTest
     @CsvSource(
-        // basic examples
-        "http://www.example.com/example                    ,      ,                   ",
-        "https://www.example.com/example                   ,      ,                   ",
-        "https://www.example.com/example#one               , one,                     ",
-        "https://www.example.com/example?one=two           ,      , one=two           ",
-        "https://www.example.com/example?one=two&three=four,      , one=two&three=four",
+        // || base URL         | original URL | Formatted |
 
-        // more complex examples
-        "http://www.example.com/example.js                 ,      ,                   ",
-        "http://www.example.com/example/index              ,      ,                   ",
-        "http://www.example.com/example/index.js           ,      ,                   ",
-        "http://www.example.com/example/index.html         ,      ,                   "
+        // absolute URLs
+        "http://www.example.com            , example      , http://www.example.com/example",
+        "http://www.example.com/           , example      , http://www.example.com/example",
+        "http://www.example.com/inner      , example      , http://www.example.com/inner/example",
+        "http://www.example.com/inner/     , example      , http://www.example.com/inner/example",
+        "http://www.example.com/inner/deep , example      , http://www.example.com/inner/deep/example",
+        "http://www.example.com/inner/deep/, example      , http://www.example.com/inner/deep/example",
+        "http://www.example.com            , /example     , http://www.example.com/example",
+        "http://www.example.com/           , /example     , http://www.example.com/example",
+        "http://www.example.com/inner      , /example     , http://www.example.com/inner/example",
+        "http://www.example.com/inner/     , /example     , http://www.example.com/inner/example",
+        "http://www.example.com/inner/deep , /example     , http://www.example.com/inner/deep/example",
+        "http://www.example.com/inner/deep/, /example     , http://www.example.com/inner/deep/example",
+
+        "/                                 , example      , /example",
+        "/                                 , example      , /example",
+        "/inner                            , example      , /inner/example",
+        "/inner/                           , example      , /inner/example",
+        "/inner/deep                       , example      , /inner/deep/example",
+        "/inner/deep/                      , example      , /inner/deep/example",
+        "/                                 , /example     , /example",
+        "/                                 , /example     , /example",
+        "/inner                            , /example     , /inner/example",
+        "/inner/                           , /example     , /inner/example",
+        "/inner/deep                       , /example     , /inner/deep/example",
+        "/inner/deep/                      , /example     , /inner/deep/example"
     )
-    fun testParsingExternalUrls(original: String, id: String?, query: String?) {
+    fun testCreatingLocalUrls(baseUrl: String, original: String, formatted: String) {
+        val site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb")
+        `when`(context.getService(OrchidSite::class.java)).thenReturn(site)
+        `when`(context.baseUrl).thenCallRealMethod()
+
+        val ref = OrchidReference(context, original, true)
+
+        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
+
+        expectThat(ref) {
+            get { this.toString() }.isEqualTo(formatted)
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        // | original URL                                  | path          | filename | extension | id  | query |
+        // absolute URLs
+        "http://www.example.com/example                    , ''            , example  , html      ,     ,                   ",
+        "https://www.example.com/example                   , ''            , example  , html      ,     ,                   ",
+        "https://www.example.com/example#one               , ''            , example  , html      , one ,                   ",
+        "https://www.example.com/example?one=two           , ''            , example  , html      ,     , one=two           ",
+        "https://www.example.com/example?one=two&three=four, ''            , example  , html      ,     , one=two&three=four",
+        "http://www.example.com/example.js                 , ''            , example  , js        ,     ,                   ",
+        "http://www.example.com/example/index              , example       , index    , html      ,     ,                   ",
+        "http://www.example.com/example/index.js           , example       , index    , js        ,     ,                   ",
+        "http://www.example.com/example/index.html         , example       , index    , html      ,     ,                   ",
+
+        // relative URLs
+        "/                                                 , ''            , index    , html      ,     ,                   ",
+        "/example                                          , ''            , example  , html      ,     ,                   ",
+        "/example/inner                                    , example       , inner    , html      ,     ,                   ",
+        "/example/index.js                                 , example       , index    , js        ,     ,                   ",
+        "/example/index.html                               , example       , index    , html      ,     ,                   "
+    )
+    fun testParsingExternalUrls(original: String, path: String?, fileName: String?, extension: String?, id: String?, query: String?) {
         val ref = OrchidReference.fromUrl(context, "", original)
 
         Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
 
         expectThat(ref) {
             get { this.toString() }.isEqualTo(original)
+            get { this.path }.isEqualTo(path)
             get { this.id }.isEqualTo(id)
             get { this.query }.isEqualTo(query)
         }
