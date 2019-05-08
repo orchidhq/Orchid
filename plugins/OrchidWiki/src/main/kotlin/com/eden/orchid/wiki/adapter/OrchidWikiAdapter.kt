@@ -8,18 +8,12 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
-import com.eden.orchid.utilities.camelCase
-import com.eden.orchid.utilities.from
-import com.eden.orchid.utilities.titleCase
-import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
+import com.eden.orchid.wiki.utils.WikiUtils
 import org.apache.commons.io.FilenameUtils
-import org.jsoup.Jsoup
-import java.io.File
 import javax.inject.Inject
 
 class OrchidWikiAdapter
@@ -36,92 +30,38 @@ constructor(
     override fun getType(): String = "orchid"
 
     override fun loadWikiPages(section: WikiSection): Pair<WikiSummaryPage, List<WikiPage>>? {
-        val wiki = ArrayList<WikiPage>()
+        val sectionBaseDir = section.sectionBaseDir
 
-        val sectionBaseDir = if (!EdenUtils.isEmpty(section.key))
-            OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(section.key) + "/"
-        else
-            OrchidUtils.normalizePath(baseDir) + "/"
-
-        val summary: OrchidResource? = context.locateLocalResourceEntry(sectionBaseDir + "summary")
+        val summary = context.locateLocalResourceEntry(sectionBaseDir + "summary")
 
         if (summary == null) {
-            if (EdenUtils.isEmpty(section.key)) {
-                Clog.w("Could not find wiki summary page in '#{}'", sectionBaseDir)
+            if (!EdenUtils.isEmpty(section.key)) {
+                Clog.w("Could not find wiki summary page in '{}'", sectionBaseDir)
             }
-
             return null
         }
 
-        val content = summary.compileContent(null)
-        val doc = Jsoup.parse(content)
-
-        val links = doc.select("a[href]")
-
-        var previous: WikiPage? = null
-
-        var i = 0
-
-        for (a in links) {
-            if (OrchidUtils.isExternal(a.attr("href"))) continue
-
-            val file = sectionBaseDir + a.attr("href")
-            val path = sectionBaseDir + FilenameUtils.removeExtension(a.attr("href"))
+        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, order ->
+            val file = sectionBaseDir + linkTarget
 
             var resource: OrchidResource? = context.getLocalResourceEntry(file)
 
             if (resource == null) {
-                Clog.w("Could not find wiki resource page at '#{$1}'", file)
-                resource = StringResource(context, path + File.separator + "index.md", a.text())
+                val path = sectionBaseDir + FilenameUtils.removeExtension(linkTarget)
+                Clog.w("Could not find wiki resource page at '{}'", file)
+                resource = StringResource(context, "$path/index.md", linkName)
             }
 
-            if (resource.reference.originalFileName.equals("index", ignoreCase = true)) {
-                resource.reference.setAsDirectoryIndex()
-            }
-
-            val pageTitle = if (section.includeIndexInPageTitle) "${i + 1}. " + a.text() else a.text()
-
-            val page = WikiPage(resource, pageTitle, section.key, i + 1)
-
-            i++
-
-            wiki.add(page)
-
-            if (previous != null) {
-                previous.next = page
-                page.previous = previous
-
-                previous = page
-            } else {
-                previous = page
-            }
-
-            a.attr("href", page.reference.toString())
+            resource
         }
-
-        val definedSectionTitle = section.title
-
-        val safe = doc.toString()
-        val summaryReference = OrchidReference(summary.reference)
-
-        val segments = summaryReference.originalPath.split("/")
-        summaryReference.fileName = segments.last()
-        summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
-        val newSummary = StringResource(safe, summaryReference, summary.embeddedData)
-
-        val sectionTitle =
-            if (!EdenUtils.isEmpty(definedSectionTitle)) definedSectionTitle
-            else if (!EdenUtils.isEmpty(section.key)) section.key
-            else "Wiki"
-
-        val summaryPage = WikiSummaryPage(
-            section.key,
-            newSummary,
-            sectionTitle from String::camelCase to Array<String>::titleCase
-        )
-        summaryPage.reference.isUsePrettyUrl = true
-
-        return summaryPage to wiki
     }
+
+    private val WikiSection.sectionBaseDir: String
+        get() {
+            return if (!EdenUtils.isEmpty(key))
+                OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(key) + "/"
+            else
+                OrchidUtils.normalizePath(baseDir) + "/"
+        }
 
 }

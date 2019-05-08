@@ -8,7 +8,6 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.annotations.Validate
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.utilities.OrchidUtils
@@ -16,9 +15,8 @@ import com.eden.orchid.wiki.adapter.WikiAdapter
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
+import com.eden.orchid.wiki.utils.WikiUtils
 import org.apache.commons.io.FilenameUtils
-import org.jsoup.Jsoup
-import org.jsoup.nodes.TextNode
 import java.io.File
 import javax.inject.Inject
 import javax.validation.constraints.NotBlank
@@ -70,11 +68,17 @@ constructor(
                 }
             }
 
-        return if (sidebarFile != null) {
-            createSummaryFileFromSidebar(repo, section, sidebarFile!!, wikiPageFiles, footerFile)
+        val wikiContent = if (sidebarFile != null) {
+            createSummaryFileFromSidebar(repo, section, sidebarFile!!, wikiPageFiles)
         } else {
-            createSummaryFileFromPages(repo, section, wikiPageFiles, footerFile)
+            createSummaryFileFromPages(repo, section, wikiPageFiles)
         }
+
+        if(footerFile != null) {
+            addFooterComponent(wikiContent.second, footerFile!!)
+        }
+
+        return wikiContent
     }
 
 // Cloning Wiki
@@ -93,114 +97,44 @@ constructor(
         repo: GitRepoFacade,
         section: WikiSection,
         sidebarFile: File,
-        wikiPageFiles: MutableList<File>,
-        footerFile: File?
+        wikiPages: MutableList<File>
     ): Pair<WikiSummaryPage, List<WikiPage>> {
-        val summaryPageReference = OrchidReference(context, "wiki/${section.key}.html")
-        val originalSummaryResource = FileResource(context, sidebarFile, repo.repoDir.toFile())
+        val summary = FileResource(context, sidebarFile, repo.repoDir.toFile())
 
-        val compiledContent = originalSummaryResource.compileContent(null)
-
-        val (reformattedContent, wiki) = getPagesReferencedInSidebar(repo, section, compiledContent, wikiPageFiles)
-
-        val formattedSummaryResource = StringResource(reformattedContent, summaryPageReference)
-
-        val summaryPage = WikiSummaryPage(
-            section.key,
-            formattedSummaryResource,
-            section.title
-        )
-        summaryPage.reference = OrchidReference(context, "wiki/${section.key}.html")
-
-        return summaryPage to wiki
-    }
-
-    private fun getPagesReferencedInSidebar(repo: GitRepoFacade, section: WikiSection, sourceContent: String, wikiPages: List<File>) : Pair<String, List<WikiPage>> {
-        val doc = Jsoup.parse(sourceContent)
-
-        val links = doc.select("a[href]")
-        val referencedPages = mutableListOf<WikiPage>()
-
-        var previous: WikiPage? = null
-
-        var i = 0
-
-        for (a in links) {
-            if (OrchidUtils.isExternal(a.attr("href"))) continue
-
-            val pageTitle = a.text()
-            val pagePath = a.attr("href")
-
+        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, order ->
             val referencedFile = wikiPages.firstOrNull {
-                val requestedPath = pagePath
                 val filePath = FilenameUtils.removeExtension(it.relativeTo(repo.repoDir.toFile()).path)
-                requestedPath == filePath
+                filePath == linkTarget
             }
 
             if(referencedFile == null) {
-                Clog.w("Page referenced in Github Wiki $repo, $pagePath does not exist")
-                a.replaceWith(TextNode(pageTitle))
+                Clog.w("Page referenced in Github Wiki $repo, $linkTarget does not exist")
+                StringResource(context, "wiki/${section.key}/$linkTarget/index.md", linkName)
             }
             else {
-                val referencedPageResource = FileResource(context, referencedFile, repo.repoDir.toFile())
-                val referencedPage = WikiPage(referencedPageResource, "", section.key, i+1).also {
-                    it.reference.path = "wiki/${section.key}"
-                }
-                referencedPages.add(referencedPage)
-
-                a.attr("href", referencedPage.link)
-                i++
-
-                if (previous != null) {
-                    previous.next = referencedPage
-                    referencedPage.previous = previous
-
-                    previous = referencedPage
-                } else {
-                    previous = referencedPage
-                }
+                FileResource(context, referencedFile, repo.repoDir.toFile())
             }
         }
-
-        return doc.toString() to referencedPages
     }
 
     private fun createSummaryFileFromPages(
         repo: GitRepoFacade,
         section: WikiSection,
-        wikiPageFiles: MutableList<File>,
-        footerFile: File?
+        wikiPageFiles: MutableList<File>
     ): Pair<WikiSummaryPage, List<WikiPage>> {
-        wikiPageFiles.sortBy { it.nameWithoutExtension }
-        val wikiPages = createWikiPages(repo, section, wikiPageFiles, footerFile)
-
-        var summaryPageContent = "<ul>"
-        for(page in wikiPages) {
-            summaryPageContent += """<li><a href="${page.link}">${page.title}</a></li>"""
-        }
-        summaryPageContent += "</ul>"
-
-        val summaryPage = WikiSummaryPage(
-            section.key,
-            StringResource(context, "wiki/${section.key}.html", summaryPageContent),
-            "Summary"
-        )
-
-        return summaryPage to emptyList()
+        val wikiPages = wikiPageFiles.map { FileResource(context, it, repo.repoDir.toFile()) }
+        return WikiUtils.createWikiFromResources(context, section, wikiPages)
     }
 
-    private fun createWikiPages(
-        repo: GitRepoFacade,
-        section: WikiSection,
-        wikiPageFiles: List<File>,
-        footerFile: File?
-    ): List<WikiPage> {
-        return wikiPageFiles.map {
-            val sourceResource = FileResource(context, it, repo.repoDir.toFile())
-            WikiPage(sourceResource, "", section.key, 1).also {
-                it.reference = OrchidReference(context, "wiki/${section.key}/${sourceResource.reference.path}")
-            }
-        }
+    private fun addFooterComponent(wikiPages: List<WikiPage>, footerFile: File) {
+//        wikiPages.forEach {
+//            it.components.add(
+//                JSONObject().apply {
+//                    put("type", "template")
+//
+//                }
+//            )
+//        }
     }
 
 }

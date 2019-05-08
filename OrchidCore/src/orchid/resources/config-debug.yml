@@ -23,5 +23,5 @@ wiki:
   sections:
     'user-manual':
       createPdf: false
-    'tutorials':
+    'learn':
       createPdf: false

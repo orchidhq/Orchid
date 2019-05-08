@@ -10,11 +10,11 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
+import com.eden.orchid.wiki.utils.WikiUtils
 import java.util.stream.Stream
 import javax.inject.Inject
 
@@ -50,24 +50,11 @@ constructor(
             if (loadedSectionContent != null) {
                 val (summaryPage, wiki) = loadedSectionContent
 
-                // set up inter-page references properly
-                for (wikiPage in wiki) {
-                    wikiPage.sectionSummary = summaryPage
-                    wikiPage.parent = summaryPage
-                }
+                WikiUtils.linkWikiPages(summaryPage, wiki)
+
                 section.summaryPage = summaryPage
                 section.wikiPages = wiki
-
-                // create PDF from this section
-                if (section.createPdf) {
-                    val bookReference = OrchidReference(summaryPage.reference)
-                    bookReference.fileName = "book"
-                    bookReference.extension = "pdf"
-                    bookReference.isUsePrettyUrl = false
-                    section.bookPage = WikiBookPage(bookReference, section)
-                } else {
-                    section.bookPage = null
-                }
+                section.bookPage = WikiUtils.createWikiPdf(section)
 
                 loadedSections.add(section)
             }
@@ -109,7 +96,7 @@ constructor(
         val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
 
         wikiModel.sections.forEach {
-            var sectionPages = ArrayList<OrchidPage>()
+            val sectionPages = ArrayList<OrchidPage>()
 
             sectionPages.add(it.value.summaryPage)
             sectionPages.addAll(it.value.wikiPages)
