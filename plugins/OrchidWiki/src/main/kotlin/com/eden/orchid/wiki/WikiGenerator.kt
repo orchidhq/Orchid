@@ -10,6 +10,7 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiBookPage
@@ -45,9 +46,30 @@ constructor(
 
         val loadedSections = ArrayList<WikiSection>()
         this.sections.forEach { section ->
-            val loadedSection = section.adapter.loadWikiPages(section)
-            if (loadedSection != null) {
-                loadedSections.add(loadedSection)
+            val loadedSectionContent = section.adapter.loadWikiPages(section)
+            if (loadedSectionContent != null) {
+                val (summaryPage, wiki) = loadedSectionContent
+
+                // set up inter-page references properly
+                for (wikiPage in wiki) {
+                    wikiPage.sectionSummary = summaryPage
+                    wikiPage.parent = summaryPage
+                }
+                section.summaryPage = summaryPage
+                section.wikiPages = wiki
+
+                // create PDF from this section
+                if (section.createPdf) {
+                    val bookReference = OrchidReference(summaryPage.reference)
+                    bookReference.fileName = "book"
+                    bookReference.extension = "pdf"
+                    bookReference.isUsePrettyUrl = false
+                    section.bookPage = WikiBookPage(bookReference, section)
+                } else {
+                    section.bookPage = null
+                }
+
+                loadedSections.add(section)
             }
         }
 

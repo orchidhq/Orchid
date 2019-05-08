@@ -1,6 +1,7 @@
 package com.eden.orchid.api.util
 
 import com.caseyjbrooks.clog.Clog
+import com.eden.orchid.utilities.InputStreamIgnorer
 import com.eden.orchid.utilities.InputStreamPrinter
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.ImplementedBy
@@ -18,8 +19,8 @@ import javax.inject.Named
 
 @ImplementedBy(CliGitFacade::class)
 interface GitFacade {
-    fun init(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String): GitRepoFacade
-    fun clone(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String): GitRepoFacade
+    fun init(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean = true): GitRepoFacade
+    fun clone(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean = true): GitRepoFacade
 }
 
 interface GitRepoFacade {
@@ -43,25 +44,27 @@ constructor(
     private val destinationDir: String
 ) : GitFacade {
 
-    override fun init(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String): GitRepoFacade {
+    override fun init(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean): GitRepoFacade {
         val repoDir = OrchidUtils.getTempDir(destinationDir, "git", true)
         val repo = CliGitRepoFacade(
             repoDir,
             remoteUrl,
             displayedRemoteUrl,
-            remoteBranch
+            remoteBranch,
+            verbose
         )
         repo.initRepo()
         return repo
     }
 
-    override fun clone(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String): GitRepoFacade {
+    override fun clone(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean): GitRepoFacade {
         val repoDir = OrchidUtils.getTempDir(destinationDir, "git", true)
         val repo = CliGitRepoFacade(
             repoDir,
             remoteUrl,
             displayedRemoteUrl,
-            remoteBranch
+            remoteBranch,
+            verbose
         )
         repo.cloneRepo()
         return repo
@@ -72,7 +75,8 @@ class CliGitRepoFacade(
     override val repoDir: Path,
     private val remoteUrl: String,
     private val displayedRemoteUrl: String,
-    private val remoteBranch: String
+    private val remoteBranch: String,
+    private val verbose: Boolean = true
 ) : GitRepoFacade {
 
     override fun initRepo(): GitRepoFacade {
@@ -128,7 +132,8 @@ class CliGitRepoFacade(
     private fun gitCommand(vararg command: String) {
         // display git command without printing potentially sensitive info
         val displayedCommand = command.joinToString().replace(remoteUrl, displayedRemoteUrl)
-        Clog.tag("GIT").d(displayedCommand)
+
+        if(verbose) Clog.tag("GIT").d(displayedCommand)
 
         // synchronously run Git command
         val process = ProcessBuilder()
@@ -137,9 +142,13 @@ class CliGitRepoFacade(
             .directory(repoDir.toFile())
             .start()
 
+        val streamHandler = if(verbose)
+            InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) }
+        else
+            InputStreamIgnorer(process.inputStream)
 
         val executor = Executors.newSingleThreadExecutor()
-        executor.submit(InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) })
+        executor.submit(streamHandler)
         val exitValue = process.waitFor()
         executor.shutdown()
 

@@ -23,12 +23,12 @@ constructor(
 
     override val displayedRemoteUrl: String
         get() {
-            throw NotImplementedError()
+            TODO()
         }
 
     override val remoteUrl: String
         get() {
-            throw NotImplementedError()
+            TODO()
         }
 
 }

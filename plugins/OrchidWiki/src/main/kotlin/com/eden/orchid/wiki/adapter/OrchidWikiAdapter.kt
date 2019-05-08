@@ -15,7 +15,6 @@ import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.wiki.model.WikiSection
-import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 import org.apache.commons.io.FilenameUtils
@@ -36,7 +35,7 @@ constructor(
 
     override fun getType(): String = "orchid"
 
-    override fun loadWikiPages(section: WikiSection): WikiSection? {
+    override fun loadWikiPages(section: WikiSection): Pair<WikiSummaryPage, List<WikiPage>>? {
         val wiki = ArrayList<WikiPage>()
 
         val sectionBaseDir = if (!EdenUtils.isEmpty(section.key))
@@ -115,29 +114,14 @@ constructor(
             else if (!EdenUtils.isEmpty(section.key)) section.key
             else "Wiki"
 
-        val summaryPage =
-            WikiSummaryPage(section.key, newSummary, sectionTitle from String::camelCase to Array<String>::titleCase)
+        val summaryPage = WikiSummaryPage(
+            section.key,
+            newSummary,
+            sectionTitle from String::camelCase to Array<String>::titleCase
+        )
         summaryPage.reference.isUsePrettyUrl = true
 
-        for (wikiPage in wiki) {
-            wikiPage.sectionSummary = summaryPage
-            wikiPage.parent = summaryPage
-        }
-
-        section.summaryPage = summaryPage
-        section.wikiPages = wiki
-
-        if (section.createPdf) {
-            val bookReference = OrchidReference(summary.reference)
-            bookReference.fileName = "book"
-            bookReference.extension = "pdf"
-            bookReference.isUsePrettyUrl = false
-            section.bookPage = WikiBookPage(bookReference, section)
-        } else {
-            section.bookPage = null
-        }
-
-        return section
+        return summaryPage to wiki
     }
 
 }
