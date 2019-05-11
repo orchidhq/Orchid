@@ -1,70 +1,125 @@
 package com.eden.orchid.github.wiki
 
-import com.eden.common.util.EdenPair
-import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.OptionsExtractor
-import com.eden.orchid.api.util.CliGitFacade
-import com.eden.orchid.api.util.GitFacade
-import com.eden.orchid.wiki.model.WikiSection
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
+import com.eden.orchid.github.GithubModule
+import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.asHtml
+import com.eden.orchid.testhelpers.outerHtml
+import com.eden.orchid.testhelpers.pageWasRendered
+import com.eden.orchid.testhelpers.pagesGenerated
+import com.eden.orchid.testhelpers.select
+import com.eden.orchid.wiki.WikiModule
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
 import strikt.api.expectThat
-import strikt.assertions.hasSize
-import strikt.assertions.isNotNull
+import strikt.assertions.isEqualTo
 
-class GithubWikiAdapterTest {
+@DisplayName("Tests page-rendering behavior of Wiki generator")
+class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()) {
 
-    private lateinit var context: OrchidContext
-    private lateinit var extractor: OptionsExtractor
-    private lateinit var tempDir: String
-    private lateinit var git: GitFacade
-    private lateinit var underTest: GithubWikiAdapter
-    private lateinit var originalSection: WikiSection
+    @Test
+    @DisplayName("Wikis can be imported from Github. If no _Sidebar file is present, files will be listed alphabetically.")
+    fun test01() {
+        configObject(
+            "wiki", """
+            {
+                "sections": {
+                    "wiki-without-sidebar": {
+                        "adapter": {
+                            "type": "github",
+                            "repo": "copper-leaf/wiki-without-sidebar"
+                        }
+                    }
+                }
+            }
+        """.trimIndent()
+        )
 
-    @BeforeEach
-    fun setUp() {
-        extractor = mock(OptionsExtractor::class.java)
-        context = mock(OrchidContext::class.java).apply {
-            `when`(resolve(OptionsExtractor::class.java)).thenReturn(extractor)
-            `when`(getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", emptyMap()))
-        }
-        tempDir = "build/GithubWikiAdapterTest"
-        git = CliGitFacade(tempDir)
-        underTest = GithubWikiAdapter(context, git)
-        originalSection = WikiSection().apply {
-            key = ""
-            title = ""
-        }
-    }
+        val testResults = execute()
 
-    @AfterEach
-    fun tearDown() {
+        expectThat(testResults).pagesGenerated(6)
+        expectThat(testResults)
+            .pageWasRendered("/wiki/wiki-without-sidebar/index.html")
+            .get { content }
+            .asHtml(removeComments = true)
+            .select("body > ul")
+            .outerHtml()
+            .isEqualTo(
+                """
+                <ul>
+                  <li>
+                    <a href="http://orchid.test/wiki/wiki-without-sidebar/Configuration">Configuration</a>
+                  </li>
+                  <li>
+                    <a href="http://orchid.test/wiki/wiki-without-sidebar/GettingStarted">Getting Started</a>
+                  </li>
+                  <li>
+                    <a href="http://orchid.test/wiki/wiki-without-sidebar/Home">Home</a>
+                  </li>
+                  <li>
+                    <a href="http://orchid.test/wiki/wiki-without-sidebar/Installation">Installation</a>
+                  </li>
+                </ul>
+            """.trimIndent()
+            )
 
+        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Configuration/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/GettingStarted/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Home/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Installation/index.html")
     }
 
     @Test
-    fun testWikiWithSidebar() {
-        underTest.githubUrl = "github.com"
-        underTest.repo = "google/guice"
-        underTest.branch = "master"
+    @DisplayName("Wikis can be imported from Github. If a _Sidebar file is present, it will be used as the Summary page.")
+    fun test02() {
+        configObject(
+            "wiki", """
+            {
+                "sections": {
+                    "wiki-with-sidebar": {
+                        "adapter": {
+                            "type": "github",
+                            "repo": "copper-leaf/wiki-with-sidebar"
+                        }
+                    }
+                }
+            }
+        """.trimIndent()
+        )
 
-        val newSection = underTest.loadWikiPages(originalSection)
+        val testResults = execute()
 
-        expectThat(newSection)
-            .isNotNull()
-            .get { first }
-        expectThat(newSection)
-            .isNotNull()
-            .get { second }
-            .hasSize(68)
+        expectThat(testResults).pagesGenerated(6)
+        expectThat(testResults)
+            .pageWasRendered("/wiki/wiki-with-sidebar/index.html")
+            .get { content }
+            .asHtml(removeComments = true)
+            .select("body > ul")
+            .outerHtml()
+            .isEqualTo(
+                """
+                <ul>
+                  <li>
+                    <a href="http://orchid.test/wiki/wiki-with-sidebar/Home">Home</a>
+                  </li>
+                  <li>
+                    <a href="http://orchid.test/wiki/wiki-with-sidebar/GettingStarted">Getting Started</a>
+                    <ul>
+                      <li>
+                        <a href="http://orchid.test/wiki/wiki-with-sidebar/Installation">Installation</a>
+                      </li>
+                      <li>
+                        <a href="http://orchid.test/wiki/wiki-with-sidebar/Configuration">Configuration</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+            """.trimIndent()
+            )
 
-//        Thread.sleep(60000)
+        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/Configuration/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/GettingStarted/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/Home/index.html")
+        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/Installation/index.html")
     }
-
-
 
 }

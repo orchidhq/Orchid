@@ -54,8 +54,15 @@ object WikiUtils {
             val pageTitle = if (section.includeIndexInPageTitle) "${i + 1}. " + a.text() else a.text()
 
             val page = WikiPage(resource, pageTitle, section.key, i + 1)
-            page.reference.stripFromPath("wiki/${section.key}")
-            page.reference.path = "wiki/${section.key}/${page.reference.originalPath}"
+
+            if(section.key.isBlank()) {
+                page.reference.stripFromPath("wiki")
+                page.reference.path = "wiki/${page.reference.originalPath}"
+            }
+            else {
+                page.reference.stripFromPath("wiki/${section.key}")
+                page.reference.path = "wiki/${section.key}/${page.reference.originalPath}"
+            }
 
             i++
 
@@ -73,13 +80,7 @@ object WikiUtils {
             a.attr("href", page.reference.toString())
         }
 
-        val safe = doc.toString()
-        val summaryReference = OrchidReference(summary.reference)
-
-        val segments = summaryReference.originalPath.split("/")
-        summaryReference.fileName = segments.last()
-        summaryReference.path = segments.subList(0, segments.size - 1).joinToString("/")
-        val newSummary = StringResource(safe, summaryReference, summary.embeddedData)
+        val newSummary = StringResource(doc.toString(), summary.reference, summary.embeddedData)
 
         val definedSectionTitle = section.title
         val sectionTitle =
@@ -92,8 +93,16 @@ object WikiUtils {
             newSummary,
             sectionTitle from String::camelCase to Array<String>::titleCase
         )
-        summaryPage.reference.path = "wiki/${section.key}"
-        summaryPage.reference.isUsePrettyUrl = true
+        if(section.key.isBlank()) {
+            summaryPage.reference.path = ""
+            summaryPage.reference.fileName = "wiki"
+            summaryPage.reference.isUsePrettyUrl = true
+        }
+        else {
+            summaryPage.reference.path = "wiki"
+            summaryPage.reference.fileName = section.key
+            summaryPage.reference.isUsePrettyUrl = true
+        }
 
         return summaryPage to wiki
     }
