@@ -76,7 +76,6 @@ constructor(
     private fun doNetlifyDeploy() {
         val file = File(destinationDir)
         val fileMap = mutableMapOf<String, MutableList<Pair<String, File>>>()
-        val functionMap = mutableMapOf<String, MutableList<Pair<String, File>>>()
 
         // create digest of files to be uploaded
         if (file.exists() && file.isDirectory) {
@@ -90,7 +89,7 @@ constructor(
         }
 
         // post to Netlify to determine which files need to be uploaded still
-        val asyncDeployResponse = startDeploySite(fileMap, functionMap)
+        val asyncDeployResponse = startDeploySite(fileMap)
 
         // poll Netlify until it has finished determining which files need to be uploaded, or until a timeout is reached
         val deployResponse = pollUntilDeployIsReady(asyncDeployResponse)
@@ -99,7 +98,6 @@ constructor(
             Clog.i("All files up-to-date on Netlify.")
         } else {
             uploadRequiredFiles(deployResponse)
-            uploadRequiredFunctions(deployResponse)
         }
     }
 
@@ -109,8 +107,7 @@ constructor(
      * reached. That timeout is proportional to the number of files being uploaded.
      */
     private fun startDeploySite(
-        files: Map<String, MutableList<Pair<String, File>>>,
-        functions: Map<String, MutableList<Pair<String, File>>>
+        files: Map<String, MutableList<Pair<String, File>>>
     ) : CreateSiteResponse {
         val body = JSONObject()
         body.put("async", true)
@@ -118,13 +115,6 @@ constructor(
             for((sha1, filePairs) in files) {
                 for(filePair in filePairs) {
                     this.put(filePair.first,  sha1)
-                }
-            }
-        })
-        body.put("functions", JSONObject().apply {
-            for((sha1, functionPairs) in functions) {
-                for(functionPair in functionPairs) {
-                    this.put(functionPair.first,  sha1)
                 }
             }
         })
@@ -142,9 +132,7 @@ constructor(
             deployId,
 
             files,
-            functions,
 
-            emptyList(),
             emptyList()
         )
     }
@@ -168,9 +156,8 @@ constructor(
 
             if(deployState == "prepared" && (required.has("required") || required.has("required_functions"))) {
                 val requiredFiles = required.optJSONArray("required")?.filterNotNull()?.map { it.toString() } ?: emptyList()
-                val requiredFunctions = required.optJSONArray("required_functions")?.filterNotNull()?.map { it.toString() } ?: emptyList()
 
-                return response.copy(requiredFiles = requiredFiles, requiredFunctions = requiredFunctions)
+                return response.copy(requiredFiles = requiredFiles)
             }
             else {
                 Clog.d("        Deploy still processing, trying again in {}", 5000.makeMillisReadable())
@@ -198,26 +185,6 @@ constructor(
                 Clog.d("Netlify FILE UPLOAD {}/{}: {}", response.uploadedFilesCount + 1, response.toUploadFilesCount, path)
                 fileToUpload.uploadTo("deploys/${response.deployId}/files/$path").call(client)
                 response.uploadedFilesCount++
-            }
-    }
-
-    /**
-     * Upload the required files to Netlify as serverless functions as requested from the initial deploy call.
-     */
-    private fun uploadRequiredFunctions(response: CreateSiteResponse) {
-        response.uploadedFunctionsCount = 0
-        // upload all required functions
-        Clog.i("Uploading {} functions to Netlify.", response.uploadedFunctionsCount)
-
-        response
-            .requiredFunctions
-            .flatMap { sha1ToUpload -> response.getFunctions(sha1ToUpload) }
-            .parallelStream()
-            .forEach { functionToUpload ->
-                val functionName = functionToUpload.nameWithoutExtension
-                Clog.d("Netlify FUNCTION UPLOAD {}/{}: {}", response.uploadedFunctionsCount + 1, response.toUploadFunctionsCount, functionName)
-                functionToUpload.uploadTo("deploys/${response.deployId}/functions/$functionName?runtime=js").call(client)
-                response.uploadedFunctionsCount++
             }
     }
 
@@ -300,33 +267,22 @@ private data class CreateSiteResponse(
     val deployId: String,
 
     val originalFiles: Map<String, MutableList<Pair<String, File>>>,
-    val originalFunctions: Map<String, MutableList<Pair<String, File>>>,
 
-    val requiredFiles: List<String>,
-    val requiredFunctions: List<String>
+    val requiredFiles: List<String>
 ) {
 
     val originalFilesCount: Int by lazy {
         originalFiles.map { it.value.size }.sum()
     }
-    val originalFunctionsCount: Int by lazy {
-        originalFunctions.map { it.value.size }.sum()
-    }
-    val originaltotalCount: Int = originalFilesCount + originalFunctionsCount
+    val originaltotalCount: Int = originalFilesCount
 
     val toUploadFilesCount: Int = requiredFiles.size
-    val toUploadFunctionsCount: Int = requiredFunctions.size
-    val toUploadTotalCount: Int = toUploadFilesCount + toUploadFunctionsCount
+    val toUploadTotalCount: Int = toUploadFilesCount
 
     var uploadedFilesCount = 0
-    var uploadedFunctionsCount = 0
 
     fun getFiles(sha1: String) : List<File> {
         return originalFiles.getOrDefault(sha1, ArrayList()).map { it.second }
-    }
-
-    fun getFunctions(sha1: String) : List<File> {
-        return originalFunctions.getOrDefault(sha1, ArrayList()).map { it.second }
     }
 
 }
