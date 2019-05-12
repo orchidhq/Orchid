@@ -5,6 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.util.GitFacade
+import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.copy
 import com.eden.orchid.api.util.delete
 import com.eden.orchid.api.util.makeSubDir
@@ -89,6 +90,7 @@ constructor(
         git.init(remoteUrl, displayedRemoteUrl, branch).apply {
             copy(from = destinationDir)
 
+            beforeCommit()
             commit(commitUsername, commitEmail, commitMessage)
             push(true)
         }
@@ -99,6 +101,7 @@ constructor(
             delete()
             copy(from = destinationDir)
 
+            beforeCommit()
             commit(commitUsername, commitEmail, commitMessage)
             push(false)
         }
@@ -111,6 +114,7 @@ constructor(
                 copy(subdirectory = this, from = destinationDir)
             }
 
+            beforeCommit()
             commit(commitUsername, commitEmail, commitMessage)
             push(false)
         }
@@ -128,9 +132,14 @@ constructor(
                 copy(subdirectory = this, from = destinationDir)
             }
 
+            beforeCommit()
             commit(commitUsername, commitEmail, commitMessage)
             push(true)
         }
+    }
+
+    open fun GitRepoFacade.beforeCommit() {
+
     }
 
     enum class PublishType {

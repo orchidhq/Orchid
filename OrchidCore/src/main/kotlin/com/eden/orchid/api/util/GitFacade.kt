@@ -160,7 +160,6 @@ class CliGitRepoFacade(
 
 }
 
-
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -187,6 +186,11 @@ fun GitRepoFacade.delete(subdirectory: Path? = null) {
             // delete the file as normal
             else if (file.isFile) file.delete()
         }
+}
+
+fun GitRepoFacade.addFile(filename: String, content: String) {
+    val newFile = repoDir.resolve(filename)
+    newFile.toFile().writeText(content)
 }
 
 // Helper Classes

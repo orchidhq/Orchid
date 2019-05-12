@@ -8,7 +8,8 @@ import com.eden.orchid.api.options.annotations.StringDefault
 
 class NetlifyFlags : OrchidFlag() {
 
-    @Option @Protected
+    @Option
+    @Protected
     @StringDefault("")
     @Description("Your Netlify Personal Access Token.")
     lateinit var netlifyToken: String

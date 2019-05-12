@@ -8,7 +8,8 @@ import com.eden.orchid.api.options.annotations.StringDefault
 
 class GithubFlags : OrchidFlag() {
 
-    @Option @Protected
+    @Option
+    @Protected
     @StringDefault("")
     @Description("Your Github Personal Access Token.")
     lateinit var githubToken: String
