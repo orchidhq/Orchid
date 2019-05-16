@@ -34,22 +34,18 @@ public final class JsPage extends AssetPage {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isAsync() {
         return this.async;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAsync(final boolean async) {
         this.async = async;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isDefer() {
         return this.defer;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setDefer(final boolean defer) {
         this.defer = defer;
     }

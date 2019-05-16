@@ -9,6 +9,7 @@ import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
 import com.eden.orchid.api.server.annotations.Get
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ constructor(
 ) : OrchidController(1000) {
 
     @Get(path = "/")
-    fun index(@Suppress("UNUSED_PARAMETER") request: OrchidRequest): OrchidResponse {
+    fun index(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
         val view = OrchidView(context, this, "admin")
 
         return OrchidResponse(context).view(view)
@@ -30,7 +31,7 @@ constructor(
         @Option lateinit var className: String
     }
     @Get(path = "/describe", params = DescribeParams::class)
-    fun describeClass(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, params: DescribeParams): OrchidResponse {
+    fun describeClass(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, params: DescribeParams): OrchidResponse {
         if (params.className.isNotBlank()) {
             val data = HashMap<String, Any>()
             data.putAll(request.all().toMap())

@@ -16,7 +16,9 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
+import com.eden.orchid.utilities.SuppressedWarnings;
 import org.json.JSONObject;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
@@ -80,7 +82,7 @@ public final class OrchidContextImpl implements OrchidContext {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SuppressedWarnings.UNCHECKED_JAVA)
     public <T extends OrchidService> T getService(Class<T> serviceClass) {
         return (T) services.get(serviceClass);
     }
@@ -102,7 +104,6 @@ public final class OrchidContextImpl implements OrchidContext {
         });
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidSite getSite() {
         return this.site;
     }

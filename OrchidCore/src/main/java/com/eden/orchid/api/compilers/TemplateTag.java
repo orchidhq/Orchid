@@ -207,12 +207,10 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
         this.page = page;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getTemplate() {
         return this.template;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setTemplate(final String template) {
         this.template = template;
     }

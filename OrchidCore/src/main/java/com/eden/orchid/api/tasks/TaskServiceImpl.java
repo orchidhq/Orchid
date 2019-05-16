@@ -210,17 +210,14 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public TaskType getTaskType() {
         return this.taskType;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getWatchDebounceTimeout() {
         return this.watchDebounceTimeout;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setWatchDebounceTimeout(final int watchDebounceTimeout) {
         this.watchDebounceTimeout = watchDebounceTimeout;
     }

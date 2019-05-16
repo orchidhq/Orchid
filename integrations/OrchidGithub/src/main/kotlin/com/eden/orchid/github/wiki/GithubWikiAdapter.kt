@@ -11,6 +11,7 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.wiki.adapter.WikiAdapter
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
@@ -22,6 +23,7 @@ import javax.inject.Inject
 import javax.validation.constraints.NotBlank
 
 @Validate
+@Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 class GithubWikiAdapter
 @Inject
 constructor(
@@ -101,7 +103,7 @@ constructor(
     ): Pair<WikiSummaryPage, List<WikiPage>> {
         val summary = FileResource(context, sidebarFile, repo.repoDir.toFile())
 
-        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, order ->
+        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
             val referencedFile = wikiPages.firstOrNull {
                 val filePath = FilenameUtils.removeExtension(it.relativeTo(repo.repoDir.toFile()).path)
                 filePath == linkTarget

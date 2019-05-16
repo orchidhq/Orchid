@@ -64,32 +64,26 @@ public abstract class OrchidMenuFactory extends Prioritized implements ModularPa
         this.order = order;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Map<String, Object> getAllData() {
         return this.allData;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAllData(final Map<String, Object> allData) {
         this.allData = allData;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isAsSubmenu() {
         return this.asSubmenu;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAsSubmenu(final boolean asSubmenu) {
         this.asSubmenu = asSubmenu;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getSubmenuTitle() {
         return this.submenuTitle;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setSubmenuTitle(final String submenuTitle) {
         this.submenuTitle = submenuTitle;
     }

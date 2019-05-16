@@ -81,37 +81,30 @@ public final class PebbleWrapperTemplateTag implements TokenParser {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public Provider<OrchidContext> getContextProvider() {
         return this.contextProvider;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getName() {
         return this.name;
     }
 
-    @java.lang.SuppressWarnings("all")
     public TemplateTag.Type getType() {
         return this.type;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getTagParameters() {
         return this.tagParameters;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class<? extends TemplateTag> getTagClass() {
         return this.tagClass;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getTabParameters() {
         return this.tabParameters;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class<? extends TemplateTag.Tab> getTabClass() {
         return this.tabClass;
     }

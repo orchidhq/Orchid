@@ -129,7 +129,6 @@ public final class OrchidFlags {
         return null;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Collection<OrchidFlag> getFlags() {
         return this.flags;
     }

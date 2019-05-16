@@ -422,7 +422,6 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         private final String themeKey;
         private final int themeHashcode;
 
-        @java.lang.SuppressWarnings("all")
         public ResourceCacheKey(final String resourceName, final String resourceType, final String themeKey, final int themeHashcode) {
             this.resourceName = resourceName;
             this.resourceType = resourceType;
@@ -430,28 +429,23 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             this.themeHashcode = themeHashcode;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getResourceName() {
             return this.resourceName;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getResourceType() {
             return this.resourceType;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getThemeKey() {
             return this.themeKey;
         }
 
-        @java.lang.SuppressWarnings("all")
         public int getThemeHashcode() {
             return this.themeHashcode;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public boolean equals(final java.lang.Object o) {
             if (o == this) return true;
             if (!(o instanceof ResourceServiceImpl.ResourceCacheKey)) return false;
@@ -470,13 +464,11 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             return true;
         }
 
-        @java.lang.SuppressWarnings("all")
         protected boolean canEqual(final java.lang.Object other) {
             return other instanceof ResourceServiceImpl.ResourceCacheKey;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public int hashCode() {
             final int PRIME = 59;
             int result = 1;
@@ -490,8 +482,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             return result;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public java.lang.String toString() {
             return "ResourceServiceImpl.ResourceCacheKey(resourceName=" + this.getResourceName() + ", resourceType=" + this.getResourceType() + ", themeKey=" + this.getThemeKey() + ", themeHashcode=" + this.getThemeHashcode() + ")";
         }

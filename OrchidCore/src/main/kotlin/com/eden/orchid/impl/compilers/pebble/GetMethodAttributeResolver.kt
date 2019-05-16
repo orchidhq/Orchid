@@ -4,6 +4,7 @@ import com.eden.common.util.EdenPair
 import com.eden.orchid.Orchid
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.mitchellbosecke.pebble.attributes.AttributeResolver
 import com.mitchellbosecke.pebble.attributes.ResolvedAttribute
 import com.mitchellbosecke.pebble.node.ArgumentsNode
@@ -76,7 +77,7 @@ constructor() : AttributeResolver, OrchidEventListener {
     }
 
     @On(Orchid.Lifecycle.ClearCache::class)
-    @Suppress("UNUSED_PARAMETER")
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     fun onClearCache(event: Orchid.Lifecycle.ClearCache) {
         cache.clear()
     }

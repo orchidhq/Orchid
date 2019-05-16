@@ -5,6 +5,7 @@ import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provider
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -22,7 +23,7 @@ constructor(
         return clazz == Form::class.java
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
         if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())

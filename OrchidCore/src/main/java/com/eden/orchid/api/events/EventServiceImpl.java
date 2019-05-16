@@ -119,7 +119,6 @@ public final class EventServiceImpl implements EventService {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public Set<EventServiceImpl.EventHandler> getEventHandlers() {
         return this.eventHandlers;
     }

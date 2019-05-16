@@ -32,37 +32,30 @@ public class OrchidServer {
         this.websocketPort = this.websocket.getListeningPort();
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidContext getContext() {
         return this.context;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getHttpServerPort() {
         return this.httpServerPort;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getWebsocketPort() {
         return this.websocketPort;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidWebserver getServer() {
         return this.server;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidWebsocket getWebsocket() {
         return this.websocket;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Set<OrchidController> getControllers() {
         return this.controllers;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidFileController getFileController() {
         return this.fileController;
     }

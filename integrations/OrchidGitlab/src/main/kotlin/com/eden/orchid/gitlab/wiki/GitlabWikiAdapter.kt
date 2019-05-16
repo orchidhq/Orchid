@@ -92,7 +92,7 @@ constructor(
     ): Pair<WikiSummaryPage, List<WikiPage>> {
         val summary = FileResource(context, sidebarFile, repo.repoDir.toFile())
 
-        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, order ->
+        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
             val referencedFile = wikiPages.firstOrNull {
                 val filePath = FilenameUtils.removeExtension(it.relativeTo(repo.repoDir.toFile()).path)
                 filePath == linkTarget

@@ -54,17 +54,14 @@ public final class OrchidRoute {
         return null;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidController getController() {
         return this.controller;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Method getMethod() {
         return this.method;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getNamespace() {
         return this.namespace;
     }

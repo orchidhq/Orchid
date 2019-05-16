@@ -120,71 +120,58 @@ public final class OrchidResponse {
         return response;
     }
 
-    @java.lang.SuppressWarnings("all")
     public InputStream contentStream() {
         return this.contentStream;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long contentStreamLength() {
         return this.contentStreamLength;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String content() {
         return this.content;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidResponse content(final String content) {
         this.content = content;
         return this;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String json() {
         return this.json;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidView view() {
         return this.view;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidResponse view(final OrchidView view) {
         this.view = view;
         return this;
     }
 
-    @java.lang.SuppressWarnings("all")
     public NanoHTTPD.Response.Status status() {
         return this.status;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String mimeType() {
         return this.mimeType;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidResponse mimeType(final String mimeType) {
         this.mimeType = mimeType;
         return this;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Map<String, String> headers() {
         return this.headers;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidResponse headers(final Map<String, String> headers) {
         this.headers = headers;
         return this;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidResponse response(final NanoHTTPD.Response response) {
         this.response = response;
         return this;

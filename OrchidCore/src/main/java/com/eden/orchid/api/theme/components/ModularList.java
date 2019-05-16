@@ -122,27 +122,22 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         itemsJson = menuItemsJson;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<Map<String, Object>> getItemsJson() {
         return this.itemsJson;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getTypeKey() {
         return this.typeKey;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setTypeKey(final String typeKey) {
         this.typeKey = typeKey;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDefaultType() {
         return this.defaultType;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setDefaultType(final String defaultType) {
         this.defaultType = defaultType;
     }

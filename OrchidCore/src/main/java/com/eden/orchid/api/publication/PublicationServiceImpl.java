@@ -40,12 +40,10 @@ public final class PublicationServiceImpl implements PublicationService {
         return stages.publishAll(dryDeploy, (progress, maxProgress) -> context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "deploying", progress, maxProgress)));
     }
 
-    @java.lang.SuppressWarnings("all")
     public PublicationPipeline getStages() {
         return this.stages;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setStages(final PublicationPipeline stages) {
         this.stages = stages;
     }

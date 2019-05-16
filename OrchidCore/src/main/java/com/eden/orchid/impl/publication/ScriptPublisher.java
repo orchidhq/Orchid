@@ -55,22 +55,18 @@ public class ScriptPublisher extends OrchidPublisher {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getCommand() {
         return this.command;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setCommand(final String[] command) {
         this.command = command;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getCwd() {
         return this.cwd;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setCwd(final String cwd) {
         this.cwd = cwd;
     }

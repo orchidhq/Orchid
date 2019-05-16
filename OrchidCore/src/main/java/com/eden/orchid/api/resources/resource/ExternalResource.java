@@ -156,7 +156,6 @@ public final class ExternalResource extends FreeableResource {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isDownload() {
         return this.download;
     }

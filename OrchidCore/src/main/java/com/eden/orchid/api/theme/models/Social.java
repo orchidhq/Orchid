@@ -71,16 +71,13 @@ public final class Social implements OptionsHolder {
             return allData.get(key);
         }
 
-        @java.lang.SuppressWarnings("all")
         public Item() {
         }
 
-        @java.lang.SuppressWarnings("all")
         public Map<String, Object> getAllData() {
             return this.allData;
         }
 
-        @java.lang.SuppressWarnings("all")
         public void setAllData(final Map<String, Object> allData) {
             this.allData = allData;
         }
@@ -116,92 +113,74 @@ public final class Social implements OptionsHolder {
         return allItems;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Map<String, Object> getAllOptions() {
         return this.allOptions;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getEmail() {
         return this.email;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getFacebook() {
         return this.facebook;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getGithub() {
         return this.github;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getInstagram() {
         return this.instagram;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getLinkedin() {
         return this.linkedin;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getTwitter() {
         return this.twitter;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<Item> getOther() {
         return this.other;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<Item> getAllItems() {
         return this.allItems;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAllOptions(final Map<String, Object> allOptions) {
         this.allOptions = allOptions;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setEmail(final String email) {
         this.email = email;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setFacebook(final String facebook) {
         this.facebook = facebook;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGithub(final String github) {
         this.github = github;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setInstagram(final String instagram) {
         this.instagram = instagram;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setLinkedin(final String linkedin) {
         this.linkedin = linkedin;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setTwitter(final String twitter) {
         this.twitter = twitter;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setOther(final List<Item> other) {
         this.other = other;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAllItems(final List<Item> allItems) {
         this.allItems = allItems;
     }

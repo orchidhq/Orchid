@@ -2,12 +2,13 @@ package com.eden.orchid.impl.compilers.clog
 
 import com.caseyjbrooks.clog.parseltongue.Spell
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.net.MalformedURLException
 import java.net.URL
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Suppress("UNUSED_PARAMETER")
+@Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 class ClogSpells
 @Inject
 constructor(

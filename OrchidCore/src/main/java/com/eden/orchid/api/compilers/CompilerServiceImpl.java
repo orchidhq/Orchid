@@ -206,12 +206,10 @@ public final class CompilerServiceImpl implements CompilerService {
         return false;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDefaultPrecompilerExtension() {
         return this.defaultPrecompilerExtension;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setDefaultPrecompilerExtension(final String defaultPrecompilerExtension) {
         this.defaultPrecompilerExtension = defaultPrecompilerExtension;
     }

@@ -109,62 +109,50 @@ public class GeneratorMetrics {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getKey() {
         return this.key;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getIndexingStartTime() {
         return this.indexingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getGeneratingStartTime() {
         return this.generatingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getIndexingEndTime() {
         return this.indexingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getGeneratingEndTime() {
         return this.generatingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<Long> getPageGenerationTimes() {
         return this.pageGenerationTimes;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setKey(final String key) {
         this.key = key;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setIndexingStartTime(final long indexingStartTime) {
         this.indexingStartTime = indexingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGeneratingStartTime(final long generatingStartTime) {
         this.generatingStartTime = generatingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setIndexingEndTime(final long indexingEndTime) {
         this.indexingEndTime = indexingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGeneratingEndTime(final long generatingEndTime) {
         this.generatingEndTime = generatingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setPageGenerationTimes(final List<Long> pageGenerationTimes) {
         this.pageGenerationTimes = pageGenerationTimes;
     }

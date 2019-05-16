@@ -7,6 +7,7 @@ import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.annotations.Get
 import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminView
+import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Inject
 
 class NetlifyCmsManageController
@@ -21,12 +22,12 @@ constructor(
     }
 
     @Get(path = "/")
-    fun index(@Suppress("UNUSED_PARAMETER") request: OrchidRequest): OrchidResponse {
+    fun index(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
         return manage(request)
     }
 
     @Get(path = "/manage")
-    fun manage(@Suppress("UNUSED_PARAMETER") request: OrchidRequest): OrchidResponse {
+    fun manage(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
         val view = NetlifyCmsAdminView(context, this, model)
         return OrchidResponse(context).view(view)
     }

@@ -134,42 +134,34 @@ public class OrchidView extends OrchidPage {
         return this.type != null && this.type == Type.Fullscreen;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getBreadcrumbs() {
         return this.breadcrumbs;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setBreadcrumbs(final String[] breadcrumbs) {
         this.breadcrumbs = breadcrumbs;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidController getController() {
         return this.controller;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAdminLists(final Provider<Set<AdminList>> adminLists) {
         this.adminLists = adminLists;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Object getParams() {
         return this.params;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setParams(final Object params) {
         this.params = params;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Type getType() {
         return this.type;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setType(final Type type) {
         this.type = type;
     }

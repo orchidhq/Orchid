@@ -9,6 +9,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provider
 import java.util.Arrays
 import java.util.HashMap
@@ -22,7 +23,7 @@ import javax.inject.Singleton
 
 @Singleton
 @JvmSuppressWildcards
-@Suppress("UNUSED_PARAMETER")
+@Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 class ClogSetupListener
 @Inject
 constructor(

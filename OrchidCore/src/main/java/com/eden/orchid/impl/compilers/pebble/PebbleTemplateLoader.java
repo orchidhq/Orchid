@@ -68,12 +68,10 @@ public final class PebbleTemplateLoader implements Loader<String> {
         return PathUtils.resolveRelativePath(relativePath, anchorPath, File.separatorChar);
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getCharset() {
         return this.charset;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setCharset(final String charset) {
         this.charset = charset;
     }

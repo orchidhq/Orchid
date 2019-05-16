@@ -41,7 +41,7 @@ constructor(
             return null
         }
 
-        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, order ->
+        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
             val file = sectionBaseDir + linkTarget
 
             var resource: OrchidResource? = context.getLocalResourceEntry(file)

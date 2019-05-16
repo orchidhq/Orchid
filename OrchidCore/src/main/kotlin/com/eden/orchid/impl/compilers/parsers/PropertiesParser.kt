@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.compilers.parsers
 
 import com.eden.orchid.api.compilers.OrchidParser
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.io.StringReader
 import java.io.StringWriter
 import java.util.Properties
@@ -17,7 +18,7 @@ constructor() : OrchidParser(50) {
         return arrayOf("properties", "prop")
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun parse(extension: String, input: String): Map<String, Any>? {
         try {
             val prop = Properties()
