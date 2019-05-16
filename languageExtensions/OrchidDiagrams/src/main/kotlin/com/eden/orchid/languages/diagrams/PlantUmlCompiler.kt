@@ -26,7 +26,7 @@ constructor() : OrchidCompiler(800) {
     }
 
     override fun getSourceExtensions(): Array<String> {
-        return arrayOf("uml")
+        return arrayOf("uml", "puml")
     }
 
     private fun wrapDiagram(input: String): String {
