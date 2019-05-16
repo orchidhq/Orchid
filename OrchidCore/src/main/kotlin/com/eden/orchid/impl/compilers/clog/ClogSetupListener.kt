@@ -46,9 +46,6 @@ constructor(
     fun onStart(event: Orchid.Lifecycle.OnStart) {
         val formatter = Clog.getInstance().formatter
         if (formatter is Parseltongue) {
-            val clogSpells = contextProvider.get().injector.getInstance(ClogSpells::class.java)
-            formatter.findSpells(clogSpells)
-
             val incantations = templateTagsProvider.get()
                 .map { templateTag ->
                     ClogIncantationWrapper(
