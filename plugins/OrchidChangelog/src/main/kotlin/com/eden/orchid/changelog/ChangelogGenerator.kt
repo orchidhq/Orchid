@@ -21,8 +21,8 @@ import javax.inject.Inject
 class ChangelogGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val model: ChangelogModel
+    context: OrchidContext,
+    val model: ChangelogModel
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
 
     companion object {
@@ -35,8 +35,12 @@ constructor(
     lateinit var baseDir: String
 
     @Option
-    @Description("Whether to include minor versions in the version list.")
+    @Description("Whether to include minor versions in the versions.json file.")
     var includeMinorVersions: Boolean = false
+
+    @Option
+    @Description("Whether to include release notes for each entry in the versions.json file.")
+    var includeReleaseNotes: Boolean = false
 
     @Option
     @StringDefault("{major}.{minor}.{patch}")
@@ -44,17 +48,19 @@ constructor(
     lateinit var format: String
 
     @Option
-    @Description("The properties of your format to order by as keys, with their type as values. The values should be " +
-            "one of [string, number]"
+    @Description(
+        "The properties of your format to order by as keys, with their type as values. The values should be " +
+                "one of [string, number]"
     )
     lateinit var orderBy: JSONObject
 
     override fun startIndexing(): List<OrchidPage> {
         var versions = context.getLocalResourceEntries(
-                OrchidUtils.normalizePath(baseDir),
-                context.compilerExtensions.toTypedArray(),
-                true)
-                .map { ChangelogVersion(context, format, it.reference.originalFileName, it) }
+            OrchidUtils.normalizePath(baseDir),
+            context.compilerExtensions.toTypedArray(),
+            true
+        )
+            .map { ChangelogVersion(context, format, it.reference.originalFileName, it) }
 
         var comparator: Comparator<ChangelogVersion>? = null
 
@@ -76,24 +82,33 @@ constructor(
 
         val orderByList = ArrayList<JSONObject>()
         orderBy.keySet()
-                .forEach { key ->
-                    orderByList.add(with(JSONObject()) {
-                        put("key", key)
-                        put("type", orderBy.getJSONObject(key).getString("type"))
-                        put("order", orderBy.getJSONObject(key).getInt("order"))
-                    })
-                }
+            .forEach { key ->
+                orderByList.add(with(JSONObject()) {
+                    put("key", key)
+                    put("type", orderBy.getJSONObject(key).getString("type"))
+                    put("order", orderBy.getJSONObject(key).getInt("order"))
+                })
+            }
 
+        // order versions
         orderByList
-                .sortedBy { it.getInt("order") }
-                .forEach { obj ->
-                    comparator = if (comparator == null)
-                        compareBy { getChangelogComponent(it, obj.getString("key")) }
-                    else
-                        comparator!!.thenBy { getChangelogComponent(it, obj.getString("key")) }
-                }
+            .sortedBy { it.getInt("order") }
+            .forEach { obj ->
+                comparator = if (comparator == null)
+                    compareBy { it.getChangelogComponent(obj.getString("key")) }
+                else
+                    comparator!!.thenBy { it.getChangelogComponent(obj.getString("key")) }
+            }
 
         versions = versions.sortedWith(comparator!!).reversed()
+
+        // determine which version components got bumped. Iterate list in reverse, since original list has the newest
+        //     version first. We need to detect version bumps starting with the oldest version.
+        var lastVersion: ChangelogVersion? = null
+        versions.asReversed().forEach {
+            it.checkBump(lastVersion)
+            lastVersion = it
+        }
 
         model.initialize(versions)
 
@@ -103,11 +118,8 @@ constructor(
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         val versionsJson = JSONArray()
         model.versions.forEach {
-            if (it.major) {
-                versionsJson.put(it.toJSON())
-            }
-            else if (it.minor && includeMinorVersions) {
-                versionsJson.put(it.toJSON())
+            if (it.major || (it.minor && includeMinorVersions)) {
+                versionsJson.put(it.toJSON(includeReleaseNotes))
             }
         }
 
@@ -120,12 +132,39 @@ constructor(
         context.renderRaw(page)
     }
 
-    fun getChangelogComponent(version: ChangelogVersion, key: String): Comparable<*>? {
-        if (orderBy.getJSONObject(key).getString("type").equals("string", true)) {
-            return version.versionComponents[key] ?: ""
+    private val ChangelogVersion.major: Boolean
+        get() {
+            return versionComponents["major"]?.second != null && versionComponents["major"]!!.second
         }
-        else {
-            return Integer.parseInt(version.versionComponents[key])
+
+    private val ChangelogVersion.minor: Boolean
+        get() {
+            return versionComponents["minor"]?.second != null && versionComponents["minor"]!!.second
+        }
+
+    private fun ChangelogVersion.getChangelogComponent(key: String): Comparable<*>? {
+        if (orderBy.getJSONObject(key).getString("type").equals("string", true)) {
+            return versionComponents[key]?.first ?: ""
+        } else {
+            return Integer.parseInt(versionComponents[key]?.first ?: "0")
+        }
+    }
+
+    private fun ChangelogVersion.checkBump(previous: ChangelogVersion?) {
+        for(componentKey in versionComponents.keys) {
+            val shouldBump = if(previous == null) {
+                true
+            }
+            else if(versionComponents[componentKey]?.first != previous.versionComponents[componentKey]?.first) {
+                true
+            }
+            else {
+                false
+            }
+
+            if(shouldBump) {
+                versionComponents[componentKey] = versionComponents[componentKey]!!.copy(second = true)
+            }
         }
     }
 }

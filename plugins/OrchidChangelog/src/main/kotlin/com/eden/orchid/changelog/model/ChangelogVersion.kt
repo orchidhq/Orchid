@@ -15,27 +15,18 @@ import org.json.JSONObject
 
 @Archetype(value = ConfigArchetype::class, key = "${ChangelogGenerator.GENERATOR_KEY}.allVersions")
 class ChangelogVersion(
-        context: OrchidContext,
-        val versionFormat: String,
-        val versionFilename: String,
-        val resource: OrchidResource
-) : OptionsHolder
-{
+    context: OrchidContext,
+    val versionFormat: String,
+    val versionFilename: String,
+    val resource: OrchidResource
+) : OptionsHolder {
 
     @Option
     @Description("The name of the version")
     var version: String = versionFilename
         get() {
-            return if(!EdenUtils.isEmpty(field)) field else versionFilename
+            return if (!EdenUtils.isEmpty(field)) field else versionFilename
         }
-
-    @Option
-    @Description("Whether this is a major version.")
-    var major: Boolean = false
-
-    @Option
-    @Description("Whether this is a minor version.")
-    var minor: Boolean = false
 
     @Option
     @Description("The URL that hosts the documentation for this specific version")
@@ -49,34 +40,40 @@ class ChangelogVersion(
             return resource.compileContent(null)
         }
 
-    val versionComponents = LinkedHashMap<String, String>()
+    val versionComponents = LinkedHashMap<String, Pair<String, Boolean>>()
 
     init {
         extractOptions(context, (resource.embeddedData.element as JSONObject).toMap())
 
-        val versionFormatRegex = versionFormat.replace(".", "\\.").replace("\\{\\w+?\\}".toRegex(), "(\\\\w+)").toRegex()
+        val versionFormatRegex =
+            versionFormat.replace(".", "\\.").replace("\\{\\w+?\\}".toRegex(), "(\\\\w+)").toRegex()
         val match = versionFormatRegex.find(version)
-        if(match != null) {
+        if (match != null) {
             val componentKeys = ArrayList<String>()
             "\\{(.*?)\\}".toRegex().findAll(versionFormat).forEach {
                 componentKeys.add(it.groupValues[1])
             }
 
             match.groupValues.forEachIndexed { index, value ->
-                if(index > 0) {
-                    versionComponents[componentKeys[index-1]] = value
+                if (index > 0) {
+                    versionComponents[componentKeys[index - 1]] = value to false
                 }
             }
         }
     }
 
-    fun toJSON(): JSONObject {
+    fun toJSON(includeReleaseNotes: Boolean): JSONObject {
         val json = JSONObject()
         json.put("version", this.version)
-        json.put("major", this.major)
-        json.put("minor", this.minor)
         json.put("url", this.url)
-        json.put("components", JSONObject(versionComponents))
+        versionComponents.forEach { key, value ->
+            json.put(key, value.second)
+        }
+        json.put("components", JSONObject(versionComponents.mapValues { it.value.first }))
+
+        if(includeReleaseNotes) {
+            json.put("releaseNotes", this.content)
+        }
 
         return json
     }

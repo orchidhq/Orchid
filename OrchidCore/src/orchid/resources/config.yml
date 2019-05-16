@@ -52,13 +52,15 @@ kotlindoc:
     - '../../main/java'
     - '../../main/kotlin'
 
+changelog:
+  includeMinorVersions: true
+  includeReleaseNotes: true
+  allVersions:
+    url: "#{'changelog'|baseUrl}"
+
 allPages:
   extraCss:
     - "inline:sidecar.css: .gitter-chat-embed { margin-top: 50px; }"
   extraJs:
     - "inline:sidecar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
     - "https://sidecar.gitter.im/dist/sidecar.v1.js"
-
-changelog:
-  allVersions:
-    url: "#{'changelog'|baseUrl}"
