@@ -4,24 +4,21 @@ taxonomies:
     setAsPageParent: true
     plugins:
       orderByDirection: asc
+      permalink: ':term/:archiveIndex'
       orderBy:
         - 'title'
     themes:
       orderByDirection: asc
+      permalink: ':term/:archiveIndex'
       orderBy:
         - 'title'
     bundles:
       orderByDirection: asc
+      permalink: ':term/:archiveIndex'
       orderBy:
         - 'title'
-  - key: tags
-    single: false
-    orderBy:
-      - entryCount
-  - key: orchidApi
-    single: true
-    includeFrom:
-      - javadoc
+
+# Page configurations
 taxonomyArchivePages:
   searchIndices:
     - 'pages'
