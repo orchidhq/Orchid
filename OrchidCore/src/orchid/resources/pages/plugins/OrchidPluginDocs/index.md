@@ -7,6 +7,12 @@ images:
     caption: Photo by Daniel McCullough on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ### Documenting your Orchid Plugin
 
 The Orchid Plugin Docs plugin makes it dead-simple to document much of the information that is easily forgotten and not

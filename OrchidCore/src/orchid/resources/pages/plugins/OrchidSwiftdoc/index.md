@@ -7,7 +7,11 @@ images:
     caption: Photo by OOI JIET on Unsplash
 ---
 
-### Using Orchid to document Swift code
+## About
+
+## Demo
+
+## Usage
 
 Documenting Swift code within Orchid depends on the [SourceKitten](https://github.com/jpsim/SourceKitten) command line
 tool, which itself requires the full XCode environment to be installed on your system (not just the xcode command-line 

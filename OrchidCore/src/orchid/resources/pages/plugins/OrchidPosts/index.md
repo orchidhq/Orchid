@@ -7,6 +7,12 @@ images:
     caption: Photo by Emma Matthews on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ### Creating Blog Posts
 
 Orchid supports blogging in a manner similar to Jekyll, but made to be much easier to manage for large blogs. Blog pages

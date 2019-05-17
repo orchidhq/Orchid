@@ -7,6 +7,12 @@ images:
     caption: Photo by Louis Blythe on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ### About Orchid Search
 
 Orchid Search allows any Orchid site to have full-text search capabilities, without requiring a backend server or using

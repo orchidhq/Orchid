@@ -7,6 +7,12 @@ images:
     caption: Photo by Patrick Tomasso on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ## Creating Wikis
 
 An Orchid Wiki is a collection of pages structured in a freeform hierarchy. Pages in a wiki are all related and ordered, 

@@ -8,11 +8,6 @@
         {% endif %}
     </div>
     <div class="panel-body">
-        <h2>{{ page.title }}</h2>
-        <hr>
-        {% if page.description is not empty %}
-            <blockquote>{{ page.description }}</blockquote>
-        {% endif %}
         {{ page.content | raw }}
     </div>
     <div class="panel-body">

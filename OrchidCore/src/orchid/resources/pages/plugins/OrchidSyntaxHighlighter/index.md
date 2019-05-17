@@ -7,7 +7,11 @@ images:
     caption: Photo by William Iven on Unsplash
 ---
 
-### About Orchid Writers' Blocks
+## About
+
+## Demo
+
+## Usage
 
 This plugin adds a `highlight` Tag, which will highlight your code using Pygments. You must include 
 `assets/css/pygments.scss` in your `extraCss` or include a custom Pygments theme for the highlighting to work. Pygments

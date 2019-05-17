@@ -7,6 +7,12 @@ images:
     caption: Photo by Ilario Piatti on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ### About Orchid Writers' Blocks
 
 This plugin adds a collection of useful tags and functions for Pebble to make writing content simpler. See what's 

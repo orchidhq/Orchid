@@ -7,7 +7,11 @@ images:
     caption: Screenshot of Netlify CMS
 ---
 
-### Using Netlify CMS with Orchid
+## About
+
+## Demo
+
+## Usage
 
 The Orchid Netlify CMS plugin adds everything necessary to get the [Netlify CMS](https://www.netlifycms.org/) added to
 your Orchid site so you can manage all your content with an beautiful and easy-to-use web interface. This plugin

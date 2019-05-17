@@ -7,7 +7,18 @@ images:
     caption: Photo by Priscilla Du Preez on Unsplash
 ---
 
-### Adding Bible verses
+## About
+
+OrchidBible makes it easy to embed Bible verses in your site content. Just pass in the reference to a verse and Orchid
+will look up the verse text and add it to your site automatically.
+
+## Demo
+
+{% if site.isProduction() %}> {{ "John 3:16"|bible("eng-KJV") }}{% endif %}
+
+{% if site.isProduction() %}> {{ bible("Galatians 2 19-21", "eng-NASB") }}{% endif %}
+
+## Usage
 
 Bible verses can be added simply by passing their reference to the `bible` function. The verse text will be downloaded 
 and displayed on the page, along with the verse reference. You will need to sign up for an API key for the  
@@ -22,8 +33,6 @@ As a filter
 {% endverbatim %}
 {% endhighlight %}
 
-{% if site.isProduction() %}> {{ "John 3:16"|bible("eng-KJV") }}{% endif %}
-
 As a function
 
 {% highlight 'jinja' %}
@@ -31,5 +40,3 @@ As a function
 {{ bible("Galatians 2 19-21", "eng-NASB") }}
 {% endverbatim %}
 {% endhighlight %}
-
-{% if site.isProduction() %}> {{ bible("Galatians 2 19-21", "eng-NASB") }}{% endif %}

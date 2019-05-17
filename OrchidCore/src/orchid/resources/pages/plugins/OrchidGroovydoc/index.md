@@ -7,7 +7,13 @@ images:
     caption: Photo by Vasilios Muselimis on Unsplash
 ---
 
-### Using Orchid with Groovydoc
+## About
 
 The Orchid Groovydoc plugin integrates with the Groovydoc tool to embed class and package info directly in your Orchid 
 site. Orchid will even compile your Groovydoc comments as Markdown!
+
+## Demo
+
+- See [GroovydocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidGroovydoc/src/test/kotlin/com/eden/orchid/groovydoc/GroovydocGeneratorTest.kt) for demo
+
+## Usage

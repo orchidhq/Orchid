@@ -7,12 +7,16 @@ images:
     caption: Photo by Brooke Lark on Unsplash
 ---
 
-### Using Orchid with Javadoc
+## About
 
 The Orchid Javadoc plugin integrates with the Javadoc tool to embed class and package info directly in your Orchid site.
 Orchid will even compile your Javadoc comments as Markdown!
 
-### Configuring Javadoc pages
+## Demo
+
+- See [JavadocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidJavadoc/src/test/kotlin/com/eden/orchid/javadoc/JavadocGeneratorTest.kt) for demo
+
+## Usage
 
 Since pages for Javadoc classes and packages don't have a file on disk to write content or add Front Matter to, Orchid
 considers the Javadoc comment defined on the `class` or in the `package-info.java` files to be the pages "intrinsic 

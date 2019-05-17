@@ -7,11 +7,19 @@ images:
     caption: Photo by Jan Losert on Unsplash
 ---
 
-### Using Orchid KSS
+## About
 
 [KSS](https://warpspire.com/kss/syntax/) is a methodology for documenting your CSS and generating a styleguide which
 shows example usage of your stylesheets. This plugin implements a basic KSS parser and renders KSS blocks as Orchid 
-pages. KSS are block comments placed within your stylesheets, an example is given below:
+pages as a living styleguide.
+
+## Demo
+
+- See [KssGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidKSS/src/test/kotlin/com/eden/orchid/kss/KssGeneratorTest.kt) for demo
+
+## Usage
+
+KSS are block comments placed within your stylesheets, an example is given below:
 
 {% highlight 'css' %}
 /*

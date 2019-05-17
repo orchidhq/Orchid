@@ -7,6 +7,12 @@ images:
     caption: Photo by Louie Martinez on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ### Understanding Taxonomies
 
 Orchid supports user-defined taxonomies in a manner inspired by 

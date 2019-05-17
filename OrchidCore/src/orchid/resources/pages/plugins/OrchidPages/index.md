@@ -7,7 +7,13 @@ images:
     caption: Photo by Annie Spratt on Unsplash
 ---
 
-### Using Static Pages
+## About
+
+## Demo
+
+## Usage
+
+### Basic Usage
 
 Static pages allow you to add pages to your Orchid site in with ultimate flexibility. Simply drop content files in your 
 `pages/` directory, and they will be rendered in your site at the same URL as they reside in that directory. Pages can 

@@ -7,6 +7,12 @@ images:
     caption: Photo by rawpixel.com on Unsplash
 ---
 
+## About
+
+## Demo
+
+## Usage
+
 ### Using Orchid Presentations
 
 Presentations consist of a deck of slides in a subdirectory of `presentations/`. Each presentation should be a separate
