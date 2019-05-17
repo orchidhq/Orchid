@@ -5,13 +5,6 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_crop,g_north,h_1402,w_2666/c_scale,e_blur:150,w_300/v1550346159/plugins/kotlindoc.jpg
     alt: Javadoc
     caption: Photo by Federico Bottos on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Kotlindoc'
-  - type: 'pageChildren'
-    itemId: 'Orchid Kotlindoc'
-    asSubmenu: true
-    submenuTitle: Docs
 ---
 
 ### Using Orchid with Dokka

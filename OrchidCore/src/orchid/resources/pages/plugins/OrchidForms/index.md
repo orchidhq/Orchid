@@ -5,16 +5,9 @@ images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974798/plugins/forms.jpg
     alt: Forms
     caption: Photo by Gemma Evans on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Forms'
-  - type: 'pageChildren'
-    itemId: 'Orchid Forms'
-    asSubmenu: true
-    submenuTitle: Docs
 ---
 
-### About Orchid Forms
+## About
 
 Orchid Forms allows you to create form definitions and embed them anywhere as an Orchid Component. While handling form 
 submissions is typically something you need your own server for, HTML forms can actually be quite useful on static sites
@@ -22,6 +15,14 @@ when combined with services like [Netlify Form Handling](https://www.netlify.com
 [Staticman](https://staticman.net/) or [AWS Lambda Functions](https://aws.amazon.com/lambda/). This plugin allows you to 
 separate the concerns for the display and fields of your forms from the handling of the form data, so you can focus on 
 what matters most: engaging your audience.
+
+## Demo
+
+- {{anchor('Comment Form Demo')}}
+- {{anchor('Contact Form Demo')}}
+- {{anchor('Anonymous Form Demo')}}
+
+## Usage
 
 ### Creating Forms
 

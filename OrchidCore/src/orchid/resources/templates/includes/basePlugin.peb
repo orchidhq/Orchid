@@ -25,12 +25,6 @@ dependencies {
     </div>
 
     <div class="panel-footer">
-        {% if noDocs is empty %}
-        <a href="{%- block homepageUrl -%}{%- endblock -%}">
-            <i class="fa fa-home" aria-hidden="true"></i>
-            <span>{%- block homepageText -%}{%- endblock -%}</span>
-        </a>
-        {% endif %}
         <a href="{%- block vcsUrl -%}{%- endblock -%}" style="margin-left: 12px;">
             <i class="fa fa-{%- block vcsIcon -%}{%- endblock -%}" aria-hidden="true"></i>
             <span>{%- block vcsRepo -%}{%- endblock -%}</span>

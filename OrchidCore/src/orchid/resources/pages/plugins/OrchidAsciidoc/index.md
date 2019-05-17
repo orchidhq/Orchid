@@ -1,18 +1,10 @@
 ---
 official: true
-noDocs: true
 description: Compile your content using Asciidoctor.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/asciidoc.jpg
     alt: Asciidoc
     caption: Photo by Markus Spiske on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Asciidoc'
-  - type: 'pageChildren'
-    itemId: 'Orchid Asciidoc'
-    asSubmenu: true
-    submenuTitle: Docs
 ---
 
 ### Using Asciidoctor with Orchid
