@@ -60,7 +60,6 @@ file is the release notes for that version.
         └── 2.0.0.md
 ```
 
-
 **Example Changelog entry**
 ```markdown
 // changelog/1.0.0.md 
