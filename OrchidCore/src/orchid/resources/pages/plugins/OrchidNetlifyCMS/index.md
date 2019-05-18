@@ -12,14 +12,17 @@ tags:
 
 ## About
 
+The OrchidNetlifyCMS plugin adds everything necessary to get the [Netlify CMS](https://www.netlifycms.org/) added to
+your Orchid site so you can manage all your content with an beautiful and easy-to-use web interface. This plugin
+generates the Netlify CMS' required `config.yml` (not to be confused with Orchid's `config.yml`), and also creates 
+widgets for the Orchid-specific content types like Components, Menus, and Template Tags.
+
 ## Demo
 
-## Usage
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+- See [NetlifyCmsGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidNetlifyCMS/src/test/kotlin/com/eden/orchid/netlifycms/NetlifyCmsGeneratorTest.kt) for demo
 
-The Orchid Netlify CMS plugin adds everything necessary to get the [Netlify CMS](https://www.netlifycms.org/) added to
-your Orchid site so you can manage all your content with an beautiful and easy-to-use web interface. This plugin
-generated the Netlify CMS' required `config.yml` (not to be confused with Orchid's `config.yml`), and also created 
-widgets for the Orchid-specific content types like Components, Menus, and Template Tags.
+## Usage
 
 This plugin can be used with any netlify CMS backend you like, but when Orchid is running in `serve` mode, it will 
 configure itself to be the backend. This allows Orchid's embedded server to serve the content to Netlify CMS for 
