@@ -20,12 +20,8 @@ taxonomies:
 
 # Page configurations
 taxonomyArchivePages:
-  searchIndices:
-    - 'pages'
   extraCss:
     - 'assets/css/plugins.scss'
 termArchivePages:
-  searchIndices:
-    - 'pages'
   extraCss:
     - 'assets/css/plugins.scss'

@@ -23,13 +23,13 @@ Every Orchid site includes a Homepage. This is first page that visitors will see
 website, and is always created even if you don't include any other plugins in your Orchid build. Let's start by adding a
 new file in your project at `src/orchid/resources/homepage.md` and adding the following content to it. 
 
-{% highlight 'text' %}
+```text
 ## Hello, Orchid
 
 > You are beautiful, and so is your website.
 
 Let's build something _beautiful and unique_, **together**.
-{% endhighlight %}
+```
 
 There we go, that's looking a bit better. We now have a Markdown file, and whatever you write in that file will be 
 automatically converted to HTML and embedded inside your theme. 
@@ -41,7 +41,7 @@ process this file as Asciidoc rather than Markdown.
 Let's do that now. Rename `src/orchid/resources/homepage.md` to `src/orchid/resources/homepage.ad` and change its 
 contents to the equivalent in Asciidoc.
 
-{% highlight 'text' %}
+```text
 == Hello, Orchid
 
 ____
@@ -49,7 +49,7 @@ You are beautiful, and so is your website.
 ____
 
 Let's build something _beautiful and unique_, *together*.
-{% endhighlight %}
+```
 
 # Adding Static Pages
 
@@ -81,7 +81,7 @@ if desired.
 
 So let's add the following content to `src/orchid/resources/pages/locations/houston.md`.
 
-{% highlight 'text' %}
+```text
 ## Location
 
 Houston, TX
@@ -100,7 +100,7 @@ Houston, TX, 12345
 M-F: 6am - 9pm
 Sa: 6am - 10pm
 Su: Closed
-{% endhighlight %}
+```
 
 While we're at it, lets go ahead and do similar things for our Dallas and Austin locations as well. Copy the
 `houston.md` file to `dallas.md` and `austin.md`, change the content inside these files, and in just a moment Orchid
@@ -129,13 +129,13 @@ making a sub-page in that folder. So `src/orchid/resources/pages/locations/index
 We need to get this site out fast so we can start getting people visiting all locations, so let's just hardcode links to 
 each page for now. Add the following to `locations/index.md`:
 
-{% highlight 'text' %}
+```text
 ## Our Locations
 
 - [Houston](http://localhost:8080/locations/houston)
 - [Dallas](http://localhost:8080/locations/dallas)
 - [Austin](http://localhost:8080/locations/austin)
-{% endhighlight %}
+```
 
 # Conclusion
 

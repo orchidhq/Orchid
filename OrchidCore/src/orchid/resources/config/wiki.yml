@@ -6,8 +6,6 @@ sections:
 
 wikiPages:
   layout: geopattern2
-  searchIndices:
-    - 'wiki'
 'user-manual':
   menu:
     - type: 'separator'

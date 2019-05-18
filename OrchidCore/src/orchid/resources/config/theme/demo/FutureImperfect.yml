@@ -1,3 +1,6 @@
+key: FutureImperfect
+theme:
+  isolated: true
 sidebar:
   - type: recentPosts
     limit: 3

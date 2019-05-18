@@ -14,7 +14,7 @@ Themes in Orchid are added just as a dependency in your `build.gradle`, but they
 unless you set the `theme` property in `build.gradle` or set it as the theme for a specific Generator in your
 `config.yml`:
 
-{% highlight 'groovy' %}
+```groovy
 // build.gradle
 dependencies {
     orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{ site.version }}'
@@ -23,12 +23,13 @@ orchid {
     theme   = "BsDoc"
     baseUrl = "http://localhost:8080"
 }
-{% endhighlight %}
-{% highlight 'yaml' %}
+```
+
+```yaml
 # config.yml
 wiki:
   theme: BsDoc
-{% endhighlight %}
+```
 
 Your theme's documentation should tell you what the key for the theme is, or you can find it in the Orchid Admin Panel.
 
@@ -49,24 +50,27 @@ theme at the key corresponding to its key. You can also break the theme options 
 described {{ anchor('here', 'Site Configuration') }}. For example, this current theme is `BsDoc`, and can be configured 
 any of the following ways:
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 theme:
   primaryColor: {{theme.primaryColor}}
-{% endhighlight %}
-{% highlight 'yaml' %}
+```
+
+```yaml
 # config.yml
 BsDoc:
   primaryColor: {{theme.primaryColor}}
-{% endhighlight %}
-{% highlight 'yaml' %}
+```
+
+```yaml
 # config/theme.yml
 primaryColor: {{theme.primaryColor}}
-{% endhighlight %}
-{% highlight 'yaml' %}
+```
+
+```yaml
 # config/BsDoc.yml
 primaryColor: {{theme.primaryColor}}
-{% endhighlight %}
+```
 
 
 ## Using Multiple Themes
@@ -79,20 +83,20 @@ Orchid currently supports setting custom themes for the pages from each generato
 you'd like to use in the generator's `theme` property in `config.yml`. The theme will use the normal theme options as 
 outlines in the section above.
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 wiki:
   theme: 'BsDoc'
-{% endhighlight %} 
+``` 
 
 Alternatively, you can set the `theme` property to an object with a property of `key` and a value of the theme's name.
 This object is then used to configure the theme options for that specific theme as it is used by that generator's pages
 when they are rendered.
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 wiki:
   theme: 
     key: 'BsDoc'
     primaryColor: '#000000'
-{% endhighlight %} 
+``` 

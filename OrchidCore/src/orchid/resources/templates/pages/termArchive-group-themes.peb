@@ -2,6 +2,7 @@
 
 {% block cardBody %}
 <div class="plugin-preview">
-    <img class="img-responsive" src="{{ page.get('thumbnail') }}" alt="{{ page.title }}">
+  {% set previewImage = page.images|first %}
+  <img class="img-responsive" src="{{ previewImage.src }}" alt="{{ page.title }}">
 </div>
 {% endblock %}

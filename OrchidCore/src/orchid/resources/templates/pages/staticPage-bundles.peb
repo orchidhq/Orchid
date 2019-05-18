@@ -1,34 +1,14 @@
-<div class="panel panel-default">
-    <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">
-        {{page.title}}
-        </h3>
-        <span class="label label-primary pull-right">official</span>
-    </div>
-    <div class="panel-body">
-    {{ page.content | raw }}
-    </div>
-    <div class="panel-body">
-        <b>Include with:</b>
-        <pre>dependencies {
-    orchidRuntime 'io.github.javaeden.orchid:{{- page.reference.originalFileName -}}:{{ site.version }}'
-}</pre>
-    </div>
+{% extends 'pages/base_plugin.peb' %}
 
-    <div class="list-group">
-    {% for pluginItem in included %}
-    {% set pageUrl = link(pluginItem.pluginName, 'pages', pluginItem.pluginType) %}
+{% block afterDependency %}
+<div class="list-group">
+{% for pluginItem in included %}
+{% set pageUrl = link(pluginItem.pluginName, 'pages', pluginItem.pluginType) %}
 
-    {% if pageUrl is not empty %}
-        <a class="list-group-item" href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a>
-    {% endif %}
-    {% endfor %}
-    </div>
-
-    <div class="panel-footer">
-        <a href="https://github.com/JavaEden/Orchid">
-            <i class="fa fa-github" aria-hidden="true"></i>
-            <span>JavaEden/Orchid</span>
-        </a>
-    </div>
+{% if pageUrl is not empty %}
+  <a class="list-group-item" href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a>
+{% endif %}
+{% endfor %}
 </div>
+{% endblock %}
+

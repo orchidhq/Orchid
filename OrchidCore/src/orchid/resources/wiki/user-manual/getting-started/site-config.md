@@ -17,7 +17,7 @@ different files can use different formats as needed.
 ## Basic Site Config
 ***
 
-{% highlight 'yaml' %}
+```yaml
 theme: # (1)
   menu: 
     - type: 'readme' 
@@ -34,7 +34,7 @@ services: # (3)
   
 allPages: # (4)
   layout: single
-{% endhighlight %}
+```
 
 
 1) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 
@@ -55,7 +55,7 @@ For example, the following YAML configs are equivalent:
 
 **Config in one single config.yml**
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 theme:
   siteName: 'My Site'
@@ -69,32 +69,32 @@ theme:
     - type: link
       title: 'Contact'
       url: '/contact'
-{% endhighlight %}
+```
 
 
 **Config broken into several files**
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml (you could even omit config.yml if desired)
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # config/theme.yml
 siteName: 'My Site'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # config/theme/components.yml
 - type: pageContent
 - type: readme
 - type: license
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # config/theme/menu.yml
 - type: page
   itemId: 'About'
 - type: link
   title: 'Contact'
   url: '/contact'
-{% endhighlight %}
+```

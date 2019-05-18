@@ -1,10 +1,12 @@
 ---
-official: true
+from: docs.plugin_index
 description: Add static pages with rich taxonomy to your Orchid site.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1537027621/plugins/pages.jpg
     alt: Pages
     caption: Photo by Annie Spratt on Unsplash
+tags:
+    - content
 ---
 
 ## About

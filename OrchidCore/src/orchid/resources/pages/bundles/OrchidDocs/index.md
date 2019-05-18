@@ -1,5 +1,5 @@
 ---
-official: true
+from: docs.bundle_index
 included:
   - pluginType: themes
     pluginName: Orchid Editorial

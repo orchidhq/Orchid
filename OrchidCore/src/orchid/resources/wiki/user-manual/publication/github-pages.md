@@ -16,13 +16,13 @@ Token from Github. Since PATs are confidential and allow anyone who has it compl
 set this as an environment variable and add it to your Gradle orchid config from that variable rather than committing it 
 to source control.
 
-{% highlight 'groovy' %}
+```groovy
 orchid {
     ...
     githubToken = "${System.getenv('GITHUB_TOKEN')}" 
     // or 'githubToken' in an environment variable without this line
 }
-{% endhighlight %}
+```
 
 After your PAT is set up, you'll need to set up your repo on GitHub with a `gh-pages` branch. Orchid will initialize a 
 new local git repo and push it to this branch, overwriting anything currently in that branch. 
@@ -33,7 +33,7 @@ GitHub. You can authenticate with a different user than is hosting the repositor
 
 ## Example Usage
 
-{% highlight 'yaml' %}
+```yaml
 services:
   publications: 
     stages: 
@@ -44,7 +44,7 @@ services:
       - type: ghPages
         username: 'cjbrooks12'
         repo: 'cjbrooks12.github.io' # becomes cjbrooks12/cjbrooks12.github.io 
-{% endhighlight %}
+```
 
 ## API Documentation
 

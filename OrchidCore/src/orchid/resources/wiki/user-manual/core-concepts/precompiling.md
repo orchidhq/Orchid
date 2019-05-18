@@ -12,18 +12,18 @@ be processed as Markdown.
 But before it is processed as Markdown, if it has a Front Matter header, it will be precompiled as Pebble. You can use
 the full power of Pebble templates to add additional dynamic content to otherwise static content.
 
-{% highlight 'yaml' %}
+```yaml
 {% verbatim %}
 ---
 ---
 
 # {{ page.title }} --> # Custom Page Title
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Any variables set in the Front Matter may be accessed as variables in Pebble.
 
-{% highlight 'yaml' %}
+```yaml
 {% verbatim %}
 ---
 title: Custom Page Title
@@ -32,7 +32,7 @@ foo: 'bar'
 
 # {{ foo }} --> # bar
 {% endverbatim %}
-{% endhighlight %}
+```
 
 There are a number of predefined variables that are available on every page:
 
@@ -44,7 +44,7 @@ There are a number of predefined variables that are available on every page:
 If you need to use a Front Matter header but don't want to precompile that page, you can set `precompile: false` in the
 Front Matter:
 
-{% highlight 'yaml' %}
+```yaml
 {% verbatim %}
 ---
 precompile: false
@@ -52,13 +52,13 @@ precompile: false
 
 # {{ page.title }} --> # {{ page.title }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Alternatively, you may choose to use another language as your precompiler language of choice. This may be done 
 individually by a single page by setting `precompileAs` to the desired language extension in its Front Matter, or for 
 all pages by setting the `defaultPrecompilerExtension` option in your `config.yml`:
 
-{% highlight 'yaml' %}
+```yaml
 {% verbatim %}
 ---
 precompileAs: 'html'
@@ -66,12 +66,12 @@ precompileAs: 'html'
 
 # {{ page.title }} --> # {{ page.title }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 ...
 services:
   compilers:
     defaultPrecompilerExtension: 'html'
-{% endhighlight %}
+```

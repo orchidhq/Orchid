@@ -51,69 +51,72 @@ constructor(
     }
 
     @Option
-    @StringDefault("swift")
-    @Description("The base directory in local resources to look for swift source code in.")
-    lateinit var baseDir: String
+    @StringDefault("../../main/java")
+    @Description("The source directories with Swift files to document.")
+    lateinit var sourceDirs: List<String>
 
     override fun startIndexing(): List<OrchidPage> {
         model.initialize()
 
-        context.getLocalResourceEntries(baseDir, arrayOf("swift"), true).forEach { resource ->
-            val sourceFile = resource.reference.originalFullFileName
-            try {
-                val codeJson = parseSwiftFile(sourceFile)
+        sourceDirs
+            .forEach { baseDir ->
+                context.getLocalResourceEntries(baseDir, arrayOf("swift"), true).forEach { resource ->
+                    val sourceFile = resource.reference.originalFullFileName
+                    try {
+                        val codeJson = parseSwiftFile(sourceFile)
 
-                val ref = OrchidReference(resource.reference)
-                ref.extension = "html"
-                ref.stripFromPath(baseDir)
-                ref.path = OrchidUtils.normalizePath(OrchidUtils.toSlug("swift/source/" + ref.originalPath))
-                ref.fileName = OrchidUtils.toSlug(ref.originalFileName)
+                        val ref = OrchidReference(resource.reference)
+                        ref.extension = "html"
+                        ref.stripFromPath(baseDir)
+                        ref.path = OrchidUtils.normalizePath(OrchidUtils.toSlug("swift/source/" + ref.originalPath))
+                        ref.fileName = OrchidUtils.toSlug(ref.originalFileName)
 
-                val fileResource = StringResource(resource.rawContent, ref)
+                        val fileResource = StringResource(resource.rawContent, ref)
 
-                val arr = codeJson.optJSONArray("key.substructure") ?: JSONArray()
+                        val arr = codeJson.optJSONArray("key.substructure") ?: JSONArray()
 
-                val statements = ArrayList<SwiftStatement>()
+                        val statements = ArrayList<SwiftStatement>()
 
-                arr.forEachIndexed { i, _ ->
-                    val o = arr.getJSONObject(i)
+                        arr.forEachIndexed { i, _ ->
+                            val o = arr.getJSONObject(i)
 
-                    var isHidden = false
-                    isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.private")
+                            var isHidden = false
+                            isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.private")
 //                        isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.internal")
 
-                    if (!isHidden) { // skip hidden/internal statements
-                        val statement: SwiftStatement? = when (o.getString("key.kind")) {
-                            "source.lang.swift.decl.class"              -> SwiftClass(context, o, fileResource)
-                            "source.lang.swift.decl.typealias"          -> SwiftTypealias(context, o, fileResource)
-                            "source.lang.swift.syntaxtype.comment.mark" -> SwiftFloatingComment(context, o, fileResource)
-                            "source.lang.swift.decl.enum"               -> SwiftEnum(context, o, fileResource)
-                            "source.lang.swift.decl.extension"          -> SwiftExtension(context, o, fileResource)
-                            "source.lang.swift.decl.function.free"      -> SwiftFree(context, o, fileResource)
-                            "source.lang.swift.decl.protocol"           -> SwiftProtocol(context, o, fileResource)
-                            "source.lang.swift.decl.var.global"         -> SwiftGlobal(context, o, fileResource)
-                            "source.lang.swift.decl.struct"             -> SwiftStruct(context, o, fileResource)
-                            else                                        -> {
-                                Clog.e("found other statement kind {}", o.getString("key.kind"))
-                                null
+                            if (!isHidden) { // skip hidden/internal statements
+                                val statement: SwiftStatement? = when (o.getString("key.kind")) {
+                                    "source.lang.swift.decl.class"              -> SwiftClass(context, o, fileResource)
+                                    "source.lang.swift.decl.typealias"          -> SwiftTypealias(context, o, fileResource)
+                                    "source.lang.swift.syntaxtype.comment.mark" -> SwiftFloatingComment(context, o, fileResource)
+                                    "source.lang.swift.decl.enum"               -> SwiftEnum(context, o, fileResource)
+                                    "source.lang.swift.decl.extension"          -> SwiftExtension(context, o, fileResource)
+                                    "source.lang.swift.decl.function.free"      -> SwiftFree(context, o, fileResource)
+                                    "source.lang.swift.decl.protocol"           -> SwiftProtocol(context, o, fileResource)
+                                    "source.lang.swift.decl.var.global"         -> SwiftGlobal(context, o, fileResource)
+                                    "source.lang.swift.decl.struct"             -> SwiftStruct(context, o, fileResource)
+                                    else                                        -> {
+                                        Clog.e("found other statement kind {}", o.getString("key.kind"))
+                                        null
+                                    }
+                                }
+                                if (statement != null) {
+                                    statement.init()
+                                    statements.add(statement)
+                                    model.allStatements.add(statement)
+                                }
                             }
                         }
-                        if (statement != null) {
-                            statement.init()
-                            statements.add(statement)
-                            model.allStatements.add(statement)
-                        }
+
+                        val res = StringResource("", ref)
+                        val page = SwiftdocSourcePage(res, statements, codeJson.toString(2))
+                        model.pages.add(page)
+                    }
+                    catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
-
-                val res = StringResource("", ref)
-                val page = SwiftdocSourcePage(res, statements, codeJson.toString(2))
-                model.pages.add(page)
             }
-            catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
 
         for (statement in model.allStatements) {
             if (statement is SwiftExtension) continue

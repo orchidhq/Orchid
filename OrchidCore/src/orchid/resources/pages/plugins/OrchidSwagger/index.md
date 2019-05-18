@@ -1,5 +1,5 @@
 ---
-official: true
+from: docs.plugin_index
 description: Embed the Swagger UI within any Orchid page.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973700/plugins/swagger.jpg
@@ -9,6 +9,8 @@ components:
   - type: pageContent
   - type: swaggerUi
     openApiSource: https://cdn.jsdelivr.net/gh/OAI/OpenAPI-Specification@4d5a749c/examples/v2.0/json/petstore.json
+tags:
+    - components
 ---
 
 ## About

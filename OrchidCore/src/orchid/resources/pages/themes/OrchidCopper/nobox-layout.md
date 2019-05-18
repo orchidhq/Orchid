@@ -1,6 +1,7 @@
 ---
 title: Copper - No-Box Page Layout
-theme: Copper
+theme: 
+  from: 'theme.demo.Copper'
 layout: noBox
 template: page
 skipTaxonomy: true

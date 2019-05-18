@@ -1,10 +1,12 @@
 ---
-official: true
+from: docs.plugin_index
 description: Tag your pages with custom taxonomies and generate archives and landing pages for your taxonomy groups.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/taxonomies.jpg
     alt: Taxonomies
     caption: Photo by Louie Martinez on Unsplash
+tags:
+    - blog
 ---
 
 ## About
@@ -57,15 +59,15 @@ use the taxonomy default values; (2) you can set each list item to be a map of c
 is the taxonomy type; (3) or you can set each list item to be a map with a single property that is the taxonomy type, 
 and whose value is a map of configuration values. 
 
-{% highlight 'yaml' %}
+```yaml
 # Method (1), String as taxonomy types
 taxonomies: 
   taxonomies:
     - 'categories'
     - 'tags'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # Method (2), Map with config values and `key` property as taxonomy type
 taxonomies: 
   taxonomies:
@@ -73,9 +75,9 @@ taxonomies:
       title: 'Blog Categories'
     - key: 'tags'
       title: 'Tags'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # Method (3), Map with only key as taxonomy type, and value as config values
 taxonomies: 
   taxonomies:
@@ -83,7 +85,7 @@ taxonomies:
         title: 'Blog Categories'
     - tags:
         title: 'Tags'
-{% endhighlight %}
+```
 
 Note that there is no difference between Method (2) and Method (3), it is simply a matter of preference.
 
@@ -94,7 +96,7 @@ Individual Terms within a Taxonomy may also be customized. Terms are located fro
 configuration as values of an object in its taxonomy configuration object. For example, if we have `categories` on our
 site for "News" and "Sports", we could configure the individual terms with the following configuration in `config.yml`:
 
-{% highlight 'yaml' %}
+```yaml
 taxonomies: 
   taxonomies:
     - categories: 
@@ -103,7 +105,7 @@ taxonomies:
           title: 'Local News'
         sports: 
           title: 'Sports'
-{% endhighlight %}
+```
 
 ### Assigning Pages to Terms
 
@@ -124,7 +126,7 @@ If you want to assign pages to Taxonomies that are not set up by the plugin, you
 page's Front Matter. For "singular" taxonomies, the value must be a String. For "multiple" taxonomies, the value can be 
 a String or a list of Strings.
 
-{% highlight 'yaml' %}
+```yaml
 ---
 categories: 'Sports'
 tags:
@@ -132,7 +134,7 @@ tags:
   - 'Hiking'
   - 'Nature'
 ---
-{% endhighlight %}
+```
 
 ### Archive Ordering
 

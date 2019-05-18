@@ -12,26 +12,26 @@ Token from Github. Since PATs are confidential and allow anyone who has it compl
 set this as an environment variable and add it to your Gradle orchid config from that variable rather than committing it 
 to source control.
 
-{% highlight 'groovy' %}
+```groovy
 orchid {
     ...
     githubToken = "${System.getenv('GITHUB_TOKEN')}" 
     // or 'githubToken' in an environment variable without this line
 }
-{% endhighlight %}
+```
 
 The release will be created on the repo specified in the publisher config, specified at `repo` as `username/repo`. The 
 account the PAT was created for must have write acess to this repo. 
 
 ## Example Usage
 
-{% highlight 'yaml' %}
+```yaml
 services:
   publications:
     stages:
       githubReleases:
         repo: 'JavaEden/Orchid'
-{% endhighlight %}
+```
 
 ## API Documentation
 

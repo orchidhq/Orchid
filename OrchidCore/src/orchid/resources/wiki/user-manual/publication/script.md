@@ -12,7 +12,7 @@ a specific directory to run from. If no `cwd` is given, it defaults to your reso
 
 ## Example Usage
 
-{% highlight 'yaml' %}
+```yaml
 services:
   publications: 
     stages: 
@@ -24,7 +24,7 @@ services:
           - 'arg1' 
           - 'arg2'
         cwd: '~/orchid/deploy/scripts'
-{% endhighlight %}
+```
 
 ## API Documentation
 

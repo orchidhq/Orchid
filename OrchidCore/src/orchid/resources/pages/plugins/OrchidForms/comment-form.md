@@ -1,18 +1,10 @@
 ---
+from: docs.plugin_api
 title: Comment Form Demo
-template: page
-skipTaxonomy: true
 components:
   - type: pageContent
   - type: form
     form: comment
-menu:
-  - type: 'page'
-    itemId: 'Orchid Forms'
-  - type: 'pageChildren'
-    itemId: 'Orchid Forms'
-    asSubmenu: true
-    submenuTitle: Docs
 ---
 
 This page demonstrates an example of a form that was created by the end-user, and that has its own submission page. 

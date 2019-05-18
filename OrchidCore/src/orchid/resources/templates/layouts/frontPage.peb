@@ -14,11 +14,9 @@
             <img src="{{ 'assets/media/orchid.png'|asset }}" class="strobe" alt="Orchid Logo" title="Orchid Logo">
         </h1>
         <p class="lead">{{ site.about.siteDescription }}</p>
-        {% if theme.social.github is not empty %}
-            <p class="lead">
-                <a href="#get-started" class="btn btn-outline-inverse btn-lg">Get Started</a>
-            </p>
-        {% endif %}
+        <p class="lead">
+            <a href="#get-started" class="btn btn-outline-inverse btn-lg">Get Started</a>
+        </p>
         <p class="version">Currently {{ site.version }}</p>
     </div>
 </div>

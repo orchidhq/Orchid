@@ -1,0 +1,32 @@
+{% tabs %}
+    {% gradle "Gradle" %}
+{% filter compileAs('md') %}
+```groovy
+dependencies {
+    orchidRuntime 'io.github.javaeden.orchid:{{- page.reference.pathSegments|last -}}:{{ site.version }}'
+}
+```
+{% endfilter %}
+    {% endgradle %}
+
+    {% maven "Maven" %}
+{% filter compileAs('md') %}
+```xml
+<dependency>
+    <groupId>io.github.javaeden.orchid</groupId>
+    <artifactId>{{- page.reference.pathSegments|last -}}</artifactId>
+    <version>{{ site.version }}</version>
+    <type>pom</type>
+</dependency>
+```
+{% endfilter %}
+    {% endmaven %}
+
+    {% kscript "KScript" %}
+{% filter compileAs('md') %}
+```kotlin
+@file:DependsOn("io.github.javaeden.orchid:{{- page.reference.pathSegments|last -}}:{{ site.version }}")
+```
+{% endfilter %}
+    {% endkscript %}
+{% endtabs %}

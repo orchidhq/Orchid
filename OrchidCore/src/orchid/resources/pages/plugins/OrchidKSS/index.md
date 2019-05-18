@@ -1,10 +1,12 @@
 ---
-official: true
+from: docs.plugin_index
 description: Generate a living styleguide from annotated CSS, Sass, Scss, or LESS
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974377/plugins/styleguide.jpg
     alt: KSS Styleguide
     caption: Photo by Jan Losert on Unsplash
+tags:
+    - docs
 ---
 
 ## About
@@ -21,7 +23,7 @@ pages as a living styleguide.
 
 KSS are block comments placed within your stylesheets, an example is given below:
 
-{% highlight 'css' %}
+```css
 /*
 A button suitable for giving stars to someone.
 
@@ -51,7 +53,7 @@ a.button.star.star-given {
 a.button.star.disabled {
   
 }
-{% endhighlight %}
+```
 
 These blocks are extracted from your stylesheets, and a hierarchy is built from their Styleguide References 
 (`Styleguide 2.1.3.` in the block above). Each section of the Styleguide gets its own page, which documents that section

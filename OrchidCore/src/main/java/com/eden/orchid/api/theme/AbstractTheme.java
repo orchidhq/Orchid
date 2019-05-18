@@ -4,10 +4,8 @@ import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
-import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.resources.resourcesource.JarResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -25,7 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-@Archetype(value = SharedConfigArchetype.class, key = "from")
 public abstract class AbstractTheme extends JarResourceSource implements OptionsHolder, AssetHolder {
 
     protected final OrchidContext context;

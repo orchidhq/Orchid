@@ -37,7 +37,7 @@ customized HTML landing page. A normal way to set up these templates (in pseudoc
 
 ### Traditional Template Example
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- homepage.html -->
 {% include "header.html" %}
@@ -45,9 +45,9 @@ customized HTML landing page. A normal way to set up these templates (in pseudoc
 <div>Custom Homepage Content</div>
 {% include "footer.html" %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- post.html -->
 {% include "header.html" %}
@@ -56,9 +56,9 @@ customized HTML landing page. A normal way to set up these templates (in pseudoc
 <div>Post Comments</div>
 {% include "footer.html" %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- post.html -->
 {% include "header.html" %}
@@ -66,7 +66,7 @@ customized HTML landing page. A normal way to set up these templates (in pseudoc
 <div>Page Content</div>
 {% include "footer.html" %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 
 While this approach does work to some extent, it has some problems. 
@@ -84,7 +84,7 @@ dozens of PHP files necessary to build just a small handful of page templates.
 
 Now let's look at the same theme structure, built using blocks and template inheritance (also in pseudocode):
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- base.peb -->
 {% block header %}{% endblock %}
@@ -92,9 +92,9 @@ Now let's look at the same theme structure, built using blocks and template inhe
 {% block content %}{% endblock %}
 {% block footer %}{% endblock %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- homepage.peb -->
 {% extends 'base.peb' %}
@@ -102,9 +102,9 @@ Now let's look at the same theme structure, built using blocks and template inhe
 <div>Custom Homepage Content</div>
 {% endblock %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- page.peb -->
 {% extends 'base.peb' %}
@@ -112,9 +112,9 @@ Now let's look at the same theme structure, built using blocks and template inhe
 <div>Page Content Content</div>
 {% endblock %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!-- page.peb -->
 {% extends 'page.peb' %}
@@ -123,7 +123,7 @@ Now let's look at the same theme structure, built using blocks and template inhe
 <div>Post Comments</div>
 {% endblock %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 
 You'll notice that this setup includes a fourth template, `base.html`. This template is the only one that needs to know
@@ -171,32 +171,32 @@ article, or they can be printed directly to the page.
 To evaluate the value of a variable and output it to the page, use the variable's name within pairs of double curly-
 braces, like so:
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}{{ site.about.siteName }}{% endverbatim %} 
 Result: {{ site.about.siteName }} 
-{% endhighlight %}
+```
 
 Before being printed out, you may pass the variable expression through a series of `filters`, which change the output
 before being passed to the next filter:
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}{{ ['Hello', 'World'] | join(' ') | upper }}{% endverbatim %} 
 Result: {{ ['Hello', 'World'] | join(' ') | upper }} 
-{% endhighlight %}
+```
 
 Note that all content is HTML-escaped before being printed, by default, making it safe to print raw HTML strings out 
 without affecting your page structure, and also protects you against certain security vulnerabilities like Cross-Site
 Scripting (if you're rendering user-generated content). You may prevent this if you need to with the `raw` filter. In 
 addition, literal strings as the only input to an expression are not escaped, as they are assumed to be safe.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% set danger = "<b>Bold Content</b>" %}
 {{ danger }}
 {{ danger | raw }}
 {{ "<b>Bold Content</b>" }}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
 {% set danger = "<b>Bold Content</b>" %}
 
@@ -213,7 +213,7 @@ addition, literal strings as the only input to an expression are not escaped, as
 
 You can use any variable on the page as part of a conditional block of content. 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% if users is empty %}
     There are no users.
@@ -223,7 +223,7 @@ You can use any variable on the page as part of a conditional block of content.
     There are many users.
 {% endif %} 
 {% endverbatim %} 
-{% endhighlight %}
+```
 
 ## Iteration
 ---
@@ -234,7 +234,7 @@ Any `java.lang.Iterable` object (such as `Sets`, `Lists`) can be iterated across
 unlike traditional iteration in Java, you may include an `else` block within the loop, which is used in the case that 
 the input is empty, so you don't have to manually check the input's size first.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% for user in users %}
     {{ loop.index }} - {{ user.id }}
@@ -242,15 +242,15 @@ the input is empty, so you don't have to manually check the input's size first.
     There are no users to display.
 {% endfor %}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% for entry in map %}
     {{ entry.key }} - {{ entry.value }}
 {% endfor %}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
 As a helper within the `for` block, you may access the `loop` variable, which has the following properties:
 
@@ -276,19 +276,19 @@ functions (filters designed to mutate data, while functions produce data), Orchi
 simply move the first parameter from inside the function arguments to being the variable that is filtered. So the 
 following two snippets are the same. 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ link('itemId') }}
 {{ anchor('title', 'itemId') }}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ 'itemId' | link }}
 {{ 'title' | anchor('itemId') }}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
 An Orchid function, once registered, can be wrapped and enabled for any template language, not just Pebble, allowing you
 to use the same set of tools across many languages if the language is set up to handle it.
@@ -302,7 +302,7 @@ number of possible arguments available, which may be passed sequentially or as n
 
 **Highlight tag available in the {{ anchor('Orchid Syntax Highlighter') }} plugin**
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% highlight 'java' %}
 public static void main(String... args) {}
@@ -316,17 +316,17 @@ public static void main(String... args) {}
 public static void main(String... args) {}
 {% endhighlight %}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
 **Twitter tag available in the {{ anchor('Orchid Writers Blocks') }} plugin**
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% twitter "BigBendNPS" "957346111303376897" %}
 
 {% twitter user="BigBendNPS" id="957346111303376897" %}
 {% endverbatim %} 
-{% endhighlight %}
+```
 
 {% alert 'info' 'Tip' :: compileAs('md') %}
 To make it easier to find and use these custom Tags, the {{ anchor('Orchid Netlify CMS') }} plugin

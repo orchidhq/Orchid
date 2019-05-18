@@ -1,10 +1,13 @@
 ---
-official: true
+from: docs.plugin_index
 description: Engage your users with embeddable, fully customizable forms.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974798/plugins/forms.jpg
     alt: Forms
     caption: Photo by Gemma Evans on Unsplash
+tags:
+    - components
+    - blog
 ---
 
 ## About
@@ -30,13 +33,13 @@ There are multiple ways in which you can set up forms. All pages in the `forms/`
 `key` matching the filename of the form definition file. You can then use this `key` to reference that form definition
 in the `form` Component:
 
-{% highlight 'yaml' %}
+```yaml
 ---
 components:
   - type: form
     form: contact # uses definition from forms/contact.yml
 ---
-{% endhighlight %}
+```
 
 The files used for these form definitions can either be a data-type file (such as YML or TOML), or a content-type file 
 (such as Markdown or Pebble), with the form definition in the file's Front Matter. In the case that the form is a data-
@@ -59,9 +62,9 @@ But in most cases, you will want to customize your forms. The format used to con
 [October CMS](https://octobercms.com/docs/backend/forms#form-fields), albeit much simpler and less powerful. Take the 
 default `config` form as an example:
 
-{% highlight 'yaml' %}
+```yaml
 {{ load('forms/contact.yml', false) }}
-{% endhighlight %}
+```
 
 The `fields` property contains a map of field definitions, where each key is the `name` attribute of an `input` in the 
 form. Each field must have a `type`, which typically matches one of the HTML5 input `types`, but field types are 

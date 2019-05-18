@@ -26,7 +26,7 @@ Front Matter is a way to add configuration values and other data to a single pag
 pairs of triple-dashed lines at the very beginning of a page. Let's see how we can use Front Matter to customize the 
 title of our `houston.md` page. Go ahead and change the contents of `pages/locations/houston.md` to the following:
 
-{% highlight 'text' %}
+```text
 ---
 title: 'H-Town'
 ---
@@ -48,7 +48,7 @@ Houston, TX, 12345
 M-F: 6am - 9pm
 Sa: 6am - 10pm
 Su: Closed
-{% endhighlight %}
+```
 
 When Orchid has rebuilt your site, refresh the page and you'll notice that it's title now displays as "H-Town" instead 
 of "Houston". You will also notice that the Front Matter has been removed from the actual page content, so that it is
@@ -73,7 +73,7 @@ Markdown afterwards.
 To see how this works, let's move the info for our Houston business location into its Front Matter, and then use Pebble
 to inject that data back into our Markdown.
 
-{% highlight 'text' %}
+```text
 {% verbatim %}
 ---
 city: 'Houston'
@@ -105,7 +105,7 @@ business_hours:
 - {{ hours }}
 {% endfor %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 It should be pretty obvious what's going on in this page now. All the tags that look like 
 `{% verbatim %}{{ city }}{% endverbatim %}` will print that variable into the page at that spot. There are also _tags_,
@@ -123,7 +123,7 @@ extension.
 Alright, so now that we've got our Houston page set up with Front Matter and being precompiled as Pebble, we should 
 probably do the same with our other locations pages as well. 
 
-{% highlight 'text' %}
+```text
 {% verbatim %}
 ---
 city: 'Austin'
@@ -155,9 +155,9 @@ business_hours:
 - {{ hours }}
 {% endfor %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'text' %}
+```text
 {% verbatim %}
 ---
 city: 'Dallas'
@@ -189,7 +189,7 @@ business_hours:
 - {{ hours }}
 {% endfor %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 But now you'll notice that the main content of all three of our pages is the exact same! We've managed to move all the 
 data into our Front Matter to make it easier to manage, but trying to keep all our locations pages looking the same will 
@@ -223,7 +223,7 @@ even larger sites, the savings are even larger, and the maintenance burden will 
 The first thing we'll need to do is make ourselves a new page template, and then we'll tell Orchid to use that template 
 instead of the default one. So make a page in `templates/pages/staticPage-locations.peb` and add the following content.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% filter compileAs('md') %}
 ## Location
@@ -250,7 +250,7 @@ instead of the default one. So make a page in `templates/pages/staticPage-locati
 
 {{ page.content | raw }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Notice that this new file has the `.peb` extension, which means it will be compiled as Pebble. Unlike our Markdown 
 pages, page templates should use the file extension for a _templating_ language, like `.peb`, and it does not support 
@@ -269,7 +269,7 @@ To use our custom page template, we must add a property in each page's Front Mat
 want to use. The `templates` property accepts either a String or an array, and the first template that Orchid finds will
 be loaded and used as the page template.
 
-{% highlight 'text' %}
+```text
 ---
 city: 'Houston'
 state: 'TX'
@@ -284,7 +284,7 @@ template: 'location'
 ---
 
 Houston, TX location coming soon.
-{% endhighlight %}
+```
 
 Orchid will look for the page template in several places. First it will look for a template in `templates/` that matches
 the exact file path and filename. If that doesn't exist, it will look for any file with that filename in the 

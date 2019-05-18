@@ -15,6 +15,6 @@ services:
 wiki:
   sections:
     'user-manual':
-      createPdf: true
+      createPdf: false
     'learn':
       createPdf: false

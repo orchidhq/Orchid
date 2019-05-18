@@ -21,13 +21,13 @@ Orchid even if you aren't familiar with Gradle.
 
 To start, we'll need to install Gradle. If you're on a Mac, installing Gradle is easily done with Homebrew.
 
-{% highlight 'bash' %}
+```bash
 # Install Homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Use Homebrew to install Gradle 
 brew install gradle
-{% endhighlight %}
+```
 
 If you're on another operating system, you can find the steps to install it for your system on Gradle's 
 [installation page](https://gradle.org/install/).
@@ -36,20 +36,20 @@ If you're on another operating system, you can find the steps to install it for 
 
 Now that you've got Gradle installed, let's go to an empty directory where you want to work on your Orchid site.
 
-{% highlight 'bash' %}
+```bash
 cd ~/Documents/personal/orchid
-{% endhighlight %}
+```
 
 In this empty folder, run the following command, which will initialize a Gradle project for you and set up all the files
 and folders it needs.
 
-{% highlight 'bash' %}
+```bash
 gradle init --type java-library
-{% endhighlight %}
+```
 
 This will make your project look like:
 
-{% highlight 'bash' %}
+```bash
 |__.gradle/
 |__gradle/
 |__gradlew
@@ -59,29 +59,29 @@ This will make your project look like:
 |__src
 |____test/
 |____main/
-{% endhighlight %}
+```
 
 ### Add Orchid to your Gradle project
 
 Now that we've got our Gradle project set up, let's configure it to be able to run Orchid. First, we'll need to open up 
 `build.gradle` and find the `plugins` section. 
 
-{% highlight 'groovy' %}
+```groovy
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
 }
-{% endhighlight %}
+```
 
 Let's add the `com.eden.orchidPlugin` plugin to this block.
 
-{% highlight 'groovy' %}
+```groovy
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
     id 'com.eden.orchidPlugin' version '0.12.1'
 }
-{% endhighlight %}
+```
 
 By itself, the Orchid Gradle Plugin isn't quite enough to get Orchid running. We'll also need to tell Gradle:
 
@@ -91,7 +91,7 @@ By itself, the Orchid Gradle Plugin isn't quite enough to get Orchid running. We
 
 To do this, add the following lines to at the end of `build.gradle`.
 
-{% highlight 'groovy' %}
+```groovy
 // 1. Include desired official Orchid plugins and themes
 dependencies {
     orchidCompile "io.github.javaeden.orchid:OrchidCore:{{ site.version }}"
@@ -110,16 +110,16 @@ orchid {
     theme = "BsDoc"
     baseUrl = "http://localhost:8080"
 }
-{% endhighlight %}
+```
 
 ### Run Orchid
 
 You now have everything you need to run Orchid and view the site. Go back to your terminal and run the following command
 to start Orchid and have it host your site with its local HTTP server so you can preview it.
 
-{% highlight 'bash' %}
+```bash
 gradle orchidServe
-{% endhighlight %}
+```
 
 After a few seconds, you should be able to visit [http://localhost:8080](http://localhost:8080) in your browser to see 
 your very first Orchid site!
@@ -129,7 +129,7 @@ your very first Orchid site!
 After starting Orchid, you'll see a lot of stuff get logged to the console. Let's step briefly through the output so you
 can understand what's going on.
 
-{% highlight 'text' %}
+```text
 Using the following modules: 
 --------------------
  * com.eden.orchid.StandardModule
@@ -141,13 +141,13 @@ Auto-loaded modules:
  * com.eden.orchid.impl.compilers.pebble.PebbleModule
  * com.eden.orchid.languages.asciidoc.AsciidocModule
  * com.eden.orchid.pages.PagesModule
-{% endhighlight %}
+```
 
 This lets you know which plugins are currently being used. Orchid will auto-load any plugin included in your Gradle 
 `dependencies` block, which themselves may include other plugins, and this will let you know exactly what's being used 
 in your Orchid site.
 
-{% highlight 'text' %}
+```text
 Flag values: 
 --------------------
 -adminTheme: Default
@@ -163,22 +163,22 @@ Flag values:
 -theme: BsDoc
 -version: unspecified
 
-{% endhighlight %}
+```
 
 This shows the command-line flags passed to Orchid from Gradle. This may be helpful for debugging your build, 
 especially if it has been run in a CI environment.
 
-{% highlight 'text' %}
+```text
 [INFO] Orchid: Running Orchid version 0.8.10, site version 1 in debug environment
 [INFO] OrchidWebserver: Webserver Running at http://localhost:8080
 [INFO] OrchidWebsocket: Websocket running at http://localhost:8081/
-{% endhighlight %}
+```
 
 This lets you know which version of Orchid you are using, as well as the version of your site. In addition, it will let 
 you know which URL your site is currently being served at. By default, this will be `localhost:8080`, but if that port 
 is being used by another process, the port will be changed to the nearest free port.
 
-{% highlight 'text' %}
+```text
 [INFO] TaskServiceImpl: Build Starting...
 [INFO] GeneratorServiceImpl: Indexing [10000: assets]
 [INFO] GeneratorServiceImpl: Indexing [1000: home]
@@ -188,7 +188,7 @@ is being used by another process, the port will be changed to the nearest free p
 [INFO] GeneratorServiceImpl: Generating [1000: home]
 [INFO] GeneratorServiceImpl: Generating [1000: pages]
 [INFO] GeneratorServiceImpl: Generating [11: sitemap]
-{% endhighlight %}
+```
 
 Orchid works in two distinct phases: the _indexing_ phase and the _generation_ phase. During the indexing phase, Orchid 
 will let all plugins work together to build a model of what your final site will look like. During the generating phase, 
@@ -204,7 +204,7 @@ The result of all this is that Orchid takes data from many different places (man
 entire website in your destination directory (the `-d` flag) as static HTML, Javascript, CSS, and other related static 
 assets. 
 
-{% highlight 'text' %}
+```text
 Build Metrics: 
 ┌───────┬────────────┬───────────────┬─────────────────┬───────────────────────────┬─────────────────────────────┐
 │       │ Page Count │ Indexing Time │ Generation Time │ Mean Page Generation Time │ Median Page Generation Time │
@@ -218,7 +218,7 @@ Generated 1 page in 524ms
 
 
 [INFO] TaskServiceImpl: Build Complete
-{% endhighlight %}
+```
 
 Orchid is a very fast static site generator, with build speed on par with the best tools on the market, despite being so
 much more powerful and flexible. Generation time is primarily limited by the raw speed of the template engine rendering 

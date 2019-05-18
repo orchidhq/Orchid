@@ -14,7 +14,7 @@ services:
 #      - 'changelog'
 #      - 'forms'
 #      - 'presentations'
-      - 'sitemap'
+#      - 'sitemap'
       - 'indices'
       - 'feeds'
 #      - 'taxonomies'

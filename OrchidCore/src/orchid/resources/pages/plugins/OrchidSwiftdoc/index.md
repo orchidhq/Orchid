@@ -1,23 +1,89 @@
 ---
-official: true
+from: docs.plugin_index
 description: Create beautiful documentation for your Swift source code within Orchid.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1525466545/plugins/swiftdoc.jpg
     alt: Swiftdoc
     caption: Photo by OOI JIET on Unsplash
+tags:
+    - docs
 ---
 
 ## About
 
+The OrchidSwiftdoc plugin integrates with the [SourceKitten](https://github.com/jpsim/SourceKitten) tool to embed class 
+and package info from Swift source code directly in your Orchid site, producing documentation similar to Javadoc. 
+Comment text is compiled as Markdown, and is also fully-searchable with the 
+{{anchor('OrchidSearch plugin', 'Orchid Search') }}.
+
 ## Demo
+
+// TODO: add this test class...
+- See [SwiftdocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidSwiftdoc/src/test/kotlin/com/eden/orchid/swiftdoc/SwiftdocGeneratorTest.kt) for demo
 
 ## Usage
 
+{% alert 'info' :: compileAs('md') %}
+The article [How To Document A Kotlin Project](https://dev.to/cjbrooks12/how-to-document-a-kotlin-project-edc) is the 
+best way to get started using Orchid for code documentation, check it out for a beginning-to-end guide to using 
+Orchid. 
+
+While this article is specific to the Kotlin language support in Orchid, working with Swift in Orchid is very similar, 
+with the specifics outlined below.
+{% endalert %}
+
+### Basic Usage
+
 Documenting Swift code within Orchid depends on the [SourceKitten](https://github.com/jpsim/SourceKitten) command line
 tool, which itself requires the full XCode environment to be installed on your system (not just the xcode command-line 
-tools).
+tools). XCode can be installed from the AppStore, and SourceKitten can be installed though Homebrew:
 
-Orchid takes the source swift files and calls to the `sourcekitten` executable on your machine to get back a JSON 
-representation of your source code. It then takes that model and generates pages for every class, struct, enum, 
-protocol, and global. It also links typealiases and extensions to the classes they relate to, and also points each of 
-the above types to a page listing the various code elements within that source file.
+```bash
+brew install sourcekitten
+```
+
+Once the Swiftdoc plugin is added to your build and the dependencies are installed to your local Mac, you need to tell 
+Orchid where it can find your Swift code. This is set in your `config.yml` as a list of file paths to the root package 
+for your code. 
+
+A typical use-case is to have Orchid be used from Gradle to document an external XCode project. For example, 
+using `docs` and `app` subprojects with the following standard Gradle/Maven project structure:
+
+```text
+. / (repo root)
+├── app <-- this is the directory you need to reference
+|   └── Main.swift
+└── docs <-- Gradle project root
+    └── src/orchid/resources/ <-- these are your Orchid resources
+        ├── homepage.md
+        └── config.yml
+```
+
+Your `config.yml` can specify a relative path from your Orchid resources to your Swift code source root:
+
+```yaml
+swiftdoc:
+  sourceDirs:
+    - './../../../../app/'
+```
+
+Setting multiple `sourceDirs` will include them all in the generated documentation.
+
+### Menu Items
+
+OrchidSwiftdoc ships with a menu item that is useful for navigating all elements in a Swift application. The 
+`swiftdocPages` menu item links to all generated top-level pages, and can be filitered to just classes, packages, enums, 
+etc. 
+
+This is best added to the Swiftdoc page Archetypes in `config.yml`:
+
+```yaml
+swiftdoc:
+  pages:  # <-- applied to Swiftdoc class and source pages
+    menu:
+      - { type: "swiftdocPages", docType: "class"    }
+      - { type: "swiftdocPages", docType: "struct"   }
+      - { type: "swiftdocPages", docType: "enum"     }
+      - { type: "swiftdocPages", docType: "protocol" }
+      - { type: "swiftdocPages", docType: "global"   }
+```

@@ -1,8 +1,0 @@
-{% extends 'includes/baseTheme' %}
-
-{%- block homepageUrl  -%}{{- page.link~'/docs' -}}                                                           {%- endblock -%}
-{%- block homepageText -%}Full Documentation                                                                  {%- endblock -%}
-{%- block dependency   -%}io.github.javaeden.orchid:{{- page.reference.pathSegments|last -}}:{{ site.version }}{%- endblock -%}
-{%- block vcsUrl       -%}https://github.com/JavaEden/Orchid                                                  {%- endblock -%}
-{%- block vcsIcon      -%}github                                                                              {%- endblock -%}
-{%- block vcsRepo      -%}JavaEden/Orchid                                                                     {%- endblock -%}

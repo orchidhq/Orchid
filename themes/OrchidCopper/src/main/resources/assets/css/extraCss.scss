@@ -61,7 +61,6 @@
 .textured::after {
   content: "";
   background-color: #ffffff;
-  background-image: url("{{ theme.backgroundTexture|asset }}");
   background-repeat: repeat;
   opacity: 1.0;
   top: 0;
@@ -70,6 +69,10 @@
   right: 0;
   position: absolute;
   z-index: -1;
+
+{% if theme.useBackgroundTexture %}
+  background-image: url("{{ theme.backgroundTexture|asset }}");
+{% endif %}
 }
 
 .grow {
@@ -82,7 +85,9 @@
 
 .column-main-left {
   .hero {
+  {% if theme.sidebarShadow %}
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+  {% endif %}
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -92,6 +97,9 @@
   display: none;
 }
 .is-gone {
+  display: none !important;
+}
+.tab-hidden {
   display: none;
 }
 

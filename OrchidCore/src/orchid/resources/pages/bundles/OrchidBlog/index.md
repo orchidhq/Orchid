@@ -1,5 +1,5 @@
 ---
-official: true
+from: docs.bundle_index
 included:
   - pluginType: plugins
     pluginName: Orchid Posts

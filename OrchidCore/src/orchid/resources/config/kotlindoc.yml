@@ -3,9 +3,6 @@ sourceDirs:
   - '../../main/java'
 
 classPages:
-  searchIndices:
-    - 'wiki'
-    - 'kotlindoc'
   menu:
     - type: 'separator'
       title: 'Class Info'
@@ -13,7 +10,3 @@ classPages:
     - type: 'kotlindocClassLinks'
       includeItems: true
       order: 110
-packagePages:
-  searchIndices:
-    - 'wiki'
-    - 'kotlindoc'

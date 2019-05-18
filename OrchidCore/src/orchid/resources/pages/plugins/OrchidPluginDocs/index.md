@@ -1,10 +1,14 @@
 ---
-official: true
+from: docs.plugin_index
 description: Auto-generate your plugin's documentation, plus a handy admin panel to bring your plugins documentation to you.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974694/plugins/plugindocs.jpg
     alt: Plugin Docs
     caption: Photo by Daniel McCullough on Unsplash
+tags:
+    - docs
+    - cms
+    - components
 ---
 
 ## About
@@ -26,7 +30,7 @@ It will then look through all the classes in that package and its sub-packages, 
 on that class, including their types and default values. You may pass multiple packages and they all will be documented 
 in the same way, if you want to be a bit more prescriptive about the packages to document.
 
-{% highlight 'yaml' %}
+```yaml
 ---
 layout: frontPage
 components:
@@ -37,7 +41,7 @@ components:
     packageNames: 
       - com.eden.orchid.plugindocs
 ---
-{% endhighlight %}
+```
 
 If your want more control over the exact classes that are used, you may set the specific classes (fully-qualified class
 names) to the `pluginDocs` component's `classNames` property, instead of using `packageNames`. Again, you may pass 

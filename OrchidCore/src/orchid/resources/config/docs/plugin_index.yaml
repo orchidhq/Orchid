@@ -1,0 +1,12 @@
+menu:
+  - type: page
+  - type: pageChildren
+    asSubmenu: true
+    submenuTitle: Docs
+
+tags:
+  - official
+
+vcsUrl: https://github.com/JavaEden/Orchid
+vcsIcon: github
+vcsRepo: JavaEden/Orchid

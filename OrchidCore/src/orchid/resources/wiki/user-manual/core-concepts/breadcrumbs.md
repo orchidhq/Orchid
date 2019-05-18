@@ -13,11 +13,11 @@ Orchid or its plugins know about your site.
 Including breadcrumbs in your site is really easy, just add the following line to your template wherever you'd like to
 place your breadcrumbs.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% breadcrumbs %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 This will tell Orchid to lookup the breadcrumbs for the current page, and display it at that location. By default, it 
 uses Bootstrap 4 markup (which is fully-compatible with Bootstrap 3), but as breadcrumbs are rendered as a Template Tag, 
@@ -40,7 +40,7 @@ Front Matter to link to a page with a specific Front Matter value, or use the pa
 
 The following example shows how to manually build breadcrumbs with pages from the Static Pages plugin.
 
-{% highlight 'yaml' %}
+```yaml
 # pages/locations/all.md
 ---
 title: 'All Locations'
@@ -50,9 +50,9 @@ location: 'All'
 {% verbatim %}
 # {% breadcrumbs %} renders as 'All Locations' 
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # pages/locations/all/usa.md
 ---
 title: 'United States'
@@ -63,9 +63,9 @@ parent: 'location=All'
 {% verbatim %}
 # {% breadcrumbs %} renders as 'All Locations / United States' 
 {% endverbatim %}
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # pages/locations/all/usa/texas.md
 ---
 title: 'Texas'
@@ -76,4 +76,4 @@ parent: 'location=USA'
 {% verbatim %}
 # {% breadcrumbs %} renders as 'All Locations / United States / Texas' 
 {% endverbatim %}
-{% endhighlight %}
+```

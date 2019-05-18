@@ -7,8 +7,16 @@ site:
 theme:
   useSidebarSearch: true
   social:
-    github: 'JavaEden/Orchid'
-    twitter: 'OrchidSSG'
+    other:
+      - link: 'https://orchid.netlify.com/'
+        label: 'Home'
+        icon: 'fas fa-home'
+      - link: 'https://github.com/JavaEden/Orchid'
+        label: 'Github'
+        icon: 'fab fa-github'
+      - link: 'https://twitter.com/OrchidSSG'
+        label: 'Twitter'
+        icon: 'fab fa-twitter'
   primaryColor: '#7E80CF'
   bannerColor: '#444444'
   linkColor: '#7E80CF'
@@ -38,7 +46,6 @@ theme:
       title: 'Github'
       url: 'https://github.com/JavaEden/Orchid'
   extraCss:
-    - 'assets/css/pygments.scss'
     - 'assets/css/extras.scss'
 
 services:
@@ -64,3 +71,14 @@ allPages:
   extraJs:
     - "inline:sidecar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
     - "https://sidecar.gitter.im/dist/sidecar.v1.js"
+  components:
+    - type: "pageContent"
+    - type: "prism"
+      githubTheme: 'duotone-light'
+      languages:
+        - kotlin
+        - java
+        - groovy
+        - yaml
+        - asciidoc
+        - markdown

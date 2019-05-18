@@ -145,7 +145,9 @@ generators to be flexible and define their own ways to render pages.
 
 **Rendering as Layout**
 
-{% highlight 'java' %}pages.forEach(context::renderTemplate){% endhighlight %}
+```java
+javapages.forEach(context::renderTemplate)
+```
 
 When rendering a page as a template, Orchid asks the Page what layout it should use. Orchid then attempts to locate that
 layout in the theme or in the local resources directory, which takes precedence over the theme-defined layouts and allow
@@ -159,7 +161,9 @@ which are designed to be customized by the plugin and can be embedded in any lay
 
 **Rendering as String**
 
-{% highlight 'java' %}pages.forEach(context::renderString){% endhighlight %}
+```java
+javapages.forEach(context::renderString)
+```
 
 Rendering a stream is similar to rendering as a layout, except that the template definition comes as a static String 
 rather than an override-able resource. This is typically more useful in testing, but may be used in specific situations
@@ -167,7 +171,9 @@ if the Generator calls for a very specific layout and doesn't want to allow it t
 
 **Rendering Raw**
 
-{% highlight 'java' %}pages.forEach(context::renderRaw){% endhighlight %}
+```java
+javapages.forEach(context::renderRaw)
+```
 
 Many types of pages should not be rendered into a layout but should still have its content processed, such as compiling 
 SCSS into CSS. The content of these Pages is loaded and processed as a String. You will also likely render pages raw
@@ -175,7 +181,9 @@ when generating "data" pages, such as sitemaps, RSS feeds, or JSON indices.
 
 **Render Binary**
 
-{% highlight 'java' %}pages.forEach(context::renderBinary){% endhighlight %}
+```java
+javapages.forEach(context::renderBinary)
+```
 
 Other pages will become corrupted if the source content is loaded as a String, and must be treated as a stream of bytes,
 such as images, videos, or PDF files. The content of these pages are not processed at all, and are simply copied 
@@ -209,9 +217,9 @@ Indexing a Generator all happens within the generator's `startIndexing()` callba
 overridden by all custom generators. Stick with me a minute, but let's take a look at the full method signature and try 
 to understand what it is telling us, both about the Generator and about Orchid.
 
-{% highlight 'java' %}
+```java
 override fun startIndexing(): List<OrchidPage>?
-{% endhighlight %}
+```
 
 The first thing we'll notice is that this method returns a list of `OrchidPage`s, _which may be null_. This tells us
 
@@ -240,12 +248,12 @@ them into your output site at the same URL.
 
 The basic `startIndexing()` callback will look like this:
 
-{% highlight 'java' %}
+```java
 override fun startIndexing(): List<OrchidPage>? {
     return context.getLocalResourceEntries("public", arrayOf("md"), true)
         .map { resource -> OrchidPage(resource, "public") }
 }
-{% endhighlight %}
+```
 
 In this example, `context.getLocalResourceEntries("public", arrayOf("md"), true)` returns a list of 
 {{ anchor('OrchidResource') }} from the `public/` directory in your _local_ resource that have the `.md` extension, and 
@@ -369,7 +377,7 @@ generating phase, even if it is not.
 ## Kotlin Example
 
 <div>
-{% highlight 'java' %}
+```java
 @Singleton
 @Description("A description for this custom generator.", name = "Custom Generator)
 class CustomGenerator 
@@ -411,13 +419,13 @@ constructor(
         return collections
     }
 }
-{% endhighlight %}
+```
 </div>
 
 ## Java Example
 
 <div>
-{% highlight 'java' %}
+```java
 @Singleton
 @Description("A description for this custom generator.")
 public static class CustomGenerator extends OrchidGenerator {
@@ -461,5 +469,5 @@ public static class CustomGenerator extends OrchidGenerator {
         return collections;
     }
 }
-{% endhighlight %}
+```
 </div>

@@ -11,12 +11,12 @@ from Netlify. Since PATs are confidential and allow anyone who has it complete a
 this as an environment variable and add it to your Gradle orchid config from that variable rather than committing it to
 source control.
 
-{% highlight 'groovy' %}
+```groovy
 orchid {
     ...
     args = ["netlifyToken", "${System.getenv('NETLIFY_TOKEN')}"]
 }
-{% endhighlight %}
+```
 
 After your PAT is set up, you'll need to create a new site on Netlify, and set the domain as the `siteId` in your 
 publisher config. And that's it, Orchid will do the hard work of authenticating with Netlify and determining which files
@@ -24,13 +24,13 @@ to upload.
 
 ## Example Usage
 
-{% highlight 'yaml' %}
+```yaml
 services:
   publications: 
     stages: 
       - type: netlify
         siteId: 'orchid.netlify.com'
-{% endhighlight %}
+```
 
 ## API Documentation
 
