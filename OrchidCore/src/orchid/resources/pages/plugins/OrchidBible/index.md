@@ -22,10 +22,11 @@ will look up the verse text and add it to your site automatically.
 
 ## Usage
 
+### Basic Usage
+
 Bible verses can be added simply by passing their reference to the `bible` function. The verse text will be downloaded 
-and displayed on the page, along with the verse reference. You will need to sign up for an API key for the  
-[Bibles.org API](https://www.bibles.org/pages/api) to download verse text, and the Bible version must be the `id` of one
-of the [available versions on Bibles.org](https://www.bibles.org/versions_api).
+and displayed on the page, along with the verse reference. The Bible version must be the `id` of one of the 
+[available versions on Bibles.org](https://www.bibles.org/versions_api).
 
 As a filter
 
@@ -41,4 +42,27 @@ As a function
 {% verbatim %}
 {{ bible("Galatians 2 19-21", "eng-NASB") }}
 {%- endverbatim %}
+```
+
+### Configuration
+
+You will need to sign up for an API key for the [Bibles.org API](https://www.bibles.org/pages/api) to download verse 
+text. Once you create and account and get an API key, add it to Orchid using the `--absApiKey` CLI flag, or set it as an
+environment variable at `absApiKey`.
+
+```groovy
+orchid {
+    ...
+    args += ["--absApiKey", "${project.property('ABS_API_KEY')}"]
+}
+```
+
+You can also set the default Bible version with the `--absDefaultVersion` flag. This will be the version used if you do
+not pass one to the `bible()` function.
+
+```groovy
+orchid {
+    ...
+    args += ["--absDefaultVersion", "eng-NASB"]
+}
 ```

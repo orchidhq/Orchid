@@ -31,12 +31,22 @@ class MenuItem private constructor(
         }
 
     val link: String
-        get() = if (page != null)
-            page.link
-        else if (!EdenUtils.isEmpty(anchor))
-            "#$anchor"
-        else
-            ""
+        get() = if (page != null) {
+            if (!EdenUtils.isEmpty(anchor)) {
+                "${page.link}#$anchor"
+            }
+            else {
+                page.link
+            }
+        }
+        else {
+            if (!EdenUtils.isEmpty(anchor)) {
+                "#$anchor"
+            }
+            else {
+                ""
+            }
+        }
 
     val isHasChildren: Boolean get() = hasChildren()
 

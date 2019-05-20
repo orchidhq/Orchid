@@ -34,6 +34,7 @@ There are multiple ways in which you can set up forms. All pages in the `forms/`
 in the `form` Component:
 
 ```yaml
+
 ---
 components:
   - type: form
@@ -63,7 +64,34 @@ But in most cases, you will want to customize your forms. The format used to con
 default `config` form as an example:
 
 ```yaml
-{{ load('forms/contact.yml', false) }}
+title: 'Leave us a comment'
+redirectionPage: 'Orchid Forms'
+attributes:
+  data-netlify: true
+fields:
+  name:
+    label: 'Name (optional)'
+    type: text
+    span: 'full'
+    order: 1
+  occupation:
+    label: 'Occupation'
+    type: 'radio'
+    required: true
+    span: 'full'
+    order: 3
+    options:
+      student: Student
+      programmer: Programmer
+      teacher: Teacher
+      pastor: Pastor
+      other: Other
+  comments:
+    label: 'Comments'
+    type: 'textarea'
+    required: true
+    span: 'full'
+    order: 4
 ```
 
 The `fields` property contains a map of field definitions, where each key is the `name` attribute of an `input` in the 

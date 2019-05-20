@@ -34,6 +34,10 @@ constructor(
     @Description("The specific Id of the given collection type where the item is expected to come from.")
     lateinit var collectionId: String
 
+    @Option
+    @Description("The ID of an HTML element in the page to link to as an anchor.")
+    lateinit var anchor: String
+
     override fun getMenuItems(): List<MenuItem> {
         val page: OrchidPage? = if(collectionType.isEmpty() && collectionId.isEmpty() && itemId.isEmpty()) {
             context.findPageOrDefault(collectionType, collectionId, itemId, page)
@@ -43,10 +47,24 @@ constructor(
         }
 
         return if(page != null) {
-            val item = MenuItem.Builder(context).page(page)
+            val item = MenuItem.Builder(context)
+
+            if(anchor.isNotBlank()) {
+                item.anchor = anchor
+
+                // if this page is the menu item, just render the anchor, not the full link
+                if(this.page !== page) {
+                    item.page(page)
+                }
+            }
+            else {
+                item.page(page)
+            }
+
             if (!EdenUtils.isEmpty(title)) {
                 item.title(title)
             }
+
             listOf(item.build())
         }
         else {

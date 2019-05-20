@@ -20,7 +20,7 @@ widgets for the Orchid-specific content types like Components, Menus, and Templa
 ## Demo
 
 - Try the [starter app](https://github.com/JavaEden/OrchidStarter)
-- See [NetlifyCmsGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidNetlifyCMS/src/test/kotlin/com/eden/orchid/netlifycms/NetlifyCmsGeneratorTest.kt) for demo
+- Run [NetlifyCmsGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidNetlifyCMS/src/test/kotlin/com/eden/orchid/netlifycms/NetlifyCmsGeneratorTest.kt) for demo
 
 ## Usage
 

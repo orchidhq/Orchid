@@ -12,17 +12,30 @@ tags:
 
 ## About
 
+Add Jekyll-like blogging functionality to your Orchid site, with dated blog posts and RSS/Atom feeds. 
+
 ## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+- Run [PostsGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidPosts/src/test/kotlin/com/eden/orchid/posts/PostsGeneratorTest.kt) for demo
 
 ## Usage
 
-### Creating Blog Posts
+### Basic Usage
 
-Orchid supports blogging in a manner similar to Jekyll, but made to be much easier to manage for large blogs. Blog pages
+Orchid supports blogging in a manner similar to Jekyll, but made to be much easier to manage for large blogs. Blog posts
 all have an intrinsic publish date, and can be grouped into hierarchical categories. Blog posts are found as files in 
 `posts/` where the filename matches the pattern of `YYYY-MM-DD-post-slug`. The file type can be anything that Orchid can
 process, and the date in the filename is automatically set as the post's `publishDate` and will not be rendered in the 
 output site until after that date. 
+
+```text
+. / (resources root)
+├── homepage.md
+├── config.yml
+└── posts/
+    └── 2019-01-01-blog-post-one.md <-- compiled as Markdown to /2019/1/1/blog-post-one
+```
 
 You may also group your posts by year, month, and day in folders, instead of requiring them all to be in the filename. 
 For example, instead of having a post from a file at `posts/2018-01-01-post-one.md`, you could instead group your posts
@@ -30,21 +43,56 @@ by year (`posts/2018/01-01-post-one.md`), by year and month (`posts/2018/01/01-p
 and day (`posts/2018/01/01/post-one.md`). This is completely optional, and you can mix-and-match individual posts into
 these formats as needed for better organization.
 
-### Customizing Blog Posts
+```text
+. / (resources root)
+├── homepage.md
+├── config.yml
+└── posts/
+    ├── 2018/ <-- group posts by year
+    |   └── 01 <-- group posts by month 
+    |       └── 02-blog-post-two.md <-- filename includes day, lives at /2018/1/2/blog-post-two
+    └── 2017/ <-- group posts by year
+        └── 02-03-blog-post-three.md <-- filename includes month and day, lives at /2017/2/3/blog-post-three
+```
 
-By default, the title of the blog post is given as the `post-slug` part of the filename, unless a `title` is set in the 
-post's Front Matter.
+### Post Title
+
+By default, the title of the blog post is given as the `post-slug` part of the filename, converted to a human-readable,
+capitalized title, unless a `title` is set in the post's Front Matter.
+
+```md
+// posts/2018-01-01-post-one.md <-- Post title is "Post One"
+---
+---
+```
+
+```md
+// posts/2018-01-01-post-one.md
+---
+title: First Blog Post <-- Post title is "First Blog Post", not "Post One"
+---
+```
+
+### Permalinks
 
 Posts can customize their permalink by setting the `permalink` property in their Front Matter. The `permalink` takes a 
 string with certain path segments set up as dynamic parts, such as `blog/:year/:month/:slug`. Any path segment which 
 matches the pattern of `:key` or `{key}` will attempt to fill that segment with some dynamic data, such as the post's 
 published year, month, or date, its category, or any variable set in its Front Matter.
 
+```md
+// posts/2018-01-01-post-one.md
+---
+title: First Blog Post
+permalink: 'blog/:year/:slug' <-- permalink at /blog/2018/post-one
+---
+```
+
+### Using Categories
+
 Categories must be set in your `config.yml`, and posts will only be added if they are in the path within `posts/`
 corresponding to one of these configured categories. Categories may be nested inside a parent category, but it must 
 build a complete hierarchy, where every parent category is also listed as its own category.
-
-### Using Categories
 
 ```yaml
 posts:
@@ -137,7 +185,7 @@ a landing page generated to link to.
 
 OrchidPosts supports comments via Disqus with the `disqus`. Using Archetypes, it is quite simple to set up all
 your blog posts to have a comments section with the `disqus` component without having to manually add the component to 
-each page. 
+each page.
 
 ### RSS and Atom Feeds
 

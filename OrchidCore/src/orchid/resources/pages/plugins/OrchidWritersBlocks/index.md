@@ -12,14 +12,13 @@ tags:
 
 ## About
 
+This plugin adds a collection of useful tags and functions for Pebble to make writing content simpler.
+
 ## Demo
 
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+
 ## Usage
-
-### About Orchid Writers' Blocks
-
-This plugin adds a collection of useful tags and functions for Pebble to make writing content simpler. See what's 
-included below:
 
 ### Tags
 
@@ -32,9 +31,8 @@ Wrap content in a callout or bootstrap-style alert.
 {% alert 'warning' %}
     This is your final warning!
 {% endalert %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
-
 
 #### Github Gist
 
@@ -43,9 +41,8 @@ Embed a Github Gist.
 ```jinja
 {% verbatim %}
 {% gist 'gistId' %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
-
 
 #### Instagram
 
@@ -54,7 +51,7 @@ Embed a photo from Instagram.
 ```jinja
 {% verbatim %}
 {% instagram 'username' 'postId' %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
 
 #### Tabs
@@ -67,7 +64,7 @@ Embed a Twitter post, collection, or timeline.
     {% tab1 'One' %}Tab Content One{% endtab1 %}
     {% tab2 'Two' %}Tab Content Two{% endtab2 %}
 {% endtabs %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
 
 #### Twitter
@@ -79,9 +76,8 @@ Embed a Twitter post, collection, or timeline.
 {% twitter 'username' %}
 or
 {% twitter 'username' 'tweetId' %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
-
 
 #### Youtube
 
@@ -90,9 +86,8 @@ Embed a Youtube video.
 ```jinja
 {% verbatim %}
 {% youtube 'videoId' %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
-
 
 ### Functions
 
@@ -103,9 +98,8 @@ Converts spaces to HTML-encoded non-breaking spaces to preserve spacing.
 ```jinja
 {% verbatim %}
 {{ encodeSpaces('text to encode') }}
-{% endverbatim %}
+{%- endverbatim %}
 ```
-
 
 #### Newline to BR
 
@@ -114,9 +108,8 @@ Converts newlines to BR tags to force HTML line breaks.
 ```jinja
 {% verbatim %}
 {{ nl2br('text to encode') }}
-{% endverbatim %}
+{%- endverbatim %}
 ```
-
 
 #### Pluralize
 
@@ -125,5 +118,5 @@ Attempts to convert a word to its English plural form.
 ```jinja
 {% verbatim %}
 {{ pluralize('word', 2) }}
-{% endverbatim %}
+{%- endverbatim %}
 ```

@@ -1,8 +1,13 @@
 menu:
   - type: page
-  - type: pageChildren
-    asSubmenu: true
-    submenuTitle: Docs
+    title: "About"
+    anchor: about
+  - type: page
+    title: "Demo"
+    anchor: demo
+  - type: page
+    title: "Usage"
+    anchor: usage
 
 tags:
   - official

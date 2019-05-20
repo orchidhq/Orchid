@@ -19,7 +19,7 @@ Comment text is compiled as Markdown, and is also fully-searchable with the
 ## Demo
 
 // TODO: add this test class...
-- See [SwiftdocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidSwiftdoc/src/test/kotlin/com/eden/orchid/swiftdoc/SwiftdocGeneratorTest.kt) for demo
+- Run [SwiftdocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidSwiftdoc/src/test/kotlin/com/eden/orchid/swiftdoc/SwiftdocGeneratorTest.kt) for demo
 
 ## Usage
 

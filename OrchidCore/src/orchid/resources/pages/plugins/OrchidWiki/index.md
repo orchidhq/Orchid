@@ -13,11 +13,14 @@ tags:
 
 ## About
 
+Publish searchable and easily-navigable wikis, inspired by the legacy 
+[GitBook CLI](https://github.com/GitbookIO/gitbook), and generate PDFs for offline viewing.
+
 ## Demo
 
 ## Usage
 
-## Creating Wikis
+### Basic Usage
 
 An Orchid Wiki is a collection of pages structured in a freeform hierarchy. Pages in a wiki are all related and ordered, 
 with one page linking directly to the next so a user can read the entire contents of the wiki from front-end simply by 
@@ -42,29 +45,30 @@ For example:
 corresponds to the following directory structure:
 
 ```text
-├── / (resources root)
-|   ├── config.yml
-|   └── /wiki
-|       ├── summary.md
-|       ├── getting-started.md
-|       └── /setup
-|           ├── basic.md
-|           └── advanced.md
+. / (resources root)
+├── homepage.md
+├── config.yml
+└── /wiki
+    ├── summary.md
+    ├── getting-started.md
+    └── /setup
+        ├── basic.md
+        └── advanced.md
 ```
 
 which produces the following output:
 
 ```text
-├── /wiki
-|   ├── /summary
-|   |   └── index.html
-|   ├── /getting-started
-|   |   └── index.html
-|   └── /setup
-|       ├── /basic
-|       |   └── index.html
-|       └── /advanced
-|           └── index.html
+. /wiki
+├── /summary
+|   └── index.html
+├── /getting-started
+|   └── index.html
+└── /setup
+    ├── /basic
+    |   └── index.html
+    └── /advanced
+        └── index.html
 ```
 
 The content of those wiki pages can be anything, and can be written in any language as long as there is a Compiler for 
@@ -82,11 +86,11 @@ wiki:
     - 'developerGuide'  # (3)
 ```
 
-1) Looks for the Wiki in /docs instead of /wiki
-2) Creates a wiki based on {baseDir}/userManual/summary.md
-3) Creates a wiki based on {baseDir}/developerGuide/summary.md
+1) Looks for the Wiki in `/docs` instead of /wiki
+2) Creates a wiki based on `{baseDir}/userManual/summary.md`
+3) Creates a wiki based on `{baseDir}/developerGuide/summary.md`
 
-## Offline Documentation
+### Offline Documentation
 
 As of 0.13.0, the wiki plugin includes support for offline documentation. PDFs are an opt-in feature; to enable PDF 
 generation, simply add `createPdf: true` to the section configuration for have it generate a PDF with all the content 

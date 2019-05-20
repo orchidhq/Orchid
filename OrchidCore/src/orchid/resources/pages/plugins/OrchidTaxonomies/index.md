@@ -11,17 +11,21 @@ tags:
 
 ## About
 
+Orchid supports user-defined taxonomies in inspired by [Hugo](https://gohugo.io/content-management/taxonomies/). 
+Taxonomies define logical relationships among various pages in your site, generating archives for these groups of pages 
+to bring related content into one place.
+
+The data that defines these logic groupings are often an intrinsic property of the page as defined by the plugin that
+produced it, but taxonomies may also be "tagged" by hand to give you complete flexibility over your taxonomies. This 
+makes it easy to create archives for pages produced by another plugin, or create them yourself to match your own needs.
+
 ## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
 
 ## Usage
 
 ### Understanding Taxonomies
-
-Orchid supports user-defined taxonomies in a manner inspired by 
-[Hugo's custom taxonomies](https://gohugo.io/content-management/taxonomies/). Taxonomies define logical relationships
-among various pages in your site, generating archives for these groups of pages to bring related content into one place.
-The data that defines these logic groupings are often an intrinsic property of the page as defined by the Generator that
-produced it, but taxonomies may also be "tagged" by hand to give you complete flexibility over your taxonomies. 
 
 To understand how to use taxonomies, let's first look at a simple example you're probably already familiar and quite
 comfortable with, blog categories and tags. 
@@ -120,7 +124,7 @@ to generate the Post archives. The OrchidPosts plugin already does the work of a
 OrchidTaxonomies plugin is able to use this configuration for itself (internally, it uses Reflection to call a getter on 
 the Page, which returns the categories and tags). Other plugins may already be set up in their own manner as well, such 
 as Wiki `sections` and Static Page `groups`, which makes it very easy to generate archives for any plugin you may be 
-using. 
+using.
 
 If you want to assign pages to Taxonomies that are not set up by the plugin, you can simply add the Term values in the
 page's Front Matter. For "singular" taxonomies, the value must be a String. For "multiple" taxonomies, the value can be 

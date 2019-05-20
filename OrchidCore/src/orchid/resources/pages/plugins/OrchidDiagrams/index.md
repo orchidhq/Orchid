@@ -211,7 +211,6 @@ Using this plugin adds support for the `.uml` and `.puml` file extension to be r
 Orchid reads, such as blogs, static pages, or changelog versions, can use the `.uml` extension and be compiled as a 
 PlantUML diagram.
 
-**Example PlantUML file**
 ```text
 . / (resources root)
 ├── homepage.md

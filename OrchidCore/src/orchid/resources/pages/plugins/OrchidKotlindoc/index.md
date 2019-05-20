@@ -18,7 +18,7 @@ fully-searchable with the {{anchor('OrchidSearch plugin', 'Orchid Search') }}.
 ## Demo
 
 - Try the [example app](https://github.com/JavaEden/OrchidTutorials/tree/master/kotlin-site)
-- See [KotlindocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidKotlindoc/src/test/kotlin/com/eden/orchid/kotlindoc/KotlindocGeneratorTest.kt) for demo
+- Run [KotlindocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidKotlindoc/src/test/kotlin/com/eden/orchid/kotlindoc/KotlindocGeneratorTest.kt) for demo
 
 ## Usage
 
@@ -58,6 +58,26 @@ kotlindoc:
 
 Setting multiple `sourceDirs` will include them all in the generated documentation, such as including both `kotlin` and 
 `java` directories for a single module.
+
+### Classpath Management
+
+Dokka needs the classpath of your source code in order to document everything properly. Specifically, parameters with a 
+type not in your sources and not part of the Kotlin stdlib will be displayed as `<ERROR CLASS>` without the full 
+classpath provided.
+
+You can set the classpath to be used by the Dokka instance running internally with the `--kotlindocClasspath` CLI flag.
+The following snippet can be used to pass the classpath from Gradle to Orchid/Dokka:
+
+```groovy
+afterEvaluate {
+    orchid {
+        // use Gradle APIs to get the classpath to pass-through to Dokka
+        args += ["--kotlindocClasspath", project(":app").sourceSets.main.runtimeClasspath.getAsPath()]
+    }
+}
+```
+
+See [issue #222](https://github.com/JavaEden/Orchid/issues/222) for more context on why this is necessary.
 
 ### Menu Items
 

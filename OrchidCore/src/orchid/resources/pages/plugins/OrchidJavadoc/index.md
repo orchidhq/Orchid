@@ -18,7 +18,7 @@ compiled as Markdown, and is also fully-searchable with the {{anchor('OrchidSear
 
 ## Demo
 
-- See [JavadocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidJavadoc/src/test/kotlin/com/eden/orchid/javadoc/JavadocGeneratorTest.kt) for demo
+- Run [JavadocGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidJavadoc/src/test/kotlin/com/eden/orchid/javadoc/JavadocGeneratorTest.kt) for demo
 
 ## Usage
 

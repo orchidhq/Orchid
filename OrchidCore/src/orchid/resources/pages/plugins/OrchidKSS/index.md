@@ -17,7 +17,7 @@ pages as a living styleguide.
 
 ## Demo
 
-- See [KssGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidKSS/src/test/kotlin/com/eden/orchid/kss/KssGeneratorTest.kt) for demo
+- Run [KssGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidKSS/src/test/kotlin/com/eden/orchid/kss/KssGeneratorTest.kt) for demo
 
 ## Usage
 
