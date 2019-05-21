@@ -16,7 +16,7 @@ documentation site.
 
 ## Demo
 
-- Run [SwaggerTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidSwagger/src/test/kotlin/com/eden/orchid/swagger/SwaggerTest.kt) for demo
+- Run [SwaggerTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidSwagger/src/test/kotlin/com/eden/orchid/swagger/SwaggerTest.kt) for demo
 
 ## Usage
 

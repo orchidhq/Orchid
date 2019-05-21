@@ -1,5 +1,6 @@
 package com.eden.orchid.wiki
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
@@ -16,6 +17,7 @@ class WikiModule : OrchidModule() {
     override fun configure() {
         XRLog.setLoggingEnabled(false)
         XRLog.setLoggerImpl(Slf4jLogger())
+        Clog.getInstance().addTagToBlacklist("org.apache.pdfbox.pdmodel.font.FileSystemFontProvider")
 
         withResources(50)
 

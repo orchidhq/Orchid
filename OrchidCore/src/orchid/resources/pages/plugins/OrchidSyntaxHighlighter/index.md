@@ -16,6 +16,33 @@ Add syntax highlighting to code snippets in your Orchid site. Supports pre-rende
 
 ## Demo
 
+<details>
+<summary>Prism.js Demo</summary>
+
+{% filter compileAs('md') %}
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        // Prints "Hello, World" to the terminal window.
+        System.out.println("Hello, World");
+    }
+}
+```
+{% endfilter %}
+</details>
+
+<details>
+<summary>Pygments Demo</summary>
+{% highlight 'java' %}
+public class HelloWorld {
+    public static void main(String[] args) {
+        // Prints "Hello, World" to the terminal window.
+        System.out.println("Hello, World");
+    }
+}
+{% endhighlight %}
+</details>
+
 ## Usage
 
 ### Pre-rendered Highlighting
@@ -32,7 +59,7 @@ title: 'Page Title'
 components:
   - type: pageContent
 {% endhighlight %}
-{% endverbatim %}
+{%- endverbatim %}
 ```
 
 This plugin includes a default stylesheet for Pygments, which must included in your theme for highlighting to work 

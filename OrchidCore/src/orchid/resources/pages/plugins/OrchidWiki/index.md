@@ -18,6 +18,8 @@ Publish searchable and easily-navigable wikis, inspired by the legacy
 
 ## Demo
 
+- Run [WikiGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidWiki/src/test/kotlin/com/eden/orchid/wiki/WikiGeneratorTest.kt) for demo
+
 ## Usage
 
 ### Basic Usage
@@ -73,22 +75,36 @@ which produces the following output:
 
 The content of those wiki pages can be anything, and can be written in any language as long as there is a Compiler for 
 it (just like the summary, and any other page). Orchid also creates a new menu item type which links to every page in 
-the wiki and is displayed recursively in the same hierarchy as the pages themselves. 
+the wiki and is displayed recursively in the same hierarchy as the pages themselves.
 
-You can also customize the source directory of the wiki, and even set up multiple wiki sections which each have their 
-own `summary` file, pages, and menu items. The following snippet should go in your site's `config.yml`:
+### Wiki Sections 
+
+You can set up multiple wiki sections which each have their own `summary` file, pages, and menu items. The following 
+snippet should go in your site's `config.yml`:
 
 ```yaml
 wiki:
-  baseDir: 'docs'  # (1) 
   sections:
-    - 'userManual'  # (2)
-    - 'developerGuide'  # (3)
+    - 'userManual'  # (1)
+    - 'developerGuide'  # (2)
 ```
 
-1) Looks for the Wiki in `/docs` instead of /wiki
-2) Creates a wiki based on `{baseDir}/userManual/summary.md`
-3) Creates a wiki based on `{baseDir}/developerGuide/summary.md`
+1) Creates a wiki based on `{baseDir}/userManual/summary.md`, and lives at /wiki/userManual
+2) Creates a wiki based on `{baseDir}/developerGuide/summary.md`, and lives at /wiki/developerGuide
+
+You can configure all your sections at once by putting configuration values under the `defaultConfig` property.
+
+```yaml
+wiki:
+  sections:
+    - 'userManual'
+    - 'developerGuide'
+  defaultConfig: // applied to both userManual and developerGuide sections 
+    createPdf: true
+```
+
+If you have more than one section in your site, a "section index" page will also be created, linking to each individual
+section. This index file will live at `/wiki`.
 
 ### Offline Documentation
 
@@ -105,17 +121,34 @@ wiki:
       createPdf: true
 ```
 
-Alternatively, you can set `createPdf: true` in the wiki `defaultConfig` to be applied to all wiki sections:
+The PDF starts with the section `summary.md` as a Table of Contents, and each page in the wiki starts after a page break
+in the PDF, and the TOC links to each page. You may override `templates/wiki/book.peb` to customize your PDFs as needed.
+PDFs are generated from HTML using the [OpenHTMLToPDF](https://github.com/danfickle/openhtmltopdf) library.
+
+### Wiki Adapters
+
+Orchid is able to connect to external Wiki services, which provide content to embed in an Orchid site. This allows you 
+to effectively use these services as a headless CMS and let Orchid publish them as a full website alongside your other 
+documentation and content, utilizing the other Orchid features you love like full-text search and PDF generation for
+offline viewing.
+ 
+The following plugins provide adapters to external Wikis:
+
+- {{ anchor('Orchid Github') }} - Connect to a repository's [GitHub Wiki](https://guides.github.com/features/wikis/)
+- {{ anchor('Orchid Gitlab') }} - Connect to a repository's [GitLab Wiki](https://docs.gitlab.com/ee/user/project/wiki/)
+
+Adapters can be set individually for each Section in your wiki by declaring the intended adapter and its options in you
+`config.yml`. See the plugin pages linked above for more info on configuring each wiki adapter.
 
 ```yaml
 wiki: 
   sections:
-    - 'userManual'
-    - 'developerGuide'
-  defaultConfig:
-    createPdf: true
+    userManual:
+      adapter: 
+        type: "github"
+        repo: "copper-leaf/wiki-with-sidebar"
+    developerGuide:
+      adapter: 
+        type: "gitlab"
+        repo: "cjbrooks12/wiki-without-sidebar"
 ```
-
-The PDF starts with the section `summary.md` as a Table of Contents, and each page in the wiki starts after a page break
-in the PDF, and the TOC links to each page. You may override `templates/wiki/book.peb` to customize your PDFs as needed.
-PDFs are generated from HTML using the [OpenHTMLToPDF](https://github.com/danfickle/openhtmltopdf) library.

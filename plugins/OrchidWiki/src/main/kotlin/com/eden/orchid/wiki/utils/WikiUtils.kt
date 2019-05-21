@@ -156,9 +156,20 @@ object WikiUtils {
         // create PDF from this section
         return if (section.createPdf) {
             val bookReference = OrchidReference(section.summaryPage.reference)
-            bookReference.fileName = "book"
-            bookReference.extension = "pdf"
-            bookReference.isUsePrettyUrl = false
+
+            if(section.key.isBlank()) {
+                bookReference.path = "wiki"
+                bookReference.fileName = "book"
+                bookReference.extension = "pdf"
+                bookReference.isUsePrettyUrl = false
+            }
+            else {
+                bookReference.path = "wiki/${section.key}"
+                bookReference.fileName = "book"
+                bookReference.extension = "pdf"
+                bookReference.isUsePrettyUrl = false
+            }
+
             WikiBookPage(bookReference, section)
         } else {
             null

@@ -5,11 +5,11 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.convertOutputStream
 import com.eden.orchid.wiki.model.WikiSection
-import com.openhtmltopdf.DOMBuilder
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
 import org.json.JSONObject
 import org.jsoup.Jsoup
+import org.jsoup.helper.W3CDom
 import java.io.InputStream
 import java.util.regex.Pattern
 
@@ -35,7 +35,7 @@ class WikiBookResource(
             ))
 
             val doc = Jsoup.parse(pdfOutput)
-            val pdfDoc = DOMBuilder.jsoup2DOM(doc)
+            val pdfDoc = W3CDom().fromJsoup(doc)
 
             resourceStream = convertOutputStream { safeOs ->
                 PdfRendererBuilder()

@@ -17,7 +17,7 @@ Add Jekyll-like blogging functionality to your Orchid site, with dated blog post
 ## Demo
 
 - Try the [starter app](https://github.com/JavaEden/OrchidStarter)
-- Run [PostsGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidPosts/src/test/kotlin/com/eden/orchid/posts/PostsGeneratorTest.kt) for demo
+- Run [PostsGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidPosts/src/test/kotlin/com/eden/orchid/posts/PostsGeneratorTest.kt) for demo
 
 ## Usage
 

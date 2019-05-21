@@ -376,7 +376,6 @@ generating phase, even if it is not.
 
 ## Kotlin Example
 
-<div>
 ```java
 @Singleton
 @Description("A description for this custom generator.", name = "Custom Generator)
@@ -420,11 +419,9 @@ constructor(
     }
 }
 ```
-</div>
 
 ## Java Example
 
-<div>
 ```java
 @Singleton
 @Description("A description for this custom generator.")
@@ -470,4 +467,3 @@ public static class CustomGenerator extends OrchidGenerator {
     }
 }
 ```
-</div>

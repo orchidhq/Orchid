@@ -18,10 +18,3 @@ services:
       - 'indices'
       - 'feeds'
 #      - 'taxonomies'
-
-wiki:
-  sections:
-    'user-manual':
-      createPdf: false
-    'learn':
-      createPdf: false

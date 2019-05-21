@@ -16,7 +16,7 @@ simple content management.
 
 ## Demo
 
-- Run [PresentationsGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidPresentations/src/test/kotlin/com/eden/orchid/presentations/PresentationsGeneratorTest.kt) for demo
+- Run [PresentationsGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidPresentations/src/test/kotlin/com/eden/orchid/presentations/PresentationsGeneratorTest.kt) for demo
 
 ## Usage
 

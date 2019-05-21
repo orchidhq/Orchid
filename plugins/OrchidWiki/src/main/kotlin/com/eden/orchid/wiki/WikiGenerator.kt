@@ -12,6 +12,7 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
+import com.eden.orchid.wiki.pages.WikiBookCollection
 import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.utils.WikiUtils
@@ -104,6 +105,9 @@ constructor(
             val collection = FileCollection(this, it.key, sectionPages)
             collectionsList.add(collection)
         }
+
+        val bookPages = wikiModel.sections.values.mapNotNull { it.bookPage }
+        collectionsList.add(WikiBookCollection(this, bookPages))
 
         return collectionsList
     }

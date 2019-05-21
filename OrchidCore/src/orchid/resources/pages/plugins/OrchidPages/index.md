@@ -19,7 +19,7 @@ disk that determines their URL, which all gives you a ton of flexibility with st
 ## Demo
 
 - Try the [starter app](https://github.com/JavaEden/OrchidStarter)
-- Run [PagesGeneratorTest](https://github.com/JavaEden/Orchid/blob/master/plugins/OrchidPages/src/test/kotlin/com/eden/orchid/pages/PagesGeneratorTest.kt) for demo
+- Run [PagesGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidPages/src/test/kotlin/com/eden/orchid/pages/PagesGeneratorTest.kt) for demo
 
 ## Usage
 

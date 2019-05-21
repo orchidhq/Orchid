@@ -2,7 +2,7 @@ sections:
   'user-manual':
     title: 'User Manual'
   'learn':
-    title: 'Learn'
+    title: 'Tutorials'
 
 wikiPages:
   layout: geopattern2
