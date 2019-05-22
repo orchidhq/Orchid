@@ -26,7 +26,7 @@ constructor(
     @Named("githubToken")
     @NotBlank(message = "A GitHub Personal Access Token is required for deploys, set as \'githubToken\' flag.")
     private val githubToken: String
-) : AbstractGitPublisher(context, git, destinationDir, "gh-pages", "ghPages", 100) {
+) : AbstractGitPublisher(context, git, destinationDir, "gh-pages", "githubPages", 100) {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")

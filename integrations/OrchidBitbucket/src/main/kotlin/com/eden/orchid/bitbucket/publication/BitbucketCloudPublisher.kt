@@ -28,7 +28,7 @@ constructor(
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")
-    @NotBlank(message = "Must set the GitHub user or organization.")
+    @NotBlank(message = "Must set the Bitbucket user or organization.")
     lateinit var username: String
 
     @Option
