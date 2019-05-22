@@ -23,9 +23,8 @@ fully-searchable with the {{anchor('OrchidSearch plugin', 'Orchid Search') }}.
 ## Usage
 
 {% alert 'info' :: compileAs('md') %}
-The article [How To Document A Kotlin Project](https://dev.to/cjbrooks12/how-to-document-a-kotlin-project-edc) is the 
-best way to get started using Orchid for code documentation, check it out for a beginning-to-end guide to using 
-Orchid.
+The article {{ anchor('How to Document a Kotlin Project') }} is the best way to get started using Orchid for code 
+documentation, check it out for a beginning-to-end guide to using Orchid.
 {% endalert %}
 
 ### Basic Usage

@@ -2,7 +2,7 @@
 from: docs.plugin_index
 description: Generate a living styleguide from annotated CSS, Sass, Scss, or LESS
 images:
-  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974377/plugins/styleguide.jpg
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974377/plugins/kss.jpg
     alt: KSS Styleguide
     caption: Photo by Jan Losert on Unsplash
 tags:

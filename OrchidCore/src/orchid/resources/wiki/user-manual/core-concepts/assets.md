@@ -23,6 +23,37 @@ component's config.
 These assets take an arbitrary path to a resource, and will automatically compile it according to its file extension and
 render it in the final site for you. 
 
+**Extra Assets attached to a Theme**
+```yaml
+# config.yml
+theme:
+  extraCss:
+    - 'assets/css/custom.scss'
+  extraJs:
+    - 'assets/js/custom.js'
+```
+
+**Extra Assets attached to a Page**
+```yaml
+# pages/page-one.md
+extraCss:
+- 'assets/css/custom.scss'
+extraJs:
+- 'assets/js/custom.js'
+```
+
+**Extra Assets attached to a Component in an Archetype**
+```yaml
+# config.yml
+allPages:
+  components:
+    - type: 'pageContent'
+      extraCss:
+        - 'assets/css/custom.scss'
+      extraJs:
+        - 'assets/js/custom.js'
+```
+
 ## Media files
 
 For assets that are not attached to a page, such as images or downloadable files, you must tell Orchid which folders you

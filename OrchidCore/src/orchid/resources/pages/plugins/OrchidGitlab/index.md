@@ -1,5 +1,10 @@
 ---
 from: docs.plugin_index
+description: Connect your site to GitLab services.
+images:
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300/v1558903833/plugins/gitlab.png
+    alt: GitLab
+    caption: GitLab
 tags:
     - wiki
     - publication
@@ -52,7 +57,7 @@ services:
 
 ### Configuration
 
-You must generate an 
+You must generate a
 [personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) from Gitlab to successfully 
 authenticate and allow Orchid to perform actions on your behalf, like publishing a site to Gitlab Pages. This can be set
 as the `gitlabToken` environment variable, or passed to Orchid from Gradle.

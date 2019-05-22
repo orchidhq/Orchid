@@ -23,9 +23,8 @@ Comment text is compiled as Markdown, and is also fully-searchable with the
 ## Usage
 
 {% alert 'info' :: compileAs('md') %}
-The article [How To Document A Kotlin Project](https://dev.to/cjbrooks12/how-to-document-a-kotlin-project-edc) is the 
-best way to get started using Orchid for code documentation, check it out for a beginning-to-end guide to using 
-Orchid. 
+The article {{ anchor('How to Document a Kotlin Project') }} is the best way to get started using Orchid for code 
+documentation, check it out for a beginning-to-end guide to using Orchid.
 
 While this article is specific to the Kotlin language support in Orchid, working with Swift in Orchid is very similar, 
 with the specifics outlined below.

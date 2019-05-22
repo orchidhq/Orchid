@@ -1,5 +1,10 @@
 ---
 from: docs.plugin_index
+description: Connect your Orchid site to Microsoft Azure services.
+images:
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300/v1558903280/plugins/azure.jpg
+    alt: Azure
+    caption: Azure
 tags:
     - wiki
 ---

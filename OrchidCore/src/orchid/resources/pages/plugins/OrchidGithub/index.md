@@ -1,5 +1,10 @@
 ---
 from: docs.plugin_index
+description: Connect your Orchid site to GitHub services.
+images:
+  - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300/v1558903744/plugins/github.png
+    alt: GitHub
+    caption: GitHub
 tags:
     - wiki
     - publication
@@ -67,7 +72,7 @@ services:
 
 ### Configuration
 
-You must generate an 
+You must generate a
 [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) from 
 Github to successfully authenticate and allow Orchid to perform actions on your behalf, like publishing a site to
 Github Pages. This can be set as the `githubToken` environment variable, or passed to Orchid from Gradle.
