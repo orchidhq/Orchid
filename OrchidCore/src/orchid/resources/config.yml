@@ -42,9 +42,9 @@ theme:
         - type: 'page'
           title: 'Changelog'
           itemId: 'Changelog'
-    - type: 'link'
-      title: 'Github'
-      url: 'https://github.com/JavaEden/Orchid'
+    - type: 'latestPosts'
+      limit: 3
+      title: 'News'
   extraCss:
     - 'assets/css/extras.scss'
 
@@ -53,17 +53,6 @@ services:
     stages:
       - type: githubReleases
         repo: 'JavaEden/Orchid'
-
-kotlindoc:
-  sourceDirs:
-    - '../../main/java'
-    - '../../main/kotlin'
-
-changelog:
-  includeMinorVersions: true
-  includeReleaseNotes: true
-  allVersions:
-    url: "#{'changelog'|baseUrl}"
 
 allPages:
   extraCss:
