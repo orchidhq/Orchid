@@ -1,4 +1,4 @@
-package com.eden.orchid.copper
+package com.eden.orchid.github.collection
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
@@ -16,7 +16,7 @@ import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Provider
 
-class CopperGithubProjectGlobalCollection
+class GithubProjectGlobalCollection
 @Inject
 constructor(
     val context: Provider<OrchidContext>,
