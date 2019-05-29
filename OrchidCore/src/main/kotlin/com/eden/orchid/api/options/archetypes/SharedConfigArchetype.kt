@@ -19,13 +19,20 @@ constructor(
 ) : OptionArchetype {
 
     @Option
-    lateinit var from: String
+    lateinit var from: Array<String>
 
     override fun getOptions(target: Any, archetypeKey: String): Map<String, Any>? {
-        if(from.isBlank()) return null
+        val actualFrom = from.filter { it.isNotBlank() }
 
-        val contextOptions = context.query(from)
-        return if (EdenUtils.elementIsObject(contextOptions)) (contextOptions.element as JSONObject).toMap() else null
+        if(actualFrom.isEmpty()) return null
+
+        val optionsObjects = actualFrom
+            .map { context.query(it) }
+            .filter { EdenUtils.elementIsObject(it) }
+            .map { it.element as JSONObject }
+            .toTypedArray()
+
+        return EdenUtils.merge(*optionsObjects).toMap()
     }
 
 }

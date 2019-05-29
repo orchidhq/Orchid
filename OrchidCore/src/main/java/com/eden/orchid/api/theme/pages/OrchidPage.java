@@ -48,7 +48,7 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
  * @orchidApi extensible
  */
 @Description(value = "A representation of a single file in your output site.", name = "Pages")
-@Archetype(value = SharedConfigArchetype.class, key = "from")
+@Archetype(value = SharedConfigArchetype.class, key = "from", order = 10)
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements
         OptionsHolder,
