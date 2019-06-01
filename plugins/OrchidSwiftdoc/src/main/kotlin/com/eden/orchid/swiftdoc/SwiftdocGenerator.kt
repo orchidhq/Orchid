@@ -51,7 +51,7 @@ constructor(
     }
 
     @Option
-    @StringDefault("../../main/java")
+    @StringDefault("swift")
     @Description("The source directories with Swift files to document.")
     lateinit var sourceDirs: List<String>
 
