@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.LongConsumer;
 
+import static com.eden.orchid.utilities.OrchidExtensionsKt.makeMillisReadable;
+
 public class GeneratorMetrics {
     private String key;
     private long indexingStartTime;
@@ -45,31 +47,6 @@ public class GeneratorMetrics {
 
 // Get formatted values
 //----------------------------------------------------------------------------------------------------------------------
-    private String makeMillisReadable(double lMillis) {
-        int hours = 0;
-        int minutes = 0;
-        int seconds = 0;
-        int millis = 0;
-        String sTime;
-        seconds = (int) (lMillis / 1000) % 60;
-        millis = (int) (lMillis % 1000);
-        if (seconds > 0) {
-            minutes = (int) (lMillis / 1000 / 60) % 60;
-            if (minutes > 0) {
-                hours = (int) (lMillis / 1000 / 60 / 60) % 24;
-                if (hours > 0) {
-                    sTime = hours + "h " + minutes + "m " + seconds + "s " + millis + "ms";
-                } else {
-                    sTime = minutes + "m " + seconds + "s " + millis + "ms";
-                }
-            } else {
-                sTime = seconds + "s " + millis + "ms";
-            }
-        } else {
-            sTime = millis + "ms";
-        }
-        return sTime;
-    }
 
     String getIndexingTime() {
         return makeMillisReadable(indexingEndTime - indexingStartTime);
@@ -132,62 +109,50 @@ public class GeneratorMetrics {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getKey() {
         return this.key;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getIndexingStartTime() {
         return this.indexingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getGeneratingStartTime() {
         return this.generatingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getIndexingEndTime() {
         return this.indexingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public long getGeneratingEndTime() {
         return this.generatingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<Long> getPageGenerationTimes() {
         return this.pageGenerationTimes;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setKey(final String key) {
         this.key = key;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setIndexingStartTime(final long indexingStartTime) {
         this.indexingStartTime = indexingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGeneratingStartTime(final long generatingStartTime) {
         this.generatingStartTime = generatingStartTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setIndexingEndTime(final long indexingEndTime) {
         this.indexingEndTime = indexingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGeneratingEndTime(final long generatingEndTime) {
         this.generatingEndTime = generatingEndTime;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setPageGenerationTimes(final List<Long> pageGenerationTimes) {
         this.pageGenerationTimes = pageGenerationTimes;
     }

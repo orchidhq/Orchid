@@ -13,7 +13,7 @@ certainly be enough to get started writing basic plugins.
 "Dependency Injection" (often shortened to DI) is a fancy term for a rather simple concept. To understand DI, lets look 
 at a pretty standard example: logging. It is typical for an application to log information like the following snippet:
 
-{% highlight 'java' %}
+```java
 public class LoggerExample {
     private final Logger logger;
     
@@ -22,7 +22,7 @@ public class LoggerExample {
         this.logger.log("Hello World"); 
     }
 } 
-{% endhighlight %}
+```
 
 This is commonly known as the _Factory Pattern_, and it has some issues. The most obvious issue is that the 
 LoggerExample is tied to exactly one type of Logger, so it becomes difficult to swap that implementation out. Sure the 
@@ -31,7 +31,7 @@ conditions to be set up before it can be created.
 
 Dependency Injection allows us to instead set up our class such that the Logger is passed directly to its constructor.
 
-{% highlight 'java' %}
+```java
 public class LoggerExample {
     private final Logger logger;
     
@@ -41,7 +41,7 @@ public class LoggerExample {
         this.logger.log("Hello World"); 
     }
 } 
-{% endhighlight %}
+```
 
 Now, the burden of creating the Logger is up to another class, and the LoggerExample's only job is to simply use the 
 logger given to it. This makes it easier to test, but also gives consumers of the LoggerExample class information about
@@ -70,7 +70,7 @@ When Orchid is first started, it scans the classpath, looking for all classes th
 interface, collect them all together, and then pass them all to Guice for the actual injection. So simply including a
 dependency in your `build.gradle` which has a Module in it is enough for Orchid is add it to the Orchid build.
 
-{% highlight 'java' %}
+```java
 public class CustomModule extends OrchidModule {
 
     @Override
@@ -80,7 +80,7 @@ public class CustomModule extends OrchidModule {
         addToSet(OrchidGenerator.class, CustomGenerator.class);
     }
 } 
-{% endhighlight %}
+```
 
 You should generally have your modules extend `OrchidModule` rather than using the default Guice `AbstractModule` class,
 because it offers a few extra conveniences more useful for Orchid, and is itself a child class of `AbstractModule`. That 
@@ -103,13 +103,13 @@ If you are the one creating both the abstract and implementation classes, you sh
 within the module itself. Instead of using `bind(A.class).to(B.class)`, you can instead use the `@ImplementedBy` 
 annotation on the abstract class to set up an equivalent binding. 
 
-{% highlight 'java' %}
+```java
 @ImplementedBy(B.class)
 public interface A {
 } 
 public class B implements A {
 } 
-{% endhighlight %}
+```
 
 This method of using the `@ImplementedBy` annotation has several advantages over the module binding. First, it makes it
 easier to understand the intended relationship in the source code for both classes, and both the interface and the 

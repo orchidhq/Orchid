@@ -204,7 +204,6 @@ public class RenderServiceImpl implements RenderService {
         return success;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean includeDrafts() {
         return this.includeDrafts;
     }

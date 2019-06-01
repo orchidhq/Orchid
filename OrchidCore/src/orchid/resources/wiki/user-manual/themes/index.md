@@ -1,2 +1,3 @@
 ---
+from: wiki.indexPages
 ---

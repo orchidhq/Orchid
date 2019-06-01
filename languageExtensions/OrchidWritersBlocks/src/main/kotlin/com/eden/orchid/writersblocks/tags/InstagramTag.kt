@@ -3,6 +3,7 @@ package com.eden.orchid.writersblocks.tags
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.utilities.SuppressedWarnings
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
@@ -26,7 +27,7 @@ constructor(
     }
 
     var embeddedPost: String? = null
-        @Suppress("UNUSED_PARAMETER")
+        @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
         private set(value) {
         }
         get() {

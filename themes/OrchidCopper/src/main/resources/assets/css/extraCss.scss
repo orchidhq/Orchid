@@ -61,7 +61,6 @@
 .textured::after {
   content: "";
   background-color: #ffffff;
-  background-image: url("{{ theme.backgroundTexture|asset }}");
   background-repeat: repeat;
   opacity: 1.0;
   top: 0;
@@ -70,6 +69,10 @@
   right: 0;
   position: absolute;
   z-index: -1;
+
+{% if theme.useBackgroundTexture %}
+  background-image: url("{{ theme.backgroundTexture|asset }}");
+{% endif %}
 }
 
 .grow {
@@ -82,13 +85,21 @@
 
 .column-main-left {
   .hero {
+  {% if theme.sidebarShadow %}
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+  {% endif %}
     overflow-y: scroll;
     overflow-x: hidden;
   }
 }
 
 [v-cloak] {
+  display: none;
+}
+.is-gone {
+  display: none !important;
+}
+.tab-hidden {
   display: none;
 }
 
@@ -167,8 +178,24 @@
   }
 }
 
-code.language-kotlin .token.number { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
-code.language-kotlin .token.operator { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+.theme-border-bottom {
+  border-bottom: thin solid {{theme.palette.primary}};
+}
+.theme-border-top {
+  border-top: thin solid {{theme.palette.primary}};
+}
+
+.border-bottom {
+  border-bottom: thin solid rgba(0, 0, 0, 0.1);
+}
+.border-top {
+  border-top: thin solid rgba(0, 0, 0, 0.1);
+}
+
+
+code[class*="language-"] .token.number { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+code[class*="language-"] .token.operator { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
+code[class*="language-"] .tag { line-height: initial;background: none;height: initial;padding: 0;display: inline;font-size: 1em; }
 .content blockquote, .content pre {
   border-left: 5px solid {{theme.palette.primary}};
 }

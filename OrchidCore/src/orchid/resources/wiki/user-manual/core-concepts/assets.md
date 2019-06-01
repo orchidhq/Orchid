@@ -23,6 +23,37 @@ component's config.
 These assets take an arbitrary path to a resource, and will automatically compile it according to its file extension and
 render it in the final site for you. 
 
+**Extra Assets attached to a Theme**
+```yaml
+# config.yml
+theme:
+  extraCss:
+    - 'assets/css/custom.scss'
+  extraJs:
+    - 'assets/js/custom.js'
+```
+
+**Extra Assets attached to a Page**
+```yaml
+# pages/page-one.md
+extraCss:
+- 'assets/css/custom.scss'
+extraJs:
+- 'assets/js/custom.js'
+```
+
+**Extra Assets attached to a Component in an Archetype**
+```yaml
+# config.yml
+allPages:
+  components:
+    - type: 'pageContent'
+      extraCss:
+        - 'assets/css/custom.scss'
+      extraJs:
+        - 'assets/js/custom.js'
+```
+
 ## Media files
 
 For assets that are not attached to a page, such as images or downloadable files, you must tell Orchid which folders you
@@ -30,22 +61,22 @@ want copied over. By default, any file `assets/media/` will be copied over direc
 as image files or PDFs), or compiled if it is a known file type (such as SCSS). You can configure additional directories
 in your `config.yml`.  
 
-{% highlight 'yaml' %}
+```yaml
 assets:
   sourceDirs: 
     - 'assets/media'
     - 'assets/overrides/css'
     - 'assets/overrides/js'
-{% endhighlight %}
+```
 
 If a file is not being copied over correctly, you may need to tell Orchid that it should be treated as a binary file 
 stream instead of a character stream. You can set in your `config.yml` which file extensions should be treated as binary
 content. The following file extensions are considered binary by default:  `jpg`, `jpeg`, `png`, `pdf`, `gif`, `svg`, 
 `otf`, `eot`, `ttf`, `woff`, `woff2`
 
-{% highlight 'yaml' %}
+```yaml
 services:
   compilers: 
     binaryExtensions: 
       - 'jpeg'
-{% endhighlight %}
+```

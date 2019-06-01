@@ -1,6 +1,7 @@
 package com.eden.orchid.taxonomies.utils
 
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.utilities.SuppressedWarnings
 
 fun OrchidPage.getSingleTermValue(taxonomy: String): String? {
     try {
@@ -15,7 +16,7 @@ fun OrchidPage.getSingleTermValue(taxonomy: String): String? {
     return null
 }
 
-@Suppress("UNCHECKED_CAST")
+@Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
 fun OrchidPage.getTermValues(taxonomy: String): List<String> {
     try {
         val method = this.javaClass.getMethod("get${taxonomy.capitalize()}")

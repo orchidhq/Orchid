@@ -2,6 +2,7 @@ package com.eden.orchid.copper
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -34,6 +35,10 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Description("An asset to use the for background texture.")
     lateinit var backgroundTexture: String
 
+    @Option @BooleanDefault(true)
+    @Description("The whether to add a shadow to the sidebar.")
+    var useBackgroundTexture: Boolean = true
+
     @Option @StringDefault("IMAGE")
     @Description("The type of background to use for the sidebar, one of [IMAGE, GRADIENT, SOLID]")
     lateinit var sidebarBackgroundType: CopperThemeSidebarBackgroundType
@@ -41,6 +46,10 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Option @StringDefault("assets/media/bg-sidebar.jpeg")
     @Description("The value to use for the sidebar background.")
     lateinit var sidebarBackground: String
+
+    @Option @BooleanDefault(true)
+    @Description("The whether to add a shadow to the sidebar.")
+    var sidebarShadow: Boolean = true
 
     override fun loadAssets() {
         addCss("assets/css/bulma.scss")
@@ -50,7 +59,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
 
         addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js").apply { isDefer = true }
         addJs("assets/js/bulma-accordion.min.js")
-        addJs("inline:.js:bulmaAccordion.attach();")
+        addJs("assets/js/bulma-tabs.js")
     }
 }
 
@@ -88,6 +97,14 @@ class CopperThemeColors : OptionsHolder {
     @StringDefault("#D97E74")
     lateinit var red: String
 
+    @Option
+    @StringDefault("#000000")
+    lateinit var black: String
+
+    @Option
+    @StringDefault("#ffffff")
+    lateinit var white: String
+
 }
 
 class CopperThemePalette : OptionsHolder {
@@ -124,18 +141,29 @@ class CopperThemePalette : OptionsHolder {
     @StringDefault("PURPLE")
     lateinit var linkVisited: CopperThemeColorName
 
+    @Option
+    @StringDefault("BLACK")
+    lateinit var black: CopperThemeColorName
+
+    @Option
+    @StringDefault("WHITE")
+    lateinit var white: CopperThemeColorName
+
 }
 
 enum class CopperThemeColorName(val variableName: String) {
 
-    ORANGE("${'$'}orange"),
-    YELLOW("${'$'}yellow"),
-    GREEN("${'$'}green"),
-    TURQUOISE("${'$'}turquoise"),
-    CYAN("${'$'}cyan"),
-    BLUE("${'$'}blue"),
-    PURPLE("${'$'}purple"),
-    RED("${'$'}red");
+    ORANGE("\$orange"),
+    YELLOW("\$yellow"),
+    GREEN("\$green"),
+    TURQUOISE("\$turquoise"),
+    CYAN("\$cyan"),
+    BLUE("\$blue"),
+    PURPLE("\$purple"),
+    RED("\$red"),
+    BLACK("\$black"),
+    WHITE("\$white")
+    ;
 
     override fun toString() = variableName
 }

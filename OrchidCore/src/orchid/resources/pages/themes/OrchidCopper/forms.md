@@ -1,6 +1,7 @@
 ---
 title: Copper - Forms
-theme: Copper
+theme: 
+  from: 'theme.demo.Copper'
 template: page
 skipTaxonomy: true
 parent: Copper Demo

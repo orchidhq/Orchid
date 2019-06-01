@@ -6,7 +6,7 @@
     {% for sitemap in page.sitemaps -%}
     <sitemap>
         <loc>{{- sitemap.link -}}</loc>
-        <lastmod>{{- sitemap.lastModifiedDate -}}</lastmod>
+        <lastmod>{{- sitemap.lastModifiedDate|localDate('YYYY-MM-dd') -}}</lastmod>
     </sitemap>
     {% endfor %}
 </sitemapindex>

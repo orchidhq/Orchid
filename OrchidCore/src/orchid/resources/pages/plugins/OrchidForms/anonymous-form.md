@@ -1,7 +1,6 @@
 ---
+from: docs.plugin_api
 title: Anonymous Form Demo
-template: page
-skipTaxonomy: true
 components:
   - type: pageContent
   - type: form
@@ -22,13 +21,6 @@ components:
           span: 'full'
           required: true
           order: 1
-menu:
-  - type: 'page'
-    itemId: 'Orchid Forms'
-  - type: 'pageChildren'
-    itemId: 'Orchid Forms'
-    asSubmenu: true
-    submenuTitle: Docs
 ---
 
 This page demonstrates an example of a form that was defined directly in the Form Component's configuration in this 

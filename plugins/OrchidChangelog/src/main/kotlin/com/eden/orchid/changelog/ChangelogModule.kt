@@ -5,8 +5,6 @@ import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.changelog.components.ChangelogComponent
-import com.eden.orchid.changelog.components.ChangelogVersionPicker
-import com.eden.orchid.changelog.publication.GithubReleasesPublisher
 import com.eden.orchid.changelog.publication.RequiredChangelogVersionPublisher
 import com.eden.orchid.utilities.addToSet
 
@@ -16,12 +14,8 @@ class ChangelogModule : OrchidModule() {
         withResources(20)
 
         addToSet<OrchidGenerator, ChangelogGenerator>()
-        addToSet<OrchidPublisher>(
-                RequiredChangelogVersionPublisher::class,
-                GithubReleasesPublisher::class)
-        addToSet<OrchidComponent>(
-                ChangelogComponent::class,
-                ChangelogVersionPicker::class)
+        addToSet<OrchidPublisher, RequiredChangelogVersionPublisher>()
+        addToSet<OrchidComponent, ChangelogComponent>()
     }
 
 }

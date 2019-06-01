@@ -1,12 +1,8 @@
-<h2>All Changes</h2>
 {# @pebvariable name="component" type="com.eden.orchid.changelog.components.ChangelogComponent" #}
-
 {% for version in component.model.versions %}
-    {# @pebvariable name="version" type="com.eden.orchid.changelog.model.ChangelogVersion" #}
-    <h3>{{ version.version }}</h3>
-    <hr>
-    <p><b>Changes:</b></p>
-
-    {{ version.content | raw }}
-
+{# @pebvariable name="version" type="com.eden.orchid.changelog.model.ChangelogVersion" #}
+<details id="{{ version.version }}" {% if loop.first %}open{% endif %}>
+  <summary>{{ version.version }}</summary>
+  {{ version.content | raw }}
+</details>
 {% endfor %}

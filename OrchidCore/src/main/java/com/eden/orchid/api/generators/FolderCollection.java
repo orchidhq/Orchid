@@ -28,42 +28,34 @@ public class FolderCollection extends OrchidCollection<OrchidPage> {
         return getItems().stream().filter(page -> page.getTitle().equals(id));
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getResourceRoot() {
         return this.resourceRoot;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class<? extends OrchidPage> getPageClass() {
         return this.pageClass;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isCanCreate() {
         return this.canCreate;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setCanCreate(final boolean canCreate) {
         this.canCreate = canCreate;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isCanDelete() {
         return this.canDelete;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setCanDelete(final boolean canDelete) {
         this.canDelete = canDelete;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getSlugFormat() {
         return this.slugFormat;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setSlugFormat(final String slugFormat) {
         this.slugFormat = slugFormat;
     }

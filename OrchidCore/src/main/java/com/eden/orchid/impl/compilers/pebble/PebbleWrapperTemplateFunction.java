@@ -46,22 +46,18 @@ public final class PebbleWrapperTemplateFunction implements Function {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public Provider<OrchidContext> getContextProvider() {
         return this.contextProvider;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getName() {
         return this.name;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<String> getParams() {
         return this.params;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class<? extends TemplateFunction> getFunctionClass() {
         return this.functionClass;
     }

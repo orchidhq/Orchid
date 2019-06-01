@@ -6,7 +6,7 @@ description: 'Orchid uses Pebble templates and a unique layout composition syste
 
 When a page is rendered, Orchid will embed it within a layout. The most basic layout looks like:
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 <!DOCTYPE HTML>
 <html>
@@ -20,7 +20,7 @@ When a page is rendered, Orchid will embed it within a layout. The most basic la
 </body>
 </html>
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Layouts typically come from the theme as a file in the `templates/layouts/` directory, or you may create your own layout
 (which usually extends a layout from your theme). They utilize Pebble markup to create the structure for your webpage. 
@@ -47,11 +47,11 @@ template.
 
 The most basic page layout (and the default fallback for all pages) looks like:
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ page.content | raw }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Page templates are usually defined by plugins as a file in the `templates/pages/` directory. Alternatively, you may 
 create your own page template. They are dynamically chosen based on the type of page being rendered. 

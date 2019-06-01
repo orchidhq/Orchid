@@ -26,7 +26,7 @@ Components are usually defined in a page's Front Matter as a list of objects, wi
 which component to use. All pages have a `components` property that holds the normal components for a page, but anything
 that has an option of type `ComponentHolder` can declare and use components in the exact same way. 
 
-{% highlight 'yaml' %}
+```yaml
 ---
 ...
 components:
@@ -34,7 +34,7 @@ components:
   - type: 'form'
     form: 'contact'
 ---
-{% endhighlight %}
+```
 
 Plugins and themes may provide their own component types, and any of them may be used anywhere in your site. Each 
 component type typically defines its own options in addition to those outlined below, so be sure to check out the 
@@ -50,7 +50,7 @@ its position in the list. So the first item defaults to order 10, the second ite
 following example, the `form` component will be rendered before the `pageContent` component, because it has a lower
 `order` value.
 
-{% highlight 'yaml' %}
+```yaml
 ...
 components:
   - type: 'pageContent'
@@ -60,14 +60,14 @@ components:
     order: 10
 
 # `form` will be displayed before the `pageContent`
-{% endhighlight %}
+```
 
 ### Hiding Components
 
 You may manually hide components by setting `hidden: true`. This has the effect of not rendering a template for that 
 Component on the page, but will still include its CSS and JS assets. 
 
-{% highlight 'yaml' %}
+```yaml
 ...
 components:
   - type: 'pageContent'
@@ -76,7 +76,7 @@ components:
     hidden: true
 
 # `form` will not be rendered as a template, but its assets will still be included
-{% endhighlight %}
+```
 
 ### Component Wrappers
 
@@ -85,7 +85,7 @@ Some themes will choose to wrap each component in additional markup, such as the
 doesn't apply these wrappers to a particular component, like if it provides its own container markup. For these 
 situations, you may set `noWrapper: true` to render the component without a wrapper.
 
-{% highlight 'yaml' %}
+```yaml
 ...
 components:
   - type: 'pageContent'
@@ -94,7 +94,7 @@ components:
     noWrapper: true
 
 # `form` will not be wrapped
-{% endhighlight %}
+```
 
 ### Custom Component Templates
 
@@ -104,7 +104,7 @@ and homepage of the [Orchid starter repo](https://github.com/JavaEden/OrchidStar
 provide a custom template to render instead of the default given by the plugin ot theme. The `templates` property 
 accepts either a single String or an array of Strings, the first of which that is found will be used.
 
-{% highlight 'yaml' %}
+```yaml
 ...
 components:
   - type: 'pageContent'
@@ -113,7 +113,7 @@ components:
     template: 'customForm' 
 
 # `form` will now prefer the `components/customForm.peb` template over `components/form.peb`  
-{% endhighlight %}
+```
 
 ### Page Content Component
 
@@ -149,7 +149,7 @@ customizations there, and then tell your `form` component to use your custom CSS
 `form` component will also automatically compile and include your custom styles. The same can be done for extra JS 
 assets as well.
 
-{% highlight 'yaml' %}
+```yaml
 ---
 ...
 components:
@@ -161,12 +161,12 @@ components:
     extraCSS:
       - 'assets/js/form-ajax.js'
 ---
-{% endhighlight %}
+```
 
 This is particularly useful when you are declaring your components in the {{anchor('Archetypes')}} of a page rather than
 in the page's own Front Matter, as it allows you to add extra assets to numerous pages with a single declaration.
 
-{% highlight 'yaml' %}
+```yaml
 # page's Front Matter
 components:
   - type: 'form'
@@ -184,4 +184,4 @@ posts:
         order: 50
         extraCSS:
           - 'assets/css/form-overrides.scss' 
-{% endhighlight %} 
+``` 

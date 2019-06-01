@@ -462,7 +462,7 @@ public final class OrchidReference {
     }
 
     public void setPath(String path) {
-        this.path = path;
+        this.path = OrchidUtils.normalizePath(path);
     }
 
     public void setFileName(String fileName) {

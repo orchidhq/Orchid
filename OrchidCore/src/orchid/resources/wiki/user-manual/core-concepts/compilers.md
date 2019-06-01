@@ -35,7 +35,7 @@ common for compiled and minified CSS or Javascript, which is often named somethi
 You can set certain extensions to be ignored when the filename is in that format. By default, `min` is already ignored, 
 but you may add your own ignored extensions as an array in the `ignoredOutputExtensions` option in `config.yml`:
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 ...
 services:
@@ -43,4 +43,4 @@ services:
     ignoredOutputExtensions:
       - 'min'
       - 'debug'
-{% endhighlight %}
+```

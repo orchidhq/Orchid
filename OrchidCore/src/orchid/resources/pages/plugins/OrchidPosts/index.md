@@ -1,26 +1,41 @@
 ---
-official: true
+from: docs.plugin_index
 description: Add Jekyll-like blogging functionality to your Orchid site.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/posts.jpg
     alt: Posts
     caption: Photo by Emma Matthews on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Posts'
-  - type: 'pageChildren'
-    itemId: 'Orchid Posts'
-    asSubmenu: true
-    submenuTitle: Docs
+tags:
+    - content
+    - blog
 ---
 
-### Creating Blog Posts
+## About
 
-Orchid supports blogging in a manner similar to Jekyll, but made to be much easier to manage for large blogs. Blog pages
+Add Jekyll-like blogging functionality to your Orchid site, with dated blog posts and RSS/Atom feeds. 
+
+## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+- Run [PostsGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidPosts/src/test/kotlin/com/eden/orchid/posts/PostsGeneratorTest.kt) for demo
+
+## Usage
+
+### Basic Usage
+
+Orchid supports blogging in a manner similar to Jekyll, but made to be much easier to manage for large blogs. Blog posts
 all have an intrinsic publish date, and can be grouped into hierarchical categories. Blog posts are found as files in 
 `posts/` where the filename matches the pattern of `YYYY-MM-DD-post-slug`. The file type can be anything that Orchid can
 process, and the date in the filename is automatically set as the post's `publishDate` and will not be rendered in the 
 output site until after that date. 
+
+```text
+. / (resources root)
+├── homepage.md
+├── config.yml
+└── posts/
+    └── 2019-01-01-blog-post-one.md <-- compiled as Markdown to /2019/1/1/blog-post-one
+```
 
 You may also group your posts by year, month, and day in folders, instead of requiring them all to be in the filename. 
 For example, instead of having a post from a file at `posts/2018-01-01-post-one.md`, you could instead group your posts
@@ -28,23 +43,58 @@ by year (`posts/2018/01-01-post-one.md`), by year and month (`posts/2018/01/01-p
 and day (`posts/2018/01/01/post-one.md`). This is completely optional, and you can mix-and-match individual posts into
 these formats as needed for better organization.
 
-### Customizing Blog Posts
+```text
+. / (resources root)
+├── homepage.md
+├── config.yml
+└── posts/
+    ├── 2018/ <-- group posts by year
+    |   └── 01 <-- group posts by month 
+    |       └── 02-blog-post-two.md <-- filename includes day, lives at /2018/1/2/blog-post-two
+    └── 2017/ <-- group posts by year
+        └── 02-03-blog-post-three.md <-- filename includes month and day, lives at /2017/2/3/blog-post-three
+```
 
-By default, the title of the blog post is given as the `post-slug` part of the filename, unless a `title` is set in the 
-post's Front Matter.
+### Post Title
+
+By default, the title of the blog post is given as the `post-slug` part of the filename, converted to a human-readable,
+capitalized title, unless a `title` is set in the post's Front Matter.
+
+```md
+// posts/2018-01-01-post-one.md <-- Post title is "Post One"
+---
+---
+```
+
+```md
+// posts/2018-01-01-post-one.md
+---
+title: First Blog Post <-- Post title is "First Blog Post", not "Post One"
+---
+```
+
+### Permalinks
 
 Posts can customize their permalink by setting the `permalink` property in their Front Matter. The `permalink` takes a 
 string with certain path segments set up as dynamic parts, such as `blog/:year/:month/:slug`. Any path segment which 
 matches the pattern of `:key` or `{key}` will attempt to fill that segment with some dynamic data, such as the post's 
 published year, month, or date, its category, or any variable set in its Front Matter.
 
+```md
+// posts/2018-01-01-post-one.md
+---
+title: First Blog Post
+permalink: 'blog/:year/:slug' <-- permalink at /blog/2018/post-one
+---
+```
+
+### Using Categories
+
 Categories must be set in your `config.yml`, and posts will only be added if they are in the path within `posts/`
 corresponding to one of these configured categories. Categories may be nested inside a parent category, but it must 
 build a complete hierarchy, where every parent category is also listed as its own category.
 
-### Using Categories
-
-{% highlight 'yaml' %}
+```yaml
 posts:
   baseDir: 'blog'  # (1) 
   categories:
@@ -52,7 +102,7 @@ posts:
     - 'programming'  # (3)
     - 'programming/android'  # (4)
     - 'programming/web'  # (5)
-{% endhighlight %}
+```
 
 1) Looks for the blog posts in `blog/` instead of `posts/`
 2) Creates a category in `{baseDir}/personal`, and every post in that folder will be in the `personal` category
@@ -79,15 +129,15 @@ default values, as shown above; (2) you can set each list item to be a map of co
 the category path; (3) or you can set each list item to be a map with a single property that is the category path, and 
 whose value is a map of configuration values. 
 
-{% highlight 'yaml' %}
+```yaml
 # Method (1), String as category path
 posts: 
   categories:
     - 'personal'
     - 'programming'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # Method (2), Map with config values and `key` property as category path
 posts: 
   categories:
@@ -95,9 +145,9 @@ posts:
       title: 'Personal Blog'
     - key: 'programming'
       title: 'programming Blog'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # Method (3), Map with only key as category path, and value as config values
 posts: 
   categories:
@@ -105,7 +155,7 @@ posts:
         title: 'Personal Blog'
     - programming:
         title: 'programming Blog'
-{% endhighlight %}
+```
 
 Note that there is no difference between Method (2) and Method (3), it is simply a matter of preference.
 
@@ -135,7 +185,7 @@ a landing page generated to link to.
 
 OrchidPosts supports comments via Disqus with the `disqus`. Using Archetypes, it is quite simple to set up all
 your blog posts to have a comments section with the `disqus` component without having to manually add the component to 
-each page. 
+each page.
 
 ### RSS and Atom Feeds
 

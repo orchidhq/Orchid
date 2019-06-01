@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -47,6 +48,7 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
  * @orchidApi extensible
  */
 @Description(value = "A representation of a single file in your output site.", name = "Pages")
+@Archetype(value = SharedConfigArchetype.class, key = "from", order = 10)
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements
         OptionsHolder,

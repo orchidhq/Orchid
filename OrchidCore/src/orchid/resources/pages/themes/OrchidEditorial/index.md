@@ -1,21 +1,10 @@
 ---
-official: true
-thumbnail: https://res.cloudinary.com/orchid/image/upload/c_fit,h_200,w_400/v1524970938/themes/editorial/1.jpg
+from: docs.theme_index
 images:
-  - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_600,w_800/v1524970938/themes/editorial/1.jpg
-    alt: Homepage
-    caption: Homepage
-  - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_600,w_800/v1524970938/themes/editorial/2.jpg
-    alt: Post Layout
-    caption: Post Layout
-  - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_600,w_800/v1524970938/themes/editorial/3.jpg
-    alt: Search
-    caption: Search
-menu:
-  - type: 'page'
-    itemId: 'Orchid Editorial'
-  - type: 'pageChildren'
-    itemId: 'Orchid Editorial'
-    asSubmenu: true
-    submenuTitle: Docs
+  - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_320,w_480/v1524970938/themes/editorial/1.jpg
+    title: Homepage
+  - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_320,w_480/v1524970938/themes/editorial/2.jpg
+    title: Post Layout
+  - src: https://res.cloudinary.com/orchid/image/upload/c_fit,h_320,w_480/v1524970938/themes/editorial/3.jpg
+    title: Search
 ---

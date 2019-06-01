@@ -185,117 +185,94 @@ public class BuildMetrics {
     private int meanPageTimeColumnWidth;
     private int medianPageTimeColumnWidth;
 
-    @java.lang.SuppressWarnings("all")
     public OrchidContext getContext() {
         return this.context;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getProgress() {
         return this.progress;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getMaxProgress() {
         return this.maxProgress;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getTotalPageCount() {
         return this.totalPageCount;
     }
 
-    @java.lang.SuppressWarnings("all")
     public GeneratorMetrics getCompositeMetrics() {
         return this.compositeMetrics;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getTitleColumnWidth() {
         return this.titleColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getPageCountColumnWidth() {
         return this.pageCountColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getIndexingTimeColumnWidth() {
         return this.indexingTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getGenerationTimeColumnWidth() {
         return this.generationTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getMeanPageTimeColumnWidth() {
         return this.meanPageTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getMedianPageTimeColumnWidth() {
         return this.medianPageTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setProgress(final int progress) {
         this.progress = progress;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setMaxProgress(final int maxProgress) {
         this.maxProgress = maxProgress;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setTotalPageCount(final int totalPageCount) {
         this.totalPageCount = totalPageCount;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGeneratorMetricsMap(final Map<String, GeneratorMetrics> generatorMetricsMap) {
         this.generatorMetricsMap = generatorMetricsMap;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setCompositeMetrics(final GeneratorMetrics compositeMetrics) {
         this.compositeMetrics = compositeMetrics;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setTitleColumnWidth(final int titleColumnWidth) {
         this.titleColumnWidth = titleColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setPageCountColumnWidth(final int pageCountColumnWidth) {
         this.pageCountColumnWidth = pageCountColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setIndexingTimeColumnWidth(final int indexingTimeColumnWidth) {
         this.indexingTimeColumnWidth = indexingTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setGenerationTimeColumnWidth(final int generationTimeColumnWidth) {
         this.generationTimeColumnWidth = generationTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setMeanPageTimeColumnWidth(final int meanPageTimeColumnWidth) {
         this.meanPageTimeColumnWidth = meanPageTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setMedianPageTimeColumnWidth(final int medianPageTimeColumnWidth) {
         this.medianPageTimeColumnWidth = medianPageTimeColumnWidth;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Map<String, GeneratorMetrics> getGeneratorMetricsMap() {
         return this.generatorMetricsMap;
     }

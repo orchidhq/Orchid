@@ -3,6 +3,7 @@ package com.eden.orchid.impl.themes.functions
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ constructor() : TemplateFunction("limitTo", false) {
         return arrayOf("input", "count")
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun apply(): Any {
         if (count == 0) {
             throw IllegalArgumentException("Count must be given.")

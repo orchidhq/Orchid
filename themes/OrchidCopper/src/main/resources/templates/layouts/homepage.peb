@@ -6,6 +6,3 @@
 {% block main %}
 {% page %}
 {% endblock %}
-
-{% block pagination %}
-{% endblock %}

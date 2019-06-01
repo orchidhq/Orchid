@@ -7,6 +7,6 @@ import com.eden.orchid.wiki.model.WikiSection
 
 @Description(value = "An offline PDF with your wiki contents.", name = "Wiki Book")
 class WikiBookPage(
-        reference: OrchidReference,
-        val section: WikiSection
+    reference: OrchidReference,
+    val section: WikiSection
 ) : OrchidPage(WikiBookResource(reference, section), "wikiBook", "${section.sectionTitle} Book")

@@ -4,7 +4,7 @@ description: Overview of Orchid's directory structure
 
 A typical Orchid site looks like this:
 
-{% highlight 'text' %}
+```text
 . / (resources root)
 ├── homepage.md
 ├── config.yml
@@ -21,7 +21,7 @@ A typical Orchid site looks like this:
     ├── components/
     ├── tags/
     └── includes/
-{% endhighlight %}
+```
 
 ## Directory Structure Overview
 

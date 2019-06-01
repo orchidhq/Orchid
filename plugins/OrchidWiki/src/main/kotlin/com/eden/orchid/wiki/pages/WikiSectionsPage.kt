@@ -10,7 +10,7 @@ import com.eden.orchid.wiki.WikiGenerator
 import com.eden.orchid.wiki.model.WikiModel
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
+    Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
 )
 @Description(value = "A landing page detailing all wiki sections.", name = "Wiki Sections")
 class WikiSectionsPage(val model: WikiModel, resource: OrchidResource, title: String)

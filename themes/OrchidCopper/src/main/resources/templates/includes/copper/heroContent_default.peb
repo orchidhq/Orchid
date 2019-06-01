@@ -1,0 +1,10 @@
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container has-text-centered">
+    <figure class="image is-128x128">
+      <img src="{{ theme.logo|asset }}" alt="">
+    </figure>
+    <h1 class="title is-1 is-spaced">{{ site.about.siteName }}</h1>
+    <p class="subtitle is-4">{{ site.about.siteDescription }}</p>
+  </div>
+</div>

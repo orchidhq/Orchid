@@ -8,7 +8,6 @@ public final class OptionsDescription {
     private final String description;
     private final String defaultValue;
 
-    @java.lang.SuppressWarnings("all")
     public OptionsDescription(final String key, final Class optionType, final Class[] optionTypeParameters, final String description, final String defaultValue) {
         this.key = key;
         this.optionType = optionType;
@@ -17,33 +16,27 @@ public final class OptionsDescription {
         this.defaultValue = defaultValue;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getKey() {
         return this.key;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class getOptionType() {
         return this.optionType;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class[] getOptionTypeParameters() {
         return this.optionTypeParameters;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDescription() {
         return this.description;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDefaultValue() {
         return this.defaultValue;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public boolean equals(final java.lang.Object o) {
         if (o == this) return true;
         if (!(o instanceof OptionsDescription)) return false;
@@ -64,8 +57,7 @@ public final class OptionsDescription {
         return true;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
@@ -81,8 +73,7 @@ public final class OptionsDescription {
         return result;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public java.lang.String toString() {
         return "OptionsDescription(key=" + this.getKey() + ", optionType=" + this.getOptionType() + ", optionTypeParameters=" + java.util.Arrays.deepToString(this.getOptionTypeParameters()) + ", description=" + this.getDescription() + ", defaultValue=" + this.getDefaultValue() + ")";
     }

@@ -27,19 +27,16 @@ public class TestResults {
         return this;
     }
 
-    @java.lang.SuppressWarnings("all")
     public TestResults(final Map<String, TestRenderer.TestRenderedPage> renderedPageMap, final boolean renderingSuccess, final Throwable thrownException) {
         this.renderedPageMap = renderedPageMap;
         this.renderingSuccess = renderingSuccess;
         this.thrownException = thrownException;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isRenderingSuccess() {
         return this.renderingSuccess;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Throwable getThrownException() {
         return this.thrownException;
     }

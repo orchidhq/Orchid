@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.site.OrchidSite
 import com.eden.orchid.api.site.OrchidSiteImpl
 import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.utilities.SuppressedWarnings
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -121,6 +122,7 @@ class OrchidReferenceTest : BaseOrchidTest() {
         "/example/index.js                                 , example       , index    , js        ,     ,                   ",
         "/example/index.html                               , example       , index    , html      ,     ,                   "
     )
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     fun testParsingExternalUrls(original: String, path: String?, fileName: String?, extension: String?, id: String?, query: String?) {
         val ref = OrchidReference.fromUrl(context, "", original)
 

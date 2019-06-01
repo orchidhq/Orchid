@@ -14,12 +14,12 @@ be the first thing in the file. Front Matter can use any of Orchid's parser lang
 comes between pairs of triple dashed lines, which is removed from the actual page output. Here's an example, which is 
 the actual Front Matter of this current page:
 
-{% highlight 'yaml' %}
+```yaml
 ---
 title: Custom Page Title
 description: Page Descriptiption
 ---
-{% endhighlight %}
+```
 
 ## Front Matter Formats
 
@@ -27,7 +27,7 @@ Front Matter can use different languages in two ways: by specifying the language
 dashes, or by using "fences" for that languages. As an example, TOML uses `+++` instead of `---`, and JSON uses `;;;`. 
 The following blocks of TOML Front Matter are equivalent to the YAML Front Matter block above:
 
-{% highlight 'yaml' %}
+```yaml
 ---toml
 title = "Page Configuration"
 customItems = [
@@ -36,9 +36,9 @@ customItems = [
   "Item Three"
 ]
 ---
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 +++
 title = "Page Configuration"
 customItems = [
@@ -47,7 +47,7 @@ customItems = [
   "Item Three"
 ]
 +++
-{% endhighlight %}
+```
 
 ## Custom Delimiters
 
@@ -56,7 +56,7 @@ using Front Matter as a comment when the normal syntax causes errors in your IDE
 
 ### Example: CSS Comments
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 services:
   compilers:
@@ -66,9 +66,9 @@ services:
         parser: 'yml'
         fileExtensions:
           - 'css'
-{% endhighlight %}
+```
 
-{% highlight 'css' %}
+```css
 /*
 title: "Page Configuration"
 customItems: 
@@ -80,11 +80,11 @@ customItems:
 .button {
   ...
 }
-{% endhighlight %}
+```
 
 ### Example: JBake Compatibility
 
-{% highlight 'yaml' %}
+```yaml
 # config.yml
 services:
   compilers:
@@ -94,9 +94,9 @@ services:
         parser: 'properties'
         fileExtensions:
           - 'md'
-{% endhighlight %}
+```
 
-{% highlight 'css' %}
+```css
 title=Weekly Links #2
 date=2013-02-01
 type=post
@@ -108,4 +108,4 @@ status=published
 
 ...
 
-{% endhighlight %}
+```

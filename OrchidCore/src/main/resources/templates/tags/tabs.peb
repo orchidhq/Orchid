@@ -9,11 +9,11 @@
         </li>
     {% endfor %}
     </ul>
-    <div class="tab-content">
-    {% for tab in tag.tabs %}
-        <div role="tabpanel"
-             class="tab-pane fade {% if loop.first %}in active{% endif %}"
-             id="{{ tag.id }}-{{ tab.key }}">{{ tab.content | raw }}</div>
-    {% endfor %}
-    </div>
+</div>
+<div class="tab-content">
+{% for tab in tag.tabs %}
+  <div role="tabpanel"
+       class="tab-pane fade {% if loop.first %}in active{% endif %}"
+       id="{{ tag.id }}-{{ tab.key }}">{{ tab.content | raw }}</div>
+{% endfor %}
 </div>

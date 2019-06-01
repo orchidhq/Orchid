@@ -1,18 +1,30 @@
 ---
-official: true
+from: docs.plugin_index
 description: Auto-generate your plugin's documentation, plus a handy admin panel to bring your plugins documentation to you.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974694/plugins/plugindocs.jpg
     alt: Plugin Docs
     caption: Photo by Daniel McCullough on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Plugin Docs'
-  - type: 'pageChildren'
-    itemId: 'Orchid Plugin Docs'
-    asSubmenu: true
-    submenuTitle: Docs
+tags:
+    - docs
+    - cms
+    - components
 ---
+
+## About
+
+OrchidPluginDocs is the solution to out-of-date documentation. It adds an admin panel to Orchid which automatically 
+documents about available features and their possible options for all plugins included in your build. 
+
+The same auto-documentation can be used to produce similar static documentation, for example, for documenting your own
+Orchid plugin.
+
+## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter) and visit `http://localhost:8080/admin` 
+- Read the {{ anchor('Amazing Admin Panel', 'The Amazing, Auto-Documenting Admin Panel') }} tutorial 
+
+## Usage
 
 ### Documenting your Orchid Plugin
 
@@ -27,27 +39,22 @@ It will then look through all the classes in that package and its sub-packages, 
 on that class, including their types and default values. You may pass multiple packages and they all will be documented 
 in the same way, if you want to be a bit more prescriptive about the packages to document.
 
-{% highlight 'yaml' %}
+```yaml
+
 ---
 layout: frontPage
 components:
-  - type: readme
   - type: pluginDocs
     tableClass: table
     tableLeaderClass: hidden
     packageNames: 
       - com.eden.orchid.plugindocs
 ---
-{% endhighlight %}
+```
 
 If your want more control over the exact classes that are used, you may set the specific classes (fully-qualified class
 names) to the `pluginDocs` component's `classNames` property, instead of using `packageNames`. Again, you may pass 
 multiple class names to document them all, and you can combine specific classes with whole packages. 
-
-> Note that classes are documented via reflection, and aren't tied directly to Java classes. This should work the same 
-> with classes and packages from any JVM language, such as Kotlin or Scala.
-
-{.alert .alert-info}
 
 You may also find it useful to include the options table directly in written content, rather than just as a Component.
 For these cases, you may use the `docs` Tag and pass it the fully-qualified name of a class to document. 

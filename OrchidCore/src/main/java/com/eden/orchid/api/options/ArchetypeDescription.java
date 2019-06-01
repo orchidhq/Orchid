@@ -7,7 +7,6 @@ public final class ArchetypeDescription {
     private final String displayName;
     private final String description;
 
-    @java.lang.SuppressWarnings("all")
     public ArchetypeDescription(final String key, final Class<? extends OptionArchetype> archetypeType, final String displayName, final String description) {
         this.key = key;
         this.archetypeType = archetypeType;
@@ -15,28 +14,23 @@ public final class ArchetypeDescription {
         this.description = description;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getKey() {
         return this.key;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Class<? extends OptionArchetype> getArchetypeType() {
         return this.archetypeType;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDisplayName() {
         return this.displayName;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDescription() {
         return this.description;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public boolean equals(final java.lang.Object o) {
         if (o == this) return true;
         if (!(o instanceof ArchetypeDescription)) return false;
@@ -56,8 +50,7 @@ public final class ArchetypeDescription {
         return true;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
@@ -72,8 +65,7 @@ public final class ArchetypeDescription {
         return result;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public java.lang.String toString() {
         return "ArchetypeDescription(key=" + this.getKey() + ", archetypeType=" + this.getArchetypeType() + ", displayName=" + this.getDisplayName() + ", description=" + this.getDescription() + ")";
     }

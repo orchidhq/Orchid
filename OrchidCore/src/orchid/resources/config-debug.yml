@@ -14,14 +14,7 @@ services:
 #      - 'changelog'
 #      - 'forms'
 #      - 'presentations'
-      - 'sitemap'
+#      - 'sitemap'
       - 'indices'
       - 'feeds'
 #      - 'taxonomies'
-
-wiki:
-  sections:
-    'user-manual':
-      createPdf: false
-    'tutorials':
-      createPdf: false

@@ -27,6 +27,9 @@ task checkForExtensionFile {
         if(extensionType == 'languageExtensions') {
             extensionType = 'plugins'
         }
+        if(extensionType == 'integrations') {
+            extensionType = 'plugins'
+        }
         def fullExtensionFilename = "${rootProject.rootDir}/OrchidCore/src/orchid/resources/pages/${extensionType}/${extensionName}/index.md"
         def extensionFile = file(fullExtensionFilename)
 

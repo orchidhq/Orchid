@@ -1,0 +1,35 @@
+<nav class="pagination is-rounded footer-pagination" role="navigation" aria-label="pagination">
+{% if page.previous is not null %}
+  <a class="pagination-previous" href="{{ page.previous.link }}">
+    <span class="icon"><i class="fas fa-chevron-left"></i></span>
+    {{ page.previous.title }}
+  </a>
+{% else %}
+  <a class="pagination-previous" disabled>
+    <span class="inner">
+      <span class="icon"><i class="fas fa-chevron-left"></i></span>
+      Previous
+    </span>
+  </a>
+{% endif %}
+
+{% if page.next is not null %}
+  <a class="pagination-next" href="{{ page.next.link }}">
+    {{ page.next.title }}
+    <span class="icon"><i class="fas fa-chevron-right"></i></span>
+  </a>
+{% else %}
+  <a class="pagination-next" disabled>
+    <span class="inner">
+      Next
+      <span class="icon"><i class="fas fa-chevron-right"></i></span>
+    </span>
+  </a>
+{% endif %}
+</nav>
+
+<footer class="footer">
+  <div class="content is-small">
+  {% include 'includes/footer.peb' %}
+  </div>
+</footer>

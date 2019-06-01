@@ -1,26 +1,31 @@
 ---
-official: true
+from: docs.plugin_index
 description: Tag your pages with custom taxonomies and generate archives and landing pages for your taxonomy groups.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/taxonomies.jpg
     alt: Taxonomies
     caption: Photo by Louie Martinez on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Taxonomies'
-  - type: 'pageChildren'
-    itemId: 'Orchid Taxonomies'
-    asSubmenu: true
-    submenuTitle: Docs
+tags:
+    - blog
 ---
 
-### Understanding Taxonomies
+## About
 
-Orchid supports user-defined taxonomies in a manner inspired by 
-[Hugo's custom taxonomies](https://gohugo.io/content-management/taxonomies/). Taxonomies define logical relationships
-among various pages in your site, generating archives for these groups of pages to bring related content into one place.
-The data that defines these logic groupings are often an intrinsic property of the page as defined by the Generator that
-produced it, but taxonomies may also be "tagged" by hand to give you complete flexibility over your taxonomies. 
+Orchid supports user-defined taxonomies in inspired by [Hugo](https://gohugo.io/content-management/taxonomies/). 
+Taxonomies define logical relationships among various pages in your site, generating archives for these groups of pages 
+to bring related content into one place.
+
+The data that defines these logic groupings are often an intrinsic property of the page as defined by the plugin that
+produced it, but taxonomies may also be "tagged" by hand to give you complete flexibility over your taxonomies. This 
+makes it easy to create archives for pages produced by another plugin, or create them yourself to match your own needs.
+
+## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+
+## Usage
+
+### Understanding Taxonomies
 
 To understand how to use taxonomies, let's first look at a simple example you're probably already familiar and quite
 comfortable with, blog categories and tags. 
@@ -58,15 +63,15 @@ use the taxonomy default values; (2) you can set each list item to be a map of c
 is the taxonomy type; (3) or you can set each list item to be a map with a single property that is the taxonomy type, 
 and whose value is a map of configuration values. 
 
-{% highlight 'yaml' %}
+```yaml
 # Method (1), String as taxonomy types
 taxonomies: 
   taxonomies:
     - 'categories'
     - 'tags'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # Method (2), Map with config values and `key` property as taxonomy type
 taxonomies: 
   taxonomies:
@@ -74,9 +79,9 @@ taxonomies:
       title: 'Blog Categories'
     - key: 'tags'
       title: 'Tags'
-{% endhighlight %}
+```
 
-{% highlight 'yaml' %}
+```yaml
 # Method (3), Map with only key as taxonomy type, and value as config values
 taxonomies: 
   taxonomies:
@@ -84,7 +89,7 @@ taxonomies:
         title: 'Blog Categories'
     - tags:
         title: 'Tags'
-{% endhighlight %}
+```
 
 Note that there is no difference between Method (2) and Method (3), it is simply a matter of preference.
 
@@ -95,7 +100,7 @@ Individual Terms within a Taxonomy may also be customized. Terms are located fro
 configuration as values of an object in its taxonomy configuration object. For example, if we have `categories` on our
 site for "News" and "Sports", we could configure the individual terms with the following configuration in `config.yml`:
 
-{% highlight 'yaml' %}
+```yaml
 taxonomies: 
   taxonomies:
     - categories: 
@@ -104,7 +109,7 @@ taxonomies:
           title: 'Local News'
         sports: 
           title: 'Sports'
-{% endhighlight %}
+```
 
 ### Assigning Pages to Terms
 
@@ -119,13 +124,13 @@ to generate the Post archives. The OrchidPosts plugin already does the work of a
 OrchidTaxonomies plugin is able to use this configuration for itself (internally, it uses Reflection to call a getter on 
 the Page, which returns the categories and tags). Other plugins may already be set up in their own manner as well, such 
 as Wiki `sections` and Static Page `groups`, which makes it very easy to generate archives for any plugin you may be 
-using. 
+using.
 
 If you want to assign pages to Taxonomies that are not set up by the plugin, you can simply add the Term values in the
 page's Front Matter. For "singular" taxonomies, the value must be a String. For "multiple" taxonomies, the value can be 
 a String or a list of Strings.
 
-{% highlight 'yaml' %}
+```yaml
 ---
 categories: 'Sports'
 tags:
@@ -133,7 +138,7 @@ tags:
   - 'Hiking'
   - 'Nature'
 ---
-{% endhighlight %}
+```
 
 ### Archive Ordering
 

@@ -1,0 +1,12 @@
+<!-- Hero header: will stick at the top -->
+<div class="hero-head">
+  <div class="columns is-mobile has-text-centered">
+  {% for socialItem in theme.social.getItems() %}
+    <div class="column">
+      <a class="icon is-inline-block" href="{{ socialItem.link }}" title="{{ socialItem.label }}">
+        <i class="{{ socialItem.icon }} large-social-icon"></i>
+      </a>
+    </div>
+  {% endfor %}
+  </div>
+</div>

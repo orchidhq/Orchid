@@ -1,7 +1,8 @@
 ---
-theme: Editorial
-template: 'page'
-layout: 'index'
+theme: 
+  from: 'theme.demo.Editorial'
+template: page
+layout: index
 skipTaxonomy: true
 menu:
   - type: 'page'

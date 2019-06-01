@@ -1,1 +1,1 @@
-{% extends (official) ? 'includes/officialPlugin' : 'includes/unofficialPlugin' %}
+{% extends 'pages/base_plugin.peb' %}

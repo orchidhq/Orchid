@@ -199,17 +199,14 @@ public final class OrchidWebserver extends NanoHTTPD {
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidContext getContext() {
         return this.context;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Set<OrchidController> getControllers() {
         return this.controllers;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidFileController getFileController() {
         return this.fileController;
     }

@@ -36,17 +36,17 @@ match a page to your query, so be sure to check the plugins' documentation to kn
 In addition to using a page's title as the itemId, you can use a `key=value` reference, which will find pages based on 
 a property in its Front Matter. 
 
-{% highlight 'yaml' %}
+```yaml
 ---
 pageId: 'page-one'
 ---
-{% endhighlight %}
+```
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ link('pageId=page-one') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 **Collection Id**
 
@@ -69,13 +69,13 @@ is given, it will be used as both the `itemId` _and_ the link text, making it al
 
 This function only matches items if they are an {{anchor('OrchidPage')}}.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ anchor('Link Text/Item Id') -> <a href="...">Link Text</a> or "Link Text" }}
 {{ anchor('Link Text', ['itemId', 'collectionId', 'collectionType']) }}
 {{ anchor(title='Link Text', itemId='itemId', collectionId='collectionId', collectionType='collectionType') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ### Link Function
 
@@ -85,35 +85,35 @@ for you.
 
 This function only matches items if they are an {{anchor('OrchidPage')}}.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ link(['itemId', 'collectionId', 'collectionType']) -> https://orchid.netlify.com/... }}
 {{ link(itemId='itemId', collectionId='collectionId', collectionType='collectionType') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ### Find Function
 
 The `find` function will find a matching page and return the {{anchor('OrchidPage')}} object directly to the template.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ find(['itemId', 'collectionId', 'collectionType']) -> OrchidPage }}
 {{ find(itemId='itemId', collectionId='collectionId', collectionType='collectionType') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ### Find All Function
 
 The `findAll` method matches _all_ pages in a given query, and returns the list of matching pages directly to the 
 template.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ findAll(['itemId', 'collectionId', 'collectionType']) -> List<OrchidPage> }}
 {{ findAll(itemId='itemId', collectionId='collectionId', collectionType='collectionType') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ### Page Menu Item
 
@@ -121,10 +121,10 @@ Use the `page` menu item to find a matching page and add it to the menu.
 
 This menu item only matches items if they are an {{anchor('OrchidPage')}}.
 
-{% highlight 'yaml' %}
+```yaml
 menu: 
   - type: page
     itemId: 'itemId'
     collectionId: 'collectionId'
     collectionType: 'collectionType'
-{% endhighlight %}
+```

@@ -73,7 +73,7 @@ constructor(
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         val pagesList = pages.toList()
 
-        val usesCustomThemes = pagesList.stream().anyMatch { it is StaticPage && it.theme != null }
+        val usesCustomThemes = pagesList.stream().anyMatch { it is StaticPage && it.theme.get() != null }
 
         val stream = if (usesCustomThemes) {
             pagesList.stream().sequential()

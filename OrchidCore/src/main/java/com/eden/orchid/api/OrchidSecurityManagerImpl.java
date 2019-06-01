@@ -2,6 +2,7 @@ package com.eden.orchid.api;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.eden.orchid.utilities.SuppressedWarnings;
 import org.apache.commons.io.FileUtils;
 
 import javax.inject.Inject;
@@ -72,16 +73,16 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
     @Override public void checkListen(int port) { }
     @Override public void checkAccept(String host, int port) { }
     @Override public void checkMulticast(InetAddress maddr) { }
-    @SuppressWarnings("deprecation") @Override public void checkMulticast(InetAddress maddr, byte ttl) { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) @Override public void checkMulticast(InetAddress maddr, byte ttl) { }
     @Override public void checkPropertiesAccess() { }
     @Override public void checkPropertyAccess(String key) { }
     @Override public void checkPrintJobAccess() { }
-    @SuppressWarnings("deprecation") @Override public void checkSystemClipboardAccess() { }
-    @SuppressWarnings("deprecation") @Override public void checkAwtEventQueueAccess() { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) @Override public void checkSystemClipboardAccess() { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) @Override public void checkAwtEventQueueAccess() { }
     @Override public void checkPackageAccess(String pkg) { }
     @Override public void checkPackageDefinition(String pkg) { }
     @Override public void checkSetFactory() { }
-    @SuppressWarnings("deprecation") @Override public void checkMemberAccess(Class<?> clazz, int which) { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) @Override public void checkMemberAccess(Class<?> clazz, int which) { }
     @Override public void checkSecurityAccess(String target) { }
 
     @Override public void checkRead(String file) { checkFilesystemReadAccess(file); }

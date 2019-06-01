@@ -1,22 +1,20 @@
 package com.eden.orchid.api.theme;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.converters.BooleanConverter;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.assets.AssetManager;
+import com.eden.orchid.impl.relations.ThemeRelation;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
-import org.json.JSONObject;
+import kotlin.text.StringsKt;
 
 import javax.inject.Inject;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -26,8 +24,6 @@ import java.util.Stack;
  */
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
 public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {
-
-    private final BooleanConverter booleanConverter;
 
     private OrchidContext context;
     private final AssetManager assetManager;
@@ -43,13 +39,11 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 
     @Inject
     public ThemeServiceImpl(
-            BooleanConverter booleanConverter,
             AssetManager assetManager,
             Provider<Set<Theme>> themesProvider,
             @Named("theme") String defaultTheme,
             Provider<Set<AdminTheme>> adminThemesProvider,
             @Named("adminTheme") String defaultAdminTheme) {
-        this.booleanConverter = booleanConverter;
         this.assetManager = assetManager;
         this.defaultTheme = defaultTheme;
         this.themesProvider = themesProvider;
@@ -65,14 +59,14 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
         Theme emptyTheme = new Theme(context, "Default", 1) { };
         AdminTheme emptyAdminTheme = new AdminTheme(context, "Default", 1) { };
 
-        themes = new ThemeHolder<>(booleanConverter, context, defaultTheme, "theme", themesProvider.get(), emptyTheme);
-        adminThemes = new ThemeHolder<>(booleanConverter, context, defaultAdminTheme, "adminTheme", adminThemesProvider.get(), emptyAdminTheme);
+        themes = new ThemeHolder<>(context, defaultTheme, "theme", themesProvider.get(), emptyTheme);
+        adminThemes = new ThemeHolder<>(context, defaultAdminTheme, "adminTheme", adminThemesProvider.get(), emptyAdminTheme);
     }
 
     @Override
     public void onStart() {
-        themes.pushTheme(themes.getDefaultTheme());
-        adminThemes.pushTheme(adminThemes.getDefaultTheme());
+        themes.clearThemes();
+        adminThemes.clearThemes();
     }
 
     @Override
@@ -83,29 +77,39 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 // Interface Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override public Theme getTheme()                                      { return themes.getTheme(); }
-    @Override public Theme getDefaultTheme()                               { return themes.getDefaultTheme(); }
-    @Override public Theme findTheme(String theme)                         { return themes.findTheme(theme); }
-    @Override public void  pushTheme(Theme theme)                          { themes.pushTheme(theme); }
-    @Override public void  pushTheme(Theme theme, Map<String, Object> themeOptions) { themes.pushTheme(theme, themeOptions); }
-    @Override public void  popTheme()                                      { themes.popTheme(); }
-    @Override public void  clearThemes()                                   { themes.clearThemes(); }
-    @Override public Theme doWithTheme(Object theme, Runnable cb)          { return themes.doWithTheme(theme, cb); }
+    @Override public Theme getTheme()              { return themes.getTheme(); }
+    @Override public Theme findTheme(String theme) { return themes.findTheme(theme); }
+    @Override public void  pushTheme(Theme theme)  { themes.pushTheme(theme); }
+    @Override public void  popTheme()              { themes.popTheme(); }
+    @Override public void  clearThemes()           { themes.clearThemes(); }
 
-    @Override public AdminTheme getAdminTheme()                                           { return adminThemes.getTheme(); }
-    @Override public AdminTheme getDefaultAdminTheme()                                    { return adminThemes.getDefaultTheme(); }
-    @Override public AdminTheme findAdminTheme(String theme)                              { return adminThemes.findTheme(theme); }
-    @Override public void       pushAdminTheme(AdminTheme theme)                          { adminThemes.pushTheme(theme); }
-    @Override public void       pushAdminTheme(AdminTheme theme, Map<String, Object> themeOptions) { adminThemes.pushTheme(theme, themeOptions); }
-    @Override public void       popAdminTheme()                                           { adminThemes.popTheme(); }
-    @Override public void       clearAdminThemes()                                        { adminThemes.clearThemes(); }
+    @Override public AdminTheme getAdminTheme()                  { return adminThemes.getTheme(); }
+    @Override public AdminTheme findAdminTheme(String theme)     { return adminThemes.findTheme(theme); }
+    @Override public void       pushAdminTheme(AdminTheme theme) { adminThemes.pushTheme(theme); }
+    @Override public void       popAdminTheme()                  { adminThemes.popTheme(); }
+    @Override public void       clearAdminThemes()               { adminThemes.clearThemes(); }
+
+    @Override public Theme doWithTheme(ThemeRelation themeObject, Runnable cb) {
+        Theme theme = themeObject.get();
+
+        if (theme != null) {
+            pushTheme(theme);
+            cb.run();
+            theme.renderAssets();
+            popTheme();
+            return theme;
+        }
+        else {
+            cb.run();
+            return null;
+        }
+    }
 
 // Delegate interface calls to inner class
 //----------------------------------------------------------------------------------------------------------------------
 
     private static class ThemeHolder<T extends AbstractTheme> {
 
-        private final BooleanConverter booleanConverter;
         private OrchidContext context;
 
         private String defaultThemeKey;
@@ -114,8 +118,7 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
         private Stack<T> themeStack;
         private Set<T> availableThemes;
 
-        ThemeHolder(BooleanConverter booleanConverter, OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes, T emptyTheme) {
-            this.booleanConverter = booleanConverter;
+        ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes, T emptyTheme) {
             this.context = context;
             this.defaultThemeKey = defaultTheme;
             this.defaultOptionsKey = defaultOptionsKey;
@@ -131,61 +134,32 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
             return (themeStack.size() > 0) ? themeStack.peek() : defaultTheme;
         }
 
-        T getDefaultTheme() {
-            return defaultTheme;
-        }
-
         T findTheme(String themeKey) {
-            if(availableThemes.size() > 0) {
-                T foundTheme = availableThemes
-                        .stream()
-                        .sorted()
-                        .filter(theme -> theme.getKey().equals(themeKey))
-                        .findFirst()
-                        .orElse(null);
-
-                if (foundTheme != null) {
-                    return (T) context.getInjector().getInstance(foundTheme.getClass());
-                }
-                else {
-                    Clog.e("Could not find theme [{}-{}]", defaultOptionsKey, themeKey);
-                    return null;
-                }
-            }
-            else {
+            if(EdenUtils.isEmpty(themeKey)) {
+                Clog.e("{} key cannot be empty [{}-{}]", StringsKt.capitalize(defaultOptionsKey));
                 return null;
             }
+
+            if(availableThemes.size() == 0) {
+                Clog.e("No {} registered", defaultOptionsKey);
+                return null;
+            }
+
+            return availableThemes
+                    .stream()
+                    .sorted()
+                    .filter(theme -> theme.getKey().equals(themeKey))
+                    .findFirst()
+                    .map(it -> (T) context.getInjector().getInstance(it.getClass()))
+                    .orElseGet(() -> {
+                        Clog.e("Could not find {} [{}]", defaultOptionsKey, themeKey);
+                        return null;
+                    });
         }
 
         void pushTheme(T theme) {
-            boolean isolated = false;
-            Map<String, Object> actualThemeOptions = new HashMap<>();
-
-            JSONElement defaultThemeOptions = context.query(defaultOptionsKey);
-            JSONElement themeOptions = context.query(theme.getKey());
-
-            if(EdenUtils.elementIsObject(themeOptions)) {
-                JSONObject themeOptionsObject = (JSONObject) themeOptions.getElement();
-                if(themeOptionsObject.has("isolate") && booleanConverter.convert(boolean.class, themeOptionsObject.get("isolate")).second) {
-                    isolated = true;
-                }
-            }
-
-            if(EdenUtils.elementIsObject(defaultThemeOptions) && !isolated) {
-                actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) defaultThemeOptions.getElement()).toMap());
-            }
-            if(EdenUtils.elementIsObject(themeOptions)) {
-                actualThemeOptions = EdenUtils.merge(actualThemeOptions, ((JSONObject) themeOptions.getElement()).toMap());
-            }
-
-            pushTheme(theme, actualThemeOptions);
-        }
-
-        void pushTheme(T theme, Map<String, Object> themeOptions) {
             theme.clearCache();
             theme.initialize();
-
-            theme.extractOptions(context, themeOptions);
 
             themeStack.push(theme);
         }
@@ -196,54 +170,8 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 
         void clearThemes() {
             themeStack.clear();
-            pushTheme(this.defaultTheme);
-        }
-
-        T doWithTheme(Object themeObject, Runnable cb) {
-            T theme = null;
-            Object themeKey = null;
-            Map<String, Object> themeOptions = null;
-
-            if(themeObject != null) {
-                if(themeObject instanceof String) {
-                    themeOptions = null;
-                    themeKey = themeObject;
-                    theme = findTheme((String) themeKey);
-                }
-                else if(themeObject instanceof JSONObject) {
-                    themeOptions = ((JSONObject) themeObject).toMap();
-                    themeKey = themeOptions.get("key");
-                    if(themeKey != null) {
-                        themeKey = themeKey.toString();
-                    }
-                    theme = findTheme((String) themeKey);
-                }
-                else if(themeObject instanceof Map) {
-                    themeOptions = (Map<String, Object>) themeObject;
-                    themeKey = themeOptions.get("key");
-                    if(themeKey != null) {
-                        themeKey = themeKey.toString();
-                    }
-                    theme = findTheme((String) themeKey);
-                }
-            }
-
-            if (theme != null) {
-                if(themeOptions != null) {
-                    pushTheme(theme, themeOptions);
-                }
-                else {
-                    pushTheme(theme);
-                }
-                cb.run();
-                theme.renderAssets();
-                popTheme();
-                return theme;
-            }
-            else {
-                cb.run();
-                return null;
-            }
+            defaultTheme.extractOptions(context, new HashMap<>());
+            pushTheme(defaultTheme);
         }
     }
 

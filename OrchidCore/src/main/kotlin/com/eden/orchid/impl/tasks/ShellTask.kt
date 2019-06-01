@@ -6,6 +6,7 @@ import com.eden.orchid.api.events.On
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskService
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provider
 import java.util.EventListener
 import java.util.Scanner
@@ -31,7 +32,7 @@ constructor(
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     @On(Orchid.Lifecycle.EndSession::class)
     fun onEndSession(event: Orchid.Lifecycle.EndSession) {
         sn!!.close()

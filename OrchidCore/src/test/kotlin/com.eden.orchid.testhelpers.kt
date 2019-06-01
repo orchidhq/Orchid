@@ -18,6 +18,11 @@ fun Assertion.Builder<TestResults>.nothingRendered(): Assertion.Builder<TestResu
             it.renderingSuccess && it.renderedPageMap.isEmpty()
         }
 
+fun Assertion.Builder<TestResults>.pagesGenerated(size: Int): Assertion.Builder<TestResults> =
+    assertThat("at least one page was rendered") {
+        it.renderingSuccess && it.renderedPageMap.isNotEmpty() && it.renderedPageMap.size == size
+    }
+
 fun Assertion.Builder<TestResults>.pageWasRendered(name: String): Assertion.Builder<TestRenderer.TestRenderedPage> =
     assertThat("page was rendered at $name") {
             it.renderingSuccess && it.renderedPageMap[name] != null

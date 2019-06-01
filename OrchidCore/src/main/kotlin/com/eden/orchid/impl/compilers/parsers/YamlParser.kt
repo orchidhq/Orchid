@@ -2,6 +2,7 @@ package com.eden.orchid.impl.compilers.parsers
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidParser
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.logSyntaxError
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.parser.ParserException
@@ -19,7 +20,7 @@ constructor() : OrchidParser(100) {
         return arrayOf("yml", "yaml")
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun parse(extension: String, input: String): Map<String, Any>? {
         try {
             val yamlData = Yaml().load<Any>(input)

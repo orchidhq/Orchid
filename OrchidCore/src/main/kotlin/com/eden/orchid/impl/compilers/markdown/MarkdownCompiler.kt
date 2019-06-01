@@ -1,10 +1,10 @@
 package com.eden.orchid.impl.compilers.markdown
 
 import com.eden.orchid.api.compilers.OrchidCompiler
-import com.vladsch.flexmark.Extension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.IRender
+import com.vladsch.flexmark.util.builder.Extension
 import com.vladsch.flexmark.util.options.MutableDataSet
 
 import javax.inject.Inject

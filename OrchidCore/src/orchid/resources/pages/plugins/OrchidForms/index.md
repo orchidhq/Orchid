@@ -1,20 +1,16 @@
 ---
-official: true
+from: docs.plugin_index
 description: Engage your users with embeddable, fully customizable forms.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524974798/plugins/forms.jpg
     alt: Forms
     caption: Photo by Gemma Evans on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Forms'
-  - type: 'pageChildren'
-    itemId: 'Orchid Forms'
-    asSubmenu: true
-    submenuTitle: Docs
+tags:
+    - components
+    - blog
 ---
 
-### About Orchid Forms
+## About
 
 Orchid Forms allows you to create form definitions and embed them anywhere as an Orchid Component. While handling form 
 submissions is typically something you need your own server for, HTML forms can actually be quite useful on static sites
@@ -23,19 +19,28 @@ when combined with services like [Netlify Form Handling](https://www.netlify.com
 separate the concerns for the display and fields of your forms from the handling of the form data, so you can focus on 
 what matters most: engaging your audience.
 
+## Demo
+
+- {{anchor('Comment Form Demo')}}
+- {{anchor('Contact Form Demo')}}
+- {{anchor('Anonymous Form Demo')}}
+
+## Usage
+
 ### Creating Forms
 
 There are multiple ways in which you can set up forms. All pages in the `forms/` directory will create a form with a 
 `key` matching the filename of the form definition file. You can then use this `key` to reference that form definition
 in the `form` Component:
 
-{% highlight 'yaml' %}
+```yaml
+
 ---
 components:
   - type: form
     form: contact # uses definition from forms/contact.yml
 ---
-{% endhighlight %}
+```
 
 The files used for these form definitions can either be a data-type file (such as YML or TOML), or a content-type file 
 (such as Markdown or Pebble), with the form definition in the file's Front Matter. In the case that the form is a data-
@@ -58,9 +63,36 @@ But in most cases, you will want to customize your forms. The format used to con
 [October CMS](https://octobercms.com/docs/backend/forms#form-fields), albeit much simpler and less powerful. Take the 
 default `config` form as an example:
 
-{% highlight 'yaml' %}
-{{ load('forms/contact.yml', false) }}
-{% endhighlight %}
+```yaml
+title: 'Leave us a comment'
+redirectionPage: 'Orchid Forms'
+attributes:
+  data-netlify: true
+fields:
+  name:
+    label: 'Name (optional)'
+    type: text
+    span: 'full'
+    order: 1
+  occupation:
+    label: 'Occupation'
+    type: 'radio'
+    required: true
+    span: 'full'
+    order: 3
+    options:
+      student: Student
+      programmer: Programmer
+      teacher: Teacher
+      pastor: Pastor
+      other: Other
+  comments:
+    label: 'Comments'
+    type: 'textarea'
+    required: true
+    span: 'full'
+    order: 4
+```
 
 The `fields` property contains a map of field definitions, where each key is the `name` attribute of an `input` in the 
 form. Each field must have a `type`, which typically matches one of the HTML5 input `types`, but field types are 

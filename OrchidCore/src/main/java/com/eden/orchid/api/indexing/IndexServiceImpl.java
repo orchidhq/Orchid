@@ -168,30 +168,25 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
         private final String collectionId;
         private final String itemId;
 
-        @java.lang.SuppressWarnings("all")
         public CollectionSearchCacheKey(final String collectionType, final String collectionId, final String itemId) {
             this.collectionType = collectionType;
             this.collectionId = collectionId;
             this.itemId = itemId;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getCollectionType() {
             return this.collectionType;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getCollectionId() {
             return this.collectionId;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getItemId() {
             return this.itemId;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public boolean equals(final java.lang.Object o) {
             if (o == this) return true;
             if (!(o instanceof IndexServiceImpl.CollectionSearchCacheKey)) return false;
@@ -209,13 +204,11 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
             return true;
         }
 
-        @java.lang.SuppressWarnings("all")
         protected boolean canEqual(final java.lang.Object other) {
             return other instanceof IndexServiceImpl.CollectionSearchCacheKey;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public int hashCode() {
             final int PRIME = 59;
             int result = 1;
@@ -228,8 +221,7 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
             return result;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public java.lang.String toString() {
             return "IndexServiceImpl.CollectionSearchCacheKey(collectionType=" + this.getCollectionType() + ", collectionId=" + this.getCollectionId() + ", itemId=" + this.getItemId() + ")";
         }
@@ -240,22 +232,18 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
         collectionSearchCache.clear();
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidRootIndex getInternalIndex() {
         return this.internalIndex;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidRootIndex getExternalIndex() {
         return this.externalIndex;
     }
 
-    @java.lang.SuppressWarnings("all")
     public OrchidRootIndex getCompositeIndex() {
         return this.compositeIndex;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<OrchidCollection> getCollections() {
         return this.collections;
     }

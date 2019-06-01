@@ -9,6 +9,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provider
 import java.util.Arrays
 import java.util.HashMap
@@ -22,7 +23,7 @@ import javax.inject.Singleton
 
 @Singleton
 @JvmSuppressWildcards
-@Suppress("UNUSED_PARAMETER")
+@Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 class ClogSetupListener
 @Inject
 constructor(
@@ -45,9 +46,6 @@ constructor(
     fun onStart(event: Orchid.Lifecycle.OnStart) {
         val formatter = Clog.getInstance().formatter
         if (formatter is Parseltongue) {
-            val clogSpells = contextProvider.get().injector.getInstance(ClogSpells::class.java)
-            formatter.findSpells(clogSpells)
-
             val incantations = templateTagsProvider.get()
                 .map { templateTag ->
                     ClogIncantationWrapper(
@@ -94,8 +92,9 @@ constructor(
             // add our custom Java Logging handler
             rootLogger.addHandler(ClogJavaLoggingHandler())
 
-            // ignore annoying Hibernate Validator message
+            // ignore annoying Hibernate Validator and JSass messages
             Clog.getInstance().addTagToBlacklist("org.hibernate.validator.internal.util.Version")
+            Clog.getInstance().addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
         }
     }
 

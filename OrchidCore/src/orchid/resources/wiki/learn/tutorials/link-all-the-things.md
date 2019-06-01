@@ -18,11 +18,11 @@ You can follow along with this tutorial on your own, or find the source for this
 
 Let's first review what we have in our `locations/index.md` page:
 
-{% highlight 'jinja' %}
+```jinja
 - [Houston](http://localhost:8080/locations/houston)
 - [Dallas](http://localhost:8080/locations/dallas)
 - [Austin](http://localhost:8080/locations/austin)
-{% endhighlight %}
+```
 
 There are a few issues with this. The first, most obvious issue is that these links are hardcoded to using our 
 development base URL of `http://localhost:8080`. We don't want to go live with this site when it has links to 
@@ -48,7 +48,7 @@ The `site.baseUrl` property looks like just what we need! We can replace the har
 with that variable instead, and it will automatically update these URLs based on the `baseUrl` property set in 
 `build.gradle`.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 ---
 ---
@@ -56,7 +56,7 @@ with that variable instead, and it will automatically update these URLs based on
 - [Dallas]({{ '/locations/dallas'|baseUrl }})
 - [Austin]({{ '/locations/austin'|baseUrl }})
 {% endverbatim %}
-{% endhighlight %}
+```
 
 But we can do better. There are still some parts to those URLs that might get changed without our knowing, which would
 lead to broken links. Let's see how we can avoid that.
@@ -72,7 +72,7 @@ specific, known page.
 
 The first function we can use is `link()`. Let's start with an example:
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 ---
 ---
@@ -80,7 +80,7 @@ The first function we can use is `link()`. Let's start with an example:
 - [Dallas]({{ link('Dallas') }})
 - [Austin]({{ link('Austin') }})
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Now, instead of manually creating the links to our individual location pages, we simply pass the _title_ of our target 
 page to the `link()` function, which returns the String URL of the page whose title is the same, which is exactly what 
@@ -101,7 +101,7 @@ this gets tedious and makes your templates hard to read, so Orchid offers anothe
 intelligently generating clickable anchor link, `anchor()`. With the `anchor()` function, we can replace the entire 
 Markdown link, and let Orchid create it for us instead:
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 ---
 ---
@@ -109,14 +109,14 @@ Markdown link, and let Orchid create it for us instead:
 - {{ anchor('Dallas') }}
 - {{ anchor('Austin') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 Not only is our template easier to read now, but it won't generate links if the page doesn't exist, instead just 
 returning the text that is passed to the function directly. By default, the text passed to the function is used as the 
 text in the link, but this can be changed by passing an additional argument to the function. If there are 2 parameters,
 then the first one is the text that will be displayed in the link, while the second is used to look up a page.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 ---
 ---
@@ -124,7 +124,7 @@ then the first one is the text that will be displayed in the link, while the sec
 - {{ anchor('Dallas, TX', 'Dallas') }}
 - {{ anchor('Austin, TX', 'Austin') }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ## Generating the Page List
 
@@ -144,13 +144,13 @@ Take a look at the snippet below as an example. It is incomplete because there i
 functions parameters, but I'll get back to that in a moment. For now, just notice that we can iterate over the result 
 and build links manually. 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% for page in findAll(...) %}
 - [{{page.title}}]({{page.link}})
 {% endfor %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ### Filtering Collections
 
@@ -173,13 +173,13 @@ collections.
 Armed with this knowledge, we can finish out our example and not only generate dynamic links to our location pages, but 
 also dynamically generate the entire list! 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% for page in findAll(collectionType='pages', collectionId='locations') %}
 - [{{page.title}}]({{page.link}})
 {% endfor %}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ## Conclusion
 

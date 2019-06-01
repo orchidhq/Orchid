@@ -6,7 +6,7 @@
     {% for entry in page.entries -%}
     <url>
         <loc>{{- entry.link -}}</loc>
-        <lastmod>{{- entry.lastModifiedDate -}}</lastmod>
+        <lastmod>{{- entry.lastModifiedDate|localDate('YYYY-MM-dd') -}}</lastmod>
         {% if entry.changeFrequency is not empty -%}
         <changefreq>{{- entry.changeFrequency -}}</changefreq>
         {%- endif -%}

@@ -6,8 +6,7 @@
         <div class="title">{{ page.title }}</div>
         <div class="description">{{ page.description }}</div>
     </div>
-    {% set previewImage = page.get('images')|first %}
-    <img class="img-responsive" src="{{ previewImage.src }}" alt="{{ previewImage.alt }}">
+    {% set previewImage = page.images|first %}
+    <img class="img-responsive" src="{{ previewImage.src }}" alt="{{ previewImage.title }}">
 </div>
 {% endblock %}
-

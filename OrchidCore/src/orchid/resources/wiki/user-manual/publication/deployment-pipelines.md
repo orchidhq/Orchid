@@ -30,7 +30,7 @@ command from an interactive session or through the admin panel.
 Setting up a deployment pipeline is configured in your `config.yml` under the `services.publications.stages` key. It 
 follows the same modular configuration you've come to expect and love that is used for components, menus, and forms.
 
-{% highlight 'yaml' %}
+```yaml
 services:
   publications:
     stages:
@@ -42,7 +42,7 @@ services:
         project: 'Orchid'
         branch: 'gh-pages'
         versioned: true
-{% endhighlight %}
+```
 
 Running the deployment pipeline is a 2-step process: validation, and execution. 
 
@@ -88,7 +88,7 @@ In addition, you can make any single deployment stage run dry, even when the res
 config. Note that this does _not_ override the flag on the entire process, so setting `dry` to false on a dry run will
 not force that stage to execute anyway. 
 
-{% highlight 'yaml' %}
+```yaml
 services:
   publications:
     stages:
@@ -98,7 +98,7 @@ services:
         branch: 'gh-pages'
         versioned: true
         dry: true
-{% endhighlight %}
+```
 
 ## Available Publishers
 

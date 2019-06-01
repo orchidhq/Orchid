@@ -10,6 +10,7 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.impl.relations.ThemeRelation
 import com.eden.orchid.pages.PageGroupArchetype
 import com.eden.orchid.pages.PagesGenerator
 
@@ -34,7 +35,7 @@ class StaticPage(resource: OrchidResource)
             "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
             "specific options for the theme."
     )
-    var theme: Any? = null
+    lateinit var theme: ThemeRelation
 
     override fun onPostExtraction() {
         reference.isUsePrettyUrl = usePrettyUrl

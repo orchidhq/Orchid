@@ -20,12 +20,10 @@ public final class PageContentComponent extends OrchidComponent {
         super(context, "pageContent", 100);
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isNoWrapper() {
         return this.noWrapper;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setNoWrapper(final boolean noWrapper) {
         this.noWrapper = noWrapper;
     }

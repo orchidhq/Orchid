@@ -16,10 +16,11 @@ open class FileResourceSource(
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(fileName: String): OrchidResource? {
+        val baseDirectory = File(directory)
         val file = File("$directory/$fileName")
 
         return if (file.exists() && !file.isDirectory) {
-            FileResource(context.get(), file)
+            FileResource(context.get(), file, baseDirectory)
         }
         else null
     }
@@ -27,6 +28,7 @@ open class FileResourceSource(
     override fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
+        val baseDirectory = File(directory)
         val file = File("$directory/$dirName")
 
         if (file.exists() && file.isDirectory) {
@@ -36,7 +38,7 @@ open class FileResourceSource(
                 for (resourceAsFile in newFiles) {
                     val newFile = resourceAsFile as File
                     if (!isIgnoredFile(file) && shouldAddEntry(newFile.name)) {
-                        val entry = FileResource(context.get(), newFile)
+                        val entry = FileResource(context.get(), newFile, baseDirectory)
                         entry.priority = priority
                         entries.add(entry)
                     }

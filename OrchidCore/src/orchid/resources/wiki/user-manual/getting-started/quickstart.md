@@ -38,7 +38,7 @@ application.
 
 To use Orchid from a Gradle project, setup your project's build.gradle file like so:
 
-{% highlight 'groovy' %}
+```groovy
 plugins {
     // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL   
     id "com.eden.orchidPlugin" version "{{site.version}}"
@@ -70,7 +70,7 @@ orchid {
     destDir = "path/to/new/destination/directory" // defaults to 'build/docs/orchid'
     runTask = "build"                             // specify a task to run with 'gradle orchidRun'
 }
-{% endhighlight %}
+```
 
 You can now run Orchid in the following ways:
 
@@ -99,7 +99,7 @@ additional classes you'd like to include as a private plugin can be placed in `s
 
 To use Orchid from a Maven project, setup your project's pom.xml file like so:
 
-{% highlight 'xml' %}
+```xml
 <project>
     ...
     
@@ -159,7 +159,7 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
         </pluginRepository>
     </pluginRepositories>
 </project>
-{% endhighlight %}
+```
 
 You can now run Orchid in the following ways:
 
@@ -186,7 +186,7 @@ full Gradle or Maven setup may be a bit overkill. Instead, you may use a tool li
 structure. The basic API below is specifically created for kscript, but can be easily adapted for other JVM scripting
 tools, or used like a library and started from another application.
 
-{% highlight 'kotlin' %}
+```kotlin
 @file:MavenRepository("kotlinx", "https://kotlin.bintray.com/kotlinx")
 @file:MavenRepository("jitpack", "https://jitpack.io")
 
@@ -213,7 +213,7 @@ val modules = listOf(StandardModule.builder()
         .build()
 )
 Orchid.getInstance().start(modules)
-{% endhighlight %}
+```
 
 You can now start Orchid directly with its CLI, using the following commands:
 

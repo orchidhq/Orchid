@@ -22,14 +22,14 @@ about configuring your own Archetypes.
 
 As an example, I have the following snippet in this site's `config.yml`:
 
-{% highlight 'yaml' %}
+```yaml
 allPages:
   layout: single
 
 wiki:
   wikiPages:
     layout: geopattern2
-{% endhighlight %}
+```
 
 The resulting layout for this page is `{{layout}}`.
 

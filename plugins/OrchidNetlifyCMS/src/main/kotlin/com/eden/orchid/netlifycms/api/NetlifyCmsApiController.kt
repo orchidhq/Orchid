@@ -10,6 +10,7 @@ import com.eden.orchid.api.server.annotations.Get
 import com.eden.orchid.api.server.annotations.Post
 import com.eden.orchid.api.server.annotations.Put
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
@@ -33,7 +34,7 @@ constructor(
 //----------------------------------------------------------------------------------------------------------------------
 
     @Get(path = "/files/**localFilename")
-    fun getFiles(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
+    fun getFiles(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val locatedResources = JSONArray()
 
         val resources = context.getLocalResourceEntries(localFilename, null, false)
@@ -60,7 +61,7 @@ constructor(
 //----------------------------------------------------------------------------------------------------------------------
 
     @Get(path = "/file/**localFilename")
-    fun getFile(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
+    fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getLocalResourceEntry(localFilename)
         if (resource != null) {
             return OrchidResponse(context).content(resource.rawContent)
@@ -71,7 +72,7 @@ constructor(
     }
 
     @Delete(path = "/file/**localFilename")
-    fun deleteFile(@Suppress("UNUSED_PARAMETER") request: OrchidRequest, localFilename: String): OrchidResponse {
+    fun deleteFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getLocalResourceEntry(localFilename)
         if (resource != null) {
             if (resource.canDelete()) {

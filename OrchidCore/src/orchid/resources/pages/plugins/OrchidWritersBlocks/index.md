@@ -1,24 +1,24 @@
 ---
-official: true
-noDocs: true
+from: docs.plugin_index
 description: A collection of Template Tags and Components that help you get past the writer's block and make building your site a dream.
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973072/plugins/writersblocks.jpg
     alt: Writer's Blocks
     caption: Photo by Ilario Piatti on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Writers Blocks'
-  - type: 'pageChildren'
-    itemId: 'Orchid Writers Blocks'
-    asSubmenu: true
-    submenuTitle: Docs
+tags:
+    - markup
+    - blog
 ---
 
-### About Orchid Writers' Blocks
+## About
 
-This plugin adds a collection of useful tags and functions for Pebble to make writing content simpler. See what's 
-included below:
+This plugin adds a collection of useful tags and functions for Pebble to make writing content simpler.
+
+## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+
+## Usage
 
 ### Tags
 
@@ -26,72 +26,68 @@ included below:
 
 Wrap content in a callout or bootstrap-style alert.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% alert 'warning' %}
     This is your final warning!
 {% endalert %}
-{% endverbatim %}
-{% endhighlight %}
-
+{%- endverbatim %}
+```
 
 #### Github Gist
 
 Embed a Github Gist.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% gist 'gistId' %}
-{% endverbatim %}
-{% endhighlight %}
-
+{%- endverbatim %}
+```
 
 #### Instagram
 
 Embed a photo from Instagram.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% instagram 'username' 'postId' %}
-{% endverbatim %}
-{% endhighlight %}
+{%- endverbatim %}
+```
 
 #### Tabs
 
 Embed a Twitter post, collection, or timeline.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% tabs %}
     {% tab1 'One' %}Tab Content One{% endtab1 %}
     {% tab2 'Two' %}Tab Content Two{% endtab2 %}
 {% endtabs %}
-{% endverbatim %}
-{% endhighlight %}
+{%- endverbatim %}
+```
 
 #### Twitter
 
 Embed a Twitter post, collection, or timeline.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% twitter 'username' %}
 or
 {% twitter 'username' 'tweetId' %}
-{% endverbatim %}
-{% endhighlight %}
-
+{%- endverbatim %}
+```
 
 #### Youtube
 
 Embed a Youtube video.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {% youtube 'videoId' %}
-{% endverbatim %}
-{% endhighlight %}
-
+{%- endverbatim %}
+```
 
 ### Functions
 
@@ -99,30 +95,28 @@ Embed a Youtube video.
 
 Converts spaces to HTML-encoded non-breaking spaces to preserve spacing.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ encodeSpaces('text to encode') }}
-{% endverbatim %}
-{% endhighlight %}
-
+{%- endverbatim %}
+```
 
 #### Newline to BR
 
 Converts newlines to BR tags to force HTML line breaks.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ nl2br('text to encode') }}
-{% endverbatim %}
-{% endhighlight %}
-
+{%- endverbatim %}
+```
 
 #### Pluralize
 
 Attempts to convert a word to its English plural form.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ pluralize('word', 2) }}
-{% endverbatim %}
-{% endhighlight %}
+{%- endverbatim %}
+```

@@ -205,57 +205,46 @@ public final class GeneratorServiceImpl implements GeneratorService {
         return metrics.getDetail();
     }
 
-    @java.lang.SuppressWarnings("all")
     public BuildMetrics getMetrics() {
         return this.metrics;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getEnabled() {
         return this.enabled;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setEnabled(final String[] enabled) {
         this.enabled = enabled;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getDisabled() {
         return this.disabled;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setDisabled(final String[] disabled) {
         this.disabled = disabled;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String[] getExternalIndices() {
         return this.externalIndices;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setExternalIndices(final String[] externalIndices) {
         this.externalIndices = externalIndices;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isParallelIndexing() {
         return this.parallelIndexing;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setParallelIndexing(final boolean parallelIndexing) {
         this.parallelIndexing = parallelIndexing;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isParallelGeneration() {
         return this.parallelGeneration;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setParallelGeneration(final boolean parallelGeneration) {
         this.parallelGeneration = parallelGeneration;
     }

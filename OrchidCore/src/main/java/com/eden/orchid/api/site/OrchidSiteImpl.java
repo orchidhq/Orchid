@@ -81,57 +81,46 @@ public final class OrchidSiteImpl implements OrchidSite {
         return this.toJSON().toString();
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getOrchidVersion() {
         return this.orchidVersion;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getCurrentWorkingDirectory() {
         return this.currentWorkingDirectory;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getVersion() {
         return this.version;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setVersion(final String version) {
         this.version = version;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getBaseUrl() {
         return this.baseUrl;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getEnvironment() {
         return this.environment;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setEnvironment(final String environment) {
         this.environment = environment;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDefaultTemplateExtension() {
         return this.defaultTemplateExtension;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setDefaultTemplateExtension(final String defaultTemplateExtension) {
         this.defaultTemplateExtension = defaultTemplateExtension;
     }
 
-    @java.lang.SuppressWarnings("all")
     public SiteInfo getAbout() {
         return this.about;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAbout(final SiteInfo about) {
         this.about = about;
     }

@@ -1,0 +1,7 @@
+template: page
+skipTaxonomy: true
+menu:
+  - type: 'pageParent'
+  - type: 'pageSiblings'
+    asSubmenu: true
+    submenuTitle: Docs

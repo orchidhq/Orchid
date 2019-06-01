@@ -9,7 +9,6 @@ public final class OptionHolderDescription {
     private final List<OptionsDescription> optionsDescriptions;
     private final List<ArchetypeDescription> archetypeDescriptions;
 
-    @java.lang.SuppressWarnings("all")
     public OptionHolderDescription(final String descriptiveName, final String classDescription, final List<OptionsDescription> optionsDescriptions, final List<ArchetypeDescription> archetypeDescriptions) {
         this.descriptiveName = descriptiveName;
         this.classDescription = classDescription;
@@ -17,28 +16,23 @@ public final class OptionHolderDescription {
         this.archetypeDescriptions = archetypeDescriptions;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getDescriptiveName() {
         return this.descriptiveName;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getClassDescription() {
         return this.classDescription;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<OptionsDescription> getOptionsDescriptions() {
         return this.optionsDescriptions;
     }
 
-    @java.lang.SuppressWarnings("all")
     public List<ArchetypeDescription> getArchetypeDescriptions() {
         return this.archetypeDescriptions;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public boolean equals(final java.lang.Object o) {
         if (o == this) return true;
         if (!(o instanceof OptionHolderDescription)) return false;
@@ -58,8 +52,7 @@ public final class OptionHolderDescription {
         return true;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
@@ -74,8 +67,7 @@ public final class OptionHolderDescription {
         return result;
     }
 
-    @java.lang.Override
-    @java.lang.SuppressWarnings("all")
+    @Override
     public java.lang.String toString() {
         return "OptionHolderDescription(descriptiveName=" + this.getDescriptiveName() + ", classDescription=" + this.getClassDescription() + ", optionsDescriptions=" + this.getOptionsDescriptions() + ", archetypeDescriptions=" + this.getArchetypeDescriptions() + ")";
     }

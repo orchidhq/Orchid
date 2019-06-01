@@ -14,7 +14,7 @@ You can follow along with this tutorial on your own, or find the source for this
 
 Our site currently has four pages in it: one for each of our business's locations in Houston, Dallas, and Austin, which are considered to be in the "locations" page group, since they all sit at `/locations/...` in the site URL structure; and one more page listing all locations. As our business grows, we will want to add more content to our site so that customers can find everything they need online. So let's add a few more pages in a couple more page "groups" for our services and staff. Add the following pages to your site (you can leave these files empty for now). 
 
-{% highlight 'text' %}
+```text
 └── pages/
     ├── locations/
     |   ├── houston.md
@@ -27,7 +27,7 @@ Our site currently has four pages in it: one for each of our business's location
     └── staff/
         ├── billy-bob.md
         └── john-doe.md
-{% endhighlight %}
+```
 
 As an additional exercise, try creating index pages for these groups as well.
 
@@ -45,10 +45,10 @@ Orchid has a special file in the root of your resources, `config.yml`. This file
 
 To start things off, let's pick a better color for our theme. Since we're using the BsDoc theme in this example, add the following to your `config.yml` file:
 
-{% highlight 'yaml' %}
+```yaml
 theme:
   primaryColor: '#dd9999'
-{% endhighlight %}
+```
 
 Once your site rebuilds, you'll notice everything that was previously purple is now a sandy red! The BsDoc theme is set up to recompile its SCSS stylesheets injecting configuration values for its primary color. In a later tutorial, I will go more in-depth about this process and how to find all the configurations available in any theme, but for now it suffices to know `config.yml` is where you go to customize your site and your theme.
 
@@ -60,7 +60,7 @@ Most themes in Orchid will have at least one menu area, your site's primary navi
 
 ### Link Menu Item
 
-{% highlight 'yaml' %}
+```yaml
 theme:
   primaryColor: '#dd9999'
   menu:
@@ -73,7 +73,7 @@ theme:
     - type: 'link'
       title: 'Staff'
       url: 'http://localhost:8080/staff'
-{% endhighlight %}
+```
 
 This will generate a menu with 3 items in the theme's main navbar, with each one pointing to the index page for each of our page groups. Let's break the configuration down a bit more because the structure of this configuration is used in many other places throughout Orchid as well.
 
@@ -85,7 +85,7 @@ Each type of menu item can also declare any number of options for additional cus
 
 ### Page Menu Item
 
-{% highlight 'yaml' %}
+```yaml
 theme:
   primaryColor: '#dd9999'
   menu:
@@ -95,7 +95,7 @@ theme:
       itemId: 'Services'
     - type: 'page'
       itemId: 'Staff'
-{% endhighlight %}
+```
 
 This time, instead of using `link` menu items we're using `page`. Hopefully, you recognize the `itemId` property on these menu items; if not, you may want to go back through the previous tutorial to learn about linking functions. That's because the `page` menu item type (and many others) locate and link to pages in the exact same way as described in that tutorial. But as a quick refresher: you can generally link the proper page in your site by setting the `itemId` to the title of the page you want to link to, and `collectionType` and `collectionId` can help make sure you're linking to exactly the page you expect by filtering the pages to those in a specific collection.
 
@@ -109,13 +109,13 @@ The Pages plugin that we're using to set up our locations, services, and staff p
 
 In all the locations pages, include the following snippet in its Front Matter:
 
-{% highlight 'yaml' %}
+```yaml
 ---
 menu:
   - type: 'pages'
     group: 'locations'
 ---
-{% endhighlight %}
+```
 
 Now, when navigating to any of our Locations pages, you'll see a sidebar with links to all of our locations. You'll also notice that the BsDoc theme highlights the menu item if it matches the page you're currently on, so you always know where you are in the site! By specifying the `group` in the menu item config, only "locations" pages are added to the menu, but leaving it out will include _all_ static pages. 
 
@@ -127,7 +127,7 @@ Now that we have our locations pages linking amongst one another, now let's get 
 
 For example, in `pages/locations/houston.md` let's add the following content. You can add similar content the other locations pages as another exercise if you wish.
 
-{% highlight 'md' %}
+```md
 # About Our Houston Location
 
 Duis et mauris in leo aliquam bibendum et ut purus. Nulla sagittis volutpat massa non vestibulum.  
@@ -146,11 +146,11 @@ Vestibulum tristique finibus est, sed suscipit dui commodo quis. Duis condimentu
 - Vivamus in consectetur magna. 
 - Donec viverra lorem nunc, eu finibus erat posuere ut. 
 - Sed in leo ac est suscipit euismod a vitae sem.
-{% endhighlight %}
+```
 
 Now let's set add the `pageIds` menu item to this page. I've also added a `separator` menu item between the page's own links and those that link to other locations pages for clarity.
 
-{% highlight 'yaml' %}
+```yaml
 ---
 menu:
   - type: 'pageIds'
@@ -160,7 +160,7 @@ menu:
   - type: 'pages'
     group: 'locations'
 ---
-{% endhighlight %}
+```
 
 Perfect! Orchid is now reading through the content on that page, pulling out all the IDs it finds, and dynamically generating menu items that will scroll the webpage to that location in its content. You can customize these page ID menu items to be either nested (such that `h2` headers are created as a submenu of the previous `h1`), or flat with no submenus. 
 

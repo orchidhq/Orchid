@@ -78,8 +78,27 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
     }
 
     @Test
-    @DisplayName("Test that PlantUml syntax works with @startuml and @enduml tags")
+    @DisplayName("Test that PlantUml syntax works when the file ends with .puml when the module is included")
     fun test04() {
+        resource(
+            "homepage.puml",
+            """
+            |Bob->Alice : hello
+            """.trimMargin()
+        )
+
+        val testResults = execute(DiagramsModule())
+        expectThat(testResults)
+            .pageWasRendered("//index.svg")
+            .get { content }
+            .asHtml(true)
+            .select("body > svg")
+            .matches()
+    }
+
+    @Test
+    @DisplayName("Test that PlantUml syntax works with @startuml and @enduml tags")
+    fun test05() {
         val input = """
             |@startuml
             |Bob->Alice : hello
@@ -95,7 +114,7 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
     @Test
     @DisplayName("Test that PlantUml syntax works without @startuml and @enduml tags")
-    fun test05() {
+    fun test06() {
         val input = """
             |Bob->Alice : hello
             """.trimMargin()
@@ -109,7 +128,7 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
     @Test
     @DisplayName("Test that PlantUml syntax works with multiple @startuml and @enduml tags, rendering each one individually")
-    fun test06() {
+    fun test07() {
         val input = """
             |@startuml
             |Bob1->Alice1 : hello

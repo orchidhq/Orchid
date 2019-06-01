@@ -7,8 +7,16 @@ site:
 theme:
   useSidebarSearch: true
   social:
-    github: 'JavaEden/Orchid'
-    twitter: 'OrchidSSG'
+    other:
+      - link: 'https://orchid.netlify.com/'
+        label: 'Home'
+        icon: 'fas fa-home'
+      - link: 'https://github.com/JavaEden/Orchid'
+        label: 'Github'
+        icon: 'fab fa-github'
+      - link: 'https://twitter.com/OrchidSSG'
+        label: 'Twitter'
+        icon: 'fab fa-twitter'
   primaryColor: '#7E80CF'
   bannerColor: '#444444'
   linkColor: '#7E80CF'
@@ -34,11 +42,10 @@ theme:
         - type: 'page'
           title: 'Changelog'
           itemId: 'Changelog'
-    - type: 'link'
-      title: 'Github'
-      url: 'https://github.com/JavaEden/Orchid'
+    - type: 'latestPosts'
+      limit: 3
+      title: 'News'
   extraCss:
-    - 'assets/css/pygments.scss'
     - 'assets/css/extras.scss'
 
 services:
@@ -47,15 +54,20 @@ services:
       - type: githubReleases
         repo: 'JavaEden/Orchid'
 
-kotlindoc:
-  sourceDirs:
-    - '../../main/java'
-    - '../../main/kotlin'
-
 allPages:
   extraCss:
     - "inline:sidecar.css: .gitter-chat-embed { margin-top: 50px; }"
   extraJs:
     - "inline:sidecar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
     - "https://sidecar.gitter.im/dist/sidecar.v1.js"
-
+  components:
+    - type: "pageContent"
+    - type: "prism"
+      githubTheme: 'duotone-light'
+      languages:
+        - kotlin
+        - java
+        - groovy
+        - yaml
+        - asciidoc
+        - markdown

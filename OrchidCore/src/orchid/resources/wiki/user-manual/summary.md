@@ -29,6 +29,7 @@
 * [Content Management]({{ directoryBase }}/index.md)
     * [Drafts]({{ directoryBase }}/drafts.md)
     * [Archetypes]({{ directoryBase }}/archetypes.md)
+    * [Shared Configuration]({{ directoryBase }}/shared-config.md)
     * [Internal Links]({{ directoryBase }}/internal-links.md)
 
 ## Theming

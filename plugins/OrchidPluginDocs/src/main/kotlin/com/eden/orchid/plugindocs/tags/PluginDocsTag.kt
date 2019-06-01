@@ -15,6 +15,7 @@ import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.utilities.SuppressedWarnings
 import org.apache.commons.lang3.ClassUtils
 import javax.inject.Inject
 
@@ -213,7 +214,7 @@ constructor(
             }
         }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     fun <T> provide(): T? {
         try {
             return context.injector.getInstance(findClass()) as? T

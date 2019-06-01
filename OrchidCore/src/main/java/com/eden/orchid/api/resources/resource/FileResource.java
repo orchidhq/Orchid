@@ -27,6 +27,10 @@ public final class FileResource extends FreeableResource  {
         this(file, new OrchidReference(context, FileResource.pathFromFile(context, file)));
     }
 
+    public FileResource(OrchidContext context, File file, File baseDirectory) {
+        this(file, new OrchidReference(context, FileResource.pathFromFile(context, file, baseDirectory.getAbsolutePath())));
+    }
+
     public FileResource(File file, OrchidReference reference) {
         super(reference);
         this.file = file;
@@ -49,8 +53,11 @@ public final class FileResource extends FreeableResource  {
     }
 
     private static String pathFromFile(OrchidContext context, File file) {
+        return pathFromFile(context, file, OrchidFlags.getInstance().getFlagValue("src"));
+    }
+
+    private static String pathFromFile(OrchidContext context, File file, String basePath) {
         String filePath = file.getPath();
-        String basePath = OrchidFlags.getInstance().getFlagValue("src");
         basePath = basePath.replaceAll("\\\\", "/");
         filePath = filePath.replaceAll("\\\\", "/");
 

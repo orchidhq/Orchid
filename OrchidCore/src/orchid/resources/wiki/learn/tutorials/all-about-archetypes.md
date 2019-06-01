@@ -34,7 +34,7 @@ lot of information in their Front Matter that is unique to that one location, su
 business hours, but also contains quite a lot of information that is intended to be the same across _all_ of the 
 locations. An example of the full Front Matter for one of our locations pages follows:
 
-{% highlight 'yaml' %}
+```yaml
 ---
 city: 'Houston'
 state: 'TX'
@@ -54,12 +54,12 @@ menu:
   - type: pages
     group: 'locations'
 ---
-{% endhighlight %}
+```
 
 We can break this one Front Matter heading into two sections: one section for the configuration values common to all 
 locations, and one unique to this location:
 
-{% highlight 'yaml' %}
+```yaml
 # unique to Houston location
 city: 'Houston'
 state: 'TX'
@@ -81,7 +81,7 @@ menu:
   - type: pages
     group: 'locations'
 ---
-{% endhighlight %}
+```
 
 While we could keep copying this common configuration to all new locations, it definitely isn't ideal. It requires us to 
 make sure that all new locations have properly copied over this new configuration, or else setting up a scaffold to do 
@@ -106,7 +106,7 @@ straightforward: instead of using the same configurations in the Front Matter of
 Let's look at an example; add the following snippet to your `config.yml`, and remove the common configuration from all 
 your locations pages:
 
-{% highlight 'yaml' %}
+```yaml
 allPages:
   template: 'location' 
   menu:
@@ -116,7 +116,7 @@ allPages:
       title: 'All Locations'
     - type: pages
       group: 'locations'
-{% endhighlight %}
+```
 
 Look at that, your site looks the exact same! Only now, you don't have a bunch of configuration copied amongst your 
 locations files! By moving the common configuration to the `allPages` property in `config.yml`, you've instructed Orchid
@@ -129,7 +129,7 @@ which means all our services and staff pages will also start using the page temp
 our locations pages to have the configuration. Fortunately, Orchid comes with many different archetypes, which are 
 more scoped to just the pages you want them on. Let's look at another one that will work much better:
 
-{% highlight 'yaml' %}
+```yaml
 pages:
   locations:
     template: 'location' 
@@ -140,7 +140,7 @@ pages:
         title: 'All Locations'
       - type: pages
         group: 'locations'
-{% endhighlight %}
+```
 
 This time, instead of putting the archetype data at `allPages` in `config.yml`, we put it at `pages.locations`. Now, 
 when the site rebuilds, this configuration data will only be pulled into our locations pages but not the services or 
@@ -193,7 +193,7 @@ Using this knowledge, let's set up our locations pages using both the "all pages
 also go ahead and set up similar archetype configs for the services and staff pages. Replace the `config.yml` contents 
 with the following snippet:
 
-{% highlight 'yaml' %}
+```yaml
 theme:
   primaryColor: '#dd9999'
   menu:
@@ -221,7 +221,7 @@ pages:
       - type: pages
         group: 'locations'
         order: 3
-{% endhighlight %}
+```
 
 When the site rebuilds, you'll notice that the `template` for the locations pages is set to `location`, and that all 
 pages have the `pageIds` menu item, which has been set from the "all pages" archetype, while the "page groups" archetype

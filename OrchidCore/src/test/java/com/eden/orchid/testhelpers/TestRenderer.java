@@ -53,40 +53,33 @@ public class TestRenderer implements OrchidRenderer {
             return contentString;
         }
 
-        @java.lang.SuppressWarnings("all")
         public TestRenderedPage(final String path, final InputStream contentStream, final OrchidPage origin) {
             this.path = path;
             this.contentStream = contentStream;
             this.origin = origin;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getPath() {
             return this.path;
         }
 
-        @java.lang.SuppressWarnings("all")
         public InputStream getContentStream() {
             return this.contentStream;
         }
 
-        @java.lang.SuppressWarnings("all")
         public OrchidPage getOrigin() {
             return this.origin;
         }
 
-        @java.lang.SuppressWarnings("all")
         public String getContentString() {
             return this.contentString;
         }
 
-        @java.lang.SuppressWarnings("all")
         public void setContentString(final String contentString) {
             this.contentString = contentString;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public boolean equals(final java.lang.Object o) {
             if (o == this) return true;
             if (!(o instanceof TestRenderer.TestRenderedPage)) return false;
@@ -107,13 +100,11 @@ public class TestRenderer implements OrchidRenderer {
             return true;
         }
 
-        @java.lang.SuppressWarnings("all")
         protected boolean canEqual(final java.lang.Object other) {
             return other instanceof TestRenderer.TestRenderedPage;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public int hashCode() {
             final int PRIME = 59;
             int result = 1;
@@ -128,14 +119,12 @@ public class TestRenderer implements OrchidRenderer {
             return result;
         }
 
-        @java.lang.Override
-        @java.lang.SuppressWarnings("all")
+        @Override
         public java.lang.String toString() {
             return "TestRenderer.TestRenderedPage(path=" + this.getPath() + ", contentStream=" + this.getContentStream() + ", origin=" + this.getOrigin() + ", contentString=" + this.getContentString() + ")";
         }
     }
 
-    @java.lang.SuppressWarnings("all")
     public Map<String, TestRenderedPage> getRenderedPageMap() {
         return this.renderedPageMap;
     }

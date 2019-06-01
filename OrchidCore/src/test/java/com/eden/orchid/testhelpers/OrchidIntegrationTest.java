@@ -110,6 +110,8 @@ public class OrchidIntegrationTest extends BaseOrchidTest {
     }
 
     protected void serveOn(int port) {
+        enableLogging();
+
         flag("task", "serve");
         flag("port", port);
         flag("src", "./src");

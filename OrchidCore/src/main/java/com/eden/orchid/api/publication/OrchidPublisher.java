@@ -94,37 +94,30 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
         return true;
     }
 
-    @java.lang.SuppressWarnings("all")
     public String getType() {
         return this.type;
     }
 
-    @java.lang.SuppressWarnings("all")
     public boolean isDry() {
         return this.dry;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setDry(final boolean dry) {
         this.dry = dry;
     }
 
-    @java.lang.SuppressWarnings("all")
     public int getOrder() {
         return this.order;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setOrder(final int order) {
         this.order = order;
     }
 
-    @java.lang.SuppressWarnings("all")
     public Map<String, Object> getAllData() {
         return this.allData;
     }
 
-    @java.lang.SuppressWarnings("all")
     public void setAllData(final Map<String, Object> allData) {
         this.allData = allData;
     }

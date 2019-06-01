@@ -7,7 +7,7 @@ import javax.inject.Singleton
 @Singleton
 class KssModel {
 
-    lateinit var sections: MutableMap<String?, List<KssPage>>
+    var sections: MutableMap<String?, List<KssPage>> = LinkedHashMap()
 
     fun initialize() {
         sections = LinkedHashMap()

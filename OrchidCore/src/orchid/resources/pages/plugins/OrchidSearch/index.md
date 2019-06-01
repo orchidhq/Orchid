@@ -1,26 +1,27 @@
 ---
-official: true
+from: docs.plugin_index
 description: Add static full-text search with Lunr.js to any Orchid site
 images:
   - src: https://res.cloudinary.com/orchid/image/upload/c_scale,w_300,e_blur:150/v1524973700/plugins/search.jpg
     alt: Search
     caption: Photo by Louis Blythe on Unsplash
-menu:
-  - type: 'page'
-    itemId: 'Orchid Search'
-  - type: 'pageChildren'
-    itemId: 'Orchid Search'
-    asSubmenu: true
-    submenuTitle: Docs
+tags:
+    - search
 ---
 
-### About Orchid Search
+## About
 
 Orchid Search allows any Orchid site to have full-text search capabilities, without requiring a backend server or using
-any 3rd-party search services! Using the wonderful Lunr.js library, Orchid is able to generate an index of all content 
-on your site as static JSON files, and then search it from your browser.
+any 3rd-party search services! Using the wonderful [Lunr.js](https://lunrjs.com/) library, Orchid is able to generate an 
+index of all content on your site as static JSON files, and then search it from your browser.
 
-### Using Orchid Search
+## Demo
+
+- Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+
+## Usage
+
+### Basic Usage
 
 This plugin adds a small Javascript file, along with Lunr.js, to your build, and from there it is up to the theme to 
 actually include these scripts and provide a form to input a search query. All official themes support searching, but

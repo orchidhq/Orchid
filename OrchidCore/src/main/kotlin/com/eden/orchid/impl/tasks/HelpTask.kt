@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provider
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ constructor(
         println(printOptions())
     }
 
-    @Suppress("UNUSED_PARAMETER")
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     private fun printHeader(): String {
         return "\n\nOrchid Static Site Generator.\nVersion " + contextProvider.get().site.orchidVersion + "\n"
     }

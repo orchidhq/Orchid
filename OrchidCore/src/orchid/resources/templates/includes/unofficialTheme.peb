@@ -1,8 +1,0 @@
-{% extends 'includes/baseTheme' %}
-
-{%- block homepageUrl -%}{{- homepageUrl -}}{%- endblock %}
-{%- block homepageText -%}{{- homepageUrl -}}{%- endblock -%}
-{%- block dependency -%}{{- dependency.group -}}:{{- dependency.artifactId -}}:{version}{%- endblock -%}
-{%- block vcsUrl -%}{{- vcsUrl -}}{%- endblock -%}
-{%- block vcsIcon -%}{{- vcsIcon -}}{%- endblock -%}
-{%- block vcsRepo -%}{{- vcsRepo -}}{%- endblock -%}

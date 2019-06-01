@@ -48,8 +48,6 @@ import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.impl.generators.SitemapGenerator
 import com.eden.orchid.impl.generators.collections.ExternalPageCollection
 import com.eden.orchid.impl.generators.collections.FrontMatterCollection
-import com.eden.orchid.impl.publication.GithubPagesPublisher
-import com.eden.orchid.impl.publication.NetlifyPublisher
 import com.eden.orchid.impl.publication.ScriptPublisher
 import com.eden.orchid.impl.resources.InlineResourceSource
 import com.eden.orchid.impl.resources.LocalFileResourceSource
@@ -252,9 +250,7 @@ class ImplModule : OrchidModule() {
         // Publication Methods
         addToSet(
             OrchidPublisher::class.java,
-            ScriptPublisher::class.java,
-            NetlifyPublisher::class.java,
-            GithubPagesPublisher::class.java
+            ScriptPublisher::class.java
         )
 
         // Template Tags

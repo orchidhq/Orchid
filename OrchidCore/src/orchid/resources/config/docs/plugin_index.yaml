@@ -1,0 +1,17 @@
+menu:
+  - type: page
+    title: "About"
+    anchor: about
+  - type: page
+    title: "Demo"
+    anchor: demo
+  - type: page
+    title: "Usage"
+    anchor: usage
+
+tags:
+  - official
+
+vcsUrl: https://github.com/JavaEden/Orchid
+vcsIcon: github
+vcsRepo: JavaEden/Orchid

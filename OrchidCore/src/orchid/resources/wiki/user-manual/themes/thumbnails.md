@@ -10,11 +10,11 @@ template function to load an asset, and Orchid will make sure it ends up in your
 
 ## Basic Usage 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ 'assets/image.jpg'|asset }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ![asset]({{ sampleAsset|asset }})
 
@@ -24,11 +24,11 @@ template function to load an asset, and Orchid will make sure it ends up in your
 
 Rotate an image asset. Rotation angle is expressed in degrees.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ 'assets/image.jpg'|asset|rotate(90) }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ![rotated asset]({{ sampleAsset|asset|rotate(90) }})
 
@@ -38,11 +38,11 @@ Rotate an image asset. Rotation angle is expressed in degrees.
 
 Scale an image asset by a constant factor.
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ 'assets/image.jpg'|asset|scale(0.85) }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ![scaled asset]({{ sampleAsset|asset|scale(0.85) }})
 
@@ -54,11 +54,11 @@ Resize an image asset to specific dimensions. By default, image is resized maint
 to the largest image that can fit entirely within the specified dimensions. Use the `exact=true` parameter to resize the
 image to exactly the specified dimensions, stretching the image as necessary to fit. 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ 'assets/image.jpg'|asset|resize(800, 600, "exact") }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ![resized asset]({{ sampleAsset|asset|resize(400, 300, "fit") }})
 ![exact resized asset]({{ sampleAsset|asset|resize(400, 300, "exact") }})
@@ -73,11 +73,11 @@ image to exactly the specified dimensions, stretching the image as necessary to 
 Multiple transformations may be applied to a single asset. Simply use more than one of the above filters. You can use 
 the same filter more than once, and they will be applied in turn from left-to-right. 
 
-{% highlight 'jinja' %}
+```jinja
 {% verbatim %}
 {{ 'assets/image.jpg'|asset|resize(800, 600, exact=true)|rotate(45)|rotate(45) }}
 {% endverbatim %}
-{% endhighlight %}
+```
 
 ![resized asset]({{ sampleAsset|asset|resize(400, 300) }})
 ![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45) }})
