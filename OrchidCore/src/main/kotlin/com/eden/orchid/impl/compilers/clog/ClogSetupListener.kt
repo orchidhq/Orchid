@@ -92,8 +92,9 @@ constructor(
             // add our custom Java Logging handler
             rootLogger.addHandler(ClogJavaLoggingHandler())
 
-            // ignore annoying Hibernate Validator message
+            // ignore annoying Hibernate Validator and JSass messages
             Clog.getInstance().addTagToBlacklist("org.hibernate.validator.internal.util.Version")
+            Clog.getInstance().addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
         }
     }
 
