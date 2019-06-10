@@ -14,6 +14,7 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath "org.ajoberstar:gradle-git:1.7.2"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
+        classpath 'de.fayard:buildSrcVersions:0.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
     }
 }
@@ -21,6 +22,7 @@ buildscript {
 apply plugin: 'base'
 apply plugin: 'org.ajoberstar.grgit'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'de.fayard.buildSrcVersions'
 apply plugin: 'jacoco'
 
 group = 'io.github.javaeden.orchid'
@@ -130,7 +132,7 @@ task codeCoverageReport(type: JacocoReport) {
 
 configurations { codacy }
 dependencies {
-    codacy 'com.github.codacy:codacy-coverage-reporter:6.0.0'
+    codacy(Libs.codacy_coverage_reporter)
 }
 task sendCoverageToCodacy(type: JavaExec) {
     dependsOn codeCoverageReport
