@@ -1,4 +1,0 @@
-
-dependencies {
-    implementation "com.eden:javadoc-runner:${JavaEden.JsonDocs}"
-}
