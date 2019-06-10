@@ -22,7 +22,7 @@ class OrchidPluginHelpers {
         def optionalFlags = ['azureToken', 'githubToken', 'gitlabToken', 'bitbucketToken', 'netlifyToken']
         for(def optionalFlag : optionalFlags) {
             def flagValue = getPropertyValue(project, optionalFlag, '')
-            if(!flagValue.isBlank()) {
+            if(!flagValue.trim().isEmpty()) {
                 projectArgs.addAll(["--$optionalFlag", flagValue])
             }
         }
