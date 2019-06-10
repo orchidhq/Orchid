@@ -7,43 +7,43 @@ apply plugin: 'java-library'
 dependencies {
 
     // Dynamic Component Registration
-    api "com.google.inject:guice:$guiceVersion"
-    api "io.github.classgraph:classgraph:$classgraphVersion"
+    api(Libs.guice)
+    api(Libs.classgraph)
 
     // core utilities
-    api "com.eden:Common:${JavaEden.Common}"
-    api "com.eden:Clog4j:${JavaEden.Clog}"
-    api "com.eden:krow:${JavaEden.Krow}"
-    api "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    api "commons-io:commons-io:$commonsioVersion"
-    api "org.apache.commons:commons-lang3:$commonslangVersion"
-    api "net.coobird:thumbnailator:$thumbnailatorVersion"
+    api(Libs.com_eden_common)
+    api(Libs.clog4j)
+    api(Libs.krow)
+    api(Libs.okhttp)
+    api(Libs.commons_io)
+    api(Libs.commons_lang3)
+    api(Libs.thumbnailator)
     
     // validation
-    api "javax.validation:validation-api:$validationApiVersion"
-    implementation "org.hibernate.validator:hibernate-validator:$hibernateValidatorVersion"
-    implementation "org.glassfish:javax.el:$glassfishElVersion"
+    api(Libs.validation_api)
+    implementation(Libs.hibernate_validator)
+    implementation(Libs.javax_el)
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
-    api "org.json:json:$orgjsonVersion"
-    implementation "org.yaml:snakeyaml:$snakeyamlVersion"
-    implementation "com.moandjiezana.toml:toml4j:$toml4jVersion"
-    implementation "io.pebbletemplates:pebble:$pebbleVersion"
-    implementation "io.bit3:jsass:$jsassVersion"
-    implementation "com.univocity:univocity-parsers:$univocityParsersVersion"
+    api(Libs.json)
+    implementation(Libs.snakeyaml)
+    implementation(Libs.toml4j)
+    implementation(Libs.pebble)
+    implementation(Libs.jsass)
+    implementation(Libs.univocity_parsers)
 
     // Flexmark extensions
-    api "com.vladsch.flexmark:flexmark:$flexmarkVersion"
-    implementation "com.vladsch.flexmark:flexmark-ext-aside:$flexmarkVersion"
-    implementation "com.vladsch.flexmark:flexmark-ext-attributes:$flexmarkVersion"
-    implementation "com.vladsch.flexmark:flexmark-ext-enumerated-reference:$flexmarkVersion"
-    implementation "com.vladsch.flexmark:flexmark-ext-gfm-tables:$flexmarkVersion"
-    implementation "com.vladsch.flexmark:flexmark-ext-gfm-tasklist:$flexmarkVersion"
-    implementation "com.vladsch.flexmark:flexmark-ext-toc:$flexmarkVersion"
+    api(Libs.flexmark)
+    implementation(Libs.flexmark_ext_aside)
+    implementation(Libs.flexmark_ext_attributes)
+    implementation(Libs.flexmark_ext_enumerated_reference)
+    implementation(Libs.flexmark_ext_gfm_tables)
+    implementation(Libs.flexmark_ext_gfm_tasklist)
+    implementation(Libs.flexmark_ext_toc)
 
     // server
-    implementation "org.nanohttpd:nanohttpd:$nanohttpdVersion"
-    implementation "org.nanohttpd:nanohttpd-websocket:$nanohttpdVersion"
+    implementation(Libs.nanohttpd)
+    implementation(Libs.nanohttpd_websocket)
 
     // generate own documentation with Orchid
     orchidCompile mainProjects

@@ -1,4 +1,0 @@
-
-dependencies {
-    implementation "com.eden:groovydoc-runner:${JavaEden.JsonDocs}"
-}

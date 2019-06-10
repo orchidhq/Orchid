@@ -1,0 +1,4 @@
+
+dependencies {
+    compile(Libs.jsoup)
+}
