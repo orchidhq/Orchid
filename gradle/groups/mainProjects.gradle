@@ -8,12 +8,12 @@ apply from: "$actionsScript/publish.gradle"
 apply from: "$actionsScript/testing.gradle"
 
 dependencies {
-    testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-    testCompile "io.strikt:strikt-core:$striktVersion"
-    testCompile "org.mockito:mockito-core:$mockitoVersion"
-    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
-    testCompile "org.jsoup:jsoup:$jsoupVersion"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testCompile(Libs.hamcrest_library)
+    testCompile(Libs.strikt_core)
+    testCompile(Libs.mockito_core)
+    testCompile(Libs.jsoup)
+    testCompile(Libs.junit_jupiter_api)
+    testCompile(Libs.junit_jupiter_params)
+    testRuntimeOnly(Libs.junit_jupiter_engine)
+    compile(Libs.kotlin_stdlib_jdk8)
 }

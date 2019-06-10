@@ -1,5 +1,0 @@
-
-dependencies {
-    implementation "com.eden:dokka-runner:${JavaEden.JsonDocs}"
-}
-
