@@ -42,6 +42,10 @@ public abstract class OrchidMenuFactory extends Prioritized implements ModularPa
         this.context = context;
     }
 
+    public OrchidMenuFactory(OrchidContext context, String type) {
+        this(context, type, 100);
+    }
+
     public boolean canBeUsedOnPage(OrchidPage containingPage, OrchidMenu menu, List<Map<String, Object>> possibleMenuItems, List<OrchidMenuFactory> currentMenuItems) {
         return true;
     }

@@ -32,8 +32,8 @@ constructor(
     )
     var enablePageIndices: Boolean = false
 
-    override fun startIndexing(): kotlin.collections.List<OrchidPage>? {
-        return null
+    override fun startIndexing(): List<OrchidPage> {
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
@@ -47,7 +47,7 @@ constructor(
         val indices = OrchidIndex(null, "index")
 
         // Render an page for each generator's individual index
-        context.internalIndex.allIndexedPages.forEach { key, value ->
+        context.index.allIndexedPages.forEach { (key, value) ->
             val jsonElement = JSONElement(value.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
             val resource = JsonResource(jsonElement, reference)
@@ -59,7 +59,7 @@ constructor(
         }
 
         // Render full composite index page
-        val compositeJsonElement = JSONElement(context.internalIndex.toJSON(true, false))
+        val compositeJsonElement = JSONElement(context.index.toJSON(true, false))
         val compositeReference = OrchidReference(context, "meta/all.index.json")
         val compositeIndexResource = JsonResource(compositeJsonElement, compositeReference)
         val compositeIndexPage = OrchidPage(compositeIndexResource, "index", null)
@@ -78,7 +78,7 @@ constructor(
     }
 
     private fun generatePageIndexFiles() {
-        context.internalIndex.allPages.forEach { page ->
+        context.index.allPages.forEach { page ->
             val jsonElement = JSONElement(page.toJSON(true, true))
             val reference = OrchidReference(page.reference)
             val resource = JsonResource(jsonElement, reference)
@@ -89,8 +89,8 @@ constructor(
         }
     }
 
-    override fun getCollections(): kotlin.collections.List<OrchidCollection<*>>? {
-        return null
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
 }

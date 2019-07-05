@@ -1,33 +1,31 @@
 package com.eden.orchid.impl.generators
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.impl.generators.collections.HomepageCollection
 import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description(value = "Generates the root homepage for your site.", name = "Homepage")
-class HomepageGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
-
-    lateinit var pages: List<OrchidPage>
+class HomepageGenerator
+@Inject
+constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, PRIORITY_EARLY) {
 
     override fun startIndexing(): List<OrchidPage> {
-        pages = listOf(loadHomepage(), load404page())
-        return pages
+        return listOf(loadHomepage(), load404page())
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         pages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>> {
-        return listOf(HomepageCollection(this))
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return listOf(FileCollection(this, GENERATOR_KEY, pages))
     }
 
     private fun loadHomepage(): OrchidPage {

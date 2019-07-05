@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.posts.model.PostsModel
 import java.util.stream.Stream
 import javax.inject.Inject
 
@@ -41,21 +40,21 @@ constructor(
     @Description("The maximum number of entries to include in this feed.")
     var size = 25
 
-    override fun startIndexing(): List<OrchidPage>? {
-        return null
+    override fun startIndexing(): List<OrchidPage> {
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
         generateFeeds()
     }
 
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
     private fun generateFeeds() {
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
-        var feedItems = context.internalIndex.getChildIndices(enabledGeneratorKeys)
+        var feedItems = context.index.getChildIndices(enabledGeneratorKeys)
 
         if (feedItems.isNotEmpty()) {
             var sortedFeedItems = feedItems

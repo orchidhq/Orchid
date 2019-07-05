@@ -7,7 +7,6 @@ import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.events.OrchidEventListener;
-import com.eden.orchid.api.generators.GlobalCollection;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.indexing.IndexServiceImpl;
 import com.eden.orchid.api.publication.OrchidPublisher;
@@ -41,8 +40,6 @@ import com.eden.orchid.impl.compilers.pebble.PebbleCompiler;
 import com.eden.orchid.impl.compilers.sass.SassCompiler;
 import com.eden.orchid.impl.compilers.text.HtmlCompiler;
 import com.eden.orchid.impl.compilers.text.TextCompiler;
-import com.eden.orchid.impl.generators.collections.ExternalPageCollection;
-import com.eden.orchid.impl.generators.collections.FrontMatterCollection;
 import com.eden.orchid.impl.publication.ScriptPublisher;
 import com.eden.orchid.impl.resources.InlineResourceSource;
 import com.eden.orchid.impl.resources.LocalFileResourceSource;
@@ -120,10 +117,6 @@ public final class TestImplModule extends OrchidModule {
 
         // prepare empty sets for binding
         addToSet(OrchidService.class);
-
-        addToSet(GlobalCollection.class,
-                FrontMatterCollection.class,
-                ExternalPageCollection.class);
 
         // Themes
         addToSet(Theme.class,

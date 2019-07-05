@@ -2,7 +2,6 @@ package com.eden.orchid.taxonomies
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
@@ -11,7 +10,6 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
-import com.eden.orchid.taxonomies.collections.TaxonomyCollection
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
@@ -48,7 +46,7 @@ constructor(
                 model.putTaxonomy(taxonomy)
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomy.includeFrom, taxonomy.excludeFrom)
 
-                context.internalIndex.getChildIndices(enabledGeneratorKeys).forEach innerLoop@{ page ->
+                context.index.getChildIndices(enabledGeneratorKeys).forEach innerLoop@{ page ->
                     if (page.getSingleTermValue("skipTaxonomy") == "true") {
                         return@innerLoop
                     }
@@ -83,15 +81,15 @@ constructor(
         pages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(): MutableList<out OrchidCollection<*>> {
-        val collections = ArrayList<OrchidCollection<*>>()
-
-        model.taxonomies.values.forEach { taxonomy ->
-            collections.add(TaxonomyCollection(taxonomy))
-        }
-
-        return collections
-    }
+//    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+//        val collections = ArrayList<OrchidCollection<*>>()
+//
+//        model.taxonomies.values.forEach { taxonomy ->
+//            collections.add(TaxonomyCollection(taxonomy))
+//        }
+//
+//        return collections
+//    }
 
 // Archive Page Helpers
 //----------------------------------------------------------------------------------------------------------------------

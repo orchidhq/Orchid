@@ -14,7 +14,7 @@ import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.testhelpers.BaseOrchidTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.stubbing.*;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,10 +23,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public final class GeneratorServiceTest extends BaseOrchidTest {
 
@@ -39,7 +48,6 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
     private GeneratorServiceImpl service;
 
     private OrchidRootIndex internalIndex;
-    private OrchidRootIndex externalIndex;
 
     private Set<OrchidGenerator> generators;
 
@@ -64,15 +72,13 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         context = mock(OrchidContext.class);
         extractor = mock(OptionsExtractor.class);
         theme = mock(Theme.class);
-        buildMetrics = mock(BuildMetrics.class);
+        buildMetrics = new BuildMetrics(context);
 
         internalIndex = new OrchidRootIndex("internal");
-        externalIndex = new OrchidRootIndex("external");
 
         when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
         when(context.findTheme(any())).thenReturn(theme);
-        when(context.getInternalIndex()).thenReturn(internalIndex);
-        when(context.getExternalIndex()).thenReturn(externalIndex);
+        when(context.getIndex()).thenReturn(internalIndex);
         when(context.includeDrafts()).thenReturn(false);
 
         when(theme.isHasRenderedAssets()).thenReturn(true);
@@ -136,27 +142,27 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         service.startIndexing();
         List<OrchidGenerator> generators;
 
-        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
+        generators = service.getFilteredGenerators().collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator1, generator2, generator3));
 
         service.setDisabled(new String[]{"gen1"});
 
-        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
+        generators = service.getFilteredGenerators().collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator2, generator3));
 
         service.setDisabled(null);
 
-        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
+        generators = service.getFilteredGenerators().collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator1, generator2, generator3));
 
         service.setEnabled(new String[]{"gen1"});
 
-        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
+        generators = service.getFilteredGenerators().collect(Collectors.toList());
         assertThat(generators, containsInAnyOrder(generator1));
 
         service.setDisabled(new String[]{"gen1"});
 
-        generators = service.getFilteredGenerators(false).collect(Collectors.toList());
+        generators = service.getFilteredGenerators().collect(Collectors.toList());
         assertThat(generators.size(), is(0));
     }
 

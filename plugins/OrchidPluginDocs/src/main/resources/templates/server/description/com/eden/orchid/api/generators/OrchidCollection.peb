@@ -59,6 +59,7 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Path</th>
+                                <th>Item Id</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -68,6 +69,7 @@
                             <tr>
                                 <td class="uk-table-link"><a class="uk-link-reset" href="{{ pageLink }}">{{ item.title }}</a></td>
                                 <td class="uk-table-link"><a class="uk-link-reset" href="{{ pageLink }}">/{{ pagePath }}</a></td>
+                                <td class="uk-table-link"><code>{{ item.itemId }}</code></td>
                             </tr>
                             {% else %}
                             <tr>

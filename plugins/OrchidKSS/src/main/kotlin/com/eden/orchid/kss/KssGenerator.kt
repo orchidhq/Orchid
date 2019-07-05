@@ -12,7 +12,6 @@ import com.eden.orchid.kss.model.KssModel
 import com.eden.orchid.kss.pages.KssPage
 import com.eden.orchid.kss.parser.KssParser
 import com.eden.orchid.utilities.OrchidUtils
-import com.google.inject.Singleton
 import java.util.stream.Stream
 import javax.inject.Inject
 
@@ -100,8 +99,8 @@ constructor(
         pages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
 }

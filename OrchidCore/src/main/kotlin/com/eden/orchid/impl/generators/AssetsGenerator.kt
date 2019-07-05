@@ -36,7 +36,7 @@ constructor(
     @StringDefault("assets/media")
     lateinit var sourceDirs: List<AssetDirectory>
 
-    override fun startIndexing(): List<OrchidPage>? {
+    override fun startIndexing(): List<OrchidPage> {
         sourceDirs
             .flatMap { dir ->
                 context.getLocalResourceEntries(
@@ -59,15 +59,15 @@ constructor(
                 context.assetManager.addAsset(asset, true)
             }
 
-        return null
+        return emptyList()
+    }
+
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
 
-    }
-
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
     }
 
 // Helpers
