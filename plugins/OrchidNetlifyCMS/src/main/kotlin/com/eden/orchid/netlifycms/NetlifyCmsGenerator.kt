@@ -6,7 +6,6 @@ import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.generators.ResourceCollection
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -72,8 +71,8 @@ constructor(
     @Description("A list of collections to include. Can be in the format of either 'collectionType' or 'collectionType:collectionId'")
     lateinit var filterCollections: List<String>
 
-    override fun startIndexing(): List<OrchidPage>? {
-        return null
+    override fun startIndexing(): List<OrchidPage> {
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
@@ -115,7 +114,6 @@ constructor(
                     val shouldContinue: Boolean = when (collection) {
                         is FolderCollection   -> setupFolderCollection(collectionData, collection)
                         is FileCollection     -> setupFileCollection(collectionData, collection)
-                        is ResourceCollection -> setupResourceCollection(collectionData, collection)
                         else                  -> false
                     }
                     if (shouldContinue) {
@@ -158,7 +156,7 @@ constructor(
     private fun setupFileCollection(collectionData: JSONObject, collection: FileCollection): Boolean {
         collectionData.put("files", JSONArray())
 
-        collection.items.forEach { page ->
+        collection.getItems().forEach { page ->
             val pageData = JSONObject()
             pageData.put("label", page.title)
             pageData.put("name", page.resource.reference.originalFileName)
@@ -170,23 +168,8 @@ constructor(
         return true
     }
 
-    private fun setupResourceCollection(collectionData: JSONObject, collection: ResourceCollection<Any>): Boolean {
-        collectionData.put("files", JSONArray())
-
-        collection.resources.forEach { res ->
-            val pageData = JSONObject()
-            pageData.put("label", res.reference.originalFileName)
-            pageData.put("name", res.reference.originalFileName)
-            pageData.put("file", OrchidUtils.normalizePath("$resourceRoot/${res.reference.originalFullFileName}"))
-            pageData.put("fields", extractor.describeOptions(collection.itemClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields(2))
-
-            collectionData.getJSONArray("files").put(pageData)
-        }
-        return true
-    }
-
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
 }

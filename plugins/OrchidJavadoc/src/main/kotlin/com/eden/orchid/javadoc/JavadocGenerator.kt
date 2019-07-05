@@ -4,6 +4,7 @@ import com.copperleaf.javadoc.json.models.JavaPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -97,13 +98,11 @@ constructor(
         pages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        val collections = ArrayList<OrchidCollection<*>>()
-
-        collections.add(JavadocCollection(this, "classes", model.allClasses))
-        collections.add(JavadocCollection(this, "packages", model.allPackages))
-
-        return collections
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return listOf(
+            PageCollection(this, "classes", model.allClasses),
+            PageCollection(this, "packages", model.allPackages)
+        )
     }
 
     private fun isInnerPackage(parent: JavaPackageDoc, possibleChild: JavaPackageDoc): Boolean {

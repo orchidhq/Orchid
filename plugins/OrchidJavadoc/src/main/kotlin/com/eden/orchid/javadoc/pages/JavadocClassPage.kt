@@ -19,4 +19,9 @@ class JavadocClassPage(
 
     var packagePage: JavadocPackagePage? = null
 
+    override val itemIds: List<String>
+        get() = listOf(
+            classDoc.qualifiedName,
+            classDoc.name
+        )
 }

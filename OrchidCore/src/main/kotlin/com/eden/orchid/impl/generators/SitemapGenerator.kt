@@ -26,8 +26,8 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     @Description("Whether to generate a robots.txt, which includes a link to the sitemap.")
     var useRobots: Boolean = true
 
-    override fun startIndexing(): List<OrchidPage>? {
-        return null
+    override fun startIndexing(): List<OrchidPage> {
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {
@@ -38,7 +38,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
         var sitemapIndex: SitemapIndexPage? = null
 
         if (useSitemaps) {
-            val mappedIndex = context.internalIndex.allIndexedPages
+            val mappedIndex = context.index.allIndexedPages
             val sitemapPages = ArrayList<SitemapPage>()
 
             // Render an page for each generator's individual index
@@ -61,8 +61,8 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
         }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
     @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")

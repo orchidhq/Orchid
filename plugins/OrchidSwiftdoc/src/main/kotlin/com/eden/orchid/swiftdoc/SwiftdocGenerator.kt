@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -141,16 +142,14 @@ constructor(
         return model.getAllPages()
     }
 
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        val collections = java.util.ArrayList<OrchidCollection<*>>()
-
-        collections.add(SwiftdocCollection(this, "swiftClasses", model.classPages))
-        collections.add(SwiftdocCollection(this, "swiftStructs", model.structPages))
-        collections.add(SwiftdocCollection(this, "swiftProtocols", model.protocolPages))
-        collections.add(SwiftdocCollection(this, "swiftEnums", model.enumPages))
-        collections.add(SwiftdocCollection(this, "swiftGlobals", model.globalPages))
-
-        return collections
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+        return listOf(
+            PageCollection(this, "swiftClasses", model.classPages),
+            PageCollection(this, "swiftStructs", model.structPages),
+            PageCollection(this, "swiftProtocols", model.protocolPages),
+            PageCollection(this, "swiftEnums", model.enumPages),
+            PageCollection(this, "swiftGlobals", model.globalPages)
+        )
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {

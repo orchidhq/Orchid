@@ -18,8 +18,8 @@ public class MockGenerator extends OrchidGenerator {
     }
 
     @Override
-    public List<? extends OrchidPage> startIndexing() {
-        return mockPages;
+    public List<OrchidPage> startIndexing() {
+        return (List<OrchidPage>) mockPages;
     }
 
     @Override

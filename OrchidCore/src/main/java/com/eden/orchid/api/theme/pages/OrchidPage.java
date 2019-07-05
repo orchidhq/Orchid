@@ -4,6 +4,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.Collectible;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
@@ -27,6 +28,7 @@ import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -53,7 +55,8 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 public class OrchidPage implements
         OptionsHolder,
         AssetHolder,
-        Renderable
+        Renderable,
+        Collectible<OrchidPage>
 {
 
     // global variables
@@ -480,7 +483,19 @@ public class OrchidPage implements
         compiledContent = null;
     }
 
-// Page Relationships
+    @Override
+    public OrchidPage getItem() {
+        return this;
+    }
+
+    @NotNull
+    @Override
+    public List<String> getItemIds() {
+        return Collections.singletonList(title);
+    }
+
+
+    // Page Relationships
 //----------------------------------------------------------------------------------------------------------------------
 
     public void setNext(OrchidPage nextPage) {

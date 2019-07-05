@@ -13,6 +13,6 @@ public class IndexGlobal implements TemplateGlobal<OrchidIndex> {
 
     @Override
     public OrchidIndex get(OrchidContext context) {
-        return context.getInternalIndex();
+        return context.getIndex();
     }
 }

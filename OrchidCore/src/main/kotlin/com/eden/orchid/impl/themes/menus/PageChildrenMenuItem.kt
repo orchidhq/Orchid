@@ -34,7 +34,7 @@ constructor(
             submenuTitle = page.title
         }
 
-        return context.internalIndex.findChildPages(collectionType, collectionId, itemId, page)
+        return context.index.findChildPages(collectionType, collectionId, itemId, page)
                 .map {
                     MenuItem.Builder(context)
                             .page(it)

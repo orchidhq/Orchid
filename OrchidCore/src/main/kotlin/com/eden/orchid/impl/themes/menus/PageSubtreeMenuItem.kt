@@ -32,7 +32,7 @@ constructor(
 
     override fun getMenuItems(): List<MenuItem> {
         val page: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
-        val index = context.internalIndex.findIndex(page.reference.path)
+        val index = context.index.findIndex(page.reference.path)
 
         return if (index != null) {
             if (submenuTitle.isBlank()) {

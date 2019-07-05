@@ -19,4 +19,9 @@ class KotlindocClassPage(
 
     var packagePage: KotlindocPackagePage? = null
 
+    override val itemIds: List<String>
+        get() = listOf(
+            classDoc.qualifiedName,
+            classDoc.name
+        )
 }
