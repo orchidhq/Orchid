@@ -82,7 +82,7 @@ public final class EventServiceTest extends BaseOrchidTest {
         List<String> callbackNames = service
                 .getEventHandlers()
                 .stream()
-                .map(eventHandler -> eventHandler.callback.getName())
+                .map(eventHandler -> eventHandler.getCallback().getName())
                 .collect(Collectors.toList());
 
         assertThat(callbackNames, containsInAnyOrder(validCallbackNames));
