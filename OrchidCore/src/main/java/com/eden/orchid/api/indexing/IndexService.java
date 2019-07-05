@@ -20,20 +20,8 @@ public interface IndexService extends OrchidService {
         getService(IndexService.class).clearIndex();
     }
 
-    default OrchidRootIndex getInternalIndex() {
-        return getService(IndexService.class).getInternalIndex();
-    }
-
-    default OrchidRootIndex getExternalIndex() {
-        return getService(IndexService.class).getExternalIndex();
-    }
-
-    default OrchidRootIndex getCompositeIndex() {
-        return getService(IndexService.class).getCompositeIndex();
-    }
-
-    default void buildCompositeIndex() {
-        getService(IndexService.class).buildCompositeIndex();
+    default OrchidRootIndex getIndex() {
+        return getService(IndexService.class).getIndex();
     }
 
     default void addCollections(List<? extends OrchidCollection> collections) {

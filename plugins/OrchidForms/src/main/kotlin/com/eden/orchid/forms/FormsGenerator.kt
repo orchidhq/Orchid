@@ -31,13 +31,13 @@ constructor(
     @Description("The base directory in local resources to look for forms in.")
     lateinit var baseDir: String
 
-    override fun startIndexing(): List<OrchidPage>? {
+    override fun startIndexing(): List<OrchidPage> {
         val forms = HashMap<String, Form>()
         getFormsByDatafiles(forms)
 
         model.initialize(forms)
 
-        return null
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {

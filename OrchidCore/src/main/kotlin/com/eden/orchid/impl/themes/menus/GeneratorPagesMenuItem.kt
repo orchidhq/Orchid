@@ -4,8 +4,8 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ constructor(
     override fun getMenuItems(): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(generator)) {
-            val foundIndex = context.internalIndex.findIndex(generator)
+            val foundIndex = context.index.findIndex(generator)
             if(foundIndex != null) {
                 menuItems.add(
                         MenuItem.Builder(context)

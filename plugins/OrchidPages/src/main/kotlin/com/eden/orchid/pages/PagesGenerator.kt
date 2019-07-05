@@ -89,24 +89,23 @@ constructor(
         }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>> {
-        val ownPages = context.internalIndex.getChildIndex(this.key)
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
         val pageGroupMap = HashMap<String?, MutableList<OrchidPage>>()
         val collections = ArrayList<OrchidCollection<*>>()
 
-        for (page in ownPages) {
+        for (page in pages) {
             if (page is StaticPage) {
                 pageGroupMap.getOrPut(page.group, { ArrayList() }).add(page)
             }
         }
 
-        pageGroupMap.forEach { group, pages ->
+        pageGroupMap.forEach { group, groupPages ->
             if (group != null) {
-                collections.add(StaticPageGroupCollection(this, group, pages))
+                collections.add(StaticPageGroupCollection(this, group, groupPages))
             }
         }
 
-        val allPagesCollection = FileCollection(this, "allPages", ownPages)
+        val allPagesCollection = FileCollection(this, "allPages", pages)
         collections.add(allPagesCollection)
 
         return collections
