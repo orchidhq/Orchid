@@ -1,54 +1,48 @@
-package com.eden.orchid.github.collection
+package com.eden.orchid.github.menu
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.GlobalCollection
 import com.eden.orchid.api.options.OrchidFlags
+import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidExternalPage
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import java.util.stream.Stream
 import javax.inject.Inject
-import javax.inject.Provider
 
-class GithubProjectGlobalCollection
+class GithubMenuItem
 @Inject
 constructor(
-    val context: Provider<OrchidContext>,
+    context: OrchidContext,
     val client: OkHttpClient
-) : GlobalCollection<OrchidPage>("githubProject") {
 
-    val latestPostsRegex = "^:githubProject\\((.*)\\)$".toRegex()
+) : OrchidMenuFactory(context, "github") {
 
-    val cachedProjectPages = mutableMapOf<String, Pair<Boolean, OrchidPage?>>()
+    @Option
+    lateinit var githubProject: String
 
     val githubToken: String?
         get() {
             return OrchidFlags.getInstance().getFlagValue("githubToken")
         }
 
-    override fun loadItems(): List<OrchidPage> = emptyList()
+    override fun getMenuItems(): List<MenuItem> {
+        val page = loadGithubPage()
 
-    override fun find(id: String?): Stream<OrchidPage> {
-        if(id != null) {
-            if(id.matches(latestPostsRegex)) {
-                val (githubProject) = latestPostsRegex.matchEntire(id)!!.destructured
-
-                val projectPage = cachedProjectPages.getOrPut(githubProject) { loadGithubPage(githubProject) }
-                if(projectPage.first) {
-                    return Stream.of(projectPage.second)
-                }
-            }
+        return if (page.first && page.second != null) {
+            listOf(MenuItem.Builder(context) { page(page.second) }.build())
+        } else {
+            emptyList()
         }
-        return emptyList<OrchidPage>().stream()
     }
 
-    private fun loadGithubPage(githubProject: String): Pair<Boolean, OrchidPage?> {
+    private fun loadGithubPage(): Pair<Boolean, OrchidPage?> {
         try {
             val request = Request.Builder().url("https://api.github.com/repos/$githubProject").get()
 
@@ -67,7 +61,7 @@ constructor(
                 val description = jsonBody.getString("description")
                 val starCount = jsonBody.getInt("stargazers_count")
 
-                val pageRef = OrchidReference.fromUrl(context.get(), name, "https://$url")
+                val pageRef = OrchidReference.fromUrl(context, name, "https://$url")
                 val pageRes = StringResource(description, pageRef)
                 val page = OrchidExternalPage(pageRes, "githubProject", "")
                 page.description = """
@@ -78,8 +72,7 @@ constructor(
                 """.trimMargin()
 
                 return Pair(true, page)
-            }
-            else {
+            } else {
                 Clog.e("{}", bodyString)
             }
         } catch (e: Exception) {
@@ -89,6 +82,4 @@ constructor(
         return Pair(false, null)
     }
 
-
 }
-

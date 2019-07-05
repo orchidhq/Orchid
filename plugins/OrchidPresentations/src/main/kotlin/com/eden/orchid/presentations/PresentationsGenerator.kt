@@ -30,7 +30,7 @@ constructor(
     @Description("The base directory in local resources to look for presentation slides in.")
     lateinit var baseDir: String
 
-    override fun startIndexing(): List<OrchidPage>? {
+    override fun startIndexing(): List<OrchidPage> {
         val presentations = HashMap<String, Presentation>()
         val resourceMap = getPresentationResources(baseDir)
 
@@ -41,7 +41,7 @@ constructor(
 
         model.initialize(presentations)
 
-        return null
+        return emptyList()
     }
 
     override fun startGeneration(pages: Stream<out OrchidPage>) {

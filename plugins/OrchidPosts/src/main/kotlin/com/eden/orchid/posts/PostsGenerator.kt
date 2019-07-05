@@ -18,7 +18,6 @@ import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
-import com.eden.orchid.posts.utils.LatestPostsCollection
 import com.eden.orchid.posts.utils.PostsUtils
 import com.eden.orchid.posts.utils.isToday
 import com.eden.orchid.utilities.OrchidUtils
@@ -37,9 +36,9 @@ import javax.inject.Inject
 class PostsGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val permalinkStrategy: PermalinkStrategy,
-        val postsModel: PostsModel
+    context: OrchidContext,
+    val permalinkStrategy: PermalinkStrategy,
+    val postsModel: PostsModel
 ) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
 
     companion object {
@@ -49,26 +48,29 @@ constructor(
 
     @Option
     @StringDefault("<!--more-->")
-    @Description("The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
-            "first 240 characters of the post."
+    @Description(
+        "The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
+                "first 240 characters of the post."
     )
     lateinit var excerptSeparator: String
 
     @Option
     @ImpliedKey("name")
-    @Description("A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
-            "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
-            "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
-            "configuration, but they will not have their own pages."
+    @Description(
+        "A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
+                "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
+                "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
+                "configuration, but they will not have their own pages."
     )
     lateinit var authors: List<Author>
 
     @Option
     @ImpliedKey("key")
-    @Description("An array of Category configurations, which may be just the path of the category or a full " +
-            "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
-            "category does not have an entry for its parent category, an error is thrown and Posts generation " +
-            "will not continue."
+    @Description(
+        "An array of Category configurations, which may be just the path of the category or a full " +
+                "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
+                "category does not have an entry for its parent category, an error is thrown and Posts generation " +
+                "will not continue."
     )
     lateinit var categories: MutableList<CategoryModel>
 
@@ -103,16 +105,15 @@ constructor(
                 categoryModel.first = getPostsPages(categoryModel)
                 allPages.addAll(categoryModel.first)
             }
-        }
-        else {
+        } else {
             Clog.e("Categories are not hierarchical, cannot continue generating posts.")
         }
 
         return allPages
     }
 
-    override fun startGeneration(posts: Stream<out OrchidPage>) {
-        posts.forEach { context.renderTemplate(it) }
+    override fun startGeneration(pages: Stream<out OrchidPage>) {
+        pages.forEach { context.renderTemplate(it) }
     }
 
     private fun getAuthorPages(): List<AuthorPage> {
@@ -123,9 +124,10 @@ constructor(
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
-            val options = (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
+            val options =
+                (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
 
-            if(!options.containsKey("name")) {
+            if (!options.containsKey("name")) {
                 options["name"] = authorName
             }
 
@@ -164,9 +166,9 @@ constructor(
 
                 if (post.publishDate.toLocalDate().isToday()) {
                     post.publishDate = LocalDate.of(
-                            Integer.parseInt(matcher.group(1)),
-                            Integer.parseInt(matcher.group(2)),
-                            Integer.parseInt(matcher.group(3))
+                        Integer.parseInt(matcher.group(1)),
+                        Integer.parseInt(matcher.group(2)),
+                        Integer.parseInt(matcher.group(3))
                     ).atStartOfDay()
                 }
 
@@ -190,28 +192,27 @@ constructor(
         return posts.filter { !it.isDraft }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>> {
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
         postsModel.categories.values.forEach {
             if (EdenUtils.isEmpty(it.key)) {
                 val collection = FolderCollection(
-                        this,
-                        "blog",
-                        it.first as List<OrchidPage>,
-                        PostPage::class.java,
-                        baseDir
+                    this@PostsGenerator,
+                    "blog",
+                    it.first as List<OrchidPage>,
+                    PostPage::class.java,
+                    baseDir
                 )
                 collection.slugFormat = "{year}-{month}-{day}-{slug}"
                 collectionsList.add(collection)
-            }
-            else {
+            } else {
                 val collection = FolderCollection(
-                        this,
-                        it.key,
-                        it.first as List<OrchidPage>,
-                        PostPage::class.java,
-                        baseDir + "/" + it.key
+                    this@PostsGenerator,
+                    it.key ?: "",
+                    it.first as List<OrchidPage>,
+                    PostPage::class.java,
+                    baseDir + "/" + it.key
                 )
                 collection.slugFormat = "{year}-{month}-{day}-{slug}"
                 collectionsList.add(collection)
@@ -219,14 +220,13 @@ constructor(
         }
 
         val collection = FolderCollection(
-                this,
-                "authors",
-                postsModel.authorPages,
-                AuthorPage::class.java,
-                authorsBaseDir
+            this@PostsGenerator,
+            "authors",
+            postsModel.authorPages,
+            AuthorPage::class.java,
+            authorsBaseDir
         )
         collectionsList.add(collection)
-        collectionsList.add(LatestPostsCollection(this, postsModel))
 
         return collectionsList
     }

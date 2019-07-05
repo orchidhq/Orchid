@@ -39,7 +39,7 @@ constructor(
             submenuTitle = page.title
         }
 
-        return context.internalIndex.findSiblingPages(collectionType, collectionId, itemId, page)
+        return context.index.findSiblingPages(collectionType, collectionId, itemId, page)
                 .map {
                     MenuItem.Builder(context)
                             .page(it)

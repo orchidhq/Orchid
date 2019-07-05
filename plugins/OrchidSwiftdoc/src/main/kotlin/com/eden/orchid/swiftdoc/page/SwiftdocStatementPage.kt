@@ -12,6 +12,9 @@ import com.eden.orchid.swiftdoc.swift.SwiftStatement
 class SwiftdocStatementPage(resource: BaseSwiftdocResource, val statement: SwiftStatement)
     : OrchidPage(resource, "swiftdoc" + statement.kind.capitalize(), statement.name) {
 
+    override val itemIds: List<String>
+        get() = listOf(statement.name ?: "")
+
     fun debug(): String {
         return statement.debug()
     }

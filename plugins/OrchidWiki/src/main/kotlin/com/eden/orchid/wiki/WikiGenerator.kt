@@ -93,7 +93,7 @@ constructor(
         return sectionsPage
     }
 
-    override fun getCollections(): List<OrchidCollection<*>> {
+    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
         val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
 
         wikiModel.sections.forEach {

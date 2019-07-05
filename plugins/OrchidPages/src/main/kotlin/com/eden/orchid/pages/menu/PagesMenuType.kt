@@ -44,7 +44,7 @@ constructor(
     override fun getMenuItems(): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
-        val allPages = context.internalIndex.getChildIndex("pages")
+        val allPages = context.index.getChildIndex("pages")
 
         val pages = if (EdenUtils.isEmpty(group))
             allPages
