@@ -10,7 +10,7 @@ import com.eden.orchid.utilities.addToSet
 class PagesModule : OrchidModule() {
 
     override fun configure() {
-        addToSet<OrchidGenerator, PagesGenerator>()
+        addToSet<OrchidGenerator<*>, PagesGenerator>()
         addToSet<OrchidMenuFactory>(
                 PagesMenuType::class,
                 PageIdsMenuType::class)

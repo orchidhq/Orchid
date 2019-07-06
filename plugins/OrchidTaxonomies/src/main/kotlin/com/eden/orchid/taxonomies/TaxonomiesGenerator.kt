@@ -17,17 +17,14 @@ import com.eden.orchid.taxonomies.pages.TaxonomyArchivePage
 import com.eden.orchid.taxonomies.pages.TermArchivePage
 import com.eden.orchid.taxonomies.utils.getSingleTermValue
 import com.eden.orchid.taxonomies.utils.getTermValues
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description("Create custom archives from any logically-related content.", name = "Taxonomies")
 class TaxonomiesGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val model: TaxonomiesModel,
-        val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+    val permalinkStrategy: PermalinkStrategy
+) : OrchidGenerator<TaxonomiesModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "taxonomies"
@@ -38,50 +35,53 @@ constructor(
     @Description("An array of Taxonomy configurations.")
     lateinit var taxonomies: List<Taxonomy>
 
-    override fun startIndexing(): List<OrchidPage> {
-        model.initialize()
+    override fun startIndexing(context: OrchidContext): TaxonomiesModel {
+        val model = TaxonomiesModel(context)
 
         if (!EdenUtils.isEmpty(taxonomies)) {
             taxonomies.forEach outerLoop@{ taxonomy ->
                 model.putTaxonomy(taxonomy)
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomy.includeFrom, taxonomy.excludeFrom)
 
-                context.index.getChildIndices(enabledGeneratorKeys).forEach innerLoop@{ page ->
-                    if (page.getSingleTermValue("skipTaxonomy") == "true") {
-                        return@innerLoop
-                    }
-
-                    val pageTerms = HashSet<String?>()
-                    if (taxonomy.single) {
-                        pageTerms.add(page.getSingleTermValue(taxonomy.key))
-                    }
-                    else {
-                        if (taxonomy.singleKey.isNotBlank()) {
-                            pageTerms.add(page.getSingleTermValue(taxonomy.singleKey))
+                context.index.getChildIndices(enabledGeneratorKeys)
+                    .flatMap { it.allPages }
+                    .forEach innerLoop@{ page ->
+                        if (page.getSingleTermValue("skipTaxonomy") == "true") {
+                            return@innerLoop
                         }
 
-                        pageTerms.addAll(page.getTermValues(taxonomy.key))
-                    }
+                        val pageTerms = HashSet<String?>()
+                        if (taxonomy.single) {
+                            pageTerms.add(page.getSingleTermValue(taxonomy.key))
+                        } else {
+                            if (taxonomy.singleKey.isNotBlank()) {
+                                pageTerms.add(page.getSingleTermValue(taxonomy.singleKey))
+                            }
 
-                    pageTerms.forEach { term ->
-                        if (term != null) {
-                            model.addPage(taxonomy, term, page)
+                            pageTerms.addAll(page.getTermValues(taxonomy.key))
+                        }
+
+                        pageTerms.forEach { term ->
+                            if (term != null) {
+                                model.addPage(taxonomy, term, page)
+                            }
                         }
                     }
-                }
             }
         }
 
         model.onIndexingTermsFinished()
 
-        return buildAllTaxonomiesPages()
+        model.allPages = buildAllTaxonomiesPages(context, model)
+
+        return model
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(context: OrchidContext, model: TaxonomiesModel) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-//    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+//    override fun getCollections(model: TaxonomiesModel): List<OrchidCollection<*>> {
 //        val collections = ArrayList<OrchidCollection<*>>()
 //
 //        model.taxonomies.values.forEach { taxonomy ->
@@ -95,15 +95,15 @@ constructor(
 //----------------------------------------------------------------------------------------------------------------------
 
     // build all pages for each taxonomy
-    private fun buildAllTaxonomiesPages(): List<OrchidPage> {
+    private fun buildAllTaxonomiesPages(context: OrchidContext, model: TaxonomiesModel): List<OrchidPage> {
         val archivePages = ArrayList<OrchidPage>()
 
         model.taxonomies.values.forEach { taxonomy ->
-            buildTaxonomyLandingPages(taxonomy)
+            buildTaxonomyLandingPages(context, model, taxonomy)
 
 
             taxonomy.allTerms.forEach { term ->
-                archivePages.addAll(buildTermArchivePages(taxonomy, term))
+                archivePages.addAll(buildTermArchivePages(context, model, taxonomy, term))
             }
             archivePages.addAll(taxonomy.archivePages)
         }
@@ -112,7 +112,11 @@ constructor(
     }
 
     // build a set of pages that display all the terms in a given taxonomy
-    private fun buildTaxonomyLandingPages(taxonomy: Taxonomy): List<OrchidPage> {
+    private fun buildTaxonomyLandingPages(
+        context: OrchidContext,
+        model: TaxonomiesModel,
+        taxonomy: Taxonomy
+    ): List<OrchidPage> {
         val terms = taxonomy.allTerms
         val termPages = ArrayList<OrchidPage>()
 
@@ -142,7 +146,12 @@ constructor(
     }
 
     // build a set of pages that display all the items in a given term within a taxonomy
-    private fun buildTermArchivePages(taxonomy: Taxonomy, term: Term): List<OrchidPage> {
+    private fun buildTermArchivePages(
+        context: OrchidContext,
+        model: TaxonomiesModel,
+        taxonomy: Taxonomy,
+        term: Term
+    ): List<OrchidPage> {
         val pagesList = term.allPages
         val termArchivePages = ArrayList<OrchidPage>()
 
@@ -167,8 +176,8 @@ constructor(
         linkPages(termArchivePages.reversed())
         term.archivePages = termArchivePages
 
-        if(taxonomy.setAsPageParent) {
-            for(page in pagesList) {
+        if (taxonomy.setAsPageParent) {
+            for (page in pagesList) {
                 page.parent = term.landingPage
             }
         }

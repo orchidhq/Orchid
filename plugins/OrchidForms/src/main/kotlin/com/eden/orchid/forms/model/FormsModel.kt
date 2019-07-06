@@ -1,17 +1,10 @@
 package com.eden.orchid.forms.model
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.theme.pages.OrchidPage
 
-@Singleton
-class FormsModel
-@Inject
-constructor() {
-
-    var forms: MutableMap<String, Form> = mutableMapOf()
-
-    fun initialize(forms: MutableMap<String, Form>) {
-        this.forms = forms
-    }
-
+class FormsModel(
+    val forms: MutableMap<String, Form>
+) : OrchidGenerator.Model {
+    override val allPages: List<OrchidPage> = emptyList()
 }

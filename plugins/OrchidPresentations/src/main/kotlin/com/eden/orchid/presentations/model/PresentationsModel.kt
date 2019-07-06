@@ -1,17 +1,11 @@
 package com.eden.orchid.presentations.model
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.theme.pages.OrchidPage
 
-@Singleton
-class PresentationsModel
-@Inject
-constructor() {
+class PresentationsModel(
+    val presentations: Map<String, Presentation>
+) : OrchidGenerator.Model {
 
-    var presentations: MutableMap<String, Presentation> = mutableMapOf()
-
-    fun initialize(presentations: MutableMap<String, Presentation>) {
-        this.presentations = presentations
-    }
-
+    override val allPages: List<OrchidPage> = emptyList()
 }

@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +32,7 @@ import java.util.stream.Stream;
 @Description(value = "How content gets created in your build.", name = "Generators")
 public final class GeneratorServiceImpl implements GeneratorService {
 
-    private final Set<OrchidGenerator> allGenerators;
+    private final Set<OrchidGenerator<?>> allGenerators;
     private OrchidContext context;
     private BuildMetrics metrics;
 
@@ -60,7 +59,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     private boolean parallelGeneration;
 
     @Inject
-    public GeneratorServiceImpl(Set<OrchidGenerator> generators, BuildMetrics metrics) {
+    public GeneratorServiceImpl(Set<OrchidGenerator<?>> generators, BuildMetrics metrics) {
         this.allGenerators = new TreeSet<>(generators);
         this.metrics = metrics;
     }
@@ -86,7 +85,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.stopIndexing();
     }
 
-    private void indexGenerator(OrchidGenerator generator) {
+    private <T extends OrchidGenerator.Model> void indexGenerator(OrchidGenerator<T> generator) {
         Clog.i("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
         context.broadcast(Orchid.Lifecycle.IndexGeneratorStart.fire(generator));
         metrics.startIndexingGenerator(generator.getKey());
@@ -97,31 +96,32 @@ public final class GeneratorServiceImpl implements GeneratorService {
             generator.extractOptions(context, new HashMap<>());
         }
         // get the pages from a generator
-        List<? extends OrchidPage> generatorPages = generator.startIndexing();
+        T generatorModel = generator.startIndexing(context);
+        List<? extends OrchidPage> generatorPages = generatorModel.getAllPages();
         Orchid.Lifecycle.IndexGeneratorExtend extend = Orchid.Lifecycle.IndexGeneratorExtend.fire(generator, generatorPages);
         context.broadcast(extend);
         generatorPages = extend.getGeneratorPages();
+        OrchidIndex index = new OrchidIndex(null, generator.getKey());
         if (!EdenUtils.isEmpty(generatorPages)) {
-            OrchidIndex index = new OrchidIndex(null, generator.getKey());
             generatorPages.stream().filter(Objects::nonNull).forEach(page -> {
                 page.setGenerator(generator);
                 page.setIndexed(true);
                 index.addToIndex(generator.getKey() + "/" + page.getReference().getPath(), page);
                 page.free();
             });
-            context.getIndex().addChildIndex(generator.getKey(), index);
         }
+        context.getIndex().addChildIndex(generator.getKey(), index, generatorModel);
         // get the collections from a generator
-        List<? extends OrchidCollection> generatorCollections = generator.getCollections((List<OrchidPage>) generatorPages);
+        List<? extends OrchidCollection> generatorCollections = generator.getCollections(context, generatorModel);
         if (generatorCollections != null && generatorCollections.size() > 0) {
             context.addCollections(generatorCollections);
         }
         // notify the generator is finished indexing
-        if (generatorPages != null && generatorPages.size() > 0) {
-            metrics.stopIndexingGenerator(generator.getKey(), generatorPages.size());
-        } else {
-            metrics.stopIndexingGenerator(generator.getKey(), 0);
-        }
+        metrics.stopIndexingGenerator(generator.getKey(),
+                (generatorPages != null && generatorPages.size() > 0)
+                        ? generatorPages.size()
+                        : 0
+        );
         context.broadcast(Orchid.Lifecycle.IndexGeneratorFinish.fire(generator));
     }
 
@@ -135,18 +135,15 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.stopGeneration();
     }
 
-    private void useGenerator(OrchidGenerator generator) {
+    private <T extends OrchidGenerator.Model> void useGenerator(OrchidGenerator<T> generator) {
         Clog.i("Generating [{}: {}]", generator.getPriority(), generator.getKey());
         metrics.startGeneratingGenerator(generator.getKey());
-        List<? extends OrchidPage> generatorPages = null;
-        if (!EdenUtils.isEmpty(generator.getKey())) {
-            generatorPages = context.getIndex().getChildIndex(generator.getKey());
+        OrchidGenerator.Model generatorModel = context.getIndex().getChildIndex(generator.getKey());
+        if (generatorModel == null) {
+            throw new IllegalStateException(Clog.format("Generator {} did not have a model registered!", generator.getKey()));
         }
-        if (generatorPages == null) {
-            generatorPages = new ArrayList<>();
-        }
-        Stream<? extends OrchidPage> generatorPagesStream = generatorPages.stream();
-        Theme customTheme = context.doWithTheme(generator.getTheme(), () -> generator.startGeneration(generatorPagesStream));
+
+        Theme customTheme = context.doWithTheme(generator.getTheme(), () -> generator.startGeneration(context, (T) generatorModel));
         if (customTheme != null) {
             Clog.d("[{}] Generator pages rendered with [{}] Theme.", generator.getKey(), customTheme.getKey());
         }
@@ -161,16 +158,16 @@ public final class GeneratorServiceImpl implements GeneratorService {
 // Utilities
 //----------------------------------------------------------------------------------------------------------------------
 
-    Stream<OrchidGenerator> getFilteredGenerators() {
+    Stream<OrchidGenerator<?>> getFilteredGenerators() {
         return getFilteredGenerators(enabled, disabled);
     }
 
-    Stream<OrchidGenerator> getFilteredGenerators(String[] include, String[] exclude) {
+    Stream<OrchidGenerator<?>> getFilteredGenerators(String[] include, String[] exclude) {
         return getFilteredGenerators(allGenerators.stream(), include, exclude);
     }
 
-    Stream<OrchidGenerator> getFilteredGenerators(Stream<OrchidGenerator> generators, String[] include, String[] exclude) {
-        Stream<OrchidGenerator> generatorStream = generators;
+    Stream<OrchidGenerator<?>> getFilteredGenerators(Stream<OrchidGenerator<?>> generators, String[] include, String[] exclude) {
+        Stream<OrchidGenerator<?>> generatorStream = generators;
         if (!EdenUtils.isEmpty(exclude)) {
             generatorStream = generatorStream.filter(generator -> !OrchidUtils.inArray(generator, exclude, (generator1, s) -> generator1.getKey().equals(s)));
         }

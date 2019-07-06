@@ -43,7 +43,7 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
     }
 
     private Relation loadRelation(final Field field, final Object sourceObject) {
-        Relation relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
+        Relation relation = (Relation) contextProvider.get().resolve(field.getType());
         Map<String, Object> relationConfig = new HashMap<>();
 
         RelationConfig configAnnotation = field.getAnnotation(RelationConfig.class);

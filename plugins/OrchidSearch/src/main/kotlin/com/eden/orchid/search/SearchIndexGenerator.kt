@@ -4,6 +4,7 @@ import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -11,15 +12,9 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
-import java.util.stream.Stream
-import javax.inject.Inject
 
 @Description("Generates index files to connect your site to others.", name = "Indices")
-class SearchIndexGenerator
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE) {
+class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE) {
 
     companion object {
         const val GENERATOR_KEY = "indices"
@@ -32,23 +27,23 @@ constructor(
     )
     var enablePageIndices: Boolean = false
 
-    override fun startIndexing(): List<OrchidPage> {
-        return emptyList()
+    override fun startIndexing(context: OrchidContext): Model {
+        return emptyModel()
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        generateSiteIndexFiles()
+    override fun startGeneration(context: OrchidContext, model: Model) {
+        generateSiteIndexFiles(context)
         if (enablePageIndices) {
-            generatePageIndexFiles()
+            generatePageIndexFiles(context)
         }
     }
 
-    private fun generateSiteIndexFiles() {
+    private fun generateSiteIndexFiles(context: OrchidContext) {
         val indices = OrchidIndex(null, "index")
 
         // Render an page for each generator's individual index
         context.index.allIndexedPages.forEach { (key, value) ->
-            val jsonElement = JSONElement(value.toJSON(true, false))
+            val jsonElement = JSONElement(value.first.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
             val resource = JsonResource(jsonElement, reference)
             val page = OrchidPage(resource, "index", null)
@@ -77,7 +72,7 @@ constructor(
         context.renderRaw(indicesPage)
     }
 
-    private fun generatePageIndexFiles() {
+    private fun generatePageIndexFiles(context: OrchidContext) {
         context.index.allPages.forEach { page ->
             val jsonElement = JSONElement(page.toJSON(true, true))
             val reference = OrchidReference(page.reference)
@@ -89,7 +84,10 @@ constructor(
         }
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: Model
+    ): List<OrchidCollection<*>> {
         return emptyList()
     }
 

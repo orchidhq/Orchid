@@ -8,14 +8,12 @@ import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.groovydoc.helpers.OrchidGroovydocInvoker
 import com.eden.orchid.groovydoc.models.GroovydocModel
 import com.eden.orchid.groovydoc.pages.GroovydocClassPage
 import com.eden.orchid.groovydoc.pages.GroovydocPackagePage
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description(
@@ -26,10 +24,8 @@ import javax.inject.Inject
 class GroovydocGenerator
 @Inject
 constructor(
-    context: OrchidContext,
-    private val model: GroovydocModel,
     private val groovydocInvoker: OrchidGroovydocInvoker
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+) : OrchidGenerator<GroovydocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "groovydoc"
@@ -44,24 +40,23 @@ constructor(
     @Description("Arbitrary command line arguments to pass through directly to Groovydoc.")
     lateinit var args: List<String>
 
-    override fun startIndexing(): List<OrchidPage> {
+    override fun startIndexing(context: OrchidContext): GroovydocModel {
         groovydocInvoker.extractOptions(context, allData)
 
         val rootDoc = groovydocInvoker.getRootDoc(sourceDirs, args)
+        if (rootDoc == null) return GroovydocModel(context, emptyList(), emptyList())
 
-        if (rootDoc == null) return ArrayList()
-
-        model.initialize(ArrayList(), ArrayList())
+        val allClasses = mutableListOf<GroovydocClassPage>()
+        val allPackages = mutableListOf<GroovydocPackagePage>()
 
         for (classDoc in rootDoc.classes) {
-            model.allClasses.add(GroovydocClassPage(context, classDoc, model))
+            allClasses.add(GroovydocClassPage(context, classDoc))
         }
 
         val packagePageMap = HashMap<String, GroovydocPackagePage>()
         for (packageDoc in rootDoc.packages) {
-
             val classesInPackage = ArrayList<GroovydocClassPage>()
-            for (classDocPage in model.allClasses) {
+            for (classDocPage in allClasses) {
                 if (classDocPage.classDoc.`package` == packageDoc.name) {
                     classesInPackage.add(classDocPage)
                 }
@@ -70,8 +65,7 @@ constructor(
             classesInPackage.sortBy { it.title }
 
             val packagePage = GroovydocPackagePage(context, packageDoc, classesInPackage)
-
-            model.allPackages.add(packagePage)
+            allPackages.add(packagePage)
             packagePageMap[packageDoc.name] = packagePage
         }
 
@@ -83,18 +77,23 @@ constructor(
             }
         }
 
-        for (classDocPage in model.allClasses) {
+        for (classDocPage in allClasses) {
             classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
 
-        return model.allPages
+        return GroovydocModel(context, allClasses, allPackages).also { createdModel ->
+            createdModel.allClasses.forEach { it.model = createdModel }
+        }
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(context: OrchidContext, model: GroovydocModel) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: GroovydocModel
+    ): List<OrchidCollection<*>> {
         return listOf(
             PageCollection(this, "classes", model.allClasses),
             PageCollection(this, "packages", model.allPackages)

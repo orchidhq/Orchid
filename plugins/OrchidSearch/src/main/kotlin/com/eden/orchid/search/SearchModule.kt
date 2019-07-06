@@ -8,7 +8,7 @@ class SearchModule : OrchidModule() {
 
     override fun configure() {
         withResources(20)
-        addToSet<OrchidGenerator, SearchIndexGenerator>()
+        addToSet<OrchidGenerator<*>, SearchIndexGenerator>()
     }
 
 }

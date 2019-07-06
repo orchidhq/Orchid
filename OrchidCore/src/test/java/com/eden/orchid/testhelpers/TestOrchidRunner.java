@@ -66,7 +66,7 @@ public class TestOrchidRunner {
             return contextDependantModules;
         });
 
-        TestRenderer renderer = Orchid.getInstance().getInjector().getInstance(TestRenderer.class);
+        TestRenderer renderer = Orchid.getInstance().getContext().resolve(TestRenderer.class);
 
         return new Pair<>(
                 Orchid.getInstance().getContext(),

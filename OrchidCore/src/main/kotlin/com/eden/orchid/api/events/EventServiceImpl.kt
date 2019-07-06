@@ -10,7 +10,8 @@ import javax.inject.Singleton
 @Singleton
 @Description(value = "The Orchid event broadcast system.", name = "Events")
 @JvmSuppressWildcards
-class EventServiceImpl @Inject
+class EventServiceImpl
+@Inject
 constructor(
     private val eventListeners: Set<OrchidEventListener>
 ) : EventService {
