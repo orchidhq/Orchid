@@ -11,7 +11,7 @@ class SwiftdocModule : OrchidModule() {
     override fun configure() {
         withResources(10)
 
-        addToSet<OrchidGenerator, SwiftdocGenerator>()
+        addToSet<OrchidGenerator<*>, SwiftdocGenerator>()
         addToSet<OrchidMenuFactory, SwiftdocMenuItem>()
     }
 

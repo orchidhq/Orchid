@@ -119,7 +119,7 @@ public class TabbedTagParser extends BaseTagParser {
     @Override
     public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
         // create a new tag
-        TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
+        TemplateTag freshTag = contextProvider.get().resolve(tagClass);
 
         // evaluate its own params and populate the main Tag class with them
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);

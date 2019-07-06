@@ -45,7 +45,7 @@ public class OrchidView extends OrchidPage {
         this.controller = controller;
         this.layout = "layoutBase";
         this.template = views;
-        context.getInjector().injectMembers(this);
+        context.injectMembers(this);
     }
 
 // Assets

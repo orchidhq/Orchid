@@ -26,17 +26,17 @@ public class InjectionServiceImpl implements InjectionService {
     }
 
     @Override
-    public Injector getInjector() {
-        return injector;
-    }
-
-    @Override
     public <T> T resolve(Class<T> clazz) {
         return injector.getInstance(clazz);
     }
 
+    @Override
+    public <T> T injectMembers(T instance) {
+        injector.injectMembers(instance);
+        return instance;
+    }
+
     public <T> Set<T> resolveSet(Class<T> clazz) {
-        Injector injector = getInjector();
         try {
             TypeLiteral<Set<T>> lit = (TypeLiteral<Set<T>>) TypeLiteral.get(Types.setOf(clazz));
             Key<Set<T>> key = Key.get(lit);

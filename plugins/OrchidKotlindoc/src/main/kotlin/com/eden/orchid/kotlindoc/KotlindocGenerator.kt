@@ -8,14 +8,12 @@ import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kotlindoc.helpers.OrchidKotlindocInvoker
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import com.eden.orchid.kotlindoc.page.KotlindocPackagePage
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -27,11 +25,9 @@ import javax.inject.Named
 class KotlindocGenerator
 @Inject
 constructor(
-    context: OrchidContext,
     @Named("kotlindocClasspath") private val kotlindocClasspath: String,
-    private val invoker: OrchidKotlindocInvoker,
-    private val model: KotlindocModel
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+    private val invoker: OrchidKotlindocInvoker
+) : OrchidGenerator<KotlindocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "kotlindoc"
@@ -46,22 +42,27 @@ constructor(
     @Description("Arbitrary command line arguments to pass through directly to Dokka.")
     lateinit var args: List<String>
 
-    override fun startIndexing(): List<OrchidPage> {
-        val args = if (kotlindocClasspath.isNotBlank()) listOf("-classpath", kotlindocClasspath, *args.toTypedArray()) else args
+    override fun startIndexing(context: OrchidContext): KotlindocModel {
+        val args = if (kotlindocClasspath.isNotBlank()) listOf(
+            "-classpath",
+            kotlindocClasspath,
+            *args.toTypedArray()
+        ) else args
         val rootDoc = invoker.getRootDoc(sourceDirs, args)
 
-        if (rootDoc == null) return ArrayList()
+        if (rootDoc == null) return KotlindocModel(context, emptyList(), emptyList())
 
-        model.initialize(ArrayList(), ArrayList())
+        val allClasses = mutableListOf<KotlindocClassPage>()
+        val allPackages = mutableListOf<KotlindocPackagePage>()
 
         for (classDoc in rootDoc.classes) {
-            model.allClasses.add(KotlindocClassPage(context, classDoc, model))
+            allClasses.add(KotlindocClassPage(context, classDoc))
         }
 
         val packagePageMap = HashMap<String, KotlindocPackagePage>()
         for (packageDoc in rootDoc.packages) {
             val classesInPackage = ArrayList<KotlindocClassPage>()
-            for (classDocPage in model.allClasses) {
+            for (classDocPage in allClasses) {
                 if (classDocPage.classDoc.`package` == packageDoc.qualifiedName) {
                     classesInPackage.add(classDocPage)
                 }
@@ -69,9 +70,9 @@ constructor(
 
             classesInPackage.sortBy { it.title }
 
-            val packagePage = KotlindocPackagePage(context, packageDoc, classesInPackage, model)
+            val packagePage = KotlindocPackagePage(context, packageDoc, classesInPackage)
 
-            model.allPackages.add(packagePage)
+            allPackages.add(packagePage)
             packagePageMap[packageDoc.qualifiedName] = packagePage
         }
 
@@ -83,15 +84,18 @@ constructor(
             }
         }
 
-        for (classDocPage in model.allClasses) {
+        for (classDocPage in allClasses) {
             classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
 
-        return model.allPages
+        return KotlindocModel(context, allClasses, allPackages).also { createdModel ->
+            createdModel.allClasses.forEach { it.model = createdModel }
+            createdModel.allPackages.forEach { it.model = createdModel }
+        }
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(context: OrchidContext, model: KotlindocModel) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
     private fun isInnerPackage(parent: KotlinPackageDoc, possibleChild: KotlinPackageDoc): Boolean {
@@ -102,8 +106,11 @@ constructor(
             // packages are not the same...
             if (possibleChild.qualifiedName != parent.qualifiedName) {
 
-                val parentSegmentCount = parent.qualifiedName.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
-                val possibleChildSegmentCount = possibleChild.qualifiedName.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
+                val parentSegmentCount =
+                    parent.qualifiedName.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size
+                val possibleChildSegmentCount =
+                    possibleChild.qualifiedName.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                        .size
 
                 // child has one segment more than the parent, so is immediate child
                 if (possibleChildSegmentCount == parentSegmentCount + 1) {
@@ -115,7 +122,10 @@ constructor(
         return false
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: KotlindocModel
+    ): List<OrchidCollection<*>> {
         return listOf(
             PageCollection(this, "classes", model.allClasses),
             PageCollection(this, "packages", model.allPackages)

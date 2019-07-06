@@ -39,7 +39,6 @@ public final class Orchid {
     private static Orchid instance;
 
     private OrchidContext context;
-    private Injector injector;
 
     private Orchid.State state = State.BOOTSTRAP;
 
@@ -88,7 +87,7 @@ public final class Orchid {
             moduleLog += "\n";
             Clog.tag("Using the following modules").log(moduleLog);
 
-            injector = Guice.createInjector(modules);
+            Injector injector = Guice.createInjector(modules);
 
             String flagLog = "";
             flagLog += "\n--------------------\n";
@@ -122,10 +121,6 @@ public final class Orchid {
 
     public OrchidContext getContext() {
         return this.context;
-    }
-
-    public Injector getInjector() {
-        return this.injector;
     }
 
     public State getState() {
@@ -529,7 +524,7 @@ public final class Orchid {
                 }
             });
 
-            injector = Guice.createInjector(modules);
+            Injector injector = Guice.createInjector(modules);
 
             String flagLog = "";
             flagLog += "\n--------------------\n";

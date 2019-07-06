@@ -201,7 +201,7 @@ public final class OptionsServiceImpl implements OptionsService {
         siteData.put("controller", view.getController());
         siteData.put("params", view.getParams());
 
-        OrchidServer server = context.getInjector().getInstance(OrchidServer.class);
+        OrchidServer server = context.resolve(OrchidServer.class);
         siteData.put("httpServerPort", server.getHttpServerPort());
         siteData.put("websocketPort", server.getWebsocketPort());
 

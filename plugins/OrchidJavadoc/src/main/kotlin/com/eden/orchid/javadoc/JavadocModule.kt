@@ -13,7 +13,7 @@ class JavadocModule() : OrchidModule() {
     override fun configure() {
         withResources(10)
 
-        addToSet<OrchidGenerator, JavadocGenerator>()
+        addToSet<OrchidGenerator<*>, JavadocGenerator>()
         addToSet<OrchidMenuFactory>(
                 AllClassesMenuItemType::class,
                 AllPackagesMenuItemType::class,

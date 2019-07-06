@@ -53,7 +53,7 @@ public class SimpleTagParser extends BaseTagParser {
 
     @Override
     public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
-        TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
+        TemplateTag freshTag = contextProvider.get().resolve(tagClass);
 
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
 

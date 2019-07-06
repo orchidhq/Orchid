@@ -49,7 +49,7 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
 
     private OrchidRootIndex internalIndex;
 
-    private Set<OrchidGenerator> generators;
+    private Set<OrchidGenerator<?>> generators;
 
     private MockGenerator generator1;
     private List<OrchidPage> pages1;
@@ -90,7 +90,7 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         mockPage1 = spy(new OrchidPage(mockPage1Resource, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);
-        generator1 = spy(new MockGenerator(context, "gen1", 100, pages1));
+        generator1 = spy(new MockGenerator("gen1", 100, pages1));
         generators.add(generator1);
 
         mockPage2Reference = new OrchidReference(context, "page2.html");
@@ -98,11 +98,11 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         mockPage2 = spy(new OrchidPage(mockFreeableResource, "mockPage2", ""));
         pages2 = new ArrayList<>();
         pages2.add(mockPage2);
-        generator2 = spy(new MockGenerator(context, "gen2", 150, pages2));
+        generator2 = spy(new MockGenerator("gen2", 150, pages2));
         generators.add(generator2);
 
         pages3 = null;
-        generator3 = new MockGenerator(context, "gen3", 200, pages3);
+        generator3 = new MockGenerator("gen3", 200, pages3);
         generator3 = spy(generator3);
         generators.add(generator3);
 
@@ -124,16 +124,16 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         underTest.startGeneration();
 
         verify(generator1).extractOptions((OrchidContext) any(), any());
-        verify(generator1).startIndexing();
+        verify(generator1).startIndexing(context);
         assertThat(generator1.mockPages.size(), is(1));
         assertThat(generator1.mockPages.size(), is(1));
 
         verify(generator2).extractOptions((OrchidContext) any(), any());
-        verify(generator2).startIndexing();
+        verify(generator2).startIndexing(context);
         assertThat(generator2.mockPages.size(), is(1));
 
         verify(generator3).extractOptions((OrchidContext) any(), any());
-        verify(generator3).startIndexing();
+        verify(generator3).startIndexing(context);
         assertThat(generator3.mockPages, is(nullValue()));
     }
 

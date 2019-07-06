@@ -2,6 +2,7 @@ package com.eden.orchid.pages.menu
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
@@ -44,7 +45,7 @@ constructor(
     override fun getMenuItems(): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
-        val allPages = context.index.getChildIndex("pages")
+        val allPages = context.index.getChildIndex<OrchidGenerator.Model>("pages")!!.allPages
 
         val pages = if (EdenUtils.isEmpty(group))
             allPages

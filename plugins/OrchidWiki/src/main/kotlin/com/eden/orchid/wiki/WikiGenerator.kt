@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
@@ -12,20 +13,13 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
-import com.eden.orchid.wiki.pages.WikiBookCollection
 import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.utils.WikiUtils
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
-class WikiGenerator
-@Inject
-constructor(
-    context: OrchidContext,
-    private val wikiModel: WikiModel
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "wiki"
@@ -40,7 +34,7 @@ constructor(
     @Description("The configuration for the default wiki, when no other categories are set up.")
     lateinit var defaultConfig: WikiSection
 
-    override fun startIndexing(): List<OrchidPage> {
+    override fun startIndexing(context: OrchidContext): WikiModel {
         if (EdenUtils.isEmpty(sections)) {
             sections.add(defaultConfig)
         }
@@ -61,17 +55,17 @@ constructor(
             }
         }
 
-        wikiModel.initialize(loadedSections)
+        val model = WikiModel(loadedSections)
 
         if (loadedSections.size > 1) {
-            wikiModel.sectionsPage = getSectionsIndex()
+            model.sectionsPage = getSectionsIndex(context, model)
         }
 
-        return wikiModel.allPages
+        return model
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach {
+    override fun startGeneration(context: OrchidContext, model: WikiModel) {
+        model.allPages.forEach {
             if (it is WikiBookPage) {
                 context.renderBinary(it)
             } else {
@@ -80,12 +74,12 @@ constructor(
         }
     }
 
-    private fun getSectionsIndex(): WikiSectionsPage {
+    private fun getSectionsIndex(context: OrchidContext, model: WikiModel): WikiSectionsPage {
         val resource = StringResource(context, "wiki.md", "")
 
-        val sectionsPage = WikiSectionsPage(wikiModel, resource, "Wiki")
+        val sectionsPage = WikiSectionsPage(model, resource, "Wiki")
 
-        for (summaryPage in wikiModel.sections.values) {
+        for (summaryPage in model.sections.values) {
             summaryPage.summaryPage.sectionsPage = sectionsPage
             summaryPage.summaryPage.parent = sectionsPage
         }
@@ -93,10 +87,10 @@ constructor(
         return sectionsPage
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(context: OrchidContext, model: WikiModel): List<OrchidCollection<*>> {
         val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
 
-        wikiModel.sections.forEach {
+        model.sections.forEach {
             val sectionPages = ArrayList<OrchidPage>()
 
             sectionPages.add(it.value.summaryPage)
@@ -106,8 +100,8 @@ constructor(
             collectionsList.add(collection)
         }
 
-        val bookPages = wikiModel.sections.values.mapNotNull { it.bookPage }
-        collectionsList.add(WikiBookCollection(this, bookPages))
+        val bookPages = model.sections.values.mapNotNull { it.bookPage }
+        collectionsList.add(PageCollection(this, "books", bookPages))
 
         return collectionsList
     }

@@ -12,11 +12,11 @@ import com.eden.orchid.kotlindoc.resources.KotlinClassdocResource
 @Archetype(value = ConfigArchetype::class, key = "${KotlindocGenerator.GENERATOR_KEY}.classPages")
 @Description(value = "Documentation for a Kotlin or Java class.", name = "Kotlin class")
 class KotlindocClassPage(
-        context: OrchidContext,
-        val classDoc: KotlinClassDoc,
-        val model: KotlindocModel
+    context: OrchidContext,
+    val classDoc: KotlinClassDoc
 ) : BaseKotlindocPage(KotlinClassdocResource(context, classDoc), "kotlindocClass", classDoc.name) {
 
+    lateinit var model: KotlindocModel
     var packagePage: KotlindocPackagePage? = null
 
     override val itemIds: List<String>

@@ -4,7 +4,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.stream.Stream
 
 interface ResourceSpec : OptionsHolder {
@@ -43,10 +42,10 @@ class ContextResourceSpec(
 //}
 
 
-interface GeneratorModel {
-    fun getAllPages(): List<OrchidPage>
-    fun getAllCollections(): List<OrchidCollection<*>>
-}
+//interface GeneratorModel {
+//    fun getAllPages(): List<OrchidPage>
+//    fun getAllCollections(): List<OrchidCollection<*>>
+//}
 
 
 //fun OrchidGenerator.collect(

@@ -4,31 +4,32 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description(value = "Generates the root homepage for your site.", name = "Homepage")
-class HomepageGenerator
-@Inject
-constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, PRIORITY_EARLY) {
+class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_EARLY) {
 
-    override fun startIndexing(): List<OrchidPage> {
-        return listOf(loadHomepage(), load404page())
+    override fun startIndexing(context: OrchidContext): Model {
+        return modelOf { listOf(loadHomepage(context), load404page(context)) }
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(context: OrchidContext, model: Model) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
-        return listOf(FileCollection(this, GENERATOR_KEY, pages))
+    override fun getCollections(
+        context: OrchidContext,
+        model: Model
+    ): List<OrchidCollection<*>> {
+        return listOf(FileCollection(this, GENERATOR_KEY, model.allPages))
     }
 
-    private fun loadHomepage(): OrchidPage {
+    private fun loadHomepage(context: OrchidContext): OrchidPage {
         var resource: OrchidResource? = context.locateLocalResourceEntry("homepage")
         if (resource == null) {
             resource = StringResource(context, "homepage.md", "")
@@ -39,7 +40,7 @@ constructor(context: OrchidContext) : OrchidGenerator(context, GENERATOR_KEY, PR
         return page
     }
 
-    private fun load404page(): OrchidPage {
+    private fun load404page(context: OrchidContext): OrchidPage {
         var resource = context.locateLocalResourceEntry("404")
         if (resource == null) {
             resource = StringResource(context, "404.md", "")

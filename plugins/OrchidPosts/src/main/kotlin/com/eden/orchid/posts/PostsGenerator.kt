@@ -29,17 +29,14 @@ import com.eden.orchid.utilities.words
 import org.json.JSONObject
 import java.time.LocalDate
 import java.util.regex.Pattern
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description("Share your thoughts and interests with blog posts.", name = "Blog Posts")
 class PostsGenerator
 @Inject
 constructor(
-    context: OrchidContext,
-    val permalinkStrategy: PermalinkStrategy,
-    val postsModel: PostsModel
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+    private val permalinkStrategy: PermalinkStrategy
+) : OrchidGenerator<PostsModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "posts"
@@ -88,35 +85,39 @@ constructor(
     @Description("The configuration for the default category, when no other categories are set up.")
     lateinit var defaultConfig: CategoryModel
 
-    override fun startIndexing(): List<OrchidPage> {
-        val authorPages = getAuthorPages()
+    override fun startIndexing(context: OrchidContext): PostsModel {
+        val authorPages = getAuthorPages(context)
 
         if (EdenUtils.isEmpty(categories)) {
             categories.add(defaultConfig)
         }
 
-        postsModel.initialize(excerptSeparator, categories, authorPages)
+        val model = PostsModel(context, excerptSeparator, categories, authorPages)
 
-        val allPages = ArrayList<OrchidPage>()
+        val postPages = mutableListOf<PostPage>()
 
-        if (postsModel.validateCategories()) {
-            allPages.addAll(authorPages)
-            postsModel.categories.values.forEach { categoryModel ->
-                categoryModel.first = getPostsPages(categoryModel)
-                allPages.addAll(categoryModel.first)
+        if (model.validateCategories()) {
+            model.categories.values.forEach { categoryModel ->
+                categoryModel.first = getPostsPages(context, categoryModel)
+                postPages.addAll(categoryModel.first)
             }
         } else {
             Clog.e("Categories are not hierarchical, cannot continue generating posts.")
         }
 
-        return allPages
+        model.postPages = postPages
+
+        return model
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(
+        context: OrchidContext,
+        model: PostsModel
+    ) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-    private fun getAuthorPages(): List<AuthorPage> {
+    private fun getAuthorPages(context: OrchidContext): List<AuthorPage> {
         val authorPages = ArrayList<AuthorPage>()
 
         // add Author pages from content pages in the authorsBaseDir
@@ -133,7 +134,7 @@ constructor(
 
             newAuthor.extractOptions(context, options)
 
-            val authorPage = AuthorPage(entry, newAuthor, postsModel)
+            val authorPage = AuthorPage(entry, newAuthor)
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)
@@ -141,7 +142,7 @@ constructor(
 
         // add Author pages from those specified in config.yml
         for (author in this.authors) {
-            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author, postsModel)
+            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author)
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)
@@ -150,7 +151,7 @@ constructor(
         return authorPages
     }
 
-    private fun getPostsPages(categoryModel: CategoryModel): List<PostPage> {
+    private fun getPostsPages(context: OrchidContext, categoryModel: CategoryModel): List<PostPage> {
         val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
         val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
 
@@ -192,10 +193,13 @@ constructor(
         return posts.filter { !it.isDraft }
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: PostsModel
+    ): List<OrchidCollection<*>> {
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
-        postsModel.categories.values.forEach {
+        model.categories.values.forEach {
             if (EdenUtils.isEmpty(it.key)) {
                 val collection = FolderCollection(
                     this@PostsGenerator,
@@ -222,7 +226,7 @@ constructor(
         val collection = FolderCollection(
             this@PostsGenerator,
             "authors",
-            postsModel.authorPages,
+            model.authorPages,
             AuthorPage::class.java,
             authorsBaseDir
         )

@@ -18,7 +18,7 @@ import java.util.stream.Stream
  * @orchidApi extensible
  */
 abstract class OrchidCollection<T : Collectible<*>>(
-    generator: OrchidGenerator,
+    generator: OrchidGenerator<*>,
     val collectionId: String?,
     private val items: () -> Stream<T>
 ) : Descriptive {

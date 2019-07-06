@@ -20,7 +20,7 @@ class TaxonomiesModule : OrchidModule() {
     override fun configure() {
         withResources(20)
 
-        addToSet<OrchidGenerator, TaxonomiesGenerator>()
+        addToSet<OrchidGenerator<*>, TaxonomiesGenerator>()
         addToSet<PermalinkPathType>(
                 TaxonomyPathType::class,
                 TermPathType::class,

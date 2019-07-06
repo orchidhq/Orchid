@@ -19,7 +19,7 @@ class FormsModule : OrchidModule() {
     override fun configure() {
         withResources(20)
 
-        addToSet<OrchidGenerator, FormsGenerator>()
+        addToSet<OrchidGenerator<*>, FormsGenerator>()
         addToSet<OrchidComponent, FormComponent>()
         addToSet<OptionExtractor<*>, FormOptionExtractor>()
         addToSet<FormField>(

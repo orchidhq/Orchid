@@ -4,41 +4,27 @@ import com.copperleaf.dokka.json.models.KotlinConstructor
 import com.copperleaf.dokka.json.models.KotlinField
 import com.copperleaf.dokka.json.models.KotlinMethod
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import com.eden.orchid.kotlindoc.page.KotlindocPackagePage
-import java.util.ArrayList
-import java.util.HashMap
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class KotlindocModel
-@Inject
 constructor(
-        val context: OrchidContext
-) {
+    val context: OrchidContext,
+    var allClasses: List<KotlindocClassPage>,
+    var allPackages: List<KotlindocPackagePage>
+) : OrchidGenerator.Model {
 
-    var allClasses: MutableList<KotlindocClassPage> = ArrayList()
-    var allPackages: MutableList<KotlindocPackagePage> = ArrayList()
-
-    private var classPageCache: MutableMap<String, OrchidPage?> = HashMap()
-    private var packagePageCache: MutableMap<String, OrchidPage?> = HashMap()
-
-    val allPages: List<OrchidPage>
-        get() {
-            val pages = ArrayList<OrchidPage>()
-            pages.addAll(allClasses)
-            pages.addAll(allPackages)
-
-            return pages
-        }
+    override val allPages: List<OrchidPage>
+        get() = listOf(
+            *allClasses.toTypedArray(),
+            *allPackages.toTypedArray()
+        )
 
     fun initialize(allClasses: MutableList<KotlindocClassPage>, allPackages: MutableList<KotlindocPackagePage>) {
         this.allClasses = allClasses
         this.allPackages = allPackages
-        this.classPageCache = HashMap()
-        this.packagePageCache = HashMap()
     }
 
     fun idFor(doc: KotlinField): String {

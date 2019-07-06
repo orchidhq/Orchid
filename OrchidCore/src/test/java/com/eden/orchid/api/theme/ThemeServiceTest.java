@@ -5,7 +5,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.AssetManager;
 import com.eden.orchid.testhelpers.BaseOrchidTest;
-import com.google.inject.Injector;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +12,15 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public final class ThemeServiceTest extends BaseOrchidTest {
 
-    private Injector injector;
+//    private Injector injector;
     private OrchidContext context;
     private ThemeService underTest;
     private ThemeServiceImpl service;
@@ -58,17 +59,16 @@ public final class ThemeServiceTest extends BaseOrchidTest {
         adminTheme2ContextOptions = new JSONObject();
 
         // Mock Injector
-        injector = mock(Injector.class);
-        when(injector.getInstance((Class<Theme>) theme1.getClass())).thenReturn(theme1);
-        when(injector.getInstance((Class<AdminTheme>) adminTheme1.getClass())).thenReturn(adminTheme1);
 
         // Mock Context
         context = mock(OrchidContext.class);
-        when(context.getInjector()).thenReturn(injector);
         when(context.query("theme")).thenReturn(new JSONElement(themeContextOptions));
         when(context.query("theme2")).thenReturn(new JSONElement(theme2ContextOptions));
         when(context.query("adminTheme")).thenReturn(new JSONElement(adminThemeContextOptions));
         when(context.query("adminTheme2")).thenReturn(new JSONElement(adminTheme2ContextOptions));
+
+        when(context.resolve((Class<Theme>) theme1.getClass())).thenReturn(theme1);
+        when(context.resolve((Class<AdminTheme>) adminTheme1.getClass())).thenReturn(adminTheme1);
 
         // Create instance of Service Implementation
         service = new ThemeServiceImpl(assetManager, () -> themes,  "theme1", () -> adminThemes, "adminTheme1");
@@ -101,7 +101,7 @@ public final class ThemeServiceTest extends BaseOrchidTest {
     public void pushAndPopTheme() throws Throwable {
         Theme theme2 = mock(Theme.class);
         when(theme2 .getKey()).thenReturn("theme2");
-        when(injector.getInstance((Class<Theme>) theme2.getClass())).thenReturn(theme2);
+        when(context.resolve((Class<Theme>) theme2.getClass())).thenReturn(theme2);
 
         underTest.pushTheme(theme2);
         assertThat(underTest.getTheme(), is(theme2));
@@ -129,7 +129,7 @@ public final class ThemeServiceTest extends BaseOrchidTest {
     public void pushAndPopAdminTheme() throws Throwable {
         AdminTheme adminTheme2 = mock(AdminTheme.class);
         when(adminTheme2.getKey()).thenReturn("adminTheme2");
-        when(injector.getInstance((Class<AdminTheme>) adminTheme2.getClass())).thenReturn(adminTheme2);
+        when(context.resolve((Class<AdminTheme>) adminTheme2.getClass())).thenReturn(adminTheme2);
 
         underTest.pushAdminTheme(adminTheme2);
         assertThat(underTest.getAdminTheme(), is(adminTheme2));

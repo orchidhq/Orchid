@@ -10,7 +10,6 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.swiftdoc.page.BaseSwiftdocResource
 import com.eden.orchid.swiftdoc.page.SwiftdocSourcePage
@@ -32,20 +31,18 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.Executors
-import java.util.stream.Stream
 import javax.inject.Inject
 
-@Description("Generate documentation from Swift code and comments with the help of SourceKitten. It's like Javadoc, " +
-        "but for Swift!",
-        name = "Swiftdoc"
+@Description(
+    "Generate documentation from Swift code and comments with the help of SourceKitten. It's like Javadoc, " +
+            "but for Swift!",
+    name = "Swiftdoc"
 )
 class SwiftdocGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val model: SwiftdocModel,
-        @Named("src") val resourcesDir: String
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+    @Named("src") val resourcesDir: String
+) : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "swiftdoc"
@@ -56,8 +53,11 @@ constructor(
     @Description("The source directories with Swift files to document.")
     lateinit var sourceDirs: List<String>
 
-    override fun startIndexing(): List<OrchidPage> {
-        model.initialize()
+    override fun startIndexing(context: OrchidContext): SwiftdocModel {
+
+        val allStatements = ArrayList<SwiftStatement>()
+        val pages = ArrayList<SwiftdocSourcePage>()
+        val statementPages = ArrayList<SwiftdocStatementPage>()
 
         sourceDirs
             .forEach { baseDir ->
@@ -82,21 +82,26 @@ constructor(
                             val o = arr.getJSONObject(i)
 
                             var isHidden = false
-                            isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.private")
+                            isHidden =
+                                isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.private")
 //                        isHidden = isHidden or (o.optString("key.accessibility") == "source.lang.swift.accessibility.internal")
 
                             if (!isHidden) { // skip hidden/internal statements
                                 val statement: SwiftStatement? = when (o.getString("key.kind")) {
-                                    "source.lang.swift.decl.class"              -> SwiftClass(context, o, fileResource)
-                                    "source.lang.swift.decl.typealias"          -> SwiftTypealias(context, o, fileResource)
-                                    "source.lang.swift.syntaxtype.comment.mark" -> SwiftFloatingComment(context, o, fileResource)
-                                    "source.lang.swift.decl.enum"               -> SwiftEnum(context, o, fileResource)
-                                    "source.lang.swift.decl.extension"          -> SwiftExtension(context, o, fileResource)
-                                    "source.lang.swift.decl.function.free"      -> SwiftFree(context, o, fileResource)
-                                    "source.lang.swift.decl.protocol"           -> SwiftProtocol(context, o, fileResource)
-                                    "source.lang.swift.decl.var.global"         -> SwiftGlobal(context, o, fileResource)
-                                    "source.lang.swift.decl.struct"             -> SwiftStruct(context, o, fileResource)
-                                    else                                        -> {
+                                    "source.lang.swift.decl.class" -> SwiftClass(context, o, fileResource)
+                                    "source.lang.swift.decl.typealias" -> SwiftTypealias(context, o, fileResource)
+                                    "source.lang.swift.syntaxtype.comment.mark" -> SwiftFloatingComment(
+                                        context,
+                                        o,
+                                        fileResource
+                                    )
+                                    "source.lang.swift.decl.enum" -> SwiftEnum(context, o, fileResource)
+                                    "source.lang.swift.decl.extension" -> SwiftExtension(context, o, fileResource)
+                                    "source.lang.swift.decl.function.free" -> SwiftFree(context, o, fileResource)
+                                    "source.lang.swift.decl.protocol" -> SwiftProtocol(context, o, fileResource)
+                                    "source.lang.swift.decl.var.global" -> SwiftGlobal(context, o, fileResource)
+                                    "source.lang.swift.decl.struct" -> SwiftStruct(context, o, fileResource)
+                                    else -> {
                                         Clog.e("found other statement kind {}", o.getString("key.kind"))
                                         null
                                     }
@@ -104,22 +109,21 @@ constructor(
                                 if (statement != null) {
                                     statement.init()
                                     statements.add(statement)
-                                    model.allStatements.add(statement)
+                                    allStatements.add(statement)
                                 }
                             }
                         }
 
                         val res = StringResource("", ref)
                         val page = SwiftdocSourcePage(res, statements, codeJson.toString(2))
-                        model.pages.add(page)
-                    }
-                    catch (e: Exception) {
+                        pages.add(page)
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
             }
 
-        for (statement in model.allStatements) {
+        for (statement in allStatements) {
             if (statement is SwiftExtension) continue
             if (statement is SwiftFloatingComment) continue
             if (statement is SwiftFree) continue
@@ -129,20 +133,22 @@ constructor(
             ref.stripFromPath("swift/source")
             if (!EdenUtils.isEmpty(ref.originalPath)) {
                 ref.path = OrchidUtils.toSlug("swift/${statement.kind}/${ref.originalPath}/${statement.name}")
-            }
-            else {
+            } else {
                 ref.path = OrchidUtils.toSlug("swift/${statement.kind}/${statement.name}")
             }
             ref.fileName = OrchidUtils.toSlug(ref.originalFileName)
             val page = SwiftdocStatementPage(BaseSwiftdocResource(ref, statement), statement)
             page.title = statement.name
-            model.statementPages.add(page)
+            statementPages.add(page)
         }
 
-        return model.getAllPages()
+        return SwiftdocModel(allStatements, pages, statementPages)
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: SwiftdocModel
+    ): List<OrchidCollection<*>> {
         return listOf(
             PageCollection(this, "swiftClasses", model.classPages),
             PageCollection(this, "swiftStructs", model.structPages),
@@ -152,8 +158,11 @@ constructor(
         )
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(
+        context: OrchidContext,
+        model: SwiftdocModel
+    ) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
 // Run SourceKitten executable
@@ -174,8 +183,7 @@ constructor(
 
             val codeJson = JSONObject(collector.toString())
             return codeJson.getJSONObject(codeJson.keySet().first())
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 

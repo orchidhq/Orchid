@@ -43,7 +43,7 @@ public abstract class BaseTagParser {
     protected Map<String, Expression<?>> parseParams(String[] parameters, Class<? extends OptionsHolder> paramsClass, TokenStream stream, Parser parser) throws ParserException {
 
         // Get list of available parameter names
-        OptionsExtractor extractor = contextProvider.get().getInjector().getInstance(OptionsExtractor.class);
+        OptionsExtractor extractor = contextProvider.get().resolve(OptionsExtractor.class);
         List<String> remainingParameters = new ArrayList<>(extractor.getOptionNames(paramsClass));
 
         // parameter expressions will be added here

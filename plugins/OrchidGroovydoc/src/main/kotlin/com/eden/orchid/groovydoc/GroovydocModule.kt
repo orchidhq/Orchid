@@ -13,7 +13,7 @@ class GroovydocModule() : OrchidModule() {
     override fun configure() {
         withResources(10)
 
-        addToSet<OrchidGenerator, GroovydocGenerator>()
+        addToSet<OrchidGenerator<*>, GroovydocGenerator>()
         addToSet<OrchidMenuFactory>(
                 AllClassesMenuItemType::class,
                 AllPackagesMenuItemType::class,
