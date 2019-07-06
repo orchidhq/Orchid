@@ -8,7 +8,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
     name = "File Collection"
 )
 class FileCollection(
-    generator: OrchidGenerator,
+    generator: OrchidGenerator<*>,
     collectionId: String,
     items: List<OrchidPage>
 ) : OrchidCollection<OrchidPage>(generator, collectionId, { items.stream() })

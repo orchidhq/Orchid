@@ -1,23 +1,16 @@
 package com.eden.orchid.kss.model
 
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kss.pages.KssPage
-import javax.inject.Singleton
 
-@Singleton
-class KssModel {
+class KssModel(
+    var sections: MutableMap<String?, List<KssPage>>
+) : OrchidGenerator.Model{
 
-    var sections: MutableMap<String?, List<KssPage>> = LinkedHashMap()
-
-    fun initialize() {
-        sections = LinkedHashMap()
-    }
-
-    fun getAllPages(): List<KssPage> {
-        val allPages = ArrayList<KssPage>()
-        sections.values.map { allPages.addAll(it) }
-        return allPages
-    }
+    override val allPages: List<OrchidPage>
+        get() = sections.values.flatten()
 
     fun getSectionRoot(sectionKey: String?): List<KssPage> {
         val section = if(!EdenUtils.isEmpty(sectionKey)) sectionKey else null

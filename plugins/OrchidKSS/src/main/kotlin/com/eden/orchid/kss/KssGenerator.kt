@@ -7,21 +7,13 @@ import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kss.model.KssModel
 import com.eden.orchid.kss.pages.KssPage
 import com.eden.orchid.kss.parser.KssParser
 import com.eden.orchid.utilities.OrchidUtils
-import java.util.stream.Stream
-import javax.inject.Inject
 
 @Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).", name = "Living Styleguide")
-class KssGenerator
-@Inject
-constructor(
-        context: OrchidContext,
-        val model: KssModel
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "styleguide"
@@ -42,22 +34,22 @@ constructor(
     )
     lateinit var stylesheet: String
 
-    override fun startIndexing(): List<OrchidPage> {
-        model.initialize()
+    override fun startIndexing(context: OrchidContext): KssModel {
+        val indexedSections: MutableMap<String?, List<KssPage>> = LinkedHashMap()
 
         if (EdenUtils.isEmpty(sections)) {
-            model.sections.put(null, getStyleguidePages(null))
+            indexedSections.put(null, getStyleguidePages(context, null))
         }
         else {
             for (section in sections) {
-                model.sections.put(section, getStyleguidePages(section))
+                indexedSections.put(section, getStyleguidePages(context, section))
             }
         }
 
-        return model.getAllPages()
+        return KssModel(indexedSections)
     }
 
-    private fun getStyleguidePages(section: String?): List<KssPage> {
+    private fun getStyleguidePages(context: OrchidContext, section: String?): List<KssPage> {
         val sectionBaseDir = if (!EdenUtils.isEmpty(section))
             OrchidUtils.normalizePath(baseDir) + "/" + OrchidUtils.normalizePath(section)
         else
@@ -68,7 +60,7 @@ constructor(
         val resources = context.getLocalResourceEntries(sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true)
         val parser = KssParser(resources)
         parser.sections.values.forEach {
-            val page = KssPage(this.context, it)
+            val page = KssPage(context, it)
             if (!EdenUtils.isEmpty(stylesheet)) {
                 page.stylesheet = stylesheet
             }
@@ -95,11 +87,11 @@ constructor(
         return pages
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(context: OrchidContext, model: KssModel) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(context: OrchidContext, model: KssModel): List<OrchidCollection<*>> {
         return emptyList()
     }
 

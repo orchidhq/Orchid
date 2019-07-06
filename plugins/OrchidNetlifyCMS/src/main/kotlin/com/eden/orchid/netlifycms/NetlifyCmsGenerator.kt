@@ -2,6 +2,7 @@ package com.eden.orchid.netlifycms
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.FileCollection
 import com.eden.orchid.api.generators.FolderCollection
 import com.eden.orchid.api.generators.OrchidCollection
@@ -12,6 +13,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.components.OrchidComponent
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
@@ -20,19 +23,22 @@ import com.eden.orchid.netlifycms.util.toNetlifyCmsSlug
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.stream.Stream
 import javax.inject.Inject
+import javax.inject.Provider
 
-@Description("Add a fully-configured Netlify CMS to your site, that adapts to your content.",
-        name = "Netlify CMS"
+@Description(
+    "Add a fully-configured Netlify CMS to your site, that adapts to your content.",
+    name = "Netlify CMS"
 )
+@JvmSuppressWildcards
 class NetlifyCmsGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val model: NetlifyCmsModel,
-        val extractor: OptionsExtractor
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+    private val extractor: Provider<OptionsExtractor>,
+    private val templateTags: Provider<Set<TemplateTag>>,
+    private val components: Provider<Set<OrchidComponent>>,
+    private val menuFactories: Provider<Set<OrchidMenuFactory>>
+) : OrchidGenerator<NetlifyCmsModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "netlifyCms"
@@ -71,11 +77,11 @@ constructor(
     @Description("A list of collections to include. Can be in the format of either 'collectionType' or 'collectionType:collectionId'")
     lateinit var filterCollections: List<String>
 
-    override fun startIndexing(): List<OrchidPage> {
-        return emptyList()
+    override fun startIndexing(context: OrchidContext): NetlifyCmsModel {
+        return NetlifyCmsModel(context, templateTags.get(), components.get(), menuFactories.get())
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
+    override fun startGeneration(context: OrchidContext, model: NetlifyCmsModel) {
         val includeCms: Boolean
         model.useNetlifyIdentityWidget = useNetlifyIdentityWidget
 
@@ -84,8 +90,7 @@ constructor(
             config.getJSONObject("backend").put("name", "orchid-server")
             resourceRoot = ""
             includeCms = true
-        }
-        else {
+        } else {
             includeCms = config.has("backend")
         }
 
@@ -95,13 +100,13 @@ constructor(
             val adminPage = NetlifyCmsAdminPage(adminResource, model)
             context.renderRaw(adminPage)
 
-            val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig()), "admin", null)
+            val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig(context)), "admin", null)
             adminConfig.reference.isUsePrettyUrl = false
             context.renderRaw(adminConfig)
         }
     }
 
-    private fun getYamlConfig(): String {
+    private fun getYamlConfig(context: OrchidContext): String {
         var jsonConfig = JSONObject()
 
         jsonConfig.put("media_folder", OrchidUtils.normalizePath("$resourceRoot/$mediaFolder"))
@@ -109,34 +114,34 @@ constructor(
         jsonConfig.put("collections", JSONArray())
 
         context.getCollections(filterCollections)
-                .forEach { collection ->
-                    var collectionData = JSONObject()
-                    val shouldContinue: Boolean = when (collection) {
-                        is FolderCollection   -> setupFolderCollection(collectionData, collection)
-                        is FileCollection     -> setupFileCollection(collectionData, collection)
-                        else                  -> false
-                    }
-                    if (shouldContinue) {
-                        collectionData.put("label", collection.title)
-                        collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
-
-                        // merge in collection-specific options
-                        var queryStrings = arrayOf(
-                                "${collection.collectionType}.collections",
-                                "${collection.collectionType}.collections.${collection.collectionId}"
-                        )
-
-                        queryStrings.forEach { queryString ->
-                            var configOptions = context.query(queryString)
-                            if (EdenUtils.elementIsObject(configOptions)) {
-                                val queryResult = configOptions.element as JSONObject
-                                collectionData = EdenUtils.merge(collectionData, queryResult)
-                            }
-                        }
-
-                        jsonConfig.getJSONArray("collections").put(collectionData)
-                    }
+            .forEach { collection ->
+                var collectionData = JSONObject()
+                val shouldContinue: Boolean = when (collection) {
+                    is FolderCollection -> setupFolderCollection(collectionData, collection)
+                    is FileCollection -> setupFileCollection(collectionData, collection)
+                    else -> false
                 }
+                if (shouldContinue) {
+                    collectionData.put("label", collection.title)
+                    collectionData.put("name", "${collection.collectionType}_${collection.collectionId}")
+
+                    // merge in collection-specific options
+                    var queryStrings = arrayOf(
+                        "${collection.collectionType}.collections",
+                        "${collection.collectionType}.collections.${collection.collectionId}"
+                    )
+
+                    queryStrings.forEach { queryString ->
+                        var configOptions = context.query(queryString)
+                        if (EdenUtils.elementIsObject(configOptions)) {
+                            val queryResult = configOptions.element as JSONObject
+                            collectionData = EdenUtils.merge(collectionData, queryResult)
+                        }
+                    }
+
+                    jsonConfig.getJSONArray("collections").put(collectionData)
+                }
+            }
 
         jsonConfig = EdenUtils.merge(jsonConfig, config)
 
@@ -148,7 +153,14 @@ constructor(
         collectionData.put("create", collection.isCanCreate)
         collectionData.put("delete", collection.isCanDelete)
         collectionData.put("slug", collection.slugFormat.toNetlifyCmsSlug())
-        collectionData.put("fields", extractor.describeOptions(collection.pageClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields(2))
+        collectionData.put(
+            "fields",
+            extractor.get().describeOptions(
+                collection.pageClass,
+                includeOwnOptions,
+                includeInheritedOptions
+            ).getNetlifyCmsFields(2)
+        )
 
         return true
     }
@@ -160,15 +172,28 @@ constructor(
             val pageData = JSONObject()
             pageData.put("label", page.title)
             pageData.put("name", page.resource.reference.originalFileName)
-            pageData.put("file", OrchidUtils.normalizePath("$resourceRoot/${page.resource.reference.originalFullFileName}"))
-            pageData.put("fields", extractor.describeOptions(page.javaClass, includeOwnOptions, includeInheritedOptions).getNetlifyCmsFields(2))
+            pageData.put(
+                "file",
+                OrchidUtils.normalizePath("$resourceRoot/${page.resource.reference.originalFullFileName}")
+            )
+            pageData.put(
+                "fields",
+                extractor.get().describeOptions(
+                    page.javaClass,
+                    includeOwnOptions,
+                    includeInheritedOptions
+                ).getNetlifyCmsFields(2)
+            )
 
             collectionData.getJSONArray("files").put(pageData)
         }
         return true
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: NetlifyCmsModel
+    ): List<OrchidCollection<*>> {
         return emptyList()
     }
 

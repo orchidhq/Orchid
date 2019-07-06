@@ -12,7 +12,7 @@ class PresentationsModule : OrchidModule() {
     override fun configure() {
         withResources(20)
 
-        addToSet<OrchidGenerator, PresentationsGenerator>()
+        addToSet<OrchidGenerator<*>, PresentationsGenerator>()
         addToSet<OrchidComponent, PresentationComponent>()
         addToSet<OptionExtractor<*>, PresentationOptionExtractor>()
     }

@@ -11,7 +11,7 @@ class KssModule : OrchidModule() {
 
     override fun configure() {
         withResources(20)
-        addToSet<OrchidGenerator, KssGenerator>()
+        addToSet<OrchidGenerator<*>, KssGenerator>()
         addToSet<OrchidMenuFactory>(
                 StyleguidePagesMenuItemType::class,
                 StyleguideSectionsMenuItemType::class)

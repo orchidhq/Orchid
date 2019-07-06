@@ -100,7 +100,7 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
         @Override
         public EdenPair<Boolean, OptionsHolder> convert(Class clazz, Object o) {
             try {
-                OptionsHolder holder = (OptionsHolder) context.getInjector().getInstance(clazz);
+                OptionsHolder holder = (OptionsHolder) context.resolve(clazz);
                 EdenPair<Boolean, Map> config = mapConverter.convert(clazz, o);
                 holder.extractOptions(context, config.second);
                 return new EdenPair<>(true, holder);

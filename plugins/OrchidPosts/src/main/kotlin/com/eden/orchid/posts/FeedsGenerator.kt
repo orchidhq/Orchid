@@ -3,21 +3,16 @@ package com.eden.orchid.posts
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import java.util.stream.Stream
-import javax.inject.Inject
 
 @Description("Generate feeds for you blog in RSS and Atom formats.", name = "RSS Feeds")
-class FeedsGenerator
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE + 1) {
+class FeedsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE + 1) {
 
     companion object {
         const val GENERATOR_KEY = "feeds"
@@ -40,21 +35,24 @@ constructor(
     @Description("The maximum number of entries to include in this feed.")
     var size = 25
 
-    override fun startIndexing(): List<OrchidPage> {
+    override fun startIndexing(context: OrchidContext): Model {
+        return emptyModel()
+    }
+
+    override fun startGeneration(context: OrchidContext, model: Model) {
+        generateFeeds(context)
+    }
+
+    override fun getCollections(
+        context: OrchidContext,
+        model: Model
+    ): List<OrchidCollection<*>> {
         return emptyList()
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        generateFeeds()
-    }
-
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
-    private fun generateFeeds() {
+    private fun generateFeeds(context: OrchidContext) {
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
-        var feedItems = context.index.getChildIndices(enabledGeneratorKeys)
+        var feedItems = context.index.getChildIndices(enabledGeneratorKeys).flatMap { it.allPages }
 
         if (feedItems.isNotEmpty()) {
             var sortedFeedItems = feedItems

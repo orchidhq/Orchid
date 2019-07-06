@@ -9,7 +9,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
             "matching the page\'s title."
 )
 open class FolderCollection(
-    generator: OrchidGenerator,
+    generator: OrchidGenerator<*>,
     collectionId: String,
     items: List<OrchidPage>,
     val pageClass: Class<out OrchidPage>,

@@ -102,7 +102,7 @@ constructor(val context: OrchidContext) {
 
     // Measure Indexing Phase
     //----------------------------------------------------------------------------------------------------------------------
-    fun startIndexing(generators: Set<OrchidGenerator>) {
+    fun startIndexing(generators: Set<OrchidGenerator<*>>) {
         generatorMetricsMap = HashMap()
         compositeMetrics = null
         progress = 0

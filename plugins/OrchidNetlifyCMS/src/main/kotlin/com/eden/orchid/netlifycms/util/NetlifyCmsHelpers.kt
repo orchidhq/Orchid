@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
-    val extractor = Orchid.getInstance().context.injector.getInstance(OptionsExtractor::class.java)
+    val extractor = Orchid.getInstance().context.resolve(OptionsExtractor::class.java)
 
     val field = JSONObject()
     field.put("label", this.key from { camelCase() } to { titleCase() })
