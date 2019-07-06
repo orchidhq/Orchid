@@ -126,7 +126,7 @@ public final class ModularTypeOptionExtractor extends OptionExtractor<ModularTyp
         Set<? extends ModularType> itemTypes = (Set<? extends ModularType>) contextProvider.get().resolveSet(field.getType());
         for (ModularType itemType : itemTypes) {
             if(itemType.getType().equals(selectedTypeKey)) {
-                ModularType type = contextProvider.get().getInjector().getInstance(itemType.getClass());
+                ModularType type = contextProvider.get().resolve(itemType.getClass());
                 type.extractOptions(contextProvider.get(), data);
 
                 return type;

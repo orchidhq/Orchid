@@ -13,7 +13,7 @@ class ChangelogModule : OrchidModule() {
     override fun configure() {
         withResources(20)
 
-        addToSet<OrchidGenerator, ChangelogGenerator>()
+        addToSet<OrchidGenerator<*>, ChangelogGenerator>()
         addToSet<OrchidPublisher, RequiredChangelogVersionPublisher>()
         addToSet<OrchidComponent, ChangelogComponent>()
     }

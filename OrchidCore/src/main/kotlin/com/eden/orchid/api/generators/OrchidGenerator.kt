@@ -12,7 +12,6 @@ import com.eden.orchid.api.registration.Prioritized
 import com.eden.orchid.api.server.annotations.Extensible
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.relations.ThemeRelation
-import java.util.stream.Stream
 import javax.inject.Inject
 
 /**
@@ -51,9 +50,12 @@ import javax.inject.Inject
 @Extensible
 @Description(value = "A plugin that creates a new content model in your site.", name = "Generators")
 @Archetype(value = ConfigArchetype::class, key = "allGenerators")
-abstract class OrchidGenerator @Inject
-constructor(protected val context: OrchidContext, val key: String, priority: Int) : Prioritized(priority),
-    OptionsHolder {
+abstract class OrchidGenerator<T : OrchidGenerator.Model>
+@Inject
+constructor(
+    val key: String,
+    priority: Int
+) : Prioritized(priority), OptionsHolder {
 
     @Option
     @Description(
@@ -75,7 +77,7 @@ constructor(protected val context: OrchidContext, val key: String, priority: Int
      *
      * @return a list of pages that will be built by this generator
      */
-    abstract fun startIndexing(): List<OrchidPage>
+    abstract fun startIndexing(context: OrchidContext): T
 
     /**
      * A callback to begin generating content. The index is fully built and should not be changed at this time. The
@@ -83,18 +85,17 @@ constructor(protected val context: OrchidContext, val key: String, priority: Int
      *
      * @param pages the pages to render
      */
-    abstract fun startGeneration(pages: Stream<out OrchidPage>)
+    abstract fun startGeneration(context: OrchidContext, model: T)
 
     /**
      * Get a list of the collections that are indexed by this Generator.
      *
      * @return the list of OrchidCollections
      */
-    open fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>>? {
-        return if (!EdenUtils.isEmpty(pages)) {
-            listOf(FileCollection(this, this.key, pages))
+    open fun getCollections(context: OrchidContext, model: T): List<OrchidCollection<*>>? {
+        return if (!EdenUtils.isEmpty(model.allPages)) {
+            listOf(FileCollection(this, this.key, model.allPages))
         } else null
-
     }
 
     companion object {
@@ -120,4 +121,19 @@ constructor(protected val context: OrchidContext, val key: String, priority: Int
          */
         val PRIORITY_LATE = 10
     }
+
+    interface Model {
+        val allPages: List<OrchidPage>
+    }
+}
+
+fun OrchidGenerator<*>.modelOf(indexedPages: ()->List<OrchidPage>) : OrchidGenerator.Model {
+    val actualPages = indexedPages()
+    return object : OrchidGenerator.Model {
+        override val allPages: List<OrchidPage> = actualPages
+    }
+}
+
+fun OrchidGenerator<*>.emptyModel() : OrchidGenerator.Model {
+    return modelOf { emptyList() }
 }

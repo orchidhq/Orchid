@@ -59,7 +59,7 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
         }
 
         if(jsonArray.size() > 0) {
-            ModularList modularList = (ModularList) contextProvider.get().getInjector().getInstance(field.getType());
+            ModularList modularList = (ModularList) contextProvider.get().resolve(field.getType());
             modularList.initialize(jsonArray);
             return modularList;
         }
@@ -69,7 +69,7 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
     @Override
     public ModularList getDefaultValue(Field field) {
-        ModularList modularList = (ModularList) contextProvider.get().getInjector().getInstance(field.getType());
+        ModularList modularList = (ModularList) contextProvider.get().resolve(field.getType());
         modularList.initialize(new ArrayList<>());
         return modularList;
     }

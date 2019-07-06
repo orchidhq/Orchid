@@ -13,7 +13,7 @@ class KotlindocModule : OrchidModule() {
     override fun configure() {
         withResources(10)
 
-        addToSet<OrchidGenerator, KotlindocGenerator>()
+        addToSet<OrchidGenerator<*>, KotlindocGenerator>()
         addToSet<OrchidMenuFactory>(
                 AllClassesMenuItemType::class,
                 AllPackagesMenuItemType::class,

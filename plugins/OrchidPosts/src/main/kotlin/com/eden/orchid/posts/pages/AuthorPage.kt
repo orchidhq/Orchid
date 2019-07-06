@@ -20,14 +20,15 @@ import com.eden.orchid.utilities.OrchidUtils
 @Description(value = "An 'about' page for an author in your blog.", name = "Author")
 class AuthorPage(
         resource: OrchidResource,
-        val author: Author,
-        val postsModel: PostsModel
+        val author: Author
 ) : OrchidPage(resource, "postAuthor", author.name) {
 
     @Option
     @StringDefault("authors/:authorName")
     @Description("The permalink structure to use only for this author bio page.")
     lateinit var permalink: String
+
+    lateinit var postsModel: PostsModel
 
     override fun getTemplates(): List<String> {
         return listOf("$key-${OrchidUtils.toSlug(author.name)}")

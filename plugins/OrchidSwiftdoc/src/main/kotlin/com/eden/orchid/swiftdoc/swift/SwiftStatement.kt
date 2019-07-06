@@ -23,12 +23,12 @@ abstract class SwiftStatement(
 
     val extensions: List<SwiftExtension>
         get() {
-            return context.injector.getInstance(SwiftdocModel::class.java).extensionsFor(this)
+            return context.resolve(SwiftdocModel::class.java).extensionsFor(this)
         }
 
     val aliases: List<SwiftTypealias>
         get() {
-            return context.injector.getInstance(SwiftdocModel::class.java).aliasesFor(this)
+            return context.resolve(SwiftdocModel::class.java).aliasesFor(this)
         }
 
 }

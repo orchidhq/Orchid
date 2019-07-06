@@ -14,16 +14,10 @@ import com.eden.orchid.changelog.model.ChangelogVersion
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description("Track changes and create references to all versions of your project.", name = "Changelog")
-class ChangelogGenerator
-@Inject
-constructor(
-    context: OrchidContext,
-    val model: ChangelogModel
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_DEFAULT) {
+class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "changelog"
@@ -54,7 +48,7 @@ constructor(
     )
     lateinit var orderBy: JSONObject
 
-    override fun startIndexing(): List<OrchidPage> {
+    override fun startIndexing(context: OrchidContext): ChangelogModel {
         var versions = context.getLocalResourceEntries(
             OrchidUtils.normalizePath(baseDir),
             context.compilerExtensions.toTypedArray(),
@@ -110,12 +104,10 @@ constructor(
             lastVersion = it
         }
 
-        model.initialize(versions)
-
-        return emptyList()
+        return ChangelogModel(versions)
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
+    override fun startGeneration(context: OrchidContext, model: ChangelogModel) {
         val versionsJson = JSONArray()
         model.versions.forEach {
             if (it.major || (it.minor && includeMinorVersions)) {

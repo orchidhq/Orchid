@@ -13,7 +13,7 @@ class ClogIncantationWrapper(
 ) : Incantation {
 
     override fun call(input: Any?, vararg reagents: Any): Any {
-        val freshFunction = contextProvider.get().injector.getInstance(functionClass)
+        val freshFunction = contextProvider.get().resolve(functionClass)
 
         val functionOptionsList: List<Pair<String, Any?>> = params.zip(listOf(input, *reagents))
         val functionOptionsMap = mapOf(*functionOptionsList.toTypedArray())

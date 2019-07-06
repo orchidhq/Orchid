@@ -150,7 +150,7 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
                     .sorted()
                     .filter(theme -> theme.getKey().equals(themeKey))
                     .findFirst()
-                    .map(it -> (T) context.getInjector().getInstance(it.getClass()))
+                    .map(it -> (T) context.resolve(it.getClass()))
                     .orElseGet(() -> {
                         Clog.e("Could not find {} [{}]", defaultOptionsKey, themeKey);
                         return null;

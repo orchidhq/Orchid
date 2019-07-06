@@ -8,14 +8,12 @@ import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.helpers.OrchidJavadocInvoker
 import com.eden.orchid.javadoc.models.JavadocModel
 import com.eden.orchid.javadoc.pages.JavadocClassPage
 import com.eden.orchid.javadoc.pages.JavadocPackagePage
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.stream.Stream
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -27,11 +25,9 @@ import javax.inject.Named
 class JavadocGenerator
 @Inject
 constructor(
-    context: OrchidContext,
     @Named("javadocClasspath") private val javadocClasspath: String,
-    private val model: JavadocModel,
     private val javadocInvoker: OrchidJavadocInvoker
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+) : OrchidGenerator<JavadocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "javadoc"
@@ -46,26 +42,27 @@ constructor(
     @Description("Arbitrary command line arguments to pass through directly to Javadoc.")
     lateinit var args: List<String>
 
-    override fun startIndexing(): List<OrchidPage> {
+    override fun startIndexing(context: OrchidContext): JavadocModel {
         val args = if (javadocClasspath.isNotBlank()) listOf("-classpath", javadocClasspath, *args.toTypedArray()) else args
 
         javadocInvoker.extractOptions(context, allData)
 
         val rootDoc = javadocInvoker.getRootDoc(sourceDirs, args)
 
-        if (rootDoc == null) return ArrayList()
+        if (rootDoc == null) return JavadocModel(context, emptyList(), emptyList())
 
-        model.initialize(ArrayList(), ArrayList())
+        val allClasses = mutableListOf<JavadocClassPage>()
+        val allPackages = mutableListOf<JavadocPackagePage>()
 
         for (classDoc in rootDoc.classes) {
-            model.allClasses.add(JavadocClassPage(context, classDoc, model))
+            allClasses.add(JavadocClassPage(context, classDoc))
         }
 
         val packagePageMap = HashMap<String, JavadocPackagePage>()
         for (packageDoc in rootDoc.packages) {
 
             val classesInPackage = ArrayList<JavadocClassPage>()
-            for (classDocPage in model.allClasses) {
+            for (classDocPage in allClasses) {
                 if (classDocPage.classDoc.`package` == packageDoc.name) {
                     classesInPackage.add(classDocPage)
                 }
@@ -75,7 +72,7 @@ constructor(
 
             val packagePage = JavadocPackagePage(context, packageDoc, classesInPackage)
 
-            model.allPackages.add(packagePage)
+            allPackages.add(packagePage)
             packagePageMap[packageDoc.name] = packagePage
         }
 
@@ -87,18 +84,23 @@ constructor(
             }
         }
 
-        for (classDocPage in model.allClasses) {
+        for (classDocPage in allClasses) {
             classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
 
-        return model.allPages
+        return JavadocModel(context, allClasses, allPackages).also { createdModel ->
+            createdModel.allClasses.forEach { it.model = createdModel }
+        }
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        pages.forEach { context.renderTemplate(it) }
+    override fun startGeneration(context: OrchidContext, model: JavadocModel) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-    override fun getCollections(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: JavadocModel
+    ): List<OrchidCollection<*>> {
         return listOf(
             PageCollection(this, "classes", model.allClasses),
             PageCollection(this, "packages", model.allPackages)

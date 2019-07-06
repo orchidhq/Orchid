@@ -42,7 +42,7 @@ constructor(
     override fun run(commandName: String) {
         val parsedClass = getDescribedClass()
         if (OptionsHolder::class.java.isAssignableFrom(parsedClass)) {
-            val extractor = contextProvider.get().injector.getInstance(OptionsExtractor::class.java)
+            val extractor = contextProvider.get().resolve(OptionsExtractor::class.java)
             val description = extractor.describeAllOptions(parsedClass)
             val table = extractor.getDescriptionTable(description)
 

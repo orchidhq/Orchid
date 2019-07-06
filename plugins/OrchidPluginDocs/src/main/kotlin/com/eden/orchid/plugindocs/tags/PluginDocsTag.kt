@@ -217,7 +217,7 @@ constructor(
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     fun <T> provide(): T? {
         try {
-            return context.injector.getInstance(findClass()) as? T
+            return context.resolve(findClass()) as? T
         }
         catch (e: Exception) {
 

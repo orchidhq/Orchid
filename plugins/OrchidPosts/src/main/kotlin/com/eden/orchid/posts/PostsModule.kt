@@ -32,7 +32,7 @@ class PostsModule : OrchidModule() {
         addToSet<TemplateFunction>(
                 ExcerptFunction::class,
                 RecentPostsFunction::class)
-        addToSet<OrchidGenerator>(
+        addToSet<OrchidGenerator<*>>(
                 PostsGenerator::class,
                 FeedsGenerator::class)
         addToSet<OrchidComponent>(
