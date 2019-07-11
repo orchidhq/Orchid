@@ -12,6 +12,8 @@ public final class JsPage extends AssetPage {
     private boolean async;
     @Option
     private boolean defer;
+    @Option
+    private boolean module;
 
     public JsPage(Object source, String sourceKey, OrchidResource resource, String key, String title) {
         super(source, sourceKey, resource, key, title);
@@ -27,6 +29,9 @@ public final class JsPage extends AssetPage {
             }
             if (defer) {
                 tagString += " defer";
+            }
+            if(module){
+               tagString += " module"; 
             }
             tagString += " src=\"" + this.getLink() + "\"";
             tagString += "></script>";
@@ -48,5 +53,12 @@ public final class JsPage extends AssetPage {
 
     public void setDefer(final boolean defer) {
         this.defer = defer;
+    }
+    public boolean isModule() {
+        return this.module;
+    }
+
+    public void setModule(final boolean module) {
+        this.module = module;
     }
 }
