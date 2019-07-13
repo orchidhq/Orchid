@@ -10,7 +10,7 @@ class WikiModel(
 
     var sectionsPage: WikiSectionsPage? = null
 
-    var sections: MutableMap<String, WikiSection> = linkedMapOf(*(sectionsList.map { it.key to it }.toTypedArray()))
+    var sections: Map<String, WikiSection> = linkedMapOf(*(sectionsList.map { it.key to it }.toTypedArray()))
 
     override val allPages: List<OrchidPage>
         get() {

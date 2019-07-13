@@ -56,9 +56,9 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         publishers = new HashSet<>();
 
-        crashingPublisher = new MockPublisher.CrashingPublisher(context);
-        invalidPublisher = new MockPublisher.InvalidPublisher(context);
-        validPublisher = new MockPublisher.ValidPublisher(context);
+        crashingPublisher = new MockPublisher.CrashingPublisher();
+        invalidPublisher = new MockPublisher.InvalidPublisher();
+        validPublisher = new MockPublisher.ValidPublisher();
 
         publishers.add(crashingPublisher);
         publishers.add(invalidPublisher);
@@ -87,9 +87,9 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         underTest.publishAll(true);
 
-        verify(crashingPublisher, times(1)).validate();
-        verify(invalidPublisher, times(1)).validate();
-        verify(validPublisher, times(1)).validate();
+        verify(crashingPublisher, times(1)).validate(context);
+        verify(invalidPublisher, times(1)).validate(context);
+        verify(validPublisher, times(1)).validate(context);
     }
 
     @Test
@@ -102,13 +102,13 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         boolean success = underTest.publishAll();
 
-        verify(crashingPublisher, times(1)).validate();
-        verify(invalidPublisher, times(1)).validate();
-        verify(validPublisher, times(1)).validate();
+        verify(crashingPublisher, times(1)).validate(context);
+        verify(invalidPublisher, times(1)).validate(context);
+        verify(validPublisher, times(1)).validate(context);
 
-        verify(crashingPublisher, never()).publish();
-        verify(invalidPublisher, never()).publish();
-        verify(validPublisher, never()).publish();
+        verify(crashingPublisher, never()).publish(context);
+        verify(invalidPublisher, never()).publish(context);
+        verify(validPublisher, never()).publish(context);
 
         assertThat(success, is(false));
     }
@@ -122,11 +122,11 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         boolean success = underTest.publishAll();
 
-        verify(crashingPublisher, times(1)).validate();
-        verify(validPublisher, times(1)).validate();
+        verify(crashingPublisher, times(1)).validate(context);
+        verify(validPublisher, times(1)).validate(context);
 
-        verify(crashingPublisher, times(1)).publish();
-        verify(validPublisher, times(0)).publish();
+        verify(crashingPublisher, times(1)).publish(context);
+        verify(validPublisher, times(0)).publish(context);
 
         assertThat(success, is(false));
     }
@@ -139,8 +139,8 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         boolean success = underTest.publishAll();
 
-        verify(validPublisher, times(1)).validate();
-        verify(validPublisher, times(1)).publish();
+        verify(validPublisher, times(1)).validate(context);
+        verify(validPublisher, times(1)).publish(context);
 
         assertThat(success, is(true));
     }
@@ -153,8 +153,8 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         boolean success = underTest.publishAll(true);
 
-        verify(validPublisher, times(1)).validate();
-        verify(validPublisher, times(0)).publish();
+        verify(validPublisher, times(1)).validate(context);
+        verify(validPublisher, times(0)).publish(context);
 
         assertThat(success, is(true));
     }
@@ -167,8 +167,8 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         boolean success = underTest.publishAll();
 
-        verify(validPublisher, times(1)).validate();
-        verify(validPublisher, times(0)).publish();
+        verify(validPublisher, times(1)).validate(context);
+        verify(validPublisher, times(0)).publish(context);
 
         assertThat(success, is(true));
     }
@@ -181,8 +181,8 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         boolean success = underTest.publishAll();
 
-        verify(invalidPublisher, times(1)).validate();
-        verify(invalidPublisher, times(0)).publish();
+        verify(invalidPublisher, times(1)).validate(context);
+        verify(invalidPublisher, times(0)).publish(context);
 
         assertThat(success, is(false));
     }
@@ -197,7 +197,7 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         underTest.publishAll(false, progressHandler);
 
-        verify(validPublisher, times(3)).validate();
+        verify(validPublisher, times(3)).validate(context);
 
         // updates once at beginning for zero progress, then once for each subsequent progress
         assertThat(progressUpdates, is(equalTo(4)));
@@ -214,8 +214,8 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         underTest.publishAll(false, progressHandler);
 
-        verify(validPublisher, times(2)).validate();
-        verify(invalidPublisher, times(1)).validate();
+        verify(validPublisher, times(2)).validate(context);
+        verify(invalidPublisher, times(1)).validate(context);
 
         // updates once at beginning for zero progress, and once for completion, but does not update for each publisher
         assertThat(progressUpdates, is(equalTo(2)));
@@ -232,8 +232,8 @@ public final class PublicationPipelineTest extends BaseOrchidTest {
 
         underTest.publishAll(false, progressHandler);
 
-        verify(validPublisher, times(2)).validate();
-        verify(crashingPublisher, times(1)).validate();
+        verify(validPublisher, times(2)).validate(context);
+        verify(crashingPublisher, times(1)).validate(context);
 
         // updates once at beginning for zero progress, and once for completion, and once for each successful stage
         // deploy, but a progress update is not sent when a stage crashes, as the pipeline exits early and sends the

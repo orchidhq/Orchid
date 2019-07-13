@@ -8,11 +8,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import javax.inject.Inject
 
 @Description("Easily add comments to any page with Disqus.", name = "Disqus")
-class DisqusComponent
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidComponent(context, "disqus", 100) {
+class DisqusComponent : OrchidComponent("disqus", 100) {
 
     @Option
     @Description("Your disqus shortname.")

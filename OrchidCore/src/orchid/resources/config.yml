@@ -6,6 +6,7 @@ site:
 
 theme:
   useSidebarSearch: true
+  github: 'JavaEden/Orchid'
   social:
     other:
       - link: 'https://orchid.netlify.com/'
@@ -45,6 +46,9 @@ theme:
     - type: 'latestPosts'
       limit: 3
       title: 'News'
+    - type: 'github'
+      githubProject: 'JavaEden/Orchid'
+      title: 'Github'
   extraCss:
     - 'assets/css/extras.scss'
 

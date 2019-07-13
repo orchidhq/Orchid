@@ -9,8 +9,8 @@ public class MockPublisher extends OrchidPublisher {
     private final boolean isValid;
     private final boolean throwsException;
 
-    public MockPublisher(OrchidContext context, String key, int priority, boolean isValid, boolean throwsException) {
-        super(context, key, priority);
+    public MockPublisher(String key, int priority, boolean isValid, boolean throwsException) {
+        super(key, priority);
         this.isValid = isValid;
         this.throwsException = throwsException;
     }
@@ -23,32 +23,32 @@ public class MockPublisher extends OrchidPublisher {
     }
 
     @Override
-    public boolean validate() {
+    public boolean validate(OrchidContext context) {
         return isValid;
     }
 
     @Override
-    public void publish() {
+    public void publish(OrchidContext context) {
         if(throwsException) {
             throw new RuntimeException("This MockPublisher throws an exception during publishing");
         }
     }
 
     public static class ValidPublisher extends MockPublisher {
-        public ValidPublisher(OrchidContext context) {
-            super(context, "valid", 1000, true, false);
+        public ValidPublisher() {
+            super("valid", 1000, true, false);
         }
     }
 
     public static class InvalidPublisher extends MockPublisher {
-        public InvalidPublisher(OrchidContext context) {
-            super(context, "invalid", 100, false, false);
+        public InvalidPublisher() {
+            super("invalid", 100, false, false);
         }
     }
 
     public static class CrashingPublisher extends MockPublisher {
-        public CrashingPublisher(OrchidContext context) {
-            super(context, "crashing", 10, true, true);
+        public CrashingPublisher() {
+            super("crashing", 10, true, true);
         }
     }
 }

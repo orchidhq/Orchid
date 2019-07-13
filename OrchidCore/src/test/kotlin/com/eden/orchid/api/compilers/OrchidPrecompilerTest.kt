@@ -53,10 +53,16 @@ class OrchidPrecompilerTest : BaseOrchidTest() {
 
         underTest = FrontMatterPrecompiler(context, parsers)
 
-        compilerService = CompilerServiceImpl(emptySet(), parsers, underTest)
+        compilerService = CompilerServiceImpl()
+
+        `when`(context.resolveSet(OrchidCompiler::class.java)).thenReturn(emptySet())
+        `when`(context.resolveSet(OrchidParser::class.java)).thenReturn(parsers)
+        `when`(context.resolve(OrchidPrecompiler::class.java)).thenReturn(underTest)
         `when`(context.getService(CompilerService::class.java)).thenReturn(compilerService)
         `when`(context.parserFor(anyString())).thenCallRealMethod()
         `when`(context.parse(anyString(), anyString())).thenCallRealMethod()
+
+        compilerService.initialize(context)
     }
 
     @Test

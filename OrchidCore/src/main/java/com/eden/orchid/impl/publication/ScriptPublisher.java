@@ -26,13 +26,13 @@ public class ScriptPublisher extends OrchidPublisher {
     private String cwd;
 
     @Inject
-    public ScriptPublisher(OrchidContext context, @Named("src") String resourcesDir) {
-        super(context, "script", 100);
+    public ScriptPublisher(@Named("src") String resourcesDir) {
+        super("script", 100);
         this.resourcesDir = resourcesDir;
     }
 
     @Override
-    public void publish() {
+    public void publish(OrchidContext context) {
         try {
             ProcessBuilder builder = new ProcessBuilder();
             builder.command(command);

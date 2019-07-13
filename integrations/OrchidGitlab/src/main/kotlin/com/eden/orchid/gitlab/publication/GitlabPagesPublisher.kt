@@ -1,6 +1,5 @@
 package com.eden.orchid.gitlab.publication
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -20,7 +19,6 @@ import javax.validation.constraints.NotBlank
 class GitlabPagesPublisher
 @Inject
 constructor(
-    context: OrchidContext,
     git: GitFacade,
 
     @Named("dest")
@@ -29,7 +27,7 @@ constructor(
     @Named("gitlabToken")
     @NotBlank(message = "A Gitlab Personal Access Token is required for deploys, set as \'gitlabToken\' flag.")
     private val gitlabToken: String
-) : AbstractGitPublisher(context, git, destinationDir, "gitlab-pages", "gitlabPages", 100) {
+) : AbstractGitPublisher(git, destinationDir, "gitlab-pages", "gitlabPages", 100) {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with Gitlab.")

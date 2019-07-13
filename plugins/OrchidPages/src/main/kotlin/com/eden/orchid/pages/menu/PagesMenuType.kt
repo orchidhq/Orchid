@@ -8,14 +8,9 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import org.apache.commons.lang3.StringUtils
-import javax.inject.Inject
 
 @Description("Static pages, optionally by group.", name = "Static Pages")
-class PagesMenuType
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidMenuFactory(context, "pages", 100) {
+class PagesMenuType : OrchidMenuFactory("pages") {
 
     @Option
     @Description("Include only pages in a specific page group, otherwise include all pages.")
@@ -27,22 +22,20 @@ constructor(
 
         if (o1.page != null) {
             o1Title = o1.page!!.title
-        }
-        else if (o1.isHasChildren && o1.children.size > 0 && o1.children[0].page != null) {
+        } else if (o1.isHasChildren && o1.children.size > 0 && o1.children[0].page != null) {
             o1Title = o1.children[0].title
         }
 
         if (o2.page != null) {
             o2Title = o2.page!!.title
-        }
-        else if (o2.isHasChildren && o2.children.size > 0 && o2.children[0].page != null) {
+        } else if (o2.isHasChildren && o2.children.size > 0 && o2.children[0].page != null) {
             o2Title = o2.children[0].title
         }
 
         o1Title.compareTo(o2Title)
     }
 
-    override fun getMenuItems(): List<MenuItem> {
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
         val allPages = context.index.getChildIndex<OrchidGenerator.Model>("pages")!!.allPages
@@ -55,16 +48,15 @@ constructor(
         if (EdenUtils.isEmpty(submenuTitle)) {
             if (!EdenUtils.isEmpty(group)) {
                 submenuTitle = StringUtils.capitalize(group)
-            }
-            else {
+            } else {
                 submenuTitle = "Pages"
             }
         }
         menuItems.addAll(pages.map {
             MenuItem.Builder(context)
-                    .page(it)
-                    .indexComparator(menuItemComparator)
-                    .build()
+                .page(it)
+                .indexComparator(menuItemComparator)
+                .build()
         })
 
         menuItems.sortWith(menuItemComparator)

@@ -5,15 +5,9 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.tasks.OrchidCommand
-import com.google.inject.Provider
-import javax.inject.Inject
 
 @Description("Publish the Orchid build results.")
-class DeployCommand
-@Inject
-constructor(
-        private val contextProvider: Provider<OrchidContext>
-) : OrchidCommand(100, "deploy") {
+class DeployCommand : OrchidCommand(100, "deploy") {
 
     @Option
     @BooleanDefault(true)
@@ -25,8 +19,8 @@ constructor(
     }
 
     @Throws(Exception::class)
-    override fun run(commandName: String) {
-        contextProvider.get().deploy(dry)
+    override fun run(context: OrchidContext, commandName: String) {
+        context.deploy(dry)
     }
 }
 

@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.changelog.model.ChangelogModel
+import com.eden.orchid.utilities.resolve
 import com.google.inject.name.Named
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -18,11 +19,10 @@ import javax.inject.Inject
 class GithubReleasesPublisher
 @Inject
 constructor(
-    context: OrchidContext,
-    private val model: ChangelogModel,
     private val client: OkHttpClient,
-    @Named("githubToken") private val githubToken: String
-) : OrchidPublisher(context, "githubReleases", 100) {
+    @Named("githubToken")
+    private val githubToken: String
+) : OrchidPublisher("githubReleases", 100) {
 
     @Option
     @Description("The repository to release to, as [username/repo].")
@@ -36,12 +36,12 @@ constructor(
     @Description("Whether this is a prerelease.")
     var prerelease: Boolean = false
 
-    override fun validate(): Boolean {
-        val valid = super.validate()
-        return valid && hasVersion()
+    override fun validate(context: OrchidContext): Boolean {
+        val valid = super.validate(context)
+        return valid && hasVersion(context, context.resolve())
     }
 
-    private fun hasVersion(): Boolean {
+    private fun hasVersion(context: OrchidContext, model: ChangelogModel): Boolean {
         // make sure the current site version has a matching changelog version
         if (model.getVersion(context.site.version) == null) {
             Clog.e("Required changelog entry for version '{}' is missing.", context.site.version)
@@ -50,7 +50,9 @@ constructor(
         return true
     }
 
-    override fun publish() {
+    override fun publish(context: OrchidContext) {
+        val model: ChangelogModel = context.resolve()
+
         val version = model.getVersion(context.site.version)
         val url = Clog.format("https://api.github.com/repos/{}/releases", repo)
         val request = Request.Builder().url(url)

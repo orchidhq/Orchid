@@ -7,11 +7,10 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.indexing.IndexService
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import javax.inject.Inject
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Generate an HTML link to a page.", name = "Anchor")
-class AnchorFunction @Inject
-constructor(val context: OrchidContext) : TemplateFunction("anchor", true) {
+class AnchorFunction  : TemplateFunction("anchor", true) {
 
     @Option
     @Description("The title to display in an anchor tag for the given item if found. Otherwise, the title is " + "returned directly.")
@@ -41,15 +40,15 @@ constructor(val context: OrchidContext) : TemplateFunction("anchor", true) {
         )
     }
 
-    override fun apply(): String? {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         if (EdenUtils.isEmpty(itemId) && !EdenUtils.isEmpty(title)) {
             itemId = title
         }
 
-        val page = context.findPage(collectionType, collectionId, itemId)
+        val foundPage = context.findPage(collectionType, collectionId, itemId)
 
-        if (page != null) {
-            val link = page.link
+        if (foundPage != null) {
+            val link = foundPage.link
 
             return if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
                 Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses)
