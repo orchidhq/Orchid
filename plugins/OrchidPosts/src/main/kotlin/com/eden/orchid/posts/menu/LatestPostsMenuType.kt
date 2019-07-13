@@ -5,21 +5,16 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.menus.MenuItem
+import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
-import javax.inject.Inject
 
 @Description("Latest posts, optionally by category.", name = "Latest Posts")
-class LatestPostsMenuType
-@Inject
-constructor(
-        context: OrchidContext,
-        private val postsModel: PostsModel
-) : OrchidMenuFactory(context, "latestPosts", 100) {
+class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
 
-    @Option @IntDefault(10)
+    @Option
+    @IntDefault(10)
     @Description("The maximum number of posts to include in this menu item.")
     var limit: Int = 10
 
@@ -31,11 +26,11 @@ constructor(
     @Description("The title for the root menu item.")
     lateinit var title: String
 
-    override fun getMenuItems(): List<MenuItem> {
-        val items = ArrayList<MenuItem>()
-
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+        val postsModel = context.resolve(PostsModel::class.java)
         val categoryModel: CategoryModel?
 
+        val items = ArrayList<MenuItem>()
         if (!EdenUtils.isEmpty(category) && postsModel.categories.containsKey(category)) {
             categoryModel = postsModel.categories[category]
         } else {
@@ -43,22 +38,20 @@ constructor(
         }
 
         val latestPosts = postsModel.getRecentPosts(category, limit)
-        if(!EdenUtils.isEmpty(latestPosts)) {
-            val title = if(!EdenUtils.isEmpty(this.title)) {
+        if (!EdenUtils.isEmpty(latestPosts)) {
+            val title = if (!EdenUtils.isEmpty(this.title)) {
                 this.title
-            }
-            else if(!EdenUtils.isEmpty(categoryModel?.title)) {
+            } else if (!EdenUtils.isEmpty(categoryModel?.title)) {
                 "Latest from " + categoryModel?.title
-            }
-            else {
+            } else {
                 "Latest from blog"
             }
 
             items.add(
-                    MenuItem.Builder(context)
-                            .title(title)
-                            .pages(latestPosts)
-                            .build()
+                MenuItem.Builder(context)
+                    .title(title)
+                    .pages(latestPosts)
+                    .build()
             )
         }
 

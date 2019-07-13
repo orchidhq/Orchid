@@ -10,6 +10,7 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.components.ModularPageListItem;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import java.util.Map;
 @Extensible
 @Description(value = "A factory that produces dynamic menu items.", name = "Menu Items")
 public abstract class OrchidMenuFactory extends Prioritized implements ModularPageListItem<OrchidMenu, OrchidMenuFactory> {
-    protected final OrchidContext context;
     protected final String type;
     protected OrchidPage page;
     @Option
@@ -36,21 +36,24 @@ public abstract class OrchidMenuFactory extends Prioritized implements ModularPa
     @Description("The title the menu")
     protected String submenuTitle;
 
-    public OrchidMenuFactory(OrchidContext context, String type, int priority) {
+    public OrchidMenuFactory(String type, int priority) {
         super(priority);
         this.type = type;
-        this.context = context;
     }
 
-    public OrchidMenuFactory(OrchidContext context, String type) {
-        this(context, type, 100);
+    public OrchidMenuFactory(String type) {
+        this(type, 100);
     }
 
     public boolean canBeUsedOnPage(OrchidPage containingPage, OrchidMenu menu, List<Map<String, Object>> possibleMenuItems, List<OrchidMenuFactory> currentMenuItems) {
         return true;
     }
 
-    public abstract List<MenuItem> getMenuItems();
+    public void initialize(OrchidContext context, OrchidPage containingPage) {
+        this.page = containingPage;
+    }
+
+    public abstract List<MenuItem> getMenuItems(OrchidContext context);
 
     public String getType() {
         return this.type;

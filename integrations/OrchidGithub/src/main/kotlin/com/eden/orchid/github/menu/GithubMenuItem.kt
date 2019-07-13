@@ -14,35 +14,37 @@ import com.eden.orchid.api.theme.pages.OrchidReference
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import javax.inject.Inject
 
-class GithubMenuItem
-@Inject
-constructor(
-    context: OrchidContext,
-    val client: OkHttpClient
-
-) : OrchidMenuFactory(context, "github") {
+class GithubMenuItem : OrchidMenuFactory("github") {
 
     @Option
     lateinit var githubProject: String
+
+    @Option
+    lateinit var title: String
 
     val githubToken: String?
         get() {
             return OrchidFlags.getInstance().getFlagValue("githubToken")
         }
 
-    override fun getMenuItems(): List<MenuItem> {
-        val page = loadGithubPage()
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+        val page = loadGithubPage(context, context.resolve(OkHttpClient::class.java))
 
         return if (page.first && page.second != null) {
-            listOf(MenuItem.Builder(context) { page(page.second) }.build())
+            listOf(MenuItem.Builder(context) {
+                page(page.second)
+
+                if(this@GithubMenuItem.title.isNotBlank()) {
+                    title(this@GithubMenuItem.title)
+                }
+            }.build())
         } else {
             emptyList()
         }
     }
 
-    private fun loadGithubPage(): Pair<Boolean, OrchidPage?> {
+    private fun loadGithubPage(context: OrchidContext, client: OkHttpClient): Pair<Boolean, OrchidPage?> {
         try {
             val request = Request.Builder().url("https://api.github.com/repos/$githubProject").get()
 
@@ -61,7 +63,7 @@ constructor(
                 val description = jsonBody.getString("description")
                 val starCount = jsonBody.getInt("stargazers_count")
 
-                val pageRef = OrchidReference.fromUrl(context, name, "https://$url")
+                val pageRef = OrchidReference.fromUrl(context, name, url)
                 val pageRes = StringResource(description, pageRef)
                 val page = OrchidExternalPage(pageRes, "githubProject", "")
                 page.description = """

@@ -10,11 +10,7 @@ import com.eden.orchid.presentations.model.Presentation
 import javax.inject.Inject
 
 @Description("Embed a Deck.js presentation.", name = "Presentation")
-class PresentationComponent
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidComponent(context, "presentation", 25) {
+class PresentationComponent : OrchidComponent("presentation", 25) {
 
     @Option
     @StringDefault("web-2_0")

@@ -53,20 +53,25 @@ public class SimpleTagParser extends BaseTagParser {
 
     @Override
     public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
-        TemplateTag freshTag = contextProvider.get().resolve(tagClass);
+        OrchidContext orchidContext = contextProvider.get();
+        TemplateTag freshTag = orchidContext.resolve(tagClass);
 
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
 
         Object pageVar = context.getVariable("page");
-        if(pageVar instanceof OrchidPage) {
-            freshTag.setPage((OrchidPage) pageVar);
+        final OrchidPage actualPage;
+        if (pageVar instanceof OrchidPage) {
+            actualPage = (OrchidPage) pageVar;
+        }
+        else {
+            actualPage = null;
         }
 
-        freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
+        freshTag.extractOptions(orchidContext, evaluatedParamExpressionMap);
 
-        freshTag.onRender();
+        freshTag.onRender(orchidContext, actualPage);
         if (freshTag.rendersContent()) {
-            writer.append(freshTag.renderContent());
+            writer.append(freshTag.renderContent(orchidContext, actualPage));
         }
     }
 

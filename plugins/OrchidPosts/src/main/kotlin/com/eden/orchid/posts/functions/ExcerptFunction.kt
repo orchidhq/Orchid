@@ -1,5 +1,6 @@
 package com.eden.orchid.posts.functions
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -21,7 +22,7 @@ constructor(
         return arrayOf("input")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         if (input != null && input is OrchidPage) {
             return strategy.getExcerpt(input as OrchidPage)
         }

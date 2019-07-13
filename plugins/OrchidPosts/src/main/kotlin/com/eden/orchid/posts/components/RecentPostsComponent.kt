@@ -1,22 +1,20 @@
 package com.eden.orchid.posts.components
 
 import com.eden.common.util.EdenUtils
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.pages.PostPage
-import javax.inject.Inject
+import com.eden.orchid.utilities.resolve
 
 @Description("Render a list of the most recent blog posts.", name = "Recent Posts")
-class RecentPostsComponent
-@Inject
-constructor(
-        context: OrchidContext,
-        var postsModel: PostsModel
-) : OrchidComponent(context, "recentPosts", 25) {
+class RecentPostsComponent : OrchidComponent("recentPosts", 25) {
+
+    val model: PostsModel by lazy {
+        context.resolve<PostsModel>()
+    }
 
     @Option
     @IntDefault(10)
@@ -29,10 +27,9 @@ constructor(
 
     fun getRecentPosts(): List<PostPage> {
         return if (!EdenUtils.isEmpty(category)) {
-            postsModel.getRecentPosts(category, limit)
-        }
-        else {
-            postsModel.getRecentPosts(null, limit)
+            model.getRecentPosts(category, limit)
+        } else {
+            model.getRecentPosts(null, limit)
         }
     }
 }

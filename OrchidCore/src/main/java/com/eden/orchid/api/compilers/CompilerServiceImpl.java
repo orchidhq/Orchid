@@ -8,8 +8,10 @@ import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import kotlin.Lazy;
+import kotlin.LazyKt;
 import org.json.JSONObject;
-import javax.inject.Inject;
+
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,35 +49,34 @@ public final class CompilerServiceImpl implements CompilerService {
     @AllOptions
     public Map<String, Object> allConfig;
     private OrchidContext context;
-    private Set<OrchidCompiler> compilers;
-    private Set<OrchidParser> parsers;
-    private OrchidPrecompiler precompiler;
     private Set<String> compilerExtensions;
     private Set<String> parserExtensions;
     private Map<String, OrchidCompiler> compilerMap;
     private Map<String, OrchidParser> parserMap;
     private Map<String, OrchidCompiler> customCompilerMap;
 
-    @Inject
-    public CompilerServiceImpl(Set<OrchidCompiler> compilers, Set<OrchidParser> parsers, OrchidPrecompiler precompiler) {
-        this.precompiler = precompiler;
-        this.compilers = new TreeSet<>(compilers);
-        this.parsers = new TreeSet<>(parsers);
-        buildCompilerIndex();
-    }
+    private final Lazy<Set<OrchidCompiler>> compilers = LazyKt.lazy(() -> new TreeSet<>(context.resolveSet(OrchidCompiler.class)));
+    private final Lazy<Set<OrchidParser>> parsers = LazyKt.lazy(() -> new TreeSet<>(context.resolveSet(OrchidParser.class)));
+    private final Lazy<OrchidPrecompiler> precompiler = LazyKt.lazy(() -> context.resolve(OrchidPrecompiler.class));
 
     @Override
     public void initialize(OrchidContext context) {
         this.context = context;
+
+        compilers.getValue();
+        parsers.getValue();
+        precompiler.getValue();
+
+        buildCompilerIndex();
     }
 
     @Override
     public void onPostExtraction() {
         buildCustomCompilerIndex();
         if (allConfig.get("precompiler") instanceof Map) {
-            precompiler.extractOptions(context, (HashMap<String, Object>) allConfig.get("precompiler"));
+            precompiler.getValue().extractOptions(context, (HashMap<String, Object>) allConfig.get("precompiler"));
         } else {
-            precompiler.extractOptions(context, new HashMap<>());
+            precompiler.getValue().extractOptions(context, new HashMap<>());
         }
     }
 
@@ -84,7 +85,7 @@ public final class CompilerServiceImpl implements CompilerService {
         this.parserExtensions = new HashSet<>();
         this.compilerMap = new HashMap<>();
         this.parserMap = new HashMap<>();
-        for (OrchidCompiler compiler : this.compilers) {
+        for (OrchidCompiler compiler : this.compilers.getValue()) {
             if (!EdenUtils.isEmpty(compiler.getSourceExtensions())) {
                 for (String ext : compiler.getSourceExtensions()) {
                     compilerExtensions.add(ext);
@@ -92,7 +93,7 @@ public final class CompilerServiceImpl implements CompilerService {
                 }
             }
         }
-        for (OrchidParser parser : this.parsers) {
+        for (OrchidParser parser : this.parsers.getValue()) {
             if (!EdenUtils.isEmpty(parser.getSourceExtensions())) {
                 for (String ext : parser.getSourceExtensions()) {
                     parserExtensions.add(ext);
@@ -163,7 +164,7 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     public EdenPair<String, Map<String, Object>> getEmbeddedData(String extension, String input) {
-        return precompiler.getEmbeddedData(extension, input);
+        return precompiler.getValue().getEmbeddedData(extension, input);
     }
 
     public String getOutputExtension(String extension) {

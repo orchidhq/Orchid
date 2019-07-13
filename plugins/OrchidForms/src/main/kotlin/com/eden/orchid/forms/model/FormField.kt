@@ -17,8 +17,7 @@ import javax.inject.Inject
 abstract class FormField
 @Inject
 constructor(
-        val context: OrchidContext,
-        val inputTypes: Array<String>
+    val inputTypes: Array<String>
 ) : ModularPageListItem<FormFieldList, FormField> {
 
     lateinit var containingPage: OrchidPage
@@ -32,9 +31,10 @@ constructor(
     lateinit var fieldType: String
 
     @Option("order")
-    @Description("Form fields are defined in maps which do not have a defined order, and so order in which fields " +
-            "are rendered are not necessarily the order they are declared. Set this property to manually define the " +
-            "ordering of each field."
+    @Description(
+        "Form fields are defined in maps which do not have a defined order, and so order in which fields " +
+                "are rendered are not necessarily the order they are declared. Set this property to manually define the " +
+                "ordering of each field."
     )
     var orderNum: Int = 0
 
@@ -53,24 +53,27 @@ constructor(
         }
 
     @Option
-    @Description("A list of templates to use for this field, which takes precedence over the normal template. The " +
-            "first template in this lit that exists will be chosen, otherwise falling back to the default if the " +
-            "list is empty or none of the templates are found."
+    @Description(
+        "A list of templates to use for this field, which takes precedence over the normal template. The " +
+                "first template in this lit that exists will be chosen, otherwise falling back to the default if the " +
+                "list is empty or none of the templates are found."
     )
     lateinit var template: Array<String>
 
     @Option("span")
     @StringDefault("auto")
-    @Description("The number of columns this field should occupy on large screens, out of 12. Can also be 'left' (6" +
-            "columns, ordered from the left), 'right' (6 columns, ordered from the right), 'auto' (equivalent to " +
-            "'left'), or 'full' (12 columns) The default is 'auto'."
+    @Description(
+        "The number of columns this field should occupy on large screens, out of 12. Can also be 'left' (6" +
+                "columns, ordered from the left), 'right' (6 columns, ordered from the right), 'auto' (equivalent to " +
+                "'left'), or 'full' (12 columns) The default is 'auto'."
     )
     lateinit var spanVal: String
 
     @Option("spanSm")
     @StringDefault("auto")
-    @Description("The number of columns this field should occupy on small screens, out of 12. Can also be 'left', " +
-            "'right', 'auto', or 'full', which are all 12 columns. The default is 'auto'."
+    @Description(
+        "The number of columns this field should occupy on small screens, out of 12. Can also be 'left', " +
+                "'right', 'auto', or 'full', which are all 12 columns. The default is 'auto'."
     )
     lateinit var spanSmVal: String
 
@@ -78,6 +81,10 @@ constructor(
     @BooleanDefault(false)
     @Description("Whether this field is required for submission.")
     var required: Boolean = false
+
+    override fun initialize(context: OrchidContext, containingPage: OrchidPage) {
+        this.containingPage = containingPage
+    }
 
     open fun getTemplates(): List<String> {
         val allTemplates = ArrayList<String>()
@@ -97,30 +104,28 @@ constructor(
 
         when (spanVal) {
             "right" -> wrapperClasses += "col-right "
-            else    -> wrapperClasses += "col "
+            else -> wrapperClasses += "col "
         }
 
         when (spanVal) {
-            "full"  -> wrapperClasses += "col-lg-12 "
-            "left"  -> wrapperClasses += "col-lg-6 "
+            "full" -> wrapperClasses += "col-lg-12 "
+            "left" -> wrapperClasses += "col-lg-6 "
             "right" -> wrapperClasses += "col-lg-6 "
-            "auto"  -> wrapperClasses += "col-lg-6 "
-            else    -> try {
+            "auto" -> wrapperClasses += "col-lg-6 "
+            else -> try {
                 val colSpan = Integer.parseInt(spanVal)
                 wrapperClasses += "col-lg-$colSpan "
-            }
-            catch (e: NumberFormatException) {
+            } catch (e: NumberFormatException) {
                 wrapperClasses += "col-lg-6 "
             }
 
         }
         when (spanSmVal) {
             "auto" -> wrapperClasses += "col-sm-12 "
-            else   -> try {
+            else -> try {
                 val colSpan = Integer.parseInt(spanSmVal)
                 wrapperClasses += "col-sm-$colSpan "
-            }
-            catch (e: NumberFormatException) {
+            } catch (e: NumberFormatException) {
                 wrapperClasses += "col-sm-6 "
             }
 
@@ -157,11 +162,12 @@ constructor(
         this.fieldType = type
     }
 
-    override fun canBeUsedOnPage(containingPage: OrchidPage, modularList: FormFieldList, possibleItems: List<Map<String, Any>>, currentItems: MutableList<FormField>): Boolean {
+    override fun canBeUsedOnPage(
+        containingPage: OrchidPage,
+        modularList: FormFieldList,
+        possibleItems: List<Map<String, Any>>,
+        currentItems: MutableList<FormField>
+    ): Boolean {
         return true
-    }
-
-    override fun setPage(containingPage: OrchidPage) {
-        this.containingPage = containingPage
     }
 }

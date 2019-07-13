@@ -80,7 +80,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         if (foundTask != null) {
             taskType = foundTask.getTaskType();
             context.broadcast(Orchid.Lifecycle.TaskStart.fire(this));
-            foundTask.run();
+            foundTask.run(context);
             context.broadcast(Orchid.Lifecycle.TaskFinish.fire(this));
             return true;
         } else {
@@ -101,7 +101,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 Map<String, Object> paramsJSON = OrchidUtils.parseCommandArgs(commandArgs, freshCommand.parameters());
                 freshCommand.extractOptions(context, paramsJSON);
                 try {
-                    freshCommand.run(commandName);
+                    freshCommand.run(context, commandName);
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();

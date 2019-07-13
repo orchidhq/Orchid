@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.utilities.SuppressedWarnings
+import com.eden.orchid.utilities.resolve
 import com.google.inject.Provider
 import org.json.JSONObject
 import java.lang.reflect.Field
@@ -15,8 +16,7 @@ class FormOptionExtractor
 @Inject
 constructor(
         private val contextProvider: Provider<OrchidContext>,
-        private val converter: StringConverter,
-        private val formsModel: FormsModel
+        private val converter: StringConverter
 ) : OptionExtractor<Form>(1000) {
 
     override fun acceptsClass(clazz: Class<*>): Boolean {
@@ -25,6 +25,7 @@ constructor(
 
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
+        val formsModel: FormsModel = contextProvider.get().resolve()
         if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())
         }

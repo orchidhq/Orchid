@@ -10,21 +10,17 @@ import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import org.jsoup.Jsoup
 import java.util.stream.IntStream
-import javax.inject.Inject
 import kotlin.streams.toList
 
 
-@Description("Finds all headers with an ID within the page content and creates menu items for each. All headers " +
-        "between the min and max levels are used, such as h1-h3, or h2-h5. The default is all headers, h1-h6. These " +
-        "header links can either be displayed in a flat list in the order they were found on the page, or as a " +
-        "nested tree, where h2s are grouped under their previous h1, etc.",
-        name = "Page Ids"
+@Description(
+    "Finds all headers with an ID within the page content and creates menu items for each. All headers " +
+            "between the min and max levels are used, such as h1-h3, or h2-h5. The default is all headers, h1-h6. These " +
+            "header links can either be displayed in a flat list in the order they were found on the page, or as a " +
+            "nested tree, where h2s are grouped under their previous h1, etc.",
+    name = "Page Ids"
 )
-class PageIdsMenuType
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidMenuFactory(context, "pageIds", 100) {
+class PageIdsMenuType : OrchidMenuFactory("pageIds") {
 
     @Option
     @IntDefault(1)
@@ -41,7 +37,7 @@ constructor(
     @Description("The structure used to display the items. One of [flat, nested].")
     lateinit var structure: Structure
 
-    override fun getMenuItems(): List<MenuItem> {
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
         if (maxLevel >= minLevel) {
             Clog.w("maxLevel must be less than minLevel")
             return emptyList()
@@ -52,16 +48,16 @@ constructor(
         val doc = Jsoup.parse(page.content)
 
         val selector: String = IntStream
-                .rangeClosed(maxLevel, minLevel)
-                .mapToObj { i -> "h$i[id]" }
-                .toList()
-                .joinToString(separator = ",")
+            .rangeClosed(maxLevel, minLevel)
+            .mapToObj { i -> "h$i[id]" }
+            .toList()
+            .joinToString(separator = ",")
 
         val ids = doc.select(selector)
         for (id in ids) {
             val menuItem = MenuItem.Builder(context)
-                    .title(id.text())
-                    .anchor(id.attr("id"))
+                .title(id.text())
+                .anchor(id.attr("id"))
 
             headerLevelMap[id.attr("id")] = Integer.parseInt(id.tag().name.substring(1))
 
@@ -89,8 +85,7 @@ constructor(
             }
 
             return mostRecent[0]?.build()?.children ?: ArrayList()
-        }
-        else {
+        } else {
             return menuItems.map { it.build() }
         }
     }

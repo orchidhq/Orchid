@@ -9,7 +9,7 @@ import javax.inject.Inject
 @Description("Display multiple content sections in selectable tabs.", name = "Tabs")
 class TabsTag
 @Inject
-constructor() : TemplateTag("tabs", TemplateTag.Type.Tabbed, true) {
+constructor() : TemplateTag("tabs", Type.Tabbed, true) {
 
     @Option
     @Description("The unique id of this accordion. Defaults to a random value.")

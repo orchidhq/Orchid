@@ -1,15 +1,15 @@
 package com.eden.orchid.impl.themes.functions
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.SuppressedWarnings
 import java.util.ArrayList
-import javax.inject.Inject
 
 @Description(value = "Trim a String, array, or Iterable down to size.", name = "Limit-To")
-class LimitToFunction @Inject
-constructor() : TemplateFunction("limitTo", false) {
+class LimitToFunction : TemplateFunction("limitTo", false) {
 
     @Option
     @Description("A String to limit the length of.")
@@ -24,7 +24,7 @@ constructor() : TemplateFunction("limitTo", false) {
     }
 
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         if (count == 0) {
             throw IllegalArgumentException("Count must be given.")
         }

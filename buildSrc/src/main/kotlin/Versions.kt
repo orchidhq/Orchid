@@ -1,5 +1,3 @@
-import kotlin.String
-
 /**
  * Find which updates are available by running
  *     `$ ./gradlew buildSrcVersions`
@@ -28,6 +26,8 @@ object Versions {
     const val codacy_coverage_reporter: String = "6.0.0" 
 
     const val guice: String = "4.2.2" 
+
+    const val javax_inject: String = "1"
 
     const val gradle_bintray_plugin: String = "1.8.4" 
 

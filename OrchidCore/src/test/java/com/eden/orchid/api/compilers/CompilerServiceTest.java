@@ -71,7 +71,11 @@ public final class CompilerServiceTest extends BaseOrchidTest {
         // test the service directly
         context = mock(OrchidContext.class);
         when(context.getSiteData(any())).thenReturn(null);
-        service = new CompilerServiceImpl(compilers, parsers, mockPrecompiler);
+        when(context.resolveSet(OrchidCompiler.class)).thenReturn(compilers);
+        when(context.resolveSet(OrchidParser.class)).thenReturn(parsers);
+        when(context.resolve(OrchidPrecompiler.class)).thenReturn(mockPrecompiler);
+
+        service = new CompilerServiceImpl();
         service.initialize(context);
         service.allConfig = new HashMap<>();
 

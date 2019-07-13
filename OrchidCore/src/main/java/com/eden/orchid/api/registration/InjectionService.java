@@ -3,14 +3,20 @@ package com.eden.orchid.api.registration;
 import com.eden.orchid.api.OrchidService;
 import com.google.inject.ImplementedBy;
 
+import java.util.List;
 import java.util.Set;
 
 @ImplementedBy(InjectionServiceImpl.class)
 public interface InjectionService extends OrchidService {
 
-//    default Injector getInjector() {
-//        return getService(InjectionService.class).getInjector();
-//    }
+
+    default void pushInjector(String name, List<?> childVariables) {
+        getService(InjectionService.class).pushInjector(name, childVariables);
+    }
+
+    default void popInjector(String name) {
+        getService(InjectionService.class).popInjector(name);
+    }
 
     default <T> T resolve(Class<T> clazz) {
         return getService(InjectionService.class).resolve(clazz);

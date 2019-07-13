@@ -44,7 +44,7 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
 
         // validate all publishers first
         for(OrchidPublisher publisher : allPublishers) {
-            if(!publisher.validate()) {
+            if(!publisher.validate(context)) {
                 invalidPublishers.add(publisher);
             }
         }
@@ -67,7 +67,7 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
                 boolean publisherSuccess = true;
                 if (!publisherIsDry) {
                     try {
-                        publisher.publish();
+                        publisher.publish(context);
                     }
                     catch (Exception e) {
                         Clog.e("Something went wrong publishing [{}]", e, publisher.getType());

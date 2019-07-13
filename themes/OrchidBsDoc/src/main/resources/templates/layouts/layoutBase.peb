@@ -11,9 +11,9 @@
 {% include '?trackingBodyStart' %}
 
 {% block baseNavbar %}
-{% if theme.social.github is not empty %}
+{% if theme.social.github is not empty or theme.github %}
 <a class="github-fork-ribbon {% block ribbonSide %}{{ 'left-top' }}{% endblock %}"
-   href="https://github.com/{{ theme.social.github }}"
+   href="https://github.com/{{ theme.social.github | default(theme.github) }}"
    title="Fork me on GitHub">Fork me on GitHub</a>
 {% endif %}
 

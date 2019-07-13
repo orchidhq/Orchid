@@ -30,7 +30,6 @@ import javax.validation.constraints.NotBlank
 @Description(value = "Upload your site directly to Netlify, while using your favorite CI platform.", name = "Netlify")
 class NetlifyPublisher @Inject
 constructor(
-    context: OrchidContext,
     private val client: OkHttpClient,
 
     @Named("dest")
@@ -39,14 +38,14 @@ constructor(
     @Named("netlifyToken")
     @NotBlank(message = "A Netlify Personal Access Token is required for deploys, set as \'netlifyToken\' flag")
     val netlifyToken: String
-) : OrchidPublisher(context, "netlify", 100) {
+) : OrchidPublisher("netlify", 100) {
 
     @Option
     @Description("Your Netlify site ID or domain (ie. orchid.netlify.com). If not provided, your site's baseUrl will be used.")
     lateinit var siteId: String
 
-    override fun validate(): Boolean {
-        var valid = super.validate()
+    override fun validate(context: OrchidContext): Boolean {
+        var valid = super.validate(context)
 
         if(siteId.isBlank()) {
             // siteId not provided, use the baseUrl instead
@@ -69,7 +68,7 @@ constructor(
         return valid
     }
 
-    override fun publish() {
+    override fun publish(context: OrchidContext) {
         doNetlifyDeploy()
     }
 

@@ -116,18 +116,19 @@ fun String.dashCase(mapper: String.() -> String): Array<String> {
 
 fun String.filename(): Array<String> {
     return this
-            .words()
-            .flatMap {
-                it.dashCase().toList()
-            }
-            .flatMap {
-                it.snakeCase().toList()
-            }
-            .flatMap {
-                it.camelCase().toList()
-            }
-            .toTypedArray()
+        .words()
+        .flatMap {
+            it.dashCase().toList()
+        }
+        .flatMap {
+            it.snakeCase().toList()
+        }
+        .flatMap {
+            it.camelCase().toList()
+        }
+        .toTypedArray()
 }
+
 fun String.filename(mapper: String.() -> String): Array<String> {
     return filename().with(mapper)
 }
@@ -257,7 +258,6 @@ inline fun <reified T : Any> OrchidContext.resolve(): T {
 inline fun <reified T : Any> OrchidContext.resolveSet(): Set<T> {
     return this.resolveSet(T::class.java)
 }
-
 
 fun Number.makeMillisReadable(): String {
     val lMillis = this.toDouble()

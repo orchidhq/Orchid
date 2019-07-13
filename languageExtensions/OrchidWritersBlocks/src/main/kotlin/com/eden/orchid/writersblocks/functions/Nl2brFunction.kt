@@ -1,9 +1,11 @@
 package com.eden.orchid.writersblocks.functions
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.nl2br
 import javax.inject.Inject
 
@@ -22,7 +24,7 @@ constructor(
         return arrayOf("input")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return converter.convert(String::class.java, input).second.nl2br()
     }
 }

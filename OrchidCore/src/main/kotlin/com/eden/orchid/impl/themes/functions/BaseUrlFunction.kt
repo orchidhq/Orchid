@@ -4,13 +4,11 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.OrchidUtils
-import javax.inject.Inject
 
 @Description(value = "Appends the site base URL to a String.", name = "Base URL")
-class BaseUrlFunction
-@Inject
-constructor(val context: OrchidContext) : TemplateFunction("baseUrl", true) {
+class BaseUrlFunction : TemplateFunction("baseUrl", true) {
 
     @Option
     @Description("The text to append the site base URL to.")
@@ -20,7 +18,7 @@ constructor(val context: OrchidContext) : TemplateFunction("baseUrl", true) {
         return arrayOf("input")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val cleanedInput = OrchidUtils.normalizePath(input)
 
         return if(context.baseUrl == "/") {

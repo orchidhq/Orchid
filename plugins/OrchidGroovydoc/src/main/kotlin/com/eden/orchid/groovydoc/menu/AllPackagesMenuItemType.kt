@@ -9,25 +9,22 @@ import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.groovydoc.models.GroovydocModel
 import java.util.ArrayList
-import javax.inject.Inject
 
 @Description("All groovydoc package pages.", name = "groovydoc Packages")
-class AllPackagesMenuItemType
-@Inject
-constructor(
-        context: OrchidContext,
-        private val model: GroovydocModel
-) : OrchidMenuFactory(context, "groovydocPackages", 100) {
+class AllPackagesMenuItemType : OrchidMenuFactory("groovydocPackages") {
 
     @Option
     @StringDefault("All Packages")
     lateinit var title: String
 
-    override fun getMenuItems(): List<MenuItem> {
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+        val model = context.resolve(GroovydocModel::class.java)
+
         val items = ArrayList<MenuItem>()
         val pages = ArrayList<OrchidPage>(model.allPackages)
         pages.sortBy { it.title }
-        items.add(MenuItem.Builder(context)
+        items.add(
+            MenuItem.Builder(context)
                 .title(title)
                 .pages(pages)
                 .build()

@@ -1,5 +1,6 @@
 package com.eden.orchid.api.server;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.IOUtils;
@@ -15,6 +16,7 @@ import java.util.StringTokenizer;
 
 public final class OrchidRequest {
 
+    private OrchidContext context;
     private OrchidRoute route;
     private NanoHTTPD.IHTTPSession session;
 
@@ -22,7 +24,8 @@ public final class OrchidRequest {
     private Map<String, String> files;
     private Map<String, Object> body;
 
-    public OrchidRequest(NanoHTTPD.IHTTPSession session, OrchidRoute route, Map<String, String> files) {
+    public OrchidRequest(OrchidContext context, NanoHTTPD.IHTTPSession session, OrchidRoute route, Map<String, String> files) {
+        this.context = context;
         this.session = session;
         this.route = route;
         this.files = files;
@@ -112,5 +115,9 @@ public final class OrchidRequest {
 
     public JSONObject body() {
         return new JSONObject();
+    }
+
+    public OrchidContext getContext() {
+        return context;
     }
 }
