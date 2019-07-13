@@ -25,7 +25,13 @@
             </header>
         </section>
 
-        {% include 'includes/componentHolder' with {"componentHolder": theme.sidebar} %}
+        {% embed 'includes/componentHolder' with {"componentHolder": theme.sidebar} %}
+            {% block componentWrapper %}
+            <article class="post single">
+              {{ parent() }}
+            </article>
+            {% endblock %}
+        {% endembed %}
 
         <!-- About -->
         <section class="blurb">

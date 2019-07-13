@@ -52,7 +52,8 @@
         {% endfor %}
     </ul>
 
-    {% include 'includes/componentHolder' with {"componentHolder": theme.sidebar} %}
+    {% embed 'includes/componentHolder' with {"componentHolder": theme.sidebar} %}
+    {% endembed %}
 
     <a class="back-to-top" href="#top">
         <i class="glyphicon glyphicon-chevron-up"></i> Back to top

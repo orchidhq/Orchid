@@ -1,1 +1,2 @@
-{% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+{% embed 'includes/componentHolder' with {"componentHolder": page.components} %}
+{% endembed %}
