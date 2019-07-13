@@ -47,7 +47,8 @@
 
 {% endblock %}
 {% block remainingComponents %}
-    {% include 'includes/componentHolder' with {"componentHolder": page.components} %}
+    {% embed 'includes/componentHolder' with {"componentHolder": page.components} %}
+    {% endembed %}
 {% endblock %}
 </div>
 {% endblock %}
