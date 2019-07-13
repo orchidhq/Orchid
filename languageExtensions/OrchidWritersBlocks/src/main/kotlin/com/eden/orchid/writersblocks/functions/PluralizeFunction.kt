@@ -1,10 +1,12 @@
 package com.eden.orchid.writersblocks.functions
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.pages.OrchidPage
 import org.atteo.evo.inflector.English
 import javax.inject.Inject
 
@@ -27,7 +29,7 @@ constructor(
         return arrayOf("input", "count")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val actualInput = converter.convert(String::class.java, input)
 
         return if (this.count != Int.MIN_VALUE) {

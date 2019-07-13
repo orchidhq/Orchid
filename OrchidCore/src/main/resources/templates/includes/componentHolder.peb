@@ -6,12 +6,12 @@
                 {% if not (component.noWrapper) %}
                     {% block componentWrapper %}
                         <div class="component component-{{ component.type }} component-order-{{ component.order }}">
-                            {{ component.renderContent() | raw }}
+                            {{ component.renderContent(page.context, page) | raw }}
                         </div>
                     {% endblock %}
                 {% else %}
                     {% block componentNoWrapper %}
-                        {{ component.renderContent() | raw }}
+                        {{ component.renderContent(page.context, page) | raw }}
                     {% endblock %}
                 {% endif %}
             {% endif %}

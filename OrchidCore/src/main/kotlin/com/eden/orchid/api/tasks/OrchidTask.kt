@@ -1,5 +1,6 @@
 package com.eden.orchid.api.tasks
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.Descriptive
 import com.eden.orchid.api.registration.Prioritized
 
@@ -11,7 +12,10 @@ import com.eden.orchid.api.registration.Prioritized
  * @orchidApi extensible
  */
 abstract class OrchidTask(
-        priority: Int,
-        open val name: String,
-        open val taskType: TaskService.TaskType
-) : Prioritized(priority), Runnable, Descriptive
+    priority: Int,
+    open val name: String,
+    open val taskType: TaskService.TaskType
+) : Prioritized(priority), Descriptive {
+
+    abstract fun run(context: OrchidContext)
+}

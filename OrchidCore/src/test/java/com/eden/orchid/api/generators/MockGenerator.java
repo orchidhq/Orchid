@@ -13,7 +13,7 @@ public class MockGenerator extends OrchidGenerator<OrchidGenerator.Model> {
     List<? extends OrchidPage> mockPages;
     List<? extends OrchidPage> generatedPages;
 
-    public MockGenerator(String key, int priority, List<? extends OrchidPage> mockPages) {
+    public MockGenerator(String key, int priority, @NotNull List<? extends OrchidPage> mockPages) {
         super(key, priority);
         this.mockPages = mockPages;
     }

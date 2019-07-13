@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
@@ -49,7 +49,7 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
 
     private OrchidRootIndex internalIndex;
 
-    private Set<OrchidGenerator<?>> generators;
+    private Set<OrchidGenerator> generators;
 
     private MockGenerator generator1;
     private List<OrchidPage> pages1;
@@ -101,13 +101,15 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
         generator2 = spy(new MockGenerator("gen2", 150, pages2));
         generators.add(generator2);
 
-        pages3 = null;
+        pages3 = new ArrayList<>();
         generator3 = new MockGenerator("gen3", 200, pages3);
         generator3 = spy(generator3);
         generators.add(generator3);
 
+        when(context.resolveSet(OrchidGenerator.class)).thenReturn(generators);
+
         // test the service directly
-        service = new GeneratorServiceImpl(generators, buildMetrics);
+        service = new GeneratorServiceImpl();
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation
@@ -134,7 +136,8 @@ public final class GeneratorServiceTest extends BaseOrchidTest {
 
         verify(generator3).extractOptions((OrchidContext) any(), any());
         verify(generator3).startIndexing(context);
-        assertThat(generator3.mockPages, is(nullValue()));
+        assertThat(generator3.mockPages, is(notNullValue()));
+        assertThat(generator3.mockPages.size(), is(0));
     }
 
     @Test

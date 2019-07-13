@@ -1,5 +1,6 @@
 package com.eden.orchid.api.tasks
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.Descriptive
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.registration.Prioritized
@@ -21,6 +22,6 @@ abstract class OrchidCommand(priority: Int, val key: String) : Prioritized(prior
 
     abstract fun parameters(): Array<String>
 
-    abstract fun run(commandName: String)
+    abstract fun run(context: OrchidContext, commandName: String)
 
 }

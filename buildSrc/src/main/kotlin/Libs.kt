@@ -48,6 +48,8 @@ object Libs {
      * https://github.com/google/guice */
     const val guice: String = "com.google.inject:guice:" + Versions.guice
 
+    const val javax_inject: String = "javax.inject:javax.inject:" + Versions.javax_inject
+
     const val gradle_bintray_plugin: String = "com.jfrog.bintray.gradle:gradle-bintray-plugin:" +
             Versions.gradle_bintray_plugin
 

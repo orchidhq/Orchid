@@ -332,7 +332,11 @@ public class OrchidPage implements
         return "";
     }
 
-// Serialize/deserialize from JSON
+    public final String renderContent() {
+        return renderContent(context, this);
+    }
+
+    // Serialize/deserialize from JSON
 //----------------------------------------------------------------------------------------------------------------------
 
     public JSONObject toJSON() {

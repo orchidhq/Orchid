@@ -10,26 +10,22 @@ import com.eden.orchid.api.theme.pages.OrchidExternalPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import java.util.ArrayList
-import javax.inject.Inject
 
 @Description("A link to any generic URL.", name = "Link")
-class LinkMenuItem
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidMenuFactory(context, "link", 100) {
+class LinkMenuItem : OrchidMenuFactory("link") {
 
     @Option
     @Description("The title of this menu item")
     lateinit var title: String
 
     @Option
-    @Description("The URL of this menu item. A URL of `/` links to the root of your site. A URL starting with a '#'" +
-            "will link to an anchor on the current page."
+    @Description(
+        "The URL of this menu item. A URL of `/` links to the root of your site. A URL starting with a '#'" +
+                "will link to an anchor on the current page."
     )
     lateinit var url: String
 
-    override fun getMenuItems(): List<MenuItem> {
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
         url = url.trim()
@@ -58,10 +54,10 @@ constructor(
             }
             if (reference != null) {
                 menuItems.add(
-                        MenuItem.Builder(context)
-                                .page(OrchidExternalPage(reference))
-                                .title(title)
-                                .build()
+                    MenuItem.Builder(context)
+                        .page(OrchidExternalPage(reference))
+                        .title(title)
+                        .build()
                 )
             }
         }

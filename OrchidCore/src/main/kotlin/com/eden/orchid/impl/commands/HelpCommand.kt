@@ -10,15 +10,13 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.server.OrchidServer
 import com.eden.orchid.api.tasks.OrchidCommand
 import com.eden.orchid.utilities.OrchidUtils
-import com.google.inject.Provider
 import javax.inject.Inject
 
 @Description("This will show a table will all the available options for a type, along with other relevant data.")
 class HelpCommand
 @Inject
 constructor(
-        private val contextProvider: Provider<OrchidContext>,
-        private val server: OrchidServer?
+    private val server: OrchidServer?
 ) : OrchidCommand(100, "help") {
 
     enum class HelpType {
@@ -26,9 +24,10 @@ constructor(
     }
 
     @Option
-    @Description("CLASS: The fully-qualified name of a class to describe." +
-            "CONFIG: An object query for a given property in the site config." +
-            "PAGE: A page type."
+    @Description(
+        "CLASS: The fully-qualified name of a class to describe." +
+                "CONFIG: An object query for a given property in the site config." +
+                "PAGE: A page type."
     )
     lateinit var type: HelpType
 
@@ -39,10 +38,10 @@ constructor(
         return arrayOf("type", "query")
     }
 
-    override fun run(commandName: String) {
+    override fun run(context: OrchidContext, commandName: String) {
         val parsedClass = getDescribedClass()
         if (OptionsHolder::class.java.isAssignableFrom(parsedClass)) {
-            val extractor = contextProvider.get().resolve(OptionsExtractor::class.java)
+            val extractor = context.resolve(OptionsExtractor::class.java)
             val description = extractor.describeAllOptions(parsedClass)
             val table = extractor.getDescriptionTable(description)
 

@@ -45,7 +45,6 @@ import java.util.Map;
 @Archetype(value = ConfigArchetype.class, key = "allPublishers")
 public abstract class OrchidPublisher extends Prioritized implements OptionsHolder, ModularListItem<PublicationPipeline, OrchidPublisher> {
     protected final String type;
-    protected final OrchidContext context;
     @Option
     @BooleanDefault(false)
     private boolean dry;
@@ -57,26 +56,16 @@ public abstract class OrchidPublisher extends Prioritized implements OptionsHold
     private Map<String, Object> allData;
 
     @Inject
-    public OrchidPublisher(OrchidContext context, String type, int priority) {
+    public OrchidPublisher(String type, int priority) {
         super(priority);
         this.type = type;
-        this.context = context;
-    }
-
-    /**
-     * A callback to check if this OrchidPublisher is valid and ready to publish. This is called during dry runs so
-     * users can see whether the publisher is configured correctly.
-     *
-     * @return whether this publisher is valid and ready to publish.
-     */
-    public boolean validate() {
-        return validate(context);
     }
 
     /**
      * A callback to run the publication step.
+     * @param context
      */
-    public abstract void publish() throws Exception;
+    public abstract void publish(OrchidContext context) throws Exception;
 
     protected boolean exists(String value, String message) {
         if (EdenUtils.isEmpty(value)) {

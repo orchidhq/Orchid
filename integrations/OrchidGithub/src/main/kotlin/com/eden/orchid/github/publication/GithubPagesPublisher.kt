@@ -1,6 +1,5 @@
 package com.eden.orchid.github.publication
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -17,7 +16,6 @@ import javax.validation.constraints.NotBlank
 class GithubPagesPublisher
 @Inject
 constructor(
-    context: OrchidContext,
     git: GitFacade,
 
     @Named("dest")
@@ -26,7 +24,7 @@ constructor(
     @Named("githubToken")
     @NotBlank(message = "A GitHub Personal Access Token is required for deploys, set as \'githubToken\' flag.")
     private val githubToken: String
-) : AbstractGitPublisher(context, git, destinationDir, "gh-pages", "githubPages", 100) {
+) : AbstractGitPublisher(git, destinationDir, "gh-pages", "githubPages", 100) {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")

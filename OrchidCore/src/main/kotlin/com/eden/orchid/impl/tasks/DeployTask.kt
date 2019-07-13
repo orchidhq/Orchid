@@ -4,8 +4,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskService
-import com.google.inject.Provider
-
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -13,15 +11,14 @@ import javax.inject.Named
 class DeployTask
 @Inject
 constructor(
-        private val contextProvider: Provider<OrchidContext>,
-        @Named("dryDeploy") private val dryDeploy: Boolean
+    @Named("dryDeploy") private val dryDeploy: Boolean
 ) : OrchidTask(100, "deploy", TaskService.TaskType.DEPLOY) {
 
-    override fun run() {
-        contextProvider.get().build()
-        val success = contextProvider.get().deploy(dryDeploy)
+    override fun run(context: OrchidContext) {
+        context.build()
+        val success = context.deploy(dryDeploy)
 
-        if(!success) {
+        if (!success) {
             throw Exception("deployment failed, check logs for details")
         }
     }

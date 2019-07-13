@@ -13,6 +13,8 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
+import kotlin.Lazy;
+import kotlin.LazyKt;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -32,7 +35,6 @@ import java.util.stream.Stream;
 @Description(value = "How content gets created in your build.", name = "Generators")
 public final class GeneratorServiceImpl implements GeneratorService {
 
-    private final Set<OrchidGenerator<?>> allGenerators;
     private OrchidContext context;
     private BuildMetrics metrics;
 
@@ -58,10 +60,15 @@ public final class GeneratorServiceImpl implements GeneratorService {
     @Description("By default Generators run serially in priority order, but this flag will allow all generators to render in parallel for improved performance (the pages from that generator are still rendered serially by default). Not suitable for builds where later generators depend on the pages rendered by higher-priority generators.")
     private boolean parallelGeneration;
 
+    private final Lazy<Set<OrchidGenerator<?>>> allGenerators = LazyKt.lazy(() -> {
+        Set<OrchidGenerator<?>> newSet = new TreeSet<>();
+        context.resolveSet(OrchidGenerator.class).forEach(newSet::add);
+        return newSet;
+    });
+
     @Inject
-    public GeneratorServiceImpl(Set<OrchidGenerator<?>> generators, BuildMetrics metrics) {
-        this.allGenerators = new TreeSet<>(generators);
-        this.metrics = metrics;
+    public GeneratorServiceImpl() {
+
     }
 
     @Override
@@ -79,7 +86,9 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startIndexing() {
-        metrics.startIndexing(allGenerators);
+        metrics = new BuildMetrics(context);
+
+        metrics.startIndexing(allGenerators.getValue());
         context.clearIndex();
         getFilteredGenerators().forEach(this::indexGenerator);
         metrics.stopIndexing();
@@ -130,9 +139,22 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startGeneration() {
+        List<OrchidGenerator.Model> uniqueModels = context
+                .getIndex()
+                .getAllIndexedPages()
+                .values()
+                .stream()
+                .map(it -> it.getSecond())
+                .filter(it -> !it.getClass().equals(OrchidGenerator.SimpleModel.class))
+                .collect(Collectors.toList());
+
+        context.pushInjector("generating", uniqueModels);
+
         metrics.startGeneration();
         getFilteredGenerators().forEach(this::useGenerator);
         metrics.stopGeneration();
+
+        context.popInjector("generating");
     }
 
     private <T extends OrchidGenerator.Model> void useGenerator(OrchidGenerator<T> generator) {
@@ -163,7 +185,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     Stream<OrchidGenerator<?>> getFilteredGenerators(String[] include, String[] exclude) {
-        return getFilteredGenerators(allGenerators.stream(), include, exclude);
+        return getFilteredGenerators(allGenerators.getValue().stream(), include, exclude);
     }
 
     Stream<OrchidGenerator<?>> getFilteredGenerators(Stream<OrchidGenerator<?>> generators, String[] include, String[] exclude) {

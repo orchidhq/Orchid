@@ -1,6 +1,5 @@
 package com.eden.orchid.bitbucket.publication
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.publication.AbstractGitPublisher
@@ -16,7 +15,6 @@ import javax.validation.constraints.NotBlank
 class BitbucketCloudPublisher
 @Inject
 constructor(
-    context: OrchidContext,
     git: GitFacade,
 
     @Named("dest")
@@ -24,7 +22,7 @@ constructor(
 
     @Named("bitbucketToken")
     private val bitbucketToken: String
-) : AbstractGitPublisher(context, git, destinationDir, "master", "bitbucketCloud", 100) {
+) : AbstractGitPublisher(git, destinationDir, "master", "bitbucketCloud", 100) {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")

@@ -34,7 +34,7 @@ public interface RenderService extends OrchidService {
 
     /**
      * Render the given page with the default template determined by the page, returning an InputStream representing the
-     * final contents. The layout chosen for the page is determined by {@link TemplateResolutionStrategy}.
+     * final contents.
      *
      * @param page the page to render
      * @return InputStream the stream representing the final contents

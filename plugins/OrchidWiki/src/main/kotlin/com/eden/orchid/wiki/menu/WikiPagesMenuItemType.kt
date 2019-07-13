@@ -8,21 +8,16 @@ import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
-import javax.inject.Inject
 
 @Description("Links to all pages in your wiki, optionally by section.", name = "Wiki Pages")
-class WikiPagesMenuItemType
-@Inject
-constructor(
-        context: OrchidContext,
-        private val model: WikiModel
-) : OrchidMenuFactory(context, "wiki", 100) {
+class WikiPagesMenuItemType : OrchidMenuFactory("wiki") {
 
     @Option
     @Description("The wiki section to include in this menu.")
     lateinit var section: String
 
-    override fun getMenuItems(): List<MenuItem> {
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+        val model: WikiModel = context.resolve(WikiModel::class.java)
         val menuItems = ArrayList<MenuItem>()
 
         val sections = HashMap<String?, WikiSection>()
@@ -30,15 +25,14 @@ constructor(
         val menuItemTitle: String
 
         // multiple sections to choose from
-        if(model.sections.size > 1) {
+        if (model.sections.size > 1) {
             // we're specifying a single section to show
-            if(section.isNotBlank()) {
+            if (section.isNotBlank()) {
                 val wikiSection = model.getSection(section)
-                if(wikiSection != null) {
+                if (wikiSection != null) {
                     sections.put(section, wikiSection)
                     menuItemTitle = wikiSection.title
-                }
-                else {
+                } else {
                     menuItemTitle = "Wiki"
                 }
             }
@@ -54,22 +48,22 @@ constructor(
             menuItemTitle = "Wiki"
         }
 
-        if(submenuTitle.isBlank()) {
+        if (submenuTitle.isBlank()) {
             submenuTitle = menuItemTitle
         }
 
         val wikiPagesIndex = OrchidIndex(null, "wiki")
 
         for (value in sections.values) {
-            for(page in value.wikiPages) {
+            for (page in value.wikiPages) {
                 wikiPagesIndex.addToIndex(page.reference.path, page)
             }
         }
 
         menuItems.add(
-                MenuItem.Builder(context)
-                        .fromIndex(wikiPagesIndex)
-                        .build()
+            MenuItem.Builder(context)
+                .fromIndex(wikiPagesIndex)
+                .build()
         )
 
         for (item in menuItems) {
@@ -85,10 +79,9 @@ constructor(
             }
         }
 
-        return if(model.sections.size > 1 && section.isNotBlank()) {
+        return if (model.sections.size > 1 && section.isNotBlank()) {
             innerItems.first().children
-        }
-        else {
+        } else {
             innerItems
         }
     }
