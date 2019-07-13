@@ -15,6 +15,7 @@ import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.assets.Resizable
 import com.eden.orchid.api.theme.assets.Rotateable
 import com.eden.orchid.api.theme.assets.Scalable
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.utilities.convertOutputStream
 import net.coobird.thumbnailator.Thumbnails
@@ -23,11 +24,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
-class AssetFunction
-@Inject
-constructor(
-        val context: OrchidContext
-) : TemplateFunction("asset", false) {
+class AssetFunction : TemplateFunction("asset", false) {
 
     @Option
     @Description("The path to a resource to render.")
@@ -37,7 +34,7 @@ constructor(
         return arrayOf("itemId")
     }
 
-    override fun apply(): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.assetManager.createAsset(itemId, page, "page")
     }
 }
@@ -108,7 +105,7 @@ constructor(
         return arrayOf("input", "angle")
     }
 
-    override fun apply(): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Rotateable ->
             resource.rotate(asset, angle)
         }
@@ -131,7 +128,7 @@ constructor(
         return arrayOf("input", "factor")
     }
 
-    override fun apply(): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Scalable ->
             resource.scale(asset, factor)
         }
@@ -171,7 +168,7 @@ constructor(
         return arrayOf("input", "width", "height", "mode")
     }
 
-    override fun apply(): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Resizable ->
             resource.resize(asset, width, height, mode)
         }

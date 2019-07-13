@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,9 +29,8 @@ import java.util.List;
 public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     public enum Type {
-        Simple, Content, Tabbed;
+        Simple, Content, Tabbed
     }
-
 
     public interface Tab extends OptionsHolder {
         String getKey();
@@ -39,7 +39,6 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
         String[] parameters();
     }
-
 
     public static final class SimpleTab implements Tab {
         private final String key;
@@ -68,11 +67,13 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
     private final String name;
     private final boolean rendersContent;
     private final LinkedHashMap<String, Tab> content;
-    private Type type;
-    protected OrchidPage page;
+    private final Type type;
     @Option
     @Description("Specify a template or a list of templates to use when rendering this component. The first template that exists will be chosen for this component.")
     protected String template;
+
+    protected OrchidContext context;
+    protected OrchidPage page;
 
     /**
      * Initialize the Tag with the name which it should be called with in the template. The actual implementation of a
@@ -98,7 +99,9 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
      */
     public abstract String[] parameters();
 
-    public void onRender() {
+    public void onRender(OrchidContext context, OrchidPage page) {
+        this.context = context;
+        this.page = page;
     }
 
     public String getContent() {
@@ -163,11 +166,6 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
         }
     }
 
-    @Override
-    public OrchidContext getContext() {
-        return page.getContext();
-    }
-
     public List<String> getTemplates() {
         return null;
     }
@@ -199,16 +197,12 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
         return this.page;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public void setPage(OrchidPage page) {
-        this.page = page;
-    }
-
     public String getTemplate() {
         return this.template;
+    }
+
+    public OrchidContext getContext() {
+        return context;
     }
 
     public void setTemplate(final String template) {

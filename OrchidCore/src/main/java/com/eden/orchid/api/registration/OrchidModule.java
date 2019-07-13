@@ -39,6 +39,11 @@ public abstract class OrchidModule extends AbstractModule {
 
     private static final Set<Class<?>> knownSets = new HashSet<>();
 
+    @Override
+    protected void configure() {
+        super.configure();
+    }
+
     public static <T> AbstractModule of(final Class<T> injectedClass, final T value) {
         return new AbstractModule() {
             @Override

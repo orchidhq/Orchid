@@ -45,6 +45,10 @@ constructor(
     var social: Social? = null
 
     @Option
+    @Description("Github project for 'Fork me on Github' ribbon")
+    lateinit var github: String
+
+    @Option
     @Description("Custom options for Trianglify.")
     lateinit var trianglifyOptions: JSONObject
 

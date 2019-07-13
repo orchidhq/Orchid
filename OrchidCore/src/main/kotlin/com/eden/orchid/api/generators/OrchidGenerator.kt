@@ -125,13 +125,14 @@ constructor(
     interface Model {
         val allPages: List<OrchidPage>
     }
+
+    class SimpleModel(
+        override val allPages: List<OrchidPage>
+    ) : Model
 }
 
 fun OrchidGenerator<*>.modelOf(indexedPages: ()->List<OrchidPage>) : OrchidGenerator.Model {
-    val actualPages = indexedPages()
-    return object : OrchidGenerator.Model {
-        override val allPages: List<OrchidPage> = actualPages
-    }
+    return OrchidGenerator.SimpleModel(indexedPages())
 }
 
 fun OrchidGenerator<*>.emptyModel() : OrchidGenerator.Model {

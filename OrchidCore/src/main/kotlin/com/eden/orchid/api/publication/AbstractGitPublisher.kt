@@ -9,6 +9,7 @@ import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.copy
 import com.eden.orchid.api.util.delete
 import com.eden.orchid.api.util.makeSubDir
+import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Inject
 import javax.inject.Named
 import javax.validation.constraints.Email
@@ -18,7 +19,6 @@ import javax.validation.constraints.NotNull
 abstract class AbstractGitPublisher
 @Inject
 constructor(
-    context: OrchidContext,
     private val git: GitFacade,
 
     @Named("dest")
@@ -28,7 +28,7 @@ constructor(
 
     type: String,
     priority: Int
-) : OrchidPublisher(context, type, priority) {
+) : OrchidPublisher(type, priority) {
 
     @Option
     @StringDefault("Orchid")
@@ -69,24 +69,25 @@ constructor(
     protected abstract val displayedRemoteUrl: String
     protected abstract val remoteUrl: String
 
-    override fun validate(): Boolean {
+    override fun validate(context: OrchidContext): Boolean {
         if(branch.isBlank()) branch = defaultBranch
-        return super.validate()
+        return super.validate(context)
     }
 
-    override fun publish() {
+    override fun publish(context: OrchidContext) {
         when (publishType) {
-            AbstractGitPublisher.PublishType.CleanBranch                -> doCleanBranch()
-            AbstractGitPublisher.PublishType.CleanBranchMaintainHistory -> doCleanBranchMaintainHistory()
-            AbstractGitPublisher.PublishType.VersionedBranch            -> doVersionedBranch()
-            AbstractGitPublisher.PublishType.VersionedBranchWithLatest  -> doVersionedBranchWithLatest()
+            PublishType.CleanBranch                -> doCleanBranch(context)
+            PublishType.CleanBranchMaintainHistory -> doCleanBranchMaintainHistory(context)
+            PublishType.VersionedBranch            -> doVersionedBranch(context)
+            PublishType.VersionedBranchWithLatest  -> doVersionedBranchWithLatest(context)
         }
     }
 
 // Git publish types
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun doCleanBranch() {
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
+    private fun doCleanBranch(context: OrchidContext) {
         git.init(remoteUrl, displayedRemoteUrl, branch).apply {
             copy(from = destinationDir)
 
@@ -96,7 +97,8 @@ constructor(
         }
     }
 
-    private fun doCleanBranchMaintainHistory() {
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
+    private fun doCleanBranchMaintainHistory(context: OrchidContext) {
         git.clone(remoteUrl, displayedRemoteUrl, branch).apply {
             delete()
             copy(from = destinationDir)
@@ -107,7 +109,7 @@ constructor(
         }
     }
 
-    private fun doVersionedBranch() {
+    private fun doVersionedBranch(context: OrchidContext) {
         git.clone(remoteUrl, displayedRemoteUrl, branch).apply {
             makeSubDir(context.version).apply {
                 delete(subdirectory = this)
@@ -120,7 +122,7 @@ constructor(
         }
     }
 
-    private fun doVersionedBranchWithLatest() {
+    private fun doVersionedBranchWithLatest(context: OrchidContext) {
         git.clone(remoteUrl, displayedRemoteUrl, branch).apply {
             makeSubDir(context.version).apply {
                 delete(subdirectory = this)

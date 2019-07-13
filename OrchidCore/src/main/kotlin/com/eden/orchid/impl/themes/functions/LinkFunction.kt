@@ -7,11 +7,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
 
-import javax.inject.Inject
-
 @Description(value = "Get the link to a page.", name = "Link")
-class LinkFunction @Inject
-constructor(val context: OrchidContext) : TemplateFunction("link", true) {
+class LinkFunction : TemplateFunction("link", true) {
 
     @Option
     @Description("The Id of an item to link to.")
@@ -29,10 +26,10 @@ constructor(val context: OrchidContext) : TemplateFunction("link", true) {
         return IndexService.locateParams
     }
 
-    override fun apply(): Any {
-        val page = context.findPage(collectionType, collectionId, itemId)
-        return if (page != null) {
-            page.link
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+        val foundPage = context.findPage(collectionType, collectionId, itemId)
+        return if (foundPage != null) {
+            foundPage.link
         } else ""
 
     }

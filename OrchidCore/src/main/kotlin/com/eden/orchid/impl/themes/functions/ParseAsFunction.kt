@@ -5,15 +5,10 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-
-import javax.inject.Inject
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Parse any String using any of Orchid's included data languages.", name = "Parse-As")
-class ParseAsFunction
-@Inject
-constructor(
-        private val context: OrchidContext
-) : TemplateFunction("parseAs", false) {
+class ParseAsFunction : TemplateFunction("parseAs", false) {
 
     @Option
     @Description("The content to parse.")
@@ -28,7 +23,7 @@ constructor(
         return arrayOf("input", "ext")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.parse(ext, input?.toString() ?: "")
     }
 }

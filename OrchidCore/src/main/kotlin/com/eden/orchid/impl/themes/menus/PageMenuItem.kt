@@ -7,16 +7,12 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
-import javax.inject.Inject
 
-@Description("A page in your site, referenced from a Collection. If no page query is given, will use the current page.",
-        name = "Page"
+@Description(
+    "A page in your site, referenced from a Collection. If no page query is given, will use the current page.",
+    name = "Page"
 )
-class PageMenuItem
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidMenuFactory(context, "page", 100) {
+class PageMenuItem : OrchidMenuFactory("page") {
 
     @Option
     @Description("The title of this menu item.")
@@ -38,26 +34,24 @@ constructor(
     @Description("The ID of an HTML element in the page to link to as an anchor.")
     lateinit var anchor: String
 
-    override fun getMenuItems(): List<MenuItem> {
-        val page: OrchidPage? = if(collectionType.isEmpty() && collectionId.isEmpty() && itemId.isEmpty()) {
+    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+        val page: OrchidPage? = if (collectionType.isEmpty() && collectionId.isEmpty() && itemId.isEmpty()) {
             context.findPageOrDefault(collectionType, collectionId, itemId, page)
-        }
-        else {
+        } else {
             context.findPageOrDefault(collectionType, collectionId, itemId, null)
         }
 
-        return if(page != null) {
+        return if (page != null) {
             val item = MenuItem.Builder(context)
 
-            if(anchor.isNotBlank()) {
+            if (anchor.isNotBlank()) {
                 item.anchor = anchor
 
                 // if this page is the menu item, just render the anchor, not the full link
-                if(this.page !== page) {
+                if (this.page !== page) {
                     item.page(page)
                 }
-            }
-            else {
+            } else {
                 item.page(page)
             }
 
@@ -66,8 +60,7 @@ constructor(
             }
 
             listOf(item.build())
-        }
-        else {
+        } else {
             emptyList()
         }
     }

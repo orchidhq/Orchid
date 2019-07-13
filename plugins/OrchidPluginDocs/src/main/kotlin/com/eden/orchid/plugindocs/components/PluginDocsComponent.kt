@@ -11,11 +11,7 @@ import io.github.classgraph.ClassGraph
 import javax.inject.Inject
 
 @Description("Show all options for your plugin's classes.", name = "Plugin Documentation")
-class PluginDocsComponent
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidComponent(context, "pluginDocs", 25) {
+class PluginDocsComponent : OrchidComponent("pluginDocs", 25) {
 
     @Option
     @Description("A list of fully-qualified class names to render options for.")

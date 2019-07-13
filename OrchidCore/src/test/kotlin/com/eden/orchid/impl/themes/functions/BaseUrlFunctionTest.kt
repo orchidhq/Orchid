@@ -19,7 +19,7 @@ class BaseUrlFunctionTest {
     @BeforeEach
     fun setUp() {
         context = mock(OrchidContext::class.java)
-        underTest = BaseUrlFunction(context)
+        underTest = BaseUrlFunction()
     }
 
     @Test
@@ -55,6 +55,6 @@ class BaseUrlFunctionTest {
         `when`(context.baseUrl).thenReturn(baseUrl)
         underTest.input = input
 
-        expectThat(underTest.apply()).isEqualTo(expected)
+        expectThat(underTest.apply(context, null)).isEqualTo(expected)
     }
 }

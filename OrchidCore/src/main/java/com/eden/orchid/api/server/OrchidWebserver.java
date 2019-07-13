@@ -185,7 +185,7 @@ public final class OrchidWebserver extends NanoHTTPD {
             }
             OrchidResponse response;
             if (matchingRoute != null) {
-                response = matchingRoute.call(new OrchidRequest(session, matchingRoute, files));
+                response = matchingRoute.call(new OrchidRequest(context, session, matchingRoute, files));
             } else {
                 response = fileController.findFile(OrchidUtils.normalizePath(route));
             }

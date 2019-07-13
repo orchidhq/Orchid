@@ -33,12 +33,20 @@ public final class PebbleWrapperTemplateFunction implements Function {
     @Override
     public Object execute(Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) {
         TemplateFunction freshFunction = contextProvider.get().resolve(functionClass);
+
         Object pageVar = context.getVariable("page");
+        final OrchidPage actualPage;
         if (pageVar instanceof OrchidPage) {
-            freshFunction.setPage((OrchidPage) pageVar);
+            actualPage = (OrchidPage) pageVar;
         }
+        else {
+            actualPage = null;
+        }
+
         freshFunction.extractOptions(contextProvider.get(), args);
-        Object output = freshFunction.apply();
+
+        Object output = freshFunction.apply(contextProvider.get(), actualPage);
+
         if (freshFunction.isSafeString()) {
             return new SafeString(output.toString());
         } else {

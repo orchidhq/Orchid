@@ -1,8 +1,5 @@
 package com.eden.orchid.impl.tasks
 
-import com.copperleaf.krow.TableFormatter
-import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter
-import com.copperleaf.krow.formatters.ascii.NoBorder
 import com.copperleaf.krow.krow
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
@@ -19,12 +16,11 @@ import javax.inject.Inject
 class HelpTask
 @Inject
 constructor(
-        private val contextProvider: Provider<OrchidContext>,
-        private val tasks: Provider<Set<OrchidTask>>
+    private val tasks: Provider<Set<OrchidTask>>
 ) : OrchidTask(10, "help", TaskService.TaskType.OTHER) {
 
-    override fun run() {
-        println(printHeader())
+    override fun run(context: OrchidContext) {
+        println(printHeader(context))
         println("Usage:")
         println(printUsage())
         println("Tasks:")
@@ -34,8 +30,8 @@ constructor(
     }
 
     @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
-    private fun printHeader(): String {
-        return "\n\nOrchid Static Site Generator.\nVersion " + contextProvider.get().site.orchidVersion + "\n"
+    private fun printHeader(context: OrchidContext): String {
+        return "\n\nOrchid Static Site Generator.\nVersion " + context.site.orchidVersion + "\n"
     }
 
     private fun printUsage(): String? {
@@ -44,7 +40,8 @@ constructor(
             showLeaders = false
 
             cell("key", "value") {
-                content = "  (orchid) <" + OrchidFlags.getInstance().positionalFlags.joinToString("> <") + "> [--<flag> <flag value>]"
+                content =
+                    "  (orchid) <" + OrchidFlags.getInstance().positionalFlags.joinToString("> <") + "> [--<flag> <flag value>]"
                 paddingLeft = 4
             }
             table {

@@ -5,12 +5,10 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-
-import javax.inject.Inject
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Compile any String using any of Orchid's included markup languages.", name = "Compile-As")
-class CompileAsFunction @Inject
-constructor(private val context: OrchidContext) : TemplateFunction("compileAs", true) {
+class CompileAsFunction : TemplateFunction("compileAs", true) {
 
     @Option
     @Description("The content to compile.")
@@ -25,7 +23,7 @@ constructor(private val context: OrchidContext) : TemplateFunction("compileAs", 
         return arrayOf("input", "ext")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.compile(ext, input?.toString() ?: "")
     }
 }

@@ -25,7 +25,7 @@ public abstract class ModularPageList<L extends ModularPageList<L, I>, I extends
     @Override
     protected void addItem(I item, Map<String, Object> itemJson) {
         if (item.canBeUsedOnPage(containingPage, (L) this, itemsJson, loadedItems)) {
-            item.setPage(containingPage);
+            item.initialize(containingPage.getContext(), containingPage);
             item.extractOptions(context, itemJson);
             super.addItem(item, itemJson);
         }
