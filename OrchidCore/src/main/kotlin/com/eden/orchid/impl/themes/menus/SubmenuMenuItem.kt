@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.themes.menus
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -23,7 +22,7 @@ class SubmenuMenuItem : OrchidMenuFactory("submenu") {
     override fun getMenuItems(context: OrchidContext): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
-        if (!EdenUtils.isEmpty(title) && !menu.isEmpty) {
+        if (!menu.isEmpty) {
             menuItems.add(
                 MenuItem.Builder(context)
                     .children(menu.getMenuItems(this.page))
