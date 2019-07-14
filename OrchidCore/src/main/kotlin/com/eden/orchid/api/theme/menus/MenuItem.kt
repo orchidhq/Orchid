@@ -79,6 +79,10 @@ class MenuItem private constructor(
         return !EdenUtils.isEmpty(children)
     }
 
+    fun isExternal(): Boolean {
+        return !link.startsWith(context.baseUrl)
+    }
+
     operator fun get(key: String): Any? {
         return allData[key]
     }

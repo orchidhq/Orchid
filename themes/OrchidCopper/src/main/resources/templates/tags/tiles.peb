@@ -1,41 +1,38 @@
-{# @pebvariable name="tag" type="TilesTag" #}
+{# @pebvariable name="tag" type="com.eden.orchid.copper.CopperTilesTag" #}
 
 <div class="tile is-ancestor">
-    <div class="tile is-vertical">
-    {% set i = 0 %}
+  <div class="tile is-vertical">
+  {% for tileAncestor in tag.tiles.getMenuItems(page) %}
+    <div class="tile">
+    {% for tileParent in tileAncestor.children %}
+      <div class="tile is-parent is-{{ tileParent.width }} {{ tileParent.vertical ? 'is-vertical' : '' }}">
+      {% for tileChild in tileParent.children %}
 
-    {% for tileAncestor in tag.tiles %}
-        <div class="tile">
-        {% for tileParent in tileAncestor.parentNodes %}
-            <div class="tile is-parent is-{{ tileParent.width }} {{ tileParent.vertical ? 'is-vertical' : '' }}">
-            {% for tileChild in tileParent.childrenNodes %}
-            {% if tileChild.hasLinkUrl() %}
-                <a href="{{ tileChild.getLinkUrl() }}" {{ tileTagAttrs(tag, tileChild, i, page) }}>
-                {% if tileChild.linkIsExternal() %}
-                    <span class="icon is-pulled-right" style="margin-right: -20px;">
-                        <i class="fas fa-external-link-alt"></i>
-                    </span>
-                {% endif %}
-                {{ tileContent(tileChild) }}
-                </a>
-            {% else %}
-                <article {{ tileTagAttrs(tag, tileChild, i, page) }}>
-                {{ tileContent(tileChild) }}
-                </article>
-            {% endif %}
-            {% set i = i+1 %}
-            {% endfor %}
-            </div>
-        {% endfor %}
-        </div>
+        <a href="{{ tileChild.link }}" {{ tileTagAttrs(tag, tileChild, page, tileChild.color|default(tileParent.color)|default(tileAncestor.color)) }}>
+        {% if tileChild.isExternal() %}
+          <span class="icon is-pulled-right" style="margin-right: -20px;">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
+        {% endif %}
+        {{ tileContent(tileChild) }}
+        </a>
+      {% endfor %}
+      </div>
     {% endfor %}
     </div>
+  {% endfor %}
+  </div>
 </div>
 
 {% macro tileContent(tileChild) %}
 {% set title = tileChild.title %}
-{% set subtitle = tileChild.subtitle %}
-{% set excerpt = tileChild.excerpt %}
+{% set subtitle = tileChild.page.description %}
+
+{% if tileChild.page is not null %}
+    {% set excerpt = tileChild.page | excerpt %}
+{% else %}
+    {% set excerpt = '' %}
+{% endif %}
 
 {% if title is empty %}
     {% set title = tileChild.linkedPage.title %}
@@ -55,6 +52,6 @@
 {% endif %}
 {% endmacro %}
 
-{% macro tileTagAttrs(tag, tileChild, i, page) %}
-class="tile is-child hover notification is-{{ tileChild.color }} is-clearfix {{ tileChild.bold ? 'is-bold' : '' }}"
+{% macro tileTagAttrs(tag, tileChild, page, color) %}
+class="tile is-child hover notification is-{{ color }} is-clearfix {{ tileChild.bold ? 'is-bold' : '' }}"
 {% endmacro %}
