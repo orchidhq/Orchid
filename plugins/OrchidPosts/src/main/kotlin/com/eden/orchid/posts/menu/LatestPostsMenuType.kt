@@ -26,6 +26,10 @@ class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
     @Description("The title for the root menu item.")
     lateinit var title: String
 
+    @Option
+    @Description("Whether to keep the terms as children of a single menu item, or expand them all to the root.")
+    var postsAtRoot = false
+
     override fun getMenuItems(context: OrchidContext): List<MenuItem> {
         val postsModel = context.resolve(PostsModel::class.java)
         val categoryModel: CategoryModel?
@@ -39,20 +43,31 @@ class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
 
         val latestPosts = postsModel.getRecentPosts(category, limit)
         if (!EdenUtils.isEmpty(latestPosts)) {
-            val title = if (!EdenUtils.isEmpty(this.title)) {
-                this.title
-            } else if (!EdenUtils.isEmpty(categoryModel?.title)) {
-                "Latest from " + categoryModel?.title
-            } else {
-                "Latest from blog"
+            if(postsAtRoot) {
+                latestPosts.forEach {
+                    items.add(
+                        MenuItem.Builder(context)
+                            .page(it)
+                            .build()
+                    )
+                }
             }
+            else {
+                val title = if (!EdenUtils.isEmpty(this.title)) {
+                    this.title
+                } else if (!EdenUtils.isEmpty(categoryModel?.title)) {
+                    "Latest from " + categoryModel?.title
+                } else {
+                    "Latest from blog"
+                }
 
-            items.add(
-                MenuItem.Builder(context)
-                    .title(title)
-                    .pages(latestPosts)
-                    .build()
-            )
+                items.add(
+                    MenuItem.Builder(context)
+                        .title(title)
+                        .pages(latestPosts)
+                        .build()
+                )
+            }
         }
 
         return items
