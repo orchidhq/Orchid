@@ -1,69 +1,90 @@
 key: Copper
 theme:
   isolated: true
+
 dashboardTiles:
-  - title: ''
-    parentNodes:
-      - width: 4
+  - type: 'submenu'
+    menu:
+      - type: 'submenu'
+        width: 4
         vertical: true
-        childrenNodes:
-          - link: ':githubProject(copper-leaf/trellis)'
+        menu:
+          - type: 'github'
+            githubProject: 'copper-leaf/trellis'
             color: success
-      - width: 8
+      - type: 'submenu'
+        width: 8
         vertical: true
-        childrenNodes:
-          - link: ':githubProject(copper-leaf/clog)'
+        menu:
+          - type: 'github'
+            githubProject: 'copper-leaf/clog'
             color: primary
-  - title: ''
-    parentNodes:
-      - width: 4
+  - type: 'submenu'
+    menu:
+      - type: 'submenu'
+        width: 4
         vertical: true
-        childrenNodes:
-          - link: ':githubProject(copper-leaf/kudzu)'
+        menu:
+          - type: 'github'
+            githubProject: 'copper-leaf/kudzu'
             color: info
-          - link: ':githubProject(copper-leaf/krow)'
+          - type: 'github'
+            githubProject: 'copper-leaf/krow'
             color: primary
-      - width: 8
+      - type: 'submenu'
+        width: 8
         vertical: true
-        childrenNodes:
-          - link: ':githubProject(JavaEden/Orchid)'
+        menu:
+          - type: 'github'
+            githubProject: 'JavaEden/Orchid'
             color: danger
-  - title: ''
-    parentNodes:
-      - width: 12
+  - type: 'submenu'
+    color: info
+    menu:
+      - type: 'submenu'
+        width: 12
         vertical: true
-        childrenNodes:
-          - title: Latest Blog Post
-            color: info
-            link: ':latestBlogPost()'
-  - title: ''
-    parentNodes:
-      - width: 4
+        menu:
+          - type: 'latestPosts'
+            title: Latest Blog Post
+            limit: 1
+            postsAtRoot: true
+  - type: 'submenu'
+    menu:
+      - type: 'submenu'
+        width: 4
         vertical: true
-        childrenNodes:
-          - title: Donec lobortis
+        menu:
+          - type: 'page'
+            itemId: 'home'
+            title: Donec lobortis
             subtitle: Ut tempor sed nisi et scelerisque. Nam.
             color: success
-            link: '#'
-          - title: Etiam pellentesque
+          - type: 'page'
+            itemId: 'home'
+            title: Etiam pellentesque
             subtitle: Aliquam vitae metus at ante sagittis tristique.
             color: info
-            link: '#'
-      - width: 4
+      - type: 'submenu'
+        width: 4
         vertical: true
-        childrenNodes:
-          - title: Suspendisse potenti
+        menu:
+          - type: 'page'
+            itemId: 'home'
+            title: Suspendisse potenti
             subtitle: Aliquam a ex non erat ultricies egestas.
             color: primary
-            link: '#'
-      - width: 4
+      - type: 'submenu'
+        width: 4
         vertical: true
-        childrenNodes:
-          - title: Donec ai
+        menu:
+          - type: 'page'
+            itemId: 'home'
+            title: Donec ai
             subtitle: Class aptent taciti sociosqu ad litora torquent.
             color: success
-            link: '#'
-          - title: Ut erat
+          - type: 'page'
+            itemId: 'home'
+            title: Ut erat
             subtitle: Donec malesuada dui et sem congue mollis.
             color: info
-            link: '#'
