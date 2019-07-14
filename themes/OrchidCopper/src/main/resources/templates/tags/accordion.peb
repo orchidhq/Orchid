@@ -8,7 +8,7 @@
       <p>{{ tab.title }}</p>
     </div>
     <div class="accordion-body">
-      <div class="accordion-content">
+      <div class="accordion-content content is-medium-tablet is-large-desktop">
       {{ tab.content | raw }}
       </div>
     </div>
