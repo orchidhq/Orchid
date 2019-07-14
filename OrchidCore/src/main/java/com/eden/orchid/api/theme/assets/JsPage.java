@@ -14,6 +14,8 @@ public final class JsPage extends AssetPage {
     private boolean defer;
     @Option
     private boolean module;
+    @Option
+    private boolean nomodule;
 
     public JsPage(Object source, String sourceKey, OrchidResource resource, String key, String title) {
         super(source, sourceKey, resource, key, title);
@@ -21,21 +23,16 @@ public final class JsPage extends AssetPage {
 
     public String renderAssetToPage() {
         if (resource instanceof InlineResource) {
-            return "<script>\n" + resource.compileContent(this) + "\n</script>";
+            return applyStartTag()
+                    + applyModuleNoModule()
+                    + applyInlineScript()
+                    + applyCloseTag();
         } else {
-            String tagString = "<script";
-            if (async) {
-                tagString += " async";
-            }
-            if (defer) {
-                tagString += " defer";
-            }
-            if(module){
-               tagString += " module"; 
-            }
-            tagString += " src=\"" + this.getLink() + "\"";
-            tagString += "></script>";
-            return tagString;
+            return applyStartTag()
+                    + applyAsyncDefer()
+                    + applyModuleNoModule()
+                    + applyScriptSource()
+                    + applyCloseTag();
         }
     }
 
@@ -54,11 +51,51 @@ public final class JsPage extends AssetPage {
     public void setDefer(final boolean defer) {
         this.defer = defer;
     }
+
     public boolean isModule() {
         return this.module;
     }
 
     public void setModule(final boolean module) {
         this.module = module;
+    }
+
+    private String applyAsyncDefer() {
+        String tagString = "";
+        if (async) {
+            tagString += " async";
+        }
+        if (defer) {
+            tagString += " defer";
+        }
+
+        return tagString;
+    }
+
+    private String applyModuleNoModule() {
+        String tagString = "";
+        // if tagged as module, cannot be a `nomodule`
+        if (module) {
+            tagString += " type=\"module\"";
+        } else if (nomodule) {
+            tagString += " nomodule";
+        }
+        return tagString;
+    }
+
+    private String applyScriptSource() {
+        return " src=\"" + this.getLink() + "\">";
+    }
+
+    private String applyInlineScript() {
+        return ">\n" + resource.compileContent(this) + "\n";
+    }
+
+    private String applyStartTag() {
+        return "<script";
+    }
+
+    private String applyCloseTag() {
+        return "</script>";
     }
 }
