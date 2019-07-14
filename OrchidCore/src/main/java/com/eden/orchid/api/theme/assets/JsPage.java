@@ -60,6 +60,15 @@ public final class JsPage extends AssetPage {
         this.module = module;
     }
 
+    public boolean isNomodule() {
+        return nomodule;
+    }
+
+    public JsPage setNomodule(boolean nomodule) {
+        this.nomodule = nomodule;
+        return this;
+    }
+
     private String applyAsyncDefer() {
         String tagString = "";
         if (async) {
