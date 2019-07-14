@@ -86,6 +86,14 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startIndexing() {
+        try {
+            context.popInjector("generating");
+        }
+        catch (IllegalArgumentException e) {
+            // this will throw the first site build. We need to pop the context between builds, but keep it around for
+            // the dev server to continue working
+        }
+
         metrics = new BuildMetrics(context);
 
         metrics.startIndexing(allGenerators.getValue());
@@ -153,8 +161,6 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.startGeneration();
         getFilteredGenerators().forEach(this::useGenerator);
         metrics.stopGeneration();
-
-        context.popInjector("generating");
     }
 
     private <T extends OrchidGenerator.Model> void useGenerator(OrchidGenerator<T> generator) {
