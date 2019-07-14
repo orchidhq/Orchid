@@ -10,7 +10,7 @@ import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
-@Description("A Bulma-based, any-purpose theme..", name="Copper")
+@Description("A Bulma-based, any-purpose theme.", name="Copper")
 class CopperTheme
 @Inject
 constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
