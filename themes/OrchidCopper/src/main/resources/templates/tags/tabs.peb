@@ -7,6 +7,6 @@
 </div>
 <div data-panes="{{ tag.id }}">
 {% for tab in tag.tabs %}
-  <div class="{% if loop.first %}is-block{% endif %} tab-hidden">{{ tab.content | raw }}</div>
+  <div class="{% if loop.first %}is-block{% endif %} tab-hidden content is-medium-tablet is-large-desktop">{{ tab.content | raw }}</div>
 {% endfor %}
 </div>

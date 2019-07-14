@@ -48,8 +48,8 @@
                     </ul>
                 </div>
                 <div class="uk-width-expand@m">
-                    <div class="uk-panel uk-panel-scrollable uk-height-medium"
-                         style="border-left: none; border-right: none;">
+                    <div class="uk-panel uk-panel-scrollable"
+                         style="border-left: none; border-right: none; height: 300px;">
                         <ul id="component-tab-left" class="uk-switcher">
                             <li>
                                 <table class="uk-table uk-table-striped uk-table-hover">

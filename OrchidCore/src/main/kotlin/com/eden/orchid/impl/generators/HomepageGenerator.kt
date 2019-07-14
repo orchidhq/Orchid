@@ -34,7 +34,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
             resource = StringResource(context, "homepage.md", "")
         }
 
-        val page = OrchidPage(resource, "frontPage", "Home")
+        val page = Homepage(resource, "frontPage", "Home")
         page.reference.fileName = ""
         return page
     }
@@ -54,6 +54,15 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
 
     companion object {
         const val GENERATOR_KEY = "home"
+    }
+
+    private class Homepage(
+        resource: OrchidResource,
+        key: String,
+        title: String
+    ) : OrchidPage(resource, key, title) {
+
+        override val itemIds = listOf("home", "Home")
     }
 
 }
