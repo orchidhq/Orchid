@@ -138,25 +138,25 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
     }
 
     private Stream<?> filterCollections(Stream<? extends OrchidCollection> collections, String itemId) {
-        return collections
-                .flatMap(OrchidCollection::stream)              // 1. stream the collection, which may duplicate items to allow for multiple IDs
-                .filter(Objects::nonNull)                       // 2. defensively remove null items in the stream
-                .map(it -> (Collectible<?>) it)                 // 3. map each item to the generic interface
-                .filter(it -> it.getItemIds().contains(itemId)) // 4. filter the stream to only match the items which match the itemId
-                .map(Collectible::getItem)                      // 5. unwrap the matched items to get the object they represent
-                .distinct();                                    // 6. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
+        Stream<Collectible> c1 = collections.flatMap(OrchidCollection::stream);     // 1. stream the collection, which may duplicate items to allow for multiple IDs
+        Stream<Collectible> c2 = c1.filter(Objects::nonNull);                       // 2. defensively remove null items in the stream
+        Stream<Collectible> c3 = c2.filter(it -> it.getItemIds().contains(itemId)); // 3. filter the stream to only match the items which match the itemId
+        Stream<?>           c4 = c3.map(Collectible::getItem);                      // 4. unwrap the matched items to get the object they represent
+        Stream<?>           c5 = c4.distinct();                                     // 5. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
+
+        return c5;
     }
 
     private Stream<?> optionallyFilterCollections(Stream<? extends OrchidCollection> collections, String itemId) {
         if (!EdenUtils.isEmpty(itemId)) {
             return filterCollections(collections, itemId);
         } else {
-            return collections
-                    .flatMap(OrchidCollection::stream)              // 1. stream the collection, which may duplicate items to allow for multiple IDs
-                    .filter(Objects::nonNull)                       // 2. defensively remove null items in the stream
-                    .map(it -> (Collectible<?>) it)                 // 3. map each item to the generic interface
-                    .map(Collectible::getItem)                      // 4. unwrap the matched items to get the object they represent
-                    .distinct();                                    // 5. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
+            Stream<Collectible> c1 = collections.flatMap(OrchidCollection::stream);     // 1. stream the collection, which may duplicate items to allow for multiple IDs
+            Stream<Collectible> c2 = c1.filter(Objects::nonNull);                       // 2. defensively remove null items in the stream
+            Stream<?>           c3 = c2.map(Collectible::getItem);                      // 3. unwrap the matched items to get the object they represent
+            Stream<?>           c4 = c3.distinct();                                     // 4. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
+
+            return c4;
         }
     }
 
