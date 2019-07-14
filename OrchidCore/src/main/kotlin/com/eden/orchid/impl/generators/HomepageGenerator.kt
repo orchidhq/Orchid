@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import javax.inject.Inject
 
 @Description(value = "Generates the root homepage for your site.", name = "Homepage")
 class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_EARLY) {
@@ -35,7 +34,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
             resource = StringResource(context, "homepage.md", "")
         }
 
-        val page = OrchidPage(resource, "frontPage", context.site.siteInfo.siteName)
+        val page = OrchidPage(resource, "frontPage", "Home")
         page.reference.fileName = ""
         return page
     }
@@ -46,7 +45,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
             resource = StringResource(context, "404.md", "")
         }
 
-        val page = OrchidPage(resource, "404", context.site.siteInfo.siteName)
+        val page = OrchidPage(resource, "404", "Not Found")
         page.reference.fileName = "404"
         page.reference.isUsePrettyUrl = false
 
