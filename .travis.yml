@@ -17,13 +17,8 @@ branches:
 
 jobs:
   include:
-    - stage: testDebug
-      install:
-        - ./gradlew assemble
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check
-      os: linux
-      jdk: openjdk8
+  # debug tests
+    ## test multiple operating systems
     - stage: testDebug
       install:
         - ./gradlew assemble
@@ -31,6 +26,22 @@ jobs:
       script: ./gradlew check
       os: linux
       jdk: oraclejdk8
+    - stage: testDebug
+      install:
+      - ./gradlew assemble
+      - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check
+      os: osx
+      osx_image: xcode8.3
+
+    ## test multiple JDK versions
+    - stage: testDebug
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check
+      os: linux
+      jdk: openjdk8
     - stage: testDebug
       install:
         - ./gradlew assemble
@@ -43,37 +54,72 @@ jobs:
         - ./gradlew assemble
         - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
       script: ./gradlew check
-      os: osx
-      osx_image: xcode8.3
-
-    - stage: testRelease
-      install:
-        - ./gradlew assemble -Prelease
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check -Prelease
       os: linux
-      jdk: openjdk8
+      jdk: openjdk10
+    - stage: testDebug
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check
+      os: linux
+      jdk: openjdk11
+
+  # release tests
+    ## test multiple operating systems
     - stage: testRelease
       install:
-        - ./gradlew assemble -Prelease
+        - ./gradlew assemble
         - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
       script: ./gradlew check -Prelease
       os: linux
       jdk: oraclejdk8
     - stage: testRelease
       install:
-        - ./gradlew assemble -Prelease
+        - ./gradlew assemble
         - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
       script: ./gradlew check -Prelease
       os: osx
       osx_image: xcode8.3
 
+    ## test multiple JDK versions
+    - stage: testRelease
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check -Prelease
+      os: linux
+      jdk: openjdk8
+    - stage: testRelease
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check -Prelease
+      os: linux
+      jdk: oraclejdk9
+    - stage: testRelease
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check -Prelease
+      os: linux
+      jdk: openjdk10
+    - stage: testRelease
+      install:
+        - ./gradlew assemble
+        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
+      script: ./gradlew check -Prelease
+      os: linux
+      jdk: openjdk11
+
+    
+  # Submit code coverage reports
     - stage: afterTests
       install: ./gradlew assemble
       script: ./gradlew codeCoverageReport sendCoverageToCodacy
       os: linux
       jdk: openjdk8
 
+  # release artifacts
     - stage: release
       os: linux
       jdk: openjdk8

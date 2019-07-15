@@ -43,6 +43,7 @@ import com.eden.orchid.impl.compilers.sass.SassCompiler
 import com.eden.orchid.impl.compilers.text.HtmlCompiler
 import com.eden.orchid.impl.compilers.text.TextCompiler
 import com.eden.orchid.impl.generators.AssetsGenerator
+import com.eden.orchid.impl.generators.ExternalIndexGenerator
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.impl.generators.SitemapGenerator
 import com.eden.orchid.impl.publication.ScriptPublisher
