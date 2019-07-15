@@ -160,7 +160,8 @@ class ImplModule : OrchidModule() {
             OrchidGenerator::class.java,
             AssetsGenerator::class.java,
             HomepageGenerator::class.java,
-            SitemapGenerator::class.java
+            SitemapGenerator::class.java,
+            ExternalIndexGenerator::class.java
         )
 
         // Tasks and Commands
