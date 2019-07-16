@@ -76,28 +76,28 @@ public final class OrchidWebserver extends NanoHTTPD {
         String path = methodAnnotation.path();
         Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
         validateControllerMethod(method, path, paramsClass);
-        getRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
+        getRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
     }
 
     private void register(OrchidController controller, Post methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
         Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
         validateControllerMethod(method, path, paramsClass);
-        postRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
+        postRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
     }
 
     private void register(OrchidController controller, Put methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
         Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
         validateControllerMethod(method, path, paramsClass);
-        putRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
+        putRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
     }
 
     private void register(OrchidController controller, Delete methodAnnotation, java.lang.reflect.Method method) {
         String path = methodAnnotation.path();
         Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
         validateControllerMethod(method, path, paramsClass);
-        deleteRoutes.add(new OrchidRoute(context, controller, method, path, paramsClass));
+        deleteRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
     }
 
     private void validateControllerMethod(java.lang.reflect.Method method, String path, Class<? extends OptionsHolder> paramsClass) {
@@ -187,7 +187,7 @@ public final class OrchidWebserver extends NanoHTTPD {
             if (matchingRoute != null) {
                 response = matchingRoute.call(new OrchidRequest(context, session, matchingRoute, files));
             } else {
-                response = fileController.findFile(OrchidUtils.normalizePath(route));
+                response = fileController.findFile(context, OrchidUtils.normalizePath(route));
             }
             if (response != null) {
                 return response.getResponse();

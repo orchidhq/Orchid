@@ -4,8 +4,8 @@ import com.eden.orchid.api.ApiModule
 import com.eden.orchid.api.registration.ClasspathModuleInstaller
 import com.eden.orchid.api.registration.FlagsModule
 import com.eden.orchid.api.registration.IgnoreModule
+import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.impl.ImplModule
-import com.google.inject.AbstractModule
 
 @IgnoreModule
 class StandardModule private constructor(
@@ -13,16 +13,19 @@ class StandardModule private constructor(
     private val flags: Map<String, Any>?,
     private val includeCoreApi: Boolean,
     private val includeCoreImpl: Boolean,
+    private val useTestCoreImpl: Boolean,
     private val includeFlags: Boolean,
     private val includeClasspath: Boolean
-) : AbstractModule() {
+) : OrchidModule() {
 
     override fun configure() {
+        withResources(1)
+
         if (includeCoreApi) {
             install(ApiModule())
         }
         if (includeCoreImpl) {
-            install(ImplModule())
+            install(ImplModule(useTestCoreImpl))
         }
         if (includeFlags) {
             if (args == null && flags == null) {
@@ -42,6 +45,7 @@ class StandardModule private constructor(
         private var includeCoreImpl = true
         private var includeFlags = true
         private var includeClasspath = true
+        private var useTestCoreImpl = false
 
         fun args(args: Array<String>): StandardModuleBuilder {
             this.args = args
@@ -58,8 +62,10 @@ class StandardModule private constructor(
             return this
         }
 
-        fun includeCoreImpl(includeCoreImpl: Boolean): StandardModuleBuilder {
+        @JvmOverloads
+        fun includeCoreImpl(includeCoreImpl: Boolean, useTestCoreImpl: Boolean = false): StandardModuleBuilder {
             this.includeCoreImpl = includeCoreImpl
+            this.useTestCoreImpl = useTestCoreImpl
             return this
         }
 
@@ -74,7 +80,15 @@ class StandardModule private constructor(
         }
 
         fun build(): StandardModule {
-            return StandardModule(args, flags, includeCoreApi, includeCoreImpl, includeFlags, includeClasspath)
+            return StandardModule(
+                args,
+                flags,
+                includeCoreApi,
+                includeCoreImpl,
+                useTestCoreImpl,
+                includeFlags,
+                includeClasspath
+            )
         }
 
         override fun toString(): String {

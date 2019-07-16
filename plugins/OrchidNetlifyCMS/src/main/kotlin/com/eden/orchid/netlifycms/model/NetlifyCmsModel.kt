@@ -28,7 +28,7 @@ constructor(
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {
-            fields.put(it.toNetlifyCmsField(2))
+            fields.put(it.toNetlifyCmsField(context, 2))
         }
 
         if (tag.type == TemplateTag.Type.Content) {
@@ -52,7 +52,7 @@ constructor(
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {
-            fields.put(it.toNetlifyCmsField(2))
+            fields.put(it.toNetlifyCmsField(context, 2))
         }
 
         return fields
@@ -62,7 +62,7 @@ constructor(
         val fields = JSONArray()
 
         tag.describeOptions(context).optionsDescriptions.forEach {
-            fields.put(it.toNetlifyCmsField(2))
+            fields.put(it.toNetlifyCmsField(context, 2))
         }
 
         return fields

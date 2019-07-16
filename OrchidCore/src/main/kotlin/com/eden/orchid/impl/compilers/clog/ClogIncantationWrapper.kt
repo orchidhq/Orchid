@@ -3,7 +3,7 @@ package com.eden.orchid.impl.compilers.clog
 import com.caseyjbrooks.clog.parseltongue.Incantation
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
-import com.google.inject.Provider
+import javax.inject.Provider
 
 class ClogIncantationWrapper(
     private val contextProvider: Provider<OrchidContext>,

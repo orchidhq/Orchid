@@ -1,6 +1,7 @@
 package com.eden.orchid.impl
 
-import com.eden.orchid.Orchid
+import com.caseyjbrooks.clog.Clog
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.OrchidService
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.compilers.OrchidParser
@@ -102,164 +103,215 @@ import java.lang.reflect.Modifier
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @IgnoreModule
-class ImplModule : OrchidModule() {
+class ImplModule(
+    private val test: Boolean
+) : OrchidModule() {
 
     override fun configure() {
-        withResources(1)
+        realOnly {
+            Clog.v("ImplModule.realOnly()")
+            // Generators
+            addToSet(
+                OrchidGenerator::class.java,
+                AssetsGenerator::class.java,
+                HomepageGenerator::class.java,
+                SitemapGenerator::class.java,
+                ExternalIndexGenerator::class.java
+            )
 
-        ClogSetupListener.registerJavaLoggingHandler()
+            addToSet(AdminList::class.java, getServicesAdminList(getProvider(OrchidContext::class.java)))
+            addToSet(AdminList::class.java, getPagesAdminList())
+        }
+        testOnly {
+            Clog.v("ImplModule.testOnly()")
+            addToSet(OrchidGenerator::class.java)
+        }
+        realAndTest {
+            Clog.v("ImplModule.realAndTest()")
+            ClogSetupListener.registerJavaLoggingHandler()
 
-        // prepare empty sets for binding
-        addToSet(OrchidService::class.java)
+            // prepare empty sets for binding
+            addToSet(OrchidService::class.java)
 
-        // Themes
-        addToSet(
-            Theme::class.java,
-            DefaultTheme::class.java
-        )
+            // Themes
+            addToSet(
+                Theme::class.java,
+                DefaultTheme::class.java
+            )
 
-        addToSet(AdminTheme::class.java)
+            addToSet(AdminTheme::class.java)
 
-        // Resource Sources
-        addToSet(
-            LocalResourceSource::class.java,
-            LocalFileResourceSource::class.java,
-            InlineResourceSource::class.java
-        )
+            // Resource Sources
+            addToSet(
+                LocalResourceSource::class.java,
+                LocalFileResourceSource::class.java,
+                InlineResourceSource::class.java
+            )
 
-        // Compilers
-        addToSet(
-            OrchidCompiler::class.java,
-            MarkdownCompiler::class.java,
-            PebbleCompiler::class.java,
-            SassCompiler::class.java,
-            TextCompiler::class.java,
-            HtmlCompiler::class.java
-        )
+            // Compilers
+            addToSet(
+                OrchidCompiler::class.java,
+                MarkdownCompiler::class.java,
+                PebbleCompiler::class.java,
+                SassCompiler::class.java,
+                TextCompiler::class.java,
+                HtmlCompiler::class.java
+            )
 
-        // Parsers
-        addToSet(
-            OrchidParser::class.java,
-            CSVParser::class.java,
-            YamlParser::class.java,
-            TOMLParser::class.java,
-            JsonParser::class.java,
-            PropertiesParser::class.java
-        )
+            // Parsers
+            addToSet(
+                OrchidParser::class.java,
+                CSVParser::class.java,
+                YamlParser::class.java,
+                TOMLParser::class.java,
+                JsonParser::class.java,
+                PropertiesParser::class.java
+            )
 
-        // Precompilers
-        addToSet(
-            OrchidPrecompiler::class.java,
-            FrontMatterPrecompiler::class.java
-        )
+            // Precompilers
+            addToSet(
+                OrchidPrecompiler::class.java,
+                FrontMatterPrecompiler::class.java
+            )
 
-        // Generators
-        addToSet(
-            OrchidGenerator::class.java,
-            AssetsGenerator::class.java,
-            HomepageGenerator::class.java,
-            SitemapGenerator::class.java,
-            ExternalIndexGenerator::class.java
-        )
+            // Tasks and Commands
+            addToSet(
+                OrchidTask::class.java,
+                HelpTask::class.java,
+                BuildTask::class.java,
+                WatchTask::class.java,
+                ServeTask::class.java,
+                DeployTask::class.java,
+                ShellTask::class.java
+            )
 
-        // Tasks and Commands
-        addToSet(
-            OrchidTask::class.java,
-            HelpTask::class.java,
-            BuildTask::class.java,
-            WatchTask::class.java,
-            ServeTask::class.java,
-            DeployTask::class.java,
-            ShellTask::class.java
-        )
+            addToSet(
+                OrchidCommand::class.java,
+                HelpCommand::class.java,
+                BuildCommand::class.java,
+                DeployCommand::class.java,
+                QuitCommand::class.java
+            )
 
-        addToSet(
-            OrchidCommand::class.java,
-            HelpCommand::class.java,
-            BuildCommand::class.java,
-            DeployCommand::class.java,
-            QuitCommand::class.java
-        )
+            // Menu Items
+            addToSet(
+                OrchidMenuFactory::class.java,
+                DividerMenuItem::class.java,
+                SubmenuMenuItem::class.java,
+                LinkMenuItem::class.java,
+                GeneratorPagesMenuItem::class.java,
+                PageMenuItem::class.java,
+                PageParentMenuItem::class.java,
+                PageSiblingsMenuItem::class.java,
+                PageChildrenMenuItem::class.java,
+                PageSubtreeMenuItem::class.java
+            )
 
-        // Menu Items
-        addToSet(
-            OrchidMenuFactory::class.java,
-            DividerMenuItem::class.java,
-            SubmenuMenuItem::class.java,
-            LinkMenuItem::class.java,
-            GeneratorPagesMenuItem::class.java,
-            PageMenuItem::class.java,
-            PageParentMenuItem::class.java,
-            PageSiblingsMenuItem::class.java,
-            PageChildrenMenuItem::class.java,
-            PageSubtreeMenuItem::class.java
-        )
+            // Component Types
+            addToSet(
+                OrchidComponent::class.java,
+                LicenseComponent::class.java,
+                ReadmeComponent::class.java,
+                PageContentComponent::class.java,
+                TemplateComponent::class.java
+            )
 
-        // Component Types
-        addToSet(
-            OrchidComponent::class.java,
-            LicenseComponent::class.java,
-            ReadmeComponent::class.java,
-            PageContentComponent::class.java,
-            TemplateComponent::class.java
-        )
+            // Event Listeners
+            addToSet(
+                OrchidEventListener::class.java,
+                ThemeServiceImpl::class.java,
+                TaskServiceImpl::class.java,
+                ResourceServiceImpl::class.java,
+                IndexServiceImpl::class.java,
+                ClogSetupListener::class.java
+            )
 
-        // Server
-        addToSet(
-            OrchidEventListener::class.java,
-            ThemeServiceImpl::class.java,
-            TaskServiceImpl::class.java,
-            ResourceServiceImpl::class.java,
-            IndexServiceImpl::class.java,
-            ClogSetupListener::class.java
-        )
+            addToSet(OrchidController::class.java)
 
-        addToSet(OrchidController::class.java)
+            // Template Functions
+            addToSet(
+                TemplateFunction::class.java,
+                AssetFunction::class.java,
+                AnchorFunction::class.java,
+                BaseUrlFunction::class.java,
+                CompileAsFunction::class.java,
+                HomepageUrlFunction::class.java,
+                ParseAsFunction::class.java,
+                FindAllFunction::class.java,
+                FindFunction::class.java,
+                LimitToFunction::class.java,
+                LinkFunction::class.java,
+                LoadFunction::class.java,
+                LocalDateFunction::class.java,
 
-        // Template Functions
-        addToSet(
-            TemplateFunction::class.java,
-            AssetFunction::class.java,
-            AnchorFunction::class.java,
-            BaseUrlFunction::class.java,
-            CompileAsFunction::class.java,
-            HomepageUrlFunction::class.java,
-            ParseAsFunction::class.java,
-            FindAllFunction::class.java,
-            FindFunction::class.java,
-            LimitToFunction::class.java,
-            LinkFunction::class.java,
-            LoadFunction::class.java,
-            LocalDateFunction::class.java,
+                RotateFunction::class.java,
+                ScaleFunction::class.java,
+                ResizeFunction::class.java
+            )
 
-            RotateFunction::class.java,
-            ScaleFunction::class.java,
-            ResizeFunction::class.java
-        )
+            // Publication Methods
+            addToSet(
+                OrchidPublisher::class.java,
+                ScriptPublisher::class.java
+            )
 
-        // Publication Methods
-        addToSet(
-            OrchidPublisher::class.java,
-            ScriptPublisher::class.java
-        )
+            // Template Tags
+            addToSet(
+                TemplateTag::class.java,
+                LogTag::class.java,
+                BreadcrumbsTag::class.java,
+                HeadTag::class.java,
+                PageTag::class.java,
+                ScriptsTag::class.java,
+                StylesTag::class.java,
+                AccordionTag::class.java,
+                TabsTag::class.java
+            )
+        }
+    }
 
-        // Template Tags
-        addToSet(
-            TemplateTag::class.java,
-            LogTag::class.java,
-            BreadcrumbsTag::class.java,
-            HeadTag::class.java,
-            PageTag::class.java,
-            ScriptsTag::class.java,
-            StylesTag::class.java,
-            AccordionTag::class.java,
-            TabsTag::class.java
-        )
+    @Provides
+    @Singleton
+    @Throws(IOException::class)
+    fun provideOkhttpClient(@Named("dest") destinationDir: String): OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .cache(
+                Cache(
+                    OrchidUtils.getTempDir(destinationDir, "okHttpCache", true).toFile(),
+                    (50 * 1024 * 1024).toLong()
+                )
+            ) // 50 MiB cache
+            .build()
+    }
 
-        addToSet(AdminList::class.java, object : AdminList {
+    private fun realOnly(block: () -> Unit) {
+        if (!test) {
+            block()
+        }
+    }
+
+    private fun testOnly(block: () -> Unit) {
+        if (test) {
+            block()
+        }
+    }
+
+    private fun realAndTest(block: () -> Unit) {
+        block()
+    }
+
+// Create Admin lists
+//----------------------------------------------------------------------------------------------------------------------
+
+    private fun getServicesAdminList(contextProvider: Provider<OrchidContext>) : AdminList {
+        return object : AdminList {
             override fun getKey(): String {
                 return "services"
             }
@@ -269,9 +321,7 @@ class ImplModule : OrchidModule() {
             }
 
             override fun getItems(): Collection<Class<*>> {
-                return Orchid
-                    .getInstance()
-                    .context
+                return contextProvider.get()
                     .services
                     .map { it.javaClass }
             }
@@ -279,9 +329,11 @@ class ImplModule : OrchidModule() {
             override fun isImportantType(): Boolean {
                 return true
             }
-        })
+        }
+    }
 
-        addToSet(AdminList::class.java, object : AdminList {
+    private fun getPagesAdminList(): AdminList {
+        return object : AdminList {
 
             private var pages: MutableCollection<Class<*>>? = null
 
@@ -315,24 +367,7 @@ class ImplModule : OrchidModule() {
             override fun isImportantType(): Boolean {
                 return true
             }
-        })
-    }
-
-    @Provides
-    @Singleton
-    @Throws(IOException::class)
-    fun provideOkhttpClient(@Named("dest") destinationDir: String): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .cache(
-                Cache(
-                    OrchidUtils.getTempDir(destinationDir, "okHttpCache", true).toFile(),
-                    (50 * 1024 * 1024).toLong()
-                )
-            ) // 50 MiB cache
-            .build()
+        }
     }
 
 }

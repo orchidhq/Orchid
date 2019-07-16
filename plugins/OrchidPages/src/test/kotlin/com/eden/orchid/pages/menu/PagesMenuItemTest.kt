@@ -1,12 +1,12 @@
 package com.eden.orchid.pages.menu
 
 import com.eden.orchid.pages.PagesModule
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.innerHtml
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,9 +17,7 @@ import strikt.assertions.isEqualTo
 class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
+    fun setUp() {
         resource("templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>

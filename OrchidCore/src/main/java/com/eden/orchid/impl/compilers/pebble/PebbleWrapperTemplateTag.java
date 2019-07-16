@@ -7,7 +7,7 @@ import com.eden.orchid.impl.compilers.pebble.tag.BaseTagParser;
 import com.eden.orchid.impl.compilers.pebble.tag.ContentTagParser;
 import com.eden.orchid.impl.compilers.pebble.tag.SimpleTagParser;
 import com.eden.orchid.impl.compilers.pebble.tag.TabbedTagParser;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.extension.NodeVisitor;
 import com.mitchellbosecke.pebble.lexer.Token;

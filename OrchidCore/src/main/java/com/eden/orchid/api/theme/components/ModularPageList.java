@@ -3,7 +3,7 @@ package com.eden.orchid.api.theme.components;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 
 import javax.inject.Inject;
 import java.util.List;

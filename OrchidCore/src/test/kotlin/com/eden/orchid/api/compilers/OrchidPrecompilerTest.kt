@@ -6,7 +6,7 @@ import com.eden.orchid.impl.compilers.parsers.JsonParser
 import com.eden.orchid.impl.compilers.parsers.PropertiesParser
 import com.eden.orchid.impl.compilers.parsers.TOMLParser
 import com.eden.orchid.impl.compilers.parsers.YamlParser
-import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
@@ -27,7 +27,7 @@ import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import strikt.assertions.isTrue
 
-class OrchidPrecompilerTest : BaseOrchidTest() {
+class OrchidPrecompilerTest : OrchidUnitTest() {
 
     private lateinit var context: OrchidContext
     private lateinit var compilerService: CompilerService
@@ -41,8 +41,7 @@ class OrchidPrecompilerTest : BaseOrchidTest() {
     private lateinit var underTest: FrontMatterPrecompiler
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         context = mock(OrchidContext::class.java)
 
         yamlParser = YamlParser()

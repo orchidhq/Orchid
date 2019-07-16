@@ -3,10 +3,11 @@ package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
-import com.google.inject.AbstractModule;
+import com.eden.orchid.api.registration.OrchidModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.name.Names;
 import io.github.classgraph.ClassGraph;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -87,12 +88,12 @@ public final class OrchidFlags {
         allFlags.put(alias, key);
     }
 
-    public AbstractModule parseFlags(Map<String, Object> flagsMap) {
+    public OrchidModule parseFlags(Map<String, Object> flagsMap) {
         parsedFlagsData = new HashMap<>();
         for (OrchidFlag flag : flags) {
             DefaultExtractor.getInstance().extractOptions(flag, flagsMap);
         }
-        return new AbstractModule() {
+        return new OrchidModule() {
             @Override
             protected void configure() {
                 for (OrchidFlag flag : flags) {

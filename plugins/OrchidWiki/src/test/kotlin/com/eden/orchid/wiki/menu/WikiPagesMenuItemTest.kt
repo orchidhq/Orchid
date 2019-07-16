@@ -1,11 +1,12 @@
 package com.eden.orchid.wiki.menu
 
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.innerHtml
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import com.eden.orchid.testhelpers.TestResults
 import com.eden.orchid.wiki.WikiModule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -17,9 +18,7 @@ import strikt.assertions.isEqualTo
 class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
+    fun setUp() {
         resource("templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>
@@ -76,13 +75,13 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
         resource("$basePath/page-three/page-four.md")
     }
 
-    private fun verifyWikiSection(sectionBase: String?) {
+    private fun TestResults.verifyWikiSection(sectionBase: String?) {
         val basePath = if (sectionBase != null) "wiki/$sectionBase" else "wiki"
 
-        expectThat(testResults).pageWasRendered("/$basePath/index.html")
-        expectThat(testResults).pageWasRendered("/$basePath/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/$basePath/page-two/index.html")
-        expectThat(testResults).pageWasRendered("/$basePath/page-three/page-four/index.html")
+        expectThat(this).pageWasRendered("/$basePath/index.html")
+        expectThat(this).pageWasRendered("/$basePath/page-one/index.html")
+        expectThat(this).pageWasRendered("/$basePath/page-two/index.html")
+        expectThat(this).pageWasRendered("/$basePath/page-three/page-four/index.html")
     }
 
     @Test
@@ -92,7 +91,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection(null)
         val testResults = execute()
-        verifyWikiSection(null)
+        testResults.verifyWikiSection(null)
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
@@ -126,7 +125,7 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection(null)
         val testResults = execute()
-        verifyWikiSection(null)
+        testResults.verifyWikiSection(null)
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
@@ -161,9 +160,9 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection("section1")
         setupWikiSection("section2")
-        execute()
-        verifyWikiSection("section1")
-        verifyWikiSection("section2")
+        val testResults = execute()
+        testResults.verifyWikiSection("section1")
+        testResults.verifyWikiSection("section2")
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
@@ -222,9 +221,9 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection("section1")
         setupWikiSection("section2")
-        execute()
-        verifyWikiSection("section1")
-        verifyWikiSection("section2")
+        val testResults = execute()
+        testResults.verifyWikiSection("section1")
+        testResults.verifyWikiSection("section2")
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")
@@ -259,9 +258,9 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection("section1")
         setupWikiSection("section2")
-        execute()
-        verifyWikiSection("section1")
-        verifyWikiSection("section2")
+        val testResults = execute()
+        testResults.verifyWikiSection("section1")
+        testResults.verifyWikiSection("section2")
 
         expectThat(testResults)
                 .pageWasRendered("/wiki/index.html")

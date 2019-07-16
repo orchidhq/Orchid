@@ -1,12 +1,12 @@
 package com.eden.orchid.gitlab.wiki
 
 import com.eden.orchid.gitlab.GitlabModule
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.outerHtml
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.pagesGenerated
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.outerHtml
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.pagesGenerated
-import com.eden.orchid.testhelpers.select
 import com.eden.orchid.wiki.WikiModule
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

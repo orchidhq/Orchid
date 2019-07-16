@@ -1,12 +1,12 @@
 package com.eden.orchid.github.wiki
 
 import com.eden.orchid.github.GithubModule
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.outerHtml
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.pagesGenerated
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.outerHtml
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.pagesGenerated
-import com.eden.orchid.testhelpers.select
 import com.eden.orchid.wiki.WikiModule
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -59,7 +59,7 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
                     <a href="http://orchid.test/wiki/wiki-without-sidebar/Installation">Installation</a>
                   </li>
                 </ul>
-            """.trimIndent()
+                """.trimIndent()
             )
 
         expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Configuration/index.html")
