@@ -54,7 +54,7 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
     private OrchidPage currentPage;
 
     public AbstractTheme(OrchidContext context, String key, int priority) {
-        super(() -> context, priority);
+        super(priority);
         this.key = key;
         this.assetHolder = new AssetHolderDelegate(context, this, "theme");
         this.preferredTemplateExtension = "peb";

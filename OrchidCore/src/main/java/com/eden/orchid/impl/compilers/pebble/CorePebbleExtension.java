@@ -3,7 +3,7 @@ package com.eden.orchid.impl.compilers.pebble;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.compilers.TemplateTag;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.mitchellbosecke.pebble.attributes.AttributeResolver;
 import com.mitchellbosecke.pebble.extension.AbstractExtension;
 import com.mitchellbosecke.pebble.extension.Filter;

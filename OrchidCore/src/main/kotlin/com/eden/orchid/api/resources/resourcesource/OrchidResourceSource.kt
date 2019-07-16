@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources.resourcesource
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 
 /**
@@ -19,9 +20,9 @@ interface OrchidResourceSource : Comparable<OrchidResourceSource> {
 
     val priority: Int
 
-    fun getResourceEntry(fileName: String): OrchidResource?
+    fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource?
 
-    fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource>
+    fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource>
 
     fun shouldAddEntry(entryName: String): Boolean {
         return true

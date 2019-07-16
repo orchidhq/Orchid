@@ -117,8 +117,8 @@ constructor(
             .forEach { collection ->
                 var collectionData = JSONObject()
                 val shouldContinue: Boolean = when (collection) {
-                    is FolderCollection -> setupFolderCollection(collectionData, collection)
-                    is FileCollection -> setupFileCollection(collectionData, collection)
+                    is FolderCollection -> setupFolderCollection(context, collectionData, collection)
+                    is FileCollection -> setupFileCollection(context, collectionData, collection)
                     else -> false
                 }
                 if (shouldContinue) {
@@ -148,7 +148,7 @@ constructor(
         return context.serialize("yaml", jsonConfig.toMap())
     }
 
-    private fun setupFolderCollection(collectionData: JSONObject, collection: FolderCollection): Boolean {
+    private fun setupFolderCollection(context: OrchidContext, collectionData: JSONObject, collection: FolderCollection): Boolean {
         collectionData.put("folder", OrchidUtils.normalizePath("$resourceRoot/${collection.resourceRoot}"))
         collectionData.put("create", collection.isCanCreate)
         collectionData.put("delete", collection.isCanDelete)
@@ -159,13 +159,13 @@ constructor(
                 collection.pageClass,
                 includeOwnOptions,
                 includeInheritedOptions
-            ).getNetlifyCmsFields(2)
+            ).getNetlifyCmsFields(context, 2)
         )
 
         return true
     }
 
-    private fun setupFileCollection(collectionData: JSONObject, collection: FileCollection): Boolean {
+    private fun setupFileCollection(context: OrchidContext, collectionData: JSONObject, collection: FileCollection): Boolean {
         collectionData.put("files", JSONArray())
 
         collection.getItems().forEach { page ->
@@ -182,7 +182,7 @@ constructor(
                     page.javaClass,
                     includeOwnOptions,
                     includeInheritedOptions
-                ).getNetlifyCmsFields(2)
+                ).getNetlifyCmsFields(context, 2)
             )
 
             collectionData.getJSONArray("files").put(pageData)

@@ -5,7 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.Relation;
 import com.eden.orchid.api.options.annotations.RelationConfig;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;

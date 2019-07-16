@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;

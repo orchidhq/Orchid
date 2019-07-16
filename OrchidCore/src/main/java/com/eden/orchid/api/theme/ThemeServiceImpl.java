@@ -9,7 +9,7 @@ import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.theme.assets.AssetManager;
 import com.eden.orchid.impl.relations.ThemeRelation;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.google.inject.name.Named;
 import kotlin.text.StringsKt;
 
@@ -141,7 +141,6 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
             }
 
             if(availableThemes.size() == 0) {
-                Clog.e("No {} registered", defaultOptionsKey);
                 return null;
             }
 

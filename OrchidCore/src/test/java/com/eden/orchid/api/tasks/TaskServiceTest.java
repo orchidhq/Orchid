@@ -4,7 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
-import com.eden.orchid.testhelpers.BaseOrchidTest;
+import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public final class TaskServiceTest extends BaseOrchidTest {
+public final class TaskServiceTest extends OrchidUnitTest {
 
     private OrchidContext context;
     private TaskService underTest;
@@ -23,7 +23,6 @@ public final class TaskServiceTest extends BaseOrchidTest {
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
         Set<OrchidTask> tasks = new HashSet<>();
         OrchidTask task1 = mock(OrchidTask.class);
         when(task1.getName()).thenReturn("task1");

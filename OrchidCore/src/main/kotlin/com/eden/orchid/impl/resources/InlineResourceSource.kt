@@ -5,17 +5,12 @@ import com.eden.orchid.api.resources.resource.InlineStringResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import java.util.regex.Pattern
-import javax.inject.Inject
 
-class InlineResourceSource
-@Inject
-constructor(
-        private val context: OrchidContext
-) : LocalResourceSource {
+class InlineResourceSource : LocalResourceSource {
 
     override val priority: Int = Integer.MAX_VALUE - 1
 
-    override fun getResourceEntry(fileName: String): OrchidResource? {
+    override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         val m = inlineFilenamePattern.matcher(fileName)
 
         if (m.find()) {
@@ -27,7 +22,7 @@ constructor(
         return null
     }
 
-    override fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
         return emptyList()
     }
 

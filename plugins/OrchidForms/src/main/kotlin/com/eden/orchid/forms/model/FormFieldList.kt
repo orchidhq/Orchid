@@ -2,7 +2,7 @@ package com.eden.orchid.forms.model
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.components.ModularPageList
-import com.google.inject.Provider
+import javax.inject.Provider
 import javax.inject.Inject
 
 class FormFieldList

@@ -1,20 +1,21 @@
 package com.eden.orchid.languages.diagrams
 
+import com.eden.orchid.impl.generators.HomepageGenerator
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.innerHtml
+import com.eden.orchid.strikt.matchCountIs
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestGeneratorModule
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matchCountIs
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
-class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
+class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
     @Test
     @DisplayName("Test that PlantUml works normally")
@@ -28,7 +29,7 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute()
         expectThat(testResults)
-            .pageWasRendered("//index.html")
+            .pageWasRendered("/index.html")
             .get { content }
             .asHtml(true)
             .select("body")
@@ -49,7 +50,7 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute()
         expectThat(testResults)
-            .pageWasRendered("//index.html")
+            .pageWasRendered("/index.html")
             .get { content }
             .asHtml(true)
             .select("body")
@@ -70,7 +71,7 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute(DiagramsModule())
         expectThat(testResults)
-            .pageWasRendered("//index.svg")
+            .pageWasRendered("/index.svg")
             .get { content }
             .asHtml(true)
             .select("body > svg")
@@ -89,7 +90,7 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute(DiagramsModule())
         expectThat(testResults)
-            .pageWasRendered("//index.svg")
+            .pageWasRendered("/index.svg")
             .get { content }
             .asHtml(true)
             .select("body > svg")

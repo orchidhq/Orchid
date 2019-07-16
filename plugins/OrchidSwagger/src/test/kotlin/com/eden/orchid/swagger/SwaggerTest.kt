@@ -1,12 +1,12 @@
 package com.eden.orchid.swagger
 
 import com.eden.orchid.impl.generators.HomepageGenerator
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestGeneratorModule
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -14,7 +14,7 @@ import strikt.assertions.contains
 import strikt.assertions.hasSize
 
 @DisplayName("Tests page-rendering behavior of Posts generator")
-class SwaggerTest : OrchidIntegrationTest(SwaggerModule(), TestGeneratorModule(HomepageGenerator::class.java)) {
+class SwaggerTest : OrchidIntegrationTest(SwaggerModule(), withGenerator<HomepageGenerator>()) {
 
     @Test
     @DisplayName("Tests that presentations are set up correctly based on Markdown files in the `presentations` directory.")
@@ -35,7 +35,7 @@ class SwaggerTest : OrchidIntegrationTest(SwaggerModule(), TestGeneratorModule(H
         )
 
         val testResults = execute()
-        expectThat(testResults).pageWasRendered("//index.html")
+        expectThat(testResults).pageWasRendered("/index.html")
             .get { content }
             .and {
                 asHtml()
