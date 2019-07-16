@@ -10,7 +10,6 @@ import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.IOUtils;
 
-import javax.inject.Inject;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -18,16 +17,8 @@ import java.util.Map;
 
 public final class NotFound404Response {
 
-    private final OrchidContext context;
-    private final AssetHolder assetHolder;
-
-    @Inject
-    public NotFound404Response(OrchidContext context) {
-        this.context = context;
-        assetHolder = new AssetHolderDelegate(context, null, null);
-    }
-
-    public OrchidResponse getResponse(String targetPath) {
+    public OrchidResponse getResponse(OrchidContext context, String targetPath) {
+        AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
         String content = "";
         Clog.i("Rendering 404: #{$1}", targetPath);
 

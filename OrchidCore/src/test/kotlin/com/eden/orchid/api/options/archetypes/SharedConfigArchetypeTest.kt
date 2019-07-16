@@ -16,7 +16,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.extractors.ListOptionExtractor
 import com.eden.orchid.api.options.extractors.StringArrayOptionExtractor
 import com.eden.orchid.api.options.extractors.StringOptionExtractor
-import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.json.JSONObject
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
@@ -27,7 +27,7 @@ import org.mockito.Mockito.mock
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class SharedConfigArchetypeTest : BaseOrchidTest() {
+class SharedConfigArchetypeTest : OrchidUnitTest() {
 
     private lateinit var context: OrchidContext
     private lateinit var extractors: Set<OptionExtractor<*>>
@@ -35,8 +35,7 @@ class SharedConfigArchetypeTest : BaseOrchidTest() {
     private lateinit var underTest: TestClassWithSharedConfigArchetype
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         context = mock(OrchidContext::class.java)
 
         val mapConverter = FlexibleMapConverter()

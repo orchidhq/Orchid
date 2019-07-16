@@ -9,7 +9,7 @@ import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
-import com.google.inject.Provider
+import javax.inject.Provider
 import javax.inject.Inject
 
 @Description("Print the Orchid help page.")

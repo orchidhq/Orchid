@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.site.OrchidSite
 import com.eden.orchid.api.site.OrchidSiteImpl
-import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.SuppressedWarnings
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
@@ -15,13 +15,12 @@ import strikt.api.expectThat
 import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 
-class OrchidReferenceTest : BaseOrchidTest() {
+class OrchidReferenceTest : OrchidUnitTest() {
 
     lateinit var context: OrchidContext
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         context = mock(OrchidContext::class.java)
     }
 

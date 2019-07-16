@@ -151,7 +151,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void watch() {
-        watcher.startWatching(resourcesDir);
+        watcher.startWatching(context, resourcesDir);
     }
 
     @Override

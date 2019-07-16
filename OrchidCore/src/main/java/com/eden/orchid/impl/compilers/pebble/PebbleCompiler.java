@@ -2,12 +2,10 @@ package com.eden.orchid.impl.compilers.pebble;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
-import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
-import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.Extension;
@@ -33,18 +31,16 @@ import java.util.concurrent.Executors;
 @Singleton
 public final class PebbleCompiler extends OrchidCompiler implements OrchidEventListener {
 
-    private Provider<OrchidContext> contextProvider;
     private ExecutorService executor;
     private PebbleEngine engine;
 
     @Inject
-    public PebbleCompiler(Provider<OrchidContext> contextProvider, PebbleTemplateLoader loader, Set<Extension> extensions) {
+    public PebbleCompiler(PebbleTemplateLoader loader, Set<Extension> extensions) {
         super(10000);
 
         Extension[] extensionArray = new Extension[extensions.size()];
         extensions.toArray(extensionArray);
 
-        this.contextProvider = contextProvider;
         this.executor = Executors.newFixedThreadPool(10);
         this.engine = new PebbleEngine.Builder()
                 .loader(loader)

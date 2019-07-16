@@ -10,7 +10,7 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import com.eden.orchid.testhelpers.BaseOrchidTest;
+import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class RenderServiceTest extends BaseOrchidTest {
+public final class RenderServiceTest extends OrchidUnitTest {
 
     private Theme theme;
     private OptionsExtractor extractor;
@@ -47,7 +47,6 @@ public final class RenderServiceTest extends BaseOrchidTest {
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
         // test the service directly
         theme = mock(Theme.class);
         context = mock(OrchidContext.class);

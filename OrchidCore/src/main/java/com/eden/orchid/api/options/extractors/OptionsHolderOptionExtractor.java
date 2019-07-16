@@ -8,7 +8,7 @@ import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;

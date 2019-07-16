@@ -1,12 +1,12 @@
 package com.eden.orchid.wiki
 
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.innerHtml
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.nothingRendered
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.nothingRendered
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

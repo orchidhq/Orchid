@@ -9,7 +9,6 @@ import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.utilities.OrchidUtils
-import com.google.inject.Provider
 import org.apache.commons.io.FilenameUtils
 import java.util.Arrays
 import javax.inject.Inject
@@ -17,42 +16,44 @@ import javax.inject.Inject
 class TestResourceSource
 @Inject
 constructor(
-        private val context: Provider<OrchidContext>,
-        private val mockResources: Map<String, Pair<String, Map<String, Any>>>
+    private val mockResources: Map<String, Pair<String, Map<String, Any>>>
 ) : OrchidResourceSource, LocalResourceSource {
 
     override val priority: Int
         get() = Integer.MAX_VALUE - 2
 
-    override fun getResourceEntry(fileName: String): OrchidResource? {
+    override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         return if (mockResources.containsKey(fileName)) {
-            StringResource(context.get(), fileName, mockResources[fileName]!!.first, mockResources[fileName]!!.second)
-        }
-        else null
-
+            StringResource(context, fileName, mockResources[fileName]!!.first, mockResources[fileName]!!.second)
+        } else null
     }
 
-    override fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource> {
         val matchedResoures = if (recursive)
             getResourcesInDirs(dirName)
         else
             getResourcesInDir(dirName)
 
         return matchedResoures
-                .filter { it -> isValidExtension(it.key, fileExtensions) }
-                .map { it -> StringResource(context.get(), it.key, it.value.first, it.value.second) }
+            .filter { isValidExtension(it.key, fileExtensions) }
+            .map { StringResource(context, it.key, it.value.first, it.value.second) }
     }
 
     private fun getResourcesInDir(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {
         return mockResources
-                .entries
-                .filter { it -> OrchidUtils.normalizePath(FilenameUtils.getPath(it.key)) == OrchidUtils.normalizePath(dirName) }
+            .entries
+            .filter { OrchidUtils.normalizePath(FilenameUtils.getPath(it.key)) == OrchidUtils.normalizePath(dirName) }
     }
 
     private fun getResourcesInDirs(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {
         return mockResources
-                .entries
-                .filter { it -> it.key.startsWith(OrchidUtils.normalizePath(dirName)) }
+            .entries
+            .filter { it.key.startsWith(OrchidUtils.normalizePath(dirName)) }
     }
 
     private fun isValidExtension(filename: String, fileExtensions: Array<String>?): Boolean {
@@ -63,22 +64,22 @@ constructor(
     }
 
     fun toModule(): OrchidModule {
-        return object : OrchidModule() {
-            override fun configure() {
-                addToSet(LocalResourceSource::class.java, this@TestResourceSource)
-            }
-        }
+        return TestResourceSourceModule(this)
     }
 }
 
+private class TestResourceSourceModule(private val resourceSource: TestResourceSource) : OrchidModule() {
+    override fun configure() {
+        addToSet(LocalResourceSource::class.java, resourceSource)
+    }
+}
 
 class PluginFileResourceSource
 @Inject
 constructor(
-        val context: Provider<OrchidContext>,
-        val pluginClass: Class<out OrchidModule>,
-        priority: Int
-) : FileResourceSource(context, "", priority), PluginResourceSource {
+    val pluginClass: Class<out OrchidModule>,
+    priority: Int
+) : FileResourceSource("", priority), PluginResourceSource {
 
     override val directory: String
         get() {

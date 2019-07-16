@@ -3,7 +3,7 @@ package com.eden.orchid.impl.resources
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
@@ -15,16 +15,15 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import java.util.HashMap
 
-class InlineResourceSourceTest : BaseOrchidTest() {
+class InlineResourceSourceTest : OrchidUnitTest() {
 
-    private var context: OrchidContext? = null
-    private var underTest: InlineResourceSource? = null
+    private lateinit var context: OrchidContext
+    private lateinit var underTest: InlineResourceSource
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         context = mock(OrchidContext::class.java)
-        underTest = InlineResourceSource(context!!)
+        underTest = InlineResourceSource()
     }
 
     @Test
@@ -32,10 +31,10 @@ class InlineResourceSourceTest : BaseOrchidTest() {
         val input = "inline:extra.scss:This is my content"
         val expected = "This is my content"
 
-        `when`(context!!.getEmbeddedData(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(EdenPair(expected, HashMap()))
-        `when`(context!!.getOutputExtension("scss")).thenReturn("css")
+        `when`(context.getEmbeddedData(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(EdenPair(expected, HashMap()))
+        `when`(context.getOutputExtension("scss")).thenReturn("css")
 
-        val output = underTest!!.getResourceEntry(input)
+        val output = underTest.getResourceEntry(context, input)
 
         assertThat<OrchidResource>(output, `is`(notNullValue()))
         assertThat(output!!.content, `is`(equalTo(expected)))

@@ -1,0 +1,17 @@
+apply from: "$actionsScript/java.gradle"
+apply from: "$actionsScript/kotlin.gradle"
+
+dependencies {
+    api(project(":OrchidCore"))
+
+    api(Libs.hamcrest_library)
+    api(Libs.strikt_core)
+    api(Libs.mockito_core)
+    api(Libs.jsoup)
+    api(Libs.junit_jupiter_api)
+    api(Libs.junit_jupiter_params)
+    api(Libs.kotlin_stdlib_jdk8)
+
+    testRuntimeOnly(Libs.junit_jupiter_engine)
+}
+

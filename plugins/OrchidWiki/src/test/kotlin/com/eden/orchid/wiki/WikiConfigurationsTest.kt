@@ -1,7 +1,7 @@
 package com.eden.orchid.wiki
 
+import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -12,9 +12,7 @@ import strikt.assertions.isEqualTo
 class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
+    fun setUp() {
         resource("templates/layouts/layoutone.peb")
         resource("templates/layouts/layouttwo.peb")
         resource("templates/layouts/layoutthree.peb")

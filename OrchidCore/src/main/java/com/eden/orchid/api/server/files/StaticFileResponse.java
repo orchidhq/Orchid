@@ -6,15 +6,12 @@ import com.eden.orchid.api.server.OrchidResponse;
 import fi.iki.elonen.NanoHTTPD;
 import org.apache.commons.io.FilenameUtils;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class StaticFileResponse {
-
-    private final OrchidContext context;
 
     public static Map<String, String> mimeTypes = new HashMap<>();
 
@@ -29,12 +26,7 @@ public final class StaticFileResponse {
         mimeTypes.put("jpg",  "image/jpeg");
     }
 
-    @Inject
-    public StaticFileResponse(OrchidContext context) {
-        this.context = context;
-    }
-
-    public OrchidResponse getResponse(File targetFile, String targetPath) {
+    public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), NanoHTTPD.getMimeTypeForFile(targetFile.getName()));
 
         Clog.i("Rendering File: #{$1}", targetPath);

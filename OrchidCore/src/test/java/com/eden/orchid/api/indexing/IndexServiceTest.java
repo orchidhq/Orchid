@@ -2,12 +2,12 @@ package com.eden.orchid.api.indexing;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.testhelpers.BaseOrchidTest;
+import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.mock;
 
-public final class IndexServiceTest extends BaseOrchidTest {
+public final class IndexServiceTest extends OrchidUnitTest {
 
     private OrchidContext context;
     private IndexService underTest;
@@ -15,7 +15,6 @@ public final class IndexServiceTest extends BaseOrchidTest {
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
         // test the service directly
         context = mock(OrchidContext.class);
         service = new IndexServiceImpl();

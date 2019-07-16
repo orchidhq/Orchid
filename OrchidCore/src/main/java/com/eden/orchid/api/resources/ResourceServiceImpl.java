@@ -17,9 +17,9 @@ import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.eden.orchid.utilities.CacheKt;
 import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,6 +28,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
@@ -141,7 +142,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     public OrchidResource getLocalResourceEntry(final String fileName) {
         final ResourceCacheKey key = new ResourceCacheKey(fileName, "LOCAL", context.getTheme().getKey(), context.getTheme().hashCode());
         return CacheKt.computeIfAbsent(resourceCache, key, () -> {
-            return fileResourceSources.stream().map(source -> source.getResourceEntry(fileName)).filter(Objects::nonNull).findFirst().orElse(null);
+            return fileResourceSources.stream().map(source -> source.getResourceEntry(context, fileName)).filter(Objects::nonNull).findFirst().orElse(null);
         });
     }
 
@@ -149,7 +150,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     public OrchidResource getThemeResourceEntry(final String fileName) {
         final ResourceCacheKey key = new ResourceCacheKey(fileName, "THEME", context.getTheme().getKey(), context.getTheme().hashCode());
         return CacheKt.computeIfAbsent(resourceCache, key, () -> {
-            return context.getTheme().getResourceEntry(fileName);
+            return context.getTheme().getResourceEntry(context, fileName);
         });
     }
 
@@ -173,7 +174,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             }
             // If nothing found in the theme, check the default resource sources
             if (resource == null) {
-                resource = pluginResourceSources.stream().map(source -> source.getResourceEntry(fileName)).filter(Objects::nonNull).findFirst().orElse(null);
+                resource = pluginResourceSources.stream().map(source -> source.getResourceEntry(context, fileName)).filter(Objects::nonNull).findFirst().orElse(null);
             }
             // return the resource if found, otherwise null
             return resource;
@@ -213,7 +214,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     }
 
     private void addEntries(TreeMap<String, OrchidResource> entries, Collection<? extends OrchidResourceSource> sources, String path, String[] fileExtensions, boolean recursive) {
-        sources.stream().filter(source -> source.getPriority() >= 0).map(source -> source.getResourceEntries(path, fileExtensions, recursive)).filter(OrchidUtils.not(EdenUtils::isEmpty)).flatMap(Collection::stream).forEach(resource -> {
+        sources.stream().filter(source -> source.getPriority() >= 0).map(source -> source.getResourceEntries(context, path, fileExtensions, recursive)).filter(OrchidUtils.not(EdenUtils::isEmpty)).flatMap(Collection::stream).forEach(resource -> {
             String relative = OrchidUtils.getRelativeFilename(resource.getReference().getPath(), path);
             String key = relative + "/" + resource.getReference().getFileName() + "." + resource.getReference().getOutputExtension();
             if (entries.containsKey(key)) {

@@ -1,4 +1,4 @@
 dependencies {
     compile project(":OrchidCore")
-    testCompile project(":OrchidCore").sourceSets.test.output
+    testCompile project(":OrchidTest")
 }
