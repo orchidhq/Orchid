@@ -1,8 +1,8 @@
 package com.eden.orchid.api.indexing
 
-import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.testhelpers.OrchidUnitTest
 
-class OrchidIndexText : BaseOrchidTest() {
+class OrchidIndexText : OrchidUnitTest() {
 
 //    private lateinit var context: OrchidContext
 //    private lateinit var extractor: OptionsExtractor
@@ -37,8 +37,7 @@ class OrchidIndexText : BaseOrchidTest() {
 //    private lateinit var rootIndex: OrchidRootIndex
 //
 //    @BeforeEach
-//    override fun setUp() {
-//        super.setUp()
+//    fun setUp() {
 //        context = mock(OrchidContext::class.java)
 //        extractor = mock(OptionsExtractor::class.java)
 //        `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", emptyMap()))

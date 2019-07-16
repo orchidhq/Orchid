@@ -1,12 +1,13 @@
 package com.eden.orchid.languages.bible
 
+import com.eden.orchid.impl.generators.HomepageGenerator
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.innerHtml
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestGeneratorModule
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
@@ -14,7 +15,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Bible verse functions")
-class BibleTest : OrchidIntegrationTest(TestGeneratorModule()) {
+class BibleTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
     @Test
     @DisplayName("Test that the bible verse function works using the default version")
@@ -24,7 +25,7 @@ class BibleTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute(BibleModule())
         expectThat(testResults)
-            .pageWasRendered("//index.html")
+            .pageWasRendered("/index.html")
             .get { content }
             .asHtml(true)
             .select("body")
@@ -48,7 +49,7 @@ class BibleTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute(BibleModule())
         expectThat(testResults)
-            .pageWasRendered("//index.html")
+            .pageWasRendered("/index.html")
             .get { content }
             .asHtml(true)
             .select("body")
@@ -71,7 +72,7 @@ class BibleTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
         val testResults = execute(BibleModule())
         expectThat(testResults)
-            .pageWasRendered("//index.html")
+            .pageWasRendered("/index.html")
             .get { content }
             .asHtml(true)
             .select("body")

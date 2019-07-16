@@ -1,8 +1,5 @@
 apply from: "$actionsScript/java.gradle"
 apply from: "$actionsScript/kotlin.gradle"
-if(project.path == ':OrchidCore') {
-    apply from: "$actionsScript/orchid.gradle"
-}
 apply from: "$actionsScript/javadoc.gradle"
 apply from: "$actionsScript/publish.gradle"
 apply from: "$actionsScript/testing.gradle"

@@ -6,7 +6,7 @@ import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.ModularListConfig;
 import com.eden.orchid.api.theme.components.ModularList;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;

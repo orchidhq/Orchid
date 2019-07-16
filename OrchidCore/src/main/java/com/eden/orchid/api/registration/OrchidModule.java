@@ -1,7 +1,6 @@
 package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -12,6 +11,7 @@ import com.google.inject.Module;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
+import javax.inject.Provider;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -44,8 +44,8 @@ public abstract class OrchidModule extends AbstractModule {
         super.configure();
     }
 
-    public static <T> AbstractModule of(final Class<T> injectedClass, final T value) {
-        return new AbstractModule() {
+    public static <T> OrchidModule of(final Class<T> injectedClass, final T value) {
+        return new OrchidModule() {
             @Override
             protected void configure() {
                 bind(injectedClass).toInstance(value);
@@ -54,6 +54,7 @@ public abstract class OrchidModule extends AbstractModule {
     }
 
     private void bindKnownSet(final Class<?> setClass) {
+        Provider<OrchidContext> contextProvider = getProvider(OrchidContext.class);
         if(!knownSets.contains(setClass)) {
             Multibinder<AdminList> binder = Multibinder.newSetBinder(binder(), AdminList.class);
             binder.addBinding().toInstance(new AdminList() {
@@ -70,9 +71,8 @@ public abstract class OrchidModule extends AbstractModule {
 
                 @Override
                 public Collection<Class<?>> getItems() {
-                    return Orchid
-                            .getInstance()
-                            .getContext()
+                    return contextProvider
+                            .get()
                             .resolveSet(setClass)
                             .stream()
                             .map(Object::getClass)
@@ -125,7 +125,7 @@ public abstract class OrchidModule extends AbstractModule {
         if(hasResources) {
             throw new IllegalStateException(Clog.format("Resources already added to {}", this.getClass().getName()));
         }
-        addToSet(PluginResourceSource.class, new PluginJarResourceSource(getProvider(OrchidContext.class), this.getClass(), priority));
+        addToSet(PluginResourceSource.class, new PluginJarResourceSource(this.getClass(), priority));
         hasResources = true;
         resourcePriority = priority;
     }

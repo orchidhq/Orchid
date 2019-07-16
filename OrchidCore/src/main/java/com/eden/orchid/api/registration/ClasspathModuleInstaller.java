@@ -1,15 +1,13 @@
 package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
 import io.github.classgraph.ClassGraph;
 
 import java.lang.reflect.Modifier;
 import java.util.stream.Stream;
 
 @IgnoreModule
-public class ClasspathModuleInstaller extends AbstractModule {
+public class ClasspathModuleInstaller extends OrchidModule {
 
     @Override
     protected void configure() {
@@ -23,9 +21,10 @@ public class ClasspathModuleInstaller extends AbstractModule {
                 .loadClasses(OrchidModule.class).forEach((matchingClass) -> {
                     if (isInstantiable(matchingClass)) {
                         try {
-                            Module provider = matchingClass.newInstance();
+                            OrchidModule provider = matchingClass.newInstance();
                             if (provider != null) {
                                 install(provider);
+                                // don't log anonymous-class modules
                                 if (!provider.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
                                     moduleLog.append("\n * " + provider.getClass().getName());
                                 }

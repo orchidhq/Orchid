@@ -14,7 +14,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,16 +28,8 @@ import java.util.Map;
 
 public final class IndexFileResponse {
 
-    private final OrchidContext context;
-    private final AssetHolder assetHolder;
-
-    @Inject
-    public IndexFileResponse(OrchidContext context) {
-        this.context = context;
-        assetHolder = new AssetHolderDelegate(context, null, null);
-    }
-
-    public OrchidResponse getResponse(File targetFile, String targetPath) {
+    public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
+        AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
         String content = "";
 
         if (targetFile.isDirectory()) {

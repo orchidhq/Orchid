@@ -5,7 +5,6 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -24,16 +23,13 @@ import java.util.Map;
 
 public class FileWatcher {
 
-    private final OrchidContext context;
+    private OrchidContext context;
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
 
-    @Inject
-    public FileWatcher(OrchidContext context) {
-        this.context = context;
-    }
 
-    public void startWatching(String rootDir) {
+    public void startWatching(OrchidContext context, String rootDir) {
+        this.context = context;
         try {
             Path root = Paths.get(rootDir);
             watcher = FileSystems.getDefault().newWatchService();

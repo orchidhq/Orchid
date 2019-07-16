@@ -7,7 +7,7 @@ import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.resolve
-import com.google.inject.Provider
+import javax.inject.Provider
 import org.json.JSONObject
 import java.lang.reflect.Field
 import javax.inject.Inject

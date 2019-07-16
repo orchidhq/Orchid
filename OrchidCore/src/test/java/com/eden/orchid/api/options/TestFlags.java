@@ -4,9 +4,9 @@ import com.eden.orchid.api.options.annotations.FlagAliases;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
-import com.eden.orchid.testhelpers.BaseOrchidTest;
+import com.eden.orchid.api.registration.OrchidModule;
+import com.eden.orchid.testhelpers.OrchidUnitTest;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.google.inject.AbstractModule;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 
-public class TestFlags extends BaseOrchidTest {
+public class TestFlags extends OrchidUnitTest {
 
 // Test Classes
 //----------------------------------------------------------------------------------------------------------------------
@@ -103,7 +105,6 @@ public class TestFlags extends BaseOrchidTest {
 
     @BeforeEach
     public void setupTest() {
-        super.setUp();
         List<String> args = new ArrayList<>();
         args.addAll(Arrays.asList("-o", "valueOne"));
         args.addAll(Arrays.asList("--two", "valueTwo"));
@@ -123,7 +124,7 @@ public class TestFlags extends BaseOrchidTest {
     public void testParsingFlags() throws Throwable {
         OrchidFlags.instance = new OrchidFlags(flagParsers);
 
-        AbstractModule module = OrchidFlags.getInstance().parseFlags(OrchidUtils.parseCommandLineArgs(args));
+        OrchidModule module = OrchidFlags.getInstance().parseFlags(OrchidUtils.parseCommandLineArgs(args));
 
         // verify that the options get parsed correctly
         assertThat(OrchidFlags.getInstance().getFlagValue("one"),   is(equalTo("valueOne")));

@@ -1,7 +1,7 @@
 package com.eden.orchid.posts
 
 import com.eden.orchid.posts.utils.PostsUtils
-import com.eden.orchid.testhelpers.BaseOrchidTest
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -11,7 +11,7 @@ import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 
 @DisplayName("Tests the formatting accepted by the LatestPostsCollection")
-class PostsCollectionTest : BaseOrchidTest() {
+class PostsCollectionTest : OrchidUnitTest() {
 
     @ParameterizedTest
     @CsvSource(

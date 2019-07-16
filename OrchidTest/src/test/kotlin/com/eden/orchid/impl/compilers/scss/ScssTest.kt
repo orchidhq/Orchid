@@ -1,17 +1,17 @@
-package com.eden.orchid.languages.asciidoc
+package com.eden.orchid.impl.compilers.scss
 
 import com.eden.orchid.impl.generators.AssetsGenerator
+import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestGeneratorModule
 import com.eden.orchid.testhelpers.TestResults
-import com.eden.orchid.testhelpers.pageWasRendered
+import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using SCSS and Sass compilation.")
-class ScssTest : OrchidIntegrationTest(TestGeneratorModule(AssetsGenerator::class.java)) {
+class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
 
 // SCSS
 //----------------------------------------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ import com.eden.orchid.api.resources.resource.InlineResource;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.IOUtils;
+
 import javax.inject.Inject;
 import java.io.InputStream;
 import java.nio.charset.Charset;

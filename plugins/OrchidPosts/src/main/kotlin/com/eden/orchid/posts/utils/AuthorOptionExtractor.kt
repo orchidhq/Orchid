@@ -6,7 +6,7 @@ import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.utilities.resolve
-import com.google.inject.Provider
+import javax.inject.Provider
 import org.json.JSONObject
 import java.lang.reflect.Field
 import javax.inject.Inject

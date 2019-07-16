@@ -3,6 +3,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 apply plugin: 'java-library'
+apply plugin: 'com.eden.orchidPlugin'
 
 dependencies {
 
@@ -48,19 +49,34 @@ dependencies {
 
     // generate own documentation with Orchid
     orchidCompile mainProjects
+    
+    testCompile project(":OrchidTest")
 }
+
+// Orchid setup
+//----------------------------------------------------------------------------------------------------------------------
+
+orchid {
+    runTask = 'build'
+    theme = 'BsDoc'
+    version = getActualVersion(project)
+    baseUrl = getBaseUrl(project)
+    environment = getEnvName(project)
+    githubToken = getGithubToken(project)
+}
+
+tasks.build.dependsOn orchidBuild
+tasks.orchidBuild.mustRunAfter check
 
 // Make sure Core is compiled before plugins, but javadoc run after plugins
 //----------------------------------------------------------------------------------------------------------------------
 
 static boolean otherProjectsTask(Task task, String taskName) {
-    return !task.path.startsWith(':OrchidCore') && task.path.endsWith(":${taskName}")
+    return task.path.endsWith(":${taskName}")
 }
 
 project.parent.subprojects.each { subproject ->
-    project.tasks.javadoc.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
-    project.tasks.orchidRun.dependsOn subproject.tasks.matching { task -> otherProjectsTask(task, 'jar') }
-    project.tasks.javadoc.shouldRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'javadoc') }
+    project.tasks.orchidBuild.mustRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'check') }
 }
 
 // Generate a Class containing the current build version, so it can be injected into OrchidSite

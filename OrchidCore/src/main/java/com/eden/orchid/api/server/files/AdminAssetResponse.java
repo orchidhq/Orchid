@@ -14,17 +14,15 @@ import java.io.InputStream;
 
 public final class AdminAssetResponse {
 
-    private final OrchidContext context;
-
     @Inject
-    public AdminAssetResponse(OrchidContext context) {
-        this.context = context;
+    public AdminAssetResponse() {
+
     }
 
-    public OrchidResponse getResponse(File targetFile, String targetPath) {
+    public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AdminTheme theme = context.getAdminTheme();
 
-        OrchidResource res = theme.getResourceEntry(targetPath);
+        OrchidResource res = theme.getResourceEntry(context, targetPath);
         String mimeType = StaticFileResponse.mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
         Clog.i("Rendering admin File: #{$1}", targetPath);

@@ -4,7 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.compilers.pebble.PebbleWrapperTemplateTag;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;

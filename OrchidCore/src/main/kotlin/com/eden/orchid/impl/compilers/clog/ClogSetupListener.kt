@@ -10,7 +10,7 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
 import com.eden.orchid.utilities.SuppressedWarnings
-import com.google.inject.Provider
+import javax.inject.Provider
 import java.util.Arrays
 import java.util.HashMap
 import java.util.HashSet

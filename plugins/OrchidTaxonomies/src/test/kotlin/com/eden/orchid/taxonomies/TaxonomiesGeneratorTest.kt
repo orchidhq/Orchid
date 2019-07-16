@@ -2,9 +2,9 @@ package com.eden.orchid.taxonomies
 
 import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.posts.PostsModule
+import com.eden.orchid.strikt.nothingRendered
+import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.nothingRendered
-import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

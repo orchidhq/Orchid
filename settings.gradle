@@ -12,6 +12,7 @@ apply plugin: 'net.vivin.gradle-semantic-build-versioning'
 rootProject.name = 'Orchid'
 
 include 'OrchidCore'
+include 'OrchidTest'
 
 include 'themes:OrchidBsDoc'
 include 'themes:OrchidCopper'
