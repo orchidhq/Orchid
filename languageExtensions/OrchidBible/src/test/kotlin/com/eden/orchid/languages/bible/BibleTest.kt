@@ -23,21 +23,23 @@ class BibleTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     fun test01() {
         resource("homepage.peb", "{{ bible('John 3:16') }}")
 
-        val testResults = execute(BibleModule())
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("""
-                |<p class="p">
-                |  <sup id="John.3.16" class="v">16</sup>
-                |  <span class="wj">“For God so loved the world, that He gave His only begotten Son, that whoever believes in Him shall not perish, but have eternal life.</span>
-                |</p>
-                | ~ John 3:16
-            """.trimMargin())
+        expectThat(execute(BibleModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        |<p class="p">
+                        |  <sup id="John.3.16" class="v">16</sup>
+                        |  <span class="wj">“For God so loved the world, that He gave His only begotten Son, that whoever believes in Him shall not perish, but have eternal life.</span>
+                        |</p>
+                        | ~ John 3:16
+                        """.trimMargin()
+                    )
+            }
     }
 
     @Test
@@ -47,21 +49,23 @@ class BibleTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         flag("absDefaultVersion", "eng-KJV")
         resource("homepage.peb", "{{ bible('John 3:16') }}")
 
-        val testResults = execute(BibleModule())
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("""
-                |<p class="p">
-                |  <sup id="John.3.16" class="v">16</sup>
-                |  For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
-                |</p>
-                | ~ John 3:16
-            """.trimMargin())
+        expectThat(execute(BibleModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        |<p class="p">
+                        |  <sup id="John.3.16" class="v">16</sup>
+                        |  For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+                        |</p>
+                        | ~ John 3:16
+                        """.trimMargin()
+                    )
+            }
     }
 
     @Test
@@ -70,23 +74,25 @@ class BibleTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     fun test03() {
         resource("homepage.peb", "{{ bible('John 3:16', 'eng-AMP') }}")
 
-        val testResults = execute(BibleModule())
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("""
-                |<p class="p">
-                |  <sup id="John.3.16" class="v">16</sup>
-                |  For God so greatly loved
-                |  <span class="it">and</span>
-                |   dearly prized the world that He [even] gave up His only begotten (unique) Son, so that whoever believes in (trusts in, clings to, relies on) Him shall not perish (come to destruction, be lost) but have eternal (everlasting) life.
-                |</p>
-                | ~ John 3:16
-            """.trimMargin())
+        expectThat(execute(BibleModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        |<p class="p">
+                        |  <sup id="John.3.16" class="v">16</sup>
+                        |  For God so greatly loved
+                        |  <span class="it">and</span>
+                        |   dearly prized the world that He [even] gave up His only begotten (unique) Son, so that whoever believes in (trusts in, clings to, relies on) Him shall not perish (come to destruction, be lost) but have eternal (everlasting) life.
+                        |</p>
+                        | ~ John 3:16
+                        """.trimMargin()
+                    )
+            }
     }
 
 }

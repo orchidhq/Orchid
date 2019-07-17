@@ -15,8 +15,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     fun test01() {
         resource("posts/2018-01-01-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
     @Test
@@ -24,8 +24,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     fun test02() {
         resource("posts/2018/01-01-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
     @Test
@@ -33,8 +33,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     fun test03() {
         resource("posts/2018/01/01-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
     @Test
@@ -42,8 +42,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     fun test04() {
         resource("posts/2018/01/01/post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
     @Test
@@ -51,8 +51,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     fun test05() {
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "blog/:year/:month/:slug"))
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/blog/2018/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/blog/2018/1/post-one/index.html")
     }
 
     @Test
@@ -61,8 +61,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"defaultConfig": {"permalink": "blog/:year/:month/:slug"}}""")
         resource("posts/2018-01-01-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/blog/2018/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/blog/2018/1/post-one/index.html")
     }
 
     @Test
@@ -71,8 +71,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"defaultConfig": {"permalink": "defaultConfig/:year/:month/:slug"}}""")
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "postConfig/:year/:month/:slug"))
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/postConfig/2018/1/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/postConfig/2018/1/post-one/index.html")
     }
 
     @Test
@@ -82,9 +82,9 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/cat2/2018/2/2/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/cat1/2018/1/1/post-one/index.html")
+            .pageWasRendered("/cat2/2018/2/2/post-one/index.html")
     }
 
     @Test
@@ -94,9 +94,9 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/cat2/2018/2/2/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/cat1/2018/1/1/post-one/index.html")
+            .pageWasRendered("/cat2/2018/2/2/post-one/index.html")
     }
 
     @Test
@@ -106,9 +106,9 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/cat2/2018/2/2/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/cat1/2018/1/1/post-one/index.html")
+            .pageWasRendered("/cat2/2018/2/2/post-one/index.html")
     }
 
     @Test
@@ -118,9 +118,9 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat1/cat2/2018-02-02-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/cat1/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/cat1/cat2/2018/2/2/post-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/cat1/2018/1/1/post-one/index.html")
+            .pageWasRendered("/cat1/cat2/2018/2/2/post-one/index.html")
     }
 
     @Test
@@ -130,8 +130,8 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat1/cat2/2018-02-02-post-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
     @Test
@@ -140,9 +140,9 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"authors": ["author-one"]}""")
         resource("posts/authors/author-two.md", "", "{}")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/authors/author-one/index.html")
-        expectThat(testResults).pageWasRendered("/authors/author-two/index.html")
+        expectThat(execute())
+            .pageWasRendered("/authors/author-one/index.html")
+            .pageWasRendered("/authors/author-two/index.html")
     }
 
     @Test
@@ -150,24 +150,25 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     fun test14() {
         configObject("posts", """{"authors": ["Author One", {"name": "Author Two", "email": "email@email.com"}]}""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/authors/author-one/index.html")
-        expectThat(testResults).pageWasRendered("/authors/author-two/index.html")
+        expectThat(execute())
+            .pageWasRendered("/authors/author-one/index.html")
+            .pageWasRendered("/authors/author-two/index.html")
     }
 
     @Test
     @DisplayName("The Posts generator finishes successfully when there are no resources for it.")
     fun test15() {
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
     @Test
     @DisplayName("The Wiki generator finishes successfully when there are no resources for it, when using multiple categories.")
     fun test16() {
         configObject("posts", """{"categories": ["cat1", "cat2/cat3"]}""")
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+
+        expectThat(execute())
+            .nothingRendered()
     }
 
 }

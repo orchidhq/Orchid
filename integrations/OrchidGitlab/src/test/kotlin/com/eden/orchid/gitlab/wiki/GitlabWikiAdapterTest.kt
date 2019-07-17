@@ -31,41 +31,39 @@ class GitlabWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GitlabModule()
                     }
                 }
             }
-        """.trimIndent()
+            """.trimIndent()
         )
 
-        val testResults = execute()
-
-        expectThat(testResults).pagesGenerated(6)
-        expectThat(testResults)
-            .pageWasRendered("/wiki/wiki-without-sidebar/index.html")
-            .get { content }
-            .asHtml(removeComments = true)
-            .select("body > ul")
-            .outerHtml()
-            .isEqualTo(
-                """
-                <ul>
-                  <li>
-                    <a href="http://orchid.test/wiki/wiki-without-sidebar/Configuration">Configuration</a>
-                  </li>
-                  <li>
-                    <a href="http://orchid.test/wiki/wiki-without-sidebar/GettingStarted">Getting Started</a>
-                  </li>
-                  <li>
-                    <a href="http://orchid.test/wiki/wiki-without-sidebar/Home">Home</a>
-                  </li>
-                  <li>
-                    <a href="http://orchid.test/wiki/wiki-without-sidebar/Installation">Installation</a>
-                  </li>
-                </ul>
-            """.trimIndent()
-            )
-
-        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Configuration/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/GettingStarted/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Home/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/wiki-without-sidebar/Installation/index.html")
+        expectThat(execute())
+            .pagesGenerated(6)
+            .pageWasRendered("/wiki/wiki-without-sidebar/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body > ul")
+                    .outerHtml()
+                    .isEqualTo(
+                        """
+                        <ul>
+                          <li>
+                            <a href="http://orchid.test/wiki/wiki-without-sidebar/Configuration">Configuration</a>
+                          </li>
+                          <li>
+                            <a href="http://orchid.test/wiki/wiki-without-sidebar/GettingStarted">Getting Started</a>
+                          </li>
+                          <li>
+                            <a href="http://orchid.test/wiki/wiki-without-sidebar/Home">Home</a>
+                          </li>
+                          <li>
+                            <a href="http://orchid.test/wiki/wiki-without-sidebar/Installation">Installation</a>
+                          </li>
+                        </ul>
+                        """.trimIndent()
+                    )
+            }
+            .pageWasRendered("/wiki/wiki-without-sidebar/Configuration/index.html")
+            .pageWasRendered("/wiki/wiki-without-sidebar/GettingStarted/index.html")
+            .pageWasRendered("/wiki/wiki-without-sidebar/Home/index.html")
+            .pageWasRendered("/wiki/wiki-without-sidebar/Installation/index.html")
     }
 
     @Test
@@ -83,43 +81,41 @@ class GitlabWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GitlabModule()
                     }
                 }
             }
-        """.trimIndent()
+            """.trimIndent()
         )
 
-        val testResults = execute()
-
-        expectThat(testResults).pagesGenerated(6)
-        expectThat(testResults)
-            .pageWasRendered("/wiki/wiki-with-sidebar/index.html")
-            .get { content }
-            .asHtml(removeComments = true)
-            .select("body > ul")
-            .outerHtml()
-            .isEqualTo(
-                """
-                <ul>
-                  <li>
-                    <a href="http://orchid.test/wiki/wiki-with-sidebar/Home">Home</a>
-                  </li>
-                  <li>
-                    <a href="http://orchid.test/wiki/wiki-with-sidebar/GettingStarted">Getting Started</a>
-                    <ul>
-                      <li>
-                        <a href="http://orchid.test/wiki/wiki-with-sidebar/Installation">Installation</a>
-                      </li>
-                      <li>
-                        <a href="http://orchid.test/wiki/wiki-with-sidebar/Configuration">Configuration</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-            """.trimIndent()
-            )
-
-        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/Configuration/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/GettingStarted/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/Home/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/wiki-with-sidebar/Installation/index.html")
+        expectThat(execute())
+            .pagesGenerated(6)
+            .pageWasRendered("/wiki/wiki-with-sidebar/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body > ul")
+                    .outerHtml()
+                    .isEqualTo(
+                        """
+                        <ul>
+                          <li>
+                            <a href="http://orchid.test/wiki/wiki-with-sidebar/Home">Home</a>
+                          </li>
+                          <li>
+                            <a href="http://orchid.test/wiki/wiki-with-sidebar/GettingStarted">Getting Started</a>
+                            <ul>
+                              <li>
+                                <a href="http://orchid.test/wiki/wiki-with-sidebar/Installation">Installation</a>
+                              </li>
+                              <li>
+                                <a href="http://orchid.test/wiki/wiki-with-sidebar/Configuration">Configuration</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                        """.trimIndent()
+                    )
+            }
+            .pageWasRendered("/wiki/wiki-with-sidebar/Configuration/index.html")
+            .pageWasRendered("/wiki/wiki-with-sidebar/GettingStarted/index.html")
+            .pageWasRendered("/wiki/wiki-with-sidebar/Home/index.html")
+            .pageWasRendered("/wiki/wiki-with-sidebar/Installation/index.html")
     }
 
 }
