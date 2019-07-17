@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class EventServiceTest extends OrchidUnitTest {
+public final class EventServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private EventService underTest;

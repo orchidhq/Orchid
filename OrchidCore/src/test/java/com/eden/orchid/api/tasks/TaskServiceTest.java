@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public final class TaskServiceTest extends OrchidUnitTest {
+public final class TaskServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private TaskService underTest;

@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 
-public class TestFlags extends OrchidUnitTest {
+public class TestFlags implements OrchidUnitTest {
 
 // Test Classes
 //----------------------------------------------------------------------------------------------------------------------

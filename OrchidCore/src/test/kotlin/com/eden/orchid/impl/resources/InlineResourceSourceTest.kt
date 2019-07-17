@@ -15,7 +15,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import java.util.HashMap
 
-class InlineResourceSourceTest : OrchidUnitTest() {
+class InlineResourceSourceTest : OrchidUnitTest {
 
     private lateinit var context: OrchidContext
     private lateinit var underTest: InlineResourceSource

@@ -4,23 +4,27 @@ import com.caseyjbrooks.clog.Clog
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 
-open class BaseOrchidTest {
+interface BaseOrchidTest {
 
     @BeforeEach
+    @JvmDefault
     fun baseSetUp() {
         disableLogging()
     }
 
     @AfterEach
+    @JvmDefault
     fun baseTearDown() {
         enableLogging()
     }
 
-    protected fun disableLogging() {
+    @JvmDefault
+    fun disableLogging() {
         Clog.getInstance().setMinPriority(Clog.Priority.FATAL)
     }
 
-    protected fun enableLogging() {
+    @JvmDefault
+    fun enableLogging() {
         Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
     }
 

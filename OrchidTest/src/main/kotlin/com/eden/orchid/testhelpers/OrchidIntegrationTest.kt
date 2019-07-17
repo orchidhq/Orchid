@@ -11,7 +11,7 @@ import java.util.HashMap
 
 open class OrchidIntegrationTest(
     vararg standardAdditionalModules: OrchidModule
-) : BaseOrchidTest() {
+) : BaseOrchidTest {
 
     private var serve = false
 

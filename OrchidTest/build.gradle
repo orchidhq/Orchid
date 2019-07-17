@@ -11,6 +11,7 @@ dependencies {
     api(Libs.junit_jupiter_api)
     api(Libs.junit_jupiter_params)
     api(Libs.kotlin_stdlib_jdk8)
+    api(Libs.kotlinx_html_jvm)
 
     testRuntimeOnly(Libs.junit_jupiter_engine)
 }
