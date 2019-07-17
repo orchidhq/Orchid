@@ -2,7 +2,7 @@ package com.eden.orchid.api.indexing
 
 import com.eden.orchid.testhelpers.OrchidUnitTest
 
-class OrchidIndexText : OrchidUnitTest() {
+class OrchidIndexText : OrchidUnitTest {
 
 //    private lateinit var context: OrchidContext
 //    private lateinit var extractor: OptionsExtractor

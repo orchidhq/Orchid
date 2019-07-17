@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public final class DefaultPermalinkStrategyTest extends OrchidUnitTest {
+public final class DefaultPermalinkStrategyTest implements OrchidUnitTest {
 
     private PermalinkStrategy underTest;
     private Set<PermalinkPathType> pathTypes;

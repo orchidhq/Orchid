@@ -25,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public final class PublicationPipelineTest extends OrchidUnitTest {
+public final class PublicationPipelineTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private OptionsExtractor extractor;

@@ -113,7 +113,6 @@ class ImplModule(
 
     override fun configure() {
         realOnly {
-            Clog.v("ImplModule.realOnly()")
             // Generators
             addToSet(
                 OrchidGenerator::class.java,
@@ -127,11 +126,9 @@ class ImplModule(
             addToSet(AdminList::class.java, getPagesAdminList())
         }
         testOnly {
-            Clog.v("ImplModule.testOnly()")
             addToSet(OrchidGenerator::class.java)
         }
         realAndTest {
-            Clog.v("ImplModule.realAndTest()")
             ClogSetupListener.registerJavaLoggingHandler()
 
             // prepare empty sets for binding

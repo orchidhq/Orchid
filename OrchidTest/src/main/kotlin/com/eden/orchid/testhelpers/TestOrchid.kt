@@ -106,7 +106,7 @@ class TestOrchid {
             modules
                 .filter { it.isHasResources }
                 .forEach {
-                    Clog.v("overriding resources from {}", it.javaClass.simpleName)
+                    Clog.d("overriding resources from {}", it.javaClass.simpleName)
                     addToSet(
                         PluginResourceSource::class.java,
                         PluginFileResourceSource(
