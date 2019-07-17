@@ -16,9 +16,9 @@ class NetlifyCmsGeneratorTest : OrchidIntegrationTest(NetlifyCmsModule(), withGe
     fun test01() {
         configObject("netlifyCms", """ {"config": {"backend": {"name":"git-gateway"}}} """)
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/admin/index.html")
-        expectThat(testResults).pageWasRendered("/admin/config.yml")
+        expectThat(execute())
+            .pageWasRendered("/admin/index.html")
+            .pageWasRendered("/admin/config.yml")
     }
 
 }

@@ -86,8 +86,6 @@ class SharedConfigArchetypeTest : OrchidUnitTest() {
         )
 
         underTest = TestClassWithSharedConfigArchetype()
-
-        enableLogging()
     }
 
     @Archetype(SharedConfigArchetype::class, key = "from")

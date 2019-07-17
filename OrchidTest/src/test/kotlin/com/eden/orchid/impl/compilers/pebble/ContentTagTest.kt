@@ -35,15 +35,15 @@ class ContentTagTest : OrchidIntegrationTest(ContentTagModule(), withGenerator<H
         resource("homepage.peb", input.trim())
         resource("templates/tags/hello.peb", "hello {{ tag.greeting }} {{ tag.content }}")
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo(expected.trim())
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(expected.trim())
+            }
     }
 }
 
