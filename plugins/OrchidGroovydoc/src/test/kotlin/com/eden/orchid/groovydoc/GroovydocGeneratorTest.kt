@@ -14,12 +14,12 @@ class GroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule()) {
     fun test01() {
         configObject("groovydoc", """{"sourceDirs": "mockGroovy" }""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass2/index.html")
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/GroovyClass1/index.html")
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/GroovyClass2/index.html")
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/index.html")
+        expectThat(execute())
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass2/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/GroovyClass1/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/GroovyClass2/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/index.html")
     }
 
 }

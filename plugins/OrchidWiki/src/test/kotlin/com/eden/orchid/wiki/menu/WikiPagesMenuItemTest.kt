@@ -11,6 +11,7 @@ import com.eden.orchid.wiki.WikiModule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import strikt.api.Assertion
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
@@ -19,7 +20,8 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
     @BeforeEach
     fun setUp() {
-        resource("templates/layouts/index.peb", """
+        resource(
+            "templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -36,9 +38,11 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
             {% scripts %}
             </body>
             </html>
-        """.trimIndent())
+        """.trimIndent()
+        )
 
-        resource("templates/includes/menuItem.peb", """
+        resource(
+            "templates/includes/menuItem.peb", """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -59,29 +63,34 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                 <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% endif %}
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     private fun setupWikiSection(sectionBase: String?) {
         val basePath = if (sectionBase != null) "wiki/$sectionBase" else "wiki"
 
-        resource("$basePath/summary.md", """
+        resource(
+            "$basePath/summary.md", """
             * [1](page-one.md)
             * [2](page-two.md)
             * [3-4](page-three/page-four.md)
-        """.trimIndent())
+        """.trimIndent()
+        )
         resource("$basePath/page-one.md")
         resource("$basePath/page-two.md")
         resource("$basePath/page-three/page-four.md")
     }
 
-    private fun TestResults.verifyWikiSection(sectionBase: String?) {
+    private fun Assertion.Builder<TestResults>.verifyWikiSection(sectionBase: String?): Assertion.Builder<TestResults> {
         val basePath = if (sectionBase != null) "wiki/$sectionBase" else "wiki"
 
-        expectThat(this).pageWasRendered("/$basePath/index.html")
-        expectThat(this).pageWasRendered("/$basePath/page-one/index.html")
-        expectThat(this).pageWasRendered("/$basePath/page-two/index.html")
-        expectThat(this).pageWasRendered("/$basePath/page-three/page-four/index.html")
+        pageWasRendered("/$basePath/index.html")
+        pageWasRendered("/$basePath/page-one/index.html")
+        pageWasRendered("/$basePath/page-two/index.html")
+        pageWasRendered("/$basePath/page-three/page-four/index.html")
+
+        return this
     }
 
     @Test
@@ -90,32 +99,34 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
         configObject("theme", """{"menu": [{"type": "wiki"}]}""")
 
         setupWikiSection(null)
-        val testResults = execute()
-        testResults.verifyWikiSection(null)
 
-        expectThat(testResults)
-                .pageWasRendered("/wiki/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/wiki/page-one">1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/wiki/page-two">2</a>
-                    </li>
-                    <li>
-                      <span class="submenu">Page-three</span>
-                      <ul>
+        expectThat(execute())
+            .verifyWikiSection(null)
+            .pageWasRendered("/wiki/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
                         <li>
-                          <a href="http://orchid.test/wiki/page-three/page-four">3-4</a>
+                          <a href="http://orchid.test/wiki/page-one">1</a>
                         </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
+                        <li>
+                          <a href="http://orchid.test/wiki/page-two">2</a>
+                        </li>
+                        <li>
+                          <span class="submenu">Page-three</span>
+                          <ul>
+                            <li>
+                              <a href="http://orchid.test/wiki/page-three/page-four">3-4</a>
+                            </li>
+                          </ul>
+                        </li>
+                        """.trimIndent()
+                    )
+            }
     }
 
     @Test
@@ -124,32 +135,34 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
         configObject("theme", """{"menu": [{"type": "wiki", "section": "wiki"}]}""")
 
         setupWikiSection(null)
-        val testResults = execute()
-        testResults.verifyWikiSection(null)
 
-        expectThat(testResults)
-                .pageWasRendered("/wiki/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/wiki/page-one">1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/wiki/page-two">2</a>
-                    </li>
-                    <li>
-                      <span class="submenu">Page-three</span>
-                      <ul>
+        expectThat(execute())
+            .verifyWikiSection(null)
+            .pageWasRendered("/wiki/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
                         <li>
-                          <a href="http://orchid.test/wiki/page-three/page-four">3-4</a>
+                          <a href="http://orchid.test/wiki/page-one">1</a>
                         </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
+                        <li>
+                          <a href="http://orchid.test/wiki/page-two">2</a>
+                        </li>
+                        <li>
+                          <span class="submenu">Page-three</span>
+                          <ul>
+                            <li>
+                              <a href="http://orchid.test/wiki/page-three/page-four">3-4</a>
+                            </li>
+                          </ul>
+                        </li>
+                        """.trimIndent()
+                    )
+            }
     }
 
     @Test
@@ -160,21 +173,81 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection("section1")
         setupWikiSection("section2")
-        val testResults = execute()
-        testResults.verifyWikiSection("section1")
-        testResults.verifyWikiSection("section2")
 
-        expectThat(testResults)
-                .pageWasRendered("/wiki/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <span class="submenu">Section1</span>
-                      <ul>
+        expectThat(execute())
+            .verifyWikiSection("section1")
+            .verifyWikiSection("section2")
+            .pageWasRendered("/wiki/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        <li>
+                          <span class="submenu">Section1</span>
+                          <ul>
+                            <li>
+                              <a href="http://orchid.test/wiki/section1/page-one">1</a>
+                            </li>
+                            <li>
+                              <a href="http://orchid.test/wiki/section1/page-two">2</a>
+                            </li>
+                            <li>
+                              <span class="submenu">Page-three</span>
+                              <ul>
+                                <li>
+                                  <a href="http://orchid.test/wiki/section1/page-three/page-four">3-4</a>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <span class="submenu">Section2</span>
+                          <ul>
+                            <li>
+                              <a href="http://orchid.test/wiki/section2/page-one">1</a>
+                            </li>
+                            <li>
+                              <a href="http://orchid.test/wiki/section2/page-two">2</a>
+                            </li>
+                            <li>
+                              <span class="submenu">Page-three</span>
+                              <ul>
+                                <li>
+                                  <a href="http://orchid.test/wiki/section2/page-three/page-four">3-4</a>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        """.trimIndent()
+                    )
+            }
+    }
+
+    @Test
+    @DisplayName("Test WikiPagesMenuItem with only multiple sections, and setting a section on the menu item")
+    fun test04() {
+        configObject("theme", """{"menu": [{"type": "wiki", "section": "section1"}]}""")
+        configObject("wiki", """{"sections": ["section1", "section2"]}""")
+
+        setupWikiSection("section1")
+        setupWikiSection("section2")
+
+        expectThat(execute())
+            .verifyWikiSection("section1")
+            .verifyWikiSection("section2")
+            .pageWasRendered("/wiki/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
                         <li>
                           <a href="http://orchid.test/wiki/section1/page-one">1</a>
                         </li>
@@ -189,65 +262,9 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                             </li>
                           </ul>
                         </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <span class="submenu">Section2</span>
-                      <ul>
-                        <li>
-                          <a href="http://orchid.test/wiki/section2/page-one">1</a>
-                        </li>
-                        <li>
-                          <a href="http://orchid.test/wiki/section2/page-two">2</a>
-                        </li>
-                        <li>
-                          <span class="submenu">Page-three</span>
-                          <ul>
-                            <li>
-                              <a href="http://orchid.test/wiki/section2/page-three/page-four">3-4</a>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
-    }
-
-    @Test
-    @DisplayName("Test WikiPagesMenuItem with only multiple sections, and setting a section on the menu item")
-    fun test04() {
-        configObject("theme", """{"menu": [{"type": "wiki", "section": "section1"}]}""")
-        configObject("wiki", """{"sections": ["section1", "section2"]}""")
-
-        setupWikiSection("section1")
-        setupWikiSection("section2")
-        val testResults = execute()
-        testResults.verifyWikiSection("section1")
-        testResults.verifyWikiSection("section2")
-
-        expectThat(testResults)
-                .pageWasRendered("/wiki/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/wiki/section1/page-one">1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/wiki/section1/page-two">2</a>
-                    </li>
-                    <li>
-                      <span class="submenu">Page-three</span>
-                      <ul>
-                        <li>
-                          <a href="http://orchid.test/wiki/section1/page-three/page-four">3-4</a>
-                        </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
+                        """.trimIndent()
+                    )
+            }
     }
 
     @Test
@@ -258,18 +275,18 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
 
         setupWikiSection("section1")
         setupWikiSection("section2")
-        val testResults = execute()
-        testResults.verifyWikiSection("section1")
-        testResults.verifyWikiSection("section2")
 
-        expectThat(testResults)
-                .pageWasRendered("/wiki/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("")
+        expectThat(execute())
+            .verifyWikiSection("section1")
+            .verifyWikiSection("section2")
+            .pageWasRendered("/wiki/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo("")
+            }
     }
 
 }

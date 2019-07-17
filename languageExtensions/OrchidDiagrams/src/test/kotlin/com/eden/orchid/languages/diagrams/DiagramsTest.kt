@@ -27,15 +27,15 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             """.trimMargin()
         )
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("<p>Bob-&gt;Alice : hello</p>")
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo("<p>Bob-&gt;Alice : hello</p>")
+            }
     }
 
     @Test
@@ -48,15 +48,15 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             """.trimMargin()
         )
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("")
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo("")
+            }
     }
 
     @Test
@@ -69,13 +69,13 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             """.trimMargin()
         )
 
-        val testResults = execute(DiagramsModule())
-        expectThat(testResults)
-            .pageWasRendered("/index.svg")
-            .get { content }
-            .asHtml(true)
-            .select("body > svg")
-            .matches()
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml(true)
+                    .select("body > svg")
+                    .matches()
+            }
     }
 
     @Test
@@ -88,13 +88,13 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             """.trimMargin()
         )
 
-        val testResults = execute(DiagramsModule())
-        expectThat(testResults)
-            .pageWasRendered("/index.svg")
-            .get { content }
-            .asHtml(true)
-            .select("body > svg")
-            .matches()
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml(true)
+                    .select("body > svg")
+                    .matches()
+            }
     }
 
     @Test
@@ -105,6 +105,7 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             |Bob->Alice : hello
             |@enduml
             """.trimMargin()
+
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
@@ -119,6 +120,7 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         val input = """
             |Bob->Alice : hello
             """.trimMargin()
+
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
@@ -143,6 +145,7 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             |Bob2->Alice2 : hello
             |@enduml
             """.trimMargin()
+
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)

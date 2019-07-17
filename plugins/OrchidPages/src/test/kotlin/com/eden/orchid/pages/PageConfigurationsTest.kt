@@ -24,11 +24,11 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
     fun test01() {
         configObject("allPages", """{"layout": "layoutone"}""")
         resource("pages/page-1.md")
+
         expectThat(execute())
-                .pageWasRendered("/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -36,11 +36,11 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
     fun test02() {
         configObject("pages", """{"staticPages": {"layout": "layoutone"}}""")
         resource("pages/page-1.md")
+
         expectThat(execute())
-                .pageWasRendered("/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -48,11 +48,11 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
     fun test03() {
         configObject("pages", """{"groupone": {"layout": "layoutone"}}""")
         resource("pages/groupone/page-1.md")
+
         expectThat(execute())
-                .pageWasRendered("/groupone/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/groupone/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -62,11 +62,11 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
         configObject("pages", """{"staticPages": {"layout": "layouttwo"}}""")
 
         resource("pages/page-1.md")
+
         expectThat(execute())
-                .pageWasRendered("/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
+            .pageWasRendered("/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
     }
 
     @Test
@@ -76,11 +76,11 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
         configObject("pages", """{"groupone": {"layout": "layouttwo"}}""")
 
         resource("pages/groupone/page-1.md")
+
         expectThat(execute())
-                .pageWasRendered("/groupone/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
+            .pageWasRendered("/groupone/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
     }
 
     @Test
@@ -95,25 +95,16 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/groupone/page-1.md")
         resource("pages/grouptwo/page-1.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
-
-        expectThat(testResults)
-                .pageWasRendered("/groupone/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutthree")
-
-        expectThat(testResults)
-                .pageWasRendered("/grouptwo/page-1/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutfour")
+        expectThat(execute())
+            .pageWasRendered("/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
+            .pageWasRendered("/groupone/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layoutthree")
+            }
+            .pageWasRendered("/grouptwo/page-1/index.html") {
+                get { origin.layout }.isEqualTo("layoutfour")
+            }
     }
 
 

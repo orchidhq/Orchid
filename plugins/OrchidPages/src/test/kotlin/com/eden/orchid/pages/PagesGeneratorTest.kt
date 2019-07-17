@@ -15,8 +15,8 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
     fun test01() {
         resource("pages/page-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html")
     }
 
     @Test
@@ -24,8 +24,8 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
     fun test02() {
         resource("pages/page-one/index.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html")
     }
 
     @Test
@@ -34,8 +34,8 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         configObject("pages", """{"baseDir": "otherPages"}""")
         resource("otherPages/page-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html")
     }
 
     @Test
@@ -44,15 +44,15 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         configObject("pages", """{"baseDir": "otherPages"}""")
         resource("pages/page-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
     @Test
     @DisplayName("The Pages generator finishes successfully when there are no resources for it.")
     fun test05() {
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
 }

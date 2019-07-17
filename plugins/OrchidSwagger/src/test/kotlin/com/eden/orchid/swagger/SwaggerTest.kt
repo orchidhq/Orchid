@@ -34,17 +34,18 @@ class SwaggerTest : OrchidIntegrationTest(SwaggerModule(), withGenerator<Homepag
             """.trimMargin()
         )
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/index.html")
-            .get { content }
-            .and {
-                asHtml()
-                    .select("#swagger-ui")
-                    .matches()
-                    .hasSize(1)
-            }
-            .and {
-                contains("https://petstore.swagger.io/v2/swagger.json")
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .and {
+                        asHtml()
+                            .select("#swagger-ui")
+                            .matches()
+                            .hasSize(1)
+                    }
+                    .and {
+                        contains("https://petstore.swagger.io/v2/swagger.json")
+                    }
             }
     }
 

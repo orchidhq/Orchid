@@ -15,10 +15,10 @@ class JavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
     fun test01() {
         configObject("javadoc", """{ "sourceDirs": "mockJava" }""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/JavaClass2/index.html")
-        expectThat(testResults).pageWasRendered("/com/eden/orchid/mock/index.html")
+        expectThat(execute())
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass2/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/index.html")
     }
 
 }
