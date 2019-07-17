@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.mock;
 
-public final class IndexServiceTest extends OrchidUnitTest {
+public final class IndexServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private IndexService underTest;

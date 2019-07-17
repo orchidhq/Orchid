@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-public final class ResourceServiceTest extends OrchidUnitTest {
+public final class ResourceServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private ResourceService underTest;

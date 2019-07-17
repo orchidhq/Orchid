@@ -27,7 +27,7 @@ import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import strikt.assertions.isTrue
 
-class OrchidPrecompilerTest : OrchidUnitTest() {
+class OrchidPrecompilerTest : OrchidUnitTest {
 
     private lateinit var context: OrchidContext
     private lateinit var compilerService: CompilerService

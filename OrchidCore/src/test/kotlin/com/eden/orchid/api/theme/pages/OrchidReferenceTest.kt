@@ -15,7 +15,7 @@ import strikt.api.expectThat
 import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 
-class OrchidReferenceTest : OrchidUnitTest() {
+class OrchidReferenceTest : OrchidUnitTest {
 
     lateinit var context: OrchidContext
 

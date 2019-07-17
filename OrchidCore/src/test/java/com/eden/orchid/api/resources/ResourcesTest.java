@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public final class ResourcesTest extends OrchidUnitTest {
+public final class ResourcesTest implements OrchidUnitTest {
 
     private String input;
 

@@ -11,7 +11,7 @@ import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 
 @DisplayName("Tests the formatting accepted by the LatestPostsCollection")
-class PostsCollectionTest : OrchidUnitTest() {
+class PostsCollectionTest : OrchidUnitTest {
 
     @ParameterizedTest
     @CsvSource(

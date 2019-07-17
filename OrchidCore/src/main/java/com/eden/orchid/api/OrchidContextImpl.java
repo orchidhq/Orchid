@@ -28,6 +28,12 @@ import java.util.Set;
 
 @Singleton
 public final class OrchidContextImpl implements OrchidContext {
+    static {
+        // moved here from DiagramsModule, to prevent usage of AWT from
+        // pulling window focus and changing screens automatically
+        System.setProperty("java.awt.headless", "true");
+    }
+
     private OrchidSite site;
     private Map<Class<? extends OrchidService>, OrchidService> services;
 

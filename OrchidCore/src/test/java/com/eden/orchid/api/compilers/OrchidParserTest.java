@@ -10,7 +10,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-public final class OrchidParserTest extends OrchidUnitTest {
+public final class OrchidParserTest implements OrchidUnitTest {
 
     private OrchidParser underTest;
 

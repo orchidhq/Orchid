@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class CompilerServiceTest extends OrchidUnitTest {
+public final class CompilerServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private CompilerService underTest;

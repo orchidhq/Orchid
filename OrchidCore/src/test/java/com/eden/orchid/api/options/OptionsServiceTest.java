@@ -10,7 +10,7 @@ import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
-public final class OptionsServiceTest extends OrchidUnitTest {
+public final class OptionsServiceTest implements OrchidUnitTest {
 
     private Set<TemplateGlobal> globals;
     private OrchidContext context;

@@ -9,7 +9,7 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-public final class OrchidCompilerTest extends OrchidUnitTest {
+public final class OrchidCompilerTest implements OrchidUnitTest {
 
     private OrchidCompiler underTest;
 

@@ -10,7 +10,7 @@ class TestResults(
 ) {
 
     override fun toString(): String {
-        return "TestResults: " + (if (isRenderingSuccess) "success" else "failure") + " with " + renderedPageMap.size + " pages"
+        return "TestResults: " + (if (isRenderingSuccess && thrownException == null) "success" else "failure") + " with " + renderedPageMap.size + " pages"
     }
 
     fun showResults(): String {
