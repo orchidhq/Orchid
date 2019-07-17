@@ -27,7 +27,7 @@ import org.mockito.Mockito.mock
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class SharedConfigArchetypeTest : OrchidUnitTest() {
+class SharedConfigArchetypeTest : OrchidUnitTest {
 
     private lateinit var context: OrchidContext
     private lateinit var extractors: Set<OptionExtractor<*>>

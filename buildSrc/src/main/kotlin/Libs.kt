@@ -48,8 +48,6 @@ object Libs {
      * https://github.com/google/guice */
     const val guice: String = "com.google.inject:guice:" + Versions.guice
 
-    const val javax_inject: String = "javax.inject:javax.inject:" + Versions.javax_inject
-
     const val gradle_bintray_plugin: String = "com.jfrog.bintray.gradle:gradle-bintray-plugin:" +
             Versions.gradle_bintray_plugin
 
@@ -59,9 +57,6 @@ object Libs {
 
     const val openhtmltopdf_core: String = "com.openhtmltopdf:openhtmltopdf-core:" +
             Versions.com_openhtmltopdf
-
-    const val openhtmltopdf_jsoup_dom_converter: String =
-            "com.openhtmltopdf:openhtmltopdf-jsoup-dom-converter:" + Versions.com_openhtmltopdf
 
     const val openhtmltopdf_pdfbox: String = "com.openhtmltopdf:openhtmltopdf-pdfbox:" +
             Versions.com_openhtmltopdf
@@ -141,6 +136,8 @@ object Libs {
      * https://strikt.io/ */
     const val strikt_core: String = "io.strikt:strikt-core:" + Versions.strikt_core
 
+    const val javax_inject: String = "javax.inject:javax.inject:" + Versions.javax_inject
+
     /**
      * http://beanvalidation.org */
     const val validation_api: String = "javax.validation:validation-api:" + Versions.validation_api
@@ -202,6 +199,11 @@ object Libs {
      * https://kotlinlang.org/ */
     const val kotlin_stdlib_jdk8: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" +
             Versions.org_jetbrains_kotlin
+
+    /**
+     * https://github.com/Kotlin/kotlinx.html */
+    const val kotlinx_html_jvm: String = "org.jetbrains.kotlinx:kotlinx-html-jvm:" +
+            Versions.kotlinx_html_jvm
 
     const val json: String = "org.json:json:" + Versions.json
 

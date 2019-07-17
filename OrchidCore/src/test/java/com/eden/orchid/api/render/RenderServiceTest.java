@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class RenderServiceTest extends OrchidUnitTest {
+public final class RenderServiceTest implements OrchidUnitTest {
 
     private Theme theme;
     private OptionsExtractor extractor;

@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public final class ThemeServiceTest extends OrchidUnitTest {
+public final class ThemeServiceTest implements OrchidUnitTest {
 
 //    private Injector injector;
     private OrchidContext context;
