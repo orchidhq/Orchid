@@ -38,19 +38,20 @@ class PresentationsGeneratorTest : OrchidIntegrationTest(PresentationsModule(), 
         resource("presentations/test-presentation/slide-2.md", "Slide 2")
         resource("presentations/test-presentation/slide-3.md", "Slide 3")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/index.html")
-            .get { content }
-            .asHtml()
-            .and {
-                select(".deck-container")
-                    .matches()
-                    .hasSize(1)
-            }
-            .and {
-                select(".slide")
-                    .matches()
-                    .hasSize(3)
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .and {
+                        select(".deck-container")
+                            .matches()
+                            .hasSize(1)
+                    }
+                    .and {
+                        select(".slide")
+                            .matches()
+                            .hasSize(3)
+                    }
             }
     }
 

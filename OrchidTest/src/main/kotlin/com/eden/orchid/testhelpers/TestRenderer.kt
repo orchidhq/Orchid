@@ -36,6 +36,9 @@ class TestRenderer : OrchidRenderer {
         private val contentStream: InputStream,
         val origin: OrchidPage
     ) {
+
+        var evaluated: Boolean = false
+
         val content: String by lazy {
             IOUtils.toString(contentStream, Charset.forName("UTF-8"))
         }

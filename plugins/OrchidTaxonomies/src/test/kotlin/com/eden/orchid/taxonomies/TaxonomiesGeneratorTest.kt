@@ -20,11 +20,11 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
         resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/tags/index.html")
-        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
+            .pageWasRendered("/page-one/index.html")
+            .pageWasRendered("/tags/index.html")
+            .pageWasRendered("/tags/tag1/index.html")
     }
 
     @Test
@@ -35,11 +35,11 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
         resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/tags/index.html")
-        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
+            .pageWasRendered("/page-one/index.html")
+            .pageWasRendered("/tags/index.html")
+            .pageWasRendered("/tags/tag1/index.html")
     }
 
     @Test
@@ -50,11 +50,11 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
         resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/tags/index.html")
-        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
+        expectThat(execute())
+            .pageWasRendered("/2018/1/1/post-one/index.html")
+            .pageWasRendered("/page-one/index.html")
+            .pageWasRendered("/tags/index.html")
+            .pageWasRendered("/tags/tag1/index.html")
     }
 
     @Test
@@ -67,23 +67,23 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         resource("posts/category2/2018-02-01-post-two.md", "", """{"tags": ["tag1"]}""")
         resource("pages/page-one.md", "", """{"tags": ["tag2"]}""")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/category1/2018/1/1/post-one/index.html")
-        expectThat(testResults).pageWasRendered("/category2/2018/2/1/post-two/index.html")
-        expectThat(testResults).pageWasRendered("/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/tags/index.html")
-        expectThat(testResults).pageWasRendered("/tags/tag1/index.html")
-        expectThat(testResults).pageWasRendered("/tags/tag2/index.html")
-        expectThat(testResults).pageWasRendered("/categories/index.html")
-        expectThat(testResults).pageWasRendered("/categories/category1/index.html")
-        expectThat(testResults).pageWasRendered("/categories/category2/index.html")
+        expectThat(execute())
+            .pageWasRendered("/category1/2018/1/1/post-one/index.html")
+            .pageWasRendered("/category2/2018/2/1/post-two/index.html")
+            .pageWasRendered("/page-one/index.html")
+            .pageWasRendered("/tags/index.html")
+            .pageWasRendered("/tags/tag1/index.html")
+            .pageWasRendered("/tags/tag2/index.html")
+            .pageWasRendered("/categories/index.html")
+            .pageWasRendered("/categories/category1/index.html")
+            .pageWasRendered("/categories/category2/index.html")
     }
 
     @Test
     @DisplayName("The Taxonomies generator finishes successfully when there are no resources for it.")
     fun test05() {
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
     @Test
@@ -92,8 +92,8 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
         configObject("posts", """{"categories": ["category1", "category2"]}""")
         configObject("taxonomies", """{"taxonomies": ["tags", "categories"]}""")
 
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
 }

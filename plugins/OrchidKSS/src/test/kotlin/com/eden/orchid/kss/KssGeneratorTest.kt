@@ -22,15 +22,12 @@ class KssGeneratorTest : OrchidIntegrationTest(KssModule()) {
                 .readText()
         )
 
-        val testResults = execute()
-        expectThat(testResults) {
-            get { renderedPageMap }.hasSize(17)
-
-            pageWasRendered("/styleguide/UI/index.html")
-            pageWasRendered("/styleguide/1/index.html")
-            pageWasRendered("/styleguide/1/1/index.html")
-            pageWasRendered("/styleguide/1/1/2/index.html")
-        }
+        expectThat(execute())
+            .and { get { renderedPageMap }.hasSize(18) }
+            .pageWasRendered("/styleguide/UI/index.html")
+            .pageWasRendered("/styleguide/1/index.html")
+            .pageWasRendered("/styleguide/1/1/index.html")
+            .pageWasRendered("/styleguide/1/1/2/index.html")
     }
 
 }

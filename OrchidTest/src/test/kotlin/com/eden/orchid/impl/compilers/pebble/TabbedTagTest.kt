@@ -31,15 +31,15 @@ class TabbedTagTest : OrchidIntegrationTest(TabbedTagModule(), withGenerator<Hom
         resource("homepage.peb", input.trim())
         resource("templates/tags/hello.peb", "hello {{ tag.greeting }}")
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("/index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo(expected.trim())
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml(true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(expected.trim())
+            }
     }
 }
 

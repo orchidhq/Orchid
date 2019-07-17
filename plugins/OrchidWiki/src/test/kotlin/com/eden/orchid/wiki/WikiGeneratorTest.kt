@@ -21,9 +21,9 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/summary.md", "* [Page One](page-one.md)")
         resource("wiki/page-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/wiki/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html")
+            .pageWasRendered("/wiki/page-one/index.html")
     }
 
     @Test
@@ -32,9 +32,9 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/summary.html", "<ul><li><a href=\"page-one.md\">Page One</a></li></ul>")
         resource("wiki/page-one.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/wiki/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html")
+            .pageWasRendered("/wiki/page-one/index.html")
     }
 
     @Test
@@ -46,12 +46,12 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")
         resource("wiki/section2/page-two.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/wiki/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section1/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html")
+            .pageWasRendered("/wiki/section1/index.html")
+            .pageWasRendered("/wiki/section1/page-one/index.html")
+            .pageWasRendered("/wiki/section2/index.html")
+            .pageWasRendered("/wiki/section2/page-two/index.html")
     }
 
     @Test
@@ -63,12 +63,12 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")
         resource("wiki/section2/page-two.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/wiki/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section1/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html")
+            .pageWasRendered("/wiki/section1/index.html")
+            .pageWasRendered("/wiki/section1/page-one/index.html")
+            .pageWasRendered("/wiki/section2/index.html")
+            .pageWasRendered("/wiki/section2/page-two/index.html")
     }
 
     @Test
@@ -80,76 +80,83 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")
         resource("wiki/section2/page-two.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/wiki/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section1/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section1/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section2/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/section2/page-two/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html")
+            .pageWasRendered("/wiki/section1/index.html")
+            .pageWasRendered("/wiki/section1/page-one/index.html")
+            .pageWasRendered("/wiki/section2/index.html")
+            .pageWasRendered("/wiki/section2/page-two/index.html")
     }
 
     @Test
     @DisplayName("The Wiki generator finishes successfully when there are no resources for it.")
     fun test06() {
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+        expectThat(execute())
+            .nothingRendered()
     }
 
     @Test
     @DisplayName("The Wiki generator finishes successfully when there are no resources for it, when using multiple sections.")
     fun test07() {
         configObject("wiki", """{"sections": ["section1", "section2"]}""")
-        val testResults = execute()
-        expectThat(testResults).nothingRendered()
+
+        expectThat(execute())
+            .nothingRendered()
     }
 
     @Test
     @DisplayName("External links are ignored")
     fun test08() {
-        resource("wiki/summary.md", """
+        resource(
+            "wiki/summary.md", """
             * [Page One](page-one.md)
             * [Page Two](https://www.example.com/)
-        """.trimIndent())
+            """.trimIndent()
+        )
         resource("wiki/page-one.md")
 
-        val testResults = execute()
-        expectThat(testResults)
-                .pageWasRendered("/wiki/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <ul>
-                      <li>
-                        <a href="http://orchid.test/wiki/page-one">Page One</a>
-                      </li>
-                      <li>
-                        <a href="https://www.example.com/">Page Two</a>
-                      </li>
-                    </ul>
-                """.trimIndent())
-        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        <ul>
+                          <li>
+                            <a href="http://orchid.test/wiki/page-one">Page One</a>
+                          </li>
+                          <li>
+                            <a href="https://www.example.com/">Page Two</a>
+                          </li>
+                        </ul>
+                        """.trimIndent()
+                    )
+            }
+            .pageWasRendered("/wiki/page-one/index.html")
     }
 
     @Test
     @DisplayName("Files named index are treated as the index of that directory, rather than including 'index' in the path.")
     fun test09() {
-        resource("wiki/summary.md", """
+        resource(
+            "wiki/summary.md", """
             |* [Page One](page-one.md)
             |  * [Page Two](page-two/index.md)
             |  * [Page Three](page-two/page-three.md)
-        """.trimMargin())
+            """.trimMargin()
+        )
         resource("wiki/page-one.md")
         resource("wiki/page-two/index.md")
         resource("wiki/page-two/page-three.md")
 
-        val testResults = execute()
-        expectThat(testResults).pageWasRendered("/wiki/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/page-one/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/page-two/index.html")
-        expectThat(testResults).pageWasRendered("/wiki/page-two/page-three/index.html")
+        expectThat(execute())
+            .pageWasRendered("/wiki/index.html")
+            .pageWasRendered("/wiki/page-one/index.html")
+            .pageWasRendered("/wiki/page-two/index.html")
+            .pageWasRendered("/wiki/page-two/page-three/index.html")
     }
 
 }

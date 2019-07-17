@@ -18,7 +18,8 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
     @BeforeEach
     fun setUp() {
-        resource("templates/layouts/index.peb", """
+        resource(
+            "templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -35,9 +36,11 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             {% scripts %}
             </body>
             </html>
-        """.trimIndent())
+            """.trimIndent()
+        )
 
-        resource("templates/includes/menuItem.peb", """
+        resource(
+            "templates/includes/menuItem.peb", """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -58,7 +61,8 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
                 <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% endif %}
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     @Test
@@ -70,26 +74,27 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/page-2.md")
         resource("pages/page-3.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/page-1/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/page-1">Page 1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/page-2">Page 2</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/page-3">Page 3</a>
-                    </li>
-                """.trimIndent())
+        expectThat(execute())
+            .pageWasRendered("/page-1/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        <li>
+                          <a href="http://orchid.test/page-1">Page 1</a>
+                        </li>
+                        <li>
+                          <a href="http://orchid.test/page-2">Page 2</a>
+                        </li>
+                        <li>
+                          <a href="http://orchid.test/page-3">Page 3</a>
+                        </li>
+                        """.trimIndent()
+                    )
+            }
     }
 
     @Test
@@ -105,26 +110,27 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/two/page-2.md")
         resource("pages/two/page-3.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/one/page-1/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/one/page-1">Page 1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/one/page-2">Page 2</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/one/page-3">Page 3</a>
-                    </li>
-                """.trimIndent())
+        expectThat(execute())
+            .pageWasRendered("/one/page-1/index.html") {
+                get { content }
+                    .asHtml(removeComments = true)
+                    .select("body #menu")
+                    .matches()
+                    .innerHtml()
+                    .isEqualTo(
+                        """
+                        <li>
+                          <a href="http://orchid.test/one/page-1">Page 1</a>
+                        </li>
+                        <li>
+                          <a href="http://orchid.test/one/page-2">Page 2</a>
+                        </li>
+                        <li>
+                          <a href="http://orchid.test/one/page-3">Page 3</a>
+                        </li>
+                        """.trimIndent()
+                    )
+            }
     }
 
 }

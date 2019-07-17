@@ -14,6 +14,11 @@ fun Assertion.Builder<TestResults>.nothingRendered(): Assertion.Builder<TestResu
         it.isRenderingSuccess && it.renderedPageMap.isEmpty()
     }
 
+fun Assertion.Builder<TestResults>.nothingElseRendered(): Assertion.Builder<TestResults> =
+    assertThat("all rendered pages have been evaluated") {
+        it.renderedPageMap.all { it.value.evaluated }
+    }
+
 fun Assertion.Builder<TestResults>.pagesGenerated(size: Int): Assertion.Builder<TestResults> =
     apply {
         assert("exactly $size pages were rendered") {
@@ -28,10 +33,19 @@ fun Assertion.Builder<TestResults>.pagesGenerated(size: Int): Assertion.Builder<
         }
     }
 
-fun Assertion.Builder<TestResults>.pageWasRendered(name: String): Assertion.Builder<TestRenderer.TestRenderedPage> =
+fun Assertion.Builder<TestResults>.printResults() : Assertion.Builder<TestResults> {
+    return and { get { this.printResults() } }
+}
+
+fun Assertion.Builder<TestResults>.pageWasRendered(
+    name: String,
+    block: Assertion.Builder<TestRenderer.TestRenderedPage>.()->Unit = {}
+): Assertion.Builder<TestResults> =
     assertThat("page was rendered at $name") {
         it.isRenderingSuccess && it.renderedPageMap[name] != null
-    }.get { renderedPageMap[name]!! }
+    }.and {
+        get { renderedPageMap[name]!!.apply { evaluated = true } }.block()
+    }
 
 fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.Builder<TestResults> =
     assertThat("page was not rendered at $name") {
