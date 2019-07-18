@@ -2,16 +2,19 @@ package com.eden.orchid.languages.asciidoc
 
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtml
-import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.outerHtmlMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
+import kotlinx.html.div
+import kotlinx.html.p
+import kotlinx.html.strong
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
 class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
@@ -29,17 +32,16 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }
-                    .asHtml(true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                |<p>
-                |  <strong>Markdown Page</strong>
-                |</p>
-                """.trimMargin()
-                    )
+                    .asHtml()
+                    .select("body") {
+                        outerHtmlMatches {
+                            p {
+                                strong {
+                                    +"Markdown Page"
+                                }
+                            }
+                        }
+                    }
             }
     }
 
@@ -56,11 +58,10 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }
-                    .asHtml(true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo("")
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches { +"" }
+                    }
             }
     }
 
@@ -77,19 +78,18 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
                 get { content }
-                    .asHtml(true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                        |<div class="paragraph">
-                        |  <p>
-                        |    <strong>Asciidoc Page</strong>
-                        |  </p>
-                        |</div>
-                        """.trimMargin()
-                    )
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
     }
 
