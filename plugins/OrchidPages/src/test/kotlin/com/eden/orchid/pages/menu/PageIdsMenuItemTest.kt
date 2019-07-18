@@ -2,16 +2,19 @@ package com.eden.orchid.pages.menu
 
 import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtml
-import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.outerHtmlMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import kotlinx.html.a
+import kotlinx.html.id
+import kotlinx.html.li
+import kotlinx.html.span
+import kotlinx.html.ul
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests menu items from Pages plugin")
 class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
@@ -28,11 +31,11 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             </head>
             <body>
             {% page %}
-            <div id="menu">
+            <ul id="menu">
             {% for menuItem in theme.menu.getMenuItems(page) %}
                 {% include 'includes/menuItem' with {"menuItem": menuItem} %}
             {% endfor %}
-            </div>
+            </ul>
             {% scripts %}
             </body>
             </html>
@@ -94,38 +97,24 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
                 get { content }
-                    .asHtml(removeComments = true)
-                    .select("body #menu")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                        <li>
-                          <a href="#header-1">Header 1</a>
-                        </li>
-                        <li>
-                          <a href="#header-1-1">Header 1-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-1-2">Header 1-2</a>
-                        </li>
-                        <li>
-                          <a href="#header-2">Header 2</a>
-                        </li>
-                        <li>
-                          <a href="#header-2-1">Header 2-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-2-1-1">Header 2-1-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-2-2">Header 2-2</a>
-                        </li>
-                        <li>
-                          <a href="#header-2-2-1">Header 2-2-1</a>
-                        </li>
-                        """.trimIndent()
-                    )
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+
+                                li { a(href = "#header-1") { +"Header 1" } }
+                                li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+
+                                li { a(href = "#header-2") { +"Header 2" } }
+                                li { a(href = "#header-2-1") { +"Header 2-1" } }
+                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                                li { a(href = "#header-2-2") { +"Header 2-2" } }
+                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
+                            }
+                        }
+                    }
             }
     }
 
@@ -158,46 +147,39 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
                 get { content }
-                    .asHtml(removeComments = true)
-                    .select("body #menu")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                        <li>
-                          <span class="submenu">Header 1</span>
-                          <ul>
-                            <li>
-                              <a href="#header-1-1">Header 1-1</a>
-                            </li>
-                            <li>
-                              <a href="#header-1-2">Header 1-2</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <span class="submenu">Header 2</span>
-                          <ul>
-                            <li>
-                              <span class="submenu">Header 2-1</span>
-                              <ul>
-                                <li>
-                                  <a href="#header-2-1-1">Header 2-1-1</a>
-                                </li>
-                              </ul>
-                            </li>
-                            <li>
-                              <span class="submenu">Header 2-2</span>
-                              <ul>
-                                <li>
-                                  <a href="#header-2-2-1">Header 2-2-1</a>
-                                </li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                        """.trimIndent()
-                    )
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li {
+                                    span("submenu") { +"Header 1" }
+                                    ul {
+                                        li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                        li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                    }
+                                }
+
+                                li {
+                                    span("submenu") { +"Header 2" }
+                                    ul {
+                                        li {
+                                            span("submenu") { +"Header 2-1" }
+                                            ul {
+                                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                                            }
+                                        }
+                                        li {
+                                            span("submenu") { +"Header 2-2" }
+                                            ul {
+                                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
     }
 
@@ -233,36 +215,29 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
                 get { content }
-                    .asHtml(removeComments = true)
-                    .select("body #menu")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                        <li>
-                          <span class="submenu">Header 1</span>
-                          <ul>
-                            <li>
-                              <a href="#header-1-1">Header 1-1</a>
-                            </li>
-                            <li>
-                              <a href="#header-1-2">Header 1-2</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <span class="submenu">Header 2</span>
-                          <ul>
-                            <li>
-                              <a href="#header-2-1">Header 2-1</a>
-                            </li>
-                            <li>
-                              <a href="#header-2-2">Header 2-2</a>
-                            </li>
-                          </ul>
-                        </li>
-                        """.trimIndent()
-                    )
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li {
+                                    span("submenu") { +"Header 1" }
+                                    ul {
+                                        li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                        li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                    }
+                                }
+
+                                li {
+                                    span("submenu") { +"Header 2" }
+                                    ul {
+                                        li { a(href = "#header-2-1") { +"Header 2-1" } }
+                                        li { a(href = "#header-2-2") { +"Header 2-2" } }
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
     }
 
@@ -298,36 +273,28 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
                 get { content }
-                    .asHtml(removeComments = true)
-                    .select("body #menu")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                        <li>
-                          <a href="#header-1-1">Header 1-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-1-2">Header 1-2</a>
-                        </li>
-                        <li>
-                          <span class="submenu">Header 2-1</span>
-                          <ul>
-                            <li>
-                              <a href="#header-2-1-1">Header 2-1-1</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <span class="submenu">Header 2-2</span>
-                          <ul>
-                            <li>
-                              <a href="#header-2-2-1">Header 2-2-1</a>
-                            </li>
-                          </ul>
-                        </li>
-                        """.trimIndent()
-                    )
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                li {
+                                    span("submenu") { +"Header 2-1" }
+                                    ul {
+                                        li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                                    }
+                                }
+                                li {
+                                    span("submenu") { +"Header 2-2" }
+                                    ul {
+                                        li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
     }
 

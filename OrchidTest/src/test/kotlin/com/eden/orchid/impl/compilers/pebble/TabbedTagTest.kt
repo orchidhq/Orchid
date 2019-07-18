@@ -7,8 +7,7 @@ import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtml
-import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.innerHtmlMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -17,7 +16,6 @@ import com.eden.orchid.utilities.addToSet
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 class TabbedTagTest : OrchidIntegrationTest(TabbedTagModule(), withGenerator<HomepageGenerator>()) {
 
@@ -35,10 +33,11 @@ class TabbedTagTest : OrchidIntegrationTest(TabbedTagModule(), withGenerator<Hom
             .pageWasRendered("/index.html") {
                 get { content }
                     .asHtml(true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(expected.trim())
+                    .select("body") {
+                        innerHtmlMatches {
+                            +expected.trim()
+                        }
+                    }
             }
     }
 }

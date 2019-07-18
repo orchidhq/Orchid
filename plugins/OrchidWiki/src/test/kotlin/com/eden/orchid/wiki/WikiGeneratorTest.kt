@@ -1,16 +1,17 @@
 package com.eden.orchid.wiki
 
 import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtml
-import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.innerHtmlMatches
 import com.eden.orchid.strikt.nothingRendered
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import kotlinx.html.a
+import kotlinx.html.li
+import kotlinx.html.ul
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests page-rendering behavior of Wiki generator")
 class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
@@ -118,22 +119,19 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
         expectThat(execute())
             .pageWasRendered("/wiki/index.html") {
                 get { content }
-                    .asHtml(removeComments = true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo(
-                        """
-                        <ul>
-                          <li>
-                            <a href="http://orchid.test/wiki/page-one">Page One</a>
-                          </li>
-                          <li>
-                            <a href="https://www.example.com/">Page Two</a>
-                          </li>
-                        </ul>
-                        """.trimIndent()
-                    )
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            ul {
+                                li {
+                                    a(href = "http://orchid.test/wiki/page-one") { +"Page One" }
+                                }
+                                li {
+                                    a(href = "https://www.example.com/") { +"Page Two" }
+                                }
+                            }
+                        }
+                    }
             }
             .pageWasRendered("/wiki/page-one/index.html")
     }
