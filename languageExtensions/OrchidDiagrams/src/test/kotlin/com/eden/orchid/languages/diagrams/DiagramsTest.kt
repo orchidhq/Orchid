@@ -2,17 +2,17 @@ package com.eden.orchid.languages.diagrams
 
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtml
+import com.eden.orchid.strikt.innerHtmlMatches
 import com.eden.orchid.strikt.matchCountIs
 import com.eden.orchid.strikt.matches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
+import kotlinx.html.p
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
 class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
@@ -30,11 +30,14 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }
-                    .asHtml(true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo("<p>Bob-&gt;Alice : hello</p>")
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches(otherSelectorToCheck = "body > div") {
+                            p {
+                                +"Bob->Alice : hello"
+                            }
+                        }
+                    }
             }
     }
 
@@ -51,11 +54,10 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }
-                    .asHtml(true)
-                    .select("body")
-                    .matches()
-                    .innerHtml()
-                    .isEqualTo("")
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches { +"" }
+                    }
             }
     }
 
@@ -72,9 +74,10 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute(DiagramsModule()))
             .pageWasRendered("/index.svg") {
                 get { content }
-                    .asHtml(true)
-                    .select("body > svg")
-                    .matches()
+                    .asHtml()
+                    .select("body > svg") {
+                        matches()
+                    }
             }
     }
 
@@ -91,9 +94,10 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         expectThat(execute(DiagramsModule()))
             .pageWasRendered("/index.svg") {
                 get { content }
-                    .asHtml(true)
-                    .select("body > svg")
-                    .matches()
+                    .asHtml()
+                    .select("body > svg") {
+                        matches()
+                    }
             }
     }
 
@@ -109,9 +113,9 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
-            .select("svg")
-            .matches()
-            .matchCountIs(1)
+            .select("svg") {
+                matches().matchCountIs(1)
+            }
     }
 
     @Test
@@ -124,9 +128,9 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
-            .select("svg")
-            .matches()
-            .matchCountIs(1)
+            .select("svg") {
+                matches().matchCountIs(1)
+            }
     }
 
     @Test
@@ -149,9 +153,9 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
-            .select("svg")
-            .matches()
-            .matchCountIs(3)
+            .select("svg") {
+                matches().matchCountIs(3)
+            }
     }
 
 }

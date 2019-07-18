@@ -39,9 +39,10 @@ class SwaggerTest : OrchidIntegrationTest(SwaggerModule(), withGenerator<Homepag
                 get { content }
                     .and {
                         asHtml()
-                            .select("#swagger-ui")
-                            .matches()
-                            .hasSize(1)
+                            .select("#swagger-ui") {
+                                matches()
+                                    .hasSize(1)
+                            }
                     }
                     .and {
                         contains("https://petstore.swagger.io/v2/swagger.json")

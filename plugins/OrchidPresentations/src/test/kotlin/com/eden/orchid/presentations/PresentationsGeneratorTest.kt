@@ -42,16 +42,15 @@ class PresentationsGeneratorTest : OrchidIntegrationTest(PresentationsModule(), 
             .pageWasRendered("/index.html") {
                 get { content }
                     .asHtml()
-                    .and {
-                        select(".deck-container")
-                            .matches()
+                    .select(".deck-container") {
+                        matches()
                             .hasSize(1)
                     }
-                    .and {
-                        select(".slide")
-                            .matches()
+                    .select(".slide") {
+                        matches()
                             .hasSize(3)
                     }
+
             }
     }
 
