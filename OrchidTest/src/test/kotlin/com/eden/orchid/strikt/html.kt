@@ -70,10 +70,12 @@ class StriktHtmlTest : OrchidUnitTest {
                 """
                 |▼ Expect that "<div class="c1">   <div class="c2">     <p data-attr-key="value">Paragraph test</p>   </div> </div>":
                 |  ▼ as HTML document:
-                |    ▼ select '.c1 .c2 p':
-                |      ✓ matches at least one node
-                |      ▼ attribute 'attr-key' with value "value":
-                |        ✗ is equal to "other value" : found "value"
+                |    ✗ select '.c1 .c2 p'
+                |      ▼ <p data-attr-key="value">Paragraph test</p>:
+                |        ✓ matches at least one node
+                |        ✗ attribute 'attr-key'
+                |          ▼ with value "value":
+                |            ✗ is equal to "other value" : found "value"
                 """.trimMargin()
             )
     }

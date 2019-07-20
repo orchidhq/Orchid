@@ -141,10 +141,9 @@ fun Assertion.Builder<Elements>.attr(
     attrName: String,
     attrAssertion: Assertion.Builder<String?>.() -> Unit
 ): Assertion.Builder<Elements> =
-    assertBlock("attribute '$attrName' with value %s") {
-        get { this[attrName] }.attrAssertion()
+    assertBlock("attribute '$attrName'") {
+        get("with value %s") { this[attrName] }.attrAssertion()
     }
-
 
 fun String.trimLines() = this
     .lines()
