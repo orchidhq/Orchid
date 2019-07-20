@@ -5,9 +5,11 @@ import kotlinx.html.div
 import kotlinx.html.p
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import strikt.api.Assertion
 import strikt.api.catching
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import strikt.assertions.throws
 
@@ -66,7 +68,8 @@ class StriktHtmlTest : OrchidUnitTest {
                 }
         }).throws<AssertionError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that "<div class="c1">   <div class="c2">     <p data-attr-key="value">Paragraph test</p>   </div> </div>":
                 |  ▼ as HTML document:
@@ -156,5 +159,9 @@ class StriktHtmlTest : OrchidUnitTest {
                     }
                 }
             }
+    }
+
+    fun Assertion.Builder<String>.checkAndLog(expected: String): Assertion.Builder<String> {
+        return get { this.replace("\\s".toRegex(), "") }.isEqualTo(expected.replace("\\s".toRegex(), ""))
     }
 }
