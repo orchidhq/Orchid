@@ -14,11 +14,13 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 )
 class OrchidExternalPage : OrchidPage {
 
-    override val itemIds: List<String> = listOf(
-        reference.path,
-        reference.path.replace('/', '.'),
-        title
-    )
+    override val itemIds: List<String> by lazy {
+        listOf(
+            reference.path,
+            reference.path.replace('/', '.'),
+            title
+        ).distinct().filter { it.isNotBlank() }
+    }
 
     constructor(reference: OrchidReference) : super(ExternalResource(reference), "ext", reference.title)
 
