@@ -67,7 +67,7 @@ private fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
         val otherElement = actualOther[index]
 
         if (thisElement is TextNode) {
-            if (otherElement !is TextNode || thisElement.text().trimLines() != otherElement.text().trimLines()) {
+            if (otherElement !is TextNode || thisElement.text().trim().trimLines() != otherElement.text().trim().trimLines()) {
                 return@hasHtmlSimilarTo false
             }
         } else if (thisElement is Element) {
@@ -90,7 +90,7 @@ private fun Element.hasHtmlSimilarTo(other: Element): Boolean {
     }
 
     // check own text content
-    val ownTextContent = { it: Element -> it.ownText().trimLines() }
+    val ownTextContent = { it: Element -> it.ownText().trim().trimLines() }
     val thisOwnTextContent = ownTextContent(this)
     val otherOwnTextContent = ownTextContent(other)
     if (thisOwnTextContent != otherOwnTextContent) {
