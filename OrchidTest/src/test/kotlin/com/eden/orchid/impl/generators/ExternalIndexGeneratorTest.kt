@@ -79,5 +79,4 @@ class ExternalIndexGeneratorTest : OrchidIntegrationTest(
             .pageWasRendered("/404.html")
             .nothingElseRendered()
     }
-
 }

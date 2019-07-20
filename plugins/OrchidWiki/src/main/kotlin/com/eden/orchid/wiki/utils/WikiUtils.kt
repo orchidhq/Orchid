@@ -175,5 +175,4 @@ object WikiUtils {
             null
         }
     }
-
 }

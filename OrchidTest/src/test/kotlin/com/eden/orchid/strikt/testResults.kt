@@ -41,7 +41,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("something did render, the `somethingRendered` assertion should not throw")
-    fun testSomethingRendered() {
+    fun test01() {
         expectThat(catching {
             expectThat(
                 TestResults(
@@ -110,7 +110,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("something did render, the `nothingRendered` assertion should not throw")
-    fun testNothingRendered() {
+    fun test02() {
         expectThat(catching {
             expectThat(
                 TestResults(
@@ -179,7 +179,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("pagesGenerated tests that a specific number of pages were rendered")
-    fun testPagesGenerated() {
+    fun test03() {
         val underTest = TestResults(
             context,
             mapOf(
@@ -206,7 +206,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("nothingElseRendered fails until all pages have been evaluated with `pageWasRendered` assertions")
-    fun testNothingElseRendered() {
+    fun test04() {
         val underTest = TestResults(
             context,
             mapOf(
@@ -265,7 +265,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("pageWasRendered tests that a page at a given URL was rendered")
-    fun testPageWasRendered() {
+    fun test05() {
         val underTest = TestResults(
             context,
             mapOf(
@@ -292,7 +292,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
         "pageWasRendered tests that a page at a given URL was not rendered. For example, expecting that a " +
                 "page was a draft and never actually rendered."
     )
-    fun testPageWasNotRendered() {
+    fun test06() {
         val underTest = TestResults(
             context,
             mapOf(
@@ -316,7 +316,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("printResults logs the rendered pages for debugging")
-    fun testPrintResults_successfulRender() {
+    fun test07() {
         val outContent = ByteArrayOutputStream()
         val originalOut = System.out
 
@@ -352,7 +352,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
     @Test
     @DisplayName("printResults logs the rendered pages for debugging")
-    fun testPrintResults_unsuccessfulRender() {
+    fun test08() {
         val outContent = ByteArrayOutputStream()
         val originalOut = System.out
 
@@ -378,5 +378,4 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
         System.setOut(originalOut)
     }
-
 }

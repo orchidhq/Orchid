@@ -34,5 +34,4 @@ constructor(
 
         return EdenUtils.merge(*optionsObjects).toMap()
     }
-
 }

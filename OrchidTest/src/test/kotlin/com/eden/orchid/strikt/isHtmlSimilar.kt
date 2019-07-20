@@ -99,5 +99,4 @@ class IsHtmlSimilarTest : OrchidUnitTest {
             }.iterator()
         }
     }
-
 }

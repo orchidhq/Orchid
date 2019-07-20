@@ -49,5 +49,4 @@ class SwaggerTest : OrchidIntegrationTest(SwaggerModule(), withGenerator<Homepag
                     }
             }
     }
-
 }
