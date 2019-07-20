@@ -83,5 +83,4 @@ class GithubMenuItem : OrchidMenuFactory("github") {
 
         return Pair(false, null)
     }
-
 }
