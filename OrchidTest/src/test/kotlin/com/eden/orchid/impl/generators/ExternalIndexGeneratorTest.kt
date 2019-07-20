@@ -17,11 +17,6 @@ class ExternalIndexGeneratorTest : OrchidIntegrationTest(
     withGenerator<ExternalIndexGenerator>()
 ) {
 
-    @BeforeEach
-    internal fun setUp() {
-        enableLogging()
-    }
-
     @Test
     @DisplayName("The ExternalIndexGenerator loads indices from `external.externalIndices`")
     fun test01() {
