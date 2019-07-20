@@ -85,7 +85,12 @@ fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.B
         }
     }
 
-fun Assertion.Builder<TestResults>.printResults(): Assertion.Builder<TestResults> = and { get { this.printResults() } }
+fun Assertion.Builder<TestResults>.printResults(): Assertion.Builder<TestResults> =
+    assertThat("printing test results") {
+        get { this.printResults() }
+
+        true
+    }
 
 fun <T> Assertion.Builder<T>.assertBlock(description: String, block: Assertion.Builder<T>.(T) -> Unit) : Assertion.Builder<T> {
     return compose(description, block).then {
