@@ -259,7 +259,11 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         Map<String, Object> object = null;
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
-                object = context.parse("json", response.body().string());
+                String extension = FilenameUtils.getExtension(url);
+                if(EdenUtils.isEmpty(extension)) {
+                    extension = "json";
+                }
+                object = context.parse(extension, response.body().string());
             }
         } catch (IOException e) {
             e.printStackTrace();
