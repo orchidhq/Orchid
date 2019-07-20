@@ -12,11 +12,13 @@ import com.eden.orchid.taxonomies.models.Taxonomy
 @Archetype(value = ConfigArchetype::class, key = "${TaxonomiesGenerator.GENERATOR_KEY}.taxonomyArchivePages")
 @Description(value = "A paginated page for all the Terms in a Taxonomy.", name = "Taxonomy")
 open class TaxonomyArchivePage(
-        resource: OrchidResource,
-        val model: TaxonomiesModel,
-        val taxonomy: Taxonomy,
-        val index: Int
+    resource: OrchidResource,
+    val model: TaxonomiesModel,
+    val taxonomy: Taxonomy,
+    val index: Int
 ) : OrchidPage(resource, "taxonomyArchive", taxonomy.title) {
+
+    override val itemIds: List<String> = listOf(taxonomy.key)
 
     override fun getTemplates(): List<String> {
         return listOf("${this.key}-${taxonomy.key}")
