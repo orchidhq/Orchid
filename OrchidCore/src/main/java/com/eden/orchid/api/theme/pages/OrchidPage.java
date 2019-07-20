@@ -385,10 +385,11 @@ public class OrchidPage implements
             externalPage.setNext(new OrchidExternalPage(OrchidReference.fromJSON(context, source.getJSONObject("next"))));
         }
 
+        externalPage.title = source.optString("title");
         externalPage.description = source.optString("description");
 
         if (source.has("data")) {
-            externalPage.data = source.getJSONObject("className").toMap();
+            externalPage.data = source.getJSONObject("data").toMap();
         }
 
         return externalPage;
