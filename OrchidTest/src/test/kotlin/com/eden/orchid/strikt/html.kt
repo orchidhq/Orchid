@@ -155,5 +155,4 @@ class StriktHtmlTest : OrchidUnitTest {
                 }
             }
     }
-
 }

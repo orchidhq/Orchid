@@ -37,5 +37,4 @@ class SitemapGeneratorTest : OrchidIntegrationTest(
 
             .nothingElseRendered()
     }
-
 }

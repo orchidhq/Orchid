@@ -51,6 +51,4 @@ class AssetsGeneratorTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>
             .pageWasRendered("/assets/images/photo-two.jpg")
             .nothingElseRendered()
     }
-
-
 }

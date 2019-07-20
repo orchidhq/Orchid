@@ -10,7 +10,6 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
 import com.eden.orchid.utilities.SuppressedWarnings
-import javax.inject.Provider
 import java.util.Arrays
 import java.util.HashMap
 import java.util.HashSet
@@ -19,6 +18,7 @@ import java.util.logging.Level
 import java.util.logging.LogManager
 import java.util.logging.LogRecord
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
