@@ -3,7 +3,6 @@ package com.eden.orchid.strikt
 import com.eden.orchid.testhelpers.TestRenderer
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
-import strikt.assertions.isNotNull
 
 /**
  * Assert that the site built cleanly, no exceptions were thrown, and that at least one page was rendered.
@@ -67,8 +66,13 @@ fun Assertion.Builder<TestResults>.pageWasRendered(
     block: Assertion.Builder<TestRenderer.TestRenderedPage>.() -> Unit = {}
 ): Assertion.Builder<TestResults> =
     assertBlock("page was rendered at $name") {
-        get { it.renderedPageMap[name] }.isNotNull().block()
-        it.renderedPageMap[name]?.evaluated = true
+        val expectedPage = it.renderedPageMap[name]
+        if (expectedPage != null) {
+            get { expectedPage!! }.block()
+            expectedPage.evaluated = true
+        } else {
+            AssertBlockFailure("page was not rendered")
+        }
     }
 
 fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.Builder<TestResults> =
@@ -92,11 +96,21 @@ fun Assertion.Builder<TestResults>.printResults(): Assertion.Builder<TestResults
         true
     }
 
-fun <T> Assertion.Builder<T>.assertBlock(description: String, block: Assertion.Builder<T>.(T) -> Unit) : Assertion.Builder<T> {
-    return compose(description, block).then {
+fun <T> Assertion.Builder<T>.assertBlock(
+    description: String,
+    block: Assertion.Builder<T>.(T) -> Any?
+): Assertion.Builder<T> {
+    var message: Any? = null
+
+    return compose(description) {
+        message = block(it)
+    }.then {
         when {
             anyFailed -> fail()
+            message is AssertBlockFailure -> fail((message as AssertBlockFailure).errorMessage)
             else -> pass()
         }
     }
 }
+
+data class AssertBlockFailure(val errorMessage: String)

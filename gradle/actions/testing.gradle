@@ -3,7 +3,6 @@ apply plugin: 'jacoco'
 test {
     useJUnitPlatform()
     testLogging {
-//        showStandardStreams = project.hasProperty("showTestLogs")
         showStandardStreams = true
         exceptionFormat = 'full'
     }
@@ -19,7 +18,7 @@ check.dependsOn jacocoTestReport
 
 task checkForExtensionFile {
     onlyIf {
-        project.name != "OrchidCore"
+        project.name != "OrchidCore" && project.name != "OrchidTest"
     }
     doLast {
         def extensionName = project.name.toString()

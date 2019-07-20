@@ -13,11 +13,6 @@ import strikt.api.expectThat
 
 class AssetsGeneratorTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
 
-    @BeforeEach
-    internal fun setUp() {
-        enableLogging()
-    }
-
     @Test
     @DisplayName("By default, assets are loaded from `assets/media`")
     fun test01() {
