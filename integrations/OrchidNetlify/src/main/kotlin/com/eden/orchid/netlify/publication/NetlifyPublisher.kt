@@ -238,14 +238,14 @@ constructor(
 
     private fun Response.timeoutRateLimit(): Response {
         try {
-            val RateLimit_Limit = header("X-Ratelimit-Limit")?.toIntOrNull() ?: header("X-RateLimit-Limit")?.toIntOrNull() ?: 1
-            val RateLimit_Remaining = header("X-Ratelimit-Remaining")?.toIntOrNull() ?: header("X-RateLimit-Remaining")?.toIntOrNull() ?: 1
-            val RateLimit_Reset = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-Ratelimit-Reset")!!).toInstant()
+            val rateLimitLimit = header("X-Ratelimit-Limit")?.toIntOrNull() ?: header("X-RateLimit-Limit")?.toIntOrNull() ?: 1
+            val rateLimitRemaining = header("X-Ratelimit-Remaining")?.toIntOrNull() ?: header("X-RateLimit-Remaining")?.toIntOrNull() ?: 1
+            val rateLimitReset = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-Ratelimit-Reset")!!).toInstant()
             val current = Instant.now()
-            val d = Duration.between(RateLimit_Reset, current)
+            val d = Duration.between(rateLimitReset, current)
 
             // if we are nearing the rate limit, pause down a bit until it resets
-            if ((RateLimit_Remaining * 1.0 / RateLimit_Limit * 1.0) < 0.1) {
+            if ((rateLimitRemaining * 1.0 / rateLimitLimit * 1.0) < 0.1) {
                 val totalMillis = Math.abs(d.toMillis())
                 Clog.d("        Rate limit running low, sleeping for {}", totalMillis.makeMillisReadable())
                 Thread.sleep(totalMillis)
@@ -283,5 +283,4 @@ private data class CreateSiteResponse(
     fun getFiles(sha1: String) : List<File> {
         return originalFiles.getOrDefault(sha1, ArrayList()).map { it.second }
     }
-
 }
