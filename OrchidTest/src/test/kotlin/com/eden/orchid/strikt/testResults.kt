@@ -10,15 +10,16 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.opentest4j.AssertionFailedError
+import strikt.api.Assertion
 import strikt.api.catching
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import strikt.assertions.throws
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-
 
 class TestResultsAssertionTests : OrchidUnitTest {
 
@@ -64,7 +65,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             ).somethingRendered()
         }).throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 0 pages:
                 |  ✗ at least one page was rendered : no pages were rendered
@@ -82,7 +84,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             ).somethingRendered()
         }).throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: failure with 1 pages:
                 |  ✗ at least one page was rendered : rendering was not successful
@@ -100,7 +103,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             ).somethingRendered()
         }).throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: failure with 1 pages:
                 |  ✗ at least one page was rendered : rendering was not successful
@@ -122,7 +126,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             ).nothingRendered()
         }).throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 1 pages:
                 |  ✗ no pages were rendered : 1 pages were rendered
@@ -151,7 +156,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             ).nothingRendered()
         }).throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: failure with 1 pages:
                 |  ✗ no pages were rendered : rendering was not successful
@@ -169,7 +175,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             ).nothingRendered()
         }).throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: failure with 1 pages:
                 |  ✗ no pages were rendered : rendering was not successful
@@ -196,7 +203,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
         expectThat(catching { expectThat(underTest).pagesGenerated(2) })
             .throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 3 pages:
                 |  ✗ exactly 2 pages were rendered : 3 pages were rendered
@@ -221,7 +229,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
         expectThat(catching { expectThat(underTest).nothingElseRendered() })
             .throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 3 pages:
                 |  ? all pages have been evaluated
@@ -236,7 +245,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
         expectThat(catching { expectThat(underTest).nothingElseRendered() })
             .throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 3 pages:
                 |  ? all pages have been evaluated
@@ -250,7 +260,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
         expectThat(catching { expectThat(underTest).nothingElseRendered() })
             .throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 3 pages:
                 |  ? all pages have been evaluated
@@ -279,7 +290,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
         expectThat(catching { expectThat(underTest).pageWasRendered("/one/index.html") })
             .throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 1 pages:
                 |  ✗ page was rendered at /one/index.html : page was not rendered
@@ -305,7 +317,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
         expectThat(catching { expectThat(underTest).pageWasNotRendered("/index.html") })
             .throws<AssertionFailedError>()
             .get { message }
-            .isEqualTo(
+            .isNotNull()
+            .checkAndLog(
                 """
                 |▼ Expect that TestResults: success with 1 pages:
                 |  ✗ page was not rendered at /index.html : page was rendered
@@ -339,7 +352,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
         // assert on what was written to println()
         expectThat(outContent.toString().trim())
-            .isEqualTo(
+            .checkAndLog(
                 """
                 |/index.html
                 |/one/index.html
@@ -370,12 +383,16 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
         // assert on what was written to println()
         expectThat(outContent.toString().trim())
-            .isEqualTo(
+            .checkAndLog(
                 """
                 |(empty site)
                 """.trimMargin()
             )
 
         System.setOut(originalOut)
+    }
+
+    fun Assertion.Builder<String>.checkAndLog(expected: String): Assertion.Builder<String> {
+        return get { this.replace("\\s".toRegex(), "") }.isEqualTo(expected.replace("\\s".toRegex(), ""))
     }
 }

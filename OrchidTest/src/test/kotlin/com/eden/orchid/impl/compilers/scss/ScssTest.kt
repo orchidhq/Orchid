@@ -23,7 +23,6 @@ class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
             "assets/media/test.scss",
             """
             |.a {
-
             |  .b {
             |    color: blue;
             |  }
