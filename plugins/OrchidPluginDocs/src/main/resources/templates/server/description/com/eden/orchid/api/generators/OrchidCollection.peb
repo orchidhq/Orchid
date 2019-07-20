@@ -66,10 +66,12 @@
                             {% for item in collectionItems %}
                             {% set pageLink = item.link %}
                             {% set pagePath = item.reference.path %}
-                            <tr>
+                            <tr id="{{ collectionType }}-{{ collectionId }}-{{ item.itemIds|first }}">
                                 <td class="uk-table-link"><a class="uk-link-reset" href="{{ pageLink }}">{{ item.title }}</a></td>
                                 <td class="uk-table-link"><a class="uk-link-reset" href="{{ pageLink }}">/{{ pagePath }}</a></td>
-                                <td class="uk-table-link"><code>{{ item.itemIds|join(', ') }}</code></td>
+                                <td class="uk-table-link" style="cursor: pointer;" onclick="window.copyLinkToClipboard('{{ collectionType }}', '{{ collectionId }}', '{{ item.itemIds|first }}');" >
+                                  <code>{{ item.itemIds|join(', ') }}</code>
+                                </td>
                             </tr>
                             {% else %}
                             <tr>
@@ -85,3 +87,31 @@
         </div>
     </div>
 </div>
+
+<input type="text" value="Copy me!" id="invisibleInput" style="width: 1px; height: 1px; opacity: 0;">
+
+<script>
+  window.copyLinkToClipboard = function (collectionType, collectionId, itemId) {
+    var textToCopy = "{" + "{"
+            + " anchor("
+            + "collectionType='" + collectionType + "'" + ", "
+            + "collectionId='" + collectionId + "'" + ", "
+            + "itemId='" + itemId + "'" + ") "
+            + "}" + "}"
+    ;
+
+    console.log(textToCopy);
+
+    var inputElement = document.getElementById("invisibleInput");
+    inputElement.value = textToCopy;
+
+    /* Select the text field */
+    inputElement.select();
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    // display a notification to show that it's been copied
+    UIkit.notification('Pebble link copied!', {pos: 'bottom-center', status:'success'});
+  };
+</script>
