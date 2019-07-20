@@ -2,6 +2,7 @@ package com.eden.orchid.taxonomies
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
@@ -10,6 +11,9 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
+import com.eden.orchid.taxonomies.collections.TaxonomyLandingPagesCollection
+import com.eden.orchid.taxonomies.collections.TaxonomyTermItemsCollection
+import com.eden.orchid.taxonomies.collections.TaxonomyTermsLandingPagesCollection
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
@@ -81,15 +85,24 @@ constructor(
         model.allPages.forEach { context.renderTemplate(it) }
     }
 
-//    override fun getCollections(model: TaxonomiesModel): List<OrchidCollection<*>> {
-//        val collections = ArrayList<OrchidCollection<*>>()
-//
-//        model.taxonomies.values.forEach { taxonomy ->
-//            collections.add(TaxonomyCollection(taxonomy))
-//        }
-//
-//        return collections
-//    }
+    override fun getCollections(context: OrchidContext, model: TaxonomiesModel): List<OrchidCollection<*>>? {
+        val collections = ArrayList<OrchidCollection<*>>()
+
+        // a collection containing landing pages for each Taxonomy
+        collections.add(TaxonomyLandingPagesCollection(this, model))
+
+        model.taxonomies.values.forEach { taxonomy ->
+            // a collection containing landing pages for each Taxonomy's terms
+            collections.add(TaxonomyTermsLandingPagesCollection(this, taxonomy))
+
+            taxonomy.terms.values.forEach { term ->
+                // a collection containing the individual items for each term
+                collections.add(TaxonomyTermItemsCollection(this, taxonomy, term))
+            }
+        }
+
+        return collections
+    }
 
 // Archive Page Helpers
 //----------------------------------------------------------------------------------------------------------------------
