@@ -29,14 +29,7 @@ public final class OrchidSiteImpl implements OrchidSite {
         this.orchidVersion = orchidVersion;
         this.currentWorkingDirectory = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         this.version = version;
-        if (baseUrl.equals("/")) {
-            this.baseUrl = baseUrl;
-        }
-        else {
-            this.baseUrl = (baseUrl.startsWith("/"))
-                    ? "/" + OrchidUtils.normalizePath(baseUrl)
-                    : OrchidUtils.normalizePath(baseUrl);
-        }
+        setBaseUrl(baseUrl);
         this.environment = environment;
         this.defaultTemplateExtension = defaultTemplateExtension;
     }
@@ -48,7 +41,14 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     @Override
     public void setBaseUrl(String baseUrl) {
-        this.baseUrl = OrchidUtils.normalizePath(baseUrl);
+        if (baseUrl.equals("/")) {
+            this.baseUrl = baseUrl;
+        }
+        else {
+            this.baseUrl = (baseUrl.startsWith("/"))
+                    ? "/" + OrchidUtils.normalizePath(baseUrl)
+                    : OrchidUtils.normalizePath(baseUrl);
+        }
     }
 
     @Override
