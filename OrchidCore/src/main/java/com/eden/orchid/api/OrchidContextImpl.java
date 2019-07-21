@@ -36,10 +36,11 @@ public final class OrchidContextImpl implements OrchidContext {
 
     private OrchidSite site;
     private Map<Class<? extends OrchidService>, OrchidService> services;
+    private Orchid.State state = Orchid.State.BOOTSTRAP;
 
     @Inject
     public OrchidContextImpl(OrchidSite site, CompilerService compilerService, ThemeService themeService, EventService eventService, IndexService indexService, ResourceService resourceService, TaskService taskService, OptionsService optionsService, GeneratorService generatorService, RenderService renderService, PublicationService publicationService, InjectionService injectionService, Set<OrchidService> additionalServices) {
-        Orchid.getInstance().setState(Orchid.State.BOOTSTRAP);
+        setState(Orchid.State.BOOTSTRAP);
         this.site = site;
         services = new HashMap<>();
         initializeService(OrchidSite.class, site);
@@ -58,7 +59,7 @@ public final class OrchidContextImpl implements OrchidContext {
             services.put(service.getClass(), service);
         }
         initialize(this);
-        Orchid.getInstance().setState(Orchid.State.IDLE);
+        setState(Orchid.State.IDLE);
     }
 
 // Service Delegation
@@ -84,7 +85,7 @@ public final class OrchidContextImpl implements OrchidContext {
     public void finish() {
         broadcast(Orchid.Lifecycle.OnFinish.fire(this));
         services.values().forEach(OrchidService::onFinish);
-        broadcast(Orchid.Lifecycle.Shutdown.fire(this));
+        broadcast(Orchid.Lifecycle.Shutdown.fire(this, this));
     }
 
     @Override
@@ -112,5 +113,15 @@ public final class OrchidContextImpl implements OrchidContext {
 
     public OrchidSite getSite() {
         return this.site;
+    }
+
+    @Override
+    public Orchid.State getState() {
+        return this.state;
+    }
+
+    @Override
+    public void setState(Orchid.State state) {
+        this.state = state;
     }
 }

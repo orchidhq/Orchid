@@ -15,7 +15,7 @@ class EventServiceImpl
 constructor(
     private val eventListeners: Set<OrchidEventListener>
 ) : EventService {
-    private var context: OrchidContext? = null
+    private lateinit var context: OrchidContext
     private val eventHandlers = mutableSetOf<EventHandler>()
     private val eventsInProgress = mutableListOf<Class<out OrchidEvent<*>>>()
 
@@ -110,6 +110,8 @@ constructor(
             }
         }
         eventsInProgress.add(event.javaClass)
+        event.context = context
+
         for (handler in this.eventHandlers) {
             try {
                 callMethod(event, handler)

@@ -1,5 +1,6 @@
 package com.eden.orchid.api;
 
+import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
 import com.eden.orchid.api.generators.GeneratorService;
@@ -42,4 +43,7 @@ public interface OrchidContext extends
 
     void start();
     void finish();
+
+    Orchid.State getState();
+    void setState(Orchid.State state);
 }
