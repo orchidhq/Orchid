@@ -94,7 +94,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         String[] inputPieces = input.split("\\s+");
         String commandName = inputPieces[0];
         String commandArgs = String.join(" ", Arrays.copyOfRange(inputPieces, 1, inputPieces.length));
-        if (!Orchid.getInstance().getState().isWorkingState()) {
+        if (!context.getState().isWorkingState()) {
             OrchidCommand foundCommand = commands.stream().sorted().filter(command -> command.getKey().equalsIgnoreCase(commandName)).findFirst().orElse(null);
             if (foundCommand != null) {
                 OrchidCommand freshCommand = context.resolve(foundCommand.getClass());
@@ -117,10 +117,10 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void build() {
-        if (!Orchid.getInstance().getState().isBuildState()) {
+        if (!context.getState().isBuildState()) {
             long secondsSinceLastBuild = (System.currentTimeMillis() - lastBuild) / 1000;
             if (secondsSinceLastBuild > watchDebounceTimeout) {
-                Orchid.getInstance().setState(Orchid.State.BUILD_PREP);
+                context.setState(Orchid.State.BUILD_PREP);
                 context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
                 initOptions();
                 context.clearThemes();
@@ -129,11 +129,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                     context.clearAdminThemes();
                 }
                 Clog.i("Build Starting...");
-                Orchid.getInstance().setState(Orchid.State.INDEXING);
+                context.setState(Orchid.State.INDEXING);
                 context.broadcast(Orchid.Lifecycle.IndexingStart.fire(this));
                 context.startIndexing();
                 context.broadcast(Orchid.Lifecycle.IndexingFinish.fire(this));
-                Orchid.getInstance().setState(Orchid.State.BUILDING);
+                context.setState(Orchid.State.BUILDING);
                 context.broadcast(Orchid.Lifecycle.GeneratingStart.fire(this));
                 context.startGeneration();
                 context.broadcast(Orchid.Lifecycle.GeneratingFinish.fire(this));
@@ -142,7 +142,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 Clog.noTag().log(context.getBuildSummary() + "\n");
                 context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
                 lastBuild = System.currentTimeMillis();
-                Orchid.getInstance().setState(Orchid.State.IDLE);
+                context.setState(Orchid.State.IDLE);
             }
         } else {
             Clog.e("Build already in progress, skipping.");
@@ -166,13 +166,13 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Override
     public boolean deploy(boolean dryDeploy) {
         initOptions();
-        Orchid.getInstance().setState(Orchid.State.DEPLOYING);
+        context.setState(Orchid.State.DEPLOYING);
         Clog.noTag().log("\n\nDeploy Starting...\n");
         context.broadcast(Orchid.Lifecycle.DeployStart.fire(this));
         boolean success = context.publishAll(dryDeploy);
         context.broadcast(Orchid.Lifecycle.DeployFinish.fire(this, success));
         Clog.noTag().log("Deploy complete\n");
-        Orchid.getInstance().setState(Orchid.State.IDLE);
+        context.setState(Orchid.State.IDLE);
         return success;
     }
 
@@ -199,7 +199,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
         if (server != null && server.getWebsocket() != null) {
             server.getWebsocket().sendMessage("Ending Session", "");
         }
-        context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
+        context.broadcast(Orchid.Lifecycle.Shutdown.fire(context, this));
         System.exit(0);
     }
 

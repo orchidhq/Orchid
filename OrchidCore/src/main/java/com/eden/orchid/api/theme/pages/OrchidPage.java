@@ -259,7 +259,7 @@ public class OrchidPage implements
     }
 
     public String getContent() {
-        if(!(Orchid.getInstance().getState() == Orchid.State.BUILDING || Orchid.getInstance().getState() == Orchid.State.IDLE)) {
+        if(!(context.getState() == Orchid.State.BUILDING || context.getState() == Orchid.State.IDLE)) {
             throw new IllegalStateException("Cannot get page content until indexing has completed.");
         }
         if(compiledContent == null) {

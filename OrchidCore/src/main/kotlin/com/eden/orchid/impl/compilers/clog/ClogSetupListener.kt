@@ -31,9 +31,9 @@ constructor(
     private val templateTagsProvider: Provider<Set<TemplateFunction>>
 ) : OrchidEventListener {
 
-    private val warningLogger = AbstractLogCollector("Warnings:", Clog.Priority.WARNING)
-    private val errorLogger = AbstractLogCollector("Errors:", Clog.Priority.ERROR)
-    private val fatalLogger = AbstractLogCollector("Fatal exceptions:", Clog.Priority.FATAL)
+    private val warningLogger = AbstractLogCollector(contextProvider, "Warnings:", Clog.Priority.WARNING)
+    private val errorLogger = AbstractLogCollector(contextProvider, "Errors:", Clog.Priority.ERROR)
+    private val fatalLogger = AbstractLogCollector(contextProvider, "Fatal exceptions:", Clog.Priority.FATAL)
 
     @On(Orchid.Lifecycle.InitComplete::class)
     fun onInitComplete(event: Orchid.Lifecycle.InitComplete) {
@@ -103,6 +103,7 @@ constructor(
 data class LogMessage(val message: String, val throwable: Throwable?)
 
 private class AbstractLogCollector(
+    val contextProvider: Provider<OrchidContext>,
     val headerMessage: String,
     val loggerPriority: Clog.Priority
 ) : ClogLogger {
@@ -115,7 +116,7 @@ private class AbstractLogCollector(
 
     override fun log(tag: String, message: String): Int {
         messages.getOrPut(tag) { HashSet() }.add(LogMessage(message, null))
-        if (!Orchid.getInstance().state.isWorkingState) {
+        if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
 
@@ -124,7 +125,7 @@ private class AbstractLogCollector(
 
     override fun log(tag: String, message: String, throwable: Throwable): Int {
         messages.getOrPut(tag) { HashSet() }.add(LogMessage(message, null))
-        if (!Orchid.getInstance().state.isWorkingState) {
+        if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
 
