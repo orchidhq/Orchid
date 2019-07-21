@@ -32,16 +32,8 @@ public final class Orchid {
 // Make main Orchid object a singleton
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static Orchid instance;
-
-    private Orchid.State state = State.BOOTSTRAP;
-
     public static Orchid getInstance() {
-        if (instance == null) {
-            instance = new Orchid();
-        }
-
-        return instance;
+        return new Orchid();
     }
 
     private Orchid() { }
@@ -102,18 +94,10 @@ public final class Orchid {
             e.printStackTrace();
 
             if(context != null) {
-                context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
+                context.broadcast(Orchid.Lifecycle.Shutdown.fire(context, this));
             }
             return false;
         }
-    }
-
-    public State getState() {
-        return this.state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
 // Events fired by Orchid Core
@@ -160,8 +144,8 @@ public final class Orchid {
         public static class Shutdown extends OrchidEvent {
             private Shutdown(Object sender) { super(sender); }
 
-            public static Shutdown fire(Object sender) {
-                Orchid.getInstance().setState(Orchid.State.SHUTDOWN);
+            public static Shutdown fire(OrchidContext context, Object sender) {
+                context.setState(Orchid.State.SHUTDOWN);
                 return new Shutdown(sender);
             }
         }
