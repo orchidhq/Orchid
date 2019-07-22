@@ -27,7 +27,7 @@ constructor(
     @Named("gitlabToken")
     @NotBlank(message = "A Gitlab Personal Access Token is required for deploys, set as \'gitlabToken\' flag.")
     private val gitlabToken: String
-) : AbstractGitPublisher(git, destinationDir, "gitlab-pages", "gitlabPages", 100) {
+) : AbstractGitPublisher(git, destinationDir, "gitlab-pages", "gitlabPages") {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with Gitlab.")
