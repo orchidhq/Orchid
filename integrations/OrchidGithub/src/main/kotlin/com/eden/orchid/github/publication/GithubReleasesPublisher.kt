@@ -22,7 +22,7 @@ constructor(
     private val client: OkHttpClient,
     @Named("githubToken")
     private val githubToken: String
-) : OrchidPublisher("githubReleases", 100) {
+) : OrchidPublisher("githubReleases") {
 
     @Option
     @Description("The repository to release to, as [username/repo].")

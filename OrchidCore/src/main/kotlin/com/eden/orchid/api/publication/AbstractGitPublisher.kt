@@ -27,7 +27,7 @@ constructor(
     private val defaultBranch: String,
 
     type: String,
-    priority: Int
+    priority: Int = 100
 ) : OrchidPublisher(type, priority) {
 
     @Option

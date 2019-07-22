@@ -38,7 +38,7 @@ constructor(
     @Named("netlifyToken")
     @NotBlank(message = "A Netlify Personal Access Token is required for deploys, set as \'netlifyToken\' flag")
     val netlifyToken: String
-) : OrchidPublisher("netlify", 100) {
+) : OrchidPublisher("netlify") {
 
     @Option
     @Description("Your Netlify site ID or domain (ie. orchid.netlify.com). If not provided, your site's baseUrl will be used.")
