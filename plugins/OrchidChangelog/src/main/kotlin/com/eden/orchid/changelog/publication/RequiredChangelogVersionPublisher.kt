@@ -11,7 +11,7 @@ import com.eden.orchid.utilities.resolve
     value = "Checks that a changelog entry has been provided for the current version.",
     name = "Require Changelog"
 )
-class RequiredChangelogVersionPublisher : OrchidPublisher("requireChangelogVersion", 100) {
+class RequiredChangelogVersionPublisher : OrchidPublisher("requireChangelogVersion") {
 
     override fun validate(context: OrchidContext): Boolean {
         var valid = super.validate(context)
