@@ -22,7 +22,7 @@ constructor(
 
     @Named("bitbucketToken")
     private val bitbucketToken: String
-) : AbstractGitPublisher(git, destinationDir, "master", "bitbucketCloud", 100) {
+) : AbstractGitPublisher(git, destinationDir, "master", "bitbucketCloud") {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")
