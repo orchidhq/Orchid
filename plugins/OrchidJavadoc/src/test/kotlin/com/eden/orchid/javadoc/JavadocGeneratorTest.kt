@@ -1,5 +1,6 @@
 package com.eden.orchid.javadoc
 
+import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.DisplayName
@@ -13,12 +14,33 @@ class JavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
     @Test
     @DisplayName("Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        configObject("javadoc", """{ "sourceDirs": "mockJava" }""")
+        configObject(
+            "javadoc",
+            """
+            |{
+            |    "sourceDirs": "mockJava",
+            |    "pages": {
+            |        "extraCss": [
+            |            "assets/css/orchidJavadoc.scss"
+            |        ]
+            |    }
+            |}
+            |""".trimMargin()
+        )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/JavaClass1/index.html")
-            .pageWasRendered("/com/eden/orchid/mock/JavaClass2/index.html")
+            // java sources
+            .pageWasRendered("/com/eden/orchid/mock/JavaAnnotation/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/JavaEnumClass/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/JavaExceptionClass/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/JavaInterface/index.html")
             .pageWasRendered("/com/eden/orchid/mock/index.html")
+
+            // other
+            .pageWasRendered("/assets/css/orchidJavadoc.css")
+            .pageWasRendered("/favicon.ico")
+            .nothingElseRendered()
     }
 
 }
