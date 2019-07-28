@@ -1,0 +1,36 @@
+<div class="orchid-sourcedoc">
+{{ renderSection(page, page.rootSection) }}
+</div>
+
+{% macro renderSection(page, section) %}
+{% for element in section.elements %}
+  <div class="section section-root" data-tab-text="{{ element.kind }}" style="--section-color: black;">
+    <div class="section section-signature" data-tab-text="signature" style="--section-color: red;">{{ renderSignature(element) }}</div>
+    <div class="section section-comments" data-tab-text="comments" style="--section-color: blue;">{{ renderComment(element) }}</div>
+    {% set childrenSections = page.getSectionsData(element) %}
+    {% if childrenSections|length > 0 %}
+      <div class="section section-children" data-tab-text="children - {{ (childrenSections | first).name }}" style="--section-color: green;">
+      {% for childSection in childrenSections %}
+        {{ renderSection(page, childSection) }}
+      {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}
+{% endmacro %}
+
+{% macro renderSignature(element) %}
+{%- for signatureComponent in element.signature -%}
+{%- if signatureComponent.kind == 'typeName' %}{{ anchor(signatureComponent.text, signatureComponent.value) -}}
+{%- else %}{{ signatureComponent.text }}{% endif -%}
+{%- endfor -%}
+{% endmacro %}
+
+{% macro renderComment(element) %}
+{% set fullComment = '' %}
+{%- for commentComponent in element.comment.components -%}
+{%- if commentComponent.kind == 'see' %}{% set fullComment = fullComment + '' + anchor(commentComponent.text, commentComponent.value) %}
+{%- else %}{% set fullComment = fullComment + '' + commentComponent.text %}{% endif -%}
+{%- endfor -%}
+{{ fullComment|compileAs('md') }}
+{% endmacro %}
