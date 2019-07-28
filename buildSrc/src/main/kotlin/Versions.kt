@@ -77,7 +77,7 @@ object Versions {
 
     const val hibernate_validator: String = "6.0.16.Final" // available: "6.0.17.Final"
 
-    const val org_jetbrains_kotlin: String = "1.3.31" // available: "1.3.41"
+    const val org_jetbrains_kotlin: String = "1.3.41"
 
     const val kotlinx_html_jvm: String = "0.6.12" 
 
