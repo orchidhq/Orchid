@@ -25,7 +25,7 @@ public abstract class TemplateFunction implements OptionsHolder {
      * Initialize the Function with the name which it should be called with in the template., and whether Whether this
      * Function returns "safe" HTML that should not be escaped by default. For filters that return anything other than a
      * String, `isSafe` should always be false. The actual implementation of a Function should have a single constructor
-     * annotated with {@link javax.inject.Inject }.
+     * annotated with {@link javax.inject.Inject}.
      *
      * @param name the name which to call this Function
      */
