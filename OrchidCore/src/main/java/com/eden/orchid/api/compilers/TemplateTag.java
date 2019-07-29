@@ -76,7 +76,7 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     /**
      * Initialize the Tag with the name which it should be called with in the template. The actual implementation of a
-     * Tag should have a single constructor annotated with {@link javax.inject.Inject }.
+     * Tag should have a single constructor annotated with {@link javax.inject.Inject}.
      *
      * @param name           the name which to call this Tag
      * @param type           the type of tag this is. A Simple tag is just a simple self-closing tag, a Content tag

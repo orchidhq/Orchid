@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.themes.functions
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
@@ -45,24 +44,6 @@ class AnchorFunction  : TemplateFunction("anchor", true) {
             itemId = title
         }
 
-        val foundPage = context.findPage(collectionType, collectionId, itemId)
-
-        if (foundPage != null) {
-            val link = foundPage.link
-
-            return if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
-                Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses)
-            } else if (!EdenUtils.isEmpty(title)) {
-                Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
-            } else {
-                Clog.format("<a href=\"#{$1}\">#{$1}</a>", link)
-            }
-        }
-
-        return if (!EdenUtils.isEmpty(title)) {
-            title
-        } else {
-            ""
-        }
+        return context.linkToPage(title, collectionType, collectionId, itemId, customClasses);
     }
 }

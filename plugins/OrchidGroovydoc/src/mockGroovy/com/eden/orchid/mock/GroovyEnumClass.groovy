@@ -1,5 +1,21 @@
 package com.eden.orchid.mock
 
+/**
+ * The text for an Enum class defined in Groovy.
+ */
 public enum GroovyEnumClass {
-    ONE, TWO, THREE
+    /**
+     * The first value
+     */
+    ONE,
+
+    /**
+     * The second value
+     */
+    TWO,
+
+    /**
+     * The third value
+     */
+    THREE
 }

@@ -1,6 +1,7 @@
 package com.eden.orchid.sourcedoc.page
 
 import com.copperleaf.kodiak.common.AutoDocument
+import com.copperleaf.kodiak.common.CommentComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.DocElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -40,6 +41,35 @@ class SourceDocPage<T : DocElement>(
         }
 
         return emptyList()
+    }
+
+    fun renderSignature(element: DocElement): String {
+        return element
+            .signature
+            .map {
+                if(it.kind == TYPE_NAME) {
+                    context.linkToPage(it.text, "", "", it.value, "")
+                }
+                else {
+                    it.text
+                }
+            }
+            .joinToString("")
+    }
+
+    fun renderComment(element: DocElement): String {
+        return element
+            .comment
+            .components
+            .map {
+                if(it.kind == TYPE_NAME) {
+                    context.linkToPage(it.text, "", "", it.value, "")
+                }
+                else {
+                    it.text
+                }
+            }
+            .joinToString("")
     }
 
     data class Section(

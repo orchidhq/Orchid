@@ -44,6 +44,10 @@ public interface IndexService extends OrchidService {
         return getService(IndexService.class).findPage(collectionType, collectionId, itemId);
     }
 
+    default String linkToPage(String title, String collectionType, String collectionId, String itemId, String customClasses) {
+        return getService(IndexService.class).linkToPage(title, collectionType, collectionId, itemId, customClasses);
+    }
+
     default OrchidPage findPageOrDefault(String collectionType, String collectionId, String itemId, OrchidPage defaultPage) {
         return getService(IndexService.class).findPageOrDefault(collectionType, collectionId, itemId, defaultPage);
     }
