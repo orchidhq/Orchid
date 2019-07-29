@@ -117,7 +117,7 @@ public final class Orchid {
 
         /**
          * Orchid is still bootstrapping, but all services have been started and are ready for use. Catch this event to
-         * do any kind of one-time initialization on singletons that are not {@link OrchidService }s.
+         * do any kind of one-time initialization on singletons that are not {@link OrchidService}s.
          */
         public static class OnStart extends OrchidEvent {
             private OnStart(Object sender) { super(sender); }
@@ -127,7 +127,7 @@ public final class Orchid {
 
         /**
          * Orchid is shutting down normally, and should be caught for non-critical cleanup. Listen for the
-         * {@link Orchid.Lifecycle.Shutdown } event for any critical cleanup or to release system resources.
+         * {@link Orchid.Lifecycle.Shutdown} event for any critical cleanup or to release system resources.
          */
         public static class OnFinish extends OrchidEvent {
             private OnFinish(Object sender) { super(sender); }
@@ -138,7 +138,7 @@ public final class Orchid {
         /**
          * Indicates that Orchid is shutting down, either by a a fatal crash or when the process is forcibly killed by
          * the system, or when Orchid finishes normally after a task completes. This should be caught to clean up all
-         * system resources, kill threads, etc. Listen for the {@link Orchid.Lifecycle.OnFinish } for non-critical
+         * system resources, kill threads, etc. Listen for the {@link Orchid.Lifecycle.OnFinish} for non-critical
          * cleanup tasks.
          */
         public static class Shutdown extends OrchidEvent {
@@ -170,7 +170,7 @@ public final class Orchid {
         }
 
         /**
-         * A build phase has begun, and we are now in the {@link Orchid.State#BUILD_PREP } state.
+         * A build phase has begun, and we are now in the {@link Orchid.State#BUILD_PREP} state.
          */
         public static class BuildStart extends OrchidEvent {
             private BuildStart(Object sender) { super(sender); }
@@ -179,7 +179,7 @@ public final class Orchid {
         }
 
         /**
-         * A build phase has completed, and we are now at the end of the {@link Orchid.State#BUILDING } state.
+         * A build phase has completed, and we are now at the end of the {@link Orchid.State#BUILDING} state.
          */
         public static class BuildFinish extends OrchidEvent {
             private BuildFinish(Object sender) { super(sender); }
@@ -269,7 +269,7 @@ public final class Orchid {
         }
 
         /**
-         * A deployment phase has begun, and we are now in the {@link Orchid.State#DEPLOYING } state.
+         * A deployment phase has begun, and we are now in the {@link Orchid.State#DEPLOYING} state.
          */
         public static class DeployStart extends OrchidEvent {
             private DeployStart(Object sender) { super(sender); }
@@ -278,7 +278,7 @@ public final class Orchid {
         }
 
         /**
-         * A deployment phase has completed, and we are now at the end of the {@link Orchid.State#DEPLOYING } state.
+         * A deployment phase has completed, and we are now at the end of the {@link Orchid.State#DEPLOYING} state.
          */
         public static class DeployFinish extends OrchidEvent {
             private final boolean success;
@@ -336,7 +336,7 @@ public final class Orchid {
 
         /**
          * Files have been changed and the site is about to be rebuilt. Orchid is usually in the
-         * {@link Orchid.State#IDLE } state at the time this event if first fired, and internally Orchid catches this
+         * {@link Orchid.State#IDLE} state at the time this event if first fired, and internally Orchid catches this
          * event to start a build.
          */
         public static class FilesChanged extends OrchidEvent {
@@ -346,7 +346,7 @@ public final class Orchid {
         }
 
         /**
-         * Indicates that _all_ caches should be cleared. Always called during the {@link Orchid.State#BUILD_PREP }
+         * Indicates that _all_ caches should be cleared. Always called during the {@link Orchid.State#BUILD_PREP}
          * state (at the start of every build), but may be called at any other time as needed.
          */
         public static class ClearCache extends OrchidEvent {
@@ -366,7 +366,7 @@ public final class Orchid {
 
         /**
          * Fired as a shim in the options loading process to allow options to be dynamically loaded as needed. This is
-         * fired from the {@link ConfigArchetype }, and catching this event allows listeners to add additional values
+         * fired from the {@link ConfigArchetype}, and catching this event allows listeners to add additional values
          * into the archetype options for this object. This archetype is added to Pages, Generators, and Publishers by
          * default, but other classes are free to use it as needed.
          */
@@ -393,36 +393,36 @@ public final class Orchid {
 
         /**
          * From the time Orchid is first instantiated until after the initial injection is complete. This phase ends
-         * with the {@link Orchid.Lifecycle.InitComplete } event, after which the selected task is run.
+         * with the {@link Orchid.Lifecycle.InitComplete} event, after which the selected task is run.
          */
         BOOTSTRAP(false, false),
 
         /**
-         * The Orchid shutdown process. This is set anytime {@link Orchid.Lifecycle.Shutdown } event is fired, such as
+         * The Orchid shutdown process. This is set anytime {@link Orchid.Lifecycle.Shutdown} event is fired, such as
          * when Orchid experiences a fatal crash or when the process is forcibly killed by the system, but may also be
          * set sooner during a 'normal' shutdown as prompted by the completion and exit of a task. When the shutdown is
-         * sudden, it is marked only by the {@link Orchid.Lifecycle.Shutdown } event, but a normal shutdown starts with
-         * the {@link Orchid.Lifecycle.OnFinish } event and all services get a change to shutdown cleanly, and is then
-         * followed by the {@link Orchid.Lifecycle.OnFinish } event.
+         * sudden, it is marked only by the {@link Orchid.Lifecycle.Shutdown} event, but a normal shutdown starts with
+         * the {@link Orchid.Lifecycle.OnFinish} event and all services get a change to shutdown cleanly, and is then
+         * followed by the {@link Orchid.Lifecycle.OnFinish} event.
          */
         SHUTDOWN(false, false),
 
         /**
-         * From the start of a 'build' until indexing begins. Starts with the {@link Orchid.Lifecycle.BuildStart }
+         * From the start of a 'build' until indexing begins. Starts with the {@link Orchid.Lifecycle.BuildStart}
          * event, and includes clearing the cache, re-loading config options, re-initializing the theme, and extracting
          * options into the services. This is the first of the 'build states', which are 'working states.'
          */
         BUILD_PREP(true,  false),
 
         /**
-         * Orchid is indexing all Generators. During this state, {@link Orchid.Lifecycle.ProgressEvent } of type
+         * Orchid is indexing all Generators. During this state, {@link Orchid.Lifecycle.ProgressEvent} of type
          * 'indexing' are broadcast, one for each generator. This is the second of the 'build states', which are
          * 'working states.'
          */
         INDEXING(true,  false),
 
         /**
-         * Orchid is generating all pages. During this state, {@link Orchid.Lifecycle.ProgressEvent } of type 'building'
+         * Orchid is generating all pages. During this state, {@link Orchid.Lifecycle.ProgressEvent} of type 'building'
          * are broadcast, one for each page. This is the third and final of the 'build states', which are 'working
          * states.'
          */
@@ -430,7 +430,7 @@ public final class Orchid {
 
         /**
          * Orchid is deploying your site with all configured publishers. During this state,
-         * {@link Orchid.Lifecycle.ProgressEvent } of type 'deploying' are broadcast, one for each publisher. This is
+         * {@link Orchid.Lifecycle.ProgressEvent} of type 'deploying' are broadcast, one for each publisher. This is
          * the only 'deploy state', which is a 'working states.'
          */
         DEPLOYING(false, true),

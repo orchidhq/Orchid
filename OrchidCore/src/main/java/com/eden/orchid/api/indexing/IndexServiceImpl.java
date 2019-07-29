@@ -1,5 +1,6 @@
 package com.eden.orchid.api.indexing;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
@@ -71,6 +72,29 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
             return (OrchidPage) object;
         }
         return null;
+    }
+
+    @Override
+    public String linkToPage(String title, String collectionType, String collectionId, String itemId, String customClasses) {
+        OrchidPage foundPage = findPage(collectionType, collectionId, itemId);
+
+        if (foundPage != null) {
+            String link = foundPage.getLink();
+
+            if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
+                return Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses);
+            } else if (!EdenUtils.isEmpty(title)) {
+                return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title);
+            } else {
+                return Clog.format("<a href=\"#{$1}\">#{$1}</a>", link);
+            }
+        }
+
+        if (!EdenUtils.isEmpty(title)) {
+            return title;
+        } else {
+            return "";
+        }
     }
 
     @Override
