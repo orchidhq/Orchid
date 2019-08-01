@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidExternalPage
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import java.util.ArrayList
@@ -25,7 +26,10 @@ class LinkMenuItem : OrchidMenuFactory("link") {
     )
     lateinit var url: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
         url = url.trim()

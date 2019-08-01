@@ -4,7 +4,7 @@ dependencies {
     implementation("com.eden.kodiak:common-formatter:$ver")
     implementation("com.eden.kodiak:common-runner:$ver")
 
-    implementation("com.eden.kodiak:dokka-runner:$ver")
-    implementation("com.eden.kodiak:javadoc-runner:$ver")
-    implementation("com.eden.kodiak:groovydoc-runner:$ver")
+    testImplementation("com.eden.kodiak:dokka-runner:$ver")
+    testImplementation("com.eden.kodiak:javadoc-runner:$ver")
+    testImplementation("com.eden.kodiak:groovydoc-runner:$ver")
 }

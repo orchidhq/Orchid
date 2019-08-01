@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import org.apache.commons.lang3.StringUtils
 
 @Description("Static pages, optionally by group.", name = "Static Pages")
@@ -35,7 +36,10 @@ class PagesMenuType : OrchidMenuFactory("pages") {
         o1Title.compareTo(o2Title)
     }
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
         val allPages = context.index.getChildIndex<OrchidGenerator.Model>("pages")!!.allPages
@@ -43,7 +47,7 @@ class PagesMenuType : OrchidMenuFactory("pages") {
         val pages = if (EdenUtils.isEmpty(group))
             allPages
         else
-            allPages.filter { page -> page.reference.path.startsWith(group) }
+            allPages.filter { staticPage -> staticPage.reference.path.startsWith(group) }
 
         if (EdenUtils.isEmpty(submenuTitle)) {
             if (!EdenUtils.isEmpty(group)) {

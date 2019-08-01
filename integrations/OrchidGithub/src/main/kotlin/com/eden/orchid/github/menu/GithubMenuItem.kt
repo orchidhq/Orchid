@@ -28,12 +28,15 @@ class GithubMenuItem : OrchidMenuFactory("github") {
             return OrchidFlags.getInstance().getFlagValue("githubToken")
         }
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
-        val page = loadGithubPage(context, context.resolve(OkHttpClient::class.java))
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
+        val githubPage = loadGithubPage(context, context.resolve(OkHttpClient::class.java))
 
-        return if (page.first && page.second != null) {
+        return if (githubPage.first && githubPage.second != null) {
             listOf(MenuItem.Builder(context) {
-                page(page.second)
+                page(githubPage.second)
 
                 if(this@GithubMenuItem.title.isNotBlank()) {
                     title(this@GithubMenuItem.title)

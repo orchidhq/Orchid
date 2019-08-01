@@ -21,7 +21,7 @@ import javax.inject.Named
 abstract class SourcedocGenerator<U : ModuleDoc>(
     key: String,
     @Named("src") val resourcesDir: String,
-    private val invoker: DocInvoker<U>,
+    val invoker: DocInvoker<U>,
     private val extractor: OptionsExtractor
 ) : OrchidGenerator<SourceDocModel>(key, PRIORITY_EARLY) {
 
@@ -34,32 +34,31 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
     @Description("Whether to reuse outputs from the cache, or rerun each build")
     var fromCache: Boolean = true
 
+    @Option
+    @BooleanDefault(false)
+    var showRunnerLogs: Boolean = false
+
     private val cacheDir: Path by lazy { OrchidUtils.getCacheDir("sourcedoc-$key") }
     private val outputDir: Path by lazy { OrchidUtils.getTempDir("sourcedoc-$key", true) }
 
     override fun startIndexing(context: OrchidContext): SourceDocModel {
         extractor.extractOptions(invoker, allData)
 
-        Clog.v("Running {} generator", key)
-        val modelPageMap = loadFromCacheOrRun()
-            ?.let {
-                Clog.v("{} generator returned {} top-level nodes", key, it.nodes.size)
-                val allNodePages = it.nodes.map { node ->
-                    val nodeName: String = node.prop.name
-                    val nodeElements: List<DocElement> = node.getter()
+        val invokerModel: U? = loadFromCacheOrRun()
+        val modelPageMap = invokerModel?.let {
+            it.nodes.map { node ->
+                val nodeName: String = node.prop.name
+                val nodeElements: List<DocElement> = node.getter()
 
-                    Clog.v("{} generator node {} returned {} elements", key, nodeName, nodeElements.size)
-                    val nodePages = nodeElements.map { element ->
-                        SourceDocPage(this@SourcedocGenerator, context, element, nodeName, element.name)
-                    }
-
-                    node to nodePages
+                val nodePages = nodeElements.map { element ->
+                    SourceDocPage(this@SourcedocGenerator, context, "", element, nodeName, element.name)
                 }
-                allNodePages.toMap()
-            }
-            ?: emptyMap()
 
-        return SourceDocModel(modelPageMap)
+                node to nodePages
+            }.toMap()
+        } ?: emptyMap()
+
+        return SourceDocModel(invokerModel, modelPageMap)
     }
 
     override fun startGeneration(context: OrchidContext, model: SourceDocModel) {
@@ -81,8 +80,13 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
             sourceDirs.map { File(resourcesDir).toPath().resolve(it) },
             outputDir,
             emptyList()
-//        ) { inputStream -> IOStreamUtils.InputStreamIgnorer(inputStream) }
-        ) { inputStream -> IOStreamUtils.InputStreamPrinter(inputStream, null) }
+        ) { inputStream ->
+            if (showRunnerLogs) {
+                IOStreamUtils.InputStreamPrinter(inputStream, null) as Runnable
+            } else {
+                IOStreamUtils.InputStreamIgnorer(inputStream) as Runnable
+            }
+        }
     }
 
 }

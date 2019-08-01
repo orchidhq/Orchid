@@ -16,7 +16,10 @@ class AllClassesMenuItemType : OrchidMenuFactory("kotlindocClasses") {
     @StringDefault("All Classes")
     lateinit var title: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(KotlindocModel::class.java)
 
         val items = ArrayList<MenuItem>()
