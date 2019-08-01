@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
 
@@ -30,7 +31,10 @@ class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
     @Description("Whether to keep the terms as children of a single menu item, or expand them all to the root.")
     var postsAtRoot = false
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val postsModel = context.resolve(PostsModel::class.java)
         val categoryModel: CategoryModel?
 

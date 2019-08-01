@@ -37,12 +37,12 @@ open class OrchidIntegrationTest(
         serve = false
     }
 
-    protected fun flag(flag: String, value: Any) {
+    fun flag(flag: String, value: Any) {
         flags[flag] = value
     }
 
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
-    protected fun configObject(flag: String, json: String) {
+    fun configObject(flag: String, json: String) {
         if (config.containsKey(flag)) {
             val o = config[flag]
             if (o is Map<*, *>) {
@@ -55,20 +55,20 @@ open class OrchidIntegrationTest(
         }
     }
 
-    protected fun configArray(flag: String, json: String) {
+    fun configArray(flag: String, json: String) {
         config[flag] = JSONArray(json).toList()
     }
 
-    protected fun resource(path: String, content: String, json: String) {
+    fun resource(path: String, content: String, json: String) {
         resource(path, content, JSONObject(json).toMap())
     }
 
     @JvmOverloads
-    protected fun resource(path: String, content: String = "", data: Map<String, Any> = HashMap()) {
+    fun resource(path: String, content: String = "", data: Map<String, Any> = HashMap()) {
         resources[path] = Pair(content, data)
     }
 
-    protected fun serveOn(port: Int) {
+    fun serveOn(port: Int) {
         enableLogging()
 
         flag("task", "serve")

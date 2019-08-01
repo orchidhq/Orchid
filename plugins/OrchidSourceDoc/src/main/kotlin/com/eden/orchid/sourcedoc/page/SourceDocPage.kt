@@ -10,10 +10,19 @@ import com.eden.orchid.sourcedoc.SourcedocGenerator
 class SourceDocPage<T : DocElement>(
     val sourcedocGenerator: SourcedocGenerator<*>,
     context: OrchidContext,
+    val module: String,
     val element: T,
     key: String,
     title: String
-) : OrchidPage(SourceDocResource(context, element), key, title) {
+) : OrchidPage(
+    SourceDocResource(
+        context,
+        "${sourcedocGenerator.key}/$module",
+        element
+    ),
+    key,
+    title
+) {
 
     override val itemIds = listOf(element.id, element.name)
 
@@ -47,10 +56,9 @@ class SourceDocPage<T : DocElement>(
         return element
             .signature
             .map {
-                if(it.kind == TYPE_NAME) {
+                if (it.kind == TYPE_NAME) {
                     context.linkToPage(it.text, "", "", it.value, "")
-                }
-                else {
+                } else {
                     it.text
                 }
             }
@@ -62,10 +70,9 @@ class SourceDocPage<T : DocElement>(
             .comment
             .components
             .map {
-                if(it.kind == TYPE_NAME) {
+                if (it.kind == TYPE_NAME) {
                     context.linkToPage(it.text, "", "", it.value, "")
-                }
-                else {
+                } else {
                     it.text
                 }
             }

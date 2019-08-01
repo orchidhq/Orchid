@@ -7,11 +7,14 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 import com.google.inject.util.Types;
 import kotlin.Pair;
+import kotlin.collections.CollectionsKt;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -33,12 +36,25 @@ public class InjectionServiceImpl implements InjectionService {
     }
 
     @Override
-    public void pushInjector(String name, List<?> childVariables) {
+    public void pushInjector(String name, List<Pair<String, ?>> childVariables) {
         Module newModule = new OrchidModule() {
             @Override
             protected void configure() {
-                for(Object child : childVariables) {
-                    bind((Class<Object>) child.getClass()).toInstance(child);
+                Map<Class<?>, List<Pair<String, ?>>> groups = CollectionsKt.groupBy(childVariables, stringPair -> stringPair.getSecond().getClass());
+
+                for(Map.Entry<Class<?>, List<Pair<String, ?>>> entry : groups.entrySet()) {
+                    if(entry.getValue().size() > 1) {
+                        // if there are multiple instances of the same type, we need to bind them each with their unique names
+                        for(Pair<String, ?> child : entry.getValue()) {
+                            String itemName = child.getFirst();
+                            Object item = child.getSecond();
+                            bind((Class<Object>) entry.getKey()).annotatedWith(Names.named(itemName)).toInstance(item);
+                        }
+                    }
+                    else {
+                        // if there is a single instance, we do not need to qualify it with the name
+                        bind((Class<Object>) entry.getKey()).toInstance(entry.getValue().get(0).getSecond());
+                    }
                 }
             }
         };
@@ -62,6 +78,11 @@ public class InjectionServiceImpl implements InjectionService {
     @Override
     public <T> T resolve(Class<T> clazz) {
         return injectorStack.peek().getSecond().getInstance(clazz);
+    }
+
+    @Override
+    public <T> T resolve(Class<T> clazz, String named) {
+        return injectorStack.peek().getSecond().getInstance(Key.get(clazz, Names.named(named)));
     }
 
     @Override

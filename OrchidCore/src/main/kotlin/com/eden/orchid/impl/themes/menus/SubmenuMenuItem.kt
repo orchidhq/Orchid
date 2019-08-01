@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 
 @Description("A generic inner menu, which holds a menu inside it.", name = "Submenu")
@@ -19,13 +20,16 @@ class SubmenuMenuItem : OrchidMenuFactory("submenu") {
     @Description("A new menu to nest under this menu item.")
     lateinit var menu: OrchidMenu
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
 
         if (!menu.isEmpty) {
             menuItems.add(
                 MenuItem.Builder(context)
-                    .children(menu.getMenuItems(this.page))
+                    .children(menu.getMenuItems(page))
                     .title(title)
                     .build()
             )

@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 
 @Description("Adds all pages from a generator to the menu.", name = "Generator Pages")
@@ -19,7 +20,10 @@ class GeneratorPagesMenuItem : OrchidMenuFactory("generatorPages") {
     @Description("The generator to show all items for.")
     lateinit var generator: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val menuItems = ArrayList<MenuItem>()
         if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(generator)) {
             val foundIndex = context.index.findIndex(generator)

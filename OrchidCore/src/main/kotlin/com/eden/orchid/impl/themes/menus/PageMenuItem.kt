@@ -34,25 +34,28 @@ class PageMenuItem : OrchidMenuFactory("page") {
     @Description("The ID of an HTML element in the page to link to as an anchor.")
     lateinit var anchor: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
-        val page: OrchidPage? = if (collectionType.isEmpty() && collectionId.isEmpty() && itemId.isEmpty()) {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
+        val loadedPage: OrchidPage? = if (collectionType.isEmpty() && collectionId.isEmpty() && itemId.isEmpty()) {
             context.findPageOrDefault(collectionType, collectionId, itemId, page)
         } else {
             context.findPageOrDefault(collectionType, collectionId, itemId, null)
         }
 
-        return if (page != null) {
+        return if (loadedPage != null) {
             val item = MenuItem.Builder(context)
 
             if (anchor.isNotBlank()) {
                 item.anchor = anchor
 
                 // if this page is the menu item, just render the anchor, not the full link
-                if (this.page !== page) {
-                    item.page(page)
+                if (loadedPage !== page) {
+                    item.page(loadedPage)
                 }
             } else {
-                item.page(page)
+                item.page(loadedPage)
             }
 
             if (!EdenUtils.isEmpty(title)) {

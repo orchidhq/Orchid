@@ -5,6 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
     "The siblings of a page in your site, referenced from a Collection. If no page query is given, will use " +
@@ -30,7 +31,10 @@ class PageSiblingsMenuItem : OrchidMenuFactory("pageSiblings") {
     @Description("The specific Id of the given collection type where the item is expected to come from.")
     lateinit var collectionId: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         if (submenuTitle.isBlank()) {
             submenuTitle = page.title
         }
