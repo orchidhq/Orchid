@@ -31,7 +31,10 @@ class PageParentMenuItem : OrchidMenuFactory("pageParent") {
     @Description("The specific Id of the given collection type where the item is expected to come from.")
     lateinit var collectionId: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val page: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
 
         return if (page.parent != null) {

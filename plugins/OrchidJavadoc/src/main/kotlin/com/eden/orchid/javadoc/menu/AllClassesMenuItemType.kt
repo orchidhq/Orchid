@@ -17,7 +17,10 @@ class AllClassesMenuItemType : OrchidMenuFactory("javadocClasses") {
     @StringDefault("All Classes")
     lateinit var title: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(JavadocModel::class.java)
 
         val items = ArrayList<MenuItem>()

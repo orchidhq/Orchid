@@ -5,6 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 
 @Description(
@@ -31,7 +32,10 @@ class TaxonomyMenuType : OrchidMenuFactory("taxonomy") {
     )
     var termsAtRoot = false
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(TaxonomiesModel::class.java)
         val taxonomy = model.taxonomies[taxonomyType]
 

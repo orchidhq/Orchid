@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 
 @Description("Links to all the Taxonomy landing pages.", name = "All Taxonomies")
@@ -16,7 +17,10 @@ class TaxonomiesMenuType : OrchidMenuFactory("taxonomies") {
     @Description("The menu item title.")
     lateinit var title: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(TaxonomiesModel::class.java)
 
         val items = ArrayList<MenuItem>()

@@ -28,15 +28,18 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("groovydocClassLinks") {
     var includeItems: Boolean = false
 
     override fun canBeUsedOnPage(
-        containingPage: OrchidPage?,
-        menu: OrchidMenu?,
+        containingPage: OrchidPage,
+        menu: OrchidMenu,
         possibleMenuItems: List<Map<String, Any>>,
-        currentMenuFactories: MutableList<OrchidMenuFactory>?
+        currentMenuItems: List<OrchidMenuFactory>
     ): Boolean {
         return containingPage is GroovydocClassPage
     }
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(GroovydocModel::class.java)
         val containingPage = page as GroovydocClassPage
         val classDoc = containingPage.classDoc
@@ -58,19 +61,19 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("groovydocClassLinks") {
             ),
             LinkData(
                 { classDoc.fields.isNotEmpty() },
-                { getFieldLinks(context, model) },
+                { getFieldLinks(context, model, page) },
                 "Fields",
                 "fields"
             ),
             LinkData(
                 { classDoc.constructors.isNotEmpty() },
-                { getConstructorLinks(context, model) },
+                { getConstructorLinks(context, model, page) },
                 "Constructors",
                 "constructors"
             ),
             LinkData(
                 { classDoc.methods.isNotEmpty() },
-                { getMethodLinks(context, model) },
+                { getMethodLinks(context, model, page) },
                 "Methods",
                 "methods"
             )
@@ -100,7 +103,7 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("groovydocClassLinks") {
         val id: String
     )
 
-    private fun getFieldLinks(context: OrchidContext, model: GroovydocModel): List<MenuItem> {
+    private fun getFieldLinks(context: OrchidContext, model: GroovydocModel, page: OrchidPage): List<MenuItem> {
         val containingPage = page as GroovydocClassPage
         val classDoc = containingPage.classDoc
 
@@ -112,7 +115,7 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("groovydocClassLinks") {
         }
     }
 
-    private fun getConstructorLinks(context: OrchidContext, model: GroovydocModel): List<MenuItem> {
+    private fun getConstructorLinks(context: OrchidContext, model: GroovydocModel, page: OrchidPage): List<MenuItem> {
         val containingPage = page as GroovydocClassPage
         val classDoc = containingPage.classDoc
 
@@ -124,7 +127,7 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("groovydocClassLinks") {
         }
     }
 
-    private fun getMethodLinks(context: OrchidContext, model: GroovydocModel): List<MenuItem> {
+    private fun getMethodLinks(context: OrchidContext, model: GroovydocModel, page: OrchidPage): List<MenuItem> {
         val containingPage = page as GroovydocClassPage
         val classDoc = containingPage.classDoc
 
