@@ -28,15 +28,18 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("javadocClassLinks") {
     var includeItems: Boolean = false
 
     override fun canBeUsedOnPage(
-        containingPage: OrchidPage?,
-        menu: OrchidMenu?,
+        containingPage: OrchidPage,
+        menu: OrchidMenu,
         possibleMenuItems: List<Map<String, Any>>,
-        currentMenuFactories: MutableList<OrchidMenuFactory>?
+        currentMenuItems: List<OrchidMenuFactory>
     ): Boolean {
         return containingPage is JavadocClassPage
     }
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(JavadocModel::class.java)
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
@@ -58,19 +61,19 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("javadocClassLinks") {
             ),
             LinkData(
                 { classDoc.fields.isNotEmpty() },
-                { getFieldLinks(context, model) },
+                { getFieldLinks(context, model, page) },
                 "Fields",
                 "fields"
             ),
             LinkData(
                 { classDoc.constructors.isNotEmpty() },
-                { getConstructorLinks(context, model) },
+                { getConstructorLinks(context, model, page) },
                 "Constructors",
                 "constructors"
             ),
             LinkData(
                 { classDoc.methods.isNotEmpty() },
-                { getMethodLinks(context, model) },
+                { getMethodLinks(context, model, page) },
                 "Methods",
                 "methods"
             )
@@ -100,7 +103,7 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("javadocClassLinks") {
         val id: String
     )
 
-    private fun getFieldLinks(context: OrchidContext, model: JavadocModel): List<MenuItem> {
+    private fun getFieldLinks(context: OrchidContext, model: JavadocModel, page: OrchidPage): List<MenuItem> {
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
 
@@ -112,7 +115,7 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("javadocClassLinks") {
         }
     }
 
-    private fun getConstructorLinks(context: OrchidContext, model: JavadocModel): List<MenuItem> {
+    private fun getConstructorLinks(context: OrchidContext, model: JavadocModel, page: OrchidPage): List<MenuItem> {
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
 
@@ -124,7 +127,7 @@ class ClassDocLinksMenuItemType : OrchidMenuFactory("javadocClassLinks") {
         }
     }
 
-    private fun getMethodLinks(context: OrchidContext, model: JavadocModel): List<MenuItem> {
+    private fun getMethodLinks(context: OrchidContext, model: JavadocModel, page: OrchidPage): List<MenuItem> {
         val containingPage = page as JavadocClassPage
         val classDoc = containingPage.classDoc
 

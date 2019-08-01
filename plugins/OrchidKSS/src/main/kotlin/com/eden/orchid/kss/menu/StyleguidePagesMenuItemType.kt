@@ -5,6 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kss.model.KssModel
 import com.eden.orchid.kss.pages.KssPage
 
@@ -15,7 +16,10 @@ class StyleguidePagesMenuItemType : OrchidMenuFactory("styleguide") {
     @Description("The Styleguide section to get pages for.")
     lateinit var section: String
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         val model = context.resolve(KssModel::class.java)
 
         val menuItems = ArrayList<MenuItem>()

@@ -255,6 +255,10 @@ inline fun <reified T : Any> OrchidContext.resolve(): T {
     return this.resolve(T::class.java)
 }
 
+inline fun <reified T : Any> OrchidContext.resolve(named: String): T {
+    return this.resolve(T::class.java, named)
+}
+
 inline fun <reified T : Any> OrchidContext.resolveSet(): Set<T> {
     return this.resolveSet(T::class.java)
 }

@@ -14,6 +14,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import kotlin.Lazy;
 import kotlin.LazyKt;
+import kotlin.Pair;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -132,16 +133,15 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startGeneration() {
-        List<OrchidGenerator.Model> uniqueModels = context
+        List<Pair<String, ?>> generatorModelPairs = context
                 .getIndex()
                 .getAllIndexedPages()
-                .values()
+                .entrySet()
                 .stream()
-                .map(it -> it.getSecond())
-                .filter(it -> !it.getClass().equals(OrchidGenerator.SimpleModel.class))
+                .map(it -> new Pair<>(it.getKey(), it.getValue().getSecond()))
                 .collect(Collectors.toList());
 
-        context.pushInjector("generating", uniqueModels);
+        context.pushInjector("generating", generatorModelPairs);
 
         metrics.startGeneration();
         getFilteredGenerators().forEach(this::useGenerator);

@@ -5,14 +5,15 @@ import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
+class SourcedocMenuTest : OrchidIntegrationTest(SourceDocModule()) {
 
     @BeforeEach
     internal fun setUp() {
         enableLogging()
 //        serveOn(8080)
         testCss()
-        testPageStructure()
+        testMenuStructure()
+        addPageMenus()
     }
 
 // Tests

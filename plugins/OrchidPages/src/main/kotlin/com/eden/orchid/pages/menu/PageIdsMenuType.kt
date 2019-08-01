@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.menus.MenuItem
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
+import com.eden.orchid.api.theme.pages.OrchidPage
 import org.jsoup.Jsoup
 import java.util.stream.IntStream
 import kotlin.streams.toList
@@ -37,7 +38,10 @@ class PageIdsMenuType : OrchidMenuFactory("pageIds") {
     @Description("The structure used to display the items. One of [flat, nested].")
     lateinit var structure: Structure
 
-    override fun getMenuItems(context: OrchidContext): List<MenuItem> {
+    override fun getMenuItems(
+        context: OrchidContext,
+        page: OrchidPage
+    ): List<MenuItem> {
         if (maxLevel >= minLevel) {
             Clog.w("maxLevel must be less than minLevel")
             return emptyList()
