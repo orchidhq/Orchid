@@ -1,7 +1,6 @@
 package com.eden.orchid.maven;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -144,16 +143,15 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
 
         String[] projectArgs = ArrayUtils.addAll(
                 new String[]{
-                        "--baseUrl",     "" + baseUrl,
-                        "--src",         "" + srcDir,
-                        "--dest",        "" + destDir,
+                        "--baseUrl",     "" + (baseUrl != null ? baseUrl : ""),
+                        "--src",         "" + (srcDir != null ? srcDir : ""),
+                        "--dest",        "" + (destDir != null ? destDir : ""),
                         "--task",        "" + (force ? command : runTask != null ? runTask : command),
-                        "--theme",       "" + theme,
-                        "--version",     "" + version,
-                        "--environment", "" + environment,
+                        "--theme",       "" + (theme != null ? theme : ""),
+                        "--version",     "" + (version != null ? version : ""),
+                        "--environment", "" + (environment != null ? environment : ""),
                         "--dryDeploy",   "" + Boolean.toString(dryDeploy),
-                        "--port",        "" + Integer.toString(port),
-                        "--githubToken", "" + githubToken,
+                        "--port",        "" + Integer.toString(port)
                 },
                 args
         );
