@@ -75,37 +75,7 @@ fun OrchidIntegrationTest.testMenuStructure() {
     resource(
         "templates/pages/sourceDocPage.peb", """
         |{{ page.title }}
-        |<ul>
-        |{% for menuItem in theme.menu.getMenuItems(page) %}
-        |    {% include 'includes/menuItem' with {"menuItem": menuItem} %}
-        |{% endfor %}
-        |</ul>
-        """.trimMargin()
-    )
-    resource(
-        "templates/includes/menuItem.peb", """
-            |{% if menuItem.hasChildren %}
-            |    <li>
-            |        {{ menuItem.title | title }}
-            |        <ul>
-            |        {% for childLink in menuItem.children %}
-            |            {% include 'includes/menuItem' with {"menuItem": childLink} %}
-            |        {% endfor %}
-            |        </ul>
-            |    </li>
-            |{% elseif menuItem.isSeparator() %}
-            |    {% if menuItem.title|length > 0 %}
-            |        <li>{{ menuItem.title }}</li>
-            |    {% else %}
-            |        <li class="divider"></li>
-            |    {% endif %}
-            |{% else %}
-            |    {% if menuItem.title|length > 0 %}
-            |    <li>
-            |        <a href="{{ menuItem.link }}">{{ menuItem.title }}</a>
-            |    </li>
-            |    {% endif %}
-            |{% endif %}
+        |{% include 'themeMenu.peb' %}
         """.trimMargin()
     )
 }

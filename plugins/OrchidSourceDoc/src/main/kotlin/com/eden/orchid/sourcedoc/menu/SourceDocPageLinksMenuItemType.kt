@@ -21,8 +21,8 @@ class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
     @Option
     @BooleanDefault(false)
     @Description(
-        "Whether to include the items for each category. For example, including a menu item for each " +
-                "individual constructor as children of 'Constructors' or just a link to the Constructors section."
+        "Whether to include the items for each section. For example, including a menu item for each " +
+                "individual constructor as children of `Constructors` or just a link to the `Constructors` section."
     )
     var includeItems: Boolean = false
 
