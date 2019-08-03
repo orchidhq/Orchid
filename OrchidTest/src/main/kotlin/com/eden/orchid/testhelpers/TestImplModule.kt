@@ -8,6 +8,7 @@ import com.eden.orchid.api.render.OrchidRenderer
 class TestImplModule(private val serve: Boolean) : OrchidModule() {
 
     override fun configure() {
+        withResources(1)
         if (!serve) {
             bind(OrchidRenderer::class.java).to(TestRenderer::class.java)
         }
