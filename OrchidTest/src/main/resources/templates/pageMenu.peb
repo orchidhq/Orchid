@@ -1,0 +1,5 @@
+<ul>
+{% for menuItem in page.menu.getMenuItems(page) %}
+     {% include 'menuItem' with {"menuItem": menuItem} %}
+ {% endfor %}
+</ul>
