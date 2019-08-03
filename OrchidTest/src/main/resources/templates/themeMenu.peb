@@ -1,0 +1,5 @@
+<ul>
+{% for menuItem in theme.menu.getMenuItems(page) %}
+     {% include 'menuItem' with {"menuItem": menuItem} %}
+ {% endfor %}
+</ul>
