@@ -7,10 +7,11 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.makeMillisReadable
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.apache.commons.io.FileUtils
 import org.json.JSONObject
@@ -198,7 +199,7 @@ constructor(
         val fullURL = Clog.format("$netlifyUrl/$url", *args)
         Clog.d("Netlify POST: {}", fullURL)
         return newRequest(fullURL)
-            .post(RequestBody.create(JSON, this.toString()))
+            .post(this.toString().toRequestBody(JSON))
             .build()
     }
 
@@ -206,7 +207,7 @@ constructor(
         val fullURL = Clog.format("$netlifyUrl/$url", *args)
 
         return newRequest(fullURL)
-            .put(RequestBody.create(BINARY, this))
+            .put(this.asRequestBody(BINARY))
             .build()
     }
 
@@ -223,7 +224,7 @@ constructor(
             .timeoutRateLimit()
 
         return try {
-            val bodyString = response.body()!!.string()
+            val bodyString = response.body!!.string()
             if (!response.isSuccessful) {
                 Clog.e("{}", bodyString)
             }
@@ -255,8 +256,8 @@ constructor(
     }
 
     companion object {
-        private val JSON = MediaType.parse("application/json; charset=utf-8")
-        private val BINARY = MediaType.parse("application/octet-stream")
+        private val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        private val BINARY = "application/octet-stream".toMediaTypeOrNull()
         private const val netlifyUrl = "https://api.netlify.com/api/v1"
     }
 }

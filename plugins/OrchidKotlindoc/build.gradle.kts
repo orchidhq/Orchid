@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation(Libs.dokka_runner)
+    implementation(Libs.com_eden_dokka_runner)
 }
