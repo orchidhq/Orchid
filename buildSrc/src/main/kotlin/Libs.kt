@@ -5,6 +5,34 @@
  *   `$ ./gradlew buildSrcVersions` */
 object Libs {
     /**
+     * https://copper-leaf.github.io/kodiak */
+    const val common_formatter: String = "com.eden.kodiak:common-formatter:" +
+            Versions.com_eden_kodiak
+
+    /**
+     * https://copper-leaf.github.io/kodiak */
+    const val common_models: String = "com.eden.kodiak:common-models:" + Versions.com_eden_kodiak
+
+    /**
+     * https://copper-leaf.github.io/kodiak */
+    const val common_runner: String = "com.eden.kodiak:common-runner:" + Versions.com_eden_kodiak
+
+    /**
+     * https://copper-leaf.github.io/kodiak */
+    const val com_eden_kodiak_dokka_runner: String = "com.eden.kodiak:dokka-runner:" +
+            Versions.com_eden_kodiak
+
+    /**
+     * https://copper-leaf.github.io/kodiak */
+    const val com_eden_kodiak_groovydoc_runner: String = "com.eden.kodiak:groovydoc-runner:" +
+            Versions.com_eden_kodiak
+
+    /**
+     * https://copper-leaf.github.io/kodiak */
+    const val com_eden_kodiak_javadoc_runner: String = "com.eden.kodiak:javadoc-runner:" +
+            Versions.com_eden_kodiak
+
+    /**
      * https://javaeden.github.io/Clog/Clog4j */
     const val clog4j: String = "com.eden:Clog4j:" + Versions.clog4j
 
@@ -14,15 +42,18 @@ object Libs {
 
     /**
      * https://copper-leaf.github.io/dokka-json */
-    const val dokka_runner: String = "com.eden:dokka-runner:" + Versions.dokka_runner
+    const val com_eden_dokka_runner: String = "com.eden:dokka-runner:" +
+            Versions.com_eden_dokka_runner
 
     /**
      * https://copper-leaf.github.io/dokka-json */
-    const val groovydoc_runner: String = "com.eden:groovydoc-runner:" + Versions.groovydoc_runner
+    const val com_eden_groovydoc_runner: String = "com.eden:groovydoc-runner:" +
+            Versions.com_eden_groovydoc_runner
 
     /**
      * https://copper-leaf.github.io/dokka-json */
-    const val javadoc_runner: String = "com.eden:javadoc-runner:" + Versions.javadoc_runner
+    const val com_eden_javadoc_runner: String = "com.eden:javadoc-runner:" +
+            Versions.com_eden_javadoc_runner
 
     /**
      * https://copper-leaf.github.io/krow */
@@ -33,11 +64,6 @@ object Libs {
             Versions.american_bible_society_client
 
     const val eden: String = "com.github.JavaEden:Eden:" + Versions.eden
-
-    /**
-     * https://github.com/ben-manes/gradle-versions-plugin */
-    const val gradle_versions_plugin: String = "com.github.ben-manes:gradle-versions-plugin:" +
-            Versions.gradle_versions_plugin
 
     /**
      * https://www.codacy.com */

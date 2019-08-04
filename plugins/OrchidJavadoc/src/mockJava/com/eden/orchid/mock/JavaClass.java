@@ -28,4 +28,20 @@ public class JavaClass {
     public String doThing(String s1) {
         return "";
     }
+
+    public String methodWithVarargs(String... strings) {
+        return "";
+    }
+
+    public String methodWithStringArray(String[] strings) {
+        return "";
+    }
+
+    public String methodWithMultiDimensionStringArray(String[][][] strings) {
+        return "";
+    }
+
+    public String methodWithMultiDimensionStringArrayWithVararg(String[][]... strings) {
+        return "";
+    }
 }

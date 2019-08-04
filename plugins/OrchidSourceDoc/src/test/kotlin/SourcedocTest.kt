@@ -13,6 +13,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
 //        serveOn(8080)
         testCss()
         testPageStructure()
+        addPageMenus()
     }
 
 // Tests

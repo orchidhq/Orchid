@@ -9,9 +9,9 @@
     </li>
 {% elseif menuItem.isSeparator() %}
     {% if menuItem.title|length > 0 %}
-        <li>{{ menuItem.title }}</li>
+        <li>{{ menuItem.title }}<hr></li>
     {% else %}
-        <li class="divider"></li>
+        <li class="divider"><hr></li>
     {% endif %}
 {% else %}
     {% if menuItem.title|length > 0 %}

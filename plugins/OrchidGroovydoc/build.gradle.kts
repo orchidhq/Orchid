@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation(Libs.groovydoc_runner)
+    implementation(Libs.com_eden_groovydoc_runner)
 }

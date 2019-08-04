@@ -49,9 +49,7 @@ fun OrchidIntegrationTest.addPageMenus() {
         """
         |{
         |    "menu": [
-        |        {
-        |            "type": "sourcedocPageLinks"
-        |        }
+        |        
         |    ]
         |}
         |""".trimMargin()
@@ -62,7 +60,23 @@ fun OrchidIntegrationTest.addPageMenus() {
         |{
         |    "menu": [
         |        {
-        |            "type": "sourcedocPageLinks"
+        |            "type": "sourcedocPageLinks",
+        |            "includeItems": false
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPageLinks",
+        |            "includeItems": true
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPageLinks",
+        |            "includeItems": true,
+        |            "itemTitleType": "SIGNATURE"
         |        }
         |    ]
         |}

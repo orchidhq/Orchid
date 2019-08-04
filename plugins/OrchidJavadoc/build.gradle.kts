@@ -1,4 +1,4 @@
 
 dependencies {
-    implementation(Libs.javadoc_runner)
+    implementation(Libs.com_eden_javadoc_runner)
 }
