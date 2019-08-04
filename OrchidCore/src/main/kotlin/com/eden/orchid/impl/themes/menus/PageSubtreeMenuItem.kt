@@ -30,12 +30,12 @@ class PageSubtreeMenuItem : OrchidMenuFactory("pageSubtree") {
         context: OrchidContext,
         page: OrchidPage
     ): List<MenuItem> {
-        val page: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
-        val index = context.index.findIndex(page.reference.path)
+        val foundPage: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
+        val index = context.index.findIndex(foundPage.reference.path)
 
         return if (index != null) {
             if (submenuTitle.isBlank()) {
-                submenuTitle = page.title
+                submenuTitle = foundPage.title
             }
 
             MenuItem.Builder(context)

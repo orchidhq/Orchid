@@ -5,12 +5,28 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 fun OrchidIntegrationTest.testCss() {
     resource(
         "assets/css/orchidSourcedoc.scss", """
-            |.orchid-sourcedoc {
-            |  --section-color: black;
-            |  * {
-            |    padding: 0;
-            |    margin: 0;
+            |* {
+            |  box-sizing: border-box;
+            |}
+            |.sourcedoc-page {
+            |  display: grid;
+            |  grid-template-columns: 70% auto;
+            |  
+            |  .orchid-sourcedoc {
+            |    grid-column: 1;
+            |    border: thin solid gray;
+            |    padding: 20px 40px;
             |  }
+            |  .menus {
+            |    grid-column: 2;
+            |    border: thin solid gray;
+            |    padding: 20px 40px;
+            |  }
+            |}
+            |
+            |.orchid-sourcedoc {
+            |  
+            |  --section-color: black;
             |  .section {
             |    border: thin solid var(--section-color);
             |    border-radius: 8px;
@@ -47,35 +63,40 @@ fun OrchidIntegrationTest.testCss() {
 fun OrchidIntegrationTest.testPageStructure() {
     resource(
         "templates/pages/sourceDocPage.peb", """
-            |<div class="orchid-sourcedoc">
-            |{{ renderSection(page, page.rootSection) }}
+            |<div class="sourcedoc-page">
+            |  <h1>{{ page.title }}</h1>
+            |  <div class="orchid-sourcedoc">
+            |    <h2>Page Content</h2>
+            |    {{ renderSection(page, page.rootSection) }}
+            |  </div>
+            |  <div class="menus">
+            |    <div class="theme-menu">
+            |      <h2>Theme Menu</h2>
+            |      {% include 'themeMenu.peb' %}
+            |    </div>
+            |    <div class="page-menu">
+            |      <h2>Page Menu</h2>
+            |      {% include 'pageMenu.peb' %}
+            |    </div>
+            |  </div>
             |</div>
             |
             |{% macro renderSection(page, section) %}
+            |<div class="section section-root" data-tab-text="{{ page.sectionId(section) }}" style="--section-color: green;" id="{{ page.sectionId(section) }}">
             |{% for element in section.elements %}
-            |  <div class="section section-root" data-tab-text="{{ element.kind }}" style="--section-color: black;">
+            |  <div class="section section-element" data-tab-text="{{ element.kind }}" style="--section-color: black;" id="{{ page.elementId(element) }}">
             |    <div class="section section-signature" data-tab-text="signature" style="--section-color: red;">{{ page.renderSignature(element)|raw }}</div>
             |    <div class="section section-comments" data-tab-text="comments" style="--section-color: blue;">{{ page.renderComment(element)|compileAs('md') }}</div>
             |    {% set childrenSections = page.getSectionsData(element) %}
             |    {% if childrenSections|length > 0 %}
-            |      <div class="section section-children" data-tab-text="children - {{ (childrenSections | first).name }}" style="--section-color: green;">
             |      {% for childSection in childrenSections %}
             |        {{ renderSection(page, childSection) }}
             |      {% endfor %}
-            |      </div>
             |    {% endif %}
             |  </div>
             |{% endfor %}
+            |</div>
             |{% endmacro %}
-        """.trimMargin()
-    )
-}
-
-fun OrchidIntegrationTest.testMenuStructure() {
-    resource(
-        "templates/pages/sourceDocPage.peb", """
-        |{{ page.title }}
-        |{% include 'themeMenu.peb' %}
         """.trimMargin()
     )
 }

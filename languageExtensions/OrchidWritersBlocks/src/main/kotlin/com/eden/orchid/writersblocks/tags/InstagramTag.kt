@@ -41,7 +41,7 @@ constructor(
                     val response = client.newCall(request).execute()
 
                     if (response.isSuccessful) {
-                        val body = response.body()?.string() ?: ""
+                        val body = response.body?.string() ?: ""
                         field = JSONObject(body).getString("html")
                     }
                 }

@@ -9,7 +9,7 @@ import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
 import com.vladsch.flexmark.util.builder.Extension
-import com.vladsch.flexmark.util.options.MutableDataSet
+import com.vladsch.flexmark.util.data.MutableDataSet
 
 class FlexmarkModule : OrchidModule() {
 

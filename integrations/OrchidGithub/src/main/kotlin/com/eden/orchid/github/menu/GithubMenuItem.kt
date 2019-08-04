@@ -56,7 +56,7 @@ class GithubMenuItem : OrchidMenuFactory("github") {
             }
 
             val response = client.newCall(request.build()).execute()
-            val bodyString = response.body()!!.string()
+            val bodyString = response.body!!.string()
 
             if (response.isSuccessful) {
                 val jsonBody = JSONObject(bodyString)
