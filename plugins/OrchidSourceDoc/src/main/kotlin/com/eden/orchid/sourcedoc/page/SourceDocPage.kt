@@ -6,6 +6,7 @@ import com.copperleaf.kodiak.common.DocElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.SourcedocGenerator
+import com.eden.orchid.utilities.OrchidUtils
 
 class SourceDocPage<T : DocElement>(
     val sourcedocGenerator: SourcedocGenerator<*>,
@@ -17,7 +18,7 @@ class SourceDocPage<T : DocElement>(
 ) : OrchidPage(
     SourceDocResource(
         context,
-        "${sourcedocGenerator.key}/$module",
+        if(module.isNotBlank()) "${sourcedocGenerator.key}/$module" else sourcedocGenerator.key,
         element
     ),
     key,
@@ -38,7 +39,7 @@ class SourceDocPage<T : DocElement>(
     }
 
     fun getRootSection(): Section {
-        return Section(title, listOf(element))
+        return Section(null, title, listOf(element))
     }
 
     fun getSectionsData(element: DocElement): List<Section> {
@@ -46,7 +47,7 @@ class SourceDocPage<T : DocElement>(
             return element
                 .nodes
                 .filter { it.getter().isNotEmpty() }
-                .map { Section(it.prop.name, it.getter()) }
+                .map { Section(element, it.prop.name, it.getter()) }
         }
 
         return emptyList()
@@ -79,7 +80,25 @@ class SourceDocPage<T : DocElement>(
             .joinToString("")
     }
 
+    fun sectionId(section: Section): String {
+        return if(section.parent != null && section.parent !== element) {
+            OrchidUtils.sha1("${unhashedElementId(section.parent)}_${section.name}")
+        }
+        else {
+            section.name
+        }
+    }
+
+    fun elementId(element: DocElement): String {
+        return OrchidUtils.sha1(unhashedElementId(element))
+    }
+
+    private fun unhashedElementId(element: DocElement): String {
+        return element.signature.joinToString("_") { it.text }
+    }
+
     data class Section(
+        val parent: DocElement?,
         val name: String,
         val elements: List<DocElement>
     )

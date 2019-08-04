@@ -8,10 +8,10 @@ import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.changelog.model.ChangelogModel
 import com.eden.orchid.utilities.resolve
 import com.google.inject.name.Named
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -58,27 +58,24 @@ constructor(
         val request = Request.Builder().url(url)
             .header("Authorization", "token $githubToken")
             .post(
-                RequestBody.create(
-                    MediaType.parse("application/json; charset=utf-8"),
-                    JSONObject(
-                        mutableMapOf(
-                            "tag_name" to version?.version,
-                            "name" to version?.version,
-                            "body" to version?.content,
-                            "prerelease" to prerelease
-                        ).also {
-                            if(commitish.isNotBlank()) {
-                                it["target_commitish"] = commitish
-                            }
+                JSONObject(
+                    mutableMapOf(
+                        "tag_name" to version?.version,
+                        "name" to version?.version,
+                        "body" to version?.content,
+                        "prerelease" to prerelease
+                    ).also {
+                        if(commitish.isNotBlank()) {
+                            it["target_commitish"] = commitish
                         }
-                    ).toString()
-                )
+                    }
+                ).toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
             )
             .build()
         Clog.d("Github POST: {}", url)
         val response = client.newCall(request).execute()
         if (!response.isSuccessful) {
-            Clog.e("{}", response.body()!!.string())
+            Clog.e("{}", response.body!!.string())
         }
     }
 }

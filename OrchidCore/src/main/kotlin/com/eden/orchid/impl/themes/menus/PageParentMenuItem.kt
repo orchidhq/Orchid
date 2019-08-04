@@ -35,10 +35,10 @@ class PageParentMenuItem : OrchidMenuFactory("pageParent") {
         context: OrchidContext,
         page: OrchidPage
     ): List<MenuItem> {
-        val page: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
+        val foundPage: OrchidPage = context.findPageOrDefault(collectionType, collectionId, itemId, page)
 
-        return if (page.parent != null) {
-            val item = MenuItem.Builder(context).page(page.parent)
+        return if (foundPage.parent != null) {
+            val item = MenuItem.Builder(context).page(foundPage.parent)
             if (!EdenUtils.isEmpty(title)) {
                 item.title(title)
             }
