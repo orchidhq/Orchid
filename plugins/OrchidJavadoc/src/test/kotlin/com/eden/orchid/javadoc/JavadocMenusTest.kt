@@ -114,6 +114,10 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
                                     +"Methods"
                                     ul {
                                         li { a(href = "#method__public_String_doThing_String_s1_") { +"public String doThing(String s1)" } }
+                                        li { a(href = "#method__public_String_methodWithVarargs_String_strings_") { +"public String methodWithVarargs(String strings)" } }
+                                        li { a(href = "#method__public_String_methodWithStringArray_String_strings_") { +"public String methodWithStringArray(String strings)" } }
+                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArray_String_strings_") { +"public String methodWithMultiDimensionStringArray(String strings)" } }
+                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArrayWithVararg_String_strings_") { +"public String methodWithMultiDimensionStringArrayWithVararg(String strings)" } }
                                     }
                                 }
                             }
