@@ -13,20 +13,44 @@ import com.eden.orchid.posts.PostCategoryArchetype
 import com.eden.orchid.posts.PostsGenerator
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
+import com.eden.orchid.posts.model.PostsModel
+import com.eden.orchid.utilities.resolve
+import org.json.JSONObject
 
 @Archetypes(
     Archetype(value = PostCategoryArchetype::class, key = PostsGenerator.GENERATOR_KEY),
     Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.postPages")
 )
 @Description(value = "A blog post.", name = "Blog Post")
-class PostPage(resource: OrchidResource, val categoryModel: CategoryModel, title: String)
-    : OrchidPage(resource, "post", title) {
+class PostPage(
+    resource: OrchidResource,
+    val categoryModel: CategoryModel,
+    title: String
+) : OrchidPage(resource, "post", title) {
 
-    @Option
+    @Option("author")
     @Description("The posts author. May be the `name` of a known author, or an anonymous Author config, only " +
             "used for this post, which is considered as a guest author."
     )
-    var author: Author? = null
+    var authorName: Any? = null
+
+    fun setAuthor(authorName: Any?) {
+        this.authorName = authorName
+    }
+
+    val author: Author? by lazy {
+        val postsModel: PostsModel = context.resolve()
+
+        if (authorName is JSONObject) {
+            val author = Author()
+            author.extractOptions(context, (authorName as JSONObject).toMap())
+            author
+        }
+        else {
+            val value = "" + authorName?.toString()
+            postsModel.getAuthorByName(value)
+        }
+    }
 
     @Option
     @Description("A list of tags for this post, for basic taxonomic purposes. More complex taxonomic relationships " +
