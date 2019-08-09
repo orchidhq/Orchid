@@ -2,7 +2,6 @@ package com.eden.orchid.posts
 
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
@@ -19,7 +18,6 @@ import com.eden.orchid.posts.permalink.pathtypes.MonthNamePathType
 import com.eden.orchid.posts.permalink.pathtypes.MonthPathType
 import com.eden.orchid.posts.permalink.pathtypes.SlugPathType
 import com.eden.orchid.posts.permalink.pathtypes.YearPathType
-import com.eden.orchid.posts.utils.AuthorOptionExtractor
 import com.eden.orchid.utilities.addToSet
 
 class PostsModule : OrchidModule() {
@@ -28,7 +26,6 @@ class PostsModule : OrchidModule() {
         withResources(20)
 
         addToSet<OrchidMenuFactory, LatestPostsMenuType>()
-        addToSet<OptionExtractor<*>, AuthorOptionExtractor>()
         addToSet<TemplateFunction>(
                 ExcerptFunction::class,
                 RecentPostsFunction::class)
