@@ -25,7 +25,7 @@ class FindAllFunction : TemplateFunction("findAll", false) {
 
     @Option
     @IntDefault(0)
-    @Description("Paginate results starting at this page.")
+    @Description("Paginate results starting at this page. Index starts at 1.")
     var pageIndex: Int = 0
 
     @Option
@@ -37,7 +37,8 @@ class FindAllFunction : TemplateFunction("findAll", false) {
         return arrayOf(
                 *IndexService.locateParams,
                 "page",
-                "pageSize"
+                "pageSize",
+                "pageIndex"
         )
     }
 
