@@ -2,6 +2,7 @@ package com.eden.orchid.api.indexing
 
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.impl.generators.ExternalIndexGenerator
 import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Singleton
 
@@ -11,8 +12,11 @@ class OrchidRootIndex(ownKey: String) : OrchidIndex(null, ownKey) {
 
     fun addChildIndex(key: String, index: OrchidIndex, model: OrchidGenerator.Model) {
         allIndexedPages[key] = index to model
-        for (page in index.allPages) {
-            this.addToIndex(page.reference.path, page)
+
+        if(key != ExternalIndexGenerator.GENERATOR_KEY) {
+            for (page in index.allPages) {
+                this.addToIndex(page.reference.path, page)
+            }
         }
     }
 

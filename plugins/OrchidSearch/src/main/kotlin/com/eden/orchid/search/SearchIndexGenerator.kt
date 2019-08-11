@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.impl.generators.ExternalIndexGenerator
 
 @Description("Generates index files to connect your site to others.", name = "Indices")
 class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE) {
@@ -43,6 +44,8 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
 
         // Render an page for each generator's individual index
         context.index.allIndexedPages.forEach { (key, value) ->
+            if(key === ExternalIndexGenerator.GENERATOR_KEY) return@forEach // don't create search indices for externally-indexed pages
+
             val jsonElement = JSONElement(value.first.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
             val resource = JsonResource(jsonElement, reference)
