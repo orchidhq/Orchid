@@ -1,5 +1,6 @@
 package com.eden.orchid.api.site;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -33,6 +34,17 @@ public final class SiteInfo implements OptionsHolder {
     )
     private String siteDescription;
 
+    @Option
+    @Description("The copyright text, usually included in the site footer. Defaults to the site name.")
+    private String siteCopyright;
+
+    @Override
+    public void onPostExtraction() {
+        if(EdenUtils.isEmpty(siteCopyright)) {
+            siteCopyright = siteName;
+        }
+    }
+
     public AssetRelation getAvatar() {
         return this.avatar;
     }
@@ -53,6 +65,10 @@ public final class SiteInfo implements OptionsHolder {
         return this.siteDescription;
     }
 
+    public String getSiteCopyright() {
+        return siteCopyright;
+    }
+
     public void setAvatar(AssetRelation avatar) {
         this.avatar = avatar;
     }
@@ -71,5 +87,9 @@ public final class SiteInfo implements OptionsHolder {
 
     public void setSiteDescription(String siteDescription) {
         this.siteDescription = siteDescription;
+    }
+
+    public void setSiteCopyright(String siteCopyright) {
+        this.siteCopyright = siteCopyright;
     }
 }
