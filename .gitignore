@@ -29,7 +29,7 @@ proguard/
 
 # Intellij
 *.iml
-.idea/workspace.xml
+.idea/
 Orchid.iws
 Orchid.ipr
 
@@ -39,5 +39,4 @@ Orchid.ipr
 # Google Analytics
 /**/templates/meta.*
 
-OrchidCore/src/orchid/resources/generate_posts\.py
-/tools_source_from_cfr/*
+.DS_Store
