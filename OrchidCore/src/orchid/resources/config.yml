@@ -53,6 +53,7 @@ services:
     stages:
       - type: githubReleases
         repo: 'JavaEden/Orchid'
+        commitish: 'master'
 
 allPages:
   extraCss:

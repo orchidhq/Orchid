@@ -28,6 +28,14 @@ constructor(
     @Description("The repository to release to, as [username/repo].")
     lateinit var repo: String
 
+    @Option
+    @Description("The `target_commitish` value to create the release tag on.")
+    lateinit var commitish: String
+
+    @Option
+    @Description("Whether this is a prerelease.")
+    var prerelease: Boolean = false
+
     override fun validate(): Boolean {
         val valid = super.validate()
         return valid && hasVersion()
@@ -51,11 +59,16 @@ constructor(
                 RequestBody.create(
                     MediaType.parse("application/json; charset=utf-8"),
                     JSONObject(
-                        mapOf(
+                        mutableMapOf(
                             "tag_name" to version?.version,
                             "name" to version?.version,
-                            "body" to version?.content
-                        )
+                            "body" to version?.content,
+                            "prerelease" to prerelease
+                        ).also {
+                            if(commitish.isNotBlank()) {
+                                it["target_commitish"] = commitish
+                            }
+                        }
                     ).toString()
                 )
             )
