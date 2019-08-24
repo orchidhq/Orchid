@@ -27,3 +27,7 @@ $singleWidth: 960px;
     }
   }
 }
+
+p > img, p > svg {
+  max-width: 100%;
+}
