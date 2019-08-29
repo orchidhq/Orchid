@@ -1,5 +1,5 @@
 dependencies {
-    val ver = "0.3.1"
+    val ver = "0.3.2"
     implementation("com.eden.kodiak:common-models:$ver")
     implementation("com.eden.kodiak:common-formatter:$ver")
     implementation("com.eden.kodiak:common-runner:$ver")
