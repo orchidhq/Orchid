@@ -77,12 +77,22 @@ public class InjectionServiceImpl implements InjectionService {
 
     @Override
     public <T> T resolve(Class<T> clazz) {
-        return injectorStack.peek().getSecond().getInstance(clazz);
+        try {
+            return injectorStack.peek().getSecond().getInstance(clazz);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public <T> T resolve(Class<T> clazz, String named) {
-        return injectorStack.peek().getSecond().getInstance(Key.get(clazz, Names.named(named)));
+        try {
+            return injectorStack.peek().getSecond().getInstance(Key.get(clazz, Names.named(named)));
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

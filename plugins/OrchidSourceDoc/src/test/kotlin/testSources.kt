@@ -13,6 +13,39 @@ fun OrchidIntegrationTest.javadocSetup() {
             |}
             |""".trimMargin()
     )
+    configObject(
+        "theme",
+        """
+        |{
+        |    "menu": [
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "javadoc",
+        |            "node": "packages",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Javadoc Packages"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "javadoc",
+        |            "node": "classes",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Javadoc Classes"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "javadoc"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |    ]
+        |}
+        |""".trimMargin()
+    )
 }
 
 fun OrchidIntegrationTest.groovydocSetup() {
@@ -26,6 +59,39 @@ fun OrchidIntegrationTest.groovydocSetup() {
             |    ]
             |}
             |""".trimMargin()
+    )
+    configObject(
+        "theme",
+        """
+        |{
+        |    "menu": [
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "groovydoc",
+        |            "node": "packages",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Groovydoc Packages"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "groovydoc",
+        |            "node": "classes",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Groovydoc Classes"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "groovydoc"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |    ]
+        |}
+        |""".trimMargin()
     )
 }
 
@@ -41,19 +107,42 @@ fun OrchidIntegrationTest.kotlindocSetup() {
             |}
             |""".trimMargin()
     )
-}
-
-fun OrchidIntegrationTest.addPageMenus() {
     configObject(
         "theme",
         """
         |{
         |    "menu": [
-        |        
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "kotlindoc",
+        |            "node": "packages",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Kotlindoc Packages"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "kotlindoc",
+        |            "node": "classes",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Kotlindoc Classes"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "kotlindoc"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
         |    ]
         |}
         |""".trimMargin()
     )
+}
+
+fun OrchidIntegrationTest.addPageMenus() {
     configObject(
         "allPages",
         """
