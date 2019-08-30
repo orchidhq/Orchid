@@ -39,13 +39,21 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
 
     @Test
     fun test04() {
+        swiftdocSetup()
+        execute(withGenerator<NewSwiftdocGenerator>())
+    }
+
+    @Test
+    fun test05() {
         javadocSetup()
         groovydocSetup()
         kotlindocSetup()
+        swiftdocSetup()
         execute(
             withGenerator<NewJavadocGenerator>(),
             withGenerator<NewGroovydocGenerator>(),
-            withGenerator<NewKotlindocGenerator>()
+            withGenerator<NewKotlindocGenerator>(),
+            withGenerator<NewSwiftdocGenerator>()
         )
     }
 }
