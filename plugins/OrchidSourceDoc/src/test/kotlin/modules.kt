@@ -6,6 +6,8 @@ import com.copperleaf.kodiak.java.JavadocInvokerImpl
 import com.copperleaf.kodiak.java.models.JavaRootDoc
 import com.copperleaf.kodiak.kotlin.KotlindocInvokerImpl
 import com.copperleaf.kodiak.kotlin.models.KotlinModuleDoc
+import com.copperleaf.kodiak.swift.SwiftdocInvokerImpl
+import com.copperleaf.kodiak.swift.models.SwiftModuleDoc
 import com.eden.orchid.api.options.OptionsExtractor
 import javax.inject.Inject
 import javax.inject.Named
@@ -33,3 +35,11 @@ constructor(
     invoker: KotlindocInvokerImpl,
     extractor: OptionsExtractor
 ) : SourcedocGenerator<KotlinModuleDoc>("kotlindoc", resourcesDir, invoker, extractor)
+
+class NewSwiftdocGenerator
+@Inject
+constructor(
+    @Named("src") resourcesDir: String,
+    invoker: SwiftdocInvokerImpl,
+    extractor: OptionsExtractor
+) : SourcedocGenerator<SwiftModuleDoc>("swiftdoc", resourcesDir, invoker, extractor)

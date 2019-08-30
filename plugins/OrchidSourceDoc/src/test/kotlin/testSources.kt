@@ -2,16 +2,17 @@ package com.eden.orchid.sourcedoc
 
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 
-fun OrchidIntegrationTest.javadocSetup() {
+fun OrchidIntegrationTest.javadocSetup(showRunnerLogs: Boolean = false) {
     configObject(
         "javadoc",
         """
-            |{
-            |    "sourceDirs": [
-            |        "./../../OrchidJavadoc/src/mockJava"
-            |    ]
-            |}
-            |""".trimMargin()
+        |{
+        |    "sourceDirs": [
+        |        "./../../OrchidJavadoc/src/mockJava"
+        |    ],
+        |    "showRunnerLogs": $showRunnerLogs
+        |}
+        |""".trimMargin()
     )
     configObject(
         "theme",
@@ -48,17 +49,18 @@ fun OrchidIntegrationTest.javadocSetup() {
     )
 }
 
-fun OrchidIntegrationTest.groovydocSetup() {
+fun OrchidIntegrationTest.groovydocSetup(showRunnerLogs: Boolean = false) {
     configObject(
         "groovydoc",
         """
-            |{
-            |    "sourceDirs": [
-            |        "./../../OrchidJavadoc/src/mockJava",
-            |        "./../../OrchidGroovydoc/src/mockGroovy",
-            |    ]
-            |}
-            |""".trimMargin()
+        |{
+        |    "sourceDirs": [
+        |        "./../../OrchidJavadoc/src/mockJava",
+        |        "./../../OrchidGroovydoc/src/mockGroovy",
+        |    ],
+        |    "showRunnerLogs": $showRunnerLogs
+        |}
+        |""".trimMargin()
     )
     configObject(
         "theme",
@@ -95,17 +97,18 @@ fun OrchidIntegrationTest.groovydocSetup() {
     )
 }
 
-fun OrchidIntegrationTest.kotlindocSetup() {
+fun OrchidIntegrationTest.kotlindocSetup(showRunnerLogs: Boolean = false) {
     configObject(
         "kotlindoc",
         """
-            |{
-            |    "sourceDirs": [
-            |        "./../../OrchidJavadoc/src/mockJava",
-            |        "./../../OrchidKotlindoc/src/mockKotlin"
-            |    ]
-            |}
-            |""".trimMargin()
+        |{
+        |    "sourceDirs": [
+        |        "./../../OrchidJavadoc/src/mockJava",
+        |        "./../../OrchidKotlindoc/src/mockKotlin"
+        |    ],
+        |    "showRunnerLogs": $showRunnerLogs
+        |}
+        |""".trimMargin()
     )
     configObject(
         "theme",
@@ -132,6 +135,53 @@ fun OrchidIntegrationTest.kotlindocSetup() {
         |        {
         |            "type": "sourcedocPages",
         |            "module": "kotlindoc"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |    ]
+        |}
+        |""".trimMargin()
+    )
+}
+
+fun OrchidIntegrationTest.swiftdocSetup(showRunnerLogs: Boolean = false) {
+    configObject(
+        "swiftdoc",
+        """
+        |{
+        |    "sourceDirs": [
+        |        "./../../OrchidSwiftdoc/src/mockSwift"
+        |    ],
+        |    "showRunnerLogs": $showRunnerLogs
+        |}
+        |""".trimMargin()
+    )
+    configObject(
+        "theme",
+        """
+        |{
+        |    "menu": [
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "swiftdoc",
+        |            "node": "sourceFiles",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Swiftdoc Source Files"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "swiftdoc",
+        |            "node": "classes",
+        |            "asSubmenu": true,
+        |            "submenuTitle": "Swiftdoc Classes"
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPages",
+        |            "module": "swiftdoc"
         |        },
         |        {
         |            "type": "separator"
