@@ -3,6 +3,8 @@ package com.eden.orchid.strikt
 import com.eden.orchid.testhelpers.TestRenderer
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
+import strikt.api.DescribeableBuilder
+import strikt.api.expectThat
 
 /**
  * Assert that the site built cleanly, no exceptions were thrown, and that at least one page was rendered.
@@ -114,3 +116,16 @@ fun <T> Assertion.Builder<T>.assertBlock(
 }
 
 data class AssertBlockFailure(val errorMessage: String)
+
+fun <T> T.asExpected() : DescribeableBuilder<T> {
+    return expectThat(this)
+}
+
+fun <T> Assertion.Builder<T>.assertWhen(condition: Boolean, block: Assertion.Builder<T>.()->Assertion.Builder<T>) : Assertion.Builder<T> {
+    if(condition) {
+        return block()
+    }
+    else {
+        return this
+    }
+}
