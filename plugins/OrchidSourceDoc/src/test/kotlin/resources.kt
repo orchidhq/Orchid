@@ -1,6 +1,9 @@
 package com.eden.orchid.sourcedoc
 
+import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.TestResults
+import strikt.api.Assertion
 
 fun OrchidIntegrationTest.testCss() {
     resource(
@@ -99,4 +102,41 @@ fun OrchidIntegrationTest.testPageStructure() {
             |{% endmacro %}
         """.trimMargin()
     )
+}
+
+fun OrchidIntegrationTest.addPageMenus() {
+    configObject(
+        "allPages",
+        """
+        |{
+        |    "menu": [
+        |        {
+        |            "type": "sourcedocPageLinks",
+        |            "includeItems": false
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPageLinks",
+        |            "includeItems": true
+        |        },
+        |        {
+        |            "type": "separator"
+        |        },
+        |        {
+        |            "type": "sourcedocPageLinks",
+        |            "includeItems": true,
+        |            "itemTitleType": "SIGNATURE"
+        |        }
+        |    ]
+        |}
+        |""".trimMargin()
+    )
+}
+
+fun Assertion.Builder<TestResults>.withSourcedocPages(): Assertion.Builder<TestResults> {
+    return this
+        .pageWasRendered("/assets/css/orchidSourcedoc.css") { }
+        .pageWasRendered("/favicon.ico") { }
 }
