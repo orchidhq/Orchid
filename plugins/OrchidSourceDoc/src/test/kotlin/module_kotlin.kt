@@ -16,75 +16,59 @@ constructor(
     @Named("src") resourcesDir: String,
     invoker: KotlindocInvokerImpl,
     extractor: OptionsExtractor
-) : SourcedocGenerator<KotlinModuleDoc>("kotlindoc", resourcesDir, invoker, extractor)
+) : SourcedocGenerator<KotlinModuleDoc>("kotlindoc", resourcesDir, invoker, extractor) {
+    companion object {
+        val type = "kotlin"
+        val nodeKinds = listOf("packages", "classes")
+        val otherSourceKinds = listOf("java")
+    }
+}
 
 fun OrchidIntegrationTest.kotlindocSetup(showRunnerLogs: Boolean = false) {
-    configObject(
-        "kotlindoc",
-        """
-        |{
-        |    "sourceDirs": [
-        |        "./../../OrchidJavadoc/src/mockJava",
-        |        "./../../OrchidKotlindoc/src/mockKotlin"
-        |    ],
-        |    "showRunnerLogs": $showRunnerLogs
-        |}
-        |""".trimMargin()
-    )
-    configObject(
-        "theme",
-        """
-        |{
-        |    "menu": [
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "kotlindoc",
-        |            "node": "packages",
-        |            "asSubmenu": true,
-        |            "submenuTitle": "Kotlindoc Packages"
-        |        },
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "kotlindoc",
-        |            "node": "classes",
-        |            "asSubmenu": true,
-        |            "submenuTitle": "Kotlindoc Classes"
-        |        },
-        |        {
-        |            "type": "separator"
-        |        },
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "kotlindoc"
-        |        },
-        |        {
-        |            "type": "separator"
-        |        },
-        |    ]
-        |}
-        |""".trimMargin()
+    sourceDocTestSetup(
+        NewKotlindocGenerator.type,
+        NewKotlindocGenerator.nodeKinds,
+        NewKotlindocGenerator.otherSourceKinds,
+        showRunnerLogs
     )
 }
 
-fun Assertion.Builder<TestResults>.assertKotlin(): Assertion.Builder<TestResults> {
+fun OrchidIntegrationTest.kotlindocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
+    sourceDocTestSetup(
+        NewKotlindocGenerator.type,
+        NewKotlindocGenerator.nodeKinds,
+        NewKotlindocGenerator.otherSourceKinds,
+        modules,
+        showRunnerLogs
+    )
+}
+
+fun Assertion.Builder<TestResults>.assertKotlin(baseDir: String = "/kotlindoc"): Assertion.Builder<TestResults> {
     return this
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/CustomString/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaInterface/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinAnnotation/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinClassWithCompanionObject/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinEnumClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinExceptionClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinInlineClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinInterface/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinObjectClass/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClass1/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClass2/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClass3/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClasses/index.html") { }
-        .pageWasRendered("/kotlindoc/com/eden/orchid/mock/index.html") { }
+        .pageWasRendered("$baseDir/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/CustomString/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaAnnotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaEnumClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaInterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinAnnotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinClassWithCompanionObject/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinEnumClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinExceptionClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinInlineClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinInterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinObjectClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClass1/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClass2/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClass3/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClasses/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/index.html") { }
+}
+
+fun Assertion.Builder<TestResults>.assertKotlin(baseDirs: List<String>): Assertion.Builder<TestResults> {
+    return baseDirs.fold(this) { acc, dir ->
+        acc.assertKotlin("/kotlindoc/$dir")
+    }
 }

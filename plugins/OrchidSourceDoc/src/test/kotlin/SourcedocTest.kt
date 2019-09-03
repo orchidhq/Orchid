@@ -6,13 +6,13 @@ import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
-import strikt.api.expectThat
 
 class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
+
+    val modules = listOf("one", "two")
 
     @BeforeEach
     internal fun setUp() {
@@ -27,7 +27,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Test
-    fun test01() {
+    fun `Single-module Java`() {
         javadocSetup()
         execute(withGenerator<NewJavadocGenerator>())
             .asExpected()
@@ -37,7 +37,17 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
     }
 
     @Test
-    fun test02() {
+    fun `Multi-module Java`() {
+        javadocSetup(modules)
+        execute(withGenerator<NewJavadocGenerator>())
+            .asExpected()
+            .withSourcedocPages("java", modules)
+            .assertJava(modules)
+            .nothingElseRendered()
+    }
+
+    @Test
+    fun `Single-module Groovy`() {
         groovydocSetup()
         execute(withGenerator<NewGroovydocGenerator>())
             .asExpected()
@@ -47,7 +57,17 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
     }
 
     @Test
-    fun test03() {
+    fun `Multi-module Groovy`() {
+        groovydocSetup(modules)
+        execute(withGenerator<NewGroovydocGenerator>())
+            .asExpected()
+            .withSourcedocPages("groovy", modules)
+            .assertGroovy(modules)
+            .nothingElseRendered()
+    }
+
+    @Test
+    fun `Single-module Kotlin`() {
         kotlindocSetup()
         execute(withGenerator<NewKotlindocGenerator>())
             .asExpected()
@@ -57,8 +77,18 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
     }
 
     @Test
+    fun `Multi-module Kotlin`() {
+        kotlindocSetup(modules)
+        execute(withGenerator<NewKotlindocGenerator>())
+            .asExpected()
+            .withSourcedocPages("kotlin", modules)
+            .assertKotlin(modules)
+            .nothingElseRendered()
+    }
+
+    @Test
     @EnabledOnOs(OS.MAC)
-    fun test04() {
+    fun `Single-module Swift`() {
         swiftdocSetup()
         execute(withGenerator<NewSwiftdocGenerator>())
             .asExpected()
@@ -68,15 +98,25 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
     }
 
     @Test
-    @Disabled
-    fun test05() {
+    @EnabledOnOs(OS.MAC)
+    fun `Multi-module Swift`() {
+        swiftdocSetup(modules)
+        execute(withGenerator<NewSwiftdocGenerator>())
+            .asExpected()
+            .withSourcedocPages("swift", modules)
+            .assertSwift(modules)
+            .nothingElseRendered()
+    }
+
+    @Test
+    fun `Single-module all kinds`() {
         javadocSetup()
         groovydocSetup()
         kotlindocSetup()
         if (OS.MAC.isCurrentOs) {
             swiftdocSetup()
         }
-        val results = execute(
+        execute(
             *mutableListOf(
                 withGenerator<NewJavadocGenerator>(),
                 withGenerator<NewGroovydocGenerator>(),
@@ -85,13 +125,43 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
                 .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
                 .toTypedArray()
         )
-
-        expectThat(results)
+            .asExpected()
+            .withSourcedocPages()
             .assertJava()
             .assertGroovy()
             .assertKotlin()
             .assertWhen(OS.MAC.isCurrentOs) { assertSwift() }
-//            .nothingElseRendered()
+            .nothingElseRendered()
+    }
+
+    @Test
+    fun `Multi-module all kinds`() {
+        val generators = mutableListOf(
+            withGenerator<NewJavadocGenerator>(),
+            withGenerator<NewGroovydocGenerator>(),
+            withGenerator<NewKotlindocGenerator>()
+        ).addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
+
+        javadocSetup(modules)
+        groovydocSetup(modules)
+        kotlindocSetup(modules)
+        if (OS.MAC.isCurrentOs) {
+            swiftdocSetup(modules)
+        }
+
+        execute(*generators.toTypedArray())
+            .asExpected()
+            .assertJava(modules)
+            .withSourcedocPages("java", modules)
+            .assertGroovy(modules)
+            .withSourcedocPages("groovy", modules)
+            .assertKotlin(modules)
+            .withSourcedocPages("kotlin", modules)
+            .assertWhen(OS.MAC.isCurrentOs) {
+                assertSwift(modules)
+                withSourcedocPages("swift", modules)
+            }
+            .nothingElseRendered()
     }
 }
 

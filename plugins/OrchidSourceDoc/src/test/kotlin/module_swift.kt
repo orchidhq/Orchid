@@ -16,59 +16,44 @@ constructor(
     @Named("src") resourcesDir: String,
     invoker: SwiftdocInvokerImpl,
     extractor: OptionsExtractor
-) : SourcedocGenerator<SwiftModuleDoc>("swiftdoc", resourcesDir, invoker, extractor)
+) : SourcedocGenerator<SwiftModuleDoc>("swiftdoc", resourcesDir, invoker, extractor) {
+    companion object {
+        val type = "swift"
+        val nodeKinds = listOf("sourceFiles", "classes")
+        val otherSourceKinds = emptyList<String>()
+    }
+}
 
 fun OrchidIntegrationTest.swiftdocSetup(showRunnerLogs: Boolean = false) {
-    configObject(
-        "swiftdoc",
-        """
-        |{
-        |    "sourceDirs": [
-        |        "./../../OrchidSwiftdoc/src/mockSwift"
-        |    ],
-        |    "showRunnerLogs": $showRunnerLogs
-        |}
-        |""".trimMargin()
-    )
-    configObject(
-        "theme",
-        """
-        |{
-        |    "menu": [
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "swiftdoc",
-        |            "node": "sourceFiles",
-        |            "asSubmenu": true,
-        |            "submenuTitle": "Swiftdoc Source Files"
-        |        },
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "swiftdoc",
-        |            "node": "classes",
-        |            "asSubmenu": true,
-        |            "submenuTitle": "Swiftdoc Classes"
-        |        },
-        |        {
-        |            "type": "separator"
-        |        },
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "swiftdoc"
-        |        },
-        |        {
-        |            "type": "separator"
-        |        },
-        |    ]
-        |}
-        |""".trimMargin()
+    sourceDocTestSetup(
+        NewSwiftdocGenerator.type,
+        NewSwiftdocGenerator.nodeKinds,
+        NewSwiftdocGenerator.otherSourceKinds,
+        showRunnerLogs
     )
 }
 
-fun Assertion.Builder<TestResults>.assertSwift(): Assertion.Builder<TestResults> {
+fun OrchidIntegrationTest.swiftdocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
+    sourceDocTestSetup(
+        NewSwiftdocGenerator.type,
+        NewSwiftdocGenerator.nodeKinds,
+        NewSwiftdocGenerator.otherSourceKinds,
+        modules,
+        showRunnerLogs
+    )
+}
+
+fun Assertion.Builder<TestResults>.assertSwift(baseDir: String = "/swiftdoc"): Assertion.Builder<TestResults> {
     return this
-        .pageWasRendered("/swiftdoc/swiftClass/SwiftClass/index.html") { }
-        .pageWasRendered("/swiftdoc/swiftClass/index.html") { }
-        .pageWasRendered("/swiftdoc/swiftStruct/SwiftStruct/index.html") { }
-        .pageWasRendered("/swiftdoc/swiftStruct/index.html") { }
+        .pageWasRendered("$baseDir/index.html") { }
+        .pageWasRendered("$baseDir/swiftClass/SwiftClass/index.html") { }
+        .pageWasRendered("$baseDir/swiftClass/index.html") { }
+        .pageWasRendered("$baseDir/swiftStruct/SwiftStruct/index.html") { }
+        .pageWasRendered("$baseDir/swiftStruct/index.html") { }
+}
+
+fun Assertion.Builder<TestResults>.assertSwift(baseDirs: List<String>): Assertion.Builder<TestResults> {
+    return baseDirs.fold(this) { acc, dir ->
+        acc.assertSwift("/swiftdoc/$dir")
+    }
 }
