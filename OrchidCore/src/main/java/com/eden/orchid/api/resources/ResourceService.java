@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -62,16 +63,20 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).loadRemoteFile(url);
     }
 
-    default OrchidResource findClosestFile(String filename) {
+    default @Nullable OrchidResource findClosestFile(String filename) {
         return getService(ResourceService.class).findClosestFile(filename);
     }
 
-    default OrchidResource findClosestFile(String filename, boolean strict) {
+    default @Nullable OrchidResource findClosestFile(String filename, boolean strict) {
         return getService(ResourceService.class).findClosestFile(filename, strict);
     }
 
-    default OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
+    default @Nullable OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
         return getService(ResourceService.class).findClosestFile(filename, strict, maxIterations);
+    }
+
+    default @Nullable OrchidResource findClosestFile(String baseDir, String filename, boolean strict, int maxIterations) {
+        return getService(ResourceService.class).findClosestFile(baseDir, filename, strict, maxIterations);
     }
 
     default OrchidResource locateLocalResourceEntry(final String fileName) {

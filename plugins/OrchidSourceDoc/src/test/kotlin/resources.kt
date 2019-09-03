@@ -1,6 +1,7 @@
 package com.eden.orchid.sourcedoc
 
 import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.printResults
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
@@ -102,6 +103,17 @@ fun OrchidIntegrationTest.testPageStructure() {
             |{% endmacro %}
         """.trimMargin()
     )
+
+    resource(
+        "templates/pages/sourceDocModules.peb",
+        """
+            |<ul>
+            |{% for module in page.modules %}
+            |  <li><a href="{{ module.homepage }}">{{ module.name }}</a>
+            |{% endfor %}
+            |</li>
+        """.trimMargin()
+    )
 }
 
 fun OrchidIntegrationTest.addPageMenus() {
@@ -135,8 +147,187 @@ fun OrchidIntegrationTest.addPageMenus() {
     )
 }
 
-fun Assertion.Builder<TestResults>.withSourcedocPages(): Assertion.Builder<TestResults> {
+fun Assertion.Builder<TestResults>.withSourcedocPages(type: String = "", modules: List<String> = emptyList()): Assertion.Builder<TestResults> {
     return this
+        .printResults()
         .pageWasRendered("/assets/css/orchidSourcedoc.css") { }
         .pageWasRendered("/favicon.ico") { }
+        .let {
+            if(modules.isNotEmpty()) {
+                it.pageWasRendered("/${type}doc/index.html") { }
+            }
+            else {
+                it
+            }
+        }
+}
+
+// Setup modules
+//----------------------------------------------------------------------------------------------------------------------
+
+fun moduleSetup(
+    type: String,
+    showRunnerLogs: Boolean,
+    otherSourceKinds: List<String> = emptyList(),
+    name: String? = null
+) : String {
+    val sourcePaths = (listOf(type) + otherSourceKinds).map {
+        "\"./../../Orchid${it.capitalize()}doc/src/mock${it.capitalize()}\""
+    }.joinToString()
+
+    if(name != null) {
+        return """
+            |{
+            |    "name": "$name",
+            |    "sourceDirs": [$sourcePaths],
+            |    "showRunnerLogs": $showRunnerLogs
+            |}
+            """.trimMargin()
+    }
+    else {
+        return """
+            |{
+            |    "sourceDirs": [$sourcePaths],
+            |    "showRunnerLogs": $showRunnerLogs
+            |}
+            """.trimMargin()
+    }
+}
+
+fun modulesSetup(
+    type: String,
+    names: List<String>,
+    showRunnerLogs: Boolean,
+    otherSourceKinds: List<String> = emptyList()
+) : String {
+    return """
+        |{
+        |    "modules": [
+        |        ${names.joinToString { moduleSetup(type, showRunnerLogs, otherSourceKinds, it) }}
+        |    ]
+        |}
+    """.trimMargin()
+}
+
+// Setup Theme Menus
+//----------------------------------------------------------------------------------------------------------------------
+
+private fun themeMenuKindSetup(type: String, nodeKind: String, name: String? = null) : String {
+    return if(name != null) {
+        """
+        |{
+        |    "type": "sourcedocPages",
+        |    "moduleType": "${type}doc",
+        |    "moduleName": "$name",
+        |    "node": "$nodeKind",
+        |    "asSubmenu": true,
+        |    "submenuTitle": "Module ${name.capitalize()} ${type.capitalize()}doc ${nodeKind.capitalize()}"
+        |}
+        """.trimMargin()
+    }
+    else {
+        """
+        |{
+        |    "type": "sourcedocPages",
+        |    "moduleType": "${type}doc",
+        |    "node": "$nodeKind",
+        |    "asSubmenu": true,
+        |    "submenuTitle": "${type.capitalize()}doc ${nodeKind.capitalize()}"
+        |}
+        """.trimMargin()
+    }
+}
+
+private fun themeMenuKindSetup(type: String, nodeKinds: List<String>, name: String? = null) : String {
+    return nodeKinds.joinToString(",") { themeMenuKindSetup(type, it, name) }
+}
+
+private fun themeMenuAllKindsSetup(type: String, nodeKind: String, name: String? = null) : String {
+    return if(name != null) {
+        """
+        |{
+        |    "type": "sourcedocPages",
+        |    "moduleType": "${type}doc",
+        |    "moduleName": "$name",
+        |    "asSubmenu": true,
+        |    "submenuTitle": "Module ${name.capitalize()} ${type.capitalize()}doc ${nodeKind.capitalize()}"
+        |}
+        """.trimMargin()
+    }
+    else {
+        """
+        |{
+        |    "type": "sourcedocPages",
+        |    "moduleType": "${type}doc",
+        |    "asSubmenu": true,
+        |    "submenuTitle": "${type.capitalize()}doc ${nodeKind.capitalize()}"
+        |}
+        """.trimMargin()
+    }
+}
+
+private fun themeMenuAllKindsSetup(type: String, nodeKinds: List<String>, name: String? = null) : String {
+    return nodeKinds.joinToString(",") { themeMenuAllKindsSetup(type, it, name) }
+}
+
+fun themeMenuSetup(type: String, nodeKinds: List<String>) : String {
+    return """
+        |{
+        |    "menu": [
+        |        ${themeMenuKindSetup(type, nodeKinds) },
+        |        {"type": "separator"},
+        |        ${themeMenuAllKindsSetup(type, nodeKinds)},
+        |        {"type": "separator"}
+        |    ]
+        |}
+        |""".trimMargin()
+}
+
+fun themeMenuSetup(type: String, nodeKinds: List<String>, modules: List<String>) : String {
+    return """
+        |{
+        |    "menu": [
+        |        ${modules.joinToString(",") { themeMenuKindSetup(type, nodeKinds, it) + """,{"type": "separator"}""" }.trimEnd(',') },
+        |        {"type": "separator"},
+        |        ${modules.joinToString(",") { themeMenuAllKindsSetup(type, nodeKinds, it) + """,{"type": "separator"}""" }.trimEnd(',') },
+        |        {"type": "separator"}
+        |    ]
+        |}
+        |""".trimMargin()
+}
+
+// Setup Tests
+//----------------------------------------------------------------------------------------------------------------------
+
+fun OrchidIntegrationTest.sourceDocTestSetup(
+    type: String,
+    nodeKinds: List<String>,
+    otherSourceKinds: List<String>,
+    showRunnerLogs: Boolean
+) {
+    configObject(
+        "${type}doc",
+        moduleSetup(type, showRunnerLogs, otherSourceKinds)
+    )
+    configObject(
+        "theme",
+        themeMenuSetup(type, nodeKinds)
+    )
+}
+
+fun OrchidIntegrationTest.sourceDocTestSetup(
+    type: String,
+    nodeKinds: List<String>,
+    otherSourceKinds: List<String>,
+    modules: List<String>,
+    showRunnerLogs: Boolean = false
+) {
+    configObject(
+        "${type}doc",
+        modulesSetup(type, modules, showRunnerLogs, otherSourceKinds)
+    )
+    configObject(
+        "theme",
+        themeMenuSetup(type, nodeKinds, modules)
+    )
 }
