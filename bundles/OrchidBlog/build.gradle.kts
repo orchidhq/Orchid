@@ -1,8 +1,10 @@
 dependencies {
-    compile(project(":OrchidCore"))
-    compile(project(":plugins:OrchidPosts"))
-    compile(project(":plugins:OrchidPages"))
-    compile(project(":plugins:OrchidForms"))
-    compile(project(":plugins:OrchidTaxonomies"))
-    (rootProject.ext.get("languageExtensionProjects") as Iterable<Project>).forEach { compile(it) }
+    compile(Projects.OrchidCore(this))
+
+    compile(Projects.Plugins.OrchidPosts(this))
+    compile(Projects.Plugins.OrchidPages(this))
+    compile(Projects.Plugins.OrchidForms(this))
+    compile(Projects.Plugins.OrchidTaxonomies(this))
+
+    Projects.LanguageExtensions.all(this).forEach { compile(it) }
 }
