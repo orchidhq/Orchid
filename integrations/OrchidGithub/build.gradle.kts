@@ -1,5 +1,5 @@
 
 dependencies {
-    compile(project(":plugins:OrchidChangelog"))
-    compile(project(":plugins:OrchidWiki"))
+    compile(Projects.Plugins.OrchidChangelog(this))
+    compile(Projects.Plugins.OrchidWiki(this))
 }

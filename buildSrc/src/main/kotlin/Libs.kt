@@ -7,30 +7,35 @@ object Libs {
     /**
      * https://copper-leaf.github.io/kodiak */
     const val common_formatter: String = "com.eden.kodiak:common-formatter:" +
-            Versions.com_eden_kodiak
+            Versions.common_formatter
 
     /**
      * https://copper-leaf.github.io/kodiak */
-    const val common_models: String = "com.eden.kodiak:common-models:" + Versions.com_eden_kodiak
+    const val common_models: String = "com.eden.kodiak:common-models:" + Versions.common_models
 
     /**
      * https://copper-leaf.github.io/kodiak */
-    const val common_runner: String = "com.eden.kodiak:common-runner:" + Versions.com_eden_kodiak
+    const val common_runner: String = "com.eden.kodiak:common-runner:" + Versions.common_runner
 
     /**
      * https://copper-leaf.github.io/kodiak */
     const val com_eden_kodiak_dokka_runner: String = "com.eden.kodiak:dokka-runner:" +
-            Versions.com_eden_kodiak
+            Versions.com_eden_kodiak_dokka_runner
 
     /**
      * https://copper-leaf.github.io/kodiak */
     const val com_eden_kodiak_groovydoc_runner: String = "com.eden.kodiak:groovydoc-runner:" +
-            Versions.com_eden_kodiak
+            Versions.com_eden_kodiak_groovydoc_runner
 
     /**
      * https://copper-leaf.github.io/kodiak */
     const val com_eden_kodiak_javadoc_runner: String = "com.eden.kodiak:javadoc-runner:" +
-            Versions.com_eden_kodiak
+            Versions.com_eden_kodiak_javadoc_runner
+
+    /**
+     * https://copper-leaf.github.io/kodiak */
+    const val swiftdoc_runner: String = "com.eden.kodiak:swiftdoc-runner:" +
+            Versions.swiftdoc_runner
 
     /**
      * https://javaeden.github.io/Clog/Clog4j */
