@@ -1,4 +1,4 @@
 
 dependencies {
-    (rootProject.ext.get("languageExtensionProjects") as Iterable<Project>).forEach { compile(it) }
+    Projects.LanguageExtensions.all(this).forEach { compile(it) }
 }

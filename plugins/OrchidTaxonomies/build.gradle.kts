@@ -1,5 +1,5 @@
 
 dependencies {
-    testCompile(project(":plugins:OrchidPages"))
-    testCompile(project(":plugins:OrchidPosts"))
+    testCompile(Projects.Plugins.OrchidPages(this))
+    testCompile(Projects.Plugins.OrchidPosts(this))
 }
