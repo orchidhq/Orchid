@@ -1,17 +1,15 @@
 package com.eden.orchid.sourcedoc.model
 
-import com.copperleaf.kodiak.common.AutoDocumentNode
-import com.copperleaf.kodiak.common.ModuleDoc
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.sourcedoc.page.SourceDocPage
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 class SourceDocModel(
-    val moduleDoc: ModuleDoc?,
-    val nodes: Map<AutoDocumentNode, List<SourceDocPage<*>>>
+    val indexPage: OrchidPage?,
+    val modules: List<SourceDocModuleModel>
 ) : OrchidGenerator.Model {
 
     override val allPages by lazy {
-        nodes.values.flatten()
+        modules.flatMap { it.allPages } + listOfNotNull(indexPage)
     }
 
 }

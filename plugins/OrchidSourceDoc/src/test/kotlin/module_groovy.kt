@@ -16,68 +16,52 @@ constructor(
     @Named("src") resourcesDir: String,
     invoker: GroovydocInvokerImpl,
     extractor: OptionsExtractor
-) : SourcedocGenerator<GroovyModuleDoc>("groovydoc", resourcesDir, invoker, extractor)
+) : SourcedocGenerator<GroovyModuleDoc>("groovydoc", resourcesDir, invoker, extractor) {
+    companion object {
+        val type = "groovy"
+        val nodeKinds = listOf("packages", "classes")
+        val otherSourceKinds = listOf("java")
+    }
+}
 
 fun OrchidIntegrationTest.groovydocSetup(showRunnerLogs: Boolean = false) {
-    configObject(
-        "groovydoc",
-        """
-        |{
-        |    "sourceDirs": [
-        |        "./../../OrchidJavadoc/src/mockJava",
-        |        "./../../OrchidGroovydoc/src/mockGroovy",
-        |    ],
-        |    "showRunnerLogs": $showRunnerLogs
-        |}
-        |""".trimMargin()
-    )
-    configObject(
-        "theme",
-        """
-        |{
-        |    "menu": [
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "groovydoc",
-        |            "node": "packages",
-        |            "asSubmenu": true,
-        |            "submenuTitle": "Groovydoc Packages"
-        |        },
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "groovydoc",
-        |            "node": "classes",
-        |            "asSubmenu": true,
-        |            "submenuTitle": "Groovydoc Classes"
-        |        },
-        |        {
-        |            "type": "separator"
-        |        },
-        |        {
-        |            "type": "sourcedocPages",
-        |            "module": "groovydoc"
-        |        },
-        |        {
-        |            "type": "separator"
-        |        },
-        |    ]
-        |}
-        |""".trimMargin()
+    sourceDocTestSetup(
+        NewGroovydocGenerator.type,
+        NewGroovydocGenerator.nodeKinds,
+        NewGroovydocGenerator.otherSourceKinds,
+        showRunnerLogs
     )
 }
 
-fun Assertion.Builder<TestResults>.assertGroovy(): Assertion.Builder<TestResults> {
+fun OrchidIntegrationTest.groovydocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
+    sourceDocTestSetup(
+        NewGroovydocGenerator.type,
+        NewGroovydocGenerator.nodeKinds,
+        NewGroovydocGenerator.otherSourceKinds,
+        modules,
+        showRunnerLogs
+    )
+}
+
+fun Assertion.Builder<TestResults>.assertGroovy(baseDir: String = "/groovydoc"): Assertion.Builder<TestResults> {
     return this
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyAnnotation/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyClass/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyEnumClass/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyExceptionClass/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyInterface/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyTrait/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaClass/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaInterface/index.html") { }
-        .pageWasRendered("/groovydoc/com/eden/orchid/mock/index.html") { }
+        .pageWasRendered("$baseDir/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyAnnotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyEnumClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyExceptionClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyInterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyTrait/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaAnnotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaEnumClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaInterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/index.html") { }
+}
+
+fun Assertion.Builder<TestResults>.assertGroovy(baseDirs: List<String>): Assertion.Builder<TestResults> {
+    return baseDirs.fold(this) { acc, dir ->
+        acc.assertGroovy("/groovydoc/$dir")
+    }
 }

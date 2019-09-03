@@ -28,6 +28,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
@@ -273,18 +274,23 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 // Find closest file
 //----------------------------------------------------------------------------------------------------------------------
     @Override
-    public OrchidResource findClosestFile(String filename) {
+    public @Nullable OrchidResource findClosestFile(String filename) {
         return findClosestFile(filename, false);
     }
 
     @Override
-    public OrchidResource findClosestFile(String filename, boolean strict) {
+    public @Nullable OrchidResource findClosestFile(String filename, boolean strict) {
         return findClosestFile(filename, strict, 10);
     }
 
     @Override
-    public OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
-        File folder = new File(resourcesDir);
+    public @Nullable OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
+        return findClosestFile(resourcesDir, filename, strict, maxIterations);
+    }
+
+    @Override
+    public @Nullable OrchidResource findClosestFile(String baseDir, String filename, boolean strict, int maxIterations) {
+        File folder = new File(baseDir);
         while (true) {
             if (folder.isDirectory()) {
                 List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
@@ -304,7 +310,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             if (folder.getParentFile() != null && maxIterations > 0) {
                 folder = folder.getParentFile();
                 maxIterations--;
-            } else 
+            } else
             // there is no more parent to search, exit the loop
             {
                 break;
