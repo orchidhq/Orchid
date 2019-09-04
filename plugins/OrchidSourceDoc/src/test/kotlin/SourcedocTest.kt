@@ -1,8 +1,12 @@
 package com.eden.orchid.sourcedoc
 
+import com.eden.orchid.groovydoc.NewGroovydocGenerator
+import com.eden.orchid.javadoc.NewJavadocGenerator
+import com.eden.orchid.kotlindoc.NewKotlindocGenerator
 import com.eden.orchid.strikt.asExpected
 import com.eden.orchid.strikt.assertWhen
 import com.eden.orchid.strikt.nothingElseRendered
+import com.eden.orchid.swiftdoc.NewSwiftdocGenerator
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.BeforeEach
@@ -16,7 +20,6 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
 
     @BeforeEach
     internal fun setUp() {
-        enableLogging()
 //        serveOn(8080)
         testCss()
         testPageStructure()

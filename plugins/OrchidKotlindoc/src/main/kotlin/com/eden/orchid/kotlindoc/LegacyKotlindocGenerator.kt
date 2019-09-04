@@ -1,5 +1,6 @@
 package com.eden.orchid.kotlindoc
 
+import com.caseyjbrooks.clog.Clog
 import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
@@ -12,6 +13,7 @@ import com.eden.orchid.kotlindoc.helpers.OrchidKotlindocInvoker
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import com.eden.orchid.kotlindoc.page.KotlindocPackagePage
+import com.eden.orchid.sourcedoc.SourcedocGenerator
 import java.util.ArrayList
 import java.util.HashMap
 import javax.inject.Inject
@@ -22,6 +24,7 @@ import javax.inject.Named
             + "of methods, fields, etc. but in your site's theme.",
     name = "Kotlindoc"
 )
+@Deprecated(SourcedocGenerator.deprecationWarning)
 class KotlindocGenerator
 @Inject
 constructor(
@@ -43,6 +46,7 @@ constructor(
     lateinit var args: List<String>
 
     override fun startIndexing(context: OrchidContext): KotlindocModel {
+        Clog.w(SourcedocGenerator.deprecationWarning)
         val args = if (kotlindocClasspath.isNotBlank()) listOf(
             "-classpath",
             kotlindocClasspath,

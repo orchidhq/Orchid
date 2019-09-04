@@ -1,14 +1,13 @@
 package com.eden.orchid.sourcedoc
 
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.printResults
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
 fun OrchidIntegrationTest.testCss() {
     resource(
-        "assets/css/orchidSourcedoc.scss", """
+        "assets/css/orchidSourceDoc.scss", """
             |* {
             |  box-sizing: border-box;
             |}
@@ -149,8 +148,7 @@ fun OrchidIntegrationTest.addPageMenus() {
 
 fun Assertion.Builder<TestResults>.withSourcedocPages(type: String = "", modules: List<String> = emptyList()): Assertion.Builder<TestResults> {
     return this
-        .printResults()
-        .pageWasRendered("/assets/css/orchidSourcedoc.css") { }
+        .pageWasRendered("/assets/css/orchidSourceDoc.css") { }
         .pageWasRendered("/favicon.ico") { }
         .let {
             if(modules.isNotEmpty()) {

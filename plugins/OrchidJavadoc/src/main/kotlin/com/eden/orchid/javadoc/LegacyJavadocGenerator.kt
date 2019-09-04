@@ -1,5 +1,6 @@
 package com.eden.orchid.javadoc
 
+import com.caseyjbrooks.clog.Clog
 import com.copperleaf.javadoc.json.models.JavaPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
@@ -12,6 +13,7 @@ import com.eden.orchid.javadoc.helpers.OrchidJavadocInvoker
 import com.eden.orchid.javadoc.models.JavadocModel
 import com.eden.orchid.javadoc.pages.JavadocClassPage
 import com.eden.orchid.javadoc.pages.JavadocPackagePage
+import com.eden.orchid.sourcedoc.SourcedocGenerator
 import java.util.ArrayList
 import java.util.HashMap
 import javax.inject.Inject
@@ -22,6 +24,7 @@ import javax.inject.Named
             "of methods, fields, etc. but in your site's theme.",
     name = "Javadoc"
 )
+@Deprecated(SourcedocGenerator.deprecationWarning)
 class JavadocGenerator
 @Inject
 constructor(
@@ -43,6 +46,8 @@ constructor(
     lateinit var args: List<String>
 
     override fun startIndexing(context: OrchidContext): JavadocModel {
+        Clog.w(SourcedocGenerator.deprecationWarning)
+
         val args = if (javadocClasspath.isNotBlank()) listOf("-classpath", javadocClasspath, *args.toTypedArray()) else args
 
         javadocInvoker.extractOptions(context, allData)
@@ -129,5 +134,4 @@ constructor(
 
         return false
     }
-
 }
