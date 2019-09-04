@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.sourcedoc.SourcedocGenerator
 import com.eden.orchid.swiftdoc.page.BaseSwiftdocResource
 import com.eden.orchid.swiftdoc.page.SwiftdocSourcePage
 import com.eden.orchid.swiftdoc.page.SwiftdocStatementPage
@@ -38,6 +39,7 @@ import javax.inject.Inject
             "but for Swift!",
     name = "Swiftdoc"
 )
+@Deprecated(SourcedocGenerator.deprecationWarning)
 class SwiftdocGenerator
 @Inject
 constructor(
@@ -54,6 +56,7 @@ constructor(
     lateinit var sourceDirs: List<String>
 
     override fun startIndexing(context: OrchidContext): SwiftdocModel {
+        Clog.w(SourcedocGenerator.deprecationWarning)
 
         val allStatements = ArrayList<SwiftStatement>()
         val pages = ArrayList<SwiftdocSourcePage>()

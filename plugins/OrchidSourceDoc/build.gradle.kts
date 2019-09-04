@@ -1,11 +1,10 @@
 dependencies {
-    val ver = "0.3.4"
-    implementation("com.eden.kodiak:common-models:$ver")
-    implementation("com.eden.kodiak:common-formatter:$ver")
-    implementation("com.eden.kodiak:common-runner:$ver")
+    implementation(Libs.common_models)
+    implementation(Libs.common_formatter)
+    implementation(Libs.common_runner)
 
-    testImplementation("com.eden.kodiak:dokka-runner:$ver")
-    testImplementation("com.eden.kodiak:javadoc-runner:$ver")
-    testImplementation("com.eden.kodiak:groovydoc-runner:$ver")
-    testImplementation("com.eden.kodiak:swiftdoc-runner:$ver")
+    testImplementation(Projects.Plugins.OrchidJavadoc(this))
+    testImplementation(Projects.Plugins.OrchidGroovydoc(this))
+    testImplementation(Projects.Plugins.OrchidKotlindoc(this))
+    testImplementation(Projects.Plugins.OrchidSwiftdoc(this))
 }

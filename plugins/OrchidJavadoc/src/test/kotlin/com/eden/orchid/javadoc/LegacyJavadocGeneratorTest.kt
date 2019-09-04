@@ -9,7 +9,7 @@ import strikt.api.expectThat
 
 
 @DisplayName("Tests page-rendering behavior of Javadoc generator")
-class JavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
+class LegacyJavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
 
     @Test
     @DisplayName("Java files are parsed, and pages are generated for each class and package.")

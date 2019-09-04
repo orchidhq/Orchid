@@ -35,7 +35,7 @@ class SourceDocPage<T : DocElement>(
     }
 
     override fun loadAssets() {
-        addCss("assets/css/orchidSourcedoc.scss")
+        addCss("assets/css/orchidSourceDoc.scss")
     }
 
     fun getRootSection(): Section {

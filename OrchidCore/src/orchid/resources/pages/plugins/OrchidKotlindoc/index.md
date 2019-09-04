@@ -18,7 +18,7 @@ fully-searchable with the {{anchor('OrchidSearch plugin', 'Orchid Search') }}.
 ## Demo
 
 - Try the [example app](https://github.com/JavaEden/OrchidTutorials/tree/master/kotlin-site)
-- Run [KotlindocGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidKotlindoc/src/test/kotlin/com/eden/orchid/kotlindoc/KotlindocGeneratorTest.kt) for demo
+- Run [KotlindocGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidKotlindoc/src/test/kotlin/com/eden/orchid/kotlindoc/NewKotlindocGeneratorTest.kt) for demo
 
 ## Usage
 
