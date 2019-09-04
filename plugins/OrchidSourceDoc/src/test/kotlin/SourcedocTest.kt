@@ -34,7 +34,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         javadocSetup()
         execute(withGenerator<NewJavadocGenerator>())
             .asExpected()
-            .withSourcedocPages()
+            .withDefaultSourcedocPages()
             .assertJava()
             .nothingElseRendered()
     }
@@ -44,7 +44,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         javadocSetup(modules)
         execute(withGenerator<NewJavadocGenerator>())
             .asExpected()
-            .withSourcedocPages("java", modules)
+            .withDefaultSourcedocPages()
             .assertJava(modules)
             .nothingElseRendered()
     }
@@ -54,7 +54,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         groovydocSetup()
         execute(withGenerator<NewGroovydocGenerator>())
             .asExpected()
-            .withSourcedocPages()
+            .withDefaultSourcedocPages()
             .assertGroovy()
             .nothingElseRendered()
     }
@@ -64,7 +64,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         groovydocSetup(modules)
         execute(withGenerator<NewGroovydocGenerator>())
             .asExpected()
-            .withSourcedocPages("groovy", modules)
+            .withDefaultSourcedocPages()
             .assertGroovy(modules)
             .nothingElseRendered()
     }
@@ -74,7 +74,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         kotlindocSetup()
         execute(withGenerator<NewKotlindocGenerator>())
             .asExpected()
-            .withSourcedocPages()
+            .withDefaultSourcedocPages()
             .assertKotlin()
             .nothingElseRendered()
     }
@@ -84,7 +84,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         kotlindocSetup(modules)
         execute(withGenerator<NewKotlindocGenerator>())
             .asExpected()
-            .withSourcedocPages("kotlin", modules)
+            .withDefaultSourcedocPages()
             .assertKotlin(modules)
             .nothingElseRendered()
     }
@@ -95,7 +95,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         swiftdocSetup()
         execute(withGenerator<NewSwiftdocGenerator>())
             .asExpected()
-            .withSourcedocPages()
+            .withDefaultSourcedocPages()
             .assertSwift()
             .nothingElseRendered()
     }
@@ -106,7 +106,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
         swiftdocSetup(modules)
         execute(withGenerator<NewSwiftdocGenerator>())
             .asExpected()
-            .withSourcedocPages("swift", modules)
+            .withDefaultSourcedocPages()
             .assertSwift(modules)
             .nothingElseRendered()
     }
@@ -129,7 +129,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
                 .toTypedArray()
         )
             .asExpected()
-            .withSourcedocPages()
+            .withDefaultSourcedocPages()
             .assertJava()
             .assertGroovy()
             .assertKotlin()
@@ -154,15 +154,12 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
 
         execute(*generators.toTypedArray())
             .asExpected()
+            .withDefaultSourcedocPages()
             .assertJava(modules)
-            .withSourcedocPages("java", modules)
             .assertGroovy(modules)
-            .withSourcedocPages("groovy", modules)
             .assertKotlin(modules)
-            .withSourcedocPages("kotlin", modules)
             .assertWhen(OS.MAC.isCurrentOs) {
                 assertSwift(modules)
-                withSourcedocPages("swift", modules)
             }
             .nothingElseRendered()
     }
