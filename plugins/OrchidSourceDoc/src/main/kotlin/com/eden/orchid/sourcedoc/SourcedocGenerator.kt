@@ -1,6 +1,5 @@
 package com.eden.orchid.sourcedoc
 
-import com.caseyjbrooks.clog.Clog
 import com.copperleaf.kodiak.common.DocElement
 import com.copperleaf.kodiak.common.DocInvoker
 import com.copperleaf.kodiak.common.ModuleDoc
@@ -158,20 +157,18 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
 //----------------------------------------------------------------------------------------------------------------------
 
     private fun loadFromCacheOrRun(config: SourceDocModuleConfig?): U? {
+        val actualOutputDir = if(config != null) outputDir.resolve(config.name) else outputDir
+
         if (config?.fromCache ?: fromCache) {
-            val moduleDoc = invoker.loadCachedModuleDoc(outputDir)
+            val moduleDoc = invoker.loadCachedModuleDoc(actualOutputDir)
             if (moduleDoc != null) {
                 return moduleDoc
             }
         }
 
-        Clog.v("Running invoker: {}", invoker)
-
         return invoker.getModuleDoc(
-            (config?.sourceDirs ?: sourceDirs).map { File(resourcesDir).toPath().resolve(it) }.also {
-                it.forEach { itt -> Clog.v("dir={}", itt) }
-            },
-            outputDir,
+            (config?.sourceDirs ?: sourceDirs).map { File(resourcesDir).toPath().resolve(it) },
+            actualOutputDir,
             emptyList()
         ) { inputStream ->
             if (config?.showRunnerLogs ?: showRunnerLogs) {
