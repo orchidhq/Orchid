@@ -11,23 +11,23 @@ object Versions {
 
     const val common_runner: String = "0.3.4" 
 
-    const val com_eden_kodiak_dokka_runner: String = "0.3.4" 
+    const val com_eden_kodiak_dokka_runner: String = "0.3.5"
 
-    const val com_eden_kodiak_groovydoc_runner: String = "0.3.4" 
+    const val com_eden_kodiak_groovydoc_runner: String = "0.3.5"
 
-    const val com_eden_kodiak_javadoc_runner: String = "0.3.4"
+    const val com_eden_kodiak_javadoc_runner: String = "0.3.5"
 
-    const val swiftdoc_runner: String = "0.3.4" 
+    const val swiftdoc_runner: String = "0.3.5"
 
     const val clog4j: String = "2.0.7" 
 
     const val com_eden_common: String = "1.11.4" 
 
-    const val com_eden_dokka_runner: String = "0.2.3" 
+    const val com_eden_dokka_runner: String = "0.2.4"
 
-    const val com_eden_groovydoc_runner: String = "0.2.3" 
+    const val com_eden_groovydoc_runner: String = "0.2.4"
 
-    const val com_eden_javadoc_runner: String = "0.2.3" 
+    const val com_eden_javadoc_runner: String = "0.2.4"
 
     const val krow: String = "0.1.13" 
 
