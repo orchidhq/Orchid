@@ -18,7 +18,6 @@ import com.eden.orchid.sourcedoc.model.SourceDocModel
 import com.eden.orchid.sourcedoc.model.SourceDocModuleConfig
 import com.eden.orchid.sourcedoc.model.SourceDocModuleModel
 import com.eden.orchid.sourcedoc.page.SourceDocModuleHomePage
-import com.eden.orchid.sourcedoc.page.SourceDocModulesPage
 import com.eden.orchid.sourcedoc.page.SourceDocPage
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.camelCase
@@ -74,9 +73,7 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
             listOf(setupModule(context, null))
         }
 
-        val indexPage = if (loadedModules.size > 1) setupIndexPage(context, loadedModules) else null
-
-        return SourceDocModel(indexPage, loadedModules)
+        return SourceDocModel(loadedModules)
     }
 
     override fun startGeneration(context: OrchidContext, model: SourceDocModel) {
@@ -155,14 +152,6 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
         readmeFile.reference.title = moduleName
 
         return SourceDocModuleHomePage(readmeFile, this)
-    }
-
-    private fun setupIndexPage(context: OrchidContext, modules: List<SourceDocModuleModel>): SourceDocModulesPage {
-        return SourceDocModulesPage(context, this, modules).also { modulePage ->
-            modules.forEach { module ->
-                module.homepage.parent = modulePage
-            }
-        }
     }
 
 // helpers
