@@ -146,18 +146,10 @@ fun OrchidIntegrationTest.addPageMenus() {
     )
 }
 
-fun Assertion.Builder<TestResults>.withSourcedocPages(type: String = "", modules: List<String> = emptyList()): Assertion.Builder<TestResults> {
+fun Assertion.Builder<TestResults>.withDefaultSourcedocPages(): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("/assets/css/orchidSourceDoc.css") { }
         .pageWasRendered("/favicon.ico") { }
-        .let {
-            if(modules.isNotEmpty()) {
-                it.pageWasRendered("/${type}doc/index.html") { }
-            }
-            else {
-                it
-            }
-        }
 }
 
 // Setup modules
