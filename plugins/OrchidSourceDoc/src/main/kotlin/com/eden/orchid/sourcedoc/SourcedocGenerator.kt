@@ -1,5 +1,6 @@
 package com.eden.orchid.sourcedoc
 
+import com.caseyjbrooks.clog.Clog
 import com.copperleaf.kodiak.common.DocElement
 import com.copperleaf.kodiak.common.DocInvoker
 import com.copperleaf.kodiak.common.ModuleDoc
@@ -35,6 +36,15 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
     val invoker: DocInvoker<U>,
     private val extractor: OptionsExtractor
 ) : OrchidGenerator<SourceDocModel>(key, PRIORITY_EARLY) {
+
+    companion object {
+        const val deprecationWarning = """
+            This Javadoc generator is being deprecated in favor of a new, more unified, 
+            and more modular code-documentation plugin, OrchidSourceDoc. The new system 
+            can be enabled now with the `--experimentalSourceDoc` CLI flag, and the legacy 
+            generators will be removed in the next major version.
+        """
+    }
 
     private val cacheDir: Path by lazy { OrchidUtils.getCacheDir("sourcedoc-$key") }
     private val outputDir: Path by lazy { OrchidUtils.getTempDir("sourcedoc-$key", true) }
@@ -166,8 +176,12 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
             }
         }
 
+        Clog.v("Running invoker: {}", invoker)
+
         return invoker.getModuleDoc(
-            (config?.sourceDirs ?: sourceDirs).map { File(resourcesDir).toPath().resolve(it) },
+            (config?.sourceDirs ?: sourceDirs).map { File(resourcesDir).toPath().resolve(it) }.also {
+                it.forEach { itt -> Clog.v("dir={}", itt) }
+            },
             outputDir,
             emptyList()
         ) { inputStream ->

@@ -1,5 +1,6 @@
 package com.eden.orchid.groovydoc
 
+import com.caseyjbrooks.clog.Clog
 import com.copperleaf.groovydoc.json.models.GroovydocPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
@@ -12,6 +13,7 @@ import com.eden.orchid.groovydoc.helpers.OrchidGroovydocInvoker
 import com.eden.orchid.groovydoc.models.GroovydocModel
 import com.eden.orchid.groovydoc.pages.GroovydocClassPage
 import com.eden.orchid.groovydoc.pages.GroovydocPackagePage
+import com.eden.orchid.sourcedoc.SourcedocGenerator
 import java.util.ArrayList
 import java.util.HashMap
 import javax.inject.Inject
@@ -21,6 +23,7 @@ import javax.inject.Inject
             "of methods, fields, etc. but in your site's theme.",
     name = "Groovydoc"
 )
+@Deprecated(SourcedocGenerator.deprecationWarning)
 class GroovydocGenerator
 @Inject
 constructor(
@@ -41,6 +44,7 @@ constructor(
     lateinit var args: List<String>
 
     override fun startIndexing(context: OrchidContext): GroovydocModel {
+        Clog.w(SourcedocGenerator.deprecationWarning)
         groovydocInvoker.extractOptions(context, allData)
 
         val rootDoc = groovydocInvoker.getRootDoc(sourceDirs, args)

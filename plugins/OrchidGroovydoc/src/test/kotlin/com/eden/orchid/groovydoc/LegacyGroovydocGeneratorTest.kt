@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
 @DisplayName("Tests page-rendering behavior of Groovydoc generator")
-class GroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule()) {
+class LegacyGroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule()) {
 
     @Test
     @DisplayName("Groovy files are parsed, and pages are generated for each class and package.")
