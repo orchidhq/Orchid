@@ -35,10 +35,10 @@ class NewSwiftdocGeneratorTest : OrchidIntegrationTest(SwiftdocModule(), SourceD
             .pageWasRendered("/swiftdoc/index.html") { }
 
             // Swift sources
-            .pageWasRendered("/swiftdoc/swiftClass/SwiftClass/index.html") { }
-            .pageWasRendered("/swiftdoc/swiftClass/index.html") { }
-            .pageWasRendered("/swiftdoc/swiftStruct/SwiftStruct/index.html") { }
-            .pageWasRendered("/swiftdoc/swiftStruct/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclass/swiftclass/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclass/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftstruct/swiftstruct/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftstruct/index.html") { }
 
             // other
             .pageWasRendered("/assets/css/orchidSourceDoc.css")

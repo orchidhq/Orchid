@@ -68,6 +68,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
         for (PermalinkPathType pathType : injectedPathTypes) {
             if (pathType.acceptsKey(page, pieceKey)) {
                 resultingPiece = pathType.format(page, pieceKey);
+                break;
             }
         }
         if (resultingPiece == null) {
