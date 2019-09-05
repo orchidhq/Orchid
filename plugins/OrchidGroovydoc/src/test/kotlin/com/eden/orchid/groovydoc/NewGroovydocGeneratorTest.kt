@@ -33,19 +33,19 @@ class NewGroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule(), Sourc
             .pageWasRendered("/groovydoc/index.html") { }
 
             // Groovy sources
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyAnnotation/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyClass/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyEnumClass/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyExceptionClass/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyInterface/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/GroovyTrait/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/groovyannotation/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/groovyclass/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/groovyenumclass/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/groovyexceptionclass/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/groovyinterface/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/groovytrait/index.html") { }
 
             // Java sources
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaClass/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-            .pageWasRendered("/groovydoc/com/eden/orchid/mock/JavaInterface/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/javaannotation/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/javaclass/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/javaenumclass/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/javaexceptionclass/index.html") { }
+            .pageWasRendered("/groovydoc/com/eden/orchid/mock/javainterface/index.html") { }
             .pageWasRendered("/groovydoc/com/eden/orchid/mock/index.html") { }
 
             // other

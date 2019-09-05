@@ -28,17 +28,17 @@ fun OrchidIntegrationTest.groovydocSetup(modules: List<String>, showRunnerLogs: 
 fun Assertion.Builder<TestResults>.assertGroovy(baseDir: String = "/groovydoc"): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("$baseDir/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyAnnotation/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyEnumClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyExceptionClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyInterface/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/GroovyTrait/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaInterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/groovyannotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/groovyclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/groovyenumclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/groovyexceptionclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/groovyinterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/groovytrait/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaannotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaenumclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaexceptionclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javainterface/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/index.html") { }
 }
 
