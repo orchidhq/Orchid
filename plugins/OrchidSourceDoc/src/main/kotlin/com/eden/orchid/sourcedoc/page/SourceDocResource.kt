@@ -9,12 +9,8 @@ import org.json.JSONObject
 
 class SourceDocResource<T : DocElement>(
     context: OrchidContext,
-    modulePath: String,
     val element: T
-) : FreeableResource(OrchidReference(
-    context,
-    "$modulePath/${element.id.replace("\\.".toRegex(), "/")}.html")
-) {
+) : FreeableResource(OrchidReference(context,"")) {
 
     init {
         reference.extension = "md"

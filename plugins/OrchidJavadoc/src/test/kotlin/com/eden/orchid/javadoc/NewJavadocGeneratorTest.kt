@@ -30,11 +30,11 @@ class NewJavadocGeneratorTest : OrchidIntegrationTest(JavadocModule(), SourceDoc
             .pageWasRendered("/javadoc/index.html") { }
 
             // Java sources
-            .pageWasRendered("/javadoc/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-            .pageWasRendered("/javadoc/com/eden/orchid/mock/JavaClass/index.html") { }
-            .pageWasRendered("/javadoc/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-            .pageWasRendered("/javadoc/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-            .pageWasRendered("/javadoc/com/eden/orchid/mock/JavaInterface/index.html") { }
+            .pageWasRendered("/javadoc/com/eden/orchid/mock/javaannotation/index.html") { }
+            .pageWasRendered("/javadoc/com/eden/orchid/mock/javaclass/index.html") { }
+            .pageWasRendered("/javadoc/com/eden/orchid/mock/javaenumclass/index.html") { }
+            .pageWasRendered("/javadoc/com/eden/orchid/mock/javaexceptionclass/index.html") { }
+            .pageWasRendered("/javadoc/com/eden/orchid/mock/javainterface/index.html") { }
             .pageWasRendered("/javadoc/com/eden/orchid/mock/index.html") { }
 
             // other

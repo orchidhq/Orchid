@@ -32,26 +32,26 @@ class NewKotlindocGeneratorTest : OrchidIntegrationTest(KotlindocModule(), Sourc
             .pageWasRendered("/kotlindoc/index.html") { }
 
             // Java sources
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/CustomString/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/JavaInterface/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/customstring/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/javaannotation/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/javaclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/javaenumclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/javaexceptionclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/javainterface/index.html") { }
 
             // Kotlin sources
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinAnnotation/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinClassWithCompanionObject/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinEnumClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinExceptionClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinInlineClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinInterface/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinObjectClass/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClass1/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClass2/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClass3/index.html") { }
-            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/KotlinSealedClasses/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinannotation/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinclasswithcompanionobject/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinenumclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinexceptionclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlininlineclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlininterface/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinobjectclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinsealedclass1/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinsealedclass2/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinsealedclass3/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinsealedclasses/index.html") { }
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/index.html") { }
 
             // other

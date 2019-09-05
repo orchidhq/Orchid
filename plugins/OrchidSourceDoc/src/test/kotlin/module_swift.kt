@@ -28,10 +28,10 @@ fun OrchidIntegrationTest.swiftdocSetup(modules: List<String>, showRunnerLogs: B
 fun Assertion.Builder<TestResults>.assertSwift(baseDir: String = "/swiftdoc"): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("$baseDir/index.html") { }
-        .pageWasRendered("$baseDir/swiftClass/SwiftClass/index.html") { }
-        .pageWasRendered("$baseDir/swiftClass/index.html") { }
-        .pageWasRendered("$baseDir/swiftStruct/SwiftStruct/index.html") { }
-        .pageWasRendered("$baseDir/swiftStruct/index.html") { }
+        .pageWasRendered("$baseDir/swiftclass/swiftclass/index.html") { }
+        .pageWasRendered("$baseDir/swiftclass/index.html") { }
+        .pageWasRendered("$baseDir/swiftstruct/swiftstruct/index.html") { }
+        .pageWasRendered("$baseDir/swiftstruct/index.html") { }
 }
 
 fun Assertion.Builder<TestResults>.assertSwift(baseDirs: List<String>): Assertion.Builder<TestResults> {
