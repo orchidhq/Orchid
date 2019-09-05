@@ -28,24 +28,24 @@ fun OrchidIntegrationTest.kotlindocSetup(modules: List<String>, showRunnerLogs: 
 fun Assertion.Builder<TestResults>.assertKotlin(baseDir: String = "/kotlindoc"): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("$baseDir/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/CustomString/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaInterface/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinAnnotation/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinClassWithCompanionObject/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinEnumClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinExceptionClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinInlineClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinInterface/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinObjectClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClass1/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClass2/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClass3/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/KotlinSealedClasses/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/customstring/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaannotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaenumclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaexceptionclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javainterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinannotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinclasswithcompanionobject/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinenumclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinexceptionclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlininlineclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlininterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinobjectclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinsealedclass1/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinsealedclass2/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinsealedclass3/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinsealedclasses/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/index.html") { }
 }
 

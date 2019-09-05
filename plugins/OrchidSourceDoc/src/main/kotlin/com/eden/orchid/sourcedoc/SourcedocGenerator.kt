@@ -13,17 +13,14 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.sourcedoc.model.SourceDocModel
 import com.eden.orchid.sourcedoc.model.SourceDocModuleConfig
 import com.eden.orchid.sourcedoc.model.SourceDocModuleModel
 import com.eden.orchid.sourcedoc.page.SourceDocModuleHomePage
 import com.eden.orchid.sourcedoc.page.SourceDocPage
+import com.eden.orchid.sourcedoc.page.SourceDocResource
 import com.eden.orchid.utilities.OrchidUtils
-import com.eden.orchid.utilities.camelCase
-import com.eden.orchid.utilities.dashCase
-import com.eden.orchid.utilities.from
-import com.eden.orchid.utilities.to
-import com.eden.orchid.utilities.with
 import java.io.File
 import java.nio.file.Path
 import javax.inject.Named
@@ -32,7 +29,8 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
     key: String,
     @Named("src") val resourcesDir: String,
     val invoker: DocInvoker<U>,
-    private val extractor: OptionsExtractor
+    private val extractor: OptionsExtractor,
+    private val permalinkStrategy: PermalinkStrategy
 ) : OrchidGenerator<SourceDocModel>(key, PRIORITY_EARLY) {
 
     companion object {
@@ -86,8 +84,7 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
         extractor.extractOptions(invoker, allData)
 
         val moduleName = if (config != null) config.name else ""
-        val modulePath =
-            if (config != null) config.name from { camelCase() } with { toLowerCase() } to { dashCase() } else ""
+        val moduleTitle = if (config != null) config.name else "${key.capitalize()}doc"
 
         val invokerModel: U? = loadFromCacheOrRun(config)
         val modelPageMap = invokerModel?.let {
@@ -97,13 +94,13 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
 
                 val nodePages = nodeElements.map { element ->
                     SourceDocPage(
-                        this@SourcedocGenerator,
-                        context,
-                        modulePath,
+                        SourceDocResource(context, element),
                         element,
                         nodeName,
-                        element.name
-                    )
+                        element.name,
+                        key,
+                        moduleName
+                    ).also { permalinkStrategy.applyPermalink(it, ":moduleType/:module/:sourceDocPath") }
                 }
 
                 node to nodePages
@@ -111,20 +108,24 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
         } ?: emptyMap()
 
         return SourceDocModuleModel(
-            setupModuleHomepage(context, config),
+            setupModuleHomepage(context, config, moduleName, moduleTitle),
             moduleName,
-            modulePath,
             invokerModel,
             modelPageMap
         )
     }
 
-    private fun setupModuleHomepage(context: OrchidContext, config: SourceDocModuleConfig?): SourceDocModuleHomePage {
+    private fun setupModuleHomepage(
+        context: OrchidContext,
+        config: SourceDocModuleConfig?,
+        moduleName: String,
+        moduleTitle: String
+    ): SourceDocModuleHomePage {
         var readmeFile: OrchidResource? = null
 
         for(baseDir in (config?.sourceDirs ?: sourceDirs)) {
             val baseFile = File(resourcesDir).toPath().resolve(baseDir).toFile().absolutePath
-            val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 4)
+            val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 10)
             if(closestFile != null) {
                 readmeFile = closestFile
                 break
@@ -141,16 +142,10 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
             )
         }
 
-        val moduleName = if (config != null) config.name else ""
-        val modulePath =
-            if (config != null) config.name from { camelCase() } with { toLowerCase() } to { dashCase() } else ""
-
-        readmeFile.reference.path = key
-        readmeFile.reference.fileName = modulePath
         readmeFile.reference.outputExtension = "html"
-        readmeFile.reference.title = moduleName
 
-        return SourceDocModuleHomePage(readmeFile, this)
+        return SourceDocModuleHomePage(readmeFile, key, moduleTitle, key, moduleName)
+            .also { permalinkStrategy.applyPermalink(it, ":moduleType/:module") }
     }
 
 // helpers

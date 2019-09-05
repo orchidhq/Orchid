@@ -28,11 +28,11 @@ fun OrchidIntegrationTest.javadocSetup(modules: List<String>, showRunnerLogs: Bo
 fun Assertion.Builder<TestResults>.assertJava(baseDir: String = "/javadoc"): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("$baseDir/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaAnnotation/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaEnumClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaExceptionClass/index.html") { }
-        .pageWasRendered("$baseDir/com/eden/orchid/mock/JavaInterface/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaannotation/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaenumclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javaexceptionclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/javainterface/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/index.html") { }
 }
 
