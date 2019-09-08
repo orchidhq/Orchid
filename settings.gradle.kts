@@ -10,9 +10,9 @@ apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 rootProject.name = "Orchid"
 
-Projects.includeAll(this)
-Projects.Plugins.includeAll(this)
-Projects.LanguageExtensions.includeAll(this)
-Projects.Integrations.includeAll(this)
-Projects.Themes.includeAll(this)
-Projects.Bundles.includeAll(this)
+includeModules(Projects.all)
+includeModules(Projects.Plugins.all)
+includeModules(Projects.LanguageExtensions.all)
+includeModules(Projects.Integrations.all)
+includeModules(Projects.Themes.all)
+includeModules(Projects.Bundles.all)

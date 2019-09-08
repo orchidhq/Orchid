@@ -1,14 +1,14 @@
 dependencies {
-    compile(Projects.OrchidCore(this))
+    implementation(Module.OrchidCore)
 
-    compile(Projects.Themes.OrchidEditorial(this))
+    implementation(Module.OrchidEditorial)
 
-    compile(Projects.Plugins.OrchidPages(this))
-    compile(Projects.Plugins.OrchidWiki(this))
-    compile(Projects.Plugins.OrchidForms(this))
-    compile(Projects.Plugins.OrchidChangelog(this))
-    compile(Projects.Plugins.OrchidSearch(this))
+    implementation(Module.OrchidPages)
+    implementation(Module.OrchidWiki)
+    implementation(Module.OrchidForms)
+    implementation(Module.OrchidChangelog)
+    implementation(Module.OrchidSearch)
 
-    compile(Projects.LanguageExtensions.OrchidDiagrams(this))
-    compile(Projects.LanguageExtensions.OrchidSyntaxHighlighter(this))
+    implementation(Module.OrchidDiagrams)
+    implementation(Module.OrchidSyntaxHighlighter)
 }
