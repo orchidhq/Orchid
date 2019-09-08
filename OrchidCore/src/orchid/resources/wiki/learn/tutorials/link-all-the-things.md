@@ -6,13 +6,13 @@ description: Get to know the basics of how Orchid makes it easy to generate inte
 
 Our Orchid site is starting to get pretty well furnished and is easy to maintain, but there are still a few things we
 need to clean up before it is fully ready-to-go. Most notably, we still have those hard-coded links in our locations
-index page. In this tutorial, I will show you the way Orchid addresses this problem. 
+index page. In this tutorial, I will show you the way Orchid addresses this problem.
 
 Before continuing, make sure you have followed along with the previous tutorial and have started your local Orchid 
 server with `gradle orchidServe`. We will be building on that example in this tutorial.
 
 You can follow along with this tutorial on your own, or find the source for this in the
-[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/04). 
+[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/04).
 
 ## Making Dynamic Links
 
@@ -52,14 +52,28 @@ with that variable instead, and it will automatically update these URLs based on
 {% verbatim %}
 ---
 ---
+- [Houston]({{ site.baseUrl }}/locations/houston)
+- [Dallas]({{ site.baseUrl }}/locations/dallas)
+- [Austin]({{ site.baseUrl }}/locations/austin)
+{% endverbatim %}
+```
+
+These links are still kind-of "hard-coded", however, since the path of these links is just passed directly to the 
+Markdown processor. Instead, we cal pass these paths to the `baseUrl` Pebble filter, which allows Orchid to be a bit
+more clever with these paths (to ensure proper formatting), and is also easier to understand and more idiomatic.
+
+```jinja
+{% verbatim %}
+---
+---
 - [Houston]({{ '/locations/houston'|baseUrl }})
 - [Dallas]({{ '/locations/dallas'|baseUrl }})
 - [Austin]({{ '/locations/austin'|baseUrl }})
 {% endverbatim %}
 ```
 
-But we can do better. There are still some parts to those URLs that might get changed without our knowing, which would
-lead to broken links. Let's see how we can avoid that.
+And yet, we can still do better. There are still some parts to those URLs that might get changed without our knowing,
+which would lead to broken links. Let's see how we can avoid that.
 
 ## Linking Functions
 
@@ -91,14 +105,15 @@ is in `site.baseUrl`, so we can trust that the links will adapt to both our deve
 ### Anchor Function
 
 The `link()` function is very useful, but there is still a problem. If we happen to pass the title of a page that 
-doesn't exist, it will simply return an empty string. But Markdown will still create an anchor tag, it will just have 
-an empty `href` attribute, which is bad, both for SEO and for your user's browsing experience. What we really want is to
-only create a clickable link if the page actually exists, otherwise just render text. While this isn't a perfect 
-solution, at least you will have the visual cue of text _not_ being a link when it should, and it's better for SEO.
+doesn't exist, it will simply return an empty string. But Markdown will still create an anchor tag, though it will just 
+have an empty `href` attribute. This is bad both for SEO and for your user's browsing experience. What we really want is 
+to only create a clickable link if the page actually exists, otherwise just render text. While this isn't a perfect 
+solution, at least you will have the visual cue of text _not_ being a link when it should, and it's less detrimental 
+to your SEO.
 
 Most SSGs and CMSs would have you just check if that returned URL is empty, and wrap the link in an `if` statement. But 
 this gets tedious and makes your templates hard to read, so Orchid offers another tag, specifically designed for 
-intelligently generating clickable anchor link, `anchor()`. With the `anchor()` function, we can replace the entire 
+intelligently generating a clickable anchor link, `anchor()`. With the `anchor()` function, we can replace the entire 
 Markdown link, and let Orchid create it for us instead:
 
 ```jinja
@@ -132,8 +147,8 @@ then the first one is the text that will be displayed in the link, while the sec
 
 Our locations index page is looking really good now. All our links are fully dynamic and will automatically update if 
 the page is moved and for our different environments. But our business is growing very quickly, and we're adding new 
-locations almost daily! You don't want to have to update this list every time you add a new location, what you really 
-want is to have the entire list automatically generated based on the files you have for each location. 
+locations almost daily! You don't want to have to update this list every time you add a new location; what you really 
+want is to have the entire list automatically generated based on the files you have already created for each location. 
 
 Fortunately for you, Orchid has a way to handle that too, which works in very much the same way as just linking to a 
 single page. There is a `findAll()` function that takes the same input as the `link()` and `anchor()` functions, but 
@@ -147,7 +162,7 @@ and build links manually.
 ```jinja
 {% verbatim %}
 {% for page in findAll(...) %}
-- [{{page.title}}]({{page.link}})
+- [{{ page.title }}]({{ page.link }})
 {% endfor %}
 {% endverbatim %}
 ```
@@ -156,14 +171,14 @@ and build links manually.
 
 In our example of small business locations, all the pages we want to link to come from the `pages` plugin, and more 
 specifically, because their topmost folder within `pages` is `locations/` they are considered to be in the `locations` 
-page group. Together, these two properties are known as the **collection type** and **collection id**.
+page group. Together, these two properties are known as the **collection type** and **collection ID**.
 
-Each plugin that generates pages, like our Static Pages plugin, also generates one or more collections of pages. These
+Each plugin that generates pages, like our Static Pages plugin, also generates one or more _collections_ of pages. These
 collections are what's actually underlying all the `link()`, `anchor()`, and `findAll()` functions, and they all allow
 you to filter the pages that get matched by their corresponding `collectionType` and `collectionId`. It is up to the 
 plugin to decide exactly how these are formatted, so be sure to check the plugin's documentation, but as a general rule
 of thumb, the `collectionType` matches the key of the generator they are from, while the `collectionId` is a specific 
-subset of the pages from that generator. 
+subset of the pages from that generator.
 
 When you pass a `collectionId` or `collectionType` to any of the above functions, the scope of the search is limited to 
 just those matching collections. The `itemId` is the property we've been passing as the title, and is required for 
@@ -176,7 +191,7 @@ also dynamically generate the entire list!
 ```jinja
 {% verbatim %}
 {% for page in findAll(collectionType='pages', collectionId='locations') %}
-- [{{page.title}}]({{page.link}})
+- [{{ page.title }}]({{ page.link }})
 {% endfor %}
 {% endverbatim %}
 ```
@@ -190,7 +205,8 @@ locations on the index page dynamically, so new locations are automatically incl
 Let's review all the individual pieces we learned in this tutorial. 
 
 1. Orchid offers many ways to generate dynamic links between your content. The first, and simplest way, is to use 
-    `site.baseUrl` which prints out your site's base URL, fro which you can manually build the link to a page.
+    `site.baseUrl` which prints out your site's base URL, fro which you can manually build the link to a page. The 
+    `baseUrl` Pebble filter accomplishes the same thing, prepending the base URL to whatever is passed to it.
 2. Instead of manually building a URL, you can ask Orchid for the String URL to a page in your site with the `link()`
     function, and build a Markdown link using that.
 3. To prevent broken links, you can ask Orchid to build a full HTML anchor using the `anchor()` function. This uses the

@@ -17,7 +17,7 @@ You can follow along with this tutorial on your own, or find the source for this
 ## Front Matter
 
 If you've worked with other static site generators, you're probably very familiar with Front Matter. Orchid uses Front 
-Matter just like the other tools, but there are a things special things that Orchid does with Front Matter, so don't 
+Matter just like the other tools, but there are a few special things that Orchid does with Front Matter, so don't 
 skip ahead just yet!
 
 ### What Is Front Matter?
@@ -27,6 +27,7 @@ pairs of triple-dashed lines at the very beginning of a page. Let's see how we c
 title of our `houston.md` page. Go ahead and change the contents of `pages/locations/houston.md` to the following:
 
 ```text
+
 ---
 title: 'H-Town'
 ---
@@ -52,26 +53,26 @@ Su: Closed
 
 When Orchid has rebuilt your site, refresh the page and you'll notice that it's title now displays as "H-Town" instead 
 of "Houston". You will also notice that the Front Matter has been removed from the actual page content, so that it is
-not embedded into your theme with the rest of the text in the page. 
+not embedded into your theme with the rest of the text in the page.
 
 Whenever Orchid sees a page with a Front Matter block, it will remove that block from the page content, parse the text 
 within the Front Matter as YAML, and use that to configure the page. There are lots of configuration values available 
 for use in the Front Matter, and a later tutorial will show you how to find all of these values, but you are not limited
 to just those configuration values. You can put whatever kind of data you want in your Front Matter, and it will become 
-available for use just the same. 
+available for use just the same.
 
 ### Pre-Compilation
 
 Now that we have Front Matter added to the top of our page, Orchid will start doing something really cool. For our 
 `houston.md` page, before it gets processed as Markdown, it will be _precompiled_ as Pebble. Pebble is the main 
 templating language used by Orchid, and it has a syntax very similar to Liquid or Twig, which means it can render any 
-text content it wants. 
+text content it wants.
 
 What this means for us is that we can use Pebble to add dynamic data into our Markdown, which can then be processed as 
-Markdown afterwards. 
+Markdown afterwards.
 
 To see how this works, let's move the info for our Houston business location into its Front Matter, and then use Pebble
-to inject that data back into our Markdown.
+to "inject" that data back into our Markdown.
 
 ```text
 {% verbatim %}
@@ -110,15 +111,15 @@ business_hours:
 It should be pretty obvious what's going on in this page now. All the tags that look like 
 `{% verbatim %}{{ city }}{% endverbatim %}` will print that variable into the page at that spot. There are also _tags_,
 such as the `{% verbatim %}{% for %}{% endverbatim %}` and `{% verbatim %}{% if %}{% endverbatim %}` tags, which will 
-iterate over the data or control which sections of code get displayed. This makes it possible to use Pebble kind-of like 
-a full programming language, and because it runs before the page is converted to Markdown, you can use it to build more 
-complex and powerful Markdown pages much more simply.
+iterate over the data or control which sections of content get displayed. This makes it possible to use Pebble kind-of 
+like a full programming language, and because it runs before the page is converted to Markdown, you can use it to build 
+more complex and powerful Markdown pages much more easily.
 
 This precompilation step is only performed for pages that have a Front Matter block, and it is entirely optional. 
 However, in some cases you may find Pebble to make the underlying page format unparseable and may wish to disable it. If 
 you need to have Front Matter but don't want the rest of the page precompiled, you can set `precompile` to `false` in 
-the Front Matter, or you may precompile it as a different language by setting `precompileAs` to the desired file 
-extension.
+the Front Matter. Alternatively, you may precompile it as a different language by setting `precompileAs` to the desired 
+file extension.
 
 Alright, so now that we've got our Houston page set up with Front Matter and being precompiled as Pebble, we should 
 probably do the same with our other locations pages as well. 
@@ -221,7 +222,7 @@ even larger sites, the savings are even larger, and the maintenance burden will 
 ### Creating a Page Template
 
 The first thing we'll need to do is make ourselves a new page template, and then we'll tell Orchid to use that template 
-instead of the default one. So make a page in `templates/pages/staticPage-locations.peb` and add the following content.
+instead of the default one. So make a page in `templates/pages/location.peb` and add the following content.
 
 ```jinja
 {% verbatim %}
@@ -270,6 +271,7 @@ want to use. The `templates` property accepts either a String or an array, and t
 be loaded and used as the page template.
 
 ```text
+
 ---
 city: 'Houston'
 state: 'TX'
@@ -289,13 +291,13 @@ Houston, TX location coming soon.
 Orchid will look for the page template in several places. First it will look for a template in `templates/` that matches
 the exact file path and filename. If that doesn't exist, it will look for any file with that filename in the 
 `templates/pages/` directory. In either case, if a file extension is not provided, it will assume `.peb`. So by passing 
-`location` as the template, our custom page template at `templates/pages/staticPage-locations.peb` will be used.
+`location` as the template, our custom page template at `templates/pages/location.peb` will be used.
 
 Any time that you specify a custom template, it will be preferred to the defaults for that page type. Plugins with 
 special page types may set special formats for looking up page templates without needing to specify it. For example, the 
 OrchidPosts plugin will default to looking for `post-[category].peb` or `post.peb` before falling back to `page.peb`. 
 All pages, if not specified by the plugin or by the user, fall back to using `page.peb`, which is automatically provided
-for you.  
+for you.
 
 ## Conclusion
 
