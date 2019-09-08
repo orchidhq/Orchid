@@ -1,4 +1,4 @@
 
 dependencies {
-    compile(Projects.Plugins.OrchidWiki(this))
+    implementation(Module.OrchidWiki)
 }

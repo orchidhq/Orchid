@@ -1,10 +1,10 @@
 dependencies {
-    compile(Projects.OrchidCore(this))
+    implementation(Module.OrchidCore)
 
-    compile(Projects.Plugins.OrchidPosts(this))
-    compile(Projects.Plugins.OrchidPages(this))
-    compile(Projects.Plugins.OrchidForms(this))
-    compile(Projects.Plugins.OrchidTaxonomies(this))
+    implementation(Module.OrchidPosts)
+    implementation(Module.OrchidPages)
+    implementation(Module.OrchidForms)
+    implementation(Module.OrchidTaxonomies)
 
-    Projects.LanguageExtensions.all(this).forEach { compile(it) }
+    implementation(Projects.LanguageExtensions.all)
 }
