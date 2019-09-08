@@ -79,7 +79,7 @@ Let's add the `com.eden.orchidPlugin` plugin to this block.
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
-    id 'com.eden.orchidPlugin' version '0.12.1'
+    id 'com.eden.orchidPlugin' version '{{ site.version }}'
 }
 ```
 
@@ -159,17 +159,16 @@ Flag values:
 -logLevel: VERBOSE
 -port: 8080
 -src: /path/to/your/site/src/orchid/resources
--task: build
+-task: serve
 -theme: BsDoc
 -version: unspecified
-
 ```
 
 This shows the command-line flags passed to Orchid from Gradle. This may be helpful for debugging your build, 
 especially if it has been run in a CI environment.
 
 ```text
-[INFO] Orchid: Running Orchid version 0.8.10, site version 1 in debug environment
+[INFO] Orchid: Running Orchid version {{ site.version }}, site version unspecified in debug environment
 [INFO] OrchidWebserver: Webserver Running at http://localhost:8080
 [INFO] OrchidWebsocket: Websocket running at http://localhost:8081/
 ```
@@ -209,15 +208,16 @@ Build Metrics:
 ┌───────┬────────────┬───────────────┬─────────────────┬───────────────────────────┬─────────────────────────────┐
 │       │ Page Count │ Indexing Time │ Generation Time │ Mean Page Generation Time │ Median Page Generation Time │
 ├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
-│  home │     1      │     58ms      │      434ms      │           429ms           │            429ms            │
+│  home │     2      │     50ms      │      334ms      │           166ms           │            322ms            │
 ├───────┼────────────┼───────────────┼─────────────────┼───────────────────────────┼─────────────────────────────┤
-│ TOTAL │          1 │          69ms │           453ms │                     429ms │                       429ms │
+│ TOTAL │          2 │         114ms │           355ms │                     166ms │                       322ms │
 └───────┴────────────┴───────────────┴─────────────────┴───────────────────────────┴─────────────────────────────┘
 
-Generated 1 page in 524ms
+Build Complete
+Generated 2 pages in 470ms
 
-
-[INFO] TaskServiceImpl: Build Complete
+Webserver Running at http://localhost:8080
+Hit [CTRL-C] to stop the server and quit Orchid
 ```
 
 Orchid is a very fast static site generator, with build speed on par with the best tools on the market, despite being so
