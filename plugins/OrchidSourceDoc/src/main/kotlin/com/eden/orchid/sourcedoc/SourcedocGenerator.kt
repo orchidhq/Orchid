@@ -77,7 +77,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             else {
                 val module = model.modules.single()
                 // create a collection containing all pages from a module, excluding the homepage (doc pages only)
-                add(PageCollection(self, module.name, module.nodes.values.flatten()))
+                add(PageCollection(self, key, module.nodes.values.flatten()))
 
                 module.nodes.forEach { (node, nodePages) ->
                     // create a collection for each top-level node in this module

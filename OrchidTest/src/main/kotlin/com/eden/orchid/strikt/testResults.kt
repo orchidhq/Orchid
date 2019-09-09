@@ -96,9 +96,26 @@ fun Assertion.Builder<TestResults>.collectionWasCreated(
     collectionId: String = ""
 ): Assertion.Builder<TestResults> =
     assert("collection [$collectionType-$collectionId] was created") {
-        val collections = it.getCollections(collectionType, collectionId)
-        if (collections.isEmpty()) {
+        val collection = it.getCollections(collectionType, collectionId).singleOrNull()
+        if (collection != null) {
+            collection.evaluated = true
+            pass()
+        } else {
             fail()
+        }
+    }
+
+fun Assertion.Builder<TestResults>.noOtherCollectionsCreated(): Assertion.Builder<TestResults> =
+    assert("all collections have been evaluated") {
+        if (!it.collections.all { it.evaluated }) {
+            val collectionsNotEvaluated = it.collections.filterNot { page -> page.evaluated }
+            compose("${collectionsNotEvaluated.size} collections were not evaluated") {
+                collectionsNotEvaluated.forEach { element ->
+                    assert(element.toString()) { fail() }
+                }
+            } then {
+                fail()
+            }
         } else {
             pass()
         }
