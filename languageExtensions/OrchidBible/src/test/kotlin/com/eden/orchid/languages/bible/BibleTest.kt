@@ -13,6 +13,7 @@ import kotlinx.html.p
 import kotlinx.html.span
 import kotlinx.html.sup
 import kotlinx.html.unsafe
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
