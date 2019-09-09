@@ -91,6 +91,19 @@ fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.B
         }
     }
 
+fun Assertion.Builder<TestResults>.collectionWasCreated(
+    collectionType: String,
+    collectionId: String = ""
+): Assertion.Builder<TestResults> =
+    assert("collection [$collectionType-$collectionId] was created") {
+        val collections = it.getCollections(collectionType, collectionId)
+        if (collections.isEmpty()) {
+            fail()
+        } else {
+            pass()
+        }
+    }
+
 fun Assertion.Builder<TestResults>.printResults(): Assertion.Builder<TestResults> =
     assertThat("printing test results") {
         get { this.printResults() }

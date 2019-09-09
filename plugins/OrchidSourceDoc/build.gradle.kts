@@ -7,4 +7,5 @@ dependencies {
     testImplementation(Module.OrchidGroovydoc)
     testImplementation(Module.OrchidKotlindoc)
     testImplementation(Module.OrchidSwiftdoc)
+    testImplementation(Module.OrchidPluginDocs)
 }

@@ -14,12 +14,10 @@ import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
 import javax.inject.Named
 
-@Archetype(value = ConfigArchetype::class, key = GENERATOR_KEY)
 class NewKotlindocGenerator
 @Inject
 constructor(
     @Named("src") resourcesDir: String,
-    @Named("kotlindocClasspath") private val kotlindocClasspath: String,
     invoker: KotlindocInvokerImpl,
     extractor: OptionsExtractor,
     permalinkStrategy: PermalinkStrategy
