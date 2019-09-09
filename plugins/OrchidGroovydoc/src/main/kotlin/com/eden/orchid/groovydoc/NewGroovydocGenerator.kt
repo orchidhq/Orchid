@@ -3,18 +3,14 @@ package com.eden.orchid.groovydoc
 import com.copperleaf.kodiak.groovy.GroovydocInvokerImpl
 import com.copperleaf.kodiak.groovy.models.GroovyModuleDoc
 import com.eden.orchid.api.options.OptionsExtractor
-import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
-import com.eden.orchid.groovydoc.NewGroovydocGenerator.Companion.GENERATOR_KEY
 import com.eden.orchid.groovydoc.models.GroovyDocModuleConfig
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
 import javax.inject.Named
 
-@Archetype(value = ConfigArchetype::class, key = GENERATOR_KEY)
 class NewGroovydocGenerator
 @Inject
 constructor(

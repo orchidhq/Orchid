@@ -53,13 +53,14 @@ class TestOrchid {
             TestResults(
                 testContext,
                 testContext.resolve(TestRenderer::class.java).getRenderedPageMap(),
+                testContext.collections,
                 true,
                 null
             )
         } catch (t: Throwable) {
             Clog.e("An exception was thrown while running Orchid integration test: {}", t.message)
             t.printStackTrace()
-            TestResults(null, emptyMap(), false, t)
+            TestResults(null, emptyMap(), emptyList(), false, t)
         }
 
     }

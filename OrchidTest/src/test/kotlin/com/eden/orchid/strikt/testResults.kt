@@ -48,6 +48,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     mapOf(testRenderedPage()),
+                    emptyList(),
                     true,
                     null
                 )
@@ -59,6 +60,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     emptyMap(),
+                    emptyList(),
                     true,
                     null
                 )
@@ -78,6 +80,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     mapOf(testRenderedPage()),
+                    emptyList(),
                     false,
                     null
                 )
@@ -97,6 +100,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     mapOf(testRenderedPage()),
+                    emptyList(),
                     true,
                     RuntimeException()
                 )
@@ -120,6 +124,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     mapOf(testRenderedPage()),
+                    emptyList(),
                     true,
                     null
                 )
@@ -139,6 +144,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     emptyMap(),
+                    emptyList(),
                     true,
                     null
                 )
@@ -150,6 +156,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     mapOf(testRenderedPage()),
+                    emptyList(),
                     false,
                     null
                 )
@@ -169,6 +176,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 TestResults(
                     context,
                     mapOf(testRenderedPage()),
+                    emptyList(),
                     true,
                     RuntimeException()
                 )
@@ -194,6 +202,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 testRenderedPage("/one/index.html"),
                 testRenderedPage("/two/index.html")
             ),
+            emptyList(),
             true,
             null
         )
@@ -222,6 +231,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 testRenderedPage("/one/index.html"),
                 testRenderedPage("/two/index.html")
             ),
+            emptyList(),
             true,
             null
         )
@@ -282,6 +292,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
             mapOf(
                 testRenderedPage("/index.html")
             ),
+            emptyList(),
             true,
             null
         )
@@ -310,6 +321,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
             mapOf(
                 testRenderedPage("/index.html")
             ),
+            emptyList(),
             true,
             null
         )
@@ -345,6 +357,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     testRenderedPage("/one/index.html"),
                     testRenderedPage("/two/index.html")
                 ),
+                emptyList(),
                 true,
                 null
             )
@@ -376,6 +389,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
             TestResults(
                 null,
                 emptyMap(),
+                emptyList(),
                 false,
                 RuntimeException()
             )

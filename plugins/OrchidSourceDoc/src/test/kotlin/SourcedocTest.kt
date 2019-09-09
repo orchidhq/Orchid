@@ -3,8 +3,10 @@ package com.eden.orchid.sourcedoc
 import com.eden.orchid.groovydoc.NewGroovydocGenerator
 import com.eden.orchid.javadoc.NewJavadocGenerator
 import com.eden.orchid.kotlindoc.NewKotlindocGenerator
+import com.eden.orchid.plugindocs.PluginDocsModule
 import com.eden.orchid.strikt.asExpected
 import com.eden.orchid.strikt.assertWhen
+import com.eden.orchid.strikt.collectionWasCreated
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.swiftdoc.NewSwiftdocGenerator
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -14,7 +16,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
 
-class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
+class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule()) {
 
     val modules = listOf("one", "two")
 
@@ -37,6 +39,8 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertJava()
+            .collectionWasCreated("javadoc", "classes")
+            .collectionWasCreated("javadoc", "packages")
             .nothingElseRendered()
     }
 
@@ -47,6 +51,11 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertJava(modules)
+            .collectionWasCreated("javadoc", "modules")
+            .collectionWasCreated("javadoc", "one-classes")
+            .collectionWasCreated("javadoc", "one-packages")
+            .collectionWasCreated("javadoc", "two-classes")
+            .collectionWasCreated("javadoc", "two-packages")
             .nothingElseRendered()
     }
 
@@ -57,6 +66,8 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertGroovy()
+            .collectionWasCreated("groovydoc", "classes")
+            .collectionWasCreated("groovydoc", "packages")
             .nothingElseRendered()
     }
 
@@ -67,6 +78,11 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertGroovy(modules)
+            .collectionWasCreated("groovydoc", "modules")
+            .collectionWasCreated("groovydoc", "one-classes")
+            .collectionWasCreated("groovydoc", "one-packages")
+            .collectionWasCreated("groovydoc", "two-classes")
+            .collectionWasCreated("groovydoc", "two-packages")
             .nothingElseRendered()
     }
 
@@ -77,6 +93,8 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertKotlin()
+            .collectionWasCreated("kotlindoc", "classes")
+            .collectionWasCreated("kotlindoc", "packages")
             .nothingElseRendered()
     }
 
@@ -87,6 +105,11 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertKotlin(modules)
+            .collectionWasCreated("kotlindoc", "modules")
+            .collectionWasCreated("kotlindoc", "one-classes")
+            .collectionWasCreated("kotlindoc", "one-packages")
+            .collectionWasCreated("kotlindoc", "two-classes")
+            .collectionWasCreated("kotlindoc", "two-packages")
             .nothingElseRendered()
     }
 
@@ -98,6 +121,8 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertSwift()
+            .collectionWasCreated("swiftdoc", "classes")
+            .collectionWasCreated("swiftdoc", "sourceFiles")
             .nothingElseRendered()
     }
 
@@ -109,6 +134,11 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule()) {
             .asExpected()
             .withDefaultSourcedocPages()
             .assertSwift(modules)
+            .collectionWasCreated("swiftdoc", "modules")
+            .collectionWasCreated("swiftdoc", "one-classes")
+            .collectionWasCreated("swiftdoc", "one-sourceFiles")
+            .collectionWasCreated("swiftdoc", "two-classes")
+            .collectionWasCreated("swiftdoc", "two-sourceFiles")
             .nothingElseRendered()
     }
 
