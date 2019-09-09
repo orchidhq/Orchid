@@ -6,7 +6,7 @@ import com.eden.orchid.kotlindoc.NewKotlindocGenerator
 import com.eden.orchid.plugindocs.PluginDocsModule
 import com.eden.orchid.strikt.asExpected
 import com.eden.orchid.strikt.assertWhen
-import com.eden.orchid.strikt.collectionWasCreated
+import com.eden.orchid.strikt.noOtherCollectionsCreated
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.swiftdoc.NewSwiftdocGenerator
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -38,10 +38,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewJavadocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertJava()
-            .collectionWasCreated("javadoc", "classes")
-            .collectionWasCreated("javadoc", "packages")
+            .assertJavaPages()
+            .assertJavaCollections()
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -50,13 +50,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewJavadocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertJava(modules)
-            .collectionWasCreated("javadoc", "modules")
-            .collectionWasCreated("javadoc", "one-classes")
-            .collectionWasCreated("javadoc", "one-packages")
-            .collectionWasCreated("javadoc", "two-classes")
-            .collectionWasCreated("javadoc", "two-packages")
+            .assertJavaPages(modules)
+            .assertJavaCollections(modules)
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -65,10 +62,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewGroovydocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertGroovy()
-            .collectionWasCreated("groovydoc", "classes")
-            .collectionWasCreated("groovydoc", "packages")
+            .assertGroovyPages()
+            .assertGroovyCollections()
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -77,13 +74,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewGroovydocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertGroovy(modules)
-            .collectionWasCreated("groovydoc", "modules")
-            .collectionWasCreated("groovydoc", "one-classes")
-            .collectionWasCreated("groovydoc", "one-packages")
-            .collectionWasCreated("groovydoc", "two-classes")
-            .collectionWasCreated("groovydoc", "two-packages")
+            .assertGroovyPages(modules)
+            .assertGroovyCollections(modules)
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -92,10 +86,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewKotlindocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertKotlin()
-            .collectionWasCreated("kotlindoc", "classes")
-            .collectionWasCreated("kotlindoc", "packages")
+            .assertKotlinPages()
+            .assertKotlinCollections()
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -104,13 +98,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewKotlindocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertKotlin(modules)
-            .collectionWasCreated("kotlindoc", "modules")
-            .collectionWasCreated("kotlindoc", "one-classes")
-            .collectionWasCreated("kotlindoc", "one-packages")
-            .collectionWasCreated("kotlindoc", "two-classes")
-            .collectionWasCreated("kotlindoc", "two-packages")
+            .assertKotlinPages(modules)
+            .assertKotlinCollections(modules)
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -120,10 +111,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewSwiftdocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertSwift()
-            .collectionWasCreated("swiftdoc", "classes")
-            .collectionWasCreated("swiftdoc", "sourceFiles")
+            .assertSwiftPages()
+            .assertSwiftCollections()
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -133,13 +124,10 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(withGenerator<NewSwiftdocGenerator>())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertSwift(modules)
-            .collectionWasCreated("swiftdoc", "modules")
-            .collectionWasCreated("swiftdoc", "one-classes")
-            .collectionWasCreated("swiftdoc", "one-sourceFiles")
-            .collectionWasCreated("swiftdoc", "two-classes")
-            .collectionWasCreated("swiftdoc", "two-sourceFiles")
+            .assertSwiftPages(modules)
+            .assertSwiftCollections(modules)
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -161,11 +149,16 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         )
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertJava()
-            .assertGroovy()
-            .assertKotlin()
-            .assertWhen(OS.MAC.isCurrentOs) { assertSwift() }
+            .assertJavaPages()
+            .assertJavaCollections()
+            .assertGroovyPages()
+            .assertGroovyCollections()
+            .assertKotlinPages()
+            .assertKotlinCollections()
+            .assertWhen(OS.MAC.isCurrentOs) { assertSwiftPages() }
+            .assertWhen(OS.MAC.isCurrentOs) { assertSwiftCollections() }
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 
     @Test
@@ -186,13 +179,16 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(*generators.toTypedArray())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertJava(modules)
-            .assertGroovy(modules)
-            .assertKotlin(modules)
-            .assertWhen(OS.MAC.isCurrentOs) {
-                assertSwift(modules)
-            }
+            .assertJavaPages(modules)
+            .assertJavaCollections(modules)
+            .assertGroovyPages(modules)
+            .assertGroovyCollections(modules)
+            .assertKotlinPages(modules)
+            .assertKotlinCollections(modules)
+            .assertWhen(OS.MAC.isCurrentOs) { assertSwiftPages(modules) }
+            .assertWhen(OS.MAC.isCurrentOs) { assertSwiftCollections(modules) }
             .nothingElseRendered()
+            .noOtherCollectionsCreated()
     }
 }
 

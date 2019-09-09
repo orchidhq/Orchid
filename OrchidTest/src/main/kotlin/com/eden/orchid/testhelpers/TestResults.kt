@@ -2,12 +2,11 @@ package com.eden.orchid.testhelpers
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.OrchidCollection
 
 class TestResults(
     val testContext: OrchidContext?,
     val renderedPageMap: Map<String, TestRenderer.TestRenderedPage>,
-    val collections: List<OrchidCollection<*>>,
+    val collections: List<TestRenderer.TestIndexedCollection>,
     val isRenderingSuccess: Boolean,
     val thrownException: Throwable?
 ) {
@@ -35,7 +34,7 @@ class TestResults(
     fun getCollections(
         collectionType: String,
         collectionId: String
-    ): List<OrchidCollection<*>> {
+    ): List<TestRenderer.TestIndexedCollection> {
         var stream = collections
         if (!EdenUtils.isEmpty(collectionType)) {
             stream = stream.filter { collectionType == it.collectionType }

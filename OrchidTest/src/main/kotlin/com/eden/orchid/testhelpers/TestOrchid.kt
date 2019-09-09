@@ -52,8 +52,8 @@ class TestOrchid {
             val testContext = startForUnitTest(modules)
             TestResults(
                 testContext,
-                testContext.resolve(TestRenderer::class.java).getRenderedPageMap(),
-                testContext.collections,
+                testContext.resolve(TestRenderer::class.java).renderedPageMap,
+                testContext.collections.map { TestRenderer.TestIndexedCollection(it) },
                 true,
                 null
             )
