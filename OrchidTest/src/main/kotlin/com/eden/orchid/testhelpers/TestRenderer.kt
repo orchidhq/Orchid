@@ -1,6 +1,7 @@
 package com.eden.orchid.testhelpers
 
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.render.OrchidRenderer
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.OrchidUtils
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class TestRenderer : OrchidRenderer {
 
-    private val renderedPageMap = mutableMapOf<String, TestRenderedPage>()
+    val renderedPageMap = mutableMapOf<String, TestRenderedPage>()
 
     override fun render(page: OrchidPage, content: InputStream): Boolean {
         val outputPath = OrchidUtils.normalizePath(page.reference.path)
@@ -48,7 +49,16 @@ class TestRenderer : OrchidRenderer {
         }
     }
 
-    fun getRenderedPageMap(): Map<String, TestRenderedPage> {
-        return this.renderedPageMap
+    data class TestIndexedCollection(
+        val origin: OrchidCollection<*>
+    ) {
+        var evaluated: Boolean = false
+
+        val collectionType = origin.collectionType
+        val collectionId = origin.collectionId
+
+        override fun toString(): String {
+            return "TestIndexedCollection(origin=$origin, evaluated=$evaluated, collectionType='$collectionType', collectionId=$collectionId)"
+        }
     }
 }

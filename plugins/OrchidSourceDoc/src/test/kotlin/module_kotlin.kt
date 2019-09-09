@@ -1,6 +1,7 @@
 package com.eden.orchid.sourcedoc
 
 import com.eden.orchid.kotlindoc.NewKotlindocGenerator
+import com.eden.orchid.strikt.collectionWasCreated
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
@@ -25,7 +26,7 @@ fun OrchidIntegrationTest.kotlindocSetup(modules: List<String>, showRunnerLogs: 
     )
 }
 
-fun Assertion.Builder<TestResults>.assertKotlin(baseDir: String = "/kotlindoc"): Assertion.Builder<TestResults> {
+fun Assertion.Builder<TestResults>.assertKotlinPages(baseDir: String = "/kotlindoc"): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("$baseDir/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/customstring/index.html") { }
@@ -49,8 +50,26 @@ fun Assertion.Builder<TestResults>.assertKotlin(baseDir: String = "/kotlindoc"):
         .pageWasRendered("$baseDir/com/eden/orchid/mock/index.html") { }
 }
 
-fun Assertion.Builder<TestResults>.assertKotlin(baseDirs: List<String>): Assertion.Builder<TestResults> {
+fun Assertion.Builder<TestResults>.assertKotlinPages(baseDirs: List<String>): Assertion.Builder<TestResults> {
     return baseDirs.fold(this) { acc, dir ->
-        acc.assertKotlin("/kotlindoc/$dir")
+        acc.assertKotlinPages("/kotlindoc/$dir")
+    }
+}
+
+fun Assertion.Builder<TestResults>.assertKotlinCollections(baseDirs: List<String> = emptyList()): Assertion.Builder<TestResults> {
+    return if(baseDirs.isNotEmpty()) {
+        baseDirs.fold(this) { acc, dir ->
+            acc
+                .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, dir)
+                .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "$dir-classes")
+                .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "$dir-packages")
+        }.collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "modules")
+    }
+    else {
+        this
+            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "modules")
+            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, NewKotlindocGenerator.GENERATOR_KEY)
+            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "classes")
+            .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "packages")
     }
 }
