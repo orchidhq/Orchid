@@ -6,7 +6,9 @@ import com.copperleaf.kodiak.common.ModuleDoc
 import com.eden.common.util.EdenUtils
 import com.eden.common.util.IOStreamUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
@@ -54,6 +56,37 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         return SourceDocModel(modules.map { setupModule(context, it) })
     }
 
+    override fun getCollections(context: OrchidContext, model: SourceDocModel): List<OrchidCollection<*>> {
+        return mutableListOf<OrchidCollection<*>>().apply {
+            val self = this@SourcedocGenerator
+
+            // create a collection containing all module landing pages
+            add(PageCollection(self, "modules", model.modules.map { it.homepage }))
+
+            if (model.modules.size > 1) {
+                model.modules.forEach { module ->
+                    // create a collection containing all pages from a module, excluding the homepage (doc pages only)
+                    add(PageCollection(self, module.name, module.nodes.values.flatten()))
+
+                    module.nodes.forEach { (node, nodePages) ->
+                        // create a collection for each top-level node in this module
+                        add(PageCollection(self, "${module.name}-${node.prop.name}", nodePages))
+                    }
+                }
+            }
+            else {
+                val module = model.modules.single()
+                // create a collection containing all pages from a module, excluding the homepage (doc pages only)
+                add(PageCollection(self, module.name, module.nodes.values.flatten()))
+
+                module.nodes.forEach { (node, nodePages) ->
+                    // create a collection for each top-level node in this module
+                    add(PageCollection(self, node.prop.name, nodePages))
+                }
+            }
+        }
+    }
+
     override fun startGeneration(context: OrchidContext, model: SourceDocModel) {
         model.allPages.forEach { context.renderTemplate(it) }
     }
@@ -63,9 +96,6 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
     private fun setupModule(context: OrchidContext, config: U): SourceDocModuleModel {
         extractor.extractOptions(invoker, allData)
-
-        val moduleName = config.name
-        val moduleTitle = config.name
 
         val invokerModel: T? = loadFromCacheOrRun(config)
         val modelPageMap = invokerModel?.let {
@@ -80,7 +110,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                         nodeName,
                         element.name,
                         key,
-                        moduleName
+                        config.name
                     ).also { permalinkStrategy.applyPermalink(it, ":moduleType/:module/:sourceDocPath") }
                 }
 
@@ -89,8 +119,8 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         } ?: emptyMap()
 
         return SourceDocModuleModel(
-            setupModuleHomepage(context, config, moduleName, moduleTitle),
-            moduleName,
+            setupModuleHomepage(context, config, config.name, config.name),
+            config.name,
             invokerModel,
             modelPageMap
         )

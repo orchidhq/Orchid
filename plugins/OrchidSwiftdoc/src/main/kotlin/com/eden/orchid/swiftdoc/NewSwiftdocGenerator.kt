@@ -13,7 +13,6 @@ import com.eden.orchid.swiftdoc.NewSwiftdocGenerator.Companion.GENERATOR_KEY
 import com.eden.orchid.swiftdoc.model.SwiftDocModuleConfig
 import javax.inject.Inject
 
-@Archetype(value = ConfigArchetype::class, key = GENERATOR_KEY)
 class NewSwiftdocGenerator
 @Inject
 constructor(
