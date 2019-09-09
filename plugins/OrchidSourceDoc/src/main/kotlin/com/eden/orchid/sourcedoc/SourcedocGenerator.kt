@@ -3,13 +3,11 @@ package com.eden.orchid.sourcedoc
 import com.copperleaf.kodiak.common.DocElement
 import com.copperleaf.kodiak.common.DocInvoker
 import com.copperleaf.kodiak.common.ModuleDoc
+import com.eden.common.util.EdenUtils
 import com.eden.common.util.IOStreamUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionsExtractor
-import com.eden.orchid.api.options.annotations.BooleanDefault
-import com.eden.orchid.api.options.annotations.Description
-import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -25,10 +23,10 @@ import java.io.File
 import java.nio.file.Path
 import javax.inject.Named
 
-abstract class SourcedocGenerator<U : ModuleDoc>(
+abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     key: String,
     @Named("src") val resourcesDir: String,
-    val invoker: DocInvoker<U>,
+    val invoker: DocInvoker<T>,
     private val extractor: OptionsExtractor,
     private val permalinkStrategy: PermalinkStrategy
 ) : OrchidGenerator<SourceDocModel>(key, PRIORITY_EARLY) {
@@ -45,32 +43,15 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
     private val cacheDir: Path by lazy { OrchidUtils.getCacheDir("sourcedoc-$key") }
     private val outputDir: Path by lazy { OrchidUtils.getTempDir("sourcedoc-$key", true) }
 
-    @Option
-    lateinit var modules: MutableList<SourceDocModuleConfig>
-
-    @Option
-    @Description("The source directories to document.")
-    lateinit var sourceDirs: List<String>
-
-    @Option
-    @BooleanDefault(true)
-    @Description("Whether to reuse outputs from the cache, or rerun each build")
-    var fromCache: Boolean = true
-
-    @Option
-    @BooleanDefault(false)
-    var showRunnerLogs: Boolean = false
+    abstract var modules: MutableList<U>
+    abstract var defaultConfig: U
 
     override fun startIndexing(context: OrchidContext): SourceDocModel {
-        val loadedModules = if (modules.size > 1) {
-            modules.map {
-                setupModule(context, it)
-            }
-        } else {
-            listOf(setupModule(context, null))
+        if (EdenUtils.isEmpty(modules)) {
+            modules.add(defaultConfig)
         }
 
-        return SourceDocModel(loadedModules)
+        return SourceDocModel(modules.map { setupModule(context, it) })
     }
 
     override fun startGeneration(context: OrchidContext, model: SourceDocModel) {
@@ -80,13 +61,13 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
 // Setup modules and index pages
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun setupModule(context: OrchidContext, config: SourceDocModuleConfig?): SourceDocModuleModel {
+    private fun setupModule(context: OrchidContext, config: U): SourceDocModuleModel {
         extractor.extractOptions(invoker, allData)
 
-        val moduleName = if (config != null) config.name else ""
-        val moduleTitle = if (config != null) config.name else "${key.capitalize()}doc"
+        val moduleName = config.name
+        val moduleTitle = config.name
 
-        val invokerModel: U? = loadFromCacheOrRun(config)
+        val invokerModel: T? = loadFromCacheOrRun(config)
         val modelPageMap = invokerModel?.let {
             it.nodes.map { node ->
                 val nodeName: String = node.prop.name
@@ -117,22 +98,22 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
 
     private fun setupModuleHomepage(
         context: OrchidContext,
-        config: SourceDocModuleConfig?,
+        config: U,
         moduleName: String,
         moduleTitle: String
     ): SourceDocModuleHomePage {
         var readmeFile: OrchidResource? = null
 
-        for(baseDir in (config?.sourceDirs ?: sourceDirs)) {
+        for (baseDir in config.sourceDirs) {
             val baseFile = File(resourcesDir).toPath().resolve(baseDir).toFile().absolutePath
             val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 10)
-            if(closestFile != null) {
+            if (closestFile != null) {
                 readmeFile = closestFile
                 break
             }
         }
 
-        if(readmeFile == null) {
+        if (readmeFile == null) {
             readmeFile = StringResource(
                 "",
                 OrchidReference(
@@ -151,10 +132,10 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
 // helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun loadFromCacheOrRun(config: SourceDocModuleConfig?): U? {
-        val actualOutputDir = if(config != null) outputDir.resolve(config.name) else outputDir
+    private fun loadFromCacheOrRun(config: U): T? {
+        val actualOutputDir = outputDir.resolve(config.name)
 
-        if (config?.fromCache ?: fromCache) {
+        if (config.fromCache) {
             val moduleDoc = invoker.loadCachedModuleDoc(actualOutputDir)
             if (moduleDoc != null) {
                 return moduleDoc
@@ -162,11 +143,11 @@ abstract class SourcedocGenerator<U : ModuleDoc>(
         }
 
         return invoker.getModuleDoc(
-            (config?.sourceDirs ?: sourceDirs).map { File(resourcesDir).toPath().resolve(it) },
+            config.sourceDirs.map { File(resourcesDir).toPath().resolve(it) },
             actualOutputDir,
-            emptyList()
+            config.additionalRunnerArgs()
         ) { inputStream ->
-            if (config?.showRunnerLogs ?: showRunnerLogs) {
+            if (config.showRunnerLogs) {
                 IOStreamUtils.InputStreamPrinter(inputStream, null) as Runnable
             } else {
                 IOStreamUtils.InputStreamIgnorer(inputStream) as Runnable

@@ -20,9 +20,7 @@ import com.eden.orchid.wiki.pages.WikiPage
 import com.eden.orchid.wiki.pages.WikiSummaryPage
 import javax.inject.Inject
 
-@Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.defaultConfig")
-)
+@Archetypes(Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.defaultConfig"))
 class WikiSection
 @Inject
 constructor() : OptionsHolder {
@@ -33,7 +31,8 @@ constructor() : OptionsHolder {
     @Option
     lateinit var title: String
 
-    @Option @BooleanDefault(false)
+    @Option
+    @BooleanDefault(false)
     var createPdf: Boolean = false
 
     @Option
