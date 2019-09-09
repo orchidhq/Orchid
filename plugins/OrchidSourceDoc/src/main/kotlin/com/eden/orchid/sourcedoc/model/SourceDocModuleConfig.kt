@@ -5,7 +5,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 
-class SourceDocModuleConfig : OptionsHolder {
+abstract class SourceDocModuleConfig : OptionsHolder {
 
     @Option
     @Description("The source directories to document.")
@@ -23,5 +23,11 @@ class SourceDocModuleConfig : OptionsHolder {
     @Option
     @BooleanDefault(false)
     var showRunnerLogs: Boolean = false
+
+    @Option
+    @Description("Arbitrary command line arguments to pass through directly to Dokka.")
+    lateinit var args: List<String>
+
+    open fun additionalRunnerArgs() : List<String> = args
 
 }
