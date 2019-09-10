@@ -1,0 +1,21 @@
+name: Docs
+
+on:
+  schedule:
+    - cron: '0 2 * * 0-6'
+  branches:
+    - docs
+
+
+jobs:
+  test:
+    name: Generate Docs
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: '1.8'
+    - name: Build with Gradle
+      run: ./gradlew assemble orchidBuild -Penv=prod -Prelease --dry-run
