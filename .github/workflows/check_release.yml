@@ -1,0 +1,26 @@
+name: Check Release
+
+on:
+  pull_request:
+    branches:
+    - master
+
+
+
+jobs:
+  test:
+    name: Check ${{ matrix.os }} JDK ${{ matrix.jdk_version }} For Release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        jdk_version: ['1.8', '9', '11']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.jdk_version }}
+    - name: Build with Gradle
+      run: ./gradlew build -Prelease -Penv=prod --dry-run
