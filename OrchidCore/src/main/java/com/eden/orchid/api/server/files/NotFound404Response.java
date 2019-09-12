@@ -55,8 +55,6 @@ public final class NotFound404Response {
                     "404",
                     "Not Found!"
             );
-            page.addJs("assets/js/shadowComponents.js");
-            assetHolder.addCss("assets/css/directoryListing.css");
         }
 
         InputStream is = context.getRenderedTemplate(page);

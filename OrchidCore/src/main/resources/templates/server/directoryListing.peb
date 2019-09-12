@@ -1,111 +1,26 @@
+<p>List of files/dirs under <code>{{ page.path }}</code></p>
 
-<div data-shadowed="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css;/assets/css/directoryListing.css">
-    <div class="directoryListing">
-        <div class="container">
-            <div class="row">
-                <div class="column">
-                    <div class="top-spacer"></div>
-                    <h1>Server Index</h1>
-                    <p>List of files/dirs under <code>{{ page.path }}</code></p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <blockquote>
-                        <h3>Directories</h3>
-
-                        {% if page.dirs is not empty %}
-                            <table class="dirs">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>File</th>
-                                    <th>Size</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th></th>
-                                    <th>File</th>
-                                    <th>Size</th>
-                                    <th>Date</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-
-                                {% for file in page.dirs %}
-                                    <tr onclick="window.location='{{ file.url }}';">
-                                        <td class="fileTypeIcon"><img src="{{ file.icon.link }}" alt="file icon"></td>
-                                        <td>
-                                            {% if loop.first %}
-                                                <a href="{{ file.url }}">{{ file.name }}</a>
-                                                <br>
-                                                Go up
-                                            {% else %}
-                                                <a href="{{ file.url }}">{{ file.name }}</a>
-                                                <br>
-                                                {{ file.path }}
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ file.size }}</td>
-                                        <td>{{ file.date }}</td>
-                                    </tr>
-                                {% endfor %}
-
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <p>No inner directories</p>
-                        {% endif %}
-                    </blockquote>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <blockquote>
-                        <h3>Files</h3>
-                        {% if page.files is not empty %}
-                            <table class="files">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>File</th>
-                                    <th>Size</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th></th>
-                                    <th>File</th>
-                                    <th>Size</th>
-                                    <th>Date</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-
-                                {% for file in page.files %}
-                                    <tr onclick="window.location='{{ file.url }}';">
-                                        <td class="fileTypeIcon"><img src="{{ file.icon.link }}" alt="file icon"></td>
-                                        <td><a href="{{ file.url }}">{{ file.name }}</a></td>
-                                        <td>{{ file.size }}</td>
-                                        <td>{{ file.date }}</td>
-                                    </tr>
-                                {% endfor %}
-
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <p>No inner files</p>
-                        {% endif %}
-                    </blockquote>
-                </div>
-            </div>
-        </div>
-        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="https://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="https://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="https://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-    </div>
-</div>
+<table>
+  <thead>
+  <tr>
+    <th></th>
+    <th>File</th>
+    <th>Size</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for file in (page.dirs + page.files) %}
+  <tr onclick="window.location='{{ file.url }}';">
+    <td class="fileTypeIcon"><img src="{{ file.icon.link }}" alt="file icon"></td>
+    <td>
+      <a href="{{ file.url }}"><b>{{ file.name }}</b></a>
+      <br>
+      <a href="{{ file.url }}">{{ file.path }}</a>
+    </td>
+    <td>{{ file.size }}</td>
+    <td>{{ file.date }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
