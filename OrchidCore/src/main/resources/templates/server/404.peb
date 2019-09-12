@@ -1,46 +1,9 @@
-<div data-shadowed="https://cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css;/assets/css/directoryListing.css">
-    <div class="directoryListing">
-        <div class="container">
-            <div class="row">
-                <div class="column">
-                    <div class="top-spacer"></div>
-                </div>
-            </div>
+<h2>404 - Page Not Found</h2>
+<p>Cannot find <code>{{ page.path }}</code></p>
 
-            <div class="row">
-                <div class="column">
-                    <div class="fof">
-                        <blockquote>
-                            <div class="inner">
-                                <div class="hgroup">
-                                    <h1>
-                                        <span><strong>4</strong></span>
-                                        <span><strong>0</strong></span>
-                                        <span><strong>4</strong></span>
-                                    </h1>
-                                    <br>
-                                    <h2>Error! <span>Page Not Found</span></h2>
-                                </div>
-                                <p>Cannot find <code>{{ page.path }}</code></p>
-
-                                <div class="row">
-                                    <div class="column column-50">
-                                        <a href="javascript:history.go(-1)">
-                                            <button class="button button-block button-outline">Go Back</button>
-                                        </a>
-                                    </div>
-                                    <div class="column column-50">
-                                        <a href="/">
-                                            <button class="button button-block button-outline">Go Home</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="https://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="https://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-    </div>
-</div>
+<a href="javascript:history.go(-1)">
+  <button class="button btn">Go Back</button>
+</a>
+<a href="{{ site.baseUrl }}">
+  <button class="button btn">Go Home</button>
+</a>

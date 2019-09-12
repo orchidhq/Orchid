@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 public final class IndexFileResponse {
 
+    // TODO: convert this to a component
     public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
         String content = "";
@@ -37,36 +39,36 @@ public final class IndexFileResponse {
             File[] files = targetFile.listFiles();
 
             if (files != null) {
-                List<Map<String, Object>> jsonDirs = new ArrayList<>();
-                List<Map<String, Object>> jsonFiles = new ArrayList<>();
+                List<FileRow> jsonDirs = new ArrayList<>();
+                List<FileRow> jsonFiles = new ArrayList<>();
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd-hh:mm:ss z", Locale.getDefault());
 
-                Map<String, Object> parentFolder = new HashMap<>();
-                parentFolder.put("url", OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/")) + "/..");
-                parentFolder.put("path", StringUtils.strip(targetPath, "/") + "/..");
-                parentFolder.put("name", "..");
-                parentFolder.put("size", "");
-                parentFolder.put("date", "");
-                parentFolder.put("icon", assetHolder.addAsset("assets/svg/folder.svg"));
-                jsonDirs.add(parentFolder);
+                jsonDirs.add(new FileRow(
+                        OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/")) + "/..",
+                        StringUtils.strip(targetPath, "/") + "/..",
+                        ".. (Go up)",
+                        "",
+                        "",
+                        assetHolder.addAsset("assets/svg/folder.svg")
+                ));
 
                 for (File file : files) {
-                    Map<String, Object> newFile = new HashMap<>();
-                    newFile.put("url", OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/") + "/" + file.getName()));
-                    newFile.put("path", StringUtils.strip(targetPath, "/") + "/" + file.getName());
-                    newFile.put("name", file.getName());
-                    newFile.put("date", formatter.format(new Date(file.lastModified())));
+                    FileRow newFile = new FileRow();
+                    newFile.url = OrchidUtils.applyBaseUrl(context, StringUtils.strip(targetPath, "/") + "/" + file.getName());
+                    newFile.path = StringUtils.strip(targetPath, "/") + "/" + file.getName();
+                    newFile.name = file.getName();
+                    newFile.date = formatter.format(new Date(file.lastModified()));
                     String icon;
 
                     if (file.isDirectory()) {
                         icon = "folder";
-                        newFile.put("size", file.listFiles().length + " entries");
+                        newFile.size = file.listFiles().length + " entries";
                         jsonDirs.add(newFile);
                     }
                     else {
                         icon = FilenameUtils.getExtension(file.getName());
-                        newFile.put("size", humanReadableByteCount(file.length(), true));
+                        newFile.size = humanReadableByteCount(file.length(), true);
                         jsonFiles.add(newFile);
                     }
 
@@ -77,8 +79,11 @@ public final class IndexFileResponse {
                     if(iconPage == null) {
                         iconPage = assetHolder.addAsset("assets/svg/file.svg");
                     }
-                    newFile.put("icon", iconPage);
+                    newFile.icon = iconPage;
                 }
+
+                jsonDirs.sort(Comparator.comparing(fileRow -> fileRow.name));
+                jsonFiles.sort(Comparator.comparing(fileRow -> fileRow.name));
 
                 OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb");
 
@@ -105,8 +110,6 @@ public final class IndexFileResponse {
                         "directoryListing",
                         "Index"
                 );
-                page.addJs("assets/js/shadowComponents.js");
-                assetHolder.addCss("assets/css/directoryListing.css");
 
                 InputStream is = context.getRenderedTemplate(page);
                 try {
@@ -127,5 +130,27 @@ public final class IndexFileResponse {
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
         return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
+
+
+    private static class FileRow {
+        public String url;
+        public String path;
+        public String name;
+        public String size;
+        public String date;
+        public AssetPage icon;
+
+        public FileRow() {
+        }
+
+        public FileRow(String url, String path, String name, String size, String date, AssetPage icon) {
+            this.url = url;
+            this.path = path;
+            this.name = name;
+            this.size = size;
+            this.date = date;
+            this.icon = icon;
+        }
     }
 }
