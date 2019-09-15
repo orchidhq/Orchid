@@ -8,6 +8,8 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.impl.relations.AssetRelation
+import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
 
 @Description("A Bulma-based, any-purpose theme.", name="Copper")
@@ -51,6 +53,19 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Description("The whether to add a shadow to the sidebar.")
     var sidebarShadow: Boolean = true
 
+    @Option
+    lateinit var navbarPrimaryButtonTitle: String
+    @Option
+    lateinit var navbarPrimaryButton: PageRelation
+
+    @Option
+    lateinit var navbarSecondaryButtonTitle: String
+    @Option
+    lateinit var navbarSecondaryButton: PageRelation
+
+    @Option @StringDefault("")
+    lateinit var navbarLogo: AssetRelation
+
     override fun loadAssets() {
         addCss("assets/css/bulma.scss")
         addCss("assets/css/extraCss.scss")
@@ -58,6 +73,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
         addCss("assets/css/bulma-accordion.min.css")
 
         addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js").apply { isDefer = true }
+        addJs("assets/js/bulma.js")
         addJs("assets/js/bulma-accordion.min.js")
         addJs("assets/js/bulma-tabs.js")
     }
