@@ -11,7 +11,7 @@ buildscript {
         classpath(Libs.task_tree)
         classpath(Libs.gradle_bintray_plugin)
         classpath(Libs.gradle_git)
-        classpath(Libs.buildsrcversions)
+        classpath(Libs.plugin)
         classpath(Libs.kotlin_gradle_plugin)
     }
 }
@@ -53,6 +53,11 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "https://dl.bintray.com/javaeden/Eden" }
     }
+}
+
+buildSrcVersions {
+    versionsOnlyMode = null
+    versionsOnlyFile = null
 }
 
 // Deploy
