@@ -11,12 +11,13 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.opentest4j.AssertionFailedError
 import strikt.api.Assertion
-import strikt.api.catching
+import strikt.api.expectCatching
 import strikt.api.expectThat
+import strikt.assertions.failed
+import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
-import strikt.assertions.isNull
-import strikt.assertions.throws
+import strikt.assertions.succeeded
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -43,7 +44,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
     @Test
     @DisplayName("something did render, the `somethingRendered` assertion should not throw")
     fun test01() {
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -53,9 +54,9 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     null
                 )
             ).somethingRendered()
-        }).isNull()
+        }.succeeded()
 
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -65,7 +66,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     null
                 )
             ).somethingRendered()
-        }).throws<AssertionFailedError>()
+        }.failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -75,7 +76,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -85,7 +86,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     null
                 )
             ).somethingRendered()
-        }).throws<AssertionFailedError>()
+        }.failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -95,7 +96,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -105,7 +106,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     RuntimeException()
                 )
             ).somethingRendered()
-        }).throws<AssertionFailedError>()
+        }.failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -119,7 +120,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
     @Test
     @DisplayName("something did render, the `nothingRendered` assertion should not throw")
     fun test02() {
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -129,7 +130,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     null
                 )
             ).nothingRendered()
-        }).throws<AssertionFailedError>()
+        }.failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -139,7 +140,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -149,9 +150,9 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     null
                 )
             ).nothingRendered()
-        }).isNull()
+        }.succeeded()
 
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -161,7 +162,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     null
                 )
             ).nothingRendered()
-        }).throws<AssertionFailedError>()
+        }.failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -171,7 +172,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching {
+        expectCatching {
             expectThat(
                 TestResults(
                     context,
@@ -181,7 +182,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                     RuntimeException()
                 )
             ).nothingRendered()
-        }).throws<AssertionFailedError>()
+        }.failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -207,10 +208,10 @@ class TestResultsAssertionTests : OrchidUnitTest {
             null
         )
 
-        expectThat(catching { expectThat(underTest).pagesGenerated(3) }).isNull()
+        expectCatching { expectThat(underTest).pagesGenerated(3) }.succeeded()
 
-        expectThat(catching { expectThat(underTest).pagesGenerated(2) })
-            .throws<AssertionFailedError>()
+        expectCatching { expectThat(underTest).pagesGenerated(2) }
+            .failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -236,8 +237,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             null
         )
 
-        expectThat(catching { expectThat(underTest).nothingElseRendered() })
-            .throws<AssertionFailedError>()
+        expectCatching { expectThat(underTest).nothingElseRendered() }
+            .failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -251,9 +252,9 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching { expectThat(underTest).pageWasRendered("/index.html") }).isNull()
-        expectThat(catching { expectThat(underTest).nothingElseRendered() })
-            .throws<AssertionFailedError>()
+        expectCatching { expectThat(underTest).pageWasRendered("/index.html") }.succeeded()
+        expectCatching { expectThat(underTest).nothingElseRendered() }
+            .failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -266,9 +267,9 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching { expectThat(underTest).pageWasRendered("/one/index.html") }).isNull()
-        expectThat(catching { expectThat(underTest).nothingElseRendered() })
-            .throws<AssertionFailedError>()
+        expectCatching { expectThat(underTest).pageWasRendered("/one/index.html") }.succeeded()
+        expectCatching { expectThat(underTest).nothingElseRendered() }
+            .failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -280,8 +281,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 """.trimMargin()
             )
 
-        expectThat(catching { expectThat(underTest).pageWasRendered("/two/index.html") }).isNull()
-        expectThat(catching { expectThat(underTest).nothingElseRendered() }).isNull()
+        expectCatching { expectThat(underTest).pageWasRendered("/two/index.html") }.succeeded()
+        expectCatching { expectThat(underTest).nothingElseRendered() }.succeeded()
     }
 
     @Test
@@ -297,9 +298,9 @@ class TestResultsAssertionTests : OrchidUnitTest {
             null
         )
 
-        expectThat(catching { expectThat(underTest).pageWasRendered("/index.html") }).isNull()
-        expectThat(catching { expectThat(underTest).pageWasRendered("/one/index.html") })
-            .throws<AssertionFailedError>()
+        expectCatching { expectThat(underTest).pageWasRendered("/index.html") }.succeeded()
+        expectCatching { expectThat(underTest).pageWasRendered("/one/index.html") }
+            .failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -326,8 +327,8 @@ class TestResultsAssertionTests : OrchidUnitTest {
             null
         )
 
-        expectThat(catching { expectThat(underTest).pageWasNotRendered("/index.html") })
-            .throws<AssertionFailedError>()
+        expectCatching { expectThat(underTest).pageWasNotRendered("/index.html") }
+            .failed().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -336,7 +337,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
                 |  ✗ page was not rendered at /index.html : page was rendered
                 """.trimMargin()
             )
-        expectThat(catching { expectThat(underTest).pageWasNotRendered("/one/index.html") }).isNull()
+        expectCatching { expectThat(underTest).pageWasNotRendered("/one/index.html") }.succeeded()
     }
 
     @Test
@@ -347,8 +348,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
         System.setOut(PrintStream(outContent))
 
-
-        // call printResutls method with a successful render
+        // call printResults method with a successful render
         expectThat(
             TestResults(
                 context,
@@ -384,7 +384,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
 
         System.setOut(PrintStream(outContent))
 
-        // call printResutls method with a successful render
+        // call printResults method with a successful render
         expectThat(
             TestResults(
                 null,
