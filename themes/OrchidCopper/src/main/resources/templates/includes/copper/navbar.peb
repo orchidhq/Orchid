@@ -1,8 +1,20 @@
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+{% set defaultNavbarClasses = '' %}
+
+{% if theme.sidebarBackgroundType.name == 'IMAGE' %}
+    {% set defaultNavbarClasses = 'is-primary' %}
+{% elseif theme.sidebarBackgroundType.name == 'GRADIENT' %}
+    {% set defaultNavbarClasses = 'is-'~theme.sidebarBackground %}
+{% elseif theme.sidebarBackgroundType.name == 'SOLID' %}
+    {% set defaultNavbarClasses = 'is-'~theme.sidebarBackground %}
+{% else %}
+    {% set defaultNavbarClasses = 'is-primary'%}
+{% endif %}
+
+<nav class="navbar is-fixed-top {{ navbarClasses|default(defaultNavbarClasses) }}" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      <a class="navbar-item" href="{{ site.baseUrl }}">
+        <img src="{{ ( navbarLogo|default(theme.navbarLogo) ) | asset }}" width="112" height="28">
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
