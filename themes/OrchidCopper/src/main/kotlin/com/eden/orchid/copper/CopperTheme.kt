@@ -8,7 +8,6 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
-import com.eden.orchid.impl.relations.AssetRelation
 import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
 
@@ -63,8 +62,8 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Option
     lateinit var navbarSecondaryButton: PageRelation
 
-    @Option @StringDefault("")
-    lateinit var navbarLogo: AssetRelation
+    @Option @StringDefault("assets/svg/orchid/logo_left_dark.svg")
+    lateinit var navbarLogo: String
 
     override fun loadAssets() {
         addCss("assets/css/bulma.scss")

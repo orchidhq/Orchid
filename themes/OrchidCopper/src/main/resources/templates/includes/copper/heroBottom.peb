@@ -1,14 +1,14 @@
-<!-- Hero footer: will stick at the bottom -->
-<div class="hero-foot">
-  <nav class="tabs is-boxed is-centered">
-    <div class="container">
-      <ul>
-      {% for menuItem in theme.menu.getMenuItems(page) %}
-        <li class="{{ menuItem.activeClass(page, 'is-active') }}">
-          <a href="{{ menuItem.link }}">{{ menuItem.title }}</a>
-        </li>
-      {% endfor %}
-      </ul>
-    </div>
-  </nav>
-</div>
+{#<!-- Hero footer: will stick at the bottom -->#}
+{#<div class="hero-foot">#}
+{#  <nav class="tabs is-boxed is-centered">#}
+{#    <div class="container">#}
+{#      <ul>#}
+{#      {% for menuItem in theme.menu.getMenuItems(page) %}#}
+{#        <li class="{{ menuItem.activeClass(page, 'is-active') }}">#}
+{#          <a href="{{ menuItem.link }}">{{ menuItem.title }}</a>#}
+{#        </li>#}
+{#      {% endfor %}#}
+{#      </ul>#}
+{#    </div>#}
+{#  </nav>#}
+{#</div>#}

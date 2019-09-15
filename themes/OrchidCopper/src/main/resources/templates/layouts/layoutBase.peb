@@ -6,8 +6,9 @@
 {% styles %}
 {% include '?trackingHeadEnd' %}
 </head>
-<body>
+<body class="has-navbar-fixed-top">
 {% include '?trackingBodyStart' %}
+{% include 'includes/copper/navbar' with {'menu': theme.menu} %}
 <div class="columns is-marginless">
   {% block hero %}
     <div class="column is-one-third is-paddingless column-main-left is-hidden-mobile">
