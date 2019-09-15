@@ -6,12 +6,13 @@ import kotlinx.html.p
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.Assertion
-import strikt.api.catching
+import strikt.api.expectCatching
 import strikt.api.expectThat
+import strikt.assertions.failed
+import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
-import strikt.assertions.isNull
-import strikt.assertions.throws
+import strikt.assertions.succeeded
 
 class StriktHtmlTest : OrchidUnitTest {
 
@@ -46,7 +47,7 @@ class StriktHtmlTest : OrchidUnitTest {
             </div>
         """.trimIndent()
 
-        expectThat(catching {
+        expectCatching {
             expectThat(html)
                 .asHtml()
                 .select(".c1 .c2 p") {
@@ -55,9 +56,9 @@ class StriktHtmlTest : OrchidUnitTest {
                             isEqualTo("value")
                         }
                 }
-        }).isNull()
+        }.succeeded()
 
-        expectThat(catching {
+        expectCatching {
             expectThat(html)
                 .asHtml()
                 .select(".c1 .c2 p") {
@@ -66,7 +67,7 @@ class StriktHtmlTest : OrchidUnitTest {
                             isEqualTo("other value")
                         }
                 }
-        }).throws<AssertionError>()
+        }.failed().isA<AssertionError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
