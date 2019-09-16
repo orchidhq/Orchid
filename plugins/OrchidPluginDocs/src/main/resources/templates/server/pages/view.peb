@@ -1,1 +1,1 @@
-<img src="/assets/img/orchid.png" alt="Orchid Logo">
+<img src="{{ 'assets/svg/orchid/logo_top_light.svg'|asset }}" alt="Orchid Logo">
