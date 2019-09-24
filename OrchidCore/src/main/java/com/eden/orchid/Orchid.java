@@ -57,10 +57,18 @@ public final class Orchid {
 //----------------------------------------------------------------------------------------------------------------------
 
     public static void main(String[] args) {
-        boolean success = Orchid.getInstance().start(
+        boolean success = internalMain(args);
+        System.exit((success) ? 0 : 1);
+    }
+
+    /**
+     * This main method should be called if the java process should not terminate
+     * afterwards
+     */
+    public static boolean internalMain(String[] args) {
+        return Orchid.getInstance().start(
                 StandardModule.builder().args(args).build()
         );
-        System.exit((success) ? 0 : 1);
     }
 
     public boolean start(Module... modules) {
