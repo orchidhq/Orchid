@@ -7,6 +7,7 @@ import com.eden.orchid.testhelpers.innerHtml
 import com.eden.orchid.testhelpers.matches
 import com.eden.orchid.testhelpers.pageWasRendered
 import com.eden.orchid.testhelpers.select
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
@@ -14,6 +15,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Bible verse functions")
+@Disabled
 class BibleTest : OrchidIntegrationTest(TestGeneratorModule()) {
 
     @Test
