@@ -11,6 +11,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
@@ -39,11 +40,15 @@ public class FileWatcher {
             watcher = FileSystems.getDefault().newWatchService();
             keys = new HashMap<>();
             registerAll(root);
-            processEvents();
+        }
+        catch (NoSuchFileException e) {
+            // ignore
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        processEvents();
     }
 
     private void register(Path dir) throws IOException {
@@ -72,8 +77,7 @@ public class FileWatcher {
             WatchKey key;
             try {
                 key = watcher.take();
-            }
-            catch (InterruptedException x) {
+            } catch (InterruptedException x) {
                 return;
             }
 
@@ -101,8 +105,7 @@ public class FileWatcher {
                         if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
                             registerAll(child);
                         }
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }

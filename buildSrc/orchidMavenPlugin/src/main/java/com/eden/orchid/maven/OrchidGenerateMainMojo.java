@@ -128,7 +128,7 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         try {
             Class<?> orchid = Thread.currentThread().getContextClassLoader().loadClass(ORCHID_CLASS);
-            Method main = orchid.getMethod("main", String[].class);
+            Method main = orchid.getMethod("internalMain", String[].class);
 
             String[] args = getOrchidProjectArgs();
 
