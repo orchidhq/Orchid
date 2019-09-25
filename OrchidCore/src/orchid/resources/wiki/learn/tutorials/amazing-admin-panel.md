@@ -7,7 +7,7 @@ extraCss:
             text-align: center; 
             img {
                 max-width:480px;
-            }    
+            }
         }
 ---
 
@@ -181,6 +181,6 @@ discover features that might otherwise be missed.
 ## Conclusion
 
 There is a lot more than you can do with the admin panel, and different plugin may also include their own unique 
-features, but collection inspection and plugin discovery/documentation are definitely the among the best features of Orchid's admin
-panel. I would encourage you to poke around some of the other plugin objects and get comfortable navigating the admin 
-panel, because it will be an indispensable tool as you build out your site!
+features, but collection inspection and plugin discovery/documentation are definitely the among the best features of 
+Orchid's admin panel. I would encourage you to poke around some of the other plugin objects and get comfortable 
+navigating the admin panel, because it will be an indispensable tool as you build out your site!

@@ -63,13 +63,13 @@ and one in Austin. Each location should have its own page which lists its name, 
 hours. You want these pages to be in your website at `/locations/{locationName}`, and also to have an "index" page 
 showing all locations so each one can be easily located. So you want your site to have the following pages:
 
-- `/`
-- `/locations`
-- `/locations/houston`
-- `/locations/dallas`
-- `/locations/austin`
+- `/` - Site homepage
+- `/locations` - Index of all locations
+- `/locations/houston` - Houston location landing page
+- `/locations/dallas` - Dallas location landing page
+- `/locations/austin` - Austin location landing page
 
-Let's see how we can use the Static Pages plugin to make this site.
+Let's see how we can use the Static Pages plugin to create this site.
 
 ## Adding Location Pages
 
@@ -143,7 +143,7 @@ Your Orchid site is starting to look pretty good, but lets review what we did:
 
 1. Orchid keeps most of its files in `src/orchid/resources/`. One special file in that folder, `homepage.md` can be 
     added so that Orchid can build its front page with it. 
-2. You can add any files you want to `src/orchid/resources/pages`, and Orchid will copy them over to your final site in 
+2. You can add any files you want to `src/orchid/resources/pages/`, and Orchid will copy them over to your final site in 
     that same structure. You can also name special files here `index`, and they will be kept at the index of that folder 
     in the final site rather than in a sub-directory named index, which can be used to create special landing pages. 
 3. The homepage and all static pages are processed based on their file extension. Use the `.md` extension to process the

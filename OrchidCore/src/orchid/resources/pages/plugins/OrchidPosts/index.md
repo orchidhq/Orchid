@@ -12,7 +12,11 @@ tags:
 
 ## About
 
-Add Jekyll-like blogging functionality to your Orchid site, with dated blog posts and RSS/Atom feeds. 
+Add Jekyll-like blogging functionality to your Orchid site, with dated blog posts and RSS/Atom feeds.
+
+This plugin only creates the blog posts themselves. To generate archives for your blog posts' tags and categories, 
+check out the {{ anchor('Orchid Taxonomies') }} plugin, and refer to the [OrchidStarter repo](https://github.com/JavaEden/OrchidStarter/blob/master/src/orchid/resources/config/taxonomies.yml)
+for basic taxonomies setup.
 
 ## Demo
 
