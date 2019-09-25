@@ -6,7 +6,6 @@ import com.eden.orchid.strikt.innerHtmlMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import org.junit.jupiter.api.Disabled
 import com.eden.orchid.testhelpers.withGenerator
 import kotlinx.html.id
 import kotlinx.html.p
