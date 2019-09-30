@@ -23,7 +23,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
 
     @Override
     public void applyPermalink(OrchidPage page, String permalink) {
-        String[] pieces = permalink.split("/");
+        String[] pieces = OrchidUtils.normalizePath(permalink).split("/");
 
         StringBuffer resultingUrl = new StringBuffer();
         StringBuffer title = new StringBuffer();
@@ -31,7 +31,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
         applyPermalinkTemplate(resultingUrl, page, Arrays.copyOfRange(pieces, 0, pieces.length - 1));
         applyPermalinkTemplatePiece(title, page, pieces[pieces.length - 1]);
 
-        page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl.toString()));
+        page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl.toString()).replaceAll("//", "/"));
         page.getReference().setFileName(title.toString());
         page.getReference().setUsePrettyUrl(true);
     }
