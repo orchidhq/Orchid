@@ -74,8 +74,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                         add(PageCollection(self, "${module.name}-${node.prop.name}", nodePages))
                     }
                 }
-            }
-            else {
+            } else {
                 val module = model.modules.single()
                 // create a collection containing all pages from a module, excluding the homepage (doc pages only)
                 add(PageCollection(self, key, module.nodes.values.flatten()))
@@ -100,11 +99,10 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         val invokerModel: T?
         val modelPageMap: Map<AutoDocumentNode, List<SourceDocPage<*>>>
-        if(config.homePageOnly) {
+        if (config.homePageOnly) {
             invokerModel = null
             modelPageMap = emptyMap()
-        }
-        else {
+        } else {
             invokerModel = loadFromCacheOrRun(config)
             modelPageMap = invokerModel?.let {
                 it.nodes.map { node ->
@@ -118,6 +116,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                             nodeName,
                             element.name,
                             key,
+                            config.moduleGroup,
                             config.name
                         ).also { permalinkStrategy.applyPermalink(it, config.sourcePagePermalink) }
                     }
@@ -164,7 +163,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         readmeFile.reference.outputExtension = "html"
 
-        return SourceDocModuleHomePage(readmeFile, key, moduleTitle, key, moduleName)
+        return SourceDocModuleHomePage(readmeFile, key, moduleTitle, key, config.moduleGroup, moduleName)
             .also { permalinkStrategy.applyPermalink(it, config.homePagePermalink) }
     }
 

@@ -4,19 +4,26 @@ import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 
 abstract class SourceDocModuleConfig : OptionsHolder {
 
     @Option
-    @Description("The source directories to document.")
+    @Description("The unique name of this module.")
     lateinit var name: String
 
     @Option
-    @Description(":moduleType/:module")
+    @Description("An optional name to group sets of modules by.")
+    lateinit var moduleGroup: String
+
+    @Option
+    @StringDefault(":moduleType/:moduleGroup/:module")
+    @Description("Configure the permalink applied to this module's homepage.")
     lateinit var homePagePermalink: String
 
     @Option
-    @Description(":moduleType/:module/:sourceDocPath")
+    @StringDefault(":moduleType/:moduleGroup/:module/:sourceDocPath")
+    @Description("Configure the permalink applied to this module's source docs pages.")
     lateinit var sourcePagePermalink: String
 
     @Option
