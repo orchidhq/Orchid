@@ -1,0 +1,2 @@
+{# @pebvariable name="page" type="com.eden.orchid.taxonomies.pages.CollectionArchivePage" #}
+{% include 'includes/basicTermArchive' with {'pages': page.pageList} %}

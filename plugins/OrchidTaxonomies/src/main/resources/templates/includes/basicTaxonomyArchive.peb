@@ -1,8 +1,7 @@
 {# @pebvariable name="taxonomy" type="com.eden.orchid.taxonomies.models.Taxonomy" #}
+<ul>
 {% for term in taxonomy.allTerms %}
-    {# @pebvariable name="term" type="com.eden.orchid.taxonomies.models.Term" #}
-    <ul>
-        <li><a href="{{term.link}}">{{term.title}} ({{ term.pages.size }})</a>
-        </li>
-    </ul>
+{# @pebvariable name="term" type="com.eden.orchid.taxonomies.models.Term" #}
+  <li><a href="{{term.link}}">{{term.title}} ({{ term.pages.size }})</a></li>
 {% endfor %}
+</ul>

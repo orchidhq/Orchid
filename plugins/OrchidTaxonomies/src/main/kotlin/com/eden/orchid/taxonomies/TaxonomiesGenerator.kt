@@ -1,6 +1,5 @@
 package com.eden.orchid.taxonomies
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -11,12 +10,15 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
+import com.eden.orchid.taxonomies.collections.CollectionArchiveLandingPagesCollection
 import com.eden.orchid.taxonomies.collections.TaxonomyLandingPagesCollection
 import com.eden.orchid.taxonomies.collections.TaxonomyTermItemsCollection
 import com.eden.orchid.taxonomies.collections.TaxonomyTermsLandingPagesCollection
+import com.eden.orchid.taxonomies.models.CollectionArchive
 import com.eden.orchid.taxonomies.models.TaxonomiesModel
 import com.eden.orchid.taxonomies.models.Taxonomy
 import com.eden.orchid.taxonomies.models.Term
+import com.eden.orchid.taxonomies.pages.CollectionArchivePage
 import com.eden.orchid.taxonomies.pages.TaxonomyArchivePage
 import com.eden.orchid.taxonomies.pages.TermArchivePage
 import com.eden.orchid.taxonomies.utils.getSingleTermValue
@@ -39,10 +41,14 @@ constructor(
     @Description("An array of Taxonomy configurations.")
     lateinit var taxonomies: List<Taxonomy>
 
+    @Option
+    @Description("An array of CollectionArchive configurations.")
+    lateinit var collectionArchives: List<CollectionArchive>
+
     override fun startIndexing(context: OrchidContext): TaxonomiesModel {
         val model = TaxonomiesModel(context)
 
-        if (!EdenUtils.isEmpty(taxonomies)) {
+        if (taxonomies.isNotEmpty()) {
             taxonomies.forEach outerLoop@{ taxonomy ->
                 model.putTaxonomy(taxonomy)
                 val enabledGeneratorKeys = context.getGeneratorKeys(taxonomy.includeFrom, taxonomy.excludeFrom)
@@ -74,6 +80,12 @@ constructor(
             }
         }
 
+        if(collectionArchives.isNotEmpty()) {
+            collectionArchives.forEach outerLoop@{ collectionArchive ->
+                model.putCollectionArchive(collectionArchive)
+            }
+        }
+
         model.onIndexingTermsFinished()
 
         model.allPages = buildAllTaxonomiesPages(context, model)
@@ -88,8 +100,9 @@ constructor(
     override fun getCollections(context: OrchidContext, model: TaxonomiesModel): List<OrchidCollection<*>>? {
         val collections = ArrayList<OrchidCollection<*>>()
 
-        // a collection containing landing pages for each Taxonomy
+        // a collection containing landing pages for each Taxonomy and collection archive
         collections.add(TaxonomyLandingPagesCollection(this, model))
+        collections.add(CollectionArchiveLandingPagesCollection(this, model))
 
         model.taxonomies.values.forEach { taxonomy ->
             // a collection containing landing pages for each Taxonomy's terms
@@ -114,11 +127,16 @@ constructor(
         model.taxonomies.values.forEach { taxonomy ->
             buildTaxonomyLandingPages(context, model, taxonomy)
 
-
             taxonomy.allTerms.forEach { term ->
                 archivePages.addAll(buildTermArchivePages(context, model, taxonomy, term))
             }
             archivePages.addAll(taxonomy.archivePages)
+        }
+
+        model.collectionArchives.values.forEach { collectionArchive ->
+            buildCollectionArchivePages(context, model, collectionArchive).also {
+                archivePages.addAll(it)
+            }
         }
 
         return archivePages
@@ -196,6 +214,60 @@ constructor(
         }
 
         return termArchivePages
+    }
+
+    // build a set of pages that display all the items in a given term within a taxonomy
+    private fun buildCollectionArchivePages(
+        context: OrchidContext,
+        model: TaxonomiesModel,
+        collectionArchive: CollectionArchive
+    ): List<OrchidPage> {
+        val allArchivePages: List<Any?>
+
+        allArchivePages = if(collectionArchive.collectionType.isNotBlank()) {
+            context.findAll(collectionArchive.collectionType, collectionArchive.collectionId, null)
+        }
+        else if(collectionArchive.merge.isNotEmpty()) {
+            collectionArchive.merge.flatMap {
+                context.findAll(it.collectionType, it.collectionId, null)
+            }
+        }
+        else {
+            emptyList()
+        }
+
+        collectionArchive.pages = allArchivePages.filterIsInstance<OrchidPage>()
+
+        val pagesList = collectionArchive.allPages
+        val collectionArchivePages = ArrayList<OrchidPage>()
+
+        val pages = Math.ceil((pagesList.size / collectionArchive.pageSize).toDouble()).toInt()
+
+        for (i in 0..pages) {
+            val termPageList = pagesList.subList(i * collectionArchive.pageSize, Math.min((i + 1) * collectionArchive.pageSize, pagesList.size))
+            if (termPageList.isNotEmpty()) {
+                var title = collectionArchive.title
+                if (i != 0) title += " (Page ${i + 1})"
+
+                val pageRef = OrchidReference(context, "term.html")
+                pageRef.title = title
+
+                val page = CollectionArchivePage(StringResource("", pageRef), model, termPageList, collectionArchive, i + 1)
+                permalinkStrategy.applyPermalink(page, page.collectionArchive.permalink)
+                collectionArchivePages.add(page)
+            }
+        }
+
+        linkPages(collectionArchivePages.reversed())
+        collectionArchive.archivePages = collectionArchivePages
+
+        if (collectionArchive.setAsPageParent) {
+            for (page in pagesList) {
+                page.parent = collectionArchive.landingPage
+            }
+        }
+
+        return collectionArchivePages
     }
 
 // Other Utils
