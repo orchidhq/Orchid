@@ -12,6 +12,7 @@ class TaxonomiesModel(
     override lateinit var allPages: List<OrchidPage>
 
     var taxonomies = HashMap<String, Taxonomy>()
+    var collectionArchives = HashMap<Pair<String, String>, CollectionArchive>()
 
     fun onIndexingTermsFinished() {
         val keysToRemove = ArrayList<String>()
@@ -32,6 +33,10 @@ class TaxonomiesModel(
 
     fun putTaxonomy(taxonomy: Taxonomy) {
         taxonomies[taxonomy.key] = taxonomy
+    }
+
+    fun putCollectionArchive(collectionArchive: CollectionArchive) {
+        collectionArchives[collectionArchive.collectionType to collectionArchive.collectionId] = collectionArchive
     }
 
     fun addPage(taxonomy: Taxonomy, term: String, page: OrchidPage) {

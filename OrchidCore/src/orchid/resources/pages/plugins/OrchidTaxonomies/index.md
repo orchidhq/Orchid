@@ -11,9 +11,9 @@ tags:
 
 ## About
 
-Orchid supports user-defined taxonomies in inspired by [Hugo](https://gohugo.io/content-management/taxonomies/). 
-Taxonomies define logical relationships among various pages in your site, generating archives for these groups of pages 
-to bring related content into one place.
+Orchid supports generating archives from predefined Collections, and also for user-defined taxonomies inspired by 
+[Hugo](https://gohugo.io/content-management/taxonomies/). Taxonomies define logical relationships among various pages in
+your site, generating archives for these groups of pages to bring related content into one place.
 
 The data that defines these logic groupings are often an intrinsic property of the page as defined by the plugin that
 produced it, but taxonomies may also be "tagged" by hand to give you complete flexibility over your taxonomies. This 
@@ -22,8 +22,55 @@ makes it easy to create archives for pages produced by another plugin, or create
 ## Demo
 
 - Try the [starter app](https://github.com/JavaEden/OrchidStarter)
+- Run [TaxonomiesGeneratorTest](https://github.com/JavaEden/Orchid/blob/dev/plugins/OrchidTaxonomies/src/test/kotlin/com/eden/orchid/taxonomies/TaxonomiesGeneratorTest.kt) for demo
 
 ## Usage
+
+- [Predefined Collection Archives](#predefined-collection-archives)
+- [User-defined Taxonomy Archives](#understanding-taxonomies)
+
+### Predefined Collection Archives
+
+Orchid's plugins already generate models of relationships among pages with {{anchor('Collections', 'Internal Links')}}
+out-of-the-box, and it's common to simply want an archive of a all the pages in a given collection. For example, the 
+{{anchor('Orchid Posts')}} plugin creates collections for each blog post category, and {{anchor('Orchid Source Doc')}}
+creates collections for each documented module, and another collection for the READMEs for all modules. 
+
+Generating one-off archives for these collections is similar to configuring Terms, as described later in this article.
+Simply specify the `collectionType` and `collectionId` you're already familiar with, and an archive will be generated
+linking to each page in that collection. 
+
+```yaml
+taxonomies: 
+  collectionArchives:
+    - collectionType: 'posts'
+      collectionId: 'category1'
+```
+
+The `collectionId` parameter is optional. If missing, all collections from the given `collectionType` will be merged 
+into a single archive listing.
+
+```yaml
+taxonomies: 
+  collectionArchives:
+    - collectionType: 'posts'
+      collectionId: 'category1'
+```
+
+In addition, you can choose to merge many disparate collections into a single archive by listing the pairs of 
+collection parameters under the `merge` key. You must also specify a 'key' for these merged archives.
+
+```yaml
+taxonomies: 
+  collectionArchives:
+  - title: 'Archives'
+    key: 'archives'
+    merge:
+      - collectionType: 'posts'
+        collectionId: 'category1'
+      - collectionType: 'pages'
+        collectionId: 'group1'
+```
 
 ### Understanding Taxonomies
 

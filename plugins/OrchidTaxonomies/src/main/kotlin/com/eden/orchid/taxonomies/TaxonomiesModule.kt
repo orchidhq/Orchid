@@ -11,6 +11,9 @@ import com.eden.orchid.taxonomies.menus.TaxonomiesMenuType
 import com.eden.orchid.taxonomies.menus.TaxonomyMenuType
 import com.eden.orchid.taxonomies.menus.TaxonomyTermMenuType
 import com.eden.orchid.taxonomies.permalink.pathtype.ArchiveIndexPathType
+import com.eden.orchid.taxonomies.permalink.pathtype.CollectionIdPathType
+import com.eden.orchid.taxonomies.permalink.pathtype.CollectionKeyPathType
+import com.eden.orchid.taxonomies.permalink.pathtype.CollectionTypePathType
 import com.eden.orchid.taxonomies.permalink.pathtype.TaxonomyPathType
 import com.eden.orchid.taxonomies.permalink.pathtype.TermPathType
 import com.eden.orchid.utilities.addToSet
@@ -22,16 +25,22 @@ class TaxonomiesModule : OrchidModule() {
 
         addToSet<OrchidGenerator<*>, TaxonomiesGenerator>()
         addToSet<PermalinkPathType>(
-                TaxonomyPathType::class,
-                TermPathType::class,
-                ArchiveIndexPathType::class)
+            TaxonomyPathType::class,
+            TermPathType::class,
+            CollectionTypePathType::class,
+            CollectionIdPathType::class,
+            CollectionKeyPathType::class,
+            ArchiveIndexPathType::class
+        )
         addToSet<OrchidComponent>(
-                TaxonomyComponent::class,
-                TaxonomyTermComponent::class)
+            TaxonomyComponent::class,
+            TaxonomyTermComponent::class
+        )
         addToSet<OrchidMenuFactory>(
-                TaxonomiesMenuType::class,
-                TaxonomyMenuType::class,
-                TaxonomyTermMenuType::class)
+            TaxonomiesMenuType::class,
+            TaxonomyMenuType::class,
+            TaxonomyTermMenuType::class
+        )
     }
 }
 
