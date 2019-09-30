@@ -1,5 +1,6 @@
 package com.eden.orchid.sourcedoc
 
+import com.copperleaf.kodiak.common.AutoDocumentNode
 import com.copperleaf.kodiak.common.DocElement
 import com.copperleaf.kodiak.common.DocInvoker
 import com.copperleaf.kodiak.common.ModuleDoc
@@ -97,26 +98,34 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     private fun setupModule(context: OrchidContext, config: U): SourceDocModuleModel {
         extractor.extractOptions(invoker, allData)
 
-        val invokerModel: T? = loadFromCacheOrRun(config)
-        val modelPageMap = invokerModel?.let {
-            it.nodes.map { node ->
-                val nodeName: String = node.prop.name
-                val nodeElements: List<DocElement> = node.getter()
+        val invokerModel: T?
+        val modelPageMap: Map<AutoDocumentNode, List<SourceDocPage<*>>>
+        if(config.homePageOnly) {
+            invokerModel = null
+            modelPageMap = emptyMap()
+        }
+        else {
+            invokerModel = loadFromCacheOrRun(config)
+            modelPageMap = invokerModel?.let {
+                it.nodes.map { node ->
+                    val nodeName: String = node.prop.name
+                    val nodeElements: List<DocElement> = node.getter()
 
-                val nodePages = nodeElements.map { element ->
-                    SourceDocPage(
-                        SourceDocResource(context, element),
-                        element,
-                        nodeName,
-                        element.name,
-                        key,
-                        config.name
-                    ).also { permalinkStrategy.applyPermalink(it, ":moduleType/:module/:sourceDocPath") }
-                }
+                    val nodePages = nodeElements.map { element ->
+                        SourceDocPage(
+                            SourceDocResource(context, element),
+                            element,
+                            nodeName,
+                            element.name,
+                            key,
+                            config.name
+                        ).also { permalinkStrategy.applyPermalink(it, config.sourcePagePermalink) }
+                    }
 
-                node to nodePages
-            }.toMap()
-        } ?: emptyMap()
+                    node to nodePages
+                }.toMap()
+            } ?: emptyMap()
+        }
 
         return SourceDocModuleModel(
             setupModuleHomepage(context, config, config.name, config.name),
@@ -156,7 +165,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         readmeFile.reference.outputExtension = "html"
 
         return SourceDocModuleHomePage(readmeFile, key, moduleTitle, key, moduleName)
-            .also { permalinkStrategy.applyPermalink(it, ":moduleType/:module") }
+            .also { permalinkStrategy.applyPermalink(it, config.homePagePermalink) }
     }
 
 // helpers
