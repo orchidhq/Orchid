@@ -12,6 +12,14 @@ abstract class SourceDocModuleConfig : OptionsHolder {
     lateinit var name: String
 
     @Option
+    @Description(":moduleType/:module")
+    lateinit var homePagePermalink: String
+
+    @Option
+    @Description(":moduleType/:module/:sourceDocPath")
+    lateinit var sourcePagePermalink: String
+
+    @Option
     @Description("The source directories to document.")
     lateinit var sourceDirs: List<String>
 
@@ -23,6 +31,10 @@ abstract class SourceDocModuleConfig : OptionsHolder {
     @Option
     @BooleanDefault(false)
     var showRunnerLogs: Boolean = false
+
+    @Option
+    @BooleanDefault(false)
+    var homePageOnly: Boolean = false
 
     @Option
     @Description("Arbitrary command line arguments to pass through directly to Dokka.")
