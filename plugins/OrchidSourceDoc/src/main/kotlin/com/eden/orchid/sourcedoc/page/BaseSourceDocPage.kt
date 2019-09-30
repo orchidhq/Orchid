@@ -8,6 +8,7 @@ abstract class BaseSourceDocPage(
     key: String,
     title: String,
     val moduleType: String,
+    val moduleGroup: String,
     val module: String
 ) : OrchidPage(
     resource,

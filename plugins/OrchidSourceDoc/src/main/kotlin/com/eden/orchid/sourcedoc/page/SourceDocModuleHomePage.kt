@@ -7,12 +7,14 @@ class SourceDocModuleHomePage(
     key: String,
     title: String,
     moduleType: String,
+    moduleGroup: String,
     module: String
 ) : BaseSourceDocPage(
     resource,
     key,
     title,
     moduleType,
+    moduleGroup,
     module
 ) {
 

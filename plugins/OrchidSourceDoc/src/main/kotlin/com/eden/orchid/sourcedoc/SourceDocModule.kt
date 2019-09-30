@@ -6,6 +6,7 @@ import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.sourcedoc.menu.SourceDocPageLinksMenuItemType
 import com.eden.orchid.sourcedoc.menu.SourceDocPagesMenuItemType
+import com.eden.orchid.sourcedoc.permalink.pathtype.ModuleGroupPathType
 import com.eden.orchid.sourcedoc.permalink.pathtype.ModulePathType
 import com.eden.orchid.sourcedoc.permalink.pathtype.ModuleTypePathType
 import com.eden.orchid.sourcedoc.permalink.pathtype.SourceDocPathType
@@ -22,6 +23,7 @@ class SourceDocModule : OrchidModule() {
             addToSet<PermalinkPathType>(
                 ModulePathType::class,
                 ModuleTypePathType::class,
+                ModuleGroupPathType::class,
                 SourceDocPathType::class
             )
         }
