@@ -36,7 +36,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
     companion object {
         const val deprecationWarning = """
-            This Javadoc generator is being deprecated in favor of a new, more unified, 
+            This SourceDoc generator is being deprecated in favor of a new, more unified, 
             and more modular code-documentation plugin, OrchidSourceDoc. The new system 
             can be enabled now with the `--experimentalSourceDoc` CLI flag, and the legacy 
             generators will be removed in the next major version.
@@ -63,6 +63,14 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
             // create a collection containing all module landing pages
             add(PageCollection(self, "modules", model.modules.map { it.homepage }))
+
+            model
+                .modules
+                .groupBy { it.moduleGroup }
+                .filterKeys { it.isNotBlank() }
+                .forEach { (moduleGroup, modulesInGroup) ->
+                    add(PageCollection(self, "modules-$moduleGroup", modulesInGroup.map { it.homepage }))
+                }
 
             if (model.modules.size > 1) {
                 model.modules.forEach { module ->
@@ -130,6 +138,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             setupModuleHomepage(context, config, config.name, config.name),
             config.name,
             invokerModel,
+            config.moduleGroup,
             modelPageMap
         )
     }
