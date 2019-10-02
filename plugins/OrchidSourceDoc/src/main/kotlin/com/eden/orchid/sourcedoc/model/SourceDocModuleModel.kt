@@ -9,6 +9,7 @@ class SourceDocModuleModel(
     val homepage: SourceDocModuleHomePage,
     val name: String,
     val moduleDoc: ModuleDoc?,
+    val moduleGroup: String,
     val nodes: Map<AutoDocumentNode, List<SourceDocPage<*>>>
 ) {
 
