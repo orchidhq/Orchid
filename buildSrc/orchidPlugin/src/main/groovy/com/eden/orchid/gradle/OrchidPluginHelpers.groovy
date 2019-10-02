@@ -17,6 +17,7 @@ class OrchidPluginHelpers {
                 "--environment", getPropertyValue(project, 'environment', 'debug'),
                 "--dryDeploy",   getPropertyValue(project, 'dryDeploy', 'false'),
                 "--port",        getPropertyValue(project, 'port', '8080'),
+                "--diagnose",    getPropertyValue(project, 'diagnose', 'false'),
         ])
 
         def optionalFlags = ['azureToken', 'githubToken', 'gitlabToken', 'bitbucketToken', 'netlifyToken']

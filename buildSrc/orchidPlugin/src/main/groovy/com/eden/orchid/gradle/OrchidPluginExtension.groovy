@@ -12,6 +12,7 @@ class OrchidPluginExtension {
     String environment
     String dryDeploy
     int port
+    boolean diagnose
 
     // optional flags
     String azureToken
