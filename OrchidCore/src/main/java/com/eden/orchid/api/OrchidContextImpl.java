@@ -19,6 +19,7 @@ import com.eden.orchid.utilities.SuppressedWarnings;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,12 +34,29 @@ public final class OrchidContextImpl implements OrchidContext {
         System.setProperty("java.awt.headless", "true");
     }
 
+    private boolean diagnose;
     private OrchidSite site;
     private Map<Class<? extends OrchidService>, OrchidService> services;
     private Orchid.State state = Orchid.State.BOOTSTRAP;
 
     @Inject
-    public OrchidContextImpl(OrchidSite site, CompilerService compilerService, ThemeService themeService, EventService eventService, IndexService indexService, ResourceService resourceService, TaskService taskService, OptionsService optionsService, GeneratorService generatorService, RenderService renderService, PublicationService publicationService, InjectionService injectionService, Set<OrchidService> additionalServices) {
+    public OrchidContextImpl(
+            @Named("diagnose") boolean diagnose,
+            OrchidSite site,
+            CompilerService compilerService,
+            ThemeService themeService,
+            EventService eventService,
+            IndexService indexService,
+            ResourceService resourceService,
+            TaskService taskService,
+            OptionsService optionsService,
+            GeneratorService generatorService,
+            RenderService renderService,
+            PublicationService publicationService,
+            InjectionService injectionService,
+            Set<OrchidService> additionalServices
+    ) {
+        this.diagnose = diagnose;
         setState(Orchid.State.BOOTSTRAP);
         this.site = site;
         services = new HashMap<>();
@@ -122,5 +140,10 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void setState(Orchid.State state) {
         this.state = state;
+    }
+
+    @Override
+    public boolean diagnose() {
+        return diagnose;
     }
 }

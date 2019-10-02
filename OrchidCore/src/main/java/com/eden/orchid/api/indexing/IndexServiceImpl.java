@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 @Description(value = "How Orchid organizes the data it collects.", name = "Index")
 public final class IndexServiceImpl implements IndexService, OrchidEventListener {
 
+    private OrchidContext context;
     private OrchidRootIndex index;
     private List<OrchidCollection> collections;
     private final LRUCache<CollectionSearchCacheKey, Object> collectionSearchCache;
@@ -36,6 +37,7 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
 
     @Override
     public void initialize(OrchidContext context) {
+        this.context = context;
     }
 
     @Override
@@ -87,6 +89,16 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
                 return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title);
             } else {
                 return Clog.format("<a href=\"#{$1}\">#{$1}</a>", link);
+            }
+        }
+        else {
+            if(context.diagnose()) {
+                Clog.e("Error creating anchor to [" +
+                                "collectionType={}, " +
+                                "collectionId={}, " +
+                                "itemId={}" +
+                                "]: matching page not found",
+                        collectionType, collectionId, itemId);
             }
         }
 

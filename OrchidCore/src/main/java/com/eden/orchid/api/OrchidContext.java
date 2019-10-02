@@ -46,4 +46,6 @@ public interface OrchidContext extends
 
     Orchid.State getState();
     void setState(Orchid.State state);
+
+    boolean diagnose();
 }
