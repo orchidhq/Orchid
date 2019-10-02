@@ -19,9 +19,12 @@ class SourceDocModuleHomePage(
 ) {
 
     override fun getTemplates(): List<String> {
-        return listOf(
-            "${generator.key}Module",
-            "sourceDocModule"
-        )
+        return mutableListOf<String>().also {
+            if(moduleGroup.isNotBlank()) {
+                it.add("${generator.key}Module-$moduleGroup")
+            }
+            it.add("${generator.key}Module")
+            it.add("sourceDocModule")
+        }
     }
 }
