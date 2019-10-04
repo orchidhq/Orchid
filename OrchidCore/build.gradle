@@ -42,6 +42,7 @@ dependencies {
     implementation(Libs.flexmark_ext_gfm_tables)
     implementation(Libs.flexmark_ext_gfm_tasklist)
     implementation(Libs.flexmark_ext_toc)
+    implementation(Libs.flexmark_ext_anchorlink)
 
     // server
     implementation(Libs.nanohttpd)

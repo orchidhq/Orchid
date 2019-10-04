@@ -275,6 +275,17 @@ public final class OrchidUtils {
     }
 
     /**
+     * Returns true if the input filename represents an internal link to an anchor on the same page, as denoted by
+     * starting with '#'
+     *
+     * @param fileName the input to check if anchor reference
+     * @return whether the input represents an anchor reference
+     */
+    public static boolean isAnchorReference(String fileName) {
+        return fileName.startsWith("#");
+    }
+
+    /**
      * Returns the first item in a list if possible, returning null otherwise.
      *
      * @param items the list
