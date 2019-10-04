@@ -2,6 +2,7 @@ package com.eden.orchid.impl.compilers.pebble;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
@@ -19,6 +20,7 @@ import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -33,9 +35,10 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
 
     private ExecutorService executor;
     private PebbleEngine engine;
+    private Provider<OrchidContext> contextProvider;
 
     @Inject
-    public PebbleCompiler(PebbleTemplateLoader loader, Set<Extension> extensions) {
+    public PebbleCompiler(PebbleTemplateLoader loader, Set<Extension> extensions, Provider<OrchidContext> contextProvider) {
         super(10000);
 
         Extension[] extensionArray = new Extension[extensions.size()];
@@ -51,6 +54,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 .build();
 
         this.engine.getExtensionRegistry().getAttributeResolver().add(new GetMethodAttributeResolver());
+        this.contextProvider = contextProvider;
     }
 
     @Override
@@ -87,6 +91,9 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
         catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
             Clog.e(source);
+            if(contextProvider.get().diagnose()) {
+                e.printStackTrace();
+            }
         }
         return source;
     }

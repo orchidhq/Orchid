@@ -102,17 +102,6 @@ fun OrchidIntegrationTest.testPageStructure() {
             |{% endmacro %}
         """.trimMargin()
     )
-
-    resource(
-        "templates/pages/sourceDocModules.peb",
-        """
-            |<ul>
-            |{% for module in page.modules %}
-            |  <li><a href="{{ module.homepage }}">{{ module.name }}</a>
-            |{% endfor %}
-            |</li>
-        """.trimMargin()
-    )
 }
 
 fun OrchidIntegrationTest.addPageMenus() {
