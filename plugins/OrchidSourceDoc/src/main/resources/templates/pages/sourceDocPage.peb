@@ -1,0 +1,23 @@
+<div class="sourcedoc-page">
+  <h1>{{ page.title }}</h1>
+  <div class="orchid-sourcedoc">
+    {{ renderSection(page, page.rootSection) }}
+  </div>
+</div>
+
+{% macro renderSection(page, section) %}
+<div class="section section-root" data-tab-text="{{ page.sectionId(section) }}" style="--section-color: green;" id="{{ page.sectionId(section) }}">
+{% for element in section.elements %}
+  <div class="section section-element" data-tab-text="{{ element.kind }}" style="--section-color: black;" id="{{ page.elementId(element) }}">
+    <div class="section section-signature" data-tab-text="signature" style="--section-color: red;">{{ page.renderSignature(element)|raw }}</div>
+    <div class="section section-comments" data-tab-text="comments" style="--section-color: blue;">{{ page.renderComment(element)|compileAs('md') }}</div>
+    {% set childrenSections = page.getSectionsData(element) %}
+    {% if childrenSections|length > 0 %}
+      {% for childSection in childrenSections %}
+        {{ renderSection(page, childSection) }}
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endfor %}
+</div>
+{% endmacro %}

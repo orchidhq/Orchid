@@ -324,6 +324,10 @@ public class OrchidPage implements
                 .orElse(null);
     }
 
+    public final OrchidResource resolveTemplate() {
+        return resolveTemplate(context, this);
+    }
+
     public final String renderInLayout() {
         OrchidResource layoutResource = resolveLayout();
         if(layoutResource != null) {

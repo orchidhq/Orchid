@@ -1,6 +1,9 @@
 package com.eden.orchid.impl.compilers.markdown
 
 import com.eden.orchid.api.registration.OrchidModule
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension.ANCHORLINKS_WRAP_TEXT
 import com.vladsch.flexmark.ext.aside.AsideExtension
 import com.vladsch.flexmark.ext.attributes.AttributesExtension
 import com.vladsch.flexmark.ext.enumerated.reference.EnumeratedReferenceExtension
@@ -22,9 +25,14 @@ class FlexmarkModule : OrchidModule() {
             StrikethroughSubscriptExtension.create(),
             TablesExtension.create(),
             TaskListExtension.create(),
-            TocExtension.create()
+            TocExtension.create(),
+            AnchorLinkExtension.create()
         )
 
-        addToSet(MutableDataSet::class.java)
+        val dataset = MutableDataSet()
+        dataset.set(ANCHORLINKS_WRAP_TEXT, false)
+        dataset.set(ANCHORLINKS_ANCHOR_CLASS, "anchor")
+
+        addToSet(MutableDataSet::class.java, dataset)
     }
 }
