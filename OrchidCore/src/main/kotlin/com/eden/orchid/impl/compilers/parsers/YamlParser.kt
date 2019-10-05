@@ -33,7 +33,7 @@ constructor() : OrchidParser(100) {
                 return yamlObject
             }
         } catch (e: ParserException) {
-            input.logSyntaxError(extension, e.problemMark.line, e.problem)
+            input.logSyntaxError(extension, e.problemMark.line, e.problemMark.column, e.problem)
         } catch (e: Exception) {
             Clog.e("Error parsing YAML:\n{}", e.message)
         }
