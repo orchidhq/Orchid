@@ -35,7 +35,7 @@ fun String?.wrap(width: Int = 80): List<String> {
     return matchList
 }
 
-fun String.logSyntaxError(extension: String, lineNumber: Int, errorMessage: String = "") {
+fun String.logSyntaxError(extension: String, lineNumber: Int, lineColumn: Int, errorMessage: String = "") {
     val lines = this.lines()
     val linesBeforeStart = Math.max(lineNumber - 3, 0)
     val linesBeforeEnd = Math.max(lineNumber - 1, 0)

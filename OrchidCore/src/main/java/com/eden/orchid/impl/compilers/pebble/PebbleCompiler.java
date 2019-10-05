@@ -86,7 +86,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
             return writer.toString();
         }
         catch (PebbleException e) {
-            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), e.getMessage());
+            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), 0, e.getMessage());
         }
         catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
