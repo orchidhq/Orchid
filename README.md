@@ -11,6 +11,7 @@
 [![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg "Gitter Chat")](https://gitter.im/JavaEden/Orchid)
 [![Backers on Open Collective](https://opencollective.com/orchidssg/backers/badge.svg)](#backers) 
 [![Sponsors on Open Collective](https://opencollective.com/orchidssg/sponsors/badge.svg)](#sponsors) 
+[![Open Source Helpers](https://www.codetriage.com/javaeden/orchid/badges/users.svg)](https://www.codetriage.com/javaeden/orchid)
 
 > A beautiful and truly unique documentation engine and static site generator.
 
