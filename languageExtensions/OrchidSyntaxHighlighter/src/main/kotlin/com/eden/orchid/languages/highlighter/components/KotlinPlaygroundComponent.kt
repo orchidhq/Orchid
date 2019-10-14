@@ -1,6 +1,5 @@
 package com.eden.orchid.languages.highlighter.components
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -14,9 +13,7 @@ import javax.inject.Inject
 )
 class KotlinPlaygroundComponent
 @Inject
-constructor(
-    context: OrchidContext
-) : OrchidComponent(context, "kotlinPlayground", 100) {
+constructor() : OrchidComponent("kotlinPlayground", 100) {
 
     @Option
     @Description("The base URL to load Kotlin Playground JS files from.")

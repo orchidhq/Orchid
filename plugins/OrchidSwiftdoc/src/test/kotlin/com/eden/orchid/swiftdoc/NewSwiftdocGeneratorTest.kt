@@ -18,7 +18,6 @@ class NewSwiftdocGeneratorTest : OrchidIntegrationTest(SwiftdocModule(), SourceD
     @Test
     @DisplayName("Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        enableLogging()
         flag("experimentalSourceDoc", "true")
         configObject(
             "swiftdoc",

@@ -1,19 +1,18 @@
 package com.eden.orchid.languages.highlighter.components
 
+import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.languages.highlighter.SyntaxHighlighterModule
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestGeneratorModule
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class KotlinPlaygroundComponentTest : OrchidIntegrationTest(TestGeneratorModule(), SyntaxHighlighterModule()) {
+class KotlinPlaygroundComponentTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), SyntaxHighlighterModule()) {
 
     @Test
     @DisplayName("Test that the `kotlinPlayground` component is set up properly")
@@ -40,25 +39,25 @@ class KotlinPlaygroundComponentTest : OrchidIntegrationTest(TestGeneratorModule(
             """.trimMargin()
         )
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("//index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .get { replace("\\s+".toRegex(), "") }
-            .isEqualTo(
-                """
-                |<h1 id="try-kotlin-below">Try Kotlin below!</h1>
-                |<pre theme="idea" lines="true">
-                |  <code class="language-run-kotlin" theme="idea" lines="true">fun main() {
-                |   println("Running from Kotlin Playground!")
-                |} </code>
-                |</pre>
-                |<script data-selector="pre code[class='language-run-kotlin']" src="https://unpkg.com/kotlin-playground@1"></script>
-                """.trimMargin().replace("\\s+".toRegex(), "")
-            )
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        get { html().toString() }
+                            .get { replace("\\s+".toRegex(), "") }
+                            .isEqualTo(
+                                """
+                                |<h1 id="try-kotlin-below"><ahref="#try-kotlin-below"id="try-kotlin-below"class="anchor"></a>Try Kotlin below!</h1>
+                                |<pre theme="idea" lines="true">
+                                |  <code class="language-run-kotlin">fun main() {
+                                |   println("Running from Kotlin Playground!")
+                                |} </code>
+                                |</pre>
+                                |<script data-selector="pre code[class='language-run-kotlin']" src="https://unpkg.com/kotlin-playground@1"></script>
+                                """.trimMargin().replace("\\s+".toRegex(), "")
+                            )
+                    }
+            }
     }
 }

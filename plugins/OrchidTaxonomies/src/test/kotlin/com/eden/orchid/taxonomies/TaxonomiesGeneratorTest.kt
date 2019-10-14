@@ -233,7 +233,6 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
     @Test
     @DisplayName("Many disparate collections can be merged into the same collection archive.")
     fun test08() {
-        enableLogging()
         configObject(
             "taxonomies", """
             |{
