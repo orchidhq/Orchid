@@ -5,7 +5,6 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -91,7 +90,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     private JsPage addJs(JsPage jsAsset, boolean renderImmediately) {
-        return addAssetInternal(jsAsset, "js", renderImmediately);
+        return addAssetInternal(jsAsset, renderImmediately);
     }
 
     @Override
@@ -100,7 +99,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     private CssPage addCss(CssPage cssAsset, boolean renderImmediately) {
-        return addAssetInternal(cssAsset, "css", renderImmediately);
+        return addAssetInternal(cssAsset, renderImmediately);
     }
 
     @Override
@@ -109,7 +108,7 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     private AssetPage addAsset(AssetPage asset, boolean renderImmediately) {
-        return addAssetInternal(asset, null, renderImmediately);
+        return addAssetInternal(asset, renderImmediately);
     }
 
 // Add assets by string
@@ -117,44 +116,30 @@ public final class AssetHolderDelegate implements AssetHolder {
 
     @Override
     public JsPage addJs(String jsAsset) {
-        return addAssetInternal(jsAsset, "JS", true, JsPage::new, this::addJs);
+        return addAssetInternal(jsAsset, true, JsPage::new, this::addJs);
     }
 
     @Override
     public CssPage addCss(String cssAsset) {
-        return addAssetInternal(cssAsset, "CSS", true, CssPage::new, this::addCss);
+        return addAssetInternal(cssAsset, true, CssPage::new, this::addCss);
     }
 
     @Override
     public AssetPage addAsset(String asset) {
-        return addAssetInternal(asset, "", true, AssetPage::new, this::addAsset);
+        return addAssetInternal(asset, true, AssetPage::new, this::addAsset);
     }
 
 // internals
 //----------------------------------------------------------------------------------------------------------------------
 
-    private boolean validAsset(OrchidPage asset, String targetExtension) {
-        return asset.getReference().getOutputExtension().equalsIgnoreCase(targetExtension);
+    private <T extends AssetPage> T addAssetInternal(T asset, boolean renderImmediately) {
+        asset.getReference().setUsePrettyUrl(false);
+        AssetPage actualAsset = context.getAssetManager().addAsset(asset, renderImmediately);
+        assets.add(actualAsset);
+        return asset;
     }
 
-    private <T extends AssetPage> T addAssetInternal(T asset, String expectedOutputExtension, boolean renderImmediately) {
-        if(expectedOutputExtension == null || validAsset(asset, expectedOutputExtension)) {
-            asset.getReference().setUsePrettyUrl(false);
-            AssetPage actualAsset = context.getAssetManager().addAsset(asset, renderImmediately);
-            assets.add(actualAsset);
-            return asset;
-        }
-        else {
-            Clog.w("#{$1} is not a valid #{$2} asset, perhaps you are missing a #{$3}->#{$4} Compiler extension?",
-                    asset.getReference().getOriginalFullFileName(),
-                    expectedOutputExtension.toUpperCase(),
-                    asset.getReference().getOutputExtension(),
-                    expectedOutputExtension);
-            return null;
-        }
-    }
-
-    private <T extends AssetPage> T addAssetInternal(String asset, String assetTypeName, boolean renderImmediately, CreateAssetInterface<T> creator, BiConsumer<T, Boolean> adder) {
+    private <T extends AssetPage> T addAssetInternal(String asset, boolean renderImmediately, CreateAssetInterface<T> creator, BiConsumer<T, Boolean> adder) {
         OrchidResource resource = context.getResourceEntry(asset);
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
@@ -174,7 +159,7 @@ public final class AssetHolderDelegate implements AssetHolder {
             return page;
         }
         else {
-            Clog.w("Could not find {} asset: {}", assetTypeName, asset);
+            Clog.w("Could not find asset: {}", asset);
         }
 
         return null;
