@@ -19,9 +19,9 @@ public final class JsPage extends AssetPage {
 
     public String renderAssetToPage() {
         if (resource instanceof InlineResource) {
-            return "<script>\n" + resource.compileContent(this) + "\n</script>";
+            return "<script " + renderAttrs() + ">\n" + resource.compileContent(this) + "\n</script>";
         } else {
-            String tagString = "<script";
+            String tagString = "<script " + renderAttrs();
             if (async) {
                 tagString += " async";
             }

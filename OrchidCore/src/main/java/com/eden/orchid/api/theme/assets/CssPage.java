@@ -13,10 +13,10 @@ public final class CssPage extends AssetPage {
 
     public String renderAssetToPage() {
         if (resource instanceof InlineResource) {
-            return "<style>\n" + resource.compileContent(this) + "\n</style>";
+            return "<style " + renderAttrs() + ">\n" + resource.compileContent(this) + "\n</style>";
         }
         else {
-            return "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + this.getLink() + "\"/>";
+            return "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + this.getLink() + "\" " + renderAttrs() + "/>";
         }
     }
 

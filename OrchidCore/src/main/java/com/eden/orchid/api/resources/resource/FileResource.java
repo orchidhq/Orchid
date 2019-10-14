@@ -3,6 +3,9 @@ package com.eden.orchid.api.resources.resource;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import kotlin.collections.ArraysKt;
+import kotlin.collections.CollectionsKt;
+import kotlin.text.StringsKt;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -19,7 +22,7 @@ import java.nio.file.Files;
  * through the `page` variable. When used with renderRaw(), the raw contents (after having the embedded data removed)
  * will be written directly instead.
  */
-public final class FileResource extends FreeableResource  {
+public final class FileResource extends FreeableResource {
 
     private final File file;
 
@@ -38,13 +41,12 @@ public final class FileResource extends FreeableResource  {
 
     @Override
     protected void loadContent() {
-        if(rawContent == null) {
+        if (rawContent == null) {
             try {
                 if (file != null) {
                     rawContent = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -58,12 +60,26 @@ public final class FileResource extends FreeableResource  {
 
     private static String pathFromFile(OrchidContext context, File file, String basePath) {
         String filePath = file.getPath();
+
+        // normalise Windows-style backslashes to common forward slashes
         basePath = basePath.replaceAll("\\\\", "/");
         filePath = filePath.replaceAll("\\\\", "/");
 
-        if(filePath.startsWith(basePath)) {
+        // Remove the common base path from the actual file path
+        if (filePath.startsWith(basePath)) {
             filePath = filePath.replaceAll(basePath, "");
         }
+
+        if (filePath.startsWith("/")) {
+            filePath = StringsKt.removePrefix(filePath, "/");
+        }
+
+        // if the path is not a child of the base path (i.e. still has relative path segments), strip those away. The
+        // resolved "path" of this resource will be the portion after those relative segments.
+
+        filePath = CollectionsKt.joinToString(
+                ArraysKt.filter(filePath.split("/"), (it) -> !(it.equals("..") || it.equals("."))),
+                "/", "", "", -1, "", null);
 
         return filePath;
     }
@@ -72,8 +88,7 @@ public final class FileResource extends FreeableResource  {
     public InputStream getContentStream() {
         try {
             return new FileInputStream(file);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -91,14 +106,14 @@ public final class FileResource extends FreeableResource  {
 
     @Override
     public void update(InputStream newContent) throws IOException {
-        if(file != null && newContent != null) {
+        if (file != null && newContent != null) {
             Files.write(file.toPath(), IOUtils.toByteArray(newContent));
         }
     }
 
     @Override
     public void delete() throws IOException {
-        if(file != null) {
+        if (file != null) {
             file.delete();
         }
     }
