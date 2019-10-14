@@ -12,7 +12,8 @@ tags:
 ## About
 
 Add syntax highlighting to code snippets in your Orchid site. Supports pre-rendered highlighting with 
-[Pygments](http://pygments.org/), and browser-based highlighting with [PrismJS](https://prismjs.com/)
+[Pygments](http://pygments.org/), browser-based highlighting with [PrismJS](https://prismjs.com/), and runnable Kotlin
+code snippets with [Kotlin Playground](https://github.com/JetBrains/kotlin-playground).
 
 ## Demo
 
@@ -96,3 +97,28 @@ allPages:
         - 'kotlin'
         - 'yaml'
 ```
+
+### Kotlin Playground
+
+The Kotlin Playground allows you to convert Kotlin code snippets into playgrounds that are runnable right in your 
+browser. The `kotlinPlayground` component adds the script from their CDN, which will select all elements on the page 
+with your runnable Kotlin code and convert them into embedded runnable playgrounds. By default, all Markdown code 
+snippets with a language of `run-kotlin` are converted.
+
+```yaml
+allPages:
+  components:
+    - type: 'pageContent'
+    - type: 'kotlinPlayground'
+      selector: "pre code[class='language-kotlin']"
+```
+
+You can configure each individual playground using the attributes described in the [Kotlin playground docs](https://github.com/JetBrains/kotlin-playground#customizing-editors).
+These can be added from Markdown snippets with the following syntax:
+
+    ```run-kotlin
+    fun main() {
+       println("Running from Kotlin Playground!")
+    }
+    ```
+    {theme='idea' lines='true'}
