@@ -1,0 +1,35 @@
+{% macro _navbarMenu(page, menu) %}
+{% for menuItem in menu.getMenuItems(page) %}
+  {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.MenuItem" #}
+  {% if menuItem.hasChildren() %}
+    {{ _menuItemWithChildren(page, menuItem) }}
+  {% elseif menuItem.isSeparator() %}
+    {{ _menuItemSeparator(page, menuItem) }}
+  {% else %}
+    {{ _menuItem(page, menuItem) }}
+  {% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro _menuItemWithChildren(page, menuItem) %}
+<div class="navbar-item has-dropdown is-hoverable">
+{{ _menuItem(page, menuItem) }}
+  <div class="navbar-dropdown">
+  {% for childLink in menuItem.children %}
+      {{ _menuItem(page, childLink) }}
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro _menuItem(page, menuItem) %}
+{% if menuItem.title|length > 0 %}
+<a class="navbar-item {{ menuItem.isActivePage(page) ? 'is-active' : '' }}" href="{{ menuItem.link }}">
+{{ menuItem.title }}
+</a>
+{% endif %}
+{% endmacro %}
+
+{% macro _menuItemSeparator(page, menuItem) %}
+<hr class="navbar-divider">
+{% endmacro %}

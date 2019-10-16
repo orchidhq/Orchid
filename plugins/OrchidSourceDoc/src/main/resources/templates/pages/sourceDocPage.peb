@@ -1,23 +1,62 @@
-<div class="sourcedoc-page">
+<div class="sourcedoc-page content">
   <h1>{{ page.title }}</h1>
   <div class="orchid-sourcedoc">
-    {{ renderSection(page, page.rootSection) }}
+  {{ renderSection(page, page.rootSection, 1) }}
   </div>
 </div>
 
-{% macro renderSection(page, section) %}
-<div class="section section-root" data-tab-text="{{ page.sectionId(section) }}" style="--section-color: green;" id="{{ page.sectionId(section) }}">
+{% macro renderSection(page, section, depth) %}
+<div class="sourcedoc-section section-root section-level-{{ depth }}" id="{{ page.sectionId(section) }}">
+
+{% if (depth % 3) == 0 %}
+  <p class="sourcedoc-section section-name"><b>{{ section.name|capitalize }}</b></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for element in section.elements %}
+      <tr class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
+        <td class="sourcedoc-section section-signature">
+          <code>{{ page.renderSignature(element)|raw }}</code>
+        </td>
+        <td class="sourcedoc-section section-comments">
+        {{ page.renderComment(element)|compileAs('md') }}
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% else %}
+{% if depth > 1 %}
+  <h{{ depth }} class="sourcedoc-section section-name">{{ section.name|capitalize }}</h{{ depth }}>
+{% endif %}
+
 {% for element in section.elements %}
-  <div class="section section-element" data-tab-text="{{ element.kind }}" style="--section-color: black;" id="{{ page.elementId(element) }}">
-    <div class="section section-signature" data-tab-text="signature" style="--section-color: red;">{{ page.renderSignature(element)|raw }}</div>
-    <div class="section section-comments" data-tab-text="comments" style="--section-color: blue;">{{ page.renderComment(element)|compileAs('md') }}</div>
+  <div class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
+    {% if depth > 1 %}
+    <h{{ depth+1 }} class="sourcedoc-section element-name">{{ element.name }}</h{{ depth+1 }}>
+    {% endif %}
+    <p class="sourcedoc-section section-signature">
+      <code>{{ page.renderSignature(element)|raw }}</code>
+    </p>
+    <div class="sourcedoc-section section-comments">{{ page.renderComment(element)|compileAs('md') }}</div>
+
     {% set childrenSections = page.getSectionsData(element) %}
     {% if childrenSections|length > 0 %}
       {% for childSection in childrenSections %}
-        {{ renderSection(page, childSection) }}
+        {{ renderSection(page, childSection, depth+1) }}
       {% endfor %}
     {% endif %}
   </div>
 {% endfor %}
+{% endif %}
 </div>
 {% endmacro %}

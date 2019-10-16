@@ -12,6 +12,5 @@
 
 <section class="hero {{ sidebarClasses }} {{ additionalClasses }}">
 {% include 'includes/copper/heroTop' %}
-{% include 'includes/copper/heroContent_'~sidebarType %}
-{% include 'includes/copper/heroBottom' %}
+{% include 'includes/copper/heroContent' %}
 </section>

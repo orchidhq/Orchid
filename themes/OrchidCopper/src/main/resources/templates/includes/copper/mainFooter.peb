@@ -28,7 +28,7 @@
 {% endif %}
 </nav>
 
-<footer class="footer">
+<footer class="footer border-top">
   <div class="content is-small">
   {% include 'includes/footer.peb' %}
   </div>
