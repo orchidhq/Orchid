@@ -1,65 +1,71 @@
-<div class="columns">
-    <div class="column" style="width: 100%;">
-        <div class="card">
-            <div class="card-content">
-            {% if post.author is not null %}
-                <div class="" style="margin-bottom: 1rem">
-                    <div class="media">
-                        <div class="media-left">
-                            <figure class="image is-48x48">
-                            {% if post.author.avatar is not empty %}
-                            {% if post.author.link is not empty %}
-                                <a href="{{ post.author.link }}">
-                                    <img src="{{ post.author.avatar }}"
-                                         alt="{{ post.author.name }} Avatar"
-                                         style="border-radius: 50%"></a>
-                            {% else %}
-                                <img src="{{ post.author.avatar }}"
-                                     alt="{{ post.author.name }} Avatar"
-                                     style="border-radius: 50%">
-                            {% endif %}
-                            {% endif %}
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <h1 class="title is-3">{{ post.title }}</h1>
-                            <div class="subtitle is-5">
-                                <time datetime="{{ post.publishDate|localDate('yyyy-MM-dd') }}">{{ post.publishDate|localDate('MMMM dd, yyyy') }}</time>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-                <div class="content is-large is-clearfix" style="margin-bottom: 2rem">
-                    <div class="field is-grouped is-grouped-multiline">
-                    {% for tag in post.tags %}
-                        <div class="control">
-                            <div class="tags">
-                                <a class="tag is-link" href="{{ link(tag) }}">{{ '#'~tag }}</a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    </div>
-                </div>
-                <!-- {{ page.featuredImage }} -->
-                {% if page.featuredImage.exists %}
-                {% set featuredImage = page.featuredImage|resize(640, 400, 'c') %}
-                <div class="card-image" style="margin-bottom: 2rem">
-                    <figure class="image is-3by1">
-                        <img src="{{ featuredImage }}" alt="{{ page.featuredImage.alt }}">
-                    </figure>
-                    {% if page.featuredImage.alt is not empty %}
-                        <div class="content">
-                            <blockquote>{{ page.featuredImage.alt }}</blockquote>
-                        </div>
-                    {% endif %}
-                </div>
-                {% endif %}
-                <div class="content is-medium-tablet is-large-desktop">
-                {{ page.content | raw }}
-                </div>
+{{ featuredImage(page) }}
 
-            </div>
-        </div>
-    </div>
+<div class="card">
+  <div class="card-content">
+  {{ postHeader(page) }}
+  {{ postContent(page) }}
+  {{ postTags(page) }}
+  </div>
 </div>
+
+{% macro featuredImage(page) %}
+<!-- {{ page.featuredImage }} -->
+{% if page.featuredImage.exists %}
+{% set featuredImage = page.featuredImage %}
+<figure class="image" style="width:360px;height:360px;margin:0 auto 3rem auto;">
+  <img
+    src="{{ featuredImage }}"
+    alt="{{ page.featuredImage.alt }}"
+    class="is-rounded"
+    style="width:360px;height:360px;"
+  >
+</figure>
+{% endif %}
+{% endmacro %}
+
+{% macro postHeader(page) %}
+<div class="" style="margin-bottom: 1rem">
+
+{# Title/subtitle #}
+  <h1 class="title has-text-centered">{{ page.title }}</h1>
+  <div class="subtitle has-text-centered">
+    <time datetime="{{ page.publishDate|localDate('yyyy-MM-dd') }}">{{ page.publishDate|localDate('MMMM dd, yyyy') }}</time>
+  </div>
+
+{# Post author #}
+{% if page is not null and page.author.avatar is not empty %}
+  <div class="has-text-centered">
+    <a href="{{ page.author.link }}" style="display:flex;flex-direction:row;align-items:center;justify-content:center;">
+      <span class="image is-48x48">
+        <img
+          src="{{ page.author.avatar }}"
+          alt="{{ page.author.name }} Avatar"
+          style="border-radius: 50%"
+        >
+      </span>
+      <span style="margin-left: 16px">{{ page.author.name }}</span>
+    </a>
+  </div>
+{% endif %}
+</div>
+{% endmacro %}
+
+{% macro postContent(page) %}
+<div class="content card-content is-medium-tablet is-large-desktop">
+{{ page.content | raw }}
+</div>
+{% endmacro %}
+
+{% macro postTags(page) %}
+{# Post tags #}
+<p>Tagged with:</p>
+<div class="field is-grouped is-grouped-multiline">
+{% for tag in page.tags %}
+  <div class="control">
+    <div class="tags">
+      <a class="tag is-link" href="{{ link(tag) }}">{{ '#'~tag }}</a>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endmacro %}

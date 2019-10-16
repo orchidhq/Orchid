@@ -76,6 +76,13 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
         addJs("assets/js/bulma-accordion.min.js")
         addJs("assets/js/bulma-tabs.js")
     }
+
+    fun getLayoutConfig(layoutName: String, data: Map<String, Any>?): Any? {
+        return when(layoutName) {
+            "homepage" -> CopperHomepageLayoutConfig().also { it.extractOptions(context, data) }
+            else -> CopperSidebarLayoutConfig().also { it.extractOptions(context, data) }
+        }
+    }
 }
 
 class CopperThemeColors : OptionsHolder {
@@ -186,5 +193,24 @@ enum class CopperThemeColorName(val variableName: String) {
 enum class CopperThemeSidebarBackgroundType {
 
     IMAGE, GRADIENT, SOLID
+
+}
+
+class CopperSidebarLayoutConfig : OptionsHolder {
+
+    @Option @BooleanDefault(true)
+    var wrapPageInBox: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var wrapTitleInBox: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var includeTitle: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var includeBreadcrumbs: Boolean = true
+}
+
+class CopperHomepageLayoutConfig : OptionsHolder {
 
 }
