@@ -1,0 +1,61 @@
+{% extends 'layouts/base/layoutBase' %}
+
+{% block 'body' %}
+<div class="columns is-marginless">
+{% block hero %}
+  <div class="column is-one-third is-paddingless column-main-left is-hidden-mobile">
+  {% include 'includes/copper/hero' with {'additionalClasses': 'is-fullheight'} %}
+  </div>
+  <div class="column is-one-third is-paddingless column-main-left is-hidden-tablet">
+  {% include 'includes/copper/hero' %}
+  </div>
+{% endblock %}
+  <div class="column is-two-thirds is-paddingless column-main-right">
+  {% include 'includes/copper/navbar' %}
+    <div class="textured">
+    {% if layoutConfig.includeBreadcrumbs %}
+    {% block breadcrumbs %}
+      <div class="box">
+      {% breadcrumbs %}
+      </div>
+    {% endblock %}
+    {% endif %}
+    {% block main %}
+    {% if layoutConfig.wrapPageInBox %}
+    {% if layoutConfig.includeTitle %}
+      <div class="box">
+        <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+        <p class="subtitle is-4">{{ page.description }}</p>
+        {% page %}
+      </div>
+    {% else %}
+      <div class="box">
+      {% page %}
+      </div>
+    {% endif %}
+    {% else %}
+    {% if layoutConfig.includeTitle %}
+    {% if layoutConfig.wrapTitleInBox %}
+      <div class="box">
+        <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+        <p class="subtitle is-4">{{ page.description }}</p>
+      </div>
+    {% else %}
+      <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+      <p class="subtitle is-4">{{ page.description }}</p>
+    {% endif %}
+    {% endif %}
+    {% page %}
+    {% endif %}
+    {% endblock %}
+      <div class="grow"></div>
+      <div class="page-footer">
+      {% block footer %}
+        {% include 'includes/copper/mainFooter' %}
+      {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends 'layouts/base/layoutBase' %}
+
+{% block 'htmlClasses' %}homepage{% endblock %}
+{% block 'bodyClasses' %}has-navbar-fixed-top{% endblock %}
+
+{% block 'body' %}
+  {% include 'includes/copper/homepageNavbar' %}
+  {% embed 'includes/componentHolderEmbed' with {"componentHolder": page.components} %}
+    {% block componentWrapper %}
+    <section
+      class="
+        section
+        has-background-{{ component.backgroundColor|default("light") }}
+        is-{{ component.sectionSize }}
+        component
+        component-{{ component.type }}
+        component-order-{{ component.order }}"
+    >
+      <div class="container content is-medium">
+      {{ component.renderContent(page.context, page) | raw }}
+      </div>
+    </section>
+    {% endblock %}
+    {% block componentNoWrapper %}{{ component.renderContent(page.context, page) | raw }}{% endblock %}
+  {% endembed %}
+  {% block footer %}
+    <footer class="footer has-background-white">
+      <div class="container content">
+      {% include 'includes/footer.peb' %}
+      </div>
+    </footer>
+  {% endblock %}
+{% endblock %}
+
