@@ -28,7 +28,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Description("The color palette for your site, specified as the uppercased name of a color in the theme colors.")
     lateinit var palette: CopperThemePalette
 
-    @Option @StringDefault("assets/media/theme-logo.png")
+    @Option @StringDefault("assets/svg/orchid/logo_top_dark.svg")
     @Description("An asset to use the for sidebar logo.")
     lateinit var logo: String
 

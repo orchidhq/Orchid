@@ -1,36 +1,12 @@
-* {
-  box-sizing: border-box;
-}
-
 .orchid-sourcedoc {
+  .table {
+    margin-bottom: 1rem;
+  }
+  code a {
+    font-family: monospace;
+  }
 
-  --section-color: black;
-  .section {
-    border: thin solid var(--section-color);
-    border-radius: 8px;
-    position: relative;
-    padding: 0 40px;
-    margin-top: 40px;
-    margin-bottom: 40px;
-
-    &::before {
-      content: attr(data-tab-text);
-      background: var(--section-color);
-      color: white;
-      font-family: monospace;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      position: absolute;
-      height: 20px;
-      top: -20px;
-      right: 10px;
-      padding: 0 10px;
-      vertical-align: middle;
-    }
-
-    * {
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
+  h1, h2, h3, h4, h5, h6 {
+    padding-top: 30px
   }
 }

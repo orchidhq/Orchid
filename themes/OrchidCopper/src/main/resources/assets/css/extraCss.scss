@@ -146,13 +146,12 @@
   footer.footer {
     margin: -1.5rem;
     background: white;
-    border-top: thin solid {{theme.palette.primary}};
   }
 }
 
 .hero-head {
   .columns {
-    padding: 24px 16px;
+    padding: 24px 0;
   }
 
   .icon {
@@ -164,6 +163,7 @@
 }
 
 .hero-body {
+  align-items: initial !important;
   .container {
     background: rgba(0,0,0,0.25);
     border-radius: 4px;
@@ -237,5 +237,14 @@ code[class*="language-"] .tag { line-height: initial;background: none;height: in
 
   .menu-label {
     color: white;
+  }
+}
+
+.navbar a.icon {
+  color: #444444;
+}
+a:visited {
+  &.navbar-item, &.navbar-link {
+    color: #444444;
   }
 }

@@ -51,19 +51,17 @@ class MenuItem private constructor(
     val isHasChildren: Boolean get() = hasChildren()
 
     fun isActive(page: OrchidPage): Boolean {
-        return isActivePage(page) || hasActivePage(page)
+        return (!isHasChildren && isActivePage(page)) || (isHasChildren && hasActivePage(page))
     }
 
     fun isActivePage(page: OrchidPage): Boolean {
-        return !isHasChildren && this.page === page
+        return this.page === page
     }
 
     fun hasActivePage(page: OrchidPage): Boolean {
-        if (isHasChildren) {
-            for (child in children) {
-                if (child.isActivePage(page) || child.hasActivePage(page)) {
-                    return true
-                }
+        for (child in children) {
+            if (child.isActivePage(page) || child.hasActivePage(page)) {
+                return true
             }
         }
 

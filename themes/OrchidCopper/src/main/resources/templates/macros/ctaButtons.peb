@@ -1,0 +1,28 @@
+{% macro _primaryButton(theme, extraClasses, wrapper) %}
+{% if theme.navbarPrimaryButton.get() is not null %}
+{% if wrapper is not empty %}
+<div class="{{ wrapper }}">
+{% endif %}
+  <a class="button is-primary {{ extraClasses }}" href="{{ theme.navbarPrimaryButton.get().link }}">
+    <strong>{{ theme.navbarPrimaryButtonTitle|default(theme.navbarPrimaryButton.get().title) }}</strong>
+  </a>
+{% if wrapper is not empty %}
+</div>
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro _secondaryButton(theme, extraClasses, wrapper) %}
+{% if theme.navbarSecondaryButton.get() is not null %}
+{% if wrapper is not empty %}
+<div class="{{ wrapper }}">
+{% endif %}
+  <a class="button is-light {{ extraClasses }}" href="{{ theme.navbarSecondaryButton.get().link }}">
+  {{ theme.navbarSecondaryButtonTitle|default(theme.navbarSecondaryButton.get().title) }}
+  </a>
+{% if wrapper is not empty %}
+</div>
+{% endif %}
+{% endif %}
+{% endmacro %}
+

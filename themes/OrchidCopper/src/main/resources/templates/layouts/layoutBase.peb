@@ -6,19 +6,19 @@
 {% styles %}
 {% include '?trackingHeadEnd' %}
 </head>
-<body class="has-navbar-fixed-top">
+<body>
 {% include '?trackingBodyStart' %}
-{% include 'includes/copper/navbar' with {'menu': theme.menu} %}
 <div class="columns is-marginless">
   {% block hero %}
     <div class="column is-one-third is-paddingless column-main-left is-hidden-mobile">
-    {% include 'includes/copper/hero' with {'sidebarType': 'default', 'additionalClasses': 'is-fullheight'} %}
+    {% include 'includes/copper/hero' with {'additionalClasses': 'is-fullheight'} %}
     </div>
     <div class="column is-one-third is-paddingless column-main-left is-hidden-tablet">
-    {% include 'includes/copper/hero' with {'sidebarType': 'default'} %}
+    {% include 'includes/copper/hero' %}
     </div>
   {% endblock %}
   <div class="column is-two-thirds is-paddingless column-main-right">
+    {% include 'includes/copper/navbar' %}
     <div class="textured">
     {% block breadcrumbs %}
       <div class="box">

@@ -1,12 +1,12 @@
+{% import 'macros/ctaButtons' %}
+
 <!-- Hero header: will stick at the top -->
-<div class="hero-head">
+<div class="hero-head" style="padding: 0 1.5rem">
+  <img src="{{ theme.logo | asset }}" style="padding: 40px 80px 0 80px;">
+  <p class="subtitle is-4 has-text-centered">{{ site.about.siteDescription }}</p>
+
   <div class="columns is-mobile has-text-centered">
-  {% for socialItem in theme.social.getItems() %}
-    <div class="column">
-      <a class="icon is-inline-block" href="{{ socialItem.link }}" title="{{ socialItem.label }}">
-        <i class="{{ socialItem.icon }} large-social-icon"></i>
-      </a>
-    </div>
-  {% endfor %}
+  {{ _primaryButton(theme, 'is-fullwidth', 'column') }}
+  {{ _secondaryButton(theme, 'is-fullwidth', 'column') }}
   </div>
 </div>

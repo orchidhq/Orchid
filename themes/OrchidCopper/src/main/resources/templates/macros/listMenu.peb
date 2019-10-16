@@ -1,0 +1,41 @@
+{% macro _listMenu(page, menu) %}
+{% for menuItem in page.menu.getMenuItems(page) %}
+  {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.MenuItem" #}
+  {% if menuItem.hasChildren() %}
+    {{ _menuItemWithChildren(page, menuItem) }}
+  {% elseif menuItem.isSeparator() %}
+    {{ _menuItemSeparator(page, menuItem) }}
+  {% else %}
+    <ul class="menu-list">{{ _menuItem(page, menuItem) }}</ul>
+  {% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro _menuItemWithChildren(page, menuItem) %}
+<ul class="menu-list">
+{% if menuItem.page is not null %}
+  {{ _menuItem(page, menuItem) }}
+{% endif %}
+  <li>
+    <ul>
+    {% for childLink in menuItem.children %}
+      {{ _menuItem(page, childLink) }}
+    {% endfor %}
+    </ul>
+  </li>
+</ul>
+{% endmacro %}
+
+{% macro _menuItem(page, menuItem) %}
+{% if menuItem.title|length > 0 %}
+<li>
+  <!-- page={{ page.link }} {{ page.hashCode() }} -->
+  <!-- menuItem.page={{ menuItem.page.link }} {{ menuItem.page.hashCode() }} -->
+  <a href="{{ menuItem.link }}" class="{{ menuItem.isActivePage(page) ? 'is-active' : '' }}">{{ menuItem.title }}</a>
+</li>
+{% endif %}
+{% endmacro %}
+
+{% macro _menuItemSeparator(page, menuItem) %}
+<p class="menu-label">{{ menuItem.title }}</p>
+{% endmacro %}
