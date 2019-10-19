@@ -79,6 +79,17 @@
 			}
 		}
 
+		> .spotify-embed {
+			background: transparent;
+			border: none;
+			white-space: nowrap;
+
+			iframe {
+				height: 380px;
+				width: 50%;
+			}
+		}
+
 		> footer {
 			@include vendor('display', 'flex');
 			@include vendor('align-items', 'center');
