@@ -1,1 +1,3 @@
-<iframe src="https://open.spotify.com/embed/{{ tag.type }}/{{ tag.id }}" allow="encrypted-media"></iframe>
+<div class="spotify-embed">
+  <iframe src="https://open.spotify.com/embed/{{ tag.type }}/{{ tag.id }}" allow="encrypted-media"></iframe>
+</div>
