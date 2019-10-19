@@ -24,6 +24,7 @@ class WritersBlocksModule : OrchidModule() {
                 AlertTag::class,
                 GistTag::class,
                 InstagramTag::class,
+                SpotifyTag::class,
                 TwitterTag::class,
                 YoutubeTag::class)
     }
