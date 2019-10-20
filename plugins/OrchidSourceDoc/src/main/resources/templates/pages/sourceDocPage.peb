@@ -1,15 +1,12 @@
-<div class="sourcedoc-page content">
-  <h1>{{ page.title }}</h1>
-  <div class="orchid-sourcedoc">
+<div class="sourcedoc-page orchid-sourcedoc content">
   {{ renderSection(page, page.rootSection, 1) }}
-  </div>
 </div>
 
 {% macro renderSection(page, section, depth) %}
 <div class="sourcedoc-section section-root section-level-{{ depth }}" id="{{ page.sectionId(section) }}">
 
-{% if (depth % 3) == 0 %}
-  <p class="sourcedoc-section section-name"><b>{{ section.name|capitalize }}</b></p>
+{% if not section.hasDescendants %}
+  <p class="sourcedoc-section section-name"><strong>{{ section.name|capitalize }}</strong></p>
 
   <div class="table-container">
     <table class="table is-fullwidth is-bordered">
@@ -25,7 +22,7 @@
         <td class="sourcedoc-section section-signature">
           <code>{{ page.renderSignature(element)|raw }}</code>
         </td>
-        <td class="sourcedoc-section section-comments">
+        <td class="sourcedoc-section section-comments content">
         {{ page.renderComment(element)|compileAs('md') }}
         </td>
       </tr>
@@ -35,28 +32,25 @@
   </div>
 
 {% else %}
-{% if depth > 1 %}
   <h{{ depth }} class="sourcedoc-section section-name">{{ section.name|capitalize }}</h{{ depth }}>
-{% endif %}
+  {% for element in section.elements %}
+    <div class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
+      {% if depth > 1 %}
+      <h{{ depth+1 }} class="sourcedoc-section element-name">{{ element.name }}</h{{ depth+1 }}>
+      {% endif %}
+      <p class="sourcedoc-section section-signature">
+        <code>{{ page.renderSignature(element)|raw }}</code>
+      </p>
+      <div class="sourcedoc-section section-comments">{{ page.renderComment(element)|compileAs('md') }}</div>
 
-{% for element in section.elements %}
-  <div class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
-    {% if depth > 1 %}
-    <h{{ depth+1 }} class="sourcedoc-section element-name">{{ element.name }}</h{{ depth+1 }}>
-    {% endif %}
-    <p class="sourcedoc-section section-signature">
-      <code>{{ page.renderSignature(element)|raw }}</code>
-    </p>
-    <div class="sourcedoc-section section-comments">{{ page.renderComment(element)|compileAs('md') }}</div>
-
-    {% set childrenSections = page.getSectionsData(element) %}
-    {% if childrenSections|length > 0 %}
-      {% for childSection in childrenSections %}
-        {{ renderSection(page, childSection, depth+1) }}
-      {% endfor %}
-    {% endif %}
-  </div>
-{% endfor %}
+      {% set childrenSections = page.getSectionsData(element) %}
+      {% if childrenSections|length > 0 %}
+        {% for childSection in childrenSections %}
+          {{ renderSection(page, childSection, depth+1) }}
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endfor %}
 {% endif %}
 </div>
 {% endmacro %}

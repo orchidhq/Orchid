@@ -97,6 +97,7 @@ class SourceDocPage<T : DocElement>(
     data class Section(
         val parent: DocElement?,
         val name: String,
-        val elements: List<DocElement>
+        val elements: List<DocElement>,
+        val hasDescendants: Boolean = elements.any { it is AutoDocument && it.nodes.any { node -> node.getter().isNotEmpty() } }
     )
 }
