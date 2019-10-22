@@ -10,8 +10,9 @@ import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.writersblocks.WritersBlocksModule
+import kotlinx.html.div
 import kotlinx.html.iframe
-import kotlinx.html.p
+import kotlinx.html.span
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -21,15 +22,14 @@ class SpotifyTagTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(),
     @Test
     @DisplayName("Test Spotify tag as track embed")
     fun test01() {
-        serveOn(8080)
+//        serveOn(8080)
         
         resource(
             "homepage.md",
             """
             |---
-            |test: true
             |---
-            |{% spotify 'track' '0Vkk4vLcrUTYODEiuV9ECP' %}
+            |{% spotify type='track' id='0Vkk4vLcrUTYODEiuV9ECP' %}
             """.trimMargin()
         )
 
@@ -37,10 +37,11 @@ class SpotifyTagTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(),
             .pageWasRendered("/index.html") {
                 get { content }
                     .asHtml()
-                    .select("body") {
+                    .select("div") { // HOW TO select on div with "spotify-embed" class attribute?
                         innerHtmlMatches() {
-                            iframe {
-                                src = "..."
+                            div {
+//                                iframe(src = "https://open.spotify.com/embed/track/0Vkk4vLcrUTYODEiuV9ECP") {}
+                                  iframe {}
                             }
                         }
                     }

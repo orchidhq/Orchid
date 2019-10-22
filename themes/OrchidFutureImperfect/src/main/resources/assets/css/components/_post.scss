@@ -80,13 +80,18 @@
 		}
 
 		> .spotify-embed {
-			background: transparent;
-			border: none;
-			white-space: nowrap;
+			text-align: center;
 
-			iframe {
-				height: 380px;
-				width: 50%;
+			div {
+				background: transparent;
+				border: none;
+				display: inline-block;
+				white-space: nowrap;
+
+				iframe {
+					height: 380px;
+					width: 50%;
+				}
 			}
 		}
 
