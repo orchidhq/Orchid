@@ -1,7 +1,9 @@
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 
+val OrchidVersion = (sys.props.get("orchid.version") orElse sys.env.get("GRADLE_PROJECT_RELEASE_NAME")).getOrElse( sys.error("Missing Orchid Version") )
+
 sys.props.get("plugin.version") match {
-  case Some(x) => addSbtPlugin("com.mchange" % "sbt-orchid" % x)
+  case Some(x) => addSbtPlugin("io.github.javaeden.orchid" % "sbt-orchid" % x)
   case _ => sys.error("""|The system property 'plugin.version' is not defined.
                          |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
 }
@@ -10,8 +12,6 @@ sys.props.get("plugin.version") match {
  *  Add desired Orchid components to the build
  */
  
-val OrchidVersion = "0.17.6"
-
 def orchidComponent( name : String ) = "io.github.javaeden.orchid" % name % OrchidVersion
 
 /*

@@ -41,8 +41,8 @@ lazy val root = (project in file(".")).enablePlugins(SbtPlugin).settings (
     "org.sharegov" % "mjson" % "1.4.1" // override version 1.4.0 of transitive dependency mjson, which has a badly formed pom.xml file
   ),
   pomExtra := PomExtraFragment,
-  scriptedLaunchOpts := { scriptedLaunchOpts.value ++
-    Seq("-Dplugin.version=" + version.value)
+  scriptedLaunchOpts := {
+    scriptedLaunchOpts.value ++ Seq("-Dplugin.version=" + version.value, "-Dorchid.version=" + OrchidVersion)
   }
 )
 
