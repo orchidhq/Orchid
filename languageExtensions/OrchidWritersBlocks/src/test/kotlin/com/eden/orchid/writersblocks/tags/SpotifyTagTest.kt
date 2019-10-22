@@ -16,7 +16,7 @@ import strikt.api.expectThat
 
 class SpotifyTagTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), WritersBlocksModule()) {
 
-//    @Test
+    @Test
     @DisplayName("Test Spotify tag as track embed")
     fun test01() {
 
@@ -32,6 +32,9 @@ class SpotifyTagTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(),
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }
+                    .toString()
+                    .contains("<div class=\"spotify-embed\">")
+/*
                     .asHtml()
                     .select("div") { // HOW TO select on div with "spotify-embed" class attribute?
                         innerHtmlMatches() {
@@ -42,6 +45,7 @@ class SpotifyTagTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(),
                             }
                         }
                     }
+*/
             }
     }
 }
