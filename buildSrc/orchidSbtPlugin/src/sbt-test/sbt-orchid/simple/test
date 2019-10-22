@@ -1,0 +1,21 @@
+# test build of a "hello-world" orchid project
+> orchidBuild
+
+$ exists target/orchid
+$ exists target/orchid/BsDoc
+$ exists target/orchid/index.html
+$ exists target/orchid/example-page/index.html
+
+> checkOrchidContains index.html homepage-check
+> checkOrchidContains example-page/index.html example-page-check
+
+
+
+
+
+
+
+
+
+
+
