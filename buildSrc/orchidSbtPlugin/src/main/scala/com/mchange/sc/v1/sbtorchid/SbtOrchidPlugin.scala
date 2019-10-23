@@ -4,6 +4,7 @@ import sbt._
 import sbt.Keys._
 import sbt.plugins.JvmPlugin
 import sbt.Def.Initialize
+import sbt.complete.DefaultParsers._
 
 import java.io.File
 
@@ -16,6 +17,8 @@ import scala.util.control.NonFatal
 object SbtOrchidPlugin extends AutoPlugin {
 
   final object autoImport {
+
+    val OrchidCommands = immutable.SortedSet( "build", "deploy", "serve", "watch" )
 
     // general config
     val orchidBaseUrl        = settingKey[String] ("The base URL for generted site links")
@@ -31,6 +34,7 @@ object SbtOrchidPlugin extends AutoPlugin {
     // tasks
     val orchidBuild  = taskKey[Unit]("Builds the orchid site")
     val orchidDeploy = taskKey[Unit]("Deploys the orchid site")
+    val orchidRun    = inputKey[Unit](s"""Runs an orchid command (one of ${OrchidCommands.mkString(" | ")})""")
     val orchidServe  = taskKey[Unit]("Serves the orchid site from the dev server")
     // val orchidShell  = taskKey[Unit]("Starts an interactive orchid session") // ???
     val orchidWatch  = taskKey[Unit]("Watches the orchidSource directory and continually rebuilds on changes") 
@@ -64,10 +68,23 @@ object SbtOrchidPlugin extends AutoPlugin {
 
     orchidBuild  := { orchidExecuteTask("build").value },
     orchidDeploy := { orchidExecuteTask("deploy").value },
+    orchidRun    := { orchidRunTask.evaluated },
     orchidServe  := { orchidExecuteTask("serve").value },
     // orchidShell  := { orchidExecuteTask("interactive").value },
     orchidWatch  := { orchidExecuteTask("watch").value }
   )
+
+  private def orchidRunTask = {
+    val parser = (token(Space) ~> token(ID).examples(OrchidCommands)).?
+
+    Def.inputTaskDyn {
+      val mbCommand = parser.parsed
+      val command = (mbCommand orElse sys.props.get( "orchid.runTask" )) getOrElse {
+        sys.error( "No command supplied for orchidRun, neither on the command line nor as system property '-Dorchid.runTask'." )
+      }
+      orchidExecuteTask( command )
+    }
+  }
 
   private def orchidExecuteTask( command : String ) = Def.task {
     val log = streams.value.log
