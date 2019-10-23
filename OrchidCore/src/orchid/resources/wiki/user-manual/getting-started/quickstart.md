@@ -260,7 +260,7 @@ Your sbt project should look something like this:
                  +—— plugins.sbt
 		 
 
-If you wish to integrate orchid into an `sbt` project, you can use the Orchid sbt plugin. To install it
+If you wish to integrate orchid into an `sbt` project, you'll use the Orchid sbt plugin. To install it
 in your project, you'll need to ensure that at least the following is included in your `project/plugins.sbt`:
 
 ```
@@ -269,7 +269,7 @@ resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
 ```
 
-(You will usually want to include a bit more than this in `project/plugins.sbt`. See a much richer `project/plugins.sbt` example [below](#sbt-configuration).)
+(You will usually want to include a bit more than this in `project/plugins.sbt`. The much richer `project/plugins.sbt` example [below](#rich-plugins.sbt-example) is a better starting point.)
 
 Then place the source files for your Orchid site in `src/main/orchid/resources`.
 
@@ -302,7 +302,8 @@ Below is a very rich example `project/plugins.sbt` file. You can use any of the 
 simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
 you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
 
-Here's that rich example `project/plugins.sbt`:
+##### Rich `plugins.sbt` example
+
 ```scala
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 
