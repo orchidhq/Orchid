@@ -273,9 +273,11 @@ your site relies upon are available to the build. Orchid offers a very rich feat
 In order to use these fetures, you'll want to add them as dependies *of the build, not your project*.
 
 The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
-Here is a very rich sample `project/plugins.sbt` file. You can use any of the main Orchid features
-simply by uncommenting the associated dependencies:
+Below is a very rich sample `project/plugins.sbt` file. You can use any of the main Orchid features
+simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
+you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
 
+`project/plugins.sbt`:
 ```scala
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 
