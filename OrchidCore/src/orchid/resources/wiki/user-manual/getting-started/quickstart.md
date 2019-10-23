@@ -286,7 +286,7 @@ Now, on the sbt command line you can run:
     You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
     site directly to Github Pages or Netlify.
 
-#### sbt configuration
+#### sbt plugin configuration
 
 * [basic](#basic)
 * [rich `project/plugins.sbt` example](#rich-projectpluginssbt-example)
