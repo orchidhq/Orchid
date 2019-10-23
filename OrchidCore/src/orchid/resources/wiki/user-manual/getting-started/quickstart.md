@@ -288,6 +288,9 @@ Now, on the sbt command line you can run:
 
 #### sbt configuration
 
+* [rich `project/plugins.sbt` example](#rich-projectpluginssbt-example)
+* [`build.sbt` settings](#buildsbt-settings)
+
 In your project's `build.sbt` file, you will usually want to configure an Orchid theme. That's just:
 ```
 orchidTheme := "BsDoc"
@@ -369,7 +372,7 @@ libraryDependencies += orchidComponent( "OrchidCore" )
 
 ```
 
-##### Orchid-related `build.sbt` settings
+##### `build.sbt` settings
 
 * `orchidBaseUrl` ~ The base URL for generted site links
 * `orchidDestination` ~ The directory into which orchid sites are generated (`target/orchid` by default)
