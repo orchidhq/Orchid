@@ -235,8 +235,33 @@ You can now start Orchid directly with its CLI, using the following commands:
 
 ### sbt
 
+Your sbt project should look something like this:
+
+     amazeballs/
+          |
+          |—— build.sbt
+          |
+          |—— src/
+          |    |
+          |    +—— main/
+          |          |
+          |          +—— scala/
+          |          |     |
+          |          |     +—— Amazeballs.scala
+	  |          |
+          |          +—— orchid/
+          |                 |
+          |                 +—— resources/  <== ORCHID SOURCE FILES GO HERE
+          |                         |
+          |—— project/              +- homepage.md
+                 |
+                 +—— build.properties
+                 |
+                 +—— plugins.sbt
+		 
+
 If you wish to integrate orchid into an `sbt` project, you can use the Orchid sbt plugin. To install it
-in your project, you'll need to ensure at least the following is included in your `project/plugins.sbt`:
+in your project, you'll need to ensure that at least the following is included in your `project/plugins.sbt`:
 
 ```
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
@@ -244,7 +269,7 @@ resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
 ```
 
-_**Note: You will usually want to include a bit more than this in `project/plugins.sbt`! See a much richer `project/plugins.sbt` example [below](#sbt-configuration).**_
+(You will usually want to include a bit more than this in `project/plugins.sbt`. See a much richer `project/plugins.sbt` example [below](#sbt-configuration).)
 
 Then place the source files for your Orchid site in `src/main/orchid/resources`.
 
@@ -273,11 +298,11 @@ your site relies upon are available to the build. Orchid offers a very rich feat
 In order to use these fetures, you'll want to add them as dependies *of the build, not your project*.
 
 The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
-Below is a very rich sample `project/plugins.sbt` file. You can use any of the main Orchid features
+Below is a very rich example `project/plugins.sbt` file. You can use any of the main Orchid features
 simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
 you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
 
-Here's a rich example `project/plugins.sbt`:
+Here's that rich example `project/plugins.sbt`:
 ```scala
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 
