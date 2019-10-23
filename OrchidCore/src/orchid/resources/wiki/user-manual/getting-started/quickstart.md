@@ -277,7 +277,7 @@ Below is a very rich sample `project/plugins.sbt` file. You can use any of the m
 simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
 you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
 
-`project/plugins.sbt`:
+Here's a rich example `project/plugins.sbt`:
 ```scala
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 
