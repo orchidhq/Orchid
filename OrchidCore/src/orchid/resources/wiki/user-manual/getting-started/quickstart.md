@@ -261,17 +261,18 @@ Now, on the sbt command line you can run:
     You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
     site directly to Github Pages or Netlify.
 
-##### sbt configuration
+#### sbt configuration
 
 In your project's `build.sbt` file, you will usually want to configure an Orchid theme. That's just:
 ```
 orchidTheme := "BsDoc"
 ```
 
-Orchid offers a very rich feature set, made available via distinct, dynamically loaded dependencies.
+However, for this to work, you will need to make sure the theme and any other features
+your site relies upon are available to the build. Orchid offers a very rich feature set, made available via distinct, dynamically loaded dependencies.
 In order to use these fetures, you'll want to add them as dependies *of the build, not your project*.
-The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
 
+The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
 Here is a very rich sample `project/plugins.sbt` file. You can use any of the main Orchid features
 simply by uncommenting the associated dependencies:
 
