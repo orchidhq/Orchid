@@ -248,7 +248,7 @@ Your sbt project should look something like this:
           |          +—— scala/
           |          |     |
           |          |     +—— Amazeballs.scala
-	  |          |
+          |          |
           |          +—— orchid/
           |                 |
           |                 +—— resources/  <== ORCHID SOURCE FILES GO HERE
