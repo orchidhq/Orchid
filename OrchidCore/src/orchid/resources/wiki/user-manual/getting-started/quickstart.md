@@ -269,7 +269,7 @@ resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
 ```
 
-(You will usually want to include a bit more than this in `project/plugins.sbt`. The much [richer `project/plugins.sbt` example below](#rich-pluginssbt-example) is a better starting point.)
+(You will usually want to include a bit more than this in `project/plugins.sbt`. The much [richer `project/plugins.sbt` example below](#rich-projectpluginssbt-example) is a better starting point.)
 
 Then place the source files for your Orchid site in `src/main/orchid/resources`.
 
@@ -298,11 +298,11 @@ your site relies upon are available to the build. Orchid offers a very rich feat
 In order to use these fetures, you'll want to add them as dependies *of the build, not your project*.
 
 The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
-[Below](#rich-pluginssbt-example) is a very rich example `project/plugins.sbt` file. You can use any of the main Orchid features
+[Below](#rich-projectpluginssbt-example) is a very rich example `project/plugins.sbt` file. You can use any of the main Orchid features
 simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
 you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
 
-##### rich `plugins.sbt` example
+##### rich `project/plugins.sbt` example
 
 ```scala
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
