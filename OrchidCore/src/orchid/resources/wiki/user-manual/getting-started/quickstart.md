@@ -286,6 +286,15 @@ Now, on the sbt command line you can run:
     You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
     site directly to Github Pages or Netlify.
 
+You can also run these tasks directly from your OS command line as `sbt orchidBuild`, `sbt orchidWatch`, `sbt orchidServe`, or `sbt orchidDeploy`.
+You can run Orchid-related tasks generically with `orchidRun`. For example, the following are all equivalent to running `orchidBuild`:
+
+* `> orchidRun build` from the sbt command line
+* `$ sbt "orchidRun build"` fro your OS command line
+* `$ sbt -Dorchid.runTask=build orchidRun
+
+Available commands are `build`, `deploy`, `serve`, and `watch`.
+
 #### sbt plugin configuration
 
 * [basic](#basic)

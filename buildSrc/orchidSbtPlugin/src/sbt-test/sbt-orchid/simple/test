@@ -9,6 +9,15 @@ $ exists target/orchid/example-page/index.html
 > checkOrchidContains index.html homepage-check
 > checkOrchidContains example-page/index.html example-page-check
 
+# test build via orchidRun
+
+> clean
+> orchidRun build
+
+$ exists target/orchid
+$ exists target/orchid/BsDoc
+$ exists target/orchid/index.html
+$ exists target/orchid/example-page/index.html
 
 
 
