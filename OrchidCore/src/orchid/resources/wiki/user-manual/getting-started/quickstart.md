@@ -288,8 +288,11 @@ Now, on the sbt command line you can run:
 
 #### sbt configuration
 
+* [basic](#basic)
 * [rich `project/plugins.sbt` example](#rich-projectpluginssbt-example)
 * [all `build.sbt` settings](#all-buildsbt-settings)
+
+##### basic
 
 In your project's `build.sbt` file, you will usually want to configure an Orchid theme. That's just:
 ```
