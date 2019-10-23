@@ -7,5 +7,5 @@
 
 [build]
   base    = ""
+  command = "./docs.sh"
   publish = "OrchidCore/build/docs/orchid"
-  command = "./gradlew assemble :OrchidCore:orchidBuild -Penv=prod"

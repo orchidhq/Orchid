@@ -17,87 +17,22 @@ branches:
 
 jobs:
   include:
-    - stage: testDebug
-      install:
-        - ./gradlew assemble
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check
-      os: linux
-      jdk: openjdk8
-    - stage: testDebug
-      install:
-        - ./gradlew assemble
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check
-      os: linux
-      jdk: oraclejdk8
-    - stage: testDebug
-      install:
-        - ./gradlew assemble
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check
-      os: linux
-      jdk: oraclejdk9
-    - stage: testDebug
-      install:
-        - ./gradlew assemble
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check
-      os: osx
-      osx_image: xcode8.3
+    - { stage: testDebug,   os: linux, jdk:       openjdk8,    script: './test.sh debug',           }
+    - { stage: testDebug,   os: linux, jdk:       oraclejdk8,  script: './test.sh debug',           }
+    - { stage: testDebug,   os: linux, jdk:       oraclejdk9,  script: './test.sh debug',           }
+    - { stage: testDebug,   os: osx,   osx_image: xcode8.3,    script: './test.sh debug',           }
 
-    - stage: testRelease
-      install:
-        - ./gradlew assemble -Prelease
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check -Prelease
-      os: linux
-      jdk: openjdk8
-    - stage: testRelease
-      install:
-        - ./gradlew assemble -Prelease
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check -Prelease
-      os: linux
-      jdk: oraclejdk8
-    - stage: testRelease
-      install:
-        - ./gradlew assemble -Prelease
-        - cd buildSrc/orchidMavenPlugin && ./mvnw package && cd -
-      script: ./gradlew check -Prelease
-      os: osx
-      osx_image: xcode8.3
+    - { stage: testRelease, os: linux, jdk:       openjdk8,    script: './test.sh release',         }
+    - { stage: testRelease, os: linux, jdk:       oraclejdk8,  script: './test.sh release',         }
+    - { stage: testRelease, os: osx,   osx_image: xcode8.3,    script: './test.sh release',         }
 
-    - stage: afterTests
-      install: ./gradlew assemble
-      script: ./gradlew codeCoverageReport sendCoverageToCodacy
-      os: linux
-      jdk: openjdk8
+    - { stage: afterTests,  os: linux, jdk:       openjdk8,    script: './afterTests.sh',           }
 
-    - stage: release
-      os: linux
-      jdk: openjdk8
-      install: ./gradlew assemble -Penv=prod -Prelease
-      script: travis_wait 60 ./gradlew deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
-      after_success:
-        - git config --local user.name "Travis CI Deployment Bot"
-        - git config --local user.email "deploy@travis-ci.org"
-        - ./gradlew tag -Prelease
-        - export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
-        - export GRADLE_PROJECT_RELEASE_NOTES=$(./gradlew getReleaseNotes --quiet)
-        - cd buildSrc
-        - ./gradlew publishPlugins -Dgradle.publish.key=${GRADLE_PUBLISH_KEY} -Dgradle.publish.secret=${GRADLE_PUBLISH_SECRET}
-        - cd orchidMavenPlugin
-        - ./mvnw versions:set -DnewVersion=$GRADLE_PROJECT_RELEASE_NAME
-        - ./mvnw deploy -s settings.xml
+    - { stage: release,     os: linux, jdk:       openjdk8,    script: 'travis_wait 60 ./deploy.sh' }
 
 stages:
-  - name: testDebug
-    if: branch = dev
-  - name: testRelease
-    if: branch = master
-  - name: afterTests
-    if: branch = dev AND tag IS blank AND type IN (push)
-  - name: release
-    if: branch = master AND tag IS blank AND type IN (push)
+  - { name: testDebug,   if: branch = dev                                        }
+  - { name: testRelease, if: branch = master                                     }
+  - { name: afterTests,  if: branch = dev AND tag IS blank AND type IN (push)    }
+  - { name: release,     if: branch = master AND tag IS blank AND type IN (push) }
 
