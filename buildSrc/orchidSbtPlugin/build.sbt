@@ -50,28 +50,3 @@ def failNoVersion = {
   sys.error( s"In order to build, orchidSbtPlugin requires that the system property 'orchid.version' or the (equivalently interpreted) environment variable 'GRADLE_PROJECT_RELEASE_NAME' be set.")
 }
 
-
-// XXX: Probably get rid of all the stuff below when we move the documentation out of README.md
-
-val updateReadme = taskKey[Unit]("Updates the README.md file for the current version.")
-
-updateReadme := {
-  import java.nio.file.{Paths, Files}
-  import java.nio.charset.StandardCharsets
-
-  if (!isTestBuild) {
-    val templateFile = (Compile / sourceDirectory).value / "template" / "README.md"
-    val template = scala.io.Source.fromFile( templateFile ).getLines().mkString("\n")
-    val replaced = template.replaceAll("""\$\$ORCHID_VERSION\$\$""", OrchidVersion)
-
-    // cribbed from https://stackoverflow.com/questions/6879427/scala-write-string-to-file-in-one-statement
-    Files.write(Paths.get("README.md"), replaced.getBytes(StandardCharsets.UTF_8))
-  }
-}
-
-Compile / sbt.Keys.`package` := {
-  val ok = updateReadme.value
-  (Compile / sbt.Keys.`package`).value
-}
-
-
