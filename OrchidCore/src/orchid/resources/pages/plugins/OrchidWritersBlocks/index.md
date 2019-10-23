@@ -54,6 +54,16 @@ Embed a photo from Instagram.
 {%- endverbatim %}
 ```
 
+#### Spotify
+
+Embed a Spotify track or playlist.
+
+```jinja
+{% verbatim %}
+{% spotify 'track | playlist' 'trackOrPlaylistID' %}
+{%- endverbatim %}
+```
+
 #### Tabs
 
 Embed a Twitter post, collection, or timeline.
