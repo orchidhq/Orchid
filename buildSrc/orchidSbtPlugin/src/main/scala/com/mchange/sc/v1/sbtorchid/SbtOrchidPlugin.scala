@@ -27,7 +27,8 @@ object SbtOrchidPlugin extends AutoPlugin {
     val orchidDryDeploy      = settingKey[Boolean]("Allows running a dry deploy instead of a full deploy") // ???
     val orchidEnvironment    = settingKey[String] ("The environment used to run the orchid site.")         // ???
     val orchidPort           = settingKey[Int]    ("The port to run the dev server on.")
-    val orchidSource         = settingKey[File]   ("The source directory for orchid documents")
+    val orchidSource         = settingKey[File]   ("The top-level source directory for orchid-related files")
+    val orchidResources      = settingKey[File]   ("The 'resources' directory that used directly by this plugin to generate sites")
     val orchidTheme          = settingKey[String] ("The theme that will be imposed on the generated orchid site")
     val orchidVersion        = settingKey[String] ("The version of the orchid site")
 
@@ -60,6 +61,7 @@ object SbtOrchidPlugin extends AutoPlugin {
     orchidDryDeploy   := false,
     orchidEnvironment := "debug",
     orchidPort        := 8080,
+    orchidResources   := orchidSource.value / "resources",
     orchidSource      := (Compile / sourceDirectory).value / "orchid",
     orchidTheme       := "Default",
     orchidVersion     := version.value,
@@ -89,8 +91,14 @@ object SbtOrchidPlugin extends AutoPlugin {
   private def orchidExecuteTask( command : String ) = Def.task {
     val log = streams.value.log
 
+    val srcDir = orchidResources.value
+
+    if (! srcDir.exists()) {
+      log.warn( s"Orchid source directory '${srcDir}' does not exist. Your Orchid source documents should be there!" )
+    }
+
     val baseUrl     = orchidBaseUrl.value
-    val src         = orchidSource.value.getAbsolutePath
+    val src         = srcDir.getAbsolutePath
     val dest        = orchidDestination.value.getAbsolutePath
     val theme       = orchidTheme.value
     val version     = orchidVersion.value

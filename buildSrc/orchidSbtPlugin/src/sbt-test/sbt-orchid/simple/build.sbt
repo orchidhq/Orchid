@@ -1,5 +1,4 @@
 val checkOrchidContains = inputKey[Unit]("Check that a string is contained within the contents of an orchid-generated text file.")
-// val orchidContentChecks = taskKey[Boolean]("Combines contents checks into a single, non-input task suitable for sbt-scripted.")
 
 checkOrchidContains := {
   try {
