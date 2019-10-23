@@ -368,3 +368,16 @@ libraryDependencies += orchidComponent( "OrchidCore" )
 // libraryDependencies += orchidComponent( "OrchidWritersBlocks" )
 
 ```
+
+##### Orchid-related `build.sbt` settings
+
+* `orchidBaseUrl` ~ The base URL for generted site links
+* `orchidDestination` ~ The directory into which orchid sites are generated (`target/orchid` by default)
+* `orchidDryDeploy` ~ Allows running a dry deploy instead of a full deploy (`false` by default)
+* `orchidEnvironment` ~ The environment used to run the orchid site. (`debug` by default)
+* `orchidPort` ~ The port to run the dev server on. (`8080` by default)
+* `orchidResources` ~ The directory of source documents Orchid directly transforms (`src/main/orchid/resources`, or more precisely `orchidSource.value` / "resources", by default)
+* `orchidSource` ~ The _top-level_ directory for orchid-related source documents (`src/main/orchid` by default)
+* `orchidTheme `~ The theme that will be imposed on the generated orchid site (Theme `Default` by default)
+* `orchidVersion` ~ The version of the orchid site that will be generated (Your sbt project's `version` by default.)
+
