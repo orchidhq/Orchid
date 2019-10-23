@@ -385,5 +385,5 @@ libraryDependencies += orchidComponent( "OrchidCore" )
 * `orchidResources` ~ The directory of source documents Orchid directly transforms (`src/main/orchid/resources`, or more precisely `orchidSource.value` / "resources", by default)
 * `orchidSource` ~ The _top-level_ directory for orchid-related source documents (`src/main/orchid` by default)
 * `orchidTheme `~ The theme that will be imposed on the generated orchid site (Theme `Default` by default)
-* `orchidVersion` ~ The version of the orchid site that will be generated (Your sbt project's `version` by default.)
+* `orchidVersion` ~ The version of the orchid site that will be generated (Your sbt project's `version` by default)
 
