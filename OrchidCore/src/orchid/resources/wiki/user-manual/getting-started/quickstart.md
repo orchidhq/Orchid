@@ -244,24 +244,24 @@ resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
 ```
 
-**You will usually want to include a bit more than this in `project/plugins.sbt`! See a much richer `project/plugins.sbt` example [below](#configuration).**
+_**Note: You will usually want to include a bit more than this in `project/plugins.sbt`! See a much richer `project/plugins.sbt` example [below](#sbt-configuration).**_
 
 Then place the source files for your Orchid site in `src/main/orchid/resources`.
 
 Now, on the sbt command line you can run:
-    1) `orchidBuild` - Runs the Orchid build task a single time then completes. The resulting Orchid site will be in 
-        `target/orchid` unless the `orchidDestination` setting has been customized. You can then view the site by starting any 
-        HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
-    2) `orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
-        Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
-        `target/orchid` unless the `orchidDestination` setting has been customized.
-    3) `orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
-        (or the closest available port).
-    4) `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
-        You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
-        site directly to Github Pages or Netlify.
+1. `orchidBuild` - Runs the Orchid build task a single time then completes. The resulting Orchid site will be in 
+   `target/orchid` unless the `orchidDestination` setting has been customized. You can then view the site by starting any 
+    HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
+2. `orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
+   Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+   `target/orchid` unless the `orchidDestination` setting has been customized.
+3. `orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
+   (or the closest available port).
+4. `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+    You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
+    site directly to Github Pages or Netlify.
 
-#### Configuration
+##### sbt configuration
 
 In your project's `build.sbt` file, you will usually want to configure an Orchid theme. That's just:
 ```
