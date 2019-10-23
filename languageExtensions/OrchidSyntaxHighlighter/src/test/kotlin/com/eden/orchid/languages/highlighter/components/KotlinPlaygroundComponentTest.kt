@@ -27,7 +27,7 @@ class KotlinPlaygroundComponentTest : OrchidIntegrationTest(withGenerator<Homepa
             |   println("Running from Kotlin Playground!")
             |}
             |```
-            |{theme='idea' lines='true'}
+            |{theme='darcula' lines='true'}
             """.trimMargin(),
             """
             |{
@@ -44,13 +44,12 @@ class KotlinPlaygroundComponentTest : OrchidIntegrationTest(withGenerator<Homepa
                 get { content }
                     .asHtml()
                     .select("body") {
-                        get { html().toString() }
-                            .get { replace("\\s+".toRegex(), "") }
+                        get { html().toString().replace("\\s+".toRegex(), "") }
                             .isEqualTo(
                                 """
                                 |<h1 id="try-kotlin-below"><ahref="#try-kotlin-below"id="try-kotlin-below"class="anchor"></a>Try Kotlin below!</h1>
-                                |<pre theme="idea" lines="true">
-                                |  <code class="language-run-kotlin">fun main() {
+                                |<pre theme="darcula" lines="true">
+                                |  <code class="language-run-kotlin" theme="darcula" lines="true">fun main() {
                                 |   println("Running from Kotlin Playground!")
                                 |} </code>
                                 |</pre>
