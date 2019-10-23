@@ -290,8 +290,8 @@ You can also run these tasks directly from your OS command line as `sbt orchidBu
 You can run Orchid-related tasks generically with `orchidRun`. For example, the following are all equivalent to running `orchidBuild`:
 
 * `> orchidRun build` from the sbt command line
-* `$ sbt "orchidRun build"` fro your OS command line
-* `$ sbt -Dorchid.runTask=build orchidRun
+* `$ sbt "orchidRun build"` from your OS command line
+* `$ sbt -Dorchid.runTask=build orchidRun` from your OS command line
 
 Available commands are `build`, `deploy`, `serve`, and `watch`.
 
