@@ -20,7 +20,7 @@ import java.util.ArrayList
 class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
 
     enum class ItemTitleType {
-        NAME, SIGNATURE
+        NAME, ID, SIGNATURE
     }
 
     @Option
@@ -69,6 +69,7 @@ class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
                             // set title
                             val itemTitle = when (itemTitleType) {
                                 ItemTitleType.NAME -> sectionElement.name
+                                ItemTitleType.ID -> sectionElement.id
                                 ItemTitleType.SIGNATURE -> sectionElement.signature.joinToString("") { it.text }
                             }
                             itemMenuBuilder.title(itemTitle)
@@ -81,8 +82,7 @@ class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
             }
 
             return menuItems
-        }
-        catch (t: Throwable) {
+        } catch (t: Throwable) {
             t.printStackTrace()
             return emptyList()
         }
