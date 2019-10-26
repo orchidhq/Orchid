@@ -37,7 +37,9 @@ fun Assertion.Builder<TestResults>.assertKotlinPages(baseDir: String = "/kotlind
         .pageWasRendered("$baseDir/com/eden/orchid/mock/javainterface/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinannotation/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinclass/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinclassgenerics/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinclasswithcompanionobject/index.html") { }
+        .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinclasswithlibraryclasses/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinenumclass/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlinexceptionclass/index.html") { }
         .pageWasRendered("$baseDir/com/eden/orchid/mock/kotlininlineclass/index.html") { }

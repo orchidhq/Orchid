@@ -79,7 +79,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
                     module.nodes.forEach { (node, nodePages) ->
                         // create a collection for each top-level node in this module
-                        add(PageCollection(self, "${module.name}-${node.prop.name}", nodePages))
+                        add(PageCollection(self, "${module.name}-${node.name}", nodePages))
                     }
                 }
             } else {
@@ -89,7 +89,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
                 module.nodes.forEach { (node, nodePages) ->
                     // create a collection for each top-level node in this module
-                    add(PageCollection(self, node.prop.name, nodePages))
+                    add(PageCollection(self, node.name, nodePages))
                 }
             }
         }
@@ -114,8 +114,8 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             invokerModel = loadFromCacheOrRun(config)
             modelPageMap = invokerModel?.let {
                 it.nodes.map { node ->
-                    val nodeName: String = node.prop.name
-                    val nodeElements: List<DocElement> = node.getter()
+                    val nodeName: String = node.name
+                    val nodeElements: List<DocElement> = node.elements
 
                     val nodePages = nodeElements.map { element ->
                         SourceDocPage(

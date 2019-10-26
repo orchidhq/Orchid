@@ -42,7 +42,9 @@ class NewKotlindocGeneratorTest : OrchidIntegrationTest(KotlindocModule(), Sourc
             // Kotlin sources
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinannotation/index.html") { }
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinclass/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinclassgenerics/index.html") { }
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinclasswithcompanionobject/index.html") { }
+            .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinclasswithlibraryclasses/index.html") { }
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinenumclass/index.html") { }
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlinexceptionclass/index.html") { }
             .pageWasRendered("/kotlindoc/com/eden/orchid/mock/kotlininlineclass/index.html") { }

@@ -43,24 +43,11 @@ class SourceDocPage<T : DocElement>(
         if (element is AutoDocument) {
             return element
                 .nodes
-                .filter { it.getter().isNotEmpty() }
-                .map { Section(element, it.prop.name, it.getter()) }
+                .filter { it.elements.isNotEmpty() }
+                .map { Section(element, it.name, it.elements) }
         }
 
         return emptyList()
-    }
-
-    fun renderSignature(element: DocElement): String {
-        return element
-            .signature
-            .map {
-                if (it.kind == TYPE_NAME) {
-                    context.linkToPage(it.text, "", "", it.value, "")
-                } else {
-                    it.text
-                }
-            }
-            .joinToString("")
     }
 
     fun renderComment(element: DocElement): String {
@@ -98,6 +85,6 @@ class SourceDocPage<T : DocElement>(
         val parent: DocElement?,
         val name: String,
         val elements: List<DocElement>,
-        val hasDescendants: Boolean = elements.any { it is AutoDocument && it.nodes.any { node -> node.getter().isNotEmpty() } }
+        val hasDescendants: Boolean = elements.any { it is AutoDocument && it.nodes.any { node -> node.elements.isNotEmpty() } }
     )
 }

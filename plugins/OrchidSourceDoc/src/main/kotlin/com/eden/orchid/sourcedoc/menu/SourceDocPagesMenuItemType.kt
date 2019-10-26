@@ -50,7 +50,7 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
                 val pages: List<SourceDocPage<*>> = module
                     .nodes
                     .entries
-                    .firstOrNull { it.key.prop.name == node }
+                    .firstOrNull { it.key.name == node }
                     ?.value
                     ?: emptyList()
 
@@ -65,7 +65,7 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
                 module
                     .nodes
                     .map { node ->
-                        val nodeTitle = "All ${node.key.prop.name.capitalize()}"
+                        val nodeTitle = "All ${node.key.name.capitalize()}"
                         val nodePages = node.value.sortedBy { it.title }
 
                         MenuItem.Builder(context)

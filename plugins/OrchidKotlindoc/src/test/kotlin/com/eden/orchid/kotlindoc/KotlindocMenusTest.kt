@@ -161,7 +161,9 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/CustomString") { +"CustomString" } }
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinAnnotation") { +"KotlinAnnotation" } }
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClass") { +"KotlinClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassGenerics") { +"KotlinClassGenerics" } }
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithCompanionObject") { +"KotlinClassWithCompanionObject" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithLibraryClasses") { +"KotlinClassWithLibraryClasses" } }
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinEnumClass") { +"KotlinEnumClass" } }
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinExceptionClass") { +"KotlinExceptionClass" } }
                                         li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInlineClass") { +"KotlinInlineClass" } }

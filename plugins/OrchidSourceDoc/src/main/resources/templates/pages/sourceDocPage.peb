@@ -1,8 +1,8 @@
 <div class="sourcedoc-page orchid-sourcedoc content">
-  {{ renderSection(page, page.rootSection, 1) }}
+  {{ __renderSection(page, page.rootSection, 1) }}
 </div>
 
-{% macro renderSection(page, section, depth) %}
+{% macro __renderSection(page, section, depth) %}
 <div class="sourcedoc-section section-root section-level-{{ depth }}" id="{{ page.sectionId(section) }}">
 
 {% if not section.hasDescendants %}
@@ -20,7 +20,7 @@
       {% for element in section.elements %}
       <tr class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
         <td class="sourcedoc-section section-signature">
-          <code>{{ page.renderSignature(element)|raw }}</code>
+          <code>{{ __renderSignature(element) }}</code>
         </td>
         <td class="sourcedoc-section section-comments content">
         {{ page.renderComment(element)|compileAs('md') }}
@@ -46,7 +46,7 @@
       {% set childrenSections = page.getSectionsData(element) %}
       {% if childrenSections|length > 0 %}
         {% for childSection in childrenSections %}
-          {{ renderSection(page, childSection, depth+1) }}
+          {{ __renderSection(page, childSection, depth+1) }}
         {% endfor %}
       {% endif %}
     </div>
@@ -54,3 +54,9 @@
 {% endif %}
 </div>
 {% endmacro %}
+
+{# In order to preserve the whitespace formatting as set up by the Formatter, there must be no additional spaces between
+tags in the following macros. This also must be done in the template if we do not wish to apply manual escaping from a
+utility function in the Orchid plugin code (which we definitely do not), since some of the components may render literal
+'<' or '>' (which must be escaped), while others may render raw HTML link tags (which should not be escaped). #}
+{% macro __renderSignature(element) %}{% for signatureComponent in element.signature -%}{% if signatureComponent.kind == "typeName" %}{{ anchor(title=signatureComponent.text, itemId=signatureComponent.value) }}{% else %}{{ signatureComponent.text }}{% endif %}{% endfor %}{% endmacro %}

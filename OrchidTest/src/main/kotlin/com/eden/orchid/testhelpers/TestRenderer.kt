@@ -45,7 +45,7 @@ class TestRenderer : OrchidRenderer {
         }
 
         override fun toString(): String {
-            return "TestRenderer.TestRenderedPage(path=" + this.path + ", origin=" + this.origin + ", content=" + this.content + ")"
+            return "TestRenderer.TestRenderedPage(path=" + this.path + ", origin=" + this.origin + ")"
         }
     }
 

@@ -88,7 +88,7 @@ fun OrchidIntegrationTest.testPageStructure() {
             |<div class="section section-root" data-tab-text="{{ page.sectionId(section) }}" style="--section-color: green;" id="{{ page.sectionId(section) }}">
             |{% for element in section.elements %}
             |  <div class="section section-element" data-tab-text="{{ element.kind }}" style="--section-color: black;" id="{{ page.elementId(element) }}">
-            |    <div class="section section-signature" data-tab-text="signature" style="--section-color: red;">{{ page.renderSignature(element)|raw }}</div>
+            |    <div class="section section-signature" data-tab-text="signature" style="--section-color: red;">{{ __renderSignature(element) }}</div>
             |    <div class="section section-comments" data-tab-text="comments" style="--section-color: blue;">{{ page.renderComment(element)|compileAs('md') }}</div>
             |    {% set childrenSections = page.getSectionsData(element) %}
             |    {% if childrenSections|length > 0 %}
@@ -100,6 +100,8 @@ fun OrchidIntegrationTest.testPageStructure() {
             |{% endfor %}
             |</div>
             |{% endmacro %}
+            |
+            |{% macro __renderSignature(element) %}{% for signatureComponent in element.signature -%}{% if signatureComponent.kind == "typeName" %}{{ anchor(title=signatureComponent.text, itemId=signatureComponent.value) }}{% else %}{{ signatureComponent.text }}{% endif %}{% endfor %}{% endmacro %}
         """.trimMargin()
     )
 }

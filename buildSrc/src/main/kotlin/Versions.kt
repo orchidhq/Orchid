@@ -40,7 +40,7 @@ object Versions {
 
   const val com_eden_common: String = "1.11.4"
 
-  const val com_eden_kodiak: String = "0.3.5"
+  const val com_eden_kodiak: String = "0.4.0"
 
   const val validation_api: String = "2.0.1.Final"
 

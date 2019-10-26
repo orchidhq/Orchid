@@ -44,6 +44,8 @@ class KotlindocGeneratorTest : OrchidIntegrationTest(KotlindocModule()) {
             .pageWasRendered("/com/eden/orchid/mock/KotlinSealedClass1/index.html")
             .pageWasRendered("/com/eden/orchid/mock/KotlinSealedClass2/index.html")
             .pageWasRendered("/com/eden/orchid/mock/KotlinSealedClass3/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/KotlinClassGenerics/index.html")
+            .pageWasRendered("/com/eden/orchid/mock/KotlinClassWithLibraryClasses/index.html")
             .pageWasRendered("/com/eden/orchid/mock/CustomString/index.html")
 
             // java sources
