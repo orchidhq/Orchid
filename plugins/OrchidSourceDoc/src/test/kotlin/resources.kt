@@ -193,6 +193,17 @@ fun modulesSetup(
 // Setup Theme Menus
 //----------------------------------------------------------------------------------------------------------------------
 
+private fun themeMenuModulesSetup(type: String) : String {
+    return """
+        |{
+        |    "type": "sourcedocModules",
+        |    "moduleType": "${type}doc",
+        |    "asSubmenu": true,
+        |    "submenuTitle": "${type.capitalize()} Modules"
+        |}
+        """.trimMargin()
+}
+
 private fun themeMenuKindSetup(type: String, nodeKind: String, name: String? = null) : String {
     return if(name != null) {
         """
@@ -268,6 +279,8 @@ fun themeMenuSetup(type: String, nodeKinds: List<String>, modules: List<String>)
     return """
         |{
         |    "menu": [
+        |        ${themeMenuModulesSetup(type)},
+        |        {"type": "separator"},
         |        ${modules.joinToString(",") { themeMenuKindSetup(type, nodeKinds, it) + """,{"type": "separator"}""" }.trimEnd(',') },
         |        {"type": "separator"},
         |        ${modules.joinToString(",") { themeMenuAllKindsSetup(type, nodeKinds, it) + """,{"type": "separator"}""" }.trimEnd(',') },
