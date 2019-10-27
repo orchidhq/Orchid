@@ -9,18 +9,18 @@ import UIKit
 
  More description
  */
-class SwiftClass : NSObject {
+public class SwiftClass : NSObject {
 
     /// A String
-    var stringVariable: String?
+    public var stringVariable: String?
 
     /// A Number
-    var numberVariable: CGFloat?
+    public var numberVariable: CGFloat?
 
     /**
      * Initializer Description
      */
-    init(dictionary: [String: AnyObject]) {
+    public init(dictionary: [String: AnyObject]) {
         self.stringVariable = dictionary["stringVariable"] as! String
         self.numberVariable = dictionary["numberVariable"] as! CGFloat
     }
@@ -28,7 +28,7 @@ class SwiftClass : NSObject {
     /**
      * Test Method Description
      */
-    func testMethod(p1: String, p2: CGFloat?) -> String {
+    public func testMethod(p1: String, p2: CGFloat?) -> String {
         return ""
     }
 }

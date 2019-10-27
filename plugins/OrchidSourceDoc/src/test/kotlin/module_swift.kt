@@ -29,10 +29,16 @@ fun OrchidIntegrationTest.swiftdocSetup(modules: List<String>, showRunnerLogs: B
 fun Assertion.Builder<TestResults>.assertSwiftPages(baseDir: String = "/swiftdoc"): Assertion.Builder<TestResults> {
     return this
         .pageWasRendered("$baseDir/index.html") { }
-        .pageWasRendered("$baseDir/swiftclass/swiftclass/index.html") { }
+        .pageWasRendered("$baseDir/privateswiftclass/index.html") { }
         .pageWasRendered("$baseDir/swiftclass/index.html") { }
-        .pageWasRendered("$baseDir/swiftstruct/swiftstruct/index.html") { }
+        .pageWasRendered("$baseDir/swiftclass/swiftclass/index.html") { }
+        .pageWasRendered("$baseDir/swiftclasswithprivatemembers/index.html") { }
+        .pageWasRendered("$baseDir/swiftclasswithprivatemembers/swiftclasswithprivatemembers/index.html") { }
+        .pageWasRendered("$baseDir/swiftclasswithsuppressedmembers/index.html") { }
+        .pageWasRendered("$baseDir/swiftclasswithsuppressedmembers/swiftclasswithsuppressedmembers/index.html") { }
         .pageWasRendered("$baseDir/swiftstruct/index.html") { }
+        .pageWasRendered("$baseDir/swiftstruct/swiftstruct/index.html") { }
+        .pageWasRendered("$baseDir/swiftsuppressedclass/index.html") { }
 }
 
 fun Assertion.Builder<TestResults>.assertSwiftPages(baseDirs: List<String>): Assertion.Builder<TestResults> {

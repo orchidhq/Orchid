@@ -34,10 +34,16 @@ class NewSwiftdocGeneratorTest : OrchidIntegrationTest(SwiftdocModule(), SourceD
             .pageWasRendered("/swiftdoc/index.html") { }
 
             // Swift sources
-            .pageWasRendered("/swiftdoc/swiftclass/swiftclass/index.html") { }
+            .pageWasRendered("/swiftdoc/privateswiftclass/index.html") { }
             .pageWasRendered("/swiftdoc/swiftclass/index.html") { }
-            .pageWasRendered("/swiftdoc/swiftstruct/swiftstruct/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclass/swiftclass/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclasswithprivatemembers/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclasswithprivatemembers/swiftclasswithprivatemembers/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclasswithsuppressedmembers/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftclasswithsuppressedmembers/swiftclasswithsuppressedmembers/index.html") { }
             .pageWasRendered("/swiftdoc/swiftstruct/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftstruct/swiftstruct/index.html") { }
+            .pageWasRendered("/swiftdoc/swiftsuppressedclass/index.html") { }
 
             // other
             .pageWasRendered("/assets/css/orchidSourceDoc.css")
