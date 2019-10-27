@@ -8,7 +8,8 @@ class SourceDocModuleHomePage(
     title: String,
     moduleType: String,
     moduleGroup: String,
-    module: String
+    module: String,
+    val roots: List<String>
 ) : BaseSourceDocPage(
     resource,
     key,
@@ -24,7 +25,7 @@ class SourceDocModuleHomePage(
                 it.add("${generator.key}Module-$moduleGroup")
             }
             it.add("${generator.key}Module")
-            it.add("sourceDocModule")
+            it.add("sourceDocModuleHomepage")
         }
     }
 }

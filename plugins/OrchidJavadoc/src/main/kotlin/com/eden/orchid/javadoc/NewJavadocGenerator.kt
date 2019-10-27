@@ -1,7 +1,7 @@
 package com.eden.orchid.javadoc
 
 import com.copperleaf.kodiak.java.JavadocInvokerImpl
-import com.copperleaf.kodiak.java.models.JavaRootDoc
+import com.copperleaf.kodiak.java.models.JavaModuleDoc
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -18,7 +18,7 @@ constructor(
     invoker: JavadocInvokerImpl,
     extractor: OptionsExtractor,
     permalinkStrategy: PermalinkStrategy
-) : SourcedocGenerator<JavaRootDoc, JavaDocModuleConfig>(
+) : SourcedocGenerator<JavaModuleDoc, JavaDocModuleConfig>(
     GENERATOR_KEY,
     resourcesDir,
     invoker,

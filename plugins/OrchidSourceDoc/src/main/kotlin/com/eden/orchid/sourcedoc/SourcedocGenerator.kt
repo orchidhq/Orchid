@@ -135,7 +135,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         }
 
         return SourceDocModuleModel(
-            setupModuleHomepage(context, config, config.name, config.name),
+            setupModuleHomepage(context, invokerModel, config, config.name, config.name),
             config.name,
             invokerModel,
             config.moduleGroup,
@@ -145,6 +145,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
     private fun setupModuleHomepage(
         context: OrchidContext,
+        module: T?,
         config: U,
         moduleName: String,
         moduleTitle: String
@@ -172,8 +173,15 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         readmeFile.reference.outputExtension = "html"
 
-        return SourceDocModuleHomePage(readmeFile, key, moduleTitle, key, config.moduleGroup, moduleName)
-            .also { permalinkStrategy.applyPermalink(it, config.homePagePermalink) }
+        return SourceDocModuleHomePage(
+            readmeFile,
+            key,
+            moduleTitle,
+            key,
+            config.moduleGroup,
+            moduleName,
+            module?.roots()?.map { it.id } ?: emptyList()
+        ).also { permalinkStrategy.applyPermalink(it, config.homePagePermalink) }
     }
 
 // helpers
