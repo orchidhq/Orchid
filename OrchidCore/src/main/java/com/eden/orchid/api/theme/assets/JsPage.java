@@ -16,12 +16,14 @@ public final class JsPage extends AssetPage {
     @Option
     private boolean nomodule;
 
+    private boolean inlined = false;
+
     public JsPage(Object source, String sourceKey, OrchidResource resource, String key, String title) {
         super(source, sourceKey, resource, key, title);
     }
 
     public String renderAssetToPage() {
-        if (resource instanceof InlineResource) {
+        if (resource instanceof InlineResource || inlined) {
             return applyStartTag()
                     + applyModuleNoModule()
                     + renderAttrs()
@@ -35,6 +37,10 @@ public final class JsPage extends AssetPage {
                     + applyScriptSource()
                     + applyCloseTag();
         }
+    }
+
+    public void inlined() {
+        inlined = true;
     }
 
     public boolean isAsync() {

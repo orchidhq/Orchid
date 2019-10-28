@@ -7,6 +7,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.api.server.OrchidView;
+import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.json.JSONArray;
@@ -91,6 +92,9 @@ public final class OptionsServiceImpl implements OptionsService {
         if (data != null) {
             if (data instanceof OrchidView) {
                 addView(siteData, (OrchidView) data);
+            }
+            else if (data instanceof AssetPage) {
+                addAsset(siteData, (AssetPage) data);
             }
             else if (data instanceof OrchidPage) {
                 addPage(siteData, (OrchidPage) data);
@@ -184,6 +188,11 @@ public final class OptionsServiceImpl implements OptionsService {
         siteData.put("page", page);
         siteData.put(page.getKey(), page);
         addMap(siteData, page.getMap());
+    }
+
+    private void addAsset(Map<String, Object> siteData, AssetPage page) {
+        siteData.put(page.getSourceKey(), page.getSource());
+        addPage(siteData, page);
     }
 
     private void addComponent(Map<String, Object> siteData, OrchidComponent component) {

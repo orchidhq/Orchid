@@ -61,13 +61,6 @@ constructor(
     @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
-    @Option
-    @BooleanDefault(false)
-    @Description("If true, extra CSS and Javascript will be included to support static searching with Lunr.js, and a " +
-            "searchbar added above the sidenav menu."
-    )
-    var useSidebarSearch: Boolean = false
-
     override fun loadAssets() {
         // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
         addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"), "bootstrap.min", null))
@@ -80,11 +73,7 @@ constructor(
         addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
         addJs("assets/js/bsdoc.js")
 
-        if (useSidebarSearch) {
-            addCss("assets/css/orchidSearch.scss")
-            addJs("https://unpkg.com/lunr/lunr.js")
-            addJs("assets/js/orchidSearch.js")
-        }
+        addCss("assets/css/orchidSearch.scss")
     }
 
     override fun onPostExtraction() {

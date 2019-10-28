@@ -1,12 +1,26 @@
 (function ($, lunr) {
+    var defaultOptions = {
+        formAttribute: "'data-orchid-search'",
+        formSelector: "form[data-orchid-search]",
+        formInputQuerySelector: "input[name=query]",
+        progressSelector: "[data-orchid-search-progress]",
+        resultsSelector: "[data-orchid-search-results]",
+        resultsListSelector: "[data-orchid-search-results] ul",
+    };
 
-    function initializeSearchField() {
-        $('form[data-orchid-search]').submit(function (e) {
+    var options = Object.assign({}, defaultOptions);
+
+    function initializeSearchField(configuration) {
+        if(configuration) {
+            options = configuration
+        }
+
+        $(options.formSelector).submit(function (e) {
             e.preventDefault();
 
-            var $queryEl = $(this).find("input[name=query]");
+            var $queryEl = $(this).find(options.formInputQuerySelector);
             var $query = $queryEl.val();
-            var $orchidIndicesAllowed = $(this).attr('data-orchid-search');
+            var $orchidIndicesAllowed = $(this).attr(options.formAttribute);
             if($orchidIndicesAllowed && $orchidIndicesAllowed.length > 0) {
                 $orchidIndicesAllowed = $orchidIndicesAllowed.split(",");
             }
@@ -27,12 +41,12 @@
 
     function setSearchWorking(isWorking) {
         if (isWorking) {
-            $('[data-orchid-search-progress]').show();
-            $('[data-orchid-search-results]').hide();
+            $(options.progressSelector).show();
+            $(options.resultsSelector).hide();
         }
         else {
-            $('[data-orchid-search-progress]').hide();
-            $('[data-orchid-search-results]').show();
+            $(options.progressSelector).hide();
+            $(options.resultsSelector).show();
         }
         $(window).trigger('orchid.search.working');
     }
@@ -106,7 +120,7 @@
             items.push($item);
         });
 
-        var $searchResults = $('[data-orchid-search-results] ul');
+        var $searchResults = $(options.resultsListSelector);
 
         $searchResults.empty();
         $searchResults.html(items.join(''));

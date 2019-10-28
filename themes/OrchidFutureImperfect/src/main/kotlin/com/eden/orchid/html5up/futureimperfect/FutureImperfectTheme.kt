@@ -37,9 +37,6 @@ constructor(
         addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
         addJs("assets/js/futureImperfect_util.js")
         addJs("assets/js/futureImperfect_main.js")
-
-        addJs("https://unpkg.com/lunr/lunr.js")
-        addJs("assets/js/orchidSearch.js")
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
