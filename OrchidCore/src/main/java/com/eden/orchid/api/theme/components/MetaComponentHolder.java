@@ -4,10 +4,10 @@ import com.eden.orchid.api.OrchidContext;
 
 import javax.inject.Inject;
 
-public class ComponentHolder extends ModularPageList<ComponentHolder, OrchidComponent> {
+public final class MetaComponentHolder extends ComponentHolder {
 
     @Inject
-    public ComponentHolder(OrchidContext context) {
+    public MetaComponentHolder(OrchidContext context) {
         super(context);
         setDefaultType("template");
     }
@@ -15,6 +15,11 @@ public class ComponentHolder extends ModularPageList<ComponentHolder, OrchidComp
     @Override
     protected Class<OrchidComponent> getItemClass() {
         return OrchidComponent.class;
+    }
+
+    @Override
+    protected boolean isTypeEligible(OrchidComponent item) {
+        return item.meta;
     }
 
 }

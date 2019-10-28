@@ -1,11 +1,12 @@
 package com.eden.orchid.impl.compilers.parsers
 
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import strikt.api.expectCatching
 import strikt.assertions.succeeded
 
-class TOMLParserTest {
+class TOMLParserTest : OrchidUnitTest {
 
     lateinit var underTest: TOMLParser
 

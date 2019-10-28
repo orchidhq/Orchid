@@ -4,14 +4,9 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import org.apache.commons.lang3.RandomStringUtils
-import javax.inject.Inject
 
 @Description("Display multiple content sections in an expandable accordion.", name = "Accordion")
-class AccordionTag
-@Inject
-constructor(
-
-) : TemplateTag("accordion", TemplateTag.Type.Tabbed, true) {
+class AccordionTag : TemplateTag("accordion", Type.Tabbed, true) {
 
     @Option
     @Description("The unique id of this accordion. Defaults to a random value.")

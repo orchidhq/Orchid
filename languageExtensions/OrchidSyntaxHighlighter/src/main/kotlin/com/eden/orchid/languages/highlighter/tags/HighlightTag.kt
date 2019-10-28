@@ -7,14 +7,9 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.encodeSpaces
 import org.python.util.PythonInterpreter
-import javax.inject.Inject
 
 @Description("Add syntax highlighting using Pygments.", name = "Highlight")
-class HighlightTag
-@Inject
-constructor(
-
-) : TemplateTag("highlight", TemplateTag.Type.Content, true) {
+class HighlightTag : TemplateTag("highlight", Type.Content, true) {
 
     @Option
     @StringDefault("java")

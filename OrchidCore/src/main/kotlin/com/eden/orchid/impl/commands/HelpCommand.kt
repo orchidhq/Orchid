@@ -17,7 +17,7 @@ class HelpCommand
 @Inject
 constructor(
     private val server: OrchidServer?
-) : OrchidCommand(100, "help") {
+) : OrchidCommand("help") {
 
     enum class HelpType {
         CLASS, CONFIG, PAGE

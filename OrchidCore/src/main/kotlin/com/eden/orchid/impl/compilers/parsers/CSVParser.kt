@@ -12,7 +12,7 @@ import java.util.HashMap
 import javax.inject.Inject
 
 class CSVParser @Inject
-constructor() : OrchidParser(100) {
+constructor() : OrchidParser() {
 
     override fun getSourceExtensions(): Array<String> {
         return arrayOf("csv", "tsv")

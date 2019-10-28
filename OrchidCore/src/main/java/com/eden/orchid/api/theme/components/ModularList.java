@@ -29,7 +29,9 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
             Set<I> itemTypes = context.resolveSet(getItemClass());
             HashMap<String, Class<I>> itemTypesMap = new HashMap<>();
             for (I itemType : itemTypes) {
-                itemTypesMap.put(itemType.getType(), (Class<I>) itemType.getClass());
+                if(isTypeEligible(itemType)) {
+                    itemTypesMap.put(itemType.getType(), (Class<I>) itemType.getClass());
+                }
             }
             return itemTypesMap;
         };
@@ -38,6 +40,10 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
     public ModularList(OrchidContext context, Provider<Map<String, Class<I>>> itemTypesProvider) {
         this.context = context;
         this.itemTypesProvider = itemTypesProvider;
+    }
+
+    protected boolean isTypeEligible(I item) {
+        return true;
     }
 
     protected abstract Class<I> getItemClass();
@@ -79,10 +85,10 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
                         item.extractOptions(context, itemJson);
                         addItem(item, itemJson);
                     } else {
-                        Clog.w("{} type [{}] could not be found {}", getItemClass().getSimpleName(), itemType, getLogMessage());
+                        Clog.w("{} type [{}] could not be found in {} {}", getItemClass().getSimpleName(), itemType, ModularList.this.getClass().getSimpleName(), getLogMessage());
                     }
                 } else {
-                    Clog.w("{} type not given {}", getItemClass().getSimpleName(), getLogMessage());
+                    Clog.w("{} type not given in {}{}", getItemClass().getSimpleName(), ModularList.this.getClass().getSimpleName(), getLogMessage());
                 }
             }
             loadedItems.sort(Comparator.comparingInt(ModularListItem::getOrder));

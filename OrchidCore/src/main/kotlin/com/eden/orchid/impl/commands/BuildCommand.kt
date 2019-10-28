@@ -5,7 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.tasks.OrchidCommand
 
 @Description("Run the main Orchid build process.")
-class BuildCommand : OrchidCommand(100, "build") {
+class BuildCommand : OrchidCommand("build") {
 
     override fun parameters(): Array<String> {
         return emptyArray()

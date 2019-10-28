@@ -55,6 +55,7 @@ public final class OrchidUtils {
 //----------------------------------------------------------------------------------------------------------------------
 
     public static boolean isWindows = File.separator.equals("\\");
+    public static int DEFAULT_PRIORITY = 100;
 
     public static final TableFormatter<String> defaultTableFormatter = (OrchidUtils.isWindows)
             ? new AsciiTableFormatter(new CrossingBorder())

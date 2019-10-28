@@ -9,6 +9,7 @@ import com.eden.orchid.api.registration.Prioritized
 import com.eden.orchid.api.server.annotations.Extensible
 import com.eden.orchid.api.theme.components.ModularPageListItem
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY
 
 /**
  * @orchidApi extensible
@@ -19,8 +20,8 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 abstract class OrchidMenuFactory
 @JvmOverloads
 constructor(
-    val _type: String,
-    priority: Int = 100
+    private val _type: String,
+    priority: Int = DEFAULT_PRIORITY
 ) : Prioritized(priority), ModularPageListItem<OrchidMenu, OrchidMenuFactory> {
 
     @Option("order")

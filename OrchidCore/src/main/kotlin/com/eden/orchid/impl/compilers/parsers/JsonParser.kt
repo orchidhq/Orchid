@@ -8,7 +8,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 class JsonParser @Inject
-constructor() : OrchidParser(100) {
+constructor() : OrchidParser() {
 
     override fun getDelimiter(): String {
         return Pattern.quote(delimiterString)

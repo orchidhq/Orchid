@@ -15,7 +15,7 @@ class EditorialTheme
 @Inject
 constructor(
         context: OrchidContext
-) : Theme(context, "Editorial", 100) {
+) : Theme(context, "Editorial") {
 
     @Option
     @StringDefault("#f56a6a")

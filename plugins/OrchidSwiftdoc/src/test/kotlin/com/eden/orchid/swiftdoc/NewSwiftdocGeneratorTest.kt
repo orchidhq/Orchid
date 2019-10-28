@@ -3,7 +3,6 @@ package com.eden.orchid.swiftdoc
 import com.eden.orchid.sourcedoc.SourceDocModule
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.printResults
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -29,7 +28,6 @@ class NewSwiftdocGeneratorTest : OrchidIntegrationTest(SwiftdocModule(), SourceD
         )
 
         expectThat(execute())
-            .printResults()
             // Module readme
             .pageWasRendered("/swiftdoc/index.html") { }
 

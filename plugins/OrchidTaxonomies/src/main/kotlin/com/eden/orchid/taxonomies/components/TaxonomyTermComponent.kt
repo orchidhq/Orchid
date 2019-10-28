@@ -9,7 +9,7 @@ import com.eden.orchid.taxonomies.models.Term
 import com.eden.orchid.utilities.resolve
 
 @Description("Show a list of all terms in a Taxonomy.", name = "Taxonomy Terms")
-class TaxonomyTermComponent : OrchidComponent("taxonomyTerm", 100) {
+class TaxonomyTermComponent : OrchidComponent("taxonomyTerm") {
 
     @Option
     @Description("The Taxonomy to include terms from.")

@@ -9,6 +9,7 @@ import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.copy
 import com.eden.orchid.api.util.delete
 import com.eden.orchid.api.util.makeSubDir
+import com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY
 import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Inject
 import javax.inject.Named
@@ -27,7 +28,7 @@ constructor(
     private val defaultBranch: String,
 
     type: String,
-    priority: Int = 100
+    priority: Int = DEFAULT_PRIORITY
 ) : OrchidPublisher(type, priority) {
 
     @Option

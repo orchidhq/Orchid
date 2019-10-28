@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ModuleTypePathType
 @Inject
-constructor() : PermalinkPathType(100) {
+constructor() : PermalinkPathType() {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
         return key == "moduleType" && page is BaseSourceDocPage

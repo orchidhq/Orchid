@@ -6,7 +6,7 @@ import com.eden.orchid.changelog.model.ChangelogModel
 import com.eden.orchid.utilities.resolve
 
 @Description("Display the full changelog", name = "Changelog")
-class ChangelogComponent : OrchidComponent("changelog", 110) {
+class ChangelogComponent : OrchidComponent("changelog") {
 
     val model: ChangelogModel by lazy {
         context.resolve<ChangelogModel>()

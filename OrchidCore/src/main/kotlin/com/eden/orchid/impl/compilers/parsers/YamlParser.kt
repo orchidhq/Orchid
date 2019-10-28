@@ -10,7 +10,7 @@ import java.util.HashMap
 import javax.inject.Inject
 
 class YamlParser @Inject
-constructor() : OrchidParser(100) {
+constructor() : OrchidParser() {
 
     override fun getDelimiter(): String {
         return "-"

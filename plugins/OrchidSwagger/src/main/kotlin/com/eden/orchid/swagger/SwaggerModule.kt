@@ -8,7 +8,7 @@ import com.eden.orchid.utilities.addToSet
 class SwaggerModule : OrchidModule() {
 
     override fun configure() {
-        withResources(100)
+        withResources()
 
         addToSet<OrchidComponent, SwaggerComponent>()
     }

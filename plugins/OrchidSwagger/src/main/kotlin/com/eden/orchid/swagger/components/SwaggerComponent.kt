@@ -7,7 +7,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import org.json.JSONObject
 
 @Description("Embed the Swagger UI and point it to your OpenApi.json spec.", name = "Swagger UI")
-class SwaggerComponent : OrchidComponent("swaggerUi", 100) {
+class SwaggerComponent : OrchidComponent("swaggerUi") {
 
     @Option
     @StringDefault("3.5.0")
@@ -31,6 +31,7 @@ class SwaggerComponent : OrchidComponent("swaggerUi", 100) {
         addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui.css")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-bundle.js")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-standalone-preset.js")
+        addJs("assets/js/swaggerUiStart.js").apply { inlined() }
     }
 
 }

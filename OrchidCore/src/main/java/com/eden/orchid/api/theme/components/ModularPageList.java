@@ -9,7 +9,10 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ModularPageList<L extends ModularPageList<L, I>, I extends ModularPageListItem<L, I>> extends ModularList<L, I> {
+public abstract class ModularPageList<
+        L extends ModularPageList<L, I>,
+        I extends ModularPageListItem<L, I>
+> extends ModularList<L, I> {
 
     private OrchidPage containingPage;
 

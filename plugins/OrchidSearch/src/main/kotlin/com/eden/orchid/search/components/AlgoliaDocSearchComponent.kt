@@ -3,15 +3,12 @@ package com.eden.orchid.search.components
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
-import javax.inject.Inject
 
 @Description(
     "Add Algolia Docsearch to your site with minimal configuration.",
     name = "Algolia DocSearch"
 )
-class AlgoliaDocSearchComponent
-@Inject
-constructor() : OrchidComponent("algoliaDocsearch", 100) {
+class AlgoliaDocSearchComponent : OrchidComponent("algoliaDocsearch", true) {
 
     @Option
     @Description("The API key for your site.")

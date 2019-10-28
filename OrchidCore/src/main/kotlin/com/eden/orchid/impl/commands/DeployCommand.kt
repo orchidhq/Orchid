@@ -7,7 +7,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.tasks.OrchidCommand
 
 @Description("Publish the Orchid build results.")
-class DeployCommand : OrchidCommand(100, "deploy") {
+class DeployCommand : OrchidCommand("deploy") {
 
     @Option
     @BooleanDefault(true)

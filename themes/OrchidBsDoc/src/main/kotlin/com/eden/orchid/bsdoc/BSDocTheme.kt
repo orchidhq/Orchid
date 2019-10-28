@@ -18,7 +18,7 @@ class BSDocTheme
 @Inject
 constructor(
         context: OrchidContext
-) : Theme(context, "BsDoc", 100) {
+) : Theme(context, "BsDoc") {
 
     @Option
     @StringDefault("#4C376C")
@@ -89,6 +89,6 @@ constructor(
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
-        return arrayOf(sidebar)
+        return super.getComponentHolders() + arrayOf(sidebar)
     }
 }

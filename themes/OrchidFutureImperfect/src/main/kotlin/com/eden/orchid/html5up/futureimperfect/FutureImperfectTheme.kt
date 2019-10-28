@@ -14,7 +14,7 @@ class FutureImperfectTheme
 @Inject
 constructor(
         context: OrchidContext
-) : Theme(context, "FutureImperfect", 100) {
+) : Theme(context, "FutureImperfect") {
 
     @Option
     @Description("Your social media links.")
@@ -40,7 +40,7 @@ constructor(
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
-        return arrayOf(sidebar)
+        return super.getComponentHolders() + arrayOf(sidebar)
     }
 
 }

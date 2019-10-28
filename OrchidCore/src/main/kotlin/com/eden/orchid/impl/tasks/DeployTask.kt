@@ -12,7 +12,7 @@ class DeployTask
 @Inject
 constructor(
     @Named("dryDeploy") private val dryDeploy: Boolean
-) : OrchidTask(100, "deploy", TaskService.TaskType.DEPLOY) {
+) : OrchidTask("deploy", TaskService.TaskType.DEPLOY) {
 
     override fun run(context: OrchidContext) {
         context.build()

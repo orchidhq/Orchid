@@ -1,6 +1,5 @@
 package com.eden.orchid.impl
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.OrchidService
 import com.eden.orchid.api.compilers.OrchidCompiler
@@ -54,8 +53,6 @@ import com.eden.orchid.impl.tasks.BuildTask
 import com.eden.orchid.impl.tasks.DeployTask
 import com.eden.orchid.impl.tasks.HelpTask
 import com.eden.orchid.impl.tasks.ServeTask
-import com.eden.orchid.impl.tasks.ShellTask
-import com.eden.orchid.impl.tasks.WatchTask
 import com.eden.orchid.impl.themes.DefaultTheme
 import com.eden.orchid.impl.themes.components.LicenseComponent
 import com.eden.orchid.impl.themes.components.PageContentComponent
@@ -180,10 +177,8 @@ class ImplModule(
                 OrchidTask::class.java,
                 HelpTask::class.java,
                 BuildTask::class.java,
-                WatchTask::class.java,
                 ServeTask::class.java,
-                DeployTask::class.java,
-                ShellTask::class.java
+                DeployTask::class.java
             )
 
             addToSet(

@@ -7,15 +7,11 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.utilities.resolve
 import org.atteo.evo.inflector.English
-import javax.inject.Inject
 
 @Description("Take any word and make it plural.", name = "Pluralize")
-class PluralizeFunction
-@Inject
-constructor(
-        private val converter: StringConverter
-) : TemplateFunction("pluralize", true) {
+class PluralizeFunction : TemplateFunction("pluralize", true) {
 
     @Option
     @Description("The input String to pluralize.")
@@ -30,6 +26,7 @@ constructor(
     }
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+        val converter: StringConverter = context.resolve()
         val actualInput = converter.convert(String::class.java, input)
 
         return if (this.count != Int.MIN_VALUE) {

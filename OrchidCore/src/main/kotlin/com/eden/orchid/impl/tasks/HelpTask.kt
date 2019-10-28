@@ -9,15 +9,15 @@ import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
-import javax.inject.Provider
 import javax.inject.Inject
+import javax.inject.Provider
 
 @Description("Print the Orchid help page.")
 class HelpTask
 @Inject
 constructor(
     private val tasks: Provider<Set<OrchidTask>>
-) : OrchidTask(10, "help", TaskService.TaskType.OTHER) {
+) : OrchidTask("help", TaskService.TaskType.OTHER, 10) {
 
     override fun run(context: OrchidContext) {
         println(printHeader(context))

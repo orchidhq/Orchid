@@ -23,6 +23,7 @@ import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
+import com.eden.orchid.api.theme.components.MetaComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
@@ -173,6 +174,12 @@ public class OrchidPage implements
             "component yourself."
     )
     protected ComponentHolder components;
+
+    @Option
+    @Description("The components that comprise the meta-info for this page. Typically extra scripts or meta tags " +
+            "included in the `HEAD` of a page."
+    )
+    protected MetaComponentHolder metaComponents;
 
     @Option
     @Description("Add extra CSS files to this page only, which will be compiled just like the rest of the site's " +
@@ -470,7 +477,7 @@ public class OrchidPage implements
 //----------------------------------------------------------------------------------------------------------------------
 
     protected ComponentHolder[] getComponentHolders() {
-        return new ComponentHolder[] { components };
+        return new ComponentHolder[] { components, metaComponents };
     }
 
     public void addComponents() {
@@ -677,6 +684,10 @@ public class OrchidPage implements
         return this.components;
     }
 
+    public MetaComponentHolder getMetaComponents() {
+        return metaComponents;
+    }
+
     public String[] getExtraCss() {
         return this.extraCss;
     }
@@ -773,6 +784,10 @@ public class OrchidPage implements
         this.components = components;
     }
 
+    public void setMetaComponents(MetaComponentHolder metaComponents) {
+        this.metaComponents = metaComponents;
+    }
+
     public void setExtraCss(String[] extraCss) {
         this.extraCss = extraCss;
     }
@@ -784,4 +799,5 @@ public class OrchidPage implements
     public void setDefaultBreadcrumbs(String defaultBreadcrumbs) {
         this.defaultBreadcrumbs = defaultBreadcrumbs;
     }
+
 }

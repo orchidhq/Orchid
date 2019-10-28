@@ -21,7 +21,6 @@ import com.eden.orchid.utilities.convertOutputStream
 import net.coobird.thumbnailator.Thumbnails
 import net.coobird.thumbnailator.geometry.Positions
 import java.io.InputStream
-import javax.inject.Inject
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
 class AssetFunction : TemplateFunction("asset", false) {
@@ -43,12 +42,7 @@ class AssetFunction : TemplateFunction("asset", false) {
 //----------------------------------------------------------------------------------------------------------------------
 
 @Description(value = "Lookup and return an asset. The asset will not be rendered until its link is requested.", name = "Asset")
-abstract class BaseImageManipulationFunction
-@Inject
-constructor(
-        val context: OrchidContext,
-        name: String
-) : TemplateFunction(name, false) {
+abstract class BaseImageManipulationFunction(name: String) : TemplateFunction(name, false) {
 
     @Option
     var input: Any? = null
@@ -90,11 +84,7 @@ constructor(
 }
 
 @Description(value = "Rotate an image asset.", name = "Rotate")
-class RotateFunction
-@Inject
-constructor(
-        context: OrchidContext
-) : BaseImageManipulationFunction(context, "rotate") {
+class RotateFunction : BaseImageManipulationFunction("rotate") {
 
     @Option
     @DoubleDefault(0.0)
@@ -113,11 +103,7 @@ constructor(
 }
 
 @Description(value = "Scale an image asset by a constant factor.", name = "Scale")
-class ScaleFunction
-@Inject
-constructor(
-        context: OrchidContext
-) : BaseImageManipulationFunction(context, "scale") {
+class ScaleFunction : BaseImageManipulationFunction("scale") {
 
     @Option
     @DoubleDefault(0.0)
@@ -136,11 +122,7 @@ constructor(
 }
 
 @Description(value = "Resize an image asset to specific dimensions.", name = "Resize")
-class ResizeFunction
-@Inject
-constructor(
-        context: OrchidContext
-) : BaseImageManipulationFunction(context, "resize") {
+class ResizeFunction : BaseImageManipulationFunction("resize") {
 
     @Option
     @IntDefault(-1)

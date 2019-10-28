@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class TaxonomyPathType
 @Inject
-constructor() : PermalinkPathType(100) {
+constructor() : PermalinkPathType() {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
         return key == "taxonomy" && (page is TaxonomyArchivePage || page is TermArchivePage)

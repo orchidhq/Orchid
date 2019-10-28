@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CollectionTypePathType
 @Inject
-constructor() : PermalinkPathType(100) {
+constructor() : PermalinkPathType() {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
         return key == "collectionType" && page is CollectionArchivePage

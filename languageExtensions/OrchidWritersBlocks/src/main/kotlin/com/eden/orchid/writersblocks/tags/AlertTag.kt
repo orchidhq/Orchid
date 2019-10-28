@@ -4,14 +4,9 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import javax.inject.Inject
 
 @Description("Make important information stand out in an alert box.", name = "Alert")
-class AlertTag
-@Inject
-constructor(
-
-) : TemplateTag("alert", TemplateTag.Type.Content, true) {
+class AlertTag : TemplateTag("alert", Type.Content, true) {
 
     @Option
     @StringDefault("info")

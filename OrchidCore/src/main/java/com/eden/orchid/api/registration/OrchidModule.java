@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
+
 /**
  * Orchid is built on top of the Guice Dependency Injection framework by Google. This framework allows for runtime
  * discovery and injection of dependencies and multibindings, making it ideal for a runtime-plugin-driven framework
@@ -121,6 +123,9 @@ public abstract class OrchidModule extends AbstractModule {
         });
     }
 
+    public final void withResources() {
+        withResources(DEFAULT_PRIORITY);
+    }
     public final void withResources(int priority) {
         if(hasResources) {
             throw new IllegalStateException(Clog.format("Resources already added to {}", this.getClass().getName()));

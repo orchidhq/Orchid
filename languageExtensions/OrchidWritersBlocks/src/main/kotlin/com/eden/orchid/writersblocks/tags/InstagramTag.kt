@@ -4,23 +4,21 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.utilities.SuppressedWarnings
+import com.eden.orchid.utilities.resolve
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URLEncoder
-import javax.inject.Inject
 
 @Description("Embed an Instagram post in your content.", name = "Instagram")
-class InstagramTag
-@Inject
-constructor(
-        val client: OkHttpClient
-) : TemplateTag("instagram", TemplateTag.Type.Simple, true) {
+class InstagramTag : TemplateTag("instagram", Type.Simple, true) {
 
     @Option
     @Description("The Id of an Instagram post to link to.")
     lateinit var id: String
+
+    private val client: OkHttpClient by lazy { context.resolve<OkHttpClient>() }
 
     override fun parameters(): Array<String> {
         return arrayOf("id")

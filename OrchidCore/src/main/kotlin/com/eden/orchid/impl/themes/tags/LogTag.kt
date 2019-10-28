@@ -8,11 +8,9 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.pages.OrchidPage
-import javax.inject.Inject
 
 @Description(value = "Print the tag content to the console for debugging templates.", name = "Log")
-class LogTag @Inject
-constructor() : TemplateTag("log", TemplateTag.Type.Content, false) {
+class LogTag : TemplateTag("log", Type.Content, false) {
 
     @Option
     @StringDefault("verbose")

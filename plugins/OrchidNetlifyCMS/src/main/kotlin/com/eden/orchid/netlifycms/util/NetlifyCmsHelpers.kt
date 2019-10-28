@@ -173,12 +173,28 @@ private fun OptionsDescription.getWidgetType(): String {
 }
 
 fun getModularListItemClass(modularListClass: Class<*>): Class<*>? {
-    for (typeArg in (modularListClass.genericSuperclass as ParameterizedType).actualTypeArguments) {
-        val className = typeArg.typeName
-        val clazz = Class.forName(className)
 
-        if (ModularListItem::class.java.isAssignableFrom(clazz)) {
-            return clazz
+    var currentSuperclass: Class<*>? = modularListClass
+    var genericSuperclass: ParameterizedType? = null
+
+    while(currentSuperclass != null) {
+        if(currentSuperclass.genericSuperclass is ParameterizedType) {
+            genericSuperclass = currentSuperclass.genericSuperclass as ParameterizedType
+            break
+        }
+        else {
+            currentSuperclass = currentSuperclass.superclass
+        }
+    }
+
+    if(genericSuperclass != null) {
+        for (typeArg in genericSuperclass.actualTypeArguments) {
+            val className = typeArg.typeName
+            val clazz = Class.forName(className)
+
+            if (ModularListItem::class.java.isAssignableFrom(clazz)) {
+                return clazz
+            }
         }
     }
 

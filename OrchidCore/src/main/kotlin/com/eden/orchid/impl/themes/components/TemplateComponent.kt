@@ -6,7 +6,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import org.json.JSONObject
 
 @Description(value = "Display a component with a user-defined template and data.", name = "Template")
-class TemplateComponent : OrchidComponent("template", 100) {
+class TemplateComponent : OrchidComponent("template") {
 
     @Option
     @Description("Custom data to be rendered into the custom template.")

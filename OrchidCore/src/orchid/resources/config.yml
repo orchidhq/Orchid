@@ -51,6 +51,20 @@ theme:
       title: 'Github'
   extraCss:
     - 'assets/css/extras.scss'
+  metaComponents:
+    - type: "prism"
+      githubTheme: 'duotone-light'
+      languages:
+        - kotlin
+        - java
+        - groovy
+        - yaml
+        - asciidoc
+        - markdown
+    - type: "algoliaDocsearch"
+      selector: '#search input'
+      apiKey: '25626fae796133dc1e734c6bcaaeac3c'
+      indexName: 'docsearch'
 
 services:
   publications:
@@ -65,18 +79,3 @@ allPages:
   extraJs:
     - "inline:sidecar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
     - "https://sidecar.gitter.im/dist/sidecar.v1.js"
-  components:
-    - type: "pageContent"
-    - type: "prism"
-      githubTheme: 'duotone-light'
-      languages:
-        - kotlin
-        - java
-        - groovy
-        - yaml
-        - asciidoc
-        - markdown
-    - type: "algoliaDocsearch"
-      selector: '#search input'
-      apiKey: '25626fae796133dc1e734c6bcaaeac3c'
-      indexName: 'docsearch'

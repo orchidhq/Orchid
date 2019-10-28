@@ -10,7 +10,7 @@ import com.eden.orchid.posts.pages.PostPage
 import com.eden.orchid.utilities.resolve
 
 @Description("Render a list of the most recent blog posts.", name = "Recent Posts")
-class RecentPostsComponent : OrchidComponent("recentPosts", 25) {
+class RecentPostsComponent : OrchidComponent("recentPosts") {
 
     val model: PostsModel by lazy {
         context.resolve<PostsModel>()

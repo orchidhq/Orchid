@@ -12,7 +12,7 @@ import com.eden.orchid.utilities.OrchidUtils
         "necessary scripts and styles to the page, but needs no UI template of its own.",
         name = "Prism.js"
 )
-class PrismComponent : OrchidComponent("prism", 100) {
+class PrismComponent : OrchidComponent("prism", true) {
 
     @Option
     @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")

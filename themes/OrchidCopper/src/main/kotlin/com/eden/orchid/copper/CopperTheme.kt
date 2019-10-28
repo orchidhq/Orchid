@@ -14,7 +14,7 @@ import javax.inject.Inject
 @Description("A Bulma-based, any-purpose theme.", name="Copper")
 class CopperTheme
 @Inject
-constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
+constructor(context: OrchidContext) : Theme(context, "Copper") {
 
     @Option
     @Description("Your social media links.")

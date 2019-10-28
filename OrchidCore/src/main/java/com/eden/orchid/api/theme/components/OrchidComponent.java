@@ -21,11 +21,12 @@ import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
 /**
  *
@@ -43,6 +44,7 @@ public abstract class OrchidComponent extends Prioritized implements
 
     protected final String templateBase = "components";
     protected final String type;
+    protected final boolean meta;
     protected AssetHolder assetHolder;
     private boolean hasAddedAssets;
 
@@ -89,10 +91,22 @@ public abstract class OrchidComponent extends Prioritized implements
     @AllOptions
     private Map<String, Object> allData;
 
-    @Inject
-    public OrchidComponent(String type, int priority) {
+    public OrchidComponent(String type, boolean meta, int priority) {
         super(priority);
         this.type = type;
+        this.meta = meta;
+    }
+
+    public OrchidComponent(String type, int priority) {
+        this(type, false, priority);
+    }
+
+    public OrchidComponent(String type, boolean meta) {
+        this(type, meta, DEFAULT_PRIORITY);
+    }
+
+    public OrchidComponent(String type) {
+        this(type, false, DEFAULT_PRIORITY);
     }
 
     @Override

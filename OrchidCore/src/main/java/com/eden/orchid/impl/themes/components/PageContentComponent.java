@@ -17,7 +17,7 @@ public final class PageContentComponent extends OrchidComponent {
 
     @Inject
     public PageContentComponent() {
-        super("pageContent", 100);
+        super("pageContent");
     }
 
     public boolean isNoWrapper() {
