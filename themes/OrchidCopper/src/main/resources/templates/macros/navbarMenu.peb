@@ -11,6 +11,45 @@
 {% endfor %}
 {% endmacro %}
 
+{% macro _navbarSearch(site) %}
+<div class="navbar-item">
+  <form id="search-input" data-orchid-search>
+    <div class="field has-addons is-marginless" id="search">
+      <div class="control input-control">
+        <input class="input" type="text" name="query" placeholder="Search {{ site.about.siteName }}">
+
+        <div id="search-progress" data-orchid-search-progress style="display: none;">
+          <div class="loader">Loading...</div>
+        </div>
+      </div>
+      <div class="control button-control">
+        <a class="button is-info">
+          <i class="fas fa-search"></i>
+        </a>
+      </div>
+    </div>
+    <div id="search-results" data-orchid-search-results style="display: none;">
+      <div class="carat"></div>
+      <b>
+        Search Results
+        <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+      </b>
+      <ul></ul>
+    </div>
+  </form>
+</div>
+{% endmacro %}
+
+{% macro _navbarSocial(page, theme) %}
+{% for socialItem in theme.social.getItems() %}
+<div class="navbar-item social-item">
+  <a class="icon" href="{{ socialItem.link }}" title="{{ socialItem.label }}">
+    <i class="{{ socialItem.icon }}"></i>
+  </a>
+</div>
+{% endfor %}
+{% endmacro %}
+
 {% macro _menuItemWithChildren(page, menuItem) %}
 <div class="navbar-item has-dropdown is-hoverable">
 {{ _menuItem(page, menuItem) }}

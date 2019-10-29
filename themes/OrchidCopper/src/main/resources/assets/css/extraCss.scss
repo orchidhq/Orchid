@@ -6,6 +6,25 @@
 // Base theme styling
 //----------------------------------------------------------------------------------------------------------------------
 
+@media screen and (max-width: 770px), print {
+  #search.field.has-addons .input-control {
+    flex-grow: 1;
+    .algolia-autocomplete {
+      display: flex !important;
+    }
+  }
+  .navbar-item.social-item {
+    display: inline-block;
+  }
+  .navbar-item {
+    .buttons {
+      .button {
+        flex: 1;
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 769px), print {
   html {
     overflow-y: hidden;

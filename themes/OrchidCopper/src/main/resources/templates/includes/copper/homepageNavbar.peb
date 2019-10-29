@@ -24,17 +24,12 @@
 
     <div class="navbar-menu" id="navbarMain">
       <div class="navbar-start">
+      {{ _navbarSearch(site) }}
       {{ _navbarMenu(page, theme.menu) }}
       </div>
 
       <div class="navbar-end">
-      {% for socialItem in theme.social.getItems() %}
-        <div class="navbar-item">
-          <a class="icon" href="{{ socialItem.link }}" title="{{ socialItem.label }}">
-            <i class="{{ socialItem.icon }}"></i>
-          </a>
-        </div>
-      {% endfor %}
+      {{ _navbarSocial(page, theme) }}
         <div class="navbar-item">
           <div class="buttons">
           {{ _primaryButton(theme) }}
