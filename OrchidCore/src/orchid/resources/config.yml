@@ -63,8 +63,8 @@ theme:
         - markdown
     - type: "algoliaDocsearch"
       selector: '#search input'
-      apiKey: '25626fae796133dc1e734c6bcaaeac3c'
-      indexName: 'docsearch'
+      apiKey: 'f597b0a7c1080757a60853addd344aaf'
+      indexName: 'orchid'
 
 services:
   publications:
