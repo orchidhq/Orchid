@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
-# Test normal Gradle projects
+ Test normal Gradle projects
 if [ "$1" = "release" ]; then
   echo "[Orchid] Test Release"
-  ./gradlew build -Prelease
+  ./gradlew build publishToMavenLocal -Prelease
 else
   echo "[Orchid] Test Debug"
-  ./gradlew build
+  ./gradlew build publishToMavenLocal
 fi
+
+export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
 
 # Test Gradle plugin
 pushd ./buildSrc
@@ -15,6 +17,11 @@ pushd ./buildSrc
 
 # Test Maven plugin
 pushd ./orchidMavenPlugin
+./test.sh "$1"
+popd
+
+# Test Maven plugin
+pushd ./orchidSbtPlugin
 ./test.sh "$1"
 popd
 

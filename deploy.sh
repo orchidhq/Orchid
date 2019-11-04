@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 # Build and deploy normal Gradle projects
-./gradlew assemble deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
+./gradlew assemble publicToMavenLocal deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
+./gradlew assemble publicToMavenLocal -Penv=prod -Prelease
 
 git config --local user.name "Travis CI Deployment Bot"
 git config --local user.email "deploy@travis-ci.org"
 ./gradlew tag -Prelease
 
-export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
-export GRADLE_PROJECT_RELEASE_NOTES=$(./gradlew getReleaseNotes --quiet)
+export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
 
 # Deploy Gradle plugin
 pushd buildSrc
@@ -16,6 +16,11 @@ pushd buildSrc
 
 # Deploy Maven plugin
 pushd orchidMavenPlugin
+./deploy.sh
+popd
+
+# Deploy SBT plugin
+pushd orchidSbtPlugin
 ./deploy.sh
 popd
 
