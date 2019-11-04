@@ -7,38 +7,39 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.writersblocks.WritersBlocksModule
 import kotlinx.html.div
-import kotlinx.html.iframe
+import kotlinx.html.h4
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
-class SpotifyTagTest : OrchidIntegrationTest(
+class AlertTagTest : OrchidIntegrationTest(
     withGenerator<HomepageGenerator>(),
     WritersBlocksModule()
 ) {
 
     @Test
-    @DisplayName("Test Spotify tag as track embed")
+    @DisplayName("Test basic Alert tag")
     fun test01() {
         resource(
             "homepage.md",
             """
             |---
             |---
-            |{% spotify type='track' id='0Vkk4vLcrUTYODEiuV9ECP' %}
+            |{% alert level='warn' headline='A Headline' %}
+            |   Alert Content
+            |{% endalert %}
             """.trimMargin()
         )
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
-                    div("spotify-embed") {
-                        div {
-                            iframe {
-                                src="https://open.spotify.com/embed/track/0Vkk4vLcrUTYODEiuV9ECP"
-                                attributes["allow"] = "encrypted-media"
-                            }
+                    div("alert alert-warn") {
+                        attributes["role"] = "alert"
+                        h4("alert-heading") {
+                            +"A Headline"
                         }
+                        +"Alert Content"
                     }
                 }
             }

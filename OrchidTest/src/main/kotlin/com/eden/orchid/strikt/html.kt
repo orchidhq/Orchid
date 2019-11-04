@@ -1,5 +1,6 @@
 package com.eden.orchid.strikt
 
+import com.eden.orchid.testhelpers.TestRenderer
 import kotlinx.html.DIV
 import kotlinx.html.div
 import kotlinx.html.stream.appendHTML
@@ -68,6 +69,28 @@ fun Assertion.Builder<Elements>.matches(): Assertion.Builder<Elements> =
  */
 fun Assertion.Builder<Elements>.matchCountIs(count: Int): Assertion.Builder<Elements> =
     assertThat("matches at least one node") { it.size == count }
+
+fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatches(
+    matcher: DIV.() -> Unit
+): Assertion.Builder<TestRenderer.TestRenderedPage> =
+    assertBlock("HTML body matches") {
+        get { content }
+            .asHtml()
+            .select("body") {
+                innerHtmlMatches(matcher = matcher)
+            }
+    }
+
+fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatchesString(
+    matcher: (Assertion.Builder<String>)->Unit
+): Assertion.Builder<TestRenderer.TestRenderedPage> =
+    assertBlock("HTML body matches") {
+        get { content }
+            .asHtml()
+            .select("body") {
+                get { html() }.apply(matcher)
+            }
+    }
 
 /**
  * Check is the subject HTML tree is similar to another HTML tree, built with the Kotlin.HTML builder. The inner HTML
