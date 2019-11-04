@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 # Build and deploy normal Gradle projects
-./gradlew assemble publicToMavenLocal deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
-./gradlew assemble publicToMavenLocal -Penv=prod -Prelease
+./gradlew assemble publishToMavenLocal deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
 
 git config --local user.name "Travis CI Deployment Bot"
 git config --local user.email "deploy@travis-ci.org"
