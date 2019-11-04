@@ -265,7 +265,7 @@ in your project, you'll need to ensure that at least the following is included i
 
 ```
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
-resolvers += Resolver.url("orchid-plugins", url("https://dl.bintray.com/javaeden/sbt-plugins/"))(Resolver.ivyStylePatterns) // hosts SBT plugin
+resolvers += Resolver.bintrayRepo("javaeden", "sbt-plugins") // hosts Orchid SBT plugin
 
 addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
 ```
@@ -322,7 +322,7 @@ you'd want to uncomment the line containing `libraryDependencies += orchidCompon
 
 ```scala
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
-resolvers += Resolver.url("orchid-plugins", url("https://dl.bintray.com/javaeden/sbt-plugins/"))(Resolver.ivyStylePatterns) // hosts SBT plugin
+resolvers += Resolver.bintrayRepo("javaeden", "sbt-plugins") // hosts Orchid SBT plugin
 
 val OrchidVersion = "{{site.version}}"
 
