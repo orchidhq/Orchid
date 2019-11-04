@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
- Test normal Gradle projects
+# Test normal Gradle projects
 if [ "$1" = "release" ]; then
   echo "[Orchid] Test Release"
   ./gradlew build publishToMavenLocal -Prelease
