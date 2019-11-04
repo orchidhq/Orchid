@@ -232,3 +232,169 @@ You can now start Orchid directly with its CLI, using the following commands:
         You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the
         site directly to Github Pages or Netlify.
 2) `kscript ./path/to/scriptlet.kts help` - Print out basic usage and all available tasks and command-line options. 
+
+### sbt
+
+Your sbt project should look something like this:
+
+     amazeballs/
+          |
+          |—— build.sbt
+          |
+          |—— src/
+          |    |
+          |    +—— main/
+          |          |
+          |          +—— scala/
+          |          |     |
+          |          |     +—— Amazeballs.scala
+          |          |
+          |          +—— orchid/
+          |                 |
+          |                 +—— resources/  <== ORCHID SOURCE FILES GO HERE
+          |                         |
+          |—— project/              +- homepage.md
+                 |
+                 +—— build.properties
+                 |
+                 +—— plugins.sbt
+		 
+
+If you wish to integrate orchid into an `sbt` project, you'll use the Orchid sbt plugin. To install it
+in your project, you'll need to ensure that at least the following is included in your `project/plugins.sbt`:
+
+```
+resolvers += Resolver.jcenterRepo // hosts Orchid and its components
+resolvers += Resolver.url("orchid-plugins", url("https://dl.bintray.com/javaeden/sbt-plugins/"))(Resolver.ivyStylePatterns) // hosts SBT plugin
+
+addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
+```
+
+(You will usually want to include a bit more than this in `project/plugins.sbt`. The much [richer `project/plugins.sbt` example below](#rich-projectpluginssbt-example) is a better starting point.)
+
+Then place the source files for your Orchid site in `src/main/orchid/resources`.
+
+Now, on the sbt command line you can run:
+1. `orchidBuild` - Runs the Orchid build task a single time then completes. The resulting Orchid site will be in 
+   `target/orchid` unless the `orchidDestination` setting has been customized. You can then view the site by starting any 
+    HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
+2. `orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
+   Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
+   `target/orchid` unless the `orchidDestination` setting has been customized.
+3. `orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
+   (or the closest available port).
+4. `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+    You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
+    site directly to Github Pages or Netlify.
+
+You can also run these tasks directly from your OS command line as `sbt orchidBuild`, `sbt orchidWatch`, `sbt orchidServe`, or `sbt orchidDeploy`.
+You can run Orchid-related tasks generically with `orchidRun`. For example, the following are all equivalent to running `orchidBuild`:
+
+* `> orchidRun build` from the sbt command line
+* `$ sbt "orchidRun build"` from your OS command line
+* `$ sbt -Dorchid.runTask=build orchidRun` from your OS command line
+
+Available commands are `build`, `deploy`, `serve`, and `watch`.
+
+#### sbt plugin configuration
+
+* [basic](#basic)
+* [rich `project/plugins.sbt` example](#rich-projectpluginssbt-example)
+* [all `build.sbt` settings](#all-buildsbt-settings)
+
+##### basic
+
+In your project's `build.sbt` file, you will usually want to configure an Orchid theme. That's just:
+```
+orchidTheme := "BsDoc"
+```
+
+However, for this to work, you will need to make sure the theme and any other features
+your site relies upon are available to the build. Orchid offers a very rich feature set, made available via distinct, dynamically loaded dependencies.
+In order to use these fetures, you'll want to add them as dependies *of the build, not your project*.
+
+The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
+[Below](#rich-projectpluginssbt-example) is a very rich example `project/plugins.sbt` file. You can use any of the main Orchid features
+simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
+you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
+
+##### rich `project/plugins.sbt` example
+
+```scala
+resolvers += Resolver.jcenterRepo // hosts Orchid and its components
+resolvers += Resolver.url("orchid-plugins", url("https://dl.bintray.com/javaeden/sbt-plugins/"))(Resolver.ivyStylePatterns) // hosts SBT plugin
+
+val OrchidVersion = "{{site.version}}"
+
+addSbtPlugin("io.github.javaeden.orchid" % "sbt-orchid" % OrchidVersion)
+
+/*
+ *  Add desired Orchid components to the build
+ */
+ 
+def orchidComponent( name : String ) = "io.github.javaeden.orchid" % name % OrchidVersion
+
+/*
+ *  The plugin includes OrchidCore already as a dependency,
+ *  but explicitly specifying it helps ensure version consistency
+ *  with other components.
+ */
+ 
+libraryDependencies += orchidComponent( "OrchidCore" )
+
+/*
+ *  Uncomment the components you desire
+ */
+
+/* Themes -- see https://orchid.netlify.com/themes */
+/* Don't forget to set 'orchidTheme' in build.sbt! */
+
+// libraryDependencies += orchidComponent( "OrchidBsDoc" )
+// libraryDependencies += orchidComponent( "OrchidCopper" )
+// libraryDependencies += orchidComponent( "OrchidEditorial" )
+// libraryDependencies += orchidComponent( "OrchidFutureImperfect" )
+
+/* Plugins -- see https://orchid.netlify.com/plugins */
+
+// libraryDependencies += orchidComponent( "OrchidPages" )
+// libraryDependencies += orchidComponent( "OrchidPosts" )
+// libraryDependencies += orchidComponent( "OrchidPluginDocs" )
+
+// libraryDependencies += orchidComponent( "OrchidAsciidoc" )
+// libraryDependencies += orchidComponent( "OrchidAzure" )
+// libraryDependencies += orchidComponent( "OrchidBible" )
+// libraryDependencies += orchidComponent( "OrchidBitbucket" )
+// libraryDependencies += orchidComponent( "OrchidChangelog" )
+// libraryDependencies += orchidComponent( "OrchidDiagrams" )
+// libraryDependencies += orchidComponent( "OrchidForms" )
+// libraryDependencies += orchidComponent( "OrchidGithub" )
+// libraryDependencies += orchidComponent( "OrchidGitlab" )
+// libraryDependencies += orchidComponent( "OrchidGroovydoc" )
+// libraryDependencies += orchidComponent( "OrchidJavadoc" )
+// libraryDependencies += orchidComponent( "OrchidKSS" )
+// libraryDependencies += orchidComponent( "OrchidKotlindoc" )
+// libraryDependencies += orchidComponent( "OrchidNetlify" )
+// libraryDependencies += orchidComponent( "OrchidNetlifyCMS" )
+// libraryDependencies += orchidComponent( "OrchidPresentations" )
+// libraryDependencies += orchidComponent( "OrchidSearch" )
+// libraryDependencies += orchidComponent( "OrchidSwagger" )
+// libraryDependencies += orchidComponent( "OrchidSwiftdoc" )
+// libraryDependencies += orchidComponent( "OrchidSyntaxHighlighter" )
+// libraryDependencies += orchidComponent( "OrchidTaxonomies" )
+// libraryDependencies += orchidComponent( "OrchidWiki" )
+// libraryDependencies += orchidComponent( "OrchidWritersBlocks" )
+
+```
+
+##### all `build.sbt` settings
+
+* `orchidBaseUrl` ~ The base URL for generted site links
+* `orchidDestination` ~ The directory into which orchid sites are generated (`target/orchid` by default)
+* `orchidDryDeploy` ~ Allows running a dry deploy instead of a full deploy (`false` by default)
+* `orchidEnvironment` ~ The environment used to run the orchid site. (`debug` by default)
+* `orchidPort` ~ The port to run the dev server on. (`8080` by default)
+* `orchidResources` ~ The directory of source documents Orchid directly transforms (`src/main/orchid/resources`, or more precisely `orchidSource.value` / "resources", by default)
+* `orchidSource` ~ The _top-level_ directory for orchid-related source documents (`src/main/orchid` by default)
+* `orchidTheme `~ The theme that will be imposed on the generated orchid site (Theme `Default` by default)
+* `orchidVersion` ~ The version of the orchid site that will be generated (Your sbt project's `version` by default)
+

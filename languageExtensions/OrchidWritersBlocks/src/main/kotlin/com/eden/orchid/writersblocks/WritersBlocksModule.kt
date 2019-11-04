@@ -9,6 +9,7 @@ import com.eden.orchid.writersblocks.functions.PluralizeFunction
 import com.eden.orchid.writersblocks.tags.AlertTag
 import com.eden.orchid.writersblocks.tags.GistTag
 import com.eden.orchid.writersblocks.tags.InstagramTag
+import com.eden.orchid.writersblocks.tags.SpotifyTag
 import com.eden.orchid.writersblocks.tags.TwitterTag
 import com.eden.orchid.writersblocks.tags.YoutubeTag
 
@@ -24,6 +25,7 @@ class WritersBlocksModule : OrchidModule() {
                 AlertTag::class,
                 GistTag::class,
                 InstagramTag::class,
+                SpotifyTag::class,
                 TwitterTag::class,
                 YoutubeTag::class)
     }
