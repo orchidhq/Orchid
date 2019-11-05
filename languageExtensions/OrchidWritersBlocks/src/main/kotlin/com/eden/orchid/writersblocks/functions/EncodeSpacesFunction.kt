@@ -21,7 +21,10 @@ class EncodeSpacesFunction : TemplateFunction("encodeSpaces", true) {
     }
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        val converter: StringConverter = context.resolve()
-        return converter.convert(String::class.java, input).second.encodeSpaces()
+        return context
+            .resolve<StringConverter>()
+            .convert(String::class.java, input)
+            .second
+            .encodeSpaces()
     }
 }

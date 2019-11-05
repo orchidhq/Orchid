@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-class KotlinPlaygroundComponentTest : OrchidIntegrationTest(
+class PrismComponentTest : OrchidIntegrationTest(
     withGenerator<HomepageGenerator>(),
     SyntaxHighlighterModule()
 ) {
@@ -23,19 +23,16 @@ class KotlinPlaygroundComponentTest : OrchidIntegrationTest(
         resource(
             "homepage.md",
             """
-            |# Try Kotlin below!
-            |
-            |```run-kotlin
+            |```kotlin
             |fun main() {
             |   println("Running from Kotlin Playground!")
             |}
             |```
-            |{theme='darcula' lines='true'}
             """.trimMargin(),
             """
             |{
             |   "metaComponents": [
-            |       { "type": "kotlinPlayground" }
+            |       { "type": "prism" }
             |   ]
             |}
             """.trimMargin()
@@ -49,13 +46,12 @@ class KotlinPlaygroundComponentTest : OrchidIntegrationTest(
                         get { html().toString().replace("\\s+".toRegex(), "") }
                             .isEqualTo(
                                 """
-                                |<h1 id="try-kotlin-below"><ahref="#try-kotlin-below"id="try-kotlin-below"class="anchor"></a>Try Kotlin below!</h1>
-                                |<pre theme="darcula" lines="true">
-                                |  <code class="language-run-kotlin" theme="darcula" lines="true">fun main() {
+                                |<pre>
+                                |  <code class="language-kotlin">fun main() {
                                 |   println("Running from Kotlin Playground!")
                                 |} </code>
                                 |</pre>
-                                |<script data-selector="pre code[class='language-run-kotlin']" src="https://unpkg.com/kotlin-playground@1"></script>
+                                |<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
                                 """.trimMargin().replace("\\s+".toRegex(), "")
                             )
                     }

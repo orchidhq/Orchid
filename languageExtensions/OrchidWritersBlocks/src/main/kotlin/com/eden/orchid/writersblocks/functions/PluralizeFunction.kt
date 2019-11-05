@@ -19,18 +19,17 @@ class PluralizeFunction : TemplateFunction("pluralize", true) {
 
     @Option @IntDefault(Int.MIN_VALUE)
     @Description("How many of the item is present.")
-    var count: Int = 0
+    var count: Int = Int.MIN_VALUE
 
     override fun parameters(): Array<String> {
         return arrayOf("input", "count")
     }
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        val converter: StringConverter = context.resolve()
-        val actualInput = converter.convert(String::class.java, input)
-
-        return if (this.count != Int.MIN_VALUE) {
-            English.plural(actualInput.second, this.count)
-        } else English.plural(actualInput.second)
+        return context
+            .resolve<StringConverter>()
+            .convert(String::class.java, input)
+            .second
+            .let { if (this.count != Int.MIN_VALUE) English.plural(it, this.count) else English.plural(it) }
     }
 }
