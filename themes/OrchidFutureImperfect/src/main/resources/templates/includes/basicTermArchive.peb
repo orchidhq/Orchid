@@ -40,7 +40,7 @@
                 <ul class="stats">
                 {% if page.categories is not empty %}
                 {% for category in page.categories %}
-                    <li>{{ anchor(title=(category|title), itemId=category, collectionType="taxonomy", collectionId="categories") | raw }}</li>
+                    <li>{{ anchor(title=(category|title), itemId=category, collectionType="taxonomies", collectionId="category") | raw }}</li>
                 {% if not loop.last -%} > {% endif %}
                 {% endfor %}
                 {% endif %}

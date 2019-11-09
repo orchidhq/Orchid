@@ -5,7 +5,7 @@
 
             {% if post.categories is not empty %}
             {% for category in post.categories %}
-            {{ anchor(title=(category|title), itemId=category, collectionType="taxonomy", collectionId="categories") | raw }}
+            {{ anchor(title=(category|title), itemId=category, collectionType="taxonomies", collectionId="category") | raw }}
             {% if not loop.last -%} > {% endif %}
             {% endfor %}
             {% endif %}
@@ -41,7 +41,7 @@
     <footer>
         <ul class="stats">
         {% for tag in post.tags %}
-            <li><i class="fa fa-tag icon" aria-hidden="true"></i> {{ anchor(title=tag, itemId=tag, collectionType="taxonomy", collectionId="tags") | raw }}</li>
+            <li><i class="fa fa-tag icon" aria-hidden="true"></i> {{ anchor(title=tag, itemId=tag, collectionType="taxonomies", collectionId="tags") | raw }}</li>
         {% endfor %}
         </ul>
     </footer>
