@@ -160,6 +160,7 @@ fun moduleSetup(
         return """
             |{
             |    "name": "$name",
+            |    "moduleGroup": "$name",
             |    "sourceDirs": [$sourcePaths],
             |    "showRunnerLogs": $showRunnerLogs
             |}
