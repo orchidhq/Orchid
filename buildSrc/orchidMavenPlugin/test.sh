@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 if [ "$1" = "release" ]; then
   echo "[Maven Plugin] Test Release"

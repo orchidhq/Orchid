@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Build and deploy normal Gradle projects
 ./gradlew assemble publishToMavenLocal deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
