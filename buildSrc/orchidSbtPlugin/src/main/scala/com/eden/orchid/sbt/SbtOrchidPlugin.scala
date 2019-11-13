@@ -1,4 +1,4 @@
-package com.mchange.sc.v1.sbtorchid
+package com.eden.orchid.sbt
 
 import sbt._
 import sbt.Keys._
