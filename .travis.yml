@@ -1,5 +1,4 @@
 language: java
-dist: trusty
 sudo: false
 
 before_cache:
@@ -19,25 +18,23 @@ jobs:
   allow_failures:
     - jdk: openjdk13
   include:
-    - { stage: testDebug,   os: linux, jdk:       openjdk8,    script: './test.sh debug',           }
-    - { stage: testDebug,   os: linux, jdk:       oraclejdk8,  script: './test.sh debug',           }
-#    - { stage: testDebug,   os: linux, jdk:       oraclejdk9,  script: './test.sh debug',           }
-    - { stage: testDebug,   os: linux, jdk:       openjdk10,   script: './test.sh debug',           }
-    - { stage: testDebug,   os: linux, jdk:       openjdk11,   script: './test.sh debug',           }
-    - { stage: testDebug,   os: linux, jdk:       openjdk13,   script: './test.sh debug',           }
-    - { stage: testDebug,   os: osx,   osx_image: xcode8.3,    script: './test.sh debug',           }
+    - { stage: testDebug,   script: './test.sh debug',            os: linux, dist: trusty, jdk: oraclejdk8, before_install: './install_linux.sh' }
+    - { stage: testDebug,   script: './test.sh debug',            os: linux, dist: xenial, jdk: oraclejdk9, before_install: './install_linux.sh' }
+    - { stage: testDebug,   script: './test.sh debug',            os: linux, dist: xenial, jdk: openjdk8,   before_install: './install_linux.sh' }
+    - { stage: testDebug,   script: './test.sh debug',            os: linux, dist: xenial, jdk: openjdk10,  before_install: './install_linux.sh' }
+    - { stage: testDebug,   script: './test.sh debug',            os: linux, dist: xenial, jdk: openjdk11,  before_install: './install_linux.sh' }
+    - { stage: testDebug,   script: './test.sh debug',            os: osx,   osx_image: xcode8.3                                                 }
 
-    - { stage: testRelease, os: linux, jdk:       openjdk8,    script: './test.sh release',         }
-    - { stage: testRelease, os: linux, jdk:       oraclejdk8,  script: './test.sh release',         }
-#    - { stage: testRelease, os: linux, jdk:       oraclejdk9,  script: './test.sh release',         }
-    - { stage: testRelease, os: linux, jdk:       openjdk10,   script: './test.sh release',         }
-    - { stage: testRelease, os: linux, jdk:       openjdk11,   script: './test.sh release',         }
-    - { stage: testRelease, os: linux, jdk:       openjdk13,   script: './test.sh release',         }
-    - { stage: testRelease, os: osx,   osx_image: xcode8.3,    script: './test.sh release',         }
+    - { stage: testRelease, script: './test.sh release',          os: linux, dist: trusty, jdk: oraclejdk8, before_install: './install_linux.sh' }
+    - { stage: testRelease, script: './test.sh release',          os: linux, dist: xenial, jdk: oraclejdk9, before_install: './install_linux.sh' }
+    - { stage: testRelease, script: './test.sh release',          os: linux, dist: xenial, jdk: openjdk8,   before_install: './install_linux.sh' }
+    - { stage: testRelease, script: './test.sh release',          os: linux, dist: xenial, jdk: openjdk10,  before_install: './install_linux.sh' }
+    - { stage: testRelease, script: './test.sh release',          os: linux, dist: xenial, jdk: openjdk11,  before_install: './install_linux.sh' }
+    - { stage: testRelease, script: './test.sh release',          os: osx,   osx_image: xcode8.3                                                 }
 
-    - { stage: afterTests,  os: linux, jdk:       openjdk8,    script: './afterTests.sh',           }
+    - { stage: afterTests,  script: './afterTests.sh',            os: linux, dist: xenial, jdk: openjdk8,   before_install: './install_linux.sh' }
 
-    - { stage: release,     os: linux, jdk:       openjdk8,    script: 'travis_wait 60 ./deploy.sh' }
+    - { stage: release,     script: 'travis_wait 60 ./deploy.sh', os: linux, dist: xenial, jdk: openjdk8,   before_install: './install_linux.sh' }
 
 stages:
   - { name: testDebug,   if: branch = dev                                        }

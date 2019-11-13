@@ -34,6 +34,7 @@ include(
     ":languageExtensions:OrchidAsciidoc",
     ":languageExtensions:OrchidBible",
     ":languageExtensions:OrchidDiagrams",
+    ":languageExtensions:OrchidInk",
     ":languageExtensions:OrchidSyntaxHighlighter",
     ":languageExtensions:OrchidWritersBlocks"
 )

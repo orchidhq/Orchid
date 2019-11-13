@@ -7,6 +7,7 @@ enum class Module(val path: String) {
     OrchidAsciidoc(":languageExtensions:OrchidAsciidoc"),
     OrchidBible(":languageExtensions:OrchidBible"),
     OrchidDiagrams(":languageExtensions:OrchidDiagrams"),
+    OrchidInk(":languageExtensions:OrchidInk"),
     OrchidSyntaxHighlighter(":languageExtensions:OrchidSyntaxHighlighter"),
     OrchidWritersBlocks(":languageExtensions:OrchidWritersBlocks"),
     OrchidAzure(":integrations:OrchidAzure"),
@@ -53,6 +54,7 @@ object Projects {
             Module.OrchidAsciidoc,
             Module.OrchidBible,
             Module.OrchidDiagrams,
+            Module.OrchidInk,
             Module.OrchidSyntaxHighlighter,
             Module.OrchidWritersBlocks
         )

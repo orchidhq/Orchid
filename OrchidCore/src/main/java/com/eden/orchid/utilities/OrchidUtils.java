@@ -18,6 +18,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -54,7 +55,10 @@ public final class OrchidUtils {
 // constants
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static boolean isWindows = File.separator.equals("\\");
+    public static boolean isWindows = SystemUtils.IS_OS_WINDOWS;
+    public static boolean isMac = SystemUtils.IS_OS_MAC;
+    public static boolean isLinux = SystemUtils.IS_OS_LINUX;
+
     public static int DEFAULT_PRIORITY = 100;
 
     public static final TableFormatter<String> defaultTableFormatter = (OrchidUtils.isWindows)

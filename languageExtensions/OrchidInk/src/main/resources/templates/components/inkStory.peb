@@ -1,0 +1,9 @@
+<div class="ink-story outerContainer">
+  <div id="story" class="container"></div>
+
+  <div class="toolbar">
+    <h3 id="written-in-ink"><a href="https://www.inklestudios.com/ink" target="_blank">INK</a></h3>
+    <a onclick="inkgame.restart()">Restart</a>
+    <a id="back_button" onclick="inkgame.back()">Back</a>
+  </div>
+</div>
