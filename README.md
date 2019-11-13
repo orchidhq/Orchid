@@ -62,7 +62,7 @@ generated based on your current Orchid plugins and configurations.
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JavaEden/OrchidStarter)
 
 To run Orchid locally, the only system dependency necessary is a valid Java 8 JDK. Orchid can be integrated with any new
- or existing Gradle or Maven project or bootstrapped manually in any JVM-based scriptlet (such as 
+ or existing Gradle, Maven, or sbt project, or bootstrapped manually in any JVM-based scriptlet (such as 
 [kscript](https://github.com/holgerbrandl/kscript)). To get started, pick a Bundle (OrchidAll or OrchidBlog) or manually 
 choose your desired Orchid plugins. You may pick a bundle to start with and add any number of plugins afterward, both 
 official and unofficial.
@@ -72,6 +72,7 @@ Orchid can also be integrated into existing projects. The following build tools 
 - [Gradle](https://orchid.netlify.com/wiki/user-manual/getting-started/quickstart#gradle)
 - [Maven](https://orchid.netlify.com/wiki/user-manual/getting-started/quickstart#maven)
 - [KScript](https://orchid.netlify.com/wiki/user-manual/getting-started/quickstart#kscript)
+- [sbt](https://orchid.netlify.com/wiki/user-manual/getting-started/quickstart#sbt)
 
 ## User Manual
 

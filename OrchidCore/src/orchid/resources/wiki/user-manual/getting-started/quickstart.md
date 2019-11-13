@@ -311,7 +311,7 @@ orchidTheme := "BsDoc"
 
 However, for this to work, you will need to make sure the theme and any other features
 your site relies upon are available to the build. Orchid offers a very rich feature set, made available via distinct, dynamically loaded dependencies.
-In order to use these fetures, you'll want to add them as dependies *of the build, not your project*.
+In order to use these features, you'll want to add them as dependies *of the build, not your project*.
 
 The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
 [Below](#rich-projectpluginssbt-example) is a very rich example `project/plugins.sbt` file. You can use any of the main Orchid features
