@@ -15,9 +15,13 @@
     <div class="textured">
     {% if layoutConfig.includeBreadcrumbs %}
     {% block breadcrumbs %}
-      <div class="box">
-      {% breadcrumbs %}
-      </div>
+      {% if layoutConfig.wrapPageInBox %}
+        <div class="box">
+        {% breadcrumbs %}
+        </div>
+      {% else %}
+        {% breadcrumbs %}
+      {% endif %}
     {% endblock %}
     {% endif %}
     {% block main %}
