@@ -134,8 +134,12 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             } ?: emptyMap()
         }
 
+        val moduleHomePage = setupModuleHomepage(context, invokerModel, config, config.name, config.name)
+
+        modelPageMap.values.flatten().forEach { it.parent = moduleHomePage }
+
         return SourceDocModuleModel(
-            setupModuleHomepage(context, invokerModel, config, config.name, config.name),
+            moduleHomePage,
             config.name,
             invokerModel,
             config.moduleGroup,

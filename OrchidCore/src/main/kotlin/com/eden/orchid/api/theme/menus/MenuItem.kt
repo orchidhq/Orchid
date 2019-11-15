@@ -77,6 +77,10 @@ class MenuItem private constructor(
         return !EdenUtils.isEmpty(children)
     }
 
+    fun hasOwnLink(): Boolean {
+        return page != null || anchor.isNotBlank()
+    }
+
     fun isExternal(): Boolean {
         return !link.startsWith(context.baseUrl)
     }

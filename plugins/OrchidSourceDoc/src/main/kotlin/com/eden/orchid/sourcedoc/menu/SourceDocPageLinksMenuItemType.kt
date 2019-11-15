@@ -57,7 +57,7 @@ class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
 
             for (section in pageSections) {
                 val menuItem = MenuItem.Builder(context)
-                    .title(section.name)
+                    .title(section.name.capitalize())
                     .anchor(containingPage.sectionId(section))
 
                 if (includeItems) {

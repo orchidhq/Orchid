@@ -13,7 +13,7 @@
 
 {% macro _menuItemWithChildren(page, menuItem) %}
 <ul class="menu-list">
-{% if menuItem.page is not null %}
+{% if menuItem.hasOwnLink() %}
   {{ _menuItem(page, menuItem) }}
 {% endif %}
   <li>
