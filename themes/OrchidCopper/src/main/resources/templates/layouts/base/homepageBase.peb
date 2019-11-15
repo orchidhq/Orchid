@@ -5,7 +5,7 @@
 
 {% block 'body' %}
   {% include 'includes/copper/homepageNavbar' %}
-  {% embed 'includes/componentHolderEmbed' with {"componentHolder": page.components} %}
+  {% embed 'includes/componentHolder' with {"componentHolder": page.components} %}
     {% block componentWrapper %}
     <section
       class="

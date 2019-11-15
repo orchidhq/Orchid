@@ -95,9 +95,13 @@ constructor(
             // ignore annoying Hibernate Validator and JSass messages
             Clog.getInstance().addTagToBlacklist("org.hibernate.validator.internal.util.Version")
             Clog.getInstance().addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
+
+            // Ignore Pebble internal logging
+            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.lexer.LexerImpl")
+            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.lexer.TemplateSource")
+            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.PebbleEngine")
         }
     }
-
 }
 
 data class LogMessage(val message: String, val throwable: Throwable?)

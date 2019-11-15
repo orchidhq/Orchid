@@ -49,7 +49,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 .loader(loader)
                 .executorService(executor)
                 .extension(extensionArray)
-                .allowGetClass(true)
+                .allowUnsafeMethods(true)
                 .newLineTrimming(false)
                 .build();
 
