@@ -16,7 +16,7 @@
         component-{{ component.type }}
         component-order-{{ component.order }}"
     >
-      <div class="container content is-medium">
+      <div class="container content is-medium-tablet is-large-fullhd">
       {{ component.renderContent(page.context, page) | raw }}
       </div>
     </section>

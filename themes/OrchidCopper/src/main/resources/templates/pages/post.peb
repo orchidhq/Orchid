@@ -51,7 +51,7 @@
 {% endmacro %}
 
 {% macro postContent(page) %}
-<div class="content card-content is-medium-tablet is-large-desktop">
+<div class="content card-content is-medium-tablet is-large-fullhd">
 {{ page.content | raw }}
 </div>
 {% endmacro %}

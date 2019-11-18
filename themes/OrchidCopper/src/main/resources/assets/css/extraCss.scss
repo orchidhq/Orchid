@@ -212,9 +212,9 @@
 }
 
 
-code[class*="language-"] .token.number { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
-code[class*="language-"] .token.operator { margin: 0; padding: 0; background: none; border: none; font-size: 1em; min-width: 0; }
-code[class*="language-"] .tag { line-height: initial;background: none;height: initial;padding: 0;display: inline;font-size: 1em; }
+code[class*="language-"] .token.number { margin: 0; padding: 0; background: none; border: none; min-width: 0; }
+code[class*="language-"] .token.operator { margin: 0; padding: 0; background: none; border: none; min-width: 0; }
+code[class*="language-"] .tag { line-height: initial;background: none;height: initial;padding: 0;display: inline; }
 .content blockquote, .content pre {
   border-left: 5px solid {{theme.palette.primary}};
 }
@@ -222,7 +222,7 @@ code[class*="language-"] .tag { line-height: initial;background: none;height: in
   color: {{theme.palette.primary}};
 }
 .content code[class*="language-"], .content pre[class*="language-"] {
-  color: {{theme.palette.code}}; font-size: 0.875em;
+  color: {{theme.palette.code}};
 }
 
 // Sidebar menu styling

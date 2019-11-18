@@ -6,7 +6,6 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.indexing.OrchidIndex
-import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.JsonResource
@@ -22,11 +21,12 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
     }
 
     @Option
-    @BooleanDefault(false)
-    @Description("Whether this generator is enabled or not. This generator effectively doubles the number of pages " +
-            "generated, but allows most pages on your site to "
-    )
-    var enablePageIndices: Boolean = false
+    @Description("A list of generator keys whose pages are considered in this taxonomy.")
+    lateinit var includeFrom: Array<String>
+
+    @Option
+    @Description("A list of generator keys whose pages are ignored by this taxonomy.")
+    lateinit var excludeFrom: Array<String>
 
     override fun startIndexing(context: OrchidContext): Model {
         return emptyModel()
@@ -34,16 +34,16 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
 
     override fun startGeneration(context: OrchidContext, model: Model) {
         generateSiteIndexFiles(context)
-        if (enablePageIndices) {
-            generatePageIndexFiles(context)
-        }
+        generatePageIndexFiles(context)
     }
 
     private fun generateSiteIndexFiles(context: OrchidContext) {
         val indices = OrchidIndex(null, "index")
 
         // Render an page for each generator's individual index
-        context.index.allIndexedPages.forEach { (key, value) ->
+        val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, excludeFrom)
+
+        context.index.allIndexedPages.filter { it.key in enabledGeneratorKeys }.forEach { (key, value) ->
             if(key === ExternalIndexGenerator.GENERATOR_KEY) return@forEach // don't create search indices for externally-indexed pages
 
             val jsonElement = JSONElement(value.first.toJSON(true, false))

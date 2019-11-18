@@ -4,8 +4,9 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
-    "Adds the self-contained Lunr.js-based Orchid search component to your page.",
-    name = "Algolia DocSearch"
+    "Adds the self-contained Lunr.js-based Orchid search component to your page. Requires search indices to be " +
+            "generated.",
+    name = "Orchid Static Search"
 )
 class OrchidSearchComponent : OrchidComponent("orchidSearch", true) {
 
