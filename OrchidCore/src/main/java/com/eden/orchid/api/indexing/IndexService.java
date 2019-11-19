@@ -5,6 +5,7 @@ import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -44,8 +45,8 @@ public interface IndexService extends OrchidService {
         return getService(IndexService.class).findPage(collectionType, collectionId, itemId);
     }
 
-    default String linkToPage(String title, String collectionType, String collectionId, String itemId, String customClasses) {
-        return getService(IndexService.class).linkToPage(title, collectionType, collectionId, itemId, customClasses);
+    default String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses) {
+        return getService(IndexService.class).linkToPage(from, title, collectionType, collectionId, itemId, customClasses);
     }
 
     default OrchidPage findPageOrDefault(String collectionType, String collectionId, String itemId, OrchidPage defaultPage) {

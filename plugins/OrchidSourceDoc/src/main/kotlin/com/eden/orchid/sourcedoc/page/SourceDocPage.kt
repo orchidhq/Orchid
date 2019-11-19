@@ -56,7 +56,7 @@ class SourceDocPage<T : DocElement>(
             .components
             .map {
                 if (it.kind == TYPE_NAME) {
-                    context.linkToPage(it.text, generator.key, "", it.value, "")
+                    context.linkToPage(this, it.text, generator.key, "", it.value, "")
                 } else {
                     it.text
                 }

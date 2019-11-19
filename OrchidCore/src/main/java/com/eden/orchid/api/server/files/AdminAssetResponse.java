@@ -8,18 +8,12 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FilenameUtils;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.InputStream;
 
-public final class AdminAssetResponse {
+final class AdminAssetResponse {
 
-    @Inject
-    public AdminAssetResponse() {
-
-    }
-
-    public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
+    static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AdminTheme theme = context.getAdminTheme();
 
         OrchidResource res = theme.getResourceEntry(context, targetPath);

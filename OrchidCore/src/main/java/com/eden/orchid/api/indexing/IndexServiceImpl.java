@@ -13,6 +13,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
     }
 
     @Override
-    public String linkToPage(String title, String collectionType, String collectionId, String itemId, String customClasses) {
+    public String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses) {
         OrchidPage foundPage = findPage(collectionType, collectionId, itemId);
 
         if (foundPage != null) {
@@ -90,15 +91,14 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
             } else {
                 return Clog.format("<a href=\"#{$1}\">#{$1}</a>", link);
             }
-        }
-        else {
-            if(context.diagnose()) {
+        } else {
+            if (context.diagnose()) {
                 Clog.e("Error creating anchor to [" +
                                 "collectionType={}, " +
                                 "collectionId={}, " +
                                 "itemId={}" +
-                                "]: matching page not found",
-                        collectionType, collectionId, itemId);
+                                "] from [{}]: matching page not found",
+                        collectionType, collectionId, itemId, from);
             }
         }
 
@@ -177,8 +177,8 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
         Stream<Collectible> c1 = collections.flatMap(OrchidCollection::stream);     // 1. stream the collection, which may duplicate items to allow for multiple IDs
         Stream<Collectible> c2 = c1.filter(Objects::nonNull);                       // 2. defensively remove null items in the stream
         Stream<Collectible> c3 = c2.filter(it -> it.getItemIds().contains(itemId)); // 3. filter the stream to only match the items which match the itemId
-        Stream<?>           c4 = c3.map(Collectible::getItem);                      // 4. unwrap the matched items to get the object they represent
-        Stream<?>           c5 = c4.distinct();                                     // 5. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
+        Stream<?> c4 = c3.map(Collectible::getItem);                      // 4. unwrap the matched items to get the object they represent
+        Stream<?> c5 = c4.distinct();                                     // 5. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
 
         return c5;
     }
@@ -189,8 +189,8 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
         } else {
             Stream<Collectible> c1 = collections.flatMap(OrchidCollection::stream);     // 1. stream the collection, which may duplicate items to allow for multiple IDs
             Stream<Collectible> c2 = c1.filter(Objects::nonNull);                       // 2. defensively remove null items in the stream
-            Stream<?>           c3 = c2.map(Collectible::getItem);                      // 3. unwrap the matched items to get the object they represent
-            Stream<?>           c4 = c3.distinct();                                     // 4. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
+            Stream<?> c3 = c2.map(Collectible::getItem);                      // 3. unwrap the matched items to get the object they represent
+            Stream<?> c4 = c3.distinct();                                     // 4. make sure each object in the final stream is unique, in case multiple duplicated elements matched the itemId
 
             return c4;
         }

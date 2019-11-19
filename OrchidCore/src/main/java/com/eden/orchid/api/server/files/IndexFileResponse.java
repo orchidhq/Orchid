@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public final class IndexFileResponse {
+final class IndexFileResponse {
 
     // TODO: convert this to a component
-    public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
+    static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
         String content = "";
 
@@ -124,7 +124,7 @@ public final class IndexFileResponse {
         return new OrchidResponse(context).content(content);
     }
 
-    private String humanReadableByteCount(long bytes, boolean si) {
+    private static String humanReadableByteCount(long bytes, boolean si) {
         int unit = si ? 1000 : 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));

@@ -11,9 +11,9 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class StaticFileResponse {
+final class StaticFileResponse {
 
-    public static Map<String, String> mimeTypes = new HashMap<>();
+    static Map<String, String> mimeTypes = new HashMap<>();
 
     static {
         mimeTypes.put("html", "text/html");
@@ -24,9 +24,10 @@ public final class StaticFileResponse {
         mimeTypes.put("svg",  "image/svg+xml");
         mimeTypes.put("png",  "image/png");
         mimeTypes.put("jpg",  "image/jpeg");
+        mimeTypes.put("ico",  "image/x-icon");
     }
 
-    public OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
+    static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), NanoHTTPD.getMimeTypeForFile(targetFile.getName()));
 
         Clog.i("Rendering File: #{$1}", targetPath);
