@@ -81,7 +81,7 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
             val reference = OrchidReference(page.reference)
             val resource = JsonResource(jsonElement, reference)
             val pageIndex = OrchidPage(resource, "pageIndex", null)
-            pageIndex.reference.isUsePrettyUrl = true
+            pageIndex.reference.isUsePrettyUrl = false
             pageIndex.reference.outputExtension = "json"
             context.renderRaw(pageIndex)
         }

@@ -15,6 +15,7 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.render.Renderable;
+import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
@@ -368,7 +369,14 @@ public class OrchidPage implements
         pageJson.put("description", this.description);
 
         if (includePageContent) {
-            pageJson.put("content", this.getContent());
+            if(resource instanceof ExternalResource) {
+                if(((ExternalResource) resource).isDownload()) {
+                    pageJson.put("content", this.getContent());
+                }
+            }
+            else {
+                pageJson.put("content", this.getContent());
+            }
         }
 
         if (includePageData) {
