@@ -14,18 +14,17 @@
 {% macro _navbarSearch(site) %}
 <div class="navbar-item">
   <form id="search-input" data-orchid-search>
-    <div class="field has-addons is-marginless" id="search">
-      <div class="control input-control">
+    <div class="field is-marginless" id="search">
+      <div class="control has-icons-left input-control">
         <input class="input" type="text" name="query" placeholder="Search {{ site.about.siteName }}">
+
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
 
         <div id="search-progress" data-orchid-search-progress style="display: none;">
           <div class="loader">Loading...</div>
         </div>
-      </div>
-      <div class="control button-control">
-        <a class="button is-info">
-          <i class="fas fa-search"></i>
-        </a>
       </div>
     </div>
     <div id="search-results" data-orchid-search-results style="display: none;">
