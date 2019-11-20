@@ -267,3 +267,10 @@ a:visited {
     color: #444444;
   }
 }
+
+.content .tabs li + li {
+  margin-top: 0;
+}
+.content .tabs ul {
+  margin-left: 0;
+}
