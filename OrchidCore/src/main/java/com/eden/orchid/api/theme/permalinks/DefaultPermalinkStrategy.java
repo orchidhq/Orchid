@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -23,17 +24,29 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
 
     @Override
     public void applyPermalink(OrchidPage page, String permalink) {
-        String[] pieces = OrchidUtils.normalizePath(permalink).split("/");
+        applyPermalink(page, permalink, true);
+    }
 
-        StringBuffer resultingUrl = new StringBuffer();
-        StringBuffer title = new StringBuffer();
+    @Override
+    public void applyPermalink(OrchidPage page, String permalink, boolean prettyUrl) {
+        String extension = FilenameUtils.getExtension(permalink);
+        String nameWithoutExtension = FilenameUtils.removeExtension(permalink);
 
-        applyPermalinkTemplate(resultingUrl, page, Arrays.copyOfRange(pieces, 0, pieces.length - 1));
-        applyPermalinkTemplatePiece(title, page, pieces[pieces.length - 1]);
+        String[] pieces = OrchidUtils.normalizePath(nameWithoutExtension).split("/");
 
-        page.getReference().setPath(OrchidUtils.normalizePath(resultingUrl.toString()).replaceAll("//", "/"));
-        page.getReference().setFileName(title.toString());
-        page.getReference().setUsePrettyUrl(true);
+        StringBuffer formattedPath = new StringBuffer();
+        StringBuffer formattedFileName = new StringBuffer();
+
+        applyPermalinkTemplate(formattedPath, page, Arrays.copyOfRange(pieces, 0, pieces.length - 1));
+        applyPermalinkTemplatePiece(formattedFileName, page, pieces[pieces.length - 1]);
+
+        page.getReference().setPath(OrchidUtils.normalizePath(formattedPath.toString()).replaceAll("//", "/"));
+        page.getReference().setFileName(OrchidUtils.normalizePath(formattedFileName.toString()).replaceAll("//", "/"));
+        page.getReference().setUsePrettyUrl(prettyUrl);
+
+        if(!EdenUtils.isEmpty(extension)) {
+            page.getReference().setOutputExtension(extension);
+        }
     }
 
     private void applyPermalinkTemplate(StringBuffer resultingUrl, OrchidPage page, String[] pieces) {

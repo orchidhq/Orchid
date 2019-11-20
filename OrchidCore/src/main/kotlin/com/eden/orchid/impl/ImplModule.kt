@@ -70,6 +70,7 @@ import com.eden.orchid.impl.themes.functions.LinkFunction
 import com.eden.orchid.impl.themes.functions.LoadFunction
 import com.eden.orchid.impl.themes.functions.LocalDateFunction
 import com.eden.orchid.impl.themes.functions.ParseAsFunction
+import com.eden.orchid.impl.themes.functions.RenameFunction
 import com.eden.orchid.impl.themes.functions.ResizeFunction
 import com.eden.orchid.impl.themes.functions.RotateFunction
 import com.eden.orchid.impl.themes.functions.ScaleFunction
@@ -242,7 +243,8 @@ class ImplModule(
 
                 RotateFunction::class.java,
                 ScaleFunction::class.java,
-                ResizeFunction::class.java
+                ResizeFunction::class.java,
+                RenameFunction::class.java
             )
 
             // Publication Methods
