@@ -1,8 +1,8 @@
 ---
 title: 'Summer 2019 Update: Summer Recap'
-description: Summer 2019 Monthly Orchid Update
+description: Summer 2019 Orchid News
 tags: 
-  - Monthly Orchid Update
+  - Orchid News
 ---
 
 Sorry for the absence, it's been a very busy summer for me! Lots of stuff going on both for me and for Orchid, so stick around to see what's coming up!
@@ -16,17 +16,17 @@ As of the time of writing, Orchid is at 233 stars on Github, thank you so much f
 - [Sumo99](https://github.com/Sumo99)
 - [Jean-Michel Fayard](https://github.com/jmfayard)
 
-I've also been preparing for [Hacktoberfest](https://hacktoberfest.digitalocean.com), which is coming up in less than a month. I've curated a bunch of new issues labeled for [first-time contributors](https://github.com/JavaEden/Orchid/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A"Good+First+Issue"), how about getting a head-start on Hacktoberfest and helping out with some of these issues? 😎 Feel free to hold off on your PR until Hacktoberfest officially begins, just comment on the issue so others know what you're working on.
+I've also been preparing for [Hacktoberfest](https://hacktoberfest.digitalocean.com), which is coming up in less than a month. I've curated a bunch of new issues labeled for [first-time contributors](https://github.com/orchidhq/orchid/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A"Good+First+Issue"), how about getting a head-start on Hacktoberfest and helping out with some of these issues? 😎 Feel free to hold off on your PR until Hacktoberfest officially begins, just comment on the issue so others know what you're working on.
 
 # What's New?
 
-Orchid is now at version [0.17.4](https://github.com/JavaEden/Orchid/releases/tag/0.17.4). 0.17.0, which came out at the end of May, was a really big update and included a handful of new "integrations" projects. These integrations make it easy to create wikis from Github and Gitlab wikis, and to publish your site to Gitlab Pages and Bitbucket Cloud (in addition to the already-supported Github and Netlify publishers). 
+Orchid is now at version [0.17.4](https://github.com/orchidhq/orchid/releases/tag/0.17.4). 0.17.0, which came out at the end of May, was a really big update and included a handful of new "integrations" projects. These integrations make it easy to create wikis from Github and Gitlab wikis, and to publish your site to Gitlab Pages and Bitbucket Cloud (in addition to the already-supported Github and Netlify publishers). 
 
 # In Progress
 
 Y'all. Some big things are just up the road for Orchid. Really big. Like, _Texas-sized big_. I'm talking about:
 
-- A completely redesigned documentation site (you can preview it [here](https://new-docs--orchid.netlify.com), I'd greatly appreciate any feedback on it!)
+- A completely redesigned documentation site (you can preview it [here](https://orchid.run), I'd greatly appreciate any feedback on it!)
 - Mutli-module code documentation
 - Completely decoupling code documentation from Orchid with [Kodiak](https://github.com/copper-leaf/kodiak), to vastly simplify the process of supporting new languages and ensure consistency of usage across all languages
 - Some much-needed refactoring of core Orchid functionality

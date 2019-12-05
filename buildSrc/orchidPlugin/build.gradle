@@ -12,8 +12,8 @@ group = rootProject.group
 version = rootProject.version
 
 pluginBundle {
-    website = 'https://orchid.netlify.com/'
-    vcsUrl = 'https://github.com/JavaEden/Orchid'
+    website = 'https://orchid.run/'
+    vcsUrl = 'https://github.com/orchidhq/orchid'
     description = 'A convenient DSL for setting up Orchid with your Gradle projects'
     tags = ['orchid', 'javadoc']
 

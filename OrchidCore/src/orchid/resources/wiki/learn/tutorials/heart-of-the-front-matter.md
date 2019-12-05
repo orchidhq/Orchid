@@ -12,7 +12,7 @@ Before continuing, make sure you have followed along with the previous tutorial 
 server with `gradle orchidServe`. We will be building on that example in this tutorial.
 
 You can follow along with this tutorial on your own, or find the source for this in the
-[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/03). 
+[OrchidTutorials repository](https://github.com/orchidhq/OrchidTutorials/tree/master/03). 
 
 ## Front Matter
 
@@ -224,7 +224,7 @@ even larger sites, the savings are even larger, and the maintenance burden will 
 The first thing we'll need to do is make ourselves a new page template, and then we'll tell Orchid to use that template 
 instead of the default one. So make a page in `templates/pages/location.peb` and add the following content.
 
-```jinja
+```twig
 {% verbatim %}
 {% filter compileAs('md') %}
 ## Location

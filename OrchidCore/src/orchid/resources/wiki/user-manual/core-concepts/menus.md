@@ -3,7 +3,6 @@ description: Orchid's built-in menu generation intelligently connects site struc
 ---
 
 ## Menus
----
 
 Menus are typically defined by the Theme and by the Page, and it is common for both kinds of menus to appear on a single
 output Page's layout. Menus typically pull pages from the Index to dynamically generate the menu items, so all that

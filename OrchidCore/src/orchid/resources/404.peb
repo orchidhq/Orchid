@@ -1,0 +1,12 @@
+---
+layoutConfig:
+  wrapPageInBox: true
+  wrapTitleInBox: false
+  includeTitle: false
+  includeBreadcrumbs: false
+---
+
+<div class="has-text-centered">
+  <h1 class="is-size-1" style="margin-bottom: 30px;">There's nothing here!</h1>
+  <img src="{{ 'assets/media/undraw_page_not_found.svg'|asset }}" alt="Not Found">
+</div>

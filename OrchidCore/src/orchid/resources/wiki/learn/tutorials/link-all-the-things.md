@@ -12,13 +12,13 @@ Before continuing, make sure you have followed along with the previous tutorial 
 server with `gradle orchidServe`. We will be building on that example in this tutorial.
 
 You can follow along with this tutorial on your own, or find the source for this in the
-[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/04).
+[OrchidTutorials repository](https://github.com/orchidhq/OrchidTutorials/tree/master/04).
 
 ## Making Dynamic Links
 
 Let's first review what we have in our `locations/index.md` page:
 
-```jinja
+```twig
 - [Houston](http://localhost:8080/locations/houston)
 - [Dallas](http://localhost:8080/locations/dallas)
 - [Austin](http://localhost:8080/locations/austin)
@@ -48,7 +48,7 @@ The `site.baseUrl` property looks like just what we need! We can replace the har
 with that variable instead, and it will automatically update these URLs based on the `baseUrl` property set in 
 `build.gradle`.
 
-```jinja
+```twig
 {% verbatim %}
 ---
 ---
@@ -62,7 +62,7 @@ These links are still kind-of "hard-coded", however, since the path of these lin
 Markdown processor. Instead, we cal pass these paths to the `baseUrl` Pebble filter, which allows Orchid to be a bit
 more clever with these paths (to ensure proper formatting), and is also easier to understand and more idiomatic.
 
-```jinja
+```twig
 {% verbatim %}
 ---
 ---
@@ -86,7 +86,7 @@ specific, known page.
 
 The first function we can use is `link()`. Let's start with an example:
 
-```jinja
+```twig
 {% verbatim %}
 ---
 ---
@@ -116,7 +116,7 @@ this gets tedious and makes your templates hard to read, so Orchid offers anothe
 intelligently generating a clickable anchor link, `anchor()`. With the `anchor()` function, we can replace the entire 
 Markdown link, and let Orchid create it for us instead:
 
-```jinja
+```twig
 {% verbatim %}
 ---
 ---
@@ -131,7 +131,7 @@ returning the text that is passed to the function directly. By default, the text
 text in the link, but this can be changed by passing an additional argument to the function. If there are 2 parameters,
 then the first one is the text that will be displayed in the link, while the second is used to look up a page.
 
-```jinja
+```twig
 {% verbatim %}
 ---
 ---
@@ -159,7 +159,7 @@ Take a look at the snippet below as an example. It is incomplete because there i
 functions parameters, but I'll get back to that in a moment. For now, just notice that we can iterate over the result 
 and build links manually. 
 
-```jinja
+```twig
 {% verbatim %}
 {% for page in findAll(...) %}
 - [{{ page.title }}]({{ page.link }})
@@ -188,7 +188,7 @@ collections.
 Armed with this knowledge, we can finish out our example and not only generate dynamic links to our location pages, but 
 also dynamically generate the entire list! 
 
-```jinja
+```twig
 {% verbatim %}
 {% for page in findAll(collectionType='pages', collectionId='locations') %}
 - [{{ page.title }}]({{ page.link }})

@@ -1,8 +1,8 @@
 ---
 title: 'January 2019 Update: The One Where It Got Cold In Texas'
-description: January 2019 Monthly Orchid Update
+description: January 2019 Orchid News
 tags: 
-  - Monthly Orchid Update
+  - Orchid News
 ---
 
 When I moved to Houston, I never expected it would get this cold! Temperatures have been jumping between 30°F and 80°F just about every other day, but that's alright because it gives me an excuse to do more work for Orchid! 
@@ -15,7 +15,7 @@ As of the time of writing, Orchid is at 134 stars on Github. Thanks for all the 
 
 # What's New?
 
-Version [0.15.4](https://github.com/JavaEden/Orchid/releases/tag/0.15.4) was release later in the month, which was mostly a bugfix release, and will be the last release before the next major version, 0.16.0. There's some really exciting stuff coming soon to Orchid, check out what's in progress below!
+Version [0.15.4](https://github.com/orchidhq/orchid/releases/tag/0.15.4) was release later in the month, which was mostly a bugfix release, and will be the last release before the next major version, 0.16.0. There's some really exciting stuff coming soon to Orchid, check out what's in progress below!
 
 # Coming Soon
 

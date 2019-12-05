@@ -59,11 +59,12 @@ dependencies {
 
 orchid {
     runTask = 'build'
-    theme = 'BsDoc'
+    theme = 'Copper'
     version = getActualVersion(project)
     baseUrl = getBaseUrl(project)
     environment = getEnvName(project)
     githubToken = getGithubToken(project)
+    args = ["--experimentalSourceDoc"]
 }
 
 tasks.build.dependsOn orchidBuild

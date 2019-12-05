@@ -1,0 +1,31 @@
+buildCommands:
+  build:
+    gradle:  'orchidBuild'
+    maven:   'orchid:build'
+    kscript: 'build'
+    sbt:     'orchidBuild'
+  serve:
+    gradle:  'orchidServe'
+    maven:   'orchid:serve'
+    kscript: 'serve'
+    sbt:     'orchidServe'
+  deploy:
+    gradle:  'orchidDeploy'
+    maven:   'orchid:deploy'
+    kscript: 'deploy'
+    sbt:     'orchidDeploy'
+  run:
+    gradle:  'orchidRun -PorchidRunTask=build'
+    maven:   'orchid:run -Dorchid.runTask=build'
+    kscript: 'build'
+    sbt:     '-Dorchid.runTask=build orchidRun'
+
+featuredPlugins:
+  - title: 'Static Pages'
+    itemId: 'OrchidPages'
+  - title: 'Blog Posts'
+    itemId: 'OrchidPosts'
+  - title: 'Wikis'
+    itemId: 'OrchidWiki'
+  - title: 'Code Docs'
+    itemId: 'OrchidSourceDoc'

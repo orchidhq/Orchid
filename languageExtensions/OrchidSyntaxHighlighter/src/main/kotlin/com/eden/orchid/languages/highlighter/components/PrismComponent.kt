@@ -15,7 +15,7 @@ import com.eden.orchid.utilities.OrchidUtils
 class PrismComponent : OrchidComponent("prism", true) {
 
     @Option
-    @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")
+    @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1")
     @Description("The base URL to load Prism CSS and JS files from.")
     lateinit var prismSource: String
 

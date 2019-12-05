@@ -1,32 +1,23 @@
 ---
-description: 'Get started with Orchid using Gradle, Maven, or kscript'
+description: 'Get set up with a new or existing project.'
 ---
 
 ## Start a new Orchid project
 
-The simplest way to get started with Orchid is to use the Orchid Starter repo as a base. 
+The simplest way to get started with Orchid is to use the Orchid Starter repo as a base.
 
-1) `git clone https://github.com/JavaEden/OrchidStarter.git`
-    * Clone the Starter repo anywhere you want on your system
-2) `cd OrchidStarter`
-    * Navigate into the directory containing the Starter repo
-3) `./gradlew orchidServe`
-    * Run Orchid using the included Gradle wrapper. No complicated and brittle gemfiles, NPM packages, or anything else 
-    required. As long as you have a Java JDK installed, Orchid works right out-of-the-box without any configuration or
-    system packages to install.
-    * All available commands:
-        - `gradle orchidBuild` - Build Orchid once then exit.
-        - `gradle orchidWatch` - Watch Orchid for changes, rebuilding whenever a file changes. 
-        - `gradle orchidServe` - Start a local development server to view your output site. Also watches Orchid for changes, rebuilding whenever a file changes.
-        - `gradle orchidDeploy` - Build Orchid once, deploy the built site through the publication pipeline, then exit.
-        - `gradle assemble` - Not strictly an Orchid command, but if you are set up with the OrchidJavadoc plugin, this will run Orchid from the Javadoc tool instead of generating the standard Javadocs. 
+```sh
+git clone https://github.com/orchidhq/OrchidStarter.git
+cd OrchidStarter
+./gradlew orchidServe
+``` 
 
 ## Deploy to Netlify
     
 Alternatively, you can simply click the "Deploy to Netlify" button below to automatically clone, build, and deploy the 
-Starter repo to the Netlify CDN. 
+OrchidStarter repo to the Netlify CDN. 
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/JavaEden/OrchidStarter)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/orchidhq/OrchidStarter)
     
 ## Integrate Orchid into an existing project
 
@@ -39,6 +30,7 @@ application.
 To use Orchid from a Gradle project, setup your project's build.gradle file like so:
 
 ```groovy
+// build.gradle
 plugins {
     // Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL   
     id "com.eden.orchidPlugin" version "{{site.version}}"
@@ -80,12 +72,9 @@ You can now run Orchid in the following ways:
 2) `./gradlew orchidBuild` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
     `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP 
     file server in the root of the output directory, or deploy this folder directly to your webserver.
-3) `./gradlew orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for 
-    changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
-    `build/docs/orchid` unless the output directory has been changed.
-4) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at 
+3) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at 
     `localhost:8080` (or the closest available port).
-4) `./gradlew orchidDeploy` - Runs the orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+4) `./gradlew orchidDeploy` - Runs the orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
     You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
     directly to Github Pages or Netlify.
     
@@ -100,6 +89,7 @@ additional classes you'd like to include as a private plugin can be placed in `s
 To use Orchid from a Maven project, setup your project's pom.xml file like so:
 
 ```xml
+<!-- pom.xml -->
 <project>
     ...
     
@@ -169,12 +159,9 @@ You can now run Orchid in the following ways:
 2) `./mvn orchid:build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
     `target/docs/orchid` unless the output directory has been changed. You can then view the site by starting any HTTP 
     file server in the root of the output directory, or deploy this folder directly to your webserver.
-3) `./mvn orchid:watch` - Runs the Orchid build task a single time, then begins watching the source directory for 
-    changes. Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
-    `build/docs/orchid` unless the output directory has been changed.
-4) `./mvn orchid:serve` - Sets up a development server and watches files for changes. The site can be viewed at 
+3) `./mvn orchid:serve` - Sets up a development server and watches files for changes. The site can be viewed at 
     `localhost:8080` (or the closest available port).
-4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
     You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
     directly to Github Pages or Netlify.
     
@@ -187,6 +174,7 @@ structure. The basic API below is specifically created for kscript, but can be e
 tools, or used like a library and started from another application.
 
 ```kotlin
+// orchid.kts
 @file:MavenRepository("kotlinx", "https://kotlin.bintray.com/kotlinx")
 @file:MavenRepository("jitpack", "https://jitpack.io")
 
@@ -223,12 +211,9 @@ You can now start Orchid directly with its CLI, using the following commands:
     1) `build` - Runs the Orchid build task a single time then exits. The resulting Orchid site will be in 
         `build/docs/orchid` unless the output directory has been changed. You can then view the site by starting any 
         HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
-    2) `.watch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
-        Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
-        `build/docs/orchid` unless the output directory has been changed.
-    3) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
+    2) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
         (or the closest available port).
-    4) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+    3) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
         You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the
         site directly to Github Pages or Netlify.
 2) `kscript ./path/to/scriptlet.kts help` - Print out basic usage and all available tasks and command-line options. 
@@ -278,23 +263,20 @@ Now, on the sbt command line you can run:
 1. `orchidBuild` - Runs the Orchid build task a single time then completes. The resulting Orchid site will be in 
    `target/orchid` unless the `orchidDestination` setting has been customized. You can then view the site by starting any 
     HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
-2. `orchidWatch` - Runs the Orchid build task a single time, then begins watching the source directory for changes. 
-   Anytime a file is changes, the build will run again, and the resulting Orchid site will be in 
-   `target/orchid` unless the `orchidDestination` setting has been customized.
-3. `orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
+2. `orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
    (or the closest available port).
-4. `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchid.netlify.com/wiki/user-manual/deployment/publication-pipeline)
+3. `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
     You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
     site directly to Github Pages or Netlify.
 
-You can also run these tasks directly from your OS command line as `sbt orchidBuild`, `sbt orchidWatch`, `sbt orchidServe`, or `sbt orchidDeploy`.
+You can also run these tasks directly from your OS command line as `sbt orchidBuild`, `sbt orchidServe`, or `sbt orchidDeploy`.
 You can run Orchid-related tasks generically with `orchidRun`. For example, the following are all equivalent to running `orchidBuild`:
 
 * `> orchidRun build` from the sbt command line
 * `$ sbt "orchidRun build"` from your OS command line
 * `$ sbt -Dorchid.runTask=build orchidRun` from your OS command line
 
-Available commands are `build`, `deploy`, `serve`, and `watch`.
+Available commands are `build`, `deploy`, and `serve`.
 
 #### sbt plugin configuration
 
@@ -321,6 +303,7 @@ you'd want to uncomment the line containing `libraryDependencies += orchidCompon
 ##### rich `project/plugins.sbt` example
 
 ```scala
+// build.sbt
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
 resolvers += Resolver.bintrayRepo("javaeden", "sbt-plugins") // hosts Orchid SBT plugin
 
@@ -346,7 +329,7 @@ libraryDependencies += orchidComponent( "OrchidCore" )
  *  Uncomment the components you desire
  */
 
-/* Themes -- see https://orchid.netlify.com/themes */
+/* Themes -- see https://orchid.run/themes */
 /* Don't forget to set 'orchidTheme' in build.sbt! */
 
 // libraryDependencies += orchidComponent( "OrchidBsDoc" )
@@ -354,7 +337,7 @@ libraryDependencies += orchidComponent( "OrchidCore" )
 // libraryDependencies += orchidComponent( "OrchidEditorial" )
 // libraryDependencies += orchidComponent( "OrchidFutureImperfect" )
 
-/* Plugins -- see https://orchid.netlify.com/plugins */
+/* Plugins -- see https://orchid.run/plugins */
 
 // libraryDependencies += orchidComponent( "OrchidPages" )
 // libraryDependencies += orchidComponent( "OrchidPosts" )

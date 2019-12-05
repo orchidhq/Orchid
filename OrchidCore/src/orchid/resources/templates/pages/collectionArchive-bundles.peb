@@ -1,0 +1,65 @@
+<div class="box">
+  <div style="position: relative;">
+    <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+    <p class="subtitle is-4">{{ page.description }}</p>
+
+    {# desktop stuff #}
+    <div class="is-hidden-touch" style="position: absolute; top: 20px; right: 20px;">
+      <div>
+        <a href="https://github.com/orchidhq/orchid">
+          <i class="fab fa-github" aria-hidden="true"></i>
+          <span>orchidhq/orchid</span>
+        </a>
+      </div>
+    </div>
+
+    {# mobile sepcific stuff #}
+    <div class="is-hidden-desktop">
+      <a href="https://github.com/orchidhq/orchid" style="margin-right: 12px; white-space: nowrap">
+        <i class="fab fa-github" aria-hidden="true"></i>
+        <span>orchidhq/orchid</span>
+      </a>
+    </div>
+
+    <hr>
+  </div>
+
+  <div class="content is-medium-tablet is-large-fullhd">
+
+  </div>
+</div>
+
+
+
+<div class="columns is-multiline is-centered">
+{% for pageItem in page.pageList %}
+  <div class="column is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+
+    <div class="box is-paddingless">
+      <div class="border-bottom" style="padding: 0.75rem 1.25rem; margin-bottom: 0.75rem;">
+        <h2 class="subtitle" style="white-space: nowrap;">{{ pageItem.title }}</h2>
+      </div>
+      <nav class="menu">
+        <ul class="menu-list">
+        {% set includedPages = pageItem.get('included') %}
+
+        {% for pluginItem in includedPages | slice(0, 3) %}
+        {% set pageUrl = link(itemId=pluginItem.pluginName, collectionType='pages', collectionId=plugin.pluginType) %}
+
+        {% if pageUrl is not empty %}
+          <a href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if includedPages|length > 3 %}
+          <a href="{{ pageItem.link }}">+{{ (includedPages|length) - 3 }} more</a>
+        {% endif %}
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+

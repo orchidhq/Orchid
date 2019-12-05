@@ -1,3 +1,4 @@
 key: BsDoc
 theme:
   isolated: true
+legacySearch: false

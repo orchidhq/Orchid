@@ -1,2 +1,18 @@
 categories:
   - 'news'
+
+postPages:
+  layout: homepage
+  layoutConfig:
+    wrapPageInBox: false
+    wrapTitleInBox: false
+    includeTitle: false
+    includeBreadcrumbs: true
+  author: 'Casey Brooks'
+  components:
+    - type: 'pageContent'
+      noWrapper: false
+
+authors:
+  - name: 'Casey Brooks'
+    email: 'cjbrooks12@gmail.com'

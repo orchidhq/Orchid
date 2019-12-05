@@ -1,27 +1,64 @@
 taxonomies:
-  - key: group
+  - key: category
+    title: 'Categories'
     single: true
     setAsPageParent: true
-    plugins:
-      orderByDirection: asc
+    permalink: 'categories/:archiveIndex'
+    includeFrom:
+      - 'posts'
+    orderBy:
+      - 'publishDate'
+    news:
       permalink: ':term/:archiveIndex'
-      orderBy:
-        - 'title'
-    themes:
-      orderByDirection: asc
+  - key: tags
+    title: 'Tags'
+    single: false
+    setAsPageParent: false
+    permalink: 'tags/:archiveIndex'
+    includeFrom:
+      - 'posts'
+    orderBy:
+      - 'publishDate'
+    news:
       permalink: ':term/:archiveIndex'
-      orderBy:
-        - 'title'
-    bundles:
-      orderByDirection: asc
-      permalink: ':term/:archiveIndex'
-      orderBy:
-        - 'title'
 
 # Page configurations
-taxonomyArchivePages:
-  extraCss:
-    - 'assets/css/plugins.scss'
 termArchivePages:
-  extraCss:
-    - 'assets/css/plugins.scss'
+  layoutConfig:
+    wrapPageInBox: false
+    wrapTitleInBox: false
+    includeTitle: false
+    includeBreadcrumbs: false
+
+collectionArchives:
+  - collectionType: 'kotlindoc'
+    collectionId: 'modules-plugins'
+    key: 'plugins'
+    permalink: 'plugins/:archiveIndex'
+    setAsPageParent: true
+    orderByDirection: asc
+    orderBy:
+      - 'title'
+  - collectionType: 'kotlindoc'
+    collectionId: 'modules-themes'
+    key: 'themes'
+    permalink: 'themes/:archiveIndex'
+    setAsPageParent: true
+    orderByDirection: asc
+    orderBy:
+      - 'title'
+  - collectionType: 'kotlindoc'
+    collectionId: 'modules-bundles'
+    key: 'bundles'
+    permalink: 'bundles/:archiveIndex'
+    setAsPageParent: true
+    orderByDirection: asc
+    orderBy:
+      - 'title'
+  - collectionType: 'pages'
+    collectionId: 'showcase'
+    permalink: 'showcase/:archiveIndex'
+    setAsPageParent: true
+    orderByDirection: asc
+    orderBy:
+      - 'title'

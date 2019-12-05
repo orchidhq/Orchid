@@ -1,0 +1,89 @@
+.component {
+  .title:not(.is-4) {
+    font-size: 80px;
+
+    &.superhero {
+      img {
+        max-width: 75%;
+      }
+    }
+    @include mobileBlock() {
+      font-size: 44px;
+      &.superhero {
+        img {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+  .subtitle {
+    font-size: 48px;
+    &.sidekick {
+      font-size: 64px;
+      font-weight: normal;
+    }
+    @include mobileBlock() {
+      font-size: 28px;
+      font-weight: normal;
+      &.sidekick {
+        font-size: 32px;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .list-title {
+    font-size: 38px;
+  }
+
+  &.has-background-dark {
+    * {
+      color: white;
+    }
+  }
+
+  .content figure {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #whatIsOrchid {
+    margin: 100px auto;
+    display: block;
+    width: 85%;
+  }
+  @include mobileBlock() {
+    #whatIsOrchid {
+      margin: 50px auto;
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .features {
+    img, .img {
+      margin-bottom: 0;
+    }
+    img.features-bg {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    @include desktopBlock() {
+      img, .img {
+        margin-bottom: -175px;
+      }
+      .column {
+        border-radius: 20px;
+      }
+    }
+    & a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.button.is-large.is-rounded {
+  padding-bottom: 2px;
+}

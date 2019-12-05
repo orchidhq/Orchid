@@ -76,17 +76,7 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
                     .map { page ->
                         MenuItem.Builder(context)
                             .page(page)
-                            .also {
-                                // set title
-                                var itemTitle = when (itemTitleType) {
-                                    ItemTitleType.NAME -> page.title
-                                    ItemTitleType.ID -> page.element.id
-                                }
-                                if(transform.isNotBlank()) {
-                                    itemTitle = context.compile(transformAs, transform, mapOf("title" to itemTitle))
-                                }
-                                it.title(itemTitle)
-                            }
+                            .also { applyTitle(context, page, it) }
                             .build()
                     }
             } else {
@@ -98,7 +88,7 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
 
                         MenuItem.Builder(context)
                             .title(nodeTitle)
-                            .pages(nodePages)
+                            .pages(nodePages) { (page, it) -> applyTitle(context, page as SourceDocPage<*>, it) }
                             .build()
                     }
             }
@@ -107,6 +97,21 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
             e.printStackTrace()
             emptyList()
         }
+    }
+
+    fun applyTitle(context: OrchidContext, page: SourceDocPage<*>, it: MenuItem.Builder) {
+        var itemTitle = when (itemTitleType) {
+            ItemTitleType.NAME -> page.title
+            ItemTitleType.ID -> page.element.id
+        }
+        if(transform.isNotBlank()) {
+            itemTitle = context.compile(transformAs, transform, mapOf(
+                "title" to itemTitle,
+                "page" to page,
+                "element" to page.element
+            ))
+        }
+        it.title(itemTitle)
     }
 
 }

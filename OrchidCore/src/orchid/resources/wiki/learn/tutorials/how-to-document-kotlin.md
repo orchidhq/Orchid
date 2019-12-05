@@ -8,28 +8,12 @@ would have never learned how to use them.
 
 So if you're building a library, and you want people to use it, it should also have good documentation. And if that 
 library happens to be written in Kotlin, you're in luck because creating a great documentation website is actually much 
-easier than you might think with the help of a new tool called [Orchid](https://orchid.netlify.com/).
+easier than you might think with the help of a new tool called [Orchid](https://orchid.run/).
 
 This tutorial will walk you through how to create a basic documentation site for your Kotlin project with Orchid, 
 including Dokka code docs, a wiki, and changelogs, and get it deployed Github Pages. If you want to jump right into a 
 working project, you can find everything described here in the 
-[OrchidTutorials example project](https://github.com/JavaEden/OrchidTutorials/tree/master/kotlin-site).
-
-# Table of Contents
-
-- [Getting Started](#getting-started)
-  - [App Setup](#app-setup)
-  - [Orchid Setup](#orchid-setup)
-- [Adding Content](#adding-content)
-  - [Homepage](#homepage)
-  - [Site Info/Theme Configuration](#site-infotheme-configuration)
-  - [Wiki](#wiki)
-  - [Changelog](#changelog)
-- [Kotlin Code Docs](#kotlin-code-docs)
-  - [Setting Up The Plugin](#setting-up-the-plugin)
-  - [Creating The Menus](#creating-the-menus)
-- [Deploy On Github Pages](#deploy-on-github-pages)
-- [Conclusion](#conclusion)
+[OrchidTutorials example project](https://github.com/orchidhq/OrchidTutorials/tree/master/kotlin-site).
 
 ## Getting Started
 
@@ -165,14 +149,14 @@ include ':docs'
 // docs/build.gradle
 // 1. Apply Orchid plugin
 plugins {
-    id "com.eden.orchidPlugin" version "0.16.0"
+    id "com.eden.orchidPlugin" version "{{ site.version }}"
 }
 
 // 2. Include Orchid dependencies
 dependencies {
-    orchidRuntime "io.github.javaeden.orchid:OrchidDocs:0.16.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidKotlindoc:0.16.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidPluginDocs:0.16.0"
+    orchidRuntime "io.github.javaeden.orchid:OrchidDocs:{{ site.version }}"
+    orchidRuntime "io.github.javaeden.orchid:OrchidKotlindoc:{{ site.version }}"
+    orchidRuntime "io.github.javaeden.orchid:OrchidPluginDocs:{{ site.version }}"
 }
 
 // 3. Get dependencies from JCenter and Kotlinx Bintray repo
@@ -226,7 +210,7 @@ Flag values:
 -theme: Editorial
 -version: 1.0.0
 
-[INFO] Orchid: Running Orchid version 0.16.0, site version unspecified in debug environment
+[INFO] Orchid: Running Orchid version {{ site.version }}, site version unspecified in debug environment
 [INFO] OrchidWebserver: Webserver Running at http://localhost:8080
 [INFO] OrchidWebsocket: Websocket running at http://localhost:8081/
 [INFO] TaskServiceImpl: Build Starting...
@@ -378,6 +362,25 @@ features of Orchid is the built-in static search. All of your wiki pages support
 look up anything in your site. All the individual pages of the wiki are also linked together with forward and backward 
 links.
 
+To add static search, we need to add another component to our site, called `orchidSearch`. This time, instead of 
+attaching the component to the homepage, we will attach it to the theme's `metaComponents` to add the necessary assets
+to all pages, instead of just the homepage.
+
+```yaml
+# docs/src/orchid/resources/config.yml
+site:
+  about:
+    siteName: Kotlin Project
+    siteDescription: This is a short description of this project.
+Editorial:
+  primaryColor: '#DE9149'
+  legacySearch: false # an older version of the theme added search automatically, but that behavior has been deprecated
+  social:
+    github: 'username/project'
+  metaComponents: # this is the replacement for the deprecated automatic search addition
+    - type: 'orchidSearch'
+```
+
 ![Wiki summary with search results](https://thepracticaldev.s3.amazonaws.com/i/5r4apzo10ip7wtnpqxos.png)
 
 ![Wiki entry with next and previous page links](https://thepracticaldev.s3.amazonaws.com/i/nlpgex5lkcx1gjv8seur.png)
@@ -394,8 +397,11 @@ site:
 
 Editorial:
   primaryColor: '#DE9149'
+  legacySearch: false
   social:
     github: 'username/project'
+  metaComponents:
+    - type: 'orchidSearch'
   menu:
     - type: 'separator'
       title: 'Wiki'
@@ -419,9 +425,6 @@ some changelog entries, such as `changelog/1.0.0.md`, and maybe a few others if 
 
 ```markdown
 // docs/src/orchid/resources/changelog/1.0.0.md
----
-version: '1.0.0'
----
 - Project is now ready for production!
 ```
 
@@ -451,8 +454,11 @@ site:
 
 Editorial:
   primaryColor: '#DE9149'
+  legacySearch: false
   social:
     github: 'username/project'
+  metaComponents:
+    - type: 'orchidSearch'
   menu:
     - type: 'separator'
       title: 'Wiki'
@@ -463,9 +469,9 @@ Editorial:
 
 ![Menu with Changelog item](https://thepracticaldev.s3.amazonaws.com/i/7j1ra7v0908l3rww4ib1.png)
 
-## Kotlin Code Docs
+### Kotlin Code Docs
 
-### Setting Up The Plugin
+#### Setting Up The Plugin
 
 Now we're at a point where we could start documenting our Kotlin sources. First, we need to set up the plugin and point 
 it at our other project with Kotlin source files. The Orchid plugin is already installed as the `OrchidKotlindoc` 
@@ -490,37 +496,17 @@ kotlindoc:
 Now, Orchid will hook into [Dokka](https://github.com/Kotlin/dokka) to get the info it needs, and then generate pages 
 for each class and package it finds in your source directories (both Java and Kotlin). The fully-qualified name creates 
 nested directories with that same path, so `com.example.ExampleApplication` will create 
-http://localhost:8080/com/example/ExampleApplication in your site. 
+http://localhost:8080/kotlindoc/com/example/ExampleApplication in your site.
 
-![Kotlin Class page](https://thepracticaldev.s3.amazonaws.com/i/36vmgvls13dg68rgbo4y.png)
+![Kotlin Class page]({{ 'wiki/learn/tutorials/media/kotlin-01.png'|asset }})
 
-Currently, this page doesn't look that great. The default markup is based on Bootstrap, but the theme is not. No 
-worries, however, we can just tell Orchid to add a trimmed-down Bootstrap stylesheet to our Kotlin doc pages! 
+We can navigate to http://localhost:8080/kotlindoc/com/example/ to view its package page as well, which looks very 
+similar. And just as the full-text search worked on our wiki pages, it also will find matches within our code comments 
+on these pages as well!
 
-Let's download [this gist](https://gist.github.com/cjbrooks12/7b3942d6fe18a1151aae4cfe9ed9cedb#file-orchidkotlindoc-css) 
-to a file named `assets/css/orchidKotlindoc.scss`. This is a SCSS file, and Orchid will automatically compile it to CSS 
-for us and add it to our Kotlin doc pages with the following snippet in `config.yml`:
+![Kotlin Package page with search results]({{ 'wiki/learn/tutorials/media/kotlin-02.png'|asset }})
 
-```yaml
-# docs/src/orchid/resources/config.yml
-kotlindoc:
-  sourceDirs:
-    - './../../../../app/src/main/kotlin'
-  pages:
-    extraCss:
-      - 'assets/css/orchidKotlindoc.scss'
-```
-
-There we go, now the pages are looking much better!
-
-![Kotlin Class page with improved styling](https://thepracticaldev.s3.amazonaws.com/i/26oxcx6tz6fft746f9p1.png)
-
-We can navigate from this Class page to its package page as well, which looks very similar. And just as the full-text 
-search worked on our wiki pages, it also will find matches within our code comments on these pages as well!
-
-![Kotlin Package page with search results](https://thepracticaldev.s3.amazonaws.com/i/079z6mit8d762sgpx38i.png)
-
-### Creating The Menus
+#### Creating The Menus
 
 We're nearly done setting up our site, there's just one more piece to the puzzle we need: menu links to our Kotlin doc 
 pages! We'll start by adding links to all the classes and packages in our project to the sidebar. This gets added to the 
@@ -535,8 +521,11 @@ site:
 
 Editorial:
   primaryColor: '#DE9149'
+  legacySearch: false
   social:
     github: 'username/project'
+  metaComponents:
+    - type: 'orchidSearch'
   menu:
     - type: 'separator'
       title: 'Wiki'
@@ -545,11 +534,19 @@ Editorial:
       itemId: 'Changelog'
     - type: 'separator'
       title: 'API Docs'
-    - type: 'kotlindocPackages'
-    - type: 'kotlindocClasses'
+    - type: 'sourcedocPages'
+      moduleType: 'kotlindoc'
+      node: 'classes'
+      asSubmenu: true
+      submenuTitle: 'Classes'
+    - type: 'sourcedocPages'
+      moduleType: 'kotlindoc'
+      node: 'packages'
+      asSubmenu: true
+      submenuTitle: 'Packages'
 ```
 
-![Menu item links for all Kotlin class and package pages](https://thepracticaldev.s3.amazonaws.com/i/7otue9dcg8y1h21jmpru.png)
+![Menu item links for all Kotlin class and package pages]({{ 'wiki/learn/tutorials/media/kotlin-03.png'|asset }})
 
 There's one more menu that is nice to include here as well. Just as the theme has a menu, _each page_ in Orchid can also
 have its own menu, so that menus may change slightly on different parts of the site, highlighting relevant content. So 
@@ -560,15 +557,15 @@ these menu items will link you to the appropriate _anchor_ on the page rather th
 kotlindoc:
   sourceDirs:
     - './../../../../app/src/main/kotlin'
-  pages:
-    extraCss:
-      - 'assets/css/orchidKotlindoc.scss'
+  sourcePages:
     menu:
-      - type: "kotlindocClassLinks"
+      - type: 'sourcedocPageLinks'
+        moduleType: 'kotlindoc'
+        itemTitleType: 'SIGNATURE'
         includeItems: true
 ```
 
-![Kotlindoc Class Links](https://thepracticaldev.s3.amazonaws.com/i/hjw96uidterf187zj7qf.png)
+![Kotlindoc Class Links]({{ 'wiki/learn/tutorials/media/kotlin-04.png'|asset }})
 
 ## Deploy On Github Pages
 
@@ -649,6 +646,6 @@ platform:
 
 And everything outlined in this tutorial is really just a sampling of the full functionality available in Orchid! Orchid
 has other plugins for different source code documentation, presentations, blogs, and much more. Check out the full list 
-of plugins [here](https://orchid.netlify.com/group/plugins), or you can even make your own!
+of plugins [here](https://orchid.run/plugins), or you can even make your own!
 
 Thanks for following along, happy documenting!

@@ -1,24 +1,32 @@
-.row.panel-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+---
+---
 
-  .col {
-    display: flex;
+@import '/assets/css/orchid/base/index';
+@import '/assets/css/orchid/components/index';
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,700|Source+Sans+Pro&display=swap');
 
-    .panel {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: normal;
+}
 
-      .panel-body {
-        display: flex;
-        flex-direction: column;
+h1, h2, h3, h4, h5, h6, .header {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: bolder;
+}
 
-        > * {
-          display: flex;
-        }
-      }
-    }
+::selection {
+  background: lighten({{theme.colors.purple}}, 25%) !important;
+}
+
+html.homepage {
+  overflow: auto !important;
+
+  .button {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: normal;
+  }
+  .gitter-open-chat-button {
+    background-color: $color_secondary;
   }
 }

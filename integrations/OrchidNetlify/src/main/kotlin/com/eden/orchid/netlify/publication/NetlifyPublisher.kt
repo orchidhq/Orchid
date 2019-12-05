@@ -41,7 +41,7 @@ constructor(
 ) : OrchidPublisher("netlify") {
 
     @Option
-    @Description("Your Netlify site ID or domain (ie. orchid.netlify.com). If not provided, your site's baseUrl will be used.")
+    @Description("Your Netlify site ID or domain (ie. orchid.netlify.com, orchid.run). If not provided, your site's baseUrl will be used.")
     lateinit var siteId: String
 
     override fun validate(context: OrchidContext): Boolean {

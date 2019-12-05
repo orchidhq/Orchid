@@ -14,6 +14,7 @@ particular, assets can be contributed to a page from:
 - components: all components, whether they are the page's components or as widget areas of the theme, are attached to 
     the page and can add assets to that page.
     
+
 ## Additional Assets
 
 On anything that adds assets to the Page, you can also define additional assets to be added alongside them. This is 
@@ -62,6 +63,7 @@ as image files or PDFs), or compiled if it is a known file type (such as SCSS). 
 in your `config.yml`.  
 
 ```yaml
+# config.yml
 assets:
   sourceDirs: 
     - 'assets/media'
@@ -75,8 +77,105 @@ content. The following file extensions are considered binary by default:  `jpg`,
 `otf`, `eot`, `ttf`, `woff`, `woff2`
 
 ```yaml
+# config.yml
 services:
   compilers: 
     binaryExtensions: 
       - 'jpeg'
 ```
+
+## Asset Transformations
+
+Orchid includes basic support for media management, including simple image manipulation. You can use the `asset()` 
+template function to load an asset, and Orchid will make sure it ends up in your final site. 
+
+```twig
+# Any page or template
+{% verbatim %}
+{{ 'assets/image.jpg'|asset }}
+{% endverbatim %}
+```
+
+![asset]({{ sampleAsset|asset }})
+
+### Rotate
+
+Rotate an image asset. Rotation angle is expressed in degrees.
+
+```twig
+# Any page or template
+{% verbatim %}
+{{ 'assets/image.jpg'|asset|rotate(90) }}
+{% endverbatim %}
+```
+
+![rotated asset]({{ sampleAsset|asset|rotate(90) }})
+
+### Scale
+
+Scale an image asset by a constant factor.
+
+```twig
+# Any page or template
+{% verbatim %}
+{{ 'assets/image.jpg'|asset|scale(0.85) }}
+{% endverbatim %}
+```
+
+![scaled asset]({{ sampleAsset|asset|scale(0.85) }})
+
+### Resize
+
+Resize an image asset to specific dimensions. By default, image is resized maintaining its aspect ratio, and is reduced 
+to the largest image that can fit entirely within the specified dimensions. Use the `mode` parameter to resize the
+image to exactly the specified dimensions, or crop it to a specified edge.
+
+```twig
+# Any page or template
+{% verbatim %}
+{{ 'assets/image.jpg'|asset|resize(800, 600, "exact") }}
+{% endverbatim %}
+```
+
+![resized asset]({{ sampleAsset|asset|resize(400, 300, "fit") }})
+![exact resized asset]({{ sampleAsset|asset|resize(400, 300, "exact") }})
+![resized cropped center-left asset]({{ sampleAsset|asset|resize(400, 300, "cl") }})
+![resized cropped center asset]({{ sampleAsset|asset|resize(400, 300, "c") }})
+![resized cropped center-right asset]({{ sampleAsset|asset|resize(400, 300, "cr") }})
+
+### Rename
+
+As assets are transformed, they automatically get renamed to ensure unique asset files are generated. However, you may
+wish to rename them youself, which can be done with the `rename()` filter, which accepts the standard permalink 
+formatting string as an argument. If you provide a file extension in the permalink which does not match the original 
+resource, it will be reformatted into the target file format if it is a valid image format.
+
+```twig
+# Any page or template
+{% verbatim %}
+{{ 'assets/image.jpg'|asset|rename("assets/media/hero.png") }}
+{% endverbatim %}
+```
+
+### Chaining
+
+Multiple transformations may be applied to a single asset. Simply use more than one of the above filters. You can use 
+the same filter more than once, and they will be applied in turn from left-to-right. Assets are not rendered until the
+end of the entire pipeline; intermediate assets are not created for each filter.
+
+```twig
+# Any page or template
+{% verbatim %}
+{{ 'assets/image.jpg'|asset|resize(800, 600, "exact")|rotate(45)|rotate(45) }}
+{% endverbatim %}
+```
+
+![resized asset]({{ sampleAsset|asset|resize(400, 300) }})
+![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45) }})
+![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45)|rotate(45) }})
+
+## Favicons
+
+Orchid takes care of rendering favicons for you. If you do not provide one yourself, it will use the default Orchid 
+logo. If you have your own favicon you'd like to use, simply drop it in your resources root named `favicon.ico` and 
+Orchid will use that one instead.

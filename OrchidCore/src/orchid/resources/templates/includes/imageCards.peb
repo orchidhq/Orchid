@@ -1,0 +1,14 @@
+<div class="columns is-multiline is-centered">
+{% for image in images %}
+  <div class="column is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+    <div class="box is-paddingless">
+      <div class="border-bottom" style="padding: 0.75rem 1.25rem; margin-bottom: 0.75rem;">
+        <h3 class="subtitle" style="white-space: nowrap;">{{ image.title }}</h3>
+      </div>
+      <figure class="image image is-3by2">
+        <img src="{{ ((image.src.startsWith("http") ? (image.src) : (image.src|asset))) }}" alt="{{ image.title }}" title="{{ image.title }}" style="border-radius: 0 0 6px 6px;">
+      </figure>
+    </div>
+  </div>
+{% endfor %}
+</div>

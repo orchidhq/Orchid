@@ -10,3 +10,4 @@ sidebar:
     limit: 5
     noWrapper: true
     template: 'includes/postPreview_list'
+legacySearch: false

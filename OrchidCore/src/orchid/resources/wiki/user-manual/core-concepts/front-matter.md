@@ -15,6 +15,7 @@ comes between pairs of triple dashed lines, which is removed from the actual pag
 the actual Front Matter of this current page:
 
 ```yaml
+
 ---
 title: Custom Page Title
 description: Page Descriptiption
@@ -96,7 +97,7 @@ services:
           - 'md'
 ```
 
-```css
+```markdown
 title=Weekly Links #2
 date=2013-02-01
 type=post

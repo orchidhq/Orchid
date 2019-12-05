@@ -36,7 +36,7 @@ dashboardTiles:
         vertical: true
         menu:
           - type: 'github'
-            githubProject: 'JavaEden/Orchid'
+            githubProject: 'javaeden/orchid'
             color: danger
   - type: 'submenu'
     color: info

@@ -1,9 +1,9 @@
 {% tabs %}
     {% gradle "Gradle" %}
 {% filter compileAs('md') %}
-```groovy
+```kotlin
 dependencies {
-    orchidRuntime 'io.github.javaeden.orchid:{{- page.reference.pathSegments|last -}}:{{ site.version }}'
+    orchidRuntime("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
 }
 ```
 {% endfilter %}
@@ -14,7 +14,7 @@ dependencies {
 ```xml
 <dependency>
     <groupId>io.github.javaeden.orchid</groupId>
-    <artifactId>{{- page.reference.pathSegments|last -}}</artifactId>
+    <artifactId>{{- page.title -}}</artifactId>
     <version>{{ site.version }}</version>
     <type>pom</type>
 </dependency>
@@ -25,7 +25,7 @@ dependencies {
     {% kscript "KScript" %}
 {% filter compileAs('md') %}
 ```kotlin
-@file:DependsOn("io.github.javaeden.orchid:{{- page.reference.pathSegments|last -}}:{{ site.version }}")
+@file:DependsOn("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
 ```
 {% endfilter %}
     {% endkscript %}

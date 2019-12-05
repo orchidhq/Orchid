@@ -134,13 +134,13 @@ Some common examples of classes that are bound through sets are:
 
 - {{ anchor('Generators', 'OrchidGenerator') }} 
 - {{ anchor('Component Types', 'OrchidComponent') }} 
-- {{ anchor('Menu Item Types', 'OrchidMenuItem') }} 
+- {{ anchor('Menu Item Types', 'OrchidMenuFactory') }} 
 - {{ anchor('Template Tags', 'TemplateTag') }} 
 
 ## Ignoring Modules
 
 In some cases, you may wish for a particular module to not be auto-registered, even though it is on the classpath. A 
-good example is the `JavadocModule` from the {{ anchor('Orchid Javadoc') }} plugin. This plugin should 
+good example is the `JavadocModule` from the {{ anchor('OrchidJavadoc') }} plugin. This plugin should 
 only register its bindings when Orchid has been started from the Javadoc tool, rather than Orchid's normal main class,
 and it manually adds the `JavadocModule` itself.
 
@@ -175,14 +175,14 @@ one place. Below is a list of some well-known tools whose content model has insp
 with the Orchid plugins that came from this inspiration.
 
 - [**Hugo**](https://gohugo.io/)
-    - {{ anchor('Orchid Pages') }}
-    - {{ anchor('Orchid Taxonomies') }}
+    - {{ anchor('OrchidPages') }}
+    - {{ anchor('OrchidTaxonomies') }}
 - [**Jekyll**](https://jekyllrb.com/)
-    - {{ anchor('Orchid Posts') }}
+    - {{ anchor('OrchidPosts') }}
 - [**Gitbook**](https://toolchain.gitbook.com/)
-    - {{ anchor('Orchid Wiki') }}
+    - {{ anchor('OrchidWiki') }}
 - [**Javadoc**](https://www.oracle.com/technetwork/java/javase/tech/index-jsp-135444.html)
-    - {{ anchor('Orchid Javadoc') }}
-    - {{ anchor('Orchid Swiftdoc') }}
+    - {{ anchor('OrchidJavadoc') }}
+    - {{ anchor('OrchidSwiftdoc') }}
 - [**SC5 Styleguide**](https://styleguide.sc5.io/)
-    - {{ anchor('Orchid KSS') }}
+    - {{ anchor('OrchidKSS') }}

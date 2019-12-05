@@ -35,7 +35,7 @@ You will need a Java 8+ JDK installed on your system, then:
 
 **Setup**
 ```bash
-git clone https://github.com/JavaEden/Orchid.git
+git clone https://github.com/orchidhq/orchid.git
 cd Orchid
 ```
 

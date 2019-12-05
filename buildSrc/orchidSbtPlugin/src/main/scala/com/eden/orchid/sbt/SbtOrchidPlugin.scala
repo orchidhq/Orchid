@@ -12,13 +12,13 @@ import scala.collection._
 import scala.util.control.NonFatal
 
 // very much inspired by
-//   https://github.com/JavaEden/Orchid/blob/fb4db01d7e3dd0874e8d01c691ec9e58f0c79982/buildSrc/orchidMavenPlugin/src/main/java/com/eden/orchid/maven/OrchidGenerateMainMojo.java
+//   https://github.com/orchidhq/orchid/blob/fb4db01d7e3dd0874e8d01c691ec9e58f0c79982/buildSrc/orchidMavenPlugin/src/main/java/com/eden/orchid/maven/OrchidGenerateMainMojo.java
 
 object SbtOrchidPlugin extends AutoPlugin {
 
   final object autoImport {
 
-    val OrchidCommands = immutable.SortedSet( "build", "deploy", "serve", "watch" )
+    val OrchidCommands = immutable.SortedSet( "build", "deploy", "serve" )
 
     // general config
     val orchidBaseUrl        = settingKey[String] ("The base URL for generted site links")
@@ -70,7 +70,6 @@ object SbtOrchidPlugin extends AutoPlugin {
     orchidDeploy := { orchidExecuteTask("deploy").value },
     orchidRun    := { orchidRunTask.evaluated },
     orchidServe  := { orchidExecuteTask("serve").value },
-    orchidWatch  := { orchidExecuteTask("watch").value }
   )
 
   private def orchidRunTask = {

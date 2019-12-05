@@ -8,7 +8,7 @@ import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.model.SourceDocModel
 
-@Description("Locate all source pages of a given kind.", name = "Source Pages")
+@Description("The module home pages for a given module type..", name = "Source Pages")
 class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
 
     @Option
@@ -16,6 +16,9 @@ class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
 
     @Option
     lateinit var moduleType: String
+
+    @Option
+    lateinit var moduleGroup: String
 
     override fun getMenuItems(
         context: OrchidContext,
@@ -30,6 +33,7 @@ class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
 
             model
                 .modules
+                .filter { if(moduleGroup.isNotBlank()) it.moduleGroup == moduleGroup else true }
                 .map { it.homepage }
                 .sortedBy { it.title }
                 .map { page ->

@@ -1,0 +1,61 @@
+<style>
+
+  .features .subtitle {
+    margin-bottom: 114px;
+  }
+  .features .feature-subsection ul {
+    margin-top: 1em;
+    margin-bottom: 2em;
+  }
+  .features .feature-subsection ul li {
+    list-style: none;
+    padding-bottom: 8px;
+  }
+
+  .features .feature-subsection ul li img {
+    height: 32px;
+    width: 32px;
+    margin: 0;
+    vertical-align: middle;
+  }
+  .features .feature-subsection ul li a {
+    display: inline-block;
+    height: 32px;
+    vertical-align: middle;
+    margin-left: 16px;
+  }
+</style>
+
+<div class="features">
+  <h2 class="title has-text-centered">{{ component.sectionTitle }}</h2>
+  <h3 class="subtitle has-text-centered">{{ component.sectionSubtitle }}</h3>
+
+  <div class="columns" style="flex-direction: row-reverse">
+    <div class="column is-half has-background-light">
+      <img src="{{ component.backgroundImage|asset }}" alt="Features" class="features-bg">
+    </div>
+    <div class="column is-half has-background-light" style="border-radius: 20px;">
+
+    {% set idx = 0 %}
+    {% for subsection in component.subsections %}
+      <div class="feature-subsection">
+        <h3 class="list-title">{{ subsection.title }}</h3>
+        <ul>
+        {% for bullet in subsection.bullets %}
+        {% set idx = idx + 1 %}
+          <li>
+            {% set icon = bullet.icon | default(idx is even ? 'assets/svg/orchid/icon_dark.svg' : 'assets/svg/orchid/icon_light.svg') %}
+
+            <img src="{{ icon|asset }}" alt="orchid icon">
+            {{ anchor(bullet.title, bullet.itemId) }}
+            {% if bullet.iconAttribution is not empty %}
+                <!-- {{ bullet.iconAttribution }} -->
+            {% endif %}
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>
