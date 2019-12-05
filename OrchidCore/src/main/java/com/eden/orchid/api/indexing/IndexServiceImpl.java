@@ -48,7 +48,7 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
 
     @Override
     public void clearIndex() {
-        index = new OrchidRootIndex("index");
+        index = new OrchidRootIndex(context, "index");
         collections = new ArrayList<>();
     }
 
@@ -79,10 +79,19 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
 
     @Override
     public String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses) {
+        return linkToPage(from, title, collectionType, collectionId, itemId, customClasses, null);
+    }
+
+    @Override
+    public String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses, @Nullable String pageAnchorId) {
         OrchidPage foundPage = findPage(collectionType, collectionId, itemId);
 
         if (foundPage != null) {
             String link = foundPage.getLink();
+            if (!EdenUtils.isEmpty(pageAnchorId)) {
+                // TODO: in diagnosis mode, determine if this is a valid anchor ID
+                link = link + "#" + pageAnchorId;
+            }
 
             if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
                 return Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses);

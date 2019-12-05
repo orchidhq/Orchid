@@ -1,57 +1,7 @@
 {# @pebvariable name="tag" type="com.eden.orchid.copper.CopperTilesTag" #}
 
-<div class="tile is-ancestor">
-  <div class="tile is-vertical">
-  {% for tileAncestor in tag.tiles.getMenuItems(page) %}
-    <div class="tile">
-    {% for tileParent in tileAncestor.children %}
-      <div class="tile is-parent is-{{ tileParent.width }} {{ tileParent.vertical ? 'is-vertical' : '' }}">
-      {% for tileChild in tileParent.children %}
-
-        <a href="{{ tileChild.link }}" {{ tileTagAttrs(tag, tileChild, page, tileChild.color|default(tileParent.color)|default(tileAncestor.color)) }}>
-        {% if tileChild.isExternal() %}
-          <span class="icon is-pulled-right" style="margin-right: -20px;">
-                    <i class="fas fa-external-link-alt"></i>
-                </span>
-        {% endif %}
-        {{ tileContent(tileChild) }}
-        </a>
-      {% endfor %}
-      </div>
-    {% endfor %}
-    </div>
-  {% endfor %}
-  </div>
-</div>
-
-{% macro tileContent(tileChild) %}
-{% set title = tileChild.title %}
-{% set subtitle = tileChild.page.description %}
-
-{% if tileChild.page is not null %}
-    {% set excerpt = tileChild.page | excerpt %}
+{% if not tag.tileMenu.isEmpty() %}
+    {% include 'includes/copper/tile_menu.peb' %}
 {% else %}
-    {% set excerpt = '' %}
+    {% include 'includes/copper/tile_tiles.peb' %}
 {% endif %}
-
-{% if title is empty %}
-    {% set title = tileChild.linkedPage.title %}
-    {% if subtitle is empty %}
-        {% set subtitle = tileChild.linkedPage.description %}
-    {% endif %}
-{% else %}
-    {% if subtitle is empty %}
-        {% set subtitle = tileChild.linkedPage.title %}
-    {% endif %}
-{% endif %}
-
-<p class="title"><span>{{ title }}</span></p>
-<p class="subtitle">{{ subtitle | raw }}</p>
-{% if excerpt is not empty %}
-<div class="subtitle"><p>{{ excerpt }}</p></div>
-{% endif %}
-{% endmacro %}
-
-{% macro tileTagAttrs(tag, tileChild, page, color) %}
-class="tile is-child hover notification is-{{ color }} is-clearfix {{ tileChild.bold ? 'is-bold' : '' }}"
-{% endmacro %}

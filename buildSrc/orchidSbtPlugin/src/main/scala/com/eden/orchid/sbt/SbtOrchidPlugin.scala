@@ -23,7 +23,7 @@ object SbtOrchidPlugin extends AutoPlugin {
     // general config
     val orchidBaseUrl        = settingKey[String] ("The base URL for generted site links")
     val orchidDestination    = settingKey[File]   ("The directory into which orchid sites are generated")
-    // val orchidDiagnose       = settingKey[Boolean]("Allows running in diagnose mode")
+    val orchidDiagnose       = settingKey[Boolean]("Allows running in diagnose mode")
     val orchidDryDeploy      = settingKey[Boolean]("Allows running a dry deploy instead of a full deploy") // ???
     val orchidEnvironment    = settingKey[String] ("The environment used to run the orchid site.")         // ???
     val orchidPort           = settingKey[Int]    ("The port to run the dev server on.")
@@ -37,8 +37,6 @@ object SbtOrchidPlugin extends AutoPlugin {
     val orchidDeploy = taskKey[Unit]("Deploys the orchid site")
     val orchidRun    = inputKey[Unit](s"""Runs an orchid command (one of ${OrchidCommands.mkString(" | ")})""")
     val orchidServe  = taskKey[Unit]("Serves the orchid site from the dev server")
-    // val orchidShell  = taskKey[Unit]("Starts an interactive orchid session") // ???
-    val orchidWatch  = taskKey[Unit]("Watches the orchidSource directory and continually rebuilds on changes") 
 
     // optional tokens
     val orchidAzureToken     = settingKey[String] ("Optional token for publication on Azure")
@@ -57,7 +55,7 @@ object SbtOrchidPlugin extends AutoPlugin {
 
     orchidBaseUrl     := "",
     orchidDestination := (Compile / target).value / "orchid",
-    // orchidDiagnose    := false,
+    orchidDiagnose    := false,
     orchidDryDeploy   := false,
     orchidEnvironment := "debug",
     orchidPort        := 8080,
@@ -72,7 +70,6 @@ object SbtOrchidPlugin extends AutoPlugin {
     orchidDeploy := { orchidExecuteTask("deploy").value },
     orchidRun    := { orchidRunTask.evaluated },
     orchidServe  := { orchidExecuteTask("serve").value },
-    // orchidShell  := { orchidExecuteTask("interactive").value },
     orchidWatch  := { orchidExecuteTask("watch").value }
   )
 
@@ -105,7 +102,7 @@ object SbtOrchidPlugin extends AutoPlugin {
     val environment = orchidEnvironment.value
     val dryDeploy   = orchidDryDeploy.value.toString
     val port        = orchidPort.value.toString
-    // val diagnose    = orchidDiagnose.value.toString
+    val diagnose    = orchidDiagnose.value.toString
 
     val azureToken     = orchidAzureToken.?.value
     val bitbucketToken = orchidBitbucketToken.?.value
@@ -123,7 +120,7 @@ object SbtOrchidPlugin extends AutoPlugin {
       "environment" -> environment,
       "dryDeploy"   -> dryDeploy,
       "port"        -> port,
-      // "diagnose"    -> diagnose
+      "diagnose"    -> diagnose
     )
 
     def addToken( name : String, mbToken : Option[String] ) : Unit = mbToken.foreach( token => argMap += Tuple2( name, token ) )

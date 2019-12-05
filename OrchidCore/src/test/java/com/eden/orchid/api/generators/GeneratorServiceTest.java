@@ -75,7 +75,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         theme = mock(Theme.class);
         buildMetrics = new BuildMetrics(context);
 
-        internalIndex = new OrchidRootIndex("internal");
+        internalIndex = new OrchidRootIndex(context, "internal");
 
         when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
         when(context.findTheme(any())).thenReturn(theme);

@@ -51,7 +51,7 @@ class PrismComponentTest : OrchidIntegrationTest(
                                 |   println("Running from Kotlin Playground!")
                                 |} </code>
                                 |</pre>
-                                |<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/prism.min.js"></script>
+                                |<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
                                 """.trimMargin().replace("\\s+".toRegex(), "")
                             )
                     }

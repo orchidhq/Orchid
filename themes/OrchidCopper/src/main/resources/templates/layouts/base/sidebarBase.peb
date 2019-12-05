@@ -1,27 +1,27 @@
 {% extends 'layouts/base/layoutBase' %}
 
 {% block 'body' %}
-<div class="columns is-marginless">
+<div class="columns is-marginless is-desktop">
 {% block hero %}
-  <div class="column is-one-third is-paddingless column-main-left is-hidden-mobile">
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-mobile is-hidden-touch">
   {% include 'includes/copper/hero' with {'additionalClasses': 'is-fullheight'} %}
   </div>
-  <div class="column is-one-third is-paddingless column-main-left is-hidden-tablet">
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-desktop">
   {% include 'includes/copper/hero' %}
   </div>
 {% endblock %}
-  <div class="column is-two-thirds is-paddingless column-main-right">
+  <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
   {% include 'includes/copper/navbar' %}
     <div class="textured">
     {% if layoutConfig.includeBreadcrumbs %}
     {% block breadcrumbs %}
-      {% if layoutConfig.wrapPageInBox %}
-        <div class="box">
-        {% breadcrumbs %}
-        </div>
-      {% else %}
-        {% breadcrumbs %}
-      {% endif %}
+    {% if layoutConfig.wrapPageInBox %}
+      <div class="box">
+      {% breadcrumbs %}
+      </div>
+    {% else %}
+    {% breadcrumbs %}
+    {% endif %}
     {% endblock %}
     {% endif %}
     {% block main %}

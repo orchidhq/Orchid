@@ -2,7 +2,7 @@
 
 <!-- Hero header: will stick at the top -->
 <div class="hero-head" style="padding: 0 1.5rem">
-  <img src="{{ theme.logo | asset }}" style="padding: 40px 80px 0 80px;">
+  <a href="{{ site.baseUrl }}"><img src="{{ theme.logo | asset }}" style="padding: 40px 40px 0 40px;"></a>
   <p class="subtitle is-4 has-text-centered">{{ site.about.siteDescription }}</p>
 
   <div class="columns is-mobile has-text-centered">

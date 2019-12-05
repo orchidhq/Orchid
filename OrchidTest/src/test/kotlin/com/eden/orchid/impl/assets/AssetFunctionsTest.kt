@@ -4,23 +4,16 @@ import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.printResults
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import kotlinx.html.img
 import kotlinx.html.p
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
 @DisplayName("Tests behavior of asset functions.")
 class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
-
-    @BeforeEach
-    internal fun setUp() {
-        enableLogging()
-    }
 
     @Test
     @DisplayName("Test asset function works properly")
@@ -71,7 +64,6 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute())
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p {
@@ -104,7 +96,6 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute())
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p {
@@ -137,7 +128,6 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute())
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p {
@@ -170,7 +160,6 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute())
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p {

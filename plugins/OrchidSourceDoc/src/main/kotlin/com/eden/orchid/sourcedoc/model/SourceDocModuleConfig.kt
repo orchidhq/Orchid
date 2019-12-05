@@ -1,12 +1,19 @@
 package com.eden.orchid.sourcedoc.model
 
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.sourcedoc.options.SourcedocPageConfigArchetype
 
-abstract class SourceDocModuleConfig : OptionsHolder {
+@Archetypes(
+    Archetype(value = SourcedocPageConfigArchetype::class, key = "defaultConfig")
+)
+abstract class SourceDocModuleConfig(val moduleType: String) : OptionsHolder {
 
     @Option
     @Description("The unique name of this module.")

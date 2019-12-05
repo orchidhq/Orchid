@@ -9,7 +9,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Generate an HTML link to a page.", name = "Anchor")
-class AnchorFunction  : TemplateFunction("anchor", true) {
+class AnchorFunction : TemplateFunction("anchor", true) {
 
     @Option
     @Description("The title to display in an anchor tag for the given item if found. Otherwise, the title is " + "returned directly.")
@@ -31,11 +31,16 @@ class AnchorFunction  : TemplateFunction("anchor", true) {
     @Description("Custom classes to add to the resulting anchor tag. If no matching item is found, these classes are " + "not used.")
     lateinit var customClasses: String
 
+    @Option
+    @Description("Link to a specific anchor element on this page.")
+    lateinit var pageAnchorId: String
+
     override fun parameters(): Array<String?> {
         return arrayOf(
-                "title",
-                *IndexService.locateParams,
-                "customClasses"
+            "title",
+            *IndexService.locateParams,
+            "customClasses",
+            "pageAnchorId"
         )
     }
 
@@ -44,6 +49,6 @@ class AnchorFunction  : TemplateFunction("anchor", true) {
             itemId = title
         }
 
-        return context.linkToPage(page, title, collectionType, collectionId, itemId, customClasses)
+        return context.linkToPage(page, title, collectionType, collectionId, itemId, customClasses, pageAnchorId)
     }
 }

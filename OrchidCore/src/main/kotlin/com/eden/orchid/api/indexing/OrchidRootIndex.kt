@@ -1,5 +1,6 @@
 package com.eden.orchid.api.indexing
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.generators.ExternalIndexGenerator
@@ -7,7 +8,7 @@ import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Singleton
 
 @Singleton
-class OrchidRootIndex(ownKey: String) : OrchidIndex(null, ownKey) {
+class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(null, ownKey) {
     val allIndexedPages = LinkedHashMap<String, Pair<OrchidIndex, OrchidGenerator.Model>>()
 
     fun addChildIndex(key: String, index: OrchidIndex, model: OrchidGenerator.Model) {
@@ -91,6 +92,18 @@ class OrchidRootIndex(ownKey: String) : OrchidIndex(null, ownKey) {
                 defaultPage
             )
         )
+    }
+
+    @Deprecated("This method only exists to maintain backward-compatibility, from when such queries were available in" +
+            "collections. It will be removed in a future version. Consider grouping these based by a Taxonomy instead.")
+    fun queryPages(itemId: String, collectionType: String?, collectionId: String?): List<OrchidPage> {
+        val key = itemId.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+        val value = itemId.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].trim { it <= ' ' }
+
+        return context
+            .findAll(collectionType, collectionId, null)
+            .filterIsInstance<OrchidPage>()
+            .filter { page -> (if (page.get(key) != null) page.get(key).toString() else "") == value }
     }
 
 }

@@ -6,7 +6,7 @@
 // Base theme styling
 //----------------------------------------------------------------------------------------------------------------------
 
-@media screen and (max-width: 770px), print {
+@media screen and (max-width: 1087px), print {
   #search.field.has-addons .input-control {
     flex-grow: 1;
     .algolia-autocomplete {
@@ -25,7 +25,7 @@
   }
 }
 
-@media screen and (min-width: 769px), print {
+@media screen and (min-width: 1088px), print {
   html {
     overflow-y: hidden;
   }

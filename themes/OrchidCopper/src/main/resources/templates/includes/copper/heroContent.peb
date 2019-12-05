@@ -4,13 +4,13 @@
 <!-- Hero content: will be in the middle -->
 <div class="hero-body">
   <div class="container sidebar-menu">
-    <details class="is-hidden-tablet">
+    <details class="is-hidden-desktop">
       <summary>
         Menu
       </summary>
       <div id="mobile-sidebar-menu"></div>
     </details>
-    <div class="is-hidden-mobile">
+    <div class="is-hidden-touch">
       <aside class="menu" id="responsive-menu-content">
       {{ _listMenu(page, page.menu) }}
       </aside>

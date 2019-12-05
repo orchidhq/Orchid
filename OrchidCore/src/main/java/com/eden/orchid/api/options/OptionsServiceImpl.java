@@ -202,7 +202,9 @@ public final class OptionsServiceImpl implements OptionsService {
 
     private void addTag(Map<String, Object> siteData, TemplateTag tag) {
         siteData.put("tag", tag);
-        addPage(siteData, tag.getPage());
+        if(tag.getPage() != null) {
+            addPage(siteData, tag.getPage());
+        }
     }
 
     private void addView(Map<String, Object> siteData, OrchidView view) {
