@@ -5,12 +5,12 @@ set -e
 if [ "$1" = "release" ]; then
   echo "[Orchid] Test Release"
   ./gradlew build publishToMavenLocal -Prelease
+  export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
 else
   echo "[Orchid] Test Debug"
   ./gradlew build publishToMavenLocal
+  export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
 fi
-
-export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
 
 # Test Gradle plugin
 pushd ./buildSrc
