@@ -9,7 +9,7 @@ if [ "$1" = "release" ]; then
 else
   echo "[Orchid] Test Debug"
   ./gradlew build publishToMavenLocal
-  export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
+  export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
 fi
 
 # Test Gradle plugin
