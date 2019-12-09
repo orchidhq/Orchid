@@ -1,18 +1,16 @@
 package com.eden.orchid.impl.themes.tags
 
 import com.caseyjbrooks.clog.Clog
-import com.caseyjbrooks.clog.IClog
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-
-import javax.inject.Inject
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Print the tag content to the console for debugging templates.", name = "Log")
-class LogTag @Inject
-constructor() : TemplateTag("log", TemplateTag.Type.Content, false) {
+class LogTag : TemplateTag("log", Type.Content, false) {
 
     @Option
     @StringDefault("verbose")
@@ -27,7 +25,7 @@ constructor() : TemplateTag("log", TemplateTag.Type.Content, false) {
         return arrayOf("level", "tag")
     }
 
-    override fun onRender() {
+    override fun onRender(context: OrchidContext?, page: OrchidPage?) {
         val clog = if (!EdenUtils.isEmpty(tag)) Clog.tag(tag) else Clog.getInstance()
 
         when (level.toLowerCase()) {

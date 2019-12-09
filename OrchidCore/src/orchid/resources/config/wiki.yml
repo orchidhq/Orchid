@@ -5,8 +5,11 @@ sections:
     title: 'Tutorials'
 
 wikiPages:
-  layout: geopattern2
-'user-manual':
+  layoutConfig:
+    wrapPageInBox: false
+    wrapTitleInBox: false
+    includeTitle: false
+    includeBreadcrumbs: true
   menu:
     - type: 'separator'
       title: 'In This Page'
@@ -14,17 +17,16 @@ wikiPages:
     - type: 'pageIds'
       order: 110
       structure: nested
+      maxLevel: 2
+
+'user-manual':
+  menu:
     - type: 'separator'
       title: 'User Manual'
       order: 1000
     - type: 'wiki'
       section: 'user-manual'
       order: 1010
-'learn':
-  menu:
-    - type: 'separator'
-      title: 'In This Page'
-      order: 100
-    - type: 'pageIds'
-      order: 110
-      structure: nested
+
+indexPages:
+  template: 'wikiIndexPage'

@@ -11,7 +11,7 @@ Before continuing, make sure you have followed along with the previous tutorial 
 server with `gradle orchidServe`. We will be building on that example in this tutorial.
 
 You can follow along with this tutorial on your own, or find the source for this in the 
-[OrchidTutorials repository](https://github.com/JavaEden/OrchidTutorials/tree/master/05). 
+[OrchidTutorials repository](https://github.com/orchidhq/OrchidTutorials/tree/master/05). 
 
 ## Scaling Your Site
 

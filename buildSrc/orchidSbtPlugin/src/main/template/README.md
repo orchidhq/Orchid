@@ -1,6 +1,6 @@
 # sbt-orchid
 
-An [sbt](https://www.scala-sbt.org/) plugin for the [Orchid static site generator](https://orchid.netlify.com/).
+An [sbt](https://www.scala-sbt.org/) plugin for the [Orchid static site generator](https://orchid.run/).
 
 ---
 
@@ -17,7 +17,7 @@ An [sbt](https://www.scala-sbt.org/) plugin for the [Orchid static site generato
       
 ### Introduction
 
-[Orchid](https://orchid.netlify.com/) is a JVM-hosted static-site generator. It's basic work is to take a bunch
+[Orchid](https://orchid.run/) is a JVM-hosted static-site generator. It's basic work is to take a bunch
 and wide variety of source files and convert them into a static website.
 
 ### Basic Use
@@ -25,7 +25,7 @@ and wide variety of source files and convert them into a static website.
 Following _sbt_-ish conventions, _sbt-orchid_ by default looks for source files in `src/main/orchid` of your project,
 and delivers a site to `target/orchid`.
 
-For information about what the source directory should contain, it's best to go through the [Orchid tutorials](https://orchid.netlify.com/wiki/learn) (source repository [here](https://github.com/JavaEden/OrchidTutorials)).
+For information about what the source directory should contain, it's best to go through the [Orchid tutorials](https://orchid.run/wiki/learn) (source repository [here](https://github.com/orchidhq/OrchidTutorials)).
 
 ---
 
@@ -103,7 +103,7 @@ libraryDependencies += orchidComponent( "OrchidCore" )
  *  Uncomment the components you desire
  */
 
-/* Themes -- see https://orchid.netlify.com/themes */
+/* Themes -- see https://orchid.run/themes */
 /* Don't forget to set 'orchidTheme' in build.sbt! */
 
 // libraryDependencies += orchidComponent( "OrchidBsDoc" )
@@ -111,7 +111,7 @@ libraryDependencies += orchidComponent( "OrchidCore" )
 // libraryDependencies += orchidComponent( "OrchidEditorial" )
 // libraryDependencies += orchidComponent( "OrchidFutureImperfect" )
 
-/* Plugins -- see https://orchid.netlify.com/plugins */
+/* Plugins -- see https://orchid.run/plugins */
 
 // libraryDependencies += orchidComponent( "OrchidPages" )
 // libraryDependencies += orchidComponent( "OrchidPosts" )

@@ -51,7 +51,7 @@ ext.getBaseUrl = { Project project ->
     }
 
     if(!url) {
-        url = "https://orchid.netlify.com"
+        url = "https://orchid.run"
     }
 
     return url

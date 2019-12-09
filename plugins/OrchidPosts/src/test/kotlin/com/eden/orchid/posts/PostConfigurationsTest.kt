@@ -1,7 +1,7 @@
 package com.eden.orchid.posts
 
+import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -12,9 +12,7 @@ import strikt.assertions.isEqualTo
 class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
+    fun setUp() {
         resource("templates/layouts/layoutone.peb")
         resource("templates/layouts/layouttwo.peb")
         resource("templates/layouts/layoutthree.peb")
@@ -26,11 +24,11 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
     fun test01() {
         configObject("allPages", """{"layout": "layoutone"}""")
         resource("posts/2018-12-01-post-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -38,11 +36,11 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
     fun test02() {
         configObject("posts", """{"postPages": {"layout": "layoutone"}}""")
         resource("posts/2018-12-01-post-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -51,11 +49,11 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"categories": ["cat1"]}""")
         configObject("posts", """{"cat1": {"layout": "layoutone"}}""")
         resource("posts/cat1/2018-12-01-post-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/cat1/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/cat1/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -65,11 +63,11 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"postPages": {"layout": "layouttwo"}}""")
 
         resource("posts/2018-12-01-post-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
+            .pageWasRendered("/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
     }
 
     @Test
@@ -80,11 +78,11 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
         configObject("posts", """{"cat1": {"layout": "layouttwo"}}""")
 
         resource("posts/cat1/2018-12-01-post-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/cat1/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
+            .pageWasRendered("/cat1/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
     }
 
     @Test
@@ -99,19 +97,13 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/cat1/2018-12-01-post-one.md")
         resource("posts/cat2/2018-12-01-post-one.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/cat1/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutthree")
-
-        expectThat(testResults)
-                .pageWasRendered("/cat2/2018/12/1/post-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutfour")
+        expectThat(execute())
+            .pageWasRendered("/cat1/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutthree")
+            }
+            .pageWasRendered("/cat2/2018/12/1/post-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutfour")
+            }
     }
 
 

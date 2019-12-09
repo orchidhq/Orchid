@@ -4,19 +4,21 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.pages.OrchidExternalPage
 import com.eden.orchid.api.theme.pages.OrchidPage
 import javax.inject.Inject
 
-class CopperTilesTag
-@Inject
-constructor() : TemplateTag("tiles", TemplateTag.Type.Simple, true) {
+class CopperTilesTag : TemplateTag("tiles", Type.Simple, true) {
+
+    @Option
+    lateinit var tileMenu: OrchidMenu
 
     @Option
     lateinit var tiles: List<AncestorTile>
 
     override fun parameters(): Array<String> {
-        return arrayOf("tiles")
+        return arrayOf("tiles", "tileMenu")
     }
 
     override fun onPostExtraction() {
@@ -26,6 +28,7 @@ constructor() : TemplateTag("tiles", TemplateTag.Type.Simple, true) {
     }
 }
 
+@Deprecated("This has been replaced with an OrchidMenu. Configure tileMenu instead.")
 class AncestorTile : OptionsHolder {
     @Option
     lateinit var parentNodes: List<ParentTile>
@@ -42,6 +45,7 @@ class AncestorTile : OptionsHolder {
         }
 }
 
+@Deprecated("This has been replaced with an OrchidMenu. Configure tileMenu instead.")
 class ParentTile : OptionsHolder {
 
     @Option
@@ -62,6 +66,7 @@ class ParentTile : OptionsHolder {
         }
 }
 
+@Deprecated("This has been replaced with an OrchidMenu. Configure tileMenu instead.")
 class ChildTile : OptionsHolder {
 
     @Option

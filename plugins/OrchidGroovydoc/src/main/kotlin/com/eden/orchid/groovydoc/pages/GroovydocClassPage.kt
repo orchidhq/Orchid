@@ -12,11 +12,16 @@ import com.eden.orchid.groovydoc.resources.ClassDocResource
 @Archetype(value = ConfigArchetype::class, key = "${GroovydocGenerator.GENERATOR_KEY}.classPages")
 @Description(value = "Documentation for a Groovy class.", name = "Groovy class")
 class GroovydocClassPage(
-        context: OrchidContext,
-        val classDoc: GroovydocClassDoc,
-        val model: GroovydocModel
+    context: OrchidContext,
+    val classDoc: GroovydocClassDoc
 ) : BaseGroovydocPage(ClassDocResource(context, classDoc), "groovydocClass", classDoc.name) {
 
+    lateinit var model: GroovydocModel
     var packagePage: GroovydocPackagePage? = null
 
+    override val itemIds: List<String>
+        get() = listOf(
+            classDoc.qualifiedName,
+            classDoc.name
+        )
 }

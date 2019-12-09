@@ -1,26 +1,28 @@
 package com.eden.orchid.pages.menu
 
 import com.eden.orchid.pages.PagesModule
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.outerHtmlMatches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import kotlinx.html.a
+import kotlinx.html.id
+import kotlinx.html.li
+import kotlinx.html.span
+import kotlinx.html.ul
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests menu items from Pages plugin")
 class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
-        resource("templates/layouts/index.peb", """
+    fun setUp() {
+        resource(
+            "templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -29,17 +31,19 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             </head>
             <body>
             {% page %}
-            <div id="menu">
+            <ul id="menu">
             {% for menuItem in theme.menu.getMenuItems(page) %}
                 {% include 'includes/menuItem' with {"menuItem": menuItem} %}
             {% endfor %}
-            </div>
+            </ul>
             {% scripts %}
             </body>
             </html>
-        """.trimIndent())
+            """.trimIndent()
+        )
 
-        resource("templates/includes/menuItem.peb", """
+        resource(
+            "templates/includes/menuItem.peb", """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -60,7 +64,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
                 <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% endif %}
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     @Test
@@ -68,7 +73,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
     fun test01() {
         configObject("theme", """{"menu": [{"type": "pageIds"}]}""")
 
-        resource("pages/page-one.md", """
+        resource(
+            "pages/page-one.md", """
             | # Header 1
             |
             | ## Header 1-1
@@ -85,43 +91,31 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             |
             | ### Header 2-2-1
             |
-        """.trimMargin())
+            """.trimMargin()
+        )
 
-        val testResults = execute()
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
 
-        expectThat(testResults)
-                .pageWasRendered("/page-one/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="#header-1">Header 1</a>
-                    </li>
-                    <li>
-                      <a href="#header-1-1">Header 1-1</a>
-                    </li>
-                    <li>
-                      <a href="#header-1-2">Header 1-2</a>
-                    </li>
-                    <li>
-                      <a href="#header-2">Header 2</a>
-                    </li>
-                    <li>
-                      <a href="#header-2-1">Header 2-1</a>
-                    </li>
-                    <li>
-                      <a href="#header-2-1-1">Header 2-1-1</a>
-                    </li>
-                    <li>
-                      <a href="#header-2-2">Header 2-2</a>
-                    </li>
-                    <li>
-                      <a href="#header-2-2-1">Header 2-2-1</a>
-                    </li>
-                """.trimIndent())
+                                li { a(href = "#header-1") { +"Header 1" } }
+                                li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+
+                                li { a(href = "#header-2") { +"Header 2" } }
+                                li { a(href = "#header-2-1") { +"Header 2-1" } }
+                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                                li { a(href = "#header-2-2") { +"Header 2-2" } }
+                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
+                            }
+                        }
+                    }
+            }
     }
 
     @Test
@@ -129,7 +123,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
     fun test02() {
         configObject("theme", """{"menu": [{"type": "pageIds", "structure": "nested"}]}""")
 
-        resource("pages/page-one.md", """
+        resource(
+            "pages/page-one.md", """
             | # Header 1
             |
             | ## Header 1-1
@@ -146,59 +141,58 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             |
             | ### Header 2-2-1
             |
-        """.trimMargin())
+        """.trimMargin()
+        )
 
-        val testResults = execute()
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li {
+                                    span("submenu") { +"Header 1" }
+                                    ul {
+                                        li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                        li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                    }
+                                }
 
-        expectThat(testResults)
-                .pageWasRendered("/page-one/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <span class="submenu">Header 1</span>
-                      <ul>
-                        <li>
-                          <a href="#header-1-1">Header 1-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-1-2">Header 1-2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <span class="submenu">Header 2</span>
-                      <ul>
-                        <li>
-                          <span class="submenu">Header 2-1</span>
-                          <ul>
-                            <li>
-                              <a href="#header-2-1-1">Header 2-1-1</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <span class="submenu">Header 2-2</span>
-                          <ul>
-                            <li>
-                              <a href="#header-2-2-1">Header 2-2-1</a>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
+                                li {
+                                    span("submenu") { +"Header 2" }
+                                    ul {
+                                        li {
+                                            span("submenu") { +"Header 2-1" }
+                                            ul {
+                                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                                            }
+                                        }
+                                        li {
+                                            span("submenu") { +"Header 2-2" }
+                                            ul {
+                                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
     }
 
     @Test
     @DisplayName("Test PageIds menu item with nested structure and max level")
     fun test03() {
-        configObject("theme", """{"menu": [{"type": "pageIds", "structure": "nested", "maxLevel": 1, "minLevel": 2}]}""")
+        configObject(
+            "theme",
+            """{"menu": [{"type": "pageIds", "structure": "nested", "maxLevel": 1, "minLevel": 2}]}"""
+        )
 
-        resource("pages/page-one.md", """
+        resource(
+            "pages/page-one.md", """
             | # Header 1
             |
             | ## Header 1-1
@@ -215,49 +209,48 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             |
             | ### Header 2-2-1
             |
-        """.trimMargin())
+            """.trimMargin()
+        )
 
-        val testResults = execute()
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li {
+                                    span("submenu") { +"Header 1" }
+                                    ul {
+                                        li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                        li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                    }
+                                }
 
-        expectThat(testResults)
-                .pageWasRendered("/page-one/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <span class="submenu">Header 1</span>
-                      <ul>
-                        <li>
-                          <a href="#header-1-1">Header 1-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-1-2">Header 1-2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <span class="submenu">Header 2</span>
-                      <ul>
-                        <li>
-                          <a href="#header-2-1">Header 2-1</a>
-                        </li>
-                        <li>
-                          <a href="#header-2-2">Header 2-2</a>
-                        </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
+                                li {
+                                    span("submenu") { +"Header 2" }
+                                    ul {
+                                        li { a(href = "#header-2-1") { +"Header 2-1" } }
+                                        li { a(href = "#header-2-2") { +"Header 2-2" } }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
     }
 
     @Test
     @DisplayName("Test PageIds menu item with nested structure and min level")
     fun test04() {
-        configObject("theme", """{"menu": [{"type": "pageIds", "structure": "nested", "maxLevel": 2, "minLevel": 3}]}""")
+        configObject(
+            "theme",
+            """{"menu": [{"type": "pageIds", "structure": "nested", "maxLevel": 2, "minLevel": 3}]}"""
+        )
 
-        resource("pages/page-one.md", """
+        resource(
+            "pages/page-one.md", """
             | # Header 1
             |
             | ## Header 1-1
@@ -274,41 +267,35 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             |
             | ### Header 2-2-1
             |
-        """.trimMargin())
+            """.trimMargin()
+        )
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/page-one/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="#header-1-1">Header 1-1</a>
-                    </li>
-                    <li>
-                      <a href="#header-1-2">Header 1-2</a>
-                    </li>
-                    <li>
-                      <span class="submenu">Header 2-1</span>
-                      <ul>
-                        <li>
-                          <a href="#header-2-1-1">Header 2-1-1</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <span class="submenu">Header 2-2</span>
-                      <ul>
-                        <li>
-                          <a href="#header-2-2-1">Header 2-2-1</a>
-                        </li>
-                      </ul>
-                    </li>
-                """.trimIndent())
+        expectThat(execute())
+            .pageWasRendered("/page-one/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                li {
+                                    span("submenu") { +"Header 2-1" }
+                                    ul {
+                                        li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                                    }
+                                }
+                                li {
+                                    span("submenu") { +"Header 2-2" }
+                                    ul {
+                                        li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
     }
 
 }

@@ -1,0 +1,4 @@
+
+dependencies {
+    implementation(Libs.plantuml)
+}

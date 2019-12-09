@@ -3,13 +3,16 @@ package com.eden.orchid.api.theme.components;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ModularPageList<L extends ModularPageList<L, I>, I extends ModularPageListItem<L, I>> extends ModularList<L, I> {
+public abstract class ModularPageList<
+        L extends ModularPageList<L, I>,
+        I extends ModularPageListItem<L, I>
+> extends ModularList<L, I> {
 
     private OrchidPage containingPage;
 
@@ -25,7 +28,7 @@ public abstract class ModularPageList<L extends ModularPageList<L, I>, I extends
     @Override
     protected void addItem(I item, Map<String, Object> itemJson) {
         if (item.canBeUsedOnPage(containingPage, (L) this, itemsJson, loadedItems)) {
-            item.setPage(containingPage);
+            item.initialize(containingPage.getContext(), containingPage);
             item.extractOptions(context, itemJson);
             super.addItem(item, itemJson);
         }

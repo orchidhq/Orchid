@@ -6,7 +6,6 @@ import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.JarResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.OrchidUtils
-import com.google.inject.Provider
 import org.apache.commons.io.FilenameUtils
 import java.io.IOException
 import java.util.ArrayList
@@ -19,21 +18,18 @@ open class JarResourceSource : OrchidResourceSource {
         const val JAR_URI_PREFIX = "jar:file:"
     }
 
-    private val context: Provider<OrchidContext>
 
     val pluginClass: Class<*>
     override val priority: Int
     private var initialized = false
     private var jarFile: JarFile? = null
 
-    constructor(context: Provider<OrchidContext>, priority: Int) {
-        this.context = context
+    constructor(priority: Int) {
         this.pluginClass = this.javaClass
         this.priority = priority
     }
 
-    constructor(context: Provider<OrchidContext>, moduleClass: Class<out OrchidModule>, priority: Int) {
-        this.context = context
+    constructor(moduleClass: Class<out OrchidModule>, priority: Int) {
         this.pluginClass = moduleClass
         this.priority = priority
     }
@@ -58,7 +54,7 @@ open class JarResourceSource : OrchidResourceSource {
         }
     }
 
-    override fun getResourceEntry(fileName: String): OrchidResource? {
+    override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         if(fileName.isBlank()) return null
 
         if(!initialized) {
@@ -72,7 +68,7 @@ open class JarResourceSource : OrchidResourceSource {
                 val entry = entries.nextElement()
 
                 if (entry.name.endsWith(fileName) && !entry.isDirectory) {
-                    return JarResource(context.get(), jarFile, entry)
+                    return JarResource(context, jarFile, entry)
                 }
             }
         }
@@ -80,7 +76,7 @@ open class JarResourceSource : OrchidResourceSource {
         return null
     }
 
-    override fun getResourceEntries(dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
         if(!initialized) {
@@ -98,7 +94,7 @@ open class JarResourceSource : OrchidResourceSource {
                     if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.name, fileExtensions)) {
 
                         if (shouldAddEntry(jarEntry.name)) {
-                            entries.add(JarResource(context.get(), jarFile, jarEntry))
+                            entries.add(JarResource(context, jarFile, jarEntry))
                         }
                     }
                 }

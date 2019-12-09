@@ -1,0 +1,75 @@
+
+// Functions/Mixins
+//----------------------------------------------------------------------------------------------------------------------
+
+// between mobile and desktop breakpoints, sizes should use VW units to scale smoothly between mobile and desktop sizes
+@function normalSize($size) {
+  @return #{$size}vw
+}
+@mixin normalBlock() {
+  @content;
+}
+
+// desktop size uses REM units at the VW size they would be at that breakpoint
+@function desktopSize($size) {
+  $vwAt1000px: 1000/100;
+  $vwAtBreakpoint: $vwAt1000px*($breakpoint_desktop/1000);
+  $factor: 16/$vwAtBreakpoint;
+  @return #{$size/$factor}rem;
+}
+@mixin desktopBlock() {
+  @media screen and (min-width:#{$breakpoint_desktop}px) {
+    @content;
+  }
+}
+
+// mobile size uses REM units at the VW size they would be at that breakpoint
+@function mobileSize($size) {
+  $vwAt1000px: 1000/100;
+  $vwAtBreakpoint: $vwAt1000px*($breakpoint_mobile/1000);
+  $factor: 16/$vwAtBreakpoint;
+  @return #{$size/$factor}rem;
+}
+@mixin mobileBlock() {
+  @media screen and (max-width:#{$breakpoint_mobile}px) {
+    @content;
+  }
+}
+
+// dynamically set up sizes for all breakpoints
+@function responsiveSize($value, $breakpoint) {
+  @if $breakpoint == 'normal'  { @return normalSize($value); }
+  @if $breakpoint == 'desktop' { @return desktopSize($value); }
+  @if $breakpoint == 'mobile'  { @return mobileSize($value); }
+}
+@mixin responsiveBlock($breakpoint) {
+  @if $breakpoint == 'normal'  { @include normalBlock() { @content; } }
+  @if $breakpoint == 'desktop' { @include desktopBlock() { @content; } }
+  @if $breakpoint == 'mobile'  { @include mobileBlock() { @content; } }
+}
+
+@mixin horizontal-gradient($from, $to, $stop: 100%) {
+  /* fallback/image non-cover color */
+  background-color: $from;
+
+  /* Firefox 3.6+ */
+  background-image: -moz-linear-gradient(left, $from 0%, $to $stop);
+
+  /* Safari 4+, Chrome 1+ */
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, $from), color-stop($stop, $to));
+
+  /* Safari 5.1+, Chrome 10+ */
+  background-image: -webkit-linear-gradient(left, $from 0%, $to $stop);
+
+  /* Opera 11.10+ */
+  background-image: -o-linear-gradient(left, $from 0%, $to $stop);
+
+  /* IE10+ */
+  background: -ms-linear-gradient(left, $from 0%, $to $stop);
+
+  /* Standard */
+  background: linear-gradient(to right, $from 0%, $to $stop);
+
+  /* IE6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$from', endColorstr='$to',GradientType=1 );
+}

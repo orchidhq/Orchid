@@ -19,6 +19,7 @@ import com.eden.orchid.utilities.to
 import javax.inject.Inject
 
 @Archetypes(
+        Archetype(value = ConfigArchetype::class, key = PostsGenerator.GENERATOR_KEY),
         Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.defaultConfig")
 )
 class CategoryModel

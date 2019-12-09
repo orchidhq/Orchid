@@ -1,0 +1,30 @@
+{% import 'macros/navbarMenu' %}
+
+<nav
+  class="navbar is-white border-bottom"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="container">
+    <div class="navbar-brand is-marginless">
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu is-marginless" id="navbarMain">
+      <div class="navbar-start">
+      {{ _navbarSearch(site) }}
+      {{ _navbarMenu(page, theme.menu) }}
+      </div>
+
+      <div class="navbar-end">
+      {{ _navbarSocial(page, theme) }}
+      </div>
+    </div>
+  </div>
+</nav>
+

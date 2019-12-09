@@ -1,0 +1,13 @@
+{# @pebvariable name="component" type="com.eden.orchid.changelog.components.ChangelogComponent" #}
+{# @pebvariable name="version" type="com.eden.orchid.changelog.model.ChangelogVersion" #}
+
+<article class="message is-{{tag.level}}">
+{% if tag.headline is not empty %}
+  <div class="message-header">
+    <p>{{ tag.headline }}</p>
+  </div>
+{% endif %}
+  <div class="message-body">
+  {{ tag.content | raw }}
+  </div>
+</article>

@@ -1,21 +1,15 @@
 package com.eden.orchid.plugindocs.components
 
 import com.eden.common.util.EdenUtils
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.Descriptive
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
 import io.github.classgraph.ClassGraph
-import javax.inject.Inject
 
 @Description("Show all options for your plugin's classes.", name = "Plugin Documentation")
-class PluginDocsComponent
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidComponent(context, "pluginDocs", 25) {
+class PluginDocsComponent : OrchidComponent("pluginDocs") {
 
     @Option
     @Description("A list of fully-qualified class names to render options for.")

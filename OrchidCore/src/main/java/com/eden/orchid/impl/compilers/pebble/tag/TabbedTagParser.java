@@ -5,7 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.compilers.pebble.PebbleWrapperTemplateTag;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;
@@ -118,18 +118,24 @@ public class TabbedTagParser extends BaseTagParser {
 
     @Override
     public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
+        OrchidContext orchidContext = contextProvider.get();
+
         // create a new tag
-        TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
+        TemplateTag freshTag = orchidContext.resolve(tagClass);
 
         // evaluate its own params and populate the main Tag class with them
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
 
         Object pageVar = context.getVariable("page");
-        if(pageVar instanceof OrchidPage) {
-            freshTag.setPage((OrchidPage) pageVar);
+        final OrchidPage actualPage;
+        if (pageVar instanceof OrchidPage) {
+            actualPage = (OrchidPage) pageVar;
+        }
+        else {
+            actualPage = null;
         }
 
-        freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
+        freshTag.extractOptions(orchidContext, evaluatedParamExpressionMap);
 
         // populate the content of each tab
         for(Map.Entry<String, Expression<?>> tagBodyExpression : tagBodyExpressions.entrySet()) {
@@ -141,15 +147,15 @@ public class TabbedTagParser extends BaseTagParser {
             // Get a new Tab instance, evaluate that tab's options, and then populate the Tab instance with them
             TemplateTag.Tab tab = freshTag.getNewTab(key, bodyContent);
             Map<String, Object> tabParams = evaluateParams(tagBodyParams.get(key), self, context);
-            tab.extractOptions(contextProvider.get(), tabParams);
+            tab.extractOptions(orchidContext, tabParams);
 
             // add the tab to the Tag
             freshTag.setContent(key, tab);
         }
 
-        freshTag.onRender();
+        freshTag.onRender(orchidContext, actualPage);
         if (freshTag.rendersContent()) {
-            writer.append(freshTag.renderContent());
+            writer.append(freshTag.renderContent(orchidContext, actualPage));
         }
     }
 

@@ -3,7 +3,6 @@ apply plugin: 'jacoco'
 test {
     useJUnitPlatform()
     testLogging {
-//        showStandardStreams = project.hasProperty("showTestLogs")
         showStandardStreams = true
         exceptionFormat = 'full'
     }
@@ -18,23 +17,9 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 
 task checkForExtensionFile {
-    onlyIf {
-        project.name != "OrchidCore"
-    }
     doLast {
-        def extensionName = project.name.toString()
-        def extensionType = project.parent.name.toString()
-        if(extensionType == 'languageExtensions') {
-            extensionType = 'plugins'
-        }
-        if(extensionType == 'integrations') {
-            extensionType = 'plugins'
-        }
-        def fullExtensionFilename = "${rootProject.rootDir}/OrchidCore/src/orchid/resources/pages/${extensionType}/${extensionName}/index.md"
-        def extensionFile = file(fullExtensionFilename)
-
-        if(!extensionFile.exists()) {
-            throw new FileNotFoundException("There is no plugin entry for this plugin, expected 'pages/${extensionType}/${extensionName}/index.md' to exist in OrchidCore Orchid resources.")
+        if(!file("${project.projectDir}/README.md").exists()) {
+            throw new FileNotFoundException("Project '${project.name}' needs a README.")
         }
     }
 }

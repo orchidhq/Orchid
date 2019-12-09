@@ -11,7 +11,7 @@ that the plugin developers are keeping their documentation relevant over time.
 
 ## Overview
 
-With your Orchid site running locally in `serve` mode and the {{anchor('Orchid Plugin Docs')}} plugin installed, all you 
+With your Orchid site running locally in `serve` mode and the {{anchor('OrchidPluginDocs')}} plugin installed, all you 
 have to do is visit `http://localhost:8080/admin` in your browser to access the Admin Panel. 
 
 ![Admin panel]({{ 'assets/media/admin.png'|asset }})
@@ -57,6 +57,6 @@ The header will also indicate indexing and generation progress during a build.
 
 ## Netlify CMS Integration
 
-If you have the {{anchor('Orchid Netlify CMS')}} plugin installed, it will be embedded directly within the admin panel.
+If you have the {{anchor('OrchidNetlifyCMS')}} plugin installed, it will be embedded directly within the admin panel.
 
 ![Admin panel progress]({{ 'assets/media/admin-netlify-cms.png'|asset }})

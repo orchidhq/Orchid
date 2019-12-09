@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Test normal Gradle projects
 if [ "$1" = "release" ]; then

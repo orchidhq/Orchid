@@ -13,10 +13,15 @@ import com.eden.orchid.javadoc.resources.ClassDocResource
 @Description(value = "Documentation for a Java class.", name = "Java class")
 class JavadocClassPage(
         context: OrchidContext,
-        val classDoc: JavaClassDoc,
-        val model: JavadocModel
+        val classDoc: JavaClassDoc
 ) : BaseJavadocPage(ClassDocResource(context, classDoc), "javadocClass", classDoc.name) {
 
+    lateinit var model: JavadocModel
     var packagePage: JavadocPackagePage? = null
 
+    override val itemIds: List<String>
+        get() = listOf(
+            classDoc.qualifiedName,
+            classDoc.name
+        )
 }

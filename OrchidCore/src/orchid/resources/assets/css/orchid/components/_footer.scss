@@ -1,0 +1,15 @@
+.footer a {
+  //color: inherit;
+  //
+  //&:hover {
+  //  color: rgba(255, 255, 255, 0.6);
+  //}
+}
+html.homepage {
+  .pagination {
+    display: none;
+  }
+  .footer {
+    border: none;
+  }
+}

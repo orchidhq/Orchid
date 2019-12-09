@@ -1,0 +1,67 @@
+<style>
+
+  .latest-news .post {
+    height: 100%;
+    display: block;
+    color: inherit;
+  }
+
+  .latest-news .post .card-content {
+    height: 100%;
+  }
+
+  .latest-news .post:hover .title {
+    text-decoration: underline;
+  }
+
+</style>
+
+<div class="latest-news">
+  <h1 class="title sidekick">{{ component.sectionTitle }}</h1>
+
+  <div class="columns is-multiline">
+  {% set latestPosts = findAll(collectionType='posts', collectionId='news', pageIndex=1, pageSize=3) %}
+  {% for post in latestPosts %}
+    <div class="column is-one-quarter-desktop is-one-third">
+      <a class="card post" href="{{ post.link }}">
+        <div class="card-content">
+          <div class="media-content">
+            <h4 class="title is-4 has-text-centered-mobile">
+            {{ post.title }}
+            </h4>
+
+            {% if post.author is not null %}
+              <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <figure class="image is-48x48">
+                      <img src="{{ post.author.avatar }}" alt="{{ post.author.name }}" class="is-rounded">
+                    </figure>
+                  </div>
+                  <div class="level-item">
+                    <p class="is-6">{{ post.author.name }}</p>
+                  </div>
+                </div>
+                <div class="level-right"></div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+
+    <div class="column is-one-quarter-desktop is-full">
+      <a class="card post" href="{{ link(collectionType='taxonomies', collectionId='category', itemId='news') }}">
+        <div class="card-content level">
+          <div class="level-item">
+            <div class="title header is-4">
+              See all posts...
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>

@@ -1,6 +1,6 @@
 package com.eden.orchid.netlifycms.util
 
-import com.eden.orchid.Orchid
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionHolderDescription
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
@@ -19,8 +19,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
-    val extractor = Orchid.getInstance().context.injector.getInstance(OptionsExtractor::class.java)
+fun OptionsDescription.toNetlifyCmsField(context: OrchidContext, recursionDepth: Int): JSONObject {
+    val extractor = context.resolve(OptionsExtractor::class.java)
 
     val field = JSONObject()
     field.put("label", this.key from { camelCase() } to { titleCase() })
@@ -33,7 +33,7 @@ fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
         val itemTypesListClass = getModularListItemClass(this.optionType)
 
         if (itemTypesListClass != null) {
-            val itemTypes = Orchid.getInstance().context.resolveSet(itemTypesListClass)
+            val itemTypes = context.resolveSet(itemTypesListClass)
 
             val typeField = JSONObject()
             typeField.put("label", this.javaClass.simpleName)
@@ -57,7 +57,7 @@ fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
 
                                 options.optionsDescriptions.forEach { option ->
                                     if (recursionDepth > 0) {
-                                        fields.put(option.toNetlifyCmsField(recursionDepth - 1))
+                                        fields.put(option.toNetlifyCmsField(context, recursionDepth - 1))
                                     }
                                 }
 
@@ -74,7 +74,7 @@ fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
         val fields = JSONArray()
         options.optionsDescriptions.forEach { option ->
             if (recursionDepth > 0) {
-                fields.put(option.toNetlifyCmsField(recursionDepth - 1))
+                fields.put(option.toNetlifyCmsField(context, recursionDepth - 1))
             }
         }
 
@@ -86,7 +86,7 @@ fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
         val fields = JSONArray()
         options.optionsDescriptions.forEach { option ->
             if (recursionDepth > 0) {
-                fields.put(option.toNetlifyCmsField(recursionDepth - 1))
+                fields.put(option.toNetlifyCmsField(context, recursionDepth - 1))
             }
         }
 
@@ -98,7 +98,7 @@ fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
         val fields = JSONArray()
         options.optionsDescriptions.forEach { option ->
             if (recursionDepth > 0) {
-                fields.put(option.toNetlifyCmsField(recursionDepth - 1))
+                fields.put(option.toNetlifyCmsField(context, recursionDepth - 1))
             }
         }
 
@@ -108,12 +108,12 @@ fun OptionsDescription.toNetlifyCmsField(recursionDepth: Int): JSONObject {
     return field
 }
 
-fun OptionHolderDescription.getNetlifyCmsFields(recursionDepth: Int): JSONArray {
+fun OptionHolderDescription.getNetlifyCmsFields(context: OrchidContext, recursionDepth: Int): JSONArray {
     val fields = JSONArray()
 
     this.optionsDescriptions.forEach {
         if (recursionDepth > 0) {
-            fields.put(it.toNetlifyCmsField(recursionDepth - 1))
+            fields.put(it.toNetlifyCmsField(context, recursionDepth - 1))
         }
     }
 
@@ -173,12 +173,28 @@ private fun OptionsDescription.getWidgetType(): String {
 }
 
 fun getModularListItemClass(modularListClass: Class<*>): Class<*>? {
-    for (typeArg in (modularListClass.genericSuperclass as ParameterizedType).actualTypeArguments) {
-        val className = typeArg.typeName
-        val clazz = Class.forName(className)
 
-        if (ModularListItem::class.java.isAssignableFrom(clazz)) {
-            return clazz
+    var currentSuperclass: Class<*>? = modularListClass
+    var genericSuperclass: ParameterizedType? = null
+
+    while(currentSuperclass != null) {
+        if(currentSuperclass.genericSuperclass is ParameterizedType) {
+            genericSuperclass = currentSuperclass.genericSuperclass as ParameterizedType
+            break
+        }
+        else {
+            currentSuperclass = currentSuperclass.superclass
+        }
+    }
+
+    if(genericSuperclass != null) {
+        for (typeArg in genericSuperclass.actualTypeArguments) {
+            val className = typeArg.typeName
+            val clazz = Class.forName(className)
+
+            if (ModularListItem::class.java.isAssignableFrom(clazz)) {
+                return clazz
+            }
         }
     }
 

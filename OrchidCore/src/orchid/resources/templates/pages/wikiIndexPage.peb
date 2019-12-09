@@ -1,0 +1,25 @@
+<div class="tile is-ancestor">
+  <div class="tile is-vertical">
+  {% set childPages = index.findChildPages(page) %}
+  {% for i in range(0, (childPages|length) - 1, 2) %}
+    <div class="tile is-12">
+    {% for j in range(0, 1) %}
+
+    {% set childPage = childPages[i + j] %}
+    {% if childPage is not null %}
+      <div class="tile is-parent">
+        <div class="tile is-child box">
+          <a href="{{ childPage.link }}" style="display: flex; flex-direction: column; height: 100%;">
+            <p class="title">{{ childPage.title }}</p>
+            <p class="subtitle">{{ childPage.description }}</p>
+            <span class="grow"></span>
+            <span class="link">Learn More »</span>
+          </a>
+        </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+    </div>
+  {% endfor %}
+  </div>
+</div>

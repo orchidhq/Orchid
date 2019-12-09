@@ -4,9 +4,9 @@ apply plugin: 'maven-publish'
 afterEvaluate { project ->
     def pomConfig = {
         scm {
-            url 'https://github.com/JavaEden/Orchid.git'
-            connection 'https://github.com/JavaEden/Orchid.git'
-            developerConnection 'https://github.com/JavaEden/Orchid.git'
+            url 'https://github.com/orchidhq/orchid.git'
+            connection 'https://github.com/orchidhq/orchid.git'
+            developerConnection 'https://github.com/orchidhq/orchid.git'
         }
         licenses {
             license {
@@ -58,7 +58,7 @@ afterEvaluate { project ->
             name = "${project.name}"
             userOrg = 'javaeden'
             licenses = ['LGPL-3.0']
-            vcsUrl = 'https://github.com/JavaEden/Orchid.git'
+            vcsUrl = 'https://github.com/orchidhq/orchid.git'
 
             version {
                 name = "${project.version}"

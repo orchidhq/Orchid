@@ -1,6 +1,8 @@
 package com.eden.orchid.editorial
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -15,7 +17,14 @@ class EditorialTheme
 @Inject
 constructor(
         context: OrchidContext
-) : Theme(context, "Editorial", 100) {
+) : Theme(context, "Editorial") {
+
+    companion object {
+        const val DEPRECATION_MESSAGE = "Editorial Theme configuration of search has been deprecated, and you should " +
+                "migrate to the `orchidSearch` or `algoliaDocsearch` meta-component config instead. Add " +
+                "`legacySearch: false` to your theme config to hide this warning and prevent the theme from adding " +
+                "these search scripts automatically."
+    }
 
     @Option
     @StringDefault("#f56a6a")
@@ -25,6 +34,12 @@ constructor(
     @Option
     @Description("Your social media links.")
     var social: Social? = null
+
+    @Option
+    @Description("Whether to use the legacy config for site search. NOTE: $DEPRECATION_MESSAGE")
+    @BooleanDefault(true)
+    @Deprecated(DEPRECATION_MESSAGE)
+    var legacySearch: Boolean = true
 
     override fun loadAssets() {
         addCss("assets/css/editorial_main.scss")
@@ -37,8 +52,10 @@ constructor(
         addJs("assets/js/editorial_main.js")
         addJs("assets/js/editorial_orchidCustomizations.js")
 
-        addJs("https://unpkg.com/lunr/lunr.js")
-        addJs("assets/js/orchidSearch.js")
+        if(legacySearch) {
+            Clog.w(DEPRECATION_MESSAGE)
+            addJs("https://unpkg.com/lunr/lunr.js")
+            addJs("assets/js/orchidSearch.js")
+        }
     }
-
 }

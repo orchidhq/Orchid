@@ -1,0 +1,65 @@
+{% extends 'layouts/base/layoutBase' %}
+
+{% block 'body' %}
+<div class="columns is-marginless is-desktop">
+{% block hero %}
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-mobile is-hidden-touch">
+  {% include 'includes/copper/hero' with {'additionalClasses': 'is-fullheight'} %}
+  </div>
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-desktop">
+  {% include 'includes/copper/hero' %}
+  </div>
+{% endblock %}
+  <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
+  {% include 'includes/copper/navbar' %}
+    <div class="textured">
+    {% if layoutConfig.includeBreadcrumbs %}
+    {% block breadcrumbs %}
+    {% if layoutConfig.wrapPageInBox %}
+      <div class="box">
+      {% breadcrumbs %}
+      </div>
+    {% else %}
+    {% breadcrumbs %}
+    {% endif %}
+    {% endblock %}
+    {% endif %}
+    {% block main %}
+    {% if layoutConfig.wrapPageInBox %}
+    {% if layoutConfig.includeTitle %}
+      <div class="box" style="position: relative;">
+        <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+        <p class="subtitle is-4">{{ page.description }}</p>
+        {% page %}
+      </div>
+    {% else %}
+      <div class="box">
+      {% page %}
+      </div>
+    {% endif %}
+    {% else %}
+    {% if layoutConfig.includeTitle %}
+    {% if layoutConfig.wrapTitleInBox %}
+      <div class="box">
+        <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+        <p class="subtitle is-4">{{ page.description }}</p>
+      </div>
+    {% else %}
+      <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+      <p class="subtitle is-4">{{ page.description }}</p>
+    {% endif %}
+    {% endif %}
+    {% page %}
+    {% endif %}
+    {% endblock %}
+      <div class="grow"></div>
+      <div class="page-footer">
+      {% block footer %}
+        {% include 'includes/copper/mainFooter' %}
+      {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

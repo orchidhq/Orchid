@@ -1,0 +1,32 @@
+<style>
+  .get-connected * {
+    color: white;
+  }
+
+  .get-connected .title {
+    font-size: 80px;
+    color: white !important;
+  }
+
+  .get-connected .subtitle {
+    color: white !important;
+  }
+</style>
+
+{% set buttonClasses = 'button is-light is-large is-rounded' %}
+
+<div class="get-connected">
+  <h1 class="title has-text-centered">{{ component.sectionTitle }}</h1>
+
+  <div class="has-text-centered">
+    <p>
+      <a href="{{ link(collectionType='wiki', collectionId='user-manual', itemId='Plugins') }}" class="{{ buttonClasses }}">Browse Plugins and Themes</a>
+    </p>
+    <p>
+      <a href="https://github.com/orchidhq/orchid/issues/new" class="{{ buttonClasses }}">Report an Issue</a>
+    </p>
+    <p>
+      <a href="https://gitter.im/JavaEden/Orchid" class="{{ buttonClasses }}">Get Help</a>
+    </p>
+  </div>
+</div>

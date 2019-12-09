@@ -16,15 +16,11 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.utilities.SuppressedWarnings
+import com.eden.orchid.utilities.resolve
 import org.apache.commons.lang3.ClassUtils
-import javax.inject.Inject
 
 @Description("Show all options for one of your plugin's classes.", name = "Plugin Documentation")
-class PluginDocsTag
-@Inject
-constructor(
-        val optionsExtractor: OptionsExtractor
-) : TemplateTag("docs", TemplateTag.Type.Simple, true) {
+class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
     @Option
     @Description("A fully-qualified class name to render options for.")
@@ -49,6 +45,8 @@ constructor(
     @Option @BooleanDefault(false)
     @Description("A custom template to use the for tabs tag used internally.")
     var admin: Boolean = false
+
+    private val optionsExtractor: OptionsExtractor by lazy { context.resolve<OptionsExtractor>() }
 
     override fun parameters(): Array<String> {
         return arrayOf("className")
@@ -217,7 +215,7 @@ constructor(
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     fun <T> provide(): T? {
         try {
-            return context.injector.getInstance(findClass()) as? T
+            return context.resolve(findClass()) as? T
         }
         catch (e: Exception) {
 

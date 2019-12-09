@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.render.Renderable;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -20,11 +21,12 @@ import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
 /**
  *
@@ -40,12 +42,13 @@ public abstract class OrchidComponent extends Prioritized implements
         ModularPageListItem<ComponentHolder, OrchidComponent>,
         Renderable {
 
-    protected final OrchidContext context;
     protected final String templateBase = "components";
     protected final String type;
-    protected final AssetHolder assetHolder;
+    protected final boolean meta;
+    protected AssetHolder assetHolder;
     private boolean hasAddedAssets;
 
+    protected OrchidContext context;
     protected OrchidPage page;
 
     @Option
@@ -88,12 +91,22 @@ public abstract class OrchidComponent extends Prioritized implements
     @AllOptions
     private Map<String, Object> allData;
 
-    @Inject
-    public OrchidComponent(OrchidContext context, String type, int priority) {
+    public OrchidComponent(String type, boolean meta, int priority) {
         super(priority);
         this.type = type;
-        this.context = context;
-        this.assetHolder = new AssetHolderDelegate(context, this, "component");
+        this.meta = meta;
+    }
+
+    public OrchidComponent(String type, int priority) {
+        this(type, false, priority);
+    }
+
+    public OrchidComponent(String type, boolean meta) {
+        this(type, meta, DEFAULT_PRIORITY);
+    }
+
+    public OrchidComponent(String type) {
+        this(type, false, DEFAULT_PRIORITY);
     }
 
     @Override
@@ -103,6 +116,12 @@ public abstract class OrchidComponent extends Prioritized implements
             List<Map<String, Object>> possibleComponents,
             List<OrchidComponent> currentComponents) {
         return true;
+    }
+
+    public void initialize(OrchidContext context, OrchidPage containingPage) {
+        this.context = context;
+        this.page = containingPage;
+        this.assetHolder = new AssetHolderDelegate(context, this, "component");
     }
 
     @Override
@@ -234,6 +253,12 @@ public abstract class OrchidComponent extends Prioritized implements
 // Delombok
 //----------------------------------------------------------------------------------------------------------------------
 
-
-
+    @Override
+    public String renderContent(OrchidContext context, OrchidPage orchidPage) {
+        OrchidResource resource = resolveTemplate(context, orchidPage);
+        if(resource != null) {
+            return resource.compileContent(this);
+        }
+        return "";
+    }
 }

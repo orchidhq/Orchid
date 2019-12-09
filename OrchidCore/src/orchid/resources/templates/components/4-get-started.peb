@@ -1,0 +1,99 @@
+<style>
+  .get-started {
+    text-align: center;
+    position: relative;
+  }
+
+  .get-started * {
+    color: white;
+  }
+
+  .get-started .title {
+    font-size: 80px;
+    color: white !important;
+  }
+
+  .get-started .subtitle {
+    color: white !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    .get-started .get-started-cards {
+      width: 360px;
+      margin: 120px auto 0;
+    }
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 1087px) {
+    .get-started .get-started-cards {
+      display: flex;
+      flex-direction: row;
+      margin-top: 84px;
+    }
+
+    .get-started .getting-started-card {
+      /*display: block;*/
+      padding: 30px;
+
+      display: flex;
+      flex: 1 0 0;
+    }
+
+    .get-started .getting-started-card:first-of-type {
+      padding-left: 0;
+    }
+
+    .get-started .getting-started-card:last-of-type {
+      padding-right: 0;
+    }
+
+    .get-started .preview-card {
+      /*height: 100%;*/
+      /*display: flex;*/
+      /*flex-direction: column;*/
+    }
+  }
+
+  @media screen and (min-width: 1088px) {
+    .get-started .get-started-cards {
+      display: flex;
+      flex-direction: row;
+      margin-top: 84px;
+    }
+
+    .get-started .getting-started-card {
+      /*display: block;*/
+      padding: 30px;
+
+      display: flex;
+      flex: 1 0 0;
+    }
+
+    .get-started .getting-started-card:first-of-type {
+      padding-left: 0;
+    }
+
+    .get-started .getting-started-card:last-of-type {
+      padding-right: 0;
+    }
+
+    .get-started .preview-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+</style>
+
+<div class="get-started">
+  <h2 class="title">{{ component.sectionTitle }}</h2>
+  <h3 class="subtitle">{{ component.sectionSubtitle }}</h3>
+
+  <div class="get-started-cards">
+  {% for card in component.cards %}
+    <a href="{{ link(card.itemId) }}" class="getting-started-card">
+    {% include 'blocks/previewCard.peb' with {'title': card.title, 'mediaUrl': card.mediaUrl, 'ctaName': 'View Tutorial', 'hoverable': true} %}
+    </a>
+  {% endfor %}
+  </div>
+</div>

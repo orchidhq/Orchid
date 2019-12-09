@@ -11,4 +11,4 @@ import javax.inject.Inject
     name = "Default"
 )
 class DefaultTheme @Inject
-constructor(context: OrchidContext) : Theme(context, "Default", 100)
+constructor(context: OrchidContext) : Theme(context, "Default")

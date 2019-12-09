@@ -1,15 +1,20 @@
 package com.eden.orchid.impl.compilers.markdown
 
 import com.eden.orchid.api.registration.OrchidModule
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension.ANCHORLINKS_WRAP_TEXT
 import com.vladsch.flexmark.ext.aside.AsideExtension
 import com.vladsch.flexmark.ext.attributes.AttributesExtension
+import com.vladsch.flexmark.ext.attributes.AttributesExtension.FENCED_CODE_ADD_ATTRIBUTES
+import com.vladsch.flexmark.ext.attributes.FencedCodeAddType
 import com.vladsch.flexmark.ext.enumerated.reference.EnumeratedReferenceExtension
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
 import com.vladsch.flexmark.util.builder.Extension
-import com.vladsch.flexmark.util.options.MutableDataSet
+import com.vladsch.flexmark.util.data.MutableDataSet
 
 class FlexmarkModule : OrchidModule() {
 
@@ -22,9 +27,16 @@ class FlexmarkModule : OrchidModule() {
             StrikethroughSubscriptExtension.create(),
             TablesExtension.create(),
             TaskListExtension.create(),
-            TocExtension.create()
+            TocExtension.create(),
+            AnchorLinkExtension.create()
         )
 
-        addToSet(MutableDataSet::class.java)
+        val dataset = MutableDataSet()
+        dataset.set(ANCHORLINKS_WRAP_TEXT, false)
+        dataset.set(ANCHORLINKS_ANCHOR_CLASS, "anchor")
+
+        dataset.set(FENCED_CODE_ADD_ATTRIBUTES, FencedCodeAddType.ADD_TO_PRE_CODE)
+
+        addToSet(MutableDataSet::class.java, dataset)
     }
 }

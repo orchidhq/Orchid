@@ -4,6 +4,7 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.generators.Collectible;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
@@ -14,6 +15,7 @@ import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.render.Renderable;
+import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
@@ -22,11 +24,13 @@ import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
+import com.eden.orchid.api.theme.components.MetaComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -53,7 +57,8 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 public class OrchidPage implements
         OptionsHolder,
         AssetHolder,
-        Renderable
+        Renderable,
+        Collectible<OrchidPage>
 {
 
     // global variables
@@ -172,6 +177,12 @@ public class OrchidPage implements
     protected ComponentHolder components;
 
     @Option
+    @Description("The components that comprise the meta-info for this page. Typically extra scripts or meta tags " +
+            "included in the `HEAD` of a page."
+    )
+    protected MetaComponentHolder metaComponents;
+
+    @Option
     @Description("Add extra CSS files to this page only, which will be compiled just like the rest of the site's " +
             "assets."
     )
@@ -256,7 +267,7 @@ public class OrchidPage implements
     }
 
     public String getContent() {
-        if(!(Orchid.getInstance().getState() == Orchid.State.BUILDING || Orchid.getInstance().getState() == Orchid.State.IDLE)) {
+        if(!(context.getState() == Orchid.State.BUILDING || context.getState() == Orchid.State.IDLE)) {
             throw new IllegalStateException("Cannot get page content until indexing has completed.");
         }
         if(compiledContent == null) {
@@ -321,6 +332,10 @@ public class OrchidPage implements
                 .orElse(null);
     }
 
+    public final OrchidResource resolveTemplate() {
+        return resolveTemplate(context, this);
+    }
+
     public final String renderInLayout() {
         OrchidResource layoutResource = resolveLayout();
         if(layoutResource != null) {
@@ -329,7 +344,11 @@ public class OrchidPage implements
         return "";
     }
 
-// Serialize/deserialize from JSON
+    public final String renderContent() {
+        return renderContent(context, this);
+    }
+
+    // Serialize/deserialize from JSON
 //----------------------------------------------------------------------------------------------------------------------
 
     public JSONObject toJSON() {
@@ -350,7 +369,14 @@ public class OrchidPage implements
         pageJson.put("description", this.description);
 
         if (includePageContent) {
-            pageJson.put("content", this.getContent());
+            if(resource instanceof ExternalResource) {
+                if(((ExternalResource) resource).isDownload()) {
+                    pageJson.put("content", this.getContent());
+                }
+            }
+            else {
+                pageJson.put("content", this.getContent());
+            }
         }
 
         if (includePageData) {
@@ -378,10 +404,11 @@ public class OrchidPage implements
             externalPage.setNext(new OrchidExternalPage(OrchidReference.fromJSON(context, source.getJSONObject("next"))));
         }
 
+        externalPage.title = source.optString("title");
         externalPage.description = source.optString("description");
 
         if (source.has("data")) {
-            externalPage.data = source.getJSONObject("className").toMap();
+            externalPage.data = source.getJSONObject("data").toMap();
         }
 
         return externalPage;
@@ -458,7 +485,7 @@ public class OrchidPage implements
 //----------------------------------------------------------------------------------------------------------------------
 
     protected ComponentHolder[] getComponentHolders() {
-        return new ComponentHolder[] { components };
+        return new ComponentHolder[] { components, metaComponents };
     }
 
     public void addComponents() {
@@ -480,7 +507,19 @@ public class OrchidPage implements
         compiledContent = null;
     }
 
-// Page Relationships
+    @Override
+    public OrchidPage getItem() {
+        return this;
+    }
+
+    @NotNull
+    @Override
+    public List<String> getItemIds() {
+        return Collections.singletonList(title);
+    }
+
+
+    // Page Relationships
 //----------------------------------------------------------------------------------------------------------------------
 
     public void setNext(OrchidPage nextPage) {
@@ -653,6 +692,10 @@ public class OrchidPage implements
         return this.components;
     }
 
+    public MetaComponentHolder getMetaComponents() {
+        return metaComponents;
+    }
+
     public String[] getExtraCss() {
         return this.extraCss;
     }
@@ -749,6 +792,10 @@ public class OrchidPage implements
         this.components = components;
     }
 
+    public void setMetaComponents(MetaComponentHolder metaComponents) {
+        this.metaComponents = metaComponents;
+    }
+
     public void setExtraCss(String[] extraCss) {
         this.extraCss = extraCss;
     }
@@ -760,4 +807,5 @@ public class OrchidPage implements
     public void setDefaultBreadcrumbs(String defaultBreadcrumbs) {
         this.defaultBreadcrumbs = defaultBreadcrumbs;
     }
+
 }

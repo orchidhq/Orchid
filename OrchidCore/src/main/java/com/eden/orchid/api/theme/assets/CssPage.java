@@ -7,12 +7,18 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 @Description(value = "A CSS static asset.", name = "CSS Asset")
 public final class CssPage extends AssetPage {
 
+    private boolean inlined = false;
+
     public CssPage(Object source, String sourceKey, OrchidResource resource, String key, String title) {
         super(source, sourceKey, resource, key, title);
     }
 
+    public void inlined() {
+        inlined = true;
+    }
+
     public String renderAssetToPage() {
-        if (resource instanceof InlineResource) {
+        if (resource instanceof InlineResource || inlined) {
             return "<style " + renderAttrs() + ">\n" + resource.compileContent(this) + "\n</style>";
         }
         else {

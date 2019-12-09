@@ -1,0 +1,8 @@
+{{ page.content | raw }}
+
+<p><b>Roots:</b></p>
+<ul>
+{%- for root in page.roots %}
+  <li>{{ anchor(root) }}</li>
+{% endfor %}
+</ul>

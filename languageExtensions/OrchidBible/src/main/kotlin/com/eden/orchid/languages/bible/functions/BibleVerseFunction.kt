@@ -5,9 +5,11 @@ import com.eden.americanbiblesociety.ABSRepository
 import com.eden.bible.AbstractVerse
 import com.eden.common.util.EdenUtils
 import com.eden.interfaces.VerseFormatter
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.repositories.EdenRepository
 import javax.inject.Inject
 import javax.inject.Named
@@ -32,7 +34,7 @@ constructor(
         return arrayOf("verseReference", "version")
     }
 
-    override fun apply(): Any {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         if(!EdenUtils.isEmpty(absApiKey)) {
             val eden = Eden.getInstance()
             Eden.getInstance().config().putString("ABS_ApiKey", absApiKey)

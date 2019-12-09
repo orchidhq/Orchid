@@ -11,46 +11,20 @@ import java.io.File;
 
 public final class FileController implements OrchidFileController {
 
-    private final OrchidContext context;
-
     private File rootFolder;
 
     private String[] indexFiles = new String[]{"index.html", "index.htm"};
 
-    private StaticFileResponse staticFileResponse;
-    private IndexFileResponse indexFileResponse;
-    private NotFound404Response notFound404Response;
-    private FaviconResponse faviconResponse;
-    private AdminAssetResponse adminAssetResponse;
-
     private final String destination;
 
     @Inject
-    public FileController(
-            OrchidContext context,
-            @Named("dest") String destination,
-            StaticFileResponse staticFileResponse,
-            IndexFileResponse indexFileResponse,
-            NotFound404Response notFound404Response,
-            FaviconResponse faviconResponse,
-            AdminAssetResponse adminAssetResponse) {
-        this.context = context;
-        this.staticFileResponse = staticFileResponse;
-        this.indexFileResponse = indexFileResponse;
-        this.notFound404Response = notFound404Response;
-        this.faviconResponse = faviconResponse;
-        this.adminAssetResponse = adminAssetResponse;
-
+    public FileController(@Named("dest") String destination) {
         this.destination = destination;
     }
 
-    public OrchidResponse findFile(String targetPath) {
+    public OrchidResponse findFile(OrchidContext context, String targetPath) {
         if(this.rootFolder == null) {
             this.rootFolder = new File(this.destination);
-        }
-
-        if(targetPath.equalsIgnoreCase("favicon.ico")) {
-            return faviconResponse.getResponse(targetPath);
         }
 
         File targetFile = new File(rootFolder, targetPath);
@@ -61,23 +35,23 @@ public final class FileController implements OrchidFileController {
                     String indexPath = StringUtils.strip(targetPath, "/") + "/" + indexFile;
                     File targetIndexFile = new File(rootFolder, indexPath.replace('/', File.separatorChar));
                     if (targetIndexFile.exists()) {
-                        return staticFileResponse.getResponse(targetIndexFile, indexPath);
+                        return StaticFileResponse.getResponse(context, targetIndexFile, indexPath);
                     }
                 }
 
-                return indexFileResponse.getResponse(targetFile, targetPath);
+                return IndexFileResponse.getResponse(context, targetFile, targetPath);
             }
             else {
-                return staticFileResponse.getResponse(targetFile, targetPath);
+                return StaticFileResponse.getResponse(context, targetFile, targetPath);
             }
         }
         else {
-            OrchidResponse adminAsset = adminAssetResponse.getResponse(targetFile, targetPath);
+            OrchidResponse adminAsset = AdminAssetResponse.getResponse(context, targetFile, targetPath);
             if(adminAsset != null) {
                 return adminAsset;
             }
             else {
-                return notFound404Response.getResponse(targetPath);
+                return NotFound404Response.getResponse(context, targetPath);
             }
         }
     }

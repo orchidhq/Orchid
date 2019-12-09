@@ -5,6 +5,7 @@ import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -20,20 +21,8 @@ public interface IndexService extends OrchidService {
         getService(IndexService.class).clearIndex();
     }
 
-    default OrchidRootIndex getInternalIndex() {
-        return getService(IndexService.class).getInternalIndex();
-    }
-
-    default OrchidRootIndex getExternalIndex() {
-        return getService(IndexService.class).getExternalIndex();
-    }
-
-    default OrchidRootIndex getCompositeIndex() {
-        return getService(IndexService.class).getCompositeIndex();
-    }
-
-    default void buildCompositeIndex() {
-        getService(IndexService.class).buildCompositeIndex();
+    default OrchidRootIndex getIndex() {
+        return getService(IndexService.class).getIndex();
     }
 
     default void addCollections(List<? extends OrchidCollection> collections) {
@@ -54,6 +43,14 @@ public interface IndexService extends OrchidService {
 
     default OrchidPage findPage(String collectionType, String collectionId, String itemId) {
         return getService(IndexService.class).findPage(collectionType, collectionId, itemId);
+    }
+
+    default String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses) {
+        return getService(IndexService.class).linkToPage(from, title, collectionType, collectionId, itemId, customClasses);
+    }
+
+    default String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses, String pageAnchorId) {
+        return getService(IndexService.class).linkToPage(from, title, collectionType, collectionId, itemId, customClasses, pageAnchorId);
     }
 
     default OrchidPage findPageOrDefault(String collectionType, String collectionId, String itemId, OrchidPage defaultPage) {

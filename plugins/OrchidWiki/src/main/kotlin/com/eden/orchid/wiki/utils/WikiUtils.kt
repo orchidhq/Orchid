@@ -40,11 +40,11 @@ object WikiUtils {
         var i = 1
 
         for (a in doc.select("a[href]")) {
-            if (OrchidUtils.isExternal(a.attr("href"))) continue
-
-            val linkName = a.text()
             val linkTarget = a.attr("href")
 
+            if (OrchidUtils.isExternal(linkTarget) || OrchidUtils.isAnchorReference(linkTarget)) continue
+
+            val linkName = a.text()
             val resource = onLinkDetected(linkName, linkTarget, i)
 
             if (resource.reference.originalFileName.equals("index", ignoreCase = true)) {
@@ -175,5 +175,4 @@ object WikiUtils {
             null
         }
     }
-
 }

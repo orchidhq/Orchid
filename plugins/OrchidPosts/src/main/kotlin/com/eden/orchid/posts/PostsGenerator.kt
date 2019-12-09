@@ -18,7 +18,6 @@ import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
-import com.eden.orchid.posts.utils.LatestPostsCollection
 import com.eden.orchid.posts.utils.PostsUtils
 import com.eden.orchid.posts.utils.isToday
 import com.eden.orchid.utilities.OrchidUtils
@@ -30,17 +29,14 @@ import com.eden.orchid.utilities.words
 import org.json.JSONObject
 import java.time.LocalDate
 import java.util.regex.Pattern
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description("Share your thoughts and interests with blog posts.", name = "Blog Posts")
 class PostsGenerator
 @Inject
 constructor(
-        context: OrchidContext,
-        val permalinkStrategy: PermalinkStrategy,
-        val postsModel: PostsModel
-) : OrchidGenerator(context, GENERATOR_KEY, OrchidGenerator.PRIORITY_EARLY) {
+    private val permalinkStrategy: PermalinkStrategy
+) : OrchidGenerator<PostsModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
     companion object {
         const val GENERATOR_KEY = "posts"
@@ -49,26 +45,29 @@ constructor(
 
     @Option
     @StringDefault("<!--more-->")
-    @Description("The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
-            "first 240 characters of the post."
+    @Description(
+        "The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
+                "first 240 characters of the post."
     )
     lateinit var excerptSeparator: String
 
     @Option
     @ImpliedKey("name")
-    @Description("A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
-            "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
-            "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
-            "configuration, but they will not have their own pages."
+    @Description(
+        "A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
+                "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
+                "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
+                "configuration, but they will not have their own pages."
     )
     lateinit var authors: List<Author>
 
     @Option
     @ImpliedKey("key")
-    @Description("An array of Category configurations, which may be just the path of the category or a full " +
-            "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
-            "category does not have an entry for its parent category, an error is thrown and Posts generation " +
-            "will not continue."
+    @Description(
+        "An array of Category configurations, which may be just the path of the category or a full " +
+                "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
+                "category does not have an entry for its parent category, an error is thrown and Posts generation " +
+                "will not continue."
     )
     lateinit var categories: MutableList<CategoryModel>
 
@@ -86,36 +85,39 @@ constructor(
     @Description("The configuration for the default category, when no other categories are set up.")
     lateinit var defaultConfig: CategoryModel
 
-    override fun startIndexing(): List<OrchidPage> {
-        val authorPages = getAuthorPages()
+    override fun startIndexing(context: OrchidContext): PostsModel {
+        val authorPages = getAuthorPages(context)
 
         if (EdenUtils.isEmpty(categories)) {
             categories.add(defaultConfig)
         }
 
-        postsModel.initialize(excerptSeparator, categories, authorPages)
+        val model = PostsModel(context, excerptSeparator, categories, authorPages)
 
-        val allPages = ArrayList<OrchidPage>()
+        val postPages = mutableListOf<PostPage>()
 
-        if (postsModel.validateCategories()) {
-            allPages.addAll(authorPages)
-            postsModel.categories.values.forEach { categoryModel ->
-                categoryModel.first = getPostsPages(categoryModel)
-                allPages.addAll(categoryModel.first)
+        if (model.validateCategories()) {
+            model.categories.values.forEach { categoryModel ->
+                categoryModel.first = getPostsPages(context, categoryModel)
+                postPages.addAll(categoryModel.first)
             }
-        }
-        else {
+        } else {
             Clog.e("Categories are not hierarchical, cannot continue generating posts.")
         }
 
-        return allPages
+        model.postPages = postPages
+
+        return model
     }
 
-    override fun startGeneration(posts: Stream<out OrchidPage>) {
-        posts.forEach { context.renderTemplate(it) }
+    override fun startGeneration(
+        context: OrchidContext,
+        model: PostsModel
+    ) {
+        model.allPages.forEach { context.renderTemplate(it) }
     }
 
-    private fun getAuthorPages(): List<AuthorPage> {
+    private fun getAuthorPages(context: OrchidContext): List<AuthorPage> {
         val authorPages = ArrayList<AuthorPage>()
 
         // add Author pages from content pages in the authorsBaseDir
@@ -123,15 +125,16 @@ constructor(
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
-            val options = (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
+            val options =
+                (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
 
-            if(!options.containsKey("name")) {
+            if (!options.containsKey("name")) {
                 options["name"] = authorName
             }
 
             newAuthor.extractOptions(context, options)
 
-            val authorPage = AuthorPage(entry, newAuthor, postsModel)
+            val authorPage = AuthorPage(entry, newAuthor)
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)
@@ -139,7 +142,7 @@ constructor(
 
         // add Author pages from those specified in config.yml
         for (author in this.authors) {
-            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author, postsModel)
+            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author)
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)
@@ -148,7 +151,7 @@ constructor(
         return authorPages
     }
 
-    private fun getPostsPages(categoryModel: CategoryModel): List<PostPage> {
+    private fun getPostsPages(context: OrchidContext, categoryModel: CategoryModel): List<PostPage> {
         val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
         val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
 
@@ -164,9 +167,9 @@ constructor(
 
                 if (post.publishDate.toLocalDate().isToday()) {
                     post.publishDate = LocalDate.of(
-                            Integer.parseInt(matcher.group(1)),
-                            Integer.parseInt(matcher.group(2)),
-                            Integer.parseInt(matcher.group(3))
+                        Integer.parseInt(matcher.group(1)),
+                        Integer.parseInt(matcher.group(2)),
+                        Integer.parseInt(matcher.group(3))
                     ).atStartOfDay()
                 }
 
@@ -190,28 +193,30 @@ constructor(
         return posts.filter { !it.isDraft }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>> {
+    override fun getCollections(
+        context: OrchidContext,
+        model: PostsModel
+    ): List<OrchidCollection<*>> {
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
-        postsModel.categories.values.forEach {
+        model.categories.values.forEach {
             if (EdenUtils.isEmpty(it.key)) {
                 val collection = FolderCollection(
-                        this,
-                        "blog",
-                        it.first as List<OrchidPage>,
-                        PostPage::class.java,
-                        baseDir
+                    this@PostsGenerator,
+                    "blog",
+                    it.first as List<OrchidPage>,
+                    PostPage::class.java,
+                    baseDir
                 )
                 collection.slugFormat = "{year}-{month}-{day}-{slug}"
                 collectionsList.add(collection)
-            }
-            else {
+            } else {
                 val collection = FolderCollection(
-                        this,
-                        it.key,
-                        it.first as List<OrchidPage>,
-                        PostPage::class.java,
-                        baseDir + "/" + it.key
+                    this@PostsGenerator,
+                    it.key ?: "",
+                    it.first as List<OrchidPage>,
+                    PostPage::class.java,
+                    baseDir + "/" + it.key
                 )
                 collection.slugFormat = "{year}-{month}-{day}-{slug}"
                 collectionsList.add(collection)
@@ -219,14 +224,13 @@ constructor(
         }
 
         val collection = FolderCollection(
-                this,
-                "authors",
-                postsModel.authorPages,
-                AuthorPage::class.java,
-                authorsBaseDir
+            this@PostsGenerator,
+            "authors",
+            model.authorPages,
+            AuthorPage::class.java,
+            authorsBaseDir
         )
         collectionsList.add(collection)
-        collectionsList.add(LatestPostsCollection(this, postsModel))
 
         return collectionsList
     }

@@ -1,0 +1,43 @@
+{% import 'macros/navbarMenu' %}
+{% import 'macros/ctaButtons' %}
+
+{% set navbarLogo = 'assets/svg/orchid/logo_left_light.svg' %}
+
+<nav
+  class="navbar is-white is-fixed-top"
+  role="navigation"
+  aria-label="main navigation"
+  style="border-bottom: thin solid rgba(0,0,0,0.1);"
+>
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="{{ site.baseUrl }}">
+        <img src="{{ navbarLogo | asset }}" width="112" height="28" alt="{{ site.about.siteName }}">
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu" id="navbarMain">
+      <div class="navbar-start">
+      {{ _navbarSearch(site) }}
+      {{ _navbarMenu(page, theme.menu) }}
+      </div>
+
+      <div class="navbar-end">
+      {{ _navbarSocial(page, theme) }}
+        <div class="navbar-item">
+          <div class="buttons">
+          {{ _primaryButton(theme) }}
+          {{ _secondaryButton(theme) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+

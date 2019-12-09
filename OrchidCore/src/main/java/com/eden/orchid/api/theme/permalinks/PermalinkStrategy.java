@@ -8,4 +8,6 @@ public interface PermalinkStrategy {
 
     void applyPermalink(OrchidPage page, String permalink);
 
+    void applyPermalink(OrchidPage page, String permalink, boolean prettyUrl);
+
 }

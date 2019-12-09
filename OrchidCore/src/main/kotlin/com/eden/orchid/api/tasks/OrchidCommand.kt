@@ -1,8 +1,10 @@
 package com.eden.orchid.api.tasks
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.Descriptive
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.registration.Prioritized
+import com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY
 
 /**
  * A Command represents something that can be executed via user-input in an interactive session (such as the
@@ -17,10 +19,15 @@ import com.eden.orchid.api.registration.Prioritized
  * @since v1.0.0
  * @orchidApi extensible
  */
-abstract class OrchidCommand(priority: Int, val key: String) : Prioritized(priority), OptionsHolder, Descriptive {
+abstract class OrchidCommand
+@JvmOverloads
+constructor(
+    val key: String,
+    priority: Int = DEFAULT_PRIORITY
+) : Prioritized(priority), OptionsHolder, Descriptive {
 
     abstract fun parameters(): Array<String>
 
-    abstract fun run(commandName: String)
+    abstract fun run(context: OrchidContext, commandName: String)
 
 }

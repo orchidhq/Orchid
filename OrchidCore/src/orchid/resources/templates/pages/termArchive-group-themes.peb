@@ -1,8 +1,0 @@
-{% extends 'includes/termArchive-group-baseLinked' %}
-
-{% block cardBody %}
-<div class="plugin-preview">
-  {% set previewImage = page.images|first %}
-  <img class="img-responsive" src="{{ previewImage.src }}" alt="{{ page.title }}">
-</div>
-{% endblock %}

@@ -1,26 +1,27 @@
 package com.eden.orchid.pages.menu
 
 import com.eden.orchid.pages.PagesModule
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.outerHtmlMatches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import kotlinx.html.a
+import kotlinx.html.id
+import kotlinx.html.li
+import kotlinx.html.ul
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests menu items from Pages plugin")
 class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
-        resource("templates/layouts/index.peb", """
+    fun setUp() {
+        resource(
+            "templates/layouts/index.peb", """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -29,17 +30,19 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             </head>
             <body>
             {% page %}
-            <div id="menu">
+            <ul id="menu">
             {% for menuItem in theme.menu.getMenuItems(page) %}
                 {% include 'includes/menuItem' with {"menuItem": menuItem} %}
             {% endfor %}
-            </div>
+            </ul>
             {% scripts %}
             </body>
             </html>
-        """.trimIndent())
+            """.trimIndent()
+        )
 
-        resource("templates/includes/menuItem.peb", """
+        resource(
+            "templates/includes/menuItem.peb", """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -60,7 +63,8 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
                 <li><a href="{{ menuItem.link }}">{{ menuItem.title }}</a></li>
                 {% endif %}
             {% endif %}
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     @Test
@@ -72,26 +76,21 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/page-2.md")
         resource("pages/page-3.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/page-1/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/page-1">Page 1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/page-2">Page 2</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/page-3">Page 3</a>
-                    </li>
-                """.trimIndent())
+        expectThat(execute())
+            .pageWasRendered("/page-1/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li { a(href = "http://orchid.test/page-1") { +"Page 1" } }
+                                li { a(href = "http://orchid.test/page-2") { +"Page 2" } }
+                                li { a(href = "http://orchid.test/page-3") { +"Page 3" } }
+                            }
+                        }
+                    }
+            }
     }
 
     @Test
@@ -107,26 +106,21 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         resource("pages/two/page-2.md")
         resource("pages/two/page-3.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/one/page-1/index.html")
-                .get { content }
-                .asHtml(removeComments = true)
-                .select("body #menu")
-                .matches()
-                .innerHtml()
-                .isEqualTo("""
-                    <li>
-                      <a href="http://orchid.test/one/page-1">Page 1</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/one/page-2">Page 2</a>
-                    </li>
-                    <li>
-                      <a href="http://orchid.test/one/page-3">Page 3</a>
-                    </li>
-                """.trimIndent())
+        expectThat(execute())
+            .pageWasRendered("/one/page-1/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body #menu") {
+                        outerHtmlMatches {
+                            ul {
+                                id = "menu"
+                                li { a(href = "http://orchid.test/one/page-1") { +"Page 1" } }
+                                li { a(href = "http://orchid.test/one/page-2") { +"Page 2" } }
+                                li { a(href = "http://orchid.test/one/page-3") { +"Page 3" } }
+                            }
+                        }
+                    }
+            }
     }
 
 }

@@ -19,10 +19,8 @@ class OrchidPlugin implements Plugin<Project> {
         }
 
         project.tasks.create('orchidBuild',  OrchidGenerateBuildTask)
-        project.tasks.create('orchidWatch',  OrchidGenerateWatchTask)
         project.tasks.create('orchidServe',  OrchidGenerateServeTask)
         project.tasks.create('orchidDeploy', OrchidGenerateDeployTask)
-        project.tasks.create('orchidShell',  OrchidGenerateShellTask)
         project.tasks.create('orchidRun',    OrchidGenerateMainTask)
     }
 }
@@ -34,13 +32,6 @@ class OrchidGenerateBuildTask extends OrchidGenerateMainTask {
     OrchidGenerateBuildTask() {
         super("build", true)
         description = 'Runs the main Orchid build process'
-    }
-}
-
-class OrchidGenerateWatchTask extends OrchidGenerateMainTask {
-    OrchidGenerateWatchTask() {
-        super("watch", true)
-        description = 'Watches the source directory and rebuilds the site on changes'
     }
 }
 

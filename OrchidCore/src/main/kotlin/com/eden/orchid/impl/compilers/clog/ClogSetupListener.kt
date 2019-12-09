@@ -10,7 +10,6 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
 import com.eden.orchid.utilities.SuppressedWarnings
-import com.google.inject.Provider
 import java.util.Arrays
 import java.util.HashMap
 import java.util.HashSet
@@ -19,6 +18,7 @@ import java.util.logging.Level
 import java.util.logging.LogManager
 import java.util.logging.LogRecord
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
@@ -31,9 +31,9 @@ constructor(
     private val templateTagsProvider: Provider<Set<TemplateFunction>>
 ) : OrchidEventListener {
 
-    private val warningLogger = AbstractLogCollector("Warnings:", Clog.Priority.WARNING)
-    private val errorLogger = AbstractLogCollector("Errors:", Clog.Priority.ERROR)
-    private val fatalLogger = AbstractLogCollector("Fatal exceptions:", Clog.Priority.FATAL)
+    private val warningLogger = AbstractLogCollector(contextProvider, "Warnings:", Clog.Priority.WARNING)
+    private val errorLogger = AbstractLogCollector(contextProvider, "Errors:", Clog.Priority.ERROR)
+    private val fatalLogger = AbstractLogCollector(contextProvider, "Fatal exceptions:", Clog.Priority.FATAL)
 
     @On(Orchid.Lifecycle.InitComplete::class)
     fun onInitComplete(event: Orchid.Lifecycle.InitComplete) {
@@ -95,14 +95,19 @@ constructor(
             // ignore annoying Hibernate Validator and JSass messages
             Clog.getInstance().addTagToBlacklist("org.hibernate.validator.internal.util.Version")
             Clog.getInstance().addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
+
+            // Ignore Pebble internal logging
+            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.lexer.LexerImpl")
+            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.lexer.TemplateSource")
+            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.PebbleEngine")
         }
     }
-
 }
 
 data class LogMessage(val message: String, val throwable: Throwable?)
 
 private class AbstractLogCollector(
+    val contextProvider: Provider<OrchidContext>,
     val headerMessage: String,
     val loggerPriority: Clog.Priority
 ) : ClogLogger {
@@ -115,7 +120,7 @@ private class AbstractLogCollector(
 
     override fun log(tag: String, message: String): Int {
         messages.getOrPut(tag) { HashSet() }.add(LogMessage(message, null))
-        if (!Orchid.getInstance().state.isWorkingState) {
+        if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
 
@@ -124,7 +129,7 @@ private class AbstractLogCollector(
 
     override fun log(tag: String, message: String, throwable: Throwable): Int {
         messages.getOrPut(tag) { HashSet() }.add(LogMessage(message, null))
-        if (!Orchid.getInstance().state.isWorkingState) {
+        if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
 

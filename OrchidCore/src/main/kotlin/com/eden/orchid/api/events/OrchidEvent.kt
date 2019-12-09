@@ -1,5 +1,7 @@
 package com.eden.orchid.api.events
 
+import com.eden.orchid.api.OrchidContext
+
 /**
  * A generic representation of an Event used to communicate intended or completed actions and extend core functionality.
  *
@@ -12,6 +14,8 @@ abstract class OrchidEvent<T> {
     val sender: T?
 
     val type: String
+
+    lateinit var context: OrchidContext
 
     /**
      * Initialize this Event with the Object that is sending it out, typically `this`, but may be a dedicated Sender

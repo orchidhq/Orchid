@@ -10,7 +10,7 @@ class DefaultAdminTheme
 @Inject
 constructor(
         context: OrchidContext
-) : AdminTheme(context, "Default", 100) {
+) : AdminTheme(context, "Default") {
 
     public override fun loadAssets() {
         addCss("https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/css/uikit.min.css")

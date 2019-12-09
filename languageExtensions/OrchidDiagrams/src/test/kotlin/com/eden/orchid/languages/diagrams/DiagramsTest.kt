@@ -1,20 +1,21 @@
 package com.eden.orchid.languages.diagrams
 
+import com.eden.orchid.impl.generators.HomepageGenerator
+import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.matchCountIs
+import com.eden.orchid.strikt.matches
+import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.TestGeneratorModule
-import com.eden.orchid.testhelpers.asHtml
-import com.eden.orchid.testhelpers.innerHtml
-import com.eden.orchid.testhelpers.matchCountIs
-import com.eden.orchid.testhelpers.matches
-import com.eden.orchid.testhelpers.pageWasRendered
-import com.eden.orchid.testhelpers.select
+import com.eden.orchid.testhelpers.withGenerator
+import kotlinx.html.p
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
-class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
+class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
     @Test
     @DisplayName("Test that PlantUml works normally")
@@ -26,15 +27,18 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             """.trimMargin()
         )
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("//index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("<p>Bob-&gt;Alice : hello</p>")
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches(otherSelectorToCheck = "body > div") {
+                            p {
+                                +"Bob->Alice : hello"
+                            }
+                        }
+                    }
+            }
     }
 
     @Test
@@ -47,15 +51,14 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             """.trimMargin()
         )
 
-        val testResults = execute()
-        expectThat(testResults)
-            .pageWasRendered("//index.html")
-            .get { content }
-            .asHtml(true)
-            .select("body")
-            .matches()
-            .innerHtml()
-            .isEqualTo("")
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches { +"" }
+                    }
+            }
     }
 
     @Test
@@ -68,13 +71,14 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             """.trimMargin()
         )
 
-        val testResults = execute(DiagramsModule())
-        expectThat(testResults)
-            .pageWasRendered("//index.svg")
-            .get { content }
-            .asHtml(true)
-            .select("body > svg")
-            .matches()
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml()
+                    .select("body > svg") {
+                        matches()
+                    }
+            }
     }
 
     @Test
@@ -87,13 +91,14 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             """.trimMargin()
         )
 
-        val testResults = execute(DiagramsModule())
-        expectThat(testResults)
-            .pageWasRendered("//index.svg")
-            .get { content }
-            .asHtml(true)
-            .select("body > svg")
-            .matches()
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml()
+                    .select("body > svg") {
+                        matches()
+                    }
+            }
     }
 
     @Test
@@ -104,12 +109,13 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             |Bob->Alice : hello
             |@enduml
             """.trimMargin()
+
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
-            .select("svg")
-            .matches()
-            .matchCountIs(1)
+            .select("svg") {
+                matches().matchCountIs(1)
+            }
     }
 
     @Test
@@ -118,12 +124,13 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
         val input = """
             |Bob->Alice : hello
             """.trimMargin()
+
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
-            .select("svg")
-            .matches()
-            .matchCountIs(1)
+            .select("svg") {
+                matches().matchCountIs(1)
+            }
     }
 
     @Test
@@ -142,12 +149,13 @@ class DiagramsTest : OrchidIntegrationTest(TestGeneratorModule()) {
             |Bob2->Alice2 : hello
             |@enduml
             """.trimMargin()
+
         val output = PlantUmlCompiler().compile("uml", input, null)
         expectThat(output)
             .asHtml(true)
-            .select("svg")
-            .matches()
-            .matchCountIs(3)
+            .select("svg") {
+                matches().matchCountIs(3)
+            }
     }
 
 }

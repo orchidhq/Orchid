@@ -1,7 +1,7 @@
 package com.eden.orchid.wiki
 
+import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import com.eden.orchid.testhelpers.pageWasRendered
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -12,9 +12,7 @@ import strikt.assertions.isEqualTo
 class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
 
     @BeforeEach
-    override fun setUp() {
-        super.setUp()
-
+    fun setUp() {
         resource("templates/layouts/layoutone.peb")
         resource("templates/layouts/layouttwo.peb")
         resource("templates/layouts/layoutthree.peb")
@@ -27,11 +25,11 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
         configObject("allPages", """{"layout": "layoutone"}""")
         resource("wiki/summary.md", "* [Page One](page-one.md)")
         resource("wiki/page-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/wiki/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/wiki/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -40,11 +38,11 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
         configObject("wiki", """{"wikiPages": {"layout": "layoutone"}}""")
         resource("wiki/summary.md", "* [Page One](page-one.md)")
         resource("wiki/page-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/wiki/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/wiki/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -54,11 +52,11 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
         configObject("wiki", """{"section1": {"layout": "layoutone"}}""")
         resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section1/page-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/wiki/section1/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutone")
+            .pageWasRendered("/wiki/section1/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutone")
+            }
     }
 
     @Test
@@ -69,11 +67,11 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
 
         resource("wiki/summary.md", "* [Page One](page-one.md)")
         resource("wiki/page-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/wiki/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
+            .pageWasRendered("/wiki/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
     }
 
     @Test
@@ -85,11 +83,11 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
 
         resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section1/page-one.md")
+
         expectThat(execute())
-                .pageWasRendered("/wiki/section1/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layouttwo")
+            .pageWasRendered("/wiki/section1/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layouttwo")
+            }
     }
 
     @Test
@@ -107,19 +105,13 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
         resource("wiki/section2/summary.md", "* [Page One](page-one.md)")
         resource("wiki/section2/page-one.md")
 
-        val testResults = execute()
-
-        expectThat(testResults)
-                .pageWasRendered("/wiki/section1/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutthree")
-
-        expectThat(testResults)
-                .pageWasRendered("/wiki/section2/page-one/index.html")
-                .get { origin }
-                .get { layout }
-                .isEqualTo("layoutfour")
+        expectThat(execute())
+            .pageWasRendered("/wiki/section1/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutthree")
+            }
+            .pageWasRendered("/wiki/section2/page-one/index.html") {
+                get { origin.layout }.isEqualTo("layoutfour")
+            }
     }
 
 

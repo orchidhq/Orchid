@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class MonthNamePathType
 @Inject
-constructor() : PermalinkPathType(100) {
+constructor() : PermalinkPathType() {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
         return key == "monthName"

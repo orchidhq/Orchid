@@ -8,28 +8,30 @@ more.
 
 ## Popular Plugins
 
-### {{ anchor('Static Pages', 'Orchid Pages') }}
+{% for plugin in data.featuredPlugins %}
+### {{ anchor(plugin.title, plugin.itemId) }}
 
-{{ find('Orchid Pages').description }}
+{{ find(plugin.itemId).description }}
+{% endfor %}
 
-### {{ anchor('Blog Posts', 'Orchid Posts') }}
+## Complete Plugin List
 
-{{ find('Orchid Posts').description }}
+The full list of available plugins is available in the plugin directory. You can also browse themes, or find bundles
+of plugins which are frequently used together.
 
-### {{ anchor('Wikis', 'Orchid Wiki') }}
+<div class="field is-grouped is-grouped-multiline">
+  <p class="control is-expanded">
+    {{ anchor(title='Browse Plugins', collectionType='taxonomies', itemId='plugins', customClasses='button is-primary is-block') }}
+  </p>
+  <p class="control is-expanded">
+    {{ anchor(title='Browse Themes', collectionType='taxonomies', itemId='themes', customClasses='button is-primary is-block') }}
+  </p>
+  <p class="control is-expanded">
+    {{ anchor(title='Browse Bundles', collectionType='taxonomies', itemId='bundles', customClasses='button is-primary is-block') }}
+  </p>
+</div>
 
-{{ find('Orchid Wiki').description }}
+## Custom Plugins
 
-## What to Extend
-
-### Generators
-
-### Components
-
-### Menus
-
-### Template Functions
-
-### Template Tags
-
-### Commands
+If you're interested in creating custom plugins for Orchid, either for private use or to publish publicly, check out the
+{{ anchor('Extending Orchid') }} guide. 

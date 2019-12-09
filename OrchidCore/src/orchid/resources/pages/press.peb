@@ -1,0 +1,62 @@
+---
+title: Orchid Press Kit
+---
+
+<div class="has-text-centered">
+  <h2>Primary Logo</h2>
+  <p>Use the primary logo whenever you can, if you have the vertical space for it.</p>
+  <div class="columns">
+    <div class="column is-half">
+      <div class="box">
+        <h3>Light Background</h3>
+        <img src="{{ 'assets/svg/orchid/logo_top_light.svg'|asset }}" alt="">
+        <p><a href="{{ 'assets/svg/orchid/logo_top_light.svg'|asset }}" download>Download SVG</a></p>
+      </div>
+    </div>
+    <div class="column is-half">
+      <div class="box has-background-dark">
+        <h3 class="has-text-light">Dark Background</h3>
+        <img src="{{ 'assets/svg/orchid/logo_top_dark.svg'|asset }}" alt="">
+        <p><a href="{{ 'assets/svg/orchid/logo_top_dark.svg'|asset }}" download class="has-text-light">Download SVG</a></p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Inline Logo</h2>
+  <p>Use the logo when you do not have the vertical real-estate to clearly display the primary logo.</p>
+  <div class="columns">
+    <div class="column is-half">
+      <div class="box">
+        <h3>Light Background</h3>
+        <img src="{{ 'assets/svg/orchid/logo_left_light.svg'|asset }}" alt="">
+        <p><a href="{{ 'assets/svg/orchid/logo_left_light.svg'|asset }}" download>Download SVG</a></p>
+      </div>
+    </div>
+    <div class="column is-half">
+      <div class="box has-background-dark has-text-light">
+        <h3>Dark Background</h3>
+        <img src="{{ 'assets/svg/orchid/logo_left_dark.svg'|asset }}" alt="">
+        <p><a href="{{ 'assets/svg/orchid/logo_left_dark.svg'|asset }}" download class="has-text-light">Download SVG</a></p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Icon Mark</h2>
+  <p>Use the icon mark when you need a square or really tiny icon.</p>
+  <div class="columns">
+    <div class="column is-half">
+      <div class="box">
+        <h3>Light Background</h3>
+        <img src="{{ 'assets/svg/orchid/icon_light.svg'|asset }}" alt="">
+        <p><a href="{{ 'assets/svg/orchid/icon_light.svg'|asset }}" download>Download SVG</a></p>
+      </div>
+    </div>
+    <div class="column is-half">
+      <div class="box has-background-dark has-text-light">
+        <h3>Dark Background</h3>
+        <img src="{{ 'assets/svg/orchid/icon_dark.svg'|asset }}" alt="">
+        <p><a href="{{ 'assets/svg/orchid/icon_dark.svg'|asset }}" download class="has-text-light">Download SVG</a></p>
+      </div>
+    </div>
+  </div>
+</div>

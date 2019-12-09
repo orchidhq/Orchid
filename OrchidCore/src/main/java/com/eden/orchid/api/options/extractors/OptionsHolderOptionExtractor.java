@@ -6,9 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.converters.TypeConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
-import com.google.inject.Provider;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -44,15 +42,11 @@ import java.util.Map;
  */
 public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsHolder> {
 
-    private final Provider<OptionsExtractor> extractorProvider;
-    private final Provider<OrchidContext> contextProvider;
     private final OptionsHolderOptionExtractor.Converter converter;
 
     @Inject
-    public OptionsHolderOptionExtractor(Provider<OptionsExtractor> extractorProvider, Provider<OrchidContext> contextProvider, OptionsHolderOptionExtractor.Converter converter) {
+    public OptionsHolderOptionExtractor(OptionsHolderOptionExtractor.Converter converter) {
         super(25);
-        this.extractorProvider = extractorProvider;
-        this.contextProvider = contextProvider;
         this.converter = converter;
     }
 
@@ -100,7 +94,7 @@ public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsH
         @Override
         public EdenPair<Boolean, OptionsHolder> convert(Class clazz, Object o) {
             try {
-                OptionsHolder holder = (OptionsHolder) context.getInjector().getInstance(clazz);
+                OptionsHolder holder = (OptionsHolder) context.resolve(clazz);
                 EdenPair<Boolean, Map> config = mapConverter.convert(clazz, o);
                 holder.extractOptions(context, config.second);
                 return new EdenPair<>(true, holder);

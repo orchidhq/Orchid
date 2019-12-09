@@ -4,7 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.compilers.pebble.PebbleWrapperTemplateTag;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;
@@ -56,23 +56,28 @@ public class ContentTagParser extends BaseTagParser {
 
     @Override
     public void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException {
-        TemplateTag freshTag = contextProvider.get().getInjector().getInstance(tagClass);
+        OrchidContext orchidContext = contextProvider.get();
+        TemplateTag freshTag = orchidContext.resolve(tagClass);
         Map<String, Object> evaluatedParamExpressionMap = evaluateParams(paramExpressionMap, self, context);
 
         Object pageVar = context.getVariable("page");
-        if(pageVar instanceof OrchidPage) {
-            freshTag.setPage((OrchidPage) pageVar);
+        final OrchidPage actualPage;
+        if (pageVar instanceof OrchidPage) {
+            actualPage = (OrchidPage) pageVar;
+        }
+        else {
+            actualPage = null;
         }
 
-        freshTag.extractOptions(contextProvider.get(), evaluatedParamExpressionMap);
+        freshTag.extractOptions(orchidContext, evaluatedParamExpressionMap);
 
         String bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context)).trim();
         TemplateTag.Tab tab = new TemplateTag.SimpleTab(null, bodyContent);
         freshTag.setContent(tab);
 
-        freshTag.onRender();
+        freshTag.onRender(orchidContext, actualPage);
         if (freshTag.rendersContent()) {
-            writer.append(freshTag.renderContent());
+            writer.append(freshTag.renderContent(orchidContext, actualPage));
         }
     }
 

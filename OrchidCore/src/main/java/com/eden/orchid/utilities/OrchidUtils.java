@@ -55,6 +55,7 @@ public final class OrchidUtils {
 //----------------------------------------------------------------------------------------------------------------------
 
     public static boolean isWindows = File.separator.equals("\\");
+    public static int DEFAULT_PRIORITY = 100;
 
     public static final TableFormatter<String> defaultTableFormatter = (OrchidUtils.isWindows)
             ? new AsciiTableFormatter(new CrossingBorder())
@@ -272,6 +273,17 @@ public final class OrchidUtils {
      */
     public static boolean isExternal(String fileName) {
         return (fileName.startsWith("http://") || fileName.startsWith("https://"));
+    }
+
+    /**
+     * Returns true if the input filename represents an internal link to an anchor on the same page, as denoted by
+     * starting with '#'
+     *
+     * @param fileName the input to check if anchor reference
+     * @return whether the input represents an anchor reference
+     */
+    public static boolean isAnchorReference(String fileName) {
+        return fileName.startsWith("#");
     }
 
     /**

@@ -1,1 +1,1 @@
-{% extends 'layouts/layoutBase' %}
+{% extends 'layouts/base/sidebarBase' %}

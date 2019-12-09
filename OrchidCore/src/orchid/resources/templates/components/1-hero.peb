@@ -1,0 +1,23 @@
+<div class="hero" style="zoom: 75%;">
+  <h1 class="title superhero has-text-centered">
+    <img src="{{ 'assets/svg/orchid/logo_top_light.svg'|asset }}" alt="Orchid Logo">
+  </h1>
+  <h2 class="subtitle sidekick has-text-centered is-hidden-touch" style="max-width: 75%; margin: 0 auto;">{{ site.about.siteDescription }}</h2>
+  <h2 class="subtitle sidekick has-text-centered is-hidden-desktop">{{ site.about.siteDescription }}</h2>
+
+  <p class="has-text-centered">
+  {% if theme.navbarPrimaryButton.get() is not null %}
+    <a class="button is-success is-large is-rounded" href="{{ theme.navbarPrimaryButton.get().link }}" style="margin: 10px">
+    {{ theme.navbarPrimaryButtonTitle|default(theme.navbarPrimaryButton.get().title) }}
+    </a>
+  {% endif %}
+  {% if theme.navbarSecondaryButton.get() is not null %}
+    <a class="button is-large is-rounded is-outlined" href="{{ theme.navbarSecondaryButton.get().link }}" style="margin: 10px">
+    {{ theme.navbarSecondaryButtonTitle|default(theme.navbarSecondaryButton.get().title) }}
+    </a>
+  {% endif %}
+  </p>
+  <p class="has-text-centered content is-large">
+  {{ anchor(title="Version "~site.version, itemId='Changelog') }}
+  </p>
+</div>

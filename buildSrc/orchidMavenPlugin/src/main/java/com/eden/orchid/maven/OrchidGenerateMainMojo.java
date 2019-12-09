@@ -71,6 +71,12 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
      */
     @Parameter(property = "orchid.port", defaultValue = "8080")
     private int port;
+
+    /**
+     * Allows running a dry deploy instead of a full deploy.
+     */
+    @Parameter(property = "orchid.diagnose", defaultValue = "false")
+    private boolean diagnose;
     
     // optional flags
 
@@ -151,7 +157,8 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
                         "--version",     "" + (version != null ? version : ""),
                         "--environment", "" + (environment != null ? environment : ""),
                         "--dryDeploy",   "" + Boolean.toString(dryDeploy),
-                        "--port",        "" + Integer.toString(port)
+                        "--port",        "" + Integer.toString(port),
+                        "--diagnose",    "" + Boolean.toString(diagnose)
                 },
                 args
         );

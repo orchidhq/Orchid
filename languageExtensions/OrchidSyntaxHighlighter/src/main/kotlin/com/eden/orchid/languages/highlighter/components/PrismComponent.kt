@@ -1,27 +1,21 @@
 package com.eden.orchid.languages.highlighter.components
 
 import com.eden.common.util.EdenUtils
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.utilities.OrchidUtils
-import javax.inject.Inject
 
 @Description("Automatically find and highlight code snippets with Prism.js. Markdown code snippets are immediately " +
         "compatible with Prism.js and requires no further configuration. This component simply attached the " +
         "necessary scripts and styles to the page, but needs no UI template of its own.",
         name = "Prism.js"
 )
-class PrismComponent
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidComponent(context, "prism", 100) {
+class PrismComponent : OrchidComponent("prism", true) {
 
     @Option
-    @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4")
+    @StringDefault("https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1")
     @Description("The base URL to load Prism CSS and JS files from.")
     lateinit var prismSource: String
 

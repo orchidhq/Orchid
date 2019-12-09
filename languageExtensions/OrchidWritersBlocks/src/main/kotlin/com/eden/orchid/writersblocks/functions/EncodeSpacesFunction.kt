@@ -1,18 +1,16 @@
 package com.eden.orchid.writersblocks.functions
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.encodeSpaces
-import javax.inject.Inject
+import com.eden.orchid.utilities.resolve
 
 @Description("Encode space characters as `&nbsp;` to preserve indentation.", name = "Encode Spaces")
-class EncodeSpacesFunction
-@Inject
-constructor(
-        private val converter: StringConverter
-) : TemplateFunction("encodeSpaces", true) {
+class EncodeSpacesFunction : TemplateFunction("encodeSpaces", true) {
 
     @Option
     @Description("The input to encode.")
@@ -22,7 +20,11 @@ constructor(
         return arrayOf("input")
     }
 
-    override fun apply(): Any {
-        return converter.convert(String::class.java, input).second.encodeSpaces()
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+        return context
+            .resolve<StringConverter>()
+            .convert(String::class.java, input)
+            .second
+            .encodeSpaces()
     }
 }

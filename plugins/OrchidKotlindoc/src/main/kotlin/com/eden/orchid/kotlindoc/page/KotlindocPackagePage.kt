@@ -14,11 +14,14 @@ import com.eden.orchid.kotlindoc.resources.KotlinPackagedocResource
 class KotlindocPackagePage(
         context: OrchidContext,
         val packageDoc: KotlinPackageDoc,
-        val classes: List<KotlindocClassPage>,
-        val model: KotlindocModel
+        val classes: List<KotlindocClassPage>
 ) : BaseKotlindocPage(KotlinPackagedocResource(context, packageDoc), "kotlindocPackage", packageDoc.qualifiedName) {
 
+    lateinit var model: KotlindocModel
     val innerPackages: MutableList<KotlindocPackagePage> = ArrayList()
+
+    override val itemIds: List<String>
+        get() = listOf(packageDoc.qualifiedName)
 
     fun hasInterfaces(): Boolean {
         return classes.any { it.classDoc.kind == "Interface" }

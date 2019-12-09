@@ -1,5 +1,6 @@
 package com.eden.orchid.bsdoc
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -18,7 +19,14 @@ class BSDocTheme
 @Inject
 constructor(
         context: OrchidContext
-) : Theme(context, "BsDoc", 100) {
+) : Theme(context, "BsDoc") {
+
+    companion object {
+        const val DEPRECATION_MESSAGE = "Editorial Theme configuration of search has been deprecated, and you should " +
+                "migrate to the `orchidSearch` or `algoliaDocsearch` meta-component config instead. Add " +
+                "`legacySearch: false` to your theme config to hide this warning and prevent the theme from adding " +
+                "these search scripts automatically."
+    }
 
     @Option
     @StringDefault("#4C376C")
@@ -45,6 +53,10 @@ constructor(
     var social: Social? = null
 
     @Option
+    @Description("Github project for 'Fork me on Github' ribbon")
+    lateinit var github: String
+
+    @Option
     @Description("Custom options for Trianglify.")
     lateinit var trianglifyOptions: JSONObject
 
@@ -58,11 +70,10 @@ constructor(
     lateinit var sidebar: ComponentHolder
 
     @Option
-    @BooleanDefault(false)
-    @Description("If true, extra CSS and Javascript will be included to support static searching with Lunr.js, and a " +
-            "searchbar added above the sidenav menu."
-    )
-    var useSidebarSearch: Boolean = false
+    @Description("Whether to use the legacy config for site search. NOTE: $DEPRECATION_MESSAGE")
+    @BooleanDefault(true)
+    @Deprecated(DEPRECATION_MESSAGE)
+    var legacySearch: Boolean = true
 
     override fun loadAssets() {
         // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
@@ -76,8 +87,10 @@ constructor(
         addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
         addJs("assets/js/bsdoc.js")
 
-        if (useSidebarSearch) {
-            addCss("assets/css/orchidSearch.scss")
+        addCss("assets/css/orchidSearch.scss")
+
+        if(legacySearch) {
+            Clog.w(DEPRECATION_MESSAGE)
             addJs("https://unpkg.com/lunr/lunr.js")
             addJs("assets/js/orchidSearch.js")
         }
@@ -96,6 +109,6 @@ constructor(
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
-        return arrayOf(sidebar)
+        return super.getComponentHolders() + arrayOf(sidebar)
     }
 }

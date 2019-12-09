@@ -77,6 +77,10 @@ public final class CoreFlags extends OrchidFlag {
     @Description("The port to run the development server on. The Websocket typically listens at a port 2 above the normal port.")
     public int port;
 
+    @Option @BooleanDefault(false)
+    @Description("Enable debug diagnostic logging.")
+    public boolean diagnose;
+
     @Override
     public Map<String, Value> getParsedFlags() {
         if(!environment.equals("test")) {

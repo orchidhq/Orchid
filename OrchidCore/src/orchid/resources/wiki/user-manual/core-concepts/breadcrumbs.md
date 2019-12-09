@@ -13,7 +13,8 @@ Orchid or its plugins know about your site.
 Including breadcrumbs in your site is really easy, just add the following line to your template wherever you'd like to
 place your breadcrumbs.
 
-```jinja
+```twig
+# Any page or template
 {% verbatim %}
 {% breadcrumbs %}
 {% endverbatim %}
@@ -34,7 +35,7 @@ By default, Orchid will use a page's `parent` to determine how to build the brea
 through the hierarchy of parent pages, stopping when a page has no parent. Many plugins, such as Wikis, will configure 
 its own pages to have the parent page already set, and so rich breadcrumbs will come for free on these pages.
 
-For more control over the breadcrumbs for a particular section of your site, you can use the {{anchor('Static Pages')}}
+For more control over the breadcrumbs for a particular section of your site, you can use the {{anchor('Static Pages', 'OrchidPages')}}
 plugin and set a reference to each page's parent page in its Front Matter. You can use a `key=value` reference in the 
 Front Matter to link to a page with a specific Front Matter value, or use the page title. 
 

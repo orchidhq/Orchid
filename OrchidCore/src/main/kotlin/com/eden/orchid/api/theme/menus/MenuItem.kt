@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.menus
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
@@ -8,14 +9,14 @@ import java.util.ArrayList
 import java.util.Comparator
 
 class MenuItem private constructor(
-        val context: OrchidContext,
-        val title: String,
-        val page: OrchidPage?,
-        private val _children: List<MenuItem>,
-        val anchor: String,
-        val isSeparator: Boolean,
-        var allData: Map<String, Any>,
-        var indexComparator: Comparator<MenuItem>?
+    val context: OrchidContext,
+    val title: String,
+    val page: OrchidPage?,
+    private val _children: List<MenuItem>,
+    val anchor: String,
+    val isSeparator: Boolean,
+    var allData: Map<String, Any>,
+    var indexComparator: Comparator<MenuItem>?
 ) {
 
     val children: List<MenuItem>
@@ -34,16 +35,13 @@ class MenuItem private constructor(
         get() = if (page != null) {
             if (!EdenUtils.isEmpty(anchor)) {
                 "${page.link}#$anchor"
-            }
-            else {
+            } else {
                 page.link
             }
-        }
-        else {
+        } else {
             if (!EdenUtils.isEmpty(anchor)) {
                 "#$anchor"
-            }
-            else {
+            } else {
                 ""
             }
         }
@@ -51,19 +49,17 @@ class MenuItem private constructor(
     val isHasChildren: Boolean get() = hasChildren()
 
     fun isActive(page: OrchidPage): Boolean {
-        return isActivePage(page) || hasActivePage(page)
+        return (!isHasChildren && isActivePage(page)) || (isHasChildren && hasActivePage(page))
     }
 
     fun isActivePage(page: OrchidPage): Boolean {
-        return !isHasChildren && this.page === page
+        return this.page === page
     }
 
     fun hasActivePage(page: OrchidPage): Boolean {
-        if (isHasChildren) {
-            for (child in children) {
-                if (child.isActivePage(page) || child.hasActivePage(page)) {
-                    return true
-                }
+        for (child in children) {
+            if (child.isActivePage(page) || child.hasActivePage(page)) {
+                return true
             }
         }
 
@@ -79,19 +75,27 @@ class MenuItem private constructor(
         return !EdenUtils.isEmpty(children)
     }
 
+    fun hasOwnLink(): Boolean {
+        return page != null || anchor.isNotBlank()
+    }
+
+    fun isExternal(): Boolean {
+        return !link.startsWith(context.baseUrl)
+    }
+
     operator fun get(key: String): Any? {
         return allData[key]
     }
 
     fun toBuilder(): MenuItem.Builder {
         return MenuItem.Builder(context)
-                .title(title)
-                .page(page)
-                .children(children)
-                .anchor(anchor)
-                .separator(isSeparator)
-                .data(allData)
-                .indexComparator(indexComparator)
+            .title(title)
+            .page(page)
+            .children(children)
+            .anchor(anchor)
+            .separator(isSeparator)
+            .data(allData)
+            .indexComparator(indexComparator)
     }
 
 // Builder
@@ -124,10 +128,9 @@ class MenuItem private constructor(
 
             if (!EdenUtils.isEmpty(index.getOwnPages())) {
                 for (page in index.getOwnPages()) {
-                    if(page.reference.fileName == "index") {
+                    if (page.reference.fileName == "index") {
                         this.title(page.title).page(page)
-                    }
-                    else {
+                    } else {
                         this.children!!.add(Builder(context).page(page))
                     }
                 }
@@ -154,8 +157,12 @@ class MenuItem private constructor(
             return this
         }
 
-        fun pages(pages: List<OrchidPage>): Builder {
-            this.children = pages.map { it -> Builder(context).page(it) }.toMutableList()
+        fun pages(pages: List<OrchidPage>, transform: (Pair<OrchidPage, Builder>) -> Unit = {}): Builder {
+            this.children = pages.map { page ->
+                Builder(context)
+                    .page(page)
+                    .also { builder -> transform(page to builder) }
+            }.toMutableList()
             return this
         }
 
@@ -199,14 +206,14 @@ class MenuItem private constructor(
             }
 
             return MenuItem(
-                    context,
-                    title ?: "",
-                    page,
-                    children?.map { it.build() } ?: emptyList(),
-                    anchor ?: "",
-                    separator,
-                    data ?: emptyMap(),
-                    indexComparator
+                context,
+                title ?: "",
+                page,
+                children?.map { it.build() } ?: emptyList(),
+                anchor ?: "",
+                separator,
+                data ?: emptyMap(),
+                indexComparator
             )
         }
     }

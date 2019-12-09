@@ -3,29 +3,34 @@ package com.eden.orchid.posts.model
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class PostsModel
-@Inject
-constructor(val context: OrchidContext) {
-
-    lateinit var excerptSeparator: String
-
-    var authorPages: List<AuthorPage> = ArrayList()
+constructor(
+    val context: OrchidContext,
+    val excerptSeparator: String,
+    var categoriesList: List<CategoryModel>,
+    val authorPages: List<AuthorPage>
+) : OrchidGenerator.Model {
     var categories: MutableMap<String?, CategoryModel> = LinkedHashMap()
+
+    lateinit var postPages: List<PostPage>
+
+    override val allPages: List<OrchidPage>
+        get() = listOf(
+            *authorPages.toTypedArray(),
+            *postPages.toTypedArray()
+        )
+
+    init {
+        this.categories = hashMapOf(*(categoriesList.map { it.key to it }.toTypedArray()))
+    }
 
     val categoryNames: Set<String?>
         get() = categories.keys
-
-    fun initialize(excerptSeparator: String, categories: List<CategoryModel>, authorPages: List<AuthorPage>) {
-        this.excerptSeparator = excerptSeparator
-        this.authorPages = authorPages
-        this.categories = hashMapOf(*(categories.map { it.key to it }.toTypedArray()))
-    }
 
     fun validateCategories(): Boolean {
         var isValid = true
@@ -33,9 +38,12 @@ constructor(val context: OrchidContext) {
         categories.values.forEach { category ->
             val categoryKeys = category.allCategories
 
-            if(!EdenUtils.isEmpty(categoryKeys)) {
+            if (!EdenUtils.isEmpty(categoryKeys)) {
                 categoryKeys.forEach { categoryKey ->
-                    if(!EdenUtils.isEmpty(categoryKey) && categoryKey != category.key && !categories.containsKey(categoryKey)) {
+                    if (!EdenUtils.isEmpty(categoryKey) && categoryKey != category.key && !categories.containsKey(
+                            categoryKey
+                        )
+                    ) {
                         Clog.w("Category ${category.path} is a child of a non-existant parent category $categoryKey")
                         isValid = false
                     }
@@ -64,8 +72,7 @@ constructor(val context: OrchidContext) {
 
         if (categories.containsKey(category)) {
             chosenCategory.addAll(categories[category]!!.first)
-        }
-        else {
+        } else {
             chosenCategory = ArrayList()
 
             for (categoryPosts in categories.values) {

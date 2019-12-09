@@ -1,7 +1,6 @@
 package com.eden.orchid;
 
 import com.caseyjbrooks.clog.Clog;
-import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidSecurityManager;
@@ -10,12 +9,10 @@ import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
-import com.eden.orchid.api.registration.OrchidModule;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -23,7 +20,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for Orchid to runTask
@@ -36,19 +32,8 @@ public final class Orchid {
 // Make main Orchid object a singleton
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static Orchid instance;
-
-    private OrchidContext context;
-    private Injector injector;
-
-    private Orchid.State state = State.BOOTSTRAP;
-
     public static Orchid getInstance() {
-        if (instance == null) {
-            instance = new Orchid();
-        }
-
-        return instance;
+        return new Orchid();
     }
 
     private Orchid() { }
@@ -78,6 +63,7 @@ public final class Orchid {
     }
 
     public boolean start(List<Module> modules) {
+        OrchidContext context = null;
         try {
             String moduleLog = "\n--------------------";
             for (Module module : modules) {
@@ -88,7 +74,7 @@ public final class Orchid {
             moduleLog += "\n";
             Clog.tag("Using the following modules").log(moduleLog);
 
-            injector = Guice.createInjector(modules);
+            Injector injector = Guice.createInjector(modules);
 
             String flagLog = "";
             flagLog += "\n--------------------\n";
@@ -115,25 +101,11 @@ public final class Orchid {
             Clog.e("Something went wrong running Orchid", e);
             e.printStackTrace();
 
-            context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
+            if(context != null) {
+                context.broadcast(Orchid.Lifecycle.Shutdown.fire(context, this));
+            }
             return false;
         }
-    }
-
-    public OrchidContext getContext() {
-        return this.context;
-    }
-
-    public Injector getInjector() {
-        return this.injector;
-    }
-
-    public State getState() {
-        return this.state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
 // Events fired by Orchid Core
@@ -153,7 +125,7 @@ public final class Orchid {
 
         /**
          * Orchid is still bootstrapping, but all services have been started and are ready for use. Catch this event to
-         * do any kind of one-time initialization on singletons that are not {@link OrchidService }s.
+         * do any kind of one-time initialization on singletons that are not {@link OrchidService}s.
          */
         public static class OnStart extends OrchidEvent {
             private OnStart(Object sender) { super(sender); }
@@ -163,7 +135,7 @@ public final class Orchid {
 
         /**
          * Orchid is shutting down normally, and should be caught for non-critical cleanup. Listen for the
-         * {@link Orchid.Lifecycle.Shutdown } event for any critical cleanup or to release system resources.
+         * {@link Orchid.Lifecycle.Shutdown} event for any critical cleanup or to release system resources.
          */
         public static class OnFinish extends OrchidEvent {
             private OnFinish(Object sender) { super(sender); }
@@ -174,14 +146,14 @@ public final class Orchid {
         /**
          * Indicates that Orchid is shutting down, either by a a fatal crash or when the process is forcibly killed by
          * the system, or when Orchid finishes normally after a task completes. This should be caught to clean up all
-         * system resources, kill threads, etc. Listen for the {@link Orchid.Lifecycle.OnFinish } for non-critical
+         * system resources, kill threads, etc. Listen for the {@link Orchid.Lifecycle.OnFinish} for non-critical
          * cleanup tasks.
          */
         public static class Shutdown extends OrchidEvent {
             private Shutdown(Object sender) { super(sender); }
 
-            public static Shutdown fire(Object sender) {
-                Orchid.getInstance().setState(Orchid.State.SHUTDOWN);
+            public static Shutdown fire(OrchidContext context, Object sender) {
+                context.setState(Orchid.State.SHUTDOWN);
                 return new Shutdown(sender);
             }
         }
@@ -206,7 +178,7 @@ public final class Orchid {
         }
 
         /**
-         * A build phase has begun, and we are now in the {@link Orchid.State#BUILD_PREP } state.
+         * A build phase has begun, and we are now in the {@link Orchid.State#BUILD_PREP} state.
          */
         public static class BuildStart extends OrchidEvent {
             private BuildStart(Object sender) { super(sender); }
@@ -215,7 +187,7 @@ public final class Orchid {
         }
 
         /**
-         * A build phase has completed, and we are now at the end of the {@link Orchid.State#BUILDING } state.
+         * A build phase has completed, and we are now at the end of the {@link Orchid.State#BUILDING} state.
          */
         public static class BuildFinish extends OrchidEvent {
             private BuildFinish(Object sender) { super(sender); }
@@ -305,7 +277,7 @@ public final class Orchid {
         }
 
         /**
-         * A deployment phase has begun, and we are now in the {@link Orchid.State#DEPLOYING } state.
+         * A deployment phase has begun, and we are now in the {@link Orchid.State#DEPLOYING} state.
          */
         public static class DeployStart extends OrchidEvent {
             private DeployStart(Object sender) { super(sender); }
@@ -314,7 +286,7 @@ public final class Orchid {
         }
 
         /**
-         * A deployment phase has completed, and we are now at the end of the {@link Orchid.State#DEPLOYING } state.
+         * A deployment phase has completed, and we are now at the end of the {@link Orchid.State#DEPLOYING} state.
          */
         public static class DeployFinish extends OrchidEvent {
             private final boolean success;
@@ -372,7 +344,7 @@ public final class Orchid {
 
         /**
          * Files have been changed and the site is about to be rebuilt. Orchid is usually in the
-         * {@link Orchid.State#IDLE } state at the time this event if first fired, and internally Orchid catches this
+         * {@link Orchid.State#IDLE} state at the time this event if first fired, and internally Orchid catches this
          * event to start a build.
          */
         public static class FilesChanged extends OrchidEvent {
@@ -382,7 +354,7 @@ public final class Orchid {
         }
 
         /**
-         * Indicates that _all_ caches should be cleared. Always called during the {@link Orchid.State#BUILD_PREP }
+         * Indicates that _all_ caches should be cleared. Always called during the {@link Orchid.State#BUILD_PREP}
          * state (at the start of every build), but may be called at any other time as needed.
          */
         public static class ClearCache extends OrchidEvent {
@@ -402,7 +374,7 @@ public final class Orchid {
 
         /**
          * Fired as a shim in the options loading process to allow options to be dynamically loaded as needed. This is
-         * fired from the {@link ConfigArchetype }, and catching this event allows listeners to add additional values
+         * fired from the {@link ConfigArchetype}, and catching this event allows listeners to add additional values
          * into the archetype options for this object. This archetype is added to Pages, Generators, and Publishers by
          * default, but other classes are free to use it as needed.
          */
@@ -429,36 +401,36 @@ public final class Orchid {
 
         /**
          * From the time Orchid is first instantiated until after the initial injection is complete. This phase ends
-         * with the {@link Orchid.Lifecycle.InitComplete } event, after which the selected task is run.
+         * with the {@link Orchid.Lifecycle.InitComplete} event, after which the selected task is run.
          */
         BOOTSTRAP(false, false),
 
         /**
-         * The Orchid shutdown process. This is set anytime {@link Orchid.Lifecycle.Shutdown } event is fired, such as
+         * The Orchid shutdown process. This is set anytime {@link Orchid.Lifecycle.Shutdown} event is fired, such as
          * when Orchid experiences a fatal crash or when the process is forcibly killed by the system, but may also be
          * set sooner during a 'normal' shutdown as prompted by the completion and exit of a task. When the shutdown is
-         * sudden, it is marked only by the {@link Orchid.Lifecycle.Shutdown } event, but a normal shutdown starts with
-         * the {@link Orchid.Lifecycle.OnFinish } event and all services get a change to shutdown cleanly, and is then
-         * followed by the {@link Orchid.Lifecycle.OnFinish } event.
+         * sudden, it is marked only by the {@link Orchid.Lifecycle.Shutdown} event, but a normal shutdown starts with
+         * the {@link Orchid.Lifecycle.OnFinish} event and all services get a change to shutdown cleanly, and is then
+         * followed by the {@link Orchid.Lifecycle.OnFinish} event.
          */
         SHUTDOWN(false, false),
 
         /**
-         * From the start of a 'build' until indexing begins. Starts with the {@link Orchid.Lifecycle.BuildStart }
+         * From the start of a 'build' until indexing begins. Starts with the {@link Orchid.Lifecycle.BuildStart}
          * event, and includes clearing the cache, re-loading config options, re-initializing the theme, and extracting
          * options into the services. This is the first of the 'build states', which are 'working states.'
          */
         BUILD_PREP(true,  false),
 
         /**
-         * Orchid is indexing all Generators. During this state, {@link Orchid.Lifecycle.ProgressEvent } of type
+         * Orchid is indexing all Generators. During this state, {@link Orchid.Lifecycle.ProgressEvent} of type
          * 'indexing' are broadcast, one for each generator. This is the second of the 'build states', which are
          * 'working states.'
          */
         INDEXING(true,  false),
 
         /**
-         * Orchid is generating all pages. During this state, {@link Orchid.Lifecycle.ProgressEvent } of type 'building'
+         * Orchid is generating all pages. During this state, {@link Orchid.Lifecycle.ProgressEvent} of type 'building'
          * are broadcast, one for each page. This is the third and final of the 'build states', which are 'working
          * states.'
          */
@@ -466,7 +438,7 @@ public final class Orchid {
 
         /**
          * Orchid is deploying your site with all configured publishers. During this state,
-         * {@link Orchid.Lifecycle.ProgressEvent } of type 'deploying' are broadcast, one for each publisher. This is
+         * {@link Orchid.Lifecycle.ProgressEvent} of type 'deploying' are broadcast, one for each publisher. This is
          * the only 'deploy state', which is a 'working states.'
          */
         DEPLOYING(false, true),
@@ -498,66 +470,6 @@ public final class Orchid {
 
         public boolean isWorkingState() {
             return this.isWorkingState;
-        }
-    }
-
-//
-//----------------------------------------------------------------------------------------------------------------------
-
-
-    public EdenPair<Boolean, Throwable> startForUnitTest(List<Module> modules, Function<Provider<OrchidContext>, List<OrchidModule>> contextDependantModulesFunction) {
-        try {
-            String moduleLog = "\n--------------------";
-            for (Module module : modules) {
-                if (!module.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
-                    moduleLog += "\n * " + module.getClass().getName();
-                }
-            }
-            moduleLog += "\n";
-            Clog.tag("Using the following modules").log(moduleLog);
-
-            modules.add(new OrchidModule() {
-                @Override
-                protected void configure() {
-                    Provider<OrchidContext> contextProvider = getProvider(OrchidContext.class);
-                    List<OrchidModule> contextDependantModules = contextDependantModulesFunction.apply(contextProvider);
-                    if(contextDependantModules != null) {
-                        for(OrchidModule module : contextDependantModules) {
-                            install(module);
-                        }
-                    }
-                }
-            });
-
-            injector = Guice.createInjector(modules);
-
-            String flagLog = "";
-            flagLog += "\n--------------------\n";
-            flagLog += OrchidFlags.getInstance().printFlags();
-            flagLog += "\n";
-            Clog.tag("Flag values").log(flagLog);
-
-            context = injector.getInstance(OrchidContext.class);
-
-            try {
-                OrchidSecurityManager manager = injector.getInstance(OrchidSecurityManager.class);
-                System.setSecurityManager(manager);
-            }
-            catch (Exception e) {
-
-            }
-
-            Clog.i("Running Orchid version {}, site version {} in {} environment", context.getOrchidVersion(), context.getVersion(), context.getEnvironment());
-            context.start();
-            context.finish();
-            return new EdenPair<>(true, null);
-        }
-        catch (Exception e) {
-            Clog.e("Something went wrong running Orchid: {}", e, e.getMessage());
-            e.printStackTrace();
-
-            context.broadcast(Orchid.Lifecycle.Shutdown.fire(this));
-            return new EdenPair<>(true, e);
         }
     }
 

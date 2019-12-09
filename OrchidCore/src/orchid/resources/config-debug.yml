@@ -5,16 +5,11 @@ services:
   generators:
     disabled:
       - 'javadoc'
-      - 'swiftdoc'
-      - 'kotlindoc'
       - 'groovydoc'
-#      - 'pages'
-#      - 'styleguide'
-#      - 'posts'
-#      - 'changelog'
-#      - 'forms'
-#      - 'presentations'
-#      - 'sitemap'
-      - 'indices'
+      - 'swiftdoc'
       - 'feeds'
-#      - 'taxonomies'
+      - 'indices'
+      - 'sitemap'
+
+kotlindoc:
+  homePageOnly: true

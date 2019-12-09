@@ -6,9 +6,13 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ThemeConfigArchetype;
 import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.theme.components.ComponentHolder;
+import com.eden.orchid.api.theme.components.MetaComponentHolder;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 
 import javax.inject.Inject;
+
+import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
 /**
  *
@@ -24,9 +28,20 @@ public abstract class Theme extends AbstractTheme {
     @Description("The primary menu for your site. Different themes may specify additional menus.")
     protected OrchidMenu menu;
 
+    @Option
+    @Description("The components that comprise the meta-info for all pages using this theme. Typically extra scripts or" +
+            " meta tags included in the `HEAD` of a page."
+    )
+    protected MetaComponentHolder metaComponents;
+
     @Inject
     public Theme(OrchidContext context, String key, int priority) {
         super(context, key, priority);
+    }
+
+    @Inject
+    public Theme(OrchidContext context, String key) {
+        super(context, key, DEFAULT_PRIORITY);
     }
 
     public OrchidMenu getMenu() {
@@ -35,5 +50,18 @@ public abstract class Theme extends AbstractTheme {
 
     public void setMenu(OrchidMenu menu) {
         this.menu = menu;
+    }
+
+    @Override
+    protected ComponentHolder[] getComponentHolders() {
+        return new ComponentHolder[] { metaComponents };
+    }
+
+    public MetaComponentHolder getMetaComponents() {
+        return metaComponents;
+    }
+
+    public void setMetaComponents(MetaComponentHolder metaComponents) {
+        this.metaComponents = metaComponents;
     }
 }

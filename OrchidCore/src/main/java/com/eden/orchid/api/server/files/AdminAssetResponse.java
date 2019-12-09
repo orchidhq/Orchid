@@ -8,23 +8,15 @@ import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FilenameUtils;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.InputStream;
 
-public final class AdminAssetResponse {
+final class AdminAssetResponse {
 
-    private final OrchidContext context;
-
-    @Inject
-    public AdminAssetResponse(OrchidContext context) {
-        this.context = context;
-    }
-
-    public OrchidResponse getResponse(File targetFile, String targetPath) {
+    static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AdminTheme theme = context.getAdminTheme();
 
-        OrchidResource res = theme.getResourceEntry(targetPath);
+        OrchidResource res = theme.getResourceEntry(context, targetPath);
         String mimeType = StaticFileResponse.mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
         Clog.i("Rendering admin File: #{$1}", targetPath);

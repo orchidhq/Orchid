@@ -5,7 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.Relation;
 import com.eden.orchid.api.options.annotations.RelationConfig;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -43,7 +43,7 @@ public final class RelationOptionExtractor extends OptionExtractor<Relation> {
     }
 
     private Relation loadRelation(final Field field, final Object sourceObject) {
-        Relation relation = (Relation) contextProvider.get().getInjector().getInstance(field.getType());
+        Relation relation = (Relation) contextProvider.get().resolve(field.getType());
         Map<String, Object> relationConfig = new HashMap<>();
 
         RelationConfig configAnnotation = field.getAnnotation(RelationConfig.class);

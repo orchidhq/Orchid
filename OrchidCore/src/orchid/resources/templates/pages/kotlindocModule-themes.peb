@@ -1,0 +1,9 @@
+{% include 'includes/pluginPageHeader.peb' with { 'docLink': 'demo', 'docName': 'Live Demo', 'docIcon': 'desktop' } %}
+
+<div class="content is-medium-tablet is-large-fullhd">
+{{ page.content | raw }}
+</div>
+
+{% include 'includes/imageCards.peb' with {'images': page.images} %}
+
+{% include 'includes/dependencyTabs.peb' %}

@@ -1,0 +1,17 @@
+{% set layoutConfig = theme.getLayoutConfig(page.layout, page.layoutConfig) %}
+
+<!DOCTYPE html>
+<html class="{% block 'htmlClasses' %}{% endblock %}">
+<head>
+{% include '?trackingHeadStart' %}
+{% head %}
+{% styles %}
+{% include '?trackingHeadEnd' %}
+</head>
+<body class="{% block 'bodyClasses' %}{% endblock %}">
+{% include '?trackingBodyStart' %}
+{% block 'body' %}{% endblock %}
+{% scripts %}
+{% include '?trackingBodyEnd' %}
+</body>
+</html>

@@ -1,20 +1,14 @@
 package com.eden.orchid.presentations.components
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.presentations.model.Presentation
-import javax.inject.Inject
 
 @Description("Embed a Deck.js presentation.", name = "Presentation")
-class PresentationComponent
-@Inject
-constructor(
-        context: OrchidContext
-) : OrchidComponent(context, "presentation", 25) {
+class PresentationComponent : OrchidComponent("presentation") {
 
     @Option
     @StringDefault("web-2_0")

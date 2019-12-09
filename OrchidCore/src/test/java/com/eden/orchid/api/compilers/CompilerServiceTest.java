@@ -3,7 +3,7 @@ package com.eden.orchid.api.compilers;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.testhelpers.BaseOrchidTest;
+import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
-public final class CompilerServiceTest extends BaseOrchidTest {
+public final class CompilerServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private CompilerService underTest;
@@ -40,7 +40,6 @@ public final class CompilerServiceTest extends BaseOrchidTest {
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
         // target outputs
         mockInput = "input";
         compiledOutput = "compiled";
@@ -71,7 +70,11 @@ public final class CompilerServiceTest extends BaseOrchidTest {
         // test the service directly
         context = mock(OrchidContext.class);
         when(context.getSiteData(any())).thenReturn(null);
-        service = new CompilerServiceImpl(compilers, parsers, mockPrecompiler);
+        when(context.resolveSet(OrchidCompiler.class)).thenReturn(compilers);
+        when(context.resolveSet(OrchidParser.class)).thenReturn(parsers);
+        when(context.resolve(OrchidPrecompiler.class)).thenReturn(mockPrecompiler);
+
+        service = new CompilerServiceImpl();
         service.initialize(context);
         service.allConfig = new HashMap<>();
 

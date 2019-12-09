@@ -14,10 +14,10 @@ val BuildVersion = {
 }
 
 val PomExtraFragment = {
-    <url>https://orchid.netlify.com/</url>
+    <url>https://orchid.run/</url>
     <scm>
-      <url>git@github.com:JavaEden/Orchid.git</url>
-      <connection>scm:git:git@github.com:JavaEden/Orchid.git</connection>
+      <url>git@github.com:orchidhq/orchid.git</url>
+      <connection>scm:git:git@github.com:orchidhq/orchid.git</connection>
     </scm>
     <developers>
       <developer>

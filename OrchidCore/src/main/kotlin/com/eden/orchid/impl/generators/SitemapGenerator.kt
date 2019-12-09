@@ -3,18 +3,16 @@ package com.eden.orchid.impl.generators
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
+import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
-import java.util.stream.Stream
 import javax.inject.Inject
 
 @Description(value = "Generate a sitemap and `robots.txt` for automatic SEO.", name = "Sitemap and Robots.txt")
-class SitemapGenerator @Inject
-constructor(context: OrchidContext) : OrchidGenerator(context,
-    GENERATOR_KEY, OrchidGenerator.PRIORITY_LATE + 1) {
+class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE + 1) {
 
     @Option
     @BooleanDefault(true)
@@ -26,24 +24,24 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
     @Description("Whether to generate a robots.txt, which includes a link to the sitemap.")
     var useRobots: Boolean = true
 
-    override fun startIndexing(): List<OrchidPage>? {
-        return null
+    override fun startIndexing(context: OrchidContext): Model {
+        return emptyModel()
     }
 
-    override fun startGeneration(pages: Stream<out OrchidPage>) {
-        generateSitemapFiles()
+    override fun startGeneration(context: OrchidContext, model: Model) {
+        generateSitemapFiles(context)
     }
 
-    private fun generateSitemapFiles() {
+    private fun generateSitemapFiles(context: OrchidContext) {
         var sitemapIndex: SitemapIndexPage? = null
 
         if (useSitemaps) {
-            val mappedIndex = context.internalIndex.allIndexedPages
+            val mappedIndex = context.index.allIndexedPages
             val sitemapPages = ArrayList<SitemapPage>()
 
             // Render an page for each generator's individual index
             mappedIndex.keys.forEach { key ->
-                val pages = mappedIndex[key]?.allPages
+                val pages = mappedIndex[key]?.first?.allPages
                 val page = SitemapPage(context, key, pages)
                 sitemapPages.add(page)
                 context.renderRaw(page)
@@ -61,8 +59,11 @@ constructor(context: OrchidContext) : OrchidGenerator(context,
         }
     }
 
-    override fun getCollections(): List<OrchidCollection<*>>? {
-        return null
+    override fun getCollections(
+        context: OrchidContext,
+        model: Model
+    ): List<OrchidCollection<*>> {
+        return emptyList()
     }
 
     @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")

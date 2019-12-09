@@ -7,7 +7,6 @@ import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
-import com.google.inject.Provider;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.Extension;
@@ -21,6 +20,7 @@ import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -33,28 +33,28 @@ import java.util.concurrent.Executors;
 @Singleton
 public final class PebbleCompiler extends OrchidCompiler implements OrchidEventListener {
 
-    private Provider<OrchidContext> contextProvider;
     private ExecutorService executor;
     private PebbleEngine engine;
+    private Provider<OrchidContext> contextProvider;
 
     @Inject
-    public PebbleCompiler(Provider<OrchidContext> contextProvider, PebbleTemplateLoader loader, Set<Extension> extensions) {
+    public PebbleCompiler(PebbleTemplateLoader loader, Set<Extension> extensions, Provider<OrchidContext> contextProvider) {
         super(10000);
 
         Extension[] extensionArray = new Extension[extensions.size()];
         extensions.toArray(extensionArray);
 
-        this.contextProvider = contextProvider;
         this.executor = Executors.newFixedThreadPool(10);
         this.engine = new PebbleEngine.Builder()
                 .loader(loader)
                 .executorService(executor)
                 .extension(extensionArray)
-                .allowGetClass(true)
+                .allowUnsafeMethods(true)
                 .newLineTrimming(false)
                 .build();
 
         this.engine.getExtensionRegistry().getAttributeResolver().add(new GetMethodAttributeResolver());
+        this.contextProvider = contextProvider;
     }
 
     @Override
@@ -86,11 +86,14 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
             return writer.toString();
         }
         catch (PebbleException e) {
-            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), e.getMessage());
+            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), 0, e.getMessage());
         }
         catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
             Clog.e(source);
+            if(contextProvider.get().diagnose()) {
+                e.printStackTrace();
+            }
         }
         return source;
     }

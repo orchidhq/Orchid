@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.OrchidCompiler
 import io.bit3.jsass.Compiler
 import io.bit3.jsass.Options
+import io.bit3.jsass.adapter.NativeAdapter
 import java.net.URI
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -34,6 +35,7 @@ constructor(
     override fun compile(extension: String, input: String, data: Map<String, Any>): String {
         val options = Options()
         options.importers.add(importer)
+        options.setIsIndentedSyntaxSrc(false)
 
         var sourceContext = ""
 
@@ -42,17 +44,13 @@ constructor(
             sourceContext = m.group(1)
         }
 
-        if (extension == CompilerSyntax.SASS.ext) {
-            options.setIsIndentedSyntaxSrc(true)
-        } else {
-            options.setIsIndentedSyntaxSrc(false)
-        }
+        val actualScssInput = if (extension == CompilerSyntax.SASS.ext) Compiler.sass2scss(input, 0) else input
 
         try {
             return if (EdenUtils.isEmpty(sourceContext)) {
-                Compiler().compileString(input, options).css
+                Compiler().compileString(actualScssInput, options).css
             } else {
-                Compiler().compileString(input, URI(sourceContext), URI(sourceContext), options).css
+                Compiler().compileString(actualScssInput, URI(sourceContext), URI(sourceContext), options).css
             }
         } catch (e: Exception) {
             Clog.e("error compiling .{} content: {}", e, extension, e.message)

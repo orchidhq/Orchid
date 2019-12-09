@@ -14,7 +14,6 @@ class NetlifyCmsAdminPage(
 ) : OrchidPage(resource, "contentManager", "Orchid Content Manager") {
 
     override fun loadAssets() {
-        super.loadAssets()
         model.loadAssets(this)
     }
 

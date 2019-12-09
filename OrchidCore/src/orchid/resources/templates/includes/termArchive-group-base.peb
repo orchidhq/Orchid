@@ -1,19 +1,11 @@
-<div class="row">
-{% for page in page.pageList %}
-    <div class="col col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading clearfix">
-                <h4 class="panel-title pull-left">
-                    <a href="{{page.link}}" style="color: black;">{{page.title}}</a>
-                </h4>
-                {% if page.get("official") %}
-                    <span class="label label-primary pull-right">official</span>
-                {% endif %}
-            </div>
-            {% block cardBody %}
+<div class="columns is-multiline is-centered">
+{% for pageItem in page.pageList %}
+  <div class="column is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+    <div class="box">
+    {% block cardBody %}
 
-            {% endblock %}
-        </div>
+    {% endblock %}
     </div>
+  </div>
 {% endfor %}
 </div>

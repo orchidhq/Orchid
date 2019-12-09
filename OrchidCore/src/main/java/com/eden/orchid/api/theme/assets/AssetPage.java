@@ -39,7 +39,7 @@ public class AssetPage extends OrchidPage {
     }
 
     protected String renderAttrs() {
-        return CollectionsKt.joinToString(attrs.entrySet(), " ", "", "", -1, "...", entry -> "" + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        return CollectionsKt.joinToString(attrs.entrySet(), " ", " ", "", -1, "...", entry -> "" + entry.getKey() + "=\"" + entry.getValue() + "\"");
     }
 
     @Override

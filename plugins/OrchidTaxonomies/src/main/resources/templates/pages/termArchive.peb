@@ -1,4 +1,2 @@
-<div class="term-archive">
 {# @pebvariable name="page" type="com.eden.orchid.taxonomies.pages.TermArchivePage" #}
 {% include 'includes/basicTermArchive' with {'taxonomy': page.taxonomy, 'term': page.term, 'pages': page.pageList} %}
-</div>

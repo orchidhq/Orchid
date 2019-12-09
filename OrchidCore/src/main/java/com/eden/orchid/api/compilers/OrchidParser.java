@@ -4,6 +4,8 @@ import com.eden.orchid.api.registration.Prioritized;
 
 import java.util.Map;
 
+import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
+
 /**
  * A generic Parser used to convert structured text input into a usable JSONObject. Commonly used for extracting data
  * from configuration files or from blocks embedded within content files.
@@ -31,6 +33,9 @@ public abstract class OrchidParser extends Prioritized {
      */
     public OrchidParser(int priority) {
         super(priority);
+    }
+    public OrchidParser() {
+        super(DEFAULT_PRIORITY);
     }
 
     /**

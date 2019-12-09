@@ -2,14 +2,12 @@ package com.eden.orchid.api.indexing;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
-import com.eden.orchid.testhelpers.BaseOrchidTest;
+import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.HashSet;
+import static org.mockito.Mockito.mock;
 
-import static org.mockito.Mockito.*;
-
-public final class IndexServiceTest extends BaseOrchidTest {
+public final class IndexServiceTest implements OrchidUnitTest {
 
     private OrchidContext context;
     private IndexService underTest;
@@ -17,10 +15,9 @@ public final class IndexServiceTest extends BaseOrchidTest {
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
         // test the service directly
         context = mock(OrchidContext.class);
-        service = new IndexServiceImpl(new HashSet<>());
+        service = new IndexServiceImpl();
         service.initialize(context);
 
         // test that the default implementation is identical to the real implementation

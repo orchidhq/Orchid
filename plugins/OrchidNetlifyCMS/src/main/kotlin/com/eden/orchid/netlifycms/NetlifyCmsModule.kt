@@ -12,7 +12,7 @@ class NetlifyCmsModule : OrchidModule() {
     override fun configure() {
         withResources(20)
 
-        addToSet<OrchidGenerator, NetlifyCmsGenerator>()
+        addToSet<OrchidGenerator<*>, NetlifyCmsGenerator>()
         addToSet<OrchidController>(
                 NetlifyCmsApiController::class,
                 NetlifyCmsManageController::class)

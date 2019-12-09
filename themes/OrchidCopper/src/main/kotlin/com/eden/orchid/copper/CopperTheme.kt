@@ -8,12 +8,13 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
 
-@Description("A Bulma-based, any-purpose theme..", name="Copper")
+@Description("A Bulma-based, any-purpose theme.", name="Copper")
 class CopperTheme
 @Inject
-constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
+constructor(context: OrchidContext) : Theme(context, "Copper") {
 
     @Option
     @Description("Your social media links.")
@@ -27,7 +28,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Description("The color palette for your site, specified as the uppercased name of a color in the theme colors.")
     lateinit var palette: CopperThemePalette
 
-    @Option @StringDefault("assets/media/theme-logo.png")
+    @Option @StringDefault("assets/svg/orchid/logo_top_dark.svg")
     @Description("An asset to use the for sidebar logo.")
     lateinit var logo: String
 
@@ -51,6 +52,19 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
     @Description("The whether to add a shadow to the sidebar.")
     var sidebarShadow: Boolean = true
 
+    @Option
+    lateinit var navbarPrimaryButtonTitle: String
+    @Option
+    lateinit var navbarPrimaryButton: PageRelation
+
+    @Option
+    lateinit var navbarSecondaryButtonTitle: String
+    @Option
+    lateinit var navbarSecondaryButton: PageRelation
+
+    @Option @StringDefault("assets/svg/orchid/logo_left_dark.svg")
+    lateinit var navbarLogo: String
+
     override fun loadAssets() {
         addCss("assets/css/bulma.scss")
         addCss("assets/css/extraCss.scss")
@@ -58,8 +72,16 @@ constructor(context: OrchidContext) : Theme(context, "Copper", 100) {
         addCss("assets/css/bulma-accordion.min.css")
 
         addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js").apply { isDefer = true }
+        addJs("assets/js/bulma.js")
         addJs("assets/js/bulma-accordion.min.js")
         addJs("assets/js/bulma-tabs.js")
+    }
+
+    fun getLayoutConfig(layoutName: String, data: Map<String, Any>?): Any? {
+        return when(layoutName) {
+            "homepage" -> CopperHomepageLayoutConfig().also { it.extractOptions(context, data) }
+            else -> CopperSidebarLayoutConfig().also { it.extractOptions(context, data) }
+        }
     }
 }
 
@@ -171,5 +193,24 @@ enum class CopperThemeColorName(val variableName: String) {
 enum class CopperThemeSidebarBackgroundType {
 
     IMAGE, GRADIENT, SOLID
+
+}
+
+class CopperSidebarLayoutConfig : OptionsHolder {
+
+    @Option @BooleanDefault(true)
+    var wrapPageInBox: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var wrapTitleInBox: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var includeTitle: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var includeBreadcrumbs: Boolean = true
+}
+
+class CopperHomepageLayoutConfig : OptionsHolder {
 
 }

@@ -1,6 +1,8 @@
 package com.eden.orchid.html5up.futureimperfect
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.Theme
@@ -14,7 +16,14 @@ class FutureImperfectTheme
 @Inject
 constructor(
         context: OrchidContext
-) : Theme(context, "FutureImperfect", 100) {
+) : Theme(context, "FutureImperfect") {
+
+    companion object {
+        const val DEPRECATION_MESSAGE = "Editorial Theme configuration of search has been deprecated, and you should " +
+                "migrate to the `orchidSearch` or `algoliaDocsearch` meta-component config instead. Add " +
+                "`legacySearch: false` to your theme config to hide this warning and prevent the theme from adding " +
+                "these search scripts automatically."
+    }
 
     @Option
     @Description("Your social media links.")
@@ -28,6 +37,12 @@ constructor(
     @Description("Components to include in the sidebar on pages with non-single layouts.")
     lateinit var sidebar: ComponentHolder
 
+    @Option
+    @Description("Whether to use the legacy config for site search. NOTE: $DEPRECATION_MESSAGE")
+    @BooleanDefault(true)
+    @Deprecated(DEPRECATION_MESSAGE)
+    var legacySearch: Boolean = true
+
     override fun loadAssets() {
         addCss("assets/css/futureImperfect_main.scss")
         addCss("assets/css/futureImperfect_orchidCustomizations.scss")
@@ -38,12 +53,15 @@ constructor(
         addJs("assets/js/futureImperfect_util.js")
         addJs("assets/js/futureImperfect_main.js")
 
-        addJs("https://unpkg.com/lunr/lunr.js")
-        addJs("assets/js/orchidSearch.js")
+        if(legacySearch) {
+            Clog.w(DEPRECATION_MESSAGE)
+            addJs("https://unpkg.com/lunr/lunr.js")
+            addJs("assets/js/orchidSearch.js")
+        }
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
-        return arrayOf(sidebar)
+        return super.getComponentHolders() + arrayOf(sidebar)
     }
 
 }

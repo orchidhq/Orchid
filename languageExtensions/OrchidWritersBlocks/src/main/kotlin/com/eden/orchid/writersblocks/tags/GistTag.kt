@@ -3,14 +3,9 @@ package com.eden.orchid.writersblocks.tags
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import javax.inject.Inject
 
 @Description("Embed a Github Gist in your page.", name = "Github Gist")
-class GistTag
-@Inject
-constructor(
-
-) : TemplateTag("gist", TemplateTag.Type.Simple, true) {
+class GistTag : TemplateTag("gist", Type.Simple, true) {
 
     @Option
     @Description("The Github username who owns the Gist.")

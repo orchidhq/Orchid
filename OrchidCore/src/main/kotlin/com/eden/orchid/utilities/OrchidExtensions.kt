@@ -35,16 +35,17 @@ fun String?.wrap(width: Int = 80): List<String> {
     return matchList
 }
 
-fun String.logSyntaxError(extension: String, lineNumber: Int, errorMessage: String = "") {
+fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColumn: Int?, errorMessage: String? = "") {
+    val lineNumber = lineNumberNullable ?: 0
     val lines = this.lines()
-    val linesBefore_start = Math.max(lineNumber - 3, 0)
-    val linesBefore_end = Math.max(lineNumber - 1, 0)
-    val linesAfter_start = lineNumber
-    val linesAfter_end = Math.min(lineNumber + 5, lines.size)
+    val linesBeforeStart = Math.max(lineNumber - 3, 0)
+    val linesBeforeEnd = Math.max(lineNumber - 1, 0)
+    val linesAfterStart = lineNumber
+    val linesAfterEnd = Math.min(lineNumber + 5, lines.size)
 
-    val linesBefore = lines.subList(linesBefore_start, linesBefore_end)
-    val errorLine = lines.get(linesBefore_end)
-    val linesAfter = lines.subList(linesAfter_start, linesAfter_end)
+    val linesBefore = lines.subList(linesBeforeStart, linesBeforeEnd)
+    val errorLine = lines.get(linesBeforeEnd)
+    val linesAfter = lines.subList(linesAfterStart, linesAfterEnd)
 
     var templateSnippet = ".{} Syntax Error: {} (see source below)"
     templateSnippet += "\n   |" + linesBefore.joinToString("\n   |")
@@ -116,18 +117,19 @@ fun String.dashCase(mapper: String.() -> String): Array<String> {
 
 fun String.filename(): Array<String> {
     return this
-            .words()
-            .flatMap {
-                it.dashCase().toList()
-            }
-            .flatMap {
-                it.snakeCase().toList()
-            }
-            .flatMap {
-                it.camelCase().toList()
-            }
-            .toTypedArray()
+        .words()
+        .flatMap {
+            it.dashCase().toList()
+        }
+        .flatMap {
+            it.snakeCase().toList()
+        }
+        .flatMap {
+            it.camelCase().toList()
+        }
+        .toTypedArray()
 }
+
 fun String.filename(mapper: String.() -> String): Array<String> {
     return filename().with(mapper)
 }
@@ -254,10 +256,13 @@ inline fun <reified T : Any> OrchidContext.resolve(): T {
     return this.resolve(T::class.java)
 }
 
+inline fun <reified T : Any> OrchidContext.resolve(named: String): T {
+    return this.resolve(T::class.java, named)
+}
+
 inline fun <reified T : Any> OrchidContext.resolveSet(): Set<T> {
     return this.resolveSet(T::class.java)
 }
-
 
 fun Number.makeMillisReadable(): String {
     val lMillis = this.toDouble()

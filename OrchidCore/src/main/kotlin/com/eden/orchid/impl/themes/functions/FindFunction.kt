@@ -5,12 +5,10 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.indexing.IndexService
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-
-import javax.inject.Inject
+import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Lookup a Page object by a query.", name = "Find")
-class FindFunction @Inject
-constructor(val context: OrchidContext) : TemplateFunction("find", false) {
+class FindFunction : TemplateFunction("find", false) {
 
     @Option
     @Description("The Id of an item to look up.")
@@ -28,7 +26,7 @@ constructor(val context: OrchidContext) : TemplateFunction("find", false) {
         return IndexService.locateParams
     }
 
-    override fun apply(): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.find(collectionType, collectionId, itemId)
     }
 }

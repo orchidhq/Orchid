@@ -281,9 +281,7 @@ public final class OrchidReference {
 
             if (!usePrettyUrl && !EdenUtils.isEmpty(getOutputExtension())) {
                 output += ".";
-                if (!EdenUtils.isEmpty(extension)) {
-                    output += extension;
-                }
+                output += getOutputExtension();
             }
         }
 

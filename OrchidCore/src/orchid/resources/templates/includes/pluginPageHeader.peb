@@ -1,0 +1,53 @@
+<div style="position: relative; margin-top: 60px; margin-bottom: 60px;">
+
+  <h1 class="is-size-1 title">{{ page.title }}</h1>
+  <p class="is-size-5 subtitle">{{ page.description }}</p>
+
+  {# desktop stuff #}
+  <div class="is-hidden-touch" style="position: absolute; top: 20px; right: 20px;">
+    <div>
+      <a href="https://github.com/{{ githubRepo | default('orchidhq/orchid') }}">
+        <i class="fab fa-github" aria-hidden="true"></i>
+        <span>{{ githubRepo | default('orchidhq/orchid') }}</span>
+      </a>
+    </div>
+    {% if siteUrl is not empty %}
+      <a href="{{ page.siteUrl }}" style="margin-right: 12px; white-space: nowrap">
+        <i class="fas fa-external-link-alt"></i>
+        <span>Visit site</span>
+      </a>
+    {% endif %}
+    <div>
+      <a href="https://github.com/orchidhq/orchid/edit/docs/OrchidCore/src/orchid/resources/{{ page.resource.reference.originalFullFilename }}">
+        <i class="fas fa-edit" aria-hidden="true"></i>
+        <span>Edit this page</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tags">
+  {% for tag in page.tags %}
+    <span class="tag {{ (tag == 'official') ? 'is-primary' : 'is-light' }}">{{ tag }}</span>
+  {% endfor %}
+  </div>
+
+  {# mobile sepcific stuff #}
+  <div class="is-hidden-desktop">
+    <a href="https://github.com/{{ githubRepo | default('orchidhq/orchid') }}" style="margin-right: 12px; white-space: nowrap">
+      <i class="fab fa-github" aria-hidden="true"></i>
+      <span>{{ githubRepo | default('orchidhq/orchid') }}</span>
+    </a>
+    {% if siteUrl is not empty %}
+      <a href="{{ page.siteUrl }}" style="margin-right: 12px; white-space: nowrap">
+        <i class="fas fa-external-link-alt"></i>
+        <span>Visit site</span>
+      </a>
+    {% endif %}
+    <a href="https://github.com/orchidhq/orchid/edit/docs/OrchidCore/src/orchid/resources/{{ page.resource.reference.originalFullFilename }}" style="margin-right: 12px; white-space: nowrap">
+      <i class="fas fa-edit" aria-hidden="true"></i>
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+  <hr>
+</div>

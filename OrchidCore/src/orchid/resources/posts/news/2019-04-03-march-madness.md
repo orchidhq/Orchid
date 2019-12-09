@@ -1,8 +1,8 @@
 ---
 title: 'March 2019 Update: March Madness'
-description: March 2019 Monthly Orchid Update
+description: March 2019 Orchid News
 tags: 
-  - Monthly Orchid Update
+  - Orchid News
 ---
 
 I love watching basketball, which makes March one of the best months of the year as the NCAA National Championship, March Madness, takes place. My top pick, Michigan State, has already defeated Duke and is well on their way to becoming the National Champions!
@@ -19,9 +19,9 @@ Thank you all so much, I certainly could not keep working this hard without your
 
 ## Contributions
 
-- [@alejandrohdezma](https://github.com/alejandrohdezma) helped out to fix a bug using the wrong FontAwesome icon ([#239](https://github.com/JavaEden/Orchid/pull/239))
-- [@ Sumo99](https://github.com/Sumo99) got rid of the last of Lombok, paving the way for a pure-Kotlin future! They also helped remove Google Plus social links now that the service is officially dea. ([#243](https://github.com/JavaEden/Orchid/pull/243) and [#249](https://github.com/JavaEden/Orchid/pull/249))
-- [@ dkowis](https://github.com/dkowis) fixed a broken documentation link ([#252](https://github.com/JavaEden/Orchid/pull/252))
+- [@alejandrohdezma](https://github.com/alejandrohdezma) helped out to fix a bug using the wrong FontAwesome icon ([#239](https://github.com/orchidhq/orchid/pull/239))
+- [@ Sumo99](https://github.com/Sumo99) got rid of the last of Lombok, paving the way for a pure-Kotlin future! They also helped remove Google Plus social links now that the service is officially dea. ([#243](https://github.com/orchidhq/orchid/pull/243) and [#249](https://github.com/orchidhq/orchid/pull/249))
+- [@ dkowis](https://github.com/dkowis) fixed a broken documentation link ([#252](https://github.com/orchidhq/orchid/pull/252))
 
 ## 4x Downloads Increase
 
@@ -37,11 +37,11 @@ Meanwhile, The 31-day period ending March 31st saw more than 2600 downloads! And
 
 ![March downloads](https://thepracticaldev.s3.amazonaws.com/i/pk0bsb0byg2d857xetng.png)
 
-All of these statistics are freely available on Bintray, [go here](https://bintray.com/beta/#/javaeden/Orchid/OrchidCore?tab=statistics) to check it out for yourself.
+All of these statistics are freely available on Bintray, [go here](https://bintray.com/beta/#/orchidhq/orchid/OrchidCore?tab=statistics) to check it out for yourself.
 
 # What's New?
 
-Orchid is currently at version [0.16.7](https://github.com/JavaEden/Orchid/releases/tag/0.16.7). There have been no major changes since last month, mostly just a series of bugfixes on the Copper theme and minor usability improvements.
+Orchid is currently at version [0.16.7](https://github.com/orchidhq/orchid/releases/tag/0.16.7). There have been no major changes since last month, mostly just a series of bugfixes on the Copper theme and minor usability improvements.
 
 # Coming Soon
 
@@ -51,7 +51,7 @@ Orchid's docs are getting a reboot! When I started work on Orchid, Bootstrap was
 
 And so, I've been building the "Copper" theme, based on Bulma, to serve as the home for all of Orchid's own documentation, and also of its supplemental libraries. Here's a preview:
 
-[![New Docs](https://thepracticaldev.s3.amazonaws.com/i/svynj5ko32iwvpgfuuo4.png)](https://new-docs--orchid.netlify.com/)
+[![New Docs](https://thepracticaldev.s3.amazonaws.com/i/svynj5ko32iwvpgfuuo4.png)](https://orchid.run/)
 
 Also coming with the new theme will be a major overhaul in the _content_ on the docs site, as I continue to iterate upon the docs and figure out the best way to present the information to you. 
 
@@ -72,13 +72,13 @@ However, I am currently looking for more skilled help with a couple specific are
 
 - I'm looking for people who currently use the features of the git platforms I'm imtegrating with, to help build their integrations:
     - GitLab
-        - [Wiki adapter](https://github.com/JavaEden/Orchid/blob/features/integrations/integrations/OrchidGitlab/src/main/kotlin/com/eden/orchid/gitlab/wiki/GitlabWikiAdapter.kt)
-        - [GitLab Pages Publisher](https://github.com/JavaEden/Orchid/blob/features/integrations/integrations/OrchidGitlab/src/main/kotlin/com/eden/orchid/gitlab/publication/GitlabPagesPublisher.kt)
+        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidGitlab/src/main/kotlin/com/eden/orchid/gitlab/wiki/GitlabWikiAdapter.kt)
+        - [GitLab Pages Publisher](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidGitlab/src/main/kotlin/com/eden/orchid/gitlab/publication/GitlabPagesPublisher.kt)
     - Bitbucket
-        - [Wiki adapter](https://github.com/JavaEden/Orchid/blob/features/integrations/integrations/OrchidBitbucket/src/main/kotlin/com/eden/orchid/bitbucket/wiki/BitbucketWikiAdapter.kt)
-        - [Bitbucket Cloud Publisher](https://github.com/JavaEden/Orchid/blob/features/integrations/integrations/OrchidBitbucket/src/main/kotlin/com/eden/orchid/bitbucket/publication/BitbucketCloudPublisher.kt)
+        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidBitbucket/src/main/kotlin/com/eden/orchid/bitbucket/wiki/BitbucketWikiAdapter.kt)
+        - [Bitbucket Cloud Publisher](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidBitbucket/src/main/kotlin/com/eden/orchid/bitbucket/publication/BitbucketCloudPublisher.kt)
     - Azure DevOps
-        - [Wiki adapter](https://github.com/JavaEden/Orchid/blob/features/integrations/integrations/OrchidAzure/src/main/kotlin/com/eden/orchid/azure/wiki/AzureWikiAdapter.kt)
+        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidAzure/src/main/kotlin/com/eden/orchid/azure/wiki/AzureWikiAdapter.kt)
 
 I would also love the help of a designer to make a really great home page and a new logo for Orchid.
 

@@ -1,74 +1,92 @@
 site:
   about:
     siteName: Orchid
-    siteDescription: A beautiful and truly unique documentation engine and static site generator.
+    siteDescription: Build and deploy beautiful documentation sites that grow with you
     avatar: 'assets/media/avatar.jpg'
 
 theme:
-  useSidebarSearch: true
   social:
     other:
-      - link: 'https://orchid.netlify.com/'
+      - link: '/'
         label: 'Home'
         icon: 'fas fa-home'
-      - link: 'https://github.com/JavaEden/Orchid'
+      - link: 'https://github.com/orchidhq/orchid'
         label: 'Github'
         icon: 'fab fa-github'
       - link: 'https://twitter.com/OrchidSSG'
         label: 'Twitter'
         icon: 'fab fa-twitter'
+      - link: 'https://gitter.im/JavaEden/Orchid'
+        label: 'Gitter'
+        icon: 'fab fa-gitter'
   primaryColor: '#7E80CF'
   bannerColor: '#444444'
   linkColor: '#7E80CF'
-  trianglifyOptions:
-    x_colors: 'BuPu'
-    cell_size: 55
-    seed: 1
+
   menu:
     - type: 'page'
-      itemId: 'Quick-Start'
-      title: 'Get Started'
-    - type: 'wikiSections'
-    - type: 'submenu'
-      title: 'Explore'
-      menu:
-        - type: 'taxonomy'
-          taxonomyType: 'group'
-          includeTerms: true
-          termsAtRoot: true
-        - type: 'page'
-          title: 'API Docs'
-          itemId: 'com.eden.orchid'
-        - type: 'page'
-          title: 'Changelog'
-          itemId: 'Changelog'
-    - type: 'latestPosts'
-      limit: 3
-      title: 'News'
+      collectionType: 'taxonomies'
+      itemId: 'plugins'
+    - type: 'page'
+      collectionType: 'taxonomies'
+      itemId: 'themes'
+    - type: 'page'
+      itemId: 'Tutorials'
+    - type: 'page'
+      collectionType: 'taxonomies'
+      itemId: 'Showcase'
+  navbarPrimaryButtonTitle: 'Quick Start'
+  navbarPrimaryButton: 'Quick-Start'
+  navbarSecondaryButtonTitle: 'Documentation'
+  navbarSecondaryButton: 'Getting Started'
+
+  sidebarBackground: 'black'
+  sidebarBackgroundType: GRADIENT
+  sidebarShadow: false
+  useBackgroundTexture: false
+  colors:
+    purple: '#7E83C4'
+    green: '#7EB394'
+    black: '#444444'
+  palette:
+    primary: 'PURPLE'
+    link: 'PURPLE'
+    secondary: 'GREEN'
+    linkVisited: 'GREEN'
+
   extraCss:
+    - 'assets/css/plugins.scss'
     - 'assets/css/extras.scss'
-
-services:
-  publications:
-    stages:
-      - type: githubReleases
-        repo: 'JavaEden/Orchid'
-        commitish: 'master'
-
-allPages:
-  extraCss:
-    - "inline:sidecar.css: .gitter-chat-embed { margin-top: 50px; }"
   extraJs:
-    - "inline:sidecar.js:((window.gitter = { }).chat = { }).options = { room: 'JavaEden/Orchid' }; "
-    - "https://sidecar.gitter.im/dist/sidecar.v1.js"
-  components:
-    - type: "pageContent"
+    - "assets/js/simpleFilter.js"
+  metaComponents:
     - type: "prism"
-      githubTheme: 'duotone-light'
+      scriptsOnly: 'true'
       languages:
+        - 'clike'
+        - 'markup-templating'
         - kotlin
         - java
         - groovy
         - yaml
         - asciidoc
         - markdown
+        - twig
+      extraCss:
+        - 'assets/css/prism-duotone.css'
+    - type: "algoliaDocsearch"
+      apiKey: 'f597b0a7c1080757a60853addd344aaf'
+      indexName: 'orchid'
+
+services:
+  publications:
+    stages:
+      - type: githubReleases
+        repo: 'orchidhq/orchid'
+        commitish: 'master'
+
+allPages:
+  layoutConfig:
+  #  sidebarSize: ONE_THIRD
+#    sidebarSize: ONE_QUARTER
+    sidebarSize: ONE_FIFTH

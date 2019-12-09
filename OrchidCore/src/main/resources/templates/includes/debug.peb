@@ -13,7 +13,7 @@
 <!-- Layout: {{ page.getPossibleLayouts() | join(', ') }} -->
 <!-- Resolved Layout: {{ page.resolveLayout().reference.originalFullFilename }} -->
 <!-- Page Template: {{ page.getPossibleTemplates() | join(', ') }} -->
-<!-- Resolved Page Template: {{ page.getPossibleTemplates().reference.originalFullFilename }} -->
+<!-- Resolved Page Template: {{ page.resolveTemplate().reference.originalFullFilename }} -->
 
 <!-- RESOURCE -->
 <!-- Class: {{ page.resource.class.name }} -->

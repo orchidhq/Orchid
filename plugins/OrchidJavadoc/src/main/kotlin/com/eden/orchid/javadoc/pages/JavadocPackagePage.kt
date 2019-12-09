@@ -18,6 +18,9 @@ class JavadocPackagePage(
 
     val innerPackages: MutableList<JavadocPackagePage> = ArrayList()
 
+    override val itemIds: List<String>
+        get() = listOf(packageDoc.qualifiedName)
+
     fun hasInterfaces(): Boolean {
         return classes.any { it.classDoc.kind == "interface" }
     }

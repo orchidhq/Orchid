@@ -1,5 +1,6 @@
 package com.eden.orchid.api.compilers;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.server.annotations.Extensible;
@@ -20,13 +21,11 @@ public abstract class TemplateFunction implements OptionsHolder {
 
     protected final boolean isSafeString;
 
-    protected OrchidPage page;
-
     /**
      * Initialize the Function with the name which it should be called with in the template., and whether Whether this
      * Function returns "safe" HTML that should not be escaped by default. For filters that return anything other than a
      * String, `isSafe` should always be false. The actual implementation of a Function should have a single constructor
-     * annotated with {@link javax.inject.Inject }.
+     * annotated with {@link javax.inject.Inject}.
      *
      * @param name the name which to call this Function
      */
@@ -46,8 +45,9 @@ public abstract class TemplateFunction implements OptionsHolder {
      * Apply the filter or function here, returning the created or modified data.
      *
      * @return the result
+     * @param context
      */
-    public abstract Object apply();
+    public abstract Object apply(OrchidContext context, OrchidPage page);
 
     public String getName() {
         return this.name;
@@ -57,11 +57,4 @@ public abstract class TemplateFunction implements OptionsHolder {
         return this.isSafeString;
     }
 
-    public OrchidPage getPage() {
-        return this.page;
-    }
-
-    public void setPage(OrchidPage page) {
-        this.page = page;
-    }
 }

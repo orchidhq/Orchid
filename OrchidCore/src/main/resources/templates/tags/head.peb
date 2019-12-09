@@ -43,4 +43,7 @@
 {% include 'includes/debug' %}
 {% endif %}
 
+{% include 'includes/componentHolder' with {"componentHolder": theme.metaComponents} %}
+{% include 'includes/componentHolder' with {"componentHolder": page.metaComponents} %}
+
 {% include '?meta' %}

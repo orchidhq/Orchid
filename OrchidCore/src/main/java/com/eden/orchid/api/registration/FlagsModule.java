@@ -2,13 +2,12 @@ package com.eden.orchid.api.registration;
 
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.google.inject.AbstractModule;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @IgnoreModule
-public class FlagsModule extends AbstractModule {
+public class FlagsModule extends OrchidModule {
 
     private Map<String, Object> flagsMap;
 

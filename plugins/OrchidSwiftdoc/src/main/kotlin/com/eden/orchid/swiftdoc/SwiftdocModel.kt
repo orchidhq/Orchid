@@ -1,5 +1,6 @@
 package com.eden.orchid.swiftdoc
 
+import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.swiftdoc.page.SwiftdocSourcePage
 import com.eden.orchid.swiftdoc.page.SwiftdocStatementPage
@@ -11,46 +12,52 @@ import com.eden.orchid.swiftdoc.swift.statements.SwiftGlobal
 import com.eden.orchid.swiftdoc.swift.statements.SwiftProtocol
 import com.eden.orchid.swiftdoc.swift.statements.SwiftStruct
 import com.eden.orchid.swiftdoc.swift.statements.SwiftTypealias
-import javax.inject.Singleton
 
-@Singleton
-class SwiftdocModel {
+class SwiftdocModel(
+    val allStatements: List<SwiftStatement>,
+    val pages: List<SwiftdocSourcePage>,
+    val statementPages: List<SwiftdocStatementPage>
+) : OrchidGenerator.Model {
 
-    val allStatements = ArrayList<SwiftStatement>()
-    val pages = ArrayList<SwiftdocSourcePage>()
-    val statementPages = ArrayList<SwiftdocStatementPage>()
+    override val allPages: List<OrchidPage>
+        get() = listOf(
+            *pages.toTypedArray(),
+            *statementPages.toTypedArray()
+        )
 
-    fun initialize() {
-        allStatements.clear()
-        pages.clear()
-        statementPages.clear()
-    }
-
-    fun getAllPages(): List<OrchidPage> {
-        val allPages = ArrayList<OrchidPage>()
-        allPages.addAll(pages)
-        allPages.addAll(statementPages)
-        return allPages
-    }
-
-    val classPages:    List<SwiftdocStatementPage> get() { return statementPages.filter { it.statement is SwiftClass    } }
-    val enumPages:     List<SwiftdocStatementPage> get() { return statementPages.filter { it.statement is SwiftEnum     } }
-    val globalPages:   List<SwiftdocStatementPage> get() { return statementPages.filter { it.statement is SwiftGlobal   } }
-    val protocolPages: List<SwiftdocStatementPage> get() { return statementPages.filter { it.statement is SwiftProtocol } }
-    val structPages:   List<SwiftdocStatementPage> get() { return statementPages.filter { it.statement is SwiftStruct   } }
+    val classPages: List<SwiftdocStatementPage>
+        get() {
+            return statementPages.filter { it.statement is SwiftClass }
+        }
+    val enumPages: List<SwiftdocStatementPage>
+        get() {
+            return statementPages.filter { it.statement is SwiftEnum }
+        }
+    val globalPages: List<SwiftdocStatementPage>
+        get() {
+            return statementPages.filter { it.statement is SwiftGlobal }
+        }
+    val protocolPages: List<SwiftdocStatementPage>
+        get() {
+            return statementPages.filter { it.statement is SwiftProtocol }
+        }
+    val structPages: List<SwiftdocStatementPage>
+        get() {
+            return statementPages.filter { it.statement is SwiftStruct }
+        }
 
     fun extensionsFor(statement: SwiftStatement): List<SwiftExtension> {
         return allStatements
-                .filter { it is SwiftExtension }
-                .map { it as SwiftExtension }
-                .filter { it.name == statement.name }
+            .filter { it is SwiftExtension }
+            .map { it as SwiftExtension }
+            .filter { it.name == statement.name }
     }
 
     fun aliasesFor(statement: SwiftStatement): List<SwiftTypealias> {
         return allStatements
-                .filter { it is SwiftTypealias }
-                .map { it as SwiftTypealias }
-                .filter { it.target == statement.name }
+            .filter { it is SwiftTypealias }
+            .map { it as SwiftTypealias }
+            .filter { it.target == statement.name }
     }
 
 }
