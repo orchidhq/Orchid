@@ -16,7 +16,8 @@ and supports full-text search from the {{ anchor('OrchidSearch') }} plugin.
 
 No matter which language you are using, its usage is all identical as it is provided by this base plugin.
 
-The following languages are currently supported:
+The following languages are currently supported (note: you need to include the plugins for the languages you wish to 
+document):
 
 - {{ anchor('Java', 'OrchidJavadoc') }}
 - {{ anchor('Kotlin', 'OrchidKotlindoc') }}
