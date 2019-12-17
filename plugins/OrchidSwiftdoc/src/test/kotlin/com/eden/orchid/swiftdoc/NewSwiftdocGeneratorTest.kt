@@ -22,7 +22,8 @@ class NewSwiftdocGeneratorTest : OrchidIntegrationTest(SwiftdocModule(), SourceD
             "swiftdoc",
             """
             |{
-            |    "sourceDirs": "mockSwift"
+            |    "sourceDirs": "mockSwift",
+            |    "showRunnerLogs": true
             |}
             |""".trimMargin()
         )

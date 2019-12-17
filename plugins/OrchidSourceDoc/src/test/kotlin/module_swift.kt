@@ -12,7 +12,7 @@ fun OrchidIntegrationTest.swiftdocSetup(showRunnerLogs: Boolean = false) {
         NewSwiftdocGenerator.type,
         NewSwiftdocGenerator.nodeKinds,
         NewSwiftdocGenerator.otherSourceKinds,
-        showRunnerLogs
+        true
     )
 }
 
@@ -22,7 +22,7 @@ fun OrchidIntegrationTest.swiftdocSetup(modules: List<String>, showRunnerLogs: B
         NewSwiftdocGenerator.nodeKinds,
         NewSwiftdocGenerator.otherSourceKinds,
         modules,
-        showRunnerLogs
+        true
     )
 }
 
