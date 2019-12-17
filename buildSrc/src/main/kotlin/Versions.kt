@@ -16,7 +16,7 @@ object Versions {
 
     const val org_junit_jupiter: String = "5.5.2"
 
-    const val com_eden_kodiak: String = "0.4.2"
+    const val com_eden_kodiak: String = "0.4.3"
 
     const val org_nanohttpd: String = "2.3.1"
 
