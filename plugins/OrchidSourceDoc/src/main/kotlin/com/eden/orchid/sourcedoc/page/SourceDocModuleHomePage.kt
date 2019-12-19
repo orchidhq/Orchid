@@ -9,6 +9,7 @@ class SourceDocModuleHomePage(
     moduleType: String,
     moduleGroup: String,
     module: String,
+    moduleSlug: String,
     val roots: List<String>
 ) : BaseSourceDocPage(
     resource,
@@ -16,7 +17,8 @@ class SourceDocModuleHomePage(
     title,
     moduleType,
     moduleGroup,
-    module
+    module,
+    moduleSlug
 ) {
 
     override fun getTemplates(): List<String> {

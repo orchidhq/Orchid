@@ -3,7 +3,7 @@
 
 [![Linux and Mac Build Status](https://travis-ci.org/orchidhq/orchid.svg?branch=dev "Linux and Mac Build Status")](https://travis-ci.org/orchidhq/orchid)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev)
-[![Current Version](https://api.bintray.com/packages/orchidhq/orchid/OrchidCore/images/download.svg "Current Version") ](https://bintray.com/orchidhq/orchid/OrchidCore/_latestVersion)
+[![Current Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg "Current Version") ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
 [![License: LGPL-3.0](https://img.shields.io/badge/License-LGPL%20v3-blue.svg "Licensed under LGPL-3.0")](http://www.gnu.org/licenses/lgpl-3.0)
 [![Codacy Grade](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1 "Codacy Grade")](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=orchidhq/orchid&amp;utm_campaign=Badge_Grade)
 [![Codacy Coverage](https://api.codacy.com/project/badge/Coverage/8bca7e84b6094c03ae1316278cf63ae1 "Codacy Coverage")](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&utm_medium=referral&utm_content=orchidhq/orchid&utm_campaign=Badge_Coverage)

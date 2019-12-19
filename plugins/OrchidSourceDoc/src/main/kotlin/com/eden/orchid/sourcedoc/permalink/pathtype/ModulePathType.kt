@@ -1,5 +1,6 @@
 package com.eden.orchid.sourcedoc.permalink.pathtype
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.sourcedoc.page.BaseSourceDocPage
@@ -15,7 +16,7 @@ constructor() : PermalinkPathType() {
 
     override fun format(page: OrchidPage, key: String): String? {
         if (page is BaseSourceDocPage) {
-            return page.module
+            return page.moduleSlug.takeIf { it.isNotBlank() } ?: page.module
         }
 
         return null

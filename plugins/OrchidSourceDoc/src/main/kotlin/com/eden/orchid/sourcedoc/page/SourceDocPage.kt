@@ -12,14 +12,16 @@ class SourceDocPage<T : DocElement>(
     title: String,
     moduleType: String,
     moduleGroup: String,
-    module: String
+    module: String,
+    moduleSlug: String
 ) : BaseSourceDocPage(
     resource,
     key,
     title,
     moduleType,
     moduleGroup,
-    module
+    module,
+    moduleSlug
 ) {
 
     override val itemIds = listOf(element.id, element.name)

@@ -1,12 +1,13 @@
 ---
-title: 'Fall 2019 Update: Hacktoberfest, 0.18.0 Release'
+title: '0.18.0, The New Face of Orchid'
 description: Fall 2019 Orchid News
 tags: 
   - Orchid News
 ---
 
 It's. Finally. Here. I've been working on and teasing a new major version of Orchid for several months, and it's finally
-available! Oh, and Hacktoberfest was really great for Orchid too, as it always is.
+available! This release represents a major step in the maturity of Orchid, coming alongside the move to a new GitHub
+organization, a completely redesigned website, and a brand new logo!
 
 This is the official Orchid newsletter, the newest and best documentation site generator. There is a growing need to 
 keep the community up-to-date on all the happenings around Orchid, and here I will share Orchid's progress, milestones, 
@@ -15,7 +16,7 @@ and see who's using Orchid!
 
 ## On Github
 
-As of the time of writing, Orchid is at 278 stars on Github, thank you so much for all the support! 
+As of the time of writing, Orchid is at 279 stars on Github, thank you so much for all the support! 
 
 Since the last update, Orchid has had several contributions, especially during Hacktoberfest, so a special thanks goes 
 out to the following individuals for their help improving this project:

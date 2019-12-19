@@ -58,11 +58,9 @@
 
   <div class="content is-large has-text-centered">
     <p>
-    Orchid is a framework for generating project documentation websites, with all the bells-and-thistles you need to go
-    with it. Orchid lets you publish your all wikis, changelogs, blogs, code comments, and more with one centralized workflow.
-    </p>
-    <p>
-      We'll even deploy it for you to, so you can stop fussing over tooling, and focus on your project.
+    Orchid is a framework for generating project documentation websites with all the bells-and-thistles. Orchid lets you
+    publish all your wikis, changelogs, blogs, code comments and more. We'll even deploy it for you too, so you can stop
+    fussing over tooling and focus on your project.
     </p>
   </div>
 

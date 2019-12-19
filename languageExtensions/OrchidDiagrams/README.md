@@ -290,3 +290,17 @@ The following tags are supported by Orchid and PlantUML:
 - `@startmath/@endmath`
 - `@startlatex/@endlatex`
 - `@startgantt/@endgantt`
+
+### Mermaid JS
+
+In addition to prerendered diagrams with PlantUML, you can add Mermaid JS diagrams to be rendered directly in the
+browser. Add the `mermaid` meta-component to your theme to add the necessary scripts to your site. By default, Markdown
+code snippets with the `mermaid` language are converted to Mermaid diagrams, but you can customize the selector.
+
+```yaml
+# config.yml
+theme:
+    metaComponents:
+        - type: mermaid
+          selector: '.mermaid' # optional
+```
