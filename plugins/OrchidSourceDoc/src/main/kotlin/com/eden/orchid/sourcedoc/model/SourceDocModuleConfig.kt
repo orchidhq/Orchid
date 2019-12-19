@@ -20,6 +20,10 @@ abstract class SourceDocModuleConfig(val moduleType: String) : OptionsHolder {
     lateinit var name: String
 
     @Option
+    @Description("The slug of this module.")
+    lateinit var slug: String
+
+    @Option
     @Description("An optional name to group sets of modules by.")
     lateinit var moduleGroup: String
 

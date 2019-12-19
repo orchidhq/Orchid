@@ -74,7 +74,7 @@ class ReftaggerComponent : OrchidComponent("reftagger", true) {
     lateinit var excludeClasses: List<String>
 
     override fun loadAssets() {
-        addJs("assets/js/reftagger.js")
+        addJs("assets/js/reftagger.js").apply { inlined() }
     }
 
     fun excludeTagsFormatted() = excludeTags.joinToString { "\"$it\"" }

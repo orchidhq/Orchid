@@ -125,7 +125,8 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                             element.name,
                             key,
                             config.moduleGroup,
-                            config.name
+                            config.name,
+                            config.slug
                         ).also { permalinkStrategy.applyPermalink(it, config.sourcePagePermalink) }
                     }
 
@@ -134,7 +135,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             } ?: emptyMap()
         }
 
-        val moduleHomePage = setupModuleHomepage(context, invokerModel, config, config.name, config.name)
+        val moduleHomePage = setupModuleHomepage(context, invokerModel, config, config.name, config.slug, config.name)
 
         modelPageMap.values.flatten().forEach { it.parent = moduleHomePage }
 
@@ -152,6 +153,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         module: T?,
         config: U,
         moduleName: String,
+        moduleSlug: String,
         moduleTitle: String
     ): SourceDocModuleHomePage {
         var readmeFile: OrchidResource? = null
@@ -184,6 +186,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             key,
             config.moduleGroup,
             moduleName,
+            moduleSlug,
             module?.roots()?.map { it.id } ?: emptyList()
         ).also { permalinkStrategy.applyPermalink(it, config.homePagePermalink) }
     }

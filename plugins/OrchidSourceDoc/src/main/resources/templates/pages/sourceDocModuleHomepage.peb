@@ -1,8 +1,10 @@
 {{ page.content | raw }}
 
+{% if page.roots is not empty %}
 <p><b>Roots:</b></p>
 <ul>
 {%- for root in page.roots %}
   <li>{{ anchor(root) }}</li>
 {% endfor %}
 </ul>
+{% endif %}

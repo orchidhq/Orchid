@@ -27,7 +27,6 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         testCss()
         testPageStructure()
         addPageMenus()
-        enableLogging()
     }
 
 // Tests
@@ -110,7 +109,6 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     fun `Single-module Swift`() {
         swiftdocSetup()
         execute(withGenerator<NewSwiftdocGenerator>())
-            .printResults()
             .asExpected()
             .withDefaultSourcedocPages()
             .assertSwiftPages()
@@ -124,7 +122,6 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     fun `Multi-module Swift`() {
         swiftdocSetup(modules)
         execute(withGenerator<NewSwiftdocGenerator>())
-            .printResults()
             .asExpected()
             .withDefaultSourcedocPages()
             .assertSwiftPages(modules)
@@ -150,7 +147,6 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
                 .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
                 .toTypedArray()
         )
-            .printResults()
             .asExpected()
             .withDefaultSourcedocPages()
             .assertJavaPages()
@@ -181,7 +177,6 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         }
 
         execute(*generators.toTypedArray())
-            .printResults()
             .asExpected()
             .withDefaultSourcedocPages()
             .assertJavaPages(modules)
