@@ -16,16 +16,24 @@ import org.json.JSONObject
 @Archetype(value = ConfigArchetype::class, key = "${ChangelogGenerator.GENERATOR_KEY}.allVersions")
 class ChangelogVersion(
     context: OrchidContext,
-    val versionFormat: String,
-    val versionFilename: String,
-    val resource: OrchidResource
+    private val versionFormat: String,
+    private val versionName: String,
+    private val versionReleaseDate: String?,
+    private val resource: OrchidResource
 ) : OptionsHolder {
 
     @Option
     @Description("The name of the version")
-    var version: String = versionFilename
+    var version: String = versionName
         get() {
-            return if (!EdenUtils.isEmpty(field)) field else versionFilename
+            return if (!EdenUtils.isEmpty(field)) field else versionName
+        }
+
+    @Option
+    @Description("The release date of this version")
+    var releaseDate: String? = versionReleaseDate
+        get() {
+            return if (!EdenUtils.isEmpty(field)) field else versionReleaseDate
         }
 
     @Option

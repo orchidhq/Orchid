@@ -285,11 +285,14 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public @Nullable OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
-        return findClosestFile(resourcesDir, filename, strict, maxIterations);
+        return findClosestFile(null, filename, strict, maxIterations);
     }
 
     @Override
     public @Nullable OrchidResource findClosestFile(String baseDir, String filename, boolean strict, int maxIterations) {
+        if(EdenUtils.isEmpty(baseDir)) {
+            baseDir = resourcesDir;
+        }
         File folder = new File(baseDir);
         while (true) {
             if (folder.isDirectory()) {

@@ -2,7 +2,7 @@
 {% for version in component.model.versions %}
 {# @pebvariable name="version" type="com.eden.orchid.changelog.model.ChangelogVersion" #}
 <details id="{{ version.version }}" {% if loop.first %}open{% endif %}>
-  <summary>{{ version.version }}</summary>
+  <summary>{{ version.version }} {% if version.releaseDate is not empty %} - {{ version.releaseDate }}{% endif %}</summary>
   {{ version.content | raw }}
 </details>
 {% endfor %}

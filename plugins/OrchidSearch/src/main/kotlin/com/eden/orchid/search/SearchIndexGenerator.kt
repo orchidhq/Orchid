@@ -6,6 +6,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.indexing.OrchidIndex
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.JsonResource
@@ -28,13 +29,20 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
     @Description("A list of generator keys whose pages are ignored by this taxonomy.")
     lateinit var excludeFrom: Array<String>
 
+    @Option
+    @BooleanDefault(false)
+    @Description("Whether to create a JSON file for each page in your site, with a path of the page plus .json")
+    var createSinglePageIndexFiles: Boolean = false
+
     override fun startIndexing(context: OrchidContext): Model {
         return emptyModel()
     }
 
     override fun startGeneration(context: OrchidContext, model: Model) {
         generateSiteIndexFiles(context)
-        generatePageIndexFiles(context)
+        if(createSinglePageIndexFiles) {
+            generatePageIndexFiles(context)
+        }
     }
 
     private fun generateSiteIndexFiles(context: OrchidContext) {
