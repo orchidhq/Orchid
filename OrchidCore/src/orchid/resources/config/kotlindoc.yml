@@ -44,7 +44,7 @@ pages:
   layoutConfig:
     wrapPageInBox: false
     wrapTitleInBox: false
-    includeTitle: false
+    includeTitle: true
     includeBreadcrumbs: true
 
 moduleHomePages:
@@ -53,10 +53,13 @@ moduleHomePages:
   vcsRepo: orchidhq/orchid
   tags:
     - 'official'
-  menu:
-    - type: pageIds
-      structure: nested
-      maxLevel: 2
+  layoutConfig:
+    pageContentsMenu:
+      - type: 'separator'
+        title: 'In This Page'
+      - type: 'pageIds'
+        structure: nested
+        maxLevel: 2
 
 themesModuleHomePages:
   menu:

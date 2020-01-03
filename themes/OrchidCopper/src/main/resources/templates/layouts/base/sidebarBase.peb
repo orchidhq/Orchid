@@ -12,10 +12,10 @@
 {% endblock %}
   <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
   {% include 'includes/copper/navbar' %}
-    <div class="textured">
+    <div class="textured container" style="width: 100%;">
     {% if layoutConfig.includeBreadcrumbs %}
     {% block breadcrumbs %}
-    {% if layoutConfig.wrapPageInBox %}
+    {% if layoutConfig.wrapPageInBox or layoutConfig.wrapBreadcrumbsInBox %}
       <div class="box">
       {% breadcrumbs %}
       </div>

@@ -1,4 +1,4 @@
-{% include 'includes/pluginPageHeader.peb' %}
+{#{% include 'includes/pluginPageHeader.peb' %}#}
 
 <div class="content is-medium-tablet is-large-fullhd">
 {{ page.content | raw }}

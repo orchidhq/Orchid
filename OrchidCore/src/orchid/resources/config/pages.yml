@@ -4,5 +4,5 @@ staticPages:
   layoutConfig:
     wrapPageInBox: false
     wrapTitleInBox: false
-    includeTitle: false
+    includeTitle: true
     includeBreadcrumbs: false

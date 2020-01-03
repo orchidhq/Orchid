@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.Theme
+import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.Social
 import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
@@ -202,13 +203,22 @@ class CopperSidebarLayoutConfig : OptionsHolder {
     var wrapPageInBox: Boolean = true
 
     @Option @BooleanDefault(true)
-    var wrapTitleInBox: Boolean = true
-
-    @Option @BooleanDefault(true)
     var includeTitle: Boolean = true
 
     @Option @BooleanDefault(true)
+    var wrapTitleInBox: Boolean = true
+
+    @Option @BooleanDefault(true)
     var includeBreadcrumbs: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var wrapBreadcrumbsInBox: Boolean = true
+
+    @Option @BooleanDefault(true)
+    var includePageContentsMenu: Boolean = true
+
+    @Option
+    lateinit var pageContentsMenu: OrchidMenu
 }
 
 class CopperHomepageLayoutConfig : OptionsHolder {
