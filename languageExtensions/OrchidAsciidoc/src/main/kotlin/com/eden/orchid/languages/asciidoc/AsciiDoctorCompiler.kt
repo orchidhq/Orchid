@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidCompiler
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
+import org.asciidoctor.SafeMode
 import org.asciidoctor.log.LogHandler
 import org.asciidoctor.log.LogRecord
 import org.asciidoctor.log.Severity
@@ -23,6 +24,8 @@ constructor() : OrchidCompiler(800), LogHandler {
     }
 
     override fun compile(extension: String, source: String, data: Map<String, Any>): String {
+        val safeMode  = data.getOrDefault("asciiDocSafeMode", "SECURE") as String
+        options.setSafe(SafeMode.valueOf(safeMode))
         return asciidoctor.convert(source, options)
     }
 
