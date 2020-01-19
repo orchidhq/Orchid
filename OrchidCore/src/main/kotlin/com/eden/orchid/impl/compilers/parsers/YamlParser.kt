@@ -2,6 +2,8 @@ package com.eden.orchid.impl.compilers.parsers
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidParser
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.logSyntaxError
 import org.yaml.snakeyaml.Yaml
@@ -9,6 +11,7 @@ import org.yaml.snakeyaml.parser.ParserException
 import java.util.HashMap
 import javax.inject.Inject
 
+@Archetype(value = ConfigArchetype::class, key = "services.parsers.yml")
 class YamlParser @Inject
 constructor() : OrchidParser() {
 

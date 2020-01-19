@@ -4,7 +4,9 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.api.server.OrchidView;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -25,6 +27,7 @@ import java.util.Set;
  * @orchidApi services
  */
 @Description(value = "How Orchid manages global data and configurations.", name = "Options")
+@Archetype(value = ConfigArchetype.class, key = "services.options")
 public final class OptionsServiceImpl implements OptionsService {
 
     private OrchidContext context;

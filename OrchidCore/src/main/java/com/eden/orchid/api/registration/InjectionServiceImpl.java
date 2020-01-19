@@ -2,7 +2,9 @@ package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -20,6 +22,7 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 @Description(value = "The Orchid dependency injection container.", name = "Injection")
+@Archetype(value = ConfigArchetype.class, key = "services.injection")
 public class InjectionServiceImpl implements InjectionService {
 
     private final Stack<Pair<String, Injector>> injectorStack;

@@ -3,6 +3,8 @@ package com.eden.orchid.impl.compilers.sass
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.OrchidCompiler
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import io.bit3.jsass.Compiler
 import io.bit3.jsass.Options
 import io.bit3.jsass.adapter.NativeAdapter
@@ -12,6 +14,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Archetype(value = ConfigArchetype::class, key = "services.compilers.scss")
 class SassCompiler
 @Inject
 constructor(

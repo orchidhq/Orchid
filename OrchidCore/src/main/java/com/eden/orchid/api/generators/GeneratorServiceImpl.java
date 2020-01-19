@@ -7,8 +7,10 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidIndex;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -33,6 +35,7 @@ import java.util.stream.Stream;
  */
 @Singleton
 @Description(value = "How content gets created in your build.", name = "Generators")
+@Archetype(value = ConfigArchetype.class, key = "services.generators")
 public final class GeneratorServiceImpl implements GeneratorService {
 
     private OrchidContext context;

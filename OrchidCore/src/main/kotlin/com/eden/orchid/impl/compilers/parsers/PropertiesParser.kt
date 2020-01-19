@@ -1,12 +1,15 @@
 package com.eden.orchid.impl.compilers.parsers
 
 import com.eden.orchid.api.compilers.OrchidParser
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.utilities.SuppressedWarnings
 import java.io.StringReader
 import java.io.StringWriter
 import java.util.Properties
 import javax.inject.Inject
 
+@Archetype(value = ConfigArchetype::class, key = "services.parsers.properties")
 class PropertiesParser @Inject
 constructor() : OrchidParser(50) {
 

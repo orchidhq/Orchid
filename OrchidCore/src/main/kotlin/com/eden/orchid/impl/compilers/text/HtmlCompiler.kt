@@ -1,11 +1,14 @@
 package com.eden.orchid.impl.compilers.text
 
 import com.eden.orchid.api.compilers.OrchidCompiler
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Archetype(value = ConfigArchetype::class, key = "services.compilers.html")
 class HtmlCompiler
 @Inject
 constructor() : OrchidCompiler(800) {

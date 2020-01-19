@@ -98,4 +98,12 @@ Of course, you may also embed chunks of AsciiDoc markup within content of other 
 = AsciiDoc Header
 {% endfilter %}
 {%- endverbatim %}
+
 ```
+#### Safe Mode
+AsciiDoc security rules (as defined in [Running AsciiDoctor Securely](https://asciidoctor.org/docs/user-manual/#running-asciidoctor-securely)) can be optionally configured via the 'asciiDocSafeMode' key under the 'allpages' section of the config.yml equivalent. By default the safest mode is used 'SECURE', but this disables the popular 'includes' directive. Loosening the security mode as per the below to config.yml will enable this as required.
+
+```text
+allPages:
+  asciiDocSafeMode: 'SAFE'
+  ``````

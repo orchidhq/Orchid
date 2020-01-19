@@ -1,6 +1,8 @@
 package com.eden.orchid.api.events;
 
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.api.options.annotations.Archetype;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.google.inject.ImplementedBy;
 
 /**
@@ -66,6 +68,7 @@ import com.google.inject.ImplementedBy;
  * @since v1.0.0
  */
 @ImplementedBy(EventServiceImpl.class)
+@Archetype(value = ConfigArchetype.class, key = "services.events")
 public interface EventService extends OrchidService {
 
     /**

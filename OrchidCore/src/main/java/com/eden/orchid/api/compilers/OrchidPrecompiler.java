@@ -2,6 +2,8 @@ package com.eden.orchid.api.compilers;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.annotations.Archetype;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.impl.compilers.frontmatter.FrontMatterPrecompiler;
 import com.google.inject.ImplementedBy;
@@ -17,6 +19,7 @@ import java.util.Map;
  * @since v1.0.0
  */
 @ImplementedBy(FrontMatterPrecompiler.class)
+@Archetype(value = ConfigArchetype.class, key = "services.compilers.precompiler")
 public abstract class OrchidPrecompiler extends Prioritized implements OptionsHolder {
 
     /**

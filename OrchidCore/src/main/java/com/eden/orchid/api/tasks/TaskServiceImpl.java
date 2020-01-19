@@ -6,9 +6,11 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.server.FileWatcher;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -27,6 +29,7 @@ import java.util.TreeSet;
  */
 @Singleton
 @Description(value = "How Orchid runs command line tasks and commands.", name = "Tasks")
+@Archetype(value = ConfigArchetype.class, key = "services.tasks")
 public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     private OrchidContext context;
     private final Set<OrchidTask> tasks;

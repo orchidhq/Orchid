@@ -2,24 +2,46 @@ package com.eden.orchid.languages.asciidoc
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.compilers.OrchidCompiler
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
+import org.asciidoctor.SafeMode
 import org.asciidoctor.log.LogHandler
 import org.asciidoctor.log.LogRecord
 import org.asciidoctor.log.Severity
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
+@Archetype(value = ConfigArchetype::class, key = "services.compilers.ad")
 class AsciiDoctorCompiler
 @Inject
-constructor() : OrchidCompiler(800), LogHandler {
+constructor(
+    @Named("src") private val resourcesDir: String
+) : OrchidCompiler(800), LogHandler {
 
     private val asciidoctor: Asciidoctor = Asciidoctor.Factory.create()
-    private val options: Options = Options()
+    private lateinit var options: Options
+
+    @Option
+    @Description("Customize the security level Asciidoctor will run under. One of [UNSAFE, SAFE, SERVER, SECURE]")
+    @StringDefault("SAFE")
+    lateinit var safeMode: SafeMode
 
     init {
         asciidoctor.registerLogHandler(this)
+    }
+
+    override fun onPostExtraction() {
+        options = Options()
+        options.setSafe(safeMode)
+        // files can be included relative to the default resources directory
+        options.setBaseDir(resourcesDir)
     }
 
     override fun compile(extension: String, source: String, data: Map<String, Any>): String {
@@ -38,13 +60,13 @@ constructor() : OrchidCompiler(800), LogHandler {
         if (logRecord == null) return
 
         when (logRecord.severity) {
-            Severity.DEBUG   -> Clog.d(logRecord.message)
-            Severity.INFO    -> Clog.i(logRecord.message)
-            Severity.WARN    -> Clog.w(logRecord.message)
-            Severity.ERROR   -> Clog.e(logRecord.message)
-            Severity.FATAL   -> Clog.e(logRecord.message)
+            Severity.DEBUG -> Clog.d(logRecord.message)
+            Severity.INFO -> Clog.i(logRecord.message)
+            Severity.WARN -> Clog.w(logRecord.message)
+            Severity.ERROR -> Clog.e(logRecord.message)
+            Severity.FATAL -> Clog.e(logRecord.message)
             Severity.UNKNOWN -> Clog.d(logRecord.message)
-            else             -> Clog.d(logRecord.message)
+            else -> Clog.d(logRecord.message)
         }
     }
 }
