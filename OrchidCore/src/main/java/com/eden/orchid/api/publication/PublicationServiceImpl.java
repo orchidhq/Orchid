@@ -2,8 +2,10 @@ package com.eden.orchid.api.publication;
 
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,6 +16,7 @@ import javax.inject.Singleton;
  */
 @Singleton
 @Description(value = "How Orchid publishes your site to production.", name = "Publications")
+@Archetype(value = ConfigArchetype.class, key = "services.publications")
 public final class PublicationServiceImpl implements PublicationService {
 
     private OrchidContext context;

@@ -1,6 +1,8 @@
 package com.eden.orchid.impl.compilers.parsers
 
 import com.eden.orchid.api.compilers.OrchidParser
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.univocity.parsers.csv.CsvParser
 import com.univocity.parsers.csv.CsvParserSettings
 import com.univocity.parsers.tsv.TsvParser
@@ -11,6 +13,7 @@ import java.util.ArrayList
 import java.util.HashMap
 import javax.inject.Inject
 
+@Archetype(value = ConfigArchetype::class, key = "services.parsers.csv")
 class CSVParser @Inject
 constructor() : OrchidParser() {
 

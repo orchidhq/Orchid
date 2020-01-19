@@ -1,0 +1,7 @@
+tag::includedBlock1[]
+Content in block 1
+end::includedBlock1[]
+
+tag::includedBlock2[]
+Content in block 2
+end::includedBlock2[]

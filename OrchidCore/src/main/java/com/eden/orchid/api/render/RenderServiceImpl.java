@@ -1,9 +1,11 @@
 package com.eden.orchid.api.render;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.InlineResource;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -19,6 +21,7 @@ import java.util.function.Supplier;
  * @orchidApi services
  */
 @Description(value = "How Orchid renders pages and writes them to disk.", name = "Render")
+@Archetype(value = ConfigArchetype.class, key = "services.renderer")
 public class RenderServiceImpl implements RenderService {
     protected OrchidContext context;
     protected OrchidRenderer renderer;

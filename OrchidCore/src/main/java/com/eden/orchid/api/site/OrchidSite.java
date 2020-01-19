@@ -35,14 +35,4 @@ public interface OrchidSite extends OrchidService {
     default SiteInfo getSiteInfo() { return getService(OrchidSite.class).getSiteInfo(); }
 
     default JSONObject toJSON() { return getService(OrchidSite.class).toJSON(); }
-
-    @Override
-    default String getKey() {
-        return "site";
-    }
-
-    @Override
-    default String optionsQuery() {
-        return getKey();
-    }
 }

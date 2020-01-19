@@ -1,8 +1,10 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
 import org.json.JSONObject;
@@ -11,6 +13,7 @@ import javax.inject.Inject;
 import java.nio.file.Paths;
 
 @Description(value = "The global configurations for your Orchid site.", name = "Site")
+@Archetype(value = ConfigArchetype.class, key = "site")
 public final class OrchidSiteImpl implements OrchidSite {
     private OrchidContext context;
     private final String orchidVersion;

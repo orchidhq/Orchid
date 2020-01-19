@@ -18,11 +18,6 @@ public interface RenderService extends OrchidService {
         TEMPLATE, RAW, BINARY
     }
 
-    @Override
-    default String getKey() {
-        return "renderer";
-    }
-
     /**
      * Whether to exclude drafts, which is the default behavior, or whether to include them. 
      *

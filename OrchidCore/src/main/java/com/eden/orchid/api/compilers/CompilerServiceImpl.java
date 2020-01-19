@@ -4,9 +4,11 @@ import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.AllOptions;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import kotlin.Lazy;
 import kotlin.LazyKt;
 import org.json.JSONObject;
@@ -22,31 +24,52 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * @since v1.0.0
  * @orchidApi services
+ * @since v1.0.0
  */
 @Singleton
 @Description(value = "How content gets processed by Orchid.", name = "Compilers")
+@Archetype(value = ConfigArchetype.class, key = "services.compilers")
 public final class CompilerServiceImpl implements CompilerService {
-    private String[] binaryExtensions = new String[] {"jpg", "jpeg", "png", "pdf", "gif", "svg", "ico", 
-    // Webfont Formats
-    "otf", "eot", "ttf", "woff", "woff2"};
+
+    private String[] binaryExtensions = new String[]{
+            "jpg",
+            "jpeg",
+            "png",
+            "pdf",
+            "gif",
+            "svg",
+            "ico",
+            // Webfont Formats
+            "otf",
+            "eot",
+            "ttf",
+            "woff",
+            "woff2"
+    };
+
     @Option("binaryExtensions")
     @Description("Add additional file extensions to recognize as binary, so these assets can be copied directly without further processing.")
     public String[] customBinaryExtensions;
+
     @Option("compilerExtensions")
     @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a mapping with keys of the unrecognized extension and values of the known extension. These take precedence over the normally recognized extensions.")
     public JSONObject customCompilerExtensions;
-    private String[] ignoredOutputExtensions = new String[] {"min", "index"};
+
+    private String[] ignoredOutputExtensions = new String[]{"min", "index"};
+
     @Option("ignoredOutputExtensions")
     @Description("Add additional file extensions to exclude from counting as an \'output extension\' An example would be \'min\' in a filename like \'index.min.js\', which is commonly used to denote a minified asset and is not intended to make a file named \'index.min\'.")
     public String[] customIgnoredOutputExtensions;
+
     @Option
     @StringDefault("peb")
     @Description("Convert unrecognized file extensions into known file types for the compilers. The should be a mapping with keys of the unrecognized extension and values of the known extension. These take precedence over the normally recognized extensions.")
     public String defaultPrecompilerExtension;
+
     @AllOptions
     public Map<String, Object> allConfig;
+
     private OrchidContext context;
     private Set<String> compilerExtensions;
     private Set<String> parserExtensions;
@@ -72,11 +95,9 @@ public final class CompilerServiceImpl implements CompilerService {
     @Override
     public void onPostExtraction() {
         buildCustomCompilerIndex();
-        if (allConfig.get("precompiler") instanceof Map) {
-            precompiler.getValue().extractOptions(context, (HashMap<String, Object>) allConfig.get("precompiler"));
-        } else {
-            precompiler.getValue().extractOptions(context, new HashMap<>());
-        }
+        precompiler.getValue().extractOptions(context, new HashMap<>());
+        compilers.getValue().forEach(it -> it.extractOptions(context, new HashMap<>()));
+        parsers.getValue().forEach(it -> it.extractOptions(context, new HashMap<>()));
     }
 
     private void buildCompilerIndex() {
