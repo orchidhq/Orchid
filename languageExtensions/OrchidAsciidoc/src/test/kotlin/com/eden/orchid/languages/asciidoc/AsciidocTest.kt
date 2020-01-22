@@ -13,17 +13,14 @@ import kotlinx.html.div
 import kotlinx.html.p
 import kotlinx.html.strong
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledIf
 import strikt.api.expectThat
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
 class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
-
-    @BeforeEach
-    fun setUp() {
-        enableLogging()
-    }
 
     @Test
     @DisplayName("Test that Markdown works normally")
@@ -103,14 +100,14 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Test
-    @DisplayName("Test that Asciidoc includes are disabled with secure safe-mode.")
+    @DisplayName("Test that Asciidoc native file includes are disabled with secure safe-mode.")
     fun test04() {
         resource(
             "homepage.ad",
             """
             |**Asciidoc Page**
             |
-            |include::test/resources/included.ad[]
+            |include::test/resources/secure_include.ad[]
             """.trimMargin()
         )
         configObject(
@@ -118,7 +115,7 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             """
             {
                 "compilers": {
-                    "ad": {
+                    "adoc": {
                         "safeMode": "SECURE"
                     }
                 }
@@ -139,11 +136,11 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                                     }
                                 }
                             }
-                            // when secure, the contents are not loaded. Instead, it links to the file
+                            // when secure, the contents are not loaded
                             div("paragraph") {
                                 p {
-                                    a(href = "test/resources/included.ad", classes = "bare") {
-                                        +"test/resources/included.ad"
+                                    a(href = "test/resources/secure_include.ad", classes = "bare") {
+                                        +"test/resources/secure_include.ad"
                                     }
                                 }
                             }
@@ -153,14 +150,68 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     }
 
     @Test
-    @DisplayName("Test that Asciidoc default safe-mode works enables include directives")
+    @DisplayName("Test that Asciidoc fallback Orchid resource includes are enabled with secure safe-mode.")
     fun test05() {
         resource(
             "homepage.ad",
             """
             |**Asciidoc Page**
             |
-            |include::test/resources/included.ad[]
+            |include::secure_include_resource.ad[]
+            """.trimMargin()
+        )
+        resource(
+            "secure_include_resource.ad",
+            """
+            |Included from resource
+            """.trimMargin()
+        )
+        configObject(
+            "services",
+            """
+            {
+                "compilers": {
+                    "adoc": {
+                        "safeMode": "SECURE"
+                    }
+                }
+            }
+            """.trimIndent()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                            // when secure, the contents are not loaded
+                            div("paragraph") {
+                                p {
+                                    +"Included from resource"
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc native file includes are enabled with default safe-mode.")
+    fun test06() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::test/resources/secure_include.ad[]
             """.trimMargin()
         )
 
@@ -188,8 +239,50 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     }
 
     @Test
+    @DisplayName("Test that Asciidoc fallback Orchid resource includes are enabled with secure safe-mode.")
+    fun test07() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::secure_include_resource.ad[]
+            """.trimMargin()
+        )
+        resource(
+            "secure_include_resource.ad",
+            """
+            |Included from resource
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                            // when secure, the contents are not loaded
+                            div("paragraph") {
+                                p {
+                                    +"Included from resource"
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
     @DisplayName("Test that Asciidoc partial includes work properly")
-    fun test06() {
+    fun test08() {
         resource(
             "homepage.ad",
             """
@@ -211,7 +304,7 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
+                get { println(content); content }
                     .asHtml()
                     .select("body") {
                         innerHtmlMatches {

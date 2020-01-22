@@ -1,12 +1,14 @@
 package com.eden.orchid.languages.asciidoc
 
 import com.caseyjbrooks.clog.Clog
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.languages.asciidoc.extensions.AsciidocIncludeProcessor
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
 import org.asciidoctor.SafeMode
@@ -15,14 +17,16 @@ import org.asciidoctor.log.LogRecord
 import org.asciidoctor.log.Severity
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-@Archetype(value = ConfigArchetype::class, key = "services.compilers.ad")
+@Archetype(value = ConfigArchetype::class, key = "services.compilers.adoc")
 class AsciiDoctorCompiler
 @Inject
 constructor(
-    @Named("src") private val resourcesDir: String
+    @Named("src") private val resourcesDir: String,
+    includeProcessor: AsciidocIncludeProcessor
 ) : OrchidCompiler(800), LogHandler {
 
     private val asciidoctor: Asciidoctor = Asciidoctor.Factory.create()
@@ -33,10 +37,15 @@ constructor(
     @StringDefault("SAFE")
     lateinit var safeMode: SafeMode
 
+    // register Asciidoctor instance, once during entire Orchid lifetime
     init {
         asciidoctor.registerLogHandler(this)
+        asciidoctor.javaExtensionRegistry().apply {
+            includeProcessor(includeProcessor)
+        }
     }
 
+    // configure parsing options from options, before each build phase
     override fun onPostExtraction() {
         options = Options()
         options.setSafe(safeMode)
