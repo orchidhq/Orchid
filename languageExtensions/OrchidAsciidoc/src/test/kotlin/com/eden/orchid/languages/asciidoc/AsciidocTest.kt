@@ -8,12 +8,15 @@ import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
+import kotlinx.html.a
 import kotlinx.html.div
 import kotlinx.html.p
 import kotlinx.html.strong
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledIf
 import strikt.api.expectThat
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
@@ -87,6 +90,247 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                                         +"Asciidoc Page"
                                     }
                                 }
+                            }
+                        }
+                    }
+            }
+    }
+
+// Test safe mode configuration
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
+    @DisplayName("Test that Asciidoc native file includes are disabled with secure safe-mode.")
+    fun test04() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::test/resources/secure_include.ad[]
+            """.trimMargin()
+        )
+        configObject(
+            "services",
+            """
+            {
+                "compilers": {
+                    "adoc": {
+                        "safeMode": "SECURE"
+                    }
+                }
+            }
+            """.trimIndent()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                            // when secure, the contents are not loaded
+                            div("paragraph") {
+                                p {
+                                    a(href = "test/resources/secure_include.ad", classes = "bare") {
+                                        +"test/resources/secure_include.ad"
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc fallback Orchid resource includes are enabled with secure safe-mode.")
+    fun test05() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::secure_include_resource.ad[]
+            """.trimMargin()
+        )
+        resource(
+            "secure_include_resource.ad",
+            """
+            |Included from resource
+            """.trimMargin()
+        )
+        configObject(
+            "services",
+            """
+            {
+                "compilers": {
+                    "adoc": {
+                        "safeMode": "SECURE"
+                    }
+                }
+            }
+            """.trimIndent()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                            // when secure, the contents are not loaded
+                            div("paragraph") {
+                                p {
+                                    +"Included from resource"
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc native file includes are enabled with default safe-mode.")
+    fun test06() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::test/resources/secure_include.ad[]
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                            div("paragraph") {
+                                p {
+                                    +"Included from file"
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc fallback Orchid resource includes are enabled with secure safe-mode.")
+    fun test07() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::secure_include_resource.ad[]
+            """.trimMargin()
+        )
+        resource(
+            "secure_include_resource.ad",
+            """
+            |Included from resource
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                            // when secure, the contents are not loaded
+                            div("paragraph") {
+                                p {
+                                    +"Included from resource"
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc partial includes work properly")
+    fun test08() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |before included block 1
+            |
+            |include::test/resources/included_tags.ad[tags=includedBlock1]
+            |
+            |after included block 1
+            |
+            |before included block 2
+            |
+            |include::test/resources/included_tags.ad[tags=includedBlock2]
+            |
+            |after included block 2
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong { +"Asciidoc Page" }
+                                }
+                            }
+                            div("paragraph") {
+                                p { +"before included block 1" }
+                            }
+                            div("paragraph") {
+                                p { +"Content in block 1" }
+                            }
+                            div("paragraph") {
+                                p { +"after included block 1" }
+                            }
+
+                            div("paragraph") {
+                                p { +"before included block 2" }
+                            }
+                            div("paragraph") {
+                                p { +"Content in block 2" }
+                            }
+                            div("paragraph") {
+                                p { +"after included block 2" }
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package com.eden.orchid.api.compilers;
 
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 
 import java.util.Map;
@@ -13,7 +14,7 @@ import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
  * @since v1.0.0
  * @orchidApi extensible
  */
-public abstract class OrchidParser extends Prioritized {
+public abstract class OrchidParser extends Prioritized implements OptionsHolder {
 
     /**
      * If the Parser evaluates the input to be an Array structure rather than Object structure, the resulting array data

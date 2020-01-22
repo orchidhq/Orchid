@@ -98,4 +98,44 @@ Of course, you may also embed chunks of AsciiDoc markup within content of other 
 = AsciiDoc Header
 {% endfilter %}
 {%- endverbatim %}
+
 ```
+
+### Includes
+
+Files can be included using the standard `include::[]` directive. File paths are all absolute, and resolved relative to
+your site resources root. Nested relative includes are not currently supported.
+
+```asciidoc
+= homepage.adoc
+
+include::other_page.adoc[]
+```
+
+### Images
+
+Images are not currently supported. Local images references by the `image::[]` macro will not be copied to the final
+site automatically, so you should stick with external URLs for now.
+
+```asciidoc
+= homepage.adoc
+
+image::https://picsum.photos/200/300.jpg[]
+```
+
+### Safe Mode
+
+AsciiDoc security rules (as defined in 
+[Running AsciiDoctor Securely](https://asciidoctor.org/docs/user-manual/#running-asciidoctor-securely)) can be 
+optionally configured via the 'asciiDocSafeMode' key under the `services.compilers.adoc` section of the config.yml 
+equivalent. 
+
+By default, the safe mode is set to `SAFE`, which enables the popular `includes::[]` directive. Tightening the security 
+mode as per the below to config.yml will disable this as required.
+
+```text
+services:
+  compilers:
+    adoc:
+      safeMode: 'SECURE'
+  ``````

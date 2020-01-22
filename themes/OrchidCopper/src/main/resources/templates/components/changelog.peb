@@ -5,7 +5,7 @@
 {% for version in component.model.versions %}
   <article class="accordion {% if loop.first %}is-active{% endif %}">
     <div class="accordion-header toggle">
-      <p>{{ version.version }} {% if loop.first %}(latest){% endif %}</p>
+      <p>{{ version.version }} {% if version.releaseDate is not empty %} - {{ version.releaseDate }}{% endif %}{% if loop.first %}(latest){% endif %}</p>
     </div>
     <div class="accordion-body">
       <div class="accordion-content content is-medium-tablet is-large-fullhd">

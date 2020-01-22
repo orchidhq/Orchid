@@ -119,12 +119,7 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void extractServiceOptions() {
         services.values().forEach(service -> {
-            JSONElement el = query(service.optionsQuery());
-            if (EdenUtils.elementIsObject(el)) {
-                service.extractOptions(this, ((JSONObject) el.getElement()).toMap());
-            } else {
-                service.extractOptions(this, new HashMap<>());
-            }
+            service.extractOptions(this, new HashMap<>());
         });
     }
 

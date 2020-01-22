@@ -6,7 +6,9 @@ import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.assets.AssetManager;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import javax.inject.Provider;
@@ -23,6 +25,7 @@ import java.util.Stack;
  * @orchidApi services
  */
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
+@Archetype(value = ConfigArchetype.class, key = "services.themes")
 public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {
 
     private OrchidContext context;

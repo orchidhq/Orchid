@@ -28,6 +28,9 @@ class TestOrchid {
         if (!actualFlags.containsKey("baseUrl")) {
             actualFlags["baseUrl"] = "http://orchid.test"
         }
+        if (!actualFlags.containsKey("dest")) {
+            actualFlags["dest"] =  "./build/orchid/test"
+        }
 
         // setup original modules
         val modules = mutableListOf(

@@ -84,9 +84,3 @@ services:
       - type: githubReleases
         repo: 'orchidhq/orchid'
         commitish: 'master'
-
-allPages:
-  layoutConfig:
-  #  sidebarSize: ONE_THIRD
-#    sidebarSize: ONE_QUARTER
-    sidebarSize: ONE_FIFTH

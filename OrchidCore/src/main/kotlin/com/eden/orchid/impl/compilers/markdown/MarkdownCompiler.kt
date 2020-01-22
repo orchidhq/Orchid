@@ -1,6 +1,8 @@
 package com.eden.orchid.impl.compilers.markdown
 
 import com.eden.orchid.api.compilers.OrchidCompiler
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
@@ -12,6 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 @JvmSuppressWildcards
+@Archetype(value = ConfigArchetype::class, key = "services.compilers.md")
 class MarkdownCompiler
 @Inject
 constructor(

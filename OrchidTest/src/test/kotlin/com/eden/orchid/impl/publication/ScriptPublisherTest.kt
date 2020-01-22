@@ -44,6 +44,7 @@ class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
     @Test
     fun test01() {
         flag("task", "deploy")
+        flag("src", ".")
         configObject(
             "services", """
             |{

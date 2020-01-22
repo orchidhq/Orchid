@@ -4,6 +4,9 @@ import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.theme.components.OrchidComponent
+import com.eden.orchid.changelog.adapter.ChangelogAdapter
+import com.eden.orchid.changelog.adapter.ChangelogDirAdapter
+import com.eden.orchid.changelog.adapter.ChangelogFileAdapter
 import com.eden.orchid.changelog.components.ChangelogComponent
 import com.eden.orchid.changelog.publication.RequiredChangelogVersionPublisher
 import com.eden.orchid.utilities.addToSet
@@ -16,7 +19,11 @@ class ChangelogModule : OrchidModule() {
         addToSet<OrchidGenerator<*>, ChangelogGenerator>()
         addToSet<OrchidPublisher, RequiredChangelogVersionPublisher>()
         addToSet<OrchidComponent, ChangelogComponent>()
-    }
 
+        addToSet<ChangelogAdapter>(
+            ChangelogDirAdapter::class,
+            ChangelogFileAdapter::class
+        )
+    }
 }
 

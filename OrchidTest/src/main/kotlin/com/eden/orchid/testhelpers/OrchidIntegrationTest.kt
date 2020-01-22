@@ -73,8 +73,6 @@ open class OrchidIntegrationTest(
 
         flag("task", "serve")
         flag("port", port)
-        flag("src", "./src")
-        flag("dest", "./build/orchid/test")
         this.serve = true
     }
 

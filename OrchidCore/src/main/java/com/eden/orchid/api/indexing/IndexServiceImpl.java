@@ -8,7 +8,9 @@ import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.generators.Collectible;
 import com.eden.orchid.api.generators.OrchidCollection;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
@@ -24,6 +26,7 @@ import java.util.stream.Stream;
 
 @Singleton
 @Description(value = "How Orchid organizes the data it collects.", name = "Index")
+@Archetype(value = ConfigArchetype.class, key = "services.index")
 public final class IndexServiceImpl implements IndexService, OrchidEventListener {
 
     private OrchidContext context;

@@ -6,9 +6,11 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
@@ -54,6 +56,7 @@ import java.util.stream.Collectors;
  */
 @Singleton
 @Description(value = "How Orchid locates resources.", name = "Resources")
+@Archetype(value = ConfigArchetype.class, key = "services.resources")
 public final class ResourceServiceImpl implements ResourceService, OrchidEventListener {
     private OrchidContext context;
     private final List<LocalResourceSource> fileResourceSources;
@@ -285,11 +288,14 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public @Nullable OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
-        return findClosestFile(resourcesDir, filename, strict, maxIterations);
+        return findClosestFile(null, filename, strict, maxIterations);
     }
 
     @Override
     public @Nullable OrchidResource findClosestFile(String baseDir, String filename, boolean strict, int maxIterations) {
+        if(EdenUtils.isEmpty(baseDir)) {
+            baseDir = resourcesDir;
+        }
         File folder = new File(baseDir);
         while (true) {
             if (folder.isDirectory()) {

@@ -134,7 +134,19 @@ private fun Attributes.hasAttributesSimilarTo(other: Attributes): Boolean {
 
             val otherKeyExists = other.hasKey(actualAttributeKey) || other.hasKey("data-$actualAttributeKey")
             val otherAttribute = if (other.hasKey(actualAttributeKey)) other.get(thisAttribute.key) else other.get("data-$actualAttributeKey")
-            if (!otherKeyExists || thisAttribute.value != otherAttribute) {
+
+            // other tag does not have a key
+            if (!otherKeyExists) {
+                return@hasAttributesSimilarTo false
+            }
+            else if(thisAttribute.value.isBlank()) {
+                // likely a boolean property, sometimes it is empty string, sometimes has value same as name
+                if(!otherAttribute.isBlank() && !listOf(thisAttribute.key, "data-$actualAttributeKey").any { it == otherAttribute }) {
+                    return@hasAttributesSimilarTo false
+                }
+            }
+            else if(thisAttribute.value != otherAttribute) {
+                // actual property, must match
                 return@hasAttributesSimilarTo false
             }
         }

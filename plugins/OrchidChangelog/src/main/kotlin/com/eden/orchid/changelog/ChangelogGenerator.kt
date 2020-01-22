@@ -9,12 +9,11 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.changelog.adapter.ChangelogAdapter
 import com.eden.orchid.changelog.model.ChangelogModel
 import com.eden.orchid.changelog.model.ChangelogVersion
-import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject
-import javax.inject.Inject
 
 @Description("Track changes and create references to all versions of your project.", name = "Changelog")
 class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
@@ -22,11 +21,6 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORI
     companion object {
         const val GENERATOR_KEY = "changelog"
     }
-
-    @Option
-    @StringDefault("changelog")
-    @Description("The base directory in local resources to look for changelog entries in.")
-    lateinit var baseDir: String
 
     @Option
     @Description("Whether to include minor versions in the versions.json file.")
@@ -37,24 +31,18 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORI
     var includeReleaseNotes: Boolean = false
 
     @Option
-    @StringDefault("{major}.{minor}.{patch}")
-    @Description("The format your changelog version follow.")
-    lateinit var format: String
-
-    @Option
     @Description(
         "The properties of your format to order by as keys, with their type as values. The values should be " +
                 "one of [string, number]"
     )
     lateinit var orderBy: JSONObject
 
+    @Option
+    @StringDefault("directory")
+    lateinit var adapter: ChangelogAdapter
+
     override fun startIndexing(context: OrchidContext): ChangelogModel {
-        var versions = context.getLocalResourceEntries(
-            OrchidUtils.normalizePath(baseDir),
-            context.compilerExtensions.toTypedArray(),
-            true
-        )
-            .map { ChangelogVersion(context, format, it.reference.originalFileName, it) }
+        var versions = adapter.loadChangelogEntries(context)
 
         var comparator: Comparator<ChangelogVersion>? = null
 
@@ -143,18 +131,16 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORI
     }
 
     private fun ChangelogVersion.checkBump(previous: ChangelogVersion?) {
-        for(componentKey in versionComponents.keys) {
-            val shouldBump = if(previous == null) {
+        for (componentKey in versionComponents.keys) {
+            val shouldBump = if (previous == null) {
                 true
-            }
-            else if(versionComponents[componentKey]?.first != previous.versionComponents[componentKey]?.first) {
+            } else if (versionComponents[componentKey]?.first != previous.versionComponents[componentKey]?.first) {
                 true
-            }
-            else {
+            } else {
                 false
             }
 
-            if(shouldBump) {
+            if (shouldBump) {
                 versionComponents[componentKey] = versionComponents[componentKey]!!.copy(second = true)
             }
         }

@@ -1,6 +1,8 @@
 package com.eden.orchid.languages.diagrams
 
 import com.eden.orchid.api.compilers.OrchidCompiler
+import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import net.sourceforge.plantuml.FileFormat
 import net.sourceforge.plantuml.FileFormatOption
 import net.sourceforge.plantuml.SourceStringReader
@@ -11,6 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Archetype(value = ConfigArchetype::class, key = "services.compilers.puml")
 class PlantUmlCompiler
 @Inject
 constructor() : OrchidCompiler(800) {

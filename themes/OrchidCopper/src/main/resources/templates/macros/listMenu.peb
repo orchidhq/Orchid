@@ -1,5 +1,5 @@
-{% macro _listMenu(page, menu) %}
-{% for menuItem in page.menu.getMenuItems(page) %}
+{%- macro _listMenu(page, menu) -%}
+{% for menuItem in menu.getMenuItems(page) %}
   {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.MenuItem" #}
   {% if menuItem.hasChildren() %}
     {{ _menuItemWithChildren(page, menuItem) }}
@@ -31,11 +31,14 @@
 <li>
   <!-- page={{ page.link }} {{ page.hashCode() }} -->
   <!-- menuItem.page={{ menuItem.page.link }} {{ menuItem.page.hashCode() }} -->
-  <a href="{{ menuItem.link }}" class="{{ menuItem.isActivePage(page) ? 'is-active' : '' }}">{{ menuItem.title }}</a>
+  <a href="{{ menuItem.link }}" class="{{ menuItem.isActivePage(page) ? 'is-active' : '' }}">
+  {% if menuItem.icon is not empty %}<i class="{{ menuItem.icon }}"></i>{% endif %}
+  {{ menuItem.title }}
+  </a>
 </li>
 {% endif %}
 {% endmacro %}
 
 {% macro _menuItemSeparator(page, menuItem) %}
 <p class="menu-label">{{ menuItem.title }}</p>
-{% endmacro %}
+{%- endmacro -%}

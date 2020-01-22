@@ -1,5 +1,6 @@
 package com.eden.orchid.api.compilers;
 
+import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
  * @since v1.0.0
  * @orchidApi extensible
  */
-public abstract class OrchidCompiler extends Prioritized {
+public abstract class OrchidCompiler extends Prioritized implements OptionsHolder {
 
     /**
      * Initialize the OrchidCompiler with a set priority. Compilers with a higher priority are chosen first to process a

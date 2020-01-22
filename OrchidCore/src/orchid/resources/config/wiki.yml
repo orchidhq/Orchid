@@ -8,16 +8,14 @@ wikiPages:
   layoutConfig:
     wrapPageInBox: false
     wrapTitleInBox: false
-    includeTitle: false
+    includeTitle: true
     includeBreadcrumbs: true
-  menu:
-    - type: 'separator'
-      title: 'In This Page'
-      order: 100
-    - type: 'pageIds'
-      order: 110
-      structure: nested
-      maxLevel: 2
+    pageContentsMenu:
+      - type: 'separator'
+        title: 'In This Page'
+      - type: 'pageIds'
+        structure: nested
+        maxLevel: 2
 
 'user-manual':
   menu:
@@ -30,3 +28,5 @@ wikiPages:
 
 indexPages:
   template: 'wikiIndexPage'
+  layoutConfig:
+    includePageContentsMenu: false
