@@ -31,7 +31,8 @@ You may also include the `changelog` component on any page to render a listing o
 
 ## Usage
 
-### Basic Usage
+### Directory-Based (multi-file)
+
 Changelog versions are created as files sitting in the `changelog/` directory of your site content. The filenames should
 be the version name, and they can be put in subdirectories for better organization. Alternatively, you can name the 
 files something different and set the `version` property in each entry's Front Matter.
@@ -81,6 +82,51 @@ just major, minor, and patch versions.
 
 Bumps between changelog versions are detected automatically. 
 
+### File-Based (single file)
+
+Singe version 0.18.2, Orchid now supports single-file changelog formats such as 
+[Keep A Changelog](https://keepachangelog.com/en/1.0.0/). In such formats, all versions of the software are documented 
+in a single file, usually in the repository root in a file called `CHANGELOG.md` or something similar. OrchidChangelog
+will locate this file, parse the individual versions from it based on a specified header regex, and construct your site
+changelogs from these entries.
+
+The following configuration will change from the default directory-based changelogs to the file-based format:
+
+```yaml
+changelog:
+  adapter: 
+    type: "file"           # required
+    baseDir: "./docs"      # optional, change the directory to search for the changelog file in. Defaults to resources root dir
+    filename: "CHANGES.md" # optional, the name of the file to look for
+    versionRegex: '...'    # optional, change the regex used to locate version header lines in the file. Defaults to Markdown headers of level 1 or 2
+```
+
+The default syntax for a Changelog version header is a Markdown header of level 1 or 2, which contains the version name
+and an optional release date in `YYYY-MM-DD` format. Versions are usually listed in the file in reverse-chronological 
+order.
+
+```markdown
+## 1.1.0
+
+- Unreleased version
+
+## 1.0.0 - 2017-08-20
+
+- Major version release
+
+## 0.2.1 - 2017-07-09
+
+- Patch version release
+
+## 0.2.0 - 2017-07-08
+
+- Minor version release
+
+## 0.1.0 - 2017-06-20
+
+- Initial release
+```
+
 ### Customizing `versions.json`
 
 Orchid creates a `meta/versions.json` file, which is an index of the "important" versions that others would need to know
@@ -101,3 +147,4 @@ In addition, you can have the release notes for each version added included with
 changelog:
   includeReleaseNotes: true
 ```
+

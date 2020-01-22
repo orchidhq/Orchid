@@ -103,8 +103,8 @@ Of course, you may also embed chunks of AsciiDoc markup within content of other 
 
 ### Includes
 
-Files can be included using the `includes::[]` directive. File paths are all absolute, and resolved relative to your
-site resources root. Nested relative includes are not currently supported.
+Files can be included using the standard `include::[]` directive. File paths are all absolute, and resolved relative to
+your site resources root. Nested relative includes are not currently supported.
 
 ```asciidoc
 = homepage.adoc

@@ -3,6 +3,7 @@ package com.eden.orchid.changelog
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
+import com.eden.orchid.strikt.printResults
 import com.eden.orchid.strikt.summary
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
@@ -13,11 +14,18 @@ import kotlinx.html.h1
 import kotlinx.html.id
 import kotlinx.html.li
 import kotlinx.html.ul
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
+import strikt.assertions.all
+import strikt.assertions.containsExactlyInAnyOrder
+import strikt.assertions.hasSize
+import strikt.assertions.isA
 import strikt.assertions.isTrue
+import strikt.assertions.map
 
 class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGenerator<HomepageGenerator>()) {
 
@@ -67,6 +75,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
         )
 
         expectThat(execute())
+            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
@@ -124,6 +133,14 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                         }
                     }
                 }
+            }
+            .pageWasRendered("/meta/versions.json") {
+                get { JSONArray(content) }
+                    .all {
+                        this.isA<JSONObject>()
+                    }
+                    .map { (it as JSONObject).getString("version") }
+                    .containsExactlyInAnyOrder("0.1.0", "1.0.0")
             }
     }
 
@@ -228,6 +245,14 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                         }
                     }
                 }
+            }
+            .pageWasRendered("/meta/versions.json") {
+                get { JSONArray(content) }
+                    .all {
+                        this.isA<JSONObject>()
+                    }
+                    .map { (it as JSONObject).getString("version") }
+                    .containsExactlyInAnyOrder("0.1.0", "1.0.0")
             }
     }
 
@@ -345,6 +370,14 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                     }
                 }
             }
+            .pageWasRendered("/meta/versions.json") {
+                get { JSONArray(content) }
+                    .all {
+                        this.isA<JSONObject>()
+                    }
+                    .map { (it as JSONObject).getString("version") }
+                    .containsExactlyInAnyOrder("0.1.0", "1.0.0")
+            }
     }
 
     @Test
@@ -418,6 +451,14 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                     }
                 }
             }
+            .pageWasRendered("/meta/versions.json") {
+                get { JSONArray(content) }
+                    .all {
+                        this.isA<JSONObject>()
+                    }
+                    .map { (it as JSONObject).getString("version") }
+                    .containsExactlyInAnyOrder("0.1.0", "1.0.0")
+            }
     }
 
     @Test
@@ -479,6 +520,14 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                         }
                     }
                 }
+            }
+            .pageWasRendered("/meta/versions.json") {
+                get { JSONArray(content) }
+                    .all {
+                        this.isA<JSONObject>()
+                    }
+                    .map { (it as JSONObject).getString("version") }
+                    .containsExactlyInAnyOrder("0.1.0", "1.0.0")
             }
     }
 }
