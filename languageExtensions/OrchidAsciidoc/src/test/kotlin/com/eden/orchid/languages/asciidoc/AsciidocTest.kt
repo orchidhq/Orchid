@@ -304,7 +304,7 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { println(content); content }
+                get { content }
                     .asHtml()
                     .select("body") {
                         innerHtmlMatches {

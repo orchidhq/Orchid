@@ -75,7 +75,6 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
         )
 
         expectThat(execute())
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
