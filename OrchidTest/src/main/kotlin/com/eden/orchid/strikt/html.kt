@@ -3,12 +3,14 @@ package com.eden.orchid.strikt
 import com.eden.orchid.testhelpers.TestRenderer
 import kotlinx.html.DETAILS
 import kotlinx.html.DIV
+import kotlinx.html.HEAD
 import kotlinx.html.HTMLTag
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.HtmlTagMarker
 import kotlinx.html.TagConsumer
 import kotlinx.html.attributesMapOf
 import kotlinx.html.div
+import kotlinx.html.head
 import kotlinx.html.stream.appendHTML
 import kotlinx.html.visit
 import org.jsoup.Jsoup
@@ -54,11 +56,27 @@ fun Assertion.Builder<String>.asHtml(
  * @see outerHtmlMatches
  */
 fun Assertion.Builder<Document>.select(
-    cssQuery: String, selectorAssertion:
-    Assertion.Builder<Elements>.() -> Unit
+    cssQuery: String,
+    selectorAssertion: Assertion.Builder<Elements>.() -> Unit
 ): Assertion.Builder<Document> =
     assertBlock("select '$cssQuery'") {
         get { select(cssQuery) }.selectorAssertion()
+    }
+
+fun Assertion.Builder<Document>.headMatches(
+    cssQuery: String,
+    builder: HEAD.() -> Unit
+): Assertion.Builder<Document> =
+    assertThat("HTML head matches selector '$cssQuery'") {
+        val doc1 = it.head().select(cssQuery)
+        val doc2 = ByteArrayOutputStream()
+            .apply { PrintStream(this).appendHTML().head { builder() } }
+            .toString()
+            .normalizeDoc()
+            .select("head")
+            .flatMap { node -> node.childNodes() }
+
+        doc1.hasHtmlSimilarTo(doc2)
     }
 
 /**
@@ -89,7 +107,7 @@ fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatches(
     }
 
 fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatchesString(
-    matcher: (Assertion.Builder<String>)->Unit
+    matcher: (Assertion.Builder<String>) -> Unit
 ): Assertion.Builder<TestRenderer.TestRenderedPage> =
     assertBlock("HTML body matches") {
         get { content }

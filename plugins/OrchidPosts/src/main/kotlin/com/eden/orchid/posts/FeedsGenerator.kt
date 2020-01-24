@@ -10,9 +10,11 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.posts.model.FeedsModel
 
 @Description("Generate feeds for you blog in RSS and Atom formats.", name = "RSS Feeds")
-class FeedsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE + 1) {
+class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, PRIORITY_LATE + 1) {
 
     companion object {
         const val GENERATOR_KEY = "feeds"
@@ -35,37 +37,45 @@ class FeedsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
     @Description("The maximum number of entries to include in this feed.")
     var size = 25
 
-    override fun startIndexing(context: OrchidContext): Model {
-        return emptyModel()
-    }
-
-    override fun startGeneration(context: OrchidContext, model: Model) {
-        generateFeeds(context)
+    override fun startIndexing(context: OrchidContext): FeedsModel {
+        return FeedsModel(context, createFeeds(context))
     }
 
     override fun getCollections(
         context: OrchidContext,
-        model: Model
+        model: FeedsModel
     ): List<OrchidCollection<*>> {
         return emptyList()
     }
 
-    private fun generateFeeds(context: OrchidContext) {
-        val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
-        var feedItems = context.index.getChildIndices(enabledGeneratorKeys).flatMap { it.allPages }
+    override fun startGeneration(context: OrchidContext, model: FeedsModel) {
+        model.feeds.forEach { context.renderRaw(it) }
+    }
 
-        if (feedItems.isNotEmpty()) {
-            var sortedFeedItems = feedItems
+    private fun createFeeds(context: OrchidContext) : List<FeedPage> {
+        val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
+        val feedItems = context.index.getChildIndices(enabledGeneratorKeys).flatMap { it.allPages }
+
+        return if (feedItems.isNotEmpty()) {
+            val sortedFeedItems = feedItems
                     .sortedWith(compareBy({ it.lastModifiedDate }, { it.publishDate }))
                     .reversed()
                     .take(size)
 
-            feedTypes.forEach { feedType ->
-                val res = context.getResourceEntry("feeds/$feedType.peb")
-                if (res != null) {
-                    context.renderRaw(FeedPage(res, feedType, sortedFeedItems))
+            feedTypes
+                .map { feedType -> feedType to context.getResourceEntry("feeds/$feedType.peb") }
+                .filter { it.second != null }
+                .map { (feedType, res) ->
+                    res.reference.fileName = feedType
+                    res.reference.path = ""
+                    res.reference.outputExtension = "xml"
+                    res.reference.isUsePrettyUrl = false
+
+                    FeedPage(res, feedType, sortedFeedItems)
                 }
-            }
+        }
+        else {
+            emptyList()
         }
     }
 
@@ -76,12 +86,12 @@ class FeedsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
             filename: String,
             val items: List<OrchidPage>
     ) : OrchidPage(resource, "rss", null) {
-        init {
-            this.reference.fileName = filename
-            this.reference.path = ""
-            this.reference.outputExtension = "xml"
-            this.reference.isUsePrettyUrl = false
-        }
+
+        @Option
+        lateinit var mimeType: String
+
+        @Option
+        lateinit var feedName: String
     }
 
 }

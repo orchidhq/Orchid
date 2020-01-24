@@ -7,6 +7,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.posts.components.DisqusComponent
+import com.eden.orchid.posts.components.FeedLinksComponent
 import com.eden.orchid.posts.components.RecentPostsComponent
 import com.eden.orchid.posts.functions.ExcerptFunction
 import com.eden.orchid.posts.functions.RecentPostsFunction
@@ -34,7 +35,8 @@ class PostsModule : OrchidModule() {
                 FeedsGenerator::class)
         addToSet<OrchidComponent>(
                 RecentPostsComponent::class,
-                DisqusComponent::class)
+                DisqusComponent::class,
+                FeedLinksComponent::class)
         addToSet<PermalinkPathType>(
                 CategoryPathType::class,
                 DayPathType::class,

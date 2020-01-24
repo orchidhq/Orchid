@@ -1,0 +1,5 @@
+{# @pebvariable name="component" type="com.eden.orchid.posts.components.FeedLinksComponent" #}
+{% for feedPage in component.feeds %}
+    {# @pebvariable name="feedPage" type="com.eden.orchid.posts.FeedsGenerator.FeedPage" #}
+    <link rel="alternate" type="{{ feedPage.mimeType }}" title="{{ site.about.siteName }} ({{ feedPage.feedName }})" href="{{ feedPage.link }}"/>
+{% endfor %}
