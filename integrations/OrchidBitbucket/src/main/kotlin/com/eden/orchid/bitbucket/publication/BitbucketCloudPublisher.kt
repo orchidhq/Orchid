@@ -43,5 +43,4 @@ constructor(
         get() {
             return "https://$username:$bitbucketToken@bitbucket.org/$username/$repo.git"
         }
-
 }

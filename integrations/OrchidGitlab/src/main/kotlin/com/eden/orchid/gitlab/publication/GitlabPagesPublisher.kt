@@ -1,5 +1,6 @@
 package com.eden.orchid.gitlab.publication
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -77,7 +78,7 @@ constructor(
             return "https://$username:$gitlabToken@$gitlabUrl/$repoUsername/$repoName.git"
         }
 
-    override fun GitRepoFacade.beforeCommit() {
+    override fun GitRepoFacade.beforeCommit(context: OrchidContext) {
         if (addPipelineFile) {
             // add the needed .gitlab-ci.yml file so the site gets built and deployed correctly
             addFile(

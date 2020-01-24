@@ -43,7 +43,7 @@ public class OptionsExtractor extends Extractor {
             return true;
         }
         catch (Exception e) {
-            Clog.e("{} did not pass validation", optionsHolder, e);
+            Clog.e("{} did not pass validation", e, optionsHolder);
             return false;
         }
     }
