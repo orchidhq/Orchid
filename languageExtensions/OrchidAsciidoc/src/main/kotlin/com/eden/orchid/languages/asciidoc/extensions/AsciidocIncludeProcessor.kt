@@ -27,13 +27,15 @@ constructor(
     ) {
         val resource = context.getLocalResourceEntry(target)
 
-        reader?.push_include(
-            resource.rawContent,
-            target,
-            resource.reference.originalFullFileName,
-            1,
-            attributes
-        )
+        if(resource != null) {
+            reader?.push_include(
+                resource.rawContent,
+                target,
+                resource.reference.originalFullFileName,
+                1,
+                attributes
+            )
+        }
     }
 
     override fun handles(target: String?): Boolean {

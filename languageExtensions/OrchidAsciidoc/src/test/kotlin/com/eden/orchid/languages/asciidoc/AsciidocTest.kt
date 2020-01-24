@@ -337,4 +337,34 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             }
     }
 
+    @Test
+    @DisplayName("Test that resource includes are safely handled when the resource does not exist.")
+    fun test09() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |include::missing_resource.ad[]
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong {
+                                        +"Asciidoc Page"
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
 }
