@@ -37,7 +37,7 @@ class GitlabWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GitlabModule()
         )
 
         expectThat(execute())
-            .pagesGenerated(6)
+            .pagesGenerated(7)
             .pageWasRendered("/wiki/wiki-without-sidebar/index.html") {
                 get { content }
                     .asHtml(removeComments = true)
@@ -56,6 +56,7 @@ class GitlabWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GitlabModule()
             .pageWasRendered("/wiki/wiki-without-sidebar/GettingStarted/index.html")
             .pageWasRendered("/wiki/wiki-without-sidebar/Home/index.html")
             .pageWasRendered("/wiki/wiki-without-sidebar/Installation/index.html")
+            .pageWasRendered("/uploads/97771283d476e7342a016e61b5fe3e8b/icon_dark__1_.png")
     }
 
     @Test

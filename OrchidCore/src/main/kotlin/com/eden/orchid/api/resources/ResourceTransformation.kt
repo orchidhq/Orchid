@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.ResourceWrapper
 import java.io.InputStream
@@ -12,16 +13,21 @@ open class ResourceTransformation
 @JvmOverloads
 constructor(
         resource: OrchidResource,
-        protected var contentTransformations: MutableList<(String) -> String> = mutableListOf(),
+        protected var contentPreTransformations: MutableList<(String) -> String> = mutableListOf(),
+        protected var contentPostTransformations: MutableList<(String) -> String> = mutableListOf(),
         protected var contentStreamTransformations: MutableList<(InputStream) -> InputStream> = mutableListOf()
 ) : ResourceWrapper(resource) {
 
     override fun getContent(): String {
-        return transform(super.getContent(), contentTransformations)
+        return transform(super.getContent(), contentPreTransformations)
     }
 
     override fun getContentStream(): InputStream {
         return transform(super.getContentStream(), contentStreamTransformations)
+    }
+
+    override fun compileContent(data: Any?): String? {
+        return transform(super.compileContent(data), contentPostTransformations)
     }
 
     fun <T> transform(input: T, transformations: List<(T) -> T>): T {
