@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public final class OrchidRequest {
             File file = new File(files.get("content"));
             if(file.exists()) {
                 try {
-                    String fileContent = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
+                    String fileContent = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
 
                     if(contentType.equalsIgnoreCase("application/json")) {
                         JSONObject body = new JSONObject(fileContent);

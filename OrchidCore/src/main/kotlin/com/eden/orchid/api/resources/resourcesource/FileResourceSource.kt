@@ -36,9 +36,7 @@ open class FileResourceSource(
                 for (resourceAsFile in newFiles) {
                     val newFile = resourceAsFile as File
                     if (!isIgnoredFile(context, file) && shouldAddEntry(newFile.name)) {
-                        val entry = FileResource(context, newFile, baseDirectory)
-                        entry.priority = priority
-                        entries.add(entry)
+                        entries.add(FileResource(context, newFile, baseDirectory))
                     }
                 }
             }

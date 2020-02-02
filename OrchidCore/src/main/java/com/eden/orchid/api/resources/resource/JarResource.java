@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -39,7 +40,7 @@ public final class JarResource extends FreeableResource {
         if(rawContent == null) {
             try {
                 if(jarFile != null && jarEntry != null) {
-                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry), Charset.forName("UTF-8"));
+                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry), StandardCharsets.UTF_8);
                 }
             }
             catch (IOException e) {

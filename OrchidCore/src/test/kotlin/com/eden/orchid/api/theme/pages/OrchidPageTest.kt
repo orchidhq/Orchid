@@ -2,6 +2,7 @@ package com.eden.orchid.testhelpers.com.eden.orchid.api.theme.pages
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.site.OrchidSite
@@ -34,7 +35,7 @@ class OrchidPageTest {
 
         reference = OrchidReference(context, pagePath, true)
         resource = StringResource("page content", reference)
-        underTest = OrchidPage(resource, "test", "Test Page")
+        underTest = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "test", "Test Page")
     }
 
     @ParameterizedTest

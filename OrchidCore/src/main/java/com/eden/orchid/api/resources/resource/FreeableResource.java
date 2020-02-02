@@ -19,6 +19,7 @@ public abstract class FreeableResource extends OrchidResource {
         super(reference);
     }
 
+    @Override
     protected void loadContent() {
         if(rawContent != null) {
             EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), rawContent);
@@ -32,36 +33,9 @@ public abstract class FreeableResource extends OrchidResource {
         }
     }
 
+    @Override
     public void free() {
         rawContent = null;
         content = null;
-    }
-
-    @Override
-    public String getContent() {
-        loadContent();
-
-        return super.getContent();
-    }
-
-    @Override
-    public String getRawContent() {
-        loadContent();
-
-        return super.getRawContent();
-    }
-
-    @Override
-    public JSONElement getEmbeddedData() {
-        loadContent();
-
-        return super.getEmbeddedData();
-    }
-
-    @Override
-    public JSONElement queryEmbeddedData(String pointer) {
-        loadContent();
-
-        return super.queryEmbeddedData(pointer);
     }
 }

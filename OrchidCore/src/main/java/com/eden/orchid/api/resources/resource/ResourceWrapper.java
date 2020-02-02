@@ -20,11 +20,6 @@ public class ResourceWrapper extends FreeableResource {
     }
 
     @Override
-    public OrchidContext getContext() {
-        return resource.getContext();
-    }
-
-    @Override
     public OrchidReference getReference() {
         return resource.getReference();
     }
@@ -37,41 +32,6 @@ public class ResourceWrapper extends FreeableResource {
     @Override
     public JSONElement getEmbeddedData() {
         return resource.getEmbeddedData();
-    }
-
-    @Override
-    public int getPriority() {
-        return resource.getPriority();
-    }
-
-    @Override
-    public void setRawContent(String rawContent) {
-        resource.setRawContent(rawContent);
-    }
-
-    @Override
-    public void setContent(String content) {
-        resource.setContent(content);
-    }
-
-    @Override
-    public void setEmbeddedData(JSONElement embeddedData) {
-        resource.setEmbeddedData(embeddedData);
-    }
-
-    @Override
-    public void setPriority(int priority) {
-        resource.setPriority(priority);
-    }
-
-    @Override
-    public void setShouldRender(boolean shouldRender) {
-        resource.setShouldRender(shouldRender);
-    }
-
-    @Override
-    public JSONElement queryEmbeddedData(String pointer) {
-        return resource.queryEmbeddedData(pointer);
     }
 
     @Override
@@ -125,22 +85,13 @@ public class ResourceWrapper extends FreeableResource {
     }
 
     @Override
-    public String getTitle() {
-        return resource.getTitle();
-    }
-
-    @Override
     protected void loadContent() {
-        if (resource instanceof FreeableResource) {
-            ((FreeableResource) resource).loadContent();
-        }
+        resource.loadContent();
     }
 
     @Override
     public void free() {
-        if (resource instanceof FreeableResource) {
-            ((FreeableResource) resource).free();
-        }
+        resource.free();
     }
 
     @Override

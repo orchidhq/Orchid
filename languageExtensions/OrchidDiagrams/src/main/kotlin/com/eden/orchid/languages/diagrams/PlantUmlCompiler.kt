@@ -9,6 +9,7 @@ import net.sourceforge.plantuml.SourceStringReader
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -89,7 +90,7 @@ constructor() : OrchidCompiler(800) {
             reader.outputImage(os, fileFormat)
             os.close()
 
-            var s = String(os.toByteArray(), Charset.forName("UTF-8"))
+            var s = String(os.toByteArray(), StandardCharsets.UTF_8)
             s = s.replace("<\\?(.*)\\?>".toRegex(), "") // remove XML declaration
 
             return s

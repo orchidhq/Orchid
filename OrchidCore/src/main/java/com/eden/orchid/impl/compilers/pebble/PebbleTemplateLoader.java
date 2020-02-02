@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public final class PebbleTemplateLoader implements Loader<String> {
     private final Provider<OrchidContext> context;
@@ -50,7 +51,7 @@ public final class PebbleTemplateLoader implements Loader<String> {
             is = resource.getContentStream();
         }
         if (is != null) {
-            isr = new InputStreamReader(is, Charset.forName("UTF-8"));
+            isr = new InputStreamReader(is, StandardCharsets.UTF_8);
             reader = new BufferedReader(isr);
         }
         return reader;

@@ -210,7 +210,7 @@ public class OrchidPage implements
     }
 
     public OrchidPage(OrchidResource resource, RenderService.RenderMode renderMode, String key, String title) {
-        this.context = resource.getContext();
+        this.context = resource.getReference().getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
 
         this.key = key;
@@ -510,9 +510,7 @@ public class OrchidPage implements
     }
 
     public void free() {
-        if (resource instanceof FreeableResource) {
-            ((FreeableResource) resource).free();
-        }
+        resource.free();
         compiledContent = null;
     }
 

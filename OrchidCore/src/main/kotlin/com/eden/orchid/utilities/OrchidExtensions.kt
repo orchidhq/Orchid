@@ -37,6 +37,7 @@ fun String?.wrap(width: Int = 80): List<String> {
     return matchList
 }
 
+@Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColumn: Int?, errorMessage: String? = "") {
     val lineNumber = lineNumberNullable ?: 0
     val lines = this.lines()

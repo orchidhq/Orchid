@@ -18,7 +18,6 @@ open class JarResourceSource : OrchidResourceSource {
         const val JAR_URI_PREFIX = "jar:file:"
     }
 
-
     val pluginClass: Class<*>
     override val priority: Int
     private var initialized = false

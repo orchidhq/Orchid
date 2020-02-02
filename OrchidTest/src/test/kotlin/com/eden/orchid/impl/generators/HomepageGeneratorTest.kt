@@ -19,7 +19,6 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
     @Test
     @DisplayName("Homepage generator creates a homepage and 404 pages by default")
     fun test01() {
-        serveOn(8080)
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }
@@ -73,9 +72,6 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
             .pageWasRendered("/404.html")
             .nothingElseRendered()
     }
-
-
-
 
     @Test
     @DisplayName("If a 404.md file exists, it will be used")

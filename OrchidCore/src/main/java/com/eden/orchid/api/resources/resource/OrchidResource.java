@@ -10,64 +10,46 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Resources provide the "intrinsic content" of a page.
  *
- * @since v1.0.0
  * @orchidApi extensible
+ * @since v1.0.0
  */
 public abstract class OrchidResource {
 
-    protected final OrchidContext context;
+    // TODO: remove this. Resources shouldn't _have_ a resource, but pages should _create_ a reference from APIs on the resource
     protected final OrchidReference reference;
 
     protected String rawContent;
     protected String content;
     protected JSONElement embeddedData;
 
-    protected int priority;
-
-    protected boolean shouldRender = true;
-
     public OrchidResource(OrchidReference reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A resource must have a valid OrchidReference");
-        }
-        else {
-            this.context = reference.getContext();
+        } else {
             this.reference = reference;
         }
     }
 
-    public JSONElement queryEmbeddedData(String pointer) {
-        if (embeddedData != null) {
-            return embeddedData.query(pointer);
-        }
-
-        return null;
-    }
-
     public boolean shouldPrecompile() {
         JSONElement data = getEmbeddedData();
-        if(EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompile")) {
+        if (EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompile")) {
             return ((JSONObject) data.getElement()).getBoolean("precompile");
         }
 
-        return context.resolve(OrchidPrecompiler.class).shouldPrecompile(reference.getExtension(), getRawContent());
+        return reference.getContext().resolve(OrchidPrecompiler.class).shouldPrecompile(reference.getExtension(), getRawContent());
     }
 
     public boolean shouldRender() {
-        return shouldRender;
+        return true;
     }
 
     public InputStream getContentStream() {
-        return IOUtils.toInputStream(getRawContent(), Charset.forName("UTF-8"));
-    }
-
-    public String getRawContent() {
-        return rawContent;
+        return IOUtils.toInputStream(getRawContent(), StandardCharsets.UTF_8);
     }
 
     public String compileContent(Object data) {
@@ -75,27 +57,26 @@ public abstract class OrchidResource {
             String compiledContent = getContent();
 
             if (shouldPrecompile()) {
-                compiledContent = context.compile(getPrecompilerExtension(), compiledContent, data);
+                compiledContent = reference.getContext().compile(getPrecompilerExtension(), compiledContent, data);
             }
 
-            return context.compile(
+            return reference.getContext().compile(
                     getReference().getExtension(),
                     compiledContent,
                     data
             );
-        }
-        else {
+        } else {
             return "";
         }
     }
 
     public String getPrecompilerExtension() {
         JSONElement data = getEmbeddedData();
-        if(EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompileAs")) {
+        if (EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompileAs")) {
             return ((JSONObject) data.getElement()).getString("precompileAs");
         }
 
-        return context.getDefaultPrecompilerExtension();
+        return reference.getContext().getDefaultPrecompilerExtension();
     }
 
     public boolean canUpdate() {
@@ -114,16 +95,8 @@ public abstract class OrchidResource {
 
     }
 
-    public String getTitle() {
-        JSONElement data = getEmbeddedData();
-        if(EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("title")) {
-            return ((JSONObject) data.getElement()).getString("title");
-        }
-
-        return reference.getTitle();
-    }
-
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "OrchidResource[" + this.getClass().getSimpleName() + "]{" +
                 "reference=" + reference.getRelativePath() +
                 '}';
@@ -132,44 +105,34 @@ public abstract class OrchidResource {
 // Delombok
 //----------------------------------------------------------------------------------------------------------------------
 
-    public OrchidContext getContext() {
-        return this.context;
-    }
-
     public OrchidReference getReference() {
         return this.reference;
     }
 
     public String getContent() {
+        loadContent();
         return this.content;
     }
 
+    public String getRawContent() {
+        loadContent();
+        return this.rawContent;
+    }
+
     public JSONElement getEmbeddedData() {
+        loadContent();
         return this.embeddedData;
     }
 
-    public int getPriority() {
-        return this.priority;
+// Freeable Resource Impl
+//----------------------------------------------------------------------------------------------------------------------
+
+    protected void loadContent() {
+
     }
 
-    public void setRawContent(String rawContent) {
-        this.rawContent = rawContent;
-    }
+    public void free() {
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setEmbeddedData(JSONElement embeddedData) {
-        this.embeddedData = embeddedData;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public void setShouldRender(boolean shouldRender) {
-        this.shouldRender = shouldRender;
     }
 
 }

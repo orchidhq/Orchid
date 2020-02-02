@@ -13,7 +13,7 @@ import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
 /**
@@ -126,7 +126,7 @@ public class RenderServiceImpl implements RenderService {
 
     InputStream toStream(String content) {
         try {
-            return IOUtils.toInputStream(content, Charset.forName("UTF-8"));
+            return IOUtils.toInputStream(content, StandardCharsets.UTF_8);
         } catch (Exception e) {
             return null;
         }

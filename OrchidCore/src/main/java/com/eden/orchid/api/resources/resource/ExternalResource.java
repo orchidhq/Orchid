@@ -33,7 +33,7 @@ public final class ExternalResource extends FreeableResource {
     public void setDownload(boolean download) {
         this.download = download;
         if (download) {
-            this.reference.setBaseUrl(context.getBaseUrl());
+            this.reference.setBaseUrl(reference.getContext().getBaseUrl());
         } else {
             this.reference.setBaseUrl(originalExternalReference.getBaseUrl());
         }
@@ -59,25 +59,15 @@ public final class ExternalResource extends FreeableResource {
     public boolean shouldRender() {
         if (download) {
             loadContent();
-            return super.shouldRender();
+            return true;
         }
         return false;
-    }
-
-    @Override
-    public void setRawContent(String rawContent) {
-        throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
-    }
-
-    @Override
-    public void setContent(String content) {
-        throw new UnsupportedOperationException("This method is not allowed on ExternalResource");
     }
 
     private ResponseBody getContentBody() throws IOException {
         if (download) {
             Clog.i("Downloading external resource {}", originalExternalReference.toString());
-            OkHttpClient client = context.resolve(OkHttpClient.class);
+            OkHttpClient client = reference.getContext().resolve(OkHttpClient.class);
             Request request = new Request.Builder().url(originalExternalReference.toString()).build();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
@@ -140,16 +130,6 @@ public final class ExternalResource extends FreeableResource {
         if (download) {
             loadContent();
             return super.getEmbeddedData();
-        } else {
-            return new JSONElement(new JSONObject());
-        }
-    }
-
-    @Override
-    public JSONElement queryEmbeddedData(String pointer) {
-        if (download) {
-            loadContent();
-            return super.queryEmbeddedData(pointer);
         } else {
             return new JSONElement(new JSONObject());
         }

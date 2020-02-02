@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.indexing.OrchidRootIndex;
 import com.eden.orchid.api.options.OptionsExtractor;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
@@ -88,7 +89,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
 
         mockPage1Reference = new OrchidReference(context, "page1.html");
         mockPage1Resource = new StringResource("", mockPage1Reference);
-        mockPage1 = spy(new OrchidPage(mockPage1Resource, "mockPage1", ""));
+        mockPage1 = spy(new OrchidPage(mockPage1Resource, RenderService.RenderMode.TEMPLATE, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);
         generator1 = spy(new MockGenerator("gen1", 100, pages1));
@@ -96,7 +97,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
 
         mockPage2Reference = new OrchidReference(context, "page2.html");
         mockFreeableResource = spy(new FreeableResource(mockPage2Reference) {});
-        mockPage2 = spy(new OrchidPage(mockFreeableResource, "mockPage2", ""));
+        mockPage2 = spy(new OrchidPage(mockFreeableResource, RenderService.RenderMode.TEMPLATE, "mockPage2", ""));
         pages2 = new ArrayList<>();
         pages2.add(mockPage2);
         generator2 = spy(new MockGenerator("gen2", 150, pages2));

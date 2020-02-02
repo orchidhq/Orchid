@@ -18,7 +18,7 @@ public final class InlineStringResource extends OrchidResource implements Inline
     public InlineStringResource(String content, OrchidReference reference) {
         super(reference);
         if(content != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = getContext().getEmbeddedData(reference.getExtension(), content);
+            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), content);
             this.rawContent = content;
             if(parsedContent != null) {
                 this.content = parsedContent.first;
@@ -43,7 +43,7 @@ public final class InlineStringResource extends OrchidResource implements Inline
     public InlineStringResource(String content, OrchidReference reference, JSONElement data) {
         super(reference);
         if(content != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = getContext().getEmbeddedData(reference.getExtension(), content);
+            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), content);
             this.rawContent = content;
             this.content = parsedContent.first;
             this.embeddedData = data;

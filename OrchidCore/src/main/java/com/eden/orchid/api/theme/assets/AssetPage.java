@@ -33,7 +33,7 @@ public class AssetPage extends OrchidPage {
     public AssetPage(Object source, String sourceKey, OrchidResource resource, String key, String title) {
         super(
                 resource,
-                getAssetRenderMode(resource.getContext(), resource.getReference()),
+                getAssetRenderMode(resource.getReference().getContext(), resource.getReference()),
                 key,
                 title
         );

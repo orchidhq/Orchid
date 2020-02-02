@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 /**
@@ -44,7 +45,7 @@ public final class FileResource extends FreeableResource {
         if (rawContent == null) {
             try {
                 if (file != null) {
-                    rawContent = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
+                    rawContent = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

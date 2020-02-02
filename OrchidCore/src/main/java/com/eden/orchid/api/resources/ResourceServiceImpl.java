@@ -38,6 +38,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -220,13 +221,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         sources.stream().filter(source -> source.getPriority() >= 0).map(source -> source.getResourceEntries(context, path, fileExtensions, recursive)).filter(OrchidUtils.not(EdenUtils::isEmpty)).flatMap(Collection::stream).forEach(resource -> {
             String relative = OrchidUtils.getRelativeFilename(resource.getReference().getPath(), path);
             String key = relative + "/" + resource.getReference().getFileName() + "." + resource.getReference().getOutputExtension();
-            if (entries.containsKey(key)) {
-                if (resource.getPriority() > entries.get(key).getPriority()) {
-                    entries.put(key, resource);
-                }
-            } else {
-                entries.put(key, resource);
-            }
+            entries.put(key, resource);
         });
     }
 
@@ -245,7 +240,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     public Map<String, Object> loadLocalFile(String url) {
         try {
             File file = new File(url);
-            String s = IOUtils.toString(new FileInputStream(file), Charset.forName("UTF-8"));
+            String s = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
             return context.parse("json", s);
         } catch (FileNotFoundException e) {
         } catch (

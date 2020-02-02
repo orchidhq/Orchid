@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -106,7 +107,7 @@ public final class RenderServiceTest implements OrchidUnitTest {
         InputStream stream = underTest.getRenderedTemplate(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
+        String content = IOUtils.toString(stream, StandardCharsets.UTF_8);
         assertThat(content, is(equalTo(layoutContent)));
 
         verify(page).setCurrent(true);
@@ -129,37 +130,6 @@ public final class RenderServiceTest implements OrchidUnitTest {
         verify(renderer, never()).render(any(), any());
     }
 
-// Test Rendering Strings as Layouts
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Test
-    public void testGetRenderedString() throws Throwable {
-        InputStream stream = underTest.getRenderedString(page, "html", layoutContent);
-        assertThat(stream, is(notNullValue()));
-
-        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
-        assertThat(content, is(equalTo(layoutContent)));
-
-        verify(page).setCurrent(true);
-    }
-
-    @Test
-    public void testRenderString() throws Throwable {
-        assertThat(page.isCurrent(), is(false));
-        assertThat(underTest.renderString(page, "html", layoutContent), is(true));
-        assertThat(page.isCurrent(), is(false));
-
-        verify(page, times(2)).setCurrent(anyBoolean());
-        verify(renderer).render(any(), any());
-    }
-
-    @Test
-    public void testRenderStringNotCalledWhenSkipped() throws Throwable {
-        page.setDraft(true);
-        assertThat(underTest.renderString(page, "html", layoutContent), is(false));
-        verify(renderer, never()).render(any(), any());
-    }
-
 // Test Rending Raw Contents without Layout
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -168,7 +138,7 @@ public final class RenderServiceTest implements OrchidUnitTest {
         InputStream stream = underTest.getRenderedRaw(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
+        String content = IOUtils.toString(stream, StandardCharsets.UTF_8);
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);
@@ -199,7 +169,7 @@ public final class RenderServiceTest implements OrchidUnitTest {
         InputStream stream = underTest.getRenderedBinary(page);
         assertThat(stream, is(notNullValue()));
 
-        String content = IOUtils.toString(stream, Charset.forName("UTF-8"));
+        String content = IOUtils.toString(stream, StandardCharsets.UTF_8);
         assertThat(content, is(equalTo(resourceContent)));
 
         verify(page).setCurrent(true);
