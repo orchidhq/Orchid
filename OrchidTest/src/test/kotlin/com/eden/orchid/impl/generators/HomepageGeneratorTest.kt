@@ -19,6 +19,7 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
     @Test
     @DisplayName("Homepage generator creates a homepage and 404 pages by default")
     fun test01() {
+        serveOn(8080)
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 get { content }

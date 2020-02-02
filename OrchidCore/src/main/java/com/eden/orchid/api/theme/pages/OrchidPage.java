@@ -14,6 +14,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.FreeableResource;
@@ -75,6 +76,7 @@ public class OrchidPage implements
     protected OrchidReference reference;
     protected String key;
     protected Map<String, Object> data;
+    protected final RenderService.RenderMode pageRenderMode;
 
     @Option("next") private PageRelation nextPage;
     @Option("previous") private PageRelation previousPage;
@@ -201,7 +203,13 @@ public class OrchidPage implements
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
 
+    @Deprecated()
+    @kotlin.Deprecated(message = "Pages should be created with a `renderMode`")
     public OrchidPage(OrchidResource resource, String key, String title) {
+        this(resource, RenderService.RenderMode.TEMPLATE, key, title);
+    }
+
+    public OrchidPage(OrchidResource resource, RenderService.RenderMode renderMode, String key, String title) {
         this.context = resource.getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
 
@@ -211,6 +219,7 @@ public class OrchidPage implements
         this.resource = resource;
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
+        this.pageRenderMode = renderMode;
 
         JSONElement el = resource.getEmbeddedData();
 
@@ -808,4 +817,7 @@ public class OrchidPage implements
         this.defaultBreadcrumbs = defaultBreadcrumbs;
     }
 
+    public RenderService.RenderMode getPageRenderMode() {
+        return pageRenderMode;
+    }
 }

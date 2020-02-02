@@ -64,10 +64,6 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PR
         return emptyList()
     }
 
-    override fun startGeneration(context: OrchidContext, model: Model) {
-
-    }
-
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 

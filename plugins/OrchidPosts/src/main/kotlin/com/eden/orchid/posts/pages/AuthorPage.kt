@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.PostsGenerator
@@ -21,7 +22,7 @@ import com.eden.orchid.utilities.OrchidUtils
 class AuthorPage(
         resource: OrchidResource,
         val author: Author
-) : OrchidPage(resource, "postAuthor", author.name) {
+) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "postAuthor", author.name) {
 
     @Option
     @StringDefault("authors/:authorName")

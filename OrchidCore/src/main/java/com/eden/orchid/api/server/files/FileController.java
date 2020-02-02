@@ -1,13 +1,25 @@
 package com.eden.orchid.api.server.files;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.indexing.OrchidRootIndex;
 import com.eden.orchid.api.server.OrchidFileController;
 import com.eden.orchid.api.server.OrchidResponse;
+import com.eden.orchid.api.theme.assets.AssetPage;
+import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
+import com.eden.orchid.utilities.StreamUtilsKt;
 import com.google.inject.name.Named;
+import kotlin.collections.CollectionsKt;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.stream.Stream;
 
 public final class FileController implements OrchidFileController {
 
@@ -22,6 +34,7 @@ public final class FileController implements OrchidFileController {
         this.destination = destination;
     }
 
+    @Override
     public OrchidResponse findFile(OrchidContext context, String targetPath) {
         if(this.rootFolder == null) {
             this.rootFolder = new File(this.destination);
@@ -53,6 +66,47 @@ public final class FileController implements OrchidFileController {
             else {
                 return NotFound404Response.getResponse(context, targetPath);
             }
+        }
+    }
+
+    @Override
+    public OrchidResponse findPage(OrchidContext context, String targetPath) {
+        List<String> possibleMatches = CollectionsKt.listOf(
+                targetPath,
+                targetPath + "/" + indexFiles[0],
+                targetPath + "/" + indexFiles[1]
+        );
+
+        OrchidPage matchedPage = null;
+        for(String possibleMatch : possibleMatches) {
+            Stream<OrchidPage> indexedPagesStream = context
+                    .getIndex()
+                    .getAllIndexedPages()
+                    .values()
+                    .stream()
+                    .flatMap(it -> it.getFirst().getAllPages().stream());
+
+            Stream<AssetPage> assetPagesStream = context
+                    .getAssetManager()
+                    .getAllAssetPages();
+
+            Stream<OrchidPage> allOrchidPagesStream = Stream.concat(indexedPagesStream, assetPagesStream);
+
+            OrchidPage page = OrchidExtensionsKt.findPageByServerPath(allOrchidPagesStream, possibleMatch);
+
+            if(page != null) {
+                matchedPage = page;
+                break;
+            }
+        }
+
+        if(matchedPage != null) {
+            Clog.v("We found a page in the indexed site at '{}'!", targetPath);
+            return new OrchidResponse(context).page(matchedPage).status(200);
+        }
+        else {
+            Clog.v("No pages found in the indexed site at '{}'", targetPath);
+            return findFile(context, targetPath);
         }
     }
 }

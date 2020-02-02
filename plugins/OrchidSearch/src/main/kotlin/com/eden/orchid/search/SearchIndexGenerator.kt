@@ -9,6 +9,7 @@ import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -57,9 +58,9 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
             val jsonElement = JSONElement(value.first.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
             val resource = JsonResource(jsonElement, reference)
-            val page = OrchidPage(resource, "index", null)
+            val page = OrchidPage(resource, RenderService.RenderMode.RAW, "index", null)
             page.reference.isUsePrettyUrl = false
-            context.renderRaw(page)
+            context.render(page)
 
             indices.addToIndex(indices.ownKey + "/" + page.reference.path, page)
         }
@@ -68,9 +69,9 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
         val compositeJsonElement = JSONElement(context.index.toJSON(true, false))
         val compositeReference = OrchidReference(context, "meta/all.index.json")
         val compositeIndexResource = JsonResource(compositeJsonElement, compositeReference)
-        val compositeIndexPage = OrchidPage(compositeIndexResource, "index", null)
+        val compositeIndexPage = OrchidPage(compositeIndexResource, RenderService.RenderMode.RAW, "index", null)
         compositeIndexPage.reference.isUsePrettyUrl = false
-        context.renderRaw(compositeIndexPage)
+        context.render(compositeIndexPage)
         indices.addToIndex(indices.ownKey + "/" + compositeIndexPage.reference.path, compositeIndexPage)
 
         // Render an index of all indices, so individual index pages can be found
@@ -78,9 +79,9 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
             page.data = HashMap()
         }
         val indexResource = JsonResource(JSONElement(indices.toJSON(false, false)), OrchidReference(context, "meta/index.json"))
-        val indicesPage = OrchidPage(indexResource, "index", null)
+        val indicesPage = OrchidPage(indexResource, RenderService.RenderMode.RAW, "index", null)
         indicesPage.reference.isUsePrettyUrl = false
-        context.renderRaw(indicesPage)
+        context.render(indicesPage)
     }
 
     private fun generatePageIndexFiles(context: OrchidContext) {
@@ -88,10 +89,10 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
             val jsonElement = JSONElement(page.toJSON(true, true))
             val reference = OrchidReference(page.reference)
             val resource = JsonResource(jsonElement, reference)
-            val pageIndex = OrchidPage(resource, "pageIndex", null)
+            val pageIndex = OrchidPage(resource, RenderService.RenderMode.RAW, "pageIndex", null)
             pageIndex.reference.isUsePrettyUrl = false
             pageIndex.reference.outputExtension = "json"
-            context.renderRaw(pageIndex)
+            context.render(pageIndex)
         }
     }
 

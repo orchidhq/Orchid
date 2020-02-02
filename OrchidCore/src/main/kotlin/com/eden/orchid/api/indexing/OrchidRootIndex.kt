@@ -1,9 +1,11 @@
 package com.eden.orchid.api.indexing
 
+import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.generators.ExternalIndexGenerator
+import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Singleton
 
@@ -104,6 +106,31 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
             .findAll(collectionType, collectionId, null)
             .filterIsInstance<OrchidPage>()
             .filter { page -> (if (page.get(key) != null) page.get(key).toString() else "") == value }
+    }
+
+    fun findPageByServerPath(path: String): OrchidPage? {
+        val requestedPath = OrchidUtils.normalizePath(path)
+
+        return allIndexedPages
+            .values
+            .stream()
+            .flatMap { it.first.allPages.stream() }
+            .filter {  page ->
+                val outputPath = OrchidUtils.normalizePath(page.reference.path)
+                val outputName = if (EdenUtils.isEmpty(OrchidUtils.normalizePath(page.reference.outputExtension))) {
+                    OrchidUtils.normalizePath(page.reference.fileName)
+                } else {
+                    OrchidUtils.normalizePath(page.reference.fileName) + "." + OrchidUtils.normalizePath(
+                        page.reference.outputExtension
+                    )
+                }
+
+                val pagePath = OrchidUtils.normalizePath(outputPath + "/" + outputName)
+
+                pagePath == requestedPath
+            }
+            .findFirst()
+            .orElse(null)
     }
 
 }

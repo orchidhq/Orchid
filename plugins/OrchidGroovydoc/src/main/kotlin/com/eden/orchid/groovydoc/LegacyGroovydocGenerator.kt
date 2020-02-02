@@ -90,10 +90,6 @@ constructor(
         }
     }
 
-    override fun startGeneration(context: OrchidContext, model: GroovydocModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
     override fun getCollections(
         context: OrchidContext,
         model: GroovydocModel

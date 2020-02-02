@@ -87,10 +87,6 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, PRIORITY_EARLY) {
         return pages
     }
 
-    override fun startGeneration(context: OrchidContext, model: KssModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
     override fun getCollections(context: OrchidContext, model: KssModel): List<OrchidCollection<*>> {
         return emptyList()
     }

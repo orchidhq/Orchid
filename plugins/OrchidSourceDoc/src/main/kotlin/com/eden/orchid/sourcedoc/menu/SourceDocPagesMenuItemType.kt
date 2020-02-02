@@ -73,10 +73,10 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
 
                 pages
                     .sortedBy { it.title }
-                    .map { page ->
+                    .map { menuItemPage ->
                         MenuItem.Builder(context)
-                            .page(page)
-                            .also { applyTitle(context, page, it) }
+                            .page(menuItemPage)
+                            .also { applyTitle(context, menuItemPage, it) }
                             .build()
                     }
             } else {

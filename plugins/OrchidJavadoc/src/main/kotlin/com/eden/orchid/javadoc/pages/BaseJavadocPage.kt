@@ -3,6 +3,7 @@ package com.eden.orchid.javadoc.pages
 import com.copperleaf.javadoc.json.models.JavaDocElement
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.JavadocGenerator
 import com.eden.orchid.javadoc.resources.BaseJavadocResource
@@ -12,7 +13,7 @@ abstract class BaseJavadocPage(
     resource: BaseJavadocResource,
     key: String,
     title: String
-) : OrchidPage(resource, key, title) {
+) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, key, title) {
 
     fun renderCommentText(el: JavaDocElement) : String {
         val builder = StringBuilder()

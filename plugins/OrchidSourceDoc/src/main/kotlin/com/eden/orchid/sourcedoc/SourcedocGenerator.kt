@@ -95,10 +95,6 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         }
     }
 
-    override fun startGeneration(context: OrchidContext, model: SourceDocModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
 // Setup modules and index pages
 //----------------------------------------------------------------------------------------------------------------------
 

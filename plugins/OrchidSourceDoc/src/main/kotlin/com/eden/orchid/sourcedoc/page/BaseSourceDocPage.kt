@@ -1,6 +1,7 @@
 package com.eden.orchid.sourcedoc.page
 
 import com.eden.orchid.api.options.annotations.Archetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.options.SourcedocPageConfigArchetype
@@ -16,6 +17,7 @@ abstract class BaseSourceDocPage(
     val moduleSlug: String
 ) : OrchidPage(
     resource,
+    RenderService.RenderMode.TEMPLATE,
     key,
     title
 ) {

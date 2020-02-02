@@ -98,10 +98,6 @@ constructor(
         }
     }
 
-    override fun startGeneration(context: OrchidContext, model: JavadocModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
     override fun getCollections(
         context: OrchidContext,
         model: JavadocModel

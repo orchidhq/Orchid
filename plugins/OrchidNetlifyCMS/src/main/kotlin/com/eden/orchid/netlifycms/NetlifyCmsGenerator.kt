@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
@@ -98,11 +99,16 @@ constructor(
             val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
             adminResource.reference.stripFromPath("netlifyCms")
             val adminPage = NetlifyCmsAdminPage(adminResource, model)
-            context.renderRaw(adminPage)
+            context.render(adminPage)
 
-            val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig(context)), "admin", null)
+            val adminConfig = OrchidPage(
+                StringResource(context, "admin/config.yml", getYamlConfig(context)),
+                RenderService.RenderMode.RAW,
+                "admin",
+                null
+            )
             adminConfig.reference.isUsePrettyUrl = false
-            context.renderRaw(adminConfig)
+            context.render(adminConfig)
         }
     }
 

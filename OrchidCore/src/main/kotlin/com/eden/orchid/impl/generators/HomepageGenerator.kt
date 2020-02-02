@@ -6,6 +6,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -15,10 +16,6 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
 
     override fun startIndexing(context: OrchidContext): Model {
         return modelOf { listOf(loadHomepage(context), load404page(context)) }
-    }
-
-    override fun startGeneration(context: OrchidContext, model: Model) {
-        model.allPages.forEach { context.renderTemplate(it) }
     }
 
     override fun getCollections(
@@ -45,7 +42,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
             resource = StringResource(context, "404.md", "")
         }
 
-        val page = OrchidPage(resource, "404", "Not Found")
+        val page = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "404", "Not Found")
         page.reference.fileName = "404"
         page.reference.isUsePrettyUrl = false
 
@@ -60,7 +57,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
         resource: OrchidResource,
         key: String,
         title: String
-    ) : OrchidPage(resource, key, title) {
+    ) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, key, title) {
 
         override val itemIds = listOf("home", "Home")
     }

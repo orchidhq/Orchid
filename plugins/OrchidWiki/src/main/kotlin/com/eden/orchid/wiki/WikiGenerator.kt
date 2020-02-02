@@ -64,16 +64,6 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) 
         return model
     }
 
-    override fun startGeneration(context: OrchidContext, model: WikiModel) {
-        model.allPages.forEach {
-            if (it is WikiBookPage) {
-                context.renderBinary(it)
-            } else {
-                context.renderTemplate(it)
-            }
-        }
-    }
-
     private fun getSectionsIndex(context: OrchidContext, model: WikiModel): WikiSectionsPage {
         val resource = StringResource(context, "wiki.md", "")
 

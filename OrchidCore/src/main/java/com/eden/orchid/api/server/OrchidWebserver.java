@@ -10,6 +10,9 @@ import com.eden.orchid.api.server.annotations.Post;
 import com.eden.orchid.api.server.annotations.Put;
 import com.eden.orchid.utilities.OrchidUtils;
 import fi.iki.elonen.NanoHTTPD;
+import kotlin.Pair;
+import kotlin.collections.MapsKt;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -28,6 +31,44 @@ public final class OrchidWebserver extends NanoHTTPD {
     private final List<OrchidRoute> postRoutes;
     private final List<OrchidRoute> putRoutes;
     private final List<OrchidRoute> deleteRoutes;
+
+    // taken from https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types
+    public static Map<String, String> mimeTypes = MapsKt.mapOf(
+            new Pair<>("aac"    , "audio/aac"),
+            new Pair<>("bmp"    , "image/bmp"),
+            new Pair<>("css"    , "text/css"),
+            new Pair<>("csv"    , "text/csv"),
+            new Pair<>("epub"   , "application/epub+zip"),
+            new Pair<>("gz"     , "application/gzip"),
+            new Pair<>("gif"    , "image/gif"),
+            new Pair<>("htm"    , "text/html"),
+            new Pair<>("html"   , "text/html"),
+            new Pair<>("ico"    , "image/vnd.microsoft.icon"),
+            new Pair<>("jpeg"   , "image/jpeg"),
+            new Pair<>("jpg"    , "image/jpeg"),
+            new Pair<>("js"     , "text/javascript"),
+            new Pair<>("json"   , "application/json"),
+            new Pair<>("mp3"    , "audio/mpeg"),
+            new Pair<>("mpeg"   , "video/mpeg"),
+            new Pair<>("oga"    , "audio/ogg"),
+            new Pair<>("ogv"    , "video/ogg"),
+            new Pair<>("ogx"    , "application/ogg"),
+            new Pair<>("opus"   , "audio/opus"),
+            new Pair<>("otf"    , "font/otf"),
+            new Pair<>("png"    , "image/png"),
+            new Pair<>("pdf"    , "application/pdf"),
+            new Pair<>("svg"    , "image/svg+xml"),
+            new Pair<>("tif"    , "image/tiff"),
+            new Pair<>("tiff"   , "image/tiff"),
+            new Pair<>("txt"    , "text/plain"),
+            new Pair<>("weba"   , "audio/webm"),
+            new Pair<>("webm"   , "video/webm"),
+            new Pair<>("webp"   , "image/webp"),
+            new Pair<>("woff"   , "font/woff"),
+            new Pair<>("woff2"  , "font/woff2"),
+            new Pair<>("xml"    , "application/xml"),
+            new Pair<>("zip"    , "application/zip")
+    );
 
     public OrchidWebserver(OrchidContext context, Set<OrchidController> controllers, OrchidFileController fileController, int port) throws IOException {
         super(ServerUtils.getNearestFreePort(port));
@@ -186,7 +227,7 @@ public final class OrchidWebserver extends NanoHTTPD {
             if (matchingRoute != null) {
                 response = matchingRoute.call(new OrchidRequest(context, session, matchingRoute, files));
             } else {
-                response = fileController.findFile(context, OrchidUtils.normalizePath(route));
+                response = fileController.findPage(context, OrchidUtils.normalizePath(route));
             }
             if (response != null) {
                 return response.getResponse();

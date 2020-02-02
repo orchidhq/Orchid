@@ -495,5 +495,18 @@ public final class OrchidReference {
         this.query = query;
         return this;
     }
+
+    public String getFileNameOnDisk() {
+        if(EdenUtils.isEmpty(OrchidUtils.normalizePath(getOutputExtension()))) {
+            return OrchidUtils.normalizePath(getFileName());
+        }
+        else {
+            return OrchidUtils.normalizePath(getFileName()) + "." + OrchidUtils.normalizePath(getOutputExtension());
+        }
+    }
+
+    public String getPathOnDisk() {
+        return OrchidUtils.normalizePath(getPath() + "/" + getFileNameOnDisk());
+    }
 }
 

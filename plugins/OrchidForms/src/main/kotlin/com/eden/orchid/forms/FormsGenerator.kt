@@ -30,10 +30,6 @@ class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, PRIORITY_DEFAU
         return FormsModel(forms)
     }
 
-    override fun startGeneration(context: OrchidContext, model: FormsModel) {
-
-    }
-
     private fun getFormsByDatafiles(context: OrchidContext, forms: HashMap<String, Form>) {
         val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.parserExtensions.toTypedArray(), false)
         for (resource in formsPages) {

@@ -1,12 +1,16 @@
 package com.eden.orchid.api.server;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +79,22 @@ public final class OrchidResponse {
             headers = new HashMap<>();
         }
         headers.put(header, value);
+        return this;
+    }
+
+    public OrchidResponse page(OrchidPage page) {
+        contentStream(context.getRendered(page));
+
+        // guess the correct mime-type from the file's output extension
+        String mimeType = URLConnection.guessContentTypeFromName(page.getReference().getFileNameOnDisk());
+        if(EdenUtils.isEmpty(mimeType)) {
+            mimeType = OrchidWebserver.mimeTypes.get(page.getReference().getOutputExtension());
+        }
+
+        if(!EdenUtils.isEmpty(mimeType)) {
+            mimeType(mimeType);
+        }
+
         return this;
     }
 

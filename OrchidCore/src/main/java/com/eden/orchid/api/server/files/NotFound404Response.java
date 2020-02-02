@@ -2,6 +2,7 @@ package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
@@ -24,6 +25,7 @@ final class NotFound404Response {
         if(resource != null) {
             page = new OrchidPage(
                     resource,
+                    RenderService.RenderMode.TEMPLATE,
                     "404",
                     "Not Found!"
             );
@@ -49,19 +51,12 @@ final class NotFound404Response {
 
             page = new OrchidPage(
                     new StringResource(context, "404.txt", notFoundIndexContent),
+                    RenderService.RenderMode.TEMPLATE,
                     "404",
                     "Not Found!"
             );
         }
 
-        InputStream is = context.getRenderedTemplate(page);
-        try {
-            content = IOUtils.toString(is, Charset.forName("UTF-8"));
-        }
-        catch (Exception e) {
-            content = "";
-        }
-
-        return new OrchidResponse(context).content(content).status(404);
+        return new OrchidResponse(context).page(page).status(404);
     }
 }

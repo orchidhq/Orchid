@@ -85,7 +85,9 @@ constructor(
      *
      * @param pages the pages to render
      */
-    abstract fun startGeneration(context: OrchidContext, model: T)
+    open fun startGeneration(context: OrchidContext, model: T) {
+        model.allPages.forEach { page -> context.render(page) }
+    }
 
     /**
      * Get a list of the collections that are indexed by this Generator.

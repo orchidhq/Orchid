@@ -89,10 +89,10 @@ public abstract class AbstractTheme extends JarResourceSource implements Options
         if (!isHasRenderedAssets()) {
             getScripts()
                     .stream()
-                    .forEach(context::renderRaw);
+                    .forEach(context::render);
             getStyles()
                     .stream()
-                    .forEach(context::renderRaw);
+                    .forEach(context::render);
             hasRenderedAssets = true;
         }
     }

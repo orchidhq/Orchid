@@ -70,7 +70,7 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
             .allPages
             .forEach { page ->
                 if (page is StaticPage) {
-                    context.doWithTheme(page.theme) { context.render(page, page.renderMode) }
+                    context.doWithTheme(page.theme) { context.render(page) }
                 }
             }
     }

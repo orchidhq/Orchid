@@ -30,10 +30,6 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
         )
     }
 
-    override fun startGeneration(context: OrchidContext, model: PresentationsModel) {
-
-    }
-
     private fun getPresentationResources(context: OrchidContext, baseDir: String): Map<String, List<OrchidResource>> {
         val slides = context.getLocalResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true)
         val slideMap = HashMap<String, ArrayList<OrchidResource>>()

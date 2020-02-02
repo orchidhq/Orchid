@@ -5,12 +5,14 @@ import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.ArrayList
 import java.util.regex.Pattern
+import java.util.stream.Stream
 import kotlin.reflect.KClass
 
 fun String?.empty(): Boolean {
@@ -289,4 +291,13 @@ fun Number.makeMillisReadable(): String {
         sTime = millis.toString() + "ms"
     }
     return sTime
+}
+
+fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {
+    val requestedPath = OrchidUtils.normalizePath(path)
+
+    return pages
+        .filter { page -> page.reference.pathOnDisk == requestedPath }
+        .findFirst()
+        .orElse(null)
 }

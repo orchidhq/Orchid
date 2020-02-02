@@ -110,13 +110,6 @@ constructor(
         return model
     }
 
-    override fun startGeneration(
-        context: OrchidContext,
-        model: PostsModel
-    ) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
     private fun getAuthorPages(context: OrchidContext): List<AuthorPage> {
         val authorPages = ArrayList<AuthorPage>()
 

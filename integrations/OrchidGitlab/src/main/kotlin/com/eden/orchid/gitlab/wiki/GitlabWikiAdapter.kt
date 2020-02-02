@@ -139,7 +139,7 @@ constructor(
         return ResourceTransformation(
             this,
             contentPostTransformations = mutableListOf(
-                WikiUtils.handleImages { imageTarget, i ->
+                WikiUtils.handleImages { imageTarget, _ ->
                     wikiUploads
                         .find { it.pathInRepo(repo) == OrchidUtils.normalizePath(imageTarget) }
                         ?.let { FileResource(context, it, repo.repoDir.toFile()) }
@@ -148,6 +148,4 @@ constructor(
             )
         )
     }
-
-
 }

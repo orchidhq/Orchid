@@ -2,6 +2,7 @@ package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
@@ -32,7 +33,6 @@ final class IndexFileResponse {
     // TODO: convert this to a component
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
-        String content = "";
 
         if (targetFile.isDirectory()) {
             Clog.i("Rendering directory index: {}", targetPath);
@@ -107,21 +107,16 @@ final class IndexFileResponse {
 
                 OrchidPage page = new OrchidPage(
                         new StringResource(context, "directoryListing.txt", directoryListingContent),
+                        RenderService.RenderMode.TEMPLATE,
                         "directoryListing",
                         "Index"
                 );
 
-                InputStream is = context.getRenderedTemplate(page);
-                try {
-                    content = IOUtils.toString(is, Charset.forName("UTF-8"));
-                }
-                catch (IOException e) {
-                    content = directoryListingContent;
-                }
+                return new OrchidResponse(context).page(page).status(404);
             }
         }
 
-        return new OrchidResponse(context).content(content);
+        return new OrchidResponse(context).content("");
     }
 
     private static String humanReadableByteCount(long bytes, boolean si) {
@@ -131,7 +126,6 @@ final class IndexFileResponse {
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
         return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
-
 
     private static class FileRow {
         public String url;

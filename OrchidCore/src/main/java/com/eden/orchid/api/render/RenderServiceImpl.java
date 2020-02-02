@@ -59,19 +59,6 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public final InputStream getRenderedString(OrchidPage page, String extension, String templateString) {
-        page.setCurrent(true);
-        String content = "" + context.compile(extension, templateString, page);
-        page.setCurrent(false);
-        return toStream(content);
-    }
-
-    @Override
-    public final boolean renderString(final OrchidPage page, final String extension, final String templateString) {
-        return renderInternal(page, () -> getRenderedString(page, extension, templateString));
-    }
-
-    @Override
     public final InputStream getRenderedRaw(OrchidPage page) {
         page.setCurrent(true);
         String content = page.getResource().getContent();
@@ -102,7 +89,8 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public boolean render(OrchidPage page, RenderMode renderMode) {
+    public boolean render(OrchidPage page) {
+        RenderMode renderMode = page.getPageRenderMode();
         switch (renderMode) {
         case TEMPLATE: 
             return renderTemplate(page);
@@ -119,7 +107,8 @@ public class RenderServiceImpl implements RenderService {
     }
 
     @Override
-    public InputStream getRendered(OrchidPage page, RenderMode renderMode) {
+    public InputStream getRendered(OrchidPage page) {
+        RenderMode renderMode = page.getPageRenderMode();
         switch (renderMode) {
         case TEMPLATE: 
             return getRenderedTemplate(page);
@@ -128,40 +117,6 @@ public class RenderServiceImpl implements RenderService {
             return getRenderedRaw(page);
 
         case BINARY: 
-            return getRenderedBinary(page);
-
-        default: 
-            throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
-        }
-    }
-
-    @Override
-    public boolean render(OrchidPage page, String renderMode) {
-        switch (renderMode.toUpperCase()) {
-        case "TEMPLATE": 
-            return renderTemplate(page);
-
-        case "RAW": 
-            return renderRaw(page);
-
-        case "BINARY": 
-            return renderBinary(page);
-
-        default: 
-            throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
-        }
-    }
-
-    @Override
-    public InputStream getRendered(OrchidPage page, String renderMode) {
-        switch (renderMode.toUpperCase()) {
-        case "TEMPLATE": 
-            return getRenderedTemplate(page);
-
-        case "RAW": 
-            return getRenderedRaw(page);
-
-        case "BINARY": 
             return getRenderedBinary(page);
 
         default: 
@@ -197,11 +152,7 @@ public class RenderServiceImpl implements RenderService {
     public boolean renderAsset(AssetPage asset) {
         boolean success = false;
         if (!(asset.getResource() instanceof InlineResource)) {
-            if (context.isBinaryExtension(asset.getReference().getOutputExtension())) {
-                success = renderBinary(asset);
-            } else {
-                success = renderRaw(asset);
-            }
+            success = render(asset);
         }
         asset.setRendered(true);
         return success;

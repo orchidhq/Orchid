@@ -98,10 +98,6 @@ constructor(
         }
     }
 
-    override fun startGeneration(context: OrchidContext, model: KotlindocModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
     private fun isInnerPackage(parent: KotlinPackageDoc, possibleChild: KotlinPackageDoc): Boolean {
 
         // packages start the same...

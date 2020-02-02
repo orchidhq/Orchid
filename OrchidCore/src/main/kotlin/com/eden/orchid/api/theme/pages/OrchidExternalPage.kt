@@ -1,6 +1,7 @@
 package com.eden.orchid.api.theme.pages
 
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.ExternalResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 
@@ -22,7 +23,7 @@ class OrchidExternalPage : OrchidPage {
         ).distinct().filter { it.isNotBlank() }
     }
 
-    constructor(reference: OrchidReference) : super(ExternalResource(reference), "ext", reference.title)
+    constructor(reference: OrchidReference) : super(ExternalResource(reference), RenderService.RenderMode.TEMPLATE, "ext", reference.title)
 
-    constructor(resource: OrchidResource, key: String, title: String) : super(resource, key, title)
+    constructor(resource: OrchidResource, key: String, title: String) : super(resource, RenderService.RenderMode.TEMPLATE, key, title)
 }

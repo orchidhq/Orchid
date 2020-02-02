@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Singleton
 public final class DefaultAssetManager implements AssetManager {
@@ -66,10 +67,13 @@ public final class DefaultAssetManager implements AssetManager {
     }
 
     @Override
+    public Stream<AssetPage> getAllAssetPages() {
+        return assets.values().stream();
+    }
+
+    @Override
     public void clearAssets() {
         assets.clear();
     }
-
-
 
 }

@@ -161,13 +161,6 @@ constructor(
         )
     }
 
-    override fun startGeneration(
-        context: OrchidContext,
-        model: SwiftdocModel
-    ) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
 // Run SourceKitten executable
 //----------------------------------------------------------------------------------------------------------------------
 

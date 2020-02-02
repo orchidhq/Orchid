@@ -7,6 +7,7 @@ import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 import javax.inject.Inject
@@ -44,18 +45,17 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, P
                 val pages = mappedIndex[key]?.first?.allPages
                 val page = SitemapPage(context, key, pages)
                 sitemapPages.add(page)
-                context.renderRaw(page)
+                context.render(page)
             }
 
             // Render an index of all indices, so individual index pages can be found
             sitemapIndex = SitemapIndexPage(context, sitemapPages)
-            context.renderRaw(sitemapIndex)
+            context.render(sitemapIndex)
         }
 
         if (useRobots) {
             // Render the robots.txt
-            val robotsPage = RobotsPage(context, sitemapIndex)
-            context.renderRaw(robotsPage)
+            context.render(RobotsPage(context, sitemapIndex))
         }
     }
 
@@ -68,7 +68,12 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, P
 
     @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")
     class SitemapPage internal constructor(context: OrchidContext, key: String, val entries: List<OrchidPage>?) :
-        OrchidPage(context.getResourceEntry("sitemap.xml.peb"), "sitemap", "Sitemap") {
+        OrchidPage(
+            context.getResourceEntry("sitemap.xml.peb"),
+            RenderService.RenderMode.RAW,
+            "sitemap",
+            "Sitemap"
+        ) {
         init {
             this.reference.fileName = "sitemap-$key"
             this.reference.path = ""
@@ -79,7 +84,12 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, P
 
     @Description(value = "The root sitemap, with links to all individual sitemaps.", name = "Sitemap Index")
     class SitemapIndexPage internal constructor(context: OrchidContext, val sitemaps: List<SitemapPage>) :
-        OrchidPage(context.getResourceEntry("sitemapIndex.xml.peb"), "sitemapIndex", "Sitemap Index") {
+        OrchidPage(
+            context.getResourceEntry("sitemapIndex.xml.peb"),
+            RenderService.RenderMode.RAW,
+            "sitemapIndex",
+            "Sitemap Index"
+        ) {
         init {
             this.reference.fileName = "sitemap"
             this.reference.path = ""
@@ -90,7 +100,12 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, P
 
     @Description(value = "Your site's robots.txt file, for directing web crawlers.", name = "Robots.txt")
     class RobotsPage internal constructor(context: OrchidContext, val sitemap: SitemapIndexPage?) :
-        OrchidPage(context.getResourceEntry("robots.txt.peb"), "robots", "Robots") {
+        OrchidPage(
+            context.getResourceEntry("robots.txt.peb"),
+            RenderService.RenderMode.RAW,
+            "robots",
+            "Robots"
+        ) {
         init {
             this.reference.fileName = "robots"
             this.reference.path = ""

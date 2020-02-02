@@ -93,10 +93,6 @@ constructor(
         return model
     }
 
-    override fun startGeneration(context: OrchidContext, model: TaxonomiesModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
     override fun getCollections(context: OrchidContext, model: TaxonomiesModel): List<OrchidCollection<*>>? {
         val collections = ArrayList<OrchidCollection<*>>()
 

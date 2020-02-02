@@ -6,6 +6,7 @@ import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -106,10 +107,10 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORI
         val jsonElement = JSONElement(versionsJson)
         val reference = OrchidReference(context, "meta/versions.json")
         val resource = JsonResource(jsonElement, reference)
-        val page = OrchidPage(resource, "changelogVersions", "Changelog Index")
+        val page = OrchidPage(resource, RenderService.RenderMode.RAW, "changelogVersions", "Changelog Index")
         page.reference.isUsePrettyUrl = false
 
-        context.renderRaw(page)
+        context.render(page)
     }
 
     private val ChangelogVersion.major: Boolean
