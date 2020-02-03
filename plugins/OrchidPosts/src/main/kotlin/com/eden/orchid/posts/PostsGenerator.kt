@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
@@ -135,7 +136,14 @@ constructor(
 
         // add Author pages from those specified in config.yml
         for (author in this.authors) {
-            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author)
+            val authorPage = AuthorPage(
+                StringResource(
+                    "",
+                    OrchidReference(context, "index.md"),
+                    null
+                ),
+                author
+            )
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)

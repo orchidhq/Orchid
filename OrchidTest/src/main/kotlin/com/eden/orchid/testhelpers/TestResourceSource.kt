@@ -1,5 +1,6 @@
 package com.eden.orchid.testhelpers
 
+import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -8,8 +9,10 @@ import com.eden.orchid.api.resources.resourcesource.FileResourceSource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
+import org.json.JSONObject
 import java.util.Arrays
 import javax.inject.Inject
 
@@ -24,7 +27,11 @@ constructor(
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         return if (mockResources.containsKey(fileName)) {
-            StringResource(context, fileName, mockResources[fileName]!!.first, mockResources[fileName]!!.second)
+            StringResource(
+                mockResources[fileName]!!.first,
+                OrchidReference(context, fileName),
+                JSONElement(JSONObject(mockResources[fileName]!!.second))
+            )
         } else null
     }
 
@@ -41,7 +48,11 @@ constructor(
 
         return matchedResoures
             .filter { isValidExtension(it.key, fileExtensions) }
-            .map { StringResource(context, it.key, it.value.first, it.value.second) }
+            .map { StringResource(
+                it.value.first,
+                OrchidReference(context, it.key),
+                JSONElement(JSONObject(it.value.second))
+            ) }
     }
 
     private fun getResourcesInDir(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {

@@ -1,9 +1,11 @@
 package com.eden.orchid.api.server;
 
+import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.Descriptive;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
@@ -12,6 +14,8 @@ import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import org.json.JSONObject;
+
 import javax.inject.Provider;
 import javax.inject.Inject;
 import java.net.URLEncoder;
@@ -21,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Description(value = "A representation of a server-rendered page, accessible when running Orchid\'s development server.", name = "View")
+@Description(value = "A representation of a server-rendered page, accessible when running Orchid's development server.", name = "View")
 public class OrchidView extends OrchidPage {
 
     public enum Type {
@@ -40,7 +44,12 @@ public class OrchidView extends OrchidPage {
     }
 
     public OrchidView(OrchidContext context, OrchidController controller, Map<String, Object> data, String... views) {
-        super(new StringResource("", new OrchidReference(context, "view.html"), data), "view", "Admin");
+        super(
+                new StringResource("", new OrchidReference(context, "view.html"), new JSONElement(new JSONObject(data))),
+                RenderService.RenderMode.TEMPLATE,
+                "view",
+                "Admin"
+        );
         this.controller = controller;
         this.layout = "layoutBase";
         this.template = views;
@@ -49,6 +58,7 @@ public class OrchidView extends OrchidPage {
 
 // Assets
 //----------------------------------------------------------------------------------------------------------------------
+
     @Override
     public void loadAssets() {
         addJs("assets/js/shadowComponents.js");
@@ -64,7 +74,7 @@ public class OrchidView extends OrchidPage {
         styles.addAll(context.getAdminTheme().getStyles());
     }
 
-// View renderer
+    // View renderer
 //----------------------------------------------------------------------------------------------------------------------
     @Override
     public String getTemplateBase() {
@@ -76,7 +86,7 @@ public class OrchidView extends OrchidPage {
         return "server/" + super.getLayoutBase();
     }
 
-// Other
+    // Other
 //----------------------------------------------------------------------------------------------------------------------
     public List<AdminList> getAdminLists() {
         return this.adminLists.get().stream().sorted(Comparator.comparing(o -> o.getListClass().getSimpleName())).collect(Collectors.toList());

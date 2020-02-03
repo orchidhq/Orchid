@@ -10,6 +10,7 @@ import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -106,7 +107,7 @@ final class IndexFileResponse {
                 }
 
                 OrchidPage page = new OrchidPage(
-                        new StringResource(context, "directoryListing.txt", directoryListingContent),
+                        new StringResource(directoryListingContent, new OrchidReference(context, "directoryListing.txt"), null),
                         RenderService.RenderMode.TEMPLATE,
                         "directoryListing",
                         "Index"

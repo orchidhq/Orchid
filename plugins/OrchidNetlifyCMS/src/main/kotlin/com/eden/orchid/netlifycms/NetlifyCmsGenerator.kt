@@ -17,6 +17,7 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
 import com.eden.orchid.netlifycms.util.getNetlifyCmsFields
@@ -102,7 +103,11 @@ constructor(
             context.render(adminPage)
 
             val adminConfig = OrchidPage(
-                StringResource(context, "admin/config.yml", getYamlConfig(context)),
+                StringResource(
+                    getYamlConfig(context),
+                    OrchidReference(context, "admin/config.yml"),
+                    null
+                ),
                 RenderService.RenderMode.RAW,
                 "admin",
                 null

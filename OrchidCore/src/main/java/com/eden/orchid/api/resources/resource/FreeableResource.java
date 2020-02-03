@@ -18,24 +18,4 @@ public abstract class FreeableResource extends OrchidResource {
     public FreeableResource(OrchidReference reference) {
         super(reference);
     }
-
-    @Override
-    protected void loadContent() {
-        if(rawContent != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), rawContent);
-            this.content = parsedContent.first;
-            this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
-        }
-        else {
-            this.rawContent = "";
-            this.content = "";
-            this.embeddedData = null;
-        }
-    }
-
-    @Override
-    public void free() {
-        rawContent = null;
-        content = null;
-    }
 }

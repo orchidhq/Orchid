@@ -158,7 +158,7 @@ constructor(
                 val pageRef = OrchidReference(context, "taxonomy.html")
                 pageRef.title = title
 
-                val page = TaxonomyArchivePage(StringResource("", pageRef), model, taxonomy, i + 1)
+                val page = TaxonomyArchivePage(StringResource("", pageRef, null), model, taxonomy, i + 1)
 
                 permalinkStrategy.applyPermalink(page, page.taxonomy.permalink)
 
@@ -193,7 +193,14 @@ constructor(
                 val pageRef = OrchidReference(context, "term.html")
                 pageRef.title = title
 
-                val page = TermArchivePage(StringResource("", pageRef), model, termPageList, taxonomy, term, i + 1)
+                val page = TermArchivePage(
+                    StringResource("", pageRef, null),
+                    model,
+                    termPageList,
+                    taxonomy,
+                    term,
+                    i + 1
+                )
                 permalinkStrategy.applyPermalink(page, page.term.permalink)
                 page.parent = taxonomy.landingPage
                 termArchivePages.add(page)
@@ -248,7 +255,13 @@ constructor(
                 val pageRef = OrchidReference(context, "term.html")
                 pageRef.title = title
 
-                val page = CollectionArchivePage(StringResource("", pageRef), model, termPageList, collectionArchive, i + 1)
+                val page = CollectionArchivePage(
+                    StringResource("", pageRef, null),
+                    model,
+                    termPageList,
+                    collectionArchive,
+                    i + 1
+                )
                 permalinkStrategy.applyPermalink(page, page.collectionArchive.permalink)
                 collectionArchivePages.add(page)
             }

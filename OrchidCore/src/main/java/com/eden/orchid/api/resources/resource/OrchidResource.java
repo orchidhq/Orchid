@@ -1,6 +1,7 @@
 package com.eden.orchid.api.resources.resource;
 
 import com.eden.common.json.JSONElement;
+import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * Resources provide the "intrinsic content" of a page.
@@ -128,11 +130,21 @@ public abstract class OrchidResource {
 //----------------------------------------------------------------------------------------------------------------------
 
     protected void loadContent() {
-
+        if(rawContent != null) {
+            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), rawContent);
+            this.content = parsedContent.first;
+            this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
+        }
+        else {
+            this.rawContent = "";
+            this.content = "";
+            this.embeddedData = null;
+        }
     }
 
     public void free() {
-
+        rawContent = null;
+        content = null;
     }
 
 }

@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiPage
@@ -49,7 +50,11 @@ constructor(
             if (resource == null) {
                 val path = sectionBaseDir + FilenameUtils.removeExtension(linkTarget)
                 Clog.w("Could not find wiki resource page at '{}'", file)
-                resource = StringResource(context, "$path/index.md", linkName)
+                resource = StringResource(
+                    linkName,
+                    OrchidReference(context, "$path/index.md"),
+                    null
+                )
             }
 
             resource

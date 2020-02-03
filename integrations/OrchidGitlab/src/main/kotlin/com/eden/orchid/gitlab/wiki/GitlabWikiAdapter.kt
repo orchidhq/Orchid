@@ -11,6 +11,7 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.ResourceWrapper
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.assets.AssetPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.utilities.OrchidUtils
@@ -109,7 +110,7 @@ constructor(
 
                 if (referencedFile == null) {
                     Clog.w("Page referenced in Gitlab Wiki $repo, $linkTarget does not exist")
-                    StringResource(context, "wiki/${section.key}/$linkTarget/index.md", linkName)
+                    StringResource(linkName, OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), null)
                 } else {
                     FileResource(context, referencedFile, repo.repoDir.toFile())
                 }.wrapResourceToCopyImagesOnRender(repo, wikiUploads)

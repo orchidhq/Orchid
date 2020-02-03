@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiBookPage
@@ -65,7 +66,11 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) 
     }
 
     private fun getSectionsIndex(context: OrchidContext, model: WikiModel): WikiSectionsPage {
-        val resource = StringResource(context, "wiki.md", "")
+        val resource = StringResource(
+            "",
+            OrchidReference(context, "wiki.md"),
+            null
+        )
 
         val sectionsPage = WikiSectionsPage(model, resource, "Wiki")
 

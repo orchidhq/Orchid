@@ -75,7 +75,7 @@ constructor(
                         ref.path = OrchidUtils.normalizePath(OrchidUtils.toSlug("swift/source/" + ref.originalPath))
                         ref.fileName = OrchidUtils.toSlug(ref.originalFileName)
 
-                        val fileResource = StringResource(resource.rawContent, ref)
+                        val fileResource = StringResource(resource.rawContent, ref, null)
 
                         val arr = codeJson.optJSONArray("key.substructure") ?: JSONArray()
 
@@ -117,7 +117,7 @@ constructor(
                             }
                         }
 
-                        val res = StringResource("", ref)
+                        val res = StringResource("", ref, null)
                         val page = SwiftdocSourcePage(res, statements, codeJson.toString(2))
                         pages.add(page)
                     } catch (e: Exception) {

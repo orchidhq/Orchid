@@ -1,5 +1,6 @@
 package com.eden.orchid.api.generators;
 
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.indexing.OrchidRootIndex;
@@ -20,6 +21,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
@@ -82,13 +85,14 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         when(context.findTheme(any())).thenReturn(theme);
         when(context.getIndex()).thenReturn(internalIndex);
         when(context.includeDrafts()).thenReturn(false);
+        when(context.getEmbeddedData(anyString(), anyString())).thenReturn(new EdenPair<>("", new HashMap<>()));
 
         when(theme.isHasRenderedAssets()).thenReturn(true);
 
         generators = new HashSet<>();
 
         mockPage1Reference = new OrchidReference(context, "page1.html");
-        mockPage1Resource = new StringResource("", mockPage1Reference);
+        mockPage1Resource = new StringResource("", mockPage1Reference, null);
         mockPage1 = spy(new OrchidPage(mockPage1Resource, RenderService.RenderMode.TEMPLATE, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);

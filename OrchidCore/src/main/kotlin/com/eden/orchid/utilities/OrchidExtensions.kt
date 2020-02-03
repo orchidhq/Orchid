@@ -11,7 +11,12 @@ import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.ArrayList
+import java.util.Arrays
+import java.util.Objects
+import java.util.function.Function
+import java.util.function.Predicate
 import java.util.regex.Pattern
+import java.util.stream.Collectors
 import java.util.stream.Stream
 import kotlin.reflect.KClass
 
@@ -301,4 +306,15 @@ fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {
         .filter { page -> page.reference.pathOnDisk == requestedPath }
         .findFirst()
         .orElse(null)
+}
+
+
+fun merge(vararg sources: JSONElement?): JSONElement? {
+    val sourcesAsObjects: Array<JSONObject> = sources
+        .filterNotNull()
+        .filter { EdenUtils.elementIsObject(it) }
+        .map { it.element as JSONObject }
+        .toTypedArray()
+
+    return JSONElement(EdenUtils.merge(*sourcesAsObjects))
 }

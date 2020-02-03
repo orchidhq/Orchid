@@ -169,7 +169,8 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                 OrchidReference(
                     context,
                     ""
-                )
+                ),
+                null
             )
         }
 

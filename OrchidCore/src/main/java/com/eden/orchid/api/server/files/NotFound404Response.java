@@ -7,6 +7,7 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
@@ -50,7 +51,7 @@ final class NotFound404Response {
             }
 
             page = new OrchidPage(
-                    new StringResource(context, "404.txt", notFoundIndexContent),
+                    new StringResource(notFoundIndexContent, new OrchidReference(context, "404.txt"), null),
                     RenderService.RenderMode.TEMPLATE,
                     "404",
                     "Not Found!"

@@ -134,7 +134,11 @@ object WikiUtils {
 
         val summaryPage = WikiSummaryPage(
             section.key,
-            StringResource(context, "wiki/${section.key}.html", summaryPageContent),
+            StringResource(
+                summaryPageContent,
+                OrchidReference(context, "wiki/${section.key}.html"),
+                null
+            ),
             sectionTitle from String::camelCase to Array<String>::titleCase
         )
 
