@@ -27,6 +27,7 @@ import com.eden.orchid.swiftdoc.swift.statements.SwiftStruct
 import com.eden.orchid.swiftdoc.swift.statements.SwiftTypealias
 import com.eden.orchid.utilities.InputStreamCollector
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.readToString
 import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
@@ -75,7 +76,7 @@ constructor(
                         ref.path = OrchidUtils.normalizePath(OrchidUtils.toSlug("swift/source/" + ref.originalPath))
                         ref.fileName = OrchidUtils.toSlug(ref.originalFileName)
 
-                        val fileResource = StringResource(resource.rawContent, ref, null)
+                        val fileResource = StringResource(resource.contentStream.readToString(), ref, null)
 
                         val arr = codeJson.optJSONArray("key.substructure") ?: JSONArray()
 

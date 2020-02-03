@@ -202,7 +202,6 @@ class ThumbnailResource(
     Renameable {
 
     init {
-        rawContent = ""
         content = ""
         embeddedData = null
 

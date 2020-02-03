@@ -5,7 +5,9 @@ import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.FreeableResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.utilities.asInputStream
 import org.json.JSONObject
+import java.io.InputStream
 
 class SourceDocResource<T : DocElement>(
     context: OrchidContext,
@@ -16,12 +18,7 @@ class SourceDocResource<T : DocElement>(
         reference.extension = "md"
     }
 
-    override fun loadContent() {
-        if (rawContent == null) {
-            rawContent = element.comment.components.joinToString(" ")
-            content = rawContent
-            embeddedData = JSONElement(JSONObject())
-        }
+    override fun getContentStream(): InputStream {
+        return element.comment.components.joinToString(" ").asInputStream()
     }
-
 }

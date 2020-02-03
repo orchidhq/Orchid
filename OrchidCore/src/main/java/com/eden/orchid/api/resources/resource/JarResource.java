@@ -2,7 +2,9 @@ package com.eden.orchid.api.resources.resource;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,29 +38,14 @@ public final class JarResource extends FreeableResource {
     }
 
     @Override
-    protected void loadContent() {
-        if(rawContent == null) {
-            try {
-                if(jarFile != null && jarEntry != null) {
-                    rawContent = IOUtils.toString(jarFile.getInputStream(jarEntry), StandardCharsets.UTF_8);
-                }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        super.loadContent();
-    }
-
-    @Override
+    @NotNull
     public InputStream getContentStream() {
         try {
             return jarFile.getInputStream(jarEntry);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return OrchidExtensionsKt.asInputStream("");
         }
     }
 }

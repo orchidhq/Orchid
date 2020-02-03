@@ -11,6 +11,7 @@ import com.eden.orchid.api.server.annotations.Post
 import com.eden.orchid.api.server.annotations.Put
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
+import com.eden.orchid.utilities.readToString
 import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
@@ -64,7 +65,7 @@ constructor(
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getLocalResourceEntry(localFilename)
         if (resource != null) {
-            return OrchidResponse(context).content(resource.rawContent)
+            return OrchidResponse(context).content(resource.contentStream.readToString())
         }
         else {
             return OrchidResponse(context).content("Not found").status(404)

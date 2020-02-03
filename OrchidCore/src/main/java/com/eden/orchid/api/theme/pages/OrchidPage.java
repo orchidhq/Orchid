@@ -31,6 +31,7 @@ import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
+import kotlin.jvm.internal.Intrinsics;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -72,7 +73,7 @@ public class OrchidPage implements
     private Map<String, Object> allData;
 
     // variables that give the page identity
-    protected OrchidResource resource;
+    protected final OrchidResource resource;
     protected OrchidReference reference;
     protected String key;
     protected Map<String, Object> data;
@@ -210,6 +211,10 @@ public class OrchidPage implements
     }
 
     public OrchidPage(OrchidResource resource, RenderService.RenderMode renderMode, String key, String title) {
+        Intrinsics.checkNotNull(resource, "OrchidPage 'resource' cannot be null");
+        Intrinsics.checkNotNull(renderMode, "OrchidPage 'renderMode' cannot be null");
+        Intrinsics.checkNotNull(key, "OrchidPage 'key' cannot be null");
+
         this.context = resource.getReference().getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
 
@@ -280,13 +285,8 @@ public class OrchidPage implements
             throw new IllegalStateException("Cannot get page content until indexing has completed.");
         }
         if(compiledContent == null) {
-            if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-                compiledContent = resource.compileContent(this);
-                if(compiledContent == null) {
-                    compiledContent = "";
-                }
-            }
-            else {
+            compiledContent = resource.compileContent(this);
+            if(compiledContent == null) {
                 compiledContent = "";
             }
         }
@@ -597,10 +597,6 @@ public class OrchidPage implements
 
     public OrchidResource getResource() {
         return resource;
-    }
-
-    public void setResource(OrchidResource resource) {
-        this.resource = resource;
     }
 
     public OrchidReference getReference() {

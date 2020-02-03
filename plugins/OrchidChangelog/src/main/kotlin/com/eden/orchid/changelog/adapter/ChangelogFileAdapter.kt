@@ -60,7 +60,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
         var currentVersionReleaseDate: String? = null
         var previousIndex = 0
 
-        val content = readme.rawContent
+        val content = readme.content
 
         val changelogVersions = mutableListOf<ChangelogVersion>()
 

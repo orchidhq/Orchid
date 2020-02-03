@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.OrchidSecurityManager
 import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule
 import com.eden.orchid.impl.compilers.pebble.PebbleModule
@@ -17,7 +18,7 @@ class TestOrchid {
     fun runTest(
         flags: MutableMap<String, Any>,
         config: Map<String, Any>,
-        resources: Map<String, Pair<String, Map<String, Any>>>,
+        resources: List<(OrchidContext)->OrchidResource>,
         extraModules: List<OrchidModule>,
         serve: Boolean
     ): TestResults {

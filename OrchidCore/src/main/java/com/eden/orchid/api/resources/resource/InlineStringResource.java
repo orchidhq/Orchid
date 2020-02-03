@@ -4,8 +4,11 @@ import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -15,52 +18,23 @@ import java.util.Map;
  */
 public final class InlineStringResource extends OrchidResource implements InlineResource {
 
-    public InlineStringResource(String content, OrchidReference reference) {
-        super(reference);
-        if(content != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), content);
-            this.rawContent = content;
-            if(parsedContent != null) {
-                this.content = parsedContent.first;
-                this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
-            }
-            else {
-                this.content = content;
-                this.embeddedData = null;
-            }
-        }
-        else {
-            this.rawContent = "";
-            this.content = "";
-            this.embeddedData = null;
-        }
-    }
-
-    public InlineStringResource(String content, OrchidReference reference, Map<String, Object> data) {
-        this(content, reference, new JSONElement(new JSONObject(data)));
-    }
+    private final String hardcodedString;
+    private final JSONElement hardcodedData;
 
     public InlineStringResource(String content, OrchidReference reference, JSONElement data) {
         super(reference);
-        if(content != null) {
-            EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), content);
-            this.rawContent = content;
-            this.content = parsedContent.first;
-            this.embeddedData = data;
-        }
-        else {
-            this.rawContent = "";
-            this.content = "";
-            this.embeddedData = null;
-        }
+        this.hardcodedString = content;
+        this.hardcodedData = (data != null) ? data : new JSONElement(new JSONObject());
     }
 
-    public InlineStringResource(OrchidContext context, String name, String content) {
-        this(content, new OrchidReference(context, name));
+    @NotNull
+    @Override
+    public InputStream getContentStream() {
+        return OrchidExtensionsKt.asInputStream(hardcodedString);
     }
 
-    public InlineStringResource(OrchidContext context, String name, String content, Map<String, Object> data) {
-        this(content, new OrchidReference(context, name));
-        this.embeddedData = new JSONElement(new JSONObject(data));
+    @Override
+    public JSONElement getEmbeddedData() {
+        return OrchidExtensionsKt.merge(hardcodedData, super.getEmbeddedData());
     }
 }

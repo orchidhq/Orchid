@@ -3,7 +3,6 @@ package com.eden.orchid.changelog
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.printResults
 import com.eden.orchid.strikt.summary
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
@@ -16,15 +15,12 @@ import kotlinx.html.li
 import kotlinx.html.ul
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.all
 import strikt.assertions.containsExactlyInAnyOrder
-import strikt.assertions.hasSize
 import strikt.assertions.isA
-import strikt.assertions.isTrue
 import strikt.assertions.map
 
 class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGenerator<HomepageGenerator>()) {

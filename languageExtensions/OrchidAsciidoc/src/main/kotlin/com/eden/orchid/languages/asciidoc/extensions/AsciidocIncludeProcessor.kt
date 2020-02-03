@@ -2,6 +2,7 @@ package com.eden.orchid.languages.asciidoc.extensions
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.readToString
 import org.asciidoctor.ast.Document
 import org.asciidoctor.extension.IncludeProcessor
 import org.asciidoctor.extension.PreprocessorReader
@@ -29,7 +30,7 @@ constructor(
 
         if(resource != null) {
             reader?.push_include(
-                resource.rawContent,
+                resource.contentStream.readToString(),
                 target,
                 resource.reference.originalFullFileName,
                 1,

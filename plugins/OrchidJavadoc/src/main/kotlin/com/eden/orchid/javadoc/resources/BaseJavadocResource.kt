@@ -5,7 +5,8 @@ import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.FreeableResource
 import com.eden.orchid.api.theme.pages.OrchidReference
-import org.json.JSONObject
+import com.eden.orchid.utilities.asInputStream
+import java.io.InputStream
 
 open class BaseJavadocResource(
         context: OrchidContext,
@@ -17,12 +18,8 @@ open class BaseJavadocResource(
         reference.extension = "md"
     }
 
-    override fun loadContent() {
-        if (rawContent == null) {
-            rawContent = doc.simpleComment
-            content = rawContent
-            embeddedData = JSONElement(JSONObject())
-        }
+    override fun getContentStream(): InputStream {
+        return doc.simpleComment.asInputStream()
     }
 
 }

@@ -1,7 +1,12 @@
 package com.eden.orchid.testhelpers
 
+import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.SuppressedWarnings
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,15 +22,15 @@ open class OrchidIntegrationTest(
 
     private lateinit var flags: MutableMap<String, Any>
     private lateinit var config: MutableMap<String, Any>
-    private lateinit var resources: MutableMap<String, Pair<String, Map<String, Any>>>
+    private lateinit var resources: MutableList<(OrchidContext) -> OrchidResource>
 
     private val standardAdditionalModules: Set<OrchidModule> = setOf(*standardAdditionalModules)
 
     @BeforeEach
     fun integrationTestSetUp() {
-        flags = HashMap()
-        config = HashMap()
-        resources = HashMap()
+        flags = mutableMapOf()
+        config = mutableMapOf()
+        resources = mutableListOf()
         serve = false
     }
 
@@ -33,7 +38,7 @@ open class OrchidIntegrationTest(
     fun integrationTestTearDown() {
         flags = mutableMapOf()
         config = mutableMapOf()
-        resources = mutableMapOf()
+        resources = mutableListOf()
         serve = false
     }
 
@@ -65,7 +70,13 @@ open class OrchidIntegrationTest(
 
     @JvmOverloads
     fun resource(path: String, content: String = "", data: Map<String, Any> = HashMap()) {
-        resources[path] = Pair(content, data)
+        resources.add { context ->
+            StringResource(
+                content,
+                OrchidReference(context, path),
+                JSONElement(JSONObject(data + mapOf("fromIntegrationTest" to true)))
+            )
+        }
     }
 
     fun serveOn(port: Int) {

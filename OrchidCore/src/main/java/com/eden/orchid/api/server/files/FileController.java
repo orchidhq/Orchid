@@ -101,11 +101,9 @@ public final class FileController implements OrchidFileController {
         }
 
         if(matchedPage != null) {
-            Clog.v("We found a page in the indexed site at '{}'!", targetPath);
             return new OrchidResponse(context).page(matchedPage).status(200);
         }
         else {
-            Clog.v("No pages found in the indexed site at '{}'", targetPath);
             return findFile(context, targetPath);
         }
     }

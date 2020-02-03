@@ -5,8 +5,10 @@ import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -21,11 +23,18 @@ import java.util.Map;
  */
 public final class StringResource extends OrchidResource {
 
+    private final String hardcodedString;
     private final JSONElement hardcodedData;
     public StringResource(String content, OrchidReference reference, JSONElement data) {
         super(reference);
-        this.rawContent = content;
+        this.hardcodedString = (content != null) ? content : "";
         this.hardcodedData = (data != null) ? data : new JSONElement(new JSONObject());
+    }
+
+    @NotNull
+    @Override
+    public InputStream getContentStream() {
+        return OrchidExtensionsKt.asInputStream(hardcodedString);
     }
 
     @Override

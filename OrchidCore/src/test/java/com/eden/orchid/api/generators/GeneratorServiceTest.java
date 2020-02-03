@@ -14,11 +14,13 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.testhelpers.OrchidUnitTest;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -100,7 +102,14 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         generators.add(generator1);
 
         mockPage2Reference = new OrchidReference(context, "page2.html");
-        mockFreeableResource = spy(new FreeableResource(mockPage2Reference) {});
+        mockFreeableResource = spy(new FreeableResource(mockPage2Reference) {
+
+            @NotNull
+            @Override
+            public InputStream getContentStream() {
+                return OrchidExtensionsKt.asInputStream("");
+            }
+        });
         mockPage2 = spy(new OrchidPage(mockFreeableResource, RenderService.RenderMode.TEMPLATE, "mockPage2", ""));
         pages2 = new ArrayList<>();
         pages2.add(mockPage2);

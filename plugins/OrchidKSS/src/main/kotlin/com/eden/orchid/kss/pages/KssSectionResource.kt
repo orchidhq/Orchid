@@ -6,19 +6,28 @@ import com.eden.orchid.api.resources.resource.FreeableResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.kss.parser.StyleguideSection
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.asInputStream
+import com.eden.orchid.utilities.merge
 import org.json.JSONObject
+import java.io.InputStream
 
-class KssSectionResource(context: OrchidContext, val styleguideSection: StyleguideSection)
-    : FreeableResource(OrchidReference(context, "styleguide/" + OrchidUtils.normalizePath(styleguideSection.styleGuidePath.joinToString("/")) + ".md")){
+class KssSectionResource(
+    context: OrchidContext,
+    val styleguideSection: StyleguideSection
+) : FreeableResource(
+    OrchidReference(
+        context,
+        "styleguide/" + OrchidUtils.normalizePath(styleguideSection.styleGuidePath.joinToString("/")) + ".md"
+    )
+) {
 
-    override fun loadContent() {
-        if (rawContent == null) {
-            rawContent = styleguideSection.description
-            content = styleguideSection.description
-            embeddedData = JSONElement(JSONObject(styleguideSection.tags))
-        }
+    override fun getContentStream(): InputStream {
+        return styleguideSection.description.asInputStream()
     }
 
+    override fun getEmbeddedData(): JSONElement? {
+        return merge(JSONElement(JSONObject(styleguideSection.tags)), super.getEmbeddedData())
+    }
 }
 
 

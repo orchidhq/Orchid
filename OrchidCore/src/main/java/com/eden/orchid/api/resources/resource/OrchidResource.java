@@ -6,9 +6,12 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidPrecompiler;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +28,6 @@ public abstract class OrchidResource {
     // TODO: remove this. Resources shouldn't _have_ a resource, but pages should _create_ a reference from APIs on the resource
     protected final OrchidReference reference;
 
-    protected String rawContent;
     protected String content;
     protected JSONElement embeddedData;
 
@@ -37,27 +39,27 @@ public abstract class OrchidResource {
         }
     }
 
+    @NotNull
+    public abstract InputStream getContentStream();
+
     public boolean shouldPrecompile() {
         JSONElement data = getEmbeddedData();
         if (EdenUtils.elementIsObject(data) && ((JSONObject) data.getElement()).has("precompile")) {
             return ((JSONObject) data.getElement()).getBoolean("precompile");
         }
 
-        return reference.getContext().resolve(OrchidPrecompiler.class).shouldPrecompile(reference.getExtension(), getRawContent());
+        String rawContent = OrchidExtensionsKt.readToString(getContentStream());
+
+        return reference.getContext().resolve(OrchidPrecompiler.class).shouldPrecompile(reference.getExtension(), rawContent);
     }
 
     public boolean shouldRender() {
         return true;
     }
 
-    public InputStream getContentStream() {
-        return IOUtils.toInputStream(getRawContent(), StandardCharsets.UTF_8);
-    }
-
     public String compileContent(Object data) {
-        if (!EdenUtils.isEmpty(getContent())) {
-            String compiledContent = getContent();
-
+        String compiledContent = getContent();
+        if (!EdenUtils.isEmpty(compiledContent)) {
             if (shouldPrecompile()) {
                 compiledContent = reference.getContext().compile(getPrecompilerExtension(), compiledContent, data);
             }
@@ -116,11 +118,6 @@ public abstract class OrchidResource {
         return this.content;
     }
 
-    public String getRawContent() {
-        loadContent();
-        return this.rawContent;
-    }
-
     public JSONElement getEmbeddedData() {
         loadContent();
         return this.embeddedData;
@@ -129,22 +126,22 @@ public abstract class OrchidResource {
 // Freeable Resource Impl
 //----------------------------------------------------------------------------------------------------------------------
 
-    protected void loadContent() {
+    protected final void loadContent() {
+        String rawContent = OrchidExtensionsKt.readToString(getContentStream());
         if(rawContent != null) {
             EdenPair<String, Map<String, Object>> parsedContent = reference.getContext().getEmbeddedData(reference.getExtension(), rawContent);
             this.content = parsedContent.first;
             this.embeddedData = new JSONElement(new JSONObject(parsedContent.second));
         }
         else {
-            this.rawContent = "";
             this.content = "";
             this.embeddedData = null;
         }
     }
 
     public void free() {
-        rawContent = null;
         content = null;
+        embeddedData = null;
     }
 
 }

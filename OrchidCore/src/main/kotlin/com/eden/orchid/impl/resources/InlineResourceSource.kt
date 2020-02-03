@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.InlineStringResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import java.util.regex.Pattern
 
 class InlineResourceSource : LocalResourceSource {
@@ -16,7 +17,7 @@ class InlineResourceSource : LocalResourceSource {
         if (m.find()) {
             val actualFileName = m.group(2)
             val fileContent = m.group(3)
-            return InlineStringResource(context, actualFileName, fileContent)
+            return InlineStringResource(fileContent, OrchidReference(context, actualFileName), null)
         }
 
         return null

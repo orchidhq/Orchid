@@ -3,10 +3,12 @@ package com.eden.orchid.api.resources.resource;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,29 +82,20 @@ public final class ExternalResource extends FreeableResource {
     }
 
     @Override
-    protected void loadContent() {
-        if (rawContent == null) {
-            try {
-                if (responseBody == null) {
-                    responseBody = getContentBody();
-                }
-                if (responseBody != null) {
-                    rawContent = responseBody.string();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        super.loadContent();
-    }
-
-    @Override
+    @NotNull
     public InputStream getContentStream() {
-        loadContent();
-        if (responseBody != null) {
-            return responseBody.byteStream();
+        try {
+            if (responseBody == null) {
+                responseBody = getContentBody();
+            }
+            if (responseBody != null) {
+                return responseBody.byteStream();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return OrchidExtensionsKt.asInputStream("");
     }
 
     @Override
@@ -110,16 +103,6 @@ public final class ExternalResource extends FreeableResource {
         if (download) {
             loadContent();
             return super.getContent();
-        } else {
-            throw new UnsupportedOperationException("This method is not allowed on ExternalResource when it is not set to download");
-        }
-    }
-
-    @Override
-    public String getRawContent() {
-        if (download) {
-            loadContent();
-            return super.getRawContent();
         } else {
             throw new UnsupportedOperationException("This method is not allowed on ExternalResource when it is not set to download");
         }

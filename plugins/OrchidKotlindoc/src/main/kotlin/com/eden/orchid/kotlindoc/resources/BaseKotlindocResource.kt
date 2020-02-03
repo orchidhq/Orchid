@@ -5,9 +5,11 @@ import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.FreeableResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.utilities.asInputStream
 import org.json.JSONObject
+import java.io.InputStream
 
-open class BaseKotlindocResource(
+abstract class BaseKotlindocResource(
         context: OrchidContext,
         qualifiedName: String,
         var doc: KotlinDocElement
@@ -16,14 +18,4 @@ open class BaseKotlindocResource(
     init {
         reference.extension = "md"
     }
-
-    override fun loadContent() {
-        if (rawContent == null) {
-            rawContent = doc.comment
-            content = rawContent
-
-            this.embeddedData = JSONElement(JSONObject())
-        }
-    }
-
 }

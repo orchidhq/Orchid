@@ -3,11 +3,13 @@ package com.eden.orchid.api.resources.resource;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import kotlin.collections.ArraysKt;
 import kotlin.collections.CollectionsKt;
 import kotlin.text.StringsKt;
 import org.apache.commons.io.IOUtils;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -38,21 +40,6 @@ public final class FileResource extends FreeableResource {
     public FileResource(File file, OrchidReference reference) {
         super(reference);
         this.file = file;
-    }
-
-    @Override
-    protected void loadContent() {
-        if (rawContent == null) {
-            try {
-                if (file != null) {
-                    rawContent = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        super.loadContent();
     }
 
     private static String pathFromFile(OrchidContext context, File file) {
@@ -86,12 +73,13 @@ public final class FileResource extends FreeableResource {
     }
 
     @Override
+    @NotNull
     public InputStream getContentStream() {
         try {
             return new FileInputStream(file);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return OrchidExtensionsKt.asInputStream("");
         }
     }
 

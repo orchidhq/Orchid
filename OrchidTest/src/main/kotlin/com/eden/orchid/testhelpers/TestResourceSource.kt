@@ -19,20 +19,16 @@ import javax.inject.Inject
 class TestResourceSource
 @Inject
 constructor(
-    private val mockResources: Map<String, Pair<String, Map<String, Any>>>
+    private val mockResources: List<(OrchidContext)->OrchidResource>
 ) : OrchidResourceSource, LocalResourceSource {
 
     override val priority: Int
         get() = Integer.MAX_VALUE - 2
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        return if (mockResources.containsKey(fileName)) {
-            StringResource(
-                mockResources[fileName]!!.first,
-                OrchidReference(context, fileName),
-                JSONElement(JSONObject(mockResources[fileName]!!.second))
-            )
-        } else null
+        return mockResources
+            .map { it(context) }
+            .find { it.reference.originalFullFileName == fileName }
     }
 
     override fun getResourceEntries(
@@ -42,29 +38,24 @@ constructor(
         recursive: Boolean
     ): List<OrchidResource> {
         val matchedResoures = if (recursive)
-            getResourcesInDirs(dirName)
+            getResourcesInDirs(context, dirName)
         else
-            getResourcesInDir(dirName)
+            getResourcesInDir(context, dirName)
 
         return matchedResoures
-            .filter { isValidExtension(it.key, fileExtensions) }
-            .map { StringResource(
-                it.value.first,
-                OrchidReference(context, it.key),
-                JSONElement(JSONObject(it.value.second))
-            ) }
+            .filter { isValidExtension(it.reference.originalFullFileName, fileExtensions) }
     }
 
-    private fun getResourcesInDir(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {
+    private fun getResourcesInDir(context: OrchidContext, dirName: String): List<OrchidResource> {
         return mockResources
-            .entries
-            .filter { OrchidUtils.normalizePath(FilenameUtils.getPath(it.key)) == OrchidUtils.normalizePath(dirName) }
+            .map { it(context) }
+            .filter { OrchidUtils.normalizePath(it.reference.originalPath) == OrchidUtils.normalizePath(dirName) }
     }
 
-    private fun getResourcesInDirs(dirName: String): List<Map.Entry<String, Pair<String, Map<String, Any>>>> {
+    private fun getResourcesInDirs(context: OrchidContext, dirName: String): List<OrchidResource> {
         return mockResources
-            .entries
-            .filter { it.key.startsWith(OrchidUtils.normalizePath(dirName)) }
+            .map { it(context) }
+            .filter { OrchidUtils.normalizePath(it.reference.originalPath).startsWith(OrchidUtils.normalizePath(dirName)) }
     }
 
     private fun isValidExtension(filename: String, fileExtensions: Array<String>?): Boolean {

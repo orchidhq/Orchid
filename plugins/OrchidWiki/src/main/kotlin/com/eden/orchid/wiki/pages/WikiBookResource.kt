@@ -18,38 +18,28 @@ class WikiBookResource(
         val section: WikiSection
 ) : OrchidResource(reference) {
 
-    private var resourceStream: InputStream? = null
-
     init {
-        rawContent = ""
         content = ""
         embeddedData = JSONElement(JSONObject())
     }
 
-    override fun loadContent() {
-        if(resourceStream == null) {
-            val wikiBookTemplate = reference.context.locateTemplate("wiki/book")
-            val pdfOutput = wikiBookTemplate.compileContent(mapOf(
-                    "section" to section,
-                    "resource" to this@WikiBookResource
-            ))
+    override fun getContentStream(): InputStream {
+        val wikiBookTemplate = reference.context.locateTemplate("wiki/book")
+        val pdfOutput = wikiBookTemplate.compileContent(mapOf(
+            "section" to section,
+            "resource" to this@WikiBookResource
+        ))
 
-            val doc = Jsoup.parse(pdfOutput)
-            val pdfDoc = W3CDom().fromJsoup(doc)
+        val doc = Jsoup.parse(pdfOutput)
+        val pdfDoc = W3CDom().fromJsoup(doc)
 
-            resourceStream = convertOutputStream { safeOs ->
-                PdfRendererBuilder()
-                        .useSVGDrawer(BatikSVGDrawer())
-                        .withW3cDocument(pdfDoc, reference.context.baseUrl)
-                        .toStream(safeOs)
-                        .run()
-            }
+        return convertOutputStream { safeOs ->
+            PdfRendererBuilder()
+                .useSVGDrawer(BatikSVGDrawer())
+                .withW3cDocument(pdfDoc, reference.context.baseUrl)
+                .toStream(safeOs)
+                .run()
         }
-    }
-
-    override fun getContentStream(): InputStream? {
-        loadContent()
-        return resourceStream
     }
 
     fun replaceBaseUrls(input: String): String {

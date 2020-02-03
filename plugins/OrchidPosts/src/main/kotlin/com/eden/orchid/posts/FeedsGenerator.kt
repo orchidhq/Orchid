@@ -11,6 +11,7 @@ import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.model.FeedsModel
+import com.eden.orchid.utilities.SuppressedWarnings
 
 @Description("Generate feeds for you blog in RSS and Atom formats.", name = "RSS Feeds")
 class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, PRIORITY_LATE + 1) {
@@ -76,6 +77,8 @@ class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, PRIORITY_LATE 
 
     @Description(value = "A page with an RSS-like feed.", name = "RSS Feed")
     class FeedPage
+
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     constructor(
         resource: OrchidResource,
         filename: String,

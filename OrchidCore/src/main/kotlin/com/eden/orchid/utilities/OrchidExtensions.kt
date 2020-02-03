@@ -10,6 +10,8 @@ import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.Objects
@@ -318,3 +320,6 @@ fun merge(vararg sources: JSONElement?): JSONElement? {
 
     return JSONElement(EdenUtils.merge(*sourcesAsObjects))
 }
+
+fun InputStream?.readToString() : String? = this?.bufferedReader()?.readText()
+fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))

@@ -3,6 +3,7 @@ package com.eden.orchid.api.resources.resource;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,13 +46,9 @@ public class ResourceWrapper extends FreeableResource {
     }
 
     @Override
+    @NotNull
     public InputStream getContentStream() {
         return resource.getContentStream();
-    }
-
-    @Override
-    public String getRawContent() {
-        return resource.getRawContent();
     }
 
     @Override
@@ -82,11 +79,6 @@ public class ResourceWrapper extends FreeableResource {
     @Override
     public void delete() throws IOException {
         resource.delete();
-    }
-
-    @Override
-    protected void loadContent() {
-        resource.loadContent();
     }
 
     @Override
