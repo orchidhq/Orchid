@@ -8,6 +8,9 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import io.bit3.jsass.Compiler
 import io.bit3.jsass.Options
 import io.bit3.jsass.adapter.NativeAdapter
+import okhttp3.internal.closeQuietly
+import java.io.OutputStream
+import java.io.OutputStreamWriter
 import java.net.URI
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -35,7 +38,7 @@ constructor(
         return "css"
     }
 
-    override fun compile(extension: String, input: String, data: Map<String, Any>): String {
+    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
         val options = Options()
         options.importers.add(importer)
         options.setIsIndentedSyntaxSrc(false)
@@ -49,16 +52,17 @@ constructor(
 
         val actualScssInput = if (extension == CompilerSyntax.SASS.ext) Compiler.sass2scss(input, 0) else input
 
-        try {
-            return if (EdenUtils.isEmpty(sourceContext)) {
+        val result = try {
+            if (EdenUtils.isEmpty(sourceContext)) {
                 Compiler().compileString(actualScssInput, options).css
             } else {
                 Compiler().compileString(actualScssInput, URI(sourceContext), URI(sourceContext), options).css
             }
         } catch (e: Exception) {
             Clog.e("error compiling .{} content: {}", e, extension, e.message)
-            return ""
+            ""
         }
 
+        OutputStreamWriter(os).append(result).close()
     }
 }

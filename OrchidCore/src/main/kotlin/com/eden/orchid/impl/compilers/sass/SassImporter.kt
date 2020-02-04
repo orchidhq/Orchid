@@ -181,7 +181,7 @@ constructor(private val context: OrchidContext) : Importer {
         //
         // In the future, there will hopefully be the `sass2scss()` native function will be exported by jsass, so the
         // content passed here can just be converted to SCSS, instead of compiled fully to CSS and included.
-        return context.compile("sass", Clog.format("// CONTEXT={}\n{}", baseUri, input))
+        return context.compile("sass", Clog.format("// CONTEXT={}\n{}", baseUri, input), null)
     }
 
 }

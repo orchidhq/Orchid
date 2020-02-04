@@ -14,6 +14,9 @@ import kotlin.LazyKt;
 import org.json.JSONObject;
 
 import javax.inject.Singleton;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -147,7 +150,7 @@ public final class CompilerServiceImpl implements CompilerService {
         return parserExtensions;
     }
 
-    public OrchidCompiler compilerFor(String extension) {
+    private OrchidCompiler compilerFor(String extension) {
         if (customCompilerMap != null && customCompilerMap.containsKey(extension)) {
             return customCompilerMap.get(extension);
         }
@@ -166,7 +169,10 @@ public final class CompilerServiceImpl implements CompilerService {
         OrchidCompiler compiler = compilerFor(extension);
         if (compiler != null) {
             synchronized (compiler) {
-                return compiler.compile(extension, input, context.getSiteData(data));
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                compiler.compile(os, extension, input, context.getSiteData(data));
+
+                return new String(os.toByteArray(), StandardCharsets.UTF_8);
             }
         } else {
             return input;

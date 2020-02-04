@@ -3,6 +3,9 @@ package com.eden.orchid.api.compilers;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.registration.Prioritized;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -37,7 +40,7 @@ public abstract class OrchidCompiler extends Prioritized implements OptionsHolde
      *
      * @since v1.0.0
      */
-    public abstract String compile(String extension, String input, Map<String, Object> data);
+    public abstract void compile(OutputStream os, String extension, String input, Map<String, Object> data);
 
     /**
      * Gets the file extension representing the type of the output content.

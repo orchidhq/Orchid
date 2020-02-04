@@ -12,9 +12,13 @@ import com.eden.orchid.languages.asciidoc.extensions.AsciidocIncludeProcessor
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
 import org.asciidoctor.SafeMode
+import org.asciidoctor.jruby.internal.JRubyAsciidoctor
 import org.asciidoctor.log.LogHandler
 import org.asciidoctor.log.LogRecord
 import org.asciidoctor.log.Severity
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import java.io.StringReader
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
@@ -53,8 +57,13 @@ constructor(
         options.setBaseDir(resourcesDir)
     }
 
-    override fun compile(extension: String, source: String, data: Map<String, Any>): String {
-        return asciidoctor.convert(source, options)
+    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
+        val reader = StringReader(input)
+        val writer = OutputStreamWriter(os)
+
+        asciidoctor.convert(reader, writer, options)
+
+        writer.close()
     }
 
     override fun getOutputExtension(): String {

@@ -18,10 +18,13 @@ import com.mitchellbosecke.pebble.parser.Parser;
 import com.mitchellbosecke.pebble.parser.ParserImpl;
 import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
+import kotlin.NotImplementedError;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -58,13 +61,13 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
     }
 
     @Override
-    public String compile(String extension, String source, Map<String, Object> data) {
+    public void compile(OutputStream os, String extension, String input, Map<String, Object> data) {
         try {
             LexerImpl lexer = new LexerImpl(
                     engine.getSyntax(),
                     engine.getExtensionRegistry().getUnaryOperators().values(),
                     engine.getExtensionRegistry().getBinaryOperators().values());
-            TokenStream tokenStream = lexer.tokenize(new StringReader(source), "");
+            TokenStream tokenStream = lexer.tokenize(new StringReader(input), "");
 
             Parser parser = new ParserImpl(
                     engine.getExtensionRegistry().getUnaryOperators(),
@@ -80,22 +83,20 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 visitorFactory.createVisitor(compiledTemplate).visit(root);
             }
 
-            Writer writer = new StringWriter();
+            Writer writer = new OutputStreamWriter(os);
             compiledTemplate.evaluate(writer, data);
-
-            return writer.toString();
+            writer.close();
         }
         catch (PebbleException e) {
-            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), 0, e.getMessage());
+            OrchidExtensionsKt.logSyntaxError(input, extension, e.getLineNumber(), 0, e.getMessage());
         }
         catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
-            Clog.e(source);
+            Clog.e(input);
             if(contextProvider.get().diagnose()) {
                 e.printStackTrace();
             }
         }
-        return source;
     }
 
     @Override

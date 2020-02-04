@@ -8,6 +8,8 @@ import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
 import com.vladsch.flexmark.util.builder.Extension
 import com.vladsch.flexmark.util.data.MutableDataSet
+import java.io.OutputStream
+import java.io.OutputStreamWriter
 
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,8 +46,10 @@ constructor(
         renderer = HtmlRenderer.builder(options).build()
     }
 
-    override fun compile(extension: String, source: String, data: Map<String, Any>): String {
-        return renderer.render(parser.parse(source))
+    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
+        val writer = OutputStreamWriter(os)
+        renderer.render(parser.parse(input), writer)
+        writer.close()
     }
 
     override fun getOutputExtension(): String {

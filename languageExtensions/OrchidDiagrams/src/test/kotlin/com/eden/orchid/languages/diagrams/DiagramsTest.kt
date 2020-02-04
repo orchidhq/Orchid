@@ -104,39 +104,51 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     @Test
     @DisplayName("Test that PlantUml syntax works with @startuml and @enduml tags")
     fun test05() {
-        val input = """
+        resource(
+            "homepage.puml",
+            """
             |@startuml
             |Bob->Alice : hello
             |@enduml
             """.trimMargin()
+        )
 
-        val output = PlantUmlCompiler().compile("uml", input, null)
-        expectThat(output)
-            .asHtml(true)
-            .select("svg") {
-                matches().matchCountIs(1)
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml()
+                    .select("body > svg") {
+                        matches()
+                    }
             }
     }
 
     @Test
     @DisplayName("Test that PlantUml syntax works without @startuml and @enduml tags")
     fun test06() {
-        val input = """
+        resource(
+            "homepage.puml",
+            """
             |Bob->Alice : hello
             """.trimMargin()
+        )
 
-        val output = PlantUmlCompiler().compile("uml", input, null)
-        expectThat(output)
-            .asHtml(true)
-            .select("svg") {
-                matches().matchCountIs(1)
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml()
+                    .select("body > svg") {
+                        matches()
+                    }
             }
     }
 
     @Test
     @DisplayName("Test that PlantUml syntax works with multiple @startuml and @enduml tags, rendering each one individually")
     fun test07() {
-        val input = """
+        resource(
+            "homepage.puml",
+            """
             |@startuml
             |Bob1->Alice1 : hello
             |@enduml
@@ -149,13 +161,17 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
             |Bob2->Alice2 : hello
             |@enduml
             """.trimMargin()
+        )
 
-        val output = PlantUmlCompiler().compile("uml", input, null)
-        expectThat(output)
-            .asHtml(true)
-            .select("svg") {
-                matches().matchCountIs(3)
+        expectThat(execute(DiagramsModule()))
+            .pageWasRendered("/index.svg") {
+                get { content }
+                    .asHtml()
+                    .select("body > svg") {
+                        matches().matchCountIs(3)
+                    }
             }
+
     }
 
 }

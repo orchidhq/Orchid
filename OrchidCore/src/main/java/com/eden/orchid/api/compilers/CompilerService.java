@@ -67,19 +67,6 @@ public interface CompilerService extends OrchidService {
     }
 
     /**
-     * Finds an OrchidCompiler capable of evaluating input with a given file extension.
-     *
-     * @param extension the extension representing content that needs to be compiled
-     * @return an appropriate OrchidCompiler if once was found that matches the extension, null otherwise
-     *
-     * @since v1.0.0
-     * @see OrchidCompiler
-     */
-    default OrchidCompiler compilerFor(String extension) {
-        return getService(CompilerService.class).compilerFor(extension);
-    }
-
-    /**
      * Finds an OrchidParser capable of evaluating input with a given file extension.
      *
      * @param extension the extension representing content that needs to be parsed
@@ -90,21 +77,6 @@ public interface CompilerService extends OrchidService {
      */
     default OrchidParser parserFor(String extension) {
         return getService(CompilerService.class).parserFor(extension);
-    }
-
-    /**
-     * Compiles input against a given Compiler identified by file extension. Additional data may be passed in that
-     * individual Compilers may use to render into the resulting output.
-     *
-     * @param extension the extension to find a Compiler for
-     * @param input the input to compile
-     * @return the compiled output data if an appropriate Compiler could be found, otherwise the unprocessed input
-     *
-     * @since v1.0.0
-     * @see OrchidCompiler
-     */
-    default String compile(String extension, String input) {
-        return getService(CompilerService.class).compile(extension, input);
     }
 
     /**
