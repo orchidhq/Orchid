@@ -15,6 +15,7 @@ import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.ResourceServiceImpl
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.admin.AdminList
 import com.eden.orchid.api.tasks.OrchidCommand
@@ -143,7 +144,7 @@ class ImplModule(
 
             // Resource Sources
             addToSet(
-                LocalResourceSource::class.java,
+                OrchidResourceSource::class.java,
                 LocalExternalResourceSource::class.java,
                 LocalFileResourceSource::class.java,
                 LocalInlineResourceSource::class.java

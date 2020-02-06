@@ -18,12 +18,12 @@ import java.util.HashMap
 class InlineResourceSourceTest : OrchidUnitTest {
 
     private lateinit var context: OrchidContext
-    private lateinit var underTest: InlineResourceSource
+    private lateinit var underTest: LocalInlineResourceSource
 
     @BeforeEach
     fun setUp() {
         context = mock(OrchidContext::class.java)
-        underTest = InlineResourceSource()
+        underTest = LocalInlineResourceSource()
     }
 
     @Test

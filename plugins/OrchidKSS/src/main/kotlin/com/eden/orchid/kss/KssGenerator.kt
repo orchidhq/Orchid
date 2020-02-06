@@ -7,6 +7,7 @@ import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.kss.model.KssModel
 import com.eden.orchid.kss.pages.KssPage
 import com.eden.orchid.kss.parser.KssParser
@@ -57,7 +58,7 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, PRIORITY_EARLY) {
 
         val pages = ArrayList<KssPage>()
 
-        val resources = context.getLocalResourceEntries(sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true)
+        val resources = context.getResourceEntries(sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true, LocalResourceSource)
         val parser = KssParser(resources)
         parser.sections.values.forEach {
             val page = KssPage(context, it)

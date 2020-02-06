@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.changelog.ChangelogGenerator
 import com.eden.orchid.changelog.model.ChangelogVersion
 import com.eden.orchid.utilities.OrchidUtils
@@ -26,10 +27,11 @@ class ChangelogDirAdapter : ChangelogAdapter {
     override fun getType() = "directory"
 
     override fun loadChangelogEntries(context: OrchidContext): List<ChangelogVersion> {
-        return context.getLocalResourceEntries(
+        return context.getResourceEntries(
             OrchidUtils.normalizePath(baseDir),
             context.compilerExtensions.toTypedArray(),
-            true
+            true,
+            LocalResourceSource
         ).map { ChangelogVersion(context, format, it.reference.originalFileName, null, it) }
     }
 }

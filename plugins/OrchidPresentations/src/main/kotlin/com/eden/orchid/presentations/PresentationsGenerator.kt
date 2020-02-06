@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.presentations.model.Presentation
 import com.eden.orchid.presentations.model.PresentationsModel
 import com.eden.orchid.presentations.model.Slide
@@ -31,7 +32,7 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
     }
 
     private fun getPresentationResources(context: OrchidContext, baseDir: String): Map<String, List<OrchidResource>> {
-        val slides = context.getLocalResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true)
+        val slides = context.getResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true, LocalResourceSource)
         val slideMap = HashMap<String, ArrayList<OrchidResource>>()
 
         slides.map {

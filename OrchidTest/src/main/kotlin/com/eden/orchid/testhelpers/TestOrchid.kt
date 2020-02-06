@@ -7,6 +7,7 @@ import com.eden.orchid.api.OrchidSecurityManager
 import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule
 import com.eden.orchid.impl.compilers.pebble.PebbleModule
@@ -113,7 +114,7 @@ class TestOrchid {
                 .forEach {
                     Clog.d("overriding resources from {}", it.javaClass.simpleName)
                     addToSet(
-                        PluginResourceSource::class.java,
+                        OrchidResourceSource::class.java,
                         PluginFileResourceSource(
                             it.javaClass,
                             it.resourcePriority + 1

@@ -2,6 +2,7 @@ package com.eden.orchid.netlifycms.api
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
@@ -38,7 +39,7 @@ constructor(
     fun getFiles(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val locatedResources = JSONArray()
 
-        val resources = context.getLocalResourceEntries(localFilename, null, false)
+        val resources = context.getResourceEntries(localFilename, null, false, LocalResourceSource)
         if (!EdenUtils.isEmpty(resources)) {
             resources.forEach {
                 val localResource = JSONObject()
@@ -63,7 +64,7 @@ constructor(
 
     @Get(path = "/file/**localFilename")
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getLocalResourceEntry(localFilename)
+        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
             return OrchidResponse(context).content(resource.contentStream.readToString())
         }
@@ -74,7 +75,7 @@ constructor(
 
     @Delete(path = "/file/**localFilename")
     fun deleteFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getLocalResourceEntry(localFilename)
+        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
             if (resource.canDelete()) {
                 resource.delete()
@@ -91,7 +92,7 @@ constructor(
 
     @Put(path = "/file/**localFilename")
     fun updateFile(request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getLocalResourceEntry(localFilename)
+        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
             if (resource.canUpdate()) {
                 val contentBase64 = request.input("content")

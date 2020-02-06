@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.wiki.model.WikiSection
@@ -45,7 +46,7 @@ constructor(
         return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
             val file = sectionBaseDir + linkTarget
 
-            var resource: OrchidResource? = context.getLocalResourceEntry(file)
+            var resource: OrchidResource? = context.getResourceEntry(file, LocalResourceSource)
 
             if (resource == null) {
                 val path = sectionBaseDir + FilenameUtils.removeExtension(linkTarget)

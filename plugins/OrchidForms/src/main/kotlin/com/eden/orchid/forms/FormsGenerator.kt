@@ -31,7 +31,7 @@ class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, PRIORITY_DEFAU
     }
 
     private fun getFormsByDatafiles(context: OrchidContext, forms: HashMap<String, Form>) {
-        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.parserExtensions.toTypedArray(), false)
+        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.parserExtensions.toTypedArray(), false, null)
         for (resource in formsPages) {
             resource.reference.isUsePrettyUrl = false
             val fileData = context.parse(resource.reference.extension, resource.content)

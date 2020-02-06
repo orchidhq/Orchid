@@ -9,6 +9,7 @@ import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.pages.pages.StaticPage
 import com.eden.orchid.utilities.OrchidUtils
@@ -30,7 +31,7 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
     lateinit var baseDir: String
 
     override fun startIndexing(context: OrchidContext): Model {
-        val resourcesList = context.getLocalResourceEntries(baseDir, null, true)
+        val resourcesList = context.getResourceEntries(baseDir, null, true, LocalResourceSource)
         val pages = ArrayList<StaticPage>()
 
         val pagesMap = HashMap<String, StaticPage>()

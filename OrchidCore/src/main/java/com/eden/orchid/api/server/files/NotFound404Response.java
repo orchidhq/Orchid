@@ -32,7 +32,7 @@ final class NotFound404Response {
             );
         }
         else {
-            resource = context.getResourceEntry("templates/server/404.peb");
+            resource = context.getResourceEntry("templates/server/404.peb", null);
 
             Map<String, Object> indexPageVars = new HashMap<>();
             indexPageVars.put("title", "Not Found - " + targetPath);

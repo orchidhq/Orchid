@@ -16,7 +16,7 @@ final class AdminAssetResponse {
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AdminTheme theme = context.getAdminTheme();
 
-        OrchidResource res = theme.getResourceEntry(context, targetPath);
+        OrchidResource res = theme.getResourceSource().getResourceEntry(context, targetPath);
         String mimeType = StaticFileResponse.mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
         Clog.i("Rendering admin File: #{$1}", targetPath);

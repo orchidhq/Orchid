@@ -35,7 +35,7 @@ public final class ResourcesTest implements OrchidUnitTest {
     @Test
     public void testResourceWrapper() {
         StringResource stringResource = new StringResource(input, new OrchidReference(context, "hello-world.txt"), null);
-        ResourceWrapper wrapper = new ResourceWrapper(stringResource);
+        ResourceWrapper wrapper = new ResourceWrapper(stringResource) { };
 
         assertThat(wrapper.getContent(), is(equalTo(input)));
     }

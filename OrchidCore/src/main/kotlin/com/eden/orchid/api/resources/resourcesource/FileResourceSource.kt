@@ -10,20 +10,23 @@ import java.util.ArrayList
 
 open class FileResourceSource(
     open val directory: String,
-    override val priority: Int
+    override val priority: Int,
+    override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         val baseDirectory = File(directory)
         val file = File("$directory/$fileName")
 
-        return if (file.exists() && !file.isDirectory) {
-            FileResource(context, file, baseDirectory)
-        }
-        else null
+        return if (file.exists() && !file.isDirectory) FileResource(context, file, baseDirectory) else null
     }
 
-    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
         val baseDirectory = File(directory)
@@ -35,7 +38,7 @@ open class FileResourceSource(
             if (!EdenUtils.isEmpty(newFiles)) {
                 for (resourceAsFile in newFiles) {
                     val newFile = resourceAsFile as File
-                    if (!isIgnoredFile(context, file) && shouldAddEntry(newFile.name)) {
+                    if (!isIgnoredFile(context, file)) {
                         entries.add(FileResource(context, newFile, baseDirectory))
                     }
                 }
@@ -50,16 +53,9 @@ open class FileResourceSource(
     }
 
     override fun compareTo(other: OrchidResourceSource): Int {
-        if (other is FileResourceSource) {
-            val superValue = other.priority - priority
-
-            return if (superValue != 0) {
-                superValue
-            }
-            else other.directory.compareTo(directory)
-        }
-        else {
-            return other.priority - priority
-        }
+        val superValue = super.compareTo(other)
+        return if (superValue != 0) superValue
+        else if (other is FileResourceSource) other.directory.compareTo(directory)
+        else superValue
     }
 }

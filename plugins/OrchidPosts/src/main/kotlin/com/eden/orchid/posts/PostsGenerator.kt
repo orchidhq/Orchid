@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
@@ -115,7 +116,7 @@ constructor(
         val authorPages = ArrayList<AuthorPage>()
 
         // add Author pages from content pages in the authorsBaseDir
-        val resourcesList = context.getLocalResourceEntries(authorsBaseDir, null, false)
+        val resourcesList = context.getResourceEntries(authorsBaseDir, null, false, LocalResourceSource)
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
@@ -154,7 +155,7 @@ constructor(
 
     private fun getPostsPages(context: OrchidContext, categoryModel: CategoryModel): List<PostPage> {
         val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
-        val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
+        val resourcesList = context.getResourceEntries(baseCategoryPath, null, true, LocalResourceSource)
 
         val posts = ArrayList<PostPage>()
 

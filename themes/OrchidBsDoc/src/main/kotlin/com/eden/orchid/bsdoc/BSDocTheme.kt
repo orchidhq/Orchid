@@ -77,8 +77,8 @@ constructor(
 
     override fun loadAssets() {
         // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
-        addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"), "bootstrap.min", null))
-        addCss(CssPage(this, "theme", context.getResourceEntry("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"), "font-awesome.min", null))
+        addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", null), "bootstrap.min", null))
+        addCss(CssPage(this, "theme", context.getResourceEntry("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", null), "font-awesome.min", null))
         addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
         addCss("assets/css/bsdoc.scss")
 

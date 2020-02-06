@@ -5,6 +5,8 @@ package com.eden.orchid.api.resources.resource;
  * this resource will supply the `page.content` variable to the template renderer. When used with renderRaw(), the raw
  * plain String content will be written directly instead.
  */
-public interface InlineResource {
-
+public final class InlineResource extends ResourceWrapper {
+    public InlineResource(OrchidResource resource) {
+        super(resource);
+    }
 }

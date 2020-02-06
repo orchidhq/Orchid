@@ -20,10 +20,12 @@ class TestResourceSource
 @Inject
 constructor(
     private val mockResources: List<(OrchidContext)->OrchidResource>
-) : OrchidResourceSource, LocalResourceSource {
+) : OrchidResourceSource {
 
     override val priority: Int
-        get() = Integer.MAX_VALUE - 2
+        get() = Integer.MAX_VALUE
+
+    override val scope: OrchidResourceSource.Scope = LocalResourceSource
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         return mockResources
@@ -72,7 +74,7 @@ constructor(
 
 private class TestResourceSourceModule(private val resourceSource: TestResourceSource) : OrchidModule() {
     override fun configure() {
-        addToSet(LocalResourceSource::class.java, resourceSource)
+        addToSet(OrchidResourceSource::class.java, resourceSource)
     }
 }
 
@@ -81,7 +83,7 @@ class PluginFileResourceSource
 constructor(
     val pluginClass: Class<out OrchidModule>,
     priority: Int
-) : FileResourceSource("", priority), PluginResourceSource {
+) : FileResourceSource("", priority, PluginResourceSource) {
 
     override val directory: String
         get() {

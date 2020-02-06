@@ -10,6 +10,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import com.eden.orchid.swiftdoc.page.BaseSwiftdocResource
@@ -65,7 +66,7 @@ constructor(
 
         sourceDirs
             .forEach { baseDir ->
-                context.getLocalResourceEntries(baseDir, arrayOf("swift"), true).forEach { resource ->
+                context.getResourceEntries(baseDir, arrayOf("swift"), true, LocalResourceSource).forEach { resource ->
                     val sourceFile = resource.reference.originalFullFileName
                     try {
                         val codeJson = parseSwiftFile(sourceFile)

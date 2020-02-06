@@ -1,6 +1,7 @@
 package com.eden.orchid.languages.asciidoc.extensions
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.readToString
 import org.asciidoctor.ast.Document
@@ -26,7 +27,7 @@ constructor(
         target: String?,
         attributes: MutableMap<String, Any>?
     ) {
-        val resource = context.getLocalResourceEntry(target)
+        val resource = context.getResourceEntry(target, LocalResourceSource)
 
         if(resource != null) {
             reader?.push_include(

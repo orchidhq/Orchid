@@ -86,7 +86,7 @@ final class IndexFileResponse {
                 jsonDirs.sort(Comparator.comparing(fileRow -> fileRow.name));
                 jsonFiles.sort(Comparator.comparing(fileRow -> fileRow.name));
 
-                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb");
+                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb", null);
 
                 Map<String, Object> indexPageVars = new HashMap<>();
                 indexPageVars.put("title", "List of files/dirs under " + targetPath);

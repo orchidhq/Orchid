@@ -13,6 +13,8 @@ import java.util.Map;
  * file makes it possible to get rid of the actual contents when needed because the file can be read back into memory
  * when the data is needed.
  */
+@Deprecated
+@kotlin.Deprecated(message = "This class is no longer necessary. Just extend OrchidResource directly, which now also handles freeing resources.")
 public abstract class FreeableResource extends OrchidResource {
 
     public FreeableResource(OrchidReference reference) {

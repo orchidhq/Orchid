@@ -9,7 +9,8 @@ import org.apache.commons.io.FilenameUtils
 import java.io.File
 
 open class ExternalResourceSource(
-    override val priority: Int
+    override val priority: Int,
+    override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {

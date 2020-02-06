@@ -97,7 +97,7 @@ constructor(
         }
 
         if (includeCms) {
-            val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
+            val adminResource = context.getResourceEntry("netlifyCms/admin.peb", null)
             adminResource.reference.stripFromPath("netlifyCms")
             val adminPage = NetlifyCmsAdminPage(adminResource, model)
             context.render(adminPage)

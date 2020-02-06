@@ -41,7 +41,7 @@ constructor(private val context: OrchidContext) : Importer {
         }
 
         for (availableFile in availableFiles) {
-            val importedResource = context.getResourceEntry(availableFile)
+            val importedResource = context.getResourceEntry(availableFile, null)
 
             if (importedResource != null) {
                 var content = importedResource.content

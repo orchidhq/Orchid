@@ -2,6 +2,7 @@ package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.server.annotations.Extensible;
@@ -130,7 +131,10 @@ public abstract class OrchidModule extends AbstractModule {
         if(hasResources) {
             throw new IllegalStateException(Clog.format("Resources already added to {}", this.getClass().getName()));
         }
-        addToSet(PluginResourceSource.class, new PluginJarResourceSource(this.getClass(), priority));
+        try {
+            addToSet(OrchidResourceSource.class, new PluginJarResourceSource(this.getClass(), priority));
+        }
+        catch (Exception e) { }
         hasResources = true;
         resourcePriority = priority;
     }

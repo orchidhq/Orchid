@@ -70,11 +70,6 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     @Override
-    public boolean shouldDownloadExternalAssets() {
-        return context.isProduction();
-    }
-
-    @Override
     public synchronized void withNamespace(String namespace, Runnable cb) {
         prefix = OrchidUtils.normalizePath(namespace);
         cb.run();
@@ -140,11 +135,11 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     private <T extends AssetPage> T addAssetInternal(String asset, boolean renderImmediately, CreateAssetInterface<T> creator, BiConsumer<T, Boolean> adder) {
-        OrchidResource resource = context.getResourceEntry(asset);
+        OrchidResource resource = context.getResourceEntry(asset, null);
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
             if(resource instanceof ExternalResource) {
-                if(shouldDownloadExternalAssets()) {
+                if(context.isProduction()) {
                     ((ExternalResource) resource).setDownload(true);
                 }
                 else {

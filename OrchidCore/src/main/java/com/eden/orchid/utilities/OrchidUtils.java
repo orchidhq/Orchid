@@ -312,7 +312,7 @@ public final class OrchidUtils {
     public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder, Object source, String sourceKey) {
         if(!EdenUtils.isEmpty(extraCss)) {
             Arrays.stream(extraCss)
-                    .map(context::getResourceEntry)
+                    .map(name -> context.getResourceEntry(name, null) )
                     .filter(Objects::nonNull)
                     .map(orchidResource -> new CssPage(
                             source,
@@ -325,7 +325,7 @@ public final class OrchidUtils {
         }
         if(!EdenUtils.isEmpty(extraJs)) {
             Arrays.stream(extraJs)
-                    .map(context::getResourceEntry)
+                    .map(name -> context.getResourceEntry(name, null) )
                     .filter(Objects::nonNull)
                     .map(orchidResource -> new JsPage(
                             source,

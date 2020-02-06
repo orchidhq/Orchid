@@ -11,7 +11,7 @@ import java.io.InputStream;
 /**
  * A Resource type that wraps another resource, optionally applying a transformation along the way.
  */
-public class ResourceWrapper extends FreeableResource {
+public abstract class ResourceWrapper extends FreeableResource {
 
     private final OrchidResource resource;
 
