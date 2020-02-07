@@ -10,6 +10,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.nio.file.Files
+import java.nio.file.Path
 
 /**
  * A Resource type that provides a content to a template from a resource file on disk. When used with
@@ -51,6 +52,13 @@ class FileResource(
     }
 
     companion object {
+
+        fun pathFromFile(file: File, basePath: Path): String {
+            return pathFromFile(
+                file,
+                basePath.toFile()
+            )
+        }
 
         fun pathFromFile(file: File, baseFile: File): String {
             return pathFromFile(

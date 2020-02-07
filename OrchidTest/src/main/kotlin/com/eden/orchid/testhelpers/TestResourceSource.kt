@@ -9,6 +9,8 @@ import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
+import java.io.File
+import java.nio.file.Path
 import java.util.Arrays
 import javax.inject.Inject
 
@@ -79,10 +81,10 @@ class PluginFileResourceSource
 constructor(
     val pluginClass: Class<out OrchidModule>,
     priority: Int
-) : FileResourceSource("", priority, PluginResourceSource) {
+) : FileResourceSource(getBasePath(pluginClass), priority, PluginResourceSource) {
 
-    override val directory: String
-        get() {
+    companion object {
+        fun getBasePath(pluginClass: Class<out OrchidModule>) : Path {
             val path = "/" + pluginClass.name.replace('.', '/') + ".class"
             val jarUrl = pluginClass.getResource(path)
 
@@ -107,6 +109,7 @@ constructor(
             url = url.replaceFirst("file:", "")
             url += "/src/main/resources"
 
-            return url
+            return File(url).toPath()
         }
+    }
 }

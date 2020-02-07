@@ -7,17 +7,17 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import org.apache.commons.io.FileUtils
 import java.io.File
+import java.nio.file.Path
 import java.util.ArrayList
 
 open class FileResourceSource(
-    open val directory: String,
+    private val baseDirectory: Path,
     override val priority: Int,
     override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        val baseDirectory = File(directory)
-        val file = File("$directory/$fileName")
+        val file = baseDirectory.resolve(fileName).toFile()
 
         return if (file.exists() && !file.isDirectory)
             FileResource(
@@ -37,8 +37,7 @@ open class FileResourceSource(
     ): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
-        val baseDirectory = File(directory)
-        val file = File("$directory/$dirName")
+        val file = baseDirectory.resolve(dirName).toFile()
 
         if (file.exists() && file.isDirectory) {
             val newFiles = FileUtils.listFiles(file, fileExtensions, recursive)
@@ -71,7 +70,7 @@ open class FileResourceSource(
     override fun compareTo(other: OrchidResourceSource): Int {
         val superValue = super.compareTo(other)
         return if (superValue != 0) superValue
-        else if (other is FileResourceSource) other.directory.compareTo(directory)
+        else if (other is FileResourceSource) other.baseDirectory.compareTo(baseDirectory)
         else superValue
     }
 }
