@@ -7,7 +7,10 @@ import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import java.util.regex.Pattern
 
-open class InlineResourceSource(
+/**
+ * An OrchidResourceSource that parses the input filename into a String resource.
+ */
+class InlineResourceSource(
     override val priority: Int,
     override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {

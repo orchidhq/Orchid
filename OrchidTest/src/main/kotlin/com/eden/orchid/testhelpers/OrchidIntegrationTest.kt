@@ -4,6 +4,7 @@ import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -75,6 +76,15 @@ open class OrchidIntegrationTest(
                 OrchidReference(context, path),
                 content,
                 JSONElement(JSONObject(data + mapOf("fromIntegrationTest" to true)))
+            )
+        }
+    }
+
+    fun classpathResource(path: String) {
+        resources.add { context ->
+            ClasspathResource(
+                OrchidReference(context, path),
+                javaClass.getResource(if(path.startsWith("/")) path else "/$path")
             )
         }
     }

@@ -12,7 +12,11 @@ import java.util.ArrayList
 import java.util.Objects
 import java.util.jar.JarFile
 
-open class JarResourceSource(
+/**
+ * An OrchidResourceSource that serves resources as entries from a JarFile. The JarFile is typically looked up as the
+ * JarFile containing a particular classfile.
+ */
+class JarResourceSource(
     private val pluginClass: Class<*>,
     private val jarFile: JarFile,
     override val priority: Int,

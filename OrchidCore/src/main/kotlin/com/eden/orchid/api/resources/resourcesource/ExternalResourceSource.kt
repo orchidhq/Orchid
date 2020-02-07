@@ -8,7 +8,11 @@ import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.File
 
-open class ExternalResourceSource(
+/**
+ * An OrchidResourceSource that provides resources from an external URL. Those resources can later be set to downloaded
+ * over HTTP, and the response body is used as the content for that resource.
+ */
+class ExternalResourceSource(
     override val priority: Int,
     override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {

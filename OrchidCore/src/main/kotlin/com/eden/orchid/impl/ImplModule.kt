@@ -14,7 +14,6 @@ import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.ResourceServiceImpl
-import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.admin.AdminList
@@ -48,9 +47,9 @@ import com.eden.orchid.impl.generators.ExternalIndexGenerator
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.impl.generators.SitemapGenerator
 import com.eden.orchid.impl.publication.ScriptPublisher
-import com.eden.orchid.impl.resources.LocalExternalResourceSource
-import com.eden.orchid.impl.resources.LocalInlineResourceSource
-import com.eden.orchid.impl.resources.LocalFileResourceSource
+import com.eden.orchid.impl.resources.resourcesource.LocalExternalResourceSource
+import com.eden.orchid.impl.resources.resourcesource.LocalInlineResourceSource
+import com.eden.orchid.impl.resources.resourcesource.LocalFileResourceSource
 import com.eden.orchid.impl.tasks.BuildTask
 import com.eden.orchid.impl.tasks.DeployTask
 import com.eden.orchid.impl.tasks.HelpTask

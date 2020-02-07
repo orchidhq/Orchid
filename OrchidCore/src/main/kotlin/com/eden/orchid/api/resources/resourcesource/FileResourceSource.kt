@@ -10,7 +10,10 @@ import java.io.File
 import java.nio.file.Path
 import java.util.ArrayList
 
-open class FileResourceSource(
+/**
+ * An OrchidResourceSource that loads resource files from a directory on disk.
+ */
+class FileResourceSource(
     private val baseDirectory: Path,
     override val priority: Int,
     override val scope: OrchidResourceSource.Scope

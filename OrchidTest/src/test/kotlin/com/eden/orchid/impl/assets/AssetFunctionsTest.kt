@@ -1,5 +1,6 @@
 package com.eden.orchid.impl.assets
 
+import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
@@ -27,9 +28,7 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             """.trimMargin()
         )
 
-        resource(
-            "assets/media/image.jpg"
-        )
+        classpathResource("assets/media/image.jpg")
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
@@ -59,9 +58,7 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             """.trimMargin()
         )
 
-        resource(
-            "assets/media/image.jpg"
-        )
+        classpathResource("assets/media/image.jpg")
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
@@ -91,9 +88,7 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             """.trimMargin()
         )
 
-        resource(
-            "assets/media/image.jpg"
-        )
+        classpathResource("assets/media/image.jpg")
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
@@ -123,9 +118,7 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             """.trimMargin()
         )
 
-        resource(
-            "assets/media/image.jpg"
-        )
+        classpathResource("assets/media/image.jpg")
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
@@ -155,9 +148,7 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             """.trimMargin()
         )
 
-        resource(
-            "assets/media/image.jpg"
-        )
+        classpathResource("assets/media/image.jpg")
 
         expectThat(execute())
             .pageWasRendered("/index.html") {

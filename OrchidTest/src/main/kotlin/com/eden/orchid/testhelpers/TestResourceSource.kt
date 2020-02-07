@@ -4,6 +4,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resourcesource.FileResourceSource
+import com.eden.orchid.api.resources.resourcesource.HardcodedResourceSource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
@@ -14,57 +15,13 @@ import java.nio.file.Path
 import java.util.Arrays
 import javax.inject.Inject
 
-class TestResourceSource
-@Inject
-constructor(
-    private val mockResources: List<(OrchidContext)->OrchidResource>
-) : OrchidResourceSource {
-
-    override val priority: Int
-        get() = Integer.MAX_VALUE
-
-    override val scope: OrchidResourceSource.Scope = LocalResourceSource
-
-    override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        return mockResources
-            .map { it(context) }
-            .find { it.reference.originalFullFileName == fileName }
-    }
-
-    override fun getResourceEntries(
-        context: OrchidContext,
-        dirName: String,
-        fileExtensions: Array<String>?,
-        recursive: Boolean
-    ): List<OrchidResource> {
-        val matchedResoures = if (recursive)
-            getResourcesInDirs(context, dirName)
-        else
-            getResourcesInDir(context, dirName)
-
-        return matchedResoures
-            .filter { isValidExtension(it.reference.originalFullFileName, fileExtensions) }
-    }
-
-    private fun getResourcesInDir(context: OrchidContext, dirName: String): List<OrchidResource> {
-        return mockResources
-            .map { it(context) }
-            .filter { OrchidUtils.normalizePath(it.reference.originalPath) == OrchidUtils.normalizePath(dirName) }
-    }
-
-    private fun getResourcesInDirs(context: OrchidContext, dirName: String): List<OrchidResource> {
-        return mockResources
-            .map { it(context) }
-            .filter { OrchidUtils.normalizePath(it.reference.originalPath).startsWith(OrchidUtils.normalizePath(dirName)) }
-    }
-
-    private fun isValidExtension(filename: String, fileExtensions: Array<String>?): Boolean {
-        return if (fileExtensions != null)
-            Arrays.asList(*fileExtensions).contains(FilenameUtils.getExtension(filename))
-        else
-            true
-    }
-
+class TestResourceSource(
+    mockResources: List<(OrchidContext) -> OrchidResource>
+) : OrchidResourceSource by HardcodedResourceSource(
+    mockResources,
+    Integer.MAX_VALUE,
+    LocalResourceSource
+) {
     fun toModule(): OrchidModule {
         return TestResourceSourceModule(this)
     }
@@ -76,15 +33,13 @@ private class TestResourceSourceModule(private val resourceSource: TestResourceS
     }
 }
 
-class PluginFileResourceSource
-@Inject
-constructor(
+class PluginFileResourceSource(
     val pluginClass: Class<out OrchidModule>,
     priority: Int
-) : FileResourceSource(getBasePath(pluginClass), priority, PluginResourceSource) {
+) : OrchidResourceSource by FileResourceSource(getBasePath(pluginClass), priority, PluginResourceSource) {
 
     companion object {
-        fun getBasePath(pluginClass: Class<out OrchidModule>) : Path {
+        fun getBasePath(pluginClass: Class<out OrchidModule>): Path {
             val path = "/" + pluginClass.name.replace('.', '/') + ".class"
             val jarUrl = pluginClass.getResource(path)
 

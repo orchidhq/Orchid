@@ -201,13 +201,6 @@ class ThumbnailResource(
     Resizable,
     Renameable {
 
-    init {
-//        content = ""
-//        embeddedData = null
-
-        contentStreamTransformations = mutableListOf()
-    }
-
     override fun rotate(page: AssetPage, angle: Double) {
         page.reference.fileName = page.reference.originalFileName + "_rotate-${angle}"
         contentStreamTransformations.add { input -> rotateTransformation(input, angle, reference.outputExtension) }

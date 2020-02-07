@@ -14,6 +14,7 @@ import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resourcesource.DelegatingResourceSource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -148,28 +149,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     @Override
     public OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
         final ResourceCacheKey key = new ResourceCacheKey(fileName, scopes, context.getTheme().getKey(), context.getTheme().hashCode());
-        return CacheKt.computeIfAbsent(resourceCache, key, () -> {
-
-            List<OrchidResourceSource> allSources = new ArrayList<>();
-            allSources.addAll(resourceSources);
-            allSources.add(context.getTheme().getResourceSource());
-
-            List<OrchidResourceSource.Scope> validScopes = new ArrayList<>();
-            if (scopes != null) {
-                validScopes.add(scopes);
-            }
-
-            return allSources
-                    .stream()
-                    .sorted(Comparator.reverseOrder())
-                    .filter(Objects::nonNull)
-                    .filter(source -> source.getPriority() >= 0)
-                    .filter(source -> validScopes.size() == 0 || validScopes.contains(source.getScope()))
-                    .map(source -> source.getResourceEntry(context, fileName))
-                    .filter(Objects::nonNull)
-                    .findFirst()
-                    .orElse(null);
-        });
+        return CacheKt.computeIfAbsent(resourceCache, key, () -> getDelegatedResourceSource(scopes).getResourceEntry(context, fileName));
     }
 
 // Get all matching resources
@@ -177,33 +157,27 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive, @Nullable OrchidResourceSource.Scope scopes) {
-        TreeMap<String, OrchidResource> entries = new TreeMap<>();
+        return getDelegatedResourceSource(scopes).getResourceEntries(context, path, fileExtensions, recursive);
+    }
 
-        List<OrchidResourceSource> allSources = new ArrayList<>();
-        allSources.addAll(resourceSources);
-        allSources.add(context.getTheme().getResourceSource());
+    private OrchidResourceSource getDelegatedResourceSource(@Nullable OrchidResourceSource.Scope scopes) {
+        List<OrchidResourceSource> allSources = new ArrayList<>(resourceSources);
+        OrchidResourceSource themeSource = context.getTheme().getResourceSource();
+        if(themeSource != null) {
+            allSources.add(themeSource);
+        }
 
         List<OrchidResourceSource.Scope> validScopes = new ArrayList<>();
         if (scopes != null) {
             validScopes.add(scopes);
         }
 
-        allSources
-                .stream()
-                .sorted(Comparator.reverseOrder())
-                .filter(Objects::nonNull)
-                .filter(source -> source.getPriority() >= 0)
-                .filter(source -> validScopes.size() == 0 || validScopes.contains(source.getScope()))
-                .map(source -> source.getResourceEntries(context, path, fileExtensions, recursive))
-                .filter(OrchidUtils.not(EdenUtils::isEmpty))
-                .flatMap(Collection::stream)
-                .forEach(resource -> {
-                    String relative = OrchidUtils.getRelativeFilename(resource.getReference().getPath(), path);
-                    String key = relative + "/" + resource.getReference().getFileName() + "." + resource.getReference().getOutputExtension();
-                    entries.put(key, resource);
-                });
-
-        return new ArrayList<>(entries.values());
+        return new DelegatingResourceSource(
+                allSources,
+                validScopes,
+                0,
+                LocalResourceSource.INSTANCE
+        );
     }
 
 // Load a file from a local or remote URL
