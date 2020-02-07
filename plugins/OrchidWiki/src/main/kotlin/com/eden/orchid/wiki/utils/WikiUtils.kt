@@ -81,7 +81,7 @@ object WikiUtils {
             a.attr("href", page.reference.toString())
         }
 
-        val newSummary = StringResource(doc.toString(), summary.reference, summary.embeddedData)
+        val newSummary = StringResource(summary.reference, doc.toString(), summary.embeddedData)
 
         val definedSectionTitle = section.title
         val sectionTitle =
@@ -135,8 +135,8 @@ object WikiUtils {
         val summaryPage = WikiSummaryPage(
             section.key,
             StringResource(
-                summaryPageContent,
                 OrchidReference(context, "wiki/${section.key}.html"),
+                summaryPageContent,
                 null
             ),
             sectionTitle from String::camelCase to Array<String>::titleCase

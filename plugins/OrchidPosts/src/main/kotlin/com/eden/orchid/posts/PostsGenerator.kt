@@ -139,8 +139,8 @@ constructor(
         for (author in this.authors) {
             val authorPage = AuthorPage(
                 StringResource(
-                    "",
                     OrchidReference(context, "index.md"),
+                    "",
                     null
                 ),
                 author

@@ -102,7 +102,13 @@ constructor(
         sidebarFile: File,
         wikiPages: MutableList<File>
     ): Pair<WikiSummaryPage, List<WikiPage>> {
-        val summary = FileResource(context, sidebarFile, repo.repoDir.toFile())
+        val summary = FileResource(
+            OrchidReference(
+                context,
+                FileResource.pathFromFile(sidebarFile, repo.repoDir.toFile())
+            ),
+            sidebarFile
+        )
 
         return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
             val referencedFile = wikiPages.firstOrNull {
@@ -112,10 +118,16 @@ constructor(
 
             if(referencedFile == null) {
                 Clog.w("Page referenced in Github Wiki $repo, $linkTarget does not exist")
-                StringResource(linkName, OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), null)
+                StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName, null)
             }
             else {
-                FileResource(context, referencedFile, repo.repoDir.toFile())
+                FileResource(
+                    OrchidReference(
+                        context,
+                        FileResource.pathFromFile(referencedFile, repo.repoDir.toFile())
+                    ),
+                    referencedFile
+                )
             }
         }
     }
@@ -125,7 +137,15 @@ constructor(
         section: WikiSection,
         wikiPageFiles: MutableList<File>
     ): Pair<WikiSummaryPage, List<WikiPage>> {
-        val wikiPages = wikiPageFiles.map { FileResource(context, it, repo.repoDir.toFile()) }
+        val wikiPages = wikiPageFiles.map {
+            FileResource(
+                OrchidReference(
+                    context,
+                    FileResource.pathFromFile(it, repo.repoDir.toFile())
+                ),
+                it
+            )
+        }
         return WikiUtils.createWikiFromResources(context, section, wikiPages)
     }
 

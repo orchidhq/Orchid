@@ -2,7 +2,7 @@ package com.eden.orchid.kss.pages
 
 import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.resources.resource.FreeableResource
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.kss.parser.StyleguideSection
 import com.eden.orchid.utilities.OrchidUtils
@@ -14,7 +14,7 @@ import java.io.InputStream
 class KssSectionResource(
     context: OrchidContext,
     val styleguideSection: StyleguideSection
-) : FreeableResource(
+) : OrchidResource(
     OrchidReference(
         context,
         "styleguide/" + OrchidUtils.normalizePath(styleguideSection.styleGuidePath.joinToString("/")) + ".md"
@@ -25,9 +25,8 @@ class KssSectionResource(
         return styleguideSection.description.asInputStream()
     }
 
-    override fun getEmbeddedData(): JSONElement? {
-        return merge(JSONElement(JSONObject(styleguideSection.tags)), super.getEmbeddedData())
-    }
+    override val embeddedData: JSONElement
+        get() =  merge(JSONElement(JSONObject(styleguideSection.tags)), super.embeddedData) ?: JSONElement(JSONObject())
 }
 
 

@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -15,6 +16,7 @@ import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -271,17 +273,24 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             baseDir = resourcesDir;
         }
         File folder = new File(baseDir);
+
         while (true) {
             if (folder.isDirectory()) {
                 List<File> files = new ArrayList<>(FileUtils.listFiles(folder, null, false));
                 for (File file : files) {
                     if (!strict) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
-                            return new FileResource(context, file);
+                            return new FileResource(
+                                    new OrchidReference(context, FileResource.Companion.pathFromFile(file, resourcesDir)),
+                                    file
+                            );
                         }
                     } else {
                         if (file.getName().equals(filename)) {
-                            return new FileResource(context, file);
+                            return new FileResource(
+                                    new OrchidReference(context, FileResource.Companion.pathFromFile(file, resourcesDir)),
+                                    file
+                            );
                         }
                     }
                 }

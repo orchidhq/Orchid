@@ -107,7 +107,7 @@ final class IndexFileResponse {
                 }
 
                 OrchidPage page = new OrchidPage(
-                        new StringResource(directoryListingContent, new OrchidReference(context, "directoryListing.txt"), null),
+                        new StringResource(new OrchidReference(context, "directoryListing.txt"), directoryListingContent, null),
                         RenderService.RenderMode.TEMPLATE,
                         "directoryListing",
                         "Index"

@@ -66,7 +66,7 @@ constructor(
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
-            return OrchidResponse(context).content(resource.contentStream.readToString())
+            return OrchidResponse(context).content(resource.getContentStream().readToString())
         }
         else {
             return OrchidResponse(context).content("Not found").status(404)

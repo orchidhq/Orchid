@@ -19,7 +19,7 @@ open class InlineResourceSource(
             val actualFileName = m.group(2)
             val fileContent = m.group(3)
             return InlineResource(
-                StringResource(fileContent, OrchidReference(context, actualFileName), null)
+                StringResource(OrchidReference(context, actualFileName), fileContent, null)
             )
         }
 

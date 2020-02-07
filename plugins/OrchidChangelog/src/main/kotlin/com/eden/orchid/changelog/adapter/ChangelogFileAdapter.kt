@@ -72,8 +72,8 @@ class ChangelogFileAdapter : ChangelogAdapter {
                     currentVersion!!.trim(),
                     currentVersionReleaseDate?.trim(),
                     StringResource(
-                        content.substring(previousIndex, it.range.first),
                         OrchidReference(context, "${currentVersion}.${readme.reference.extension}"),
+                        content.substring(previousIndex, it.range.first),
                         null
                     )
                 )
@@ -90,8 +90,8 @@ class ChangelogFileAdapter : ChangelogAdapter {
             currentVersion!!.trim(),
             currentVersionReleaseDate?.trim(),
             StringResource(
-                content.substring(previousIndex),
                 OrchidReference(context, "${currentVersion}.${readme.reference.extension}"),
+                content.substring(previousIndex),
                 null
             )
         )

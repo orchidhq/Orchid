@@ -28,7 +28,7 @@ constructor(
             val el = JSONElement(JSONObject(mockConfig))
             val ref = OrchidReference(context, "config.yml")
 
-            return JsonResource(el, ref)
+            return JsonResource(ref, el)
         }
 
         return null

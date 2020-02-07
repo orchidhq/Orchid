@@ -5,10 +5,9 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.resources.ResourceTransformation
+import com.eden.orchid.api.resources.resource.ResourceTransformation
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resource.ResourceWrapper
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -99,7 +98,13 @@ constructor(
         wikiPages: MutableList<File>,
         wikiUploads: List<File>
     ): Pair<WikiSummaryPage, List<WikiPage>> {
-        val summary = FileResource(context, sidebarFile, repo.repoDir.toFile())
+        val summary = FileResource(
+            OrchidReference(
+                context,
+                FileResource.pathFromFile(sidebarFile, repo.repoDir.toFile())
+            ),
+            sidebarFile
+        )
 
         return WikiUtils
             .createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
@@ -110,9 +115,15 @@ constructor(
 
                 if (referencedFile == null) {
                     Clog.w("Page referenced in Gitlab Wiki $repo, $linkTarget does not exist")
-                    StringResource(linkName, OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), null)
+                    StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName, null)
                 } else {
-                    FileResource(context, referencedFile, repo.repoDir.toFile())
+                    FileResource(
+                        OrchidReference(
+                            context,
+                            FileResource.pathFromFile(referencedFile, repo.repoDir.toFile())
+                        ),
+                        referencedFile
+                    )
                 }.wrapResourceToCopyImagesOnRender(repo, wikiUploads)
             }
     }
@@ -124,26 +135,42 @@ constructor(
         wikiUploads: List<File>
     ): Pair<WikiSummaryPage, List<WikiPage>> {
         val wikiPages = wikiPageFiles
-            .map { FileResource(context, it, repo.repoDir.toFile()).wrapResourceToCopyImagesOnRender(repo, wikiUploads) }
+            .map {
+                FileResource(
+                    OrchidReference(
+                        context,
+                        FileResource.pathFromFile(it, repo.repoDir.toFile())
+                    ),
+                    it
+                ).wrapResourceToCopyImagesOnRender(repo, wikiUploads)
+            }
 
         return WikiUtils.createWikiFromResources(context, section, wikiPages)
     }
 
-    private fun File.pathInRepo(repo: GitRepoFacade) : String {
+    private fun File.pathInRepo(repo: GitRepoFacade): String {
         return OrchidUtils.normalizePath(absoluteFile.absolutePath.removePrefix(repo.repoDir.toFile().absolutePath))
     }
 
     private fun OrchidResource.wrapResourceToCopyImagesOnRender(
         repo: GitRepoFacade,
         wikiUploads: List<File>
-    ) : OrchidResource {
+    ): OrchidResource {
         return ResourceTransformation(
             this,
             contentPostTransformations = mutableListOf(
                 WikiUtils.handleImages { imageTarget, _ ->
                     wikiUploads
                         .find { it.pathInRepo(repo) == OrchidUtils.normalizePath(imageTarget) }
-                        ?.let { FileResource(context, it, repo.repoDir.toFile()) }
+                        ?.let {
+                            FileResource(
+                                OrchidReference(
+                                    context,
+                                    FileResource.pathFromFile(it, repo.repoDir.toFile())
+                                ),
+                                it
+                            )
+                        }
                         ?.let { AssetPage(this@GitlabWikiAdapter, "wikiAdapter", it, "image", "") }
                 }
             )

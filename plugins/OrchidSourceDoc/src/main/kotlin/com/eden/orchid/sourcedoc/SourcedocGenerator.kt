@@ -165,11 +165,11 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         if (readmeFile == null) {
             readmeFile = StringResource(
-                "",
                 OrchidReference(
                     context,
                     ""
                 ),
+                "",
                 null
             )
         }
@@ -207,9 +207,11 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             config.additionalRunnerArgs()
         ) { inputStream ->
             if (config.showRunnerLogs) {
-                IOStreamUtils.InputStreamPrinter(inputStream, null) as Runnable
+                val r1: Runnable = IOStreamUtils.InputStreamPrinter(inputStream, null)
+                r1
             } else {
-                IOStreamUtils.InputStreamIgnorer(inputStream) as Runnable
+                val r2: Runnable = IOStreamUtils.InputStreamIgnorer(inputStream)
+                r2
             }
         }
     }

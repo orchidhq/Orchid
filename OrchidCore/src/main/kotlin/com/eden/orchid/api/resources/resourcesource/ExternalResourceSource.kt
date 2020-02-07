@@ -19,7 +19,7 @@ open class ExternalResourceSource(
             val resource = ExternalResource(ref)
 
             if(context.isProduction) {
-                resource.isDownload = true
+                resource.download = true
             }
 
             resource

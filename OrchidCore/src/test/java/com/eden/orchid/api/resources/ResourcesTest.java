@@ -2,6 +2,7 @@ package com.eden.orchid.api.resources;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.ResourceTransformation;
 import com.eden.orchid.api.resources.resource.ResourceWrapper;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -34,7 +35,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceWrapper() {
-        StringResource stringResource = new StringResource(input, new OrchidReference(context, "hello-world.txt"), null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
         ResourceWrapper wrapper = new ResourceWrapper(stringResource) { };
 
         assertThat(wrapper.getContent(), is(equalTo(input)));
@@ -42,7 +43,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceTransformationNoTransforms() {
-        StringResource stringResource = new StringResource(input, new OrchidReference(context, "hello-world.txt"), null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
         ResourceTransformation transformation = new ResourceTransformation(stringResource);
 
         assertThat(transformation.getContent(), is(equalTo("hello world")));
@@ -50,7 +51,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceTransformationOneTransform() {
-        StringResource stringResource = new StringResource(input, new OrchidReference(context, "hello-world.txt"), null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
         ResourceTransformation transformation = new ResourceTransformation(stringResource, Arrays.asList(String::toUpperCase));
 
         assertThat(transformation.getContent(), is(equalTo("HELLO WORLD")));
@@ -58,7 +59,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceTransformationManyTransforms() {
-        StringResource stringResource = new StringResource(input, new OrchidReference(context, "hello-world.txt"), null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
         ResourceTransformation transformation = new ResourceTransformation(stringResource, Arrays.asList(String::toUpperCase, s -> s.replaceAll("\\s+", "-")));
 
         assertThat(transformation.getContent(), is(equalTo("HELLO-WORLD")));

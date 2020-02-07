@@ -38,7 +38,7 @@ abstract class SwiftAbstractElement(
 
     fun text(): String {
         return try {
-            resource.contentStream.readToString()?.substring(offset - 1, offset + length) ?: ""
+            resource.getContentStream().readToString()?.substring(offset - 1, offset + length) ?: ""
         }
         catch (e: Exception) {
             ""
@@ -47,7 +47,7 @@ abstract class SwiftAbstractElement(
 
     fun nameText(): String {
         return try {
-            resource.contentStream.readToString()?.substring(nameoffset - 1, nameoffset + namelength) ?: ""
+            resource.getContentStream().readToString()?.substring(nameoffset - 1, nameoffset + namelength) ?: ""
         }
         catch (e: Exception) {
             ""

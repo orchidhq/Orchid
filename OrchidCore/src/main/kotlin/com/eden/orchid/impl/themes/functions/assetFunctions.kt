@@ -10,7 +10,7 @@ import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.resources.ResourceTransformation
+import com.eden.orchid.api.resources.resource.ResourceTransformation
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.assets.Renameable
@@ -202,8 +202,8 @@ class ThumbnailResource(
     Renameable {
 
     init {
-        content = ""
-        embeddedData = null
+//        content = ""
+//        embeddedData = null
 
         contentStreamTransformations = mutableListOf()
     }

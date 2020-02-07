@@ -1,4 +1,4 @@
-package com.eden.orchid.testhelpers.com.eden.orchid.api.theme.pages
+package com.eden.orchid.api.theme.pages
 
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
@@ -38,7 +38,7 @@ class OrchidPageTest {
         `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", HashMap()))
 
         reference = OrchidReference(context, pagePath, true)
-        resource = StringResource("page content", reference, null)
+        resource = StringResource(reference, "page content", null)
         underTest = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "test", "Test Page")
     }
 

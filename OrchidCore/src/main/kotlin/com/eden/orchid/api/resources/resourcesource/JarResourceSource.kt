@@ -2,9 +2,9 @@ package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.JarResource
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.IOException
@@ -24,10 +24,10 @@ open class JarResourceSource(
 
         val entries = jarFile.entries()
         while (entries.hasMoreElements()) {
-            val entry = entries.nextElement()
+            val jarEntry = entries.nextElement()
 
-            if (entry.name.endsWith(fileName) && !entry.isDirectory) {
-                return JarResource(context, jarFile, entry)
+            if (jarEntry.name.endsWith(fileName) && !jarEntry.isDirectory) {
+                return JarResource(OrchidReference(context, jarEntry.name), jarFile, jarEntry)
             }
         }
 
@@ -44,7 +44,7 @@ open class JarResourceSource(
             if (OrchidUtils.normalizePath(jarEntry.name)!!.startsWith("$dirName/") && !jarEntry.isDirectory) {
 
                 if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.name, fileExtensions)) {
-                    entries.add(JarResource(context, jarFile, jarEntry))
+                    entries.add(JarResource(OrchidReference(context, jarEntry.name), jarFile, jarEntry))
                 }
             }
         }

@@ -72,8 +72,8 @@ open class OrchidIntegrationTest(
     fun resource(path: String, content: String = "", data: Map<String, Any> = HashMap()) {
         resources.add { context ->
             StringResource(
-                content,
                 OrchidReference(context, path),
+                content,
                 JSONElement(JSONObject(data + mapOf("fromIntegrationTest" to true)))
             )
         }

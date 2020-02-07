@@ -31,7 +31,7 @@ constructor(
 
         if(resource != null) {
             reader?.push_include(
-                resource.contentStream.readToString(),
+                resource.getContentStream().readToString(),
                 target,
                 resource.reference.originalFullFileName,
                 1,

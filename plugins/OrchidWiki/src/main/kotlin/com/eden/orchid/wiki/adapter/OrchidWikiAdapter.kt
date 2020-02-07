@@ -52,8 +52,8 @@ constructor(
                 val path = sectionBaseDir + FilenameUtils.removeExtension(linkTarget)
                 Clog.w("Could not find wiki resource page at '{}'", file)
                 resource = StringResource(
-                    linkName,
                     OrchidReference(context, "$path/index.md"),
+                    linkName,
                     null
                 )
             }

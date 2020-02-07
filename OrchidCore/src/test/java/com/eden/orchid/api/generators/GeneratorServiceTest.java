@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.indexing.OrchidRootIndex;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.render.RenderService;
-import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.Theme;
@@ -67,7 +66,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
 
     private MockGenerator generator2;
     private List<OrchidPage> pages2;
-    private FreeableResource mockFreeableResource;
+    private OrchidResource mockFreeableResource;
     private OrchidPage mockPage2;
     private OrchidReference mockPage2Reference;
 
@@ -94,7 +93,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         generators = new HashSet<>();
 
         mockPage1Reference = new OrchidReference(context, "page1.html");
-        mockPage1Resource = new StringResource("", mockPage1Reference, null);
+        mockPage1Resource = new StringResource(mockPage1Reference, "", null);
         mockPage1 = spy(new OrchidPage(mockPage1Resource, RenderService.RenderMode.TEMPLATE, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);
@@ -102,7 +101,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         generators.add(generator1);
 
         mockPage2Reference = new OrchidReference(context, "page2.html");
-        mockFreeableResource = spy(new FreeableResource(mockPage2Reference) {
+        mockFreeableResource = spy(new OrchidResource(mockPage2Reference) {
 
             @NotNull
             @Override

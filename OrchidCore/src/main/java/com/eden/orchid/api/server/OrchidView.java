@@ -45,7 +45,7 @@ public class OrchidView extends OrchidPage {
 
     public OrchidView(OrchidContext context, OrchidController controller, Map<String, Object> data, String... views) {
         super(
-                new StringResource("", new OrchidReference(context, "view.html"), new JSONElement(new JSONObject(data))),
+                new StringResource(new OrchidReference(context, "view.html"), "", new JSONElement(new JSONObject(data))),
                 RenderService.RenderMode.TEMPLATE,
                 "view",
                 "Admin"

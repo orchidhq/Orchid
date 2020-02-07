@@ -18,11 +18,6 @@ class WikiBookResource(
         val section: WikiSection
 ) : OrchidResource(reference) {
 
-    init {
-        content = ""
-        embeddedData = JSONElement(JSONObject())
-    }
-
     override fun getContentStream(): InputStream {
         val wikiBookTemplate = reference.context.locateTemplate("wiki/book")
         val pdfOutput = wikiBookTemplate.compileContent(mapOf(

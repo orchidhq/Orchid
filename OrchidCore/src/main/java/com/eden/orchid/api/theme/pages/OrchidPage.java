@@ -17,7 +17,6 @@ import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.ExternalResource;
-import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;

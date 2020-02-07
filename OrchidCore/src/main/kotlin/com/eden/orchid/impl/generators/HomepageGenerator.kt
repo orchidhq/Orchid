@@ -29,7 +29,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
     private fun loadHomepage(context: OrchidContext): OrchidPage {
         var resource: OrchidResource? = context.locateLocalResourceEntry("homepage")
         if (resource == null) {
-            resource = StringResource("", OrchidReference(context, "homepage.md"), null)
+            resource = StringResource(OrchidReference(context, "homepage.md"), "", null)
         }
 
         val page = Homepage(resource, "frontPage", "Home")
@@ -40,7 +40,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
     private fun load404page(context: OrchidContext): OrchidPage {
         var resource = context.locateLocalResourceEntry("404")
         if (resource == null) {
-            resource = StringResource("", OrchidReference(context, "404.md"), null)
+            resource = StringResource(OrchidReference(context, "404.md"), "", null)
         }
 
         val page = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "404", "Not Found")

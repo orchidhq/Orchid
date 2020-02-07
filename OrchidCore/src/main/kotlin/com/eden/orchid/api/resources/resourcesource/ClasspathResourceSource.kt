@@ -1,12 +1,9 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.ClasspathResource
-import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
-import org.apache.commons.io.FileUtils
-import java.io.File
+import com.eden.orchid.api.theme.pages.OrchidReference
 import java.util.ArrayList
 
 open class ClasspathResourceSource(
@@ -15,10 +12,20 @@ open class ClasspathResourceSource(
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        return javaClass.classLoader.getResource(fileName)?.let { ClasspathResource(context, it) }
+        return javaClass.classLoader.getResource(fileName)?.let {
+            ClasspathResource(
+                OrchidReference(context, ClasspathResource.pathFromUrl(it)),
+                it
+            )
+        }
     }
 
-    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
 //        javaClass

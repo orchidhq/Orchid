@@ -67,8 +67,8 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) 
 
     private fun getSectionsIndex(context: OrchidContext, model: WikiModel): WikiSectionsPage {
         val resource = StringResource(
-            "",
             OrchidReference(context, "wiki.md"),
+            "",
             null
         )
 
