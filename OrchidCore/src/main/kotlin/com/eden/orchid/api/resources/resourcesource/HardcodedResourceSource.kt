@@ -21,9 +21,10 @@ class HardcodedResourceSource(
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
+        val normalizedName = OrchidUtils.normalizePath(fileName)
         return resources
             .map { it(context) }
-            .find { it.reference.originalFullFileName == fileName }
+            .find { it.reference.originalFullFileName == normalizedName }
     }
 
     override fun getResourceEntries(

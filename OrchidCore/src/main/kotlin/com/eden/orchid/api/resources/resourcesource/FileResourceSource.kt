@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.nio.file.Path
@@ -20,7 +21,7 @@ class FileResourceSource(
 ) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        val file = baseDirectory.resolve(fileName).toFile()
+        val file = baseDirectory.resolve(OrchidUtils.normalizePath(fileName)).toFile()
 
         return if (file.exists() && !file.isDirectory)
             FileResource(
@@ -40,7 +41,7 @@ class FileResourceSource(
     ): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
-        val file = baseDirectory.resolve(dirName).toFile()
+        val file = baseDirectory.resolve(OrchidUtils.normalizePath(dirName)).toFile()
 
         if (file.exists() && file.isDirectory) {
             val newFiles = FileUtils.listFiles(file, fileExtensions, recursive)

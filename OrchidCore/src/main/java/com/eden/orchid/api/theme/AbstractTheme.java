@@ -97,7 +97,7 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
         try {
             Class<?> thisClass = this.getClass();
             JarFile jarFile = JarResourceSource.Companion.jarForClass(thisClass);
-            return new JarResourceSource(thisClass, jarFile, priority, ThemeResourceSource.INSTANCE);
+            return new JarResourceSource(jarFile, priority, ThemeResourceSource.INSTANCE);
         }
         catch (Exception e) {
             return null;

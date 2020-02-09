@@ -4,7 +4,12 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.utilities.OrchidUtils
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.ArrayList
+import java.util.stream.Collectors
 
 /**
  * An OrchidResourceSource that provides resources available on the classpath, using the specified classloader as the
@@ -18,7 +23,7 @@ class ClasspathResourceSource(
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         return classloader
-            .getResource(fileName)
+            .getResource(OrchidUtils.normalizePath(fileName))
             ?.let {
                 ClasspathResource(
                     OrchidReference(context, ClasspathResource.pathFromUrl(it)),

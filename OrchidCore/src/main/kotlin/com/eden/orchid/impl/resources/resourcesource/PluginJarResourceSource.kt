@@ -12,4 +12,4 @@ class PluginJarResourceSource
 constructor(
     moduleClass: Class<out OrchidModule>,
     priority: Int
-) : OrchidResourceSource by JarResourceSource(moduleClass, jarForClass(moduleClass), priority, PluginResourceSource)
+) : OrchidResourceSource by JarResourceSource(jarForClass(moduleClass), priority, PluginResourceSource)
