@@ -3,6 +3,7 @@ package com.eden.orchid.languages.diagrams
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.OrchidResource
 import net.sourceforge.plantuml.FileFormat
 import net.sourceforge.plantuml.FileFormatOption
 import net.sourceforge.plantuml.SourceStringReader
@@ -23,7 +24,7 @@ constructor() : OrchidCompiler(800) {
 
     private val tags = arrayOf("uml", "salt", "math", "latex", "gantt")
 
-    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
         OutputStreamWriter(os).append(compileMultipleDiagrams(input)).close()
     }
 

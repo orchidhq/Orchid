@@ -3,6 +3,7 @@ package com.eden.orchid.impl.compilers.text
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.OrchidResource
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 
@@ -15,7 +16,7 @@ class TextCompiler
 @Inject
 constructor() : OrchidCompiler(800) {
 
-    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
         OutputStreamWriter(os).append(input).close()
     }
 

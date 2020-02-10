@@ -8,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.languages.asciidoc.extensions.AsciidocIncludeProcessor
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
@@ -57,7 +58,7 @@ constructor(
         options.setBaseDir(resourcesDir)
     }
 
-    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
         val reader = StringReader(input)
         val writer = OutputStreamWriter(os)
 

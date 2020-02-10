@@ -44,7 +44,7 @@ final class NotFound404Response {
 
             String notFoundIndexContent;
             if (resource != null) {
-                notFoundIndexContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object);
+                notFoundIndexContent = context.compile(resource, resource.getReference().getExtension(), resource.getContent(), object);
             }
             else {
                 notFoundIndexContent = context.serialize("json", object);

@@ -24,6 +24,6 @@ class CompileAsFunction : TemplateFunction("compileAs", true) {
     }
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return context.compile(ext, input?.toString() ?: "", null)
+        return context.compile(null, ext, input?.toString() ?: "", null)
     }
 }

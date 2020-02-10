@@ -46,9 +46,10 @@ abstract class OrchidResource(
         var compiledContent = content
         return if (!EdenUtils.isEmpty(compiledContent)) {
             if (shouldPrecompile()) {
-                compiledContent = reference.context.compile(precompilerExtension, compiledContent, data)
+                compiledContent = reference.context.compile(this, precompilerExtension, compiledContent, data)
             }
             reference.context.compile(
+                this,
                 reference.extension,
                 compiledContent,
                 data

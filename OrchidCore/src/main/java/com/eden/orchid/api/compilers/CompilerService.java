@@ -2,8 +2,10 @@ package com.eden.orchid.api.compilers;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -83,6 +85,7 @@ public interface CompilerService extends OrchidService {
      * Compiles input against a given Compiler identified by file extension. Additional data may be passed in that
      * individual Compilers may use to render into the resulting output.
      *
+     * @param resource the source resource where the content is coming from
      * @param extension the extension to find a Compiler for
      * @param input the input to compile
      * @param data additional data to pass to the OrchidCompiler
@@ -91,8 +94,8 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidCompiler
      */
-    default String compile(String extension, String input, Object data) {
-        return getService(CompilerService.class).compile(extension, input, data);
+    default String compile(@Nullable OrchidResource resource, String extension, String input, Object data) {
+        return getService(CompilerService.class).compile(resource, extension, input, data);
     }
 
     /**

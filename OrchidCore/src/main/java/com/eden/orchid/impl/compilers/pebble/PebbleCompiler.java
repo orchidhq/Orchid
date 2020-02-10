@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
@@ -20,6 +21,7 @@ import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 import kotlin.NotImplementedError;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
@@ -61,7 +63,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
     }
 
     @Override
-    public void compile(OutputStream os, String extension, String input, Map<String, Object> data) {
+    public void compile(OutputStream os, @Nullable OrchidResource resource, String extension, String input, Map<String, Object> data) {
         try {
             LexerImpl lexer = new LexerImpl(
                     engine.getSyntax(),

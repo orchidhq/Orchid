@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import kotlin.Lazy;
 import kotlin.LazyKt;
 import org.json.JSONObject;
@@ -161,16 +162,13 @@ public final class CompilerServiceImpl implements CompilerService {
         return parserMap.getOrDefault(extension, null);
     }
 
-    public String compile(String extension, String input) {
-        return this.compile(extension, input, null);
-    }
-
-    public String compile(String extension, String input, Object data) {
+    @Override
+    public String compile(OrchidResource resource, String extension, String input, Object data) {
         OrchidCompiler compiler = compilerFor(extension);
         if (compiler != null) {
             synchronized (compiler) {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                compiler.compile(os, extension, input, context.getSiteData(data));
+                compiler.compile(os, resource, extension, input, context.getSiteData(data));
 
                 return new String(os.toByteArray(), StandardCharsets.UTF_8);
             }

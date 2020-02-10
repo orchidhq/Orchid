@@ -3,6 +3,7 @@ package com.eden.orchid.api.resources.resourcesource
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.strikt.asExpected
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.readToString
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -70,6 +71,7 @@ class ClasspathResourceSourceTest {
         "/1/2,    true,  '1/2/res.md, 1/2/3/res.md'",
         "/1/2/3,  true,  '1/2/3/res.md'"
     )
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     fun testGetResourceEntries(input: String, recursive: Boolean, expectedFilenames: String) {
         expectThrows<NotImplementedError> {
             underTest.getResourceEntries(context, "", null, false)

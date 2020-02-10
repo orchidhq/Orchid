@@ -60,7 +60,7 @@ public final class CompilerServiceTest implements OrchidUnitTest {
         doAnswer(invocation -> {
             invocation.callRealMethod();
             return null;
-        }).when(mockCompiler).compile(any(), any(), any(), any());
+        }).when(mockCompiler).compile(any(), any(), any(), any(), any());
 
         Set<OrchidParser> parsers = new HashSet<>();
         mockParser = mock(OrchidParser.class);

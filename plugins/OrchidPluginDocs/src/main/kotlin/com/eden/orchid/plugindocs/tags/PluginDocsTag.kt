@@ -78,7 +78,7 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
     fun getClassDescription(): String {
         val classDescripton = optionsExtractor.describeOptions(findClass(), false, false)
-        return context.compile("md", classDescripton.classDescription, null)
+        return context.compile(page?.resource, "md", classDescripton.classDescription, null)
     }
 
     fun getOwnOptionsDescription(): String {
@@ -115,7 +115,7 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
                         content = getDescriptionLink(option.archetypeType, option.displayName)
                     }
                     cell("Description", "$i") {
-                        content = context.compile("md", option.description, null)
+                        content = context.compile(page?.resource, "md", option.description, null)
                     }
                 }
             }
@@ -161,7 +161,7 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
                     content = option.defaultValue
                 }
                 cell("Description", option.key) {
-                    content = context.compile("md", option.description, null)
+                    content = context.compile(page?.resource, "md", option.description, null)
                 }
             }
         }

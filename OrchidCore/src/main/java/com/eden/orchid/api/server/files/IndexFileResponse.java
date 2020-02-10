@@ -100,7 +100,7 @@ final class IndexFileResponse {
 
                 String directoryListingContent;
                 if (resource != null) {
-                    directoryListingContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object);
+                    directoryListingContent = context.compile(resource, resource.getReference().getExtension(), resource.getContent(), object);
                 }
                 else {
                     directoryListingContent = context.serialize("json", object);

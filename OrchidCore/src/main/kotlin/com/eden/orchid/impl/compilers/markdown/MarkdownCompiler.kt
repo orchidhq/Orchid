@@ -3,6 +3,7 @@ package com.eden.orchid.impl.compilers.markdown
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
@@ -46,7 +47,7 @@ constructor(
         renderer = HtmlRenderer.builder(options).build()
     }
 
-    override fun compile(os: OutputStream, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
         val writer = OutputStreamWriter(os)
         renderer.render(parser.parse(input), writer)
         writer.close()

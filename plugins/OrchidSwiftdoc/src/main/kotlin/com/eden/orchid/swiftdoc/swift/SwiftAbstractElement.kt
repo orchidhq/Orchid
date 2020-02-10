@@ -33,7 +33,7 @@ abstract class SwiftAbstractElement(
     }
 
     fun comments(): String {
-        return context.compile("md", comment, null)
+        return context.compile(resource, "md", comment, null)
     }
 
     fun text(): String {

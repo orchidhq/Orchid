@@ -83,10 +83,10 @@ public final class RenderServiceTest implements OrchidUnitTest {
         page.setLayout("one.html");
 
         when(context.locateTemplate("templates/layouts/one.html", true)).thenReturn(layout);
-        when(context.compile("html", layoutContent, page)).thenReturn(layoutContent);
-        when(context.compile("html", resourceContent, page)).thenReturn(resourceContent);
-        when(context.compile("peb", layoutContent, page)).thenReturn(layoutContent);
-        when(context.compile("peb", resourceContent, page)).thenReturn(resourceContent);
+        when(context.compile(any(), eq("html"), eq(layoutContent), eq(page))).thenReturn(layoutContent);
+        when(context.compile(any(), eq("html"), eq(resourceContent), eq(page))).thenReturn(resourceContent);
+        when(context.compile(any(), eq("peb"), eq(layoutContent), eq(page))).thenReturn(layoutContent);
+        when(context.compile(any(), eq("peb"), eq(resourceContent), eq(page))).thenReturn(resourceContent);
 
         service = new RenderServiceImpl(context, renderer);
         service.initialize(context);

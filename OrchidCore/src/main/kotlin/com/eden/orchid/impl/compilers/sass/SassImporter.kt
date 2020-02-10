@@ -3,6 +3,7 @@ package com.eden.orchid.impl.compilers.sass
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.OrchidUtils
 import io.bit3.jsass.importer.Import
 import io.bit3.jsass.importer.Importer
@@ -47,6 +48,7 @@ constructor(private val context: OrchidContext) : Importer {
                 var content = importedResource.content
                 if (importedResource.shouldPrecompile()) {
                     content = context.compile(
+                        importedResource,
                         importedResource.precompilerExtension,
                         content,
                         importedResource.embeddedData
@@ -62,7 +64,7 @@ constructor(private val context: OrchidContext) : Importer {
                     )
 
                     if (importedResource.reference.extension == "sass") {
-                        content = convertSassToScss(content, baseUri)
+                        content = convertSassToScss(importedResource, content, baseUri)
                     }
 
                     val newImport = Import(relativeUri, baseUri, content)
@@ -173,7 +175,7 @@ constructor(private val context: OrchidContext) : Importer {
         return inputs.map { OrchidUtils.normalizePath(it) }
     }
 
-    private fun convertSassToScss(input: String, baseUri: String): String {
+    private fun convertSassToScss(resource: OrchidResource?, input: String, baseUri: String): String {
         // Importing Sass syntax is not natively supported, we must compile it ourselves manually. And since
         // we are going outside the normal importing flow, we have to add a comment signalling the import's
         // context. Unfortunately, this means that each Sass-style import is compiled in isolation, so variables,
@@ -181,7 +183,7 @@ constructor(private val context: OrchidContext) : Importer {
         //
         // In the future, there will hopefully be the `sass2scss()` native function will be exported by jsass, so the
         // content passed here can just be converted to SCSS, instead of compiled fully to CSS and included.
-        return context.compile("sass", Clog.format("// CONTEXT={}\n{}", baseUri, input), null)
+        return context.compile(resource, "sass", Clog.format("// CONTEXT={}\n{}", baseUri, input), null)
     }
 
 }
