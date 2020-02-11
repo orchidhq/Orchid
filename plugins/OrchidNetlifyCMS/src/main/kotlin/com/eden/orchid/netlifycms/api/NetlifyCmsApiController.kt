@@ -24,8 +24,7 @@ import javax.inject.Inject
 class NetlifyCmsApiController
 @Inject
 constructor(
-        val context: OrchidContext,
-        @Named("src") val resourcesDir: String
+    val context: OrchidContext
 ) : OrchidController(1000) {
 
     override fun getPathNamespace(): String {
@@ -113,7 +112,7 @@ constructor(
 
     @Post(path = "/file/**localFilename")
     fun createFile(request: OrchidRequest, localFilename: String): OrchidResponse {
-        val newFile = File(resourcesDir + "/" + OrchidUtils.normalizePath(localFilename))
+        val newFile = File(context.sourceDir + "/" + OrchidUtils.normalizePath(localFilename))
         if (!newFile.exists()) {
             newFile.absoluteFile.parentFile.mkdirs()
         }

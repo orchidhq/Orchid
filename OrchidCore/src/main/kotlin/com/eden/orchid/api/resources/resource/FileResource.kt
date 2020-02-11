@@ -1,7 +1,5 @@
 package com.eden.orchid.api.resources.resource
 
-import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.asInputStream
 import org.apache.commons.io.IOUtils
@@ -21,7 +19,7 @@ import java.nio.file.Path
  */
 class FileResource(
     reference: OrchidReference,
-    private val file: File
+    val file: File
 ) : OrchidResource(reference) {
 
     override fun getContentStream(): InputStream {

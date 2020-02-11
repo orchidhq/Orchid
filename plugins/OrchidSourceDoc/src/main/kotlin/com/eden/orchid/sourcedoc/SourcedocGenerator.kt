@@ -28,7 +28,6 @@ import javax.inject.Named
 
 abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     key: String,
-    @Named("src") val resourcesDir: String,
     val invoker: DocInvoker<T>,
     private val extractor: OptionsExtractor,
     private val permalinkStrategy: PermalinkStrategy
@@ -107,7 +106,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             invokerModel = null
             modelPageMap = emptyMap()
         } else {
-            invokerModel = loadFromCacheOrRun(config)
+            invokerModel = loadFromCacheOrRun(context, config)
             modelPageMap = invokerModel?.let {
                 it.nodes.map { node ->
                     val nodeName: String = node.name
@@ -155,7 +154,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         var readmeFile: OrchidResource? = null
 
         for (baseDir in config.sourceDirs) {
-            val baseFile = File(resourcesDir).toPath().resolve(baseDir).toFile().absolutePath
+            val baseFile = File(context.sourceDir).toPath().resolve(baseDir).toFile().absolutePath
             val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 10)
             if (closestFile != null) {
                 readmeFile = closestFile
@@ -191,7 +190,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 // helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun loadFromCacheOrRun(config: U): T? {
+    private fun loadFromCacheOrRun(context: OrchidContext, config: U): T? {
         val actualOutputDir = outputDir.resolve(config.name)
 
         if (config.fromCache) {
@@ -202,7 +201,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         }
 
         return invoker.getModuleDoc(
-            config.sourceDirs.map { File(resourcesDir).toPath().resolve(it) },
+            config.sourceDirs.map { File(context.sourceDir).toPath().resolve(it) },
             actualOutputDir,
             config.additionalRunnerArgs()
         ) { inputStream ->

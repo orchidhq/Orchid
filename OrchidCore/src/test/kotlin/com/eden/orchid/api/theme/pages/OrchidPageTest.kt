@@ -31,7 +31,7 @@ class OrchidPageTest {
     fun setup(baseUrl: String, pagePath: String) {
         context = mock(OrchidContext::class.java)
         extractor = mock(OptionsExtractor::class.java)
-        site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb")
+        site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb", "", "")
         `when`(context.getService(OrchidSite::class.java)).thenReturn(site)
         `when`(context.resolve(OptionsExtractor::class.java)).thenReturn(extractor)
         `when`(context.baseUrl).thenCallRealMethod()

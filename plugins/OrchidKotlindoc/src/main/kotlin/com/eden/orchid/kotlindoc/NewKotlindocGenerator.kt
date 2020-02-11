@@ -17,13 +17,11 @@ import javax.inject.Named
 class NewKotlindocGenerator
 @Inject
 constructor(
-    @Named("src") resourcesDir: String,
     invoker: KotlindocInvokerImpl,
     extractor: OptionsExtractor,
     permalinkStrategy: PermalinkStrategy
 ) : SourcedocGenerator<KotlinModuleDoc, KotlinDocModuleConfig>(
     GENERATOR_KEY,
-    resourcesDir,
     invoker,
     extractor,
     permalinkStrategy

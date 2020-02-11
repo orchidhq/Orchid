@@ -37,7 +37,6 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     private final OrchidServer server;
     private final FileWatcher watcher;
     private final String task;
-    private final String resourcesDir;
     private final int port;
     private TaskType taskType;
     private long lastBuild;
@@ -47,13 +46,12 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     private int watchDebounceTimeout;
 
     @Inject
-    public TaskServiceImpl(Set<OrchidTask> tasks, Set<OrchidCommand> commands, @Named("task") String task, @Named("src") String resourcesDir, @Named("port") int port, OrchidServer server, FileWatcher watcher) {
+    public TaskServiceImpl(Set<OrchidTask> tasks, Set<OrchidCommand> commands, @Named("task") String task, @Named("port") int port, OrchidServer server, FileWatcher watcher) {
         this.tasks = new TreeSet<>(tasks);
         this.commands = new TreeSet<>(commands);
         this.server = server;
         this.watcher = watcher;
         this.task = task;
-        this.resourcesDir = resourcesDir;
         this.port = port;
         this.lastBuild = 0;
     }
@@ -153,7 +151,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
 
     @Override
     public void watch() {
-        watcher.startWatching(context, resourcesDir);
+        watcher.startWatching(context, context.getSourceDir());
     }
 
     @Override

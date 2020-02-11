@@ -16,7 +16,6 @@ import javax.inject.Singleton
 class OrchidKotlindocInvokerImpl
 @Inject
 constructor(
-    @Named("src") val resourcesDir: String,
     val context: OrchidContext
 ) : OrchidKotlindocInvoker {
 
@@ -32,7 +31,7 @@ constructor(
         return if (rootDoc != null) {
             rootDoc
         } else {
-            val sources = sourceDirs.map { File(resourcesDir).toPath().resolve(it) }
+            val sources = sourceDirs.map { File(context.sourceDir).toPath().resolve(it) }
             dokkaRunner.getRootDoc(
                 sources,
                 outputDir,

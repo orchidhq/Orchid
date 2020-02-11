@@ -14,13 +14,11 @@ import javax.inject.Named
 class NewGroovydocGenerator
 @Inject
 constructor(
-    @Named("src") resourcesDir: String,
     invoker: GroovydocInvokerImpl,
     extractor: OptionsExtractor,
     permalinkStrategy: PermalinkStrategy
 ) : SourcedocGenerator<GroovyModuleDoc, GroovyDocModuleConfig>(
     GENERATOR_KEY,
-    resourcesDir,
     invoker,
     extractor,
     permalinkStrategy

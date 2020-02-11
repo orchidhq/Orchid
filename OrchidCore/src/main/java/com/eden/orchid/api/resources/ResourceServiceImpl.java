@@ -6,7 +6,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidParser;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
-import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
@@ -21,7 +20,6 @@ import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
-import com.google.inject.name.Named;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -40,15 +38,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
@@ -63,7 +58,6 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     private final List<OrchidResourceSource> resourceSources;
     private final OkHttpClient client;
     private final LRUCache<ResourceCacheKey, OrchidResource> resourceCache;
-    private final String resourcesDir;
     @Option
     @StringDefault({".DS_store", ".localized"})
     @Description("A list of filenames to globally filter out files from being sourced. Should be used primarily for ignoring pesky hidden or system files that are not intended to be used as site content.")
@@ -71,13 +65,11 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Inject
     public ResourceServiceImpl(
-            @Named("src") String resourcesDir,
             Set<OrchidResourceSource> resourceSources,
             OkHttpClient client
     ) {
         this.resourceSources = resourceSources.stream().sorted().collect(Collectors.toList());
         this.client = client;
-        this.resourcesDir = resourcesDir;
         this.resourceCache = new LRUCache<>();
     }
 
@@ -244,7 +236,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     @Override
     public @Nullable OrchidResource findClosestFile(String baseDir, String filename, boolean strict, int maxIterations) {
         if (EdenUtils.isEmpty(baseDir)) {
-            baseDir = resourcesDir;
+            baseDir = context.getSourceDir();
         }
         File folder = new File(baseDir);
 
@@ -255,14 +247,14 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
                     if (!strict) {
                         if (FilenameUtils.removeExtension(file.getName()).equalsIgnoreCase(filename)) {
                             return new FileResource(
-                                    new OrchidReference(context, FileResource.Companion.pathFromFile(file, resourcesDir)),
+                                    new OrchidReference(context, FileResource.Companion.pathFromFile(file, context.getSourceDir())),
                                     file
                             );
                         }
                     } else {
                         if (file.getName().equals(filename)) {
                             return new FileResource(
-                                    new OrchidReference(context, FileResource.Companion.pathFromFile(file, resourcesDir)),
+                                    new OrchidReference(context, FileResource.Companion.pathFromFile(file, context.getSourceDir())),
                                     file
                             );
                         }

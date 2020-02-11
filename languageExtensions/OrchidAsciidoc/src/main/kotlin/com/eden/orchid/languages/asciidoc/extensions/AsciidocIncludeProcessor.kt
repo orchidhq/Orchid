@@ -9,14 +9,12 @@ import org.asciidoctor.extension.IncludeProcessor
 import org.asciidoctor.extension.PreprocessorReader
 import java.io.File
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Provider
 
 class AsciidocIncludeProcessor
 @Inject
 constructor(
-    private var contextProvider: Provider<OrchidContext>,
-    @Named("src") private val resourcesDir: String
+    private var contextProvider: Provider<OrchidContext>
 ) : IncludeProcessor() {
 
     private val context by lazy { contextProvider.get() }
@@ -27,17 +25,58 @@ constructor(
         target: String?,
         attributes: MutableMap<String, Any>?
     ) {
-        val resource = context.getResourceEntry(target, LocalResourceSource)
-
-        if(resource != null) {
-            reader?.push_include(
-                resource.getContentStream().readToString(),
+        // first try looking for the target in normal site resources
+        val resolvedResource = context.getResourceEntry(target, LocalResourceSource)
+        if(resolvedResource != null) {
+            handleIncludeContent(
+                document,
+                reader,
                 target,
-                resource.reference.originalFullFileName,
-                1,
-                attributes
+                attributes,
+                resolvedResource.reference.originalFullFileName,
+                resolvedResource.getContentStream().readToString() ?: ""
             )
+            return
         }
+
+        // first try looking for the target in a normal file, relative to the specified docDir
+        val docDir: String? = document?.attributes?.get("docdir")?.toString()
+        if(docDir != null) {
+            val baseDir = File(docDir)
+            val resolvedFile = baseDir.resolve(target ?: "")
+
+            if(resolvedFile.exists()) {
+                handleIncludeContent(
+                    document,
+                    reader,
+                    target,
+                    attributes,
+                    resolvedFile.absolutePath,
+                    resolvedFile.bufferedReader().readText()
+                )
+                return
+            }
+        }
+    }
+
+    private fun handleIncludeContent(
+        document: Document?,
+        reader: PreprocessorReader?,
+        target: String?,
+        attributes: MutableMap<String, Any>?,
+        resolvedPath: String?,
+        resolvedContent: String
+    ) {
+        // TODO: preprocess resolvedContent to handle the standard AsciiDoc include tags (because the stupid library
+        //   doesn't handle those for custom IncludeProcessor)
+
+        reader?.push_include(
+            resolvedContent,
+            target,
+            resolvedPath,
+            1,
+            attributes
+        )
     }
 
     override fun handles(target: String?): Boolean {
@@ -47,7 +86,6 @@ constructor(
 
         return when {
             OrchidUtils.isExternal(target) -> false
-            File(resourcesDir).resolve(target ?: "").exists() -> false
             else -> true
         }
     }

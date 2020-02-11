@@ -131,7 +131,9 @@ class ApiModule : OrchidModule() {
         @Named("version") version: String,
         @Named("baseUrl") baseUrl: String,
         @Named("environment") environment: String,
-        @Named("defaultTemplateExtension") defaultTemplateExtension: String
+        @Named("defaultTemplateExtension") defaultTemplateExtension: String,
+        @Named("src") sourceDir: String,
+        @Named("dest") destinationDir: String
     ): OrchidSite {
         try {
             return OrchidSiteImpl(
@@ -139,7 +141,9 @@ class ApiModule : OrchidModule() {
                 version,
                 baseUrl,
                 environment,
-                defaultTemplateExtension
+                defaultTemplateExtension,
+                sourceDir,
+                destinationDir
             )
         } catch (e: Exception) {
             return OrchidSiteImpl(
@@ -147,7 +151,9 @@ class ApiModule : OrchidModule() {
                 version,
                 baseUrl,
                 environment,
-                defaultTemplateExtension
+                defaultTemplateExtension,
+                sourceDir,
+                destinationDir
             )
         }
 

@@ -42,11 +42,7 @@ import javax.inject.Inject
     name = "Swiftdoc"
 )
 @Deprecated(SourcedocGenerator.deprecationWarning)
-class SwiftdocGenerator
-@Inject
-constructor(
-    @Named("src") val resourcesDir: String
-) : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+class SwiftdocGenerator : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
 
     companion object {
         const val GENERATOR_KEY = "swiftdoc"
@@ -69,7 +65,7 @@ constructor(
                 context.getResourceEntries(baseDir, arrayOf("swift"), true, LocalResourceSource).forEach { resource ->
                     val sourceFile = resource.reference.originalFullFileName
                     try {
-                        val codeJson = parseSwiftFile(sourceFile)
+                        val codeJson = parseSwiftFile(context, sourceFile)
 
                         val ref = OrchidReference(resource.reference)
                         ref.extension = "html"
@@ -166,11 +162,11 @@ constructor(
 // Run SourceKitten executable
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun parseSwiftFile(name: String): JSONObject {
+    private fun parseSwiftFile(context: OrchidContext, name: String): JSONObject {
         try {
             val processBuilder = ProcessBuilder()
             processBuilder.command("sourcekitten", "doc", "--single-file", "./$name")
-            processBuilder.directory(File(resourcesDir))
+            processBuilder.directory(File(context.sourceDir))
             processBuilder.redirectErrorStream()
 
             val process = processBuilder.start()

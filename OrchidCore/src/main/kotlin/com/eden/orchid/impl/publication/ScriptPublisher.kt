@@ -15,11 +15,7 @@ import javax.inject.Named
 import javax.validation.constraints.NotEmpty
 
 @Description(value = "Run arbitrary shell scripts.", name = "Script")
-class ScriptPublisher
-@Inject
-constructor(
-    @Named("src") private val resourcesDir: String
-) : OrchidPublisher("script") {
+class ScriptPublisher  : OrchidPublisher("script") {
 
     @Option
     @Description("The executable name")
@@ -40,7 +36,7 @@ constructor(
                 directory = System.getProperty("user.home") + directory.substring(1)
             }
         } else {
-            directory = resourcesDir
+            directory = context.sourceDir
         }
         builder.directory(File(directory))
         Clog.i("[{}]> {}", directory, command.joinToString(" "))
