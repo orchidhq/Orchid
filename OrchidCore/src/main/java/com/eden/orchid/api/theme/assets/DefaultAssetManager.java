@@ -2,7 +2,8 @@ package com.eden.orchid.api.theme.assets;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.impl.themes.functions.ThumbnailResource;
+import com.eden.orchid.api.resources.resource.ThumbnailResource;
+
 import javax.inject.Provider;
 
 import javax.inject.Inject;

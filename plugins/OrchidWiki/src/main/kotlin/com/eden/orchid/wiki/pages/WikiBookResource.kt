@@ -28,7 +28,7 @@ class WikiBookResource(
         val doc = Jsoup.parse(pdfOutput)
         val pdfDoc = W3CDom().fromJsoup(doc)
 
-        return convertOutputStream { safeOs ->
+        return convertOutputStream(reference.context) { safeOs ->
             PdfRendererBuilder()
                 .useSVGDrawer(BatikSVGDrawer())
                 .withW3cDocument(pdfDoc, reference.context.baseUrl)

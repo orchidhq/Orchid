@@ -12,14 +12,13 @@ import kotlinx.html.a
 import kotlinx.html.div
 import kotlinx.html.p
 import kotlinx.html.strong
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.condition.DisabledIf
 import strikt.api.expectThat
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
+@Disabled
 class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
     @Test
