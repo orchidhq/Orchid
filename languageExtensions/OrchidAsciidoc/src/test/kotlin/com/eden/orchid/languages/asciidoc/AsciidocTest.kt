@@ -20,11 +20,6 @@ import strikt.api.expectThat
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
 class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
-    @BeforeEach
-    fun setUp() {
-        enableLogging()
-    }
-
     @Test
     @DisplayName("Test that Markdown works normally")
     fun test01() {
@@ -101,56 +96,6 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
 // Test safe mode configuration
 //----------------------------------------------------------------------------------------------------------------------
-
-    @Test
-    @DisplayName("Test that Asciidoc native file includes are disabled with secure safe-mode.")
-    fun test04() {
-        resource(
-            "homepage.ad",
-            """
-            |**Asciidoc Page**
-            |
-            |include::test/resources/secure_include.ad[]
-            """.trimMargin()
-        )
-        configObject(
-            "services",
-            """
-            {
-                "compilers": {
-                    "adoc": {
-                        "safeMode": "SECURE"
-                    }
-                }
-            }
-            """.trimIndent()
-        )
-
-        expectThat(execute(AsciidocModule()))
-            .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong {
-                                        +"Asciidoc Page"
-                                    }
-                                }
-                            }
-                            // when secure, the contents are not loaded
-                            div("paragraph") {
-                                p {
-                                    a(href = "test/resources/secure_include.ad", classes = "bare") {
-                                        +"test/resources/secure_include.ad"
-                                    }
-                                }
-                            }
-                        }
-                    }
-            }
-    }
 
     @Test
     @DisplayName("Test that Asciidoc fallback Orchid resource includes are enabled with secure safe-mode.")
@@ -445,6 +390,7 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                             div("paragraph") {
                                 p { +"before included [lines=1..-1]" }
                             }
+
                             div("paragraph") {
                                 p { +"tag::includedBlock1[] Content in block 1 end::includedBlock1[]" }
                             }
