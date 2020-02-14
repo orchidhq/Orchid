@@ -19,6 +19,7 @@ import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.impl.resources.resourcesource.PluginJarResourceSource;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -35,7 +36,8 @@ import java.util.jar.JarFile;
 
 public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Comparable<AbstractTheme> {
 
-    private JarResourceSource themeResourceSource;
+    @Nullable
+    private OrchidResourceSource themeResourceSource;
     protected final OrchidContext context;
     protected final String key;
     protected final int priority;
@@ -101,9 +103,7 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
     @Nullable
     public OrchidResourceSource getResourceSource() {
         if(themeResourceSource == null) {
-            Class<?> thisClass = this.getClass();
-            JarFile jarFile = JarResourceSource.Companion.jarForClass(thisClass);
-            this.themeResourceSource = new JarResourceSource(jarFile, priority, ThemeResourceSource.INSTANCE);
+            this.themeResourceSource = PluginJarResourceSource.INSTANCE.create(this.getClass(), priority,  ThemeResourceSource.INSTANCE);
         }
 
         return themeResourceSource;

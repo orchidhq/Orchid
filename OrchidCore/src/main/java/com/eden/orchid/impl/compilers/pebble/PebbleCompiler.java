@@ -25,11 +25,13 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -85,9 +87,16 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 visitorFactory.createVisitor(compiledTemplate).visit(root);
             }
 
-            Writer writer = new OutputStreamWriter(os);
+            ByteArrayOutputStream os1 = new ByteArrayOutputStream();
+            Writer writer = new OutputStreamWriter(os1, StandardCharsets.UTF_8);
             compiledTemplate.evaluate(writer, data);
             writer.close();
+            os.write(os1.toByteArray());
+
+//            StringWriter writer = new StringWriter();
+//            compiledTemplate.evaluate(writer, data);
+//            writer.close();
+//            os.write(writer.toString().getBytes());
         }
         catch (PebbleException e) {
             OrchidExtensionsKt.logSyntaxError(input, extension, e.getLineNumber(), 0, e.getMessage());

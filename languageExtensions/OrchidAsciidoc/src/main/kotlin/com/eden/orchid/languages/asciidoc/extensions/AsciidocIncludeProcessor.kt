@@ -1,6 +1,5 @@
 package com.eden.orchid.languages.asciidoc.extensions
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.utilities.OrchidUtils

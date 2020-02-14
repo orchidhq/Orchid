@@ -67,7 +67,10 @@ internal fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
         val otherElement = actualOther[index]
 
         if (thisElement is TextNode) {
-            if (otherElement !is TextNode || thisElement.text().trim().trimLines() != otherElement.text().trim().trimLines()) {
+            if (otherElement !is TextNode ) {
+                return@hasHtmlSimilarTo false
+            }
+            else if (thisElement.text().trim().trimLines() != otherElement.text().trim().trimLines()) {
                 return@hasHtmlSimilarTo false
             }
         } else if (thisElement is Element) {
@@ -154,3 +157,7 @@ private fun Attributes.hasAttributesSimilarTo(other: Attributes): Boolean {
 
     return true
 }
+
+
+
+private fun String.printBytes() : String = this.toByteArray().joinToString { "${it.toInt()}" }

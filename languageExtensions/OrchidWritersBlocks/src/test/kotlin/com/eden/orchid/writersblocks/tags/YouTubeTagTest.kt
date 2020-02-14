@@ -6,11 +6,9 @@ import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.writersblocks.WritersBlocksModule
-import kotlinx.html.br
 import kotlinx.html.div
 import kotlinx.html.iframe
 import kotlinx.html.style
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

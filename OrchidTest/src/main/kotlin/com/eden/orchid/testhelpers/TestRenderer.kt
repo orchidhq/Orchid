@@ -7,7 +7,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.IOUtils
 import java.io.InputStream
-import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
 

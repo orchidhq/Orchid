@@ -74,21 +74,17 @@ class JarResourceSource(
     }
 
     companion object {
-        private const val JAR_URI_PREFIX = "jar:"
-        private const val FILE_URI_PREFIX = "file:"
-        private const val WINDOWS_URI_PREFIX = "\\"
+        const val JAR_URI_PREFIX = "jar:file:"
 
         fun jarForClass(pluginClass: Class<*>): JarFile {
             val path = "/" + pluginClass.name.replace('.', '/') + ".class"
             val jarUrl =
-                pluginClass.getResource(path) ?: throw IllegalStateException("Could not get jar for class $pluginClass")
+                pluginClass.getResource(path)?.toString() ?: throw IllegalStateException("Could not get jar for class $pluginClass")
 
             val url = jarUrl
-                .toString()
                 .removePrefix(JAR_URI_PREFIX)
-                .removePrefix(if(OrchidUtils.isWindows) WINDOWS_URI_PREFIX else FILE_URI_PREFIX)
+                .let { if(OrchidUtils.isWindows) it.removePrefix("\\").removePrefix("/") else it }
 
-            Clog.v("jar url: '$url'")
             val bang = url.indexOf("!")
             return if (bang != -1) {
                 try {

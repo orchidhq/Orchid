@@ -11,7 +11,6 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.io.OutputStreamWriter
-import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,6 +22,8 @@ class PlantUmlCompiler
 constructor() : OrchidCompiler(800) {
 
     private val tags = arrayOf("uml", "salt", "math", "latex", "gantt")
+
+    // TODO: bundle a DOT executable and use GraphvizUtils.setDotExecutable() to use the bundled one (minimize system dependencies needed)
 
     override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
         OutputStreamWriter(os).append(compileMultipleDiagrams(input)).close()
