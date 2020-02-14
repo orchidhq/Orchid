@@ -79,14 +79,23 @@ constructor(
         )
     }
 
+    private fun getActualLines(attributes: MutableMap<String, Any>?) : List<Int> {
+        return emptyList()
+    }
+
+    private fun getTaggedSections(resolvedContent: String) : Map<String, String> {
+        return emptyMap()
+    }
+
     override fun handles(target: String?): Boolean {
         // if there's a file relative to the base dir, don't handle it here. Let Asciidoctor do that, which preserves
         // all the attrs it can normally handle. Only if a file cannot be found, should we attempt to handle it, and
         // then we can check Orchid resources as a fallback
 
-        return when {
-            OrchidUtils.isExternal(target) -> false
-            else -> true
-        }
+        return false
+//        return when {
+//            OrchidUtils.isExternal(target) -> false
+//            else -> true
+//        }
     }
 }

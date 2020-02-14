@@ -12,14 +12,18 @@ import kotlinx.html.a
 import kotlinx.html.div
 import kotlinx.html.p
 import kotlinx.html.strong
-import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
 @DisplayName("Tests behavior of using Asciidoc for the homepage")
-@Disabled
 class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
+
+    @BeforeEach
+    fun setUp() {
+        enableLogging()
+    }
 
     @Test
     @DisplayName("Test that Markdown works normally")
@@ -280,24 +284,24 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     }
 
     @Test
-    @DisplayName("Test that Asciidoc partial includes work properly")
+    @DisplayName("Test that Asciidoc partial includes work properly with `tag` attribute")
     fun test08() {
         resource(
             "homepage.ad",
             """
             |**Asciidoc Page**
             |
-            |before included block 1
+            |before included [tag=includedBlock1]
             |
-            |include::test/resources/included_tags.ad[tags=includedBlock1]
+            |include::test/resources/included_tags.ad[tag=includedBlock1]
             |
-            |after included block 1
+            |after included [tag=includedBlock1]
             |
-            |before included block 2
+            |before included [tag=includedBlock2]
             |
-            |include::test/resources/included_tags.ad[tags=includedBlock2]
+            |include::test/resources/included_tags.ad[tag=includedBlock2]
             |
-            |after included block 2
+            |after included [tag=includedBlock2]
             """.trimMargin()
         )
 
@@ -313,23 +317,172 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                                 }
                             }
                             div("paragraph") {
-                                p { +"before included block 1" }
+                                p { +"before included [tag=includedBlock1]" }
                             }
                             div("paragraph") {
                                 p { +"Content in block 1" }
                             }
                             div("paragraph") {
-                                p { +"after included block 1" }
+                                p { +"after included [tag=includedBlock1]" }
                             }
 
                             div("paragraph") {
-                                p { +"before included block 2" }
+                                p { +"before included [tag=includedBlock2]" }
                             }
                             div("paragraph") {
                                 p { +"Content in block 2" }
                             }
                             div("paragraph") {
-                                p { +"after included block 2" }
+                                p { +"after included [tag=includedBlock2]" }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc partial includes work properly with `tags` attribute")
+    fun test09() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |before included [tags=includedBlock1;includedBlock2]
+            |
+            |include::test/resources/included_tags.ad[tags=includedBlock1;includedBlock2]
+            |
+            |after included [tags=includedBlock1;includedBlock2]
+            |
+            |before included [tags=*]
+            |
+            |include::test/resources/included_tags.ad[tags=*]
+            |
+            |after included [tags=*]
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong { +"Asciidoc Page" }
+                                }
+                            }
+                            div("paragraph") {
+                                p { +"before included [tags=includedBlock1;includedBlock2]" }
+                            }
+                            div("paragraph") {
+                                p { +"Content in block 1 Content in block 2" }
+                            }
+                            div("paragraph") {
+                                p { +"after included [tags=includedBlock1;includedBlock2]" }
+                            }
+
+                            div("paragraph") {
+                                p { +"before included [tags=*]" }
+                            }
+                            div("paragraph") {
+                                p { +"Content in block 1 Content in block 2" }
+                            }
+                            div("paragraph") {
+                                p { +"after included [tags=*]" }
+                            }
+                        }
+                    }
+            }
+    }
+
+    @Test
+    @DisplayName("Test that Asciidoc partial includes work properly with `lines` attribute")
+    fun test10() {
+        resource(
+            "homepage.ad",
+            """
+            |**Asciidoc Page**
+            |
+            |before included [lines=1..-1]
+            |
+            |include::test/resources/included_tags.ad[lines=1..-1]
+            |
+            |after included [lines=1..-1]
+            |
+            |before included [lines=5..7]
+            |
+            |include::test/resources/included_tags.ad[lines=5..7]
+            |
+            |after included [lines=5..7]
+            |
+            |before included [lines=5;6..7]
+            |
+            |include::test/resources/included_tags.ad[lines=5;6..7]
+            |
+            |after included [lines=5;6..7]
+            |
+            |before included [lines='5,6..7']
+            |
+            |include::test/resources/included_tags.ad[lines=5;6..7]
+            |
+            |after included [lines='5,6..7']
+            """.trimMargin()
+        )
+
+        expectThat(execute(AsciidocModule()))
+            .pageWasRendered("/index.html") {
+                get { content }
+                    .asHtml()
+                    .select("body") {
+                        innerHtmlMatches {
+                            div("paragraph") {
+                                p {
+                                    strong { +"Asciidoc Page" }
+                                }
+                            }
+                            div("paragraph") {
+                                p { +"before included [lines=1..-1]" }
+                            }
+                            div("paragraph") {
+                                p { +"tag::includedBlock1[] Content in block 1 end::includedBlock1[]" }
+                            }
+                            div("paragraph") {
+                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                            }
+                            div("paragraph") {
+                                p { +"after included [lines=1..-1]" }
+                            }
+
+                            div("paragraph") {
+                                p { +"before included [lines=5..7]" }
+                            }
+                            div("paragraph") {
+                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                            }
+                            div("paragraph") {
+                                p { +"after included [lines=5..7]" }
+                            }
+
+                            div("paragraph") {
+                                p { +"before included [lines=5;6..7]" }
+                            }
+                            div("paragraph") {
+                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                            }
+                            div("paragraph") {
+                                p { +"after included [lines=5;6..7]" }
+                            }
+
+                            div("paragraph") {
+                                p { +"before included [lines='5,6..7']" }
+                            }
+                            div("paragraph") {
+                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                            }
+                            div("paragraph") {
+                                p { +"after included [lines='5,6..7']" }
                             }
                         }
                     }
@@ -338,7 +491,7 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
     @Test
     @DisplayName("Test that resource includes are safely handled when the resource does not exist.")
-    fun test09() {
+    fun test11() {
         resource(
             "homepage.ad",
             """
