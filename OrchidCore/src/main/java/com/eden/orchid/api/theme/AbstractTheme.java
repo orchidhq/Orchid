@@ -6,7 +6,9 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.resources.ResourceServiceImpl;
 import com.eden.orchid.api.resources.resource.JarResource;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.JarResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.ThemeResourceSource;
@@ -17,6 +19,8 @@ import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.CacheKt;
+import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -31,6 +35,7 @@ import java.util.jar.JarFile;
 
 public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Comparable<AbstractTheme> {
 
+    private JarResourceSource themeResourceSource;
     protected final OrchidContext context;
     protected final String key;
     protected final int priority;
@@ -72,6 +77,7 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
         assetHolder.clearAssets();
         hasAddedAssets = false;
         hasRenderedAssets = false;
+        themeResourceSource = null;
     }
 
     public void initialize() {
@@ -94,14 +100,13 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
 
     @Nullable
     public OrchidResourceSource getResourceSource() {
-        try {
+        if(themeResourceSource == null) {
             Class<?> thisClass = this.getClass();
             JarFile jarFile = JarResourceSource.Companion.jarForClass(thisClass);
-            return new JarResourceSource(jarFile, priority, ThemeResourceSource.INSTANCE);
+            this.themeResourceSource = new JarResourceSource(jarFile, priority, ThemeResourceSource.INSTANCE);
         }
-        catch (Exception e) {
-            return null;
-        }
+
+        return themeResourceSource;
     }
 
     public final void renderAssets() {

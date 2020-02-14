@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources.resourcesource
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.JarResource
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -73,18 +74,25 @@ class JarResourceSource(
     }
 
     companion object {
-        private const val JAR_URI_PREFIX = "jar:file:"
+        private const val JAR_URI_PREFIX = "jar:"
+        private const val FILE_URI_PREFIX = "file:"
+        private const val WINDOWS_URI_PREFIX = "\\"
 
         fun jarForClass(pluginClass: Class<*>): JarFile {
             val path = "/" + pluginClass.name.replace('.', '/') + ".class"
             val jarUrl =
                 pluginClass.getResource(path) ?: throw IllegalStateException("Could not get jar for class $pluginClass")
 
-            val url = jarUrl.toString()
+            val url = jarUrl
+                .toString()
+                .removePrefix(JAR_URI_PREFIX)
+                .removePrefix(if(OrchidUtils.isWindows) WINDOWS_URI_PREFIX else FILE_URI_PREFIX)
+
+            Clog.v("jar url: '$url'")
             val bang = url.indexOf("!")
-            return if (url.startsWith(JAR_URI_PREFIX) && bang != -1) {
+            return if (bang != -1) {
                 try {
-                    JarFile(url.substring(JAR_URI_PREFIX.length, bang))
+                    JarFile(url.substring(0, bang))
                 } catch (e: IOException) {
                     throw IllegalStateException("Error loading jar file containing class $pluginClass", e)
                 }
