@@ -10,9 +10,57 @@ apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 rootProject.name = "Orchid"
 
-includeModules(Projects.all)
-includeModules(Projects.Plugins.all)
-includeModules(Projects.LanguageExtensions.all)
-includeModules(Projects.Integrations.all)
-includeModules(Projects.Themes.all)
-includeModules(Projects.Bundles.all)
+include(
+    ":OrchidCore",
+    ":OrchidTest"
+)
+
+include(
+    ":bundles:OrchidAll",
+    ":bundles:OrchidBlog",
+    ":bundles:OrchidDocs",
+    ":bundles:OrchidLanguagePack"
+)
+
+include(
+    ":integrations:OrchidAzure",
+    ":integrations:OrchidBitbucket",
+    ":integrations:OrchidGithub",
+    ":integrations:OrchidGitlab",
+    ":integrations:OrchidNetlify"
+)
+
+include(
+    ":languageExtensions:OrchidAsciidoc",
+    ":languageExtensions:OrchidBible",
+    ":languageExtensions:OrchidDiagrams",
+    ":languageExtensions:OrchidSyntaxHighlighter",
+    ":languageExtensions:OrchidWritersBlocks"
+)
+
+include(
+    ":plugins:OrchidChangelog",
+    ":plugins:OrchidForms",
+    ":plugins:OrchidGroovydoc",
+    ":plugins:OrchidJavadoc",
+    ":plugins:OrchidKotlindoc",
+    ":plugins:OrchidKSS",
+    ":plugins:OrchidNetlifyCMS",
+    ":plugins:OrchidPages",
+    ":plugins:OrchidPluginDocs",
+    ":plugins:OrchidPosts",
+    ":plugins:OrchidPresentations",
+    ":plugins:OrchidSearch",
+    ":plugins:OrchidSourceDoc",
+    ":plugins:OrchidSwagger",
+    ":plugins:OrchidSwiftdoc",
+    ":plugins:OrchidTaxonomies",
+    ":plugins:OrchidWiki"
+)
+
+include(
+    ":themes:OrchidBsDoc",
+    ":themes:OrchidCopper",
+    ":themes:OrchidEditorial",
+    ":themes:OrchidFutureImperfect"
+)

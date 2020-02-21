@@ -13,8 +13,8 @@ import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughSubscriptExtensio
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
-import com.vladsch.flexmark.util.builder.Extension
 import com.vladsch.flexmark.util.data.MutableDataSet
+import com.vladsch.flexmark.util.misc.Extension
 
 class FlexmarkModule : OrchidModule() {
 

@@ -22,6 +22,7 @@ jobs:
 #    - { stage: testDebug,   os: linux, jdk:       oraclejdk9,  script: './test.sh debug',           }
     - { stage: testDebug,   os: linux, jdk:       openjdk10,   script: './test.sh debug',           }
     - { stage: testDebug,   os: linux, jdk:       openjdk11,   script: './test.sh debug',           }
+    - { stage: testDebug,   os: linux, jdk:       openjdk13,   script: './test.sh debug',           }
     - { stage: testDebug,   os: osx,   osx_image: xcode8.3,    script: './test.sh debug',           }
 
     - { stage: testRelease, os: linux, jdk:       openjdk8,    script: './test.sh release',         }
@@ -29,6 +30,7 @@ jobs:
 #    - { stage: testRelease, os: linux, jdk:       oraclejdk9,  script: './test.sh release',         }
     - { stage: testRelease, os: linux, jdk:       openjdk10,   script: './test.sh release',         }
     - { stage: testRelease, os: linux, jdk:       openjdk11,   script: './test.sh release',         }
+    - { stage: testRelease, os: linux, jdk:       openjdk13,   script: './test.sh release',         }
     - { stage: testRelease, os: osx,   osx_image: xcode8.3,    script: './test.sh release',         }
 
     - { stage: afterTests,  os: linux, jdk:       openjdk8,    script: './afterTests.sh',           }

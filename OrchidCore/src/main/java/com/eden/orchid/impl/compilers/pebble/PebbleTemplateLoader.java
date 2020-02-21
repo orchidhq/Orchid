@@ -42,6 +42,11 @@ public final class PebbleTemplateLoader implements Loader<String> {
         return "::" + context.get().getTheme().getKey() + "::" + templateName;
     }
 
+    @Override
+    public boolean resourceExists(String templateName) {
+        return true;
+    }
+
     private Reader getReaderFromResource(OrchidResource resource) {
         InputStream is = null;
         InputStreamReader isr = null;

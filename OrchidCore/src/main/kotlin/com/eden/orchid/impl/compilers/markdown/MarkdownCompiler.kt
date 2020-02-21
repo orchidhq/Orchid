@@ -7,8 +7,8 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
-import com.vladsch.flexmark.util.builder.Extension
 import com.vladsch.flexmark.util.data.MutableDataSet
+import com.vladsch.flexmark.util.misc.Extension
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 
