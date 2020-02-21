@@ -5,10 +5,12 @@ import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledForJreRange
+import org.junit.jupiter.api.condition.JRE
 import strikt.api.expectThat
 
-
 @DisplayName("Tests page-rendering behavior of Javadoc generator")
+@DisabledForJreRange(min = JRE.JAVA_12)
 class LegacyJavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
 
     @Test
