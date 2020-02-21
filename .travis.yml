@@ -16,6 +16,8 @@ branches:
     - dev
 
 jobs:
+  allow_failures:
+    - jdk: openjdk13
   include:
     - { stage: testDebug,   os: linux, jdk:       openjdk8,    script: './test.sh debug',           }
     - { stage: testDebug,   os: linux, jdk:       oraclejdk8,  script: './test.sh debug',           }
