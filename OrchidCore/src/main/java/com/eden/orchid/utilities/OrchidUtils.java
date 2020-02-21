@@ -478,46 +478,4 @@ public final class OrchidUtils {
 
         return Files.createDirectories(sourceDir);
     }
-
-
-// Deprecated Methods
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static boolean elementIsObject(JSONElement el) {
-        return EdenUtils.elementIsObject(el);
-    }
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static boolean elementIsArray(JSONElement el) {
-        return EdenUtils.elementIsArray(el);
-    }
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static boolean elementIsString(JSONElement el) {
-        return EdenUtils.elementIsString(el);
-    }
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static JSONObject merge(JSONObject... sources) {
-        return EdenUtils.merge(sources);
-    }
-
-    /**
-     * @deprecated This method has been replaced by more flexible Kotlin APIs. These new APIs are available in Java
-     * as static methods in OrchidExtensionsKt, although they don't look nearly as nice in Java as they do in Kotlin.
-     */
-    public static String camelcaseToTitleCase(String camelcase) {
-        String[] from = from(camelcase, OrchidExtensionsKt::camelCase);
-        return to(from, OrchidExtensionsKt::titleCase);
-    }
-
 }

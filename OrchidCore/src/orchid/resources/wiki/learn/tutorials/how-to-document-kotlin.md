@@ -374,7 +374,6 @@ site:
     siteDescription: This is a short description of this project.
 Editorial:
   primaryColor: '#DE9149'
-  legacySearch: false # an older version of the theme added search automatically, but that behavior has been deprecated
   social:
     github: 'username/project'
   metaComponents: # this is the replacement for the deprecated automatic search addition

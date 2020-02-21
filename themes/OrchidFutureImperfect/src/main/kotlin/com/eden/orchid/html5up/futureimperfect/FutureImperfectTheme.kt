@@ -19,10 +19,8 @@ constructor(
 ) : Theme(context, "FutureImperfect") {
 
     companion object {
-        const val DEPRECATION_MESSAGE = "Editorial Theme configuration of search has been deprecated, and you should " +
-                "migrate to the `orchidSearch` or `algoliaDocsearch` meta-component config instead. Add " +
-                "`legacySearch: false` to your theme config to hide this warning and prevent the theme from adding " +
-                "these search scripts automatically."
+        const val DEPRECATION_MESSAGE = "FutureImperfectTheme Theme configuration of search has been removes, and you must now " +
+                "migrate to the `orchidSearch` or `algoliaDocsearch` meta-component config instead."
     }
 
     @Option
@@ -54,9 +52,7 @@ constructor(
         addJs("assets/js/futureImperfect_main.js")
 
         if(legacySearch) {
-            Clog.w(DEPRECATION_MESSAGE)
-            addJs("https://unpkg.com/lunr/lunr.js")
-            addJs("assets/js/orchidSearch.js")
+            Clog.e(DEPRECATION_MESSAGE)
         }
     }
 

@@ -203,12 +203,6 @@ public class OrchidPage implements
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Deprecated()
-    @kotlin.Deprecated(message = "Pages should be created with a `renderMode`")
-    public OrchidPage(OrchidResource resource, String key, String title) {
-        this(resource, RenderService.RenderMode.TEMPLATE, key, title);
-    }
-
     public OrchidPage(OrchidResource resource, RenderService.RenderMode renderMode, String key, String title) {
         Intrinsics.checkNotNull(resource, "OrchidPage 'resource' cannot be null");
         Intrinsics.checkNotNull(renderMode, "OrchidPage 'renderMode' cannot be null");

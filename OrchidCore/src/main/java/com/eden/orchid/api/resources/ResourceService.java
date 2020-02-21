@@ -38,36 +38,6 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive, scopes);
     }
 
-    @Deprecated
-    default OrchidResource getLocalResourceEntry(final String fileName) {
-        return getService(ResourceService.class).getResourceEntry(fileName, LocalResourceSource.INSTANCE);
-    }
-
-    @Deprecated
-    default OrchidResource getThemeResourceEntry(final String fileName) {
-        return getService(ResourceService.class).getResourceEntry(fileName, ThemeResourceSource.INSTANCE);
-    }
-
-    @Deprecated
-    default OrchidResource getResourceEntry(final String fileName) {
-        return getService(ResourceService.class).getResourceEntry(fileName, null);
-    }
-
-    @Deprecated
-    default List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive, LocalResourceSource.INSTANCE);
-    }
-
-    @Deprecated
-    default List<OrchidResource> getThemeResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive, ThemeResourceSource.INSTANCE);
-    }
-
-    @Deprecated
-    default List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive, null);
-    }
-
     default Map<String, Object> loadAdditionalFile(String url) {
         return getService(ResourceService.class).loadAdditionalFile(url);
     }

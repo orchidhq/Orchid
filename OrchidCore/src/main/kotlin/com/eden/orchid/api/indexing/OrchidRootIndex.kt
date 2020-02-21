@@ -1,5 +1,6 @@
 package com.eden.orchid.api.indexing
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -11,6 +12,10 @@ import javax.inject.Singleton
 
 @Singleton
 class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(null, ownKey) {
+    companion object {
+        const val queryPagesErrorMessage = "This method has been removed. Grouping these pages by a Taxonomy instead."
+    }
+
     val allIndexedPages = LinkedHashMap<String, Pair<OrchidIndex, OrchidGenerator.Model>>()
 
     fun addChildIndex(key: String, index: OrchidIndex, model: OrchidGenerator.Model) {
@@ -96,16 +101,10 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
         )
     }
 
-    @Deprecated("This method only exists to maintain backward-compatibility, from when such queries were available in" +
-            "collections. It will be removed in a future version. Consider grouping these based by a Taxonomy instead.")
+    @Deprecated(queryPagesErrorMessage)
     fun queryPages(itemId: String, collectionType: String?, collectionId: String?): List<OrchidPage> {
-        val key = itemId.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
-        val value = itemId.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].trim { it <= ' ' }
-
-        return context
-            .findAll(collectionType, collectionId, null)
-            .filterIsInstance<OrchidPage>()
-            .filter { page -> (if (page.get(key) != null) page.get(key).toString() else "") == value }
+        Clog.e(queryPagesErrorMessage)
+        return emptyList()
     }
 
     fun findPageByServerPath(path: String): OrchidPage? {

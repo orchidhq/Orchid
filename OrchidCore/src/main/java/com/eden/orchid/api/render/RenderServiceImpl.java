@@ -45,21 +45,18 @@ public class RenderServiceImpl implements RenderService {
         this.context = context;
     }
 
-    @Override
-    public final InputStream getRenderedTemplate(OrchidPage page) {
+    private InputStream getRenderedTemplate(OrchidPage page) {
         page.setCurrent(true);
         String content = "" + page.renderInLayout();
         page.setCurrent(false);
         return toStream(content);
     }
 
-    @Override
-    public final boolean renderTemplate(final OrchidPage page) {
+    private boolean renderTemplate(final OrchidPage page) {
         return renderInternal(page, () -> getRenderedTemplate(page));
     }
 
-    @Override
-    public final InputStream getRenderedRaw(OrchidPage page) {
+    private InputStream getRenderedRaw(OrchidPage page) {
         page.setCurrent(true);
         String content = page.getResource().getContent();
         if (page.getResource().shouldPrecompile()) {
@@ -70,21 +67,18 @@ public class RenderServiceImpl implements RenderService {
         return toStream(content);
     }
 
-    @Override
-    public final boolean renderRaw(final OrchidPage page) {
+    private boolean renderRaw(final OrchidPage page) {
         return renderInternal(page, () -> getRenderedRaw(page));
     }
 
-    @Override
-    public final InputStream getRenderedBinary(OrchidPage page) {
+    private InputStream getRenderedBinary(OrchidPage page) {
         page.setCurrent(true);
         InputStream is = page.getResource().getContentStream();
         page.setCurrent(false);
         return is;
     }
 
-    @Override
-    public final boolean renderBinary(final OrchidPage page) {
+    private boolean renderBinary(final OrchidPage page) {
         return renderInternal(page, () -> getRenderedBinary(page));
     }
 

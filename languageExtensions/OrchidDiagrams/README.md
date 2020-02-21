@@ -8,6 +8,8 @@ tags:
     - markup
 ---
 
+TODO: improve clarity of these docs
+
 ## About
 
 This plugin adds support for UML diagrams to be created from text, using [PlantUML](http://plantuml.com) syntax. Text

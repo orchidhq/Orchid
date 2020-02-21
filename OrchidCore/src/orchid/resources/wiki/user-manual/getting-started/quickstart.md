@@ -74,7 +74,7 @@ You can now run Orchid in the following ways:
     file server in the root of the output directory, or deploy this folder directly to your webserver.
 3) `./gradlew orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at 
     `localhost:8080` (or the closest available port).
-4) `./gradlew orchidDeploy` - Runs the orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
+4) `./gradlew orchidDeploy` - Runs the orchid build, then deploys it using Orchid's {{ anchor('deployment pipeline', 'Publication') }}
     You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
     directly to Github Pages or Netlify.
     
