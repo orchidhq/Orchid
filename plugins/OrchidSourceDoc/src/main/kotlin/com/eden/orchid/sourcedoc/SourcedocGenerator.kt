@@ -31,7 +31,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     val invoker: DocInvoker<T>,
     private val extractor: OptionsExtractor,
     private val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator<SourceDocModel>(key, PRIORITY_EARLY) {
+) : OrchidGenerator<SourceDocModel>(key, Stage.CONTENT) {
 
     companion object {
         const val deprecationWarning = """

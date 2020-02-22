@@ -28,7 +28,7 @@ class GroovydocGenerator
 @Inject
 constructor(
     private val groovydocInvoker: OrchidGroovydocInvoker
-) : OrchidGenerator<GroovydocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+) : OrchidGenerator<GroovydocModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "groovydoc"

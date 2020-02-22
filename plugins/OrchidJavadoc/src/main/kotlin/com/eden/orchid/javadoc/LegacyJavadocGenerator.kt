@@ -30,7 +30,7 @@ class JavadocGenerator
 constructor(
     @Named("javadocClasspath") private val javadocClasspath: String,
     private val javadocInvoker: OrchidJavadocInvoker
-) : OrchidGenerator<JavadocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+) : OrchidGenerator<JavadocModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "javadoc"

@@ -30,7 +30,7 @@ class TaxonomiesGenerator
 @Inject
 constructor(
     val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator<TaxonomiesModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+) : OrchidGenerator<TaxonomiesModel>(GENERATOR_KEY, Stage.COLLECTION) {
 
     companion object {
         const val GENERATOR_KEY = "taxonomies"

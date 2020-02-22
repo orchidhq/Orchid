@@ -20,7 +20,7 @@ import org.json.JSONObject
 @Description(value = "Index external Orchid sites to create strong links between sites.", name = "External Indices")
 @Archetype(value = ConfigArchetype::class, key = "services.generators")
 class ExternalIndexGenerator :
-    OrchidGenerator<ExternalIndexGenerator.ExternalIndexModel>(GENERATOR_KEY, PRIORITY_LATE + 1) {
+    OrchidGenerator<ExternalIndexGenerator.ExternalIndexModel>(GENERATOR_KEY, Stage.META) {
 
     @Option
     @Description(

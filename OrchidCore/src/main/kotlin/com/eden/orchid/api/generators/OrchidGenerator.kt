@@ -54,8 +54,8 @@ abstract class OrchidGenerator<T : OrchidGenerator.Model>
 @Inject
 constructor(
     val key: String,
-    priority: Int
-) : Prioritized(priority), OptionsHolder {
+    val stage: Stage
+) : Prioritized(stage.priority), OptionsHolder {
 
     @Option
     @Description(
@@ -101,31 +101,47 @@ constructor(
     }
 
     companion object {
+        @Deprecated("Use Stage.WARM_UP directly instead", ReplaceWith("Stage.WARM_UP"))
+        val PRIORITY_INIT = Stage.WARM_UP
 
-        /**
-         * Typically used for Generators that produce pages that content pages depend on, like registering global assets.
-         */
-        val PRIORITY_INIT = 10000
+        @Deprecated("Use Stage.CONTENT directly instead", ReplaceWith("Stage.CONTENT"))
+        val PRIORITY_EARLY = Stage.CONTENT
 
-        /**
-         * Typically used for Generators that produce content pages.
-         */
-        val PRIORITY_EARLY = 1000
+        @Deprecated("Use Stage.COLLECTION directly instead", ReplaceWith("Stage.COLLECTION"))
+        val PRIORITY_DEFAULT = Stage.COLLECTION
 
-        /**
-         * Typically used for Generators that produce pages based on data contained in content pages or just index content
-         * for use in components, menus, or collections.
-         */
-        val PRIORITY_DEFAULT = 100
-
-        /**
-         * Typically used for Generators that produce assets or data files.
-         */
-        val PRIORITY_LATE = 10
+        @Deprecated("Use Stage.META directly instead", ReplaceWith("Stage.META"))
+        val PRIORITY_LATE = Stage.META
     }
 
     interface Model {
         val allPages: List<OrchidPage>
+    }
+
+    enum class Stage(val priority: Int) {
+        /**
+         * A Stage for Generators that produce pages that Content pages depend on, like registering global assets and
+         * warming up other caches which improve overall build performance
+         */
+        WARM_UP(10000),
+
+        /**
+         * A Stage for Generators that produce content pages. These are pages that are generally standalone pages, only
+         * have relationships to other pages from the same Generator.
+         */
+        CONTENT(1000),
+
+        /**
+         * A Stage for Generators that collect Content pages into groups, taxonomies, etc, and optionally generate
+         * additional Content pages displaying those collections of pages.
+         */
+        COLLECTION(100),
+
+        /**
+         * A Stage for Generators that produce metadata about your site. These are not Content pages, and are usually
+         * intended for _computers_ to read, not humans, such as sitemaps, search indices, etc.
+         */
+        META(10);
     }
 
     class SimpleModel(

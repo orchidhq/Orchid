@@ -19,7 +19,7 @@ import com.eden.orchid.utilities.OrchidUtils
             "pages come from 'baseDir' option value, which defaults to 'pages'.",
     name = "Static Pages"
 )
-class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_EARLY) {
+class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "pages"

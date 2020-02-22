@@ -14,7 +14,7 @@ import com.eden.orchid.posts.model.FeedsModel
 import com.eden.orchid.utilities.SuppressedWarnings
 
 @Description("Generate feeds for you blog in RSS and Atom formats.", name = "RSS Feeds")
-class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, PRIORITY_LATE + 1) {
+class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, Stage.META) {
 
     companion object {
         const val GENERATOR_KEY = "feeds"

@@ -8,6 +8,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.generators.ExternalIndexGenerator
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
+import com.eden.orchid.utilities.SuppressedWarnings.UNUSED_PARAMETER
 import javax.inject.Singleton
 
 @Singleton
@@ -102,6 +103,7 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
     }
 
     @Deprecated(queryPagesErrorMessage)
+    @Suppress(UNUSED_PARAMETER)
     fun queryPages(itemId: String, collectionType: String?, collectionId: String?): List<OrchidPage> {
         Clog.e(queryPagesErrorMessage)
         return emptyList()

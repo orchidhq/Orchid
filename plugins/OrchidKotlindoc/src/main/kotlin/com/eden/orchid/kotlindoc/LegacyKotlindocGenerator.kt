@@ -30,7 +30,7 @@ class KotlindocGenerator
 constructor(
     @Named("kotlindocClasspath") private val kotlindocClasspath: String,
     private val invoker: OrchidKotlindocInvoker
-) : OrchidGenerator<KotlindocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+) : OrchidGenerator<KotlindocModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "kotlindoc"

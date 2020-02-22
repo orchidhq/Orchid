@@ -24,7 +24,7 @@ import javax.validation.constraints.NotBlank
     value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " + "are automatically rendered to your site, this is just for additional static assets.",
     name = "Assets"
 )
-class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_INIT) {
+class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.WARM_UP) {
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")

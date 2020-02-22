@@ -13,7 +13,7 @@ import java.util.ArrayList
 import javax.inject.Inject
 
 @Description(value = "Generate a sitemap and `robots.txt` for automatic SEO.", name = "Sitemap and Robots.txt")
-class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE + 1) {
+class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.META) {
 
     @Option
     @BooleanDefault(true)

@@ -17,7 +17,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 @Description("Track changes and create references to all versions of your project.", name = "Changelog")
-class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, Stage.META) {
 
     companion object {
         const val GENERATOR_KEY = "changelog"

@@ -38,7 +38,7 @@ class PostsGenerator
 @Inject
 constructor(
     private val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator<PostsModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+) : OrchidGenerator<PostsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "posts"

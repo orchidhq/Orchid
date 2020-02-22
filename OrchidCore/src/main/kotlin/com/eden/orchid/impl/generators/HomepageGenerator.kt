@@ -13,7 +13,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 
 @Description(value = "Generates the root homepage for your site.", name = "Homepage")
-class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_EARLY) {
+class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.CONTENT) {
 
     override fun startIndexing(context: OrchidContext): Model {
         return modelOf { listOf(loadHomepage(context), load404page(context)) }

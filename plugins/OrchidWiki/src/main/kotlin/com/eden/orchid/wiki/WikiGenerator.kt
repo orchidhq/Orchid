@@ -20,7 +20,7 @@ import com.eden.orchid.wiki.utils.WikiUtils
 import javax.inject.Inject
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
-class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "wiki"

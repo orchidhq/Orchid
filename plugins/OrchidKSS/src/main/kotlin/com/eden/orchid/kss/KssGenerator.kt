@@ -14,7 +14,7 @@ import com.eden.orchid.kss.parser.KssParser
 import com.eden.orchid.utilities.OrchidUtils
 
 @Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).", name = "Living Styleguide")
-class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "styleguide"
