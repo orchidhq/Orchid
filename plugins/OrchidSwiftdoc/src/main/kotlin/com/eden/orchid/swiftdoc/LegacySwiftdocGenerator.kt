@@ -143,19 +143,20 @@ class SwiftdocGenerator : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, Stage.CO
             statementPages.add(page)
         }
 
-        return SwiftdocModel(allStatements, pages, statementPages)
+        return SwiftdocModel(allStatements, pages, statementPages).also {
+            it.collections = getCollections(it)
+        }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
+    private fun getCollections(
         model: SwiftdocModel
     ): List<OrchidCollection<*>> {
         return listOf(
-            PageCollection(this, "swiftClasses", model.classPages),
-            PageCollection(this, "swiftStructs", model.structPages),
+            PageCollection(this, "swiftClasses",   model.classPages),
+            PageCollection(this, "swiftStructs",   model.structPages),
             PageCollection(this, "swiftProtocols", model.protocolPages),
-            PageCollection(this, "swiftEnums", model.enumPages),
-            PageCollection(this, "swiftGlobals", model.globalPages)
+            PageCollection(this, "swiftEnums",     model.enumPages),
+            PageCollection(this, "swiftGlobals",   model.globalPages)
         )
     }
 

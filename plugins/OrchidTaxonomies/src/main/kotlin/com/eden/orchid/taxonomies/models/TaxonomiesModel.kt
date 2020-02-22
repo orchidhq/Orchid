@@ -1,6 +1,7 @@
 package com.eden.orchid.taxonomies.models
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import org.json.JSONObject
@@ -10,6 +11,7 @@ class TaxonomiesModel(
 ) : OrchidGenerator.Model {
 
     override lateinit var allPages: List<OrchidPage>
+    override var collections: List<OrchidCollection<*>> = emptyList()
 
     var taxonomies = HashMap<String, Taxonomy>()
     var collectionArchives = HashMap<Pair<String, String>, CollectionArchive>()

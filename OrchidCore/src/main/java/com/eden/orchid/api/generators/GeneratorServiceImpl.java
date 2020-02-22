@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -126,8 +128,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
         context.getIndex().addChildIndex(generator.getKey(), index, generatorModel);
         // get the collections from a generator
-        List<? extends OrchidCollection> generatorCollections = generator.getCollections(context, generatorModel);
-        if (generatorCollections != null && generatorCollections.size() > 0) {
+        List<? extends OrchidCollection> generatorCollections = generatorModel.getCollections();
+        if (generatorCollections.size() > 0) {
             context.addCollections(generatorCollections);
         }
         // notify the generator is finished indexing

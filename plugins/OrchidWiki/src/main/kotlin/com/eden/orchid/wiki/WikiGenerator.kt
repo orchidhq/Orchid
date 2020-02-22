@@ -56,7 +56,8 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {
             }
         }
 
-        val model = WikiModel(loadedSections)
+        val collections = getCollections(loadedSections)
+        val model = WikiModel(loadedSections, collections)
 
         if (loadedSections.size > 1) {
             model.sectionsPage = getSectionsIndex(context, model)
@@ -82,20 +83,20 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {
         return sectionsPage
     }
 
-    override fun getCollections(context: OrchidContext, model: WikiModel): List<OrchidCollection<*>> {
-        val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
+    fun getCollections(sections: List<WikiSection>): List<OrchidCollection<*>> {
+        val collectionsList = mutableListOf<OrchidCollection<*>>()
 
-        model.sections.forEach {
+        sections.forEach {
             val sectionPages = ArrayList<OrchidPage>()
 
-            sectionPages.add(it.value.summaryPage)
-            sectionPages.addAll(it.value.wikiPages)
+            sectionPages.add(it.summaryPage)
+            sectionPages.addAll(it.wikiPages)
 
             val collection = FileCollection(this, it.key, sectionPages)
             collectionsList.add(collection)
         }
 
-        val bookPages = model.sections.values.mapNotNull { it.bookPage }
+        val bookPages = sections.mapNotNull { it.bookPage }
         collectionsList.add(PageCollection(this, "books", bookPages))
 
         return collectionsList

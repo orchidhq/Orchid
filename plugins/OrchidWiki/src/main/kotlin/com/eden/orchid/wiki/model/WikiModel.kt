@@ -1,11 +1,13 @@
 package com.eden.orchid.wiki.model
 
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 
 class WikiModel(
-    sectionsList: List<WikiSection>
+    sectionsList: List<WikiSection>,
+    override val collections: List<OrchidCollection<*>>
 ) : OrchidGenerator.Model {
 
     var sectionsPage: WikiSectionsPage? = null

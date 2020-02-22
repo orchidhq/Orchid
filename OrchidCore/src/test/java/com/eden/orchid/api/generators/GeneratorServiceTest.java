@@ -97,7 +97,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         mockPage1 = spy(new OrchidPage(mockPage1Resource, RenderService.RenderMode.TEMPLATE, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);
-        generator1 = spy(new MockGenerator("gen1", 100, pages1));
+        generator1 = spy(new MockGenerator("gen1", OrchidGenerator.Stage.COLLECTION, pages1));
         generators.add(generator1);
 
         mockPage2Reference = new OrchidReference(context, "page2.html");
@@ -112,11 +112,11 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         mockPage2 = spy(new OrchidPage(mockFreeableResource, RenderService.RenderMode.TEMPLATE, "mockPage2", ""));
         pages2 = new ArrayList<>();
         pages2.add(mockPage2);
-        generator2 = spy(new MockGenerator("gen2", 150, pages2));
+        generator2 = spy(new MockGenerator("gen2", OrchidGenerator.Stage.CONTENT, pages2));
         generators.add(generator2);
 
         pages3 = new ArrayList<>();
-        generator3 = new MockGenerator("gen3", 200, pages3);
+        generator3 = new MockGenerator("gen3", OrchidGenerator.Stage.WARM_UP, pages3);
         generator3 = spy(generator3);
         generators.add(generator3);
 
@@ -228,8 +228,8 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         List<? extends OrchidPage> mockPages;
         List<? extends OrchidPage> generatedPages;
 
-        public MockGenerator(String key, int priority, @NotNull List<? extends OrchidPage> mockPages) {
-            super(key, priority);
+        public MockGenerator(String key, OrchidGenerator.Stage stage, @NotNull List<? extends OrchidPage> mockPages) {
+            super(key, stage);
             this.mockPages = mockPages;
         }
 

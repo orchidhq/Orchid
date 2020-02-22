@@ -4,6 +4,7 @@ import com.copperleaf.groovydoc.json.models.GroovydocConstructor
 import com.copperleaf.groovydoc.json.models.GroovydocField
 import com.copperleaf.groovydoc.json.models.GroovydocMethod
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.groovydoc.pages.GroovydocClassPage
@@ -13,7 +14,8 @@ import java.util.ArrayList
 class GroovydocModel(
     val context: OrchidContext,
     val allClasses: List<GroovydocClassPage>,
-    val allPackages: List<GroovydocPackagePage>
+    val allPackages: List<GroovydocPackagePage>,
+    override val collections: List<OrchidCollection<*>>
 ) : OrchidGenerator.Model {
 
     override val allPages: List<OrchidPage>

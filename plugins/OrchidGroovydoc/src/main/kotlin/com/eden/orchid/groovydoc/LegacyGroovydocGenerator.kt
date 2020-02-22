@@ -48,7 +48,7 @@ constructor(
         groovydocInvoker.extractOptions(context, allData)
 
         val rootDoc = groovydocInvoker.getRootDoc(sourceDirs, args)
-        if (rootDoc == null) return GroovydocModel(context, emptyList(), emptyList())
+        if (rootDoc == null) return GroovydocModel(context, emptyList(), emptyList(), emptyList())
 
         val allClasses = mutableListOf<GroovydocClassPage>()
         val allPackages = mutableListOf<GroovydocPackagePage>()
@@ -84,19 +84,20 @@ constructor(
         for (classDocPage in allClasses) {
             classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
+        val collections = getCollections(allClasses, allPackages)
 
-        return GroovydocModel(context, allClasses, allPackages).also { createdModel ->
+        return GroovydocModel(context, allClasses, allPackages, collections).also { createdModel ->
             createdModel.allClasses.forEach { it.model = createdModel }
         }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: GroovydocModel
+    private fun getCollections(
+        allClasses: List<GroovydocClassPage>,
+        allPackages: List<GroovydocPackagePage>
     ): List<OrchidCollection<*>> {
         return listOf(
-            PageCollection(this, "classes", model.allClasses),
-            PageCollection(this, "packages", model.allPackages)
+            PageCollection(this, "classes", allClasses),
+            PageCollection(this, "packages", allPackages)
         )
     }
 

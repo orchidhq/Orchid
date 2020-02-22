@@ -2,6 +2,7 @@ package com.eden.orchid.netlifycms.model
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.api.theme.assets.AssetHolder
@@ -12,8 +13,7 @@ import com.eden.orchid.netlifycms.util.toNetlifyCmsField
 import org.json.JSONArray
 import org.json.JSONObject
 
-class NetlifyCmsModel
-constructor(
+class NetlifyCmsModel(
     val context: OrchidContext,
     val templateTags: Set<TemplateTag>,
     val components: Set<OrchidComponent>,
@@ -21,6 +21,7 @@ constructor(
 ) : OrchidGenerator.Model {
 
     override val allPages: List<OrchidPage> = emptyList()
+    override val collections: List<OrchidCollection<*>> = emptyList()
 
     var useNetlifyIdentityWidget: Boolean = false
 

@@ -59,13 +59,6 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
         return emptyModel()
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
 // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 

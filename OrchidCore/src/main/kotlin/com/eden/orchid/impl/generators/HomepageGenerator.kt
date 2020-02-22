@@ -19,13 +19,6 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
         return modelOf { listOf(loadHomepage(context), load404page(context)) }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
-    ): List<OrchidCollection<*>> {
-        return listOf(FileCollection(this, GENERATOR_KEY, model.allPages))
-    }
-
     private fun loadHomepage(context: OrchidContext): OrchidPage {
         var resource: OrchidResource? = context.locateLocalResourceEntry("homepage")
         if (resource == null) {

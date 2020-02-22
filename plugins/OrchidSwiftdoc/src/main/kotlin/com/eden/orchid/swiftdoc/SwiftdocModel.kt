@@ -1,5 +1,6 @@
 package com.eden.orchid.swiftdoc
 
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.swiftdoc.page.SwiftdocSourcePage
@@ -24,6 +25,7 @@ class SwiftdocModel(
             *pages.toTypedArray(),
             *statementPages.toTypedArray()
         )
+    override var collections: List<OrchidCollection<*>> = emptyList()
 
     val classPages: List<SwiftdocStatementPage>
         get() {

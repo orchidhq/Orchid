@@ -200,12 +200,4 @@ constructor(
         }
         return true
     }
-
-    override fun getCollections(
-        context: OrchidContext,
-        model: NetlifyCmsModel
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
 }

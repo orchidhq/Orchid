@@ -3,19 +3,21 @@ package com.eden.orchid.posts.model
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.posts.pages.AuthorPage
 import com.eden.orchid.posts.pages.PostPage
 
-class PostsModel
-constructor(
+class PostsModel(
     val context: OrchidContext,
     val excerptSeparator: String,
     var categoriesList: List<CategoryModel>,
     val authorPages: List<AuthorPage>
 ) : OrchidGenerator.Model {
     var categories: MutableMap<String?, CategoryModel> = LinkedHashMap()
+
+    override var collections: List<OrchidCollection<*>> = emptyList()
 
     lateinit var postPages: List<PostPage>
 

@@ -16,7 +16,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import org.apache.commons.io.FilenameUtils
 import org.json.JSONObject
 
-
 @Description(value = "Index external Orchid sites to create strong links between sites.", name = "External Indices")
 @Archetype(value = ConfigArchetype::class, key = "services.generators")
 class ExternalIndexGenerator :
@@ -51,8 +50,7 @@ class ExternalIndexGenerator :
 
     }
 
-    override fun getCollections(
-        context: OrchidContext,
+    fun getCollections(
         model: ExternalIndexModel
     ): List<OrchidCollection<*>> {
         return model.indexMap.map { (key, value) ->
@@ -60,11 +58,13 @@ class ExternalIndexGenerator :
         }
     }
 
-    class ExternalIndexModel(
+    inner class ExternalIndexModel(
         val indexMap: Map<String, OrchidIndex>
     ) : Model {
-
         override val allPages: List<OrchidPage> = indexMap.values.flatMap { it.allPages }
+        override val collections: List<OrchidCollection<*>> = indexMap.map { (key, value) ->
+            PageCollection(this@ExternalIndexGenerator, key, value.allPages)
+        }
     }
 
     class ExternalIndex : OptionsHolder {

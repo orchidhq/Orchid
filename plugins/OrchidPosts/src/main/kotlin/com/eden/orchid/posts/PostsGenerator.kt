@@ -108,6 +108,7 @@ constructor(
         }
 
         model.postPages = postPages
+        model.collections = getCollections(model.categories, authorPages)
 
         return model
     }
@@ -195,13 +196,13 @@ constructor(
         return posts.filter { !it.isDraft }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: PostsModel
+    private fun getCollections(
+        categories: MutableMap<String?, CategoryModel>,
+        authorPages: List<AuthorPage>
     ): List<OrchidCollection<*>> {
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
-        model.categories.values.forEach {
+        categories.values.forEach {
             if (EdenUtils.isEmpty(it.key)) {
                 val collection = FolderCollection(
                     this@PostsGenerator,
@@ -228,7 +229,7 @@ constructor(
         val collection = FolderCollection(
             this@PostsGenerator,
             "authors",
-            model.authorPages,
+            authorPages,
             AuthorPage::class.java,
             authorsBaseDir
         )

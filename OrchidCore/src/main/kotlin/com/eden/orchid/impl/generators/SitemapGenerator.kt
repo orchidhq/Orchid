@@ -59,13 +59,6 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, S
         }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
     @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")
     class SitemapPage internal constructor(context: OrchidContext, key: String, val entries: List<OrchidPage>?) :
         OrchidPage(

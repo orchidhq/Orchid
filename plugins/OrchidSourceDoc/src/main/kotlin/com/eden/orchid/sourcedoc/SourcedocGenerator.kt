@@ -53,26 +53,27 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             modules.add(defaultConfig)
         }
 
-        return SourceDocModel(modules.map { setupModule(context, it) })
+        val mappedModules = modules.map { setupModule(context, it) }
+
+        return SourceDocModel(mappedModules, getCollections(mappedModules))
     }
 
-    override fun getCollections(context: OrchidContext, model: SourceDocModel): List<OrchidCollection<*>> {
+    private fun getCollections(modules: List<SourceDocModuleModel>): List<OrchidCollection<*>> {
         return mutableListOf<OrchidCollection<*>>().apply {
             val self = this@SourcedocGenerator
 
             // create a collection containing all module landing pages
-            add(PageCollection(self, "modules", model.modules.map { it.homepage }))
+            add(PageCollection(self, "modules", modules.map { it.homepage }))
 
-            model
-                .modules
+            modules
                 .groupBy { it.moduleGroup }
                 .filterKeys { it.isNotBlank() }
                 .forEach { (moduleGroup, modulesInGroup) ->
                     add(PageCollection(self, "modules-$moduleGroup", modulesInGroup.map { it.homepage }))
                 }
 
-            if (model.modules.size > 1) {
-                model.modules.forEach { module ->
+            if (modules.size > 1) {
+                modules.forEach { module ->
                     // create a collection containing all pages from a module, excluding the homepage (doc pages only)
                     add(PageCollection(self, module.name, module.nodes.values.flatten()))
 
@@ -82,7 +83,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                     }
                 }
             } else {
-                val module = model.modules.single()
+                val module = modules.single()
                 // create a collection containing all pages from a module, excluding the homepage (doc pages only)
                 add(PageCollection(self, key, module.nodes.values.flatten()))
 

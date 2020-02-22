@@ -87,9 +87,4 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
 
         return pages
     }
-
-    override fun getCollections(context: OrchidContext, model: KssModel): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
 }

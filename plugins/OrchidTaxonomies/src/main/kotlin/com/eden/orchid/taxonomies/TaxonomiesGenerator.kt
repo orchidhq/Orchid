@@ -89,11 +89,12 @@ constructor(
         model.onIndexingTermsFinished()
 
         model.allPages = buildAllTaxonomiesPages(context, model)
+        model.collections = getCollections(model)
 
         return model
     }
 
-    override fun getCollections(context: OrchidContext, model: TaxonomiesModel): List<OrchidCollection<*>>? {
+    private fun getCollections(model: TaxonomiesModel): List<OrchidCollection<*>> {
         val collections = ArrayList<OrchidCollection<*>>()
 
         // a collection containing landing pages for each Taxonomy and collection archive

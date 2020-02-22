@@ -63,7 +63,8 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
             }
         }
 
-        return modelOf { pages }
+        val collections = getCollections(pages)
+        return modelOf({ pages }, { collections })
     }
 
     override fun startGeneration(context: OrchidContext, model: Model) {
@@ -76,17 +77,14 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
             }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
+    private fun getCollections(
+        allPages: List<StaticPage>
     ): List<OrchidCollection<*>> {
         val pageGroupMap = HashMap<String?, MutableList<OrchidPage>>()
         val collections = ArrayList<OrchidCollection<*>>()
 
-        for (page in model.allPages) {
-            if (page is StaticPage) {
-                pageGroupMap.getOrPut(page.group, { ArrayList() }).add(page)
-            }
+        for (page in allPages) {
+            pageGroupMap.getOrPut(page.group, { ArrayList() }).add(page)
         }
 
         pageGroupMap.forEach { group, groupPages ->
@@ -95,7 +93,7 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
             }
         }
 
-        val allPagesCollection = FileCollection(this, "allPages", model.allPages)
+        val allPagesCollection = FileCollection(this, "allPages", allPages)
         collections.add(allPagesCollection)
 
         return collections

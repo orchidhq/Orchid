@@ -4,16 +4,17 @@ import com.copperleaf.dokka.json.models.KotlinConstructor
 import com.copperleaf.dokka.json.models.KotlinField
 import com.copperleaf.dokka.json.models.KotlinMethod
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.kotlindoc.page.KotlindocClassPage
 import com.eden.orchid.kotlindoc.page.KotlindocPackagePage
 
-class KotlindocModel
-constructor(
+class KotlindocModel(
     val context: OrchidContext,
     var allClasses: List<KotlindocClassPage>,
-    var allPackages: List<KotlindocPackagePage>
+    var allPackages: List<KotlindocPackagePage>,
+    override val collections: List<OrchidCollection<*>>
 ) : OrchidGenerator.Model {
 
     override val allPages: List<OrchidPage>

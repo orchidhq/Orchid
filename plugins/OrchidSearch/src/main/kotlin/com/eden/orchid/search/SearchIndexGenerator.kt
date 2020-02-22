@@ -96,11 +96,4 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
         }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
 }

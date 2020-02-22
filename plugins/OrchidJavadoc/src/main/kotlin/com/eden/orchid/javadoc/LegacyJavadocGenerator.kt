@@ -54,7 +54,7 @@ constructor(
 
         val rootDoc = javadocInvoker.getRootDoc(sourceDirs, args)
 
-        if (rootDoc == null) return JavadocModel(context, emptyList(), emptyList())
+        if (rootDoc == null) return JavadocModel(context, emptyList(), emptyList(), emptyList())
 
         val allClasses = mutableListOf<JavadocClassPage>()
         val allPackages = mutableListOf<JavadocPackagePage>()
@@ -93,18 +93,20 @@ constructor(
             classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
 
-        return JavadocModel(context, allClasses, allPackages).also { createdModel ->
+        val collections = getCollections(allClasses, allPackages)
+
+        return JavadocModel(context, allClasses, allPackages, collections).also { createdModel ->
             createdModel.allClasses.forEach { it.model = createdModel }
         }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: JavadocModel
+    private fun getCollections(
+        allClasses: List<JavadocClassPage>,
+        allPackages: List<JavadocPackagePage>
     ): List<OrchidCollection<*>> {
         return listOf(
-            PageCollection(this, "classes", model.allClasses),
-            PageCollection(this, "packages", model.allPackages)
+            PageCollection(this, "classes", allClasses),
+            PageCollection(this, "packages", allPackages)
         )
     }
 

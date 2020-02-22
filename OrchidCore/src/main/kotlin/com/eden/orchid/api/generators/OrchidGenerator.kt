@@ -89,17 +89,6 @@ constructor(
         model.allPages.forEach { page -> context.render(page) }
     }
 
-    /**
-     * Get a list of the collections that are indexed by this Generator.
-     *
-     * @return the list of OrchidCollections
-     */
-    open fun getCollections(context: OrchidContext, model: T): List<OrchidCollection<*>>? {
-        return if (!EdenUtils.isEmpty(model.allPages)) {
-            listOf(FileCollection(this, this.key, model.allPages))
-        } else null
-    }
-
     companion object {
         @Deprecated("Use Stage.WARM_UP directly instead", ReplaceWith("Stage.WARM_UP"))
         val PRIORITY_INIT = Stage.WARM_UP
@@ -112,10 +101,6 @@ constructor(
 
         @Deprecated("Use Stage.META directly instead", ReplaceWith("Stage.META"))
         val PRIORITY_LATE = Stage.META
-    }
-
-    interface Model {
-        val allPages: List<OrchidPage>
     }
 
     enum class Stage(val priority: Int) {
@@ -144,15 +129,47 @@ constructor(
         META(10);
     }
 
+    interface Model {
+        val allPages: List<OrchidPage>
+        val collections: List<OrchidCollection<*>>
+    }
+
     class SimpleModel(
-        override val allPages: List<OrchidPage>
+        override val allPages: List<OrchidPage>,
+        override val collections: List<OrchidCollection<*>>
     ) : Model
 }
 
-fun OrchidGenerator<*>.modelOf(indexedPages: ()->List<OrchidPage>) : OrchidGenerator.Model {
-    return OrchidGenerator.SimpleModel(indexedPages())
+fun OrchidGenerator<*>.modelOf(
+    indexedPages: () -> List<OrchidPage>,
+    indexedCollections: OrchidGenerator<*>.(List<OrchidPage>) -> List<OrchidCollection<*>>
+): OrchidGenerator.Model {
+    val pages = indexedPages()
+    val collections = indexedCollections(pages)
+
+    return OrchidGenerator.SimpleModel(indexedPages(), collections)
 }
 
-fun OrchidGenerator<*>.emptyModel() : OrchidGenerator.Model {
+fun OrchidGenerator<*>.modelOf(
+    indexedPages: () -> List<OrchidPage>
+): OrchidGenerator.Model {
+    return modelOf(indexedPages = indexedPages, indexedCollections = { simplePageCollection(it) })
+}
+
+private fun OrchidGenerator<*>.simplePageCollection(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    return if (pages.isNotEmpty()) {
+        listOf(
+            FileCollection(
+                this,
+                this.key,
+                pages
+            )
+        )
+    } else {
+        emptyList()
+    }
+}
+
+fun OrchidGenerator<*>.emptyModel(): OrchidGenerator.Model {
     return modelOf { emptyList() }
 }

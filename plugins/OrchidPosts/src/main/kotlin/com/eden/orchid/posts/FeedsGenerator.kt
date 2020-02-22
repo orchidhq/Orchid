@@ -42,13 +42,6 @@ class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, Stage.META) {
         return FeedsModel(context, createFeeds(context))
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: FeedsModel
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
     private fun createFeeds(context: OrchidContext): List<FeedPage> {
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, null)
         val feedItems = context.index.getChildIndices(enabledGeneratorKeys).flatMap { it.allPages }
