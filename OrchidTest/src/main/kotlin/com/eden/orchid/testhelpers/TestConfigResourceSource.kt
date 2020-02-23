@@ -16,17 +16,19 @@ class TestConfigResourceSource
 @Inject
 constructor(
     private val mockConfig: Map<String, Any>
-) : OrchidResourceSource, LocalResourceSource {
+) : OrchidResourceSource {
 
     override val priority: Int
-        get() = Integer.MAX_VALUE - 1
+        get() = Integer.MAX_VALUE
+
+    override val scope: OrchidResourceSource.Scope = LocalResourceSource
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         if (fileName == "config.yml") {
             val el = JSONElement(JSONObject(mockConfig))
             val ref = OrchidReference(context, "config.yml")
 
-            return JsonResource(el, ref)
+            return JsonResource(ref, el)
         }
 
         return null
@@ -48,6 +50,6 @@ constructor(
 
 private class TestConfigResourceSourceModule(private val resourceSource: TestConfigResourceSource) : OrchidModule() {
     override fun configure() {
-        addToSet(LocalResourceSource::class.java, resourceSource)
+        addToSet(OrchidResourceSource::class.java, resourceSource)
     }
 }

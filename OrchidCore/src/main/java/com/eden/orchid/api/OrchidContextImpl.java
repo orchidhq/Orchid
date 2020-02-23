@@ -106,7 +106,7 @@ public final class OrchidContextImpl implements OrchidContext {
     }
 
     @Override
-    @SuppressWarnings(SuppressedWarnings.UNCHECKED_JAVA)
+    @SuppressWarnings("unchecked")
     public <T extends OrchidService> T getService(Class<T> serviceClass) {
         return (T) services.get(serviceClass);
     }

@@ -5,6 +5,7 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(value = "Load content from a resource.", name = "Load")
@@ -38,7 +39,10 @@ class LoadFunction : TemplateFunction("load", false) {
     }
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        val foundResource = if (local) context.getLocalResourceEntry(resource) else context.getResourceEntry(resource)
+        val foundResource = if (local)
+            context.getResourceEntry(resource, LocalResourceSource)
+        else
+            context.getResourceEntry(resource, null)
 
         return if (foundResource != null) {
             if (frontMatter) {

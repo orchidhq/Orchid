@@ -1,10 +1,11 @@
 package com.eden.orchid.api.generators;
 
+import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.indexing.OrchidRootIndex;
 import com.eden.orchid.api.options.OptionsExtractor;
-import com.eden.orchid.api.resources.resource.FreeableResource;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.Theme;
@@ -12,13 +13,16 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.testhelpers.OrchidUnitTest;
+import com.eden.orchid.utilities.OrchidExtensionsKt;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +33,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
@@ -61,7 +66,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
 
     private MockGenerator generator2;
     private List<OrchidPage> pages2;
-    private FreeableResource mockFreeableResource;
+    private OrchidResource mockFreeableResource;
     private OrchidPage mockPage2;
     private OrchidReference mockPage2Reference;
 
@@ -81,29 +86,37 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         when(context.findTheme(any())).thenReturn(theme);
         when(context.getIndex()).thenReturn(internalIndex);
         when(context.includeDrafts()).thenReturn(false);
+        when(context.getEmbeddedData(anyString(), anyString())).thenReturn(new EdenPair<>("", new HashMap<>()));
 
         when(theme.isHasRenderedAssets()).thenReturn(true);
 
         generators = new HashSet<>();
 
         mockPage1Reference = new OrchidReference(context, "page1.html");
-        mockPage1Resource = new StringResource("", mockPage1Reference);
-        mockPage1 = spy(new OrchidPage(mockPage1Resource, "mockPage1", ""));
+        mockPage1Resource = new StringResource(mockPage1Reference, "", null);
+        mockPage1 = spy(new OrchidPage(mockPage1Resource, RenderService.RenderMode.TEMPLATE, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);
-        generator1 = spy(new MockGenerator("gen1", 100, pages1));
+        generator1 = spy(new MockGenerator("gen1", OrchidGenerator.Stage.COLLECTION, pages1));
         generators.add(generator1);
 
         mockPage2Reference = new OrchidReference(context, "page2.html");
-        mockFreeableResource = spy(new FreeableResource(mockPage2Reference) {});
-        mockPage2 = spy(new OrchidPage(mockFreeableResource, "mockPage2", ""));
+        mockFreeableResource = spy(new OrchidResource(mockPage2Reference) {
+
+            @NotNull
+            @Override
+            public InputStream getContentStream() {
+                return OrchidExtensionsKt.asInputStream("");
+            }
+        });
+        mockPage2 = spy(new OrchidPage(mockFreeableResource, RenderService.RenderMode.TEMPLATE, "mockPage2", ""));
         pages2 = new ArrayList<>();
         pages2.add(mockPage2);
-        generator2 = spy(new MockGenerator("gen2", 150, pages2));
+        generator2 = spy(new MockGenerator("gen2", OrchidGenerator.Stage.CONTENT, pages2));
         generators.add(generator2);
 
         pages3 = new ArrayList<>();
-        generator3 = new MockGenerator("gen3", 200, pages3);
+        generator3 = new MockGenerator("gen3", OrchidGenerator.Stage.WARM_UP, pages3);
         generator3 = spy(generator3);
         generators.add(generator3);
 
@@ -215,8 +228,8 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         List<? extends OrchidPage> mockPages;
         List<? extends OrchidPage> generatedPages;
 
-        public MockGenerator(String key, int priority, @NotNull List<? extends OrchidPage> mockPages) {
-            super(key, priority);
+        public MockGenerator(String key, OrchidGenerator.Stage stage, @NotNull List<? extends OrchidPage> mockPages) {
+            super(key, stage);
             this.mockPages = mockPages;
         }
 

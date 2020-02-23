@@ -14,9 +14,9 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.ExternalResource;
-import com.eden.orchid.api.resources.resource.FreeableResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -30,6 +30,7 @@ import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
+import kotlin.jvm.internal.Intrinsics;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -71,10 +72,11 @@ public class OrchidPage implements
     private Map<String, Object> allData;
 
     // variables that give the page identity
-    protected OrchidResource resource;
+    protected final OrchidResource resource;
     protected OrchidReference reference;
     protected String key;
     protected Map<String, Object> data;
+    protected final RenderService.RenderMode pageRenderMode;
 
     @Option("next") private PageRelation nextPage;
     @Option("previous") private PageRelation previousPage;
@@ -201,8 +203,12 @@ public class OrchidPage implements
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
 
-    public OrchidPage(OrchidResource resource, String key, String title) {
-        this.context = resource.getContext();
+    public OrchidPage(OrchidResource resource, RenderService.RenderMode renderMode, String key, String title) {
+        Intrinsics.checkNotNull(resource, "OrchidPage 'resource' cannot be null");
+        Intrinsics.checkNotNull(renderMode, "OrchidPage 'renderMode' cannot be null");
+        Intrinsics.checkNotNull(key, "OrchidPage 'key' cannot be null");
+
+        this.context = resource.getReference().getContext();
         this.assets = new AssetHolderDelegate(context, this, "page");
 
         this.key = key;
@@ -211,6 +217,7 @@ public class OrchidPage implements
         this.resource = resource;
         this.reference = new OrchidReference(resource.getReference());
         this.reference.setExtension(resource.getReference().getOutputExtension());
+        this.pageRenderMode = renderMode;
 
         JSONElement el = resource.getEmbeddedData();
 
@@ -271,13 +278,8 @@ public class OrchidPage implements
             throw new IllegalStateException("Cannot get page content until indexing has completed.");
         }
         if(compiledContent == null) {
-            if (resource != null && !EdenUtils.isEmpty(resource.getContent())) {
-                compiledContent = resource.compileContent(this);
-                if(compiledContent == null) {
-                    compiledContent = "";
-                }
-            }
-            else {
+            compiledContent = resource.compileContent(this);
+            if(compiledContent == null) {
                 compiledContent = "";
             }
         }
@@ -501,9 +503,7 @@ public class OrchidPage implements
     }
 
     public void free() {
-        if (resource instanceof FreeableResource) {
-            ((FreeableResource) resource).free();
-        }
+        resource.free();
         compiledContent = null;
     }
 
@@ -590,10 +590,6 @@ public class OrchidPage implements
 
     public OrchidResource getResource() {
         return resource;
-    }
-
-    public void setResource(OrchidResource resource) {
-        this.resource = resource;
     }
 
     public OrchidReference getReference() {
@@ -808,4 +804,7 @@ public class OrchidPage implements
         this.defaultBreadcrumbs = defaultBreadcrumbs;
     }
 
+    public RenderService.RenderMode getPageRenderMode() {
+        return pageRenderMode;
+    }
 }

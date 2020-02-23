@@ -6,6 +6,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
@@ -18,13 +19,19 @@ import com.mitchellbosecke.pebble.parser.Parser;
 import com.mitchellbosecke.pebble.parser.ParserImpl;
 import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
+import kotlin.NotImplementedError;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -58,13 +65,13 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
     }
 
     @Override
-    public String compile(String extension, String source, Map<String, Object> data) {
+    public void compile(OutputStream os, @Nullable OrchidResource resource, String extension, String input, Map<String, Object> data) {
         try {
             LexerImpl lexer = new LexerImpl(
                     engine.getSyntax(),
                     engine.getExtensionRegistry().getUnaryOperators().values(),
                     engine.getExtensionRegistry().getBinaryOperators().values());
-            TokenStream tokenStream = lexer.tokenize(new StringReader(source), "");
+            TokenStream tokenStream = lexer.tokenize(new StringReader(input), "");
 
             Parser parser = new ParserImpl(
                     engine.getExtensionRegistry().getUnaryOperators(),
@@ -80,22 +87,27 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                 visitorFactory.createVisitor(compiledTemplate).visit(root);
             }
 
-            Writer writer = new StringWriter();
+            ByteArrayOutputStream os1 = new ByteArrayOutputStream();
+            Writer writer = new OutputStreamWriter(os1, StandardCharsets.UTF_8);
             compiledTemplate.evaluate(writer, data);
+            writer.close();
+            os.write(os1.toByteArray());
 
-            return writer.toString();
+//            StringWriter writer = new StringWriter();
+//            compiledTemplate.evaluate(writer, data);
+//            writer.close();
+//            os.write(writer.toString().getBytes());
         }
         catch (PebbleException e) {
-            OrchidExtensionsKt.logSyntaxError(source, extension, e.getLineNumber(), 0, e.getMessage());
+            OrchidExtensionsKt.logSyntaxError(input, extension, e.getLineNumber(), 0, e.getMessage());
         }
         catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
-            Clog.e(source);
+            Clog.e(input);
             if(contextProvider.get().diagnose()) {
                 e.printStackTrace();
             }
         }
-        return source;
     }
 
     @Override

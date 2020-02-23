@@ -3,6 +3,7 @@ package com.eden.orchid.impl.resources
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.impl.resources.resourcesource.LocalInlineResourceSource
 import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
@@ -18,12 +19,12 @@ import java.util.HashMap
 class InlineResourceSourceTest : OrchidUnitTest {
 
     private lateinit var context: OrchidContext
-    private lateinit var underTest: InlineResourceSource
+    private lateinit var underTest: LocalInlineResourceSource
 
     @BeforeEach
     fun setUp() {
         context = mock(OrchidContext::class.java)
-        underTest = InlineResourceSource()
+        underTest = LocalInlineResourceSource()
     }
 
     @Test

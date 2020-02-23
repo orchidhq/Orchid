@@ -1,9 +1,11 @@
 package com.eden.orchid.wiki.utils
 
+import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.camelCase
@@ -55,11 +57,10 @@ object WikiUtils {
 
             val page = WikiPage(resource, pageTitle, section.key, i + 1)
 
-            if(section.key.isBlank()) {
+            if (section.key.isBlank()) {
                 page.reference.stripFromPath("wiki")
                 page.reference.path = "wiki/${page.reference.originalPath}"
-            }
-            else {
+            } else {
                 page.reference.stripFromPath("wiki/${section.key}")
                 page.reference.path = "wiki/${section.key}/${page.reference.originalPath}"
             }
@@ -80,7 +81,7 @@ object WikiUtils {
             a.attr("href", page.reference.toString())
         }
 
-        val newSummary = StringResource(doc.toString(), summary.reference, summary.embeddedData)
+        val newSummary = StringResource(summary.reference, doc.toString(), summary.embeddedData)
 
         val definedSectionTitle = section.title
         val sectionTitle =
@@ -93,12 +94,11 @@ object WikiUtils {
             newSummary,
             sectionTitle from String::camelCase to Array<String>::titleCase
         )
-        if(section.key.isBlank()) {
+        if (section.key.isBlank()) {
             summaryPage.reference.path = ""
             summaryPage.reference.fileName = "wiki"
             summaryPage.reference.isUsePrettyUrl = true
-        }
-        else {
+        } else {
             summaryPage.reference.path = "wiki"
             summaryPage.reference.fileName = section.key
             summaryPage.reference.isUsePrettyUrl = true
@@ -121,7 +121,7 @@ object WikiUtils {
             }
 
         var summaryPageContent = "<ul>"
-        for(page in wikiPages) {
+        for (page in wikiPages) {
             summaryPageContent += """<li><a href="${page.link}">${page.title}</a></li>"""
         }
         summaryPageContent += "</ul>"
@@ -134,7 +134,11 @@ object WikiUtils {
 
         val summaryPage = WikiSummaryPage(
             section.key,
-            StringResource(context, "wiki/${section.key}.html", summaryPageContent),
+            StringResource(
+                OrchidReference(context, "wiki/${section.key}.html"),
+                summaryPageContent,
+                null
+            ),
             sectionTitle from String::camelCase to Array<String>::titleCase
         )
 
@@ -152,18 +156,17 @@ object WikiUtils {
         }
     }
 
-    fun createWikiPdf(section: WikiSection) : WikiBookPage? {
+    fun createWikiPdf(section: WikiSection): WikiBookPage? {
         // create PDF from this section
         return if (section.createPdf) {
             val bookReference = OrchidReference(section.summaryPage.reference)
 
-            if(section.key.isBlank()) {
+            if (section.key.isBlank()) {
                 bookReference.path = "wiki"
                 bookReference.fileName = "book"
                 bookReference.extension = "pdf"
                 bookReference.isUsePrettyUrl = false
-            }
-            else {
+            } else {
                 bookReference.path = "wiki/${section.key}"
                 bookReference.fileName = "book"
                 bookReference.extension = "pdf"
@@ -174,5 +177,30 @@ object WikiUtils {
         } else {
             null
         }
+    }
+
+    fun handleImages(onImageDetected: (String, Int) -> AssetPage?): (String) -> String = { input ->
+        val doc = Jsoup.parse(input)
+
+        var i = 1
+
+        for (img in doc.select("img")) {
+            val imageTarget = img.attr("src")
+
+            if (OrchidUtils.isExternal(imageTarget)) continue
+
+            val imageAsset = onImageDetected(imageTarget, i)
+
+            i++
+
+            if(imageAsset != null) {
+                img.attr("src", imageAsset.link)
+            }
+            else {
+                Clog.w("image asset referenced in wiki not found: {}", imageTarget)
+            }
+        }
+
+        doc.toString()
     }
 }

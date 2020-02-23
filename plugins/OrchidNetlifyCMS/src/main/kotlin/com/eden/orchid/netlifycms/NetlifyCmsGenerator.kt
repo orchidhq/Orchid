@@ -12,10 +12,12 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.netlifycms.model.NetlifyCmsModel
 import com.eden.orchid.netlifycms.pages.NetlifyCmsAdminPage
 import com.eden.orchid.netlifycms.util.getNetlifyCmsFields
@@ -38,7 +40,7 @@ constructor(
     private val templateTags: Provider<Set<TemplateTag>>,
     private val components: Provider<Set<OrchidComponent>>,
     private val menuFactories: Provider<Set<OrchidMenuFactory>>
-) : OrchidGenerator<NetlifyCmsModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+) : OrchidGenerator<NetlifyCmsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "netlifyCms"
@@ -95,14 +97,23 @@ constructor(
         }
 
         if (includeCms) {
-            val adminResource = context.getResourceEntry("netlifyCms/admin.peb")
+            val adminResource = context.getResourceEntry("netlifyCms/admin.peb", null)
             adminResource.reference.stripFromPath("netlifyCms")
             val adminPage = NetlifyCmsAdminPage(adminResource, model)
-            context.renderRaw(adminPage)
+            context.render(adminPage)
 
-            val adminConfig = OrchidPage(StringResource(context, "admin/config.yml", getYamlConfig(context)), "admin", null)
+            val adminConfig = OrchidPage(
+                StringResource(
+                    OrchidReference(context, "admin/config.yml"),
+                    getYamlConfig(context),
+                    null
+                ),
+                RenderService.RenderMode.RAW,
+                "admin",
+                null
+            )
             adminConfig.reference.isUsePrettyUrl = false
-            context.renderRaw(adminConfig)
+            context.render(adminConfig)
         }
     }
 
@@ -189,12 +200,4 @@ constructor(
         }
         return true
     }
-
-    override fun getCollections(
-        context: OrchidContext,
-        model: NetlifyCmsModel
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
 }

@@ -6,9 +6,12 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.OrchidSecurityManager
 import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule
 import com.eden.orchid.impl.compilers.pebble.PebbleModule
+import com.eden.orchid.impl.resources.resourcesource.PluginJarResourceSource
 import com.google.inject.Guice
 import java.util.HashMap
 
@@ -17,7 +20,7 @@ class TestOrchid {
     fun runTest(
         flags: MutableMap<String, Any>,
         config: Map<String, Any>,
-        resources: Map<String, Pair<String, Map<String, Any>>>,
+        resources: List<(OrchidContext)->OrchidResource>,
         extraModules: List<OrchidModule>,
         serve: Boolean
     ): TestResults {
@@ -47,7 +50,6 @@ class TestOrchid {
         )
 
         // set up the context to use resources from the test class
-        modules.add(ResourceOverridingModule(modules))
         modules.add(TestResourceSource(resources).toModule())
         modules.add(TestConfigResourceSource(config).toModule())
 
@@ -97,29 +99,6 @@ class TestOrchid {
         context.start()
         context.finish()
         return context
-    }
-
-    class ResourceOverridingModule(
-        private val modules: List<OrchidModule>
-    ) : OrchidModule() {
-
-        override fun configure() {
-            // replace each plugin's normal resource source with one that also looks in the project directories, since
-            // Intellij or Gradle may use the raw classfiles and resources on disk rather than bundling the test module
-            // into a Jarfile.
-            modules
-                .filter { it.isHasResources }
-                .forEach {
-                    Clog.d("overriding resources from {}", it.javaClass.simpleName)
-                    addToSet(
-                        PluginResourceSource::class.java,
-                        PluginFileResourceSource(
-                            it.javaClass,
-                            it.resourcePriority + 1
-                        )
-                    )
-                }
-        }
     }
 
 }

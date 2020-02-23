@@ -11,7 +11,9 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
@@ -36,7 +38,7 @@ class PostsGenerator
 @Inject
 constructor(
     private val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator<PostsModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+) : OrchidGenerator<PostsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "posts"
@@ -106,22 +108,16 @@ constructor(
         }
 
         model.postPages = postPages
+        model.collections = getCollections(model.categories, authorPages)
 
         return model
-    }
-
-    override fun startGeneration(
-        context: OrchidContext,
-        model: PostsModel
-    ) {
-        model.allPages.forEach { context.renderTemplate(it) }
     }
 
     private fun getAuthorPages(context: OrchidContext): List<AuthorPage> {
         val authorPages = ArrayList<AuthorPage>()
 
         // add Author pages from content pages in the authorsBaseDir
-        val resourcesList = context.getLocalResourceEntries(authorsBaseDir, null, false)
+        val resourcesList = context.getResourceEntries(authorsBaseDir, null, false, LocalResourceSource)
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
@@ -142,7 +138,14 @@ constructor(
 
         // add Author pages from those specified in config.yml
         for (author in this.authors) {
-            val authorPage = AuthorPage(StringResource(context, "index.md", ""), author)
+            val authorPage = AuthorPage(
+                StringResource(
+                    OrchidReference(context, "index.md"),
+                    "",
+                    null
+                ),
+                author
+            )
             authorPage.author.authorPage = authorPage
             permalinkStrategy.applyPermalink(authorPage, authorPage.permalink)
             authorPages.add(authorPage)
@@ -153,7 +156,7 @@ constructor(
 
     private fun getPostsPages(context: OrchidContext, categoryModel: CategoryModel): List<PostPage> {
         val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
-        val resourcesList = context.getLocalResourceEntries(baseCategoryPath, null, true)
+        val resourcesList = context.getResourceEntries(baseCategoryPath, null, true, LocalResourceSource)
 
         val posts = ArrayList<PostPage>()
 
@@ -193,13 +196,13 @@ constructor(
         return posts.filter { !it.isDraft }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: PostsModel
+    private fun getCollections(
+        categories: MutableMap<String?, CategoryModel>,
+        authorPages: List<AuthorPage>
     ): List<OrchidCollection<*>> {
         val collectionsList = ArrayList<OrchidCollection<*>>()
 
-        model.categories.values.forEach {
+        categories.values.forEach {
             if (EdenUtils.isEmpty(it.key)) {
                 val collection = FolderCollection(
                     this@PostsGenerator,
@@ -226,7 +229,7 @@ constructor(
         val collection = FolderCollection(
             this@PostsGenerator,
             "authors",
-            model.authorPages,
+            authorPages,
             AuthorPage::class.java,
             authorsBaseDir
         )

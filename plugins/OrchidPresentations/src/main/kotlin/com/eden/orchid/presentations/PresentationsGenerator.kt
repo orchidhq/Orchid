@@ -6,13 +6,14 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.presentations.model.Presentation
 import com.eden.orchid.presentations.model.PresentationsModel
 import com.eden.orchid.presentations.model.Slide
 import javax.inject.Inject
 
 @Description("Embed presentations and slide-decks in your pages using Deck.js.", name = "Presentations")
-class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "presentations"
@@ -30,12 +31,8 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
         )
     }
 
-    override fun startGeneration(context: OrchidContext, model: PresentationsModel) {
-
-    }
-
     private fun getPresentationResources(context: OrchidContext, baseDir: String): Map<String, List<OrchidResource>> {
-        val slides = context.getLocalResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true)
+        val slides = context.getResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true, LocalResourceSource)
         val slideMap = HashMap<String, ArrayList<OrchidResource>>()
 
         slides.map {

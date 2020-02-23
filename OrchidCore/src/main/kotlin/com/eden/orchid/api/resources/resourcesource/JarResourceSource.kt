@@ -1,131 +1,100 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.eden.common.util.EdenUtils
+import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.JarResource
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.IOException
 import java.util.ArrayList
-import java.util.Objects
 import java.util.jar.JarFile
 
-open class JarResourceSource : OrchidResourceSource {
-
-    companion object {
-        const val JAR_URI_PREFIX = "jar:file:"
-    }
-
-
-    val pluginClass: Class<*>
-    override val priority: Int
-    private var initialized = false
-    private var jarFile: JarFile? = null
-
-    constructor(priority: Int) {
-        this.pluginClass = this.javaClass
-        this.priority = priority
-    }
-
-    constructor(moduleClass: Class<out OrchidModule>, priority: Int) {
-        this.pluginClass = moduleClass
-        this.priority = priority
-    }
-
-    private fun jarForClass(): JarFile? {
-        val path = "/" + pluginClass.name.replace('.', '/') + ".class"
-        val jarUrl = pluginClass.getResource(path) ?: return null
-
-        val url = jarUrl.toString()
-        val bang = url.indexOf("!")
-        return if (url.startsWith(JAR_URI_PREFIX) && bang != -1) {
-            try {
-                JarFile(url.substring(JAR_URI_PREFIX.length, bang))
-            }
-            catch (e: IOException) {
-                throw IllegalStateException("Error loading jar file.", e)
-            }
-
-        }
-        else {
-            null
-        }
-    }
+/**
+ * An OrchidResourceSource that serves resources as entries from a JarFile. The JarFile is typically looked up as the
+ * JarFile containing a particular classfile.
+ */
+class JarResourceSource(
+    private val jarFile: JarFile,
+    override val priority: Int,
+    override val scope: OrchidResourceSource.Scope
+) : OrchidResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        if(fileName.isBlank()) return null
+        if (fileName.isBlank()) return null
 
-        if(!initialized) {
-            jarFile = jarForClass()
-            initialized = true
-        }
+        val normalizedName = OrchidUtils.normalizePath(fileName)
 
-        if (jarFile != null) {
-            val entries = jarFile!!.entries()
-            while (entries.hasMoreElements()) {
-                val entry = entries.nextElement()
+        val entries = jarFile.entries()
+        while (entries.hasMoreElements()) {
+            val jarEntry = entries.nextElement()
 
-                if (entry.name.endsWith(fileName) && !entry.isDirectory) {
-                    return JarResource(context, jarFile, entry)
-                }
+            if (jarEntry.name.endsWith(normalizedName) && !jarEntry.isDirectory) {
+                return JarResource(OrchidReference(context, jarEntry.name), jarFile, jarEntry)
             }
         }
 
         return null
     }
 
-    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource> {
         val entries = ArrayList<OrchidResource>()
 
-        if(!initialized) {
-            jarFile = jarForClass()
-            initialized = true
-        }
+        val normalizedName = OrchidUtils.normalizePath(dirName)
 
-        if (jarFile != null) {
-            val jarEntries = jarFile!!.entries()
-            while (jarEntries.hasMoreElements()) {
-                val jarEntry = jarEntries.nextElement()
-                // we are checking a file in the jar
-                if (OrchidUtils.normalizePath(jarEntry.name)!!.startsWith("$dirName/") && !jarEntry.isDirectory) {
+        val jarEntries = jarFile.entries()
+        while (jarEntries.hasMoreElements()) {
+            val jarEntry = jarEntries.nextElement()
 
-                    if (EdenUtils.isEmpty(fileExtensions) || FilenameUtils.isExtension(jarEntry.name, fileExtensions)) {
+            if (jarEntry.isDirectory) continue
 
-                        if (shouldAddEntry(jarEntry.name)) {
-                            entries.add(JarResource(context, jarFile, jarEntry))
-                        }
-                    }
-                }
+            val normalizedEntryName = OrchidUtils.normalizePath(jarEntry.name)
+            val path = OrchidUtils.normalizePath(FilenameUtils.getPath(normalizedEntryName))
+
+            if (recursive) {
+                if (!path.startsWith(normalizedName)) continue
+            } else {
+                if (path != normalizedName) continue
+            }
+
+            if (normalizedEntryName.startsWith("META-INF")) continue
+
+            if (fileExtensions.isNullOrEmpty() || FilenameUtils.isExtension(normalizedEntryName, fileExtensions)) {
+                entries.add(JarResource(OrchidReference(context, normalizedEntryName), jarFile, jarEntry))
             }
         }
 
         return entries
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is JarResourceSource) return false
+    companion object {
+        const val JAR_URI_PREFIX = "jar:file:"
 
-        return priority == other.priority && pluginClass == other.pluginClass
-    }
+        fun jarForClass(pluginClass: Class<*>): JarFile {
+            val path = "/" + pluginClass.name.replace('.', '/') + ".class"
+            val jarUrl =
+                pluginClass.getResource(path)?.toString() ?: throw IllegalStateException("Could not get jar for class $pluginClass")
 
-    override fun hashCode(): Int {
-        return Objects.hash(pluginClass, priority)
-    }
+            val url = jarUrl
+                .removePrefix(JAR_URI_PREFIX)
+                .let { if(OrchidUtils.isWindows) it.removePrefix("\\").removePrefix("/") else it }
 
-    override fun compareTo(other: OrchidResourceSource): Int {
-        if (other is JarResourceSource) {
-            val superValue = other.priority - priority
-
-            return if (superValue != 0) {
-                superValue
+            val bang = url.indexOf("!")
+            return if (bang != -1) {
+                try {
+                    JarFile(url.substring(0, bang))
+                } catch (e: IOException) {
+                    throw IllegalStateException("Error loading jar file containing class $pluginClass", e)
+                }
+            } else {
+                throw IllegalStateException("Could not get jar for class $pluginClass")
             }
-            else other.pluginClass.name.compareTo(pluginClass.name)
-        }
-        else {
-            return other.priority - priority
         }
     }
 }

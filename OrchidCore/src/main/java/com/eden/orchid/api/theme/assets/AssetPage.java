@@ -1,11 +1,14 @@
 package com.eden.orchid.api.theme.assets;
 
+import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.AssetMetadataArchetype;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import kotlin.collections.CollectionsKt;
 
 import java.util.HashMap;
@@ -28,7 +31,12 @@ public class AssetPage extends OrchidPage {
     private Map<String, String> attrs = new HashMap<>();
 
     public AssetPage(Object source, String sourceKey, OrchidResource resource, String key, String title) {
-        super(resource, key, title);
+        super(
+                resource,
+                getAssetRenderMode(resource.getReference().getContext(), resource.getReference()),
+                key,
+                title
+        );
         this.source = source;
         this.sourceKey = sourceKey;
         reference.setUsePrettyUrl(false);
@@ -95,5 +103,13 @@ public class AssetPage extends OrchidPage {
 
     public void setAttrs(Map<String, String> attrs) {
         this.attrs = attrs;
+    }
+
+    private static RenderService.RenderMode getAssetRenderMode(OrchidContext context, OrchidReference reference) {
+        if (context.isBinaryExtension(reference.getOutputExtension())) {
+            return RenderService.RenderMode.BINARY;
+        } else {
+            return RenderService.RenderMode.RAW;
+        }
     }
 }

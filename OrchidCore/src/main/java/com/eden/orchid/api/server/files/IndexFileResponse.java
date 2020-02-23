@@ -2,6 +2,7 @@ package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
@@ -9,15 +10,12 @@ import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,7 +30,6 @@ final class IndexFileResponse {
     // TODO: convert this to a component
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
-        String content = "";
 
         if (targetFile.isDirectory()) {
             Clog.i("Rendering directory index: {}", targetPath);
@@ -85,7 +82,7 @@ final class IndexFileResponse {
                 jsonDirs.sort(Comparator.comparing(fileRow -> fileRow.name));
                 jsonFiles.sort(Comparator.comparing(fileRow -> fileRow.name));
 
-                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb");
+                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb", null);
 
                 Map<String, Object> indexPageVars = new HashMap<>();
                 indexPageVars.put("title", "List of files/dirs under " + targetPath);
@@ -99,29 +96,24 @@ final class IndexFileResponse {
 
                 String directoryListingContent;
                 if (resource != null) {
-                    directoryListingContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object);
+                    directoryListingContent = context.compile(resource, resource.getReference().getExtension(), resource.getContent(), object);
                 }
                 else {
                     directoryListingContent = context.serialize("json", object);
                 }
 
                 OrchidPage page = new OrchidPage(
-                        new StringResource(context, "directoryListing.txt", directoryListingContent),
+                        new StringResource(new OrchidReference(context, "directoryListing.txt"), directoryListingContent, null),
+                        RenderService.RenderMode.TEMPLATE,
                         "directoryListing",
                         "Index"
                 );
 
-                InputStream is = context.getRenderedTemplate(page);
-                try {
-                    content = IOUtils.toString(is, Charset.forName("UTF-8"));
-                }
-                catch (IOException e) {
-                    content = directoryListingContent;
-                }
+                return new OrchidResponse(context).page(page).status(404);
             }
         }
 
-        return new OrchidResponse(context).content(content);
+        return new OrchidResponse(context).content("");
     }
 
     private static String humanReadableByteCount(long bytes, boolean si) {
@@ -131,7 +123,6 @@ final class IndexFileResponse {
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
         return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
-
 
     private static class FileRow {
         public String url;

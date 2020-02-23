@@ -8,13 +8,19 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.FileResource
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.languages.asciidoc.extensions.AsciidocIncludeProcessor
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
 import org.asciidoctor.SafeMode
+import org.asciidoctor.jruby.internal.JRubyAsciidoctor
 import org.asciidoctor.log.LogHandler
 import org.asciidoctor.log.LogRecord
 import org.asciidoctor.log.Severity
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import java.io.StringReader
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
@@ -30,7 +36,6 @@ constructor(
 ) : OrchidCompiler(800), LogHandler {
 
     private val asciidoctor: Asciidoctor = Asciidoctor.Factory.create()
-    private lateinit var options: Options
 
     @Option
     @Description("Customize the security level Asciidoctor will run under. One of [UNSAFE, SAFE, SERVER, SECURE]")
@@ -45,16 +50,25 @@ constructor(
         }
     }
 
-    // configure parsing options from options, before each build phase
-    override fun onPostExtraction() {
-        options = Options()
+    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+        val reader = StringReader(input)
+        val writer = OutputStreamWriter(os)
+
+        val options = Options()
         options.setSafe(safeMode)
         // files can be included relative to the default resources directory
-        options.setBaseDir(resourcesDir)
-    }
+        if(resource is FileResource) {
+            // file resources set their base dir to the file's own base dir, so relative includes are resolved properly
+            options.setBaseDir(resource.file.absoluteFile.parentFile.absolutePath)
+        }
+        else {
+            // otherwise, use the default resources dir
+            options.setBaseDir(resourcesDir)
+        }
 
-    override fun compile(extension: String, source: String, data: Map<String, Any>): String {
-        return asciidoctor.convert(source, options)
+        asciidoctor.convert(reader, writer, options)
+
+        writer.close()
     }
 
     override fun getOutputExtension(): String {

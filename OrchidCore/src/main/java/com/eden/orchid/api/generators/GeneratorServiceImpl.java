@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +42,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     private OrchidContext context;
     private BuildMetrics metrics;
+    private OrchidGenerator.Stage currentGeneratorStage = null;
 
     @Option
     @Description("Whitelist the generators in this array, only indexing and generating these generators.")
@@ -75,6 +78,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startIndexing() {
+        Clog.i("Indexing Generators");
         try {
             context.popInjector("generating");
         }
@@ -87,12 +91,18 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
         metrics.startIndexing(allGenerators.getValue());
         context.clearIndex();
+        currentGeneratorStage = null;
         getFilteredGenerators().forEach(this::indexGenerator);
         metrics.stopIndexing();
     }
 
     private <T extends OrchidGenerator.Model> void indexGenerator(OrchidGenerator<T> generator) {
-        Clog.i("Indexing [{}: {}]", generator.getPriority(), generator.getKey());
+        if(generator.getStage() != currentGeneratorStage) {
+            currentGeneratorStage = generator.getStage();
+            Clog.i("  {} Stage", currentGeneratorStage);
+        }
+
+        Clog.i("    Indexing [{}]", generator.getKey());
         context.broadcast(Orchid.Lifecycle.IndexGeneratorStart.fire(generator));
         metrics.startIndexingGenerator(generator.getKey());
         JSONElement el = context.query(generator.getKey());
@@ -118,8 +128,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
         }
         context.getIndex().addChildIndex(generator.getKey(), index, generatorModel);
         // get the collections from a generator
-        List<? extends OrchidCollection> generatorCollections = generator.getCollections(context, generatorModel);
-        if (generatorCollections != null && generatorCollections.size() > 0) {
+        List<? extends OrchidCollection> generatorCollections = generatorModel.getCollections();
+        if (generatorCollections.size() > 0) {
             context.addCollections(generatorCollections);
         }
         // notify the generator is finished indexing
@@ -136,6 +146,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
 
     @Override
     public void startGeneration() {
+        Clog.i("Rendering Pages");
         List<Pair<String, ?>> generatorModelPairs = context
                 .getIndex()
                 .getAllIndexedPages()
@@ -147,12 +158,18 @@ public final class GeneratorServiceImpl implements GeneratorService {
         context.pushInjector("generating", generatorModelPairs);
 
         metrics.startGeneration();
+        currentGeneratorStage = null;
         getFilteredGenerators().forEach(this::useGenerator);
         metrics.stopGeneration();
     }
 
     private <T extends OrchidGenerator.Model> void useGenerator(OrchidGenerator<T> generator) {
-        Clog.i("Generating [{}: {}]", generator.getPriority(), generator.getKey());
+        if(generator.getStage() != currentGeneratorStage) {
+            currentGeneratorStage = generator.getStage();
+            Clog.i("  {} Stage",currentGeneratorStage);
+        }
+
+        Clog.i("    Generating [{}]", generator.getKey());
         metrics.startGeneratingGenerator(generator.getKey());
         OrchidGenerator.Model generatorModel = context.getIndex().getChildIndex(generator.getKey());
         if (generatorModel == null) {

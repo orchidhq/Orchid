@@ -35,4 +35,7 @@ public interface OrchidSite extends OrchidService {
     default SiteInfo getSiteInfo() { return getService(OrchidSite.class).getSiteInfo(); }
 
     default JSONObject toJSON() { return getService(OrchidSite.class).toJSON(); }
+
+    default String getSourceDir() { return getService(OrchidSite.class).getSourceDir(); }
+    default String getDestinationDir() { return getService(OrchidSite.class).getDestinationDir(); }
 }

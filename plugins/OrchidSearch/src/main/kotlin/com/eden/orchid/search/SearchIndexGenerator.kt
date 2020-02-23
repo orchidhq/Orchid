@@ -9,13 +9,14 @@ import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.impl.generators.ExternalIndexGenerator
 
 @Description("Generates index files to connect your site to others.", name = "Indices")
-class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_LATE) {
+class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.META) {
 
     companion object {
         const val GENERATOR_KEY = "indices"
@@ -56,10 +57,10 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
 
             val jsonElement = JSONElement(value.first.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
-            val resource = JsonResource(jsonElement, reference)
-            val page = OrchidPage(resource, "index", null)
+            val resource = JsonResource(reference, jsonElement)
+            val page = OrchidPage(resource, RenderService.RenderMode.RAW, "index", null)
             page.reference.isUsePrettyUrl = false
-            context.renderRaw(page)
+            context.render(page)
 
             indices.addToIndex(indices.ownKey + "/" + page.reference.path, page)
         }
@@ -67,39 +68,32 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
         // Render full composite index page
         val compositeJsonElement = JSONElement(context.index.toJSON(true, false))
         val compositeReference = OrchidReference(context, "meta/all.index.json")
-        val compositeIndexResource = JsonResource(compositeJsonElement, compositeReference)
-        val compositeIndexPage = OrchidPage(compositeIndexResource, "index", null)
+        val compositeIndexResource = JsonResource(compositeReference, compositeJsonElement)
+        val compositeIndexPage = OrchidPage(compositeIndexResource, RenderService.RenderMode.RAW, "index", null)
         compositeIndexPage.reference.isUsePrettyUrl = false
-        context.renderRaw(compositeIndexPage)
+        context.render(compositeIndexPage)
         indices.addToIndex(indices.ownKey + "/" + compositeIndexPage.reference.path, compositeIndexPage)
 
         // Render an index of all indices, so individual index pages can be found
         for (page in indices.allPages) {
             page.data = HashMap()
         }
-        val indexResource = JsonResource(JSONElement(indices.toJSON(false, false)), OrchidReference(context, "meta/index.json"))
-        val indicesPage = OrchidPage(indexResource, "index", null)
+        val indexResource = JsonResource(OrchidReference(context, "meta/index.json"), JSONElement(indices.toJSON(false, false)))
+        val indicesPage = OrchidPage(indexResource, RenderService.RenderMode.RAW, "index", null)
         indicesPage.reference.isUsePrettyUrl = false
-        context.renderRaw(indicesPage)
+        context.render(indicesPage)
     }
 
     private fun generatePageIndexFiles(context: OrchidContext) {
         context.index.allPages.forEach { page ->
             val jsonElement = JSONElement(page.toJSON(true, true))
             val reference = OrchidReference(page.reference)
-            val resource = JsonResource(jsonElement, reference)
-            val pageIndex = OrchidPage(resource, "pageIndex", null)
+            val resource = JsonResource(reference, jsonElement)
+            val pageIndex = OrchidPage(resource, RenderService.RenderMode.RAW, "pageIndex", null)
             pageIndex.reference.isUsePrettyUrl = false
             pageIndex.reference.outputExtension = "json"
-            context.renderRaw(pageIndex)
+            context.render(pageIndex)
         }
-    }
-
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
-    ): List<OrchidCollection<*>> {
-        return emptyList()
     }
 
 }

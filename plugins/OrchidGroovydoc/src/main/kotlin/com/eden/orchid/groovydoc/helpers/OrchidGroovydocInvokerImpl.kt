@@ -15,7 +15,6 @@ import javax.inject.Named
 class OrchidGroovydocInvokerImpl
 @Inject
 constructor(
-    @Named("src") val resourcesDir: String,
     val context: OrchidContext
 ) : OrchidGroovydocInvoker {
 
@@ -38,7 +37,7 @@ constructor(
             }
         }
 
-        val sources = sourceDirs.map { File(resourcesDir).toPath().resolve(it) }
+        val sources = sourceDirs.map { File(context.sourceDir).toPath().resolve(it) }
         val rootDoc = groovydocRunner.getRootDoc(sources, outputDir, extraArgs) { inputStream ->
             InputStreamIgnorer(inputStream)
         }

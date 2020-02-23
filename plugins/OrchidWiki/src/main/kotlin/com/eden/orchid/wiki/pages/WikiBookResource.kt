@@ -18,42 +18,27 @@ class WikiBookResource(
         val section: WikiSection
 ) : OrchidResource(reference) {
 
-    private var resourceStream: InputStream? = null
+    override fun getContentStream(): InputStream {
+        val wikiBookTemplate = reference.context.locateTemplate("wiki/book")
+        val pdfOutput = wikiBookTemplate.compileContent(mapOf(
+            "section" to section,
+            "resource" to this@WikiBookResource
+        ))
 
-    init {
-        rawContent = ""
-        content = ""
-        embeddedData = JSONElement(JSONObject())
-    }
+        val doc = Jsoup.parse(pdfOutput)
+        val pdfDoc = W3CDom().fromJsoup(doc)
 
-    fun loadContent() {
-        if(resourceStream == null) {
-            val wikiBookTemplate = context.locateTemplate("wiki/book")
-            val pdfOutput = wikiBookTemplate.compileContent(mapOf(
-                    "section" to section,
-                    "resource" to this@WikiBookResource
-            ))
-
-            val doc = Jsoup.parse(pdfOutput)
-            val pdfDoc = W3CDom().fromJsoup(doc)
-
-            resourceStream = convertOutputStream { safeOs ->
-                PdfRendererBuilder()
-                        .useSVGDrawer(BatikSVGDrawer())
-                        .withW3cDocument(pdfDoc, context.baseUrl)
-                        .toStream(safeOs)
-                        .run()
-            }
+        return convertOutputStream(reference.context) { safeOs ->
+            PdfRendererBuilder()
+                .useSVGDrawer(BatikSVGDrawer())
+                .withW3cDocument(pdfDoc, reference.context.baseUrl)
+                .toStream(safeOs)
+                .run()
         }
     }
 
-    override fun getContentStream(): InputStream? {
-        loadContent()
-        return resourceStream
-    }
-
     fun replaceBaseUrls(input: String): String {
-        val pattern = "href=\"(${Pattern.quote(context.baseUrl)}(.*?))\"".toRegex()
+        val pattern = "href=\"(${Pattern.quote(reference.context.baseUrl)}(.*?))\"".toRegex()
 
         return pattern.replace(input) { match ->
             val formattedId = match.groupValues[2].replace("/", "_")
@@ -62,6 +47,6 @@ class WikiBookResource(
     }
 
     fun formatAnchor(input: String): String {
-        return input.replace(context.baseUrl, "").replace("/", "_")
+        return input.replace(reference.context.baseUrl, "").replace("/", "_")
     }
 }

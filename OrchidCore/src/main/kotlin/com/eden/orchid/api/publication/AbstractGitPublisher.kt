@@ -92,7 +92,7 @@ constructor(
         git.init(remoteUrl, displayedRemoteUrl, branch).apply {
             copy(from = destinationDir)
 
-            beforeCommit()
+            beforeCommit(context)
             commit(commitUsername, commitEmail, commitMessage)
             push(true)
         }
@@ -104,7 +104,7 @@ constructor(
             delete()
             copy(from = destinationDir)
 
-            beforeCommit()
+            beforeCommit(context)
             commit(commitUsername, commitEmail, commitMessage)
             push(false)
         }
@@ -117,7 +117,7 @@ constructor(
                 copy(subdirectory = this, from = destinationDir)
             }
 
-            beforeCommit()
+            beforeCommit(context)
             commit(commitUsername, commitEmail, commitMessage)
             push(false)
         }
@@ -135,13 +135,13 @@ constructor(
                 copy(subdirectory = this, from = destinationDir)
             }
 
-            beforeCommit()
+            beforeCommit(context)
             commit(commitUsername, commitEmail, commitMessage)
             push(true)
         }
     }
 
-    open fun GitRepoFacade.beforeCommit() {
+    open fun GitRepoFacade.beforeCommit(context: OrchidContext) {
 
     }
 

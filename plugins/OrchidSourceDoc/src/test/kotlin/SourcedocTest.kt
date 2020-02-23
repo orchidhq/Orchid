@@ -13,7 +13,9 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledForJreRange
 import org.junit.jupiter.api.condition.EnabledOnOs
+import org.junit.jupiter.api.condition.JRE
 import org.junit.jupiter.api.condition.OS
 
 class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule()) {
@@ -33,6 +35,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
 //----------------------------------------------------------------------------------------------------------------------
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_12)
     fun `Single-module Java`() {
         javadocSetup()
         execute(withGenerator<NewJavadocGenerator>())
@@ -45,6 +48,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_12)
     fun `Multi-module Java`() {
         javadocSetup(modules)
         execute(withGenerator<NewJavadocGenerator>())
@@ -132,25 +136,28 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
 
     @Test
     fun `Single-module all kinds`() {
-        javadocSetup()
+        if(JRE.JAVA_12.isCurrentVersion) {
+            javadocSetup()
+        }
         groovydocSetup()
         kotlindocSetup()
         if (OS.MAC.isCurrentOs) {
             swiftdocSetup()
         }
+
         execute(
             *mutableListOf(
-                withGenerator<NewJavadocGenerator>(),
                 withGenerator<NewGroovydocGenerator>(),
                 withGenerator<NewKotlindocGenerator>()
             )
+                .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<NewJavadocGenerator>() }
                 .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
                 .toTypedArray()
         )
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertJavaPages()
-            .assertJavaCollections()
+            .assertWhen(JRE.JAVA_12.isCurrentVersion) { assertJavaPages() }
+            .assertWhen(JRE.JAVA_12.isCurrentVersion) { assertJavaCollections() }
             .assertGroovyPages()
             .assertGroovyCollections()
             .assertKotlinPages()
@@ -164,12 +171,15 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     @Test
     fun `Multi-module all kinds`() {
         val generators = mutableListOf(
-            withGenerator<NewJavadocGenerator>(),
             withGenerator<NewGroovydocGenerator>(),
             withGenerator<NewKotlindocGenerator>()
-        ).addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
+        )
+            .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<NewJavadocGenerator>() }
+            .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
 
-        javadocSetup(modules)
+        if(JRE.JAVA_12.isCurrentVersion) {
+            javadocSetup(modules)
+        }
         groovydocSetup(modules)
         kotlindocSetup(modules)
         if (OS.MAC.isCurrentOs) {
@@ -179,8 +189,8 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
         execute(*generators.toTypedArray())
             .asExpected()
             .withDefaultSourcedocPages()
-            .assertJavaPages(modules)
-            .assertJavaCollections(modules)
+            .assertWhen(JRE.JAVA_12.isCurrentVersion) { assertJavaPages(modules) }
+            .assertWhen(JRE.JAVA_12.isCurrentVersion) { assertJavaCollections(modules) }
             .assertGroovyPages(modules)
             .assertGroovyCollections(modules)
             .assertKotlinPages(modules)

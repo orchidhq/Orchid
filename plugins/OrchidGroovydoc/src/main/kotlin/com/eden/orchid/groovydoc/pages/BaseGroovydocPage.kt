@@ -2,6 +2,7 @@ package com.eden.orchid.groovydoc.pages
 
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.groovydoc.GroovydocGenerator
 import com.eden.orchid.groovydoc.resources.BaseGroovydocResource
@@ -11,6 +12,6 @@ abstract class BaseGroovydocPage(
         resource: BaseGroovydocResource,
         key: String,
         title: String
-) : OrchidPage(resource, key, title) {
+) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, key, title) {
 
 }

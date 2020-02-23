@@ -14,13 +14,11 @@ import javax.inject.Named
 class NewJavadocGenerator
 @Inject
 constructor(
-    @Named("src") resourcesDir: String,
     invoker: JavadocInvokerImpl,
     extractor: OptionsExtractor,
     permalinkStrategy: PermalinkStrategy
 ) : SourcedocGenerator<JavaModuleDoc, JavaDocModuleConfig>(
     GENERATOR_KEY,
-    resourcesDir,
     invoker,
     extractor,
     permalinkStrategy

@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
 import com.eden.orchid.wiki.pages.WikiBookPage
@@ -19,7 +20,7 @@ import com.eden.orchid.wiki.utils.WikiUtils
 import javax.inject.Inject
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
-class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "wiki"
@@ -55,7 +56,8 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) 
             }
         }
 
-        val model = WikiModel(loadedSections)
+        val collections = getCollections(loadedSections)
+        val model = WikiModel(loadedSections, collections)
 
         if (loadedSections.size > 1) {
             model.sectionsPage = getSectionsIndex(context, model)
@@ -64,18 +66,12 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) 
         return model
     }
 
-    override fun startGeneration(context: OrchidContext, model: WikiModel) {
-        model.allPages.forEach {
-            if (it is WikiBookPage) {
-                context.renderBinary(it)
-            } else {
-                context.renderTemplate(it)
-            }
-        }
-    }
-
     private fun getSectionsIndex(context: OrchidContext, model: WikiModel): WikiSectionsPage {
-        val resource = StringResource(context, "wiki.md", "")
+        val resource = StringResource(
+            OrchidReference(context, "wiki.md"),
+            "",
+            null
+        )
 
         val sectionsPage = WikiSectionsPage(model, resource, "Wiki")
 
@@ -87,20 +83,20 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, PRIORITY_EARLY) 
         return sectionsPage
     }
 
-    override fun getCollections(context: OrchidContext, model: WikiModel): List<OrchidCollection<*>> {
-        val collectionsList = java.util.ArrayList<OrchidCollection<*>>()
+    fun getCollections(sections: List<WikiSection>): List<OrchidCollection<*>> {
+        val collectionsList = mutableListOf<OrchidCollection<*>>()
 
-        model.sections.forEach {
+        sections.forEach {
             val sectionPages = ArrayList<OrchidPage>()
 
-            sectionPages.add(it.value.summaryPage)
-            sectionPages.addAll(it.value.wikiPages)
+            sectionPages.add(it.summaryPage)
+            sectionPages.addAll(it.wikiPages)
 
             val collection = FileCollection(this, it.key, sectionPages)
             collectionsList.add(collection)
         }
 
-        val bookPages = model.sections.values.mapNotNull { it.bookPage }
+        val bookPages = sections.mapNotNull { it.bookPage }
         collectionsList.add(PageCollection(this, "books", bookPages))
 
         return collectionsList

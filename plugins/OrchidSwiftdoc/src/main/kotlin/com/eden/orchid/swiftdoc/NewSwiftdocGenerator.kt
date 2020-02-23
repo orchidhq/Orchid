@@ -16,13 +16,11 @@ import javax.inject.Inject
 class NewSwiftdocGenerator
 @Inject
 constructor(
-    @javax.inject.Named("src") resourcesDir: String,
     invoker: SwiftdocInvokerImpl,
     extractor: OptionsExtractor,
     permalinkStrategy: PermalinkStrategy
 ) : SourcedocGenerator<SwiftModuleDoc, SwiftDocModuleConfig>(
     GENERATOR_KEY,
-    resourcesDir,
     invoker,
     extractor,
     permalinkStrategy

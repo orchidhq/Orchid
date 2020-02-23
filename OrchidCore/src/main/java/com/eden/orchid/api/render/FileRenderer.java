@@ -25,23 +25,17 @@ public final class FileRenderer implements OrchidRenderer {
     public boolean render(OrchidPage page, InputStream content) {
         boolean success;
 
-        String outputPath = OrchidUtils.normalizePath(page.getReference().getPath());
-        String outputName;
-        if(EdenUtils.isEmpty(OrchidUtils.normalizePath(page.getReference().getOutputExtension()))) {
-            outputName = OrchidUtils.normalizePath(page.getReference().getFileName());
-        }
-        else {
-            outputName = OrchidUtils.normalizePath(page.getReference().getFileName()) + "." + OrchidUtils.normalizePath(page.getReference().getOutputExtension());
+        // get the file that this page will be written to
+        File outputFile = new File(this.destination + "/" + page.getReference().getPathOnDisk());
+
+        // if its parent directory does not exist, make sure to create it
+        if (!outputFile.getParentFile().exists()) {
+            outputFile.getParentFile().mkdirs();
         }
 
-        File outputFile = new File(this.destination + "/" + outputPath);
-        if (!outputFile.exists()) {
-            outputFile.mkdirs();
-        }
-
+        // write the page's contents to disk
         try {
-            Path destinationFile = Paths.get(this.destination + "/" + outputPath + "/" + outputName);
-            Files.write(destinationFile, IOUtils.toByteArray(content));
+            Files.write(outputFile.toPath(), IOUtils.toByteArray(content));
             success = true;
         }
         catch (Exception e) {

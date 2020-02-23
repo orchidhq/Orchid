@@ -2,8 +2,10 @@ package com.eden.orchid.api.compilers;
 
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidService;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,19 +69,6 @@ public interface CompilerService extends OrchidService {
     }
 
     /**
-     * Finds an OrchidCompiler capable of evaluating input with a given file extension.
-     *
-     * @param extension the extension representing content that needs to be compiled
-     * @return an appropriate OrchidCompiler if once was found that matches the extension, null otherwise
-     *
-     * @since v1.0.0
-     * @see OrchidCompiler
-     */
-    default OrchidCompiler compilerFor(String extension) {
-        return getService(CompilerService.class).compilerFor(extension);
-    }
-
-    /**
      * Finds an OrchidParser capable of evaluating input with a given file extension.
      *
      * @param extension the extension representing content that needs to be parsed
@@ -96,21 +85,7 @@ public interface CompilerService extends OrchidService {
      * Compiles input against a given Compiler identified by file extension. Additional data may be passed in that
      * individual Compilers may use to render into the resulting output.
      *
-     * @param extension the extension to find a Compiler for
-     * @param input the input to compile
-     * @return the compiled output data if an appropriate Compiler could be found, otherwise the unprocessed input
-     *
-     * @since v1.0.0
-     * @see OrchidCompiler
-     */
-    default String compile(String extension, String input) {
-        return getService(CompilerService.class).compile(extension, input);
-    }
-
-    /**
-     * Compiles input against a given Compiler identified by file extension. Additional data may be passed in that
-     * individual Compilers may use to render into the resulting output.
-     *
+     * @param resource the source resource where the content is coming from
      * @param extension the extension to find a Compiler for
      * @param input the input to compile
      * @param data additional data to pass to the OrchidCompiler
@@ -119,8 +94,8 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidCompiler
      */
-    default String compile(String extension, String input, Object data) {
-        return getService(CompilerService.class).compile(extension, input, data);
+    default String compile(@Nullable OrchidResource resource, String extension, String input, Object data) {
+        return getService(CompilerService.class).compile(resource, extension, input, data);
     }
 
     /**

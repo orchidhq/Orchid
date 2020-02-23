@@ -30,7 +30,7 @@ class KotlindocGenerator
 constructor(
     @Named("kotlindocClasspath") private val kotlindocClasspath: String,
     private val invoker: OrchidKotlindocInvoker
-) : OrchidGenerator<KotlindocModel>(GENERATOR_KEY, PRIORITY_EARLY) {
+) : OrchidGenerator<KotlindocModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "kotlindoc"
@@ -54,7 +54,7 @@ constructor(
         ) else args
         val rootDoc = invoker.getRootDoc(sourceDirs, args)
 
-        if (rootDoc == null) return KotlindocModel(context, emptyList(), emptyList())
+        if (rootDoc == null) return KotlindocModel(context, emptyList(), emptyList(), emptyList())
 
         val allClasses = mutableListOf<KotlindocClassPage>()
         val allPackages = mutableListOf<KotlindocPackagePage>()
@@ -92,14 +92,12 @@ constructor(
             classDocPage.packagePage = packagePageMap[classDocPage.classDoc.`package`]
         }
 
-        return KotlindocModel(context, allClasses, allPackages).also { createdModel ->
+        val collections = getCollections(allClasses, allPackages)
+
+        return KotlindocModel(context, allClasses, allPackages, collections).also { createdModel ->
             createdModel.allClasses.forEach { it.model = createdModel }
             createdModel.allPackages.forEach { it.model = createdModel }
         }
-    }
-
-    override fun startGeneration(context: OrchidContext, model: KotlindocModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
     }
 
     private fun isInnerPackage(parent: KotlinPackageDoc, possibleChild: KotlinPackageDoc): Boolean {
@@ -126,13 +124,13 @@ constructor(
         return false
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: KotlindocModel
+    private fun getCollections(
+        allClasses: List<KotlindocClassPage>,
+        allPackages: List<KotlindocPackagePage>
     ): List<OrchidCollection<*>> {
         return listOf(
-            PageCollection(this, "classes", model.allClasses),
-            PageCollection(this, "packages", model.allPackages)
+            PageCollection(this, "classes", allClasses),
+            PageCollection(this, "packages", allPackages)
         )
     }
 

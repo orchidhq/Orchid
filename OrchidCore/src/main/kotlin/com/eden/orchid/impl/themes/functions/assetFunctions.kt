@@ -3,29 +3,20 @@ package com.eden.orchid.impl.themes.functions
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
-import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.resources.ResourceTransformation
-import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
-import com.eden.orchid.api.theme.assets.Renameable
-import com.eden.orchid.api.theme.assets.Resizable
-import com.eden.orchid.api.theme.assets.Rotateable
-import com.eden.orchid.api.theme.assets.Scalable
+import com.eden.orchid.api.resources.thumbnails.Renameable
+import com.eden.orchid.api.resources.thumbnails.Resizable
+import com.eden.orchid.api.resources.thumbnails.Rotateable
+import com.eden.orchid.api.resources.thumbnails.Scalable
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.impl.relations.AssetRelation
-import com.eden.orchid.utilities.convertOutputStream
-import net.coobird.thumbnailator.Thumbnails
-import net.coobird.thumbnailator.geometry.Positions
-import org.apache.commons.io.FilenameUtils
-import java.io.InputStream
-import javax.imageio.ImageIO
 import javax.inject.Inject
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
@@ -190,128 +181,4 @@ constructor(private val permalinkStrategy: PermalinkStrategy) : BaseImageManipul
             resource.rename(asset, permalinkStrategy, permalink, usePrettyUrl)
         }
     }
-}
-
-class ThumbnailResource(
-    resource: OrchidResource
-) : ResourceTransformation(resource),
-    OptionsHolder,
-    Rotateable,
-    Scalable,
-    Resizable,
-    Renameable {
-
-    init {
-        rawContent = ""
-        content = ""
-        embeddedData = null
-
-        contentStreamTransformations = mutableListOf()
-    }
-
-    override fun rotate(page: AssetPage, angle: Double) {
-        page.reference.fileName = page.reference.originalFileName + "_rotate-${angle}"
-        contentStreamTransformations.add { input -> rotateTransformation(input, angle, reference.outputExtension) }
-    }
-
-    override fun scale(page: AssetPage, factor: Double) {
-        page.reference.fileName = page.reference.originalFileName + "_scale-${factor}"
-        contentStreamTransformations.add { input -> scaleTransformation(input, factor, reference.outputExtension) }
-    }
-
-    override fun resize(page: AssetPage, width: Int, height: Int, mode: Resizable.Mode) {
-        page.reference.fileName = page.reference.originalFileName + "_${width}x${height}_${mode.name}"
-        contentStreamTransformations.add { input ->
-            resizeTransformation(
-                input,
-                width,
-                height,
-                mode,
-                reference.outputExtension
-            )
-        }
-    }
-
-    override fun rename(
-        page: AssetPage,
-        permalinkStrategy: PermalinkStrategy,
-        permalink: String,
-        usePrettyUrl: Boolean
-    ) {
-        val originalExtension = page.reference.outputExtension
-        val newExtension = FilenameUtils.getExtension(permalink)
-        permalinkStrategy.applyPermalink(page, permalink, usePrettyUrl)
-
-        if (newExtension.isNotBlank() && newExtension != originalExtension) {
-            contentStreamTransformations.add { input -> renameTransformation(input, newExtension) }
-        }
-    }
-
-    companion object {
-        fun rotateTransformation(input: InputStream, angle: Double, outputFormat: String): InputStream {
-            return convertOutputStream { safeOs ->
-                Thumbnails
-                    .of(input)
-                    .rotate(angle)
-                    .scale(1.0)
-                    .outputFormat(outputFormat)
-                    .toOutputStream(safeOs)
-            }
-        }
-
-        fun scaleTransformation(input: InputStream, factor: Double, outputFormat: String): InputStream {
-            return convertOutputStream { safeOs ->
-                Thumbnails
-                    .of(input)
-                    .scale(factor)
-                    .outputFormat(outputFormat)
-                    .toOutputStream(safeOs)
-            }
-        }
-
-        fun resizeTransformation(
-            input: InputStream,
-            width: Int,
-            height: Int,
-            mode: Resizable.Mode,
-            outputFormat: String
-        ): InputStream {
-            return convertOutputStream { safeOs ->
-                val thumbnailBuilder = Thumbnails.of(input)
-
-                when (mode) {
-                    Resizable.Mode.exact -> thumbnailBuilder.forceSize(width, height)
-                    Resizable.Mode.fit -> thumbnailBuilder.size(width, height)
-                    Resizable.Mode.bl -> thumbnailBuilder.size(width, height).crop(Positions.BOTTOM_LEFT)
-                    Resizable.Mode.bc -> thumbnailBuilder.size(width, height).crop(Positions.BOTTOM_CENTER)
-                    Resizable.Mode.br -> thumbnailBuilder.size(width, height).crop(Positions.BOTTOM_RIGHT)
-                    Resizable.Mode.cl -> thumbnailBuilder.size(width, height).crop(Positions.CENTER_LEFT)
-                    Resizable.Mode.c -> thumbnailBuilder.size(width, height).crop(Positions.CENTER)
-                    Resizable.Mode.cr -> thumbnailBuilder.size(width, height).crop(Positions.CENTER_RIGHT)
-                    Resizable.Mode.tl -> thumbnailBuilder.size(width, height).crop(Positions.TOP_LEFT)
-                    Resizable.Mode.tc -> thumbnailBuilder.size(width, height).crop(Positions.TOP_CENTER)
-                    Resizable.Mode.tr -> thumbnailBuilder.size(width, height).crop(Positions.TOP_RIGHT)
-                }
-
-                thumbnailBuilder.outputFormat(outputFormat)
-                thumbnailBuilder.toOutputStream(safeOs)
-            }
-        }
-
-        fun renameTransformation(input: InputStream, outputFormat: String): InputStream {
-            return if(ImageIO.getWriterFormatNames().any { it == outputFormat }) {
-                convertOutputStream { safeOs ->
-                    Thumbnails
-                        .of(input)
-                        .scale(1.0)
-                        .outputFormat(outputFormat)
-                        .toOutputStream(safeOs)
-                }
-            }
-            else {
-                input
-            }
-        }
-    }
-
 }

@@ -1,5 +1,3 @@
-
-import org.gradle.api.initialization.Settings
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.project
 
@@ -113,8 +111,6 @@ object Projects {
     }
 }
 
-fun DependencyHandlerScope.compile(vararg modules: Module)
-        = dependsOnModules(*modules, configurationName = "compile")
 fun DependencyHandlerScope.implementation(vararg modules: Module)
         = dependsOnModules(*modules, configurationName = "implementation")
 fun DependencyHandlerScope.testImplementation(vararg modules: Module)
@@ -123,16 +119,10 @@ fun DependencyHandlerScope.dependsOnModules(vararg modules: Module, configuratio
     dependsOnModules(modules.toList(), configurationName)
 }
 
-fun DependencyHandlerScope.compile(modules: Iterable<Module>)
-        = dependsOnModules(modules, "compile")
 fun DependencyHandlerScope.implementation(modules: Iterable<Module>)
         = dependsOnModules(modules, "implementation")
 fun DependencyHandlerScope.testImplementation(modules: Iterable<Module>)
         = dependsOnModules(modules, "testImplementation")
 fun DependencyHandlerScope.dependsOnModules(modules: Iterable<Module>, configurationName: String = "compile") {
     modules.forEach { add(configurationName, project(it.path)) }
-}
-
-fun Settings.includeModules(modules: Iterable<Module>) {
-    modules.forEach { this.include(it.path) }
 }

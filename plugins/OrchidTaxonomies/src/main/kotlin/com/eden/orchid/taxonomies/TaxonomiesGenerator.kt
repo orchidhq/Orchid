@@ -30,7 +30,7 @@ class TaxonomiesGenerator
 @Inject
 constructor(
     val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator<TaxonomiesModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+) : OrchidGenerator<TaxonomiesModel>(GENERATOR_KEY, Stage.COLLECTION) {
 
     companion object {
         const val GENERATOR_KEY = "taxonomies"
@@ -89,15 +89,12 @@ constructor(
         model.onIndexingTermsFinished()
 
         model.allPages = buildAllTaxonomiesPages(context, model)
+        model.collections = getCollections(model)
 
         return model
     }
 
-    override fun startGeneration(context: OrchidContext, model: TaxonomiesModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
-    }
-
-    override fun getCollections(context: OrchidContext, model: TaxonomiesModel): List<OrchidCollection<*>>? {
+    private fun getCollections(model: TaxonomiesModel): List<OrchidCollection<*>> {
         val collections = ArrayList<OrchidCollection<*>>()
 
         // a collection containing landing pages for each Taxonomy and collection archive
@@ -162,7 +159,7 @@ constructor(
                 val pageRef = OrchidReference(context, "taxonomy.html")
                 pageRef.title = title
 
-                val page = TaxonomyArchivePage(StringResource("", pageRef), model, taxonomy, i + 1)
+                val page = TaxonomyArchivePage(StringResource(pageRef, "", null), model, taxonomy, i + 1)
 
                 permalinkStrategy.applyPermalink(page, page.taxonomy.permalink)
 
@@ -197,7 +194,14 @@ constructor(
                 val pageRef = OrchidReference(context, "term.html")
                 pageRef.title = title
 
-                val page = TermArchivePage(StringResource("", pageRef), model, termPageList, taxonomy, term, i + 1)
+                val page = TermArchivePage(
+                    StringResource(pageRef, "", null),
+                    model,
+                    termPageList,
+                    taxonomy,
+                    term,
+                    i + 1
+                )
                 permalinkStrategy.applyPermalink(page, page.term.permalink)
                 page.parent = taxonomy.landingPage
                 termArchivePages.add(page)
@@ -252,7 +256,13 @@ constructor(
                 val pageRef = OrchidReference(context, "term.html")
                 pageRef.title = title
 
-                val page = CollectionArchivePage(StringResource("", pageRef), model, termPageList, collectionArchive, i + 1)
+                val page = CollectionArchivePage(
+                    StringResource(pageRef, "", null),
+                    model,
+                    termPageList,
+                    collectionArchive,
+                    i + 1
+                )
                 permalinkStrategy.applyPermalink(page, page.collectionArchive.permalink)
                 collectionArchivePages.add(page)
             }

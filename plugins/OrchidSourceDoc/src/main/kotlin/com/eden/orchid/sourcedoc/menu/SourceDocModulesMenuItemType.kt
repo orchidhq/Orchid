@@ -36,9 +36,9 @@ class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
                 .filter { if(moduleGroup.isNotBlank()) it.moduleGroup == moduleGroup else true }
                 .map { it.homepage }
                 .sortedBy { it.title }
-                .map { page ->
+                .map { menuItemPage ->
                     MenuItem.Builder(context)
-                        .page(page)
+                        .page(menuItemPage)
                         .build()
                 }
         } catch (e: Exception) {

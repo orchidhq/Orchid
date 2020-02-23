@@ -14,7 +14,6 @@ import javax.inject.Named
 class OrchidJavadocInvokerImpl
 @Inject
 constructor(
-    @Named("src") val resourcesDir: String,
     val context: OrchidContext
 ) : OrchidJavadocInvoker {
 
@@ -32,7 +31,7 @@ constructor(
         if (rootDoc != null) {
             return rootDoc
         } else {
-            val sources = sourceDirs.map { File(resourcesDir).toPath().resolve(it) }
+            val sources = sourceDirs.map { File(context.sourceDir).toPath().resolve(it) }
             return javadocRunner.getRootDoc(sources, outputDir, extraArgs) { inputStream ->
                 InputStreamIgnorer(
                     inputStream

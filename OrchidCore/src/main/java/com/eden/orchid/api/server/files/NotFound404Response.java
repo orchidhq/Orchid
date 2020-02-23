@@ -2,14 +2,13 @@ package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import org.apache.commons.io.IOUtils;
+import com.eden.orchid.api.theme.pages.OrchidReference;
 
-import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,12 +23,13 @@ final class NotFound404Response {
         if(resource != null) {
             page = new OrchidPage(
                     resource,
+                    RenderService.RenderMode.TEMPLATE,
                     "404",
                     "Not Found!"
             );
         }
         else {
-            resource = context.getResourceEntry("templates/server/404.peb");
+            resource = context.getResourceEntry("templates/server/404.peb", null);
 
             Map<String, Object> indexPageVars = new HashMap<>();
             indexPageVars.put("title", "Not Found - " + targetPath);
@@ -41,27 +41,20 @@ final class NotFound404Response {
 
             String notFoundIndexContent;
             if (resource != null) {
-                notFoundIndexContent = context.compile(resource.getReference().getExtension(), resource.getContent(), object);
+                notFoundIndexContent = context.compile(resource, resource.getReference().getExtension(), resource.getContent(), object);
             }
             else {
                 notFoundIndexContent = context.serialize("json", object);
             }
 
             page = new OrchidPage(
-                    new StringResource(context, "404.txt", notFoundIndexContent),
+                    new StringResource(new OrchidReference(context, "404.txt"), notFoundIndexContent, null),
+                    RenderService.RenderMode.TEMPLATE,
                     "404",
                     "Not Found!"
             );
         }
 
-        InputStream is = context.getRenderedTemplate(page);
-        try {
-            content = IOUtils.toString(is, Charset.forName("UTF-8"));
-        }
-        catch (Exception e) {
-            content = "";
-        }
-
-        return new OrchidResponse(context).content(content).status(404);
+        return new OrchidResponse(context).page(page).status(404);
     }
 }

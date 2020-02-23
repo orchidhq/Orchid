@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.relations.AssetRelation
@@ -26,7 +27,7 @@ class PostPage(
     resource: OrchidResource,
     val categoryModel: CategoryModel,
     title: String
-) : OrchidPage(resource, "post", title) {
+) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "post", title) {
 
     @Option("author")
     @Description("The posts author. May be the `name` of a known author, or an anonymous Author config, only " +

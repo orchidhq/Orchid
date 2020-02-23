@@ -10,6 +10,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import com.eden.orchid.swiftdoc.page.BaseSwiftdocResource
@@ -27,6 +28,7 @@ import com.eden.orchid.swiftdoc.swift.statements.SwiftStruct
 import com.eden.orchid.swiftdoc.swift.statements.SwiftTypealias
 import com.eden.orchid.utilities.InputStreamCollector
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.readToString
 import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
@@ -40,11 +42,7 @@ import javax.inject.Inject
     name = "Swiftdoc"
 )
 @Deprecated(SourcedocGenerator.deprecationWarning)
-class SwiftdocGenerator
-@Inject
-constructor(
-    @Named("src") val resourcesDir: String
-) : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, PRIORITY_DEFAULT) {
+class SwiftdocGenerator : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "swiftdoc"
@@ -64,10 +62,10 @@ constructor(
 
         sourceDirs
             .forEach { baseDir ->
-                context.getLocalResourceEntries(baseDir, arrayOf("swift"), true).forEach { resource ->
+                context.getResourceEntries(baseDir, arrayOf("swift"), true, LocalResourceSource).forEach { resource ->
                     val sourceFile = resource.reference.originalFullFileName
                     try {
-                        val codeJson = parseSwiftFile(sourceFile)
+                        val codeJson = parseSwiftFile(context, sourceFile)
 
                         val ref = OrchidReference(resource.reference)
                         ref.extension = "html"
@@ -75,7 +73,7 @@ constructor(
                         ref.path = OrchidUtils.normalizePath(OrchidUtils.toSlug("swift/source/" + ref.originalPath))
                         ref.fileName = OrchidUtils.toSlug(ref.originalFileName)
 
-                        val fileResource = StringResource(resource.rawContent, ref)
+                        val fileResource = StringResource(ref, resource.getContentStream().readToString() ?: "", null)
 
                         val arr = codeJson.optJSONArray("key.substructure") ?: JSONArray()
 
@@ -117,7 +115,7 @@ constructor(
                             }
                         }
 
-                        val res = StringResource("", ref)
+                        val res = StringResource(ref, "", null)
                         val page = SwiftdocSourcePage(res, statements, codeJson.toString(2))
                         pages.add(page)
                     } catch (e: Exception) {
@@ -145,37 +143,31 @@ constructor(
             statementPages.add(page)
         }
 
-        return SwiftdocModel(allStatements, pages, statementPages)
+        return SwiftdocModel(allStatements, pages, statementPages).also {
+            it.collections = getCollections(it)
+        }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
+    private fun getCollections(
         model: SwiftdocModel
     ): List<OrchidCollection<*>> {
         return listOf(
-            PageCollection(this, "swiftClasses", model.classPages),
-            PageCollection(this, "swiftStructs", model.structPages),
+            PageCollection(this, "swiftClasses",   model.classPages),
+            PageCollection(this, "swiftStructs",   model.structPages),
             PageCollection(this, "swiftProtocols", model.protocolPages),
-            PageCollection(this, "swiftEnums", model.enumPages),
-            PageCollection(this, "swiftGlobals", model.globalPages)
+            PageCollection(this, "swiftEnums",     model.enumPages),
+            PageCollection(this, "swiftGlobals",   model.globalPages)
         )
-    }
-
-    override fun startGeneration(
-        context: OrchidContext,
-        model: SwiftdocModel
-    ) {
-        model.allPages.forEach { context.renderTemplate(it) }
     }
 
 // Run SourceKitten executable
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun parseSwiftFile(name: String): JSONObject {
+    private fun parseSwiftFile(context: OrchidContext, name: String): JSONObject {
         try {
             val processBuilder = ProcessBuilder()
             processBuilder.command("sourcekitten", "doc", "--single-file", "./$name")
-            processBuilder.directory(File(resourcesDir))
+            processBuilder.directory(File(context.sourceDir))
             processBuilder.redirectErrorStream()
 
             val process = processBuilder.start()

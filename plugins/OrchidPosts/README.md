@@ -197,3 +197,16 @@ feeds from the `feeds` generator object in your `config.yml`, such as how many e
 generators to include pages from (defaults to just the `posts` generator). Pages included in the feed are sorted by 
 their `publishDate`, and the feed content comes from the `feeds/rss.peb` and `feeds/atom.peb` pages, which can be 
 overridden and customized if needed.
+
+Since 0.19.0, after creating feeds, you can use the `feedLink` meta-component to add `<link rel='alternate'>` tags to 
+the head of the page, pointing to the generated feeds. See example config below to add alternate links to all post 
+pages:
+
+```yaml
+# config.yml
+
+posts:
+  postPages:
+    metaComponents:
+      - type: 'feedLinks'
+```

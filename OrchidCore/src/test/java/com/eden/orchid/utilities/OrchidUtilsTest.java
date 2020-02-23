@@ -287,19 +287,4 @@ public final class OrchidUtilsTest implements OrchidUnitTest {
                 Arguments.of(null, null)
         );
     }
-
-// Deprecated methods tests
-//----------------------------------------------------------------------------------------------------------------------
-
-    @ParameterizedTest
-    @CsvSource({
-            "oneTwoThree, One Two Three",
-            "OneTwoThree, One Two Three",
-    })
-    public void camelcaseToTitleCaseTest(String input, String expected) {
-        String output = OrchidUtils.camelcaseToTitleCase(input);
-
-        assertThat(output, is(equalTo(expected)));
-    }
-
 }

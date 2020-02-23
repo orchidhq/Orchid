@@ -18,6 +18,8 @@ public final class OrchidSiteImpl implements OrchidSite {
     private OrchidContext context;
     private final String orchidVersion;
     private final String currentWorkingDirectory;
+    private final String sourceDir;
+    private final String destinationDir;
     private String version;
     private String baseUrl;
     private String environment;
@@ -27,13 +29,23 @@ public final class OrchidSiteImpl implements OrchidSite {
     private SiteInfo about;
 
     @Inject
-    public OrchidSiteImpl(String orchidVersion, @Named("version") String version, @Named("baseUrl") String baseUrl, @Named("environment") String environment, @Named("defaultTemplateExtension") String defaultTemplateExtension) {
+    public OrchidSiteImpl(
+            String orchidVersion,
+            @Named("version") String version,
+            @Named("baseUrl") String baseUrl,
+            @Named("environment") String environment,
+            @Named("defaultTemplateExtension") String defaultTemplateExtension,
+            @Named("src") String sourceDir,
+            @Named("dest") String destinationDir
+    ) {
         this.orchidVersion = orchidVersion;
         this.currentWorkingDirectory = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         this.version = version;
         setBaseUrl(baseUrl);
         this.environment = environment;
         this.defaultTemplateExtension = defaultTemplateExtension;
+        this.sourceDir = sourceDir;
+        this.destinationDir = destinationDir;
     }
 
     @Override
@@ -45,8 +57,7 @@ public final class OrchidSiteImpl implements OrchidSite {
     public void setBaseUrl(String baseUrl) {
         if (baseUrl.equals("/")) {
             this.baseUrl = baseUrl;
-        }
-        else {
+        } else {
             this.baseUrl = (baseUrl.startsWith("/"))
                     ? "/" + OrchidUtils.normalizePath(baseUrl)
                     : OrchidUtils.normalizePath(baseUrl);
@@ -125,5 +136,15 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     public void setAbout(final SiteInfo about) {
         this.about = about;
+    }
+
+    @Override
+    public String getSourceDir() {
+        return sourceDir;
+    }
+
+    @Override
+    public String getDestinationDir() {
+        return destinationDir;
     }
 }

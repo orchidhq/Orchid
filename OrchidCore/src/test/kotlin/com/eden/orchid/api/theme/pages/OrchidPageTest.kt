@@ -1,7 +1,9 @@
-package com.eden.orchid.testhelpers.com.eden.orchid.api.theme.pages
+package com.eden.orchid.api.theme.pages
 
+import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.site.OrchidSite
@@ -10,10 +12,12 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import java.util.HashMap
 
 class OrchidPageTest {
 
@@ -27,14 +31,15 @@ class OrchidPageTest {
     fun setup(baseUrl: String, pagePath: String) {
         context = mock(OrchidContext::class.java)
         extractor = mock(OptionsExtractor::class.java)
-        site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb")
+        site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb", "", "")
         `when`(context.getService(OrchidSite::class.java)).thenReturn(site)
         `when`(context.resolve(OptionsExtractor::class.java)).thenReturn(extractor)
         `when`(context.baseUrl).thenCallRealMethod()
+        `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", HashMap()))
 
         reference = OrchidReference(context, pagePath, true)
-        resource = StringResource("page content", reference)
-        underTest = OrchidPage(resource, "test", "Test Page")
+        resource = StringResource(reference, "page content", null)
+        underTest = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "test", "Test Page")
     }
 
     @ParameterizedTest

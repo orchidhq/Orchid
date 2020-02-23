@@ -3,6 +3,7 @@ package com.eden.orchid.swiftdoc.swift
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
+import com.eden.orchid.utilities.readToString
 import org.json.JSONObject
 
 abstract class SwiftAbstractElement(
@@ -32,12 +33,12 @@ abstract class SwiftAbstractElement(
     }
 
     fun comments(): String {
-        return context.compile("md", comment)
+        return context.compile(resource, "md", comment, null)
     }
 
     fun text(): String {
         return try {
-            resource.rawContent.substring(offset - 1, offset + length)
+            resource.getContentStream().readToString()?.substring(offset - 1, offset + length) ?: ""
         }
         catch (e: Exception) {
             ""
@@ -46,7 +47,7 @@ abstract class SwiftAbstractElement(
 
     fun nameText(): String {
         return try {
-            resource.rawContent.substring(nameoffset - 1, nameoffset + namelength)
+            resource.getContentStream().readToString()?.substring(nameoffset - 1, nameoffset + namelength) ?: ""
         }
         catch (e: Exception) {
             ""

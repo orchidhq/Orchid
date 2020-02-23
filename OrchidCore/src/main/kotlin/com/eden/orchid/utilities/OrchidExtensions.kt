@@ -5,12 +5,16 @@ import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.theme.pages.OrchidPage
 import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.util.ArrayList
 import java.util.regex.Pattern
+import java.util.stream.Stream
 import kotlin.reflect.KClass
 
 fun String?.empty(): Boolean {
@@ -35,6 +39,7 @@ fun String?.wrap(width: Int = 80): List<String> {
     return matchList
 }
 
+@Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColumn: Int?, errorMessage: String? = "") {
     val lineNumber = lineNumberNullable ?: 0
     val lines = this.lines()
@@ -290,3 +295,26 @@ fun Number.makeMillisReadable(): String {
     }
     return sTime
 }
+
+fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {
+    val requestedPath = OrchidUtils.normalizePath(path)
+
+    return pages
+        .filter { page -> page.reference.pathOnDisk == requestedPath }
+        .findFirst()
+        .orElse(null)
+}
+
+
+fun merge(vararg sources: JSONElement?): JSONElement? {
+    val sourcesAsObjects: Array<JSONObject> = sources
+        .filterNotNull()
+        .filter { EdenUtils.elementIsObject(it) }
+        .map { it.element as JSONObject }
+        .toTypedArray()
+
+    return JSONElement(EdenUtils.merge(*sourcesAsObjects))
+}
+
+fun InputStream?.readToString() : String? = this?.bufferedReader()?.readText()
+fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))

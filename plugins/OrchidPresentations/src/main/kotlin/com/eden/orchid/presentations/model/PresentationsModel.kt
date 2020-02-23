@@ -1,5 +1,6 @@
 package com.eden.orchid.presentations.model
 
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 
@@ -8,4 +9,5 @@ class PresentationsModel(
 ) : OrchidGenerator.Model {
 
     override val allPages: List<OrchidPage> = emptyList()
+    override val collections: List<OrchidCollection<*>> = emptyList()
 }

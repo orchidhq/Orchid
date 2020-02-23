@@ -9,6 +9,7 @@ import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.pages.pages.StaticPage
 import com.eden.orchid.utilities.OrchidUtils
@@ -18,7 +19,7 @@ import com.eden.orchid.utilities.OrchidUtils
             "pages come from 'baseDir' option value, which defaults to 'pages'.",
     name = "Static Pages"
 )
-class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_EARLY) {
+class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "pages"
@@ -30,7 +31,7 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
     lateinit var baseDir: String
 
     override fun startIndexing(context: OrchidContext): Model {
-        val resourcesList = context.getLocalResourceEntries(baseDir, null, true)
+        val resourcesList = context.getResourceEntries(baseDir, null, true, LocalResourceSource)
         val pages = ArrayList<StaticPage>()
 
         val pagesMap = HashMap<String, StaticPage>()
@@ -62,7 +63,8 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
             }
         }
 
-        return modelOf { pages }
+        val collections = getCollections(pages)
+        return modelOf({ pages }, { collections })
     }
 
     override fun startGeneration(context: OrchidContext, model: Model) {
@@ -70,22 +72,19 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
             .allPages
             .forEach { page ->
                 if (page is StaticPage) {
-                    context.doWithTheme(page.theme) { context.render(page, page.renderMode) }
+                    context.doWithTheme(page.theme) { context.render(page) }
                 }
             }
     }
 
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
+    private fun getCollections(
+        allPages: List<StaticPage>
     ): List<OrchidCollection<*>> {
         val pageGroupMap = HashMap<String?, MutableList<OrchidPage>>()
         val collections = ArrayList<OrchidCollection<*>>()
 
-        for (page in model.allPages) {
-            if (page is StaticPage) {
-                pageGroupMap.getOrPut(page.group, { ArrayList() }).add(page)
-            }
+        for (page in allPages) {
+            pageGroupMap.getOrPut(page.group, { ArrayList() }).add(page)
         }
 
         pageGroupMap.forEach { group, groupPages ->
@@ -94,7 +93,7 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRI
             }
         }
 
-        val allPagesCollection = FileCollection(this, "allPages", model.allPages)
+        val allPagesCollection = FileCollection(this, "allPages", allPages)
         collections.add(allPagesCollection)
 
         return collections

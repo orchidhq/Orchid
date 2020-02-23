@@ -3,6 +3,7 @@ package com.eden.orchid.posts
 import com.eden.orchid.strikt.nothingRendered
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

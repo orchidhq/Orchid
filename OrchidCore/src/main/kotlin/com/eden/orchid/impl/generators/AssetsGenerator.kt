@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.annotations.Validate
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetPage
 import java.util.Arrays
 import javax.inject.Inject
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotBlank
     value = "Add additional arbitrary assets to your site. Assets added from themes, pages, and components " + "are automatically rendered to your site, this is just for additional static assets.",
     name = "Assets"
 )
-class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PRIORITY_INIT) {
+class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.WARM_UP) {
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
@@ -34,10 +35,11 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PR
     override fun startIndexing(context: OrchidContext): Model {
         sourceDirs
             .flatMap { dir ->
-                context.getLocalResourceEntries(
+                context.getResourceEntries(
                     dir.sourceDir,
                     if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
-                    dir.recursive
+                    dir.recursive,
+                    LocalResourceSource
                 )
             }
             .map { resource ->
@@ -55,17 +57,6 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, PR
             }
 
         return emptyModel()
-    }
-
-    override fun getCollections(
-        context: OrchidContext,
-        model: Model
-    ): List<OrchidCollection<*>> {
-        return emptyList()
-    }
-
-    override fun startGeneration(context: OrchidContext, model: Model) {
-
     }
 
 // Helpers

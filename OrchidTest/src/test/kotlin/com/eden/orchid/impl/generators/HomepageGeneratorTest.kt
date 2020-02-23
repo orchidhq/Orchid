@@ -73,9 +73,6 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
             .nothingElseRendered()
     }
 
-
-
-
     @Test
     @DisplayName("If a 404.md file exists, it will be used")
     fun test04() {

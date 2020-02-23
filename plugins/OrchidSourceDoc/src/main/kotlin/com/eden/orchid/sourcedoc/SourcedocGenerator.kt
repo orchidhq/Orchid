@@ -28,11 +28,10 @@ import javax.inject.Named
 
 abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     key: String,
-    @Named("src") val resourcesDir: String,
     val invoker: DocInvoker<T>,
     private val extractor: OptionsExtractor,
     private val permalinkStrategy: PermalinkStrategy
-) : OrchidGenerator<SourceDocModel>(key, PRIORITY_EARLY) {
+) : OrchidGenerator<SourceDocModel>(key, Stage.CONTENT) {
 
     companion object {
         const val deprecationWarning = """
@@ -54,26 +53,27 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             modules.add(defaultConfig)
         }
 
-        return SourceDocModel(modules.map { setupModule(context, it) })
+        val mappedModules = modules.map { setupModule(context, it) }
+
+        return SourceDocModel(mappedModules, getCollections(mappedModules))
     }
 
-    override fun getCollections(context: OrchidContext, model: SourceDocModel): List<OrchidCollection<*>> {
+    private fun getCollections(modules: List<SourceDocModuleModel>): List<OrchidCollection<*>> {
         return mutableListOf<OrchidCollection<*>>().apply {
             val self = this@SourcedocGenerator
 
             // create a collection containing all module landing pages
-            add(PageCollection(self, "modules", model.modules.map { it.homepage }))
+            add(PageCollection(self, "modules", modules.map { it.homepage }))
 
-            model
-                .modules
+            modules
                 .groupBy { it.moduleGroup }
                 .filterKeys { it.isNotBlank() }
                 .forEach { (moduleGroup, modulesInGroup) ->
                     add(PageCollection(self, "modules-$moduleGroup", modulesInGroup.map { it.homepage }))
                 }
 
-            if (model.modules.size > 1) {
-                model.modules.forEach { module ->
+            if (modules.size > 1) {
+                modules.forEach { module ->
                     // create a collection containing all pages from a module, excluding the homepage (doc pages only)
                     add(PageCollection(self, module.name, module.nodes.values.flatten()))
 
@@ -83,7 +83,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                     }
                 }
             } else {
-                val module = model.modules.single()
+                val module = modules.single()
                 // create a collection containing all pages from a module, excluding the homepage (doc pages only)
                 add(PageCollection(self, key, module.nodes.values.flatten()))
 
@@ -93,10 +93,6 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                 }
             }
         }
-    }
-
-    override fun startGeneration(context: OrchidContext, model: SourceDocModel) {
-        model.allPages.forEach { context.renderTemplate(it) }
     }
 
 // Setup modules and index pages
@@ -111,7 +107,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             invokerModel = null
             modelPageMap = emptyMap()
         } else {
-            invokerModel = loadFromCacheOrRun(config)
+            invokerModel = loadFromCacheOrRun(context, config)
             modelPageMap = invokerModel?.let {
                 it.nodes.map { node ->
                     val nodeName: String = node.name
@@ -159,7 +155,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         var readmeFile: OrchidResource? = null
 
         for (baseDir in config.sourceDirs) {
-            val baseFile = File(resourcesDir).toPath().resolve(baseDir).toFile().absolutePath
+            val baseFile = File(context.sourceDir).toPath().resolve(baseDir).toFile().absolutePath
             val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 10)
             if (closestFile != null) {
                 readmeFile = closestFile
@@ -169,11 +165,12 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         if (readmeFile == null) {
             readmeFile = StringResource(
-                "",
                 OrchidReference(
                     context,
                     ""
-                )
+                ),
+                "",
+                null
             )
         }
 
@@ -194,7 +191,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 // helpers
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun loadFromCacheOrRun(config: U): T? {
+    private fun loadFromCacheOrRun(context: OrchidContext, config: U): T? {
         val actualOutputDir = outputDir.resolve(config.name)
 
         if (config.fromCache) {
@@ -205,14 +202,16 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         }
 
         return invoker.getModuleDoc(
-            config.sourceDirs.map { File(resourcesDir).toPath().resolve(it) },
+            config.sourceDirs.map { File(context.sourceDir).toPath().resolve(it) },
             actualOutputDir,
             config.additionalRunnerArgs()
         ) { inputStream ->
             if (config.showRunnerLogs) {
-                IOStreamUtils.InputStreamPrinter(inputStream, null) as Runnable
+                val r1: Runnable = IOStreamUtils.InputStreamPrinter(inputStream, null)
+                r1
             } else {
-                IOStreamUtils.InputStreamIgnorer(inputStream) as Runnable
+                val r2: Runnable = IOStreamUtils.InputStreamIgnorer(inputStream)
+                r2
             }
         }
     }

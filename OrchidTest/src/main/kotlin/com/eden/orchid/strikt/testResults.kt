@@ -68,9 +68,10 @@ fun Assertion.Builder<TestResults>.pageWasRendered(
     block: Assertion.Builder<TestRenderer.TestRenderedPage>.() -> Unit = {}
 ): Assertion.Builder<TestResults> =
     assertBlock("page was rendered at $name") {
-        val expectedPage = it.renderedPageMap[name]
+        val expectedPage: TestRenderer.TestRenderedPage? = it.renderedPageMap[name]
         if (expectedPage != null) {
-            get { expectedPage!! }.block()
+            val nonNullPage: TestRenderer.TestRenderedPage = expectedPage
+            get { nonNullPage }.block()
             expectedPage.evaluated = true
         } else {
             AssertBlockFailure("page was not rendered")

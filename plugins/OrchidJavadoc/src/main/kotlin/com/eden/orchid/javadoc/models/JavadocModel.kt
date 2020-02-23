@@ -4,6 +4,7 @@ import com.copperleaf.javadoc.json.models.JavaConstructor
 import com.copperleaf.javadoc.json.models.JavaField
 import com.copperleaf.javadoc.json.models.JavaMethod
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.javadoc.pages.JavadocClassPage
@@ -12,7 +13,8 @@ import com.eden.orchid.javadoc.pages.JavadocPackagePage
 class JavadocModel(
     val context: OrchidContext,
     val allClasses: List<JavadocClassPage>,
-    val allPackages: List<JavadocPackagePage>
+    val allPackages: List<JavadocPackagePage>,
+    override val collections: List<OrchidCollection<*>>
 ) : OrchidGenerator.Model {
 
     override val allPages: List<OrchidPage>

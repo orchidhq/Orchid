@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.changelog.ChangelogGenerator
 import com.eden.orchid.changelog.model.ChangelogVersion
 import com.eden.orchid.utilities.OrchidUtils
@@ -59,7 +60,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
         var currentVersionReleaseDate: String? = null
         var previousIndex = 0
 
-        val content = readme.rawContent
+        val content = readme.content
 
         val changelogVersions = mutableListOf<ChangelogVersion>()
 
@@ -71,9 +72,9 @@ class ChangelogFileAdapter : ChangelogAdapter {
                     currentVersion!!.trim(),
                     currentVersionReleaseDate?.trim(),
                     StringResource(
-                        context,
-                        "${currentVersion}.${readme.reference.extension}",
-                        content.substring(previousIndex, it.range.first)
+                        OrchidReference(context, "${currentVersion}.${readme.reference.extension}"),
+                        content.substring(previousIndex, it.range.first),
+                        null
                     )
                 )
             }
@@ -89,9 +90,9 @@ class ChangelogFileAdapter : ChangelogAdapter {
             currentVersion!!.trim(),
             currentVersionReleaseDate?.trim(),
             StringResource(
-                context,
-                "${currentVersion}.${readme.reference.extension}",
-                content.substring(previousIndex)
+                OrchidReference(context, "${currentVersion}.${readme.reference.extension}"),
+                content.substring(previousIndex),
+                null
             )
         )
 

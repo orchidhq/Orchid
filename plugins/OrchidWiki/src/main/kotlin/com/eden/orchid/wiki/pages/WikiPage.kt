@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.wiki.WikiGenerator
@@ -19,7 +20,7 @@ class WikiPage(
         title: String,
         var section: String?,
         val order: Int)
-    : OrchidPage(resource, "wiki", title) {
+    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wiki", title) {
 
     lateinit var sectionSummary: WikiSummaryPage
 

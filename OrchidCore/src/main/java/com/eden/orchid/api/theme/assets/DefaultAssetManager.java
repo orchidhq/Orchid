@@ -2,13 +2,15 @@ package com.eden.orchid.api.theme.assets;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.impl.themes.functions.ThumbnailResource;
+import com.eden.orchid.api.resources.resource.ThumbnailResource;
+
 import javax.inject.Provider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Singleton
 public final class DefaultAssetManager implements AssetManager {
@@ -25,11 +27,11 @@ public final class DefaultAssetManager implements AssetManager {
 
     @Override
     public AssetPage createAsset(String asset, Object source, String sourceKey) {
-        OrchidResource originalResource = context.get().getResourceEntry(asset);
+        OrchidResource originalResource = context.get().getResourceEntry(asset, null);
         if (originalResource != null) {
             // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
             // rendered lazily when the link for the asset is requested (or not at all if it is never used)
-            return new AssetPage(source, sourceKey, new ThumbnailResource(originalResource), "thumbnail", originalResource.getTitle());
+            return new AssetPage(source, sourceKey, new ThumbnailResource(originalResource), "thumbnail", originalResource.getReference().getTitle());
         }
 
         return null;
@@ -66,10 +68,13 @@ public final class DefaultAssetManager implements AssetManager {
     }
 
     @Override
+    public Stream<AssetPage> getAllAssetPages() {
+        return assets.values().stream();
+    }
+
+    @Override
     public void clearAssets() {
         assets.clear();
     }
-
-
 
 }

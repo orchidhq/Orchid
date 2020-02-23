@@ -9,11 +9,15 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.resources.resource.OrchidResource;
 import kotlin.Lazy;
 import kotlin.LazyKt;
 import org.json.JSONObject;
 
 import javax.inject.Singleton;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -147,7 +151,7 @@ public final class CompilerServiceImpl implements CompilerService {
         return parserExtensions;
     }
 
-    public OrchidCompiler compilerFor(String extension) {
+    private OrchidCompiler compilerFor(String extension) {
         if (customCompilerMap != null && customCompilerMap.containsKey(extension)) {
             return customCompilerMap.get(extension);
         }
@@ -158,15 +162,15 @@ public final class CompilerServiceImpl implements CompilerService {
         return parserMap.getOrDefault(extension, null);
     }
 
-    public String compile(String extension, String input) {
-        return this.compile(extension, input, null);
-    }
-
-    public String compile(String extension, String input, Object data) {
+    @Override
+    public String compile(OrchidResource resource, String extension, String input, Object data) {
         OrchidCompiler compiler = compilerFor(extension);
         if (compiler != null) {
             synchronized (compiler) {
-                return compiler.compile(extension, input, context.getSiteData(data));
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                compiler.compile(os, resource, extension, input, context.getSiteData(data));
+
+                return new String(os.toByteArray(), StandardCharsets.UTF_8);
             }
         } else {
             return input;

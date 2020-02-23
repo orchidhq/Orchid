@@ -38,12 +38,6 @@ object Libs {
     /**
      * https://github.com/vsch/flexmark-java
      */
-    const val flexmark_ext_gfm_tables: String = "com.vladsch.flexmark:flexmark-ext-gfm-tables:" +
-            Versions.com_vladsch_flexmark
-
-    /**
-     * https://github.com/vsch/flexmark-java
-     */
     const val flexmark_ext_gfm_tasklist: String =
             "com.vladsch.flexmark:flexmark-ext-gfm-tasklist:" + Versions.com_vladsch_flexmark
 
@@ -176,10 +170,6 @@ object Libs {
      */
     const val com_eden_common: String = "com.eden:Common:" + Versions.com_eden_common
 
-    const val american_bible_society_client: String =
-            "com.github.JavaEden:American-Bible-Society-Client:" +
-            Versions.american_bible_society_client
-
     /**
      * https://www.codacy.com
      */
@@ -235,7 +225,7 @@ object Libs {
     const val evo_inflector: String = "org.atteo:evo-inflector:" + Versions.evo_inflector
 
     /**
-     * http://code.google.com/p/thumbnailator
+     * https://github.com/coobird/thumbnailator
      */
     const val thumbnailator: String = "net.coobird:thumbnailator:" + Versions.thumbnailator
 
@@ -305,7 +295,7 @@ object Libs {
     const val clog4j: String = "com.eden:Clog4j:" + Versions.clog4j
 
     /**
-     * https://github.com/square/okhttp
+     * https://square.github.io/okhttp/
      */
     const val okhttp: String = "com.squareup.okhttp3:okhttp:" + Versions.okhttp
 
@@ -335,8 +325,6 @@ object Libs {
      * https://jsoup.org/
      */
     const val jsoup: String = "org.jsoup:jsoup:" + Versions.jsoup
-
-    const val eden: String = "com.github.JavaEden:Eden:" + Versions.eden
 
     const val json: String = "org.json:json:" + Versions.json
 

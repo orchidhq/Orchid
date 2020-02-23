@@ -54,8 +54,8 @@ abstract class OrchidGenerator<T : OrchidGenerator.Model>
 @Inject
 constructor(
     val key: String,
-    priority: Int
-) : Prioritized(priority), OptionsHolder {
+    val stage: Stage
+) : Prioritized(stage.priority), OptionsHolder {
 
     @Option
     @Description(
@@ -85,56 +85,91 @@ constructor(
      *
      * @param pages the pages to render
      */
-    abstract fun startGeneration(context: OrchidContext, model: T)
-
-    /**
-     * Get a list of the collections that are indexed by this Generator.
-     *
-     * @return the list of OrchidCollections
-     */
-    open fun getCollections(context: OrchidContext, model: T): List<OrchidCollection<*>>? {
-        return if (!EdenUtils.isEmpty(model.allPages)) {
-            listOf(FileCollection(this, this.key, model.allPages))
-        } else null
+    open fun startGeneration(context: OrchidContext, model: T) {
+        model.allPages.forEach { page -> context.render(page) }
     }
 
     companion object {
+        @Deprecated("Use Stage.WARM_UP directly instead", ReplaceWith("Stage.WARM_UP"))
+        val PRIORITY_INIT = Stage.WARM_UP
+
+        @Deprecated("Use Stage.CONTENT directly instead", ReplaceWith("Stage.CONTENT"))
+        val PRIORITY_EARLY = Stage.CONTENT
+
+        @Deprecated("Use Stage.COLLECTION directly instead", ReplaceWith("Stage.COLLECTION"))
+        val PRIORITY_DEFAULT = Stage.COLLECTION
+
+        @Deprecated("Use Stage.META directly instead", ReplaceWith("Stage.META"))
+        val PRIORITY_LATE = Stage.META
+    }
+
+    enum class Stage(val priority: Int) {
+        /**
+         * A Stage for Generators that produce pages that Content pages depend on, like registering global assets and
+         * warming up other caches which improve overall build performance.
+         */
+        WARM_UP(10000),
 
         /**
-         * Typically used for Generators that produce pages that content pages depend on, like registering global assets.
+         * A Stage for Generators that produce content pages. These are pages that are generally standalone pages, only
+         * have relationships to other pages from the same Generator.
          */
-        val PRIORITY_INIT = 10000
+        CONTENT(1000),
 
         /**
-         * Typically used for Generators that produce content pages.
+         * A Stage for Generators that collect Content pages into groups, taxonomies, etc, and optionally generate
+         * additional Content pages displaying those collections of pages.
          */
-        val PRIORITY_EARLY = 1000
+        COLLECTION(100),
 
         /**
-         * Typically used for Generators that produce pages based on data contained in content pages or just index content
-         * for use in components, menus, or collections.
+         * A Stage for Generators that produce metadata about your site. These are not Content pages, and are usually
+         * intended for _computers_ to read, not humans, such as sitemaps, search indices, etc.
          */
-        val PRIORITY_DEFAULT = 100
-
-        /**
-         * Typically used for Generators that produce assets or data files.
-         */
-        val PRIORITY_LATE = 10
+        META(10);
     }
 
     interface Model {
         val allPages: List<OrchidPage>
+        val collections: List<OrchidCollection<*>>
     }
 
     class SimpleModel(
-        override val allPages: List<OrchidPage>
+        override val allPages: List<OrchidPage>,
+        override val collections: List<OrchidCollection<*>>
     ) : Model
 }
 
-fun OrchidGenerator<*>.modelOf(indexedPages: ()->List<OrchidPage>) : OrchidGenerator.Model {
-    return OrchidGenerator.SimpleModel(indexedPages())
+fun OrchidGenerator<*>.modelOf(
+    indexedPages: () -> List<OrchidPage>,
+    indexedCollections: OrchidGenerator<*>.(List<OrchidPage>) -> List<OrchidCollection<*>>
+): OrchidGenerator.Model {
+    val pages = indexedPages()
+    val collections = indexedCollections(pages)
+
+    return OrchidGenerator.SimpleModel(indexedPages(), collections)
 }
 
-fun OrchidGenerator<*>.emptyModel() : OrchidGenerator.Model {
+fun OrchidGenerator<*>.modelOf(
+    indexedPages: () -> List<OrchidPage>
+): OrchidGenerator.Model {
+    return modelOf(indexedPages = indexedPages, indexedCollections = { simplePageCollection(it) })
+}
+
+private fun OrchidGenerator<*>.simplePageCollection(pages: List<OrchidPage>): List<OrchidCollection<*>> {
+    return if (pages.isNotEmpty()) {
+        listOf(
+            FileCollection(
+                this,
+                this.key,
+                pages
+            )
+        )
+    } else {
+        emptyList()
+    }
+}
+
+fun OrchidGenerator<*>.emptyModel(): OrchidGenerator.Model {
     return modelOf { emptyList() }
 }

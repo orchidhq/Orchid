@@ -30,7 +30,7 @@ fun String.hasHtmlSimilarTo(
 // Prep trees for evaluation
 //----------------------------------------------------------------------------------------------------------------------
 
-private fun String.normalizeDoc(removeComments: Boolean = true): Document {
+internal fun String.normalizeDoc(removeComments: Boolean = true): Document {
     return Jsoup.parse(this)
         .apply {
             outputSettings(Document.OutputSettings().apply {
@@ -49,7 +49,7 @@ private fun String.normalizeDoc(removeComments: Boolean = true): Document {
 // Evaluate trees for similarity
 //----------------------------------------------------------------------------------------------------------------------
 
-private fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
+internal fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
     val actualThis = this.filter { it !is TextNode || !it.isBlank }
     val actualOther = other.filter { it !is TextNode || !it.isBlank }
 
@@ -67,7 +67,10 @@ private fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
         val otherElement = actualOther[index]
 
         if (thisElement is TextNode) {
-            if (otherElement !is TextNode || thisElement.text().trim().trimLines() != otherElement.text().trim().trimLines()) {
+            if (otherElement !is TextNode ) {
+                return@hasHtmlSimilarTo false
+            }
+            else if (thisElement.text().trim().trimLines() != otherElement.text().trim().trimLines()) {
                 return@hasHtmlSimilarTo false
             }
         } else if (thisElement is Element) {
@@ -154,3 +157,7 @@ private fun Attributes.hasAttributesSimilarTo(other: Attributes): Boolean {
 
     return true
 }
+
+
+
+private fun String.printBytes() : String = this.toByteArray().joinToString { "${it.toInt()}" }

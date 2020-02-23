@@ -2,6 +2,9 @@ package com.eden.orchid.api.resources;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
+import com.eden.orchid.api.resources.resourcesource.ThemeResourceSource;
 import com.google.inject.ImplementedBy;
 
 import javax.annotation.Nullable;
@@ -27,40 +30,16 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).getDatafiles(directory);
     }
 
-    default OrchidResource getLocalResourceEntry(final String fileName) {
-        return getService(ResourceService.class).getLocalResourceEntry(fileName);
+    default OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
+        return getService(ResourceService.class).getResourceEntry(fileName, scopes);
     }
 
-    default OrchidResource getThemeResourceEntry(final String fileName) {
-        return getService(ResourceService.class).getThemeResourceEntry(fileName);
-    }
-
-    default OrchidResource getResourceEntry(final String fileName) {
-        return getService(ResourceService.class).getResourceEntry(fileName);
-    }
-
-    default List<OrchidResource> getLocalResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getService(ResourceService.class).getLocalResourceEntries(path, fileExtensions, recursive);
-    }
-
-    default List<OrchidResource> getThemeResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getService(ResourceService.class).getThemeResourceEntries(path, fileExtensions, recursive);
-    }
-
-    default List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive) {
-        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive);
+    default List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive, @Nullable OrchidResourceSource.Scope scopes) {
+        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive, scopes);
     }
 
     default Map<String, Object> loadAdditionalFile(String url) {
         return getService(ResourceService.class).loadAdditionalFile(url);
-    }
-
-    default Map<String, Object> loadLocalFile(String url) {
-        return getService(ResourceService.class).loadLocalFile(url);
-    }
-
-    default Map<String, Object> loadRemoteFile(String url) {
-        return getService(ResourceService.class).loadRemoteFile(url);
     }
 
     default @Nullable OrchidResource findClosestFile(String filename) {

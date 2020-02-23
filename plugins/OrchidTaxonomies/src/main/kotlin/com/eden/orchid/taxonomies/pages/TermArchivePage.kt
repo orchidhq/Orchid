@@ -3,6 +3,7 @@ package com.eden.orchid.taxonomies.pages
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.taxonomies.TaxonomiesGenerator
@@ -19,7 +20,7 @@ open class TermArchivePage(
     val taxonomy: Taxonomy,
     val term: Term,
     val index: Int
-) : OrchidPage(resource, "termArchive", term.title) {
+) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "termArchive", term.title) {
 
     override val itemIds: List<String> = listOf(term.key)
 

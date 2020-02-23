@@ -7,7 +7,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.IOUtils
 import java.io.InputStream
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
 
 @Singleton
@@ -41,7 +41,7 @@ class TestRenderer : OrchidRenderer {
         var evaluated: Boolean = false
 
         val content: String by lazy {
-            IOUtils.toString(contentStream, Charset.forName("UTF-8"))
+            IOUtils.toString(contentStream, StandardCharsets.UTF_8)
         }
 
         override fun toString(): String {

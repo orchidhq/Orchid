@@ -8,11 +8,13 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.relations.ThemeRelation
 import com.eden.orchid.pages.PageGroupArchetype
 import com.eden.orchid.pages.PagesGenerator
+import java.lang.Exception
 
 @Archetypes(
         Archetype(value = PageGroupArchetype::class, key = PagesGenerator.GENERATOR_KEY),
@@ -20,7 +22,7 @@ import com.eden.orchid.pages.PagesGenerator
 )
 @Description(value = "A generic static page.", name = "Static Page")
 class StaticPage(resource: OrchidResource)
-    : OrchidPage(resource, "staticPage", null) {
+    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "staticPage", null) {
 
     @Option @BooleanDefault(true)
     @Description("Whether to use the 'pretty' URL version when linking to this page or not.")
@@ -59,5 +61,12 @@ class StaticPage(resource: OrchidResource)
         return templates
     }
 
+    override fun getPageRenderMode(): RenderService.RenderMode {
+        return try {
+            RenderService.RenderMode.valueOf(renderMode)
+        } catch (e: Exception) {
+            super.getPageRenderMode()
+        }
+    }
 }
 

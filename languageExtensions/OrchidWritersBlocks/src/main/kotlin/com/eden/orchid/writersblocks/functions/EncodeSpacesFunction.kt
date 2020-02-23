@@ -27,4 +27,6 @@ class EncodeSpacesFunction : TemplateFunction("encodeSpaces", true) {
             .second
             .encodeSpaces()
     }
+
+    private fun String.printBytes() : String = this.toByteArray().joinToString { "${it.toInt()}" }
 }

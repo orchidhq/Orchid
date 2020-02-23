@@ -2,6 +2,7 @@ package com.eden.orchid.netlifycms.api
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
@@ -11,6 +12,7 @@ import com.eden.orchid.api.server.annotations.Post
 import com.eden.orchid.api.server.annotations.Put
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
+import com.eden.orchid.utilities.readToString
 import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
@@ -22,8 +24,7 @@ import javax.inject.Inject
 class NetlifyCmsApiController
 @Inject
 constructor(
-        val context: OrchidContext,
-        @Named("src") val resourcesDir: String
+    val context: OrchidContext
 ) : OrchidController(1000) {
 
     override fun getPathNamespace(): String {
@@ -37,14 +38,14 @@ constructor(
     fun getFiles(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val locatedResources = JSONArray()
 
-        val resources = context.getLocalResourceEntries(localFilename, null, false)
+        val resources = context.getResourceEntries(localFilename, null, false, LocalResourceSource)
         if (!EdenUtils.isEmpty(resources)) {
             resources.forEach {
                 val localResource = JSONObject()
                 localResource.put("name", "${it.reference.originalFileName}.${it.reference.extension}")
                 localResource.put("path", it.reference.originalFullFileName)
-                localResource.put("label", it.title)
-                localResource.put("title", it.title)
+                localResource.put("label", it.reference.title)
+                localResource.put("title", it.reference.title)
                 localResource.put("sha", "")
                 localResource.put("size", 0)
                 localResource.put("stats", JSONObject())
@@ -62,9 +63,9 @@ constructor(
 
     @Get(path = "/file/**localFilename")
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getLocalResourceEntry(localFilename)
+        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
-            return OrchidResponse(context).content(resource.rawContent)
+            return OrchidResponse(context).content(resource.getContentStream().readToString())
         }
         else {
             return OrchidResponse(context).content("Not found").status(404)
@@ -73,7 +74,7 @@ constructor(
 
     @Delete(path = "/file/**localFilename")
     fun deleteFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getLocalResourceEntry(localFilename)
+        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
             if (resource.canDelete()) {
                 resource.delete()
@@ -90,7 +91,7 @@ constructor(
 
     @Put(path = "/file/**localFilename")
     fun updateFile(request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getLocalResourceEntry(localFilename)
+        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
             if (resource.canUpdate()) {
                 val contentBase64 = request.input("content")
@@ -111,7 +112,7 @@ constructor(
 
     @Post(path = "/file/**localFilename")
     fun createFile(request: OrchidRequest, localFilename: String): OrchidResponse {
-        val newFile = File(resourcesDir + "/" + OrchidUtils.normalizePath(localFilename))
+        val newFile = File(context.sourceDir + "/" + OrchidUtils.normalizePath(localFilename))
         if (!newFile.exists()) {
             newFile.absoluteFile.parentFile.mkdirs()
         }

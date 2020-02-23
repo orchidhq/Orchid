@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -311,7 +311,7 @@ public final class OrchidUtils {
     public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder, Object source, String sourceKey) {
         if(!EdenUtils.isEmpty(extraCss)) {
             Arrays.stream(extraCss)
-                    .map(context::getResourceEntry)
+                    .map(name -> context.getResourceEntry(name, null) )
                     .filter(Objects::nonNull)
                     .map(orchidResource -> new CssPage(
                             source,
@@ -324,7 +324,7 @@ public final class OrchidUtils {
         }
         if(!EdenUtils.isEmpty(extraJs)) {
             Arrays.stream(extraJs)
-                    .map(context::getResourceEntry)
+                    .map(name -> context.getResourceEntry(name, null) )
                     .filter(Objects::nonNull)
                     .map(orchidResource -> new JsPage(
                             source,
@@ -391,7 +391,7 @@ public final class OrchidUtils {
     }
 
     public static String sha1(final String text) throws NoSuchAlgorithmException, IOException {
-        return sha1(new ByteArrayInputStream(text.getBytes(Charset.forName("UTF-8"))));
+        return sha1(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static String sha1(final InputStream stream) throws NoSuchAlgorithmException, IOException {
@@ -478,46 +478,4 @@ public final class OrchidUtils {
 
         return Files.createDirectories(sourceDir);
     }
-
-
-// Deprecated Methods
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static boolean elementIsObject(JSONElement el) {
-        return EdenUtils.elementIsObject(el);
-    }
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static boolean elementIsArray(JSONElement el) {
-        return EdenUtils.elementIsArray(el);
-    }
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static boolean elementIsString(JSONElement el) {
-        return EdenUtils.elementIsString(el);
-    }
-
-    /**
-     * @deprecated This method has been moved to EdenUtils.
-     */
-    public static JSONObject merge(JSONObject... sources) {
-        return EdenUtils.merge(sources);
-    }
-
-    /**
-     * @deprecated This method has been replaced by more flexible Kotlin APIs. These new APIs are available in Java
-     * as static methods in OrchidExtensionsKt, although they don't look nearly as nice in Java as they do in Kotlin.
-     */
-    public static String camelcaseToTitleCase(String camelcase) {
-        String[] from = from(camelcase, OrchidExtensionsKt::camelCase);
-        return to(from, OrchidExtensionsKt::titleCase);
-    }
-
 }

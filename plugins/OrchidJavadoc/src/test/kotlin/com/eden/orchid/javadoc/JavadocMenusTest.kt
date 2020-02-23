@@ -10,10 +10,12 @@ import kotlinx.html.li
 import kotlinx.html.ul
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledForJreRange
+import org.junit.jupiter.api.condition.JRE
 import strikt.api.expectThat
 
-
 @DisplayName("Tests page-rendering behavior of Javadoc generator")
+@DisabledForJreRange(min = JRE.JAVA_12)
 class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
 
     @Test
@@ -24,6 +26,7 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             """
             |{
             |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
             |            "assets/css/orchidJavadoc.scss"
@@ -69,6 +72,7 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             """
             |{
             |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
             |            "assets/css/orchidJavadoc.scss"
@@ -134,6 +138,7 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             """
             |{
             |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
             |            "assets/css/orchidJavadoc.scss"
@@ -184,6 +189,7 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             """
             |{
             |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
             |            "assets/css/orchidJavadoc.scss"

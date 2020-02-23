@@ -2,6 +2,7 @@ package com.eden.orchid.api.server.files;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.AdminTheme;
@@ -16,7 +17,7 @@ final class AdminAssetResponse {
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         AdminTheme theme = context.getAdminTheme();
 
-        OrchidResource res = theme.getResourceEntry(context, targetPath);
+        OrchidResource res = theme.getResourceSource().getResourceEntry(context, targetPath);
         String mimeType = StaticFileResponse.mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
         Clog.i("Rendering admin File: #{$1}", targetPath);
@@ -31,6 +32,7 @@ final class AdminAssetResponse {
             else {
                 OrchidPage page = new OrchidPage(
                         res,
+                        RenderService.RenderMode.TEMPLATE,
                         "",
                         null
                 );

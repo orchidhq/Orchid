@@ -8,5 +8,6 @@ import com.google.inject.ImplementedBy;
 public interface OrchidFileController  {
 
     OrchidResponse findFile(OrchidContext context, String targetPath);
+    OrchidResponse findPage(OrchidContext context, String targetPath);
 
 }

@@ -8,7 +8,7 @@ import com.univocity.parsers.csv.CsvParserSettings
 import com.univocity.parsers.tsv.TsvParser
 import com.univocity.parsers.tsv.TsvParserSettings
 import org.apache.commons.io.IOUtils
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.util.ArrayList
 import java.util.HashMap
 import javax.inject.Inject
@@ -29,13 +29,13 @@ constructor() : OrchidParser() {
             settings.format.setLineSeparator("\n")
             val parser = CsvParser(settings)
 
-            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.forName("UTF-8")))
+            allRows = parser.parseAll(IOUtils.toInputStream(input, StandardCharsets.UTF_8))
         } else {
             val settings = TsvParserSettings()
             settings.format.setLineSeparator("\n")
             val parser = TsvParser(settings)
 
-            allRows = parser.parseAll(IOUtils.toInputStream(input, Charset.forName("UTF-8")))
+            allRows = parser.parseAll(IOUtils.toInputStream(input, StandardCharsets.UTF_8))
         }
 
         val array = ArrayList<Map<String, Any>>()

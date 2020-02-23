@@ -3,12 +3,15 @@ package com.eden.orchid.languages.diagrams
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.OrchidResource
 import net.sourceforge.plantuml.FileFormat
 import net.sourceforge.plantuml.FileFormatOption
 import net.sourceforge.plantuml.SourceStringReader
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.nio.charset.Charset
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,8 +23,10 @@ constructor() : OrchidCompiler(800) {
 
     private val tags = arrayOf("uml", "salt", "math", "latex", "gantt")
 
-    override fun compile(extension: String, source: String, data: Map<String, Any>?): String {
-        return compileMultipleDiagrams(source)
+    // TODO: bundle a DOT executable and use GraphvizUtils.setDotExecutable() to use the bundled one (minimize system dependencies needed)
+
+    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+        OutputStreamWriter(os).append(compileMultipleDiagrams(input)).close()
     }
 
     override fun getOutputExtension(): String {
@@ -89,7 +94,7 @@ constructor() : OrchidCompiler(800) {
             reader.outputImage(os, fileFormat)
             os.close()
 
-            var s = String(os.toByteArray(), Charset.forName("UTF-8"))
+            var s = String(os.toByteArray(), StandardCharsets.UTF_8)
             s = s.replace("<\\?(.*)\\?>".toRegex(), "") // remove XML declaration
 
             return s

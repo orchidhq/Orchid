@@ -39,7 +39,6 @@ dependencies {
     implementation(Libs.flexmark_ext_aside)
     implementation(Libs.flexmark_ext_attributes)
     implementation(Libs.flexmark_ext_enumerated_reference)
-    implementation(Libs.flexmark_ext_gfm_tables)
     implementation(Libs.flexmark_ext_gfm_tasklist)
     implementation(Libs.flexmark_ext_toc)
     implementation(Libs.flexmark_ext_anchorlink)

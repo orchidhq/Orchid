@@ -103,14 +103,25 @@ Of course, you may also embed chunks of AsciiDoc markup within content of other 
 
 ### Includes
 
-Files can be included using the standard `include::[]` directive. File paths are all absolute, and resolved relative to
-your site resources root. Nested relative includes are not currently supported.
+Files can be included using the standard `include::[]` directive. Included files are first resolved relative to the 
+current file, which is the normal behavior of Asciidoctor. If no file can be found relative to it, Orchid will then 
+check for a file at the given path in your site resources, similar to how most other inclues in Orchid work. Nested 
+relative includes are not currently supported.
 
 ```asciidoc
 = homepage.adoc
 
 include::other_page.adoc[]
 ```
+
+Due to constraints with the AsciidoctorJ library, the following limitation exists when including files in Orchid. 
+
+- `tag` and `tags` attributes may not cover the full range of functionality available in Asciidoctor, as it had to be 
+    re-implemented manually in Orchid. Tag names and the `*` wildcard are supported, but 
+    [tag filtering](https://asciidoctor-docs.netlify.com/asciidoc/1.5/directives/include-lines-and-tags/#tag-filtering)
+    through negations or more complex wildcard usage is not currently supported. If this is a feature you are needing, 
+    please leave a comment on [this issue](https://github.com/asciidoctor/asciidoctor/issues/571) to let the Asciidoctor
+    maintainers know you want this functionality in Orchid!
 
 ### Images
 
@@ -122,20 +133,3 @@ site automatically, so you should stick with external URLs for now.
 
 image::https://picsum.photos/200/300.jpg[]
 ```
-
-### Safe Mode
-
-AsciiDoc security rules (as defined in 
-[Running AsciiDoctor Securely](https://asciidoctor.org/docs/user-manual/#running-asciidoctor-securely)) can be 
-optionally configured via the 'asciiDocSafeMode' key under the `services.compilers.adoc` section of the config.yml 
-equivalent. 
-
-By default, the safe mode is set to `SAFE`, which enables the popular `includes::[]` directive. Tightening the security 
-mode as per the below to config.yml will disable this as required.
-
-```text
-services:
-  compilers:
-    adoc:
-      safeMode: 'SECURE'
-  ``````
