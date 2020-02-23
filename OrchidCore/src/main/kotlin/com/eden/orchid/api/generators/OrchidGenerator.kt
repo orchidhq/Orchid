@@ -106,7 +106,7 @@ constructor(
     enum class Stage(val priority: Int) {
         /**
          * A Stage for Generators that produce pages that Content pages depend on, like registering global assets and
-         * warming up other caches which improve overall build performance
+         * warming up other caches which improve overall build performance.
          */
         WARM_UP(10000),
 

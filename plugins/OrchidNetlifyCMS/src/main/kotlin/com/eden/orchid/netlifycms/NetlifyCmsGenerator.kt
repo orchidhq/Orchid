@@ -40,7 +40,7 @@ constructor(
     private val templateTags: Provider<Set<TemplateTag>>,
     private val components: Provider<Set<OrchidComponent>>,
     private val menuFactories: Provider<Set<OrchidMenuFactory>>
-) : OrchidGenerator<NetlifyCmsModel>(GENERATOR_KEY, Stage.COLLECTION) {
+) : OrchidGenerator<NetlifyCmsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "netlifyCms"

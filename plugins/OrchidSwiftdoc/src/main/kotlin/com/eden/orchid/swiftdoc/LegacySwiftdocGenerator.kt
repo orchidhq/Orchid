@@ -42,7 +42,7 @@ import javax.inject.Inject
     name = "Swiftdoc"
 )
 @Deprecated(SourcedocGenerator.deprecationWarning)
-class SwiftdocGenerator : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, Stage.COLLECTION) {
+class SwiftdocGenerator : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "swiftdoc"

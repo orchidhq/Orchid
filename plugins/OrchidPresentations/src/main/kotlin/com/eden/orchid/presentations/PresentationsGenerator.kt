@@ -13,7 +13,7 @@ import com.eden.orchid.presentations.model.Slide
 import javax.inject.Inject
 
 @Description("Embed presentations and slide-decks in your pages using Deck.js.", name = "Presentations")
-class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY, Stage.COLLECTION) {
+class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "presentations"

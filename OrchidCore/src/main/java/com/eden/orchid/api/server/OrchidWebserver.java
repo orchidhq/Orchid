@@ -4,6 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
+import com.eden.orchid.api.options.OrchidFlags;
 import com.eden.orchid.api.server.annotations.Delete;
 import com.eden.orchid.api.server.annotations.Get;
 import com.eden.orchid.api.server.annotations.Post;
@@ -227,7 +228,13 @@ public final class OrchidWebserver extends NanoHTTPD {
             if (matchingRoute != null) {
                 response = matchingRoute.call(new OrchidRequest(context, session, matchingRoute, files));
             } else {
-                response = fileController.findPage(context, OrchidUtils.normalizePath(route));
+                Boolean legacyFileServer = OrchidFlags.getInstance().getFlagValue("legacyFileServer");
+                if(legacyFileServer != null && legacyFileServer) {
+                    response = fileController.findFile(context, OrchidUtils.normalizePath(route));
+                }
+                else {
+                    response = fileController.findPage(context, OrchidUtils.normalizePath(route));
+                }
             }
             if (response != null) {
                 return response.getResponse();

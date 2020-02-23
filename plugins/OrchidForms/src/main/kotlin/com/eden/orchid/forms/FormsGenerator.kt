@@ -12,7 +12,7 @@ import com.eden.orchid.utilities.OrchidUtils
 @Description("Indexes form definitions so they can be easily referenced from components on different pages.",
         name = "Forms"
 )
-class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.COLLECTION) {
+class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {
         const val GENERATOR_KEY = "forms"

@@ -224,6 +224,7 @@ Alternatively, you may wish to embed diagrams within the content of another page
 `compileAs()` template function.
 
 ```markdown
+{% verbatim %}
 // homepage.md
 ---
 ---
@@ -235,6 +236,7 @@ Bob --> Alice: Authentication Response
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: another authentication Response
 {% endfilter %}
+{% endverbatim %}
 ```
 
 You may also use the `load()` function to embed it from another file.
@@ -249,11 +251,13 @@ Alice <-- Bob: another authentication Response
 ```
 
 ```markdown
+{% verbatim %}
 // homepage.md
 ---
 ---
 
-{{ load('diagram.uml') | raw }} # loads content of `diagram.uml`, compiles it as PlantUML, and embeds the result  
+{{ load('diagram.uml') | raw }} # loads content of `diagram.uml`, compiles it as PlantUML, and embeds the result 
+{% endverbatim %} 
 ```
 
 ### Compiling Multiple Diagrams At Once

@@ -81,6 +81,10 @@ public final class CoreFlags extends OrchidFlag {
     @Description("Enable debug diagnostic logging.")
     public boolean diagnose;
 
+    @Option @BooleanDefault(false)
+    @Description("Return to legacy webserver functionality, returning files from disk instead of indexed pages.")
+    public boolean legacyFileServer;
+
     @Override
     public Map<String, Value> getParsedFlags() {
         if(!environment.equals("test")) {
