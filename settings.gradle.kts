@@ -1,3 +1,14 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "kotlinx-serialization") {
+                useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
+            } else if (requested.id.id == "kotlin-dce-js") {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+            }
+        }
+    }
+}
 buildscript {
     repositories {
         maven(url = "https://plugins.gradle.org/m2/")
@@ -6,6 +17,8 @@ buildscript {
         classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
     }
 }
+enableFeaturePreview("GRADLE_METADATA")
+
 apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 rootProject.name = "Orchid"
@@ -51,6 +64,7 @@ include(
     ":plugins:OrchidPosts",
     ":plugins:OrchidPresentations",
     ":plugins:OrchidSearch",
+    ":plugins:OrchidSearch:widget",
     ":plugins:OrchidSourceDoc",
     ":plugins:OrchidSwagger",
     ":plugins:OrchidSwiftdoc",

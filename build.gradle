@@ -39,7 +39,7 @@ ext.coreProject               = [project(':OrchidCore')]
 ext.themeProjects             = subprojects.findAll { return (it.path.startsWith(":themes"))             && (it.name != "themes") }
 ext.languageExtensionProjects = subprojects.findAll { return (it.path.startsWith(":languageExtensions")) && (it.name != "languageExtensions") }
 ext.integrationProjects       = subprojects.findAll { return (it.path.startsWith(":integrations"))       && (it.name != "integrations") }
-ext.plainPluginProjects       = subprojects.findAll { return (it.path.startsWith(":plugins"))            && (it.name != "plugins")}
+ext.plainPluginProjects       = subprojects.findAll { return (it.path.startsWith(":plugins"))            && (it.name != "plugins") && (!it.path.endsWith(":widget")) }
 ext.bundleProjects            = subprojects.findAll { return (it.path.startsWith(":bundles"))            && (it.name != "bundles") }
 ext.pluginProjects            = languageExtensionProjects + integrationProjects + plainPluginProjects
 ext.mainProjects              = coreProject + themeProjects + pluginProjects
