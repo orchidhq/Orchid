@@ -19,6 +19,6 @@ page content, or otherwise extend the language capabilities of your Orchid site 
 * Compile your pages with [Asciidoctor](https://asciidoctor.org/docs/asciidoctorj/) by using the `.ad` or `.asciidoc` 
 file extension
 * Add syntax highlighting to your code snippets. Choose from static highlighting with 
-[Pygments](http://pygments.org/docs/java/), or browser-side highlighting with [Prism.js](https://prismjs.com/).
+[Pygments](https://pygments.org/docs/java/), or browser-side highlighting with [Prism.js](https://prismjs.com/).
 * Load the text of Bible verse references automatically. Choose from static references loading with a Markdown 
 extension, or use the [Faithlife Reftagger.js](https://reftagger.com) to load verses on-demand.

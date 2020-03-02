@@ -137,7 +137,7 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
         <pluginRepository>
             <id>jcenter</id>
             <name>bintray-plugins</name>
-            <url>http://jcenter.bintray.com</url>
+            <url>https://jcenter.bintray.com</url>
         </pluginRepository>
         <pluginRepository>
             <id>kotlinx</id>

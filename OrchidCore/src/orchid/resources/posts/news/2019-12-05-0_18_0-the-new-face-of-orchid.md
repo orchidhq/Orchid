@@ -52,7 +52,7 @@ You can help spread the word about this major milestone by sharing [https://orch
 I periodically search GitHub to find new projects getting set up with Orchid. Here are a couple great examples of 
 projects being documented with Orchid:
 
-- [The Alchemist Simulator](http://alchemistsimulator.github.io/)
+- [The Alchemist Simulator](https://alchemistsimulator.github.io/)
 - [Acorn](https://nhaarman.github.io/acorn/)
 - [Camunda](https://camunda.github.io/camunda-rest-client-spring-boot/)
 

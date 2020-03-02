@@ -287,7 +287,7 @@ site:
   about:
     siteName: My Blog
     siteDescription: This is a short description of this blog.
-    avatar: 'http://lorempixel.com/320/320/city/'
+    avatar: 'https://picsum.photos/seed/city/320/320'
 theme:
   social:
     github: 'username/project'
@@ -316,7 +316,7 @@ one you just set up:
 posts:
   authors:
     - name: 'Author One'
-      avatar: 'http://lorempixel.com/320/320/animals/'
+      avatar: 'https://picsum.photos/seed/animals/320/320'
       email: 'email@domain.tld'
   postPages:
     author: 'Author One'

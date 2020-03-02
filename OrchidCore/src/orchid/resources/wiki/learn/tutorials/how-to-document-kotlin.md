@@ -168,7 +168,7 @@ repositories {
 // 4. Use the 'Editorial' theme, and set the URL it will have on Github Pages
 orchid {
     theme = "Editorial"
-    baseUrl = "http://username.github.io/project"
+    baseUrl = "https://username.github.io/project"
     version = "1.0.0"
 }
 ```
