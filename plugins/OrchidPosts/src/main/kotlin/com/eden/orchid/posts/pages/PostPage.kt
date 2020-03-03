@@ -15,6 +15,7 @@ import com.eden.orchid.posts.PostsGenerator
 import com.eden.orchid.posts.model.Author
 import com.eden.orchid.posts.model.CategoryModel
 import com.eden.orchid.posts.model.PostsModel
+import com.eden.orchid.utilities.extractOptionsFromResource
 import com.eden.orchid.utilities.resolve
 import org.json.JSONObject
 
@@ -91,7 +92,7 @@ class PostPage(
     val day: Int          get() { return publishDate.dayOfMonth }
 
     init {
-        this.extractOptions(this.context, data)
+        data = extractOptionsFromResource(context, resource)
         postInitialize(title)
     }
 

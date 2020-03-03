@@ -18,15 +18,32 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
 
     @BeforeEach
     fun setUp() {
-        enableLogging()
-
         resource(
             "snippets/one.md",
             """
+            |---
+            |tags: 
+            |  - 'tag_one'
+            |  - 'default_test_snippets'
+            |---
             |Content from snippet **one**
             """.trimMargin()
         )
+        resource(
+            "snippets/two.md",
+            """
+            |---
+            |tags: 
+            |  - 'tag_two'
+            |  - 'default_test_snippets'
+            |---
+            |Content from snippet _two_
+            """.trimMargin()
+        )
     }
+
+// End use-cases
+//----------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rendering a snippet with a TemplateFunction")
@@ -153,6 +170,236 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
                             strong { +"one" }
                         }
                     }
+                }
+            }
+    }
+
+// File Snippets Adapter
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
+    @DisplayName("Test creating snippets from default `file` adapter config")
+    fun test11() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{{ snippet('one').content | raw }}
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": "file",
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        +"Content from snippet "
+                        strong { +"one" }
+                    }
+                }
+            }
+    }
+
+    @Test
+    @DisplayName("Test creating snippets from configured `file` adapter config")
+    fun test12() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{{ snippet('one').content | raw }}
+            """.trimMargin()
+        )
+        resource(
+            "other/snippets/dir/one.md",
+            """
+            |Content from other snippet **one**
+            """.trimMargin()
+        )
+
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": {
+            |               "type": "file",
+            |               "baseDirs": ["other"],
+            |               "recursive": true
+            |           },
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        +"Content from other snippet "
+                        strong { +"one" }
+                    }
+                }
+            }
+    }
+
+// Embedded Snippets Adapter
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
+    @DisplayName("Test creating snippets from default `embedded` adapter config")
+    fun test21() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{{ snippet('one').content | raw }}
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": "embedded",
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+
+                }
+            }
+    }
+
+    @Test
+    @DisplayName("Test creating snippets from configured `embedded` adapter config")
+    fun test22() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{{ snippet('one').content | raw }}
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": {
+            |               "type": "embedded",
+            |               "foo": "bar"
+            |           },
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+
+                }
+            }
+    }
+
+// Remote Snippets Adapter
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
+    @DisplayName("Test creating snippets from default `remote` adapter config")
+    fun test31() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{{ snippet('one').content | raw }}
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": "remote",
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+
+                }
+            }
+    }
+
+    @Test
+    @DisplayName("Test creating snippets from configured `remote` adapter config")
+    fun test32() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{{ snippet('one').content | raw }}
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": {
+            |               "type": "remote",
+            |               "foo": "bar"
+            |           },
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+
                 }
             }
     }

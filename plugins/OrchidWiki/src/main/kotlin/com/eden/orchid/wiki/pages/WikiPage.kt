@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
+import com.eden.orchid.utilities.extractOptionsFromResource
 import com.eden.orchid.wiki.WikiGenerator
 import com.eden.orchid.wiki.WikiSectionArchetype
 
@@ -25,7 +26,7 @@ class WikiPage(
     lateinit var sectionSummary: WikiSummaryPage
 
     init {
-        this.extractOptions(this.context, data)
+        data = extractOptionsFromResource(context, resource)
         postInitialize(title)
     }
 

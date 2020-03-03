@@ -2,7 +2,7 @@ package com.eden.orchid.snippets.models
 
 import com.eden.orchid.api.resources.resource.OrchidResource
 
-class Snippet(
+data class Snippet(
     val name: String,
     val tags: List<String>,
     private val resource: OrchidResource,

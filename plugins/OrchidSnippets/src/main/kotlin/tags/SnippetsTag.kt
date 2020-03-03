@@ -18,7 +18,7 @@ class SnippetsTag : TemplateTag("snippets", Type.Simple, true) {
     lateinit var snippets: List<Snippet>
 
     override fun parameters(): Array<String> {
-        return arrayOf("snippetName")
+        return arrayOf("snippetTags")
     }
 
     override fun onRender(context: OrchidContext, page: OrchidPage?) {

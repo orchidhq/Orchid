@@ -219,20 +219,11 @@ public class OrchidPage implements
         this.reference.setExtension(resource.getReference().getOutputExtension());
         this.pageRenderMode = renderMode;
 
-        JSONElement el = resource.getEmbeddedData();
-
-        if (EdenUtils.elementIsObject(el)) {
-            this.data = ((JSONObject) el.getElement()).toMap();
-        }
-        else {
-            this.data = new HashMap<>();
-        }
-
         initialize(title);
     }
 
     protected void initialize(String title) {
-        this.extractOptions(this.context, this.data);
+        this.data = OrchidExtensionsKt.extractOptionsFromResource(this, context, resource);
         postInitialize(title);
     }
 

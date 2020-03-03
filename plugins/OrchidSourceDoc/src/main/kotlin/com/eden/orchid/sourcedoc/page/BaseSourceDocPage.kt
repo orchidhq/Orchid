@@ -5,6 +5,7 @@ import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.options.SourcedocPageConfigArchetype
+import com.eden.orchid.utilities.extractOptionsFromResource
 
 @Archetype(value = SourcedocPageConfigArchetype::class, key = "pages")
 abstract class BaseSourceDocPage(
@@ -23,7 +24,7 @@ abstract class BaseSourceDocPage(
 ) {
 
     init {
-        this.extractOptions(this.context, data)
+        data = extractOptionsFromResource(context, resource)
         postInitialize(title)
     }
 
