@@ -13,9 +13,7 @@ data class SnippetConfig(
     val context: OrchidContext,
     val defaultName: String,
     val defaultTags: List<String>,
-    internal val resource: OrchidResource,
-    internal val offset: Int,
-    internal val length: Int?
+    internal val resource: OrchidResource
 ) : OptionsHolder {
 
     init {

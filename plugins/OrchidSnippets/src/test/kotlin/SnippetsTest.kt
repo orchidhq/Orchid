@@ -5,8 +5,11 @@ import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
+import kotlinx.html.br
 import kotlinx.html.div
 import kotlinx.html.em
+import kotlinx.html.li
+import kotlinx.html.ol
 import kotlinx.html.p
 import kotlinx.html.strong
 import org.junit.jupiter.api.BeforeEach
@@ -271,40 +274,22 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
             """
             |---
             |---
-            |{{ snippet('one').content | raw }}
+            |{{ snippet('homepage_one').content | raw }}
+            |<br>
+            |{{ snippet('homepage_two').content | raw }}
             """.trimMargin()
         )
-        configObject(
-            "snippets",
-            """
-            |{
-            |   "sections": [
-            |       {
-            |           "adapter": "embedded",
-            |           "foo": "bar"
-            |       }
-            |   ]
-            |}
-            """.trimMargin()
-        )
-
-        expectThat(execute())
-            .pageWasRendered("/index.html") {
-                htmlBodyMatches {
-
-                }
-            }
-    }
-
-    @Test
-    @DisplayName("Test creating snippets from configured `embedded` adapter config")
-    fun test22() {
         resource(
-            "homepage.txt",
+            "src/test/kotlin/fileWithSnippets.md",
             """
-            |---
-            |---
-            |{{ snippet('one').content | raw }}
+            |// snippet::homepage_one[]
+            |  Content from snippet **one**
+            |// end::homepage_one
+            |
+            |// snippet::homepage_two[]
+            |  Content from snippet **two**
+            |    plus additional content
+            |// end::homepage_two
             """.trimMargin()
         )
         configObject(
@@ -315,7 +300,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
             |       {
             |           "adapter": {
             |               "type": "embedded",
-            |               "foo": "bar"
+            |               "baseDirs": "src/test"
             |           },
             |           "foo": "bar"
             |       }
@@ -327,23 +312,44 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
-
+                    p {
+                        +"Content from snippet "
+                        strong { +"one" }
+                    }
+                    br()
+                    p {
+                        +"Content from snippet "
+                        strong { +"two" }
+                        +"  plus additional content"
+                    }
                 }
             }
     }
 
-// Remote Snippets Adapter
-//----------------------------------------------------------------------------------------------------------------------
-
     @Test
-    @DisplayName("Test creating snippets from default `remote` adapter config")
-    fun test31() {
+    @DisplayName("Test creating snippets from `embedded` adapter config, using custom tag regexes")
+    fun test22() {
         resource(
             "homepage.txt",
             """
             |---
             |---
-            |{{ snippet('one').content | raw }}
+            |{{ snippet('homepage_one').content | raw }}
+            |<br>
+            |{{ snippet('homepage_two').content | raw }}
+            """.trimMargin()
+        )
+        resource(
+            "src/test/kotlin/fileWithSnippets.md",
+            """
+            |// START homepage_one
+            |  Content from snippet **one**
+            |// END homepage_one
+            |
+            |// START homepage_two
+            |  Content from snippet **two**
+            |    plus additional content
+            |// END homepage_two
             """.trimMargin()
         )
         configObject(
@@ -352,7 +358,12 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
             |{
             |   "sections": [
             |       {
-            |           "adapter": "remote",
+            |           "adapter": {
+            |               "type": "embedded",
+            |               "baseDirs": "src/test",
+            |               "startPattern": "^.*?START(.+?)${'$'}",
+            |               "endPattern": "^.*?END(.+?)${'$'}"
+            |           },
             |           "foo": "bar"
             |       }
             |   ]
@@ -363,14 +374,106 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
-
+                    p {
+                        +"Content from snippet "
+                        strong { +"one" }
+                    }
+                    br()
+                    p {
+                        +"Content from snippet "
+                        strong { +"two" }
+                        +"  plus additional content"
+                    }
                 }
             }
     }
 
     @Test
+    @DisplayName("Test creating snippets from default `embedded` adapter config, but with tags and selecting from those tags")
+    fun test23() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{% snippets 'tag_a' %}
+            |<br>
+            |{% snippets 'tag_b' %}
+            """.trimMargin()
+        )
+        resource(
+            "src/test/kotlin/fileWithSnippets.md",
+            """
+            |// snippet::homepage_one[tag_a, tag_b, tag_c]
+            |  Content from snippet **one**
+            |// end::homepage_one
+            |
+            |// snippet::homepage_two[tag_a]
+            |  Content from snippet **two**
+            |    plus additional content
+            |// end::homepage_two
+            |
+            |// snippet::homepage_three[tag_a]
+            |  This malformed snippet will not be accepted as a valid snippet
+            |// end::homepage_three[]
+            |
+            |// snippet::homepage_three[tag_a] This malformed  
+            |  snippet will not be accepted as a valid snippet
+            |// end::homepage_three[]
+            |
+            |// snippet::homepage_four[tag_a]
+            |  This snippet which did not define an ending name will work find, though
+            |// end::
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "adapter": {
+            |               "type": "embedded",
+            |               "baseDirs": "src/test"
+            |           },
+            |           "foo": "bar"
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+        enableLogging()
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        +"Content from snippet "
+                        strong { +"one" }
+                    }
+                    p {
+                        +"Content from snippet "
+                        strong { +"two" }
+                        +"  plus additional content"
+                    }
+                    p {
+                        +"This snippet which did not define an ending name will work find, though"
+                    }
+                    br()
+                    p {
+                        +"Content from snippet "
+                        strong { +"one" }
+                    }
+                }
+            }
+    }
+
+// Remote Snippets Adapter
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Test
     @DisplayName("Test creating snippets from configured `remote` adapter config")
-    fun test32() {
+    fun test31() {
         resource(
             "homepage.txt",
             """
@@ -387,7 +490,9 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
             |       {
             |           "adapter": {
             |               "type": "remote",
-            |               "foo": "bar"
+            |               "url": "https://github.com/copper-leaf/wiki-with-sidebar/wiki/GettingStarted",
+            |               "selector": "#wiki-body",
+            |               "name": "one"
             |           },
             |           "foo": "bar"
             |       }
@@ -399,7 +504,14 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
-
+                    div("markdown-body") {
+                        p { +"This is how to get started:" }
+                        ol {
+                            li {+"asdf"}
+                            li {+"asdf"}
+                            li {+"asdf"}
+                        }
+                    }
                 }
             }
     }

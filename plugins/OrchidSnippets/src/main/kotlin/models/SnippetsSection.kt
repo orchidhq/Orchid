@@ -27,9 +27,7 @@ class SnippetsSection : OptionsHolder {
                 Snippet(
                     name = config.name.takeIf { it.isNotEmpty() } ?: config.defaultName,
                     tags = config.defaultTags + config.tags + this.tags,
-                    resource = config.resource,
-                    offset = config.offset,
-                    length = config.length
+                    resource = config.resource
                 )
             }
     }

@@ -51,9 +51,7 @@ class FileSnippetsAdapter : SnippetsAdapter {
                 context,
                 resource.reference.originalFileName,
                 emptyList(),
-                resource,
-                0,
-                null
+                resource
             )
         )
     }

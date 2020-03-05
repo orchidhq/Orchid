@@ -322,7 +322,7 @@ fun merge(vararg sources: JSONElement?): JSONElement? {
     return JSONElement(EdenUtils.merge(*sourcesAsObjects))
 }
 
-fun InputStream?.readToString() : String? = this?.bufferedReader()?.readText()
+fun InputStream?.readToString() : String? = this?.bufferedReader()?.use { it.readText() }
 fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))
 
 fun OptionsHolder.extractOptionsFromResource(context: OrchidContext, resource: OrchidResource): Map<String, Any?> {
