@@ -1,4 +1,5 @@
 
 dependencies {
-    compile(Libs.jsoup)
+    implementation(Libs.jsoup)
+    testImplementation(Module.OrchidPluginDocs)
 }

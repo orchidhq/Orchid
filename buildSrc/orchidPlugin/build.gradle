@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
+    implementation(gradleApi())
+    implementation(localGroovy())
 }
 
 group = rootProject.group

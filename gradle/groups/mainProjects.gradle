@@ -5,12 +5,12 @@ apply from: "$actionsScript/publish.gradle"
 apply from: "$actionsScript/testing.gradle"
 
 dependencies {
-    testCompile(Libs.hamcrest_library)
-    testCompile(Libs.strikt_core)
-    testCompile(Libs.mockito_core)
-    testCompile(Libs.jsoup)
-    testCompile(Libs.junit_jupiter_api)
-    testCompile(Libs.junit_jupiter_params)
+    testImplementation(Libs.hamcrest_library)
+    testImplementation(Libs.strikt_core)
+    testImplementation(Libs.mockito_core)
+    testImplementation(Libs.jsoup)
+    testImplementation(Libs.junit_jupiter_api)
+    testImplementation(Libs.junit_jupiter_params)
     testRuntimeOnly(Libs.junit_jupiter_engine)
-    compile(Libs.kotlin_stdlib_jdk8)
+    implementation(Libs.kotlin_stdlib_jdk8)
 }

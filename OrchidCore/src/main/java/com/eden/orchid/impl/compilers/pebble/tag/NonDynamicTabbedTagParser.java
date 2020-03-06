@@ -60,7 +60,7 @@ public class NonDynamicTabbedTagParser extends BaseTagParser {
         tagBodyExpressions = new LinkedHashMap<>();
 
         // get Tag params
-        paramExpressionMap = parseParams(tagParameters, tagClass, stream, parser);
+        paramExpressionMap = parseParams(tagParameters, true, tagClass, stream, parser);
 
         // get Tag filters, which are applied to all tabs
         bodyFilters = parseBodyFilters(stream, parser);
@@ -93,7 +93,7 @@ public class NonDynamicTabbedTagParser extends BaseTagParser {
             }
 
             // get tab params
-            Map<String, Expression<?>> tabParams = parseParams(tabParameters, tabClass, stream, parser);
+            Map<String, Expression<?>> tabParams = parseParams(tabParameters, true, tabClass, stream, parser);
             tagBodyParams.put(tabName, tabParams);
 
             // get tab filters

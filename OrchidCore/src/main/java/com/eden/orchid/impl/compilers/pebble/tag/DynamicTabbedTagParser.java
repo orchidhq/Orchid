@@ -20,6 +20,7 @@ import kotlin.collections.MapsKt;
 import javax.inject.Provider;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,6 @@ public class DynamicTabbedTagParser extends BaseTagParser {
     private final Class<? extends TemplateTag> tagClass;
 
     private Map<String, Expression<?>> paramExpressionMap;
-    private List<Expression<?>> bodyFilters;
 
     private Expression<?> tagBodyExpression;
 
@@ -48,10 +48,9 @@ public class DynamicTabbedTagParser extends BaseTagParser {
         TokenStream stream = parser.getStream();
         int lineNumber = token.getLineNumber();
 
-        paramExpressionMap = parseParams(tagParameters, tagClass, stream, parser);
-        bodyFilters = parseBodyFilters(stream, parser);
+        paramExpressionMap = parseParams(tagParameters, true, tagClass, stream, parser);
         stream.expect(Token.Type.EXECUTE_END);
-        tagBodyExpression = parseBody(bodyFilters, name, stream, parser);
+        tagBodyExpression = parseBody(new ArrayList<>(), name, stream, parser);
 
         return new PebbleWrapperTemplateTag.TemplateTagNode(lineNumber, this);
     }

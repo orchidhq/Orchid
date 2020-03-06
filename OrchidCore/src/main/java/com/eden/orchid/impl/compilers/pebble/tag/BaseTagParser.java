@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.compilers.pebble.tag;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -40,7 +41,7 @@ public abstract class BaseTagParser {
 
     public abstract void render(PebbleTemplateImpl self, Writer writer, EvaluationContextImpl context) throws IOException;
 
-    protected Map<String, Expression<?>> parseParams(String[] parameters, Class<? extends OptionsHolder> paramsClass, TokenStream stream, Parser parser) throws ParserException {
+    protected Map<String, Expression<?>> parseParams(String[] parameters, boolean enforceParamMap, Class<? extends OptionsHolder> paramsClass, TokenStream stream, Parser parser) throws ParserException {
 
         // Get list of available parameter names
         OptionsExtractor extractor = contextProvider.get().resolve(OptionsExtractor.class);
@@ -49,16 +50,34 @@ public abstract class BaseTagParser {
         // parameter expressions will be added here
         Map<String, Expression<?>> paramExpressionMap = new HashMap<>();
         if(!isParameterEnd(stream)) {
+            if(!EdenUtils.isEmpty(parameters) && !stream.current().test(Token.Type.NAME)) {
+                // parse the parameters sequentially
+                int i = 0;
+                while (i < parameters.length && !isParameterEnd(stream) && !stream.current().test(Token.Type.NAME)) {
+                    Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
+                    paramExpressionMap.put(parameters[i], parsedExpression);
+                    i++;
+                }
+            }
+
             if (stream.current().test(Token.Type.NAME)) {
                 // parse parameters as map of key=value pairs
                 while (!isParameterEnd(stream)) {
                     Token paramNameToken = stream.expect(Token.Type.NAME);
 
-                    Optional<String> foundKey = remainingParameters.stream().filter(key -> key.equalsIgnoreCase(paramNameToken.getValue())).findAny();
+                    final Optional<String> foundKey;
+                    if(enforceParamMap) {
+                        foundKey = remainingParameters.stream().filter(key -> key.equalsIgnoreCase(paramNameToken.getValue())).findAny();
+                    }
+                    else {
+                        foundKey = Optional.of(paramNameToken.getValue());
+                    }
 
                     if (foundKey.isPresent()) {
                         String paramKey = foundKey.get();
-                        remainingParameters.remove(paramKey);
+                        if(enforceParamMap) {
+                            remainingParameters.remove(paramKey);
+                        }
                         stream.expect(Token.Type.PUNCTUATION, "=");
                         Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
                         paramExpressionMap.put(paramKey, parsedExpression);
@@ -66,15 +85,6 @@ public abstract class BaseTagParser {
                     else {
                         throw new ParserException(null, Clog.format("Could not parse parameter {}.", paramNameToken.getValue()), stream.current().getLineNumber(), "");
                     }
-                }
-            }
-            else {
-                // parse the parameters sequentially
-                int i = 0;
-                while (i < parameters.length && !isParameterEnd(stream)) {
-                    Expression<?> parsedExpression = parser.getExpressionParser().parseExpression();
-                    paramExpressionMap.put(parameters[i], parsedExpression);
-                    i++;
                 }
             }
         }

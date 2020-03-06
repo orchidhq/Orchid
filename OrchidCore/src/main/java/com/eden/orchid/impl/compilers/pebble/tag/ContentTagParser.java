@@ -46,7 +46,7 @@ public class ContentTagParser extends BaseTagParser {
         stream.next();
 
         // parameter expressions will be added here
-        paramExpressionMap = parseParams(parameters, tagClass, stream, parser);
+        paramExpressionMap = parseParams(parameters, true, tagClass, stream, parser);
         List<Expression<?>> bodyFilters = parseBodyFilters(stream, parser);
         stream.expect(Token.Type.EXECUTE_END);
         tagBodyExpression = parseBody(bodyFilters, name, stream, parser);
@@ -80,5 +80,4 @@ public class ContentTagParser extends BaseTagParser {
             writer.append(freshTag.renderContent(orchidContext, actualPage));
         }
     }
-
 }

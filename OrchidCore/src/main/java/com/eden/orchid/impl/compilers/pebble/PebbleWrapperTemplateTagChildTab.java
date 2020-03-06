@@ -68,7 +68,7 @@ public final class PebbleWrapperTemplateTagChildTab implements TokenParser {
             // parameter expressions will be added here
             try {
                 tabNameExpression = parser.getExpressionParser().parseExpression();
-                paramExpressionMap = parseParams(null, TemplateTag.SimpleTab.class, stream, parser);
+                paramExpressionMap = parseParams(null, false, TemplateTag.SimpleTab.class, stream, parser);
                 List<Expression<?>> bodyFilters = parseBodyFilters(stream, parser);
                 stream.expect(Token.Type.EXECUTE_END);
                 tagBodyExpression = parseBody(bodyFilters, name, stream, parser);

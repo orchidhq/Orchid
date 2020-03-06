@@ -19,8 +19,6 @@ class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
     internal fun setUp() {
         scriptPublisherLogged = false
 
-        enableLogging()
-
         Clog.setCurrentProfile("ScriptPublisherTest") {
             ClogProfile().apply {
                 addLogger(null, this@ScriptPublisherTest)
