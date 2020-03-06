@@ -57,7 +57,7 @@ public class TabbedTagParser extends BaseTagParser {
 
         if(stream.current().test(Token.Type.NAME, "dynamic")) {
             stream.next();
-            childParser = new DynamicTabbedTagParser(contextProvider, name, tagParameters, tagClass, tabParameters, tabClass);
+            childParser = new DynamicTabbedTagParser(contextProvider, name, tagParameters, tagClass);
             return childParser.parse(token, parser);
         }
         else {

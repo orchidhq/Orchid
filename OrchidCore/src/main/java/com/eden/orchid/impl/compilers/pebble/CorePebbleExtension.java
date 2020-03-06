@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,6 +44,7 @@ public final class CorePebbleExtension extends AbstractExtension {
     @Override
     public List<TokenParser> getTokenParsers() {
         List<TokenParser> tokenParsers = new ArrayList<>();
+        Set<String> childTabNames = new HashSet<>();
 
         for(TemplateTag templateTag : templateTags) {
             final String[] tabParams;
@@ -51,6 +53,7 @@ public final class CorePebbleExtension extends AbstractExtension {
                 TemplateTag.Tab tab = templateTag.getNewTab("", "");
                 tabParams = tab.parameters();
                 tabClass = tab.getClass();
+                childTabNames.add(tab.getType());
             }
             else {
                 tabParams = null;
@@ -66,6 +69,10 @@ public final class CorePebbleExtension extends AbstractExtension {
                     tabParams,
                     tabClass
             ));
+        }
+
+        for(String childTabName : childTabNames) {
+            tokenParsers.add(new PebbleWrapperTemplateTagChildTab(contextProvider, childTabName));
         }
 
         return tokenParsers;

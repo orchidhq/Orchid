@@ -442,7 +442,6 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
             |}
             """.trimMargin()
         )
-        enableLogging()
 
         expectThat(execute())
             .pageWasRendered("/index.html") {

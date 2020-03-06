@@ -38,8 +38,13 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
             this.type = type;
         }
 
+        @Deprecated
         public final String getKey() {
             return getName();
+        }
+
+        public final String getType() {
+            return type;
         }
 
         public abstract String getName();
@@ -120,17 +125,17 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     public String getContent(String name) {
         switch (type) {
-        case Simple: 
-            return "";
+            case Simple:
+                return "";
 
-        case Content: 
-            return content.get(null).getContent();
+            case Content:
+                return content.get(null).getContent();
 
-        case Tabbed: 
-            return (content.get(name) != null) ? content.get(name).getContent() : "";
+            case Tabbed:
+                return (content.get(name) != null) ? content.get(name).getContent() : "";
 
-        default: 
-            return "";
+            default:
+                return "";
         }
     }
 
@@ -140,19 +145,19 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     public void setContent(String name, Tab content) {
         switch (type) {
-        case Simple: 
-            break;
+            case Simple:
+                break;
 
-        case Content: 
-            this.content.put(null, content);
-            break;
+            case Content:
+                this.content.put(null, content);
+                break;
 
-        case Tabbed: 
-            this.content.put(name, content);
-            break;
+            case Tabbed:
+                this.content.put(name, content);
+                break;
 
-        default: 
-            break;
+            default:
+                break;
         }
     }
 
@@ -162,17 +167,17 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     public List<Tab> getTabs() {
         switch (type) {
-        case Simple: 
-            return new ArrayList<>();
+            case Simple:
+                return new ArrayList<>();
 
-        case Content: 
-            return new ArrayList<>();
+            case Content:
+                return new ArrayList<>();
 
-        case Tabbed: 
-            return new ArrayList<>(this.content.values());
+            case Tabbed:
+                return new ArrayList<>(this.content.values());
 
-        default: 
-            return new ArrayList<>();
+            default:
+                return new ArrayList<>();
         }
     }
 

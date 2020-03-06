@@ -8,6 +8,7 @@ import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.innerHtmlMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.select
@@ -26,7 +27,6 @@ class TabbedTagTest : OrchidIntegrationTest(TabbedTagModule(), withGenerator<Hom
 
     @BeforeEach
     internal fun setUp() {
-        enableLogging()
         resource(
             "templates/tags/hellos.peb",
             """
@@ -80,11 +80,11 @@ class TabbedTagTest : OrchidIntegrationTest(TabbedTagModule(), withGenerator<Hom
     }
 
     @Test
-    fun testDynamicTabs() {
+    fun testDynamicTabsWithForLoop() {
         val input = """
             |{% hellos dynamic %}
-            |  {% for i in range(0, 3) %}
-            |    {% hello %}
+            |  {% for i in range(1, 3) %}
+            |    {% hello "hello_tab_#{i}" %}
             |      Hello, world ({{ i }})
             |    {% endhello %}
             |  {% endfor %}
@@ -108,6 +108,74 @@ class TabbedTagTest : OrchidIntegrationTest(TabbedTagModule(), withGenerator<Hom
                     }
             }
     }
+
+    @Test
+    fun testDynamicTabsWithForIf() {
+        resource(
+            "homepage.peb",
+            """
+            |{% hellos dynamic %}
+            |  {% for i in fullRange %}
+            |    {% if validValues contains i %}
+            |      {% hello "hello_tab_#{i}" %}
+            |        Hello, world ({{ i }})
+            |      {% endhello %}
+            |    {% endif %}
+            |  {% endfor %}
+            |{% endhellos %}
+            """.trimMargin(),
+            mapOf(
+                "fullRange" to (0..10).toList(),
+                "validValues" to listOf(3, 6, 7)
+            )
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    ul {
+                        li { +"Hello, world (3)" }
+                        li { +"Hello, world (6)" }
+                        li { +"Hello, world (7)" }
+                    }
+                }
+            }
+    }
+
+    @Test
+    fun testDynamicTabsWithNoLogic() {
+        resource(
+            "homepage.peb",
+            """
+            |{% hellos dynamic %}
+            |   {% hello "hello_tab_2" %}
+            |       Hello, world (2)
+            |   {% endhello %}
+            |   {% hello "hello_tab_3" %}
+            |       Hello, world (3)
+            |   {% endhello %}
+            |   {% hello "hello_tab_4" %}
+            |       Hello, world (4)
+            |   {% endhello %}
+            |{% endhellos %}
+            """.trimMargin(),
+            mapOf(
+                "fullRange" to (0..10).toList(),
+                "validValues" to listOf(3, 6, 7)
+            )
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    ul {
+                        li { +"Hello, world (2)" }
+                        li { +"Hello, world (3)" }
+                        li { +"Hello, world (4)" }
+                    }
+                }
+            }
+    }
 }
 
 class TabbedHellosTag : TemplateTag("hellos", Type.Tabbed, true) {
@@ -118,7 +186,7 @@ class TabbedHellosTag : TemplateTag("hellos", Type.Tabbed, true) {
         return Tab(key, content)
     }
 
-    class Tab(key: String?, content: String?) : TemplateTag.SimpleTab("", key, content) {
+    class Tab(key: String?, content: String?) : TemplateTag.SimpleTab("hello", key, content) {
         override fun parameters() = emptyArray<String>()
     }
 
