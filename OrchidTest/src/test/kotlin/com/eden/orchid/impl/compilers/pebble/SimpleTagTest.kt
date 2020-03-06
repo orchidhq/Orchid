@@ -21,9 +21,10 @@ class SimpleTagTest : OrchidIntegrationTest(SimpleTagModule(), withGenerator<Hom
 
     @ParameterizedTest
     @CsvSource(
-        "{% hello %}, hello world",
-        "{% hello 'sir' %}, hello sir",
-        "{% hello greeting='sir' %}, hello sir"
+        // Input                    // expected
+        "{% hello %}                , hello world",
+        "{% hello 'sir' %}          , hello sir",
+        "{% hello greeting='sir' %} , hello sir"
     )
     fun testSimpleTags(input: String, expected: String) {
         resource("homepage.peb", input.trim())

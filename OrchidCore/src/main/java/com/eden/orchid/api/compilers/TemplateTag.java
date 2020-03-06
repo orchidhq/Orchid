@@ -31,20 +31,31 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
         Simple, Content, Tabbed
     }
 
-    public interface Tab extends OptionsHolder {
-        String getKey();
+    public static abstract class Tab implements OptionsHolder {
+        private final String type;
 
-        String getContent();
+        protected Tab(String type) {
+            this.type = type;
+        }
 
-        String[] parameters();
+        public final String getKey() {
+            return getName();
+        }
+
+        public abstract String getName();
+
+        public abstract String getContent();
+
+        public abstract String[] parameters();
     }
 
-    public static final class SimpleTab implements Tab {
-        private final String key;
+    public static class SimpleTab extends Tab {
+        private final String name;
         private final String content;
 
-        public SimpleTab(String key, String content) {
-            this.key = key;
+        public SimpleTab(String type, String name, String content) {
+            super(type);
+            this.name = name;
             this.content = content;
         }
 
@@ -53,11 +64,11 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
             return new String[0];
         }
 
-        public String getKey() {
-            return this.key;
+        public final String getName() {
+            return this.name;
         }
 
-        public String getContent() {
+        public final String getContent() {
             return this.content;
         }
     }
@@ -146,7 +157,7 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
     }
 
     public Tab getNewTab(final String key, final String content) {
-        return new SimpleTab(key, content);
+        return new SimpleTab(name, key, content);
     }
 
     public List<Tab> getTabs() {

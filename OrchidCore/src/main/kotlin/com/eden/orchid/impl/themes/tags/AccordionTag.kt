@@ -24,24 +24,15 @@ class AccordionTag : TemplateTag("accordion", Type.Tabbed, true) {
         return Tab(key, content)
     }
 
-    class Tab(private val key: String?, private val content: String?) : TemplateTag.Tab {
+    class Tab(name: String?, content: String?) : TemplateTag.SimpleTab("accordion", name, content) {
 
         @Option
         @Description("The title of the section")
         lateinit var title: String
 
-        override fun getKey(): String? {
-            return key
-        }
-
-        override fun getContent(): String? {
-            return content
-        }
-
         override fun parameters(): Array<String> {
             return arrayOf("title")
         }
-
     }
 
 }

@@ -21,13 +21,14 @@ class ContentTagTest : OrchidIntegrationTest(ContentTagModule(), withGenerator<H
 
     @ParameterizedTest
     @CsvSource(
-        "{% hello %}{% endhello %}, hello world",
-        "{% hello 'sir' %}{% endhello %}, hello sir",
-        "{% hello greeting='sir' %}{% endhello %}, hello sir",
+        // Input                                                // expected
+        "{% hello %}{% endhello %}                              , hello world",
+        "{% hello 'sir' %}{% endhello %}                        , hello sir",
+        "{% hello greeting='sir' %}{% endhello %}               , hello sir",
 
-        "{% hello %}from all of us{% endhello %}, hello world from all of us",
-        "{% hello 'sir' %}from all of us{% endhello %}, hello sir from all of us",
-        "{% hello greeting='sir' %}from all of us{% endhello %}, hello sir from all of us"
+        "{% hello %}from all of us{% endhello %}                , hello world from all of us",
+        "{% hello 'sir' %}from all of us{% endhello %}          , hello sir from all of us",
+        "{% hello greeting='sir' %}from all of us{% endhello %} , hello sir from all of us"
     )
     fun testSimpleTags(input: String, expected: String) {
         resource("homepage.peb", input.trim())

@@ -72,7 +72,7 @@ public class ContentTagParser extends BaseTagParser {
         freshTag.extractOptions(orchidContext, evaluatedParamExpressionMap);
 
         String bodyContent = StringUtils.toString(tagBodyExpression.evaluate(self, context)).trim();
-        TemplateTag.Tab tab = new TemplateTag.SimpleTab(null, bodyContent);
+        TemplateTag.Tab tab = new TemplateTag.SimpleTab(null, null, bodyContent);
         freshTag.setContent(tab);
 
         freshTag.onRender(orchidContext, actualPage);
