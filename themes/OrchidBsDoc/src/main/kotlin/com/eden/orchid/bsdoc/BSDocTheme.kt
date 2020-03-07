@@ -3,10 +3,12 @@ package com.eden.orchid.bsdoc
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
@@ -15,6 +17,7 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 @Description("A theme based on the Bootstrap 3 documentation, and good for code documentation.", name="BsDoc")
+@Archetype(value = ConfigArchetype::class, key = "BsDoc")
 class BSDocTheme
 @Inject
 constructor(

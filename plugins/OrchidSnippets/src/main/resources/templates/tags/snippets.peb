@@ -1,3 +1,7 @@
-{% for snippet in tag.snippets %}
-{{ snippet.content | raw }}
-{% endfor %}
+{% tabs dynamic %}
+    {% for snippet in tag.snippets %}
+        {% tab snippet.name %}
+            {{ snippet.content | raw }}
+        {% endtab %}
+    {% endfor %}
+{% endtabs %}

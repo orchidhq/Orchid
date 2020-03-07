@@ -28,7 +28,10 @@ class TabsTag : TemplateTag("tabs", Type.Tabbed, true) {
 
         @Option
         @Description("The title of the tab")
-        lateinit var title: String
+        var title: String = ""
+            get() {
+                return field.takeIf { it.isNotBlank() } ?: this.name
+            }
 
         override fun parameters(): Array<String> {
             return arrayOf("title")

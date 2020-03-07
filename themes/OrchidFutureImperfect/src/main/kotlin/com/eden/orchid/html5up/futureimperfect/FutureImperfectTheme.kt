@@ -2,9 +2,11 @@ package com.eden.orchid.html5up.futureimperfect
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.menus.OrchidMenu
@@ -12,6 +14,7 @@ import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
 
 @Description("A theme based on Future Imperfect by HTML5Up, good for blogs.", name = "FutureImperfect")
+@Archetype(value = ConfigArchetype::class, key = "FutureImperfect")
 class FutureImperfectTheme
 @Inject
 constructor(

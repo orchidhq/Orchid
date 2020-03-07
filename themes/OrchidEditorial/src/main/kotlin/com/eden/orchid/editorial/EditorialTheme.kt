@@ -2,10 +2,12 @@ package com.eden.orchid.editorial
 
 import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.models.Social
 import javax.inject.Inject
@@ -13,6 +15,7 @@ import javax.inject.Inject
 @Description("A theme based on Editorial by HTML5Up, with nested navigation menus good for building wikis.",
         name = "Editorial"
 )
+@Archetype(value = ConfigArchetype::class, key = "Editorial")
 class EditorialTheme
 @Inject
 constructor(

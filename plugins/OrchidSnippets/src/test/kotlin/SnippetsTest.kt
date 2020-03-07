@@ -1,6 +1,7 @@
 package com.eden.orchid.snippets
 
 import com.eden.orchid.impl.generators.HomepageGenerator
+import com.eden.orchid.plugindocs.PluginDocsModule
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
-class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<HomepageGenerator>()) {
+class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(), withGenerator<HomepageGenerator>()) {
 
     @BeforeEach
     fun setUp() {
@@ -97,6 +98,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
     @Test
     @DisplayName("Test rendering snippet tabs with a TemplateTag")
     fun test03() {
+        flag("diagnose", true)
         resource(
             "homepage.txt",
             """
@@ -105,6 +107,8 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), withGenerator<Homep
             |{% snippets ['tag_one'] %}
             """.trimMargin()
         )
+
+        serveOn(8080)
 
         expectThat(execute())
             .pageWasRendered("/index.html") {

@@ -1,3 +1,7 @@
-{% for snippet in component.snippets %}
-{{ snippet.content | raw }}
-{% endfor %}
+{% tabs %}
+    {% for snippet in component.snippets %}
+        {% tab snippet.name %}
+            {{ snippet.content | raw }}
+        {% endtab %}
+    {% endfor %}
+{% endtabs %}

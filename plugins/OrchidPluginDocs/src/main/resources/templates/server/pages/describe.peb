@@ -1,6 +1,4 @@
 {% docs
     className=params.className
-    tableClass='uk-table uk-table-divider'
-    tableLeaderClass='uk-hidden'
     tabsTemplate='tabs-uikit'
     admin=true %}

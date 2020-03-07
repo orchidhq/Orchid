@@ -15,8 +15,6 @@ class SnippetsComponent : OrchidComponent("snippets", true) {
 
     val snippets: List<Snippet> by lazy {
         val model = context.resolve<SnippetsModel>()
-        val a = model.getSnippets(snippetTags)
-
-        a
+        model.getSnippets(snippetTags)
     }
 }

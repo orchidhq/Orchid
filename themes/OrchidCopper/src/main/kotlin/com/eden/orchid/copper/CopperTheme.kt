@@ -2,10 +2,12 @@ package com.eden.orchid.copper
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.Social
@@ -13,6 +15,7 @@ import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
 
 @Description("A Bulma-based, any-purpose theme.", name="Copper")
+@Archetype(value = ConfigArchetype::class, key = "Copper")
 class CopperTheme
 @Inject
 constructor(context: OrchidContext) : Theme(context, "Copper") {

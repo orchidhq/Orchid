@@ -11,6 +11,8 @@ class SnippetsModel(
     override val allPages: List<OrchidPage> = emptyList()
     override val collections: List<OrchidCollection<*>> = emptyList()
 
+    val tags: List<String> = snippets.flatMap { it.tags }.distinct()
+
     fun getSnippet(name: String): Snippet? {
         return snippets
             .singleOrNull { it.name == name }

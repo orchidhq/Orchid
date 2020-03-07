@@ -4,7 +4,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.archetypes.ThemeConfigArchetype;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.server.annotations.Extensible;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.MetaComponentHolder;
@@ -21,7 +21,7 @@ import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
  */
 @Extensible
 @Description(value = "A collection of assets and templates used to render your site.", name = "Themes")
-@Archetype(value = ThemeConfigArchetype.class, key = "theme")
+@Archetype(value = ConfigArchetype.class, key = "theme")
 public abstract class Theme extends AbstractTheme {
 
     @Option

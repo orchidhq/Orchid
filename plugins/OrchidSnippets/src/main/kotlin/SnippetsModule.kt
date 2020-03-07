@@ -4,6 +4,7 @@ import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.snippets.adapter.EmbeddedSnippetsAdapter
 import com.eden.orchid.snippets.adapter.FileSnippetsAdapter
@@ -11,6 +12,7 @@ import com.eden.orchid.snippets.adapter.RemoteSnippetsAdapter
 import com.eden.orchid.snippets.adapter.SnippetsAdapter
 import com.eden.orchid.snippets.components.SnippetComponent
 import com.eden.orchid.snippets.components.SnippetsComponent
+import com.eden.orchid.snippets.controllers.SnippetsController
 import com.eden.orchid.snippets.functions.SnippetFunction
 import com.eden.orchid.snippets.tags.SnippetTag
 import com.eden.orchid.snippets.tags.SnippetsTag
@@ -33,6 +35,8 @@ class SnippetsModule : OrchidModule() {
         addToSet<OrchidComponent>(
             SnippetComponent::class,
             SnippetsComponent::class)
+
+        addToSet<OrchidController, SnippetsController>()
     }
 }
 

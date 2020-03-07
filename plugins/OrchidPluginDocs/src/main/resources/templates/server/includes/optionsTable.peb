@@ -1,0 +1,20 @@
+<table class="uk-table uk-table-divider">
+  <thead>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Default Value</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for option in optionsList %}
+  <tr>
+    <td><code>{{ option.key }}</code></td>
+    <td>{{ tag.toAnchor(option) | raw }}</td>
+    <td>{{ option.defaultValue }}</td>
+    <td>{{ option.description | compileAs('md') | raw }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>

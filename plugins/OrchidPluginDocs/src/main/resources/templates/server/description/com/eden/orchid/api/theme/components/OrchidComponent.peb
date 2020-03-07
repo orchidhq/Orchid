@@ -1,16 +1,10 @@
 {% set component =  tag.provide() %}
 {# @pebvariable name="component" type="com.eden.orchid.api.theme.components.OrchidComponent" #}
 
-<p><code>{{ component.priority }}: [{{ component.type }}]</code></p>
-
-<b>Basic Usage</b>
-
+{% set componentBaseKey = component.meta ? 'metaComponents' : 'components' %}
 <pre><code class="lang-yaml"># a page's Front Matter, or in any option of type ComponentHolder
 ...
-components:
+{{ componentBaseKey }}:
   - type: "{{ component.type }}"
-{%- if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
-{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-    {{ option.key }}: {{ option.defaultValue }}{% endfor %}
-{% endif %}
+{%- include 'server/includes/optionsYaml' with {'indent': '    '} -%}
 </code></pre>

@@ -1,7 +1,9 @@
 package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 
 import javax.inject.Inject;
 
@@ -12,6 +14,7 @@ import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
  * @orchidApi extensible
  */
 @Description(value = "A collection of assets and templates used to render your admin panel.", name = "Admin Themes")
+@Archetype(value = ConfigArchetype.class, key = "adminTheme")
 public abstract class AdminTheme extends AbstractTheme {
 
     @Inject

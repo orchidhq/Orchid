@@ -1,16 +1,11 @@
 {% set publisher =  tag.provide() %}
 {# @pebvariable name="publisher" type="com.eden.orchid.api.publication.OrchidPublisher" #}
 
-{% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
-<b>Default Config</b>
-
 <pre><code class="lang-yaml"># config.yml
 ...
 services:
   publications:
     stages:
-      {{ publisher.type }}:
-      {%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-        {{ option.key }}: {{ option.defaultValue }}{% endfor %}
+      - type: {{ publisher.type }}
+{%- include 'server/includes/optionsYaml' with {'indent': '        '} -%}
 </code></pre>
-{% endif %}

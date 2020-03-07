@@ -1,0 +1,28 @@
+Filter by tag:
+
+{% for tag in snippetModel.tags %}
+<span class="uk-badge">{{ tag }}</span>
+{% endfor %}
+
+<table class="uk-table uk-table-striped uk-table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Tags</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for snippet in snippetModel.snippets %}
+  <tr>
+    <td>{{ snippet.name }}</td>
+    <td>
+      <ul>
+      {% for tag in snippet.tags  %}
+        <li>{{ tag }}</li>
+      {% endfor %}
+      </ul>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>

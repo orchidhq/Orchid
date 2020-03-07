@@ -44,7 +44,7 @@ public abstract class OrchidComponent extends Prioritized implements
 
     protected final String templateBase = "components";
     protected final String type;
-    protected final boolean meta;
+    public final boolean meta;
     protected AssetHolder assetHolder;
     private boolean hasAddedAssets;
 
