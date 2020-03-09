@@ -13,6 +13,13 @@ class SnippetsComponent : OrchidComponent("snippets", true) {
     @Description("the snippet tags")
     lateinit var snippetTags: List<String>
 
+    @Option
+    @Description("The ID to add to tabs. Defaults to the tags used to query snippets.")
+    var id: String = ""
+        get() {
+            return field.takeIf { it.isNotBlank() } ?: snippetTags.sorted().joinToString("_")
+        }
+
     val snippets: List<Snippet> by lazy {
         val model = context.resolve<SnippetsModel>()
         model.getSnippets(snippetTags)

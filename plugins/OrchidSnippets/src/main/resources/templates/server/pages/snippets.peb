@@ -1,28 +1,75 @@
-Filter by tag:
+<div id="snippets-table">
+  Filter by tag:
 
-{% for tag in snippetModel.tags %}
-<span class="uk-badge">{{ tag }}</span>
-{% endfor %}
-
-<table class="uk-table uk-table-striped uk-table-hover">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Tags</th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for snippet in snippetModel.snippets %}
-  <tr>
-    <td>{{ snippet.name }}</td>
-    <td>
-      <ul>
-      {% for tag in snippet.tags  %}
-        <li>{{ tag }}</li>
-      {% endfor %}
-      </ul>
-    </td>
-  </tr>
+  {% for tag in snippetModel.tags %}
+    <span class="uk-label" style="cursor: pointer" data-tag="{{ tag }}" onclick="toggleTag('snippets-table', '{{ tag }}')">{{ tag }}</span>
   {% endfor %}
-  </tbody>
-</table>
+
+  <table class="uk-table uk-table-striped uk-table-hover">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Tags</th>
+      <th>Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for snippet in snippetModel.snippets %}
+    <tr data-tags="{{ snippet.tags|join(',') }}">
+      <td>{{ snippet.name }}</td>
+      <td>
+        <ul>
+        {% for tag in snippet.tags  %}
+          <li>{{ tag }}</li>
+        {% endfor %}
+        </ul>
+      </td>
+      <td>
+      {{ snippet.content | raw }}
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+  window.toggleTag = function (id, tag) {
+    console.log("toggleTag(id=" + id + ", tag=" + tag + ")");
+    let isTurningOnFilter = true;
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll(`#${id} [data-tag]`),
+      function (el, i) {
+        let itemTags = el.getAttribute("data-tag");
+
+        if (itemTags === tag) {
+          isTurningOnFilter = !el.classList.contains("uk-label-success");
+          if (isTurningOnFilter) {
+            el.classList.add("uk-label-success");
+          } else {
+            el.classList.remove("uk-label-success");
+          }
+        } else {
+          el.classList.remove("uk-label-success");
+        }
+      });
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll(`#${id} [data-tags]`),
+      function (el, i) {
+        let itemTags = el.getAttribute("data-tags").split(",");
+
+        if (isTurningOnFilter) {
+          if (itemTags.includes(tag)) {
+            el.classList.remove("uk-hidden")
+          } else {
+            el.classList.add("uk-hidden")
+          }
+        } else {
+          el.classList.remove("uk-hidden")
+        }
+      });
+  };
+</script>

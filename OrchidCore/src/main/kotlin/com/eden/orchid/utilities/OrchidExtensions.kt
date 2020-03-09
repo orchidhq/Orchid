@@ -335,3 +335,8 @@ fun OptionsHolder.extractOptionsFromResource(context: OrchidContext, resource: O
 inline fun <reified U> Any?.takeIf(): U? {
     return if(this is U) this else null
 }
+
+inline fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T {
+    if(condition) block()
+    return this
+}

@@ -157,7 +157,3 @@ private fun Attributes.hasAttributesSimilarTo(other: Attributes): Boolean {
 
     return true
 }
-
-
-
-private fun String.printBytes() : String = this.toByteArray().joinToString { "${it.toInt()}" }

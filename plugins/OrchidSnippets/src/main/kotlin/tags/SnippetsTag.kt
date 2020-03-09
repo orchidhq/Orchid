@@ -15,6 +15,13 @@ class SnippetsTag : TemplateTag("snippets", Type.Simple, true) {
     @Description("the snippet tags")
     lateinit var snippetTags: List<String>
 
+    @Option
+    @Description("The ID to add to tabs. Defaults to the tags used to query snippets.")
+    var id: String = ""
+        get() {
+            return field.takeIf { it.isNotBlank() } ?: snippetTags.sorted().joinToString("_")
+        }
+
     lateinit var snippets: List<Snippet>
 
     override fun parameters(): Array<String> {

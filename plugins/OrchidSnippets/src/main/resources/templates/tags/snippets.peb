@@ -1,4 +1,4 @@
-{% tabs dynamic %}
+{% tabs dynamic id=tag.id %}
     {% for snippet in tag.snippets %}
         {% tab snippet.name %}
             {{ snippet.content | raw }}

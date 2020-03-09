@@ -6,13 +6,17 @@ import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
+import kotlinx.html.a
 import kotlinx.html.br
 import kotlinx.html.div
 import kotlinx.html.em
+import kotlinx.html.id
 import kotlinx.html.li
 import kotlinx.html.ol
 import kotlinx.html.p
+import kotlinx.html.role
 import kotlinx.html.strong
+import kotlinx.html.ul
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -108,14 +112,34 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             """.trimMargin()
         )
 
-        serveOn(8080)
-
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
-                    p {
-                        +"Content from snippet "
-                        strong { +"one" }
+                    div {
+                        id = "tag_one"
+                        ul("nav nav-tabs") {
+                            role = "tablist"
+
+                            li("active") {
+                                role = "presentation"
+                                a(href = "#tag_one-one") {
+                                    role = "tab"
+                                    attributes["aria-controls"] = "home"
+                                    attributes["data-toggle"] = "tab"
+                                    +"one"
+                                }
+                            }
+                        }
+                    }
+                    div("tab-content") {
+                        div("tab-pane fade in active") {
+                            id = "tag_one-one"
+                            role = "tabpanel"
+                            p {
+                                +"Content from snippet "
+                                strong { +"one" }
+                            }
+                        }
                     }
                 }
             }
@@ -172,9 +196,31 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     div("component component-snippets component-order-0") {
-                        p {
-                            +"Content from snippet "
-                            strong { +"one" }
+                        div {
+                            id = "tag_one"
+                            ul("nav nav-tabs") {
+                                role = "tablist"
+
+                                li("active") {
+                                    role = "presentation"
+                                    a(href = "#tag_one-one") {
+                                        role = "tab"
+                                        attributes["aria-controls"] = "home"
+                                        attributes["data-toggle"] = "tab"
+                                        +"one"
+                                    }
+                                }
+                            }
+                        }
+                        div("tab-content") {
+                            div("tab-pane fade in active") {
+                                id = "tag_one-one"
+                                role = "tabpanel"
+                                p {
+                                    +"Content from snippet "
+                                    strong { +"one" }
+                                }
+                            }
                         }
                     }
                 }
@@ -426,7 +472,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |// end::homepage_three[]
             |
             |// snippet::homepage_four[tag_a]
-            |  This snippet which did not define an ending name will work find, though
+            |  This snippet which did not define an ending name will work fine, though
             |// end::
             """.trimMargin()
         )
@@ -450,22 +496,94 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
-                    p {
-                        +"Content from snippet "
-                        strong { +"one" }
+                    div {
+                        id = "tag_a"
+                        ul("nav nav-tabs") {
+                            role = "tablist"
+
+                            li("active") {
+                                role = "presentation"
+                                a(href = "#tag_a-homepage_four") {
+                                    role = "tab"
+                                    attributes["aria-controls"] = "home"
+                                    attributes["data-toggle"] = "tab"
+                                    +"homepage_four"
+                                }
+                            }
+                            li("") {
+                                role = "presentation"
+                                a(href = "#tag_a-homepage_one") {
+                                    role = "tab"
+                                    attributes["aria-controls"] = "home"
+                                    attributes["data-toggle"] = "tab"
+                                    +"homepage_one"
+                                }
+                            }
+                            li("") {
+                                role = "presentation"
+                                a(href = "#tag_a-homepage_two") {
+                                    role = "tab"
+                                    attributes["aria-controls"] = "home"
+                                    attributes["data-toggle"] = "tab"
+                                    +"homepage_two"
+                                }
+                            }
+                        }
                     }
-                    p {
-                        +"Content from snippet "
-                        strong { +"two" }
-                        +"  plus additional content"
+                    div("tab-content") {
+                        div("tab-pane fade in active") {
+                            id = "tag_a-homepage_four"
+                            role = "tabpanel"
+                            p {
+                                +"This snippet which did not define an ending name will work fine, though"
+                            }
+                        }
+                        div("tab-pane fade") {
+                            id = "tag_a-homepage_one"
+                            role = "tabpanel"
+                            p {
+                                +"Content from snippet "
+                                strong { +"one" }
+                            }
+                        }
+                        div("tab-pane fade") {
+                            id = "tag_a-homepage_two"
+                            role = "tabpanel"
+                            p {
+                                +"Content from snippet "
+                                strong { +"two" }
+                                +"  plus additional content"
+                            }
+                        }
                     }
-                    p {
-                        +"This snippet which did not define an ending name will work find, though"
-                    }
+
                     br()
-                    p {
-                        +"Content from snippet "
-                        strong { +"one" }
+
+                    div {
+                        id = "tag_b"
+                        ul("nav nav-tabs") {
+                            role = "tablist"
+
+                            li("active") {
+                                role = "presentation"
+                                a(href = "#tag_b-homepage_one") {
+                                    role = "tab"
+                                    attributes["aria-controls"] = "home"
+                                    attributes["data-toggle"] = "tab"
+                                    +"homepage_one"
+                                }
+                            }
+                        }
+                    }
+                    div("tab-content") {
+                        div("tab-pane fade in active") {
+                            id = "tag_b-homepage_one"
+                            role = "tabpanel"
+                            p {
+                                +"Content from snippet "
+                                strong { +"one" }
+                            }
+                        }
                     }
                 }
             }
@@ -510,9 +628,9 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
                     div("markdown-body") {
                         p { +"This is how to get started:" }
                         ol {
-                            li {+"asdf"}
-                            li {+"asdf"}
-                            li {+"asdf"}
+                            li { +"asdf" }
+                            li { +"asdf" }
+                            li { +"asdf" }
                         }
                     }
                 }
