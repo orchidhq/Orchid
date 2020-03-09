@@ -8,9 +8,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 @Description(value = "Returns the URL to your site's homepage.", name = "Homepage URL")
 class HomepageUrlFunction : TemplateFunction("homepageUrl", true) {
 
-    override fun parameters(): Array<String> {
-        return emptyArray()
-    }
+    override fun parameters() = emptyArray<String>()
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.findPage("home", "home", "home")?.link ?: context.baseUrl

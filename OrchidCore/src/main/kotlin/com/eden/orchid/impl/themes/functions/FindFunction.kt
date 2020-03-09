@@ -22,9 +22,7 @@ class FindFunction : TemplateFunction("find", false) {
     @Description("The specific Id of the given collection type where the item is expected to come from.")
     lateinit var collectionId: String
 
-    override fun parameters(): Array<String> {
-        return IndexService.locateParams
-    }
+    override fun parameters() = IndexService.locateParams
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.find(collectionType, collectionId, itemId)

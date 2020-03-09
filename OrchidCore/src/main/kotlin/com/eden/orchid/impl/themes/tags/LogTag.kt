@@ -21,9 +21,7 @@ class LogTag : TemplateTag("log", Type.Content, false) {
     @Description("An options tag to display with the message.")
     lateinit var tag: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("level", "tag")
-    }
+    override fun parameters() = arrayOf(::level.name, ::tag.name)
 
     override fun onRender(context: OrchidContext?, page: OrchidPage?) {
         val clog = if (!EdenUtils.isEmpty(tag)) Clog.tag(tag) else Clog.getInstance()

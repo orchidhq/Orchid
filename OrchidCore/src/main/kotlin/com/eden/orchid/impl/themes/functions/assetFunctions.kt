@@ -26,9 +26,7 @@ class AssetFunction : TemplateFunction("asset", false) {
     @Description("The path to a resource to render.")
     lateinit var itemId: String
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("itemId")
-    }
+    override fun parameters() = arrayOf(::itemId.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.assetManager.createAsset(itemId, page, "page")
@@ -91,9 +89,7 @@ class RotateFunction : BaseImageManipulationFunction("rotate") {
     @Description("Set image rotation angle in degrees.")
     var angle: Double = 0.0
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "angle")
-    }
+    override fun parameters() = arrayOf(::input.name, ::angle.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Rotateable ->
@@ -110,9 +106,7 @@ class ScaleFunction : BaseImageManipulationFunction("scale") {
     @Description("Set image rotation angle in degrees.")
     var factor: Double = 0.0
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "factor")
-    }
+    override fun parameters() = arrayOf(::input.name, ::factor.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Scalable ->
@@ -147,9 +141,7 @@ class ResizeFunction : BaseImageManipulationFunction("resize") {
     )
     lateinit var mode: Resizable.Mode
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "width", "height", "mode")
-    }
+    override fun parameters() = arrayOf(::input.name, ::width.name, ::height.name, ::mode.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Resizable ->
@@ -172,9 +164,7 @@ constructor(private val permalinkStrategy: PermalinkStrategy) : BaseImageManipul
     @Description("Set image rotation angle in degrees.")
     var usePrettyUrl: Boolean = false
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "permalink", "usePrettyUrl")
-    }
+    override fun parameters() = arrayOf(::input.name, ::permalink.name, ::usePrettyUrl.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return applyInternal { asset, resource: Renameable ->

@@ -22,9 +22,7 @@ class RecentPostsFunction : TemplateFunction("recentPosts", false) {
     @Description("Only add latest posts from a specific category.")
     lateinit var category: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("category", "limit")
-    }
+    override fun parameters() = arrayOf(::category.name, ::limit.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val model: PostsModel = context.resolve()

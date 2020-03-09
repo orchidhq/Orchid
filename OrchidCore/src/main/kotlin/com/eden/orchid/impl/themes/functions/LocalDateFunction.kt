@@ -24,9 +24,7 @@ class LocalDateFunction : TemplateFunction("localDate", true) {
     lateinit var format: String
 
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input", "format")
-    }
+    override fun parameters() = arrayOf(::input.name, ::format.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val converter: DateTimeConverter = context.resolve()

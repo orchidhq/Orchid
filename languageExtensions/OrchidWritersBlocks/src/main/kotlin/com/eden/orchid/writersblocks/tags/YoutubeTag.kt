@@ -40,9 +40,7 @@ class YoutubeTag : TemplateTag("youtube", Type.Simple, true) {
     @StringDefault("accelerometer", "autoplay", "encrypted-media", "gyroscope", "picture-in-picture")
     lateinit var allow: List<String>
 
-    override fun parameters(): Array<String> {
-        return arrayOf("id", "start", "aspectRatio")
-    }
+    override fun parameters() = arrayOf(::id.name, ::start.name, ::aspectRatio.name)
 
     fun getStartSeconds(): Int {
         if (start.isNotBlank() && start.contains(":")) {

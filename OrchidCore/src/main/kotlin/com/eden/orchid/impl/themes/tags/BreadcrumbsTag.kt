@@ -9,7 +9,7 @@ import com.eden.orchid.utilities.resolve
 @Description(value = "Generate the page's breadcrumbs.", name = "Breadcrumbs")
 class BreadcrumbsTag : TemplateTag("breadcrumbs", Type.Simple, true) {
 
-    override fun parameters(): Array<String> = emptyArray()
+    override fun parameters() = emptyArray<String>()
 
     val breadcrumbs: List<Breadcrumb> get() = context.resolve<BreadcrumbStrategy>().getBreadcrumbs(page)
 

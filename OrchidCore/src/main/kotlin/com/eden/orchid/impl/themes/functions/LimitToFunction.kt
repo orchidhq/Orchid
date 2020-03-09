@@ -19,9 +19,7 @@ class LimitToFunction : TemplateFunction("limitTo", false) {
     @Description("The length to limit.")
     var count: Int = 0
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input", "count")
-    }
+    override fun parameters() = arrayOf(::input.name, ::count.name)
 
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {

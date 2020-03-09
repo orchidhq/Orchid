@@ -34,9 +34,7 @@ class LoadFunction : TemplateFunction("load", false) {
     )
     var compile: Boolean = true
 
-    override fun parameters(): Array<String> {
-        return arrayOf("resource", "local", "compile")
-    }
+    override fun parameters() = arrayOf(::resource.name, ::local.name, ::compile.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val foundResource = if (local)

@@ -45,9 +45,7 @@ class TwitterTag : TemplateTag("twitter", Type.Simple, true) {
 
     private val client: OkHttpClient by lazy { context.resolve<OkHttpClient>() }
 
-    override fun parameters(): Array<String> {
-        return arrayOf("user", "id")
-    }
+    override fun parameters() = arrayOf(::user.name, ::id.name)
 
     val embeddedTweet: String? by lazy {
         val tweetUrl = "https://twitter.com/$user/status/$id"

@@ -7,9 +7,7 @@ import com.eden.orchid.api.tasks.OrchidCommand
 @Description("Run the main Orchid build process.")
 class BuildCommand : OrchidCommand("build") {
 
-    override fun parameters(): Array<String> {
-        return emptyArray()
-    }
+    override fun parameters() = emptyArray<String>()
 
     @Throws(Exception::class)
     override fun run(context: OrchidContext, commandName: String) {

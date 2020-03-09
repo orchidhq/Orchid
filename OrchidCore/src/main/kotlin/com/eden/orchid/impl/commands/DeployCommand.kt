@@ -14,9 +14,7 @@ class DeployCommand : OrchidCommand("deploy") {
     @Description("Whether to run a dry deploy, validating all options but not actually deploying anything.")
     var dry: Boolean = true
 
-    override fun parameters(): Array<String> {
-        return arrayOf("dry")
-    }
+    override fun parameters() = arrayOf(::dry.name)
 
     @Throws(Exception::class)
     override fun run(context: OrchidContext, commandName: String) {

@@ -34,9 +34,7 @@ constructor(
     @Option
     lateinit var query: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("type", "query")
-    }
+    override fun parameters() = arrayOf(::type.name, ::query.name)
 
     override fun run(context: OrchidContext, commandName: String) {
         val parsedClass = getDescribedClass()

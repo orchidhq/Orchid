@@ -20,7 +20,5 @@ class AlertTag : TemplateTag("alert", Type.Content, true) {
     @Description("An optional headline to include in the alert, above the content body.")
     lateinit var headline: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("level", "headline")
-    }
+    override fun parameters() = arrayOf(::level.name, ::headline.name)
 }

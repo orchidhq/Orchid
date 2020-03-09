@@ -19,9 +19,7 @@ class ParseAsFunction : TemplateFunction("parseAs", false) {
     @Description("The extension to parse the inner content against.")
     lateinit var ext: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input", "ext")
-    }
+    override fun parameters() = arrayOf(::input.name, ::ext.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.parse(ext, input?.toString() ?: "")

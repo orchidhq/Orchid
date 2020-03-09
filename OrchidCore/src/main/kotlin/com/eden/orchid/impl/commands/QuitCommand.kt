@@ -8,9 +8,7 @@ import com.eden.orchid.api.tasks.OrchidCommand
 @Description("Run the main Orchid build process.")
 class QuitCommand : OrchidCommand("quit", 1000) {
 
-    override fun parameters(): Array<String> {
-        return emptyArray()
-    }
+    override fun parameters() = emptyArray<String>()
 
     override fun run(context: OrchidContext, commandName: String) {
         context.broadcast(Orchid.Lifecycle.EndSession.fire(this))

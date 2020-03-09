@@ -16,9 +16,7 @@ class Nl2brFunction : TemplateFunction("nl2br", true) {
     @Description("The input to encode.")
     lateinit var input: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input")
-    }
+    override fun parameters() = arrayOf(::input.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context

@@ -33,14 +33,12 @@ class FindAllFunction : TemplateFunction("findAll", false) {
     @Description("Paginate results using this as a page size")
     var pageSize: Int = 0
 
-    override fun parameters(): Array<String> {
-        return arrayOf(
-                *IndexService.locateParams,
-                "page",
-                "pageSize",
-                "pageIndex"
-        )
-    }
+    override fun parameters() = arrayOf(
+        *IndexService.locateParams,
+        "page",
+        ::pageSize.name,
+        ::pageIndex.name
+    )
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return if (pageIndex > 0 && pageSize > 0) {

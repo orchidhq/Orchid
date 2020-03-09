@@ -16,9 +16,7 @@ class AccordionTag : TemplateTag("accordion", Type.Tabbed, true) {
             return field
         }
 
-    override fun parameters(): Array<String> {
-        return arrayOf("id")
-    }
+    override fun parameters() = arrayOf(::id.name)
 
     override fun getNewTab(key: String?, content: String?): TemplateTag.Tab {
         return Tab(key, content)
@@ -28,11 +26,10 @@ class AccordionTag : TemplateTag("accordion", Type.Tabbed, true) {
 
         @Option
         @Description("The title of the section")
-        lateinit var title: String
+        var title: String = ""
+            get() = field.takeIf { it.isNotBlank() } ?: this.name
 
-        override fun parameters(): Array<String> {
-            return arrayOf("title")
-        }
+        override fun parameters() = arrayOf(::title.name)
     }
 
 }

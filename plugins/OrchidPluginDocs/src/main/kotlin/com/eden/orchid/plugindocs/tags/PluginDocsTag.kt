@@ -37,9 +37,7 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
     private val optionsExtractor: OptionsExtractor by lazy { context.resolve<OptionsExtractor>() }
 
-    override fun parameters(): Array<String> {
-        return arrayOf("className")
-    }
+    override fun parameters() = arrayOf(::className.name)
 
     val classType: Class<*> by lazy {
         Class.forName(className)

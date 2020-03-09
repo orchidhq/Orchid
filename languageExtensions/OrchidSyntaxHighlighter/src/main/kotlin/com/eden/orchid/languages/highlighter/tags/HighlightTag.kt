@@ -16,9 +16,7 @@ class HighlightTag : TemplateTag("highlight", Type.Content, true) {
     @Description("Your language to use for the syntax highlighting format.")
     lateinit var language: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("language")
-    }
+    override fun parameters() = arrayOf(::language.name)
 
     public fun highlight(input: String): String {
         try {

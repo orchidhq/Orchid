@@ -15,7 +15,5 @@ class SpotifyTag  : TemplateTag("spotify", Type.Simple, true) {
     @Description("The Spotify track or playlist ID.")
     lateinit var id: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("type", "id")
-    }
+    override fun parameters() = arrayOf(::type.name, ::id.name)
 }
