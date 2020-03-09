@@ -13,39 +13,42 @@ class SnippetsModel(
 
     val tags: List<String> = snippets.flatMap { it.tags }.distinct()
 
-    fun getSnippet(name: String): Snippet? {
+    fun getSnippet(query: SnippetQuery): Snippet? {
         return snippets
-            .singleOrNull { it.name == name }
-            ?: run { printSnippetNotFoundWarning(name, emptyList()); null }
+            .singleOrNull { it.name == query.snippetName }
+            ?: run { printSnippetNotFoundWarning(query, null); null }
     }
 
-    fun getSnippet(name: String, tags: List<String>): Snippet? {
+    fun getSnippets(query: SnippetsQuery): List<Snippet> {
         return snippets
-            .singleOrNull { it.name == name && it.tags.containsAll(tags) }
-            ?: run { printSnippetNotFoundWarning(name, tags); null }
-    }
-
-    fun getSnippets(tags: List<String>): List<Snippet> {
-        return snippets
-            .filter { it.tags.containsAll(tags) }
+            .filter { it.tags.containsAll(query.snippetTags) }
             .also {
                 if(it.isEmpty()) {
-                    printSnippetNotFoundWarning(null, tags)
+                    printSnippetNotFoundWarning(null, query)
                 }
             }
     }
 
-    private fun printSnippetNotFoundWarning(name: String?, tags: List<String>) {
+    private fun printSnippetNotFoundWarning(singleQuery: SnippetQuery?, tabsQuery: SnippetsQuery?) {
         var message = "Snippet"
 
-        if(name != null) {
-            message += " named [$name]"
+        if(singleQuery != null) {
+            message += " named [${singleQuery.snippetName}]"
         }
-        if(!tags.isEmpty()) {
-            message += " with tags [${tags.joinToString()}]"
+        if(tabsQuery != null) {
+            message += " with tags [${tabsQuery.snippetTags.joinToString()}]"
         }
         message += " not found"
 
         Clog.e(message)
+    }
+
+    interface SnippetQuery {
+        val snippetName: String
+    }
+
+    interface SnippetsQuery {
+        var id: String
+        var snippetTags: List<String>
     }
 }

@@ -9,22 +9,20 @@ import com.eden.orchid.snippets.models.Snippet
 import com.eden.orchid.snippets.models.SnippetsModel
 import com.eden.orchid.utilities.resolve
 
-class SnippetTag : TemplateTag("snippet", Type.Simple, true) {
+class SnippetTag : TemplateTag("snippet", Type.Simple, true), SnippetsModel.SnippetQuery {
 
     @Option
     @Description("the snippet name")
-    lateinit var snippetName: String
+    override lateinit var snippetName: String
 
     var snippet: Snippet? = null
 
-    override fun parameters(): Array<String> {
-        return arrayOf("snippetName")
-    }
+    override fun parameters() = arrayOf(::snippetName.name)
 
     override fun onRender(context: OrchidContext, page: OrchidPage?) {
         super.onRender(context, page)
 
         val model = context.resolve<SnippetsModel>()
-        snippet = model.getSnippet(snippetName)
+        snippet = model.getSnippet(this)
     }
 }

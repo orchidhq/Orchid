@@ -7,14 +7,14 @@ import com.eden.orchid.snippets.models.Snippet
 import com.eden.orchid.snippets.models.SnippetsModel
 import com.eden.orchid.utilities.resolve
 
-class SnippetComponent : OrchidComponent("snippet", true) {
+class SnippetComponent : OrchidComponent("snippet", true), SnippetsModel.SnippetQuery {
 
     @Option
     @Description("the snippet name")
-    lateinit var snippetName: String
+    override lateinit var snippetName: String
 
     val snippet: Snippet? by lazy {
         val model = context.resolve<SnippetsModel>()
-        model.getSnippet(snippetName)
+        model.getSnippet(this)
     }
 }

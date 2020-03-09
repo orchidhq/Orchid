@@ -40,19 +40,15 @@ class FileSnippetsAdapter : SnippetsAdapter {
                 recursive,
                 LocalResourceSource
             )
-            .forEach {
-                addSnippet(context, it)
+            .forEach { resource ->
+                yield(
+                    SnippetConfig(
+                        context,
+                        resource.reference.originalFileName,
+                        emptyList(),
+                        resource
+                    )
+                )
             }
-    }
-
-    private suspend fun SequenceScope<SnippetConfig>.addSnippet(context: OrchidContext, resource: OrchidResource) {
-        yield(
-            SnippetConfig(
-                context,
-                resource.reference.originalFileName,
-                emptyList(),
-                resource
-            )
-        )
     }
 }
