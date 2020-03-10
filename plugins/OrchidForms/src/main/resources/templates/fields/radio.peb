@@ -5,7 +5,7 @@
         <label>
             <input
                     type="{{ field.type }}"
-                    name="{{ form.key }}--{{ field.key }}"
+                    name="{{ field.key }}"
                     id="{{ form.key }}--{{ field.key }}--{{ key }}"
                     value="{{ key }}"
                     {% if field.required %}required{% endif %}>
