@@ -142,7 +142,7 @@ fun Assertion.Builder<Elements>.innerHtmlMatches(
                 thisSelectorToCheck = thisSelectorToCheck,
                 otherSelectorToCheck = otherSelectorToCheck
             )
-            if (similar) pass() else fail(actual = subject)
+            if (similar) pass() else fail(actual = expectedHtml)
         }
     }
 

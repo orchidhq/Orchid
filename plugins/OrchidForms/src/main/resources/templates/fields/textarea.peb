@@ -1,6 +1,5 @@
 <label for="{{ form.key }}--{{ field.key }}">{{ field.label }}</label>
 <textarea
-        type="{{ field.type }}"
         name="{{ field.key }}"
         id="{{ form.key }}--{{ field.key }}"
         placeholder="{{ field.placeholder }}"

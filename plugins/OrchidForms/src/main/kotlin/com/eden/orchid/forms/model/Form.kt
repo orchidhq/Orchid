@@ -31,8 +31,8 @@ class Form(val context: OrchidContext, var key: String, formData: Map<String, An
         }
     }
 
-    @Option @StringDefault("POST")
-    @Description("The HTTP request method the form submits as. One of ['GET', 'POST'].")
+    @Option @StringDefault("post")
+    @Description("The HTTP request method the form submits as. One of ['get', 'post'].")
     lateinit var method: String
 
     @Option @StringDefault("__method")
