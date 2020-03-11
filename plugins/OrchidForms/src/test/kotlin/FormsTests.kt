@@ -314,6 +314,90 @@ class FormsTests : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), For
             }
     }
 
+    @Test
+    @DisplayName("Test rendering a form that was pre-indexed (built-in contact form) with the Form tag")
+    fun test05() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{% form 'contact' %}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    form(action = "thank-you", classes = "orchid-form", method = FormMethod.post) {
+                        name = "contact"
+                        attributes["data-netlify"] = "true"
+                        div("row") {
+                            div("col col-lg-6 col-sm-12 ") {
+                                label {
+                                    htmlFor = "contact--name"
+                                    +"Name"
+                                }
+                                input(type = InputType.text, name = "name") {
+                                    id = "contact--name"
+                                    placeholder = "Name"
+                                    required = true
+                                }
+                            }
+                            div("col col-lg-6 col-sm-12 ") {
+                                label {
+                                    htmlFor = "contact--email"
+                                    +"Email"
+                                }
+                                input(type = InputType.email, name = "email") {
+                                    id = "contact--email"
+                                    placeholder = "Email"
+                                    required = true
+                                }
+                            }
+                            div("col col-lg-12 col-sm-12 ") {
+                                label {
+                                    htmlFor = "contact--subject"
+                                    +"Subject"
+                                }
+                                input(type = InputType.text, name = "subject") {
+                                    id = "contact--subject"
+                                    placeholder = "Subject"
+                                    required = true
+                                }
+                            }
+                            div("col col-lg-12 col-sm-12 ") {
+                                label {
+                                    htmlFor = "contact--comments"
+                                    +"Message"
+                                }
+                                textArea {
+                                    name = "comments"
+                                    id = "contact--comments"
+                                    placeholder = "Message"
+                                    required = true
+                                }
+                            }
+                            div("col col-lg-6 col-sm-12 ") {
+                                input(type = InputType.checkBox, name = "signUpForNewsletter") {
+                                    id = "contact--signUpForNewsletter"
+                                    checked = true
+                                }
+                                label {
+                                    htmlFor = "contact--signUpForNewsletter"
+                                    +"Sign up for our newsletter"
+                                }
+                            }
+                        }
+                        br()
+                        input(type = InputType.submit) {
+                            value = "Submit"
+                        }
+                    }
+                }
+            }
+    }
+
 // Test default rendering of each form field type
 //----------------------------------------------------------------------------------------------------------------------
 

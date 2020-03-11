@@ -4,5 +4,5 @@
         <h3>{{ component.form.title }}</h3>
     </header>
 
-    {% include 'includes/form' with {"form": component.form} %}
+    {% form form=component.form %}
 {% endif %}
