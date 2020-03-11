@@ -1,0 +1,28 @@
+<div id="snippets-table">
+  <table class="uk-table uk-table-striped uk-table-hover">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Preview</th>
+    </tr>
+    </thead>
+    <tbody>
+{#    {% for asset in assets %}#}
+    <tr>
+      <td></td>
+      <td>
+        <a href="#asset--preview" uk-toggle>Preview</a>
+        <div id="asset--preview" uk-modal>
+          <div class="uk-modal-dialog uk-modal-body">
+
+            <p class="uk-text-right">
+              <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+            </p>
+          </div>
+        </div>
+      </td>
+    </tr>
+{#    {% endfor %}#}
+    </tbody>
+  </table>
+</div>

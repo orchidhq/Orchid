@@ -70,10 +70,10 @@ public final class RenderServiceTest implements OrchidUnitTest {
         when(context.resolve(OrchidPrecompiler.class)).thenReturn(precompiler);
 
         layoutReference = new OrchidReference(context, "one.html");
-        layout = new StringResource(layoutReference, layoutContent, null);
+        layout = new StringResource(layoutReference, layoutContent);
 
         reference = new OrchidReference(context, "testContent.html");
-        resource = new StringResource(reference, resourceContent, null);
+        resource = new StringResource(reference, resourceContent);
 
         page = new OrchidPage(resource, RenderService.RenderMode.BINARY, "testContent", null);
         page = spy(page);

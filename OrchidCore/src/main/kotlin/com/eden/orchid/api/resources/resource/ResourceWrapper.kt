@@ -1,8 +1,5 @@
 package com.eden.orchid.api.resources.resource
 
-import com.eden.common.json.JSONElement
-import com.eden.orchid.api.theme.pages.OrchidReference
-import java.io.IOException
 import java.io.InputStream
 
 /**
@@ -52,7 +49,7 @@ abstract class ResourceWrapper(private val resource: OrchidResource) : OrchidRes
     override val content: String
         get() = resource.content
 
-    override val embeddedData: JSONElement
+    override val embeddedData: Map<String, Any?>
         get() = resource.embeddedData
 
     override fun free() {

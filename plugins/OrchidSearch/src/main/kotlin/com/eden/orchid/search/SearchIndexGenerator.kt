@@ -2,7 +2,6 @@ package com.eden.orchid.search
 
 import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.indexing.OrchidIndex

@@ -11,7 +11,11 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.impl.relations.PageRelation
 import org.json.JSONObject
 
-class Form(val context: OrchidContext, var key: String, formData: Map<String, Any>) : OptionsHolder {
+class Form(
+    val context: OrchidContext,
+    var key: String,
+    formData: Map<String, Any>
+) : OptionsHolder {
 
     @Option
     @Description("The user-facing title of the form.")

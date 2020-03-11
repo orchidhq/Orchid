@@ -24,21 +24,25 @@ class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.CONTENT)
     lateinit var baseDir: String
 
     override fun startIndexing(context: OrchidContext): FormsModel {
-        val forms = HashMap<String, Form>()
-        getFormsByDatafiles(context, forms)
+        val forms = getFormsByDatafiles(context)
 
         return FormsModel(forms)
     }
 
-    private fun getFormsByDatafiles(context: OrchidContext, forms: HashMap<String, Form>) {
-        val formsPages = context.getResourceEntries(OrchidUtils.normalizePath(baseDir), context.parserExtensions.toTypedArray(), false, null)
-        for (resource in formsPages) {
-            resource.reference.isUsePrettyUrl = false
-            val fileData = context.parse(resource.reference.extension, resource.content)
-            val key = resource.reference.originalFileName
-            val form = Form(context, key, fileData.toMap())
-            forms.put(key, form)
-        }
+    private fun getFormsByDatafiles(context: OrchidContext) : List<Form> {
+        return context
+            .getResourceEntries(
+                OrchidUtils.normalizePath(baseDir),
+                context.parserExtensions.toTypedArray(),
+                false,
+                null
+            )
+            .map { resource ->
+                resource.reference.isUsePrettyUrl = false
+                val fileData = context.parse(resource.reference.extension, resource.content)
+                val key = resource.reference.originalFileName
+                Form(context, key, fileData)
+            }
     }
 
 }

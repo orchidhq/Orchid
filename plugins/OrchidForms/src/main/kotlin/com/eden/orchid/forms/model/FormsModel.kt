@@ -5,8 +5,12 @@ import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.theme.pages.OrchidPage
 
 class FormsModel(
-    val forms: MutableMap<String, Form>
+    val forms: List<Form>
 ) : OrchidGenerator.Model {
     override val allPages: List<OrchidPage> = emptyList()
     override val collections: List<OrchidCollection<*>> = emptyList()
+
+    fun getForm(key: String): Form? {
+        return forms.singleOrNull { it.key == key }
+    }
 }

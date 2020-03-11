@@ -136,8 +136,7 @@ object WikiUtils {
             section.key,
             StringResource(
                 OrchidReference(context, "wiki/${section.key}.html"),
-                summaryPageContent,
-                null
+                summaryPageContent
             ),
             sectionTitle from String::camelCase to Array<String>::titleCase
         )

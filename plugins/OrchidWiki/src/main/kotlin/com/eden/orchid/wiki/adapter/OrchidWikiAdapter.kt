@@ -53,8 +53,7 @@ constructor(
                 Clog.w("Could not find wiki resource page at '{}'", file)
                 resource = StringResource(
                     OrchidReference(context, "$path/index.md"),
-                    linkName,
-                    null
+                    linkName
                 )
             }
 

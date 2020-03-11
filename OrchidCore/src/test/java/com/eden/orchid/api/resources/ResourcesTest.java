@@ -35,7 +35,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceWrapper() {
-        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input);
         ResourceWrapper wrapper = new ResourceWrapper(stringResource) { };
 
         assertThat(wrapper.getContent(), is(equalTo(input)));
@@ -43,7 +43,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceTransformationNoTransforms() {
-        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input);
         ResourceTransformation transformation = new ResourceTransformation(stringResource);
 
         assertThat(transformation.getContent(), is(equalTo("hello world")));
@@ -51,7 +51,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceTransformationOneTransform() {
-        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input);
         ResourceTransformation transformation = new ResourceTransformation(stringResource, Arrays.asList(String::toUpperCase));
 
         assertThat(transformation.getContent(), is(equalTo("HELLO WORLD")));
@@ -59,7 +59,7 @@ public final class ResourcesTest implements OrchidUnitTest {
 
     @Test
     public void testResourceTransformationManyTransforms() {
-        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input, null);
+        StringResource stringResource = new StringResource(new OrchidReference(context, "hello-world.txt"), input);
         ResourceTransformation transformation = new ResourceTransformation(stringResource, Arrays.asList(String::toUpperCase, s -> s.replaceAll("\\s+", "-")));
 
         assertThat(transformation.getContent(), is(equalTo("HELLO-WORLD")));

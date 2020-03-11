@@ -48,7 +48,7 @@ final class NotFound404Response {
             }
 
             page = new OrchidPage(
-                    new StringResource(new OrchidReference(context, "404.txt"), notFoundIndexContent, null),
+                    new StringResource(new OrchidReference(context, "404.txt"), notFoundIndexContent),
                     RenderService.RenderMode.TEMPLATE,
                     "404",
                     "Not Found!"

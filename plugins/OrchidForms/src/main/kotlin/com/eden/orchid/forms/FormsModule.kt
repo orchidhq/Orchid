@@ -4,8 +4,10 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.forms.components.FormComponent
+import com.eden.orchid.forms.controllers.FormsController
 import com.eden.orchid.forms.model.FormField
 import com.eden.orchid.forms.model.fields.CheckboxField
 import com.eden.orchid.forms.model.fields.DropdownField
@@ -25,6 +27,7 @@ class FormsModule : OrchidModule() {
         addToSet<OrchidComponent, FormComponent>()
         addToSet<OptionExtractor<*>, FormOptionExtractor>()
         addToSet<TemplateTag, FormTag>()
+        addToSet<OrchidController, FormsController>()
         addToSet<FormField>(
                 CheckboxField::class,
                 RadioButtonsField::class,

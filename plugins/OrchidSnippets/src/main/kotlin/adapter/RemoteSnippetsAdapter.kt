@@ -50,8 +50,7 @@ class RemoteSnippetsAdapter(
                 emptyList<String>(),
                 StringResource(
                     OrchidReference.fromUrl(context, "", url),
-                    Jsoup.parse(bodyString).select(selector).html(),
-                    null
+                    Jsoup.parse(bodyString).select(selector).html()
                 )
             )
         )

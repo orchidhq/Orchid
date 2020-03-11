@@ -11,16 +11,12 @@ import com.eden.orchid.utilities.resolve
 
 class NetlifyCmsManageController : OrchidController(10000) {
 
-    override fun getPathNamespace(): String {
-        return "admin"
-    }
-
-    @Get(path = "/")
+    @Get(path = "/admin")
     fun index(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
         return manage(request)
     }
 
-    @Get(path = "/manage")
+    @Get(path = "/admin/manage")
     fun manage(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
         val model: NetlifyCmsModel = request.context.resolve()
         val view = NetlifyCmsAdminView(request.context, this, model)

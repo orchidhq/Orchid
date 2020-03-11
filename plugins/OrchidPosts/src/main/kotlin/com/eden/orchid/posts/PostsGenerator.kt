@@ -121,8 +121,7 @@ constructor(
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
-            val options =
-                (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
+            val options = entry.embeddedData.takeIf { it.isNotEmpty() }?.toMutableMap() ?: mutableMapOf<String, Any?>("name" to authorName)
 
             if (!options.containsKey("name")) {
                 options["name"] = authorName
@@ -141,8 +140,7 @@ constructor(
             val authorPage = AuthorPage(
                 StringResource(
                     OrchidReference(context, "index.md"),
-                    "",
-                    null
+                    ""
                 ),
                 author
             )

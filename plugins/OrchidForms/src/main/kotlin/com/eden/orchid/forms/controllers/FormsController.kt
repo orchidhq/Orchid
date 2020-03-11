@@ -1,39 +1,35 @@
-package com.eden.orchid.snippets.controllers
+package com.eden.orchid.forms.controllers
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.Descriptive
-import com.eden.orchid.api.options.OptionsHolder
-import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
 import com.eden.orchid.api.server.annotations.AdminMenu
 import com.eden.orchid.api.server.annotations.Get
-import com.eden.orchid.snippets.models.SnippetsModel
+import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.resolve
-import java.net.URLEncoder
 import javax.inject.Inject
 
 @JvmSuppressWildcards
-class SnippetsController
+class FormsController
 @Inject
 constructor(
     val context: OrchidContext
 ) : OrchidController(1000) {
 
-    @AdminMenu("Snippet Manager")
-    @Get(path = "/admin/snippets")
+    @AdminMenu("Form Manager")
+    @Get(path = "/admin/forms")
     fun index(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
-        val model = context.resolve<SnippetsModel>()
+        val model = context.resolve<FormsModel>()
         return OrchidResponse(context).view(
             OrchidView(
                 context,
                 this,
-                "Snippet Manager",
-                mapOf("snippetModel" to model),
-                "snippets"
+                "Form Manager",
+                mapOf("formModel" to model),
+                "forms"
             )
         )
     }

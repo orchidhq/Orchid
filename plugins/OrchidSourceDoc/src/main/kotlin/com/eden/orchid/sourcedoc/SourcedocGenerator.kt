@@ -169,8 +169,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
                     context,
                     ""
                 ),
-                "",
-                null
+                ""
             )
         }
 

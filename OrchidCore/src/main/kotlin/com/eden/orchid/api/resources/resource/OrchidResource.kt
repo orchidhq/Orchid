@@ -1,11 +1,9 @@
 package com.eden.orchid.api.resources.resource
 
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.OrchidPrecompiler
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.readToString
-import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
 
@@ -21,14 +19,14 @@ abstract class OrchidResource(
 ) {
 
     protected var _content: String? = null
-    protected var _embeddedData: JSONElement? = null
+    protected var _embeddedData: Map<String, Any?> = emptyMap()
 
     abstract fun getContentStream(): InputStream
 
     open fun shouldPrecompile(): Boolean {
         val data = embeddedData
-        if (EdenUtils.elementIsObject(data) && (data.element as JSONObject).has("precompile")) {
-            return (data.element as JSONObject).getBoolean("precompile")
+        if (data.containsKey("precompile")) {
+            return data["precompile"].toString().toBoolean()
         }
 
         val rawContent = getContentStream().readToString()
@@ -62,8 +60,8 @@ abstract class OrchidResource(
     open val precompilerExtension: String
         get() {
             val data = embeddedData
-            return if (EdenUtils.elementIsObject(data) && (data.element as JSONObject).has("precompileAs")) {
-                (data.element as JSONObject).getString("precompileAs")
+            return if (data.containsKey("precompileAs")) {
+                data["precompileAs"].toString()
             } else reference.context.defaultPrecompilerExtension
         }
 
@@ -87,15 +85,17 @@ abstract class OrchidResource(
         return "OrchidResource[" + this.javaClass.simpleName + "]{" + "reference=" + reference.relativePath + '}'
     }
 
-    open val content: String get() {
-        loadContent()
-        return _content ?: ""
-    }
+    open val content: String
+        get() {
+            loadContent()
+            return _content ?: ""
+        }
 
-    open val embeddedData: JSONElement get() {
-        loadContent()
-        return _embeddedData ?: JSONElement(JSONObject())
-    }
+    open val embeddedData: Map<String, Any?>
+        get() {
+            loadContent()
+            return _embeddedData
+        }
 
     // Freeable Resource Impl
 //----------------------------------------------------------------------------------------------------------------------
@@ -104,15 +104,15 @@ abstract class OrchidResource(
         if (rawContent != null) {
             val parsedContent = reference.context.getEmbeddedData(reference.extension, rawContent)
             _content = parsedContent.first
-            _embeddedData = JSONElement(JSONObject(parsedContent.second))
+            _embeddedData = parsedContent.second ?: emptyMap()
         } else {
             _content = ""
-            _embeddedData = null
+            _embeddedData = emptyMap()
         }
     }
 
     open fun free() {
         _content = null
-        _embeddedData = null
+        _embeddedData = emptyMap()
     }
 }

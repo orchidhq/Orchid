@@ -56,7 +56,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             return new EdenPair<>(input.substring(frontMatter.second), frontMatter.first);
         }
         else {
-            return new EdenPair<>(input, null);
+            return new EdenPair<>(input, new HashMap<>());
         }
     }
 
@@ -92,7 +92,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
             return new EdenPair<>(frontMatter, header.contentStart);
         }
 
-        return new EdenPair<>(null, 0);
+        return new EdenPair<>(new HashMap<>(), 0);
     }
 
     private FrontMatterHeader getFrontMatterHeader(String extension, String input) {

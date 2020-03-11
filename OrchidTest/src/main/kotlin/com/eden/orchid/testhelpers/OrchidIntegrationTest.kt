@@ -75,7 +75,7 @@ open class OrchidIntegrationTest(
             StringResource(
                 OrchidReference(context, path),
                 content,
-                JSONElement(JSONObject(data + mapOf("fromIntegrationTest" to true)))
+                data + mapOf("fromIntegrationTest" to true)
             )
         }
     }

@@ -44,7 +44,7 @@ class LoadFunction : TemplateFunction("load", false) {
 
         return if (foundResource != null) {
             if (frontMatter) {
-                foundResource.embeddedData.element
+                foundResource.embeddedData
             }
             else if (compile) {
                 foundResource.compileContent(null)

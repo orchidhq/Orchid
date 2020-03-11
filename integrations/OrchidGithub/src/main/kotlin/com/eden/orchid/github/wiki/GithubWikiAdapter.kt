@@ -118,7 +118,7 @@ constructor(
 
             if(referencedFile == null) {
                 Clog.w("Page referenced in Github Wiki $repo, $linkTarget does not exist")
-                StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName, null)
+                StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName)
             }
             else {
                 FileResource(

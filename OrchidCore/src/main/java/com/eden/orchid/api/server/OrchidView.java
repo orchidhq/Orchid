@@ -20,6 +20,7 @@ import javax.inject.Provider;
 import javax.inject.Inject;
 import java.net.URLEncoder;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,15 +41,21 @@ public class OrchidView extends OrchidPage {
     private Type type;
 
     public OrchidView(OrchidContext context, OrchidController controller, String... views) {
-        this(context, controller, null, views);
+        this(context, controller, "Admin", new HashMap<>(), views);
     }
 
-    public OrchidView(OrchidContext context, OrchidController controller, Map<String, Object> data, String... views) {
+    public OrchidView(
+            OrchidContext context,
+            OrchidController controller,
+            String title,
+            Map<String, Object> data,
+            String... views
+    ) {
         super(
-                new StringResource(new OrchidReference(context, "view.html"), "", new JSONElement(new JSONObject(data))),
+                new StringResource(new OrchidReference(context, "view.html"), "", data),
                 RenderService.RenderMode.TEMPLATE,
                 "view",
-                "Admin"
+                title
         );
         this.controller = controller;
         this.layout = "layoutBase";

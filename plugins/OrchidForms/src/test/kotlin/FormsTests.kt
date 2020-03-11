@@ -1,6 +1,7 @@
 package com.eden.orchid.forms
 
 import com.eden.orchid.impl.generators.HomepageGenerator
+import com.eden.orchid.plugindocs.PluginDocsModule
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
@@ -22,7 +23,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
-class FormsTests : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), FormsModule()) {
+class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), withGenerator<HomepageGenerator>()) {
 
 // Test methods of registering forms
 //----------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,28 @@
+<div id="snippets-table">
+  <table class="uk-table uk-table-striped uk-table-hover">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Preview</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for form in formModel.forms %}
+    <tr>
+      <td>{{ form.title }}</td>
+      <td>
+        <a href="#{{ form.key }}--preview" uk-toggle>Preview</a>
+        <div id="{{ form.key }}--preview" uk-modal>
+          <div class="uk-modal-dialog uk-modal-body">
+          {% form form=form %}
+            <p class="uk-text-right">
+              <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+            </p>
+          </div>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

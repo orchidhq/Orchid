@@ -38,7 +38,7 @@ class OrchidPageTest {
         `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", HashMap()))
 
         reference = OrchidReference(context, pagePath, true)
-        resource = StringResource(reference, "page content", null)
+        resource = StringResource(reference, "page content")
         underTest = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "test", "Test Page")
     }
 

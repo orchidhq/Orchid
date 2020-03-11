@@ -37,7 +37,7 @@ constructor(
         else {
             val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {
-                return formsModel.forms.getOrDefault(value.second, null)
+                return formsModel.getForm(value.second)
             }
         }
 

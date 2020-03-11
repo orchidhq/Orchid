@@ -101,8 +101,7 @@ class EmbeddedSnippetsAdapter : SnippetsAdapter {
                     if(snippetName.isEmpty() || lastSnippet.name == snippetName) {
                         val snippetResource = StringResource(
                             OrchidReference(resource.reference),
-                            lastSnippet.lines.joinToString(separator = "\n").trimIndent(),
-                            null
+                            lastSnippet.lines.joinToString(separator = "\n").trimIndent()
                         )
 
                         yield(

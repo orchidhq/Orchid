@@ -6,7 +6,6 @@ import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter;
 import com.copperleaf.krow.formatters.ascii.CrossingBorder;
 import com.copperleaf.krow.formatters.ascii.NoBorder;
 import com.copperleaf.krow.formatters.ascii.SingleBorder;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;

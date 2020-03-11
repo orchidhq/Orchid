@@ -1,26 +1,19 @@
 package com.eden.orchid.utilities
 
 import com.caseyjbrooks.clog.Clog
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
-import com.google.gson.JsonObject
 import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.util.ArrayList
-import java.util.HashMap
 import java.util.regex.Pattern
 import java.util.stream.Stream
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 import kotlin.reflect.KClass
 
 fun String?.empty(): Boolean {
@@ -65,20 +58,6 @@ fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColum
 
     Clog.tag("Syntax error").e(templateSnippet, extension.toUpperCase(), errorMessage)
 }
-
-
-fun JSONElement?.isObject(): Boolean {
-    return this != null && this.element != null && this.element is JSONObject
-}
-
-fun JSONElement?.isArray(): Boolean {
-    return this != null && this.element != null && this.element is JSONArray
-}
-
-fun JSONElement?.isString(): Boolean {
-    return this != null && this.element != null && this.element is String
-}
-
 
 // string conversions
 infix fun String.from(mapper: String.() -> Array<String>): Array<String> {
@@ -311,23 +290,11 @@ fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {
         .orElse(null)
 }
 
-
-fun merge(vararg sources: JSONElement?): JSONElement? {
-    val sourcesAsObjects: Array<JSONObject> = sources
-        .filterNotNull()
-        .filter { EdenUtils.elementIsObject(it) }
-        .map { it.element as JSONObject }
-        .toTypedArray()
-
-    return JSONElement(EdenUtils.merge(*sourcesAsObjects))
-}
-
 fun InputStream?.readToString() : String? = this?.bufferedReader()?.use { it.readText() }
 fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))
 
 fun OptionsHolder.extractOptionsFromResource(context: OrchidContext, resource: OrchidResource): Map<String, Any?> {
-    val el = resource.embeddedData.element
-    val data = el.takeIf<JSONObject>()?.toMap() ?: emptyMap<String, Any?>()
+    val data = resource.embeddedData
     extractOptions(context, data)
     return data
 }
