@@ -1,7 +1,7 @@
 {% set theme =  tag.provide() %}
 {# @pebvariable name="theme" type="com.eden.orchid.api.theme.Theme" #}
 
-<pre><code class="lang-yaml"># config.yml
+<pre class="lang-yaml"><code class="lang-yaml"># config.yml
 ...
 theme:
 {%- include 'server/includes/optionsYaml' with {'indent': '  '} -%}

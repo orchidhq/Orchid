@@ -1,0 +1,38 @@
+<div class="uk-navbar-dropdown uk-navbar-dropdown-width-2">
+  <div class="uk-navbar-dropdown-grid uk-text-center uk-grid-small" uk-grid>
+    <div class="uk-width-1-1">
+      <div class="uk-panel uk-panel-scrollable" style="height: 600px;">
+        <ul uk-tab>
+          <li><a href="#">Common Types</a></li>
+          <li><a href="#">All Types</a></li>
+        </ul>
+        <ul class="uk-switcher uk-margin">
+          <li>{{ renderAdminList(view, view.importantAdminLists) }}</li>
+          <li>{{ renderAdminList(view, view.adminLists) }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% macro renderAdminList(view, adminLists) %}
+<ul class="uk-nav-primary uk-nav-parent-icon" uk-nav>
+{% for adminList in adminLists %}
+  <li class="uk-parent">
+    <a href="#">{{ adminList.getDescriptiveName() }}</a>
+    <ul class="uk-list uk-list-striped">
+    {% for item in adminList.getItems() %}
+      <li>
+        <a href="{{ view.getDescriptionLink(item) }}" class="uk-link-heading">
+          <span class="uk-text-uppercase uk-text-bold">{{ view.getDescriptiveName(item) }}</span>
+          <p class="uk-text-small uk-margin-remove-bottom uk-margin-small-top">{{ view.getDescriptionSummary(item) }}</p>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </li>
+{% if not loop.last %}
+  <li class="uk-nav-divider"></li>{% endif %}
+{% endfor %}
+</ul>
+{% endmacro %}

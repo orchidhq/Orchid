@@ -56,4 +56,12 @@ public final class OrchidRoute {
     public Method getMethod() {
         return this.method;
     }
+
+    public Class<? extends OptionsHolder> getParamsClass() {
+        return paramsClass;
+    }
+
+    public String getLink() {
+        return path;
+    }
 }

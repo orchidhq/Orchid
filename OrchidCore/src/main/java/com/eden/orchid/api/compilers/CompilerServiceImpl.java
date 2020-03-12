@@ -27,10 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * @orchidApi services
- * @since v1.0.0
- */
 @Singleton
 @Description(value = "How content gets processed by Orchid.", name = "Compilers")
 @Archetype(value = ConfigArchetype.class, key = "services.compilers")

@@ -13,9 +13,6 @@ import java.util.Set;
 /**
  * Handles the conversion of source content from one language or format to another. Specific OrchidCompilers or
  * OrchidParsers can be added seamlessly by injecting into the appropriate set in your Module.
- *
- * @since v1.0.0
- * @orchidApi services
  */
 @ImplementedBy(CompilerServiceImpl.class)
 public interface CompilerService extends OrchidService {

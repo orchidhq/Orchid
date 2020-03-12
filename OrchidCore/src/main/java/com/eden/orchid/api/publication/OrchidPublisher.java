@@ -12,7 +12,7 @@ import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
-import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.components.ModularListItem;
@@ -35,11 +35,8 @@ import java.util.Map;
  * Publishers implement a complete _post-processing pipeline_ rather than just deploying code, and can be reliably used
  * to do any kind of post-processing or deployment on the generated site. Any failed validation or exceptions thrown by
  * a publisher terminate the entire publication phase.
- *
- * @since v1.0.0
- * @orchidApi extensible
  */
-@Extensible
+@ImportantModularType
 @Description(value = "Deploy your site after it has finished being built.", name = "Publishers")
 @Archetype(value = ConfigArchetype.class, key = "allPublishers")
 public abstract class OrchidPublisher extends Prioritized implements OptionsHolder, ModularListItem<PublicationPipeline, OrchidPublisher> {

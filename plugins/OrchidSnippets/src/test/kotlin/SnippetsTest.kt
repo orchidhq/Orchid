@@ -247,8 +247,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |{
             |   "sections": [
             |       {
-            |           "adapter": "file",
-            |           "foo": "bar"
+            |           "adapter": "file"
             |       }
             |   ]
             |}
@@ -294,8 +293,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |               "type": "file",
             |               "baseDirs": ["other"],
             |               "recursive": true
-            |           },
-            |           "foo": "bar"
+            |           }
             |       }
             |   ]
             |}
@@ -351,8 +349,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |           "adapter": {
             |               "type": "embedded",
             |               "baseDirs": "src/test"
-            |           },
-            |           "foo": "bar"
+            |           }
             |       }
             |   ]
             |}
@@ -413,8 +410,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |               "baseDirs": "src/test",
             |               "startPattern": "^.*?START(.+?)${'$'}",
             |               "endPattern": "^.*?END(.+?)${'$'}"
-            |           },
-            |           "foo": "bar"
+            |           }
             |       }
             |   ]
             |}
@@ -485,8 +481,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |           "adapter": {
             |               "type": "embedded",
             |               "baseDirs": "src/test"
-            |           },
-            |           "foo": "bar"
+            |           }
             |       }
             |   ]
             |}
@@ -614,8 +609,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |               "url": "https://github.com/copper-leaf/wiki-with-sidebar/wiki/GettingStarted",
             |               "selector": "#wiki-body",
             |               "name": "one"
-            |           },
-            |           "foo": "bar"
+            |           }
             |       }
             |   ]
             |}

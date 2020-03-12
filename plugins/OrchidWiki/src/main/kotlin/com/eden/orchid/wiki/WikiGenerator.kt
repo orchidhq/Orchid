@@ -14,10 +14,8 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.wiki.model.WikiModel
 import com.eden.orchid.wiki.model.WikiSection
-import com.eden.orchid.wiki.pages.WikiBookPage
 import com.eden.orchid.wiki.pages.WikiSectionsPage
 import com.eden.orchid.wiki.utils.WikiUtils
-import javax.inject.Inject
 
 @Description("Create a structured and navigable knowledge-base for your project.", name = "Wiki")
 class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {

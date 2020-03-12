@@ -278,8 +278,9 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
                             }
                         }
 
-                        form(action = "thank-you", classes = "orchid-form", method = FormMethod.put) {
+                        form(action = "thank-you", classes = "orchid-form") {
                             name = "Contact Us"
+                            attributes["method"] = "put"
                             div("row") {
                                 div("col col-lg-6 col-sm-12 ") {
                                     label {

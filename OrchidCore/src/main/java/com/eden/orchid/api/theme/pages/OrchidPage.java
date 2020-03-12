@@ -47,11 +47,6 @@ import java.util.Objects;
 import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
 import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
-/**
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 @Description(value = "A representation of a single file in your output site.", name = "Pages")
 @Archetype(value = SharedConfigArchetype.class, key = "from", order = 10)
 @Archetype(value = ConfigArchetype.class, key = "allPages")

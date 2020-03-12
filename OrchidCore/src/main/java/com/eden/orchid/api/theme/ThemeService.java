@@ -5,10 +5,6 @@ import com.eden.orchid.api.theme.assets.AssetManager;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import com.google.inject.ImplementedBy;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @ImplementedBy(ThemeServiceImpl.class)
 public interface ThemeService extends OrchidService {
 

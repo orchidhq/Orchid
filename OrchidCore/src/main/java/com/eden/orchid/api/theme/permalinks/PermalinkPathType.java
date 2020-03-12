@@ -5,11 +5,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
-/**
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 public abstract class PermalinkPathType extends Prioritized {
 
     public PermalinkPathType(int priority) {

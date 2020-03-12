@@ -11,10 +11,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @ImplementedBy(ResourceServiceImpl.class)
 public interface ResourceService extends OrchidService {
 

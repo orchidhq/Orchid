@@ -21,9 +21,6 @@ import java.util.Set;
  * | Field Type   | Annotation     | Default Value              |
  * |--------------|----------------|----------------------------|
  * | ModularType  | @StringDefault | Annotation value() or null |
- *
- * @since v1.0.0
- * @orchidApi optionTypes
  */
 public final class ModularTypeOptionExtractor extends OptionExtractor<ModularType> {
 

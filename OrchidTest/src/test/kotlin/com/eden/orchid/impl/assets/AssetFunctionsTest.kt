@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.assets
 
-import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
@@ -145,6 +144,66 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             |---
             |---
             |![image]({{ "assets/media/image.jpg"|asset|scale(0.85) }})
+            """.trimMargin()
+        )
+
+        classpathResource("assets/media/image.jpg")
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        img(src = "http://orchid.test/assets/media/image_scale-0.85.jpg") {
+                            alt = "image"
+                        }
+                    }
+                }
+            }
+            .pageWasRendered("/assets/media/image_scale-0.85.jpg") {}
+            .pageWasRendered("/favicon.ico") {}
+            .pageWasRendered("/404.html") {}
+            .nothingElseRendered()
+    }
+
+    @Test
+    @DisplayName("Test image function works properly")
+    fun test06() {
+        resource(
+            "homepage.md",
+            """
+            |---
+            |---
+            |{{ "assets/media/image.jpg"|img('image') }}
+            """.trimMargin()
+        )
+
+        classpathResource("assets/media/image.jpg")
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        img(src = "http://orchid.test/assets/media/image.jpg") {
+                            alt = "image"
+                        }
+                    }
+                }
+            }
+            .pageWasRendered("/assets/media/image.jpg") {}
+            .pageWasRendered("/favicon.ico") {}
+            .pageWasRendered("/404.html") {}
+            .nothingElseRendered()
+    }
+
+    @Test
+    @DisplayName("Test scale function works properly when rendered using img function")
+    fun test07() {
+        resource(
+            "homepage.md",
+            """
+            |---
+            |---
+            |{{ "assets/media/image.jpg"|asset|scale(0.85)|img('image') }}
             """.trimMargin()
         )
 

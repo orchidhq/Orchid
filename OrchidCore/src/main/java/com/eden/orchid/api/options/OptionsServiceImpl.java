@@ -22,10 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @Description(value = "How Orchid manages global data and configurations.", name = "Options")
 @Archetype(value = ConfigArchetype.class, key = "services.options")
 public final class OptionsServiceImpl implements OptionsService {

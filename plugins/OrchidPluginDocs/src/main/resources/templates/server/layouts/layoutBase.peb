@@ -1,93 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Orchid Insights</title>
-    {% set page = view %}
-    {% styles %}
-    {% block styles %}{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orchid Insights</title>
+  {% set page = view %}
+  {% styles %}
+  {% block styles %}{% endblock %}
 
-    <style>
-        body {
-            background-color: #eff0f4;
-            min-height: 100vh;
-        }
-    </style>
+  <style>
+    body {
+      background-color: #eff0f4;
+      min-height: 100vh;
+    }
+  </style>
 </head>
 <body>
 
 <div id="orchid-app">
-    <!-- Primary Navbar -->
-    <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
-        <nav class="uk-navbar-container" uk-navbar="mode: click; align: right">
-            <div class="uk-navbar-left">
-                <a class="uk-navbar-toggle" href="#" uk-toggle="target: #uk-sidenav-left">
-                    <span uk-navbar-toggle-icon></span> <span class="uk-margin-small-left"></span>
-                </a>
-                <ul class="uk-breadcrumb">
-                    <li><a href="{{ 'admin'|baseUrl }}">Orchid Admin</a></li>
-                    {% for crumb in view.breadcrumbs %}
-                        <li class="uk-disabled"><a>{{ crumb }}</a></li>
-                    {% endfor %}
-                    <li><span>{{ view.title }}</span></li>
-                </ul>
-                <build-progress></build-progress>
-            </div>
+  <!-- Primary Navbar -->
+  <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+    <nav class="uk-navbar-container" uk-navbar="mode: click; align: right">
+      <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+          <li>
+            <ul class="uk-breadcrumb uk-margin-left">
+              <li><a href="{{ 'admin'|baseUrl }}">Orchid Admin</a></li>
+              {% for crumb in view.breadcrumbs %}
+                <li class="uk-disabled"><a>{{ crumb }}</a></li>
+              {% endfor %}
+              <li><span>{{ view.title }}</span></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="uk-navbar-nav">
+          <li>
+            <build-progress></build-progress>
+          </li>
+        </ul>
+      </div>
 
-            <div class="uk-navbar-right">
-                <ul class="uk-navbar-nav">
-                    <li>
-                        <a href="#">Get Help</a>
-                        <div class="uk-navbar-dropdown">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-nav-header">Get Help</li>
-                                <li><a target="_blank" href="https://orchid.run">Documentation</a></li>
-                                <li><a target="_blank" href="https://gitter.im/JavaEden/Orchid">Community Chat</a></li>
-                                <li><a target="_blank" href="https://github.com/orchidhq/orchid">View on GitHub</a></li>
-                                <li><a target="_blank" href="https://github.com/orchidhq/orchid/issues">Report Issue</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="uk-navbar-nav">
-                    <li>
-                    {% include 'server/includes/managePanel' %}
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+      <div class="uk-navbar-right">
+      {% for menuItem in view.adminMenuItems %}
+        <ul class="uk-navbar-nav">
+          <li>
+            <a href="#"><span
+              class="uk-icon uk-margin-small-right"
+              uk-icon="icon: {{ menuItem.icon }}"
+            ></span>{{ menuItem.title }}</a>
+            {% include menuItem.template %}
+          </li>
+        </ul>
+      {% endfor %}
+      </div>
+    </nav>
+  </div>
 
-    <!-- Left Sidenav Content -->
-    <div class="uk-offcanvas-content">
-    {% if view.fullscreen %}
-    {% page %}
-    {% else %}
-        <div class="uk-flex-center uk-grid-large" uk-grid>
-            <div class="uk-width-2-3@m uk-width-1-2@xl">
-                <div class="uk-padding uk-padding-remove-horizontal">
-                    <div class="uk-card uk-card-default uk-box-shadow-large">
-                        <div class="uk-card-body">
-                            <h1 class="uk-card-title">{{ view.title }}</h1>
-                            {% page %}
-                        </div>
-                    </div>
-                </div>
+  <!-- Left Sidenav Content -->
+
+  {% if view.fullscreen %}
+  {% page %}
+  {% else %}
+    <div class="uk-flex-center uk-grid-large" uk-grid>
+      <div class="uk-width-2-3@m uk-width-1-2@xl">
+        <div class="uk-padding uk-padding-remove-horizontal">
+          <div class="uk-card uk-card-default uk-box-shadow-large">
+            <div class="uk-card-body">
+              {% page %}
             </div>
+          </div>
         </div>
-    {% endif %}
-
-        <a href="#uk-sidenav-left" uk-toggle></a>
-        <div id="uk-sidenav-left" uk-offcanvas="mode: push">
-            <div class="uk-offcanvas-bar">
-                <button class="uk-offcanvas-close" type="button" uk-close></button>
-                {% include 'server/includes/sidenav' %}
-            </div>
-        </div>
+      </div>
     </div>
-    <notifications></notifications>
+  {% endif %}
+  <notifications></notifications>
 </div>
 
 

@@ -89,18 +89,6 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     }
 
     @Test
-    @DisplayName("Posts supports multiple categories. You can list each category as an Object to customize its options.")
-    fun test09() {
-        configObject("posts", """{"categories": [{"cat1": {}}, {"cat2": {}}]}""")
-        resource("posts/cat1/2018-01-01-post-one.md")
-        resource("posts/cat2/2018-02-02-post-one.md")
-
-        expectThat(execute())
-            .pageWasRendered("/cat1/2018/1/1/post-one/index.html")
-            .pageWasRendered("/cat2/2018/2/2/post-one/index.html")
-    }
-
-    @Test
     @DisplayName("Posts supports multiple categories. Rather than a list for the categories, you can use a single Object, where each key points to the options for the value, to query easily.")
     fun test10() {
         configObject("posts", """ {"categories": {"cat1": {}, "cat2": {}}}""")

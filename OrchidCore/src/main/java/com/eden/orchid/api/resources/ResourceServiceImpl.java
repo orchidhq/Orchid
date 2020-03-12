@@ -46,10 +46,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @orchidApi services
- * @since v1.0.0
- */
 @Singleton
 @Description(value = "How Orchid locates resources.", name = "Resources")
 @Archetype(value = ConfigArchetype.class, key = "services.resources")

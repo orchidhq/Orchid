@@ -56,23 +56,6 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     }
 
     @Test
-    @DisplayName("Wiki supports multiple sections. You can list each section as an Object to customize its options.")
-    fun test04() {
-        configObject("wiki", """{"sections": [{"section1": {}}, {"section2": {}}]}""")
-        resource("wiki/section1/summary.md", "* [Page One](page-one.md)")
-        resource("wiki/section1/page-one.md")
-        resource("wiki/section2/summary.md", "* [Page Two](page-two.md)")
-        resource("wiki/section2/page-two.md")
-
-        expectThat(execute())
-            .pageWasRendered("/wiki/index.html")
-            .pageWasRendered("/wiki/section1/index.html")
-            .pageWasRendered("/wiki/section1/page-one/index.html")
-            .pageWasRendered("/wiki/section2/index.html")
-            .pageWasRendered("/wiki/section2/page-two/index.html")
-    }
-
-    @Test
     @DisplayName("Wiki supports multiple sections. Rather than a list for the sections, you can use a single Object, where each key points to the options for the value, to query easily.")
     fun test05() {
         configObject("wiki", """{"sections": {"section1": {}, "section2": {}}}""")

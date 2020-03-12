@@ -23,10 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @Singleton
 @Description(value = "How Orchid runs command line tasks and commands.", name = "Tasks")
 @Archetype(value = ConfigArchetype.class, key = "services.tasks")
@@ -157,7 +153,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @Override
     public void serve() {
         try {
-            server.start(port);
+            server.start(context, port);
         } catch (IOException e) {
             e.printStackTrace();
         }

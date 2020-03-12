@@ -5,7 +5,7 @@ import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
-import com.eden.orchid.api.server.annotations.AdminMenu
+import com.eden.orchid.api.server.annotations.AdminPage
 import com.eden.orchid.api.server.annotations.Get
 import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.utilities.SuppressedWarnings
@@ -19,7 +19,7 @@ constructor(
     val context: OrchidContext
 ) : OrchidController(1000) {
 
-    @AdminMenu("Form Manager")
+    @AdminPage("Forms", icon = "assets/svg/clipboard.svg")
     @Get(path = "/admin/forms")
     fun index(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
         val model = context.resolve<FormsModel>()

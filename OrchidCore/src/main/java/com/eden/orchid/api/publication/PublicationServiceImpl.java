@@ -10,10 +10,6 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * @orchidApi services
- * @since v1.0.0
- */
 @Singleton
 @Description(value = "How Orchid publishes your site to production.", name = "Publications")
 @Archetype(value = ConfigArchetype.class, key = "services.publications")

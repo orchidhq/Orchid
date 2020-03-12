@@ -5,7 +5,7 @@ import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
-import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.MetaComponentHolder;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
@@ -14,12 +14,7 @@ import javax.inject.Inject;
 
 import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
-/**
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
-@Extensible
+@ImportantModularType
 @Description(value = "A collection of assets and templates used to render your site.", name = "Themes")
 @Archetype(value = ConfigArchetype.class, key = "theme")
 public abstract class Theme extends AbstractTheme {

@@ -3,17 +3,10 @@ package com.eden.orchid.api.compilers;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
-import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
-/**
- * Template Functions add methods that can be called by themselves or as a "filter" in an expression within the primary
- * template language.
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
-@Extensible
+@ImportantModularType
 @Description(value = "A function that can be called from your templates.", name = "Template Functions")
 public abstract class TemplateFunction implements OptionsHolder {
 

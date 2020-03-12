@@ -20,10 +20,6 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Stack;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
 @Archetype(value = ConfigArchetype.class, key = "services.themes")
 public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {

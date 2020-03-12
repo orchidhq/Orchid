@@ -10,13 +10,6 @@ import com.eden.orchid.utilities.with
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
-/**
- * A Collection represents a set of local resources which are consumed by a generator. Inspired by (and used for) the
- * Netlify CMS, Collections can also be used for other descriptive purposes, and are an opt-in feature of Generators.
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 abstract class OrchidCollection<T : Collectible<*>>(
     generator: OrchidGenerator<*>,
     val collectionId: String?,

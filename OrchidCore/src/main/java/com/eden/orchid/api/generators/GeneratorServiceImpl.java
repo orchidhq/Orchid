@@ -31,10 +31,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * @orchidApi services
- * @since v1.0.0
- */
 @Singleton
 @Description(value = "How content gets created in your build.", name = "Generators")
 @Archetype(value = ConfigArchetype.class, key = "services.generators")

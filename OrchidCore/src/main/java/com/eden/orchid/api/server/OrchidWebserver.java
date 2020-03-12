@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.OrchidFlags;
+import com.eden.orchid.api.server.annotations.AdminPage;
 import com.eden.orchid.api.server.annotations.Delete;
 import com.eden.orchid.api.server.annotations.Get;
 import com.eden.orchid.api.server.annotations.Post;
@@ -24,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class OrchidWebserver extends NanoHTTPD {
-    private static Class<? extends Annotation>[] annotationClasses = new Class[] {Get.class, Post.class, Put.class, Delete.class};
+    private static Class<? extends Annotation>[] annotationClasses = new Class[]{Get.class, Post.class, Put.class, Delete.class};
     private final OrchidContext context;
     private final Set<OrchidController> controllers;
     private final OrchidFileController fileController;
@@ -32,43 +33,44 @@ public final class OrchidWebserver extends NanoHTTPD {
     private final List<OrchidRoute> postRoutes;
     private final List<OrchidRoute> putRoutes;
     private final List<OrchidRoute> deleteRoutes;
+    private final List<AdminPageRoute> adminRoutes;
 
     // taken from https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types
     public static Map<String, String> mimeTypes = MapsKt.mapOf(
-            new Pair<>("aac"    , "audio/aac"),
-            new Pair<>("bmp"    , "image/bmp"),
-            new Pair<>("css"    , "text/css"),
-            new Pair<>("csv"    , "text/csv"),
-            new Pair<>("epub"   , "application/epub+zip"),
-            new Pair<>("gz"     , "application/gzip"),
-            new Pair<>("gif"    , "image/gif"),
-            new Pair<>("htm"    , "text/html"),
-            new Pair<>("html"   , "text/html"),
-            new Pair<>("ico"    , "image/vnd.microsoft.icon"),
-            new Pair<>("jpeg"   , "image/jpeg"),
-            new Pair<>("jpg"    , "image/jpeg"),
-            new Pair<>("js"     , "text/javascript"),
-            new Pair<>("json"   , "application/json"),
-            new Pair<>("mp3"    , "audio/mpeg"),
-            new Pair<>("mpeg"   , "video/mpeg"),
-            new Pair<>("oga"    , "audio/ogg"),
-            new Pair<>("ogv"    , "video/ogg"),
-            new Pair<>("ogx"    , "application/ogg"),
-            new Pair<>("opus"   , "audio/opus"),
-            new Pair<>("otf"    , "font/otf"),
-            new Pair<>("png"    , "image/png"),
-            new Pair<>("pdf"    , "application/pdf"),
-            new Pair<>("svg"    , "image/svg+xml"),
-            new Pair<>("tif"    , "image/tiff"),
-            new Pair<>("tiff"   , "image/tiff"),
-            new Pair<>("txt"    , "text/plain"),
-            new Pair<>("weba"   , "audio/webm"),
-            new Pair<>("webm"   , "video/webm"),
-            new Pair<>("webp"   , "image/webp"),
-            new Pair<>("woff"   , "font/woff"),
-            new Pair<>("woff2"  , "font/woff2"),
-            new Pair<>("xml"    , "application/xml"),
-            new Pair<>("zip"    , "application/zip")
+            new Pair<>("aac", "audio/aac"),
+            new Pair<>("bmp", "image/bmp"),
+            new Pair<>("css", "text/css"),
+            new Pair<>("csv", "text/csv"),
+            new Pair<>("epub", "application/epub+zip"),
+            new Pair<>("gz", "application/gzip"),
+            new Pair<>("gif", "image/gif"),
+            new Pair<>("htm", "text/html"),
+            new Pair<>("html", "text/html"),
+            new Pair<>("ico", "image/vnd.microsoft.icon"),
+            new Pair<>("jpeg", "image/jpeg"),
+            new Pair<>("jpg", "image/jpeg"),
+            new Pair<>("js", "text/javascript"),
+            new Pair<>("json", "application/json"),
+            new Pair<>("mp3", "audio/mpeg"),
+            new Pair<>("mpeg", "video/mpeg"),
+            new Pair<>("oga", "audio/ogg"),
+            new Pair<>("ogv", "video/ogg"),
+            new Pair<>("ogx", "application/ogg"),
+            new Pair<>("opus", "audio/opus"),
+            new Pair<>("otf", "font/otf"),
+            new Pair<>("png", "image/png"),
+            new Pair<>("pdf", "application/pdf"),
+            new Pair<>("svg", "image/svg+xml"),
+            new Pair<>("tif", "image/tiff"),
+            new Pair<>("tiff", "image/tiff"),
+            new Pair<>("txt", "text/plain"),
+            new Pair<>("weba", "audio/webm"),
+            new Pair<>("webm", "video/webm"),
+            new Pair<>("webp", "image/webp"),
+            new Pair<>("woff", "font/woff"),
+            new Pair<>("woff2", "font/woff2"),
+            new Pair<>("xml", "application/xml"),
+            new Pair<>("zip", "application/zip")
     );
 
     public OrchidWebserver(OrchidContext context, Set<OrchidController> controllers, OrchidFileController fileController, int port) throws IOException {
@@ -83,6 +85,7 @@ public final class OrchidWebserver extends NanoHTTPD {
         postRoutes = new ArrayList<>();
         putRoutes = new ArrayList<>();
         deleteRoutes = new ArrayList<>();
+        adminRoutes = new ArrayList<>();
         for (OrchidController listener : controllers) {
             findRoutes(listener);
         }
@@ -113,35 +116,66 @@ public final class OrchidWebserver extends NanoHTTPD {
         });
     }
 
+    private OrchidRoute createRoute(OrchidController controller, java.lang.reflect.Method method, String path, Class<? extends OptionsHolder> paramsClass) {
+        OrchidRoute route = new OrchidRoute(controller, method, path, paramsClass);
+        validateControllerMethod(method, route);
+        return route;
+    }
+
     private void register(OrchidController controller, Get methodAnnotation, java.lang.reflect.Method method) {
-        String path = methodAnnotation.path();
-        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
-        validateControllerMethod(method, path, paramsClass);
-        getRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
+        OrchidRoute route = createRoute(
+                controller,
+                method,
+                methodAnnotation.path(),
+                methodAnnotation.params()
+        );
+        if (method.isAnnotationPresent(AdminPage.class)) {
+            AdminPage adminPage = method.getAnnotation(AdminPage.class);
+            adminRoutes.add(new AdminPageRoute(
+                    route,
+                    adminPage.value(),
+                    adminPage.icon()
+            ));
+        }
+        getRoutes.add(route);
     }
 
     private void register(OrchidController controller, Post methodAnnotation, java.lang.reflect.Method method) {
-        String path = methodAnnotation.path();
-        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
-        validateControllerMethod(method, path, paramsClass);
-        postRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
+        postRoutes.add(
+                createRoute(
+                        controller,
+                        method,
+                        methodAnnotation.path(),
+                        methodAnnotation.params()
+                )
+        );
     }
 
     private void register(OrchidController controller, Put methodAnnotation, java.lang.reflect.Method method) {
-        String path = methodAnnotation.path();
-        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
-        validateControllerMethod(method, path, paramsClass);
-        putRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
+        putRoutes.add(
+                createRoute(
+                        controller,
+                        method,
+                        methodAnnotation.path(),
+                        methodAnnotation.params()
+                )
+        );
     }
 
     private void register(OrchidController controller, Delete methodAnnotation, java.lang.reflect.Method method) {
-        String path = methodAnnotation.path();
-        Class<? extends OptionsHolder> paramsClass = methodAnnotation.params();
-        validateControllerMethod(method, path, paramsClass);
-        deleteRoutes.add(new OrchidRoute(controller, method, path, paramsClass));
+        deleteRoutes.add(
+                createRoute(
+                        controller,
+                        method,
+                        methodAnnotation.path(),
+                        methodAnnotation.params()
+                )
+        );
     }
 
-    private void validateControllerMethod(java.lang.reflect.Method method, String path, Class<? extends OptionsHolder> paramsClass) {
+    private void validateControllerMethod(java.lang.reflect.Method method, OrchidRoute route) {
+        String path = route.getPath();
+        Class<? extends OptionsHolder> paramsClass = route.getParamsClass();
         if (EdenUtils.isEmpty(path) || !path.startsWith("/")) {
             throw new IllegalArgumentException("OrchidController\'s path must not be empty and must start with a slash");
         }
@@ -165,25 +199,25 @@ public final class OrchidWebserver extends NanoHTTPD {
         }
         for (int i = 0; i < methodParameters.length; i++) {
             switch (i) {
-            case 0: 
-                if (!methodParameters[i].equals(OrchidRequest.class)) {
-                    throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]\'s first argument must be of type [OrchidRequest]"));
-                }
-                break;
-
-            case 1: 
-                if (hasParamsClass) {
-                    if (!methodParameters[i].equals(paramsClass)) {
-                        throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]\'s second argument must be of type [{}]", paramsClass.getName()));
+                case 0:
+                    if (!methodParameters[i].equals(OrchidRequest.class)) {
+                        throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]\'s first argument must be of type [OrchidRequest]"));
                     }
                     break;
-                }
 
-            default: 
-                if (!methodParameters[i].equals(String.class)) {
-                    throw new IllegalArgumentException("Controller action [{}@{}]\'s path parameters must be accepted as type [String]");
-                }
-                break;
+                case 1:
+                    if (hasParamsClass) {
+                        if (!methodParameters[i].equals(paramsClass)) {
+                            throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]\'s second argument must be of type [{}]", paramsClass.getName()));
+                        }
+                        break;
+                    }
+
+                default:
+                    if (!methodParameters[i].equals(String.class)) {
+                        throw new IllegalArgumentException("Controller action [{}@{}]\'s path parameters must be accepted as type [String]");
+                    }
+                    break;
             }
         }
     }
@@ -206,33 +240,32 @@ public final class OrchidWebserver extends NanoHTTPD {
             String route = "/" + OrchidUtils.normalizePath(session.getUri());
             Clog.i("Serving: [{}] {}", session.getMethod(), route);
             switch (session.getMethod()) {
-            case GET: 
-                matchingRoute = findRoute(route, getRoutes);
-                break;
+                case GET:
+                    matchingRoute = findRoute(route, getRoutes);
+                    break;
 
-            case POST: 
-                session.parseBody(files);
-                matchingRoute = findRoute(route, postRoutes);
-                break;
+                case POST:
+                    session.parseBody(files);
+                    matchingRoute = findRoute(route, postRoutes);
+                    break;
 
-            case PUT: 
-                session.parseBody(files);
-                matchingRoute = findRoute(route, putRoutes);
-                break;
+                case PUT:
+                    session.parseBody(files);
+                    matchingRoute = findRoute(route, putRoutes);
+                    break;
 
-            case DELETE: 
-                matchingRoute = findRoute(route, deleteRoutes);
-                break;
+                case DELETE:
+                    matchingRoute = findRoute(route, deleteRoutes);
+                    break;
             }
             OrchidResponse response;
             if (matchingRoute != null) {
                 response = matchingRoute.call(new OrchidRequest(context, session, matchingRoute, files));
             } else {
                 Boolean legacyFileServer = OrchidFlags.getInstance().getFlagValue("legacyFileServer");
-                if(legacyFileServer != null && legacyFileServer) {
+                if (legacyFileServer != null && legacyFileServer) {
                     response = fileController.findFile(context, OrchidUtils.normalizePath(route));
-                }
-                else {
+                } else {
                     response = fileController.findPage(context, OrchidUtils.normalizePath(route));
                 }
             }
@@ -256,5 +289,9 @@ public final class OrchidWebserver extends NanoHTTPD {
 
     public OrchidFileController getFileController() {
         return this.fileController;
+    }
+
+    public List<AdminPageRoute> getAdminRoutes() {
+        return adminRoutes;
     }
 }

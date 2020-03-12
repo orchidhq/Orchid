@@ -8,7 +8,7 @@ import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
-import com.eden.orchid.api.server.annotations.AdminMenu
+import com.eden.orchid.api.server.annotations.AdminPage
 import com.eden.orchid.api.server.annotations.Get
 import com.eden.orchid.utilities.SuppressedWarnings
 import java.net.URLEncoder
@@ -51,22 +51,6 @@ constructor(
         }
 
         return OrchidResponse(context).status(404).content("Class ${params.className} not found")
-    }
-
-    @AdminMenu("Theme Manager")
-    @Get(path = "/admin/theme")
-    fun theme(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
-        val view = OrchidView(context, this, "Theme Manager", emptyMap(), "theme")
-
-        return OrchidResponse(context).view(view)
-    }
-
-    @AdminMenu("Asset Manager")
-    @Get(path = "/admin/assets")
-    fun assets(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
-        val view = OrchidView(context, this, "Asset Manager", emptyMap(), "assets")
-
-        return OrchidResponse(context).view(view)
     }
 
     private fun getDescriptionLink(o: Any): String {

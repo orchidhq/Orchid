@@ -49,7 +49,7 @@ constructor(
             if (server != null && server.websocket != null) {
                 var htmlTable = table.print(HtmlTableFormatter())
                 htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"table\">")
-                server.websocket.sendMessage("describe", htmlTable)
+                server.websocket!!.sendMessage("describe", htmlTable)
             }
         }
     }

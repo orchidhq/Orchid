@@ -13,10 +13,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @orchidApi optionTypes
- * @since v1.0.0
- */
 public final class RelationOptionExtractor extends OptionExtractor<Relation> {
 
     private final Provider<OrchidContext> contextProvider;

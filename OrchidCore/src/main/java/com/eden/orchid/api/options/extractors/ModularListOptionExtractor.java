@@ -21,9 +21,6 @@ import java.util.Map;
  * |--------------|----------------|----------------------------|
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
- *
- * @since v1.0.0
- * @orchidApi optionTypes
  */
 public final class ModularListOptionExtractor extends OptionExtractor<ModularList> {
 

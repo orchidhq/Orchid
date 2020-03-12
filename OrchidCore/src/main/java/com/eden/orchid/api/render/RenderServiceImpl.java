@@ -16,10 +16,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @Description(value = "How Orchid renders pages and writes them to disk.", name = "Render")
 @Archetype(value = ConfigArchetype.class, key = "services.renderer")
 public class RenderServiceImpl implements RenderService {

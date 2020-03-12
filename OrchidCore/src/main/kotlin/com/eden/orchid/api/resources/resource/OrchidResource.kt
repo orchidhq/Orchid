@@ -7,12 +7,6 @@ import com.eden.orchid.utilities.readToString
 import java.io.IOException
 import java.io.InputStream
 
-/**
- * Resources provide the "intrinsic content" of a page.
- *
- * @orchidApi extensible
- * @since v1.0.0
- */
 abstract class OrchidResource(
     // TODO: remove this. Resources shouldn't _have_ a reference, but pages should _create_ a reference from APIs on the resource
     val reference: OrchidReference

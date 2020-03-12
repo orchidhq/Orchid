@@ -1,116 +1,99 @@
-<a href="#">
-    <span class="uk-icon uk-margin-small-right" uk-icon="icon: code"></span>
-    Manage
-</a>
-
 <div class="uk-navbar-dropdown uk-navbar-dropdown-width-3">
-    <div class="uk-navbar-dropdown-grid uk-text-center uk-grid-small" uk-grid>
-        <div class="uk-width-1-1">
-            <h2>{{ site.about.siteName }}</h2>
-            <p>{{ site.about.siteDescription }}</p>
-            <div class="uk-grid-divider uk-grid-small" uk-grid>
-                <div class="uk-width-1-1 uk-width-1-3@m">Orchid {{ site.orchidVersion }}</div>
-                <div class="uk-width-1-1 uk-width-1-3@m">{{ site.version }}</div>
-                <div class="uk-width-1-1 uk-width-1-3@m">{{ site.environment | title }}
-                    Environment
-                </div>
-            </div>
+  <div class="uk-navbar-dropdown-grid uk-text-center uk-grid-small" uk-grid>
+    <div class="uk-width-1-1">
+      <h2>{{ site.about.siteName }}</h2>
+      <p>{{ site.about.siteDescription }}</p>
+      <div class="uk-grid-divider uk-grid-small" uk-grid>
+        <div class="uk-width-1-1 uk-width-1-3@m">
+          Orchid Version: <br><b>{{ site.orchidVersion }}</b>
         </div>
-        <div class="uk-width-1-1">
-            <enter-command></enter-command>
+        <div class="uk-width-1-1 uk-width-1-3@m">
+          Site Version:<br><b>{{ site.version }}</b>
         </div>
-        <div class="uk-width-1-1">
-            <div class="uk-child-width-1-2 uk-text-center uk-grid-small" uk-grid>
-                <div>
-                    <button
-                            class="uk-button uk-button-primary uk-width-1-1"
-                            v-on:click="$bus.$emit('submitCommand', 'build')">
-                        Rebuild
-                    </button>
-                </div>
-                <div>
-                    <a href="{{ homepageUrl() }}" target="_blank">
-                        <button class="uk-button uk-button-default uk-width-1-1">View Site
-                        </button>
-                    </a>
-                </div>
-            </div>
+        <div class="uk-width-1-1 uk-width-1-3@m">
+          Environment: <br><b>{{ site.environment }}</b>
         </div>
-        <div class="uk-width-1-1 uk-text-left">
-            <div uk-grid>
-                <div class="uk-width-auto@m">
-                    <ul class="uk-tab-left"
-                        uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-                        <li><a href="#">Collections</a></li>
-                        <li><a href="#">Commands</a></li>
-                        <li><a href="#">Tasks</a></li>
-                        <li><a href="#">Event Log</a></li>
-                    </ul>
-                </div>
-                <div class="uk-width-expand@m">
-                    <div class="uk-panel uk-panel-scrollable"
-                         style="border-left: none; border-right: none; height: 300px;">
-                        <ul id="component-tab-left" class="uk-switcher">
-                            <li>
-                                <table class="uk-table uk-table-striped uk-table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Collection Type</th>
-                                        <th>Collection Id</th>
-                                        <th>Size</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for collection in view.collections %}
-                                    {% set collectionLink = view.getDescriptionLink(collection.class)~'&collectionType='~collection.collectionType~'&collectionId='~collection.collectionId %}
-                                    <tr>
-                                        <td class="uk-table-link"><a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.collectionType }}</a></td>
-                                        <td class="uk-table-link"><a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.collectionId }}</a></td>
-                                        <td class="uk-table-link"><a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.items|length }}</a></td>
-                                    </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </li>
-                            <li>
-                                <ul class="uk-list uk-list-divider">
-                                {% for command in view.commands %}
-                                    <li class="uk-link-text">
-                                        <a href="{{ view.getDescriptionLink(command.class) }}">
-                                            <b>{{ command.key }}</b>
-                                        </a>
-                                        {% if command.description is not empty %}
-                                            -
-                                            <span>{{ command.description }}</span>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                                </ul>
-                            </li>
-                            <li>
-                                <ul class="uk-list uk-list-divider">
-                                {% for task in view.tasks %}
-                                    <li class="uk-link-text">
-                                        <a href="{{ view.getDescriptionLink(task.class) }}">
-                                            <b>{{ task.name }}</b>
-                                        </a>
-                                        {% if task.description is not empty %}
-                                            -
-                                            <span>{{ task.description }}</span>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                                </ul>
-                            </li>
-                            <li>
-                                <div>
-                                    <event-list max-message-count="50"></event-list>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+
+    <div class="uk-width-1-1">
+      <enter-command></enter-command>
+    </div>
+    <div class="uk-width-1-1">
+      <div class="uk-child-width-1-2 uk-text-center uk-grid-small" uk-grid>
+        <div>
+          <button
+            class="uk-button uk-button-primary uk-width-1-1"
+            v-on:click="$bus.$emit('submitCommand', 'build')"
+          >
+            Rebuild
+          </button>
+        </div>
+        <div>
+          <a href="{{ homepageUrl() }}" target="_blank">
+            <button class="uk-button uk-button-default uk-width-1-1">View Site
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="uk-width-1-1 uk-text-left">
+      <div uk-grid>
+        <div class="uk-width-auto@m">
+          <ul
+            class="uk-tab-left"
+            uk-tab="connect: #component-tab-left; animation: uk-animation-fade"
+          >
+            <li><a href="#">Commands</a></li>
+            <li><a href="#">Tasks</a></li>
+            <li><a href="#">Event Log</a></li>
+          </ul>
+        </div>
+        <div class="uk-width-expand@m">
+          <div
+            class="uk-panel uk-panel-scrollable"
+            style="border-left: none; border-right: none; height: 300px;"
+          >
+            <ul id="component-tab-left" class="uk-switcher">
+              <li>
+                <ul class="uk-list uk-list-divider">
+                {% for command in view.commands %}
+                  <li class="uk-link-text">
+                    <a href="{{ view.getDescriptionLink(command.class) }}">
+                      <b>{{ command.key }}</b>
+                    </a>
+                    {% if command.description is not empty %}
+                      -
+                      <span>{{ command.description }}</span>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+                </ul>
+              </li>
+              <li>
+                <ul class="uk-list uk-list-divider">
+                {% for task in view.tasks %}
+                  <li class="uk-link-text">
+                    <a href="{{ view.getDescriptionLink(task.class) }}">
+                      <b>{{ task.name }}</b>
+                    </a>
+                    {% if task.description is not empty %}
+                      -
+                      <span>{{ task.description }}</span>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+                </ul>
+              </li>
+              <li>
+                <div>
+                  <event-list max-message-count="50"></event-list>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
