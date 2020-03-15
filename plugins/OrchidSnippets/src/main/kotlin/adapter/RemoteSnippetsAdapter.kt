@@ -1,6 +1,7 @@
 package com.eden.orchid.snippets.adapter
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.ExternalResource
@@ -10,6 +11,7 @@ import com.eden.orchid.snippets.models.SnippetConfig
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 @Description("Download a remote file over HTTP and locate snippets on that page either through regex or a CSS selector")
 class RemoteSnippetsAdapter(
@@ -30,7 +32,11 @@ class RemoteSnippetsAdapter(
     @Description("The name of this snippet")
     lateinit var name: String
 
-    override fun addSnippets(context: OrchidContext): Sequence<SnippetConfig> = sequence {
+    @Option
+    @Description("A list of multiple selectors to turn into snippets within the single webpage")
+    lateinit var selectors: List<RemoteSnippetSelectorConfig>
+
+    override fun addSnippets(context: OrchidContext): Sequence<SnippetConfig> {
         val client = context.resolve(OkHttpClient::class.java)
 
         val bodyString = client
@@ -43,16 +49,61 @@ class RemoteSnippetsAdapter(
             .execute()
             .body!!.string()
 
-        yield(
-            SnippetConfig(
+        val doc = Jsoup.parse(bodyString)
+
+        return if(selectors.isNotEmpty()) {
+            loadSelectorsAsSnippets(
                 context,
-                name,
-                emptyList<String>(),
-                StringResource(
-                    OrchidReference.fromUrl(context, "", url),
-                    Jsoup.parse(bodyString).select(selector).html()
+                doc,
+                selectors
+            )
+        } else {
+            loadSelectorsAsSnippets(
+                context,
+                doc,
+                listOf(
+                    RemoteSnippetSelectorConfig().apply {
+                        selector = this@RemoteSnippetsAdapter.selector
+                        name = this@RemoteSnippetsAdapter.name
+                        tags = emptyList()
+                    }
                 )
             )
-        )
+        }
+    }
+
+    private fun loadSelectorsAsSnippets(
+        context: OrchidContext,
+        document: Document,
+        selectors: List<RemoteSnippetSelectorConfig>
+    ): Sequence<SnippetConfig> = sequence {
+        selectors.forEach {
+            yield(
+                SnippetConfig(
+                    context,
+                    it.name,
+                    it.tags,
+                    StringResource(
+                        OrchidReference.fromUrl(context, "", url),
+                        document.select(it.selector).html()
+                    )
+                )
+            )
+        }
+    }
+
+    class RemoteSnippetSelectorConfig : OptionsHolder {
+
+        @Option
+        @Description("The selector on the webpage to extract into a snippet")
+        lateinit var selector: String
+
+        @Option
+        @Description("The name of this snippet")
+        lateinit var name: String
+
+        @Option
+        @Description("Tags for this selector")
+        lateinit var tags: List<String>
     }
 }

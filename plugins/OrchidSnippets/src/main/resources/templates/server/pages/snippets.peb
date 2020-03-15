@@ -2,7 +2,7 @@
   Filter by tag:
 
   {% for tag in snippetModel.tags %}
-    <span class="uk-label" style="cursor: pointer" data-tag="{{ tag }}" onclick="toggleTag('snippets-table', '{{ tag }}')">{{ tag }}</span>
+    <span class="uk-label" style="cursor: pointer; text-transform: none;" data-tag="{{ tag }}" onclick="toggleTag('snippets-table', '{{ tag }}')">{{ tag }}</span>
   {% endfor %}
 
   <table class="uk-table uk-table-striped uk-table-hover">
@@ -43,38 +43,34 @@
 
 
 <script>
+  window.currentTagFilters = [];
   window.toggleTag = function (id, tag) {
     console.log("toggleTag(id=" + id + ", tag=" + tag + ")");
-    let isTurningOnFilter = true;
 
-    Array.prototype.forEach.call(
-      document.querySelectorAll(`#${id} [data-tag]`),
-      function (el, i) {
-        let itemTags = el.getAttribute("data-tag");
+    var currentButton = document.querySelector(`#${id} [data-tag=${tag}]`);
+    if(!currentButton.classList.contains("uk-label-success")) {
+      // add tag to filter list
+      window.currentTagFilters.push(tag);
+      currentButton.classList.add("uk-label-success");
+    }
+    else {
+      // remove tag from filter list
+      window.currentTagFilters.splice(currentTagFilters.indexOf(tag), 1);
+      currentButton.classList.remove("uk-label-success");
+    }
 
-        if (itemTags === tag) {
-          isTurningOnFilter = !el.classList.contains("uk-label-success");
-          if (isTurningOnFilter) {
-            el.classList.add("uk-label-success");
-          } else {
-            el.classList.remove("uk-label-success");
-          }
-        } else {
-          el.classList.remove("uk-label-success");
-        }
-      });
+    console.log(window.currentTagFilters);
+
+    // filter table by current list
 
     Array.prototype.forEach.call(
       document.querySelectorAll(`#${id} [data-tags]`),
       function (el, i) {
         let itemTags = el.getAttribute("data-tags").split(",");
 
-        if (isTurningOnFilter) {
-          if (itemTags.includes(tag)) {
-            el.classList.remove("uk-hidden")
-          } else {
-            el.classList.add("uk-hidden")
-          }
+        var includesAll = window.currentTagFilters.every(elem => itemTags.indexOf(elem) > -1);
+        if (!includesAll) {
+          el.classList.add("uk-hidden")
         } else {
           el.classList.remove("uk-hidden")
         }

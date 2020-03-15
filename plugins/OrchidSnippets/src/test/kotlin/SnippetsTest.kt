@@ -10,6 +10,7 @@ import kotlinx.html.a
 import kotlinx.html.br
 import kotlinx.html.div
 import kotlinx.html.em
+import kotlinx.html.hr
 import kotlinx.html.id
 import kotlinx.html.li
 import kotlinx.html.ol
@@ -437,6 +438,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     @Test
     @DisplayName("Test creating snippets from default `embedded` adapter config, but with tags and selecting from those tags")
     fun test23() {
+        serveOn(8080)
         resource(
             "homepage.txt",
             """
@@ -459,12 +461,18 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |    plus additional content
             |// end::homepage_two
             |
+            |// snippet::homepage_three
+            |  This malformed snippet will not be accepted as a valid snippet because it is missing the trailing [] on
+            |    start delimiter
+            |// end::homepage_three[]
+            |
             |// snippet::homepage_three[tag_a]
-            |  This malformed snippet will not be accepted as a valid snippet
+            |  This malformed snippet will not be accepted as a valid snippet because of the trailing [] on end 
+            |    delimiter
             |// end::homepage_three[]
             |
             |// snippet::homepage_three[tag_a] This malformed  
-            |  snippet will not be accepted as a valid snippet
+            |  snippet will not be accepted as a valid snippet because the start tag does not end the line
             |// end::homepage_three[]
             |
             |// snippet::homepage_four[tag_a]
@@ -588,7 +596,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
 //----------------------------------------------------------------------------------------------------------------------
 
     @Test
-    @DisplayName("Test creating snippets from configured `remote` adapter config")
+    @DisplayName("Test creating snippets from configured `remote` adapter config, with single selector")
     fun test31() {
         resource(
             "homepage.txt",
@@ -627,6 +635,89 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
                             li { +"asdf" }
                         }
                     }
+                }
+            }
+    }
+
+    @Test
+    @DisplayName("Test creating snippets from configured `remote` adapter config, with single selector")
+    fun test32() {
+        resource(
+            "homepage.txt",
+            """
+            |---
+            |---
+            |{% set bodySnippet = snippet('body') %}
+            |{% set sidebarSnippet = snippet('sidebar') %}
+            |
+            |{{ bodySnippet.content | raw }}
+            |<br>
+            |{{ bodySnippet.tags|join(',') }}
+            |
+            |<hr>
+            |
+            |{{ sidebarSnippet.content | raw }}
+            |<br>
+            |{{ sidebarSnippet.tags|join(',') }}
+            """.trimMargin()
+        )
+        configObject(
+            "snippets",
+            """
+            |{
+            |   "sections": [
+            |       {
+            |           "tags": ["wiki"],
+            |           "adapter": {
+            |               "type": "remote",
+            |               "url": "https://github.com/copper-leaf/wiki-with-sidebar/wiki/GettingStarted",
+            |               "selectors": [
+            |                   {
+            |                       "selector": "#wiki-body",
+            |                       "name": "body",
+            |                       "tags": ["body"]
+            |                   },
+            |                   {
+            |                       "selector": "#wiki-rightbar .wiki-custom-sidebar.markdown-body",
+            |                       "name": "sidebar",
+            |                       "tags": ["sidebar"]
+            |                   }
+            |               ]
+            |           }
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    div("markdown-body") {
+                        p { +"This is how to get started:" }
+                        ol {
+                            li { +"asdf" }
+                            li { +"asdf" }
+                            li { +"asdf" }
+                        }
+                    }
+                    br()
+                    +"body,wiki"
+
+                    hr()
+
+                    ul {
+                        li { a(href="Home") { +"Home" } }
+                        li {
+                            a(href="GettingStarted") { +"Getting Started" }
+                            ul {
+                                li { a(href="Installation") { +"Installation" } }
+                                li { a(href="Configuration") { +"Configuration" } }
+                            }
+                        }
+                    }
+                    br()
+                    +"sidebar,wiki"
                 }
             }
     }

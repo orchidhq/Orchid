@@ -1,8 +1,9 @@
-{# @pebvariable name="component" type="com.eden.orchid.changelog.components.ChangelogComponent" #}
-{% for version in component.model.versions %}
-{# @pebvariable name="version" type="com.eden.orchid.changelog.model.ChangelogVersion" #}
-<details id="{{ version.version }}" {% if loop.first %}open{% endif %}>
-  <summary>{{ version.version }} {% if version.releaseDate is not empty %} - {{ version.releaseDate }}{% endif %}</summary>
-  {{ version.content | raw }}
-</details>
-{% endfor %}
+{% accordion dynamic %}
+  {% for version in component.model.versions %}
+    {% set tabName = version.version ~ ((version.releaseDate is not empty) ? ' - '~version.releaseDate : '') %}
+    {% tab tabName %}
+      {{ version.content | raw }}
+    {% endtab %}
+  {% endfor %}
+{% endaccordion %}
+

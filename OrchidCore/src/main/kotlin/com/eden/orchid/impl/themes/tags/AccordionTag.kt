@@ -22,7 +22,7 @@ class AccordionTag : TemplateTag("accordion", Type.Tabbed, true) {
         return Tab(key, content)
     }
 
-    class Tab(name: String?, content: String?) : TemplateTag.SimpleTab("accordion", name, content) {
+    class Tab(name: String?, content: String?) : TemplateTag.SimpleTab("tab", name, content) {
 
         @Option
         @Description("The title of the section")

@@ -5,8 +5,8 @@ images:
     alt: Forms
     caption: Photo by Gemma Evans on Unsplash
 tags:
-    - components
     - blog
+    - components
 ---
 
 ## About
