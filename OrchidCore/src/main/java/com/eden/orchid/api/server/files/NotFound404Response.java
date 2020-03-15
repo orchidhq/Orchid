@@ -14,7 +14,14 @@ import java.util.Map;
 
 final class NotFound404Response {
 
+    // TODO: move this logic into a Component which is attached to a View created for this request
     static OrchidResponse getResponse(OrchidContext context, String targetPath) {
+        OrchidPage view = new OrchidPage(
+                new StringResource(new OrchidReference(context, "404.txt"), ""),
+                RenderService.RenderMode.TEMPLATE,
+                "404",
+                "Not Found!"
+        );
         String content = "";
         Clog.i("Rendering 404: #{$1}", targetPath);
 
@@ -37,11 +44,11 @@ final class NotFound404Response {
 
             Map<String, Object> object = new HashMap<>(context.getConfig());
             object.put("page", indexPageVars);
-            object.put("theme", context.getTheme());
+            object.put("theme", view.getTheme());
 
             String notFoundIndexContent;
             if (resource != null) {
-                notFoundIndexContent = context.compile(resource, resource.getReference().getExtension(), resource.getContent(), object);
+                notFoundIndexContent = context.compileWithSourceObject(resource, resource.getReference().getExtension(), resource.getContent(), object);
             }
             else {
                 notFoundIndexContent = context.serialize("json", object);

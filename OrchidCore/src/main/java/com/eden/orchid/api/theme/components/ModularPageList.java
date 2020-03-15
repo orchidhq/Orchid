@@ -28,7 +28,11 @@ public abstract class ModularPageList<
     @Override
     protected void addItem(I item, Map<String, Object> itemJson) {
         if (item.canBeUsedOnPage(containingPage, (L) this, itemsJson, loadedItems)) {
-            item.initialize(containingPage.getContext(), containingPage);
+            if(containingPage == null) {
+                throw new NullPointerException("Page must be present when adding to ModularPageList. Provided config: " + itemJson);
+            }
+            OrchidContext context1 = containingPage.getContext();
+            item.initialize(context1, containingPage);
             item.extractOptions(context, itemJson);
             super.addItem(item, itemJson);
         }

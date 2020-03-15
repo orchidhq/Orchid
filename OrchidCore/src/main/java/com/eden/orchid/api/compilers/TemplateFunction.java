@@ -6,6 +6,8 @@ import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
+import java.util.Map;
+
 @ImportantModularType
 @Description(value = "A function that can be called from your templates.", name = "Template Functions")
 public abstract class TemplateFunction implements OptionsHolder {
@@ -40,7 +42,7 @@ public abstract class TemplateFunction implements OptionsHolder {
      * @return the result
      * @param context
      */
-    public abstract Object apply(OrchidContext context, OrchidPage page);
+    public abstract Object apply(OrchidContext context, OrchidPage page, Map<String, Object> currentContextData);
 
     public String getName() {
         return this.name;

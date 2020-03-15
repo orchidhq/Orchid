@@ -26,7 +26,6 @@ constructor(
         return OrchidResponse(context).view(
             OrchidView(
                 context,
-                this,
                 "Form Manager",
                 mapOf("formModel" to model),
                 "forms"

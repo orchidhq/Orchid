@@ -3,6 +3,7 @@ package com.eden.orchid.impl.compilers.pebble;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.eden.orchid.utilities.OrchidUtils;
 import com.mitchellbosecke.pebble.extension.Function;
 import com.mitchellbosecke.pebble.extension.escaper.SafeString;
 import com.mitchellbosecke.pebble.template.EvaluationContext;
@@ -45,7 +46,9 @@ public final class PebbleWrapperTemplateFunction implements Function {
 
         freshFunction.extractOptions(contextProvider.get(), args);
 
-        Object output = freshFunction.apply(contextProvider.get(), actualPage);
+        Map<String, Object> data = contextProvider.get().getSiteData(actualPage);
+
+        Object output = freshFunction.apply(contextProvider.get(), actualPage, data);
 
         if (freshFunction.isSafeString()) {
             return new SafeString(output.toString());

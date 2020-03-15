@@ -23,7 +23,7 @@ constructor(
 
     @Get(path = "/admin")
     fun index(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest): OrchidResponse {
-        val view = OrchidView(context, this, "admin")
+        val view = OrchidView(context, "Admin", emptyMap(), "admin")
 
         return OrchidResponse(context).view(view)
     }
@@ -39,7 +39,7 @@ constructor(
 
             try {
                 val classType = Class.forName(params.className)
-                val view = OrchidView(context, this, "${params.className} Description", data, "describe")
+                val view = OrchidView(context, "${params.className} Description", data, "describe")
                 view.title = Descriptive.getDescriptiveName(classType)
                 view.breadcrumbs = arrayOf("describe", classType.`package`.name)
                 view.params = params

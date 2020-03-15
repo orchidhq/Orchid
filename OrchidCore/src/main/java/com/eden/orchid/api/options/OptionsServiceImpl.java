@@ -87,22 +87,28 @@ public final class OptionsServiceImpl implements OptionsService {
     @Override
     public Map<String, Object> getSiteData(Object data) {
         Map<String, Object> siteData = new HashMap<>();
+        OrchidPage page = null;
 
         if (data != null) {
             if (data instanceof OrchidView) {
                 addView(siteData, (OrchidView) data);
+                page = (OrchidView) data;
             }
             else if (data instanceof AssetPage) {
                 addAsset(siteData, (AssetPage) data);
+                page = (AssetPage) data;
             }
             else if (data instanceof OrchidPage) {
                 addPage(siteData, (OrchidPage) data);
+                page = (OrchidPage) data;
             }
             else if (data instanceof OrchidComponent) {
                 addComponent(siteData, (OrchidComponent) data);
+                page = ((OrchidComponent) data).getPage();
             }
             else if (data instanceof TemplateTag) {
                 addTag(siteData, (TemplateTag) data);
+                page = ((TemplateTag) data).getPage();
             }
             else if (data instanceof JSONElement) {
                 addJSONElement(siteData, (JSONElement) data);
@@ -117,12 +123,15 @@ public final class OptionsServiceImpl implements OptionsService {
                 addJSONArray(siteData, (JSONArray) data);
             }
             else if (data instanceof Collection) {
-                addCollection(siteData, (Collection) data);
+                addCollection(siteData, (Collection<?>) data);
             }
         }
 
-        for(TemplateGlobal global : globals) {
-            siteData.put(global.key(), global.get(context));
+        for(TemplateGlobal<?> global : globals) {
+            Object globalValue = global.get(context, page);
+            if(globalValue != null) {
+                siteData.put(global.key(), global.get(context, page));
+            }
         }
 
         return siteData;
@@ -208,7 +217,6 @@ public final class OptionsServiceImpl implements OptionsService {
 
     private void addView(Map<String, Object> siteData, OrchidView view) {
         siteData.put("view", view);
-        siteData.put("controller", view.getController());
         siteData.put("params", view.getParams());
 
         OrchidServer server = context.resolve(OrchidServer.class);

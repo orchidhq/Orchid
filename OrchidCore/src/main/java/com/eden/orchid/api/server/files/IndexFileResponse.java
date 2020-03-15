@@ -6,6 +6,7 @@ import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
+import com.eden.orchid.api.server.OrchidView;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -27,9 +28,15 @@ import java.util.Map;
 
 final class IndexFileResponse {
 
-    // TODO: convert this to a component
+    // TODO: move this logic into a Component which is attached to a View created for this request
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
-        AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
+        OrchidPage view = new OrchidPage(
+                new StringResource(new OrchidReference(context, "directoryListing.txt"), ""),
+                RenderService.RenderMode.TEMPLATE,
+                "directoryListing",
+                "Index"
+        );
+        AssetHolder assetHolder = new AssetHolderDelegate(context, view::getTheme, null, null);
 
         if (targetFile.isDirectory()) {
             Clog.i("Rendering directory index: {}", targetPath);
@@ -92,11 +99,11 @@ final class IndexFileResponse {
 
                 Map<String, Object> object = new HashMap<>(context.getConfig());
                 object.put("page", indexPageVars);
-                object.put("theme", context.getTheme());
+                object.put("theme", view.getTheme());
 
                 String directoryListingContent;
                 if (resource != null) {
-                    directoryListingContent = context.compile(resource, resource.getReference().getExtension(), resource.getContent(), object);
+                    directoryListingContent = context.compileWithSourceObject(resource, resource.getReference().getExtension(), resource.getContent(), object);
                 }
                 else {
                     directoryListingContent = context.serialize("json", object);

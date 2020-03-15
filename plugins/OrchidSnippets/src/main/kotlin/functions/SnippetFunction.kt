@@ -16,7 +16,7 @@ class SnippetFunction : TemplateFunction("snippet", false), SnippetsModel.Snippe
 
     override fun parameters() = arrayOf(::snippetName.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: MutableMap<String, Any>?): Any? {
         val model = context.resolve<SnippetsModel>()
         return model.getSnippet(this)
     }

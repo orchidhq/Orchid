@@ -19,7 +19,7 @@ public interface Renderable {
 
     default OrchidResource resolveTemplate(OrchidContext context, OrchidPage orchidPage) {
         return OrchidUtils.expandTemplateList(context, getPossibleTemplates(), getTemplateBase())
-                .map(template -> context.locateTemplate(template, true))
+                .map(template -> context.locateTemplate(orchidPage.getTheme(), template, true))
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);

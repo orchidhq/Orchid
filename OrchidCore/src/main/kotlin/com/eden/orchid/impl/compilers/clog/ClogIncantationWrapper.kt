@@ -20,7 +20,7 @@ class ClogIncantationWrapper(
 
         freshFunction.extractOptions(contextProvider.get(), functionOptionsMap)
 
-        return freshFunction.apply(contextProvider.get(), null)
+        return freshFunction.apply(contextProvider.get(), null, emptyMap())
     }
 
     override fun getName(): String {

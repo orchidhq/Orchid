@@ -24,7 +24,7 @@ class LinkFunction : TemplateFunction("link", true) {
 
     override fun parameters() = IndexService.locateParams
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         val foundPage = context.findPage(collectionType, collectionId, itemId)
         return if (foundPage != null) {
             foundPage.link

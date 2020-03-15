@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
@@ -91,8 +92,12 @@ public interface CompilerService extends OrchidService {
      * @since v1.0.0
      * @see OrchidCompiler
      */
-    default String compile(@Nullable OrchidResource resource, String extension, String input, Object data) {
-        return getService(CompilerService.class).compile(resource, extension, input, data);
+    default String compileWithSourceObject(@Nullable OrchidResource resource, String extension, String input, Object data) {
+        return getService(CompilerService.class).compileWithSourceObject(resource, extension, input, data);
+    }
+
+    default String compileWithContextData(@Nullable OrchidResource resource, String extension, String input, @Nonnull Map<String, Object> data) {
+        return getService(CompilerService.class).compileWithContextData(resource, extension, input, data);
     }
 
     /**

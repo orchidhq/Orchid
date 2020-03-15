@@ -2,12 +2,12 @@ package com.eden.orchid.impl.compilers.pebble;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.Theme;
 import com.mitchellbosecke.pebble.error.LoaderException;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.utils.PathUtils;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -17,20 +17,26 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 public final class PebbleTemplateLoader implements Loader<String> {
-    private final Provider<OrchidContext> context;
     private String charset;
+    private final OrchidContext context;
+    private final Theme theme;
 
     @Inject
-    public PebbleTemplateLoader(Provider<OrchidContext> context) {
+    public PebbleTemplateLoader(OrchidContext context, Theme theme) {
         this.context = context;
+        this.theme = theme;
         this.charset = "UTF-8";
     }
 
     @Override
     public Reader getReader(String templateName) throws LoaderException {
+        if(context == null) {
+            throw new LoaderException(null, "PebbleTemplateLoader is not initialized, context are null");
+        }
+
         templateName = templateName.replaceAll("::.*::", "");
         try {
-            OrchidResource res = context.get().locateTemplate(templateName);
+            OrchidResource res = context.locateTemplate(theme, templateName);
             return (res != null) ? getReaderFromResource(res) : new StringReader("");
         } catch (Exception e) {
             throw new LoaderException(e, "Could not find template in list \"" + templateName + "\"");
@@ -39,7 +45,12 @@ public final class PebbleTemplateLoader implements Loader<String> {
 
     @Override
     public String createCacheKey(String templateName) {
-        return "::" + context.get().getTheme().getKey() + "::" + templateName;
+        if(theme != null) {
+            return "::" + theme.getKey() + "::" + templateName;
+        }
+        else {
+            return "::no_theme_configured::" + templateName;
+        }
     }
 
     @Override

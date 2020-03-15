@@ -55,6 +55,6 @@ class BaseUrlFunctionTest {
         `when`(context.baseUrl).thenReturn(baseUrl)
         underTest.input = input
 
-        expectThat(underTest.apply(context, null)).isEqualTo(expected)
+        expectThat(underTest.apply(context, null, emptyMap())).isEqualTo(expected)
     }
 }

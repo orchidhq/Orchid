@@ -1,7 +1,5 @@
 package com.eden.orchid.api;
 
-import com.eden.common.json.JSONElement;
-import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
@@ -15,8 +13,6 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
-import com.eden.orchid.utilities.SuppressedWarnings;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Named;

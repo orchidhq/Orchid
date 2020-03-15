@@ -21,8 +21,14 @@ import java.lang.Exception
         Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
 )
 @Description(value = "A generic static page.", name = "Static Page")
-class StaticPage(resource: OrchidResource)
-    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "staticPage", null) {
+class StaticPage(
+    resource: OrchidResource
+) : OrchidPage(
+    resource,
+    RenderService.RenderMode.TEMPLATE,
+    "staticPage",
+    null
+) {
 
     @Option @BooleanDefault(true)
     @Description("Whether to use the 'pretty' URL version when linking to this page or not.")
@@ -31,13 +37,6 @@ class StaticPage(resource: OrchidResource)
     @Option @StringDefault("template")
     @Description("How should this page be rendered? One of [TEMPLATE, RAW, or BINARY].")
     lateinit var renderMode: String
-
-    @Option
-    @Description("Set a theme to be used only when rendering pages this Static Page. This can be a String to use " +
-            "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
-            "specific options for the theme."
-    )
-    lateinit var theme: ThemeRelation
 
     override fun onPostExtraction() {
         reference.isUsePrettyUrl = usePrettyUrl

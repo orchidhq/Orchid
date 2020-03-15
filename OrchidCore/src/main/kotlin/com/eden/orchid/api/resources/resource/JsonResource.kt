@@ -12,7 +12,16 @@ import java.io.InputStream
  * this resource will supply additional data to the template renderer. When used with renderRaw(), the raw JSON-encoded
  * data will be written directly instead.
  */
-class JsonResource(reference: OrchidReference, private val hardcodedJson: JSONElement) : OrchidResource(reference) {
+class JsonResource
+private constructor(
+    reference: OrchidReference,
+    private val hardcodedJson: JSONElement
+) : OrchidResource(reference) {
+
+    constructor(reference: OrchidReference, jsonList: JSONArray)        : this(reference, JSONElement(jsonList))
+    constructor(reference: OrchidReference, jsonList: List<Any?>)       : this(reference, JSONElement(JSONArray(jsonList)))
+    constructor(reference: OrchidReference, jsonMap: JSONObject)        : this(reference, JSONElement(jsonMap))
+    constructor(reference: OrchidReference, jsonMap: Map<String, Any?>) : this(reference, JSONElement(JSONObject(jsonMap)))
 
     override fun getContentStream(): InputStream {
         return if (hardcodedJson.element is JSONObject) {

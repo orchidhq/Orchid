@@ -4,16 +4,24 @@ import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.utilities.OrchidUtils
+import io.bit3.jsass.Compiler
+import io.bit3.jsass.Sass2ScssOptions
 import io.bit3.jsass.importer.Import
 import io.bit3.jsass.importer.Importer
 import org.apache.commons.io.FilenameUtils
 import javax.inject.Inject
 
-class SassImporter @Inject
-constructor(private val context: OrchidContext) : Importer {
+class SassImporter(
+    private val context: OrchidContext,
+    sourceResource: OrchidResource?,
+    private val sourceTheme: Theme?,
+    private val sourceData: Map<String, Any?>
+) : Importer {
 
     private val ignoredPreviousValues = arrayOf("stdin")
+    private val importContext = mutableListOf(sourceResource)
 
     override fun apply(url: String, previous: Import): Collection<Import>? {
         val (isAbsolute, cleanedCurrentImportName) = cleanInputName(url)
@@ -42,16 +50,18 @@ constructor(private val context: OrchidContext) : Importer {
         }
 
         for (availableFile in availableFiles) {
-            val importedResource = context.getResourceEntry(availableFile, null)
+            val importedResource = if(sourceTheme != null) context.getResourceEntry(sourceTheme, availableFile, null) else context.getResourceEntry(availableFile, null)
 
             if (importedResource != null) {
+                importContext.add(importedResource)
+
                 var content = importedResource.content
                 if (importedResource.shouldPrecompile()) {
-                    content = context.compile(
+                    content = context.compileWithContextData(
                         importedResource,
                         importedResource.precompilerExtension,
                         content,
-                        importedResource.embeddedData
+                        sourceData
                     )
                 }
 
@@ -64,7 +74,7 @@ constructor(private val context: OrchidContext) : Importer {
                     )
 
                     if (importedResource.reference.extension == "sass") {
-                        content = convertSassToScss(importedResource, content, baseUri)
+                        content = convertSassToScss(content)
                     }
 
                     val newImport = Import(relativeUri, baseUri, content)
@@ -130,7 +140,6 @@ constructor(private val context: OrchidContext) : Importer {
         )
     }
 
-
 // helpers
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -175,15 +184,7 @@ constructor(private val context: OrchidContext) : Importer {
         return inputs.map { OrchidUtils.normalizePath(it) }
     }
 
-    private fun convertSassToScss(resource: OrchidResource?, input: String, baseUri: String): String {
-        // Importing Sass syntax is not natively supported, we must compile it ourselves manually. And since
-        // we are going outside the normal importing flow, we have to add a comment signalling the import's
-        // context. Unfortunately, this means that each Sass-style import is compiled in isolation, so variables,
-        // macros, etc. are not available in imported files, currently.
-        //
-        // In the future, there will hopefully be the `sass2scss()` native function will be exported by jsass, so the
-        // content passed here can just be converted to SCSS, instead of compiled fully to CSS and included.
-        return context.compile(resource, "sass", Clog.format("// CONTEXT={}\n{}", baseUri, input), null)
+    private fun convertSassToScss(input: String): String {
+        return Compiler.sass2scss(input, Sass2ScssOptions.CONVERT_COMMENT)
     }
-
 }

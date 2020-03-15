@@ -22,11 +22,7 @@ constructor(
     lateinit var allData: Map<String, Any>
 
     override fun load(): Theme? {
-        return if (key.isNotBlank()) {
-            context.findTheme(key)?.also { it.extractOptions(context, allData) }
-        } else {
-            null
-        }
+        return context.findTheme(key, allData)
     }
 
     override fun parseStringRef(ref: String?): Map<String, Any> {

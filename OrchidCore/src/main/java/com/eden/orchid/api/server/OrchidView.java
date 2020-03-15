@@ -1,5 +1,6 @@
 package com.eden.orchid.api.server;
 
+import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.Descriptive;
@@ -9,8 +10,7 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
-import com.eden.orchid.api.theme.assets.CssPage;
-import com.eden.orchid.api.theme.assets.JsPage;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import kotlin.collections.CollectionsKt;
@@ -34,7 +34,6 @@ public final class OrchidView extends OrchidPage {
     }
 
     private String[] breadcrumbs;
-    private final OrchidController controller;
     @Inject
     private Provider<Set<AdminList>> adminLists;
     @Inject
@@ -42,13 +41,8 @@ public final class OrchidView extends OrchidPage {
     private Object params;
     private Type type;
 
-    public OrchidView(OrchidContext context, OrchidController controller, String... views) {
-        this(context, controller, "Admin", new HashMap<>(), views);
-    }
-
     public OrchidView(
             OrchidContext context,
-            OrchidController controller,
             String title,
             Map<String, Object> data,
             String... views
@@ -59,10 +53,20 @@ public final class OrchidView extends OrchidPage {
                 "view",
                 title
         );
-        this.controller = controller;
         this.layout = "layoutBase";
         this.template = views;
         context.injectMembers(this);
+    }
+
+    @Override
+    protected void postInitialize(String title) {
+        super.postInitialize(title);
+
+        if(EdenUtils.isEmpty(theme.key)) {
+            Theme currentTheme = context.findTheme("Admin", new HashMap<>());
+            theme.setKey(currentTheme.getKey());
+            theme.set(currentTheme);
+        }
     }
 
 // Assets
@@ -71,16 +75,6 @@ public final class OrchidView extends OrchidPage {
     @Override
     public void loadAssets() {
         addJs("assets/js/shadowComponents.js");
-    }
-
-    @Override
-    protected void collectThemeScripts(List<JsPage> scripts) {
-        scripts.addAll(context.getAdminTheme().getScripts());
-    }
-
-    @Override
-    protected void collectThemeStyles(List<CssPage> styles) {
-        styles.addAll(context.getAdminTheme().getStyles());
     }
 
     // View renderer
@@ -158,10 +152,6 @@ public final class OrchidView extends OrchidPage {
 
     public void setBreadcrumbs(final String[] breadcrumbs) {
         this.breadcrumbs = breadcrumbs;
-    }
-
-    public OrchidController getController() {
-        return this.controller;
     }
 
     public void setAdminLists(final Provider<Set<AdminList>> adminLists) {

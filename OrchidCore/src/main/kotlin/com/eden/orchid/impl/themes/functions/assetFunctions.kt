@@ -29,7 +29,7 @@ class AssetFunction : TemplateFunction("asset", false) {
 
     override fun parameters() = arrayOf(::itemId.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return context.assetManager.createAsset(itemId, page, "page")
     }
 }
@@ -102,7 +102,7 @@ class RotateFunction : BaseImageManipulationFunction("rotate") {
 
     override fun parameters() = arrayOf(::input.name, ::angle.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return applyInternal(context, page) { asset, resource: Rotateable ->
             resource.rotate(asset, angle)
         }
@@ -119,7 +119,7 @@ class ScaleFunction : BaseImageManipulationFunction("scale") {
 
     override fun parameters() = arrayOf(::input.name, ::factor.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return applyInternal(context, page) { asset, resource: Scalable ->
             resource.scale(asset, factor)
         }
@@ -154,7 +154,7 @@ class ResizeFunction : BaseImageManipulationFunction("resize") {
 
     override fun parameters() = arrayOf(::input.name, ::width.name, ::height.name, ::mode.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return applyInternal(context, page) { asset, resource: Resizable ->
             resource.resize(asset, width, height, mode)
         }
@@ -177,7 +177,7 @@ constructor(private val permalinkStrategy: PermalinkStrategy) : BaseImageManipul
 
     override fun parameters() = arrayOf(::input.name, ::permalink.name, ::usePrettyUrl.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return applyInternal(context, page) { asset, resource: Renameable ->
             resource.rename(asset, permalinkStrategy, permalink, usePrettyUrl)
         }
@@ -192,7 +192,7 @@ class ImageFunction : BaseImageManipulationFunction("img", true) {
 
     override fun parameters() = arrayOf(::input.name, ::alt.name, ::alt.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         val asset: AssetPage? = getAssetPage(context, page)
 
         return """ <img src="${asset?.link}" alt="${alt}"> """

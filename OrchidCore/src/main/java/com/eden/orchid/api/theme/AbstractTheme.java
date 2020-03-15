@@ -6,10 +6,6 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.ResourceServiceImpl;
-import com.eden.orchid.api.resources.resource.JarResource;
-import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourcesource.JarResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.ThemeResourceSource;
 import com.eden.orchid.api.theme.assets.AssetHolder;
@@ -20,8 +16,6 @@ import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.resources.resourcesource.PluginJarResourceSource;
-import com.eden.orchid.utilities.CacheKt;
-import com.eden.orchid.utilities.LRUCache;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -32,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.jar.JarFile;
 
 public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Comparable<AbstractTheme> {
 
@@ -69,7 +62,7 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
 
     public AbstractTheme(OrchidContext context, String key, int priority) {
         this.key = key;
-        this.assetHolder = new AssetHolderDelegate(context, this, "theme");
+        this.assetHolder = new AssetHolderDelegate(context, ()->(Theme)this, this, "theme");
         this.preferredTemplateExtension = "peb";
         this.context = context;
         this.priority = priority;
@@ -113,9 +106,11 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
         if (!isHasRenderedAssets()) {
             getScripts()
                     .stream()
+                    .peek(it -> it.setTheme((Theme) this))
                     .forEach(context::render);
             getStyles()
                     .stream()
+                    .peek(it -> it.setTheme((Theme) this))
                     .forEach(context::render);
             hasRenderedAssets = true;
         }
@@ -145,10 +140,8 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
         return new ComponentHolder[] { };
     }
 
-    public final void doWithCurrentPage(OrchidPage currentPage, Consumer<AbstractTheme> callback) {
+    public final void attachToPage(OrchidPage currentPage) {
         this.currentPage = currentPage;
-        callback.accept(this);
-        this.currentPage = null;
     }
 
 // Map Implementation

@@ -5,19 +5,20 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.OrchidResponse;
-import com.eden.orchid.api.theme.AdminTheme;
+import com.eden.orchid.api.server.OrchidView;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.HashMap;
 
 final class AdminAssetResponse {
 
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
-        AdminTheme theme = context.getAdminTheme();
+        OrchidView view = new OrchidView(context, "Admin", new HashMap<>());
 
-        OrchidResource res = theme.getResourceSource().getResourceEntry(context, targetPath);
+        OrchidResource res = view.getTheme().getResourceSource().getResourceEntry(context, targetPath);
         String mimeType = StaticFileResponse.mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), "text/plain");
 
         Clog.i("Rendering admin File: #{$1}", targetPath);

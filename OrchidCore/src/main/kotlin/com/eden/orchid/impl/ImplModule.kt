@@ -20,7 +20,6 @@ import com.eden.orchid.api.server.admin.AdminList
 import com.eden.orchid.api.tasks.OrchidCommand
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskServiceImpl
-import com.eden.orchid.api.theme.AdminTheme
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.ThemeServiceImpl
 import com.eden.orchid.api.theme.components.OrchidComponent
@@ -139,8 +138,6 @@ class ImplModule(
                 Theme::class.java,
                 DefaultTheme::class.java
             )
-
-            addToSet(AdminTheme::class.java)
 
             // Resource Sources
             addToSet(

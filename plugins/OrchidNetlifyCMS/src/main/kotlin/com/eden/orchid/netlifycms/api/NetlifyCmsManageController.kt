@@ -23,7 +23,6 @@ class NetlifyCmsManageController : OrchidController(10000) {
         val model: NetlifyCmsModel = request.context.resolve()
         val view = OrchidView(
             request.context,
-            this,
             "Netlify CMS Content Manager",
             mapOf(
                 "model" to model

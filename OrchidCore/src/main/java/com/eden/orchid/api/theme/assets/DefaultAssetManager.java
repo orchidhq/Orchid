@@ -3,6 +3,10 @@ package com.eden.orchid.api.theme.assets;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.ThumbnailResource;
+import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.ThemeServiceImpl;
+import com.eden.orchid.api.theme.components.OrchidComponent;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import javax.inject.Provider;
 
@@ -27,7 +31,15 @@ public final class DefaultAssetManager implements AssetManager {
 
     @Override
     public AssetPage createAsset(String asset, Object source, String sourceKey) {
-        OrchidResource originalResource = context.get().getResourceEntry(asset, null);
+        Theme theme = ThemeServiceImpl.lookupTheme(source);
+        final OrchidResource originalResource;
+        if(theme != null) {
+            originalResource = context.get().getResourceEntry(theme, asset, null);
+        }
+        else {
+            originalResource = context.get().getResourceEntry(asset, null);
+        }
+
         if (originalResource != null) {
             // don't render the asset immediately. Allow the template to apply transformations to the asset, and it will be
             // rendered lazily when the link for the asset is requested (or not at all if it is never used)

@@ -104,9 +104,8 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, Stage.
             }
         }
 
-        val jsonElement = JSONElement(versionsJson)
         val reference = OrchidReference(context, "meta/versions.json")
-        val resource = JsonResource(reference, jsonElement)
+        val resource = JsonResource(reference, versionsJson)
         val page = OrchidPage(resource, RenderService.RenderMode.RAW, "changelogVersions", "Changelog Index")
         page.reference.isUsePrettyUrl = false
 

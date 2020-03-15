@@ -18,7 +18,7 @@ class Nl2brFunction : TemplateFunction("nl2br", true) {
 
     override fun parameters() = arrayOf(::input.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: MutableMap<String, Any>?): Any? {
         return context
             .resolve<StringConverter>()
             .convert(String::class.java, input)

@@ -5,10 +5,14 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.ThemeServiceImpl;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -17,6 +21,7 @@ import java.util.stream.Collectors;
 public final class AssetHolderDelegate implements AssetHolder {
 
     protected final OrchidContext context;
+    protected final Provider<Theme> theme;
 
     private final List<AssetPage> assets;
 
@@ -26,8 +31,13 @@ public final class AssetHolderDelegate implements AssetHolder {
     private String prefix;
 
     @Inject
-    public AssetHolderDelegate(OrchidContext context, Object source, String sourceKey) {
+    public AssetHolderDelegate(
+            OrchidContext context,
+            Provider<Theme> theme,
+            Object source,
+            String sourceKey) {
         this.context = context;
+        this.theme = theme;
         this.source = source;
         this.sourceKey = sourceKey;
         this.assets = new ArrayList<>();
@@ -135,7 +145,15 @@ public final class AssetHolderDelegate implements AssetHolder {
     }
 
     private <T extends AssetPage> T addAssetInternal(String asset, boolean renderImmediately, CreateAssetInterface<T> creator, BiConsumer<T, Boolean> adder) {
-        OrchidResource resource = context.getResourceEntry(asset, null);
+        Theme theme = this.theme.get();
+        final OrchidResource resource;
+        if(theme != null) {
+            resource = context.getResourceEntry(theme, asset, null);
+        }
+        else {
+            resource = context.getResourceEntry(asset, null);
+        }
+
         if(resource != null) {
             boolean setPrefix = !EdenUtils.isEmpty(prefix);
             if(resource instanceof ExternalResource) {

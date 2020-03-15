@@ -16,7 +16,8 @@ class ExcerptFunction : TemplateFunction("excerpt", false) {
 
     override fun parameters() = arrayOf(::input.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    // TODO: move this into Core
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: MutableMap<String, Any>?): Any? {
         val strategy: PostsExcerptStrategy = context.resolve()
         if (input != null && input is OrchidPage) {
             return strategy.getExcerpt(input as OrchidPage)

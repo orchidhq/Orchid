@@ -4,6 +4,7 @@
 services:
   generators:
     disabled:
+      - 'assets'
       - 'javadoc'
       - 'groovydoc'
       - 'swiftdoc'

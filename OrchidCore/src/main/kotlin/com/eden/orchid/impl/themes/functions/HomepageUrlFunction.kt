@@ -10,7 +10,7 @@ class HomepageUrlFunction : TemplateFunction("homepageUrl", true) {
 
     override fun parameters() = emptyArray<String>()
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return context.findPage("home", "home", "home")?.link ?: context.baseUrl
     }
 }

@@ -26,7 +26,7 @@ class LocalDateFunction : TemplateFunction("localDate", true) {
 
     override fun parameters() = arrayOf(::input.name, ::format.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         val converter: DateTimeConverter = context.resolve()
         return DateTimeFormatter.ofPattern(format).format(converter.convert(LocalDate::class.java, input).second)
     }

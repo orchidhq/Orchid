@@ -42,7 +42,7 @@ class AnchorFunction : TemplateFunction("anchor", true) {
         ::pageAnchorId.name
     )
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         if (EdenUtils.isEmpty(itemId) && !EdenUtils.isEmpty(title)) {
             itemId = title
         }

@@ -751,7 +751,7 @@ class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
 
         execute().checkAndLog(
             "/assets/media/bulma.css",
-            ""
+            ".hero{display:flex;color:#7695B2;}.section{display:flex;color:#8B8F5E;}.footer{display:flex;color:#DBD5AB;}"
         )
     }
 

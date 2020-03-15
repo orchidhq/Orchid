@@ -71,7 +71,7 @@ class EncodeSpacesTagTest : OrchidIntegrationTest(
 
         underTest.input = input
 
-        val actual = underTest.apply(context, null)
+        val actual = underTest.apply(context, null, null)
 
         expectThat(actual!!.toString().toByteArray()).isEqualTo(expected.toByteArray())
         expectThat(actual).isEqualTo(expected)
@@ -83,7 +83,7 @@ class EncodeSpacesTagTest : OrchidIntegrationTest(
 
         val context = result.testContext!!
 
-        val actual = context.compile(null, "peb", "{{ input|encodeSpaces }}", mapOf("input" to input))
+        val actual = context.compileWithContextData(null, "peb", "{{ input|encodeSpaces }}", mapOf("input" to input))
 
         expectThat(actual).isEqualTo(expected)
     }

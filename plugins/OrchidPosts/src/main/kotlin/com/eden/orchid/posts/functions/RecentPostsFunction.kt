@@ -24,7 +24,8 @@ class RecentPostsFunction : TemplateFunction("recentPosts", false) {
 
     override fun parameters() = arrayOf(::category.name, ::limit.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    // TODO: deprecate this, and just use the `findAll` function instead. Add limits to that function's parameters
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: MutableMap<String, Any>?): Any? {
         val model: PostsModel = context.resolve()
 
         return if (!EdenUtils.isEmpty(category)) {

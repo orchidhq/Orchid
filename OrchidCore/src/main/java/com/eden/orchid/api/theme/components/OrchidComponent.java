@@ -116,7 +116,7 @@ public abstract class OrchidComponent extends Prioritized implements
     public void initialize(OrchidContext context, OrchidPage containingPage) {
         this.context = context;
         this.page = containingPage;
-        this.assetHolder = new AssetHolderDelegate(context, this, "component");
+        this.assetHolder = new AssetHolderDelegate(context, containingPage::getTheme, this, "component");
     }
 
     @Override

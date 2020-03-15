@@ -21,7 +21,7 @@ class ParseAsFunction : TemplateFunction("parseAs", false) {
 
     override fun parameters() = arrayOf(::input.name, ::ext.name)
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return context.parse(ext, input?.toString() ?: "")
     }
 }

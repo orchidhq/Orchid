@@ -10,6 +10,7 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,9 +56,9 @@ public final class RenderServiceTest implements OrchidUnitTest {
         renderer = mock(OrchidRenderer.class);
         when(context.resolve(OptionsExtractor.class)).thenReturn(extractor);
         when(renderer.render(any(), any())).thenReturn(true);
-        when(context.getTheme()).thenReturn(theme);
         when(theme.getPreferredTemplateExtension()).thenReturn("peb");
         when(context.getDefaultTemplateExtension()).thenReturn("peb");
+        when(context.findTheme(any(), any())).thenReturn(theme);
 
         resourceContent = "test content";
         layoutContent = "test layout";
@@ -77,15 +78,18 @@ public final class RenderServiceTest implements OrchidUnitTest {
 
         page = new OrchidPage(resource, RenderService.RenderMode.BINARY, "testContent", null);
         page = spy(page);
+        ThemeRelation themeRelation = new ThemeRelation(context);
+        themeRelation.set(theme);
+        page.setTheme(themeRelation);
         page.setPublishDate(LocalDate.now().atStartOfDay());
         page.setExpiryDate(LocalDate.now().atTime(LocalTime.MAX));
         page.setLayout("one.html");
 
-        when(context.locateTemplate("templates/layouts/one.html", true)).thenReturn(layout);
-        when(context.compile(any(), eq("html"), eq(layoutContent), eq(page))).thenReturn(layoutContent);
-        when(context.compile(any(), eq("html"), eq(resourceContent), eq(page))).thenReturn(resourceContent);
-        when(context.compile(any(), eq("peb"), eq(layoutContent), eq(page))).thenReturn(layoutContent);
-        when(context.compile(any(), eq("peb"), eq(resourceContent), eq(page))).thenReturn(resourceContent);
+        when(context.locateTemplate(any(), eq("templates/layouts/one.html"), eq(true))).thenReturn(layout);
+        when(context.compileWithSourceObject(any(), eq("html"), eq(layoutContent), eq(page))).thenReturn(layoutContent);
+        when(context.compileWithSourceObject(any(), eq("html"), eq(resourceContent), eq(page))).thenReturn(resourceContent);
+        when(context.compileWithSourceObject(any(), eq("peb"), eq(layoutContent), eq(page))).thenReturn(layoutContent);
+        when(context.compileWithSourceObject(any(), eq("peb"), eq(resourceContent), eq(page))).thenReturn(resourceContent);
 
         service = new RenderServiceImpl(context, renderer);
         service.initialize(context);

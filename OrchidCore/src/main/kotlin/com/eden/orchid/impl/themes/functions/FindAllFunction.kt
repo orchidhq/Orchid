@@ -40,7 +40,7 @@ class FindAllFunction : TemplateFunction("findAll", false) {
         ::pageIndex.name
     )
 
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         return if (pageIndex > 0 && pageSize > 0) {
             context.findAll(collectionType, collectionId, itemId, pageIndex, pageSize)
         } else {

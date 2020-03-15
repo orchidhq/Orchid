@@ -22,7 +22,7 @@ class LimitToFunction : TemplateFunction("limitTo", false) {
     override fun parameters() = arrayOf(::input.name, ::count.name)
 
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
-    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+    override fun apply(context: OrchidContext, page: OrchidPage?, currentContextData: Map<String, Any?>): Any? {
         if (count == 0) {
             throw IllegalArgumentException("Count must be given.")
         }

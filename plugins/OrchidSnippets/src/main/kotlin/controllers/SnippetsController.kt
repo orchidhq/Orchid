@@ -26,7 +26,6 @@ constructor(
         return OrchidResponse(context).view(
             OrchidView(
                 context,
-                this,
                 "Snippet Manager",
                 mapOf("snippetModel" to model),
                 "snippets"

@@ -104,12 +104,17 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
             ItemTitleType.NAME -> page.title
             ItemTitleType.ID -> page.element.id
         }
-        if(transform.isNotBlank()) {
-            itemTitle = context.compile(page.resource, transformAs, transform, mapOf(
-                "title" to itemTitle,
-                "page" to page,
-                "element" to page.element
-            ))
+        if (transform.isNotBlank()) {
+            itemTitle = context.compileWithContextData(
+                page.resource,
+                transformAs,
+                transform,
+                mapOf(
+                    "title" to itemTitle,
+                    "page" to page,
+                    "element" to page.element
+                )
+            )
         }
         it.title(itemTitle)
     }

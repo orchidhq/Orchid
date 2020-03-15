@@ -53,7 +53,10 @@ public final class PebbleWrapperTemplateFilter implements Filter {
         }
 
         freshFunction.extractOptions(contextProvider.get(), args);
-        Object output = freshFunction.apply(contextProvider.get(), actualPage);
+
+        Map<String, Object> data = contextProvider.get().getSiteData(actualPage);
+
+        Object output = freshFunction.apply(contextProvider.get(), actualPage, data);
 
         if (freshFunction.isSafeString()) {
             return new SafeString(output.toString());

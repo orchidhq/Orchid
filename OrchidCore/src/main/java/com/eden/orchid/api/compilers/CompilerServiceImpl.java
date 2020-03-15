@@ -14,6 +14,8 @@ import kotlin.Lazy;
 import kotlin.LazyKt;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -159,14 +161,21 @@ public final class CompilerServiceImpl implements CompilerService {
     }
 
     @Override
-    public String compile(OrchidResource resource, String extension, String input, Object data) {
+    public String compileWithSourceObject(OrchidResource resource, String extension, String input, Object data) {
+        Map<String, Object> expandedData = context.getSiteData(data);
+        return compileWithContextData(resource, extension, input, expandedData);
+    }
+
+    @Override
+    public String compileWithContextData(@Nullable OrchidResource resource, String extension, String input, @Nonnull Map<String, Object> data) {
         OrchidCompiler compiler = compilerFor(extension);
         if (compiler != null) {
             synchronized (compiler) {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
-                compiler.compile(os, resource, extension, input, context.getSiteData(data));
+                compiler.compile(os, resource, extension, input, data);
 
-                return new String(os.toByteArray(), StandardCharsets.UTF_8);
+                String output = new String(os.toByteArray(), StandardCharsets.UTF_8);
+                return output;
             }
         } else {
             return input;

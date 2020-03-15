@@ -413,7 +413,27 @@ public final class OrchidUtils {
     }
 
     public static Stream<String> expandTemplateList(OrchidContext context, final List<String> templates, final String templateBase) {
-        String themePreferredExtension = context.getTheme().getPreferredTemplateExtension();
+        String defaultExtension = context.getDefaultTemplateExtension();
+
+        return templates
+                .stream()
+                .filter(OrchidUtils.not(EdenUtils::isEmpty))
+                .distinct()
+                .flatMap(template -> Stream.of(
+                        "templates/" + template,
+                        "templates/" + template + "." + defaultExtension,
+                        "templates/" + templateBase + "/" + template,
+                        "templates/" + templateBase + "/" + template + "." + defaultExtension
+                        ).distinct()
+                );
+    }
+
+    public static Stream<String> expandTemplateList(
+            OrchidContext context,
+            String themePreferredExtension,
+            final List<String> templates,
+            final String templateBase
+    ) {
         String defaultExtension = context.getDefaultTemplateExtension();
 
         return templates

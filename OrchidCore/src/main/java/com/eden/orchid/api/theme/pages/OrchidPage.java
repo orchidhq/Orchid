@@ -28,6 +28,7 @@ import com.eden.orchid.api.theme.components.MetaComponentHolder;
 import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
+import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
 import kotlin.jvm.internal.Intrinsics;
@@ -72,6 +73,13 @@ public class OrchidPage implements
     protected String key;
     protected Map<String, Object> data;
     protected final RenderService.RenderMode pageRenderMode;
+
+    @Option
+    @Description("Set a theme to be used only when rendering pages this Static Page. This can be a String to use " +
+            "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
+            "specific options for the theme."
+    )
+    protected ThemeRelation theme;
 
     @Option("next") private PageRelation nextPage;
     @Option("previous") private PageRelation previousPage;
@@ -204,7 +212,7 @@ public class OrchidPage implements
         Intrinsics.checkNotNull(key, "OrchidPage 'key' cannot be null");
 
         this.context = resource.getReference().getContext();
-        this.assets = new AssetHolderDelegate(context, this, "page");
+        this.assets = new AssetHolderDelegate(context, this::getTheme, this, "page");
 
         this.key = key;
         this.template = new String[]{"page"};
@@ -274,7 +282,10 @@ public class OrchidPage implements
     }
 
     public Theme getTheme() {
-        return context.getTheme();
+        Theme relatedTheme = theme.get();
+        if(relatedTheme == null) throw new NullPointerException("Pages must have a related theme");
+        relatedTheme.attachToPage(this);
+        return relatedTheme;
     }
 
     public boolean shouldRender() {
@@ -313,8 +324,8 @@ public class OrchidPage implements
     }
 
     public final OrchidResource resolveLayout() {
-        return OrchidUtils.expandTemplateList(getContext(), getPossibleLayouts(), getLayoutBase())
-                .map(template -> getContext().locateTemplate(template, true))
+        return OrchidUtils.expandTemplateList(getContext(), getTheme().getPreferredTemplateExtension(), getPossibleLayouts(), getLayoutBase())
+                .map(template -> getContext().locateTemplate(getTheme(), template, true))
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
@@ -446,7 +457,7 @@ public class OrchidPage implements
     }
 
     protected void collectThemeScripts(List<JsPage> scripts) {
-        context.getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(context.getTheme().getScripts()));
+        scripts.addAll(getTheme().getScripts());
     }
 
     protected void collectOwnScripts(List<JsPage> scripts) {
@@ -458,7 +469,7 @@ public class OrchidPage implements
     }
 
     protected void collectThemeStyles(List<CssPage> styles) {
-        context.getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(context.getTheme().getStyles()));
+        styles.addAll(getTheme().getStyles());
     }
 
     protected void collectOwnStyles(List<CssPage> styles) {
@@ -792,5 +803,13 @@ public class OrchidPage implements
 
     public RenderService.RenderMode getPageRenderMode() {
         return pageRenderMode;
+    }
+
+    public void setTheme(ThemeRelation theme) {
+        this.theme = theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme.set(theme);
     }
 }

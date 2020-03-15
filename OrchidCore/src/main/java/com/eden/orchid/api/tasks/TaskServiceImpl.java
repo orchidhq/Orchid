@@ -119,11 +119,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 context.setState(Orchid.State.BUILD_PREP);
                 context.broadcast(Orchid.Lifecycle.BuildStart.fire(this));
                 initOptions();
-                context.clearThemes();
 
-                if(taskType == TaskType.SERVE) {
-                    context.clearAdminThemes();
-                }
                 Clog.i("Build Starting...");
                 context.setState(Orchid.State.INDEXING);
                 context.broadcast(Orchid.Lifecycle.IndexingStart.fire(this));
