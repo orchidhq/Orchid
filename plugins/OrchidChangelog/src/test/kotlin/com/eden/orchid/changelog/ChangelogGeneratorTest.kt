@@ -75,7 +75,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
                         details {
-                            id = "1.1.0"
+                            id = "changelog-1.1.0 - 2019-11-1"
                             open = true
                             summary { +"1.1.0 - 2019-11-1" }
 
@@ -87,7 +87,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                         }
 
                         details {
-                            id = "1.0.0"
+                            id = "changelog-1.0.0 - 2019-10-1"
                             summary { +"1.0.0 - 2019-10-1" }
 
                             h1 {
@@ -97,7 +97,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.3.0"
+                            id = "changelog-0.3.0"
                             summary { +"0.3.0" }
 
                             h1 {
@@ -107,7 +107,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.2.0"
+                            id = "changelog-0.2.0"
                             summary { +"0.2.0" }
 
                             h1 {
@@ -117,7 +117,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.1.0"
+                            id = "changelog-0.1.0"
                             summary { +"0.1.0" }
 
                             h1 {
@@ -187,7 +187,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
                         details {
-                            id = "1.1.0"
+                            id = "changelog-1.1.0"
                             open = true
                             summary { +"1.1.0" }
 
@@ -199,7 +199,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                         }
 
                         details {
-                            id = "1.0.0"
+                            id = "changelog-1.0.0"
                             summary { +"1.0.0" }
 
                             h1 {
@@ -209,7 +209,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.3.0"
+                            id = "changelog-0.3.0"
                             summary { +"0.3.0" }
 
                             h1 {
@@ -219,7 +219,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.2.0"
+                            id = "changelog-0.2.0"
                             summary { +"0.2.0" }
 
                             h1 {
@@ -229,7 +229,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.1.0"
+                            id = "changelog-0.1.0"
                             summary { +"0.1.0" }
 
                             h1 {
@@ -306,7 +306,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
                         details {
-                            id = "1.1.0"
+                            id = "changelog-1.1.0"
                             open = true
                             summary { +"1.1.0" }
 
@@ -318,7 +318,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                         }
 
                         details {
-                            id = "1.0.0"
+                            id = "changelog-1.0.0"
                             summary { +"1.0.0" }
 
                             h1 {
@@ -328,7 +328,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.3.0"
+                            id = "changelog-0.3.0"
                             summary { +"0.3.0" }
 
                             h1 {
@@ -338,7 +338,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.2.0"
+                            id = "changelog-0.2.0"
                             summary { +"0.2.0" }
 
                             h1 {
@@ -348,7 +348,7 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                             }
                         }
                         details {
-                            id = "0.1.0"
+                            id = "changelog-0.1.0"
                             summary { +"0.1.0" }
 
                             h1 {
@@ -418,24 +418,24 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
                         details {
-                            id = "1.1.0"
+                            id = "changelog-1.1.0 - 2019-11-1"
                             open = true
                             summary { +"1.1.0 - 2019-11-1" }
                         }
                         details {
-                            id = "1.0.0"
+                            id = "changelog-1.0.0 - 2019-10-1"
                             summary { +"1.0.0 - 2019-10-1" }
                         }
                         details {
-                            id = "0.3.0"
+                            id = "changelog-0.3.0"
                             summary { +"0.3.0" }
                         }
                         details {
-                            id = "0.2.0"
+                            id = "changelog-0.2.0"
                             summary { +"0.2.0" }
                         }
                         details {
-                            id = "0.1.0"
+                            id = "changelog-0.1.0"
                             summary { +"0.1.0" }
                             ul {
                                 li {
@@ -488,24 +488,24 @@ class ChangelogGeneratorTest : OrchidIntegrationTest(ChangelogModule(), withGene
                 htmlBodyMatches {
                     div("component component-changelog component-order-0") {
                         details {
-                            id = "1.1.0"
+                            id = "changelog-1.1.0 - 2019-11-1"
                             open = true
                             summary { +"1.1.0 - 2019-11-1" }
                         }
                         details {
-                            id = "1.0.0"
+                            id = "changelog-1.0.0 - 2019-10-1"
                             summary { +"1.0.0 - 2019-10-1" }
                         }
                         details {
-                            id = "0.3.0"
+                            id = "changelog-0.3.0"
                             summary { +"0.3.0" }
                         }
                         details {
-                            id = "0.2.0"
+                            id = "changelog-0.2.0"
                             summary { +"0.2.0" }
                         }
                         details {
-                            id = "0.1.0"
+                            id = "changelog-0.1.0"
                             summary { +"0.1.0" }
                             ul {
                                 li {

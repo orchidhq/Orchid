@@ -1,4 +1,4 @@
-{% accordion dynamic %}
+{% accordion dynamic id="changelog" %}
   {% for version in component.model.versions %}
     {% set tabName = version.version ~ ((version.releaseDate is not empty) ? ' - '~version.releaseDate : '') %}
     {% tab tabName %}

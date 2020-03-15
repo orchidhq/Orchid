@@ -438,7 +438,6 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     @Test
     @DisplayName("Test creating snippets from default `embedded` adapter config, but with tags and selecting from those tags")
     fun test23() {
-        serveOn(8080)
         resource(
             "homepage.txt",
             """
