@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -26,6 +27,7 @@ import com.eden.orchid.utilities.OrchidUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,7 +147,9 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
         return new ComponentHolder[] { };
     }
 
-    public final void doWithCurrentPage(OrchidPage currentPage, Consumer<AbstractTheme> callback) {
+    public final void doWithCurrentPage(@Nonnull OrchidPage currentPage, Consumer<AbstractTheme> callback) {
+        if(currentPage == null) throw new NullPointerException("Page cannot be null");
+
         this.currentPage = currentPage;
         callback.accept(this);
         this.currentPage = null;

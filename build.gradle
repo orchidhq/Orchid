@@ -72,12 +72,6 @@ task getReleaseName {
     }
 }
 
-task getReleaseNotes {
-    doLast {
-        println getChangelogFile().text.split("---").last().trim()
-    }
-}
-
 // Add check to make sure every release version has a Changelog file
 //----------------------------------------------------------------------------------------------------------------------
 

@@ -10,7 +10,11 @@ import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.assets.AssetManager;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.relations.ThemeRelation;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Provider;
 import com.google.inject.name.Named;
 import kotlin.text.StringsKt;
@@ -19,6 +23,7 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Stack;
+import java.util.function.Consumer;
 
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
 @Archetype(value = ConfigArchetype.class, key = "services.themes")
@@ -88,20 +93,39 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
     @Override public void       popAdminTheme()                  { adminThemes.popTheme(); }
     @Override public void       clearAdminThemes()               { adminThemes.clearThemes(); }
 
-    @Override public Theme doWithTheme(ThemeRelation themeObject, Runnable cb) {
-        Theme theme = themeObject.get();
+    @Override public void renderPageWithTheme(@Nonnull OrchidPage page, ThemeRelation themeObjectFromGenerator, Consumer<OrchidPage> cb) {
+        renderPageWithTheme(page, themeObjectFromGenerator, null, cb);
+    }
 
-        if (theme != null) {
-            pushTheme(theme);
-            cb.run();
-            theme.renderAssets();
-            popTheme();
-            return theme;
+    @Override public void renderPageWithTheme(@Nonnull OrchidPage page, @Nullable ThemeRelation themeObjectFromGenerator, @Nullable ThemeRelation themeObjectFromPage, Consumer<OrchidPage> cb) {
+        if(page == null) throw new NullPointerException("Page cannot be null");
+
+        if(themeObjectFromPage != null) {
+            Theme pageTheme = themeObjectFromPage.get();
+
+            if (pageTheme != null) {
+                pushTheme(pageTheme);
+                pageTheme.doWithCurrentPage(page, t -> {
+                    cb.accept(page);
+                });
+                popTheme();
+                return;
+            }
         }
-        else {
-            cb.run();
-            return null;
+        if(themeObjectFromGenerator != null) {
+            Theme generatorTheme = themeObjectFromGenerator.get();
+
+            if (generatorTheme != null) {
+                pushTheme(generatorTheme);
+                generatorTheme.doWithCurrentPage(page, t -> {
+                    cb.accept(page);
+                });
+                popTheme();
+                return;
+            }
         }
+
+        cb.accept(page);
     }
 
 // Delegate interface calls to inner class

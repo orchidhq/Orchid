@@ -110,7 +110,7 @@ constructor(
             sidebarFile
         )
 
-        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
+        return WikiUtils.createWikiFromSummaryFile(context, section, summary) { linkName, linkTarget, _ ->
             val referencedFile = wikiPages.firstOrNull {
                 val filePath = FilenameUtils.removeExtension(it.relativeTo(repo.repoDir.toFile()).path)
                 filePath == linkTarget

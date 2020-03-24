@@ -139,7 +139,6 @@ public final class OrchidSiteImpl implements OrchidSite {
                         ? "/" + OrchidUtils.normalizePath(resolvedBaseUrl)
                         : OrchidUtils.normalizePath(resolvedBaseUrl);
             }
-            System.out.println();
         }
         return this.resolvedBaseUrl;
     }

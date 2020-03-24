@@ -29,7 +29,7 @@ constructor(
                 "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
                 "specific options for the theme."
     )
-    var theme: ThemeRelation? = null
+    lateinit var theme: ThemeRelation
 
     @Option
     @Description("Set the default layout to be used for all Pages from this Generator. Pages can specify their own " + "layouts, which take precedence over the Generator layout.")
@@ -52,7 +52,9 @@ constructor(
      * @param pages the pages to render
      */
     open fun startGeneration(context: OrchidContext, model: T) {
-        model.allPages.forEach { page -> context.render(page) }
+        model.allPages.forEach {
+            context.renderPageWithTheme(it, theme) { page -> context.render(page) }
+        }
     }
 
     companion object {

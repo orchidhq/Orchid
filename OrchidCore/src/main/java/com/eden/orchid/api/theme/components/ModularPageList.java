@@ -3,6 +3,10 @@ package com.eden.orchid.api.theme.components;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import kotlin.PreconditionsKt;
+import kotlin.coroutines.intrinsics.IntrinsicsKt;
+
+import javax.annotation.Nonnull;
 import javax.inject.Provider;
 
 import javax.inject.Inject;
@@ -45,7 +49,9 @@ public abstract class ModularPageList<
         throw new UnsupportedOperationException("Please use get(OrchidPage page)");
     }
 
-    public synchronized List<I> get(OrchidPage page) {
+    public synchronized List<I> get(@Nonnull OrchidPage page) {
+        if(page == null) throw new NullPointerException("Page cannot be null");
+
         containingPage = page;
         List<I> listItems = super.get(containingPage.getContext());
         containingPage = null;

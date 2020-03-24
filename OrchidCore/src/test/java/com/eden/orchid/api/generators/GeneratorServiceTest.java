@@ -195,19 +195,16 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         generator1.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
         generator1.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
         generator3.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
     }
 

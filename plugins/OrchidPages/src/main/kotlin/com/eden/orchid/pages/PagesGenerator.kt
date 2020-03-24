@@ -70,9 +70,10 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
     override fun startGeneration(context: OrchidContext, model: Model) {
         model
             .allPages
-            .forEach { page ->
-                if (page is StaticPage) {
-                    context.doWithTheme(page.theme) { context.render(page) }
+            .filterIsInstance<StaticPage>()
+            .forEach {
+                context.renderPageWithTheme(it, this@PagesGenerator.theme, it.theme) { page ->
+                    context.render(page)
                 }
             }
     }

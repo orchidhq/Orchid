@@ -89,14 +89,14 @@ class OrchidReferenceTest : OrchidUnitTest {
     fun testCreatingLocalUrls(baseUrl: String, original: String, formatted: String) {
         val site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb", "", "")
         `when`(context.getService(OrchidSite::class.java)).thenReturn(site)
-        `when`(context.baseUrl).thenCallRealMethod()
+        `when`(context.baseUrl).thenReturn(baseUrl)
 
         val ref = OrchidReference(context, original, true)
 
         Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
 
         expectThat(ref) {
-            get { this.toString() }.isEqualTo(formatted)
+            get { this.toString(context) }.isEqualTo(formatted)
         }
     }
 
@@ -128,7 +128,7 @@ class OrchidReferenceTest : OrchidUnitTest {
         Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
 
         expectThat(ref) {
-            get { this.toString() }.isEqualTo(original)
+            get { this.toString(context) }.isEqualTo(original)
             get { this.path }.isEqualTo(path)
             get { this.id }.isEqualTo(id)
             get { this.query }.isEqualTo(query)

@@ -172,10 +172,8 @@ public final class GeneratorServiceImpl implements GeneratorService {
             throw new IllegalStateException(Clog.format("Generator {} did not have a model registered!", generator.getKey()));
         }
 
-        Theme customTheme = context.doWithTheme(generator.getTheme(), () -> generator.startGeneration(context, (T) generatorModel));
-        if (customTheme != null) {
-            Clog.d("[{}] Generator pages rendered with [{}] Theme.", generator.getKey(), customTheme.getKey());
-        }
+        generator.startGeneration(context, (T) generatorModel);
+
         metrics.stopGeneratingGenerator(generator.getKey());
     }
 
