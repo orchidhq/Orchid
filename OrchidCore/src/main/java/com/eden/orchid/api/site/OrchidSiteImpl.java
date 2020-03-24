@@ -1,16 +1,30 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
+import com.eden.orchid.api.options.annotations.ModularListConfig;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
+import kotlin.Lazy;
+import kotlin.LazyKt;
+import kotlin.Pair;
+import kotlin.collections.MapsKt;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Description(value = "The global configurations for your Orchid site.", name = "Site")
 @Archetype(value = ConfigArchetype.class, key = "site")
@@ -21,12 +35,17 @@ public final class OrchidSiteImpl implements OrchidSite {
     private final String sourceDir;
     private final String destinationDir;
     private String version;
-    private String baseUrl;
     private String environment;
     private String defaultTemplateExtension;
     @Option
     @Description("Basic, common information about your site, mostly for display and SEO purposes.")
     private SiteInfo about;
+
+    @Option
+    @ImpliedKey("value")
+    private OrchidBaseUrls baseUrl;
+
+    private String resolvedBaseUrl;
 
     @Inject
     public OrchidSiteImpl(
@@ -41,7 +60,6 @@ public final class OrchidSiteImpl implements OrchidSite {
         this.orchidVersion = orchidVersion;
         this.currentWorkingDirectory = OrchidUtils.normalizePath(Paths.get(".").toAbsolutePath().normalize().toString());
         this.version = version;
-        setBaseUrl(baseUrl);
         this.environment = environment;
         this.defaultTemplateExtension = defaultTemplateExtension;
         this.sourceDir = sourceDir;
@@ -51,17 +69,6 @@ public final class OrchidSiteImpl implements OrchidSite {
     @Override
     public void initialize(OrchidContext context) {
         this.context = context;
-    }
-
-    @Override
-    public void setBaseUrl(String baseUrl) {
-        if (baseUrl.equals("/")) {
-            this.baseUrl = baseUrl;
-        } else {
-            this.baseUrl = (baseUrl.startsWith("/"))
-                    ? "/" + OrchidUtils.normalizePath(baseUrl)
-                    : OrchidUtils.normalizePath(baseUrl);
-        }
     }
 
     @Override
@@ -84,7 +91,7 @@ public final class OrchidSiteImpl implements OrchidSite {
         JSONObject site = new JSONObject();
         site.put("orchidVersion", orchidVersion);
         site.put("version", version);
-        site.put("baseUrl", baseUrl);
+        site.put("baseUrl", resolvedBaseUrl);
         site.put("environment", environment);
         return site;
     }
@@ -111,7 +118,30 @@ public final class OrchidSiteImpl implements OrchidSite {
     }
 
     public String getBaseUrl() {
-        return this.baseUrl;
+        if (resolvedBaseUrl == null) {
+            // always use the dev server URL if running a serve task
+            baseUrl.add(MapsKt.mapOf(new Pair("type", "devServer"), new Pair("order", Integer.MIN_VALUE)));
+            // always default to the defined base URL if nothing else is given
+            baseUrl.add(MapsKt.mapOf(new Pair("type", "default"), new Pair("order", Integer.MAX_VALUE)));
+
+            List<BaseUrlFactory> factories = baseUrl.get(context);
+            for(BaseUrlFactory factory : factories) {
+                if(factory.isEnabled(context)) {
+                    resolvedBaseUrl = factory.getBaseUrl(context);
+                    break;
+                }
+            }
+
+            if (resolvedBaseUrl.equals("/")) {
+                this.resolvedBaseUrl = resolvedBaseUrl;
+            } else {
+                this.resolvedBaseUrl = (resolvedBaseUrl.startsWith("/"))
+                        ? "/" + OrchidUtils.normalizePath(resolvedBaseUrl)
+                        : OrchidUtils.normalizePath(resolvedBaseUrl);
+            }
+            System.out.println();
+        }
+        return this.resolvedBaseUrl;
     }
 
     public String getEnvironment() {
@@ -146,5 +176,9 @@ public final class OrchidSiteImpl implements OrchidSite {
     @Override
     public String getDestinationDir() {
         return destinationDir;
+    }
+
+    public void setBaseUrl(OrchidBaseUrls baseUrl) {
+        this.baseUrl = baseUrl;
     }
 }

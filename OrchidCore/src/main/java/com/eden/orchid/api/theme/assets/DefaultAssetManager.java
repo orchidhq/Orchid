@@ -39,7 +39,7 @@ public final class DefaultAssetManager implements AssetManager {
 
     @Override
     public AssetPage getActualAsset(AssetPage asset) {
-        final String assetKey = asset.getReference().toString();
+        final String assetKey = asset.getReference().toString(asset.getContext());
         if(assets.containsKey(assetKey)) {
             return assets.get(assetKey);
         }
@@ -53,7 +53,7 @@ public final class DefaultAssetManager implements AssetManager {
     // this point. Inline resources are rendered directly into the page, and should not be rendered as a proper resource
     @Override
     public AssetPage addAsset(AssetPage asset, boolean renderImmediately) {
-        final String assetKey = asset.getReference().toString();
+        final String assetKey = asset.getReference().toString(asset.getContext());
         if(assets.containsKey(assetKey)) {
             return assets.get(assetKey);
         }

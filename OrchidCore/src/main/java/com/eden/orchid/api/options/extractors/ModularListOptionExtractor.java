@@ -5,7 +5,12 @@ import com.eden.orchid.api.converters.FlexibleIterableConverter;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.ModularListConfig;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.theme.components.ModularList;
+import com.google.common.collect.Maps;
+import kotlin.Pair;
+import kotlin.collections.MapsKt;
+
 import javax.inject.Provider;
 
 import javax.inject.Inject;
@@ -43,6 +48,7 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
     @Override
     public ModularList getOption(Field field, Object sourceObject, String key) {
+        OrchidContext context = contextProvider.get();
         String objectKeyName = (field.isAnnotationPresent(ModularListConfig.class))
                 ? field.getAnnotation(ModularListConfig.class).objectKeyName()
                 : "type";
@@ -57,7 +63,7 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
         if(jsonArray.size() > 0) {
             ModularList modularList = (ModularList) contextProvider.get().resolve(field.getType());
-            modularList.initialize(jsonArray);
+            modularList.initialize(context, jsonArray);
             return modularList;
         }
 
@@ -66,8 +72,9 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
     @Override
     public ModularList getDefaultValue(Field field) {
-        ModularList modularList = (ModularList) contextProvider.get().resolve(field.getType());
-        modularList.initialize(new ArrayList<>());
+        OrchidContext context = contextProvider.get();
+        ModularList modularList = (ModularList) context.resolve(field.getType());
+        modularList.initialize(context, new ArrayList<>());
         return modularList;
     }
 

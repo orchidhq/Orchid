@@ -3,6 +3,7 @@ package com.eden.orchid.api.theme.pages;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.utilities.OrchidUtils;
+import kotlin.NotImplementedError;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ public final class OrchidReference {
      * The base URL of this reference, the URL at the root of your output site.
      */
     private String baseUrl;
+    private boolean getBaseUrlFromContext;
 
     /**
      * The path of the file within the basePath.
@@ -64,7 +66,8 @@ public final class OrchidReference {
 
     public OrchidReference(OrchidContext context, String fullFileName, boolean shouldParse) {
         this.context = context;
-        baseUrl = context.getBaseUrl();
+        baseUrl = null;
+        getBaseUrlFromContext = true;
         if(fullFileName == null) {
             fullFileName = "";
         }
@@ -73,7 +76,7 @@ public final class OrchidReference {
         originalFileName = FilenameUtils.getBaseName(originalFullFileName);
 
         if(shouldParse) {
-            parseFullFilename(fullFileName);
+            parseFullFilename(context, fullFileName);
         }
     }
 
@@ -84,6 +87,7 @@ public final class OrchidReference {
     public OrchidReference(OrchidReference source) {
         this.context = source.context;
         this.baseUrl = source.baseUrl;
+        this.getBaseUrlFromContext = source.getBaseUrlFromContext;
         this.originalFullFileName = source.originalFullFileName;
         this.originalFileName = source.originalFileName;
         this.path = source.path;
@@ -95,7 +99,7 @@ public final class OrchidReference {
         this.usePrettyUrl = source.usePrettyUrl;
     }
 
-    private void parseFullFilename(String fullFileName) {
+    private void parseFullFilename(OrchidContext context, String fullFileName) {
         String partToTrim;
 
         if (fullFileName.contains(".")) {
@@ -256,7 +260,10 @@ public final class OrchidReference {
         }
     }
 
-    public String getServerPath() {
+    public String getServerPath(OrchidContext context) {
+        if(this.baseUrl == null && getBaseUrlFromContext) {
+            baseUrl = context.getBaseUrl();
+        }
         String output = "";
 
         if (!EdenUtils.isEmpty(baseUrl)) {
@@ -330,16 +337,20 @@ public final class OrchidReference {
 
     @Override
     public String toString() {
-        return getServerPath();
+        throw new NotImplementedError("must provide OrchidContext to `toString()`");
+    }
+
+    public String toString(OrchidContext context) {
+        return getServerPath(context);
     }
 
     public OrchidContext getContext() {
         return context;
     }
 
-    public JSONObject toJSON() {
+    public JSONObject toJSON(OrchidContext context) {
         JSONObject referenceJson = new JSONObject();
-        referenceJson.put("link", this.toString());
+        referenceJson.put("link", this.toString(context));
 
         referenceJson.put("baseUrl", this.baseUrl);
         referenceJson.put("path", this.path);
@@ -390,6 +401,7 @@ public final class OrchidReference {
                 OrchidReference newReference = new OrchidReference(context, url , false);
 
                 newReference.baseUrl = "/";
+                newReference.getBaseUrlFromContext = false;
                 newReference.fileName = FilenameUtils.removeExtension(FilenameUtils.getName(parsedUrl.getPath()));
                 newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));
                 newReference.title = title;
@@ -417,6 +429,7 @@ public final class OrchidReference {
                 else {
                     newReference.baseUrl = parsedUrl.getProtocol() + "://" + parsedUrl.getHost();
                 }
+                newReference.getBaseUrlFromContext = false;
 
                 newReference.fileName = FilenameUtils.removeExtension(FilenameUtils.getName(parsedUrl.getPath()));
                 newReference.path = OrchidUtils.normalizePath(parsedUrl.getPath().replaceAll(FilenameUtils.getName(parsedUrl.getPath()), ""));

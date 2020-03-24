@@ -239,7 +239,7 @@ public class OrchidPage implements
 //----------------------------------------------------------------------------------------------------------------------
 
     public String getLink() {
-        return reference.toString();
+        return reference.toString(context);
     }
 
     public final boolean isDraft() {
@@ -346,12 +346,12 @@ public class OrchidPage implements
     public JSONObject toJSON(boolean includePageContent, boolean includePageData) {
         JSONObject pageJson = new JSONObject();
         pageJson.put("title", this.getTitle());
-        pageJson.put("reference", this.reference.toJSON());
+        pageJson.put("reference", this.reference.toJSON(context));
         if (getPrevious() != null) {
-            pageJson.put("previous", getPrevious().getReference().toJSON());
+            pageJson.put("previous", getPrevious().getReference().toJSON(context));
         }
         if (getNext() != null) {
-            pageJson.put("next", getNext().getReference().toJSON());
+            pageJson.put("next", getNext().getReference().toJSON(context));
         }
 
         pageJson.put("description", this.description);

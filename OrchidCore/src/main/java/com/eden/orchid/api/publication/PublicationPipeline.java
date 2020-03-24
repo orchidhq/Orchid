@@ -12,8 +12,8 @@ import java.util.function.BiConsumer;
 public final class PublicationPipeline extends ModularList<PublicationPipeline, OrchidPublisher> {
 
     @Inject
-    public PublicationPipeline(OrchidContext context) {
-        super(context);
+    public PublicationPipeline() {
+        super();
     }
 
     @Override
@@ -21,16 +21,16 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
         return OrchidPublisher.class;
     }
 
-    public boolean publishAll() {
-        return publishAll(false);
+    public boolean publishAll(OrchidContext context) {
+        return publishAll(context, false);
     }
 
-    public boolean publishAll(boolean dryDeploy) {
-        return publishAll(dryDeploy, null);
+    public boolean publishAll(OrchidContext context, boolean dryDeploy) {
+        return publishAll(context, dryDeploy, null);
     }
 
-    public boolean publishAll(boolean dryDeploy, BiConsumer<Integer, Integer> update) {
-        List<OrchidPublisher> allPublishers = get();
+    public boolean publishAll(OrchidContext context, boolean dryDeploy, BiConsumer<Integer, Integer> update) {
+        List<OrchidPublisher> allPublishers = get(context);
         List<OrchidPublisher> invalidPublishers = new ArrayList<>();
 
         int progress = 0;

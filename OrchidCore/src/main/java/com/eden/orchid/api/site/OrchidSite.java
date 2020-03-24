@@ -14,7 +14,6 @@ public interface OrchidSite extends OrchidService {
     default void setVersion(String version) { getService(OrchidSite.class).setVersion(version); }
     default String getVersion() { return getService(OrchidSite.class).getVersion(); }
 
-    default void setBaseUrl(String baseUrl) { getService(OrchidSite.class).setBaseUrl(baseUrl); }
     default String getBaseUrl() { return getService(OrchidSite.class).getBaseUrl(); }
 
     default void setEnvironment(String environment) { getService(OrchidSite.class).setEnvironment(environment); }

@@ -7,7 +7,8 @@ import javax.inject.Singleton
 
 @Singleton
 @JvmSuppressWildcards
-class OrchidServer @Inject
+class OrchidServer
+@Inject
 constructor(
     val controllers: Set<OrchidController>,
     val fileController: OrchidFileController

@@ -17,6 +17,9 @@ import com.eden.orchid.api.resources.ResourceServiceImpl
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.admin.AdminList
+import com.eden.orchid.api.site.BaseUrlFactory
+import com.eden.orchid.api.site.DefaultBaseUrlFactory
+import com.eden.orchid.api.site.DevServerBaseUrlFactory
 import com.eden.orchid.api.tasks.OrchidCommand
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskServiceImpl
@@ -133,6 +136,13 @@ class ImplModule(
 
             // prepare empty sets for binding
             addToSet(OrchidService::class.java)
+
+            // Site
+            addToSet(
+                BaseUrlFactory::class.java,
+                DefaultBaseUrlFactory::class.java,
+                DevServerBaseUrlFactory::class.java
+            )
 
             // Themes
             addToSet(

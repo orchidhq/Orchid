@@ -79,7 +79,6 @@ public final class OrchidWebserver extends NanoHTTPD {
         this.controllers = controllers;
         this.fileController = fileController;
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-        context.setBaseUrl(Clog.format("http://localhost:{}/", getListeningPort()));
         Clog.i(getServerRunningMessage());
         getRoutes = new ArrayList<>();
         postRoutes = new ArrayList<>();

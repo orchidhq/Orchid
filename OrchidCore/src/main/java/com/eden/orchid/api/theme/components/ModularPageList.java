@@ -8,6 +8,7 @@ import javax.inject.Provider;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public abstract class ModularPageList<
         L extends ModularPageList<L, I>,
@@ -17,19 +18,19 @@ public abstract class ModularPageList<
     private OrchidPage containingPage;
 
     @Inject
-    public ModularPageList(OrchidContext context) {
-        super(context);
+    public ModularPageList() {
+        super();
     }
 
-    public ModularPageList(OrchidContext context, Provider<Map<String, Class<I>>> itemTypesProvider) {
-        super(context, itemTypesProvider);
+    public ModularPageList(Function<OrchidContext, Map<String, Class<I>>> itemTypesProvider) {
+        super(itemTypesProvider);
     }
 
     @Override
     protected void addItem(I item, Map<String, Object> itemJson) {
         if (item.canBeUsedOnPage(containingPage, (L) this, itemsJson, loadedItems)) {
             item.initialize(containingPage.getContext(), containingPage);
-            item.extractOptions(context, itemJson);
+            item.extractOptions(containingPage.getContext(), itemJson);
             super.addItem(item, itemJson);
         }
     }
@@ -40,13 +41,13 @@ public abstract class ModularPageList<
     }
 
     @Override
-    public final List<I> get() {
+    public final List<I> get(OrchidContext context) {
         throw new UnsupportedOperationException("Please use get(OrchidPage page)");
     }
 
     public synchronized List<I> get(OrchidPage page) {
         containingPage = page;
-        List<I> listItems = super.get();
+        List<I> listItems = super.get(containingPage.getContext());
         containingPage = null;
 
         return listItems;
