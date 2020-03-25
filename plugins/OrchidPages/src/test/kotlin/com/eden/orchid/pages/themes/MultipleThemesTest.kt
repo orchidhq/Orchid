@@ -7,7 +7,6 @@ import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.printResults
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.utilities.addToSet
@@ -61,7 +60,6 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     @Test
     @DisplayName("Test switching themes with theme in generator and in page")
     fun test01() {
-
         configObject(
             "pages",
             """
@@ -82,7 +80,6 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute(testModule))
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p { +"homepage theme: Default" }
@@ -122,7 +119,6 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute(testModule))
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p { +"homepage theme: Default" }
@@ -156,7 +152,6 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
         )
 
         expectThat(execute(testModule))
-            .printResults()
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p { +"homepage theme: Default" }
@@ -170,6 +165,78 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             .pageWasRendered("/inner/page/page-two/index.html") {
                 htmlBodyMatches {
                     p { +"page two theme: fakeTheme2" }
+                }
+            }
+    }
+
+    @Test
+    @DisplayName("Test switching themes with theme only in page")
+    fun test04() {
+        flag("theme", "fakeTheme2")
+        resource(
+            "pages/inner/page/page-two.md",
+            """
+            |---
+            |---
+            |
+            |page two theme: {{ theme.key }}
+            """.trimMargin()
+        )
+
+        expectThat(execute(testModule))
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p { +"homepage theme: fakeTheme2" }
+                }
+            }
+            .pageWasRendered("/page-one/index.html") {
+                htmlBodyMatches {
+                    p { +"page one theme: fakeTheme2" }
+                }
+            }
+            .pageWasRendered("/inner/page/page-two/index.html") {
+                htmlBodyMatches {
+                    p { +"page two theme: fakeTheme2" }
+                }
+            }
+    }
+
+    @Test
+    @DisplayName("Test switching themes with theme only in page")
+    fun test05() {
+        flag("theme", "fakeTheme2")
+        configObject(
+            "site",
+            """
+            |{
+            |   "theme": "fakeTheme1"
+            |}
+            """.trimMargin()
+        )
+        resource(
+            "pages/inner/page/page-two.md",
+            """
+            |---
+            |---
+            |
+            |page two theme: {{ theme.key }}
+            """.trimMargin()
+        )
+
+        expectThat(execute(testModule))
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p { +"homepage theme: fakeTheme1" }
+                }
+            }
+            .pageWasRendered("/page-one/index.html") {
+                htmlBodyMatches {
+                    p { +"page one theme: fakeTheme1" }
+                }
+            }
+            .pageWasRendered("/inner/page/page-two/index.html") {
+                htmlBodyMatches {
+                    p { +"page two theme: fakeTheme1" }
                 }
             }
     }
