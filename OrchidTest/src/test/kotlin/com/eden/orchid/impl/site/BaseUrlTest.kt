@@ -22,8 +22,6 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
 
     @BeforeEach
     fun setUp() {
-        flag("diagnose", true)
-
         resource(
             "homepage.md",
             """

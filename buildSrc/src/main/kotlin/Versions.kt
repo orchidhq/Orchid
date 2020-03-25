@@ -26,7 +26,7 @@ object Versions {
 
     const val com_eden_dokka_runner: String = "0.2.4"
 
-    const val com_eden_common: String = "1.12.0"
+    const val com_eden_common: String = "1.12.1"
 
     const val codacy_coverage_reporter: String = "6.2.1"
 

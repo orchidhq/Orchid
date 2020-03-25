@@ -1,30 +1,20 @@
 package com.eden.orchid.api.site;
 
 import com.eden.orchid.api.OrchidContext;
-import com.eden.orchid.api.compilers.OrchidCompiler;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.ImpliedKey;
-import com.eden.orchid.api.options.annotations.ModularListConfig;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
-import kotlin.Lazy;
-import kotlin.LazyKt;
 import kotlin.Pair;
 import kotlin.collections.MapsKt;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 @Description(value = "The global configurations for your Orchid site.", name = "Site")
 @Archetype(value = ConfigArchetype.class, key = "site")
@@ -42,8 +32,8 @@ public final class OrchidSiteImpl implements OrchidSite {
     private SiteInfo about;
 
     @Option
-    @ImpliedKey("value")
-    private OrchidBaseUrls baseUrl;
+    @ImpliedKey(typeKey = "type", valueKey = "value")
+    private OrchidSiteBaseUrls baseUrl;
 
     private String resolvedBaseUrl;
 
@@ -51,7 +41,6 @@ public final class OrchidSiteImpl implements OrchidSite {
     public OrchidSiteImpl(
             String orchidVersion,
             @Named("version") String version,
-            @Named("baseUrl") String baseUrl,
             @Named("environment") String environment,
             @Named("defaultTemplateExtension") String defaultTemplateExtension,
             @Named("src") String sourceDir,
@@ -119,11 +108,6 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     public String getBaseUrl() {
         if (resolvedBaseUrl == null) {
-            // always use the dev server URL if running a serve task
-            baseUrl.add(MapsKt.mapOf(new Pair("type", "devServer"), new Pair("order", Integer.MIN_VALUE)));
-            // always default to the defined base URL if nothing else is given
-            baseUrl.add(MapsKt.mapOf(new Pair("type", "default"), new Pair("order", Integer.MAX_VALUE)));
-
             List<BaseUrlFactory> factories = baseUrl.get(context);
             for(BaseUrlFactory factory : factories) {
                 if(factory.isEnabled(context)) {
@@ -177,7 +161,7 @@ public final class OrchidSiteImpl implements OrchidSite {
         return destinationDir;
     }
 
-    public void setBaseUrl(OrchidBaseUrls baseUrl) {
+    public void setBaseUrl(OrchidSiteBaseUrls baseUrl) {
         this.baseUrl = baseUrl;
     }
 }

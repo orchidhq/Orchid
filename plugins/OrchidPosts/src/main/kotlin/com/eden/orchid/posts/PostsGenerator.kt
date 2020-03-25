@@ -54,7 +54,7 @@ constructor(
     lateinit var excerptSeparator: String
 
     @Option
-    @ImpliedKey("name")
+    @ImpliedKey(typeKey = "name")
     @Description(
         "A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
                 "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
@@ -64,7 +64,7 @@ constructor(
     lateinit var authors: List<Author>
 
     @Option
-    @ImpliedKey("key")
+    @ImpliedKey(typeKey = "key")
     @Description(
         "An array of Category configurations, which may be just the path of the category or a full " +
                 "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +

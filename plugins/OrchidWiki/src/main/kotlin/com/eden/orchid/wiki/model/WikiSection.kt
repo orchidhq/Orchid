@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Archetypes
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
@@ -44,6 +45,7 @@ constructor() : OptionsHolder {
     var includeIndexInPageTitle: Boolean = false
 
     @Option
+    @ImpliedKey(typeKey = "type")
     @StringDefault("orchid")
     lateinit var adapter: WikiAdapter
 

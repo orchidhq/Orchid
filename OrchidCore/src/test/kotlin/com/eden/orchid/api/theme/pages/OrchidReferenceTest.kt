@@ -87,7 +87,7 @@ class OrchidReferenceTest : OrchidUnitTest {
         "/inner/deep/                      , /example     , /inner/deep/example"
     )
     fun testCreatingLocalUrls(baseUrl: String, original: String, formatted: String) {
-        val site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb", "", "")
+        val site = OrchidSiteImpl("1.0", "1.0", "dev", "peb", "", "")
         `when`(context.getService(OrchidSite::class.java)).thenReturn(site)
         `when`(context.baseUrl).thenReturn(baseUrl)
 

@@ -27,7 +27,7 @@ class ExternalIndexGenerator :
                 "make strong links between the two sites. The index at `meta/indices.json` will crawl all the sub-indices " +
                 "of that site, or just a single one of that site's sub-indices can be included."
     )
-    @ImpliedKey("url")
+    @ImpliedKey(typeKey = "url")
     lateinit var externalIndices: List<ExternalIndex>
 
     override fun startIndexing(context: OrchidContext): ExternalIndexModel {

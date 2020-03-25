@@ -4,7 +4,7 @@ import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.annotations.ModularListConfig;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.theme.components.ModularType;
 import javax.inject.Provider;
@@ -41,19 +41,29 @@ public final class ModularTypeOptionExtractor extends OptionExtractor<ModularTyp
 
     @Override
     public ModularType getOption(Field field, Object sourceObject, String key) {
-        String objectKeyName = getObjectKeyName(field);
+        final String typeKey;
+        final String valueKey;
+        if(field.isAnnotationPresent(ImpliedKey.class)) {
+            ImpliedKey impliedKey = field.getAnnotation(ImpliedKey.class);
+            typeKey = impliedKey.typeKey();
+            valueKey = impliedKey.valueKey();
+        }
+        else {
+            typeKey = null;
+            valueKey = null;
+        }
 
-        Map<String, Object> data = mapConverter.convert(field.getType(), sourceObject, objectKeyName).second;
+        Map<String, Object> data = mapConverter.convert(field.getType(), sourceObject, typeKey).second;
 
         ModularType t = null;
 
-        Object typeKey = data.get(objectKeyName);
-        if(typeKey != null) {
-            t = createModularType(field, typeKey.toString(), data);
+        Object actualType = data.get(typeKey);
+        if(actualType != null) {
+            t = createModularType(field, actualType.toString(), data);
             if(t == null) {
                 Clog.e(
                         "Could not find modular type [{}] for {} {} in class {}, falling back to default [{}]",
-                        typeKey,
+                        actualType,
                         field.getType().getSimpleName(),
                         field.getName(),
                         field.getDeclaringClass().getSimpleName(),
@@ -62,13 +72,13 @@ public final class ModularTypeOptionExtractor extends OptionExtractor<ModularTyp
             }
         }
 
-        typeKey = data.get(null);
-        if(typeKey != null) {
-            t = createModularType(field, typeKey.toString(), data);
+        actualType = data.get(null);
+        if(actualType != null) {
+            t = createModularType(field, actualType.toString(), data);
             if(t == null) {
                 Clog.e(
                         "Could not find modular type [{}] for {} {} in class {}, falling back to default [{}]",
-                        typeKey,
+                        actualType,
                         field.getType().getSimpleName(),
                         field.getName(),
                         field.getDeclaringClass().getSimpleName(),
@@ -99,13 +109,19 @@ public final class ModularTypeOptionExtractor extends OptionExtractor<ModularTyp
 
     @Override
     public String describeDefaultValue(Field field) {
-        return "Default " + field.getType().getSimpleName() + " of type '" + getObjectKeyName(field) + "'";
-    }
+        final String typeKey;
+        final String valueKey;
+        if(field.isAnnotationPresent(ImpliedKey.class)) {
+            ImpliedKey impliedKey = field.getAnnotation(ImpliedKey.class);
+            typeKey = impliedKey.typeKey();
+            valueKey = impliedKey.valueKey();
+        }
+        else {
+            typeKey = null;
+            valueKey = null;
+        }
 
-    private String getObjectKeyName(Field field) {
-        return (field.isAnnotationPresent(ModularListConfig.class))
-                ? field.getAnnotation(ModularListConfig.class).objectKeyName()
-                : "type";
+        return "Default " + field.getType().getSimpleName() + " of type '" + typeKey + "'";
     }
 
     private String getDefaultType(Field field) {

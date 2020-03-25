@@ -31,7 +31,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
     private final List<EdenPair<String, OrchidParser>> delimiters;
 
     @Option
-    @ImpliedKey("regex")
+    @ImpliedKey(typeKey = "regex")
     public List<CustomDelimiter> customDelimeters;
 
     @Inject

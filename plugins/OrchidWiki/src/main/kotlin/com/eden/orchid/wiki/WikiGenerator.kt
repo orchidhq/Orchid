@@ -25,7 +25,7 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {
     }
 
     @Option
-    @ImpliedKey("key")
+    @ImpliedKey(typeKey = "key")
     @Description("The sections within the baseDir to make wikis out of.")
     lateinit var sections: MutableList<WikiSection>
 

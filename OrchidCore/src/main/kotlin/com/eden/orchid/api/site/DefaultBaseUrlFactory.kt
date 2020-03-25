@@ -19,13 +19,6 @@ constructor(
     @Option
     var value: String? = null
 
-    override fun onPostExtraction() {
-        super.onPostExtraction()
-        if(value.isNullOrBlank()) {
-            value = allOptions[null]?.toString()
-        }
-    }
-
     override fun isEnabled(context: OrchidContext): Boolean = true
     override fun getBaseUrl(context: OrchidContext) : String = (value?.takeIf { it.isNotBlank() } ?: baseUrl)
 }

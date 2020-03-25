@@ -5,6 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.Protected
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.utilities.debugger
 
 class NetlifyFlags : OrchidFlag() {
 
@@ -14,4 +15,26 @@ class NetlifyFlags : OrchidFlag() {
     @Description("Your Netlify Personal Access Token.")
     lateinit var netlifyToken: String
 
+// Environment variable flags set on Netlify's CI build platform
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Option
+    @JvmField
+    var netlify: Boolean = false
+
+    @Option
+    lateinit var CONTEXT: String
+
+    @Option
+    @JvmField
+    var PULL_REQUEST: Boolean = false
+
+    @Option
+    lateinit var DEPLOY_PRIME_URL: String
+
+    @Option
+    lateinit var DEPLOY_URL: String
+
+    @Option
+    lateinit var URL: String
 }

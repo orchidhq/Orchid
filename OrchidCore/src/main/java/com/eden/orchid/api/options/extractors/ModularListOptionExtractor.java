@@ -4,12 +4,8 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleIterableConverter;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.annotations.ModularListConfig;
-import com.eden.orchid.api.options.annotations.StringDefault;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.theme.components.ModularList;
-import com.google.common.collect.Maps;
-import kotlin.Pair;
-import kotlin.collections.MapsKt;
 
 import javax.inject.Provider;
 
@@ -49,11 +45,20 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
     @Override
     public ModularList getOption(Field field, Object sourceObject, String key) {
         OrchidContext context = contextProvider.get();
-        String objectKeyName = (field.isAnnotationPresent(ModularListConfig.class))
-                ? field.getAnnotation(ModularListConfig.class).objectKeyName()
-                : "type";
 
-        Iterable iterable = iterableConverter.convert(field.getType(), sourceObject, objectKeyName).second;
+        final String typeKey;
+        final String valueKey;
+        if(field.isAnnotationPresent(ImpliedKey.class)) {
+            ImpliedKey impliedKey = field.getAnnotation(ImpliedKey.class);
+            typeKey = impliedKey.typeKey();
+            valueKey = impliedKey.valueKey();
+        }
+        else {
+            typeKey = null;
+            valueKey = null;
+        }
+
+        Iterable iterable = iterableConverter.convert(field.getType(), sourceObject, typeKey, valueKey).second;
 
         List<Map<String, Object>> jsonArray = new ArrayList<>();
         for(Object o : iterable) {

@@ -75,7 +75,7 @@ ext.getChangelogFileName = {
     def major = vs[0] as int
     def minor = vs[1] as int
     def patch = vs[2] as int
-    return "$major.$minor/${major}.${minor}.${patch}.md"
+    return "${major}.${minor}/${major}.${minor}.${patch}.md"
 }
 
 ext.getChangelogFile = {

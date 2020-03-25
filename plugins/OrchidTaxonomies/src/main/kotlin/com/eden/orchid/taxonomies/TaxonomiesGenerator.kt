@@ -37,7 +37,7 @@ constructor(
     }
 
     @Option
-    @ImpliedKey("key")
+    @ImpliedKey(typeKey = "key")
     @Description("An array of Taxonomy configurations.")
     lateinit var taxonomies: List<Taxonomy>
 

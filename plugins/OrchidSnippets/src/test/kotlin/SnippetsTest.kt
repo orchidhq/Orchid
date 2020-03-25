@@ -103,7 +103,6 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     @Test
     @DisplayName("Test rendering snippet tabs with a TemplateTag")
     fun test03() {
-        flag("diagnose", true)
         resource(
             "homepage.txt",
             """

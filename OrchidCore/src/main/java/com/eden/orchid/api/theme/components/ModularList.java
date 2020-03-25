@@ -146,4 +146,8 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
     public void setDefaultType(final String defaultType) {
         this.defaultType = defaultType;
     }
+
+    public Set<String> getValidTypes() {
+        return itemTypes.keySet();
+    }
 }

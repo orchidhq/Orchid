@@ -27,9 +27,6 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
 
     @BeforeEach
     fun setUp() {
-        enableLogging()
-        flag("diagnose", true)
-
         resource(
             "homepage.md",
             """

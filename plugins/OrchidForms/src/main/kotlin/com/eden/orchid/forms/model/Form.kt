@@ -5,7 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
-import com.eden.orchid.api.options.annotations.ModularListConfig
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.impl.relations.PageRelation
@@ -47,7 +47,7 @@ class Form(
     @Description("A map of arbitrary attributes to add to the form element.")
     lateinit var attributes: JSONObject
 
-    @Option @ModularListConfig(objectKeyName = "key")
+    @Option @ImpliedKey(typeKey = "key")
     @Description("The fields in this form.")
     var fields: FormFieldList? = null
     get() {

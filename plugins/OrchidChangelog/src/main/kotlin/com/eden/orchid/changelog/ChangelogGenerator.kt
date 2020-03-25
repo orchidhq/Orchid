@@ -4,6 +4,7 @@ import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.render.RenderService
@@ -39,6 +40,7 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, Stage.
     lateinit var orderBy: JSONObject
 
     @Option
+    @ImpliedKey(typeKey = "type")
     @StringDefault("directory")
     lateinit var adapter: ChangelogAdapter
 
