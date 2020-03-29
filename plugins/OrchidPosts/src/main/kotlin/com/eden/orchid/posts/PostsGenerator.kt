@@ -43,7 +43,7 @@ constructor(
     companion object {
         const val GENERATOR_KEY = "posts"
         val pageTitleRegex = Pattern.compile("(\\d{4})-(?:(\\d{1,2})-(\\d{1,2})|(\\d{3}))-([\\w-]+)")
-        enum class PageTitleGrp(val grp: Int ) {ALL(0), YEAR(1), MONTH(2), DAY(3), DAY_OF_YEAR(4), TITLE(5)}
+        enum class PageTitleGrp {ALL, YEAR, MONTH, DAY, DAY_OF_YEAR, TITLE}
     }
 
     @Option
