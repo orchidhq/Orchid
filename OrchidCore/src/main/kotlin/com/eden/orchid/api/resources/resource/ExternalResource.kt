@@ -50,9 +50,9 @@ class ExternalResource(
     @Throws(Exception::class)
     private fun getContentBody(): InputStream? {
         if (download) {
-            Clog.i("Downloading external resource {}", originalExternalReference.toString())
+            Clog.i("Downloading external resource {}", originalExternalReference.toString(reference.context))
             val client = reference.context.resolve(OkHttpClient::class.java)
-            val request = Request.Builder().url(originalExternalReference.toString()).build()
+            val request = Request.Builder().url(originalExternalReference.toString(reference.context)).build()
             val response = client.newCall(request).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body

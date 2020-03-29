@@ -58,6 +58,13 @@ these formats as needed for better organization.
         └── 02-03-blog-post-three.md <-- filename includes month and day, lives at /2017/2/3/blog-post-three
 ```
 
+You can further write posts as index files in a subdirectory, such as `YYYY/MM/DD/post-slug/index.md`.
+
+Instead of using the full `YYYY-MM-DD` date format as the post date, you can also use a year and the day of year, which 
+may be easier for generating posts from scripts. Such a format would look like `YYYY-DayOfYear-post-slug.md` instead. 
+For example, `posts/2018/001/post-one/index.md` resolves to a date of January 1st, 2018, and 
+`posts/2018/081/post-one/index.md` is March 22, 2018.
+
 ### Post Title
 
 By default, the title of the blog post is given as the `post-slug` part of the filename, converted to a human-readable,

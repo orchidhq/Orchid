@@ -338,9 +338,9 @@ with the following content, and push to GitHub.
 [build]
   base    = ""
   publish = "build/docs/orchid"
-  command = "./gradlew orchidBuild -Penv=prod"
+  command = "./gradlew orchidBuild -PorchidEnvironment=prod"
 ```
- 
+
 Now, once you've connected that repo to Netlify, they will take care of the rest! Of course, this is just the minimum 
 needed to deploy, and I'd encourage you to also check out their [full documentation](https://docs.netlify.com/#get-started)
 for more help building and deploying your Orchid site on Netlify.

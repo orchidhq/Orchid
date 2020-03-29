@@ -9,6 +9,7 @@ import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.assets.AssetManager;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -47,6 +48,7 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
     private String theme;
 
     @Option
+    @StringDefault("Default")
     private String adminTheme;
 
     @Inject

@@ -57,11 +57,7 @@ dependencies {
 //----------------------------------------------------------------------------------------------------------------------
 
 orchid {
-    runTask = 'build'
-    theme = 'Copper'
     version = getActualVersion(project)
-    baseUrl = getBaseUrl(project)
-    environment = getEnvName(project)
     githubToken = getGithubToken(project)
     args = ["--experimentalSourceDoc"]
 }

@@ -336,6 +336,7 @@ public final class OrchidReference {
     }
 
     @Override
+    @Deprecated
     public String toString() {
         throw new NotImplementedError("must provide OrchidContext to `toString()`");
     }

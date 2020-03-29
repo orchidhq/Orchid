@@ -595,7 +595,7 @@ and set it to the `githubToken` environment variable.
 export githubToken=...
 ```
 
-Now, instead of running `./gradlew :docs:orchidServe` simply run `./gradlew :docs:orchidDeploy -Penv=prod`, and Orchid 
+Now, instead of running `./gradlew :docs:orchidServe` simply run `./gradlew :docs:orchidDeploy -PorchidEnvironment=prod`, and Orchid 
 will build your site using your production base URL, and after a successful build push the built site to the `gh-pages` 
 branch of your repo.
 

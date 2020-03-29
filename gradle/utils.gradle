@@ -57,15 +57,6 @@ ext.getBaseUrl = { Project project ->
     return url
 }
 
-ext.getEnvName = { Project project ->
-    if (project.hasProperty('env')) {
-        return project.property('env')
-    }
-    else {
-        return 'debug'
-    }
-}
-
 ext.getGithubToken = { Project project ->
     return project.hasProperty('github_token') ? project.property('github_token') : System.getenv('GITHUB_TOKEN')
 }

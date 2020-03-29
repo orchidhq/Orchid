@@ -9,6 +9,8 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.theme.AbstractTheme;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -74,13 +76,8 @@ public final class OrchidView extends OrchidPage {
     }
 
     @Override
-    protected void collectThemeScripts(List<JsPage> scripts) {
-        scripts.addAll(context.getAdminTheme().getScripts());
-    }
-
-    @Override
-    protected void collectThemeStyles(List<CssPage> styles) {
-        styles.addAll(context.getAdminTheme().getStyles());
+    public AbstractTheme getTheme() {
+        return context.getAdminTheme();
     }
 
     // View renderer

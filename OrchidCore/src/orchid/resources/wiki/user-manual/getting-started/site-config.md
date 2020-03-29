@@ -18,31 +18,38 @@ different files can use different formats as needed.
 ***
 
 ```yaml
-theme: # (1)
+site:
+  baseUrl: 'https://www.example.com/' (1)
+  theme: 'Editorial' (2)
+
+theme: # (3)
   menu: 
     - type: 'readme' 
     - type: 'license' 
-wiki: # (2) 
+wiki: # (4) 
   sections:
     - 'userManual'
     - 'developersGuide'
-services: # (3)
+services: # (5)
   generators:
     disabled:
       - 'javadoc'
       - 'posts'
   
-allPages: # (4)
+allPages: # (6)
   layout: single
 ```
 
-
-1) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 
+1) Set the base URL to be prepended to all generated links. Plugins can provide various helpers for generating base 
+    URLs, such as the {{ anchor('OrchidNetlify') }} plugin looking up the proper base URL for Netlify CI branch preview 
+    or production builds.
+2) Set the default theme to use for your site.
+3) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 
     use individual theme keys to configure each theme independently, but `theme` is generally easier to quickly try out
     different themes.
-2) Generator options come from an object at that plugin's key
-3) Services are all scoped under the `services` object, and are used to configure the behavior of the Orchid framework.
-4) In addition to the options defined in a page's FrontMatter, you may have a set of shared options that _all_ pages, or
+4) Generator options come from an object at that plugin's key
+5) Services are all scoped under the `services` object, and are used to configure the behavior of the Orchid framework.
+6) In addition to the options defined in a page's FrontMatter, you may have a set of shared options that _all_ pages, or
     specific sub-sets of pages should have in common. This is an example of **archetypes**, learn more about them here.
 
 For larger and more complex sites, a single `config.yml` file will get messy very quickly. You may break up your 
@@ -76,6 +83,12 @@ theme:
 
 ```yaml
 # config.yml (you could even omit config.yml if desired)
+```
+
+```yaml
+# config/site.yml
+baseUrl: 'https://www.example.com/'
+theme: 'Editorial'
 ```
 
 ```yaml

@@ -9,7 +9,7 @@ Orchid has had a great month, y'all!
 
 As Orchid is getting more popular, there is a growing need to keep the community up-to-date on all the happenings around Orchid. This post is the first in a new monthly series where I will share Orchid's progress during the previous month! Follow along with this series to stay on top of Orchid's newest features, track adoption on Github, and see who's using Orchid!
 
-As this is the first post in this series, I will just get everyone caught up with Orchid's major milestones since October, because Hacktoberfest was really great for Orchid too.
+{% snippet 'newsPostIntro' %}
 
 # On Github
 
@@ -50,8 +50,4 @@ In addition, my personal website at [caseyjbrooks.com](https://www.caseyjbrooks.
 
 ---
 
-Are you interested in getting started with Orchid? There simply is no better way to manage all the documentation for your project, and I'd love to help you get set up! 
-
-If you have an open-source project that needs docs, are building a new portfolio, or are building any other kind of static site, I want to work with you to get you set up with Orchid! Comment on this post, send me a PM here on Dev.to, or [contact me here](https://www.caseyjbrooks.com/contact/) and I will be with you every step of the way.
-
-And as always, let me know if you start using Orchid so I can feature you in next month's update!
+{% snippet 'newsPostFooter' %}

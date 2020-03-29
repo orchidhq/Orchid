@@ -116,6 +116,10 @@ public final class OrchidSiteImpl implements OrchidSite {
                 }
             }
 
+            if(resolvedBaseUrl == null) {
+                this.resolvedBaseUrl = "/";
+            }
+
             if (resolvedBaseUrl.equals("/")) {
                 this.resolvedBaseUrl = resolvedBaseUrl;
             } else {

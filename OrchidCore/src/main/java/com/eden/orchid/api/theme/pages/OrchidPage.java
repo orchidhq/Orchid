@@ -18,6 +18,7 @@ import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -273,7 +274,7 @@ public class OrchidPage implements
         return compiledContent;
     }
 
-    public Theme getTheme() {
+    public AbstractTheme getTheme() {
         return context.getTheme();
     }
 
@@ -446,7 +447,7 @@ public class OrchidPage implements
     }
 
     protected void collectThemeScripts(List<JsPage> scripts) {
-        context.getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(context.getTheme().getScripts()));
+        getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(theme.getScripts()));
     }
 
     protected void collectOwnScripts(List<JsPage> scripts) {
@@ -458,7 +459,7 @@ public class OrchidPage implements
     }
 
     protected void collectThemeStyles(List<CssPage> styles) {
-        context.getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(context.getTheme().getStyles()));
+        getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(theme.getStyles()));
     }
 
     protected void collectOwnStyles(List<CssPage> styles) {

@@ -28,7 +28,7 @@ object Versions {
 
     const val com_eden_common: String = "1.12.1"
 
-    const val codacy_coverage_reporter: String = "6.2.1"
+    const val codacy_coverage_reporter: String = "7.1.0"
 
     const val gradle_bintray_plugin: String = "1.8.4"
 

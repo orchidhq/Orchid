@@ -2,7 +2,7 @@
 set -e
 
 # Build and deploy normal Gradle projects
-./gradlew assemble publishToMavenLocal deploy :OrchidCore:orchidDeploy -Penv=prod -Prelease
+./gradlew assemble publishToMavenLocal deploy :OrchidCore:orchidDeploy -PorchidEnvironment=prod -Prelease
 
 git config --local user.name "Travis CI Deployment Bot"
 git config --local user.email "deploy@travis-ci.org"
