@@ -14,7 +14,9 @@ object PostsUtils {
         )
 
         return if (!EdenUtils.isEmpty(path)) {
-            path.replace("/", "-") + "-" + entry.reference.originalFileName
+            val originalFileName = entry.reference.originalFileName
+            val eventualName = if (originalFileName.equals("index", true)) "" else "-$originalFileName"
+            path.replace("/", "-") + eventualName
         } else {
             entry.reference.originalFileName
         }

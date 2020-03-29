@@ -42,7 +42,9 @@ constructor(
 
     companion object {
         const val GENERATOR_KEY = "posts"
-        val pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)")
+        // Accept both   YEAR - MONTH - DAY - TITLE   or  YEAR - DAY_OF_YEAR - TITLE  
+        val pageTitleRegex = Pattern.compile("(\\d{4})-(?:(\\d{1,2})-(\\d{1,2})|(\\d{3}))-([\\w-]+)")
+        enum class PageTitleGrp {ALL, YEAR, MONTH, DAY, DAY_OF_YEAR, TITLE}
     }
 
     @Option
@@ -163,15 +165,21 @@ constructor(
             val matcher = pageTitleRegex.matcher(formattedFilename)
 
             if (matcher.matches()) {
-                val title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
+                val title = matcher.group(PageTitleGrp.TITLE.ordinal).from { dashCase() }.to { words { capitalize() } }
                 val post = PostPage(entry, categoryModel, title)
 
                 if (post.publishDate.toLocalDate().isToday()) {
-                    post.publishDate = LocalDate.of(
-                        Integer.parseInt(matcher.group(1)),
-                        Integer.parseInt(matcher.group(2)),
-                        Integer.parseInt(matcher.group(3))
-                    ).atStartOfDay()
+                    if (matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal).isNullOrEmpty() )
+                        post.publishDate = LocalDate.of(
+                                Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
+                                Integer.parseInt(matcher.group(PageTitleGrp.MONTH.ordinal)),
+                                Integer.parseInt(matcher.group(PageTitleGrp.DAY.ordinal))
+                        ).atStartOfDay()
+                    else
+                        post.publishDate = LocalDate.ofYearDay(
+                                Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
+                                Integer.parseInt(matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal))
+                        ).atStartOfDay()
                 }
 
                 // TODO: when setting the permalink, check all categories in the hierarchy until you find one

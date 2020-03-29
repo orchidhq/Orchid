@@ -32,7 +32,7 @@ constructor() : PermalinkPathType() {
             val matcher = PostsGenerator.pageTitleRegex.matcher(formattedFilename)
 
             if (matcher.matches()) {
-                return matcher.group(4)
+                return matcher.group(PostsGenerator.Companion.PageTitleGrp.TITLE.ordinal)
             }
         }
 

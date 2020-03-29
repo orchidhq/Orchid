@@ -48,6 +48,33 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     }
 
     @Test
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{month}/{day}/{name}` directory, get rendered correctly without any configuration.")
+    fun test04b() {
+        resource("posts/2018/01/01/post-one/index.md")
+
+        expectThat(execute())
+                .pageWasRendered("/2018/1/1/post-one/index.html")
+    }
+
+    @Test
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{day-of-year}/{name}` directory, get rendered correctly without any configuration.")
+    fun test05b() {
+        resource("posts/2018/001/post-one/index.md")
+
+        expectThat(execute())
+                .pageWasRendered("/2018/1/1/post-one/index.html")
+    }
+
+    @Test
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{day-of-year}/{name}` directory, get rendered correctly without any configuration.")
+    fun test05c() {
+        resource("posts/2018/081/post-one/index.md")
+
+        expectThat(execute())
+                .pageWasRendered("/2018/3/22/post-one/index.html")
+    }
+
+    @Test
     @DisplayName("The `permalink` can be set in a post's options.")
     fun test05() {
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "blog/:year/:month/:slug"))
