@@ -1,13 +1,11 @@
 package com.eden.orchid.wiki.pages
 
-import com.eden.common.json.JSONElement
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.convertOutputStream
 import com.eden.orchid.wiki.model.WikiSection
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.openhtmltopdf.svgsupport.BatikSVGDrawer
-import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.helper.W3CDom
 import java.io.InputStream

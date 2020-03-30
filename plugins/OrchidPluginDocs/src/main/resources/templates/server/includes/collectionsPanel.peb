@@ -1,0 +1,33 @@
+<div class="uk-navbar-dropdown uk-navbar-dropdown-width-3">
+  <div class="uk-navbar-dropdown-grid uk-text-center uk-grid-small" uk-grid>
+    <div class="uk-width-1-1">
+      <div class="uk-panel uk-panel-scrollable" style="height: 600px;">
+        <table class="uk-table uk-table-striped uk-table-hover">
+          <thead>
+          <tr>
+            <th>Collection Type</th>
+            <th>Collection Id</th>
+            <th>Size</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for collection in view.collections %}
+          {% set collectionLink = view.getDescriptionLink(collection.class)~'&collectionType='~collection.collectionType~'&collectionId='~collection.collectionId %}
+          <tr>
+            <td class="uk-table-link">
+              <a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.collectionType }}</a>
+            </td>
+            <td class="uk-table-link">
+              <a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.collectionId }}</a>
+            </td>
+            <td class="uk-table-link">
+              <a class="uk-link-reset" href="{{ collectionLink }}">{{ collection.items|length }}</a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

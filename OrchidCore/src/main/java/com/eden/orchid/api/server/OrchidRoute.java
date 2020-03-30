@@ -10,7 +10,6 @@ import java.util.List;
 public final class OrchidRoute {
     private final OrchidController controller;
     private final Method method;
-    private final String namespace;
     private final String path;
     private Class<? extends OptionsHolder> paramsClass;
 
@@ -19,11 +18,10 @@ public final class OrchidRoute {
         this.method = method;
         this.path = "/" + OrchidUtils.normalizePath(path);
         this.paramsClass = paramsClass;
-        this.namespace = "/" + OrchidUtils.normalizePath(controller.getPathNamespace());
     }
 
     public String getPath() {
-        return "/" + OrchidUtils.normalizePath(this.namespace + this.path);
+        return path;
     }
 
     private boolean hasParamsClass() {
@@ -59,7 +57,11 @@ public final class OrchidRoute {
         return this.method;
     }
 
-    public String getNamespace() {
-        return this.namespace;
+    public Class<? extends OptionsHolder> getParamsClass() {
+        return paramsClass;
+    }
+
+    public String getLink() {
+        return path;
     }
 }

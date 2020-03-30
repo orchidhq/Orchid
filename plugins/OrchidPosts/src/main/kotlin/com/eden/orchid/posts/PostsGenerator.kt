@@ -42,7 +42,9 @@ constructor(
 
     companion object {
         const val GENERATOR_KEY = "posts"
-        val pageTitleRegex = Pattern.compile("(\\d{4})-(\\d{1,2})-(\\d{1,2})-([\\w-]+)")
+        // Accept both   YEAR - MONTH - DAY - TITLE   or  YEAR - DAY_OF_YEAR - TITLE  
+        val pageTitleRegex = Pattern.compile("(\\d{4})-(?:(\\d{1,2})-(\\d{1,2})|(\\d{3}))-([\\w-]+)")
+        enum class PageTitleGrp {ALL, YEAR, MONTH, DAY, DAY_OF_YEAR, TITLE}
     }
 
     @Option
@@ -54,7 +56,7 @@ constructor(
     lateinit var excerptSeparator: String
 
     @Option
-    @ImpliedKey("name")
+    @ImpliedKey(typeKey = "name")
     @Description(
         "A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
                 "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
@@ -64,7 +66,7 @@ constructor(
     lateinit var authors: List<Author>
 
     @Option
-    @ImpliedKey("key")
+    @ImpliedKey(typeKey = "key")
     @Description(
         "An array of Category configurations, which may be just the path of the category or a full " +
                 "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
@@ -121,8 +123,7 @@ constructor(
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
-            val options =
-                (entry.embeddedData.element as? JSONObject)?.toMap() ?: mutableMapOf<String, Any?>("name" to authorName)
+            val options = entry.embeddedData.takeIf { it.isNotEmpty() }?.toMutableMap() ?: mutableMapOf<String, Any?>("name" to authorName)
 
             if (!options.containsKey("name")) {
                 options["name"] = authorName
@@ -141,8 +142,7 @@ constructor(
             val authorPage = AuthorPage(
                 StringResource(
                     OrchidReference(context, "index.md"),
-                    "",
-                    null
+                    ""
                 ),
                 author
             )
@@ -165,15 +165,21 @@ constructor(
             val matcher = pageTitleRegex.matcher(formattedFilename)
 
             if (matcher.matches()) {
-                val title = matcher.group(4).from { dashCase() }.to { words { capitalize() } }
+                val title = matcher.group(PageTitleGrp.TITLE.ordinal).from { dashCase() }.to { words { capitalize() } }
                 val post = PostPage(entry, categoryModel, title)
 
                 if (post.publishDate.toLocalDate().isToday()) {
-                    post.publishDate = LocalDate.of(
-                        Integer.parseInt(matcher.group(1)),
-                        Integer.parseInt(matcher.group(2)),
-                        Integer.parseInt(matcher.group(3))
-                    ).atStartOfDay()
+                    if (matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal).isNullOrEmpty() )
+                        post.publishDate = LocalDate.of(
+                                Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
+                                Integer.parseInt(matcher.group(PageTitleGrp.MONTH.ordinal)),
+                                Integer.parseInt(matcher.group(PageTitleGrp.DAY.ordinal))
+                        ).atStartOfDay()
+                    else
+                        post.publishDate = LocalDate.ofYearDay(
+                                Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
+                                Integer.parseInt(matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal))
+                        ).atStartOfDay()
                 }
 
                 // TODO: when setting the permalink, check all categories in the hierarchy until you find one

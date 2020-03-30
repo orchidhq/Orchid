@@ -7,7 +7,7 @@ tags:
 
 How it is already halfway through January? I apologize this update is so late, the holidays have kept me very busy and time just got away from me. But this is software development, and deadlines slip all the time, right? 😜
 
-As a recap, this series is a monthly newsletter around Orchid, the newest and best static site generator for the JVM. There is a growing need to keep the community up-to-date on all the happenings around Orchid, and here I will share Orchid's progress during the previous month! Follow along with this series to stay on top of Orchid's newest features, track adoption on Github, and see who's using Orchid!
+{% snippet 'newsPostIntro' %}
 
 # On Github
 
@@ -44,8 +44,4 @@ It's not quite finished yet, but you are welcome to preview [CrederaBot](https:/
 
 ---
 
-Are you interested in getting started with Orchid? There simply is no better way to manage all the documentation for your project, and I'd love to help you get set up! 
-
-If you have an open-source project that needs docs, are building a new portfolio, or are building any other kind of static site, I want to work with you to get you set up with Orchid! Comment on this post, send me a PM here on Dev.to, or [contact me here](https://www.caseyjbrooks.com/contact/) and I will be with you every step of the way.
-
-And as always, let me know if you start using Orchid so I can feature you in next month's update!
+{% snippet 'newsPostFooter' %}

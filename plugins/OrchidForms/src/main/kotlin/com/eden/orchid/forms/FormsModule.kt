@@ -1,10 +1,13 @@
 package com.eden.orchid.forms
 
+import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.forms.components.FormComponent
+import com.eden.orchid.forms.controllers.FormsController
 import com.eden.orchid.forms.model.FormField
 import com.eden.orchid.forms.model.fields.CheckboxField
 import com.eden.orchid.forms.model.fields.DropdownField
@@ -12,6 +15,7 @@ import com.eden.orchid.forms.model.fields.HiddenField
 import com.eden.orchid.forms.model.fields.RadioButtonsField
 import com.eden.orchid.forms.model.fields.TextField
 import com.eden.orchid.forms.model.fields.TextareaField
+import com.eden.orchid.forms.tags.FormTag
 import com.eden.orchid.utilities.addToSet
 
 class FormsModule : OrchidModule() {
@@ -22,6 +26,8 @@ class FormsModule : OrchidModule() {
         addToSet<OrchidGenerator<*>, FormsGenerator>()
         addToSet<OrchidComponent, FormComponent>()
         addToSet<OptionExtractor<*>, FormOptionExtractor>()
+        addToSet<TemplateTag, FormTag>()
+        addToSet<OrchidController, FormsController>()
         addToSet<FormField>(
                 CheckboxField::class,
                 RadioButtonsField::class,

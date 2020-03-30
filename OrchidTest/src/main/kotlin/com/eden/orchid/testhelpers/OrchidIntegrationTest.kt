@@ -75,7 +75,7 @@ open class OrchidIntegrationTest(
             StringResource(
                 OrchidReference(context, path),
                 content,
-                JSONElement(JSONObject(data + mapOf("fromIntegrationTest" to true)))
+                data + mapOf("fromIntegrationTest" to true)
             )
         }
     }
@@ -84,7 +84,7 @@ open class OrchidIntegrationTest(
         resources.add { context ->
             ClasspathResource(
                 OrchidReference(context, path),
-                javaClass.getResource(if(path.startsWith("/")) path else "/$path")
+                javaClass.getResource(if (path.startsWith("/")) path else "/$path")
             )
         }
     }
@@ -100,14 +100,23 @@ open class OrchidIntegrationTest(
 // Execute test runner
 //----------------------------------------------------------------------------------------------------------------------
 
+    private fun getTestOrchid(vararg modules: OrchidModule): TestOrchid {
+        return TestOrchid()
+            .initializeModules(
+                flags,
+                config,
+                resources,
+                listOf(*modules, *standardAdditionalModules.toTypedArray()),
+                serve
+            )
+    }
+
     protected fun execute(vararg modules: OrchidModule): TestResults {
-        return TestOrchid().runTest(
-            flags,
-            config,
-            resources,
-            listOf(*modules, *standardAdditionalModules.toTypedArray()),
-            serve
-        )
+        return getTestOrchid(*modules).executeTest()
+    }
+
+    protected fun getContext(vararg modules: OrchidModule): OrchidContext {
+        return getTestOrchid(*modules).getContext()
     }
 
 }

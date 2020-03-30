@@ -17,13 +17,39 @@ import java.util.HashMap
 
 class TestOrchid {
 
-    fun runTest(
+    private lateinit var context: OrchidContext
+
+    fun getContext(): OrchidContext {
+        return context
+    }
+
+    fun executeTest(): TestResults {
+        return try {
+            Clog.i("Running Orchid test")
+            context.start()
+            context.finish()
+
+            TestResults(
+                context,
+                context.resolve(TestRenderer::class.java).renderedPageMap,
+                context.collections.map { TestRenderer.TestIndexedCollection(it) },
+                true,
+                null
+            )
+        } catch (t: Throwable) {
+            Clog.e("An exception was thrown while running Orchid integration test: {}", t.message)
+            t.printStackTrace()
+            TestResults(null, emptyMap(), emptyList(), false, t)
+        }
+    }
+
+    fun initializeModules(
         flags: MutableMap<String, Any>,
         config: Map<String, Any>,
         resources: List<(OrchidContext)->OrchidResource>,
         extraModules: List<OrchidModule>,
         serve: Boolean
-    ): TestResults {
+    ) = apply {
         val actualFlags = HashMap(flags)
         if (!actualFlags.containsKey("environment")) {
             actualFlags["environment"] = "test"
@@ -53,24 +79,10 @@ class TestOrchid {
         modules.add(TestResourceSource(resources).toModule())
         modules.add(TestConfigResourceSource(config).toModule())
 
-        return try {
-            val testContext = startForUnitTest(modules)
-            TestResults(
-                testContext,
-                testContext.resolve(TestRenderer::class.java).renderedPageMap,
-                testContext.collections.map { TestRenderer.TestIndexedCollection(it) },
-                true,
-                null
-            )
-        } catch (t: Throwable) {
-            Clog.e("An exception was thrown while running Orchid integration test: {}", t.message)
-            t.printStackTrace()
-            TestResults(null, emptyMap(), emptyList(), false, t)
-        }
-
+        context = createContext(modules)
     }
 
-    private fun startForUnitTest(modules: List<OrchidModule>): OrchidContext {
+    private fun createContext(modules: List<OrchidModule>): OrchidContext {
         var moduleLog = "\n--------------------"
         for (module in modules) {
             moduleLog += "\n * " + module.javaClass.name
@@ -94,10 +106,6 @@ class TestOrchid {
         } catch (e: Exception) {
 
         }
-
-        Clog.i("Running Orchid test")
-        context.start()
-        context.finish()
         return context
     }
 

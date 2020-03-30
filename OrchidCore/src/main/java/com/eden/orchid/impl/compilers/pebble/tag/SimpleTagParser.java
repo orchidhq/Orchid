@@ -43,7 +43,7 @@ public class SimpleTagParser extends BaseTagParser {
         stream.next();
 
         // parameter expressions will be added here
-        paramExpressionMap = parseParams(parameters, tagClass, stream, parser);
+        paramExpressionMap = parseParams(parameters, true, tagClass, stream, parser);
 
         // end parsing now
         stream.expect(Token.Type.EXECUTE_END);

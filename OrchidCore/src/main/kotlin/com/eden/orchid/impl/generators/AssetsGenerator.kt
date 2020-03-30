@@ -28,7 +28,7 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
 
     @Option
     @Description("Set which local resource directories you want to copy static assets from.")
-    @ImpliedKey("sourceDir")
+    @ImpliedKey(typeKey = "sourceDir")
     @StringDefault("assets/media")
     lateinit var sourceDirs: List<AssetDirectory>
 

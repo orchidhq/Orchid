@@ -1,4 +1,4 @@
 
 dependencies {
-    compile(Libs.jsoup)
+    implementation(Libs.jsoup)
 }

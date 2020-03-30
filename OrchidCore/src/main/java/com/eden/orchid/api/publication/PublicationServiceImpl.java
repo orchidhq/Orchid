@@ -10,10 +10,6 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * @orchidApi services
- * @since v1.0.0
- */
 @Singleton
 @Description(value = "How Orchid publishes your site to production.", name = "Publications")
 @Archetype(value = ConfigArchetype.class, key = "services.publications")
@@ -39,7 +35,7 @@ public final class PublicationServiceImpl implements PublicationService {
 //----------------------------------------------------------------------------------------------------------------------
     @Override
     public boolean publishAll(boolean dryDeploy) {
-        return stages.publishAll(dryDeploy, (progress, maxProgress) -> context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "deploying", progress, maxProgress)));
+        return stages.publishAll(context, dryDeploy, (progress, maxProgress) -> context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "deploying", progress, maxProgress)));
     }
 
     public PublicationPipeline getStages() {

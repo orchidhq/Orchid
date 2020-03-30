@@ -1,0 +1,2 @@
+{{ tag.getClassDescription() | compileAs('md') | raw }}
+{% include tag.getClassTypeOverviewTemplate() %}

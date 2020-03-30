@@ -1,17 +1,8 @@
 {% set theme =  tag.provide() %}
 {# @pebvariable name="theme" type="com.eden.orchid.api.theme.Theme" #}
 
-{% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
-<b>Default Config</b>
-
-<pre><code class="lang-yaml"># config.yml
+<pre class="lang-yaml"><code class="lang-yaml"># config.yml
 ...
-{{ theme.key }}: # to configure this theme only. Use `theme:` to configure all themes with these options
-{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-  {{ option.key }}: {{ option.defaultValue }}{% endfor %}
+theme:
+{%- include 'server/includes/optionsYaml' with {'indent': '  '} -%}
 </code></pre>
-<pre><code class="lang-yaml"># config/{{ theme.key }}.yml or # config/theme.yml
-{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-{{ option.key }}: {{ option.defaultValue }}{% endfor %}
-</code></pre>
-{% endif %}

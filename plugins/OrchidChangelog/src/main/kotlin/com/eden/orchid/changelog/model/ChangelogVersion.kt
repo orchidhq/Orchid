@@ -51,7 +51,7 @@ class ChangelogVersion(
     val versionComponents = LinkedHashMap<String, Pair<String, Boolean>>()
 
     init {
-        extractOptions(context, (resource.embeddedData.element as JSONObject).toMap())
+        extractOptions(context, resource.embeddedData)
 
         val versionFormatRegex =
             versionFormat.replace(".", "\\.").replace("\\{\\w+?\\}".toRegex(), "(\\\\w+)").toRegex()

@@ -12,7 +12,7 @@ TODO: improve clarity of these docs
 
 ## About
 
-This plugin adds support for UML diagrams to be created from text, using [PlantUML](http://plantuml.com) syntax. Text
+This plugin adds support for UML diagrams to be created from text, using [PlantUML](https://plantuml.com) syntax. Text
 diagrams will be converted to SVG and embedded directly in your page content. Having diagrams described in text makes 
 them easy to create and maintain, and enables them to be tracked with Git, ideal for managing diagrams for 
 project documentation.
@@ -27,11 +27,11 @@ Note that some diagram types require GraphViz to be installed on your local mach
 
 {% filter compileAs('md') %}
 
-The following examples are taken directly from the official [PlantUML docs](http://plantuml.com/)
+The following examples are taken directly from the official [PlantUML docs](https://plantuml.com/)
 
 ### Sequence Diagram
 
-[source](http://plantuml.com/sequence-diagram)
+[source](https://plantuml.com/sequence-diagram)
 
 ```text
 Alice -> Bob: Authentication Request
@@ -51,7 +51,7 @@ Alice <-- Bob: another authentication Response
 
 ### Class Description
 
-[source](http://plantuml.com/class-diagram)
+[source](https://plantuml.com/class-diagram)
 
 ```text
 class Dummy {
@@ -73,7 +73,7 @@ class Dummy {
 
 ### Activity Diagram
 
-[source](http://plantuml.com/activity-diagram-beta)
+[source](https://plantuml.com/activity-diagram-beta)
 
 ```text
 start
@@ -111,7 +111,7 @@ stop
 
 ### State Diagram
 
-[source](http://plantuml.com/state-diagram)
+[source](https://plantuml.com/state-diagram)
 
 ```text
 scale 350 width
@@ -159,7 +159,7 @@ state Configuring {
 
 ### Timing Diagram
 
-[source](http://plantuml.com/timing-diagram)
+[source](https://plantuml.com/timing-diagram)
 
 ```text
 robust "Web Browser" as WB

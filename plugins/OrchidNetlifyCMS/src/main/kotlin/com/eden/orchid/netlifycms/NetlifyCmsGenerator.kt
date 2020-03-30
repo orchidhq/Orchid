@@ -105,8 +105,7 @@ constructor(
             val adminConfig = OrchidPage(
                 StringResource(
                     OrchidReference(context, "admin/config.yml"),
-                    getYamlConfig(context),
-                    null
+                    getYamlConfig(context)
                 ),
                 RenderService.RenderMode.RAW,
                 "admin",

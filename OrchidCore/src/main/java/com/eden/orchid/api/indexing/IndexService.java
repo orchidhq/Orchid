@@ -8,10 +8,6 @@ import com.google.inject.ImplementedBy;
 import javax.annotation.Nullable;
 import java.util.List;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @ImplementedBy(IndexServiceImpl.class)
 public interface IndexService extends OrchidService {
 

@@ -28,6 +28,7 @@ object WikiUtils {
      * locate the appropriate OrchidResource for that link.
      */
     fun createWikiFromSummaryFile(
+        context: OrchidContext,
         section: WikiSection,
         summary: OrchidResource,
         onLinkDetected: (linkName: String, linkTarget: String, order: Int) -> OrchidResource
@@ -78,7 +79,7 @@ object WikiUtils {
                 previous = page
             }
 
-            a.attr("href", page.reference.toString())
+            a.attr("href", page.reference.toString(context))
         }
 
         val newSummary = StringResource(summary.reference, doc.toString(), summary.embeddedData)
@@ -136,8 +137,7 @@ object WikiUtils {
             section.key,
             StringResource(
                 OrchidReference(context, "wiki/${section.key}.html"),
-                summaryPageContent,
-                null
+                summaryPageContent
             ),
             sectionTitle from String::camelCase to Array<String>::titleCase
         )

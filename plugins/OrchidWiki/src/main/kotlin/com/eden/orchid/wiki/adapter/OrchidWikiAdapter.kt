@@ -43,7 +43,7 @@ constructor(
             return null
         }
 
-        return WikiUtils.createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
+        return WikiUtils.createWikiFromSummaryFile(context, section, summary) { linkName, linkTarget, _ ->
             val file = sectionBaseDir + linkTarget
 
             var resource: OrchidResource? = context.getResourceEntry(file, LocalResourceSource)
@@ -53,8 +53,7 @@ constructor(
                 Clog.w("Could not find wiki resource page at '{}'", file)
                 resource = StringResource(
                     OrchidReference(context, "$path/index.md"),
-                    linkName,
-                    null
+                    linkName
                 )
             }
 

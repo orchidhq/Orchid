@@ -1,15 +1,25 @@
-{% tabs template=tag.tabsTemplate %}
-    {% overview 'Overview' %}
-        {{ tag.getClassDescription() | raw }}
-        {% include tag.getClassTypeOverviewTemplate() %}
-    {% endoverview %}
-    {% own_options 'Own Options' %}
-        {{ tag.getOwnOptionsDescription() | raw }}
-    {% endown_options %}
-    {% inherited_options 'Inherited Options' %}
-        {{ tag.getInheritedOptionsDescription() | raw }}
-    {% endinherited_options %}
-    {% archetypes 'Archetypes' %}
-        {{ tag.getArchetypesDescription() | raw }}
-    {% endarchetypes %}
+{% tabs dynamic template=tag.tabsTemplate %}
+
+    {% tab 'Overview' %}
+        {% include 'server/includes/overview' %}
+    {% endtab %}
+
+    {% if tag.hasOwnOptions() %}
+        {% tab 'Own Options' %}
+            {% include 'server/includes/optionsTable' with {'optionsList': tag.getOwnOptions()} %}
+        {% endtab %}
+    {% endif %}
+
+    {% if tag.hasInheritedOptions() %}
+        {% tab 'Inherited Options' %}
+            {% include 'server/includes/optionsTable' with {'optionsList': tag.getInheritedOptions()} %}
+        {% endtab %}
+    {% endif %}
+
+    {% if tag.hasArchetypes() %}
+        {% tab 'Archetypes' %}
+            {% include 'server/includes/archetypeTable' with {'archetypesList': tag.getArchetypes()} %}
+        {% endtab %}
+    {% endif %}
+
 {% endtabs %}

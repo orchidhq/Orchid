@@ -11,8 +11,8 @@ import java.util.List;
 public final class OrchidMenu extends ModularPageList<OrchidMenu, OrchidMenuFactory> {
 
     @Inject
-    public OrchidMenu(OrchidContext context) {
-        super(context);
+    public OrchidMenu() {
+        super();
     }
 
     @Override
@@ -23,9 +23,9 @@ public final class OrchidMenu extends ModularPageList<OrchidMenu, OrchidMenuFact
     public List<MenuItem> getMenuItems(OrchidPage containingPage) {
         ArrayList<MenuItem> menuItemsChildren = new ArrayList<>();
         for (OrchidMenuFactory menuItem : get(containingPage)) {
-            List<MenuItem> impls = menuItem.getMenuItems(context, containingPage);
+            List<MenuItem> impls = menuItem.getMenuItems(containingPage.getContext(), containingPage);
             if (impls.size() > 0 && menuItem.getAsSubmenu()) {
-                MenuItem innerMenuItem = new MenuItem.Builder(context).title(menuItem.getSubmenuTitle()).children(impls).data(menuItem.getAllData()).build();
+                MenuItem innerMenuItem = new MenuItem.Builder(containingPage.getContext()).title(menuItem.getSubmenuTitle()).children(impls).data(menuItem.getAllData()).build();
                 menuItemsChildren.add(innerMenuItem);
             } else {
                 impls.forEach(impl -> impl.setAllData(menuItem.getAllData()));

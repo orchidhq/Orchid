@@ -10,10 +10,7 @@ It's so incredible to see this project grow from a tiny seedling to the maturing
 grateful for each and every download. But this is only the beginning, Orchid still has lots of growing-up to do, so why
 don't you come along for the ride and help shape the future of Orchid!
 
-This is the official Orchid newsletter, the newest and best documentation site generator. There is a growing need to 
-keep the community up-to-date on all the happenings around Orchid, and here I will share Orchid's progress, milestones, 
-and future plans! Follow along with this series to stay on top of Orchid's newest features, track adoption on Github, 
-and see who's using Orchid!
+{% snippet 'newsPostIntro' %}
 
 ## On Github
 
@@ -58,12 +55,4 @@ its implementation and usage in [this issue](https://github.com/orchidhq/Orchid/
 
 ---
 
-Are you interested in getting started with Orchid? There simply is no better way to manage all the documentation for 
-your project, and I'd love to help you get set up! 
-
-If you have an open-source project that needs docs, are building a new portfolio, or are building any other kind of 
-static site, I want to work with you to get you set up with Orchid! Comment on this post, send me a PM here on Dev.to, 
-reach out on [Gitter](https://gitter.im/JavaEden/Orchid), or [contact me here](https://www.caseyjbrooks.com/contact/) 
-and I will be with you every step of the way.
-
-And as always, let me know if you start using Orchid so I can feature you in the next update!
+{% snippet 'newsPostFooter' %}

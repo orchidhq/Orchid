@@ -19,7 +19,5 @@ class GistTag : TemplateTag("gist", Type.Simple, true) {
     @Description("An optional file in the Gist, to only show that one file instead of all files in the Gist.")
     lateinit var file: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("user", "id", "file")
-    }
+    override fun parameters() = arrayOf(::user.name, ::id.name, ::file.name)
 }

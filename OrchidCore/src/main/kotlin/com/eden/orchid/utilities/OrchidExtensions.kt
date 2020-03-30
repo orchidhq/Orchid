@@ -1,15 +1,14 @@
 package com.eden.orchid.utilities
 
 import com.caseyjbrooks.clog.Clog
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.util.ArrayList
@@ -59,20 +58,6 @@ fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColum
 
     Clog.tag("Syntax error").e(templateSnippet, extension.toUpperCase(), errorMessage)
 }
-
-
-fun JSONElement?.isObject(): Boolean {
-    return this != null && this.element != null && this.element is JSONObject
-}
-
-fun JSONElement?.isArray(): Boolean {
-    return this != null && this.element != null && this.element is JSONArray
-}
-
-fun JSONElement?.isString(): Boolean {
-    return this != null && this.element != null && this.element is String
-}
-
 
 // string conversions
 infix fun String.from(mapper: String.() -> Array<String>): Array<String> {
@@ -305,16 +290,25 @@ fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {
         .orElse(null)
 }
 
+fun InputStream?.readToString() : String? = this?.bufferedReader()?.use { it.readText() }
+fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))
 
-fun merge(vararg sources: JSONElement?): JSONElement? {
-    val sourcesAsObjects: Array<JSONObject> = sources
-        .filterNotNull()
-        .filter { EdenUtils.elementIsObject(it) }
-        .map { it.element as JSONObject }
-        .toTypedArray()
-
-    return JSONElement(EdenUtils.merge(*sourcesAsObjects))
+fun OptionsHolder.extractOptionsFromResource(context: OrchidContext, resource: OrchidResource): Map<String, Any?> {
+    val data = resource.embeddedData
+    extractOptions(context, data)
+    return data
 }
 
-fun InputStream?.readToString() : String? = this?.bufferedReader()?.readText()
-fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))
+inline fun <reified U> Any?.takeIf(): U? {
+    return if(this is U) this else null
+}
+
+inline fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T {
+    if(condition) block()
+    return this
+}
+
+
+fun <T> T.debugger() : T {
+    return this
+}

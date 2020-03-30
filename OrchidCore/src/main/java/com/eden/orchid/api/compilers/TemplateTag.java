@@ -5,25 +5,14 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.render.Renderable;
-import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Template Tags are a convenient way to create complex structures from simple markup that may be used anywhere. Tags
- * should be wrapped by the main template language, and are expected to provide a template in `templates/tags/` with a
- * filename that matches the `name` of the TemplateTag. This template is what is rendered when the tag is parsed by the
- * main template language, and any Options may be set with the Tag class and are available within the template. All
- * options can be set as named arguments, but if you want to allow certain parameters to be specified as sequential
- * parameters, you may pass the name of those parameters in the `parameters()` method.
- *
- * @orchidApi extensible
- * @since v1.0.0
- */
-@Extensible
+@ImportantModularType
 @Description(value = "A shortcode-like tag for named blocks of template content or DSLs.", name = "Template Tags")
 public abstract class TemplateTag implements OptionsHolder, Renderable {
 
@@ -31,20 +20,36 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
         Simple, Content, Tabbed
     }
 
-    public interface Tab extends OptionsHolder {
-        String getKey();
+    public static abstract class Tab implements OptionsHolder {
+        private final String type;
 
-        String getContent();
+        protected Tab(String type) {
+            this.type = type;
+        }
 
-        String[] parameters();
+        @Deprecated
+        public final String getKey() {
+            return getName();
+        }
+
+        public final String getType() {
+            return type;
+        }
+
+        public abstract String getName();
+
+        public abstract String getContent();
+
+        public abstract String[] parameters();
     }
 
-    public static final class SimpleTab implements Tab {
-        private final String key;
+    public static class SimpleTab extends Tab {
+        private final String name;
         private final String content;
 
-        public SimpleTab(String key, String content) {
-            this.key = key;
+        public SimpleTab(String type, String name, String content) {
+            super(type);
+            this.name = name;
             this.content = content;
         }
 
@@ -53,11 +58,11 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
             return new String[0];
         }
 
-        public String getKey() {
-            return this.key;
+        public final String getName() {
+            return this.name;
         }
 
-        public String getContent() {
+        public final String getContent() {
             return this.content;
         }
     }
@@ -109,17 +114,17 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     public String getContent(String name) {
         switch (type) {
-        case Simple: 
-            return "";
+            case Simple:
+                return "";
 
-        case Content: 
-            return content.get(null).getContent();
+            case Content:
+                return content.get(null).getContent();
 
-        case Tabbed: 
-            return (content.get(name) != null) ? content.get(name).getContent() : "";
+            case Tabbed:
+                return (content.get(name) != null) ? content.get(name).getContent() : "";
 
-        default: 
-            return "";
+            default:
+                return "";
         }
     }
 
@@ -129,39 +134,39 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
 
     public void setContent(String name, Tab content) {
         switch (type) {
-        case Simple: 
-            break;
+            case Simple:
+                break;
 
-        case Content: 
-            this.content.put(null, content);
-            break;
+            case Content:
+                this.content.put(null, content);
+                break;
 
-        case Tabbed: 
-            this.content.put(name, content);
-            break;
+            case Tabbed:
+                this.content.put(name, content);
+                break;
 
-        default: 
-            break;
+            default:
+                break;
         }
     }
 
     public Tab getNewTab(final String key, final String content) {
-        return new SimpleTab(key, content);
+        return new SimpleTab(name, key, content);
     }
 
     public List<Tab> getTabs() {
         switch (type) {
-        case Simple: 
-            return new ArrayList<>();
+            case Simple:
+                return new ArrayList<>();
 
-        case Content: 
-            return new ArrayList<>();
+            case Content:
+                return new ArrayList<>();
 
-        case Tabbed: 
-            return new ArrayList<>(this.content.values());
+            case Tabbed:
+                return new ArrayList<>(this.content.values());
 
-        default: 
-            return new ArrayList<>();
+            default:
+                return new ArrayList<>();
         }
     }
 

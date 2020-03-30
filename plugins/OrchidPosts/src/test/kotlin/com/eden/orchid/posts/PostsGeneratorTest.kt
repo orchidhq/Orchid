@@ -48,6 +48,33 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     }
 
     @Test
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{month}/{day}/{name}` directory, get rendered correctly without any configuration.")
+    fun test04b() {
+        resource("posts/2018/01/01/post-one/index.md")
+
+        expectThat(execute())
+                .pageWasRendered("/2018/1/1/post-one/index.html")
+    }
+
+    @Test
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{day-of-year}/{name}` directory, get rendered correctly without any configuration.")
+    fun test05b() {
+        resource("posts/2018/001/post-one/index.md")
+
+        expectThat(execute())
+                .pageWasRendered("/2018/1/1/post-one/index.html")
+    }
+
+    @Test
+    @DisplayName("Files, formatted correctly in the `posts/{year}/{day-of-year}/{name}` directory, get rendered correctly without any configuration.")
+    fun test05c() {
+        resource("posts/2018/081/post-one/index.md")
+
+        expectThat(execute())
+                .pageWasRendered("/2018/3/22/post-one/index.html")
+    }
+
+    @Test
     @DisplayName("The `permalink` can be set in a post's options.")
     fun test05() {
         resource("posts/2018-01-01-post-one.md", "", mapOf("permalink" to "blog/:year/:month/:slug"))
@@ -80,18 +107,6 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
     @DisplayName("Posts supports multiple categories. Setting a category as a string value uses all category defaults.")
     fun tet08() {
         configObject("posts", """{"categories": ["cat1", "cat2"]}""")
-        resource("posts/cat1/2018-01-01-post-one.md")
-        resource("posts/cat2/2018-02-02-post-one.md")
-
-        expectThat(execute())
-            .pageWasRendered("/cat1/2018/1/1/post-one/index.html")
-            .pageWasRendered("/cat2/2018/2/2/post-one/index.html")
-    }
-
-    @Test
-    @DisplayName("Posts supports multiple categories. You can list each category as an Object to customize its options.")
-    fun test09() {
-        configObject("posts", """{"categories": [{"cat1": {}}, {"cat2": {}}]}""")
         resource("posts/cat1/2018-01-01-post-one.md")
         resource("posts/cat2/2018-02-02-post-one.md")
 

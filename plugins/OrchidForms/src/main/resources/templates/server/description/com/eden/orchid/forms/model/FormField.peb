@@ -1,0 +1,10 @@
+{% set field =  tag.provide() %}
+{# @pebvariable name="field" type="com.eden.orchid.search.model.FormField" #}
+
+<pre><code class="lang-yaml">
+# forms/{formKey}.yml
+...
+fields:
+  - type: {{ field.inputTypes|first }} {% if field.inputTypes|length > 1 %}# or one of [{{ field.inputTypes|join(', ') }}]{% endif %}
+{%- include 'server/includes/optionsYaml' with {'indent': '    '} -%}
+</code></pre>

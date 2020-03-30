@@ -1,10 +1,8 @@
 package com.eden.orchid.api.resources.resource
 
-import com.eden.common.json.JSONElement
+import com.eden.common.util.EdenUtils.merge
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.asInputStream
-import com.eden.orchid.utilities.merge
-import org.json.JSONObject
 import java.io.InputStream
 
 /**
@@ -13,17 +11,18 @@ import java.io.InputStream
  * plain String content will be written directly instead.
  */
 
-class StringResource(
+class StringResource
+@JvmOverloads
+constructor(
     reference: OrchidReference,
     private val hardcodedString: String,
-    private val hardcodedData: JSONElement? = null
+    private val hardcodedData: Map<String, Any?> = emptyMap()
 ) : OrchidResource(reference) {
 
     override fun getContentStream(): InputStream {
         return hardcodedString.asInputStream()
     }
 
-    override val embeddedData: JSONElement get() {
-        return merge(hardcodedData, super.embeddedData) ?: JSONElement(JSONObject())
-    }
+    override val embeddedData: Map<String, Any?>
+        get() = merge(hardcodedData, super.embeddedData) ?: emptyMap()
 }

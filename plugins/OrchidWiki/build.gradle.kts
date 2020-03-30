@@ -1,10 +1,10 @@
 
 dependencies {
-    compile(Libs.jsoup)
+    implementation(Libs.jsoup)
 
     // for PDF wiki generation
-    compile(Libs.openhtmltopdf_core)
-    compile(Libs.openhtmltopdf_pdfbox)
-    compile(Libs.openhtmltopdf_slf4j)
-    compile(Libs.openhtmltopdf_svg_support)
+    implementation(Libs.openhtmltopdf_core)
+    implementation(Libs.openhtmltopdf_pdfbox)
+    implementation(Libs.openhtmltopdf_slf4j)
+    implementation(Libs.openhtmltopdf_svg_support)
 }

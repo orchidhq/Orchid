@@ -24,7 +24,6 @@ import strikt.assertions.isEmpty
 import strikt.assertions.isEqualTo
 import strikt.assertions.isFalse
 import strikt.assertions.isNotNull
-import strikt.assertions.isNull
 import strikt.assertions.isTrue
 
 class OrchidPrecompilerTest : OrchidUnitTest {
@@ -192,7 +191,7 @@ class OrchidPrecompilerTest : OrchidUnitTest {
 
         expectThat(output)
                 .and { get { first }.isEqualTo(input) }
-                .and { get { second }.isNull() }
+                .and { get { second }.isEmpty() }
     }
 
     @Test
@@ -226,7 +225,7 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         var output = underTest.getEmbeddedData("md", input)
         expectThat(output)
                 .and { get { first }.isEqualTo(input) }
-                .and { get { second }.isNull() }
+                .and { get { second }.isEmpty() }
 
         underTest.customDelimeters = listOf(
                 FrontMatterPrecompiler.CustomDelimiter().apply {
@@ -242,7 +241,7 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         output = underTest.getEmbeddedData("md", input)
         expectThat(output)
                 .and { get { first }.isEqualTo(input) }
-                .and { get { second }.isNull() }
+                .and { get { second }.isEmpty() }
 
         // test when custom delimiter is set, and input matches the delimiter's file extensions
         expectThat(underTest.shouldPrecompile("js", input)).isTrue()

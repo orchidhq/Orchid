@@ -18,4 +18,4 @@ jobs:
       with:
         java-version: '1.8'
     - name: Release with Gradle
-      run: ./gradlew build -Prelease -Penv=prod --dry-run
+      run: ./gradlew build -Prelease -PorchidEnvironment=prod --dry-run

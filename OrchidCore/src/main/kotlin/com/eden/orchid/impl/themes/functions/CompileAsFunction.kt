@@ -19,9 +19,7 @@ class CompileAsFunction : TemplateFunction("compileAs", true) {
     @Description("The extension to compile the inner content against.")
     lateinit var ext: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input", "ext")
-    }
+    override fun parameters() = arrayOf(::input.name, ::ext.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.compile(null, ext, input?.toString() ?: "", null)

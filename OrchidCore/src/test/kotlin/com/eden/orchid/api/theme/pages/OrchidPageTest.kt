@@ -31,14 +31,14 @@ class OrchidPageTest {
     fun setup(baseUrl: String, pagePath: String) {
         context = mock(OrchidContext::class.java)
         extractor = mock(OptionsExtractor::class.java)
-        site = OrchidSiteImpl("1.0", "1.0", baseUrl, "dev", "peb", "", "")
+        site = OrchidSiteImpl("1.0", "1.0", "dev", "peb", "", "")
         `when`(context.getService(OrchidSite::class.java)).thenReturn(site)
         `when`(context.resolve(OptionsExtractor::class.java)).thenReturn(extractor)
-        `when`(context.baseUrl).thenCallRealMethod()
+        `when`(context.baseUrl).thenReturn(baseUrl)
         `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", HashMap()))
 
         reference = OrchidReference(context, pagePath, true)
-        resource = StringResource(reference, "page content", null)
+        resource = StringResource(reference, "page content")
         underTest = OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "test", "Test Page")
     }
 

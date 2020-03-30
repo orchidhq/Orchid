@@ -1,6 +1,5 @@
 package com.eden.orchid.api.server;
 
-import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidCollection;
 import com.eden.orchid.api.options.Descriptive;
@@ -10,23 +9,27 @@ import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.admin.AdminList;
 import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
+import com.eden.orchid.api.theme.AbstractTheme;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
-import org.json.JSONObject;
+import kotlin.collections.CollectionsKt;
 
 import javax.inject.Provider;
 import javax.inject.Inject;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Description(value = "A representation of a server-rendered page, accessible when running Orchid's development server.", name = "View")
-public class OrchidView extends OrchidPage {
+public final class OrchidView extends OrchidPage {
 
     public enum Type {
         Page, Fullscreen;
@@ -36,19 +39,27 @@ public class OrchidView extends OrchidPage {
     private final OrchidController controller;
     @Inject
     private Provider<Set<AdminList>> adminLists;
+    @Inject
+    private Provider<OrchidServer> orchidServerProvider;
     private Object params;
     private Type type;
 
     public OrchidView(OrchidContext context, OrchidController controller, String... views) {
-        this(context, controller, null, views);
+        this(context, controller, "Admin", new HashMap<>(), views);
     }
 
-    public OrchidView(OrchidContext context, OrchidController controller, Map<String, Object> data, String... views) {
+    public OrchidView(
+            OrchidContext context,
+            OrchidController controller,
+            String title,
+            Map<String, Object> data,
+            String... views
+    ) {
         super(
-                new StringResource(new OrchidReference(context, "view.html"), "", new JSONElement(new JSONObject(data))),
+                new StringResource(new OrchidReference(context, "view.html"), "", data),
                 RenderService.RenderMode.TEMPLATE,
                 "view",
-                "Admin"
+                title
         );
         this.controller = controller;
         this.layout = "layoutBase";
@@ -65,13 +76,8 @@ public class OrchidView extends OrchidPage {
     }
 
     @Override
-    protected void collectThemeScripts(List<JsPage> scripts) {
-        scripts.addAll(context.getAdminTheme().getScripts());
-    }
-
-    @Override
-    protected void collectThemeStyles(List<CssPage> styles) {
-        styles.addAll(context.getAdminTheme().getStyles());
+    public AbstractTheme getTheme() {
+        return context.getAdminTheme();
     }
 
     // View renderer
@@ -173,5 +179,22 @@ public class OrchidView extends OrchidPage {
 
     public void setType(final Type type) {
         this.type = type;
+    }
+
+    public List<AdminPageRoute> getAdminPages() {
+        return CollectionsKt.sortedBy(
+                orchidServerProvider.get().getServer().getAdminRoutes(),
+                it -> it.getTitle()
+        );
+    }
+
+    public List<AdminMenuItem> getAdminMenuItems() {
+        return Arrays.asList(
+                new AdminMenuItem("Content", "list", "server/includes/contentPanel"),
+                new AdminMenuItem("Collections", "thumbnails", "server/includes/collectionsPanel"),
+                new AdminMenuItem("Plugin Docs", "file-edit", "server/includes/pluginDocsPanel"),
+                new AdminMenuItem("Manage Site", "settings", "server/includes/managePanel"),
+                new AdminMenuItem("Get Help", "question", "server/includes/helpPanel")
+        );
     }
 }

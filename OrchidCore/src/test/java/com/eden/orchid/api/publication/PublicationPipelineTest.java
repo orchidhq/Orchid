@@ -79,7 +79,7 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         when(context.resolve(InvalidPublisher.class)).thenReturn(invalidPublisher);
         when(context.resolve(ValidPublisher.class)).thenReturn(validPublisher);
 
-        underTest = new PublicationPipeline(context);
+        underTest = new PublicationPipeline();
     }
 
     @Test
@@ -88,9 +88,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        underTest.publishAll(true);
+        underTest.publishAll(context, true);
 
         verify(crashingPublisher, times(1)).validate(context);
         verify(invalidPublisher, times(1)).validate(context);
@@ -103,9 +103,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        boolean success = underTest.publishAll();
+        boolean success = underTest.publishAll(context);
 
         verify(crashingPublisher, times(1)).validate(context);
         verify(invalidPublisher, times(1)).validate(context);
@@ -123,9 +123,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        boolean success = underTest.publishAll();
+        boolean success = underTest.publishAll(context);
 
         verify(crashingPublisher, times(1)).validate(context);
         verify(validPublisher, times(1)).validate(context);
@@ -140,9 +140,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
     public void testPublishedWhenNotDry() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        boolean success = underTest.publishAll();
+        boolean success = underTest.publishAll(context);
 
         verify(validPublisher, times(1)).validate(context);
         verify(validPublisher, times(1)).publish(context);
@@ -154,9 +154,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
     public void testNotPublishedWhenDry() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        boolean success = underTest.publishAll(true);
+        boolean success = underTest.publishAll(context, true);
 
         verify(validPublisher, times(1)).validate(context);
         verify(validPublisher, times(0)).publish(context);
@@ -168,9 +168,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
     public void testNotPublishedWhenPublisherIsDry() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"valid\", \"dry\": true}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        boolean success = underTest.publishAll();
+        boolean success = underTest.publishAll(context);
 
         verify(validPublisher, times(1)).validate(context);
         verify(validPublisher, times(0)).publish(context);
@@ -182,9 +182,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
     public void testNotPublishedWhenFailedValidation() {
         List<Map<String, Object>> stagesJson = new ArrayList<>();
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        boolean success = underTest.publishAll();
+        boolean success = underTest.publishAll(context);
 
         verify(invalidPublisher, times(1)).validate(context);
         verify(invalidPublisher, times(0)).publish(context);
@@ -198,9 +198,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        underTest.publishAll(false, progressHandler);
+        underTest.publishAll(context, false, progressHandler);
 
         verify(validPublisher, times(3)).validate(context);
 
@@ -215,9 +215,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"invalid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        underTest.publishAll(false, progressHandler);
+        underTest.publishAll(context, false, progressHandler);
 
         verify(validPublisher, times(2)).validate(context);
         verify(invalidPublisher, times(1)).validate(context);
@@ -233,9 +233,9 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"crashing\"}").toMap());
         stagesJson.add(new JSONObject("{\"type\": \"valid\"}").toMap());
-        underTest.initialize(stagesJson);
+        underTest.initialize(context, stagesJson);
 
-        underTest.publishAll(false, progressHandler);
+        underTest.publishAll(context, false, progressHandler);
 
         verify(validPublisher, times(2)).validate(context);
         verify(crashingPublisher, times(1)).validate(context);

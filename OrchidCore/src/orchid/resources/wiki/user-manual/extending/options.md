@@ -7,7 +7,7 @@ classnames:
 
 Orchid has a novel and very powerful way of managing options that makes it easier for both developers and users. For 
 developers, you can spend less time focusing on finding options, and also not be stuck with 
-[Stringly-typed](http://wiki.c2.com/?StringlyTyped) options. For users, options are self-documenting, so you know you 
+[Stringly-typed](https://wiki.c2.com/?StringlyTyped) options. For users, options are self-documenting, so you know you 
 have access to all possible options and have insight into their default values, even if the documentation isn't 
 up-to-date.
 

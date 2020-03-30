@@ -9,7 +9,5 @@ class CopperTilesTag : TemplateTag("tiles", Type.Simple, true) {
     @Option
     lateinit var tileMenu: OrchidMenu
 
-    override fun parameters(): Array<String> {
-        return arrayOf("tileMenu")
-    }
+    override fun parameters() = arrayOf(::tileMenu.name)
 }

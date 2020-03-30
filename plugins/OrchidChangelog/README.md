@@ -7,6 +7,7 @@ images:
 tags:
     - docs
     - publication
+    - components
 ---
 
 ## About

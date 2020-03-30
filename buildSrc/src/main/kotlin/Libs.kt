@@ -173,7 +173,7 @@ object Libs {
     /**
      * https://www.codacy.com
      */
-    const val codacy_coverage_reporter: String = "com.github.codacy:codacy-coverage-reporter:" +
+    const val codacy_coverage_reporter: String = "com.codacy:codacy-coverage-reporter:" +
             Versions.codacy_coverage_reporter
 
     const val gradle_bintray_plugin: String = "com.jfrog.bintray.gradle:gradle-bintray-plugin:" +

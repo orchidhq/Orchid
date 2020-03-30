@@ -51,6 +51,7 @@ include(
     ":plugins:OrchidPosts",
     ":plugins:OrchidPresentations",
     ":plugins:OrchidSearch",
+    ":plugins:OrchidSnippets",
     ":plugins:OrchidSourceDoc",
     ":plugins:OrchidSwagger",
     ":plugins:OrchidSwiftdoc",

@@ -2,32 +2,27 @@
 description: 'Using multiple themes, you can pick the right theme for different parts of your site.'
 ---
 
-Themes are what create structure to your site and make it unique. At its core, an Orchid theme simple contributes CSS 
-and Javascript assets to the pages using that theme, and it also helps decide the templates that are used to lay out 
+Themes are what create structure for your site and make it unique. At its core, an Orchid theme contributes CSS and
+Javascript assets to the pages using that theme, and it also helps decide the templates that are used to lay out 
 your pages. The templates and assets added by your theme can always be overridden in your local build, but it is never
-necessary to know anything about the your themes templates for it to work well with Orchid. 
+necessary to know anything about the theme templates for it to work well with Orchid. 
 
 ## Picking a Theme
 
 Themes in Orchid are added just as a dependency in your `build.gradle`, but they are not actually used in your site 
-unless you set the `theme` property in `build.gradle` or set it as the theme for a specific Generator in your
-`config.yml`:
+unless you set the `theme` property in `config.yml` :
 
 ```groovy
 // build.gradle
 dependencies {
-    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{ site.version }}'
-}
-orchid {
-    theme   = "BsDoc"
-    baseUrl = "http://localhost:8080"
+    orchidRuntime 'io.github.javaeden.orchid:OrchidEditorial:{{ site.version }}'
 }
 ```
 
 ```yaml
 # config.yml
-wiki:
-  theme: BsDoc
+site:
+  theme: Editorial
 ```
 
 Your theme's documentation should tell you what the key for the theme is, or you can find it in the Orchid Admin Panel.
@@ -43,10 +38,11 @@ Note: If you have developed a theme that you'd like to feature in our showcase, 
 
 ## Configuring your Theme
 
-Your themes are configured in your `config.yml`. Options can be set for all themes at the `theme` key, or for a specific 
-theme at the key corresponding to its key. You can also break the theme options out into their own `config/` files, as 
-described {{ anchor('here', 'Configuration') }}. For example, this current theme is `BsDoc`, and can be configured 
-any of the following ways:
+Your themes are configured in your `config.yml`, using values from `theme`, or from the 
+{{ anchor('config archetype', 'Configuration') }} at the theme's key. For example, this current theme is `Editorial`, and
+can be configured any of the following ways:
+
+
 
 ```yaml
 # config.yml
@@ -56,7 +52,7 @@ theme:
 
 ```yaml
 # config.yml
-BsDoc:
+Editorial:
   primaryColor: {{theme.primaryColor}}
 ```
 
@@ -66,7 +62,7 @@ primaryColor: {{theme.primaryColor}}
 ```
 
 ```yaml
-# config/BsDoc.yml
+# config/Editorial.yml
 primaryColor: {{theme.primaryColor}}
 ```
 
@@ -82,7 +78,7 @@ outlines in the section above.
 ```yaml
 # config.yml
 wiki:
-  theme: 'BsDoc'
+  theme: 'Editorial'
 ``` 
 
 Alternatively, you can set the `theme` property to an object with a property of `key` and a value of the theme's name.
@@ -93,6 +89,10 @@ when they are rendered.
 # config.yml
 wiki:
   theme: 
-    key: 'BsDoc'
+    key: 'Editorial'
     primaryColor: '#000000'
 ``` 
+
+## Custom Themes
+
+See more about creating custom themes {{ anchor('here', 'Custom Themes') }}.

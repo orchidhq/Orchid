@@ -1,4 +1,4 @@
 dependencies {
-    compile project(":OrchidCore")
-    testCompile project(":OrchidTest")
+    implementation(project(":OrchidCore"))
+    testImplementation(project(":OrchidTest"))
 }

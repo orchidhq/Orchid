@@ -18,3 +18,7 @@ tasks.create("publishPlugins") {
 dependencies {
     runtime(project(":orchidPlugin"))
 }
+
+kotlinDslPluginOptions {
+    experimentalWarning.set(false)
+}

@@ -1,0 +1,10 @@
+{%- if tag.hasOwnOptions() %}
+{{ indent }}# Own Options
+{%- for option in tag.getOwnOptions() %}
+{{ indent }}{{ option.key }}: {{ option.defaultValue }}{% endfor %}
+{% endif %}
+{%- if tag.hasInheritedOptions() %}
+{{ indent }}# Inherited Options
+{%- for option in tag.getInheritedOptions() %}
+{{ indent }}{{ option.key }}: {{ option.defaultValue }}{% endfor %}
+{% endif -%}

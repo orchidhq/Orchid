@@ -287,7 +287,7 @@ site:
   about:
     siteName: My Blog
     siteDescription: This is a short description of this blog.
-    avatar: 'http://lorempixel.com/320/320/city/'
+    avatar: 'https://picsum.photos/seed/city/320/320'
 theme:
   social:
     github: 'username/project'
@@ -316,7 +316,7 @@ one you just set up:
 posts:
   authors:
     - name: 'Author One'
-      avatar: 'http://lorempixel.com/320/320/animals/'
+      avatar: 'https://picsum.photos/seed/animals/320/320'
       email: 'email@domain.tld'
   postPages:
     author: 'Author One'
@@ -338,9 +338,9 @@ with the following content, and push to GitHub.
 [build]
   base    = ""
   publish = "build/docs/orchid"
-  command = "./gradlew orchidBuild -Penv=prod"
+  command = "./gradlew orchidBuild -PorchidEnvironment=prod"
 ```
- 
+
 Now, once you've connected that repo to Netlify, they will take care of the rest! Of course, this is just the minimum 
 needed to deploy, and I'd encourage you to also check out their [full documentation](https://docs.netlify.com/#get-started)
 for more help building and deploying your Orchid site on Netlify.

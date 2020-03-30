@@ -50,7 +50,6 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://kotlin.bintray.com/kotlinx" }
-        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -69,12 +68,6 @@ tag {
 task getReleaseName {
     doLast {
         println project.version.toString()
-    }
-}
-
-task getReleaseNotes {
-    doLast {
-        println getChangelogFile().text.split("---").last().trim()
     }
 }
 

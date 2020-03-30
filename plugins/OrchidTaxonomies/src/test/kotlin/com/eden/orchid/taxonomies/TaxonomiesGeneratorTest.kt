@@ -43,28 +43,6 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
 
     @Test
     @DisplayName(
-        "Taxonomies creates archive pages based on the pages from other generators. You can list each " +
-                "category as an Object to customize its options."
-    )
-    fun test02() {
-        configObject("taxonomies", """{"taxonomies": [{"tags": {}}]}""")
-
-        resource("posts/2018-01-01-post-one.md", "", """{"tags": ["tag1"]}""")
-        resource("pages/page-one.md", "", """{"tags": ["tag1"]}""")
-
-        expectThat(execute())
-            .pageWasRendered("/2018/1/1/post-one/index.html")
-            .pageWasRendered("/page-one/index.html")
-            .pageWasRendered("/tags/index.html")
-            .pageWasRendered("/tags/tag1/index.html")
-            .pageWasRendered("/atom.xml")
-            .pageWasRendered("/rss.xml")
-            .pageWasRendered("/favicon.ico")
-            .nothingElseRendered()
-    }
-
-    @Test
-    @DisplayName(
         "Taxonomies creates archive pages based on the pages from other generators. Rather than a list for " +
                 "the categories, you can use a single Object, where each key points to the options for the value, to " +
                 "query easily."

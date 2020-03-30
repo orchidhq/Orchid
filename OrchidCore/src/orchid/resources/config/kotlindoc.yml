@@ -16,6 +16,7 @@ modules:
   - { name: 'OrchidPosts',             sourceDirs: '../../../../plugins/OrchidPosts/src/main/kotlin',                        moduleGroup: 'plugins' }
   - { name: 'OrchidPresentations',     sourceDirs: '../../../../plugins/OrchidPresentations/src/main/kotlin',                moduleGroup: 'plugins' }
   - { name: 'OrchidSearch',            sourceDirs: '../../../../plugins/OrchidSearch/src/main/kotlin',                       moduleGroup: 'plugins' }
+  - { name: 'OrchidSnippets',          sourceDirs: '../../../../plugins/OrchidSnippets/src/main/kotlin',                     moduleGroup: 'plugins' }
   - { name: 'OrchidSourceDoc',         sourceDirs: '../../../../plugins/OrchidSourceDoc/src/main/kotlin',                    moduleGroup: 'plugins' }
   - { name: 'OrchidSwagger',           sourceDirs: '../../../../plugins/OrchidSwagger/src/main/kotlin',                      moduleGroup: 'plugins' }
   - { name: 'OrchidSwiftdoc',          sourceDirs: '../../../../plugins/OrchidSwiftdoc/src/main/kotlin',                     moduleGroup: 'plugins' }

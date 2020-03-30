@@ -17,6 +17,9 @@ import com.eden.orchid.api.resources.ResourceServiceImpl
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.admin.AdminList
+import com.eden.orchid.api.site.BaseUrlFactory
+import com.eden.orchid.api.site.DefaultBaseUrlFactory
+import com.eden.orchid.api.site.DevServerBaseUrlFactory
 import com.eden.orchid.api.tasks.OrchidCommand
 import com.eden.orchid.api.tasks.OrchidTask
 import com.eden.orchid.api.tasks.TaskServiceImpl
@@ -66,6 +69,7 @@ import com.eden.orchid.impl.themes.functions.CompileAsFunction
 import com.eden.orchid.impl.themes.functions.FindAllFunction
 import com.eden.orchid.impl.themes.functions.FindFunction
 import com.eden.orchid.impl.themes.functions.HomepageUrlFunction
+import com.eden.orchid.impl.themes.functions.ImageFunction
 import com.eden.orchid.impl.themes.functions.LimitToFunction
 import com.eden.orchid.impl.themes.functions.LinkFunction
 import com.eden.orchid.impl.themes.functions.LoadFunction
@@ -132,6 +136,13 @@ class ImplModule(
 
             // prepare empty sets for binding
             addToSet(OrchidService::class.java)
+
+            // Site
+            addToSet(
+                BaseUrlFactory::class.java,
+                DefaultBaseUrlFactory::class.java,
+                DevServerBaseUrlFactory::class.java
+            )
 
             // Themes
             addToSet(
@@ -246,7 +257,8 @@ class ImplModule(
                 RotateFunction::class.java,
                 ScaleFunction::class.java,
                 ResizeFunction::class.java,
-                RenameFunction::class.java
+                RenameFunction::class.java,
+                ImageFunction::class.java
             )
 
             // Publication Methods
@@ -306,62 +318,30 @@ class ImplModule(
 // Create Admin lists
 //----------------------------------------------------------------------------------------------------------------------
 
-    private fun getServicesAdminList(contextProvider: Provider<OrchidContext>) : AdminList {
+    private fun getServicesAdminList(contextProvider: Provider<OrchidContext>): AdminList {
         return object : AdminList {
-            override fun getKey(): String {
-                return "services"
-            }
-
-            override fun getListClass(): Class<*> {
-                return OrchidService::class.java
-            }
-
-            override fun getItems(): Collection<Class<*>> {
-                return contextProvider.get()
-                    .services
-                    .map { it.javaClass }
-            }
-
-            override fun isImportantType(): Boolean {
-                return true
-            }
+            override val key = "services"
+            override val listClass = OrchidService::class.java
+            override val isImportantType = true
+            override val items: Collection<Class<*>?>
+                get() = contextProvider.get().services.map { it.javaClass }
         }
     }
 
     private fun getPagesAdminList(): AdminList {
         return object : AdminList {
-
-            private var pages: MutableCollection<Class<*>>? = null
-
-            override fun getKey(): String {
-                return "pages"
-            }
-
-            override fun getListClass(): Class<*> {
-                return OrchidPage::class.java
-            }
-
-            override fun getItems(): Collection<Class<*>>? {
-                if (pages == null) {
-                    pages = ArrayList()
-
-                    ClassGraph()
-                        .enableClassInfo()
-                        .scan()
-                        .getSubclasses(OrchidPage::class.java.name)
-                        .loadClasses(OrchidPage::class.java)
-                        .forEach { pageClass ->
-                            if (!Modifier.isAbstract(pageClass.modifiers)) {
-                                pages!!.add(pageClass)
-                            }
-                        }
-                }
-
-                return pages
-            }
-
-            override fun isImportantType(): Boolean {
-                return true
+            override val key = "pages"
+            override val listClass = OrchidPage::class.java
+            override val isImportantType = true
+            override val items by lazy {
+                ClassGraph()
+                    .enableClassInfo()
+                    .scan()
+                    .getSubclasses(OrchidPage::class.java.name)
+                    .loadClasses(OrchidPage::class.java)
+                    .mapNotNull { pageClass ->
+                        pageClass.takeIf { !Modifier.isAbstract(it.modifiers) }
+                    }
             }
         }
     }

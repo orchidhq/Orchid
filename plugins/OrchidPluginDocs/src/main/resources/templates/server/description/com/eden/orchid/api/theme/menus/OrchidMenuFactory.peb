@@ -1,14 +1,9 @@
 {% set menuItem =  tag.provide() %}
 {# @pebvariable name="menuItem" type="com.eden.orchid.api.theme.menus.OrchidMenuFactory" #}
 
-<b>Basic Usage</b>
-
 <pre><code class="lang-yaml"># the theme's config, a page's front matter, or in any option of type OrchidMenu
 ...
 menu:
   - type: "{{ menuItem.type }}"
-{%- if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
-{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-    {{ option.key }}: {{ option.defaultValue }}{% endfor %}
-{% endif %}
+{%- include 'server/includes/optionsYaml' with {'indent': '    '} -%}
 </code></pre>

@@ -13,7 +13,7 @@ import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
 import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
 import com.eden.orchid.api.theme.assets.CssPage;
@@ -28,12 +28,7 @@ import java.util.Map;
 
 import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
-/**
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
-@Extensible
+@ImportantModularType
 @Description(value = "A reusable block of content.", name = "Components")
 @Archetype(value = SharedConfigArchetype.class, key = "from")
 public abstract class OrchidComponent extends Prioritized implements
@@ -44,7 +39,7 @@ public abstract class OrchidComponent extends Prioritized implements
 
     protected final String templateBase = "components";
     protected final String type;
-    protected final boolean meta;
+    public final boolean meta;
     protected AssetHolder assetHolder;
     private boolean hasAddedAssets;
 

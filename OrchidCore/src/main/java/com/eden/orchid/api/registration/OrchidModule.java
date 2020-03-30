@@ -5,10 +5,9 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
-import com.eden.orchid.api.server.annotations.Extensible;
+import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.impl.resources.resourcesource.PluginJarResourceSource;
 import com.google.inject.AbstractModule;
-import com.google.inject.Module;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
@@ -21,20 +20,6 @@ import java.util.stream.Collectors;
 
 import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 
-/**
- * Orchid is built on top of the Guice Dependency Injection framework by Google. This framework allows for runtime
- * discovery and injection of dependencies and multibindings, making it ideal for a runtime-plugin-driven framework
- * like Orchid.
- *
- * The OrchidModule adds several convenience methods useful for registering classes within Orchid. It is not necessary
- * to extend OrchidModule, any class that implements the Guice {@link Module} interface and has a public no-arg
- * constructor can be used with Orchid, allowing for maximum interoperability with other libraries. In addition, since
- * Guice is a complete implementation of the JSR-330 interface, even libraries that have been set up for Dependency
- * Injection apart from Guice can be used seamlessly simply by adding the necessary bindings within a Guice Module.
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 public abstract class OrchidModule extends AbstractModule {
 
     private boolean hasResources = false;
@@ -84,7 +69,7 @@ public abstract class OrchidModule extends AbstractModule {
 
                 @Override
                 public boolean isImportantType() {
-                    return setClass.isAnnotationPresent(Extensible.class);
+                    return setClass.isAnnotationPresent(ImportantModularType.class);
                 }
             });
 

@@ -67,7 +67,7 @@ class GithubMenuItem : OrchidMenuFactory("github") {
                 val starCount = jsonBody.getInt("stargazers_count")
 
                 val pageRef = OrchidReference.fromUrl(context, name, url)
-                val pageRes = StringResource(pageRef, description, null)
+                val pageRes = StringResource(pageRef, description)
                 val page = OrchidExternalPage(pageRes, "githubProject", "")
                 page.description = """
                     |<span class="stars">

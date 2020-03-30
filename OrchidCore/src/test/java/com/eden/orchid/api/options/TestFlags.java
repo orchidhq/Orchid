@@ -22,7 +22,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.emptyOrNullString;
 
 public class TestFlags implements OrchidUnitTest {
 
@@ -130,7 +130,7 @@ public class TestFlags implements OrchidUnitTest {
         assertThat(OrchidFlags.getInstance().getFlagValue("one"),   is(equalTo("valueOne")));
         assertThat(OrchidFlags.getInstance().getFlagValue("two"),   is(equalTo("valueTwo")));
         assertThat(OrchidFlags.getInstance().getFlagValue("three"), is(equalTo("valueThree")));
-        assertThat(OrchidFlags.getInstance().getFlagValue("four"),  isEmptyOrNullString()); // "four" has no parser for it
+        assertThat(OrchidFlags.getInstance().getFlagValue("four"),  emptyOrNullString()); // "four" has no parser for it
         assertThat(OrchidFlags.getInstance().getFlagValue("five"),  is(equalTo(17))); // "five"'s parser returned an int
         assertThat(OrchidFlags.getInstance().getFlagValue("six"),   is(equalTo("valueSix")));
         assertThat(OrchidFlags.getInstance().getFlagValue("seven"), is(equalTo(14)));

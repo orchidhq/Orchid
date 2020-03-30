@@ -6,10 +6,6 @@ import com.google.inject.ImplementedBy;
 
 import java.util.Map;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @ImplementedBy(OptionsServiceImpl.class)
 public interface OptionsService extends OrchidService {
 

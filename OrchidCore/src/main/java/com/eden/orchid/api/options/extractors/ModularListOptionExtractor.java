@@ -4,8 +4,9 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleIterableConverter;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
-import com.eden.orchid.api.options.annotations.ModularListConfig;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.theme.components.ModularList;
+
 import javax.inject.Provider;
 
 import javax.inject.Inject;
@@ -21,9 +22,6 @@ import java.util.Map;
  * |--------------|----------------|----------------------------|
  * | String       | @StringDefault | Annotation value() or null |
  * | String[]     | none           | Empty String[]             |
- *
- * @since v1.0.0
- * @orchidApi optionTypes
  */
 public final class ModularListOptionExtractor extends OptionExtractor<ModularList> {
 
@@ -46,11 +44,21 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
     @Override
     public ModularList getOption(Field field, Object sourceObject, String key) {
-        String objectKeyName = (field.isAnnotationPresent(ModularListConfig.class))
-                ? field.getAnnotation(ModularListConfig.class).objectKeyName()
-                : "type";
+        OrchidContext context = contextProvider.get();
 
-        Iterable iterable = iterableConverter.convert(field.getType(), sourceObject, objectKeyName).second;
+        final String typeKey;
+        final String valueKey;
+        if(field.isAnnotationPresent(ImpliedKey.class)) {
+            ImpliedKey impliedKey = field.getAnnotation(ImpliedKey.class);
+            typeKey = impliedKey.typeKey();
+            valueKey = impliedKey.valueKey();
+        }
+        else {
+            typeKey = null;
+            valueKey = null;
+        }
+
+        Iterable iterable = iterableConverter.convert(field.getType(), sourceObject, typeKey, valueKey).second;
 
         List<Map<String, Object>> jsonArray = new ArrayList<>();
         for(Object o : iterable) {
@@ -60,7 +68,7 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
         if(jsonArray.size() > 0) {
             ModularList modularList = (ModularList) contextProvider.get().resolve(field.getType());
-            modularList.initialize(jsonArray);
+            modularList.initialize(context, jsonArray);
             return modularList;
         }
 
@@ -69,8 +77,9 @@ public final class ModularListOptionExtractor extends OptionExtractor<ModularLis
 
     @Override
     public ModularList getDefaultValue(Field field) {
-        ModularList modularList = (ModularList) contextProvider.get().resolve(field.getType());
-        modularList.initialize(new ArrayList<>());
+        OrchidContext context = contextProvider.get();
+        ModularList modularList = (ModularList) context.resolve(field.getType());
+        modularList.initialize(context, new ArrayList<>());
         return modularList;
     }
 

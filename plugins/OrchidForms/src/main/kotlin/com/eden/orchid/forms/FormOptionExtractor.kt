@@ -26,7 +26,9 @@ constructor(
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     override fun getOption(field: Field, sourceObject: Any, key: String): Form? {
         val formsModel: FormsModel = contextProvider.get().resolve()
-        if (sourceObject is JSONObject) {
+        if (sourceObject is Form) {
+            return sourceObject
+        } else if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())
         }
         else if (sourceObject is Map<*, *>) {
@@ -35,7 +37,7 @@ constructor(
         else {
             val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {
-                return formsModel.forms.getOrDefault(value.second, null)
+                return formsModel.getForm(value.second)
             }
         }
 

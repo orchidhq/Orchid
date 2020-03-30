@@ -3,10 +3,12 @@ package com.eden.orchid.bsdoc
 import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
@@ -15,16 +17,12 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 @Description("A theme based on the Bootstrap 3 documentation, and good for code documentation.", name="BsDoc")
+@Archetype(value = ConfigArchetype::class, key = "BsDoc")
 class BSDocTheme
 @Inject
 constructor(
         context: OrchidContext
 ) : Theme(context, "BsDoc") {
-
-    companion object {
-        const val DEPRECATION_MESSAGE = "BsDocTheme configuration of search has been deprecated, and you must now " +
-                "migrate to the `orchidSearch` or `algoliaDocsearch` meta-component config instead."
-    }
 
     @Option
     @StringDefault("#4C376C")
@@ -67,12 +65,6 @@ constructor(
     @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
-    @Option
-    @Description("Whether to use the legacy config for site search. NOTE: $DEPRECATION_MESSAGE")
-    @BooleanDefault(true)
-    @Deprecated(DEPRECATION_MESSAGE)
-    var legacySearch: Boolean = true
-
     override fun loadAssets() {
         // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
         addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", null), "bootstrap.min", null))
@@ -86,10 +78,6 @@ constructor(
         addJs("assets/js/bsdoc.js")
 
         addCss("assets/css/orchidSearch.scss")
-
-        if(legacySearch) {
-            Clog.e(DEPRECATION_MESSAGE)
-        }
     }
 
     override fun onPostExtraction() {

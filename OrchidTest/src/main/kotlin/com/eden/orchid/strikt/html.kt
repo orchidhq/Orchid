@@ -1,6 +1,7 @@
 package com.eden.orchid.strikt
 
 import com.eden.orchid.testhelpers.TestRenderer
+import com.eden.orchid.utilities.applyIf
 import kotlinx.html.DETAILS
 import kotlinx.html.DIV
 import kotlinx.html.HEAD
@@ -34,20 +35,21 @@ import java.io.PrintStream
 fun Assertion.Builder<String>.asHtml(
     removeComments: Boolean = true
 ): Assertion.Builder<Document> =
-    get("as HTML document") {
-        val doc = Jsoup.parse(this).apply {
+    get("as HTML document") { asHtml(removeComments) }
+
+fun String.asHtml(
+    removeComments: Boolean = true
+): Document =
+    Jsoup
+        .parse(this)
+        .apply {
             outputSettings(Document.OutputSettings().apply {
                 indentAmount(2)
                 prettyPrint(true)
                 outline(true)
             })
         }
-
-        if (removeComments) {
-            doc.filter(CommentFilter)
-        }
-        doc
-    }
+        .applyIf(removeComments) { filter(CommentFilter) }
 
 /**
  * Apply a CSS selector to a document, and evaluate a block of assertions on the selected elements.
@@ -96,25 +98,19 @@ fun Assertion.Builder<Elements>.matchCountIs(count: Int): Assertion.Builder<Elem
     assertThat("matches at least one node") { it.size == count }
 
 fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatches(
+    selector: String = "body",
     matcher: DIV.() -> Unit
 ): Assertion.Builder<TestRenderer.TestRenderedPage> =
     assertBlock("HTML body matches") {
-        get { content }
-            .asHtml()
-            .select("body") {
-                innerHtmlMatches(matcher = matcher)
-            }
+        get { content.asHtml().select(selector) }.innerHtmlMatches(matcher = matcher)
     }
 
 fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatchesString(
+    selector: String = "body",
     matcher: (Assertion.Builder<String>) -> Unit
 ): Assertion.Builder<TestRenderer.TestRenderedPage> =
     assertBlock("HTML body matches") {
-        get { content }
-            .asHtml()
-            .select("body") {
-                get { html() }.apply(matcher)
-            }
+        get { content.asHtml().select(selector).html() }.apply(matcher)
     }
 
 /**
@@ -135,17 +131,19 @@ fun Assertion.Builder<Elements>.innerHtmlMatches(
     otherSelectorToCheck: String = "body > div",
     matcher: DIV.() -> Unit
 ): Assertion.Builder<Elements> =
-    assertThat("inner HTML matches") {
-        val doc1 = it.html()
-        val doc2 = ByteArrayOutputStream().apply {
+    and {
+        val expectedHtml = ByteArrayOutputStream().apply {
             PrintStream(this).appendHTML().div { matcher() }
         }.toString()
-
-        doc1.hasHtmlSimilarTo(
-            doc2,
-            thisSelectorToCheck = thisSelectorToCheck,
-            otherSelectorToCheck = otherSelectorToCheck
-        )
+        assert("inner HTML matches", expectedHtml) {
+            val subject = it.html()
+            val similar = subject.hasHtmlSimilarTo(
+                expectedHtml,
+                thisSelectorToCheck = thisSelectorToCheck,
+                otherSelectorToCheck = otherSelectorToCheck
+            )
+            if (similar) pass() else fail(actual = expectedHtml)
+        }
     }
 
 /**
@@ -166,17 +164,19 @@ fun Assertion.Builder<Elements>.outerHtmlMatches(
     otherSelectorToCheck: String = "body > div",
     matcher: DIV.() -> Unit
 ): Assertion.Builder<Elements> =
-    assertThat("outer HTML matches") {
-        val doc1 = it.outerHtml()
-        val doc2 = ByteArrayOutputStream().apply {
+    and {
+        val expectedHtml = ByteArrayOutputStream().apply {
             PrintStream(this).appendHTML().div { matcher() }
         }.toString()
-
-        doc1.hasHtmlSimilarTo(
-            doc2,
-            thisSelectorToCheck = thisSelectorToCheck,
-            otherSelectorToCheck = otherSelectorToCheck
-        )
+        assert("inner HTML matches", expectedHtml) {
+            val subject = it.outerHtml()
+            val similar = subject.hasHtmlSimilarTo(
+                expectedHtml,
+                thisSelectorToCheck = thisSelectorToCheck,
+                otherSelectorToCheck = otherSelectorToCheck
+            )
+            if (similar) pass() else fail(actual = subject)
+        }
     }
 
 /**

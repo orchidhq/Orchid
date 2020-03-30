@@ -1,17 +1,8 @@
 {% set theme =  tag.provide() %}
 {# @pebvariable name="theme" type="com.eden.orchid.api.theme.AdminTheme" #}
 
-{% if tag.optionsExtractor.hasOptions(tag.classType, true, false) %}
-<b>Default Config</b>
-
 <pre><code class="lang-yaml"># config.yml
 ...
-{{ theme.key }}: # to configure this theme only. Use `adminTheme:` to configure all admin themes with these options
-{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-  {{ option.key }}: {{ option.defaultValue }}{% endfor %}
+adminTheme:
+{%- include 'server/includes/optionsYaml' with {'indent': '  '} -%}
 </code></pre>
-<pre><code class="lang-yaml"># config/{{ theme.key }}.yml or # config/adminTheme.yml
-{%- for option in tag.optionsExtractor.describeOwnOptions(tag.classType).optionsDescriptions %}
-{{ option.key }}: {{ option.defaultValue }}{% endfor %}
-</code></pre>
-{% endif %}

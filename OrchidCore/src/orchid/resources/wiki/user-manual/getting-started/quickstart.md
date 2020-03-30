@@ -41,7 +41,6 @@ repositories {
     // everything available from MavenCentral, while Jitpack makes accessible any Github project.
     jcenter()
     maven { url "https://kotlin.bintray.com/kotlinx" }
-    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -52,12 +51,10 @@ dependencies {
 }
 
 orchid {
-    // Theme is required
-    theme   = "{theme}"
-    
-    // The following properties are optional
-    version = "${project.version}"
-    baseUrl = "{baseUrl}"                         // a baseUrl prepended to all generated links. Defaults to '/'
+    // All properties are optional
+    theme   = "{theme}"                           // can also be set as `site.theme` in `config.yml`
+    version = "${project.version}"                // defaults to project version
+    baseUrl = "{baseUrl}"                         // a baseUrl prepended to all generated links. Can also be set as `site.baseUrl` in `config.yml` Defaults to '/'
     srcDir  = "path/to/new/source/directory"      // defaults to 'src/orchid/resources'
     destDir = "path/to/new/destination/directory" // defaults to 'build/docs/orchid'
     runTask = "build"                             // specify a task to run with 'gradle orchidRun'
@@ -117,12 +114,10 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
                 </dependencies>
 
                 <configuration>
-                    <!-- Theme is required -->
-                    <theme>${theme}</theme>
-                    
-                    <!-- The following properties are optional -->
-                    <version>${project.version}</version>
-                    <baseUrl>${baseUrl}</baseUrl>                        <!-- a baseUrl prepended to all generated links. Defaults to '/' -->
+                    <!-- All properties are optional -->
+                    <theme>${theme}</theme>                              <!-- can also be set as `site.theme` in `config.yml` -->
+                    <version>${project.version}</version>                <!-- defaults to project version -->
+                    <baseUrl>${baseUrl}</baseUrl>                        <!-- a baseUrl prepended to all generated links. Can also be set as `site.baseUrl` in `config.yml` Defaults to '/' -->
                     <srcDir>path/to/new/source/directory</srcDir>        <!-- defaults to 'src/orchid/resources' -->
                     <destDir>path/to/new/destination/directory</destDir> <!-- defaults to 'target/docs/orchid' -->
                     <runTask>build</runTask>                             <!-- specify a task to run with 'mvn orchid:run' -->
@@ -137,15 +132,11 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
         <pluginRepository>
             <id>jcenter</id>
             <name>bintray-plugins</name>
-            <url>http://jcenter.bintray.com</url>
+            <url>https://jcenter.bintray.com</url>
         </pluginRepository>
         <pluginRepository>
             <id>kotlinx</id>
             <url>https://kotlin.bintray.com/kotlinx</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>jitpack</id>
-            <url>https://jitpack.io</url>
         </pluginRepository>
     </pluginRepositories>
 </project>
@@ -176,7 +167,6 @@ tools, or used like a library and started from another application.
 ```kotlin
 // orchid.kts
 @file:MavenRepository("kotlinx", "https://kotlin.bintray.com/kotlinx")
-@file:MavenRepository("jitpack", "https://jitpack.io")
 
 @file:DependsOn("io.github.javaeden.orchid:OrchidAll:{{site.version}}")
 
@@ -185,12 +175,10 @@ import com.eden.orchid.StandardModule
 
 val flags = HashMap<String, Any>()
 
-// Theme is required
-flags["theme"] = "{theme}"
-
 // The following properties are optional
+flags["theme"]   = "{theme}"                           // can also be set as `site.theme` in `config.yml`
 flags["version"] = "{{site.version}}"
-flags["baseUrl"] = "{baseUrl}"                         // a baseUrl prepended to all generated links. Defaults to '/'
+flags["baseUrl"] = "{baseUrl}"                         // a baseUrl prepended to all generated links. Can also be set as `site.baseUrl` in `config.yml` Defaults to '/'
 flags["srcDir"]  = "path/to/new/source/directory"      // defaults to './src'
 flags["destDir"] = "path/to/new/destination/directory" // defaults to './site'
 flags["runTask"] = "build"                             // specify a default task to run when not supplied on the command line
@@ -243,7 +231,7 @@ Your sbt project should look something like this:
                  +—— build.properties
                  |
                  +—— plugins.sbt
-		 
+
 
 If you wish to integrate orchid into an `sbt` project, you'll use the Orchid sbt plugin. To install it
 in your project, you'll need to ensure that at least the following is included in your `project/plugins.sbt`:

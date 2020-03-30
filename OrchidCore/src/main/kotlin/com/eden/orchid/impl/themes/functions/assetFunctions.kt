@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.resources.thumbnails.Renameable
 import com.eden.orchid.api.resources.thumbnails.Resizable
@@ -26,9 +27,7 @@ class AssetFunction : TemplateFunction("asset", false) {
     @Description("The path to a resource to render.")
     lateinit var itemId: String
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("itemId")
-    }
+    override fun parameters() = arrayOf(::itemId.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context.assetManager.createAsset(itemId, page, "page")
@@ -42,12 +41,12 @@ class AssetFunction : TemplateFunction("asset", false) {
     value = "Lookup and return an asset. The asset will not be rendered until its link is requested.",
     name = "Asset"
 )
-abstract class BaseImageManipulationFunction(name: String) : TemplateFunction(name, false) {
+abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean = false) : TemplateFunction(name, isSafeString) {
 
     @Option
     var input: Any? = null
 
-    protected inline fun <reified T> applyInternal(transformation: (AssetPage, T) -> Unit): Any? {
+    protected fun getAssetPage(context: OrchidContext, page: OrchidPage?): AssetPage? {
         if (input != null) {
             val asset: AssetPage?
 
@@ -57,9 +56,19 @@ abstract class BaseImageManipulationFunction(name: String) : TemplateFunction(na
                 // always create a new asset from the relation, since the original is probably already rendered and we
                 // want to manipulate the asset and render it differently
                 asset = (input as AssetRelation).load()
+            } else if(input is String) {
+                asset = context.assetManager.createAsset(input?.toString(), page, "page")
             } else {
                 asset = null
             }
+            return asset
+        }
+        return null
+    }
+
+    protected inline fun <reified T> applyInternal(context: OrchidContext, page: OrchidPage?, transformation: (AssetPage, T) -> Unit): Any? {
+        if (input != null) {
+            val asset: AssetPage? = getAssetPage(context, page)
 
             if (asset == null) {
                 Clog.e("Cannot use '{}' function on null object", name)
@@ -91,12 +100,10 @@ class RotateFunction : BaseImageManipulationFunction("rotate") {
     @Description("Set image rotation angle in degrees.")
     var angle: Double = 0.0
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "angle")
-    }
+    override fun parameters() = arrayOf(::input.name, ::angle.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return applyInternal { asset, resource: Rotateable ->
+        return applyInternal(context, page) { asset, resource: Rotateable ->
             resource.rotate(asset, angle)
         }
     }
@@ -110,12 +117,10 @@ class ScaleFunction : BaseImageManipulationFunction("scale") {
     @Description("Set image rotation angle in degrees.")
     var factor: Double = 0.0
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "factor")
-    }
+    override fun parameters() = arrayOf(::input.name, ::factor.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return applyInternal { asset, resource: Scalable ->
+        return applyInternal(context, page) { asset, resource: Scalable ->
             resource.scale(asset, factor)
         }
     }
@@ -147,12 +152,10 @@ class ResizeFunction : BaseImageManipulationFunction("resize") {
     )
     lateinit var mode: Resizable.Mode
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "width", "height", "mode")
-    }
+    override fun parameters() = arrayOf(::input.name, ::width.name, ::height.name, ::mode.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return applyInternal { asset, resource: Resizable ->
+        return applyInternal(context, page) { asset, resource: Resizable ->
             resource.resize(asset, width, height, mode)
         }
     }
@@ -172,13 +175,26 @@ constructor(private val permalinkStrategy: PermalinkStrategy) : BaseImageManipul
     @Description("Set image rotation angle in degrees.")
     var usePrettyUrl: Boolean = false
 
-    override fun parameters(): Array<String?> {
-        return arrayOf("input", "permalink", "usePrettyUrl")
-    }
+    override fun parameters() = arrayOf(::input.name, ::permalink.name, ::usePrettyUrl.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return applyInternal { asset, resource: Renameable ->
+        return applyInternal(context, page) { asset, resource: Renameable ->
             resource.rename(asset, permalinkStrategy, permalink, usePrettyUrl)
         }
+    }
+}
+
+@Description(value = "Render an asset as an img HTML tag.", name = "Image")
+class ImageFunction : BaseImageManipulationFunction("img", true) {
+
+    @Option
+    lateinit var alt: String
+
+    override fun parameters() = arrayOf(::input.name, ::alt.name, ::alt.name)
+
+    override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
+        val asset: AssetPage? = getAssetPage(context, page)
+
+        return """ <img src="${asset?.link}" alt="${alt}"> """
     }
 }

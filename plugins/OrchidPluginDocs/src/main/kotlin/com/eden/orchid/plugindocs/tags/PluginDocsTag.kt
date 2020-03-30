@@ -9,6 +9,7 @@ import com.copperleaf.krow.krow
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidCollection
+import com.eden.orchid.api.options.ArchetypeDescription
 import com.eden.orchid.api.options.OptionHolderDescription
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
@@ -27,18 +28,6 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
     lateinit var className: String
 
     @Option
-    @Description("A fully-qualified class name to render options for.")
-    lateinit var tableClass: String
-
-    @Option
-    @Description("A fully-qualified class name to render options for.")
-    lateinit var tableHeaderClass: String
-
-    @Option
-    @Description("A fully-qualified class name to render options for.")
-    lateinit var tableLeaderClass: String
-
-    @Option
     @Description("A custom template to use the for tabs tag used internally.")
     lateinit var tabsTemplate: String
 
@@ -48,18 +37,14 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
     private val optionsExtractor: OptionsExtractor by lazy { context.resolve<OptionsExtractor>() }
 
-    override fun parameters(): Array<String> {
-        return arrayOf("className")
-    }
+    override fun parameters() = arrayOf(::className.name)
 
-    fun findClass(): Class<*> {
-        return Class.forName(className)
+    val classType: Class<*> by lazy {
+        Class.forName(className)
     }
-
-    val classType: Class<*> get() = findClass()
 
     fun getClassTypeOverviewTemplate(): String {
-        val o = findClass()
+        val o = classType
         val classes = ArrayList<String>()
 
         // first add the class and its superclasses, to make sure that the concrete types get precedence over interfaces
@@ -77,53 +62,7 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
     }
 
     fun getClassDescription(): String {
-        val classDescripton = optionsExtractor.describeOptions(findClass(), false, false)
-        return context.compile(page?.resource, "md", classDescripton.classDescription, null)
-    }
-
-    fun getOwnOptionsDescription(): String {
-        if(optionsExtractor.hasOptions(findClass(), true, false)) {
-            val classDescripton = optionsExtractor.describeOptions(findClass(), true, false)
-            val table = getDescriptionTable(classDescripton)
-            return table.print(HtmlTableFormatter(tableAttrs))
-        }
-        else {
-            return "No options"
-        }
-    }
-
-    fun getInheritedOptionsDescription(): String {
-        if(optionsExtractor.hasOptions(findClass(), false, true)) {
-            val classDescripton = optionsExtractor.describeOptions(findClass(), false, true)
-            val table = getDescriptionTable(classDescripton)
-            return table.print(HtmlTableFormatter(tableAttrs))
-        }
-        else {
-            return "No options"
-        }
-    }
-
-    fun getArchetypesDescription(): String {
-        val classDescription = optionsExtractor.describeOptions(findClass(), false, false)
-        if(classDescription.archetypeDescriptions.isNotEmpty()) {
-            val table = krow {
-                classDescription.archetypeDescriptions.forEachIndexed { i, option ->
-                    cell("Key", "$i") {
-                        content = "<code>${option.key}</code>"
-                    }
-                    cell("Type", "$i") {
-                        content = getDescriptionLink(option.archetypeType, option.displayName)
-                    }
-                    cell("Description", "$i") {
-                        content = context.compile(page?.resource, "md", option.description, null)
-                    }
-                }
-            }
-            return table.print(HtmlTableFormatter(tableAttrs))
-        }
-        else {
-            return "No archetypes"
-        }
+        return optionsExtractor.describeOptions(classType, false, false).classDescription
     }
 
     fun getRelatedCollections(collectionType: String, collectionId: String): List<OrchidCollection<*>> {
@@ -148,23 +87,28 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
         return stream.sortedBy { it.collectionType }
     }
 
-    private fun getDescriptionTable(optionsHolderDescription: OptionHolderDescription): KrowTable {
-        return krow {
-            optionsHolderDescription.optionsDescriptions.forEach { option ->
-                cell("Key", option.key) {
-                    content = "<code>${option.key}</code>"
-                }
-                cell("Type", option.key) {
-                    content = toAnchor(option)
-                }
-                cell("Default Value", option.key) {
-                    content = option.defaultValue
-                }
-                cell("Description", option.key) {
-                    content = context.compile(page?.resource, "md", option.description, null)
-                }
-            }
-        }
+    fun hasOwnOptions(): Boolean {
+        return optionsExtractor.hasOptions(classType, true, false)
+    }
+
+    fun getOwnOptions(): List<OptionsDescription> {
+        return optionsExtractor.describeOwnOptions(classType).optionsDescriptions
+    }
+
+    fun hasInheritedOptions(): Boolean {
+        return optionsExtractor.hasOptions(classType, false, true)
+    }
+
+    fun getInheritedOptions(): List<OptionsDescription> {
+        return optionsExtractor.describeInheritedOptions(classType).optionsDescriptions
+    }
+
+    fun hasArchetypes(): Boolean {
+        return true
+    }
+
+    fun getArchetypes(): List<ArchetypeDescription> {
+        return optionsExtractor.describeOptions(classType, false, false).archetypeDescriptions
     }
 
     private fun getDescriptionLink(o: Any, title: String): String {
@@ -186,7 +130,10 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
         return title
     }
 
-    private fun toAnchor(option: OptionsDescription): String {
+    fun toAnchor(archetype: ArchetypeDescription): String {
+        return getDescriptionLink(archetype.archetypeType, archetype.displayName)
+    }
+    fun toAnchor(option: OptionsDescription): String {
         val baseLink = getDescriptionLink(option.optionType, option.optionType.simpleName)
         val typeParamLinks: String
 
@@ -203,19 +150,10 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
         return baseLink + typeParamLinks
     }
 
-    val tableAttrs: HtmlAttributes
-        get() {
-            return object : DefaultHtmlAttributes() {
-                override val tableClass: String get() = this@PluginDocsTag.tableClass
-                override val leaderClass: String get() = tableLeaderClass
-                override val headerClass: String get() = tableHeaderClass
-            }
-        }
-
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     fun <T> provide(): T? {
         try {
-            return context.resolve(findClass()) as? T
+            return context.resolve(classType) as? T
         }
         catch (e: Exception) {
 

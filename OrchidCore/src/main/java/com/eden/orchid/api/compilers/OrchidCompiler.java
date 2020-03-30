@@ -10,14 +10,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-/**
- * A generic compiler which can be used by a Theme to transform content. When a Theme is requested to compile a file of
- * a given type, it searches the list of registered Compilers and picks the one with the highest priority that is able
- * to compile the given file type.
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 public abstract class OrchidCompiler extends Prioritized implements OptionsHolder {
 
     /**

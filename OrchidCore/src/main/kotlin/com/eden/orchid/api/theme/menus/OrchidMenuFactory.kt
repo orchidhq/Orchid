@@ -6,16 +6,12 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.registration.Prioritized
-import com.eden.orchid.api.server.annotations.Extensible
+import com.eden.orchid.api.server.annotations.ImportantModularType
 import com.eden.orchid.api.theme.components.ModularPageListItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY
 
-/**
- * @orchidApi extensible
- * @since v1.0.0
- */
-@Extensible
+@ImportantModularType
 @Description(value = "A factory that produces dynamic menu items.", name = "Menu Items")
 abstract class OrchidMenuFactory
 @JvmOverloads

@@ -107,7 +107,7 @@ constructor(
         )
 
         return WikiUtils
-            .createWikiFromSummaryFile(section, summary) { linkName, linkTarget, _ ->
+            .createWikiFromSummaryFile(context, section, summary) { linkName, linkTarget, _ ->
                 val referencedFile = wikiPages.firstOrNull {
                     val filePath = FilenameUtils.removeExtension(it.relativeTo(repo.repoDir.toFile()).path)
                     filePath == linkTarget
@@ -115,7 +115,7 @@ constructor(
 
                 if (referencedFile == null) {
                     Clog.w("Page referenced in Gitlab Wiki $repo, $linkTarget does not exist")
-                    StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName, null)
+                    StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName)
                 } else {
                     FileResource(
                         OrchidReference(

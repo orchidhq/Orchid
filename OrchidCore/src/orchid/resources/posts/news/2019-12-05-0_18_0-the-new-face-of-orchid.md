@@ -9,10 +9,7 @@ It's. Finally. Here. I've been working on and teasing a new major version of Orc
 available! This release represents a major step in the maturity of Orchid, coming alongside the move to a new GitHub
 organization, a completely redesigned website, and a brand new logo!
 
-This is the official Orchid newsletter, the newest and best documentation site generator. There is a growing need to 
-keep the community up-to-date on all the happenings around Orchid, and here I will share Orchid's progress, milestones, 
-and future plans! Follow along with this series to stay on top of Orchid's newest features, track adoption on Github, 
-and see who's using Orchid!
+{% snippet 'newsPostIntro' %}
 
 ## On Github
 
@@ -52,7 +49,7 @@ You can help spread the word about this major milestone by sharing [https://orch
 I periodically search GitHub to find new projects getting set up with Orchid. Here are a couple great examples of 
 projects being documented with Orchid:
 
-- [The Alchemist Simulator](http://alchemistsimulator.github.io/)
+- [The Alchemist Simulator](https://alchemistsimulator.github.io/)
 - [Acorn](https://nhaarman.github.io/acorn/)
 - [Camunda](https://camunda.github.io/camunda-rest-client-spring-boot/)
 
@@ -61,12 +58,4 @@ or submit a PR to add your site to the showcase as well!
 
 ---
 
-Are you interested in getting started with Orchid? There simply is no better way to manage all the documentation for 
-your project, and I'd love to help you get set up! 
-
-If you have an open-source project that needs docs, are building a new portfolio, or are building any other kind of 
-static site, I want to work with you to get you set up with Orchid! Comment on this post, send me a PM here on Dev.to, 
-reach out on [Gitter](https://gitter.im/JavaEden/Orchid), or [contact me here](https://www.caseyjbrooks.com/contact/) 
-and I will be with you every step of the way.
-
-And as always, let me know if you start using Orchid so I can feature you in the next update!
+{% snippet 'newsPostFooter' %}

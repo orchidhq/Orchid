@@ -16,6 +16,7 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.DelegatingResourceSource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
+import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
@@ -46,10 +47,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @orchidApi services
- * @since v1.0.0
- */
 @Singleton
 @Description(value = "How Orchid locates resources.", name = "Resources")
 @Archetype(value = ConfigArchetype.class, key = "services.resources")
@@ -140,7 +137,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
-        final ResourceCacheKey key = new ResourceCacheKey(fileName, scopes, context.getTheme().getKey(), context.getTheme().hashCode());
+        final ResourceCacheKey key = new ResourceCacheKey(fileName, scopes, context.getTheme());
         return CacheKt.computeIfAbsent(resourceCache, key, () -> getDelegatedResourceSource(scopes).getResourceEntry(context, fileName));
     }
 
@@ -154,9 +151,9 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     private OrchidResourceSource getDelegatedResourceSource(@Nullable OrchidResourceSource.Scope scopes) {
         List<OrchidResourceSource> allSources = new ArrayList<>(resourceSources);
-        OrchidResourceSource themeSource = context.getTheme().getResourceSource();
-        if(themeSource != null) {
-            allSources.add(themeSource);
+        Theme theme = context.getTheme();
+        if(theme != null) {
+            allSources.add(theme.getResourceSource());
         }
 
         List<OrchidResourceSource.Scope> validScopes = new ArrayList<>();
@@ -391,11 +388,17 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         private final String themeKey;
         private final int themeHashcode;
 
-        public ResourceCacheKey(final String resourceName, @Nullable final OrchidResourceSource.Scope scope, final String themeKey, final int themeHashcode) {
+        public ResourceCacheKey(final String resourceName, @Nullable final OrchidResourceSource.Scope scope, @Nullable final Theme theme) {
             this.resourceName = resourceName;
             this.scope = scope;
-            this.themeKey = themeKey;
-            this.themeHashcode = themeHashcode;
+            if(theme != null) {
+                this.themeKey = theme.getKey();
+                this.themeHashcode = theme.hashCode();
+            }
+            else {
+                this.themeKey = "";
+                this.themeHashcode = 0;
+            }
         }
 
         public String getResourceName() {

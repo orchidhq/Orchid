@@ -47,6 +47,7 @@ import com.eden.orchid.api.options.globals.ThemeGlobal
 import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.site.OrchidSite
+import com.eden.orchid.api.site.OrchidSiteBaseUrlsOptionExtractor
 import com.eden.orchid.api.site.OrchidSiteImpl
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
 import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType
@@ -105,7 +106,8 @@ class ApiModule : OrchidModule() {
             ListOptionExtractor::class.java,
             LongOptionExtractor::class.java,
             StringOptionExtractor::class.java,
-            TimeOptionExtractor::class.java
+            TimeOptionExtractor::class.java,
+            OrchidSiteBaseUrlsOptionExtractor::class.java
         )
 
         // Template Globals
@@ -129,7 +131,6 @@ class ApiModule : OrchidModule() {
     @Provides
     internal fun provideOrchidSite(
         @Named("version") version: String,
-        @Named("baseUrl") baseUrl: String,
         @Named("environment") environment: String,
         @Named("defaultTemplateExtension") defaultTemplateExtension: String,
         @Named("src") sourceDir: String,
@@ -139,7 +140,6 @@ class ApiModule : OrchidModule() {
             return OrchidSiteImpl(
                 Class.forName("com.eden.orchid.OrchidVersion").getMethod("getVersion").invoke(null) as String,
                 version,
-                baseUrl,
                 environment,
                 defaultTemplateExtension,
                 sourceDir,
@@ -149,7 +149,6 @@ class ApiModule : OrchidModule() {
             return OrchidSiteImpl(
                 "",
                 version,
-                baseUrl,
                 environment,
                 defaultTemplateExtension,
                 sourceDir,

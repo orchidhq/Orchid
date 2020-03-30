@@ -6,7 +6,6 @@ import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter;
 import com.copperleaf.krow.formatters.ascii.CrossingBorder;
 import com.copperleaf.krow.formatters.ascii.NoBorder;
 import com.copperleaf.krow.formatters.ascii.SingleBorder;
-import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
@@ -20,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -337,7 +337,9 @@ public final class OrchidUtils {
         }
     }
 
-    public static <T extends AssetHolder> void addComponentAssets(OrchidPage containingPage, ComponentHolder[] componentHolders, List<T> assets, Function<? super OrchidComponent, ? extends List<T>> getter) {
+    public static <T extends AssetHolder> void addComponentAssets(@Nonnull OrchidPage containingPage, ComponentHolder[] componentHolders, List<T> assets, Function<? super OrchidComponent, ? extends List<T>> getter) {
+        if(containingPage == null) throw new NullPointerException("Page cannot be null");
+
         if(!EdenUtils.isEmpty(componentHolders)) {
             for (ComponentHolder componentHolder : componentHolders) {
                 try {

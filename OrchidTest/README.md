@@ -10,7 +10,7 @@ images:
 
 The OrchidTest plugin helps you develop your own components for Orchid by providing a framework for integration-testing
 Orchid modules and a set of assertions to check what was rendered. This framework is intended to be used with 
-[JUnit5](https://junit.org/junit5/docs/current/user-guide/), with assertions built on the [Strikt](http://strikt.io/)
+[JUnit5](https://junit.org/junit5/docs/current/user-guide/), with assertions built on the [Strikt](https://strikt.io/)
 assertion library and [kotlinx.html](https://github.com/Kotlin/kotlinx.html).
 
 ## Demo

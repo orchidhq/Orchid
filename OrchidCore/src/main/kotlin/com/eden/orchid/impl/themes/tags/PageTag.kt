@@ -6,8 +6,6 @@ import com.eden.orchid.api.options.annotations.Description
 @Description(value = "Render the main page components and page content.", name = "Page")
 class PageTag : TemplateTag("page", Type.Simple, true) {
 
-    override fun parameters(): Array<String> {
-        return arrayOf()
-    }
+    override fun parameters() = emptyArray<String>()
 
 }

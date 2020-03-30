@@ -21,10 +21,10 @@
 * [Assets](core-concepts/assets.md)
 * [Shared Configuration](core-concepts/shared-config.md)
 * [Publication](core-concepts/publication.md)
-* [Custom Themes](core-concepts/custom-themes.md)
 
 ## [Extending Orchid](extending/index.md)
 
+* [Custom Themes](extending/custom-themes.md)
 * [Registration](extending/registration.md)
 * [Options](extending/options.md)
 * [Lifecycle Events](extending/lifecycle-events.md)

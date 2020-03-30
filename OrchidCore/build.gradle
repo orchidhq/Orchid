@@ -48,20 +48,16 @@ dependencies {
     implementation(Libs.nanohttpd_websocket)
 
     // generate own documentation with Orchid
-    orchidCompile mainProjects
+    orchidRuntime(mainProjects)
     
-    testCompile project(":OrchidTest")
+    testImplementation(project(":OrchidTest"))
 }
 
 // Orchid setup
 //----------------------------------------------------------------------------------------------------------------------
 
 orchid {
-    runTask = 'build'
-    theme = 'Copper'
     version = getActualVersion(project)
-    baseUrl = getBaseUrl(project)
-    environment = getEnvName(project)
     githubToken = getGithubToken(project)
     args = ["--experimentalSourceDoc"]
 }

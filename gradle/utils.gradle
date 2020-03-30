@@ -57,15 +57,6 @@ ext.getBaseUrl = { Project project ->
     return url
 }
 
-ext.getEnvName = { Project project ->
-    if (project.hasProperty('env')) {
-        return project.property('env')
-    }
-    else {
-        return 'debug'
-    }
-}
-
 ext.getGithubToken = { Project project ->
     return project.hasProperty('github_token') ? project.property('github_token') : System.getenv('GITHUB_TOKEN')
 }
@@ -75,7 +66,7 @@ ext.getChangelogFileName = {
     def major = vs[0] as int
     def minor = vs[1] as int
     def patch = vs[2] as int
-    return "$major.$minor/${major}.${minor}.${patch}.md"
+    return "${major}.${minor}/${major}.${minor}.${patch}.md"
 }
 
 ext.getChangelogFile = {

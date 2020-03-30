@@ -2,13 +2,12 @@ package com.eden.orchid.api.theme;
 
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.theme.assets.AssetManager;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import com.google.inject.ImplementedBy;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
+import java.util.function.Consumer;
+
 @ImplementedBy(ThemeServiceImpl.class)
 public interface ThemeService extends OrchidService {
 
@@ -28,8 +27,12 @@ public interface ThemeService extends OrchidService {
         getService(ThemeService.class).pushTheme(theme);
     }
 
-    default Theme doWithTheme(ThemeRelation theme, Runnable cb) {
-        return getService(ThemeService.class).doWithTheme(theme, cb);
+    default void renderPageWithTheme(OrchidPage page, ThemeRelation themeObjectFromGenerator, Consumer<OrchidPage> cb) {
+        getService(ThemeService.class).renderPageWithTheme(page, themeObjectFromGenerator, cb);
+    }
+
+    default void renderPageWithTheme(OrchidPage page, ThemeRelation themeObjectFromGenerator, ThemeRelation themeObjectFromPage, Consumer<OrchidPage> cb) {
+        getService(ThemeService.class).renderPageWithTheme(page, themeObjectFromGenerator, themeObjectFromPage, cb);
     }
 
     default void popTheme() {

@@ -1,0 +1,18 @@
+<table class="uk-table uk-table-divider">
+  <thead>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for archetype in archetypesList %}
+  <tr>
+    <td><code>{{ archetype.key }}</code></td>
+    <td>{{ tag.toAnchor(archetype) | raw }}</td>
+    <td>{{ archetype.description | compileAs('md') | raw }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>

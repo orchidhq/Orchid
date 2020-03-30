@@ -16,9 +16,7 @@ class EncodeSpacesFunction : TemplateFunction("encodeSpaces", true) {
     @Description("The input to encode.")
     lateinit var input: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input")
-    }
+    override fun parameters() = arrayOf(::input.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return context
@@ -28,5 +26,5 @@ class EncodeSpacesFunction : TemplateFunction("encodeSpaces", true) {
             .encodeSpaces()
     }
 
-    private fun String.printBytes() : String = this.toByteArray().joinToString { "${it.toInt()}" }
+    private fun String.printBytes(): String = this.toByteArray().joinToString { "${it.toInt()}" }
 }

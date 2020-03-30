@@ -35,14 +35,12 @@ class AnchorFunction : TemplateFunction("anchor", true) {
     @Description("Link to a specific anchor element on this page.")
     lateinit var pageAnchorId: String
 
-    override fun parameters(): Array<String?> {
-        return arrayOf(
-            "title",
-            *IndexService.locateParams,
-            "customClasses",
-            "pageAnchorId"
-        )
-    }
+    override fun parameters() = arrayOf(
+        ::title.name,
+        *IndexService.locateParams,
+        ::customClasses.name,
+        ::pageAnchorId.name
+    )
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         if (EdenUtils.isEmpty(itemId) && !EdenUtils.isEmpty(title)) {

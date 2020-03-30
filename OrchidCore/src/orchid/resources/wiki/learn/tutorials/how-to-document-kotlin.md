@@ -168,7 +168,7 @@ repositories {
 // 4. Use the 'Editorial' theme, and set the URL it will have on Github Pages
 orchid {
     theme = "Editorial"
-    baseUrl = "http://username.github.io/project"
+    baseUrl = "https://username.github.io/project"
     version = "1.0.0"
 }
 ```
@@ -595,7 +595,7 @@ and set it to the `githubToken` environment variable.
 export githubToken=...
 ```
 
-Now, instead of running `./gradlew :docs:orchidServe` simply run `./gradlew :docs:orchidDeploy -Penv=prod`, and Orchid 
+Now, instead of running `./gradlew :docs:orchidServe` simply run `./gradlew :docs:orchidDeploy -PorchidEnvironment=prod`, and Orchid 
 will build your site using your production base URL, and after a successful build push the built site to the `gh-pages` 
 branch of your repo.
 

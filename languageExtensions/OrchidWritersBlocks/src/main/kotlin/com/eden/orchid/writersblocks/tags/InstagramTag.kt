@@ -19,9 +19,7 @@ class InstagramTag : TemplateTag("instagram", Type.Simple, true) {
 
     private val client: OkHttpClient by lazy { context.resolve<OkHttpClient>() }
 
-    override fun parameters(): Array<String> {
-        return arrayOf("id")
-    }
+    override fun parameters() = arrayOf(::id.name)
 
     val embeddedPost: String? by lazy {
         val postUrl = "http://instagr.am/p/$id"

@@ -3,6 +3,7 @@ package com.eden.orchid.api.tasks;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.server.FileWatcher;
+import com.eden.orchid.api.server.OrchidFileController;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,8 @@ public final class TaskServiceTest implements OrchidUnitTest {
 
         Set<OrchidCommand> commands = new HashSet<>();
 
-        OrchidServer server = mock(OrchidServer.class);
+        OrchidFileController controller = mock(OrchidFileController.class);
+        OrchidServer server = new OrchidServer(new HashSet<>(), controller);
         FileWatcher fileWatcher = mock(FileWatcher.class);
 
         // test the service directly

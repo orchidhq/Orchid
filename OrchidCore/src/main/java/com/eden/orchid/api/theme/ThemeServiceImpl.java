@@ -8,9 +8,15 @@ import com.eden.orchid.api.events.On;
 import com.eden.orchid.api.events.OrchidEventListener;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.assets.AssetManager;
+import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.relations.ThemeRelation;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Provider;
 import com.google.inject.name.Named;
 import kotlin.text.StringsKt;
@@ -19,13 +25,11 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Stack;
+import java.util.function.Consumer;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @Description(value = "How Orchid manages your site's themes.", name = "Themes")
 @Archetype(value = ConfigArchetype.class, key = "services.themes")
+@Archetype(value = ConfigArchetype.class, key = "site")
 public final class ThemeServiceImpl implements ThemeService, OrchidEventListener {
 
     private OrchidContext context;
@@ -39,6 +43,13 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 
     private Provider<Set<Theme>> themesProvider;
     private Provider<Set<AdminTheme>> adminThemesProvider;
+
+    @Option
+    private String theme;
+
+    @Option
+    @StringDefault("Default")
+    private String adminTheme;
 
     @Inject
     public ThemeServiceImpl(
@@ -58,18 +69,8 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
     @Override
     public void initialize(OrchidContext context) {
         this.context = context;
-
-        Theme emptyTheme = new Theme(context, "Default", 1) { };
-        AdminTheme emptyAdminTheme = new AdminTheme(context, "Default", 1) { };
-
-        themes = new ThemeHolder<>(context, defaultTheme, "theme", themesProvider.get(), emptyTheme);
-        adminThemes = new ThemeHolder<>(context, defaultAdminTheme, "adminTheme", adminThemesProvider.get(), emptyAdminTheme);
-    }
-
-    @Override
-    public void onStart() {
-        themes.clearThemes();
-        adminThemes.clearThemes();
+        themes = new ThemeHolder<>(context, "theme", themesProvider.get());
+        adminThemes = new ThemeHolder<>(context, "adminTheme", adminThemesProvider.get());
     }
 
     @Override
@@ -84,32 +85,75 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
     @Override public Theme findTheme(String theme) { return themes.findTheme(theme); }
     @Override public void  pushTheme(Theme theme)  { themes.pushTheme(theme); }
     @Override public void  popTheme()              { themes.popTheme(); }
-    @Override public void  clearThemes()           { themes.clearThemes(); }
+    @Override public void  clearThemes()           {
+        Theme emptyTheme = new Theme(context, "Default", 1) { };
+        if(!EdenUtils.isEmpty(theme)) {
+            themes.initializeThemes(theme, emptyTheme);
+        }
+        else {
+            themes.initializeThemes(defaultTheme, emptyTheme);
+        }
+    }
 
     @Override public AdminTheme getAdminTheme()                  { return adminThemes.getTheme(); }
     @Override public AdminTheme findAdminTheme(String theme)     { return adminThemes.findTheme(theme); }
     @Override public void       pushAdminTheme(AdminTheme theme) { adminThemes.pushTheme(theme); }
     @Override public void       popAdminTheme()                  { adminThemes.popTheme(); }
-    @Override public void       clearAdminThemes()               { adminThemes.clearThemes(); }
-
-    @Override public Theme doWithTheme(ThemeRelation themeObject, Runnable cb) {
-        Theme theme = themeObject.get();
-
-        if (theme != null) {
-            pushTheme(theme);
-            cb.run();
-            theme.renderAssets();
-            popTheme();
-            return theme;
+    @Override public void       clearAdminThemes()               {
+        AdminTheme emptyAdminTheme = new AdminTheme(context, "Default", 1) { };
+        if(!EdenUtils.isEmpty(theme)) {
+            adminThemes.initializeThemes(adminTheme, emptyAdminTheme);
         }
         else {
-            cb.run();
-            return null;
+            adminThemes.initializeThemes(defaultAdminTheme, emptyAdminTheme);
         }
+    }
+
+    @Override public void renderPageWithTheme(@Nonnull OrchidPage page, ThemeRelation themeObjectFromGenerator, Consumer<OrchidPage> cb) {
+        renderPageWithTheme(page, themeObjectFromGenerator, null, cb);
+    }
+
+    @Override public void renderPageWithTheme(@Nonnull OrchidPage page, @Nullable ThemeRelation themeObjectFromGenerator, @Nullable ThemeRelation themeObjectFromPage, Consumer<OrchidPage> cb) {
+        if(page == null) throw new NullPointerException("Page cannot be null");
+
+        if(themeObjectFromPage != null) {
+            Theme pageTheme = themeObjectFromPage.get();
+
+            if (pageTheme != null) {
+                pushTheme(pageTheme);
+                pageTheme.doWithCurrentPage(page, t -> {
+                    cb.accept(page);
+                });
+                popTheme();
+                return;
+            }
+        }
+        if(themeObjectFromGenerator != null) {
+            Theme generatorTheme = themeObjectFromGenerator.get();
+
+            if (generatorTheme != null) {
+                pushTheme(generatorTheme);
+                generatorTheme.doWithCurrentPage(page, t -> {
+                    cb.accept(page);
+                });
+                popTheme();
+                return;
+            }
+        }
+
+        cb.accept(page);
     }
 
 // Delegate interface calls to inner class
 //----------------------------------------------------------------------------------------------------------------------
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public void setAdminTheme(String adminTheme) {
+        this.adminTheme = adminTheme;
+    }
 
     private static class ThemeHolder<T extends AbstractTheme> {
 
@@ -121,20 +165,27 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
         private Stack<T> themeStack;
         private Set<T> availableThemes;
 
-        ThemeHolder(OrchidContext context, String defaultTheme, String defaultOptionsKey, Set<T> availableThemes, T emptyTheme) {
+        ThemeHolder(OrchidContext context, String defaultOptionsKey, Set<T> availableThemes) {
             this.context = context;
-            this.defaultThemeKey = defaultTheme;
             this.defaultOptionsKey = defaultOptionsKey;
             this.availableThemes = availableThemes;
-            this.defaultTheme = findTheme(this.defaultThemeKey);
             this.themeStack = new Stack<>();
+        }
+
+        void initializeThemes(String defaultTheme, T emptyTheme) {
+            themeStack.clear();
+            this.defaultThemeKey = defaultTheme;
+            this.defaultTheme = findTheme(this.defaultThemeKey);
             if(this.defaultTheme == null) {
                 this.defaultTheme = emptyTheme;
             }
+            this.defaultTheme.extractOptions(context, new HashMap<>());
         }
 
         T getTheme() {
-            return (themeStack.size() > 0) ? themeStack.peek() : defaultTheme;
+            return (themeStack.size() > 0)
+                    ? themeStack.peek()
+                    : defaultTheme;
         }
 
         T findTheme(String themeKey) {
@@ -150,7 +201,10 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
             return availableThemes
                     .stream()
                     .sorted()
-                    .filter(theme -> theme.getKey().equals(themeKey))
+                    .filter(theme ->
+                            theme.getKey()
+                                    .equals(themeKey)
+                    )
                     .findFirst()
                     .map(it -> (T) context.resolve(it.getClass()))
                     .orElseGet(() -> {
@@ -168,12 +222,6 @@ public final class ThemeServiceImpl implements ThemeService, OrchidEventListener
 
         void popTheme() {
             themeStack.pop();
-        }
-
-        void clearThemes() {
-            themeStack.clear();
-            defaultTheme.extractOptions(context, new HashMap<>());
-            pushTheme(defaultTheme);
         }
     }
 

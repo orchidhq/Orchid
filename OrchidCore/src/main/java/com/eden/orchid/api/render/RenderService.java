@@ -7,10 +7,6 @@ import com.google.inject.ImplementedBy;
 
 import java.io.InputStream;
 
-/**
- * @since v1.0.0
- * @orchidApi services
- */
 @ImplementedBy(RenderServiceImpl.class)
 public interface RenderService extends OrchidService {
 

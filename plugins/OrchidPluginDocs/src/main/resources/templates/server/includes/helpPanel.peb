@@ -1,0 +1,10 @@
+<div class="uk-navbar-dropdown">
+  <ul class="uk-nav uk-navbar-dropdown-nav">
+    <li class="uk-nav-header">Get Help</li>
+    <li><a target="_blank" href="https://orchid.run">Documentation</a></li>
+    <li><a target="_blank" href="https://gitter.im/JavaEden/Orchid">Community Chat</a></li>
+    <li><a target="_blank" href="https://github.com/orchidhq/orchid">View on GitHub</a></li>
+    <li><a target="_blank" href="https://github.com/orchidhq/orchid/issues">Report Issue</a>
+    </li>
+  </ul>
+</div>

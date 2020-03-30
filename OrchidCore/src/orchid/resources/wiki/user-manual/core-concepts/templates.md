@@ -141,6 +141,81 @@ to only be concerned with its inputs and outputs, and not have a template that i
 it itself says. To that end, all custom Tag templates are found as the tag name within the `tags/` directory, and that's
 it.
 
+{% verbatim %}
+
+### Simple Tags
+
+Some tags are simple and do not include a content block. Tags like `{% head %}` or `{% page %}` are exactly that and no
+more. They may have some configuration values, but all content for these tags is up to the template used for these tags.
+
+### Content Tags
+
+Some tags are take a content block and embed it somewhere within the tag's template. Tags like `{% alert %}` must end 
+with a closing tag like `{% endalert %}`, and everything between the start ane end tags will be embeded as the tag's 
+content. 
+
+The tag content is always formatted according to Pebble by default, which may be confusing if the tag is precompiled
+in a Markdown page, where you'd expect the content to be formatted as Markdown. However, you can supply template filters
+to Content Tags which are applied to the content before being embedded. For example, to compile a tag's content as 
+Markdown:
+
+```twig
+{% alert :: compileAs('md') %}
+## This will be a Markdown header
+
+** this is bold**
+{% endalert %}
+```
+
+### Tabbed Tags (Static)
+
+Some tags, like `{% tabs %}` or `{% accordion %}` can contain _multiple_ content sections. 
+
+For tabbed tags where all tabs are statically-defined, you set them up as children of the main tag where each child tag
+is a custom-defined key, uniquely identifying each "tab".
+
+```twig
+{% tabs %}
+    {% one %}Tab Content One{% endone %}
+    {% two %}Tab Content Two{% endtwo %}
+{% endtabs %}
+```
+
+Just like normal Content Tags, the content is processed as Pebble, but you can supply filters to the tag to compile it 
+in another way. You can provide filters on each individual "tab", or on the parent tag to be applied to all child tabs:
+
+```twig
+{% tabs :: compileAs('md') %}
+    {% one %}Tab Content One{% endone %}
+    {% two %}Tab Content Two{% endtwo %}
+{% endtabs %}
+```
+
+```twig
+{% tabs %}
+    {% one :: compileAs('md') %}Tab Content One{% endone %}
+    {% two :: compileAs('md') %}Tab Content Two{% endtwo %}
+{% endtabs %}
+```
+
+### Tabbed Tags (Dynamic)
+
+In many cases, tabs are not defined statically, but rather are dynamically created from data. In these cases, you must
+declare the tag as `dynamic`, so that the content can be evaluted with loops, `ifs`, etc. As the contents are 
+_evaluated_, tabs are "pushed" into the parent, which then renders them just the same as if they were defined 
+statically.
+
+```twig
+{% tabs dynamic :: compileAs('md') %}
+    {% for i in range(1, 3) %}
+        {% tab ''~i %}Tab Content {{i}}{% endtab %}
+    {% endfor %}
+{% endtabs %}
+```
+
+{% endverbatim %}
+
+
 ## Template Overrides
 
 Orchid has a well-defined order in which resources of any type are identified. This ordering sets Orchid up such that

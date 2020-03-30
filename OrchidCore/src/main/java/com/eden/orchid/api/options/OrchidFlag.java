@@ -13,14 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-/**
- * Denotes a Javadoc-style command-line argument. It is important to note that Options are found by scanning the
- * classpath and are **not** created by Dependency Injection, and so are not able to have dependencies injected into
- * themselves.
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 @Archetype(value = EnvironmentVariableArchetype.class, key = "")
 public abstract class OrchidFlag {
 

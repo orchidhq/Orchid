@@ -5,8 +5,9 @@ images:
     alt: Forms
     caption: Photo by Gemma Evans on Unsplash
 tags:
-    - components
     - blog
+    - components
+    - content
 ---
 
 ## About
@@ -31,7 +32,6 @@ There are multiple ways in which you can set up forms. All pages in the `forms/`
 in the `form` Component:
 
 ```yaml
-
 ---
 components:
   - type: form
@@ -100,3 +100,39 @@ to spand 6, floated right, or `auto`, which is the same as `left`.
 You can set arbitrary attributes to the `form` element by setting `attributes` to a map of key, value pairs. These 
 values will be added to the form, and can be used for things like marking the form as a Netlify-enabled form (which is
 done by default in the standard `contact` form). 
+
+### Displaying Forms
+
+#### `form` Component
+
+```yaml
+---
+components:
+  - type: form
+    form: contact # uses definition from forms/contact.yml
+---
+```
+
+```yaml
+---
+components:
+  - type: form
+    form: # Inline configuration
+      fields:
+        name:
+          label: 'Name (optional)'
+          type: text
+          span: 'full'
+          order: 1
+---
+```
+
+#### `form` Tag
+
+{% verbatim %}
+
+```twig
+{% form 'contact' %}
+```
+
+{% endverbatim %}

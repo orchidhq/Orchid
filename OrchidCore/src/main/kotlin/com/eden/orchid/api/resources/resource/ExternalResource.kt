@@ -1,13 +1,10 @@
 package com.eden.orchid.api.resources.resource
 
 import com.caseyjbrooks.clog.Clog
-import com.eden.common.json.JSONElement
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.asInputStream
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.ResponseBody
-import org.json.JSONObject
 import java.io.InputStream
 import kotlin.properties.Delegates
 
@@ -53,9 +50,9 @@ class ExternalResource(
     @Throws(Exception::class)
     private fun getContentBody(): InputStream? {
         if (download) {
-            Clog.i("Downloading external resource {}", originalExternalReference.toString())
+            Clog.i("Downloading external resource {}", originalExternalReference.toString(reference.context))
             val client = reference.context.resolve(OkHttpClient::class.java)
-            val request = Request.Builder().url(originalExternalReference.toString()).build()
+            val request = Request.Builder().url(originalExternalReference.toString(reference.context)).build()
             val response = client.newCall(request).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body
@@ -86,12 +83,8 @@ class ExternalResource(
             throw UnsupportedOperationException("This method is not allowed on ExternalResource when it is not set to download")
         }
 
-    override val embeddedData: JSONElement
-        get() = if (download) {
-            super.embeddedData
-        } else {
-            JSONElement(JSONObject())
-        }
+    override val embeddedData: Map<String, Any?>
+        get() = if (download) super.embeddedData else emptyMap()
 
     fun isDownload(): Boolean {
         return download

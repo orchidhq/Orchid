@@ -16,32 +16,20 @@ class TabsTag : TemplateTag("tabs", Type.Tabbed, true) {
             return field
         }
 
-    override fun parameters(): Array<String> {
-        return arrayOf("id")
-    }
+    override fun parameters() = arrayOf(::id.name)
 
     override fun getNewTab(key: String?, content: String?): TemplateTag.Tab {
         return Tab(key, content)
     }
 
-    class Tab(private val key: String?, private val content: String?) : TemplateTag.Tab {
+    class Tab(name: String?, content: String?) : TemplateTag.SimpleTab("tab", name, content) {
 
         @Option
         @Description("The title of the tab")
-        lateinit var title: String
+        var title: String = ""
+            get() = field.takeIf { it.isNotBlank() } ?: this.name
 
-        override fun getKey(): String? {
-            return key
-        }
-
-        override fun getContent(): String? {
-            return content
-        }
-
-        override fun parameters(): Array<String> {
-            return arrayOf("title")
-        }
-
+        override fun parameters() = arrayOf(::title.name)
     }
 
 }

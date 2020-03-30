@@ -36,9 +36,6 @@ import java.util.Map;
  *
  * This can deserialize any JSONObject into any class that implements OptionsHolder, and can also handle any generic
  * List of OptionsHolders of the same Class.
- *
- * @since v1.0.0
- * @orchidApi optionTypes
  */
 public final class OptionsHolderOptionExtractor extends OptionExtractor<OptionsHolder> {
 

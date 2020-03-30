@@ -2,14 +2,11 @@ package com.eden.orchid.forms.model
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.components.ModularPageList
+import java.util.function.Function
 import javax.inject.Provider
 import javax.inject.Inject
 
-class FormFieldList
-@Inject
-constructor(
-        context: OrchidContext
-) : ModularPageList<FormFieldList, FormField>(context, Provider { getFieldInputTypes(context) }) {
+class FormFieldList : ModularPageList<FormFieldList, FormField>(Function { getFieldInputTypes(it) }) {
 
     private var extraFields = mutableMapOf<String, Boolean>()
 

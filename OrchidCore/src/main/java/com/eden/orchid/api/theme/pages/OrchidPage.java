@@ -18,6 +18,7 @@ import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.assets.AssetHolder;
 import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
@@ -47,11 +48,6 @@ import java.util.Objects;
 import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
 import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
-/**
- *
- * @since v1.0.0
- * @orchidApi extensible
- */
 @Description(value = "A representation of a single file in your output site.", name = "Pages")
 @Archetype(value = SharedConfigArchetype.class, key = "from", order = 10)
 @Archetype(value = ConfigArchetype.class, key = "allPages")
@@ -219,20 +215,11 @@ public class OrchidPage implements
         this.reference.setExtension(resource.getReference().getOutputExtension());
         this.pageRenderMode = renderMode;
 
-        JSONElement el = resource.getEmbeddedData();
-
-        if (EdenUtils.elementIsObject(el)) {
-            this.data = ((JSONObject) el.getElement()).toMap();
-        }
-        else {
-            this.data = new HashMap<>();
-        }
-
         initialize(title);
     }
 
     protected void initialize(String title) {
-        this.extractOptions(this.context, this.data);
+        this.data = OrchidExtensionsKt.extractOptionsFromResource(this, context, resource);
         postInitialize(title);
     }
 
@@ -253,7 +240,7 @@ public class OrchidPage implements
 //----------------------------------------------------------------------------------------------------------------------
 
     public String getLink() {
-        return reference.toString();
+        return reference.toString(context);
     }
 
     public final boolean isDraft() {
@@ -287,7 +274,7 @@ public class OrchidPage implements
         return compiledContent;
     }
 
-    public Theme getTheme() {
+    public AbstractTheme getTheme() {
         return context.getTheme();
     }
 
@@ -360,12 +347,12 @@ public class OrchidPage implements
     public JSONObject toJSON(boolean includePageContent, boolean includePageData) {
         JSONObject pageJson = new JSONObject();
         pageJson.put("title", this.getTitle());
-        pageJson.put("reference", this.reference.toJSON());
+        pageJson.put("reference", this.reference.toJSON(context));
         if (getPrevious() != null) {
-            pageJson.put("previous", getPrevious().getReference().toJSON());
+            pageJson.put("previous", getPrevious().getReference().toJSON(context));
         }
         if (getNext() != null) {
-            pageJson.put("next", getNext().getReference().toJSON());
+            pageJson.put("next", getNext().getReference().toJSON(context));
         }
 
         pageJson.put("description", this.description);
@@ -460,7 +447,7 @@ public class OrchidPage implements
     }
 
     protected void collectThemeScripts(List<JsPage> scripts) {
-        context.getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(context.getTheme().getScripts()));
+        getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(theme.getScripts()));
     }
 
     protected void collectOwnScripts(List<JsPage> scripts) {
@@ -472,7 +459,7 @@ public class OrchidPage implements
     }
 
     protected void collectThemeStyles(List<CssPage> styles) {
-        context.getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(context.getTheme().getStyles()));
+        getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(theme.getStyles()));
     }
 
     protected void collectOwnStyles(List<CssPage> styles) {

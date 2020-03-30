@@ -6,13 +6,13 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.server.annotations.Extensible
+import com.eden.orchid.api.server.annotations.ImportantModularType
 import com.eden.orchid.api.theme.components.ModularPageListItem
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.Collections
 import javax.inject.Inject
 
-@Extensible
+@ImportantModularType
 @Description("A field to be included in a dynamically-generated form.", name = "Form Fields")
 abstract class FormField
 @Inject

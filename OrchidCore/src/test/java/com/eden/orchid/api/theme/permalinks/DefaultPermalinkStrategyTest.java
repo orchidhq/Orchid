@@ -48,16 +48,16 @@ public final class DefaultPermalinkStrategyTest implements OrchidUnitTest {
     @Test
     public void testApplyPermalink() {
         underTest.applyPermalink(page, "/{one}/{two}/three/{four}");
-        assertThat(page.getReference().toString(), is(equalTo("two/four/three/eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("two/four/three/eight")));
 
         underTest.applyPermalink(page, "/:one/:two/three/:four");
-        assertThat(page.getReference().toString(), is(equalTo("two/four/three/eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("two/four/three/eight")));
 
         underTest.applyPermalink(page, "/:one/{two}/three/:four");
-        assertThat(page.getReference().toString(), is(equalTo("two/four/three/eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("two/four/three/eight")));
 
         underTest.applyPermalink(page, "/{one}-{two}-three-{four}");
-        assertThat(page.getReference().toString(), is(equalTo("two-four-three-eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("two-four-three-eight")));
     }
 
     @Test
@@ -90,7 +90,7 @@ public final class DefaultPermalinkStrategyTest implements OrchidUnitTest {
         underTest = new DefaultPermalinkStrategy(pathTypes);
 
         underTest.applyPermalink(page, "/{pageValue}/{two}/three/{four}");
-        assertThat(page.getReference().toString(), is(equalTo("2/four/three/eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("2/four/three/eight")));
     }
 
     @Test
@@ -109,7 +109,7 @@ public final class DefaultPermalinkStrategyTest implements OrchidUnitTest {
         underTest = new DefaultPermalinkStrategy(pathTypes);
 
         underTest.applyPermalink(page, "/{pageObj.pageValue}/{two}/three/{four}");
-        assertThat(page.getReference().toString(), is(equalTo("2/four/three/eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("2/four/three/eight")));
     }
 
     @Test
@@ -120,7 +120,7 @@ public final class DefaultPermalinkStrategyTest implements OrchidUnitTest {
         underTest = new DefaultPermalinkStrategy(pathTypes);
 
         underTest.applyPermalink(page, "/:title/:two/three/:four");
-        assertThat(page.getReference().toString(), is(equalTo("2-for-me/four/three/eight")));
+        assertThat(page.getReference().toString(context), is(equalTo("2-for-me/four/three/eight")));
     }
 
 // Test Path Types

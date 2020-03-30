@@ -13,7 +13,6 @@ import com.eden.orchid.api.server.annotations.Put
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.readToString
-import com.google.inject.name.Named
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -27,14 +26,10 @@ constructor(
     val context: OrchidContext
 ) : OrchidController(1000) {
 
-    override fun getPathNamespace(): String {
-        return "api"
-    }
-
 // Get file lists
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Get(path = "/files/**localFilename")
+    @Get(path = "/api/files/**localFilename")
     fun getFiles(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val locatedResources = JSONArray()
 
@@ -61,7 +56,7 @@ constructor(
 // CRUD with single files
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Get(path = "/file/**localFilename")
+    @Get(path = "/api/file/**localFilename")
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
@@ -72,7 +67,7 @@ constructor(
         }
     }
 
-    @Delete(path = "/file/**localFilename")
+    @Delete(path = "/api/file/**localFilename")
     fun deleteFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
@@ -89,7 +84,7 @@ constructor(
         }
     }
 
-    @Put(path = "/file/**localFilename")
+    @Put(path = "/api/file/**localFilename")
     fun updateFile(request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getResourceEntry(localFilename, LocalResourceSource)
         if (resource != null) {
@@ -110,7 +105,7 @@ constructor(
         }
     }
 
-    @Post(path = "/file/**localFilename")
+    @Post(path = "/api/file/**localFilename")
     fun createFile(request: OrchidRequest, localFilename: String): OrchidResponse {
         val newFile = File(context.sourceDir + "/" + OrchidUtils.normalizePath(localFilename))
         if (!newFile.exists()) {

@@ -3,6 +3,8 @@ package com.eden.orchid.api.theme.components;
 import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
+import kotlin.collections.CollectionsKt;
+
 import javax.inject.Provider;
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -11,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 public abstract class ModularList<L extends ModularList<L, I>, I extends ModularListItem<L, I>> {
-    protected final OrchidContext context;
-    private final Provider<Map<String, Class<I>>> itemTypesProvider;
+    private final Function<OrchidContext, Map<String, Class<I>>> itemTypesProvider;
     private Map<String, Class<I>> itemTypes;
     protected List<Map<String, Object>> itemsJson;
     protected List<I> loadedItems;
@@ -23,9 +25,8 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
     private String defaultType = null;
 
     @Inject
-    public ModularList(OrchidContext context) {
-        this.context = context;
-        this.itemTypesProvider = () -> {
+    public ModularList() {
+        this.itemTypesProvider = (OrchidContext context) -> {
             Set<I> itemTypes = context.resolveSet(getItemClass());
             HashMap<String, Class<I>> itemTypesMap = new HashMap<>();
             for (I itemType : itemTypes) {
@@ -37,8 +38,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         };
     }
 
-    public ModularList(OrchidContext context, Provider<Map<String, Class<I>>> itemTypesProvider) {
-        this.context = context;
+    public ModularList(Function<OrchidContext, Map<String, Class<I>>> itemTypesProvider) {
         this.itemTypesProvider = itemTypesProvider;
     }
 
@@ -48,9 +48,9 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
     protected abstract Class<I> getItemClass();
 
-    public void initialize(List<Map<String, Object>> itemsJson) {
+    public void initialize(OrchidContext context, List<Map<String, Object>> itemsJson) {
         if (!initialized) {
-            this.itemTypes = itemTypesProvider.get();
+            this.itemTypes = itemTypesProvider.apply(context);
             this.itemsJson = itemsJson;
             initialized = true;
         }
@@ -69,7 +69,7 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
         return true;
     }
 
-    public List<I> get() {
+    public List<I> get(OrchidContext context) {
         if (loadedItems == null) {
             loadedItems = new ArrayList<>();
             for (int i = 0; i < itemsJson.size(); i++) {
@@ -145,5 +145,9 @@ public abstract class ModularList<L extends ModularList<L, I>, I extends Modular
 
     public void setDefaultType(final String defaultType) {
         this.defaultType = defaultType;
+    }
+
+    public Set<String> getValidTypes() {
+        return itemTypes.keySet();
     }
 }

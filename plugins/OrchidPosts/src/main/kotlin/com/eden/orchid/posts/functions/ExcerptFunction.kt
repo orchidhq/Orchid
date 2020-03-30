@@ -14,9 +14,7 @@ class ExcerptFunction : TemplateFunction("excerpt", false) {
     @Option
     var input: Any? = null
 
-    override fun parameters(): Array<String> {
-        return arrayOf("input")
-    }
+    override fun parameters() = arrayOf(::input.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val strategy: PostsExcerptStrategy = context.resolve()

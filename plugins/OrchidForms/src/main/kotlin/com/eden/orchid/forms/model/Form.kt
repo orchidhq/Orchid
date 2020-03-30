@@ -5,13 +5,17 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
-import com.eden.orchid.api.options.annotations.ModularListConfig
+import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.impl.relations.PageRelation
 import org.json.JSONObject
 
-class Form(val context: OrchidContext, var key: String, formData: Map<String, Any>) : OptionsHolder {
+class Form(
+    val context: OrchidContext,
+    var key: String,
+    formData: Map<String, Any>
+) : OptionsHolder {
 
     @Option
     @Description("The user-facing title of the form.")
@@ -31,8 +35,8 @@ class Form(val context: OrchidContext, var key: String, formData: Map<String, An
         }
     }
 
-    @Option @StringDefault("POST")
-    @Description("The HTTP request method the form submits as. One of ['GET', 'POST'].")
+    @Option @StringDefault("post")
+    @Description("The HTTP request method the form submits as. One of ['get', 'post'].")
     lateinit var method: String
 
     @Option @StringDefault("__method")
@@ -43,7 +47,7 @@ class Form(val context: OrchidContext, var key: String, formData: Map<String, An
     @Description("A map of arbitrary attributes to add to the form element.")
     lateinit var attributes: JSONObject
 
-    @Option @ModularListConfig(objectKeyName = "key")
+    @Option @ImpliedKey(typeKey = "key")
     @Description("The fields in this form.")
     var fields: FormFieldList? = null
     get() {

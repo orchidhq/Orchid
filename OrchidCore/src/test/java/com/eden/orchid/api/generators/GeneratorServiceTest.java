@@ -93,7 +93,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         generators = new HashSet<>();
 
         mockPage1Reference = new OrchidReference(context, "page1.html");
-        mockPage1Resource = new StringResource(mockPage1Reference, "", null);
+        mockPage1Resource = new StringResource(mockPage1Reference, "");
         mockPage1 = spy(new OrchidPage(mockPage1Resource, RenderService.RenderMode.TEMPLATE, "mockPage1", ""));
         pages1 = new ArrayList<>();
         pages1.add(mockPage1);
@@ -195,19 +195,16 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         generator1.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
         generator1.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
 
         generator3.setTheme(g1Theme);
         underTest.startIndexing();
         underTest.startGeneration();
-        verify(context, times(3)).doWithTheme(any(), any());
         clearInvocations(context);
     }
 

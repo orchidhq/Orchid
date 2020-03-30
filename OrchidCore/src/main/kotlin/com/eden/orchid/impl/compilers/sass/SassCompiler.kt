@@ -8,8 +8,6 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
 import io.bit3.jsass.Compiler
 import io.bit3.jsass.Options
-import io.bit3.jsass.adapter.NativeAdapter
-import okhttp3.internal.closeQuietly
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.net.URI

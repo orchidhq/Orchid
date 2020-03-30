@@ -18,4 +18,4 @@ jobs:
       with:
         java-version: '1.8'
     - name: Build with Gradle
-      run: ./gradlew assemble orchidBuild -Penv=prod -Prelease --dry-run
+      run: ./gradlew assemble orchidBuild -PorchidEnvironment=prod -Prelease --dry-run

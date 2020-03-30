@@ -1,0 +1,10 @@
+<div class="uk-navbar-dropdown uk-navbar-dropdown-width-3">
+  <div class="uk-navbar-dropdown-grid uk-text-center uk-grid-small uk-grid-match uk-child-width-expand@s" uk-grid>
+  {% for adminPage in view.adminPages %}
+    <a class="uk-link-muted uk-width-1-3 uk-text-center" href="{{ adminPage.route.link }}">
+      <span class="uk-icon uk-icon-image" style="width: 64px; height: 64px; background-image: url({{ adminPage.icon|asset }});"></span>
+      <div class="uk-margin-small-top">{{ adminPage.title }}</div>
+    </a>
+  {% endfor %}
+  </div>
+</div>

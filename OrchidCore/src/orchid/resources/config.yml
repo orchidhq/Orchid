@@ -1,4 +1,6 @@
 site:
+  theme: Copper
+  baseUrl: netlify
   about:
     siteName: Orchid
     siteDescription: Build and deploy beautiful documentation sites that grow with you

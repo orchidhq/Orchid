@@ -34,9 +34,7 @@ constructor(
     @Option
     lateinit var query: String
 
-    override fun parameters(): Array<String> {
-        return arrayOf("type", "query")
-    }
+    override fun parameters() = arrayOf(::type.name, ::query.name)
 
     override fun run(context: OrchidContext, commandName: String) {
         val parsedClass = getDescribedClass()
@@ -51,7 +49,7 @@ constructor(
             if (server != null && server.websocket != null) {
                 var htmlTable = table.print(HtmlTableFormatter())
                 htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"table\">")
-                server.websocket.sendMessage("describe", htmlTable)
+                server.websocket!!.sendMessage("describe", htmlTable)
             }
         }
     }
