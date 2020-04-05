@@ -6,3 +6,7 @@ staticPages:
     wrapTitleInBox: false
     includeTitle: true
     includeBreadcrumbs: false
+
+showcase:
+  layoutConfig:
+    includeBreadcrumbs: true

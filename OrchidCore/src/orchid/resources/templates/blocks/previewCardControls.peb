@@ -1,25 +1,36 @@
 <div style="display: flex; flex-direction: column-reverse; height: 100%;">
-  {% set allTags = [] %}
 
-  {% for item in items %}
-    {% for tag in item.tags %}
-      {% if not (allTags contains tag) %}
-        {% set returnValue = allTags.add(tag) %}
-      {% endif %}
+  {% if form is not empty %}
+    {% form form=form %}
+  {% else %}
+    {% set allTags = [] %}
+
+    {% for item in items %}
+      {% for tag in item.tags %}
+        {% if not (allTags contains tag) %}
+          {% set returnValue = allTags.add(tag) %}
+        {% endif %}
+      {% endfor %}
     {% endfor %}
-  {% endfor %}
 
-  <div class="tag-list" style="justify-self: flex-end;">
-    <div class="biko is-4" style="margin-bottom: 10px;">Filter by tag:</div>
-    {% for tag in allTags|sort %}
-      <span class="tag is-light" data-tag="{{ tag }}" onclick="toggleTag('{{ id }}', '{{ tag }}')" style="cursor: pointer;">{{ tag|capitalize }}</span>
-    {% endfor %}
-  </div>
+    <div class="tag-list" style="justify-self: flex-end;">
+      <div class="biko is-4" style="margin-bottom: 10px;">Filter by tag:</div>
+      {% for tag in allTags|sort %}
+        <span class="tag is-light" data-tag="{{ tag }}" onclick="toggleTag('{{ id }}', '{{ tag }}')" style="cursor: pointer;">{{ tag|capitalize }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
 
-  <figure class="image" style="flex-grow: 0; flex-shrink: 1;">
-    <img src="{{ ((mediaUrl.startsWith("http") ? (mediaUrl) : (mediaUrl|asset))) }}" style="width: 70%; margin: 20px auto;">
-    <!-- Image courtesy of unDraw (https://undraw.co/license) -->
-  </figure>
+  {% if mediaUrl is not empty %}
+    <figure class="image" style="flex-grow: 0; flex-shrink: 1;">
+      <img src="{{ ((mediaUrl.startsWith("http") ? (mediaUrl) : (mediaUrl|asset))) }}" style="width: 70%; margin: 20px auto;">
+      <!-- Image courtesy of unDraw (https://undraw.co/license) -->
+    </figure>
+  {% endif %}
+
+  {% if subtitle is not empty %}
+    <p>{{ subtitle }}</p>
+  {% endif %}
 
   <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
 </div>
