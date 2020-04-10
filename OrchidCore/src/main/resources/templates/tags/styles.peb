@@ -1,8 +1,3 @@
-<!-- start:inject styles -->
-{%- set styles = page.styles %}
-{%- if styles|length > 0 %}
-{%- for style in styles %}
-{{ style.renderAssetToPage()|raw }}
-{%- endfor %}
-{%- endif %}
-<!-- end:inject styles -->
+{% log level='warning' %}
+The `styles` tag is deprecated and now does nothing, as it is now included as part of the `head` tag.
+{% endlog %}

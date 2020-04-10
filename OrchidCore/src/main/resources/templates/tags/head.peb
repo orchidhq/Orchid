@@ -1,5 +1,8 @@
 {# @pebvariable name="page" type="com.eden.orchid.api.theme.pages.OrchidPage" #}
+{# @pebvariable name="theme" type="com.eden.orchid.api.theme.AbstractTheme" #}
 {# @pebvariable name="site" type="com.eden.orchid.api.site.OrchidSite" #}
+
+{% include '?trackingHeadStart' %}
 
 <meta charset="utf-8"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,15 +38,26 @@
 <link rel="next" href="{{ page.next.link }}">
 {% endif %}
 
-<script>
-    window.site = {{ site.toJSON() | raw }};
-</script>
+<!-- start:inject styles -->
+{%- set styles = page.styles %}
+{%- if styles|length > 0 %}
+{%- for style in styles %}
+{{ style.renderAssetToPage()|raw }}
+{%- endfor %}
+{%- endif %}
+<!-- end:inject styles -->
 
 {% if site.debug %}
 {% include 'includes/debug' %}
 {% endif %}
 
-{% include 'includes/metaComponentHolder' with {"componentHolder": theme.metaComponents} %}
-{% include 'includes/metaComponentHolder' with {"componentHolder": page.metaComponents} %}
+<script>
+    window.site = {{ site.toJSON() | raw }};
+</script>
+
+{% include 'includes/metaComponentHolder' with {"componentHolder": theme.metaComponents, "metaLocation":"head"} %}
+{% include 'includes/metaComponentHolder' with {"componentHolder": page.metaComponents, "metaLocation":"head"} %}
 
 {% include '?meta' %}
+{% include '?trackingHeadEnd' %}
+

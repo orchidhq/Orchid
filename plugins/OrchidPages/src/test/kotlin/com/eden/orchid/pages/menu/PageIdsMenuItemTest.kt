@@ -27,16 +27,16 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
             <html>
             <head>
             {% head %}
-            {% styles %}
             </head>
             <body>
+            {% body %}
             {% page %}
             <ul id="menu">
             {% for menuItem in theme.menu.getMenuItems(page) %}
                 {% include 'includes/menuItem' with {"menuItem": menuItem} %}
             {% endfor %}
             </ul>
-            {% scripts %}
+            {% endbody %}
             </body>
             </html>
             """.trimIndent()

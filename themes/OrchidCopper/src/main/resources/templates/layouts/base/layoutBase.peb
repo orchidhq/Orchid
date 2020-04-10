@@ -3,15 +3,11 @@
 <!DOCTYPE html>
 <html class="{% block 'htmlClasses' %}{% endblock %}">
 <head>
-{% include '?trackingHeadStart' %}
 {% head %}
-{% styles %}
-{% include '?trackingHeadEnd' %}
 </head>
 <body class="{% block 'bodyClasses' %}{% endblock %}">
-{% include '?trackingBodyStart' %}
+{% body %}
 {% block 'body' %}{% endblock %}
-{% scripts %}
-{% include '?trackingBodyEnd' %}
+{% endbody %}
 </body>
 </html>

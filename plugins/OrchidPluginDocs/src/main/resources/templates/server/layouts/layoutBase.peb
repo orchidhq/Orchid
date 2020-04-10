@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Orchid Insights</title>
-  {% set page = view %}
-  {% styles %}
-  {% block styles %}{% endblock %}
+  {% head %}
 
   <style>
     body {
@@ -16,6 +14,7 @@
   </style>
 </head>
 <body>
+{% body %}
 
 <div id="orchid-app">
   <!-- Primary Navbar -->
@@ -76,10 +75,8 @@
   <notifications></notifications>
 </div>
 
-
 <script>window.websocketUrl = 'ws://localhost:{{ websocketPort }}';</script>
-{% scripts %}
-{% block scripts %}{% endblock %}
+{% endbody %}
 </body>
 </html>
 

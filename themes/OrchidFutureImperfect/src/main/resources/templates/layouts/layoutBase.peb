@@ -6,13 +6,10 @@
 -->
 <html>
 <head>
-{% include '?trackingHeadStart' %}
 {% head %}
-{% styles %}
-{% include '?trackingHeadEnd' %}
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
-{% include '?trackingBodyStart' %}
+{% body %}
 
 <div id="search-results" data-orchid-search-results style="display: none;">
     <header>Search Results</header>
@@ -82,7 +79,6 @@
 
 </div>
 
-{% scripts %}
-{% include '?trackingBodyEnd' %}
+{% endbody %}
 </body>
 </html>

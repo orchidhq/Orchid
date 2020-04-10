@@ -101,7 +101,9 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
      *
      * @return the sequential parameters
      */
-    public abstract String[] parameters();
+    public String[] parameters() {
+        return new String[0];
+    }
 
     public void onRender(OrchidContext context, OrchidPage page) {
         this.context = context;
